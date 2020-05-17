@@ -84,7 +84,7 @@ function ultraschall.GFX_DrawThickRoundRect(x,y,w,h,thickness, roundness, antial
   <chapter_context>
     Basic Shapes
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, gfx, draw, thickness, round rectangle</tags>
 </US_DocBloc>
@@ -142,7 +142,7 @@ function ultraschall.GFX_BlitFramebuffer(framebufferidx, showidx)
   <chapter_context>
     Blitting
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, gfx, blit, framebuffer</tags>
 </US_DocBloc>
@@ -544,8 +544,8 @@ function ultraschall.GFX_Init(...)
     optional integer width -  the width of the window; minmum is 50
     optional integer height -  the height of the window; minimum is 16
     optional integer dockstate - &1=0, undocked; &1=1, docked
-    optional integer xpos - x-position of the window in pixels; minimum is -80
-    optional integer ypos - y-position of the window in pixels; minimum is -15
+    optional integer xpos - x-position of the window in pixels; minimum is -80; nil, to center it horizontally
+    optional integer ypos - y-position of the window in pixels; minimum is -15; nil, to center it vertically
   </parameters>
   <retvals>
     number retval  -  1.0, if window is opened
@@ -554,7 +554,7 @@ function ultraschall.GFX_Init(...)
   <chapter_context>
     Window Handling
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, gfx, init, window, create, hwnd</tags>
 </US_DocBloc>
@@ -580,6 +580,15 @@ function ultraschall.GFX_Init(...)
     -- use that found, unused windowtitle as temporary windowtitle
     parms[1]=parms[1]..freeslot
     
+    local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
+    
+    if parms[5]==nil then
+      parms[5]=(C-parms[2])/2
+    end
+    if parms[6]==nil then
+      parms[6]=(D-parms[3])/2
+    end
+
     -- open window  
     retval=gfx.init(table.unpack(parms))
     
@@ -618,7 +627,7 @@ function ultraschall.GFX_GetWindowHWND()
   <chapter_context>
     Window Handling
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, gfx, init, window, get, hwnd</tags>
 </US_DocBloc>
@@ -693,7 +702,7 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
   <chapter_context>
     Mouse Handling
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
@@ -839,7 +848,7 @@ function ultraschall.GFX_SetFont(fontindex, font, size, flagStr)
   <chapter_context>
     Font Handling
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, font, set, mac, windows</tags>
 </US_DocBloc>
@@ -937,5 +946,72 @@ function ultraschall.GFX_BlitImageCentered(image, x, y, scale, rotate, ...)
   gfx.x=oldx
   gfx.y=oldy
   return true
+end
+
+function ultraschall.GFX_GetDropFile()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GFX_GetDropFile</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean changed, integer num_dropped_files, array dropped_files, integer drop_mouseposition_x, integer drop_mouseposition_y = ultraschall.GFX_GetDropFile()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+	returns the files drag'n'dropped into a gfx-window, including the mouseposition within the gfx-window, where the files have been dropped.
+	
+	if changed==true, then the filelist is updated, otherwise this function returns the last dropped files again.
+	Note: when the same files will be dropped, changed==true will also be dropped with only the mouse-position updated.
+	That way, dropping the same files in differen places is recognised by this function.
+	
+	Call repeatedly in every defer-cycle to get the latest files and coordinates.
+	
+	Important: Don't use Reaper's own gfx.dropfile while using this, as this could intefere with this function.
+  </description>
+  <retvals>
+	boolean changed - true, new files have been dropped since last time calling this function; false, no new files have been dropped
+	integer num_dropped_files - the number of dropped files; -1, if no files have beend dropped at all
+	array dropped_files - an array with all filenames+path of the dropped files
+	integer drop_mouseposition_x - the x-mouseposition within the gfx-window, where the files have been dropped; -10000, if no files have been dropped yet
+	integer drop_mouseposition_y - the y-mouseposition within the gfx-window, where the files have been dropped; -10000, if no files have been dropped yet
+  </retvals>
+  <chapter_context>
+    Window Handling
+  </chapter_context>
+  <target_document>US_Api_GFX</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.GetDropFile_List==nil then
+    ultraschall.GetDropFile_List={}
+    ultraschall.GetDropFile_List[1]=""
+    ultraschall.GetDropFile_Filecount=-1
+    ultraschall.GetDropFile_MouseX=-10000
+    ultraschall.GetDropFile_MouseY=-10000
+  end
+  local A=1
+  local filecount=0
+  local changed
+  local FileList={}
+  while A~=0 do
+    A,B=gfx.getdropfile(filecount)
+    filecount=filecount+1
+    FileList[filecount]=B
+  end
+  if filecount==1 then
+    changed=false
+  else
+    changed=true
+  end
+  if changed==true then
+    ultraschall.GetDropFile_List=FileList
+    ultraschall.GetDropFile_Filecount=filecount
+    ultraschall.GetDropFile_MouseX=gfx.mouse_x
+    ultraschall.GetDropFile_MouseY=gfx.mouse_y
+  end
+  gfx.getdropfile(-1)
+  return changed, ultraschall.GetDropFile_Filecount-1, ultraschall.GetDropFile_List, ultraschall.GetDropFile_MouseX, ultraschall.GetDropFile_MouseY
 end
 

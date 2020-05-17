@@ -83,8 +83,8 @@ function ultraschall.SplitStringAtLineFeedToArray(unsplitstring)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>string, split, linefeed, tabs, control characters, array</tags>
 </US_DocBloc>
 ]]
@@ -129,8 +129,8 @@ function ultraschall.CountCharacterInString(checkstring, character)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, string, character, check, find, count, position, numbers</tags>
 </US_DocBloc>
 ]]
@@ -144,17 +144,12 @@ function ultraschall.CountCharacterInString(checkstring, character)
   return count, countarray
 end
 
-function ultraschall.malformedpatternhelper(patstring)
-  local A="Tudelu"
-  A:match(patstring)
-end
-
 function ultraschall.IsValidMatchingPattern(patstring)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsValidMatchingPattern</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.77
     Lua=5.3
   </requires>
@@ -172,15 +167,15 @@ function ultraschall.IsValidMatchingPattern(patstring)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, pattern, string, check, valid, matching</tags>
 </US_DocBloc>
 ]]
-  local A=pcall(ultraschall.malformedpatternhelper,patstring)
+  local Q="Jam."
+  local A=pcall(string.match, Q, patstring)
   return A
 end
-
 
 
 function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
@@ -210,8 +205,8 @@ function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>notes,csv,converter,string,array</tags>
 </US_DocBloc>
 --]]
@@ -261,8 +256,8 @@ function ultraschall.RoundNumber(num)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>number, rounding</tags>
 </US_DocBloc>
 --]]
@@ -300,8 +295,8 @@ function ultraschall.GetPartialString(str,sep1,sep2)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>string,separator</tags>
 </US_DocBloc>
 --]]
@@ -345,8 +340,8 @@ function ultraschall.Notes2CSV()
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>notes,csv,converter,string</tags>
 </US_DocBloc>
 --]]
@@ -385,8 +380,8 @@ string csv_line - the csv-line, values separated by commas
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>notes,csv,converter,string</tags>
 </US_DocBloc>
 --]]
@@ -424,8 +419,8 @@ function ultraschall.IsItemInTrack(tracknumber, itemIDX)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>itemmanagement,item,track,existence</tags>
 </US_DocBloc>
 --]]
@@ -473,8 +468,8 @@ function ultraschall.CheckActionCommandIDFormat(aid)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>command, commandid, actioncommandid, check, validity</tags>
 </US_DocBloc>
 --]]
@@ -513,8 +508,8 @@ function ultraschall.CheckActionCommandIDFormat2(aid)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>command, commandid, actioncommandid, check, validity</tags>
 </US_DocBloc>
 --]]
@@ -560,8 +555,8 @@ function ultraschall.ToggleStateAction(section, actioncommand_id, state)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>command,commandid,actioncommandid,action,run,state,section</tags>
 </US_DocBloc>
 --]]
@@ -605,8 +600,8 @@ function ultraschall.RefreshToolbar_Action(section, actioncommand_id)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>command,commandid,actioncommandid,action,run,toolbar,refresh</tags>
 </US_DocBloc>
 --]]
@@ -652,8 +647,8 @@ function ultraschall.ToggleStateButton(section, actioncommand_id, state)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>command,commandid,actioncommandid,action,run,toolbar,toggle,button</tags>
 </US_DocBloc>
 --]]
@@ -694,8 +689,8 @@ function ultraschall.SecondsToTime(pos)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>timestring, converter, seconds, string</tags>
 </US_DocBloc>
 --]]
@@ -778,8 +773,8 @@ function ultraschall.TimeToSeconds(timestring)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>timestring, converter, seconds, string</tags>
 </US_DocBloc>
 --]]
@@ -888,8 +883,8 @@ function ultraschall.SecondsToTimeString_hh_mm_ss_mss(time)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>timestring, converter, seconds, string</tags>
 </US_DocBloc>
 ]]
@@ -935,8 +930,8 @@ function ultraschall.TimeStringToSeconds_hh_mm_ss_mss(timestring)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>timestring, converter, seconds, string</tags>
 </US_DocBloc>
 ]]
@@ -980,8 +975,8 @@ function ultraschall.CountPatternInString(sourcestring, searchstring, non_case_s
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, string, character, check, find, count, position, numbers</tags>
 </US_DocBloc>
 ]]
@@ -1040,8 +1035,8 @@ integer retval - -1 in case of error
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, string, url, open, browser</tags>
 </US_DocBloc>
 --]]
@@ -1086,8 +1081,8 @@ function ultraschall.CountEntriesInTable_Main(the_table)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, count, entries, table, array, maintable</tags>
 </US_DocBloc>
 --]]
@@ -1132,8 +1127,8 @@ function ultraschall.CompareArrays(Array, CompareArray2)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, check, compare, table, array, indexed</tags>
 </US_DocBloc>
 --]]
@@ -1180,8 +1175,8 @@ function ultraschall.GetOS()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, operating system, os, mac, win, osx, linux, other, bits</tags>
 </US_DocBloc>
 --]]
@@ -1218,8 +1213,8 @@ function ultraschall.IsOS_Windows()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, operating system, os, check, win, bits</tags>
 </US_DocBloc>
 --]]
@@ -1260,8 +1255,8 @@ function ultraschall.IsOS_Mac()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, check, operating system, os, mac, osx, bits</tags>
 </US_DocBloc>
 --]]
@@ -1300,8 +1295,8 @@ function ultraschall.IsOS_Other()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, check, operating system, os, other, linux, bits</tags>
 </US_DocBloc>
 --]]
@@ -1345,8 +1340,8 @@ function ultraschall.GetReaperAppVersion()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, appversion, reaper, version, bits, majorversion, subversion, operating system</tags>
 </US_DocBloc>
 --]]
@@ -1392,8 +1387,8 @@ function ultraschall.LimitFractionOfFloat(number, length_of_fraction, roundit)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, limit, fraction, round, number</tags>
 </US_DocBloc>
 --]]
@@ -1461,8 +1456,8 @@ function ultraschall.GetAllEntriesFromTable(table)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, table, iterable, all entries, get</tags>
 </US_DocBloc>
 --]]
@@ -1517,8 +1512,8 @@ function ultraschall.APIExists(functionname)
     Developer
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, api, exists, function, variable, developer</tags>
 </US_DocBloc>
 --]]
@@ -1556,8 +1551,8 @@ function ultraschall.IsValidGuid(guid, strict)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, guid, check</tags>
 </US_DocBloc>
 --]]
@@ -1605,8 +1600,8 @@ function ultraschall.SetGuidExtState(guid, key, value, savelocation, overwrite, 
     Metadata Management
     Extension States(Guid)
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>metadatamanagement, project, extension, state, set, guid, key, values</tags>
 </US_DocBloc>
 --]]
@@ -1656,8 +1651,8 @@ function ultraschall.SetBitfield(integer_bitfield, set_to, ...)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, bitfield, set, unset, toggle</tags>
 </US_DocBloc>
 --]]
@@ -1712,8 +1707,8 @@ function ultraschall.PreventCreatingUndoPoint()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, undo, prevent, creation, undopoint</tags>
 </US_DocBloc>
 --]]
@@ -1749,8 +1744,8 @@ function ultraschall.SetIntConfigVar_Bitfield(configvar, set_to, ...)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, bitfield, set, unset, toggle, configvar</tags>
 </US_DocBloc>
 --]]
@@ -1819,8 +1814,8 @@ function ultraschall.MakeCopyOfTable(table, seen, recursive) --copy an array
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, table, copy, true copy</tags>
 </US_DocBloc>
 --]]
@@ -1863,8 +1858,8 @@ function ultraschall.ConvertStringToAscii_Array(string)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, string, bytevalue, numerical representation</tags>
 </US_DocBloc>
 --]]
@@ -1910,8 +1905,8 @@ function ultraschall.CompareStringWithAsciiValues(string,...)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, check, compare, string, byte, bytevalues</tags>
 </US_DocBloc>
 --]]
@@ -1954,8 +1949,8 @@ function ultraschall.ReturnsMinusOneInCaseOfError_Arzala()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>returns, -1, in, case, of, error, arzala</tags>
 </US_DocBloc>
 --]]
@@ -1987,8 +1982,8 @@ function ultraschall.CountLinesInString(String)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, count, lines, string</tags>
 </US_DocBloc>
 --]]
@@ -2027,8 +2022,8 @@ function ultraschall.ReturnTypeOfReaperObject(object)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helperfunctions, check, type, reaper, object, project, track, item, take, envelope, pcmsource</tags>
 </US_DocBloc>
 ]]
@@ -2068,8 +2063,8 @@ function ultraschall.IsObjectValidReaperObject(object)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helperfunctions, check, type, reaper, object, project, track, item, take, envelope, pcmsource</tags>
 </US_DocBloc>
 ]]
@@ -2114,8 +2109,8 @@ function ultraschall.KeepTableEntriesOfType(worktable, keeptype)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helperfunctions, keep, alter, table, types</tags>
 </US_DocBloc>
 ]]
@@ -2165,8 +2160,8 @@ function ultraschall.RemoveTableEntriesOfType(worktable, removetype)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helperfunctions, remove, alter, table, types</tags>
 </US_DocBloc>
 ]]
@@ -2215,8 +2210,8 @@ function ultraschall.IsItemInTrack3(MediaItem, trackstring)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helperfunctions, check, item, track, trackstring</tags>
 </US_DocBloc>
 ]]
@@ -2262,8 +2257,8 @@ function ultraschall.AddIntToChar(char, int)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, add, character, value</tags>
 </US_DocBloc>
 ]]
@@ -2313,8 +2308,8 @@ function ultraschall.MakeFunctionUndoable(Func, UndoMessage, Flag, ...)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helperfunctions, undo, create, undopoint, function</tags>
 </US_DocBloc>
 ]]
@@ -2355,8 +2350,8 @@ function ultraschall.ReturnTableAsIndividualValues(Table)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, table, return, values, indexed</tags>
 </US_DocBloc>
 ]]  
@@ -2403,8 +2398,8 @@ function ultraschall.type(object)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, check, datatype, reaper-objects, lua, return</tags>
 </US_DocBloc>
 ]]
@@ -2464,8 +2459,8 @@ function ultraschall.ConcatIntegerIndexedTables(table1, table2)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, concatenate, concat, table, tables</tags>
 </US_DocBloc>
 ]]
@@ -2514,8 +2509,8 @@ function ultraschall.ReverseTable(the_table)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, reverse, entries, table, array, maintable</tags>
 </US_DocBloc>
 --]]
@@ -2567,8 +2562,8 @@ function ultraschall.GetDuplicatesFromArrays(array1, array2)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helperfunctions, get, duplicates, originals, arrays</tags>
 </US_DocBloc>
 ]]
@@ -2637,8 +2632,8 @@ function ultraschall.GetScriptFilenameFromActionCommandID(action_command_id)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>filemanagement, get, scriptfilename, actioncommandid</tags>
 </US_DocBloc>
 ]]
@@ -2691,8 +2686,8 @@ function ultraschall.CombineBytesToInteger(bitoffset, ...)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, combine, bytes, integer</tags>
 </US_DocBloc>
 ]]
@@ -2750,8 +2745,8 @@ function ultraschall.SplitIntegerIntoBytes(integervalue)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, split, bytes, integer</tags>
 </US_DocBloc>
 ]]
@@ -2794,8 +2789,8 @@ function ultraschall.GetReaperScriptPath()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, reaper, get, scriptpath</tags>
 </US_DocBloc>
 ]]
@@ -2826,8 +2821,8 @@ function ultraschall.GetReaperColorThemesPath()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, reaper, get, colorthemepath</tags>
 </US_DocBloc>
 ]]
@@ -2857,8 +2852,8 @@ function ultraschall.GetReaperJSFXPath()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, reaper, get, jsfxpath</tags>
 </US_DocBloc>
 ]]
@@ -2889,8 +2884,8 @@ function ultraschall.GetReaperWebRCPath()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, reaper, get, webrcpath</tags>
 </US_DocBloc>
 ]]
@@ -2928,8 +2923,8 @@ function ultraschall.CycleTable(the_table, offset)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, cycle, table</tags>
 </US_DocBloc>
 ]]
@@ -2976,8 +2971,8 @@ function ultraschall.SplitStringAtNULLBytes(splitstring)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, split, string, nullbytes</tags>
 </US_DocBloc>
 ]]
@@ -3031,8 +3026,8 @@ function ultraschall.RunBackgroundHelperFeatures(switch_on)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, defer scripts, background scripts</tags>
 </US_DocBloc>
 ]]
@@ -3087,8 +3082,8 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
     API-Helper functions
     Child Scripts
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, run command, filename, scriptidentifier, scriptparameters</tags>
 </US_DocBloc>
 ]]
@@ -3123,6 +3118,7 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
   os.remove(filename2)
   
   -- return true and the script-identifier of the started script
+  --print2(string.gsub("ScriptIdentifier:"..filename2, "\\", "/"))
   return true, string.gsub("ScriptIdentifier:"..filename2, "\\", "/")
 end
 
@@ -3167,8 +3163,8 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
     API-Helper functions
     Child Scripts
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, run command, filename, midi, midieditor, scriptidentifier, scriptparameters</tags>
 </US_DocBloc>
 ]]
@@ -3232,6 +3228,8 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
   <functioncall>integer num_params, array params, string caller_script_identifier = ultraschall.GetScriptParameters(optional string script_identifier, optional boolean remove)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the parameters stored for a specific script_identifier.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     integer num_params - the number of parameters available
@@ -3247,14 +3245,14 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
     API-Helper functions
     Child Scripts
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, get, script, parameters, scriptidentifier</tags>
 </US_DocBloc>
 ]]
   if script_identifier==nil or type(script_identifier)~="string" then script_identifier=ultraschall.ScriptIdentifier end
   
-  
+  if reaper.GetExtState(script_identifier, "parm_count")=="" then ultraschall.AddErrorMessage("GetScriptParameters", "", "no parameters found", -1) return -1 end
   local counter=1
   local parms={}
   --while reaper.GetExtState(script_identifier, "parm_"..counter)~="" do
@@ -3266,6 +3264,7 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
     counter=counter+1
   end
   local caller_script=reaper.GetExtState(script_identifier, "parm_0")
+  --print2(caller_script)
   
   if remove==true or remove==nil then reaper.DeleteExtState(script_identifier, "parm_0", false) end
   return counter-1, parms, caller_script
@@ -3298,8 +3297,8 @@ function ultraschall.SetScriptParameters(script_identifier, ...)
     API-Helper functions
     Child Scripts
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, get, script, parameters, scriptidentifier</tags>
 </US_DocBloc>
 ]]
@@ -3332,9 +3331,9 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>integer num_params, array retvals = ultraschall.GetScriptReturnvalues(sender_script_identifier, optional boolean remove)</functioncall>
+  <functioncall>integer num_params, array retvals = ultraschall.GetScriptReturnvalues(string sender_script_identifier, optional boolean remove)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Gets the return-values which a specific sender_script_identifier sent to the current script.
+    Gets the return-values which a specific sender\_script\_identifier sent to the current script.
     
     If you have started numerous child-scripts and want to know, which child-script sent you return-values, see [GetScriptReturnvalues_Sender](#GetScriptReturnvalues_Sender)
     
@@ -3345,25 +3344,25 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
     array params - the values of the return-values as an array
   </retvals>
   <parameters>
-    optional string sender_script_identifier - the script-identifier, that sent the return-values to your script
+    string sender_script_identifier - the script-identifier, that sent the return-values to your script
     optional boolean remove - true or nil, remove the stored retval-extstates; false, keep them for later retrieval
   </parameters>
   <chapter_context>
     API-Helper functions
     Child Scripts
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, get, script, returnvalues, scriptidentifier</tags>
 </US_DocBloc>
 ]]
   if type(script_identifier)~="string" then ultraschall.AddErrorMessage("GetScriptReturnvalues", "script_identifier", "must be a string", -1) return -1 end
   local counter=1
   local retvals={}
+  --print2("Häh?")
+  if tonumber(reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retvalcount"))==nil then ultraschall.AddErrorMessage("GetScriptReturnvalues", "", "no retvals found", -2) return -1 end
 
---  while reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)~="" do
-  for i=1, tonumber(reaper.SetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retvalcount")) do
-    --print(reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter))
+  for i=1, tonumber(reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retvalcount")) do
     retvals[counter]=reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)
     if remove==true or remove==nil then
       reaper.DeleteExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter, false)
@@ -3372,6 +3371,9 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
       if retval_identifier:match(ultraschall.ScriptIdentifier)==nil then
         reaper.SetExtState(script_identifier, "retval_sender_identifier", retval_identifier, false)
       end
+    end
+    if remove==true or remove==nil then
+      reaper.DeleteExtState(ultraschall.ScriptIdentifier, script_identifier.."_retvalcount", false)
     end
     counter=counter+1
   end
@@ -3406,8 +3408,8 @@ function ultraschall.SetScriptReturnvalues(script_identifier, ...)
     API-Helper functions
     Child Scripts
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, get, script, returnvalues, scriptidentifier</tags>
 </US_DocBloc>
 ]]
@@ -3422,6 +3424,7 @@ function ultraschall.SetScriptReturnvalues(script_identifier, ...)
   
   while retvals[counter]~=nil do
     reaper.SetExtState(script_identifier, ultraschall.ScriptIdentifier.."_retval_"..counter, tostring(retvals[counter]), false)
+    --print2(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter, tostring(retvals[counter]), false)
     counter=counter+1
   end
   reaper.SetExtState(script_identifier, ultraschall.ScriptIdentifier.."_retvalcount", counter, false)
@@ -3455,8 +3458,8 @@ function ultraschall.GetScriptReturnvalues_Sender()
     API-Helper functions
     Child Scripts
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, get, script, returnvalues, scriptidentifier, child scripts</tags>
 </US_DocBloc>
 ]]
@@ -3507,8 +3510,8 @@ function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines,
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, encode, base64, string</tags>
 </US_DocBloc>
 ]]
@@ -3619,8 +3622,8 @@ function ultraschall.Base64_Decoder(source_string, base64_type)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, decode, base64, string</tags>
 </US_DocBloc>
 ]]
@@ -3737,8 +3740,8 @@ function ultraschall.StateChunkLayouter(statechunk)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, layout, statechunk</tags>
 </US_DocBloc>
 ]]
@@ -3784,8 +3787,8 @@ function ultraschall.ReverseEndianess_Byte(byte)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, integer, endianess</tags>
 </US_DocBloc>
 ]]
@@ -3831,8 +3834,8 @@ function ultraschall.ConvertIntegerIntoString(integervalue)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, integer, string</tags>
 </US_DocBloc>
 --]]
@@ -3871,8 +3874,8 @@ function ultraschall.ConvertIntegerToBits(integer)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, integer, bit, bitfield</tags>
 </US_DocBloc>
 ]]
@@ -3917,8 +3920,8 @@ function ultraschall.ConvertBitsToInteger(bitvalues)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, bitfield, integer</tags>
 </US_DocBloc>
 ]]
@@ -3972,8 +3975,8 @@ function ultraschall.GetSetIntConfigVar(varname, set, ...)
       API-Helper functions
       Data Manipulation
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
     <tags>helper functions, get, set, configvar, integer, bit, bitfield</tags>
   </US_DocBloc>
   ]]
@@ -4042,8 +4045,8 @@ function ultraschall.GetScriptIdentifier()
       API-Helper functions
       Child Scripts
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
     <tags>helper functions, get, script_identifier</tags>
   </US_DocBloc>
   ]]
@@ -4082,8 +4085,8 @@ function ultraschall.ReplacePartOfString(originalstring, insertstring, offset, l
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, replace, string, offset, length, insert</tags>
 </US_DocBloc>
 ]]
@@ -4135,8 +4138,8 @@ function ultraschall.SearchStringInString(fullstring, searchstring, searchnested
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, search, string</tags>
 </US_DocBloc>
 --]]
@@ -4201,8 +4204,8 @@ function ultraschall.MKVOL2DB(mkvol_value)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, mkvol, db</tags>
 </US_DocBloc>
 --]]
@@ -4242,8 +4245,8 @@ function ultraschall.DB2MKVOL(db_value)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, mkvol, db</tags>
 </US_DocBloc>
 --]]
@@ -4280,8 +4283,8 @@ function ultraschall.ConvertIntegerIntoString2(Size, ...)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, integer, string</tags>
 </US_DocBloc>
 ]]
@@ -4333,8 +4336,8 @@ function ultraschall.ConvertStringToIntegers(String, Size)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, string, integer, size</tags>
 </US_DocBloc>
 ]]
@@ -4426,8 +4429,8 @@ function ultraschall.SetScriptIdentifier_Description(description)
       API-Helper functions
       Child Scripts
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
     <tags>helper functions, set, script_identifier, description</tags>
   </US_DocBloc>
   ]]
@@ -4461,8 +4464,8 @@ function ultraschall.GetScriptIdentifier_Description()
       API-Helper functions
       Child Scripts
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
     <tags>helper functions, get, script_identifier, description</tags>
   </US_DocBloc>
   ]]
@@ -4501,8 +4504,8 @@ function ultraschall.SetScriptIdentifier_Title(title)
       API-Helper functions
       Child Scripts
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
     <tags>helper functions, set, script_identifier, title</tags>
   </US_DocBloc>
   ]]
@@ -4542,8 +4545,8 @@ function ultraschall.GetScriptIdentifier_Title()
       API-Helper functions
       Child Scripts
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
     <tags>helper functions, get, script_identifier, title</tags>
   </US_DocBloc>
   ]]
@@ -4569,8 +4572,8 @@ function ultraschall.ResetProgressBar()
     <chapter_context>
       API-Helper functions
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
     <tags>helper functions, reset, progressbar</tags>
   </US_DocBloc>
   ]]
@@ -4590,7 +4593,7 @@ function ultraschall.PrintProgressBar(show, length, maximumvalue, currentvalue, 
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>boolean retval = ultraschall.PrintProgressBar(boolean show, integer length, integer maximumvalue, integer currentvalue, boolean percentage, integer offset, optional string toptext, optional string bottomtext)</functioncall>
+    <functioncall>boolean retval, string ProgressString, integer percentage, integer progress_position = ultraschall.PrintProgressBar(boolean show, integer length, integer maximumvalue, integer currentvalue, boolean percentage, integer offset, optional string toptext, optional string bottomtext)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Calculate a simple progressbar, which can be optionally displayed in the ReaScript console; Will clear the console before displaying the next updated progressbar.
 
@@ -4621,8 +4624,8 @@ function ultraschall.PrintProgressBar(show, length, maximumvalue, currentvalue, 
     <chapter_context>
       API-Helper functions
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
     <tags>helper functions, calculate, progressbar, show, display, percentage</tags>
   </US_DocBloc>
   ]]
@@ -4682,12 +4685,16 @@ function ultraschall.PrintProgressBar(show, length, maximumvalue, currentvalue, 
       Percentage=tostring(math.ceil((100/maximumvalue)*currentvalue)).." %"
       if Percentage:len()==4 then Percentage=" "..Percentage end
       if Percentage:len()==3 then Percentage="  "..Percentage end
+      Percentage=tonumber(Percentage:sub(1,-2))
+      if Percentage>100 then Percentage=100 end
       if math.ceil((100/maximumvalue)*currentvalue)<100 then
         ProgressString=String_offset..ProgressString:sub(1,math.ceil(ProgressString:len()/2-3))..Percentage..ProgressString:sub(math.ceil(ProgressString:len()/2+3),-1)
       else
         ProgressString=String_progress:sub(0,status)
         ProgressString=String_offset..ProgressString:sub(1,math.ceil(ProgressString:len()/2-3))..Percentage..ProgressString:sub(math.ceil(ProgressString:len()/2+2),-1)
       end
+    else
+      Percentage=nil
     end
     if remaining_time~=nil then ProgressString=ProgressString.."\n"..remaining_time end
     if toptext~=nil then ProgressString=toptext.."\n"..ProgressString end
@@ -4703,7 +4710,7 @@ function ultraschall.PrintProgressBar(show, length, maximumvalue, currentvalue, 
     ultraschall.lasttoptext=toptext
     ultraschall.progressbar_lastbottomtext=bottomtext
   end
-  return true, ProgressString, tonumber(Percentage:sub(1,-2)), status
+  return true, ProgressString, Percentage, status
 end
 
 
@@ -4736,8 +4743,8 @@ function ultraschall.StoreFunctionInExtState(section, key, functioncall, debug)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, store, function, extstate</tags>
 </US_DocBloc>
 ]]
@@ -4779,8 +4786,8 @@ function ultraschall.LoadFunctionFromExtState(section, key)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, load, function, extstate</tags>
 </US_DocBloc>
 ]]
@@ -4826,8 +4833,8 @@ function ultraschall.ConvertHex2Ascii(hexstring)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helperfunctions, convert, hex, hexadecimal, ascii</tags>
 </US_DocBloc>
 ]]
@@ -4872,8 +4879,8 @@ function ultraschall.ConvertAscii2Hex(orgstring)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helperfunctions, convert, hex, hexadecimal, ascii</tags>
 </US_DocBloc>
 ]]
@@ -4947,8 +4954,8 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, get, action, context, difftime, item, mediaitem, offset, length, end, start, locked, unlocked</tags>
 </US_DocBloc>
 --]]
@@ -5083,8 +5090,8 @@ function ultraschall.GetAllActions(section)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, actions, get all, scriptfilename, actiontype, consolidate, termination</tags>
 </US_DocBloc>
 --]]
@@ -5197,8 +5204,8 @@ function ultraschall.IsWithinTimeRange(time, start, stop)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, check, is between, start, stop, seconds, time</tags>
 </US_DocBloc>
 --]]
@@ -5232,8 +5239,8 @@ function ultraschall.MediaExplorer_OnCommand(actioncommandid)
   <chapter_context>
     Media Explorer
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>user interface, window, media explorer, hwnd, oncommand, run, command</tags>
 </US_DocBloc>
 --]]
@@ -5266,8 +5273,8 @@ function ultraschall.UpdateMediaExplorer()
   <chapter_context>
     Media Explorer
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>user interface, window, media explorer, hwnd, update, listview</tags>
 </US_DocBloc>
 --]]
@@ -5304,8 +5311,8 @@ function ultraschall.FindPatternsInString(SourceString, pattern, sort_after_find
     API-Helper functions
     Data Analysis
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, find, patterns, string</tags>
 </US_DocBloc>
 --]]
@@ -5373,8 +5380,8 @@ function ultraschall.RunLuaSourceCode(code)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, run, lua code, directly</tags>
 </US_DocBloc>
 --]]
@@ -5418,8 +5425,8 @@ function ultraschall.Main_OnCommand_LuaCode(Code, ...)
     API-Helper functions
     Child Scripts
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, run code, scriptidentifier, scriptparameters</tags>
 </US_DocBloc>
 ]]
@@ -5466,8 +5473,8 @@ function ultraschall.ReplacePatternInString(OriginalString, pattern, replacestri
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, replace, pattern in string, index, occurrence</tags>
 </US_DocBloc>
 --]]
@@ -5521,8 +5528,8 @@ function ultraschall.ConvertFunction_ToBase64String(to_convert_function, debug)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, function, base64</tags>
 </US_DocBloc>
 ]]
@@ -5560,8 +5567,8 @@ function ultraschall.ConvertFunction_FromBase64String(BASE64_functionstring)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, load, function, base64</tags>
 </US_DocBloc>
 ]]
@@ -5604,8 +5611,8 @@ function ultraschall.ConvertFunction_ToHexString(to_convert_function, debug)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, convert, function, hexstring</tags>
 </US_DocBloc>
 ]]
@@ -5646,8 +5653,8 @@ function ultraschall.ConvertFunction_FromHexString(HEX_functionstring)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, load, function, hexstring</tags>
 </US_DocBloc>
 ]]
@@ -5661,3 +5668,107 @@ function ultraschall.ConvertFunction_FromHexString(HEX_functionstring)
 end
 
 --B,B2=ultraschall.ConvertFunction_FromHexString(A)
+
+
+function ultraschall.Benchmark_GetStartTime()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Benchmark_GetStartTime</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>number starttime = ultraschall.Benchmark_GetStartTime()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+	This function is for benchmarking parts of your code.
+	It returns the starttime of the last benchmark-start.
+	
+	returns nil, if no benchmark has been made yet.
+	
+	Use [Benchmark_MeasureTime](#Benchmark_MeasureTime) to start/reset a new benchmark-measureing.
+  </description>
+  <retvals>
+    number starttime - the starttime of the currently running benchmark
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_HelperFunctions_Module.lua</source_document>
+  <tags>helper functions, get, start, benchmark, time</tags>
+</US_DocBloc>
+--]]
+  return ultraschall.Benchmark_StartTime_Time
+end
+
+function ultraschall.Benchmark_MeasureTime(timeformat, reset)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Benchmark_MeasureTime</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>number elapsed_time, string elapsed_time_string, string measure_evaluation = ultraschall.Benchmark_MeasureTime(optional integer time_mode, optional boolean reset)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+	This function is for benchmarking parts of your code.
+	It returns the passed time, since last time calling this function.
+	
+	Use [Benchmark_GetStartTime](#Benchmark_GetStartTime) to start the benchmark.
+  </description>
+  <retvals>
+    number elapsed_time - the elapsed time in seconds
+	string elapsed_time_string - the elapsed time, formatted by parameter time_mode
+	string measure_evaluation - an evaluation of time, mostly starting with &lt; or &gt; an a number of +
+							  - 0, no time passed
+							  - >, for elapsed times greater than 1, the following + will show the number of integer digits; example: 12.927 -> ">++"
+							  - <, for elapsed times smaller than 1, the following + will show the number of zeros+1 in the fraction, until the first non-zero-digit appears; example: 0.0063 -> "<+++"
+  </retvals>
+  <parameters>
+	optional integer time_mode - the formatting of elapsed_time_string
+							   - 0=time
+							   - 1=measures.beats + time
+							   - 2=measures.beats
+							   - 3=seconds
+							   - 4=samples
+							   - 5=h:m:s:f
+	optional boolean reset - true, resets the starttime(for new measuring); false, keeps current measure-starttime(for continuing measuring)
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_HelperFunctions_Module.lua</source_document>
+  <tags>helper functions, get, start, benchmark, time</tags>
+</US_DocBloc>
+--]]
+  local passed_time=reaper.time_precise()
+  if ultraschall.Benchmark_StartTime_Time==nil then ultraschall.Benchmark_StartTime_Time=passed_time end
+  if timeformat~=nil and math.type(timeformat)~="integer" then ultraschall.AddErrorMessage("Benchmark_MeasureTime", "timeformat", "must be an integer", -2) return end
+  if timeformat~=nil and (timeformat<0 or timeformat>7)then ultraschall.AddErrorMessage("Benchmark_MeasureTime", "timeformat", "must be between 0 and 7 or nil", -3) return end
+  passed_time=passed_time-ultraschall.Benchmark_StartTime_Time
+  if reset==true or reset==nil then ultraschall.Benchmark_StartTime_Time=reaper.time_precise() end
+  local valid=""
+  local passed_time_string=""
+  if passed_time==0 then
+  valid="0"
+  elseif passed_time>1 then 
+    valid=tostring(passed_time):match("(.-)%..*")
+    if valid==nil then valid=tostring(passed_time) end
+    valid=">"..string.gsub(valid, "%d", "+")
+  elseif passed_time<0.00016333148232661 then
+    valid="<++++"
+  else
+    valid=tostring(passed_time):match(".-%.(0*)")
+    if valid==nil then valid="0" end
+    valid="<"..string.gsub(valid, "0", "+").."+"
+  end
+  if timeformat==0 or timeformat==nil then
+	passed_time_string=tostring(passed_time) 
+  else
+    passed_time_string=reaper.format_timestr_len(passed_time, "", 0, timeformat-1)
+  end
+  return passed_time, passed_time_string, valid
+end

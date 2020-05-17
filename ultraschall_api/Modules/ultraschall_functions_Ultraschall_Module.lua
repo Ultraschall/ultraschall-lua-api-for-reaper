@@ -73,8 +73,8 @@ function ultraschall.pause_follow_one_cycle()
     Ultraschall Specific
     Followmode
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>ultraschall, userinterface, follow, off, followmode, turn off one cycle</tags>
 </US_DocBloc>
 --]]
@@ -90,7 +90,7 @@ function ultraschall.IsTrackSoundboard(tracknumber)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsTrackSoundboard</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -112,13 +112,14 @@ function ultraschall.IsTrackSoundboard(tracknumber)
     Ultraschall Specific
     Track Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>ultraschall, isvalid, soundboard, track</tags>
 </US_DocBloc>
 --]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsTrackSoundboard", "tracknumber", "must be an integer", -1) return false end
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackSoundboard", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return false end
+  local track
   if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
   if track~=nil then
     if reaper.TrackFX_GetByName(track, "Ultraschall: Soundboard", false)~=-1 or
@@ -127,18 +128,6 @@ function ultraschall.IsTrackSoundboard(tracknumber)
     else
       return false
     end
-    --[[
-    local count=0
-    while reaper.TrackFX_GetFXName(track, count, "")~="" do
-      local retval, buf = reaper.TrackFX_GetFXName(track, count, "")
-      if buf=="AUi: Ultraschall: Soundboard" then return true, count end -- Mac-check
-      if buf=="VSTi: Soundboard (Ultraschall)" then return true, count end -- Windows-check
-      if buf=="" then return false end
-      count=count+1
-    end
-  end
-  return false
-  --]]
   end
 end
 
@@ -149,7 +138,7 @@ function ultraschall.IsTrackStudioLink(tracknumber)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsTrackStudioLink</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -171,13 +160,14 @@ function ultraschall.IsTrackStudioLink(tracknumber)
     Ultraschall Specific
     Track Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>ultraschall, isvalid, studiolink, track</tags>
 </US_DocBloc>
 --]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsTrackStudioLink", "tracknumber", "must be an integer", -1) return false end
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackStudioLink", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return false end
+  local track
   if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
   if track~=nil then
     if reaper.TrackFX_GetByName(track, "StudioLink (IT-Service Sebastian Reimers)", false)~=-1 or
@@ -186,18 +176,6 @@ function ultraschall.IsTrackStudioLink(tracknumber)
     else
       return false
     end
-  --[[
-    local count=0
-    while reaper.TrackFX_GetFXName(track, count, "")~="" do
-      local retval, buf = reaper.TrackFX_GetFXName(track, count, "")
-      if buf=="AU: ITSR: StudioLink" then return true, count end -- Mac-check
-      if buf=="VST: StudioLink (IT-Service Sebastian Reimers)" then return true, count end -- Windows-check
-      if buf=="" then return false end
-      count=count+1
-    end
-  end
-  return false
-  --]]
   end
 end
 
@@ -209,7 +187,7 @@ function ultraschall.IsTrackStudioLinkOnAir(tracknumber)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsTrackStudioLinkOnAir</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -231,13 +209,14 @@ function ultraschall.IsTrackStudioLinkOnAir(tracknumber)
     Ultraschall Specific
     Track Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>ultraschall, isvalid, studiolinkonair, track</tags>
 </US_DocBloc>
 --]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsTrackStudioLinkOnAir", "tracknumber", "must be an integer", -1) return false end
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackStudioLinkOnAir", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return false end
+  local track
   if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
   if track~=nil then
     if reaper.TrackFX_GetByName(track, "StudioLinkOnAir (IT-Service Sebastian Reimers)", false)~=-1 or
@@ -246,19 +225,7 @@ function ultraschall.IsTrackStudioLinkOnAir(tracknumber)
     else
       return false
     end
-    
-    --[[
-    local count=0
-    while reaper.TrackFX_GetFXName(track, count, "")~="" do
-      local retval, buf = reaper.TrackFX_GetFXName(track, count, "")
-      if buf=="AU: StudioLinkOnAir (ITSR)" then return true, count end -- Mac-check
-      if buf=="VST: StudioLinkOnAir (IT-Service Sebastian Reimers)" then return true, count end -- Windows-check
-      if buf=="" then return false end
-      count=count+1
-    end
-    --]]
   end
-  --return false
 end
 
 
@@ -291,8 +258,8 @@ function ultraschall.GetTypeOfTrack(tracknumber)
     Ultraschall Specific
     Track Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>ultraschall, get, type, soundboard, studiolink, studiolinkonair, track</tags>
 </US_DocBloc>
 --]]
@@ -374,8 +341,8 @@ function ultraschall.GetAllAUXSendReceives2()
     Ultraschall Specific
     Routing
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>routing, trackmanagement, track, get, all, send, receive, aux, routing</tags>
 </US_DocBloc>
 ]]
@@ -429,8 +396,8 @@ function ultraschall.GetAllHWOuts2()
     Ultraschall Specific
     Routing
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>ultraschall, trackmanagement, track, get, all, hwouts, hardware outputs, routing</tags>
 </US_DocBloc>
 ]]
@@ -477,8 +444,8 @@ function ultraschall.GetAllMainSendStates2()
     Ultraschall Specific
     Routing
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>ultraschall, trackmanagement, track, get, all, send, main send, master send, routing</tags>
 </US_DocBloc>
 ]]
@@ -524,8 +491,8 @@ function ultraschall.SetUSExternalState(section, key, value, filename)
     Ultraschall Specific
     Ultraschall.ini
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>configurationmanagement, value, insert, store</tags>
 </US_DocBloc>
 --]]
@@ -571,8 +538,8 @@ function ultraschall.GetUSExternalState(section, key, filename)
     Ultraschall Specific
     Ultraschall.ini
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>configurationmanagement, value, get</tags>
 </US_DocBloc>
 --]]
@@ -613,8 +580,8 @@ function ultraschall.CountUSExternalState_sec(filename)
     Ultraschall Specific
     Ultraschall.ini
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>configurationmanagement, count, section</tags>
 </US_DocBloc>
 --]]
@@ -665,8 +632,8 @@ function ultraschall.CountUSExternalState_key(section, filename)
     Ultraschall Specific
     Ultraschall.ini
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>configurationmanagement, count, key</tags>
 </US_DocBloc>
 --]]
@@ -725,8 +692,8 @@ function ultraschall.EnumerateUSExternalState_sec(number, filename)
     Ultraschall Specific
     Ultraschall.ini
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>configurationmanagement, enumerate, section</tags>
 </US_DocBloc>
 --]]
@@ -776,8 +743,8 @@ function ultraschall.EnumerateUSExternalState_key(section, number, filename)
     Ultraschall Specific
     Ultraschall.ini
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>configurationmanagement, enumerate, key</tags>
 </US_DocBloc>
 --]]
@@ -835,8 +802,8 @@ function ultraschall.DeleteUSExternalState(section, key, filename)
     Ultraschall Specific
     Ultraschall.ini
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
   <tags>configurationmanagement, delete, section, key</tags>
 </US_DocBloc>
 ]]  
@@ -886,8 +853,8 @@ function ultraschall.Soundboard_StopAllSounds()
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, stop all sounds</tags>
   </US_DocBloc>
   ]]  
@@ -920,8 +887,8 @@ function ultraschall.Soundboard_TogglePlayPause(playerindex)
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, play, pause, toggle</tags>
   </US_DocBloc>
   ]]  
@@ -961,8 +928,8 @@ function ultraschall.Soundboard_TogglePlayStop(playerindex)
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, play, stop, toggle</tags>
   </US_DocBloc>
   ]]  
@@ -1002,8 +969,8 @@ function ultraschall.Soundboard_Play(playerindex)
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, play</tags>
   </US_DocBloc>
   ]]  
@@ -1043,8 +1010,8 @@ function ultraschall.Soundboard_Stop(playerindex)
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, stop</tags>
   </US_DocBloc>
   ]]  
@@ -1085,8 +1052,8 @@ function ultraschall.Soundboard_TogglePlay_FadeOutStop(playerindex)
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, fadeout, play, stop</tags>
   </US_DocBloc>
   ]]  
@@ -1130,8 +1097,8 @@ function ultraschall.Soundboard_PlayList_CurrentIndex()
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, playlist, current position</tags>
   </US_DocBloc>
   ]]  
@@ -1172,8 +1139,8 @@ function ultraschall.Soundboard_PlayList_SetIndex(playerindex, play, stop_all_ot
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, playlist, set, playerindex, play, stop all others</tags>
   </US_DocBloc>
   ]]  
@@ -1217,8 +1184,8 @@ function ultraschall.Soundboard_PlayList_Next()
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, playlist, next, playerindex, play</tags>
   </US_DocBloc>
   ]]  
@@ -1259,8 +1226,8 @@ function ultraschall.Soundboard_PlayList_Previous()
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
     <tags>ultraschall, soundboard, playlist, next, playerindex, play</tags>
   </US_DocBloc>
   ]]  
@@ -1274,4 +1241,44 @@ function ultraschall.Soundboard_PlayList_Previous()
 end
 
 --ultraschall.Soundboard_PlayList_Previous()
+
+function ultraschall.Soundboard_PlayFadeIn(playerindex)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Soundboard_PlayFadeIn</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=6.02
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.Soundboard_PlayFadeIn(integer playerindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Starts a sound with a fade-in of a certain player in the Ultraschall-SoundBoard
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
+    </description>
+    <parameters>
+      integer playerindex - the player of the SoundBoard; from 1-24
+    </parameters>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, play, fadein</tags>
+  </US_DocBloc>
+  ]]  
+  
+  if math.type(playerindex)~="integer" then ultraschall.AddErrorMessage("Soundboard_PlayFadeIn", "playerindex", "must be an integer", -1) return false end
+  if playerindex<1 or playerindex>24 then ultraschall.AddErrorMessage("Soundboard_PlayFadeIn", "playerindex", "must be between 1 and 24", -2) return false end
+  local mode=0            -- set to virtual keyboard of Reaper
+  local MIDIModifier=144  -- set to MIDI-Note
+  local Note=96+playerindex-1
+  local Velocity=1  
+      
+  reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
+end 
 

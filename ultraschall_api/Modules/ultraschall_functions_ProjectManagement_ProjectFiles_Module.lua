@@ -86,8 +86,8 @@ function ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, stat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, state, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -146,8 +146,8 @@ function ultraschall.GetProject_ReaperVersion(projectfilename_with_path, Project
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, reaperversion, timestamp, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -171,12 +171,12 @@ function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStat
   <slug>GetProject_RenderCFG</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.04
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg = ultraschall.GetProject_RenderCFG(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>string render_cfg, string render_cfg2 = ultraschall.GetProject_RenderCFG(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
-    Returns the render-cfg-string, that contains all render-settings of a project from an RPP-Projectfile or a ProjectStateChunk.
+    Returns the render-cfg-string2, that contains all render-settings for primary and secondary render-settings of a project from an RPP-Projectfile or a ProjectStateChunk.
     
     It's the entry &lt;RENDER_CFG
     
@@ -188,13 +188,14 @@ function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStat
   </parameters>
   <retvals>
     string render_cfg - the renderstring, which contains all render-settings for a project/projectstatechunk
+    string render_cfg2 - the renderstring, which contains all secondary-render-settings for a project/projectstatechunk
   </retvals>
   <chapter_context>
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, renderstring, rendercfg</tags>
 </US_DocBloc>
 ]]
@@ -210,7 +211,9 @@ function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStat
   -- get the values and return them
   local retval=ProjectStateChunk:match("<RENDER_CFG.-\n%s*(.-)\n")
   if retval==">" then ultraschall.AddErrorMessage("GetProject_RenderCFG", "projectfilename_with_path", "No Render-CFG-code available!", -5) return nil end
-  return retval
+  retval2=ProjectStateChunk:match("<RENDER_CFG2.-\n%s*(.-)\n")
+  if retval2==">" or retval2==nil then ultraschall.AddErrorMessage("GetProject_RenderCFG", "projectfilename_with_path", "No secondary Render-CFG-code available!", -6) retval2="" end
+  return retval, retval2
 end
 
 function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectStateChunk)
@@ -243,8 +246,8 @@ function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectSt
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, ripple, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -281,8 +284,8 @@ function ultraschall.GetProject_GroupOverride(projectfilename_with_path, Project
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, group, override, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -318,8 +321,8 @@ function ultraschall.GetProject_AutoCrossFade(projectfilename_with_path, Project
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, crossfade, state, auto, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -354,8 +357,8 @@ function ultraschall.GetProject_EnvAttach(projectfilename_with_path, ProjectStat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, envattach</tags>
 </US_DocBloc>
 ]]
@@ -390,8 +393,8 @@ function ultraschall.GetProject_PooledEnvAttach(projectfilename_with_path, Proje
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, pooledenvattach</tags>
 </US_DocBloc>
 ]]
@@ -448,8 +451,8 @@ function ultraschall.GetProject_MixerUIFlags(projectfilename_with_path, ProjectS
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, mixer, ui, flags</tags>
 </US_DocBloc>
 ]]
@@ -486,8 +489,8 @@ function ultraschall.GetProject_PeakGain(projectfilename_with_path, ProjectState
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, mixer, peakgain, peak, gain</tags>
 </US_DocBloc>
 ]]
@@ -526,8 +529,8 @@ function ultraschall.GetProject_Feedback(projectfilename_with_path, ProjectState
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, mixer, feedback</tags>
 </US_DocBloc>
 ]]
@@ -564,8 +567,8 @@ function ultraschall.GetProject_PanLaw(projectfilename_with_path, ProjectStateCh
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, mixer, panlaw, pan</tags>
 </US_DocBloc>
 ]]
@@ -605,8 +608,8 @@ function ultraschall.GetProject_ProjOffsets(projectfilename_with_path, ProjectSt
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, project, offset, start, starttime</tags>
 </US_DocBloc>
 ]]
@@ -646,8 +649,8 @@ function ultraschall.GetProject_MaxProjectLength(projectfilename_with_path, Proj
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, project, end, length, limit</tags>
 </US_DocBloc>
 ]]
@@ -690,8 +693,8 @@ function ultraschall.GetProject_Grid(projectfilename_with_path, ProjectStateChun
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, grid</tags>
 </US_DocBloc>
 ]]
@@ -748,8 +751,8 @@ function ultraschall.GetProject_Timemode(projectfilename_with_path, ProjectState
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, timemode</tags>
 </US_DocBloc>
 ]]
@@ -797,8 +800,8 @@ function ultraschall.GetProject_VideoConfig(projectfilename_with_path, ProjectSt
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, video, videoconfig</tags>
 </US_DocBloc>
 ]]
@@ -837,8 +840,8 @@ function ultraschall.GetProject_PanMode(projectfilename_with_path, ProjectStateC
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, panmode</tags>
 </US_DocBloc>
 ]]
@@ -875,8 +878,8 @@ function ultraschall.GetProject_CursorPos(projectfilename_with_path, ProjectStat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, cursor, position, cursorposition, editcursor, edit</tags>
 </US_DocBloc>
 ]]
@@ -917,8 +920,8 @@ function ultraschall.GetProject_HorizontalZoom(projectfilename_with_path, Projec
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, zoom, horizontal, scrollbar, factor</tags>
 </US_DocBloc>
 ]]
@@ -955,8 +958,8 @@ function ultraschall.GetProject_VerticalZoom(projectfilename_with_path, ProjectS
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, zoom, vertical, scrollbar, factor</tags>
 </US_DocBloc>
 ]]
@@ -996,8 +999,8 @@ function ultraschall.GetProject_UseRecConfig(projectfilename_with_path, ProjectS
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, rec, config</tags>
 </US_DocBloc>
 ]]
@@ -1037,8 +1040,8 @@ function ultraschall.GetProject_RecMode(projectfilename_with_path, ProjectStateC
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, rec, mode</tags>
 </US_DocBloc>
 ]]
@@ -1100,8 +1103,8 @@ function ultraschall.GetProject_SMPTESync(projectfilename_with_path, ProjectStat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, smpte, sync</tags>
 </US_DocBloc>
 ]]
@@ -1138,8 +1141,8 @@ function ultraschall.GetProject_Loop(projectfilename_with_path, ProjectStateChun
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, loop, button</tags>
 </US_DocBloc>
 ]]
@@ -1177,8 +1180,8 @@ function ultraschall.GetProject_LoopGran(projectfilename_with_path, ProjectState
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, loop, gran</tags>
 </US_DocBloc>
 ]]
@@ -1216,8 +1219,8 @@ function ultraschall.GetProject_RecPath(projectfilename_with_path, ProjectStateC
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, path, recording path, primary, secondary</tags>
 </US_DocBloc>
 ]]
@@ -1271,8 +1274,8 @@ function ultraschall.GetProject_RecordCFG(projectfilename_with_path, ProjectStat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, configuration</tags>
 </US_DocBloc>
 ]]
@@ -1319,8 +1322,8 @@ function ultraschall.GetProject_ApplyFXCFG(projectfilename_with_path, ProjectSta
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, fx, configuration</tags>
 </US_DocBloc>
 ]]
@@ -1436,8 +1439,8 @@ function ultraschall.GetProject_RenderPattern(projectfilename_with_path, Project
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, render pattern, filename, render</tags>
 </US_DocBloc>
 ]]
@@ -1489,8 +1492,8 @@ function ultraschall.GetProject_RenderFreqNChans(projectfilename_with_path, Proj
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, frequency, num channels, channels</tags>
 </US_DocBloc>
 ]]
@@ -1531,8 +1534,8 @@ function ultraschall.GetProject_RenderSpeed(projectfilename_with_path, ProjectSt
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, speed</tags>
 </US_DocBloc>
 ]]
@@ -1584,8 +1587,8 @@ function ultraschall.GetProject_RenderRange(projectfilename_with_path, ProjectSt
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, timestart, timeend, range, tail, bounds</tags>
 </US_DocBloc>
 ]]
@@ -1644,8 +1647,8 @@ function ultraschall.GetProject_RenderResample(projectfilename_with_path, Projec
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, resample, playback, mixing, fx, synth</tags>
 </US_DocBloc>
 ]]
@@ -1659,13 +1662,16 @@ function ultraschall.GetProject_AddMediaToProjectAfterRender(projectfilename_wit
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_AddMediaToProjectAfterRender</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.1
+    Reaper=6.10
     Lua=5.3
   </requires>
-  <functioncall>integer addmedia_after_render_state = ultraschall.GetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer state = ultraschall.GetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
-    Returns, if rendered media shall be added to the project afterwards, from an RPP-Projectfile or a ProjectStateChunk.
+    Returns, if rendered media shall be added to the project afterwards as well as if likely silent files shall be rendered-state, from an RPP-Projectfile or a ProjectStateChunk.
+	
+	It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.
+	
     It's the entry RENDER_ADDTOPROJ
     
     Returns nil in case of error.
@@ -1675,14 +1681,16 @@ function ultraschall.GetProject_AddMediaToProjectAfterRender(projectfilename_wit
     optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
   </parameters>
   <retvals>
-    integer addmedia_after_render_state - 1, rendered media shall be added to the project afterwards; 0, don't add
+    integer state - the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox 
+				  - &1, rendered media shall be added to the project afterwards; 0, don't add
+				  - &2, don't render likely silent files; 0, render anyway
   </retvals>
   <chapter_context>
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, add, media, after, project</tags>
 </US_DocBloc>
 ]]
@@ -1696,8 +1704,8 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RenderStems</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=6.02
+    Ultraschall=4.1
+    Reaper=6.10
     Lua=5.3
   </requires>
   <functioncall>integer render_stems = ultraschall.GetProject_RenderStems(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
@@ -1724,13 +1732,14 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
     - 64,  Selected media items via master
     - 128, Selected tracks via master
     - &256, Embed stretch markers/transient guides-checkbox
+	- &1024, Embed Take markers
   </retvals>
   <chapter_context>
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, stems, multichannel</tags>
 </US_DocBloc>
 ]]
@@ -1771,8 +1780,8 @@ function ultraschall.GetProject_RenderDitherState(projectfilename_with_path, Pro
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, dither, state, master, noise shaping</tags>
 </US_DocBloc>
 ]]
@@ -1812,8 +1821,8 @@ function ultraschall.GetProject_TimeBase(projectfilename_with_path, ProjectState
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, timebase, time, beats, items, envelopes, markers</tags>
 </US_DocBloc>
 ]]
@@ -1853,8 +1862,8 @@ function ultraschall.GetProject_TempoTimeSignature(projectfilename_with_path, Pr
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, timebase, time, beats, tempo, signature</tags>
 </US_DocBloc>
 ]]
@@ -1893,8 +1902,8 @@ function ultraschall.GetProject_ItemMixBehavior(projectfilename_with_path, Proje
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, item, mix</tags>
 </US_DocBloc>
 ]]
@@ -3573,8 +3582,8 @@ function ultraschall.GetProject_DefPitchMode(projectfilename_with_path, ProjectS
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, default, pitch mode, pitch, stretch marker mode</tags>
 </US_DocBloc>
 ]]
@@ -3612,8 +3621,8 @@ function ultraschall.GetProject_TakeLane(projectfilename_with_path, ProjectState
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, take, lane</tags>
 </US_DocBloc>
 ]]
@@ -3652,8 +3661,8 @@ function ultraschall.GetProject_SampleRate(projectfilename_with_path, ProjectSta
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, sample, rate, samplerate, tempo, time, signature</tags>
 </US_DocBloc>
 ]]
@@ -3696,8 +3705,8 @@ function ultraschall.GetProject_TrackMixingDepth(projectfilename_with_path, Proj
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, track, mixing, depth</tags>
 </US_DocBloc>
 ]]
@@ -3737,8 +3746,8 @@ function ultraschall.GetProject_TrackStateChunk(projectfilename_with_path, idx, 
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, track, chunk, rppxml, trackstate, trackstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -3796,8 +3805,8 @@ function ultraschall.GetProject_NumberOfTracks(projectfilename_with_path, Projec
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, track, count</tags>
 </US_DocBloc>
 ]]
@@ -3854,8 +3863,8 @@ function ultraschall.GetProject_Selection(projectfilename_with_path, ProjectStat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, selection, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -3893,8 +3902,8 @@ function ultraschall.GetProject_RenderQueueDelay(projectfilename_with_path, Proj
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, queue, delay, seconds, checkbox, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -3946,8 +3955,8 @@ function ultraschall.GetProject_QRenderOriginalProject(projectfilename_with_path
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, queue, original projectfilename, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -4005,8 +4014,8 @@ function ultraschall.GetProject_QRenderOutFiles(projectfilename_with_path, Proje
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, queue, queuerender outfiles, auto close when finished, auto increment filename, save copy of outfile</tags>
 </US_DocBloc>
 ]]
@@ -4072,8 +4081,8 @@ function ultraschall.SetProject_RippleState(projectfilename_with_path, ripple_st
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, ripple, all, one</tags>
 </US_DocBloc>
 ]]
@@ -4123,8 +4132,8 @@ function ultraschall.SetProject_RenderQueueDelay(projectfilename_with_path, rend
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, render queue delay</tags>
 </US_DocBloc>
 ]]
@@ -4180,8 +4189,8 @@ function ultraschall.SetProject_Selection(projectfilename_with_path, starttime, 
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, ripple, all, one</tags>
 </US_DocBloc>
 ]]
@@ -4234,8 +4243,8 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, group, override</tags>
 </US_DocBloc>
 ]]
@@ -4286,8 +4295,8 @@ function ultraschall.SetProject_AutoCrossFade(projectfilename_with_path, autocro
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, autocrossfade, crossfade</tags>
 </US_DocBloc>
 ]]
@@ -4337,8 +4346,8 @@ function ultraschall.SetProject_EnvAttach(projectfilename_with_path, env_attach,
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, env, attach, envattach</tags>
 </US_DocBloc>
 ]]
@@ -4407,8 +4416,8 @@ function ultraschall.SetProject_MixerUIFlags(projectfilename_with_path, state_bi
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, mixer, ui, flags, folders, tracks, master, fx, groups</tags>
 </US_DocBloc>
 ]]         
@@ -4457,8 +4466,8 @@ function ultraschall.SetProject_PeakGain(projectfilename_with_path, peakgain_sta
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, peak, gain, peakgain</tags>
 </US_DocBloc>
 ]]
@@ -4505,8 +4514,8 @@ function ultraschall.SetProject_Feedback(projectfilename_with_path, feedback_sta
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, feedback</tags>
 </US_DocBloc>
 ]]
@@ -4553,8 +4562,8 @@ function ultraschall.SetProject_PanLaw(projectfilename_with_path, panlaw_state, 
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, pan, law, pan law</tags>
 </US_DocBloc>
 ]]  
@@ -4607,8 +4616,8 @@ function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_tim
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, project, offset, start, starttime, measure</tags>
 </US_DocBloc>
 ]]
@@ -4656,8 +4665,8 @@ function ultraschall.SetProject_MaxProjectLength(projectfilename_with_path, limi
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, project, end, length, limit</tags>
 </US_DocBloc>
 ]]
@@ -4711,8 +4720,8 @@ function ultraschall.SetProject_Grid(projectfilename_with_path, gridstate1, grid
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, grid</tags>
 </US_DocBloc>
 ]]
@@ -4789,8 +4798,8 @@ function ultraschall.SetProject_Timemode(projectfilename_with_path, timemode1, t
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, timemode</tags>
 </US_DocBloc>
 ]]
@@ -4854,8 +4863,8 @@ function ultraschall.SetProject_VideoConfig(projectfilename_with_path, preferred
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, video, videoconfig</tags>
 </US_DocBloc>
 ]]         
@@ -4909,8 +4918,8 @@ function ultraschall.SetProject_PanMode(projectfilename_with_path, panmode_state
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, panmode</tags>
 </US_DocBloc>
 ]]
@@ -4962,8 +4971,8 @@ function ultraschall.SetProject_CursorPos(projectfilename_with_path, cursorpos, 
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, cursor, position, cursorposition, editcursor, edit</tags>
 </US_DocBloc>
 ]]
@@ -5011,8 +5020,8 @@ function ultraschall.SetProject_HorizontalZoom(projectfilename_with_path, hzoom,
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, zoom, horizontal, scrollbar, factor</tags>
 </US_DocBloc>
 ]]         
@@ -5061,8 +5070,8 @@ function ultraschall.SetProject_VerticalZoom(projectfilename_with_path, vzoom, P
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, zoom, vertical, scrollbar, factor</tags>
 </US_DocBloc>
 ]]         
@@ -5112,8 +5121,8 @@ function ultraschall.SetProject_UseRecConfig(projectfilename_with_path, rec_cfg,
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, rec, config</tags>
 </US_DocBloc>
 ]]
@@ -5163,8 +5172,8 @@ function ultraschall.SetProject_RecMode(projectfilename_with_path, rec_mode, Pro
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, rec, mode</tags>
 </US_DocBloc>
 ]]
@@ -5237,8 +5246,8 @@ function ultraschall.SetProject_SMPTESync(projectfilename_with_path, smptesync_s
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, smpte, sync</tags>
 </US_DocBloc>
 ]]
@@ -5296,8 +5305,8 @@ function ultraschall.SetProject_Loop(projectfilename_with_path, loopbutton_state
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, loop, button</tags>
 </US_DocBloc>
 ]]
@@ -5345,8 +5354,8 @@ function ultraschall.SetProject_LoopGran(projectfilename_with_path, loopgran_sta
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, loop, gran</tags>
 </US_DocBloc>
 ]]         
@@ -5394,8 +5403,8 @@ function ultraschall.SetProject_RecPath(projectfilename_with_path, prim_recpath,
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, path, primary, secondary</tags>
 </US_DocBloc>
 ]]
@@ -5448,8 +5457,8 @@ function ultraschall.SetProject_RecordCFG(projectfilename_with_path, recording_c
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, configuration</tags>
 </US_DocBloc>
 ]]
@@ -5471,24 +5480,25 @@ end
 
 
 
-function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_string, ProjectStateChunk)
+function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_string, rendercfg_string2, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RenderCFG</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.04
     Lua=5.3
   </requires>
-  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderCFG(string projectfilename_with_path, string rendercfg_string, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderCFG(string projectfilename_with_path, string rendercfg_string, string rendercfg_string2, optional string ProjectStateChunk)</functioncall>
   <description>
-    Sets the render-configuration as encoded string in an RPP-Projectfile or a ProjectStateChunk, as set in Render-Settings
+    Sets the primary and secondary render-configuration as encoded string in an RPP-Projectfile or a ProjectStateChunk, as set in Render-Settings
     
     Returns -1 in case of error.
   </description>
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     rendercfg_string - the render-configuration as encoded string
+    rendercfg_string2 - the secondary render-configuration as encoded string; use "" or nil to not set it
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -5499,22 +5509,35 @@ function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_s
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, configuration</tags>
 </US_DocBloc>
 ]]
+  if ultraschall.IsValidProjectStateChunk(rendercfg_string2)==true then ProjectStateChunk=rendercfg_string2 rendercfg_string2="" end
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "projectfilename_with_path", "File does not exist", -2) return -1 end
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
-  if type(rendercfg_string)~="string" then ultraschall.AddErrorMessage("SetProject_RenderCFG", "rendercfg_string", "Must be an integer", -4) return -1 end
+  if type(rendercfg_string)~="string" then ultraschall.AddErrorMessage("SetProject_RenderCFG", "rendercfg_string", "Must be an string", -4) return -1 end
+  if rendercfg_string2~=nil and type(rendercfg_string2)~="string" then ultraschall.AddErrorMessage("SetProject_RenderCFG", "rendercfg_string2", "Must be an string", -6) return -1 end
   if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
-
-  local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_CFG%c%s*).-%c.->.*")
-  local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_CFG%c%s*.-(%c.->.*)")
-
-  ProjectStateChunk=FileStart..rendercfg_string..FileEnd
+  
+  if rendercfg_string2==nil or rendercfg_string2=="" then rendercfg_string2="" else rendercfg_string2="    "..rendercfg_string2.."\n" end
+  if rendercfg_string=="" then else rendercfg_string="    "..rendercfg_string.."\n" end
+  
+  local FileStart, FileEnd=ProjectStateChunk:match("(.-\n)  <RENDER_CFG.-\n(  LOCK.*)")
+  local NewString=[[
+  <RENDER_CFG
+]]..rendercfg_string..[[
+  >
+  <RENDER_CFG2
+]]..rendercfg_string2..[[
+  >
+]]
+  
+  ProjectStateChunk=FileStart..NewString..FileEnd
+  
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
     else return 1, ProjectStateChunk
   end  
@@ -5551,8 +5574,8 @@ function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, applyfx_cf
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, fx, configuration</tags>
 </US_DocBloc>
 ]]
@@ -5602,8 +5625,8 @@ function ultraschall.SetProject_RenderFilename(projectfilename_with_path, render
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, path, render filename, filename, render</tags>
 </US_DocBloc>
 ]]  
@@ -5657,8 +5680,8 @@ function ultraschall.SetProject_RenderFreqNChans(projectfilename_with_path, unkn
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, frequency, num channels, channels</tags>
 </US_DocBloc>
 ]]           
@@ -5715,8 +5738,8 @@ function ultraschall.SetProject_RenderSpeed(projectfilename_with_path, render_sp
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, speed</tags>
 </US_DocBloc>
 ]]
@@ -5782,8 +5805,8 @@ function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, t
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, timestart, timeend, range, tail, bounds</tags>
 </US_DocBloc>
 ]]
@@ -5855,8 +5878,8 @@ function ultraschall.SetProject_RenderResample(projectfilename_with_path, resamp
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, resample, playback, mixing, fx, synth</tags>
 </US_DocBloc>
 ]]
@@ -5883,18 +5906,25 @@ function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_wit
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_AddMediaToProjectAfterRender</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.1
+    Reaper=6.10
     Lua=5.3
   </requires>
-  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, integer addmedia_after_render_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, integer state, optional string ProjectStateChunk)</functioncall>
   <description>
-    Returns, if rendered media shall be added to the project afterwards, from an RPP-Projectfile or a ProjectStateChunk.
+    Sets, if rendered media shall be added to the project afterwards as well as if likely silent files shall be rendered-state, from an RPP-Projectfile or a ProjectStateChunk.
+	
+	It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.
+	
+    It's the entry RENDER_ADDTOPROJ
+    
     Returns -1 in case of error.
   </description>
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
-    integer addmedia_after_render_state - 1 - rendered media shall be added to the project afterwards, 0 - don't add
+    integer state - the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox 
+				  - &1, rendered media shall be added to the project afterwards; 0, don't add
+				  - &2, don't render likely silent files; 0, render anyway
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -5905,8 +5935,8 @@ function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_wit
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, add, media, after, project</tags>
 </US_DocBloc>
 ]]
@@ -5934,8 +5964,8 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RenderStems</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=6.02
+    Ultraschall=4.1
+    Reaper=6.10
     Lua=5.3
   </requires>
   <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderStems(string projectfilename_with_path, integer render_stems, optional string ProjectStateChunk)</functioncall>
@@ -5956,6 +5986,7 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
     - 64, Selected media items via master
     - 128, Selected tracks via master
     - &256, Embed stretch markers/transient guides-checkbox 
+	- &1024, Embed Take markers
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -5966,8 +5997,8 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, stems, multichannel</tags>
 </US_DocBloc>
 ]]
@@ -6022,8 +6053,8 @@ function ultraschall.SetProject_RenderDitherState(projectfilename_with_path, ren
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, dither, state, master, noise shaping</tags>
 </US_DocBloc>
 ]]
@@ -6077,8 +6108,8 @@ function ultraschall.SetProject_TimeBase(projectfilename_with_path, timebase, Pr
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, timebase, time, beats, items, envelopes, markers</tags>
 </US_DocBloc>
 ]]  
@@ -6130,8 +6161,8 @@ function ultraschall.SetProject_TempoTimeSignature(projectfilename_with_path, te
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, timebase, time, beats, tempo, signature</tags>
 </US_DocBloc>
 ]]  
@@ -6180,8 +6211,8 @@ function ultraschall.SetProject_ItemMixBehavior(projectfilename_with_path, item_
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, item, mix</tags>
 </US_DocBloc>
 ]]
@@ -7870,8 +7901,8 @@ function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitc
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, default, pitch mode, pitch</tags>
 </US_DocBloc>
 ]]
@@ -7923,8 +7954,8 @@ function ultraschall.SetProject_TakeLane(projectfilename_with_path, take_lane_st
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, take, lane</tags>
 </US_DocBloc>
 ]]
@@ -7981,8 +8012,8 @@ function ultraschall.SetProject_SampleRate(projectfilename_with_path, sample_rat
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, sample, rate, samplerate, tempo, time, signature</tags>
 </US_DocBloc>
 ]]
@@ -8040,8 +8071,8 @@ function ultraschall.SetProject_TrackMixingDepth(projectfilename_with_path, mixi
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, sample, rate, samplerate, tempo, time, signature</tags>
 </US_DocBloc>
 ]]
@@ -8097,8 +8128,8 @@ function ultraschall.GetProject_CountMarkersAndRegions(projectfilenamewithpath)
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, count, marker, regions</tags>
 </US_DocBloc>
 ]]
@@ -8151,8 +8182,8 @@ function ultraschall.GetProject_GetMarker(projectfilenamewithpath, idx)
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, marker, shown number, name, color, position</tags>
 </US_DocBloc>
 ]]
@@ -8218,8 +8249,8 @@ function ultraschall.GetProject_GetRegion(projectfilenamewithpath, idx)
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, region, shown number, name, color, position</tags>
 </US_DocBloc>
 ]]
@@ -8301,8 +8332,8 @@ function ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path, Pro
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, marker, regions, guid</tags>
 </US_DocBloc>
 ]]
@@ -8385,8 +8416,8 @@ function ultraschall.IsValidReaProject(ReaProject)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, check, reaproject, project, object, valid</tags>
 </US_DocBloc>
 ]]
@@ -8427,8 +8458,8 @@ function ultraschall.NewProjectTab(switch_to_new_tab)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, new, project, tab, switch, select</tags>
 </US_DocBloc>
 --]]
@@ -8470,8 +8501,8 @@ function ultraschall.GetCurrentTimeLengthOfFrame(ReaProject)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, new, project, tab, switch, select</tags>
 </US_DocBloc>
 --]]
@@ -8509,8 +8540,8 @@ function ultraschall.GetLengthOfFrames(frames, ReaProject)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, new, project, tab, switch, select</tags>
 </US_DocBloc>
 --]]
@@ -8554,8 +8585,8 @@ function ultraschall.ConvertOldProjectToCurrentReaperVersion(filename_with_path)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, convert, old, project, rpp, current, reaper version</tags>
 </US_DocBloc>
 --]]
@@ -8603,8 +8634,8 @@ function ultraschall.GetProject_ProjectBay(projectfilename_with_path, ProjectSta
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, projectbay, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -8617,7 +8648,7 @@ function ultraschall.GetProject_ProjectBay(projectfilename_with_path, ProjectSta
     end
   if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_ProjectBay", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
   end
-  return ProjectStateChunk:match("<PROJBAY.-  >")
+  return ProjectStateChunk:match("<PROJBAY.-\n  >")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -8653,8 +8684,8 @@ function ultraschall.GetProject_Metronome(projectfilename_with_path, ProjectStat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, metronome, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -8703,8 +8734,8 @@ function ultraschall.GetProject_MasterPlayspeed(projectfilename_with_path, Proje
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master playspeed, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -8753,8 +8784,8 @@ function ultraschall.GetProject_TempoEnvEx(projectfilename_with_path, ProjectSta
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, tempo, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -8803,8 +8834,8 @@ function ultraschall.GetProject_Extensions(projectfilename_with_path, ProjectSta
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, extensions, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -8868,8 +8899,8 @@ function ultraschall.GetProject_Lock(projectfilename_with_path, ProjectStateChun
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, lock, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -8914,8 +8945,8 @@ function ultraschall.GetProject_GlobalAuto(projectfilename_with_path, ProjectSta
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, global automation, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -8953,8 +8984,8 @@ function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChu
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, beat, tempo, denominator, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -8994,8 +9025,8 @@ function ultraschall.GetProject_Playrate(projectfilename_with_path, ProjectState
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, playrate, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9039,8 +9070,8 @@ function ultraschall.GetProject_MasterAutomode(projectfilename_with_path, Projec
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, automation mode, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9079,8 +9110,8 @@ function ultraschall.GetProject_MasterSel(projectfilename_with_path, ProjectStat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, selected, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9119,8 +9150,8 @@ function ultraschall.GetProject_MasterFXByp(projectfilename_with_path, ProjectSt
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, fx, bypass, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9166,8 +9197,8 @@ function ultraschall.GetProject_MasterMuteSolo(projectfilename_with_path, Projec
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, mute, solo, mono, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9206,8 +9237,8 @@ function ultraschall.GetProject_MasterNChans(projectfilename_with_path, ProjectS
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, number of channels, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9246,8 +9277,8 @@ function ultraschall.GetProject_MasterTrackHeight(projectfilename_with_path, Pro
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, trackheight, trackheightlock, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9285,8 +9316,8 @@ function ultraschall.GetProject_MasterTrackColor(projectfilename_with_path, Proj
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, color, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9334,8 +9365,8 @@ function ultraschall.GetProject_MasterTrackView(projectfilename_with_path, Proje
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, view, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9374,8 +9405,8 @@ function ultraschall.GetProject_CountMasterHWOuts(projectfilename_with_path, Pro
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, count, hwout, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9448,8 +9479,8 @@ function ultraschall.GetProject_MasterHWOut(projectfilename_with_path, idx, Proj
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, hwout, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9509,8 +9540,8 @@ function ultraschall.GetProject_MasterVolume(projectfilename_with_path, ProjectS
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, mastervolume, pan, volume, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9553,8 +9584,8 @@ function ultraschall.GetProject_MasterPanMode(projectfilename_with_path, Project
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, panmode, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9592,8 +9623,8 @@ function ultraschall.GetProject_MasterWidth(projectfilename_with_path, ProjectSt
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, pan knob two, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9710,8 +9741,8 @@ function ultraschall.GetProject_MasterGroupFlagsState(projectfilename_with_path,
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, groupflags, projectstatechunk</tags>
 </US_DocBloc>
 --]]
@@ -9852,8 +9883,8 @@ function ultraschall.GetProject_MasterGroupFlagsHighState(projectfilename_with_p
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, groupflags, projectstatechunk</tags>
 </US_DocBloc>
 --]]
@@ -9916,8 +9947,8 @@ function ultraschall.GetProject_GroupDisabled(projectfilename_with_path, Project
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, group, disabled, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -9957,8 +9988,8 @@ function ultraschall.GetProject_MasterHWVolEnvStateChunk(projectfilename_with_pa
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master hwvolend, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10004,8 +10035,8 @@ function ultraschall.GetProject_MasterFXListStateChunk(projectfilename_with_path
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master fxlist, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10052,8 +10083,8 @@ function ultraschall.GetProject_MasterDualPanEnvStateChunk(projectfilename_with_
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master dualpanenv, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10100,8 +10131,8 @@ function ultraschall.GetProject_MasterDualPanEnv2StateChunk(projectfilename_with
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master dualpanenv2, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10148,8 +10179,8 @@ function ultraschall.GetProject_MasterDualPanEnvLStateChunk(projectfilename_with
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master dualpanenvl, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10196,8 +10227,8 @@ function ultraschall.GetProject_MasterDualPanEnvL2StateChunk(projectfilename_wit
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master dualpanenvl2, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10244,8 +10275,8 @@ function ultraschall.GetProject_MasterVolEnvStateChunk(projectfilename_with_path
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master volenv, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10293,8 +10324,8 @@ function ultraschall.GetProject_MasterVolEnv2StateChunk(projectfilename_with_pat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master volenv2, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10341,8 +10372,8 @@ function ultraschall.GetProject_MasterVolEnv3StateChunk(projectfilename_with_pat
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master volenv3, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10389,8 +10420,8 @@ function ultraschall.GetProject_MasterHWPanEnvStateChunk(projectfilename_with_pa
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master pan env, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10437,8 +10468,8 @@ function ultraschall.GetProject_MasterPanMode_Ex(projectfilename_with_path, Proj
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, master pan mode ex, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10487,8 +10518,8 @@ function ultraschall.GetProject_TempoEnv_ExStateChunk(projectfilename_with_path,
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectmanagement, get, tempo env ex, statechunk, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -10541,8 +10572,8 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>project management, get, length of project, marker, region, timesignature, length, item, edge</tags>
 </US_DocBloc>
 ]]
@@ -10650,8 +10681,8 @@ function ultraschall.CreateTemporaryFileOfProjectfile(projectfilename_with_path)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, create, tempfile, temporary, render, output, file</tags>
 </US_DocBloc>
 ]]
@@ -10709,8 +10740,8 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>project management, get, length of project, marker, region, timesignature, lengt, item, edge</tags>
 </US_DocBloc>
 ]]
@@ -10877,8 +10908,8 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, render pattern, filename, render</tags>
 </US_DocBloc>
 ]]  
@@ -10943,8 +10974,8 @@ function ultraschall.GetProject_RenderFilename(projectfilename_with_path, Projec
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, path, render filename, filename, render</tags>
 </US_DocBloc>
 ]]
@@ -10995,8 +11026,8 @@ function ultraschall.GetProject_GroupName(projectfilename_with_path, idx, Projec
     Project-Management
     RPP-Files Get
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, get, group, name, projectstatechunk</tags>
 </US_DocBloc>
 ]]
@@ -11072,8 +11103,8 @@ function ultraschall.SetProject_Lock(projectfilename_with_path, lock_state, Proj
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, lock state</tags>
 </US_DocBloc>
 ]]  
@@ -11132,8 +11163,8 @@ function ultraschall.SetProject_GlobalAuto(projectfilename_with_path, global_aut
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, global automation override state</tags>
 </US_DocBloc>
 ]]  
@@ -11186,8 +11217,8 @@ function ultraschall.SetProject_Tempo(projectfilename_with_path, bpm, beat, deno
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, tempo, bpm, beat, denominator</tags>
 </US_DocBloc>
 ]]  
@@ -11241,8 +11272,8 @@ function ultraschall.SetProject_Playrate(projectfilename_with_path, playrate, pr
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, playrate</tags>
 </US_DocBloc>
 ]]  
@@ -11303,8 +11334,8 @@ function ultraschall.SetProject_MasterAutomode(projectfilename_with_path, automo
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, master track, automation, mode</tags>
 </US_DocBloc>
 ]]  
@@ -11355,8 +11386,8 @@ function ultraschall.SetProject_MasterSel(projectfilename_with_path, selection_s
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, master track, selection</tags>
 </US_DocBloc>
 ]]  
@@ -11414,8 +11445,8 @@ function ultraschall.SetProject_MasterMuteSolo(projectfilename_with_path, mute_s
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, master track, mute, solo</tags>
 </US_DocBloc>
 ]]  
@@ -11465,8 +11496,8 @@ function ultraschall.SetProject_MasterFXByp(projectfilename_with_path, fx_byp_st
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, master track, fx bypass</tags>
 </US_DocBloc>
 ]]  
@@ -11516,8 +11547,8 @@ function ultraschall.SetProject_MasterNChans(projectfilename_with_path, number_o
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, master track, number of channels, peak metering</tags>
 </US_DocBloc>
 ]]  
@@ -11569,8 +11600,8 @@ function ultraschall.SetProject_MasterTrackHeight(projectfilename_with_path, hei
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, master track, trackheight</tags>
 </US_DocBloc>
 ]]  
@@ -11624,8 +11655,8 @@ function ultraschall.SetProject_MasterTrackColor(projectfilename_with_path, colo
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, master track, color</tags>
 </US_DocBloc>
 ]]  
@@ -11681,8 +11712,8 @@ function ultraschall.SetProject_MasterPanMode(projectfilename_with_path, panmode
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, master track, panmode</tags>
 </US_DocBloc>
 ]]  
@@ -11750,8 +11781,8 @@ function ultraschall.SetProject_MasterTrackView(projectfilename_with_path, tcp_v
     Project-Management
     RPP-Files Set
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
   <tags>projectfiles, rpp, state, set, ripple, all, one</tags>
 </US_DocBloc>
 ]]

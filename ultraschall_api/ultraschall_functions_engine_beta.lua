@@ -1,7 +1,7 @@
 --[[
 ################################################################################
 # 
-# Copyright (c) 2014-2019 Ultraschall (http://ultraschall.fm)
+# Copyright (c) 2014-2020 Ultraschall (http://ultraschall.fm)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -67,7 +67,7 @@ function ultraschall.GetProject_RenderOutputPath(projectfilename_with_path)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RenderOutputPath</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -89,7 +89,7 @@ function ultraschall.GetProject_RenderOutputPath(projectfilename_with_path)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>render management, get, project, render, outputpath</tags>
 </US_DocBloc>
@@ -169,7 +169,7 @@ function ultraschall.ResolveRenderPattern(renderpattern)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ResolveRenderPattern</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -192,7 +192,7 @@ function ultraschall.ResolveRenderPattern(renderpattern)
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>rendermanagement, resolve, renderpattern, filename</tags>
 </US_DocBloc>
@@ -418,7 +418,7 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SetReaScriptConsole_FontStyle</slug>
     <requires>
-      Ultraschall=4.00
+      Ultraschall=4.1
       Reaper=5.965
       Lua=5.3
     </requires>
@@ -464,7 +464,7 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
       User Interface
       Miscellaneous
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
+    <target_document>US_Api_Functions</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>user interface, reascript, console, font, style</tags>
   </US_DocBloc>
@@ -511,7 +511,7 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>get_action_context_MediaItemDiff</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -563,7 +563,7 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, get, action, context, difftime, item, mediaitem, offset, length, end, start, locked, unlocked</tags>
 </US_DocBloc>
@@ -651,116 +651,6 @@ end
 
 --a,b,c,d,e,f,g,h,i=ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x, y)
 
-function ultraschall.Localize_UseFile(filename, section, language)
--- TODO: getting the currently installed language for the case, that language = set to nil
---       I think, filename as place for the language is better: XRaym_de.USLangPack, XRaym_us.USLangPack, XRaym_fr.USLangPack or something
---       
---       Maybe I should force to use the extension USLangPack...
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Localize_UseFile</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.Localize_UseFile(string filename, string section, string language)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Sets the localize-file and the section to use in the localize-file.
-    If file cannot be found, the function will also look into resource-path/LangPack/ as well to find it.
-    
-    The file is of the format:
-    ;comment
-    ;another comment
-    [section]
-    original text=translated text
-    More Text with\nNewlines and %s - substitution=Translated Text with\nNewlines and %s - substitution
-    A third\=example with escaped equal\=in it = translated text with escaped\=equaltext
-    
-    see [specs for more information](../misc/ultraschall_translation_file_format.USLangPack).
-    
-    returns false in case of an error
-  </description>
-  <retvals>
-    boolean retval - true, translation-file has been found and set successfully; false, translation-file hasn't been found
-  </retvals>
-  <parameters>
-    string filename - the filename with path to the translationfile; if no path is given, it will look in resource-folder/LangPack for the translation-file
-    string section - the section of the translation-file, from which to read the translated strings
-    string language - the language, which will be put after filename and before extension, like mylangpack_de.USLangPack; 
-                    - us, usenglish
-                    - es, spanish
-                    - fr, french
-                    - de, german
-                    - jp, japanese
-                    - etc
-  </parameters>
-  <chapter_context>
-    Localization
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>localization, use, set, translationfile, section, filename</tags>
-</US_DocBloc>
---]]
-  if type(filename)~="string" then ultraschall.AddErrorMessage("Localize_UseFile", "filename", "must be a string", -1) return false end
-  if type(section)~="string" then ultraschall.AddErrorMessage("Localize_UseFile", "section", "must be a string", -2) return false end
-  local filenamestart, filenamsendof=ultraschall.GetPath(filename)
-  local filenamext=filenamsendof:match(".*(%..*)")
-  if language==nil then language="" end
-  local filename2=filename
-  if filenamext==nil or filenamsendof==nil then 
-    filename=filename.."_"..language
-  else
-    filename=filenamestart..filenamsendof:sub(1, -filenamext:len()-1).."_"..language..filenamext
-  end
-  
-  if reaper.file_exists(filename)==false then
-    if reaper.file_exists(reaper.GetResourcePath().."/LangPack/"..filename)==false then
-      ultraschall.AddErrorMessage("Localize_UseFile", "filename", "file does not exist", -3) return false
-    else
-      ultraschall.Localize_Filename=reaper.GetResourcePath().."/LangPack/"..filename2
-      ultraschall.Localize_Section=section
-      ultraschall.Localize_Language=language
-    end
-  else
-    ultraschall.Localize_Filename=filename2
-    ultraschall.Localize_Section=section
-    ultraschall.Localize_Language=language
-  end
-  ultraschall.Localize_File=ultraschall.ReadFullFile(filename).."\n["
-  ultraschall.Localize_File=ultraschall.Localize_File:match(section.."%]\n(.-)%[")
-  ultraschall.Localize_File_Content={}
-  for k in string.gmatch(ultraschall.Localize_File, "(.-)\n") do
-    k=string.gsub(k, "\\n", "\n")
-    k=string.gsub(k, "=", "\0")
-    k=string.gsub(k, "\\\0", "=")
-    local left, right=k:match("(.-)\0(.*)")
-    --print2(left, "======", right)
-    ultraschall.Localize_File_Content[left]=right
-  end
-  
-  
---  ultraschall.Localize_File2=string.gsub(ultraschall.Localize_File, "\n;.-\n", "\n")
-  
-  while ultraschall.Localize_File~=ultraschall.Localize_File2 do
-    ultraschall.Localize_File2=ultraschall.Localize_File
-    ultraschall.Localize_File=string.gsub(ultraschall.Localize_File2, "\n;.-\n", "\n")
-  end
-  
-  ultraschall.Localize_File=string.gsub(ultraschall.Localize_File, "\n\n", "\n")
-  
-  --print2("9"..ultraschall.Localize_File)
-  --print3(ultraschall.Localize_File)
-  
-  return true
-end
-
---O=ultraschall.Localize_UseFile(reaper.GetResourcePath().."/LangPack/ultraschall.USLangPack", "Export Assistant", "de")
-
-
---O={1,2,3}
---P=#O
 
 
 function ultraschall.TracksToColorPattern(colorpattern, startingcolor, direction)
@@ -840,7 +730,7 @@ function ultraschall.GetTrackEnvelope_ClickState()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackEnvelope_ClickState</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.981
     SWS=2.10.0.1
     Lua=5.3
@@ -864,7 +754,7 @@ function ultraschall.GetTrackEnvelope_ClickState()
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelope management, get, clicked, envelope, envelopepoint</tags>
 </US_DocBloc>
@@ -943,7 +833,7 @@ function ultraschall.SetLiceCapExe(PathToLiceCapExecutable)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetLiceCapExe</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.975
     SWS=2.9.7
     Lua=5.3
@@ -966,7 +856,7 @@ function ultraschall.SetLiceCapExe(PathToLiceCapExecutable)
     API-Helper functions
     LiceCap
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, set, licecap, executable</tags>
 </US_DocBloc>
@@ -985,7 +875,7 @@ function ultraschall.SetupLiceCap(output_filename, title, titlems, x, y, right, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetupLiceCap</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.975
     SWS=2.9.7
     Lua=5.3
@@ -1027,7 +917,7 @@ function ultraschall.SetupLiceCap(output_filename, title, titlems, x, y, right, 
     API-Helper functions
     LiceCap
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, licecap, setup</tags>
 </US_DocBloc>
@@ -1164,7 +1054,7 @@ function ultraschall.SaveProjectAs(filename_with_path, fileformat, overwrite, cr
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SaveProjectAs</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.965
     SWS=2.10.0.1
     JS=0.963
@@ -1198,7 +1088,7 @@ function ultraschall.SaveProjectAs(filename_with_path, fileformat, overwrite, cr
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>project management, save, project as, edl, rpp, vegas, samplitude</tags>
 </US_DocBloc>
@@ -1324,7 +1214,7 @@ function ultraschall.ReadSubtitles_VTT(filename_with_path)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadSubtitles_VTT</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -1350,7 +1240,7 @@ function ultraschall.ReadSubtitles_VTT(filename_with_path)
     File Management
     Read Files
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read, file, webvtt, subtitle, import</tags>
 </US_DocBloc>
@@ -1393,7 +1283,67 @@ end
 
 --A,B,C,D,E=ultraschall.ReadSubtitles_VTT("c:\\test.vtt")
 
--- These seem to work:
+function ultraschall.BatchConvertFiles(filelist, RenderTable, BWFStart, PadStart, PadEnd, FXChain)
+-- Todo:
+-- Check on Mac and Linux
+-- Check all parameters for correct typings
+-- Test FXChain-capability
+  local BatchConvertData=""
+  local ExeFile, filename, path
+  if FXChain==nil then FXChain="" end
+  if BWFStart==true then BWFStart="    USERCSTART 1\n" else BWFStart="" end
+  if PadStart~=nil  then PadStart="    PAD_START "..PadStart.."\n" else PadStart="" end
+  if PadEnd~=nil  then PadEnd="    PAD_END "..PadEnd.."\n" else PadEnd="" end
+  local i=1
+  while filelist[i]~=nil do
+    path, filename = ultraschall.GetPath(filelist[i])
+    BatchConvertData=BatchConvertData..filelist[i].."\t"..filename.."\n"
+    i=i+1
+  end
+  BatchConvertData=BatchConvertData..[[
+<CONFIG
+]]..FXChain..[[
+  <OUTFMT 
+    ]]      ..RenderTable["RenderString"]..[[
+    
+    SRATE ]]..RenderTable["SampleRate"]..[[
+    
+    NCH ]]..RenderTable["Channels"]..[[
+    
+    RSMODE ]]..RenderTable["RenderResample"]..[[
+    
+    DITHER ]]..RenderTable["Dither"]..[[
+    
+]]..BWFStart..[[
+]]..PadStart..[[
+]]..PadEnd..[[
+    OUTPATH ]]..RenderTable["RenderFile"]..[[
+    
+    OUTPATTERN ']]..RenderTable["RenderPattern"]..[['
+  >
+>
+]]
+
+  ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/filelist.txt", BatchConvertData)
+  if ultraschall.IsOS_Windows()==true then
+    ExeFile=reaper.GetExePath().."\\reaper.exe"
+    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt", -1)
+    print3(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt")
+
+  elseif ultraschall.IsOS_Mac()==true then
+    print2("Must be checked on Mac!!!!")
+    ExeFile=reaper.GetExePath().."\\reaper"
+    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "\\\\", "/").."/filelist.txt", -1)
+  else
+    print2("Must be checked on Linux!!!!")
+    ExeFile=reaper.GetExePath().."\\reaper"
+    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "\\\\", "/").."/filelist.txt", -1)
+  end
+end
+
+
+-- These seem to work working:
+
 
 
 
