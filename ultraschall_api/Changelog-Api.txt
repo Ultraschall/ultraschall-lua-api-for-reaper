@@ -314,6 +314,7 @@ TODO!! buggy function
    - Marker Management: SetNormalMarker - optimized speed
    - Marker Management: DeleteNormalMarker - optimized speed
    - Marker Management: IsMarkerNormal - optimized speed
+   
 ---
 
 ### 4.1.001 - "Radiohead - Spectre"

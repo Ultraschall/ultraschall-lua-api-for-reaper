@@ -54,6 +54,7 @@ ultraschall.temp1,ultraschall.temp=reaper.get_action_context()
 ultraschall.temp=string.gsub(ultraschall.temp,"\\","/")
 ultraschall.temp1=reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua"
 ultraschall.temp1=string.gsub(ultraschall.temp1,"\\","/")
+
 if ultraschall.temp1 == ultraschall.temp then 
   local retval, string2 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
   string2=tonumber(string2)
