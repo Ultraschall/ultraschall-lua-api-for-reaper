@@ -5,10 +5,6 @@
     
     For 4.01.002:  
 	
-	ChangeLog: - SetRender_SaveCopyOfProject - got accidentally deleted, readded it now (thanks to aurelien)
-	
-	Docs: PingMe - second parameter is not documented as optional!!!
-	
 	How to get selection in category-list of Preferences?
 	Edgemeal's way:
 	
@@ -85,16 +81,10 @@ TVE_EXPAND = 0x2
 Main()
 Have fun!"
 	
-      TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
-                Needs first functions for activating Envelopes, but they don't exist, until they are displayed.
-                I might have to add non-activated envelopes by adding env-statechunks into TrackStateChunks.
-				
-    GetProjectLength - doesn't return the correct projectlength, if reaper.GetProjectLength()<recposition, as items in the state of being recorded don't count into it.
-                       in that case: when rec==true, anytrackarmed==true and Playposition>GetProjectLength, return the Editcursorposition instead.
-                       optional parameter needed, which allows toggling the old GetProjectLength and the new one with the recording management, to keep old scripts working
+
     GetProjectLength - should return the last envelope-point-position as well(how to do that for pooled items?)
     
-    GetSetMediaItemTake_Reverse - sets a MediaItemTake reversed/normal -> not existing in normal Reaper-API
+    SetMediaItemTake_Reverse - sets a MediaItemTake reversed/normal -> not existing in normal Reaper-API
     
     OpenURL muss noch url umwandeln auf Ansi Codepage 1252 auf Windows?. Also mit Bat-Datei arbeiten.
     
@@ -107,8 +97,6 @@ Have fun!"
     
     FX-Names with Reaper's own API-functions have three different types on Mac, for Studiolink On Air.
     I need functions, who take care of that in the API.
-    
-    GetAllMarkersBetween/GetAllRegionsBetween - if startposition/endposition==nil then start/endposition=0/GetProjectLength
 
     Add range before and after the position, so you can get markers, who aren't at the exact position
     Use GetAllMarkersBetween/GetAllRegionsBetween to get them.
@@ -196,7 +184,7 @@ Have fun!"
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
                       MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
-        - TODO!! Add/Set/DeleteModulation
+         - TODO!! Add/Set/DeleteModulation
          - TODO!! MB and GetUserInputs not working on Mac due unknown bug. 
                  Can't find ID of the buttons anymore. Changes in Reaper in recent versions?
          - TODO!! GetUserInputs - count doesn't match, if fewer inputboxes are filled than do exist.
@@ -238,16 +226,7 @@ Have fun!"
       TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
                                          something with ... ? Otherwise, new added parameters will break old scripts...
       TODO!!  - import/export Bonus-script-packs-functions(for importing and registering additional bonus scripts)
-      TODO!!  - Add3rdParty-Script-support/functions-support
-      TODO!!  - AddUltraschallScripts() AddUltraschall3rdPartyScripts() add all 3rd party-scripts from the 3rd-party-US-folder
-            also add scripts to do that, that will be registered into the ActionList together with the ShowUSApiHelp-script as well
-            Note: Should be a script, rather than a function. Easier to handle.
-      TODO!!  - Import3rdPartyScripts(string filelist, integer script_target, boolean add)
-              copies files from filelist into script_target
-              script_target - 0, scripts-folder
-                            - 1, ultraschall-3rd-party-scripts-folder
-                            --1, don't copy files
-              boolean add - true, add the scripts to the actionlist; false, remove them from the action-list
+
       TODO!!  - create HTML-docs from all files in the functions-department of Ultraschall/3rd-party-functions
       TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
                 - probably useless and tow slow
@@ -305,16 +284,21 @@ TODO!! buggy function
 ### 4.1.002 - "The Buzzcocks - Why can't I touch it"
 
 #### New features in 4.1.002
-   
+   - Take Management: GetTake_ReverseState - returns, if a take is reversed or not
    
 #### Changes from 4.1.001 to 4.1.002
    - GUI: Scythe - loads its libraries from UserPlugins\ultraschall_api\3rd_party_modules\Scythe\ now, so it shouldn't get in conflict with user's own installation of a Scythe-instance
    - Marker Management: CountNormalMarkers - optimized speed
+   - Marker Management: GetAllMarkersBetween - parameters can be nil now, allowing to be used for projectstart and projectend
+   - Marker Management: GetAllRegionsBetween - parameters can be nil now, allowing to be used for projectstart and projectend
    - Marker Management: EnumerateNormalMarkers - optimized speed
    - Marker Management: SetNormalMarker - optimized speed
    - Marker Management: DeleteNormalMarker - optimized speed
    - Marker Management: IsMarkerNormal - optimized speed
-   
+   - Mute Management: ToggleMute - sets now mute-envelope point regardless of env-recarm or automation-mode
+   - Mute Management: ToggleMute_TrackObject - sets now mute-envelope point regardless of env-recarm or automation-mode
+   - SetRender_SaveCopyOfProject - got accidentally deleted, readded it now (thanks to aurelien)
+
 ---
 
 ### 4.1.001 - "Radiohead - Spectre"

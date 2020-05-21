@@ -1046,6 +1046,8 @@ integer retval - -1 in case of error
   if OS=="OSX32" or OS=="OSX64" then
     os.execute("open ".. url)
   else
+	--reaper.BR_Win32_ShellExecute("open", url, "", "", 0)
+	--ACHWAS,ACHWAS2 = reaper.ExecProcess("%WINDIR\\SysWow64\\cmd.exe \"Ultraschall-URL\" /B ".. url, 0)
     os.execute("start \"Ultraschall-URL\" /B ".. url)
   end
   return true

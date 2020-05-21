@@ -57,7 +57,7 @@ function ultraschall.ToggleMute(track, position, state)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToggleMute</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -97,7 +97,14 @@ function ultraschall.ToggleMute(track, position, state)
   if MuteEnvelopeTrack==nil then ultraschall.AddErrorMessage("ToggleMute", "track", "track has no activated Mute-Lane.", -6) return -1 end
   
   -- insert mute-envelope-point
-  local C=reaper.InsertEnvelopePoint(MuteEnvelopeTrack, position, state, 1, 0, 0)
+  local ActionOffset=(track-1)*8
+  local Muteretval = ultraschall.GetArmState_Envelope(MuteEnvelopeTrack)
+  
+  if Muteretval==1 and reaper.GetPlayState()~=0 then
+    reaper.Main_OnCommand(22+ActionOffset,0)
+  else
+	local C=reaper.InsertEnvelopePoint(MuteEnvelopeTrack, position, state, 1, 0, 0)
+  end
   reaper.UpdateArrange()
   return 0
 end
@@ -107,7 +114,7 @@ function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToggleMute_TrackObject</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>

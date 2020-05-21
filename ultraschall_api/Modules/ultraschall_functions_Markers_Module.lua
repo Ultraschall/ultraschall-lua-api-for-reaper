@@ -2582,11 +2582,11 @@ function ultraschall.GetAllMarkersBetween(startposition, endposition)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllMarkersBetween</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer number_of_all_markers, array allmarkersarray = ultraschall.GetAllMarkersBetween(number startposition, number endposition)</functioncall>
+  <functioncall>integer number_of_all_markers, array allmarkersarray = ultraschall.GetAllMarkersBetween(optional number startposition, optional number endposition)</functioncall>
   <description>
     To get all Markers in the project(normal, edit, chapter), regardless of their category, between startposition and endposition.
     Doesn't return regions!
@@ -2607,8 +2607,8 @@ function ultraschall.GetAllMarkersBetween(startposition, endposition)
     array allmarkersarray  - an array, that holds all markers(not regions!) of the project
   </retvals>
   <parameters>
-    number startposition - the earliest position a returned marker may have
-    number endposition - the latest position a returned marker may have
+    optional number startposition - the earliest position a returned marker may have; nil for projectposition 0
+    optional number endposition - the latest position a returned marker may have; nil for end of project
   </parameters>
   <chapter_context>
     Markers
@@ -2619,8 +2619,10 @@ function ultraschall.GetAllMarkersBetween(startposition, endposition)
   <tags>markermanagement, marker, get, get all between, guid</tags>
 </US_DocBloc>
 --]]
-  if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllMarkersBetween","startposition", "Must be a number!", -1) return -1 end
-  if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllMarkersBetween","endposition", "Must be a number!", -2) return -1 end
+  if startposition~=nil and type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllMarkersBetween","startposition", "Must be a number!", -1) return -1 end
+  if endposition~=nil and type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllMarkersBetween","endposition", "Must be a number!", -2) return -1 end
+  if startposition==nil then startposition=0 end
+  if endposition==nil then endposition = ultraschall.GetProjectLength(false,false,false,true) end
   if endposition<startposition then ultraschall.AddErrorMessage("GetAllMarkersBetween","endposition", "Must be bigger than startposition!", -3) return -1 end
   if startposition<0 then ultraschall.AddErrorMessage("GetAllMarkersBetween","startposition", "Must be bigger or equal 0!", -4) return -1 end
   local A,B=ultraschall.GetAllMarkers()
@@ -2700,11 +2702,11 @@ function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllRegionsBetween</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer number_of_all_regions, array allregionsarray = ultraschall.GetAllRegionsBetween(number startposition, number endposition, boolean partial)</functioncall>
+  <functioncall>integer number_of_all_regions, array allregionsarray = ultraschall.GetAllRegionsBetween(optional number startposition, optional number endposition, optional boolean partial)</functioncall>
   <description>
     To get all Regions in the project(normal, edit, chapter), regardless of their category between start- and endposition.
     Set partial to true, if you want to get regions as well, that are only partially between start- and endposition
@@ -2727,9 +2729,9 @@ function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
     array regionsarray - an array, that holds all regions(not markers!) of the project
   </retvals>
   <parameters>
-    number startposition - the earliest position a returned region may have
-    number endposition - the latest position a returned region may have
-    boolean retval - true, to get regions that are partially within start and endposition as well; false, only regions completely within start/endposition.
+    optional number startposition - the earliest position a returned region may have; nil, startposition=0
+    optional number endposition - the latest position a returned region may have; nil, endposition=end of project
+    optional boolean retval - true or nil, to get regions that are partially within start and endposition as well; false, only regions completely within start/endposition.
   </parameters>
   <chapter_context>
     Markers
@@ -2740,12 +2742,16 @@ function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
   <tags>markermanagement, region, get, get all, guid</tags>
 </US_DocBloc>
 --]]
-  if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllRegionsBetween","startposition", "Must be a number!", -1) return -1 end
-  if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllRegionsBetween","endposition", "Must be a number!", -2) return -1 end
+  if startposition~=nil and type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllRegionsBetween","startposition", "Must be a number!", -1) return -1 end
+  if endposition~=nil and type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllRegionsBetween","endposition", "Must be a number!", -2) return -1 end
+  if startposition==nil then startposition=0 end
+  if endposition==nil then endposition = ultraschall.GetProjectLength(false,false,false,true) end
+
   if endposition<startposition then ultraschall.AddErrorMessage("GetAllRegionsBetween","endposition", "Must be bigger than startposition!", -3) return -1 end
   if startposition<0 then ultraschall.AddErrorMessage("GetAllRegionsBetween","startposition", "Must be bigger or equal 0!", -4) return -1 end
-  if type(partial)~="boolean" then ultraschall.AddErrorMessage("GetAllRegionsBetween","partial", "Must be boolean!", -4) return -1 end
-
+  if partial~=nil and type(partial)~="boolean" then ultraschall.AddErrorMessage("GetAllRegionsBetween","partial", "Must be boolean!", -4) return -1 end
+  if partial==nil then partial=true end
+  
   local A,B=ultraschall.GetAllRegions()
   for i=A, 1, -1 do
     if partial==false then

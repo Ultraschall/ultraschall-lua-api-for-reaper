@@ -1390,7 +1390,7 @@ function PingMe(message, outputtarget)
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>string pingmessage = PingMe(optional string message, integer outputtarget)</functioncall>
+  <functioncall>string pingmessage = PingMe(optional string message, optional integer outputtarget)</functioncall>
   <description>
     Shows the current script and line of script-execution, optionally with a message.
     
