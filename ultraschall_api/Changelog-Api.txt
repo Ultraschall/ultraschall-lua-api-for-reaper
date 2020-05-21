@@ -284,7 +284,7 @@ TODO!! buggy function
 ### 4.1.002 - "The Buzzcocks - Why can't I touch it"
 
 #### New features in 4.1.002
-   - Take Management: GetTake_ReverseState - returns, if a take is reversed or not
+   - Take Management: GetTake\_ReverseState - returns, if a take is reversed or not
    
 #### Changes from 4.1.001 to 4.1.002
    - GUI: Scythe - loads its libraries from UserPlugins\ultraschall_api\3rd_party_modules\Scythe\ now, so it shouldn't get in conflict with user's own installation of a Scythe-instance
@@ -296,7 +296,7 @@ TODO!! buggy function
    - Marker Management: DeleteNormalMarker - optimized speed
    - Marker Management: IsMarkerNormal - optimized speed
    - Mute Management: ToggleMute - sets now mute-envelope point regardless of env-recarm or automation-mode
-   - Mute Management: ToggleMute_TrackObject - sets now mute-envelope point regardless of env-recarm or automation-mode
+   - Mute Management: ToggleMute\_TrackObject - sets now mute-envelope point regardless of env-recarm or automation-mode
    - SetRender_SaveCopyOfProject - got accidentally deleted, readded it now (thanks to aurelien)
 
 ---
