@@ -1398,5 +1398,220 @@ function ultraschall.GetTake_ReverseState(MediaItem, takenumber)
   end
 end
 
+function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMidi, GroupedItems, PerTakeFX, Properties, AutomationEnvelopes)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemButtonsVisible</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+	SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetItemButtonsVisible(optional boolean Volume, optional integer Locked, optional integer Mute, optional integer Notes, optional boolean PooledMidi, optional boolean GroupedItems, optional integer PerTakeFX, optional integer Properties, optional integer AutomationEnvelopes)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    allows setting, which item-buttons shall be shown
+  
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting button was successful; false, buttons couldn't be set
+  </retvals>
+  <parameters>
+    optional boolean Volume - true, show the volume knob; false, don't show the volume knob; nil, keep current setting
+	optional integer Locked - sets state of locked/unlocked button
+							- nil, keep current state
+						    - 0, don't show lockstate button
+							- 1, show locked button only
+							- 2, show unlocked button only
+							- 3, show locked and unlocked button
+	optional integer Mute - sets state of mute/unmuted button
+							- nil, keep current state
+						    - 0, don't show mute button
+							- 1, show mute button only
+							- 2, show unmuted button only
+							- 3, show muted and unmuted button
+	optional integer Notes - sets state of itemnotes-button
+							- nil, keep current state
+						    - 0, don't show item-note button
+							- 1, show itemnote existing-button only
+							- 2, show no itemnote existing-button only
+							- 3, show itemnote existing and no itemnote existing-button
+	optional boolean PooledMidi - true, show the pooled midi-button; false, don't show the pooled midi-button; nil, keep current setting
+	optional boolean GroupedItems - true, show the grouped item-button; false, don't show the grouped item-button; nil, keep current setting
+	optional integer PerTakeFX - sets state of take fx-button
+							- nil, keep current state
+						    - 0, don't show take-fx button
+							- 1, show active take fx-button only
+							- 2, show non active take fx-button only
+							- 3, show active and nonactive take fx-button
+	optional integer Properties - show properties-button
+								- nil, keep current state
+								- 0, don't show item properties-button
+								- 1, show item properties-button
+								- 2, show item properties-button only if resampled media
+	optional integer AutomationEnvelopes - sets state of envelope-button
+										- nil, keep current state
+										- 0, don't show envelope-button
+										- 1, show active envelope-button only
+										- 2, show non active envelope-button only
+										- 3, show active and nonactive envelope-button
+  </parameters>
+  <chapter_context>
+    User Interface
+    MediaItems
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, set, media items, show, buttons</tags>
+</US_DocBloc>
+--]]
+  if type(Volume)~="boolean" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Volume", "must be a boolean" , -1) return false end
+  if math.type(Locked)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Locked", "must be an integer" , -2) return false end
+  if math.type(Mute)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Mute", "must be an integer" , -3) return false end
+  if math.type(Notes)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Notes", "must be an integer" , -4) return false end
+  
+  if type(PooledMidi)~="boolean" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "PooledMidi", "must be a boolean" , -5) return false end
+  if type(GroupedItems)~="boolean" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "GroupedItems", "must be a boolean" , -6) return false end
+  if math.type(PerTakeFX)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "PerTakeFX", "must be an integer" , -7) return false end
+  if math.type(Properties)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Properties", "must be an integer" , -8) return false end
+  if math.type(AutomationEnvelopes)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "AutomationEnvelopes", "must be an integer" , -9) return false end
+
+  local State = reaper.SNM_GetIntConfigVar("itemicons", -99)
+  if Locked~=nil then
+    if Locked&1==0 and State&1~=0 then State=State-1 elseif Locked&1~=0 and State&1==0 then State=State+1 end
+    if Locked&2==0 and State&2~=0 then State=State-2 elseif Locked&2~=0 and State&2==0 then State=State+2 end
+  end
+
+  if PerTakeFX~=nil then
+    if PerTakeFX&1==0 and State&4~=0 then State=State-4 elseif PerTakeFX&1~=0 and State&4==0 then State=State+4 end
+    if PerTakeFX&2==0 and State&8~=0 then State=State-8 elseif PerTakeFX&2~=0 and State&8==0 then State=State+8 end
+  end
+
+  if Mute~=nil then
+    if Mute&1==0 and State&16~=0 then State=State-16 elseif Mute&1~=0 and State&16==0 then State=State+16 end
+    if Mute&2==0 and State&32~=0 then State=State-32 elseif Mute&2~=0 and State&32==0 then State=State+32 end
+  end
+  
+  if Notes~=nil then
+    if Notes&1==0 and State&64~=0 then  State=State-64  elseif Notes&1~=0 and State&64 ==0 then State=State+64  end
+    if Notes&2==0 and State&128~=0 then State=State-128 elseif Notes&2~=0 and State&128==0 then State=State+128 end
+  end  
+  
+  if GroupedItems~=nil then
+    if GroupedItems==false and State&256~=0 then  State=State-256  elseif GroupedItems==true and State&256==0 then State=State+256  end
+  end  
+
+  if Properties~=nil then
+    if State&2048 == 2048 then State=State-2048 end
+    if State&4096 == 4096 then State=State-4096 end
+    if Properties==1 then State=State+2048
+    elseif Properties==0 then State=State+4096
+    end
+  end
+  
+  if PooledMidi~=nil then
+    if PooledMidi==true and State&8192~=0 then  State=State-8192  elseif PooledMidi==false and State&8192==0 then State=State+8192 end
+  end  
+
+  if Volume~=nil then
+    if Volume==false and State&16384~=0 then  State=State-16384  elseif Volume==true and State&16384==0 then State=State+16384 end
+  end  
+
+  if AutomationEnvelopes~=nil then
+    if AutomationEnvelopes&1==1 and State&262144~=0 then State=State-262144 elseif AutomationEnvelopes&1~=1 and State&262144==0 then State=State+262144 end
+    if AutomationEnvelopes&2==0 and State&524288~=0 then State=State+524288 elseif AutomationEnvelopes&2~=0 and State&524288==0 then State=State-524288 end
+  end  
+  
+  reaper.SNM_SetIntConfigVar("itemicons", State)
+  reaper.UpdateArrange()
+  return true
+end
+
+function ultraschall.GetItemButtonsVisible()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetItemButtonsVisible</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+	SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>boolean Volume, integer Locked, integer Mute, integer Notes, boolean PooledMidi, boolean GroupedItems, integer PerTakeFX, integer Properties, integer AutomationEnvelopes = ultraschall.GetItemButtonsVisible()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    gets, which item-buttons are be shown
+  </description>
+  <retvals>
+    boolean Volume - true, shows the volume knob; false, doesn't show the volume knob
+	integer Locked - gets visibility-state of locked/unlocked button
+						    - 0, doesn't show lockstate button
+							- 1, shows locked button only
+							- 2, shows unlocked button only
+							- 3, shows locked and unlocked button
+	integer Mute - gets visibility-state of mute/unmuted button
+						    - 0, doesn't show mute button
+							- 1, shows mute button only
+							- 2, shows unmuted button only
+							- 3, shows muted and unmuted button
+	integer Notes - gets visibility-state of itemnotes-button
+						    - 0, doesn't show item-note button
+							- 1, shows itemnote existing-button only
+							- 2, shows no itemnote existing-button only
+							- 3, shows itemnote existing and no itemnote existing-button
+	boolean PooledMidi - true, shows the pooled midi-button; false, don't show the pooled midi-button
+	boolean GroupedItems - true, shows the grouped item-button; false, don't show the grouped item-button
+	integer PerTakeFX - gets visibility-state of take fx-button
+						    - 0, doesn't show take-fx button
+							- 1, shows active take fx-button only
+							- 2, shows non active take fx-button only
+							- 3, shows active and nonactive take fx-button
+	integer Properties - gets visibility-state of properties-button
+								- 0, doesn't show item properties-button
+								- 1, shows item properties-button
+								- 2, shows item properties-button only if resampled media
+	integer AutomationEnvelopes - gets visibility-state of envelope-button
+										- 0, doesn't show envelope-button
+										- 1, shows active envelope-button only
+										- 2, shows non active envelope-button only
+										- 3, shows active and nonactive envelope-button
+  </retvals>
+  <chapter_context>
+    User Interface
+    MediaItems
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, media items, get, show, buttons</tags>
+</US_DocBloc>
+--]]
+  local State = reaper.SNM_GetIntConfigVar("itemicons", -99)
+  local Volume, Locked, Mute, Notes, PooledMidi, GroupedItems, PerTakeFX, Properties, AutomationEnvelopes=false,0,0,0,false,false,0,0,0
+  if State&1~=0 then Locked=Locked+1 end
+  if State&2~=0 then Locked=Locked+2 end
+  
+  if State&4~=0 then PerTakeFX=PerTakeFX+1 end
+  if State&8~=0 then PerTakeFX=PerTakeFX+2 end
+  
+  if State&16~=0 then Mute=Mute+1 end
+  if State&32~=0 then Mute=Mute+2 end
+  
+  if State&64 ~=0 then Notes=Notes+1 end
+  if State&128~=0 then Notes=Notes+2 end
+  
+  GroupedItems=State&256~=0
+  
+  if State&2048~=0 then Properties=Properties+1 
+  elseif State&4096==0 then Properties=Properties+2 end
+  
+  PooledMidi=State&8192==0
+  
+  Volume=State&16384==0
+  
+  if State&262144==0 then AutomationEnvelopes=AutomationEnvelopes+1 end
+  if State&524288~=0 then AutomationEnvelopes=AutomationEnvelopes+2 end  
+  
+  return Volume, Locked, Mute, Notes, PooledMidi, GroupedItems, PerTakeFX, Properties, AutomationEnvelopes
+end
 
 ultraschall.ShowLastErrorMessage()

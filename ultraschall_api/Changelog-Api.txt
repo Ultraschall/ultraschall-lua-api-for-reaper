@@ -285,6 +285,8 @@ TODO!! buggy function
 
 #### New features in 4.1.002
    - Take Management: GetTake\_ReverseState - returns, if a take is reversed or not
+   - User Interface: GetItemButtonsVisible - gets the individual item-buttons visible/invisible-state
+   - User Interface: SetItemButtonsVisible - sets the individual item-buttons visible/invisible
    
 #### Changes from 4.1.001 to 4.1.002
    - GUI: Scythe - loads its libraries from UserPlugins\ultraschall_api\3rd_party_modules\Scythe\ now, so it shouldn't get in conflict with user's own installation of a Scythe-instance
