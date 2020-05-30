@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43105.00" author="Meo Mespotine">
+      <version name="43112.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.002//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.002//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.002/ultraschall_api/Changelog-Api.txt</source>
@@ -473,6 +473,7 @@ New features in 4.1.002
 
 Changes from 4.1.001 to 4.1.002
 
+-   Docs: Reaper internals - updated to Reaper 6.11 and SWS 2.11.0
 -   GUI: Scythe - loads its libraries from
     UserPlugins_api\3rd_party_modules now, so it shouldn’t get in
     conflict with user’s own installation of a Scythe-instance
@@ -488,7 +489,15 @@ Changes from 4.1.001 to 4.1.002
 -   Mute Management: ToggleMute - sets now mute-envelope point
     regardless of env-recarm or automation-mode
 -   Mute Management: ToggleMute_TrackObject - sets now mute-envelope
-    point regardless of env-recarm or automation-mode
+    point regardless of env-recarm or automation-mode; fixed bugs with
+    selected regions not recognized(thanks to aurelien)
+-   Project Files: GetProject_MarkersAndRegions - supports now returning
+    regions-states of selected and region render-matrix; fixed bugs with
+    selected regions not recognized(thanks to aurelien)
+-   Render: ApplyRenderTable_Project - had problem, when applied twice
+    in a script -> fixed(thanks to aurelien)
+-   Render: ApplyRenderTable_ProjectFile - had problem, when applied
+    twice in a script -> fixed(thanks to aurelien)
 -   SetRender_SaveCopyOfProject - got accidentally deleted, readded it
     now (thanks to aurelien)
 
@@ -6084,7 +6093,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1142 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43105 from 27.05.2020 05:20:40).}
+a 1142 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43112 from 31.05.2020 01:55:34).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6222,7 +6231,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1142 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43105 from 27.05.2020 05:20:40).}
+a 1142 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43112 from 31.05.2020 01:55:34).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

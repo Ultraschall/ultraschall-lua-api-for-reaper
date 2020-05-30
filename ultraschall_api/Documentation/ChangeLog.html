@@ -49,6 +49,7 @@ Ultraschall API Changelog
 </ul>
 <h4>Changes from 4.1.001 to 4.1.002</h4>
 <ul>
+<li>Docs: Reaper internals - updated to Reaper 6.11 and SWS 2.11.0</li>
 <li>GUI: Scythe - loads its libraries from UserPlugins\ultraschall<em>api\3rd</em>party_modules\Scythe\ now, so it shouldn't get in conflict with user's own installation of a Scythe-instance</li>
 <li>Marker Management: CountNormalMarkers - optimized speed</li>
 <li>Marker Management: GetAllMarkersBetween - parameters can be nil now, allowing to be used for projectstart and projectend</li>
@@ -58,7 +59,10 @@ Ultraschall API Changelog
 <li>Marker Management: DeleteNormalMarker - optimized speed</li>
 <li>Marker Management: IsMarkerNormal - optimized speed</li>
 <li>Mute Management: ToggleMute - sets now mute-envelope point regardless of env-recarm or automation-mode</li>
-<li>Mute Management: ToggleMute_TrackObject - sets now mute-envelope point regardless of env-recarm or automation-mode</li>
+<li>Mute Management: ToggleMute_TrackObject - sets now mute-envelope point regardless of env-recarm or automation-mode; fixed bugs with selected regions not recognized(thanks to aurelien)</li>
+<li>Project Files: GetProject_MarkersAndRegions - supports now returning regions-states of selected and region render-matrix; fixed bugs with selected regions not recognized(thanks to aurelien)</li>
+<li>Render: ApplyRenderTable_Project - had problem, when applied twice in a script -&gt; fixed(thanks to aurelien)</li>
+<li>Render: ApplyRenderTable_ProjectFile - had problem, when applied twice in a script -&gt; fixed(thanks to aurelien)</li>
 <li>SetRender_SaveCopyOfProject - got accidentally deleted, readded it now (thanks to aurelien)</li>
 </ul>
 <hr />

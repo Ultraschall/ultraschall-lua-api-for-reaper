@@ -2854,6 +2854,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   <tags>projectfiles, set, project, rendertable</tags>
 </US_DocBloc>
 ]]
+	
   if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderTable_Project", "RenderTable", "not a valid RenderTable", -1) return false end
   if apply_rendercfg_string~=nil and type(apply_rendercfg_string)~="boolean" then ultraschall.AddErrorMessage("ApplyRenderTable_Project", "apply_rendercfg_string", "must be boolean", -2) return false end
   local _temp, retval, hwnd, AddToProj, ProjectSampleRateFXProcessing, ReaProject, SaveCopyOfProject, retval
@@ -2870,11 +2871,12 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
 	if RenderTable["Source"]&1024~=0 then RenderTable["Source"]=RenderTable["Source"]-1024 end
   end
   
-  if RenderTable["MultiChannelFiles"]==true then RenderTable["Source"]=RenderTable["Source"]+4 end
-  if RenderTable["OnlyMonoMedia"]==false then RenderTable["Source"]=RenderTable["Source"]+16 end
+  if RenderTable["MultiChannelFiles"]==true and RenderTable["Source"]&4~=0 then RenderTable["Source"]=RenderTable["Source"]+4 end
+  if RenderTable["OnlyMonoMedia"]==false and RenderTable["Source"]&16~=0 then RenderTable["Source"]=RenderTable["Source"]+16 end
+  
   reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", RenderTable["Source"], true)
-
   reaper.GetSetProjectInfo(ReaProject, "RENDER_BOUNDSFLAG", RenderTable["Bounds"], true)
+  
   reaper.GetSetProjectInfo(ReaProject, "RENDER_CHANNELS", RenderTable["Channels"], true)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_SRATE", RenderTable["SampleRate"], true)
   
@@ -3016,8 +3018,9 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
   
   
   
-  if RenderTable["MultiChannelFiles"]==true then RenderTable["Source"]=RenderTable["Source"]+4 end
-  if RenderTable["OnlyMonoMedia"]==true then RenderTable["Source"]=RenderTable["Source"]+16 end
+  if RenderTable["MultiChannelFiles"]==true and RenderTable["Source"]&4~=0 then RenderTable["Source"]=RenderTable["Source"]+4 end
+  if RenderTable["OnlyMonoMedia"]==false and RenderTable["Source"]&16~=0 then RenderTable["Source"]=RenderTable["Source"]+16 end
+  
   if RenderTable["EmbedStretchMarkers"]==true then 
     if RenderTable["Source"]&256==0 then 
        RenderTable["Source"]=RenderTable["Source"]+256
@@ -4438,6 +4441,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
   <tags>projectfiles, render, output, file, rendertable</tags>
 </US_DocBloc>
 ]]
+--MESPOTINE
   if RenderTable~=nil and ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("RenderProject_RenderTable", "RenderTable", "must be a valid RenderTable", -1) return -1 end
   if AddToProj~=nil and type(AddToProj)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "AddToProj", "must be nil or boolean", -10) return -1 end
   if CloseAfterRender~=nil and type(CloseAfterRender)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "CloseAfterRender", "must be nil or boolean", -11) return -1 end
@@ -4484,7 +4488,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     -- get the current settings as rendertable and apply the RenderTable the user passed to us
     local OldRenderTable=ultraschall.GetRenderTable_Project()
     ultraschall.ApplyRenderTable_Project(RenderTable, true) -- here the bug happens(Which bug, Meo? Which Bug? Forgot about me, Meo? - Yours sincerely Meo)
-    ultraschall.ShowLastErrorMessage()
+    --ultraschall.ShowLastErrorMessage()
     
     -- change back the entries in RenderTable so the user does not have my temporary changes in it
     RenderTable["RenderPattern"]=RenderPattern

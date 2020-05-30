@@ -10904,12 +10904,12 @@
             Returns a localized version of src_string, in section section. flags can have 1 set to only localize if sprintf-style formatting matches the original.
         </description>
         <retvals>
-            string retval - 
+            string retval - the localized string or the original string, if no localized string is available
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            string src_string - 
-			string section - 
-			integer flags - 
+            string src_string - the string, which you want to be translated
+			string section - the section in the ReaperLangPack-file, in which the string to localize is located
+			integer flags - 1, set to only localize if sprintf-style formatting matches the original
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21109,13 +21109,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>BR_EnvGetProperties</slug>
         <title>BR_EnvGetProperties(SWS)</title>
-        <functioncall prog_lang="cpp">void BR_EnvGetProperties(BR_Envelope* envelope, bool* activeOut, bool* visibleOut, bool* armedOut, bool* inLaneOut, int* laneHeightOut, int* defaultShapeOut, double* minValueOut, double* maxValueOut, double* centerValueOut, int* typeOut, bool* faderScalingOut)</functioncall>
-        <functioncall prog_lang="eel">extension_api("BR_EnvGetProperties", BR_Envelope envelope, bool &amp;active, bool &amp;visible, bool &amp;armed, bool &amp;inLane, int &amp;laneHeight, int &amp;defaultShape, &amp;minValue, &amp;maxValue, &amp;centerValue, int &amp;type, bool &amp;faderScaling)</functioncall>
-        <functioncall prog_lang="lua">boolean active retval, boolean visible, boolean armed, boolean inLane, number laneHeight, number defaultShape, number minValue, number maxValue, number centerValue, number type, boolean faderScaling = reaper.BR_EnvGetProperties(BR_Envelope envelope)</functioncall>
-        <functioncall prog_lang="python">(BR_Envelope envelope, Boolean activeOut, Boolean visibleOut, Boolean armedOut, Boolean inLaneOut, Int laneHeightOut, Int defaultShapeOut, Float minValueOut, Float maxValueOut, Float centerValueOut, Int typeOut, Boolean faderScalingOut) = BR_EnvGetProperties(envelope, activeOut, visibleOut, armedOut, inLaneOut, laneHeightOut, defaultShapeOut, minValueOut, maxValueOut, centerValueOut, typeOut, faderScalingOut)</functioncall>
+        <functioncall prog_lang="cpp">void BR_EnvGetProperties(BR_Envelope* envelope, bool* activeOut, bool* visibleOut, bool* armedOut, bool* inLaneOut, int* laneHeightOut, int* defaultShapeOut, double* minValueOut, double* maxValueOut, double* centerValueOut, int* typeOut, bool* faderScalingOut, int* automationItemsOptionsOutOptional)</functioncall>
+        <functioncall prog_lang="eel">extension_api("BR_EnvGetProperties", BR_Envelope envelope, bool &active, bool &visible, bool &armed, bool &inLane, int &laneHeight, int &defaultShape, &minValue, &maxValue, &centerValue, int &type, bool &faderScaling, optional int &automationItemsOptions)</functioncall>
+        <functioncall prog_lang="lua">boolean active, boolean visible, boolean armed, boolean inLane, number laneHeight, number defaultShape, number minValue, number maxValue, number centerValue, number type, boolean faderScaling, optional number automationItemsOptions = reaper.BR_EnvGetProperties(BR_Envelope envelope)</functioncall>
+        <functioncall prog_lang="python">(BR_Envelope envelope, Boolean activeOut, Boolean visibleOut, Boolean armedOut, Boolean inLaneOut, Int laneHeightOut, Int defaultShapeOut, Float minValueOut, Float maxValueOut, Float centerValueOut, Int typeOut, Boolean faderScalingOut, Int automationItemsOptionsOutOptional) = BR_EnvGetProperties(envelope, activeOut, visibleOut, armedOut, inLaneOut, laneHeightOut, defaultShapeOut, minValueOut, maxValueOut, centerValueOut, typeOut, faderScalingOut, automationItemsOptionsOutOptional)</functioncall>
         <requires>
             Reaper=5.62
-            SWS=2.9.7
+            SWS=2.11.0
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -21131,6 +21131,7 @@
             maxValue: maximum envelope value
             type: envelope type: 0-&gt;Volume, 1-&gt;Volume (Pre-FX), 2-&gt;Pan, 3-&gt;Pan (Pre-FX), 4-&gt;Width, 5-&gt;Width (Pre-FX), 6-&gt;Mute, 7-&gt;Pitch, 8-&gt;Playrate, 9-&gt;Tempo map, 10-&gt;Parameter
             faderScaling: true if envelope uses fader scaling
+			automationItemsOptions: -1-&gt;project default, &amp;1=0-&gt;don't attach to underl. env., &amp;1-&gt;attach to underl. env. on right side, &amp;2-&gt;attach to underl. env. on both sides, &amp;4: bypass underl. env.
         </description>
         <retvals>
             active retval - 
@@ -21195,17 +21196,18 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>BR_EnvSetProperties</slug>
         <title>BR_EnvSetProperties(SWS)</title>
-        <functioncall prog_lang="cpp">void BR_EnvSetProperties(BR_Envelope* envelope, bool active, bool visible, bool armed, bool inLane, int laneHeight, int defaultShape, bool faderScaling)</functioncall>
-        <functioncall prog_lang="eel">extension_api("BR_EnvSetProperties", BR_Envelope envelope, bool active, bool visible, bool armed, bool inLane, int laneHeight, int defaultShape, bool faderScaling)</functioncall>
-        <functioncall prog_lang="lua">reaper.BR_EnvSetProperties(BR_Envelope envelope, boolean active, boolean visible, boolean armed, boolean inLane, integer laneHeight, integer defaultShape, boolean faderScaling)</functioncall>
-        <functioncall prog_lang="python">BR_EnvSetProperties(BR_Envelope envelope, Boolean active, Boolean visible, Boolean armed, Boolean inLane, Int laneHeight, Int defaultShape, Boolean faderScaling)</functioncall>
+        <functioncall prog_lang="cpp">void BR_EnvSetProperties(BR_Envelope* envelope, bool active, bool visible, bool armed, bool inLane, int laneHeight, int defaultShape, bool faderScaling, int* automationItemsOptionsInOptional)</functioncall>
+        <functioncall prog_lang="eel">extension_api("BR_EnvSetProperties", BR_Envelope envelope, bool active, bool visible, bool armed, bool inLane, int laneHeight, int defaultShape, bool faderScaling, optional int automationItemsOptionsIn)</functioncall>
+        <functioncall prog_lang="lua"> reaper.BR_EnvSetProperties(BR_Envelope envelope, boolean active, boolean visible, boolean armed, boolean inLane, integer laneHeight, integer defaultShape, boolean faderScaling, optional number automationItemsOptionsIn)</functioncall>
+        <functioncall prog_lang="python">(BR_Envelope envelope, Boolean active, Boolean visible, Boolean armed, Boolean inLane, Int laneHeight, Int defaultShape, Boolean faderScaling, Int automationItemsOptionsInOptional) = BR_EnvSetProperties(envelope, active, visible, armed, inLane, laneHeight, defaultShape, faderScaling, automationItemsOptionsInOptional)</functioncall>
         <requires>
-            Reaper=5.62
-            SWS=2.9.7
+            Reaper=5.979
+            SWS=2.11.0
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Set envelope properties for the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc). For parameter description see [BR_EnvGetProperties](#BR_EnvGetProperties).
+			Setting automationItemsOptions requires REAPER 5.979+.
         </description>
         <parameters>
             envelope - 
@@ -21435,11 +21437,11 @@
         <functioncall prog_lang="python">(Boolean retval, MediaItem item, String imageOut, Int imageOut_sz, Int imageFlagsOut) = BR_GetMediaItemImageResource(item, imageOut, imageOut_sz, imageFlagsOut)</functioncall>
         <requires>
             Reaper=5.62
-            SWS=2.9.7
+            SWS=2.11.0
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get currently loaded image resource and it's flags for a given item. Returns false if there is no image resource set. To set image resource, see [BR_SetMediaItemImageResource](#BR_SetMediaItemImageResource).
+            \[BR\] Get currently loaded image resource and its flags for a given item. Returns false if there is no image resource set. To set image resource, see [BR\_SetMediaItemImageResource](#BR_SetMediaItemImageResource).
         </description>
         <retvals>
             retval - 
@@ -22443,12 +22445,14 @@
         <functioncall prog_lang="lua">reaper.BR_SetMediaItemImageResource(MediaItem item, string imageIn, integer imageFlags)</functioncall>
         <functioncall prog_lang="python">BR_SetMediaItemImageResource(MediaItem item, String imageIn, Int imageFlags)</functioncall>
         <requires>
-            Reaper=5.62
-            SWS=2.9.7
+            Reaper=5.974
+            SWS=2.11.0
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Set image resource and it's flags for a given item. To clear current image resource, pass imageIn as . To get image resource, see [BR_GetMediaItemImageResource](#BR_GetMediaItemImageResource).
+            \[BR\] Set image resource and its flags for a given item. To clear current image resource, pass imageIn as "".
+			imageFlags: &amp;1=0: don't display image, &amp;1: center / tile, &amp;3: stretch, &amp;5: full height (REAPER 5.974+).
+			To get image resource, see [BR\_GetMediaItemImageResource](#BR_GetMediaItemImageResource).
         </description>
         <parameters>
             item - 
@@ -22825,21 +22829,25 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>CF_GetClipboard</slug>
         <title>CF_GetClipboard(SWS)</title>
-        <functioncall prog_lang="cpp">void CF_GetClipboard(char* buf, int buf_sz)</functioncall>
-        <functioncall prog_lang="eel">extension_api("CF_GetClipboard", #buf)</functioncall>
-        <functioncall prog_lang="lua">string buf = reaper.CF_GetClipboard(string buf)</functioncall>
-        <functioncall prog_lang="python">(String buf, Int buf_sz) = CF_GetClipboard(buf, buf_sz)</functioncall>
+        <functioncall prog_lang="cpp">void CF_GetClipboard(char* bufNeedBig, int buf_sz)</functioncall>
+        <functioncall prog_lang="eel">extension_api("CF_GetClipboard", #buf, int buf_sz)</functioncall>
+        <functioncall prog_lang="lua">string buf = reaper.CF_GetClipboard(string buf, integer buf_sz)</functioncall>
+        <functioncall prog_lang="python">(String bufNeedBig, Int buf_sz) = CF_GetClipboard(bufNeedBig, buf_sz)</functioncall>
         <requires>
-            Reaper=5.62
-            SWS=2.9.7
+            Reaper=5.979
+            SWS=2.11.0
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Read the contents of the system clipboard (limited to 1023 characters in Lua).
+            Read the contents of the system clipboard.
         </description>
         <retvals>
-            buf - the content of the clipboard
+            string buf - the content of the clipboard
         </retvals>
+		<parameters>
+		    string buf - just pass "" in here
+			integer buf_sz - the number of characters you want to get from the clipboard
+		</parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -22857,11 +22865,11 @@
         <functioncall prog_lang="python">String CF_GetClipboardBig(WDL_FastString output)</functioncall>
         <requires>
             Reaper=5.62
-            SWS=2.9.7
+            SWS=2.11.0
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Read the contents of the system clipboard. See [SNM_CreateFastString](#SNM_CreateFastString) and [SNM_DeleteFastString](#SNM_DeleteFastString).
+            \[DEPRECATED: Use [CF_GetClipboard](#CF_GetClipboard)\] Read the contents of the system clipboard. See [SNM_CreateFastString](#SNM_CreateFastString) and [SNM_DeleteFastString](#SNM_DeleteFastString).
         </description>
         <retvals>
             string - the content of the clipboard
@@ -31601,7 +31609,7 @@
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
-            Audio Management
+            MetaData Management
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
@@ -31989,6 +31997,38 @@
         <tags></tags>
     </US_DocBloc>
     
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_ReadID3v2Tag</slug>
+        <title>NF_ReadID3v2Tag(SWS)</title>
+        <functioncall prog_lang="cpp">bool NF_ReadID3v2Tag(const char* fn, const char* tag, char* tagval, int tagval_sz)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_ReadID3v2Tag", "fn", "tag", #tagval)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string tagval = reaper.NF_ReadID3v2Tag(string fn, string tag, string tagval)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, String fn, String tag, String tagval, Int tagval_sz) = NF_ReadID3v2Tag(fn, tag, tagval, tagval_sz)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.11.0
+            Lua=5.3
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Reads an ID3v2 tag ('text information frame'), works with mp3 only. Supported tags e.g.: "TBPM" (BPM), "TCOP" (Copyright). For other possibly supported tags see [id3v2.4.0-frames.txt](http://id3.org/id3v2.4.0-frames) Returns false if tag was not found.
+        </description>
+        <retvals>
+            boolean retval - true, requested tag exists in the file; false, requested tag does not exist in the file
+			string tagval - the value of the tag
+        </retvals>
+        <parameters>
+            string fn - the filename with path of the mp3-file, whose tag-value you want to request
+			string tag - the tag, which you want to retrieve, like TIT2(Title), TPE1(Artist), TPE2(Albumartist), TALB(Album), TRCK(Track), TCON(Genre), TYER(Year), TDRC(Recording time: YYYY-MM-DD), TKEY(Key), TBPM(Tempo), TSRC(International Standard Recording Code), COMM(Comment), COMM_LANG(Comment language, etc
+			string tagval - just pass "" in here
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            MetaData Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>NF_SetSWSMarkerRegionSub</slug>
@@ -32051,7 +32091,42 @@
         <tags></tags>
     </US_DocBloc>
     
-    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_TakeFX_GetModuleName</slug>
+        <title>NF_TakeFX_GetModuleName(SWS)</title>
+        <functioncall prog_lang="cpp">bool NF_TakeFX_GetModuleName(MediaItem* item, int fx, char* nameOut, int nameOutSz)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_TakeFX_GetModuleName", MediaItem item, int fx, # name, int name)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string name = reaper.NF_TakeFX_GetModuleName(MediaItem item, integer fx)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, MediaItem item, Int fx, String nameOut, Int nameOutSz) = NF_TakeFX_GetModuleName(item, fx, nameOut, nameOutSz)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.11.0
+            Lua=5.3
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+			Deprecated.
+			Retrieves the name of the module of a takefx from a MediaItem.
+			
+            See [BR\_TrackFX\_GetFXModuleName](#BR_TrackFX_GetFXModuleName). fx: counted consecutively across all takes (zero-based).
+        </description>
+        <retvals>
+            boolean retval - true, modulename could be retrieved; false, modulename couldn't be retrieved(e.g. no such fx)
+			string name - the name of the module
+        </retvals>
+        <parameters>
+            MediaItem item - the MediaItem, whose modulename of an effect you want to receive
+			integer fx - the index of the fx(with 0 for the first), whose modulename you want to receive
+			string name - just pass "" to it
+			integer buf_sz - the number of characters you want to retrieve for the module-name
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            MetaData Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+	
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>NF_UpdateSWSMarkerRegionSubWindow</slug>
         <title>NF_UpdateSWSMarkerRegionSubWindow(SWS)</title>
