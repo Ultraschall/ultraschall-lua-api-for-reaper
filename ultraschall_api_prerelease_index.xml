@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43120.00" author="Meo Mespotine">
+      <version name="43122.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.002//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.002//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.002/ultraschall_api/Changelog-Api.txt</source>
@@ -474,10 +474,26 @@ New features in 4.1.002
 -   Benchmarking: Benchmark_GetAllStartTimesAndSlots - returns the
     starttimes of all current benchmark-measuring-slots as a handy
     table(index=slot number)
+-   Envelope Management: SetEnvelopeState_Vis - sets the
+    visibility-state of an envelope
+-   Mute Management: ActivateMute - activates a mute-envelope of a track
+-   Mute Management: ActivateMute_TrackObject - activates a
+    mute-envelope of a track
+-   Mute Management: DeactivateMute - deactivates a mute-envelope of a
+    track
+-   Mute Management: DeactivateMute_TrackObject - deactivates a
+    mute-envelope of a track
 -   Take Management: GetTake_ReverseState - returns, if a take is
     reversed or not
 -   User Interface: GetItemButtonsVisible - gets the individual
     item-buttons visible/invisible-state
+-   User Interface: GetPreventUIRefreshCount - the number of times you
+    need to restore UI-refresh
+-   User Interface: PreventUIRefresh - prevents refreshing of the
+    user-interface, more solid, than Reaper’s own
+    PreventUIRefresh-function
+-   User Interface: RestoreUIRefresh - restores a prevented
+    UI-refreshing
 -   User Interface: SetItemButtonsVisible - sets the individual
     item-buttons visible/invisible
 
@@ -504,6 +520,15 @@ Changes from 4.1.001 to 4.1.002
 -   Marker Management: SetNormalMarker - optimized speed
 -   Marker Management: DeleteNormalMarker - optimized speed
 -   Marker Management: IsMarkerNormal - optimized speed
+-   Mute Management: GetNextMuteState - returns now the mutestate, even
+    if no mute-envelope is active
+-   Mute Management: GetNextMuteState_TrackObject - returns now the
+    mutestate, even if no mute-envelope is active
+-   Mute Management: GetPreviousMuteState - returns now the mutestate,
+    even if no mute-envelope is active
+-   Mute Management: GetPreviousMuteState_TrackObject - returns now the
+    mutestate, even if no mute-envelope is active; didn’t return envIDX
+    correctly -> fixed
 -   Mute Management: ToggleMute - sets now mute-envelope point
     regardless of env-recarm or automation-mode
 -   Mute Management: ToggleMute_TrackObject - sets now mute-envelope
@@ -6111,7 +6136,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1143 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43120 from 31.05.2020 23:20:01).}
+a 1151 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43122 from 02.06.2020 07:57:02).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6125,7 +6150,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1143 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1151 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -6249,7 +6274,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1143 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43120 from 31.05.2020 23:20:01).}
+a 1151 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43122 from 02.06.2020 07:57:02).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6263,7 +6288,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1143 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1151 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

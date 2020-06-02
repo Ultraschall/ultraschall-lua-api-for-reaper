@@ -5,6 +5,13 @@
     
     For 4.01.002:  
 	
+    -- GetHWOuts um herauszufinden, wieviele HWOuts das aktuelle Device hat. Es muss vermutlich aus der reaper.ini ausgelesen werden oder aus der reaper-hwouts.ini
+    
+    -- ToggleMute(_Object): state=2 toggelt relativ zum derzeitigen Mute-State, so dass man nicht erst extra den letzten state heraussuchen muss.
+				--Bugfixes!! NOCHMAL INTENSIVST TESTEN!!! 
+				-- RecArm on+Mute Button im TCP drücken toggelt nicht sauber. Man kann da den Track gemutet haben, auch wenn die MuteSpur auf unmuted steht. Da vielleicht den Mute-Button wieder auf unmuted stellen, wenn man unmuted macht?
+				state=2 kann vermutlich nicht so ohne Weiteres umgesetzt werden. Wär aber auch nicht schlimm.
+    
 	How to get selection in category-list of Preferences?
 	Edgemeal's way:
 	
@@ -285,8 +292,16 @@ TODO: Wie bekomme ich es hin, die Color für die MarkerFunktionen mit SpeedImpro
 
 #### New features in 4.1.002
    - Benchmarking: Benchmark\_GetAllStartTimesAndSlots - returns the starttimes of all current benchmark-measuring-slots as a handy table(index=slot number)
+   - Envelope Management: SetEnvelopeState\_Vis - sets the visibility-state of an envelope
+   - Mute Management: ActivateMute - activates a mute-envelope of a track
+   - Mute Management: ActivateMute\_TrackObject - activates a mute-envelope of a track
+   - Mute Management: DeactivateMute - deactivates a mute-envelope of a track
+   - Mute Management: DeactivateMute\_TrackObject - deactivates a mute-envelope of a track
    - Take Management: GetTake\_ReverseState - returns, if a take is reversed or not
    - User Interface: GetItemButtonsVisible - gets the individual item-buttons visible/invisible-state
+   - User Interface: GetPreventUIRefreshCount - the number of times you need to restore UI-refresh
+   - User Interface: PreventUIRefresh - prevents refreshing of the user-interface, more solid, than Reaper's own PreventUIRefresh-function
+   - User Interface: RestoreUIRefresh - restores a prevented UI-refreshing
    - User Interface: SetItemButtonsVisible - sets the individual item-buttons visible/invisible
    
 #### Changes from 4.1.001 to 4.1.002
@@ -301,6 +316,10 @@ TODO: Wie bekomme ich es hin, die Color für die MarkerFunktionen mit SpeedImpro
    - Marker Management: SetNormalMarker - optimized speed
    - Marker Management: DeleteNormalMarker - optimized speed
    - Marker Management: IsMarkerNormal - optimized speed
+   - Mute Management: GetNextMuteState - returns now the mutestate, even if no mute-envelope is active
+   - Mute Management: GetNextMuteState\_TrackObject - returns now the mutestate, even if no mute-envelope is active
+   - Mute Management: GetPreviousMuteState - returns now the mutestate, even if no mute-envelope is active
+   - Mute Management: GetPreviousMuteState\_TrackObject - returns now the mutestate, even if no mute-envelope is active; didn't return envIDX correctly -> fixed
    - Mute Management: ToggleMute - sets now mute-envelope point regardless of env-recarm or automation-mode
    - Mute Management: ToggleMute\_TrackObject - sets now mute-envelope point regardless of env-recarm or automation-mode; fixed bugs with selected regions not recognized(thanks to aurelien)
    - Project Files: GetProject\_MarkersAndRegions - supports now returning regions-states of selected and region render-matrix; fixed bugs with selected regions not recognized(thanks to aurelien)

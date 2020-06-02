@@ -89,7 +89,11 @@ function ultraschall.ToggleMute(track, position, state)
   if track<1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("ToggleMute", "track", "no such track.", -2) return -1 end
   if type(position)~="number" or tonumber(position)<0 then ultraschall.AddErrorMessage("ToggleMute", "position", "no such position.", -3) return -1 end
   if type(state)~="number" or tonumber(state)<0 or tonumber(state)>1 then ultraschall.AddErrorMessage("ToggleMute", "state", "only 0 and 1 allowed.", -4) return -1 end
-  
+
+  ultraschall.SuppressErrorMessages(true)
+  ultraschall.ActivateMute(track)
+  ultraschall.SuppressErrorMessages(false)
+
   -- prepare parameters
   local Track=reaper.GetTrack(0, track-1)
   if Track==nil then ultraschall.AddErrorMessage("ToggleMute", "track", "no such track.", -5) return -1 end
@@ -98,12 +102,19 @@ function ultraschall.ToggleMute(track, position, state)
   
   -- insert mute-envelope-point
   local ActionOffset=(track-1)*8
-  local Muteretval = ultraschall.GetArmState_Envelope(MuteEnvelopeTrack)
+  local ArmState = ultraschall.GetArmState_Envelope(MuteEnvelopeTrack)
+  local MuteState1, MuteState2=ultraschall.GetPreviousMuteState_TrackObject(reaper.GetTrack(0,track-1), reaper.GetPlayPosition())
+  local Automationmode=reaper.GetMediaTrackInfo_Value(Track, "I_AUTOMODE")
   
-  if Muteretval==1 and reaper.GetPlayState()~=0 then
+  -- set envelope-point
+  if ArmState==1 and Automationmode==3 and reaper.GetPlayState()~=0 and MuteState2~=state then
     reaper.Main_OnCommand(22+ActionOffset,0)
-  else
+  --elseif ArmState==0 and Automationmode==3 and reaper.GetPlayState()~=0 and MuteState2~=state then
+    --reaper.Main_OnCommand(22+ActionOffset,0)
+	--print2(66)
+  elseif MuteState2~=state then
 	local C=reaper.InsertEnvelopePoint(MuteEnvelopeTrack, position, state, 1, 0, 0)
+	reaper.Envelope_SortPoints(MuteEnvelopeTrack)
   end
   reaper.UpdateArrange()
   return 0
@@ -155,9 +166,7 @@ function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
   local itworked=-1
   
   -- include envelope-points into the mute-envelope of the track
-  local MuteEnvelopeTrack=reaper.GetTrackEnvelopeByName(trackobject, "Mute")
-  if MuteEnvelopeTrack==nil then ultraschall.AddErrorMessage("ToggleMute_TrackObject", "track", "track has no activated Mute-Lane.", -5) return -1 end
-  local C=reaper.InsertEnvelopePoint(MuteEnvelopeTrack, position, state, 1, 0, 0)
+  ultraschall.ToggleMute(math.tointeger(reaper.GetMediaTrackInfo_Value(trackobject, "IP_TRACKNUMBER")), position, state)
 
   return 0
 end
@@ -201,7 +210,7 @@ function ultraschall.GetNextMuteState(track, position)
   if type(position)~="number" then ultraschall.AddErrorMessage("GetNextMuteState", "position", "must be a number.", -2) return -1 end
   
   -- prepare variables
-  local retval, time, value, shape, tension, selected 
+  local retval, time1, value, shape, tension, selected 
   local MediaTrack=reaper.GetTrack(0, track-1)
   if MediaTrack==nil then ultraschall.AddErrorMessage("GetNextMuteState", "track", "no such track.", -3) return -1 end
   local TrackEnvelope=reaper.GetTrackEnvelopeByName(MediaTrack, "Mute")
@@ -209,11 +218,11 @@ function ultraschall.GetNextMuteState(track, position)
   
   -- get the next envelope-point from position
   local Ainteger=reaper.GetEnvelopePointByTime(TrackEnvelope, position) -- get the "prior" marker
-  if Ainteger==-1 then retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, 0) Ainteger=-1
-  else retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, Ainteger+1) -- get the marker "prior+1"
+  if Ainteger==-1 then retval, time1, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, 0) Ainteger=-1
+  else retval, time1, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, Ainteger+1) -- get the marker "prior+1"
   end
   if Ainteger+1>reaper.CountEnvelopePoints(TrackEnvelope)-1 then ultraschall.AddErrorMessage("GetNextMuteState", "", "no next mute-envelope-point available", -5) return -1 end
-  return Ainteger+1, value, time
+  return Ainteger+1, value, time1
 end
 
 
@@ -263,8 +272,8 @@ function ultraschall.GetPreviousMuteState(track, position)
   -- find previous mute-state
   local Ainteger=reaper.GetEnvelopePointByTime(TrackEnvelope, position)
   if Ainteger==-1 then ultraschall.AddErrorMessage("GetPreviousMuteState", "", "no previous mute-state available", -5) return -1 end
-  local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, Ainteger)
-  return Ainteger, value, time
+  local retval, time1, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, Ainteger)
+  return Ainteger, value, time1
 end
 
 function ultraschall.GetNextMuteState_TrackObject(MediaTrack, position)
@@ -302,7 +311,7 @@ function ultraschall.GetNextMuteState_TrackObject(MediaTrack, position)
 --]]  
   -- check parameters
   if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetNextMuteState_TrackObject", "track", "not a MediaTrack-object", -1) return -1 end
-  local retval, time, value, shape, tension, selected
+  local retval, time1, value, shape, tension, selected
   if type(position)~="number" then ultraschall.AddErrorMessage("GetNextMuteState_TrackObject", "position", "only a number allowed", -2) return -1 end
   position=tonumber(position)
   if position<0 then ultraschall.AddErrorMessage("GetNextMuteState_TrackObject", "position", "must be a positive value", -3) return -1 end
@@ -314,12 +323,12 @@ function ultraschall.GetNextMuteState_TrackObject(MediaTrack, position)
   -- get and check envelope-point
   local envPoint=reaper.GetEnvelopePointByTime(TrackEnvelope, position) -- get mute-state at or prior position
   if envPoint==-1 then -- if there's no envelope-point at or prior position, get first envelope-point in mute-envelope
-    retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, 0) envPoint=-1
+    retval, time1, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, 0) envPoint=-1
   else -- if there's an envelope-point at or prior position, return the next one(which is the first one after position)
-    retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, envPoint+1) 
+    retval, time1, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, envPoint+1) 
   end
   if envPoint+1>reaper.CountEnvelopePoints(TrackEnvelope)-1 then ultraschall.AddErrorMessage("GetNextMuteState_TrackObject", "", "no next mute-state", -5) return -1 end
-  return envPoint+1, value, time
+  return envPoint+1, value, time1
 end
 
 function ultraschall.GetPreviousMuteState_TrackObject(MediaTrack, position)
@@ -367,8 +376,8 @@ function ultraschall.GetPreviousMuteState_TrackObject(MediaTrack, position)
   
   -- get mute-envelope-point
   local envPoint=reaper.GetEnvelopePointByTime(TrackEnvelope, position)
-  local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, envPoint)
-  return Ainteger, value, time
+  local retval, time1, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, envPoint)
+  return position, value, time1
 end
   
 function ultraschall.CountMuteEnvelopePoints(track)
