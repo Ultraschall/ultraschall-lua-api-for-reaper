@@ -292,6 +292,9 @@ TODO: Wie bekomme ich es hin, die Color für die MarkerFunktionen mit SpeedImpro
 
 #### New features in 4.1.002
    - Benchmarking: Benchmark\_GetAllStartTimesAndSlots - returns the starttimes of all current benchmark-measuring-slots as a handy table(index=slot number)
+   - Envelope Management: SetEnvelopeState\_Act - sets bypass and automation-items-behavior
+   - Envelope Management: SetEnvelopeState\_DefShape - sets the default-envelope shapes and pitch-snap-settings
+   - Envelope Management: SetEnvelopeState\_LaneHeight - sets the height and compacted state of an envelope
    - Envelope Management: SetEnvelopeState\_Vis - sets the visibility-state of an envelope
    - Mute Management: ActivateMute - activates a mute-envelope of a track
    - Mute Management: ActivateMute\_TrackObject - activates a mute-envelope of a track
@@ -308,7 +311,8 @@ TODO: Wie bekomme ich es hin, die Color für die MarkerFunktionen mit SpeedImpro
    - Benchmarking: Benchmark\_GetStartTime - has now additional optional parameter slot to get the starttime of a certain benchmarking-slot(requested by rstockm)
    - Benchmarking: Benchmark\_MeasureTime - has now additional optional parameter slot, with which you can store multiple measurings into different slots, for more benchmarks than just one(requested by rstockm)
    - Docs: Reaper internals - updated to Reaper 6.11, SWS 2.11.0 and JS-extension 1.215; added accidentally missing functions
-   - GUI: Scythe - loads its libraries from UserPlugins\ultraschall_api\3rd_party_modules\Scythe\ now, so it shouldn't get in conflict with user's own installation of a Scythe-instance
+   - Envelope Management: GetEnvelopeState\_DefShape - added missing descriptions for returnvalues for pitch-snap
+   - GUI: Scythe - loads its libraries from UserPlugins\ultraschall\_api\3rd\_party\_modules\Scythe\ now, so it shouldn't get in conflict with user's own installation of a Scythe-instance
    - Marker Management: CountNormalMarkers - optimized speed
    - Marker Management: GetAllMarkersBetween - parameters can be nil now, allowing to be used for projectstart and projectend
    - Marker Management: GetAllRegionsBetween - parameters can be nil now, allowing to be used for projectstart and projectend
@@ -320,8 +324,8 @@ TODO: Wie bekomme ich es hin, die Color für die MarkerFunktionen mit SpeedImpro
    - Mute Management: GetNextMuteState\_TrackObject - returns now the mutestate, even if no mute-envelope is active
    - Mute Management: GetPreviousMuteState - returns now the mutestate, even if no mute-envelope is active
    - Mute Management: GetPreviousMuteState\_TrackObject - returns now the mutestate, even if no mute-envelope is active; didn't return envIDX correctly -> fixed
-   - Mute Management: ToggleMute - sets now mute-envelope point regardless of env-recarm or automation-mode
-   - Mute Management: ToggleMute\_TrackObject - sets now mute-envelope point regardless of env-recarm or automation-mode; fixed bugs with selected regions not recognized(thanks to aurelien)
+   - Mute Management: ToggleMute - sets now mute-envelope point regardless of env-recarm or automation-mode; activates inactive mute-envelopes now as well
+   - Mute Management: ToggleMute\_TrackObject - sets now mute-envelope point regardless of env-recarm or automation-mode; activates inactive mute-envelopes now as well
    - Project Files: GetProject\_MarkersAndRegions - supports now returning regions-states of selected and region render-matrix; fixed bugs with selected regions not recognized(thanks to aurelien)
    - Render: ApplyRenderTable\_Project - had problem, when applied twice in a script -> fixed(thanks to aurelien)
    - Render: ApplyRenderTable\_ProjectFile - had problem, when applied twice in a script -> fixed(thanks to aurelien)

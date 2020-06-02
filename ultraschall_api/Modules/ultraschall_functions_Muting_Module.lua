@@ -64,14 +64,18 @@ function ultraschall.ToggleMute(track, position, state)
   <functioncall>integer retval = ultraschall.ToggleMute(integer track, number position, integer state)</functioncall>
   <description>
     Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. 
+	
+	Note: If the user sets the track muted using the mute-button of the track, changes to the mute-envelope will be made but possibly ignored by Reaper by Reaper's design. So maybe taking care of this is neccessary in scripts.
     
     Returns -1, in case of an error
+	
+	Works like <a href="#ToggleMute_TrackObject">ultraschall.ToggleMute_TrackObject</a> but uses a tracknumber instead of a trackobject as parameter.
   </description>
   <retvals>
     integer retval - toggling was 0, success; -1, fail
   </retvals>
   <parameters>
-    integer track - the track-number, for where you want to set the mute-envelope-lane.
+    integer track - the track-number, for where you want to set the mute-envelope-lane; 1, for the first track; 2, for the second
     number position - position in seconds
     integer state - 0, for mute the track on this position; 1, for unmuting the track on this position
   </parameters>
@@ -133,7 +137,9 @@ function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
   <description>
     Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. 
     
-    Returns -1, if it fails.
+    Note: If the user sets the track muted using the mute-button of the track, changes to the mute-envelope will be made but possibly ignored by Reaper by Reaper's design. So maybe taking care of this is neccessary in scripts.
+	
+	Returns -1, if it fails.
     
     Works like <a href="#ToggleMute">ultraschall.ToggleMute</a> but uses a trackobject instead of the tracknumber as parameter.
   </description>

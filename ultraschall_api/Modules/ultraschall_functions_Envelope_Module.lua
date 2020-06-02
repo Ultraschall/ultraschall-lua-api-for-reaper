@@ -1402,7 +1402,7 @@ function ultraschall.GetEnvelopeState_DefShape(TrackEnvelope, EnvelopeStateChunk
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer shape, integer b, integer c = ultraschall.GetEnvelopeState_DefShape(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
+  <functioncall>integer shape, integer pitch_custom_envelope_range_takes, integer pitch_snap_values = ultraschall.GetEnvelopeState_DefShape(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
   <description>
     Returns the current default-shape-state of a TrackEnvelope-object or EnvelopeStateChunk.
     
@@ -1411,18 +1411,25 @@ function ultraschall.GetEnvelopeState_DefShape(TrackEnvelope, EnvelopeStateChunk
     returns nil in case of error
   </description>
   <retvals>
-   integer shape - 0, linear
+    integer shape - 0, linear
                  - 1, square
                  - 2, slow start/end
                  - 3, fast start
                  - 4, fast end
                  - 5, bezier
-   integer b - unknown; default value is -1; probably pitch/snap
-             - -1, unknown
-             -  2, unknown                        
-   integer c - unknown; default value is -1; probably pitch/snap
-             - -1, unknown
-             -  2, unknown 
+   	integer pitch_custom_envelope_range_takes - the custom envelope range as set in the Pitch Envelope Settings; only available in take-fx-envelope "Pitch"
+											  - -1, if unset or for non pitch-envelopes
+											  - 0, Custom envelope range-checkbox unchecked
+											  - 1-2147483647, the actual semitones
+	integer pitch_snap_values - the snap values-dropdownlist as set in the Pitch Envelope Settings-dialog; only available in take-fx-envelope "Pitch"
+					 -  -1, unset/Follow global default
+					 -  0, Off
+					 -  1, 1 Semitone
+					 -  2, 50 cent
+					 -  3, 25 cent
+					 -  4, 10 cent
+					 -  5, 5 cent
+					 -  6, 1 cent
   </retvals>
   <parameters>
     TrackEnvelope TrackEnvelope - the TrackEnvelope, whose state you want to know; nil, to use parameter EnvelopeStateChunk instead
