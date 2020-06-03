@@ -589,7 +589,7 @@ function header()
 end
 
 function contentindex()
-  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..version..beta.." - "..Tagline.." - "..date.." - Build: "..build..[[</div><h3>The Functions Reference</h3>
+  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..version.."."..beta.." - "..Tagline.." - "..date.." - Build: "..build..[[</div><h3>The Functions Reference</h3>
       To add the API to your script, just add<p>
       
       <pre><code>

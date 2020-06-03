@@ -310,6 +310,7 @@ TODO: Wie bekomme ich es hin, die Color für die MarkerFunktionen mit SpeedImpro
 #### Changes from 4.1.001 to 4.1.002
    - Benchmarking: Benchmark\_GetStartTime - has now additional optional parameter slot to get the starttime of a certain benchmarking-slot(requested by rstockm)
    - Benchmarking: Benchmark\_MeasureTime - has now additional optional parameter slot, with which you can store multiple measurings into different slots, for more benchmarks than just one(requested by rstockm)
+   - Developer Tools: ultraschall\_developertool\_Project\_State\_Diffs\_Monitor.lua - improved so it now only shows changed lines and therfore proper diffs
    - Docs: Reaper internals - updated to Reaper 6.11, SWS 2.11.0 and JS-extension 1.215; added accidentally missing functions
    - Envelope Management: GetEnvelopeState\_DefShape - added missing descriptions for returnvalues for pitch-snap
    - GUI: Scythe - loads its libraries from UserPlugins\ultraschall\_api\3rd\_party\_modules\Scythe\ now, so it shouldn't get in conflict with user's own installation of a Scythe-instance

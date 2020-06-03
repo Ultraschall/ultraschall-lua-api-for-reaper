@@ -709,6 +709,9 @@ for inf=0, 0 do
   lua=""
   python=""
 
+if cpp~="" then print2("<div style=\"padding-left:4%;font-size:104%\">\n<b>"..cpp.."\n"..eel.."\n"..lua.."\n"..python.."</b></div>\n") end
+--  if ololol==nil then return end
+
 -- Description
   newdesc, markup_type, markup_version, lang, prog_lang=ultraschall.ParseDescription(C[index][2])
   if markup_type=="plain_text" then newdesc=ultraschall.ConvertPlainTextToHTML(newdesc)

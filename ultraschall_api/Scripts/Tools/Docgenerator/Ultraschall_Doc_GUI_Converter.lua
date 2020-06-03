@@ -552,7 +552,7 @@ function header()
 end
 
 function contentindex()
-  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..version..beta.." - "..Tagline.." - "..date.." - Build: "..build.."</div><h3>Functions Reference</h3><table style=\"font-size:10pt; width:100%;\" >"
+  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..version.."."..beta.." - "..Tagline.." - "..date.." - Build: "..build.."</div><h3>Functions Reference</h3><table style=\"font-size:10pt; width:100%;\" >"
   reaper.ClearConsole()
   reaper.ShowConsoleMsg(scriptfilename..": Create Index\n")
   HeaderList={}
