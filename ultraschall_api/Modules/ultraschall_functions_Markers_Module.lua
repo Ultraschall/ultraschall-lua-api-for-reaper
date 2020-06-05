@@ -30,7 +30,7 @@
 ---        Markers Module         ---
 -------------------------------------
 
-ultraschall.planned_marker_color=ultraschall.ConvertColor(100,255,0)
+
 
 if type(ultraschall)~="table" then 
   -- update buildnumber and add ultraschall as a table, when programming within this file

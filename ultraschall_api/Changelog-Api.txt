@@ -284,8 +284,6 @@ TODO!! buggy function
    
 </TODO>
 
-TODO: Wie bekomme ich es hin, die Color für die MarkerFunktionen mit SpeedImprovement auch auf Linux zu bekommen. Da gibts nen nil-error, ohne dass ich weiß, warum...
-
 ## Ultraschall Framework - Changelog
 
 ### 4.1.002 - "The Buzzcocks - Why can't I touch it"
