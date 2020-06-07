@@ -607,3 +607,190 @@ end
 --A,B,C=ultraschall.IsMuteAtPosition_TrackObject(reaper.GetTrack(0,1), 1)
 
 
+function ultraschall.ActivateMute(track, visible)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>ActivateMute</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.ActivateMute(integer track, optional boolean visible)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      activates a mute-envelope of a track
+        
+      returns false in case of error
+    </description>
+    <retvals>
+      boolean retval - true, activating was successful; false, activating was unsuccessful
+    </retvals>
+    <parameters>
+      integer track - the track, whose mute-envelope you want to activate; 1, for the first track
+      optional boolean visible - true, show the activated mute-envelope; false, don't show the activated mute-envelope
+    </parameters>
+    <chapter_context>
+      Mute Management
+      Mute Lane
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <tags>envelope management, mute, activate</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(track)~="integer" then ultraschall.AddErrorMessage("ActivateMute", "mute", "must be an integer", -1) return false end
+  if track<1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("ActivateMute", "mute", "no such track", -2) return false end
+  local env=reaper.GetTrackEnvelopeByName(reaper.GetTrack(0,track-1), "Mute")
+  local retval
+  if env==nil then
+    ultraschall.PreventUIRefresh()
+    retval = ultraschall.ApplyActionToTrack(tostring(track), 40866)
+    if visible~=true then
+      local env=reaper.GetTrackEnvelopeByName(reaper.GetTrack(0,track-1), "Mute")
+      local A,B,C=ultraschall.GetEnvelopeState_Vis(env)
+      ultraschall.SetEnvelopeState_Vis(env, 0,B,C)
+    end
+    ultraschall.RestoreUIRefresh()
+  else 
+    retval=false ultraschall.AddErrorMessage("ActivateMute", "", "already activated", -3)
+  end
+  return retval
+end
+
+function ultraschall.DeactivateMute(track)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>DeactivateMute</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.DeactivateMute(integer track)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      deactivates a mute-envelope of a track
+        
+      returns false in case of error
+    </description>
+    <retvals>
+      boolean retval - true, deactivating was successful; false, deactivating was unsuccessful
+    </retvals>
+    <parameters>
+      integer track - the track, whose mute-envelope you want to deactivate; 1, for the first track
+    </parameters>
+    <chapter_context>
+      Mute Management
+      Mute Lane
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <tags>envelope management, mute, deactivate</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(track)~="integer" then ultraschall.AddErrorMessage("DeactivateMute", "mute", "must be an integer", -1) return false end
+  if track<1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("DeactivateMute", "mute", "no such track", -2) return false end
+  local env=reaper.GetTrackEnvelopeByName(reaper.GetTrack(0,track-1), "Mute")
+  local retval
+  if env~=nil then
+    retval = ultraschall.ApplyActionToTrack(tostring(track), 40866)
+  else 
+    retval=false ultraschall.AddErrorMessage("DeactivateMute", "", "already deactivated", -3)
+  end
+  return retval
+end
+
+function ultraschall.ActivateMute_TrackObject(track, visible)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>ActivateMute_TrackObject</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.ActivateMute_TrackObject(MediaTrack track, optional boolean visible)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      activates a mute-envelope of a MediaTrack-object
+        
+      returns false in case of error
+    </description>
+    <retvals>
+      boolean retval - true, activating was successful; false, activating was unsuccessful
+    </retvals>
+    <parameters>
+      MediaTrack track - the track, whose mute-envelope you want to activate
+      optional boolean visible - true, show the activated mute-envelope; false, don't show the activated mute-envelope
+    </parameters>
+    <chapter_context>
+      Mute Management
+      Mute Lane
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <tags>envelope management, mute, activate</tags>
+  </US_DocBloc>
+  --]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("ActivateMute_TrackObject", "track", "must be a MediaTrack", -1) return false end
+  local env=reaper.GetTrackEnvelopeByName(track, "Mute")
+  local retval
+  if env==nil then
+    ultraschall.PreventUIRefresh()
+    local tracknumber=reaper.GetMediaTrackInfo_Value(track, "IP_TRACKNUMBER")
+    retval = ultraschall.ApplyActionToTrack(tostring(tracknumber), 40866)
+    if visible~=true then
+      local env=reaper.GetTrackEnvelopeByName(track, "Mute")
+      local A,B,C=ultraschall.GetEnvelopeState_Vis(env)
+      ultraschall.SetEnvelopeState_Vis(env, 0,B,C)
+    end
+    ultraschall.RestoreUIRefresh()
+  else 
+    retval=false ultraschall.AddErrorMessage("ActivateMute_TrackObject", "", "already activated", -3)
+  end
+  return retval
+end
+
+SLEM()
+
+function ultraschall.DeactivateMute_TrackObject(track)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>DeactivateMute_TrackObject</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.DeactivateMute_TrackObject(integer track)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      deactivates a mute-envelope of a MediaTrack-object
+        
+      returns false in case of error
+    </description>
+    <retvals>
+      boolean retval - true, deactivating was successful; false, deactivating was unsuccessful
+    </retvals>
+    <parameters>
+      integer track - the track, whose mute-envelope you want to deactivate
+    </parameters>
+    <chapter_context>
+      Mute Management
+      Mute Lane
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <tags>envelope management, mute, deactivate</tags>
+  </US_DocBloc>
+  --]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("DeactivateMute_TrackObject", "track", "must be a MediaTrack", -1) return false end
+  local env=reaper.GetTrackEnvelopeByName(track, "Mute")
+  local retval
+  if env~=nil then
+    local tracknumber=reaper.GetMediaTrackInfo_Value(track, "IP_TRACKNUMBER")
+    retval = ultraschall.ApplyActionToTrack(tostring(tracknumber), 40866)
+  else 
+    retval=false ultraschall.AddErrorMessage("DeactivateMute_TrackObject", "", "already deactivated", -2)
+  end
+  return retval
+end
+
+

@@ -40,7 +40,28 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.1.002 - "The Buzzcocks - Why can't I touch it"</h3>
+<h3>4.1.002 - "The Buzzcocks - Why can't I touch it" - 8th of June 2020</h3>
+<p>Has now 1146 functions, with 17 new ones</p>
+<p><strong>new in this release:</strong></p>
+<ul>
+<li><p><strong>Video window-Toggle Fullscreen</strong><br />
+You can now toggle the video-window fullscreen/non-fullscreen via VideoWindow_FullScreenToggle.</p></li>
+<li><p><strong>Activate/Deactivate Mute-envelopes</strong><br />
+Wasn't possible until now: activation and deactivation of Mute-Envelopes, as otherwise you cannot write to them.</p></li>
+<li><p><strong>MuteActions more stable</strong><br />
+They should now set mute-envelope-points properly, no matter of mute-env-armstate and/or automation-mode.</p></li>
+<li><p><strong>Project-Diffs-Developertool</strong><br />
+Reimplemented, so it shows only the diff-lines now.</p></li>
+<li><p><strong>Benchmarking-functions</strong><br />
+You can have multiple benchmark-slots, so benchmarking multiple values at the same time is now possible.<br />
+That way, you can benchmark the whole script and individual functions in one go.</p></li>
+<li><p><strong>Item Buttons can be now toggled</strong><br />
+Now, you can toggle the buttons shown at the top of the MediaItem, like mute, FX, Envelopes, etc. Change them in one go, to have different "profiles" of MediaItem-buttons, that reflect the usecases of your different projects.</p></li>
+<li><p><strong>PreventUIRefresh and RestoreUIRefresh</strong> Like Reaper's own PreventUIRefresh, but prevents accidental misuse of its counter, as the counting up is done by PreventUIRefresh and the "reset" of a<br />
+PreventUIRefresh can be undone by RestoreUIRefresh.<br />
+When using RestoreUIRefresh(true), all ultraschall.PreventUIRefresh-calls are reset, so the user-interface of Reaper is useable again.</p></li>
+<li><p><strong>bugfixes and readdition of accidentally deleted function..oops ;)</strong></p></li>
+</ul>
 <h4>New features in 4.1.002</h4>
 <ul>
 <li>Benchmarking: Benchmark_GetAllStartTimesAndSlots - returns the starttimes of all current benchmark-measuring-slots as a handy table(index=slot number)</li>
@@ -58,7 +79,7 @@ Ultraschall API Changelog
 <li>User Interface: PreventUIRefresh - prevents refreshing of the user-interface, more solid, than Reaper's own PreventUIRefresh-function</li>
 <li>User Interface: RestoreUIRefresh - restores a prevented UI-refreshing</li>
 <li>User Interface: SetItemButtonsVisible - sets the individual item-buttons visible/invisible</li>
-<li>User Interface: VideoWindow_FullScreenToggle - toggles full-screen-state of the video-processor-window</li>
+<li>User Interface: VideoWindow_FullScreenToggle - toggles full-screen-state of the video-processor-window(requested by vectorwarrior)</li>
 </ul>
 <h4>Changes from 4.1.001 to 4.1.002</h4>
 <ul>

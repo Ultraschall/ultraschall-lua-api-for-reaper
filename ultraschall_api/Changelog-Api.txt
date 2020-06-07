@@ -286,7 +286,38 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
-### 4.1.002 - "The Buzzcocks - Why can't I touch it"
+### 4.1.002 - "The Buzzcocks - Why can't I touch it" - 8th of June 2020
+
+Has now 1146 functions, with 17 new ones
+
+**new in this release:**
+
+  - **Video window-Toggle Fullscreen**  
+  You can now toggle the video-window fullscreen/non-fullscreen via VideoWindow\_FullScreenToggle. 
+  
+  - **Activate/Deactivate Mute-envelopes**  
+  Wasn't possible until now: activation and deactivation of Mute-Envelopes, as otherwise you cannot write to them.
+  
+  - **MuteActions more stable**  
+  They should now set mute-envelope-points properly, no matter of mute-env-armstate and/or automation-mode.
+  
+  - **Project-Diffs-Developertool**  
+  Reimplemented, so it shows only the diff-lines now.
+  
+  - **Benchmarking-functions**  
+  You can have multiple benchmark-slots, so benchmarking multiple values at the same time is now possible.  
+  That way, you can benchmark the whole script and individual functions in one go.
+  
+  - **Item Buttons can be now toggled**  
+  Now, you can toggle the buttons shown at the top of the MediaItem, like mute, FX, Envelopes, etc. Change them in one go, to have different "profiles"
+  of MediaItem-buttons, that reflect the usecases of your different projects.
+  
+  - **PreventUIRefresh and RestoreUIRefresh**
+  Like Reaper's own PreventUIRefresh, but prevents accidental misuse of its counter, as the counting up is done by PreventUIRefresh and the "reset" of a  
+  PreventUIRefresh can be undone by RestoreUIRefresh.  
+  When using RestoreUIRefresh(true), all ultraschall.PreventUIRefresh-calls are reset, so the user-interface of Reaper is useable again.
+  
+  - **bugfixes and readdition of accidentally deleted function..oops ;)**
 
 #### New features in 4.1.002
    - Benchmarking: Benchmark\_GetAllStartTimesAndSlots - returns the starttimes of all current benchmark-measuring-slots as a handy table(index=slot number)
@@ -304,7 +335,7 @@ TODO!! buggy function
    - User Interface: PreventUIRefresh - prevents refreshing of the user-interface, more solid, than Reaper's own PreventUIRefresh-function
    - User Interface: RestoreUIRefresh - restores a prevented UI-refreshing
    - User Interface: SetItemButtonsVisible - sets the individual item-buttons visible/invisible
-   - User Interface: VideoWindow\_FullScreenToggle - toggles full-screen-state of the video-processor-window
+   - User Interface: VideoWindow\_FullScreenToggle - toggles full-screen-state of the video-processor-window(requested by vectorwarrior)
    
 #### Changes from 4.1.001 to 4.1.002
    - Benchmarking: Benchmark\_GetStartTime - has now additional optional parameter slot to get the starttime of a certain benchmarking-slot(requested by rstockm)
