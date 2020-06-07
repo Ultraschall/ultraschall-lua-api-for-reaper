@@ -184,8 +184,7 @@ if ultraschall.US_Doc_Engine~="OFF" then ultraschall.US_Doc_Engine = dofile(scri
 if ultraschall.US_Tag_Engine~="OFF" then ultraschall.US_Tag_Engine = dofile(script_path .. "ultraschall_tag_engine.lua") end
 if ultraschall.US_Network_Engine~="OFF" then ultraschall.US_Network_Engine = dofile(script_path .. "ultraschall_network_engine.lua") end
 
--- In case of necessary hotfixes, if the file ultraschall_hotfixes.lua exists, the functions in it will overwrite previously existing ones.
-if reaper.file_exists(script_path.."ultraschall_hotfixes.lua") then ultraschall.Hotfix=dofile(script_path .. "ultraschall_hotfixes.lua") end
+
 
 -- if BETA-functions are available and usage of beta-functions is set to ON, include them. 
 -- Functions, that are in both, the "normal" parts of the framework as well as in the beta-part, will use the beta-version,
@@ -229,4 +228,6 @@ ultraschall.network_works="off"
     reaper.MB("Functions-Engine="..ultraschall.functions_works.."\nData-Engine="..ultraschall.data_works.."\nGui-Engine="..ultraschall.gui_works.."\nSound-Engine="..ultraschall.sound_works.."\nVideo-Engine="..ultraschall.video_works.."\nDoc-Engine="..ultraschall.doc_works.."\nTag-Engine="..ultraschall.tag_works.."\nNetwork-Engine="..ultraschall.network_works.."\n\nBeta-Functions:\nFunctions-Beta-Engine="..ultraschall.functions_beta_works.."\nData-Beta-Engine="..ultraschall.data_beta_works.."\nGui-Beta-Engine="..ultraschall.gui_beta_works.."\nSound-Beta-Engine="..ultraschall.sound_beta_works.."\nVideo-Beta-Engine="..ultraschall.video_beta_works.."\nDoc-Beta-Engine="..ultraschall.doc_beta_works.."\nTag-Beta-Engine="..ultraschall.tag_beta_works.."\nNetwork-Beta-Engine="..ultraschall.network_beta_works,"Ultraschall API-TEST",0)
 end
 
-ultraschall.hotfixdate="Hotfixes could not be loaded. Please report this as a bug to mespotine@mespotine.de"
+
+-- In case of necessary hotfixes, if the file ultraschall_hotfixes.lua exists, the functions in it will overwrite previously existing ones.
+if reaper.file_exists(script_path.."ultraschall_hotfixes.lua") then ultraschall.Hotfix=dofile(script_path .. "ultraschall_hotfixes.lua") end

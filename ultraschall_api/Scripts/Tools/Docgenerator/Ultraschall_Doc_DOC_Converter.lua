@@ -768,7 +768,8 @@ function entries()
         B[i][1]=ultraschall.ColorateDatatypes(B[i][1])
         temp=B[i][1]:match("(ultraschall.-%()")
         
-        if temp~=nil then B[i][1]=string.gsub(B[i][1],temp:sub(1,-2).."%(","<b>"..temp.."</b>") lua=B[i][1] end
+        if temp~=nil then B[i][1]=string.gsub(B[i][1],temp:sub(1,-2).."%(","<b>"..temp.."</b>") if B[i][1]:sub(-1,-1)==")" then B[i][1]=B[i][1]:sub(1,-2).."<b>)</b>" end lua=B[i][1] end
+        
         if B[i][2]=="cpp" then cpp="<div class=\"c_func\"><span class='all_view'>C: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
         if B[i][2]=="eel" then eel="<div class=\"e_func\"><span class='all_view'>EEL: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
         if B[i][2]=="lua" then lua="<div class=\"l_func\"><span class='all_view'></span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end

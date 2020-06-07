@@ -2141,4 +2141,46 @@ function ultraschall.DeactivateMute_TrackObject(track)
   return retval
 end
 
+
+function ultraschall.VideoWindow_FullScreenToggle(toggle)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>VideoWindow_FullScreenToggle</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.05
+      Lua=5.3
+    </requires>
+    <functioncall>boolean fullscreenstate = ultraschall.VideoWindow_FullScreenToggle(optional boolean toggle)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      toggles fullscree-state of Reaper's video-processor-window 
+        
+      returns nil in case of error
+    </description>
+    <retvals>
+      boolean fullscreenstate - true, video-window is now fullscreen; false, video-window is NOT fullscreen
+    </retvals>
+    <parameters>
+      optional boolean toggle - true, sets video-window to fullscreen; false, sets video-window to windowed; nil, toggle between fullscreen and nonfullscreen states
+    </parameters>
+    <chapter_context>
+      User Interface
+      Window Management
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <tags>user interface, set, video window, fullscreen, windowed</tags>
+  </US_DocBloc>
+  --]]
+  local Hwnd = ultraschall.GetVideoHWND()
+  if Hwnd==nil then ultraschall.AddErrorMessage("VideoWindow_FullScreenToggle", "", "Video window not opened", -1) return end
+  if toggle~=nil and type(toggle)~="boolean" then ultraschall.AddErrorMessage("VideoWindow_FullScreenToggle", "toggle", "must be a boolean or nil", -2) return end
+  local CurState=ultraschall.GetUSExternalState("reaper_video", "fullscreen", "reaper.ini")=="1"
+  if toggle==nil or toggle~=CurState then
+    reaper.JS_WindowMessage_Send(Hwnd, "WM_LBUTTONDBLCLK", 1,1,0,0)
+  end
+  if toggle==nil then toggle=CurState==false end
+  return toggle
+end
+
 ultraschall.ShowLastErrorMessage()
