@@ -286,6 +286,21 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
+### 4.1.003 - "Better Than Ezra - One More Murder" - 30th of June 2020
+
+Has now 1146 functions, with 17 new ones
+
+**new in this release:**
+
+  - **bla**  
+  bla
+  
+#### New features in 4.1.003
+   
+#### Changes from 4.1.002 to 4.1.003
+
+---
+
 ### 4.1.002 - "The Buzzcocks - Why can't I touch it" - 8th of June 2020
 
 Has now 1146 functions, with 17 new ones
