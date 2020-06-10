@@ -1349,8 +1349,171 @@ end
 
 -- These seem to work working:
 
+function ultraschall.ResizeJPG(filename_with_path, outputfilename_with_path, aspectratio, width, height, quality)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ResizeJPG</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    JS=1.215
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.ResizeJPG(string filename_with_path, string outputfilename_with_path, boolean aspectratio, integer width, integer height, integer quality)</functioncall>
+  <description>
+    resizes a jpg-file. It will stretch/shrink the picture by that. That means you can't crop or enhance jpgs with this function.
+    
+    If you set aspectratio=true, then the image will be resized with correct aspect-ratio. However, it will use the value from parameter width as maximum size for each side of the picture.
+    So if the height of the jpgis bigger than the width, the height will get the size and width will be shrinked accordingly.
+    
+    When making jpg bigger, pixelation will occur. No pixel-filtering within this function!
+    
+    returns false in case of an error 
+  </description>
+  <parameters>
+    string filename_with_path - the jpg-file, that you want to resize
+    string outputfilename_with_path - the output-file, where to store the resized jpg
+    boolean aspectratio - true, keep aspect-ratio(use size of param width as base); false, don't keep aspect-ratio
+    integer width - the width of the newly created png in pixels
+    integer height - the height of the newly created png in pixels
+    integer quality - the quality of the jpg in percent; 1 to 100
+  </parameters>
+  <retvals>
+    boolean retval - true, resizing was successful; false, resizing was unsuccessful
+  </retvals>
+  <chapter_context>
+    Image File Handling
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Imagefile_Module.lua</source_document>
+  <tags>image file handling, resize, jpg, image, graphics</tags>
+</US_DocBloc>
+]]
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ResizeJPG", "filename_with_path", "must be a string", -1) return false end
+  if type(outputfilename_with_path)~="string" then ultraschall.AddErrorMessage("ResizeJPG", "outputfilename_with_path", "must be a string", -2) return false end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ResizeJPG", "filename_with_path", "file can not be opened", -3) return false end
+  if type(aspectratio)~="boolean" then ultraschall.AddErrorMessage("ResizeJPG", "aspectratio", "must be a boolean", -4) return false end
+  if math.type(width)~="integer" then ultraschall.AddErrorMessage("ResizeJPG", "width", "must be an integer", -5) return false end
+  if aspectratio==false and math.type(height)~="integer" then ultraschall.AddErrorMessage("ResizeJPG", "height", "must be an integer, when aspectratio==false", -6) return false end
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("ResizeJPG", "quality", "must be an integer", -7) return false end
+  if quality<1 or quality>100 then ultraschall.AddErrorMessage("ResizeJPG", "quality", "must be between 1 and 100", -8) return false end
+  
+  local Identifier, Identifier2, squaresize, NewWidth, NewHeight, Height, Width, Retval
+  Identifier=reaper.JS_LICE_LoadJPG(filename_with_path)
+  Width=reaper.JS_LICE_GetWidth(Identifier)
+  Height=reaper.JS_LICE_GetHeight(Identifier)
+  if aspectratio==true then
+    squaresize=width
+    if Width>Height then 
+      NewWidth=squaresize
+      NewHeight=((100/Width)*Height)
+      NewHeight=NewHeight/100
+      NewHeight=math.floor(squaresize*NewHeight)
+    else
+      NewHeight=squaresize
+      NewWidth=((100/Height)*Width)
+      NewWidth=NewWidth/100
+      NewWidth=math.floor(squaresize*NewWidth)
+    end
+  else
+    NewHeight=height
+    NewWidth=width
+  end
+  
+  Identifier2=reaper.JS_LICE_CreateBitmap(true, NewWidth, NewHeight)
+  reaper.JS_LICE_ScaledBlit(Identifier2, 0, 0, NewWidth, NewHeight, Identifier, 0, 0, Width, Height, 1, "COPY")
+  Retval=reaper.JS_LICE_WriteJPG(outputfilename_with_path, Identifier2, quality)
+  reaper.JS_LICE_DestroyBitmap(Identifier)
+  reaper.JS_LICE_DestroyBitmap(Identifier2)
+  if Retval==false then ultraschall.AddErrorMessage("ResizeJPG", "outputfilename_with_path", "Can't write outputfile", -9) return false end
+end
 
+function ultraschall.ProjectSettings_GetVideoFramerate()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ProjectSettings_GetVideoFramerate</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>integer framerate, string addnotes = ultraschall.ProjectSettings_GetVideoFramerate()</functioncall>
+  <description>
+    returns the video-framerate of the current project
+  </description>
+  <retvals>
+    integer framerate - the framerate in fps from 1 to 999999999
+    string addnotes - either "DF", "ND" or ""
+  </retvals>
+  <chapter_context>
+    Project Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_video_engine.lua</source_document>
+  <tags>project settings, get, framerate</tags>
+</US_DocBloc>
+]]
+  local framerate=reaper.SNM_GetIntConfigVar("projfrbase", -999)
+  local subframerate=reaper.SNM_GetIntConfigVar("projfrdrop", -999)
+  if     subframerate==1 then return 29.97, "DF"
+  elseif subframerate==2 then return 23.976, ""
+  elseif subframerate==2 then return 29.97, "ND"
+  else return framerate, ""
+  end
+end
 
+function ultraschall.ProjectSettings_SetVideoFramerate(framerate, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ProjectSettings_SetVideoFramerate</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ProjectSettings_SetVideoFramerate(integer framerate, boolean persist)</functioncall>
+  <description>
+    sets the video-framerate of the current project and optionally the default video-framerate for new projects
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer framerate - the framerate in fps from 1 to 999999999;
+                      - 0, 29.97 fps DF
+                      - -1, 23.976 fp
+                      - -2, 29.97 fps ND
+    boolean persist - true, set these values as default for new projects; false, don't set these values as defaults for 
+  </parameters>
+  <chapter_context>
+    Project Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_video_engine.lua</source_document>
+  <tags>project settings, set, framerate, default projects</tags>
+</US_DocBloc>
+]]
+  if math.type(framerate)~="integer" then ultraschall.AddErrorMessage("ProjectSettings_SetVideoFramerate", "framerate", "must be an integer", -1) return false end
+  if framerate<-2 or framerate>999999999 then ultraschall.AddErrorMessage("ProjectSettings_SetVideoFramerate", "framerate", "must be between -2 and 999999999", -2) return false end
+  if type(persist)~="boolean" then ultraschall.AddErrorMessage("ProjectSettings_SetVideoFramerate", "persist", "must be a boolean", -3) return false end
+  if     framerate==0  then framerate=30 subframerate=1 -- 29.97 fps DF
+  elseif framerate==-1 then framerate=24 subframerate=2 -- 23.976 fps 
+  elseif framerate==-2 then framerate=30 subframerate=2 -- 29.97 fps ND
+  else subframerate=0
+  end
+  reaper.SNM_SetIntConfigVar("projfrbase", framerate)
+  reaper.SNM_SetIntConfigVar("projfrdrop", subframerate)  
+  if persist==true then
+    reaper.BR_Win32_WritePrivateProfileString("REAPER", "projfrbase", framerate, reaper.get_ini_file())
+    reaper.BR_Win32_WritePrivateProfileString("REAPER", "projfrdrop", subframerate, reaper.get_ini_file())
+  end
+  return true
+end
 
+--A=ultraschall.ProjectSettings_SetVideoFramerate(11, true)
 
 ultraschall.ShowLastErrorMessage()

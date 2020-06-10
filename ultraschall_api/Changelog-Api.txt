@@ -296,9 +296,13 @@ Has now 1146 functions, with 17 new ones
   bla
   
 #### New features in 4.1.003
+   - Image Handling: ResizeJPG - resizes jpgs to new jpgs
+   - Video Management: ProjectSettings\_GetVideoFramerate - gets the currently set project's video-framerate
+   - Video Management: ProjectSettings\_SetVideoFramerate - sets the currently set project's video-framerate and optionally the default for new projects
    
 #### Changes from 4.1.002 to 4.1.003
-
+   - API: Requirements - requires now JS-extension 1.215
+   
 ---
 
 ### 4.1.002 - "The Buzzcocks - Why can't I touch it" - 8th of June 2020
