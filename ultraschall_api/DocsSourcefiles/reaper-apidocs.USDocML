@@ -1460,6 +1460,8 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Create a send/receive (desttrInOptional!=NULL), or a hardware output (desttrInOptional==NULL) with default properties, return &gt;=0 on success (== new send/receive index). See [RemoveTrackSend](#RemoveTrackSend), [GetSetTrackSendInfo](#GetSetTrackSendInfo), [GetTrackSendInfo_Value](#GetTrackSendInfo_Value), [SetTrackSendInfo_Value](#SetTrackSendInfo_Value).
+            
+            For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         </description>
         <retvals>
             integer - the id of the new HWOut or Send created. HWOut and Send have their own individual index-numbering.
@@ -9481,6 +9483,8 @@
         </requires>
         <description prog_lang="*">
             returns number of sends/receives/hardware outputs
+            
+            For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         </description>
         <retvals>
             integer - the number of sends/receives/hardware outputs
@@ -9617,7 +9621,9 @@
                 I\_MIDIFLAGS : int \*, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanP_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
                 P\_SRCTRACK : read only, returns MediaTrack *, source track, only applies for sends/recvs
                 P\_ENV:&lt;envchunkname : read only, returns TrackEnvelope *. To get a specific TrackEnvelope, call with :&lt;VOLENV, :&lt;PANENV, etc appended.
-                
+        
+            For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
+        
             See [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
         </description>
         <retvals>
@@ -13979,6 +13985,8 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Remove a send/receive/hardware output. See [CreateTrackSend](#CreateTrackSend), [GetSetTrackSendInfo](#GetSetTrackSendInfo), [GetTrackSendInfo_Value](#GetTrackSendInfo_Value), [SetTrackSendInfo_Value](#SetTrackSendInfo_Value), [GetTrackNumSends](#GetTrackNumSends).
+            
+            For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         </description>
         <retvals>
             boolean - true, removing worked; false, removing didn't work(e.g. does not exist)
@@ -16119,6 +16127,8 @@
                 I\_DSTCHAN : int \*, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
                 I\_MIDIFLAGS : int \*, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanSee [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
 
+
+            For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
 
             See [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
         </description>
@@ -20788,6 +20798,8 @@
         <description prog_lang="*"> 
             Gets/sets a send attribute string:
                 P_EXT:xyz : char * : extension-specific persistent data
+                
+            For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         </description>
         <parameters>
             MediaTrack tr - 
@@ -38212,7 +38224,7 @@
                  -I_SOLO : int * : 0=not soloed, 1=solo, 2=soloed in place. also: 5=solo-safe solo, 6=solo-safe soloed in place
                  -I_FXEN : int * : 0=fx bypassed, nonzero = fx active
                  -I_RECARM : int * : 0=not record armed, 1=record armed
-                 -I_RECINPUT : int * : record input. <0 = no input, 0..n = mono hardware input, 512+n = rearoute input, 1024 set for stereo input pair. 4096 set for MIDI input, if set, then low 5 bits represent channel (0=all, 1-16=only chan), then next 6 bits represent physical input (63=all, 62=VKB)
+                 -I_RECINPUT : int * : record input. &lt;0 = no input, 0..n = mono hardware input, 512+n = rearoute input, 1024 set for stereo input pair. 4096 set for MIDI input, if set, then low 5 bits represent channel (0=all, 1-16=only chan), then next 6 bits represent physical input (63=all, 62=VKB)
                  -I_RECMODE : int * : record mode (0=input, 1=stereo out, 2=none, 3=stereo out w/latcomp, 4=midi output, 5=mono out, 6=mono out w/ lat comp, 7=midi overdub, 8=midi replace
                  -I_RECMON : int * : record monitor (0=off, 1=normal, 2=not when playing (tapestyle))
                  -I_RECMONITEMS : int * : monitor items while recording (0=off, 1=on)
@@ -38222,8 +38234,8 @@
                  -I_WNDH : int * : current TCP window height (Read-only)
                  -I_FOLDERDEPTH : int * : folder depth change (0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
                  -I_FOLDERCOMPACT : int * : folder compacting (only valid on folders), 0=normal, 1=small, 2=tiny children
-                 -I_MIDIHWOUT : int * : track midi hardware output index (<0 for disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31))
-                 -I_PERFFLAGS : int * : track perf flags (&1=no media buffering, &2=no anticipative FX)
+                 -I_MIDIHWOUT : int * : track midi hardware output index (&lt;0 for disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31))
+                 -I_PERFFLAGS : int * : track perf flags (&amp;1=no media buffering, &amp;2=no anticipative FX)
                  -I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).
                  -I_HEIGHTOVERRIDE : int * : custom height override for TCP window. 0 for none, otherwise size in pixels
                  -D_VOL : double * : trim volume of track (0 (-inf)..1 (+0dB) .. 2 (+6dB) etc ..)
@@ -38232,8 +38244,8 @@
                  -D_DUALPANL : double * : dualpan position 1 (-1..1), only if I_PANMODE==6
                  -D_DUALPANR : double * : dualpan position 2 (-1..1), only if I_PANMODE==6
                  -I_PANMODE : int * : pan mode (0 = classic 3.x, 3=new balance, 5=stereo pan, 6 = dual pan)
-                 -D_PANLAW : double * : pan law of track. <0 for project default, 1.0 for +0dB, etc
-                 -P_ENV : read only, returns TrackEnvelope *, setNewValue=<VOLENV, <PANENV, etc
+                 -D_PANLAW : double * : pan law of track. &lt;0 for project default, 1.0 for +0dB, etc
+                 -P_ENV : read only, returns TrackEnvelope *, setNewValue=&lt;VOLENV, &lt;PANENV, etc
                  -B_SHOWINMIXER : bool * : show track panel in mixer -- do not use on master
                  -B_SHOWINTCP : bool * : show track panel in tcp -- do not use on master
                  -B_MAINSEND : bool * : track sends audio to parent
@@ -38352,18 +38364,20 @@
         </requires>
         <description indent="default">
             Get or set send/receive/hardware output attributes.
+            
+            For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         </description>
         <retvals>
             void* -
         </retvals>
         <parameters>
             tr - the MediaTrack object for the track to be gotten or set
-            category - <0 for receives, 0=sends, >0 for hardware outputs 
+            category - &lt;0 for receives, 0=sends, &gt;0 for hardware outputs 
             sendidx - 0..n (to enumerate, iterate over sendidx until it returns NULL) 
             parmname - the parameter to get/set
                  -P_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
                  -P_SRCTRACK : read only, returns MediaTrack *, source track, only applies for sends/recvs
-                 -P_ENV : read only, returns TrackEnvelope *, setNewValue=<VOLENV, <PANENV, etc
+                 -P_ENV : read only, returns TrackEnvelope *, setNewValue=&lt;VOLENV, &lt;PANENV, etc
                  -B_MUTE : returns bool *
                  -B_PHASE : returns bool *, true to flip phase
                  -B_MONO : returns bool *
@@ -38372,8 +38386,8 @@
                  -D_PANLAW : returns double *,1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
                  -I_SENDMODE : returns int *, 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
                  -I_AUTOMODE : returns int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-                 -I_SRCCHAN : returns int *, index,&1024=mono, -1 for none
-                 -I_DSTCHAN : returns int *, index, &1024=mono, otherwise stereo pair, hwout:&512=rearoute
+                 -I_SRCCHAN : returns int *, index,&amp;1024=mono, -1 for none
+                 -I_DSTCHAN : returns int *, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
                  -I_MIDIFLAGS : returns int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chan
             setNewValue - the new value to be set
         </parameters>

@@ -362,9 +362,9 @@ end
 
 --ultraschall.ShowLastErrorMessage()
 
-function ultraschall.GetProjectReWireSlave(projectfilename_with_path)
+function ultraschall.GetProjectReWireClient(projectfilename_with_path)
 --To Do
--- ProjectSettings->Advanced->Rewire Slave Settings
+-- ProjectSettings->Advanced->Rewire Client Settings
 end
 
 function ultraschall.GetLastEnvelopePoint(Envelopeobject)

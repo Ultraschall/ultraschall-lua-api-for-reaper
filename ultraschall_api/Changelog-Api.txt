@@ -302,6 +302,11 @@ Has now 1146 functions, with 17 new ones
    
 #### Changes from 4.1.002 to 4.1.003
    - API: Requirements - requires now JS-extension 1.215
+   - ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated
+   - TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one
+   - TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
+   - TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one
+   - TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
    
 ---
 
