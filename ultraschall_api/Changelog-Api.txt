@@ -4,8 +4,9 @@
     
     
     For 4.01.002:  
+
+    - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0
 	
-    -- GetHWOuts um herauszufinden, wieviele HWOuts das aktuelle Device hat. Es muss vermutlich aus der reaper.ini ausgelesen werden oder aus der reaper-hwouts.ini
     
     -- ToggleMute(_Object): state=2 toggelt relativ zum derzeitigen Mute-State, so dass man nicht erst extra den letzten state heraussuchen muss.
 				--Bugfixes!! NOCHMAL INTENSIVST TESTEN!!! 
@@ -286,7 +287,7 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
-### 4.1.003 - "Better Than Ezra - One More Murder" - 30th of June 2020
+### 4.1.003 - "Premier" - 30th of June 2020
 
 Has now 1146 functions, with 17 new ones
 
@@ -297,17 +298,20 @@ Has now 1146 functions, with 17 new ones
   
 #### New features in 4.1.003
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
+   - Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table
    - Video Management: ProjectSettings\_GetVideoFramerate - gets the currently set project's video-framerate
    - Video Management: ProjectSettings\_SetVideoFramerate - sets the currently set project's video-framerate and optionally the default for new projects
    
 #### Changes from 4.1.002 to 4.1.003
    - API: Requirements - requires now JS-extension 1.215
+   - API: titles will now be references to FarScape-episode-titles, until I conquered the farscape of Gui-development
    - Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links
    - ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated
    - TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one
    - TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
    - TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one
    - TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
+   - User Interface: GetHWND\_ArrangeViewAndTimeLine - didn't find TCP-hwnd when TCP was on the right side of the arrange-view -> fixed(thanks to Edgemeal)
    
 ---
 

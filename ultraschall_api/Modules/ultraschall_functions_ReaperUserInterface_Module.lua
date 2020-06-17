@@ -1526,9 +1526,13 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
     -- TCP: check all hwnds to find the one, that has right<left, top=top, bottom_timeline=top_arrangeview
     for i=1, Count do
       local temphwnd=reaper.JS_Window_HandleFromAddress(Individual_values[i])
-      if ScrollState[i]["right"]<=left 
+      if (reaper.GetToggleCommandState(42373)==0 and ScrollState[i]["right"]<=left 
           and ScrollState[i]["top"]==top 
-          and ScrollState[i]["bottom"]==bottom-18
+          and ScrollState[i]["bottom"]==bottom-18) 
+          or
+          (reaper.GetToggleCommandState(42373)==1 and ScrollState[i]["left"]>=right
+                    and ScrollState[i]["top"]==top 
+                    and ScrollState[i]["bottom"]==bottom-18) 
           then
         if TCPHWND==nil then 
           TCPHWND=temphwnd 
@@ -1559,6 +1563,8 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   end  
   return ARHWND, TLHWND, TCPHWND
 end
+
+--reaper.SNM_SetIntConfigVar("mixerflag", 2)
 
 
 function ultraschall.GetVerticalScroll()

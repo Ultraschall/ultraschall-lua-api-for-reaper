@@ -40,7 +40,7 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.1.003 - "Better Than Ezra - One More Murder" - 30th of June 2020</h3>
+<h3>4.1.003 - "Premier" - 30th of June 2020</h3>
 <p>Has now 1146 functions, with 17 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
@@ -50,18 +50,21 @@ bla</li>
 <h4>New features in 4.1.003</h4>
 <ul>
 <li>Image Handling: ResizeJPG - resizes jpgs to new jpgs</li>
+<li>Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table</li>
 <li>Video Management: ProjectSettings_GetVideoFramerate - gets the currently set project's video-framerate</li>
 <li>Video Management: ProjectSettings_SetVideoFramerate - sets the currently set project's video-framerate and optionally the default for new projects</li>
 </ul>
 <h4>Changes from 4.1.002 to 4.1.003</h4>
 <ul>
 <li>API: Requirements - requires now JS-extension 1.215</li>
+<li>API: titles will now be references to FarScape-episode-titles, until I conquered the farscape of Gui-development</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links</li>
 <li>ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated</li>
 <li>TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one</li>
+<li>User Interface: GetHWND_ArrangeViewAndTimeLine - didn't find TCP-hwnd when TCP was on the right side of the arrange-view -&gt; fixed(thanks to Edgemeal)</li>
 </ul>
 <hr />
 <h3>4.1.002 - "The Buzzcocks - Why can't I touch it" - 8th of June 2020</h3>

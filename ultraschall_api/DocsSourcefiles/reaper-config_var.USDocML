@@ -6227,7 +6227,7 @@
       <slug>mixerflag</slug>  
       <title>mixerflag</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Show icon for last track in folder, as set in the mixer-context-menu.  
+          Show icon for last track in folder, as set in the mixer-context-menu as well as TCP-context-menu -> Show TCP on right side of arrange(action 42373)
           It is an integer-bitfield  
           
            >&1=0, show icon for last track in folder(on) - checked  
@@ -6251,6 +6251,9 @@
            >&16=1, Master track -> Show in docker(on) - checked  
            
           so you can really decide, which setting to use
+          
+           >&32=0, show TCP on the left side of arrange-view
+           >&32=1, show TCP on the right side of arrange-view
             
           For other mixer-context-menu-settings, see [showctinmix](#showctinmix), [mixrowflags](#mixrowflags) and [mixeruiflag](#mixeruiflag)  
             

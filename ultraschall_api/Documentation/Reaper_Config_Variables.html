@@ -4403,8 +4403,7 @@ For other settings in Preferences -&gt; Track Control Panels, see <a href="#slid
 <a href="#vudecay">vudecay</a>, <a href="#vumaxvol">vumaxvol</a>, <a href="#vuminvol">vuminvol</a>, <a href="#vuupdfreq">vuupdfreq</a>, <a href="#pandispmode">pandispmode</a>, <a href="#slidershex">slidershex</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="mixerflag"></a>
-&nbsp;<a href="#mixerflag"><b>mixerflag</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Show icon for last track in folder, as set in the mixer-context-menu.<br />
-It is an integer-bitfield</p>
+&nbsp;<a href="#mixerflag"><b>mixerflag</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Show icon for last track in folder, as set in the mixer-context-menu as well as TCP-context-menu -&gt; Show TCP on right side of arrange(action 42373) It is an integer-bitfield</p>
 <blockquote>
 <p>&amp;1=0, show icon for last track in folder(on) - checked<br />
 &amp;1=1, show icon for last track in folder(off) - unchecked</p>
@@ -4431,6 +4430,9 @@ It is an integer-bitfield</p>
 &amp;16=1, Master track -&gt; Show in docker(on) - checked</p>
 </blockquote>
 <p>so you can really decide, which setting to use</p>
+<blockquote>
+<p>&amp;32=0, show TCP on the left side of arrange-view &amp;32=1, show TCP on the right side of arrange-view</p>
+</blockquote>
 <p>For other mixer-context-menu-settings, see <a href="#showctinmix">showctinmix</a>, <a href="#mixrowflags">mixrowflags</a> and <a href="#mixeruiflag">mixeruiflag</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="mixeruiflag"></a>

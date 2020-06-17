@@ -1354,7 +1354,7 @@ function ultraschall.ResizeJPG(filename_with_path, outputfilename_with_path, asp
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ResizeJPG</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     JS=1.215
     Lua=5.3
@@ -1433,7 +1433,7 @@ function ultraschall.ProjectSettings_GetVideoFramerate()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ProjectSettings_GetVideoFramerate</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     SWS=2.10.0.1
     Lua=5.3
@@ -1468,7 +1468,7 @@ function ultraschall.ProjectSettings_SetVideoFramerate(framerate, persist)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ProjectSettings_SetVideoFramerate</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     SWS=2.10.0.1
     Lua=5.3
@@ -1515,5 +1515,58 @@ function ultraschall.ProjectSettings_SetVideoFramerate(framerate, persist)
 end
 
 --A=ultraschall.ProjectSettings_SetVideoFramerate(11, true)
+
+function ultraschall.ApplyAllThemeLayoutParameters(ThemeLayoutParameters, persist, refresh)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ApplyAllThemeLayoutParameters</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ApplyAllThemeLayoutParameters(table ThemeLayoutParameters, boolean persist, boolean refresh)</functioncall>
+  <description>
+    allows applying all theme-layout-parameter-values from a 
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    table ThemeLayoutParameters - a table, which holds all theme-layout-parameter-values to apply(as set by [ApplyAllThemeLayoutParameters](#ApplyAllThemeLayoutParameters)); set values to nil to use default-value
+    boolean persist - true, the new values shall be persisting; false, values will not be persisting and lost after theme-change/Reaper restart
+    boolean refresh - true, refresh the theme to show the applied changes; false, don't refresh
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, apply, all, parameters</tags>
+</US_DocBloc>
+]]
+  if type(ThemeLayoutParameters)~="table" then ultraschall.AddErrorMessage("ApplyAllThemeLayoutParameters", "ThemeLayoutParameters", "must be a ThemeLayoutParameters-table, as created by GetAllThemeLayoutParameters", -1) return false end
+  if type(persist)~="boolean" then ultraschall.AddErrorMessage("ApplyAllThemeLayoutParameters", "persist", "must be a boolean", -2) return false end
+  if type(refresh)~="boolean" then ultraschall.AddErrorMessage("ApplyAllThemeLayoutParameters", "refresh", "must be a boolean", -3) return false end
+  for i=1, #ThemeLayoutParameters do
+    if ThemeLayoutParameters[i]["value"]~=nil then
+      if ThemeLayoutParameters[i]["value"]>ThemeLayoutParameters[i]["value max"] or ThemeLayoutParameters[i]["value"]<ThemeLayoutParameters[i]["value min"] then
+        ultraschall.AddErrorMessage("ApplyAllThemeLayoutParameters", "ThemeLayoutParameters", "entry: "..i.." \""..ThemeLayoutParameters[i]["name"].."\" - isnt within the allowed valuerange of this parameter("..ThemeLayoutParameters[i]["value min"].." - "..ThemeLayoutParameters[i]["value max"]..")", -7)
+        return false
+      end
+    end
+  end
+  for i=1, #ThemeLayoutParameters do
+    local val=ThemeLayoutParameters[i]["value"]
+    if val==nil then val=ThemeLayoutParameters[i]["value default"] end
+    reaper.ThemeLayout_SetParameter(i, val, persist)
+  end  
+  if refresh==true then
+    reaper.ThemeLayout_RefreshAll()
+  end
+  return true
+end
 
 ultraschall.ShowLastErrorMessage()
