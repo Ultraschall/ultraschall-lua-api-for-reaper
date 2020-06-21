@@ -1,13 +1,14 @@
 <TODO>
     BUG REPORT: MB and GetUserInputs: Can't find ID of the buttons anymore. Changes in Reaper in recent versions?
     
-    
+    ultraschall.Defer - can func==nil be used to use the function, in which Defer-was called?
+                        And defer-identifier==nil should be no defer-identifier(defer default)
+                        That way, it could be used as ultraschall.Defer()
     
     For 4.01.002:  
 
     - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0
 	
-    
     -- ToggleMute(_Object): state=2 toggelt relativ zum derzeitigen Mute-State, so dass man nicht erst extra den letzten state heraussuchen muss.
 				--Bugfixes!! NOCHMAL INTENSIVST TESTEN!!! 
 				-- RecArm on+Mute Button im TCP drücken toggelt nicht sauber. Man kann da den Track gemutet haben, auch wenn die MuteSpur auf unmuted steht. Da vielleicht den Mute-Button wieder auf unmuted stellen, wenn man unmuted macht?
@@ -297,6 +298,17 @@ Has now 1146 functions, with 17 new ones
   bla
   
 #### New features in 4.1.003
+   - Envelopes: ActivateEnvelope - activates an envelope, so it can be shown in the arrangeview(thanks to sexan; requested by daniellumertz)
+   - Envelopes: ActivateTrackPanEnv - activates the pan-envelope lane of a track
+   - Envelopes: ActivateTrackPanEnv_TrackObject - activates the pan-envelope lane of a trackobject
+   - Envelopes: ActivateTrackPreFXPanEnv - activates the pre-fx-pan-envelope lane of a track
+   - Envelopes: ActivateTrackPreFXPanEnv_TrackObject - activates the pre-fx-pan-envelope lane of a trackobject
+   - Envelopes: ActivateTrackPreFXVolumeEnv - activates the pre-fx-volume-envelope lane of a track
+   - Envelopes: ActivateTrackPreFXVolumeEnv_TrackObject - activates the pre-fx-volume-envelope lane of a trackobject
+   - Envelopes: ActivateTrackTrimVolumeEnv - activates the trim-volume-envelope lane of a track
+   - Envelopes: ActivateTrackTrimVolumeEnv_TrackObject - activates the trim-volume-envelope lane of a trackobject
+   - Envelopes: ActivateTrackVolumeEnv - activates the volume-envelope lane of a track
+   - Envelopes: ActivateTrackVolumeEnv_TrackObject - activates the volume-envelope lane of a trackobject
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
    - Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table
    - Video Management: ProjectSettings\_GetVideoFramerate - gets the currently set project's video-framerate
@@ -306,6 +318,8 @@ Has now 1146 functions, with 17 new ones
    - API: Requirements - requires now JS-extension 1.215
    - API: titles will now be references to FarScape-episode-titles, until I conquered the farscape of Gui-development
    - Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links
+   - Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
+   - Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
    - ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated
    - TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one
    - TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one

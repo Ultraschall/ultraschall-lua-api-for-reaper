@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43172.00" author="Meo Mespotine">
+      <version name="43176.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Changelog-Api.txt</source>
@@ -475,6 +475,29 @@ new in this release:
 
 New features in 4.1.003
 
+-   Envelopes: ActivateEnvelope - activates an envelope, so it can be
+    shown in the arrangeview(thanks to sexan; requested by
+    daniellumertz)
+-   Envelopes: ActivateTrackPanEnv - activates the pan-envelope lane of
+    a track
+-   Envelopes: ActivateTrackPanEnv_TrackObject - activates the
+    pan-envelope lane of a trackobject
+-   Envelopes: ActivateTrackPreFXPanEnv - activates the
+    pre-fx-pan-envelope lane of a track
+-   Envelopes: ActivateTrackPreFXPanEnv_TrackObject - activates the
+    pre-fx-pan-envelope lane of a trackobject
+-   Envelopes: ActivateTrackPreFXVolumeEnv - activates the
+    pre-fx-volume-envelope lane of a track
+-   Envelopes: ActivateTrackPreFXVolumeEnv_TrackObject - activates the
+    pre-fx-volume-envelope lane of a trackobject
+-   Envelopes: ActivateTrackTrimVolumeEnv - activates the
+    trim-volume-envelope lane of a track
+-   Envelopes: ActivateTrackTrimVolumeEnv_TrackObject - activates the
+    trim-volume-envelope lane of a trackobject
+-   Envelopes: ActivateTrackVolumeEnv - activates the volume-envelope
+    lane of a track
+-   Envelopes: ActivateTrackVolumeEnv_TrackObject - activates the
+    volume-envelope lane of a trackobject
 -   Image Handling: ResizeJPG - resizes jpgs to new jpgs
 -   Theme Management: ApplyAllThemeLayoutParameters - applies changes
     theme-layout parameters to the current theme; use
@@ -492,6 +515,10 @@ Changes from 4.1.002 to 4.1.003
     I conquered the farscape of Gui-development
 -   Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted
     markdown-links
+-   Envelopes: ActivateMute - had wrong returnvalue in errormessages for
+    parameter track -> fixed
+-   Envelopes: DeactivateMute - had wrong returnvalue in errormessages
+    for parameter track -> fixed
 -   ReaMote: AutoSearchReaMoteClients - renamed from
     AutoSearchReaMoteSlaves; the old name is still available but
     deprecated
@@ -6236,7 +6263,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1159 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43172 from 17.06.2020 03:56:02).}
+a 1170 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43176 from 21.06.2020 07:12:27).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6250,7 +6277,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1159 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1170 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -6374,7 +6401,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1159 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43172 from 17.06.2020 03:56:02).}
+a 1170 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43176 from 21.06.2020 07:12:27).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6388,7 +6415,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1159 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1170 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
