@@ -311,6 +311,7 @@ Has now 1146 functions, with 17 new ones
    - Envelopes: ActivateTrackVolumeEnv_TrackObject - activates the volume-envelope lane of a trackobject
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
    - Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table
+   - Track Management: GetAllVisibleTracks\_Arrange - returns all tracks currently visible in viewable part of the arrange-view
    - Video Management: ProjectSettings\_GetVideoFramerate - gets the currently set project's video-framerate
    - Video Management: ProjectSettings\_SetVideoFramerate - sets the currently set project's video-framerate and optionally the default for new projects
    
@@ -320,6 +321,7 @@ Has now 1146 functions, with 17 new ones
    - Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links
    - Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
    - Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
+   - MediaItem Management: SelectMediaItems\_MediaItemArray - updates now arrangeview, so selected items are now visible as such
    - ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated
    - TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one
    - TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one

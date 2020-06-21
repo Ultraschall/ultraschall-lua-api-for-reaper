@@ -1652,7 +1652,7 @@ function ultraschall.ActivateTrackVolumeEnv(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, volume, activate</tags>
   </US_DocBloc>
   --]]
@@ -1697,7 +1697,7 @@ function ultraschall.ActivateTrackVolumeEnv_TrackObject(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, volume, activate</tags>
   </US_DocBloc>
   --]]
@@ -1740,7 +1740,7 @@ function ultraschall.ActivateTrackPanEnv(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, pan, activate</tags>
   </US_DocBloc>
   --]]
@@ -1785,7 +1785,7 @@ function ultraschall.ActivateTrackPanEnv_TrackObject(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, pan, activate</tags>
   </US_DocBloc>
   --]]
@@ -1828,7 +1828,7 @@ function ultraschall.ActivateTrackPreFXPanEnv(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, prefx-pan, activate</tags>
   </US_DocBloc>
   --]]
@@ -1873,7 +1873,7 @@ function ultraschall.ActivateTrackPreFXPanEnv_TrackObject(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, prefx-pan, activate</tags>
   </US_DocBloc>
   --]]
@@ -1916,7 +1916,7 @@ function ultraschall.ActivateTrackPreFXVolumeEnv(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, prefx-volume, activate</tags>
   </US_DocBloc>
   --]]
@@ -1961,7 +1961,7 @@ function ultraschall.ActivateTrackPreFXVolumeEnv_TrackObject(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, prefx-volume, activate</tags>
   </US_DocBloc>
   --]]
@@ -2004,7 +2004,7 @@ function ultraschall.ActivateTrackTrimVolumeEnv(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, trim-volume, activate</tags>
   </US_DocBloc>
   --]]
@@ -2049,7 +2049,7 @@ function ultraschall.ActivateTrackTrimVolumeEnv_TrackObject(track)
       Envelope Management
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
-    <source_document>Modules/ultraschall_functions_Muting_Module.lua</source_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
     <tags>envelope management, trim-volume, activate</tags>
   </US_DocBloc>
   --]]
@@ -2066,5 +2066,68 @@ function ultraschall.ActivateTrackTrimVolumeEnv_TrackObject(track)
   end
   return retval
 end
+
+function ultraschall.GetAllVisibleTracks_Arrange(master_track, completely_visible)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetAllVisibleTracks_Arrange</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>string trackstring = ultraschall.GetAllVisibleTracks_Arrange(optional boolean master_track, optional boolean completely_visible)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns a trackstring with all tracks currently visible in the arrange-view.
+        
+      returns nil in case of error
+    </description>
+    <retvals>
+      string trackstring - a string with holds all tracknumbers from all found tracks, separated by a comma; beginning with 1 for the first track
+    </retvals>
+    <parameters>
+      optional boolean master_track - nil or true, check for visibility of the master-track; false, don't include the master-track
+      optional boolean completely_visible - nil or false, all tracks including partially visible ones; true, only fully visible tracks
+    </parameters>
+    <chapter_context>
+      Track Management
+      Assistance functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+    <tags>track management, get, all visible, tracks, arrangeview</tags>
+  </US_DocBloc>
+  --]]
+  if completely_visible~=nil and ultraschall.type(completely_visible)~="boolean" then ultraschall.AddErrorMessage("GetAllVisibleTracks_Arrange", "completely_visible", "must be either nil(for false) or a boolean",-1) return end
+  if master_track~=nil and ultraschall.type(master_track)~="boolean" then ultraschall.AddErrorMessage("GetAllVisibleTracks_Arrange", "master_track", "must be either nil(for true) or a boolean",-1) return end
+  local arrange_view = ultraschall.GetHWND_ArrangeViewAndTimeLine()
+  local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(arrange_view)
+
+  -- find all tracks currently visible
+  local trackstring=""
+  if master_track~=false then
+    local track=reaper.GetMasterTrack(0)
+    if completely_visible==true and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")>=0 then
+      trackstring="0,"
+    elseif completely_visible~=true and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")<=bottom-top then 
+      trackstring="0,"
+    end
+  end
+   
+  for i=1, reaper.CountTracks(0) do
+    local track=reaper.GetTrack(0, i-1)
+    if completely_visible==true then 
+      if reaper.GetMediaTrackInfo_Value(track, "I_TCPY")>=0 and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")<=bottom-top then
+        trackstring=trackstring..i.."," 
+      end
+    else
+      if reaper.GetMediaTrackInfo_Value(track, "I_TCPY")<=bottom-top and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")>=0 then
+        trackstring=trackstring..i..","
+      end
+    end
+  end
+  return trackstring:sub(1,-2)
+end
+
 
 ultraschall.ShowLastErrorMessage()
