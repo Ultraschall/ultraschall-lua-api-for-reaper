@@ -74,7 +74,7 @@
 	<source file="/ultraschall_api/IniFiles/StuffMidiMessage-AllMessages_Englisch_Windows.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/IniFiles/StuffMidiMessage-AllMessages_Englisch_Windows.ini</source>
 	<source file="/ultraschall_api/IniFiles/ultraschall_api.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/IniFiles/ultraschall_api.ini</source>
 	<source file="/ultraschall_api/misc/Developer_Reaper5965.ReaperLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/misc/Developer_Reaper5965.ReaperLangPack</source>
-	<source file="/ultraschall_api/misc/Developer_Reaper6_02rc1.ReaperLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/misc/Developer_Reaper6_02rc1.ReaperLangPack</source>
+	<source file="/ultraschall_api/misc/Developer_Reaper6_12c.ReaperLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/misc/Developer_Reaper6_12c.ReaperLangPack</source>
 	<source file="/ultraschall_api/misc/Markdown_Newspeak-1.0-draft" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/misc/Markdown_Newspeak-1.0-draft</source>
 	<source file="/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt</source>
 	<source file="/ultraschall_api/misc/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/misc/Reaper_Internals.pfi</source>
@@ -6267,7 +6267,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1171 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43178 from 21.06.2020 10:40:48).}
+a 1171 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43178 from 21.06.2020 11:36:44).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6405,7 +6405,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1171 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43178 from 21.06.2020 10:40:48).}
+a 1171 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43178 from 21.06.2020 11:36:44).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
