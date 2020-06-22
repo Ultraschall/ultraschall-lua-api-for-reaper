@@ -372,7 +372,7 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
                                  -    1, keeps edit-cursor in center of zoom
                                  -    2, keeps center of view in the center during zoom
                                  -    3, keeps in center of zoom, what is beneath the mousecursor
-    optional boolean verticalscroll - true, sets vertical scroll-value as well; false, doesn't set vertical-scroll-value
+    optional boolean verticalscroll - true or nil, sets vertical scroll-value as well; false, doesn't set vertical-scroll-value
   </parameters>
   <retvals>
     boolean retval - false, in case of error; true, in case of success
@@ -396,12 +396,12 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
   if math.type(slot)~="integer" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","slot", "Must be an integer", -1) return false end
   if slot<0 then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","slot", "Must be bigger than 0", -2) return false end
   if ultraschall.IsValidArrangeviewSnapshot(slot)==false then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot", "slot", "No such slot available", -3) return false end
-  if position~=nil and type(position)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","position", "Must be nil or a boolean", -4) return false end
-  if vzoom~=nil and type(vzoom)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","vzoom", "Must be nil or a boolean", -5) return false end
+  if position~=nil and type(position)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","position", "Must be nil(for true) or a boolean", -4) return false end
+  if vzoom~=nil and type(vzoom)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","vzoom", "Must be nil(for true) or a boolean", -5) return false end
   if vzoom==nil then vzoom=true end
   if position==false and hcentermode~=nil and math.type(hcentermode)~="integer" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","hcentermode", "Must be nil or an integer", -6) return false end
   if hcentermode~=nil and (hcentermode<-1 or hcentermode>3) then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","hcentermode", "Must be nil or between -1 and 3", -7) return false end
-  if verticalscroll~=nil and type(verticalscroll)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","verticalscroll", "Must be nil or a boolean", -8) return false end
+  if verticalscroll~=nil and type(verticalscroll)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","verticalscroll", "Must be nil(for true) or a boolean", -8) return false end
     
   -- prepare variables by retrieving the snapshot-slot-information
   local bool, description, start, ende, vzoom3, hzoom, vscroll = ultraschall.RetrieveArrangeviewSnapshot(slot)

@@ -3207,13 +3207,13 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
   if type(RenderQueueDelay)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderQueueDelay", "#21: must be a boolean", -14) return end
   if math.type(RenderQueueDelaySeconds)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderQueueDelaySeconds", "#22: must be an integer", -24) return end
   if type(CloseAfterRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "CloseAfterRender", "#23: must be a boolean", -25) return end
-  if EmbedStretchMarkers~=nil and type(EmbedStretchMarkers)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "#24: EmbedStretchMarkers", "must be nil or boolean", -26) return end
+  if EmbedStretchMarkers~=nil and type(EmbedStretchMarkers)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "#24: EmbedStretchMarkers", "must be nil(for false) or boolean", -26) return end
   if RenderString2~=nil and type(RenderString2)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderString2", "#25: must be nil or string", -27) return end
   if EmbedStretchMarkers==nil then EmbedStretchMarkers=false end
   if RenderString2==nil then RenderString2="" end
   
-  if EmbedTakeMarkers~=nil and type(EmbedTakeMarkers)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "EmbedTakeMarkers", "#26: must be nil or boolean", -26) return end
-  if SilentRender~=nil and type(SilentRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SilentRender", "#27: must be nil or boolean", -27) return end
+  if EmbedTakeMarkers~=nil and type(EmbedTakeMarkers)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "EmbedTakeMarkers", "#26: must be nil(for false) or boolean", -26) return end
+  if SilentRender~=nil and type(SilentRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SilentRender", "#27: must be nil(for false) or boolean", -27) return end
   if EmbedTakeMarkers==nil then EmbedTakeMarkers=false end
   if SilentRender==nil then SilentRender=false end
   
@@ -4443,9 +4443,9 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
 ]]
 --MESPOTINE
   if RenderTable~=nil and ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("RenderProject_RenderTable", "RenderTable", "must be a valid RenderTable", -1) return -1 end
-  if AddToProj~=nil and type(AddToProj)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "AddToProj", "must be nil or boolean", -10) return -1 end
-  if CloseAfterRender~=nil and type(CloseAfterRender)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "CloseAfterRender", "must be nil or boolean", -11) return -1 end
-  if SilentlyIncrementFilename~=nil and type(SilentlyIncrementFilename)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "SilentlyIncrementFilename", "must be nil or boolean", -12) return -1 end
+  if AddToProj~=nil and type(AddToProj)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "AddToProj", "must be nil(for false) or boolean", -10) return -1 end
+  if CloseAfterRender~=nil and type(CloseAfterRender)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "CloseAfterRender", "must be nil(for true) or boolean", -11) return -1 end
+  if SilentlyIncrementFilename~=nil and type(SilentlyIncrementFilename)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "SilentlyIncrementFilename", "must be nil(for true) or boolean", -12) return -1 end
 
   if RenderTable==nil then norendertable=true end
 

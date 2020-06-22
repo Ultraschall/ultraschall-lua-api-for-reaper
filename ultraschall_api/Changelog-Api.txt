@@ -298,6 +298,7 @@ Has now 1146 functions, with 17 new ones
   bla
   
 #### New features in 4.1.003
+   - Developer Tools: Developer LangPack - added developer-langpack for Reaper 6.12c
    - Envelopes: ActivateEnvelope - activates an envelope, so it can be shown in the arrangeview(thanks to sexan; requested by daniellumertz)
    - Envelopes: ActivateTrackPanEnv - activates the pan-envelope lane of a track
    - Envelopes: ActivateTrackPanEnv_TrackObject - activates the pan-envelope lane of a trackobject
@@ -309,8 +310,13 @@ Has now 1146 functions, with 17 new ones
    - Envelopes: ActivateTrackTrimVolumeEnv_TrackObject - activates the trim-volume-envelope lane of a trackobject
    - Envelopes: ActivateTrackVolumeEnv - activates the volume-envelope lane of a track
    - Envelopes: ActivateTrackVolumeEnv_TrackObject - activates the volume-envelope lane of a trackobject
+   - Envelopes: GetTakeEnvelopeUnderMouseCursor - returns the take-envelope currently under the mouse
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
    - Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table
+   - Theme Management: GetThemeParameterIndexByDescription - gets the theme parameter's values by its description
+   - Theme Management: GetThemeParameterIndexByName - gets the theme parameter's values by its name
+   - Theme Management: SetThemeParameterIndexByDescription - sets the theme parameter's values by its description   
+   - Theme Management: SetThemeParameterIndexByName - sets the theme parameter's values by its name   
    - Track Management: GetAllVisibleTracks\_Arrange - returns all tracks currently visible in viewable part of the arrange-view
    - Video Management: ProjectSettings\_GetVideoFramerate - gets the currently set project's video-framerate
    - Video Management: ProjectSettings\_SetVideoFramerate - sets the currently set project's video-framerate and optionally the default for new projects
@@ -319,6 +325,7 @@ Has now 1146 functions, with 17 new ones
    - API: Requirements - requires now JS-extension 1.215
    - API: titles will now be references to FarScape-episode-titles, until I conquered the farscape of Gui-development
    - Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links
+   - Error Management: error-messages - optional boolean errormessages include now, which is the default value when using nil
    - Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
    - Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
    - MediaItem Management: SelectMediaItems\_MediaItemArray - updates now arrangeview, so selected items are now visible as such
@@ -327,6 +334,8 @@ Has now 1146 functions, with 17 new ones
    - TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
    - TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one
    - TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
+   - Theme Management: GetAllThemeLayoutNames - didn't return themelayout index 0 -> fixed
+   - Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0 -> fixed
    - User Interface: GetHWND\_ArrangeViewAndTimeLine - didn't find TCP-hwnd when TCP was on the right side of the arrange-view -> fixed(thanks to Edgemeal)
    
 ---

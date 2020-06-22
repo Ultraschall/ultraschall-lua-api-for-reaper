@@ -49,6 +49,7 @@ bla</li>
 </ul>
 <h4>New features in 4.1.003</h4>
 <ul>
+<li>Developer Tools: Developer LangPack - added developer-langpack for Reaper 6.12c</li>
 <li>Envelopes: ActivateEnvelope - activates an envelope, so it can be shown in the arrangeview(thanks to sexan; requested by daniellumertz)</li>
 <li>Envelopes: ActivateTrackPanEnv - activates the pan-envelope lane of a track</li>
 <li>Envelopes: ActivateTrackPanEnv_TrackObject - activates the pan-envelope lane of a trackobject</li>
@@ -60,8 +61,15 @@ bla</li>
 <li>Envelopes: ActivateTrackTrimVolumeEnv_TrackObject - activates the trim-volume-envelope lane of a trackobject</li>
 <li>Envelopes: ActivateTrackVolumeEnv - activates the volume-envelope lane of a track</li>
 <li>Envelopes: ActivateTrackVolumeEnv_TrackObject - activates the volume-envelope lane of a trackobject</li>
+<li>Envelopes: GetTakeEnvelopeUnderMouseCursor - returns the take-envelope currently under the mouse</li>
 <li>Image Handling: ResizeJPG - resizes jpgs to new jpgs</li>
 <li>Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table</li>
+<li>Theme Management: GetThemeParameterIndexByDescription - gets the theme parameter's values by its description</li>
+<li>Theme Management: GetThemeParameterIndexByName - gets the theme parameter's values by its name</li>
+<li>Theme Management: SetThemeParameterIndexByDescription - sets the theme parameter's values by its description<br />
+</li>
+<li>Theme Management: SetThemeParameterIndexByName - sets the theme parameter's values by its name<br />
+</li>
 <li>Track Management: GetAllVisibleTracks_Arrange - returns all tracks currently visible in viewable part of the arrange-view</li>
 <li>Video Management: ProjectSettings_GetVideoFramerate - gets the currently set project's video-framerate</li>
 <li>Video Management: ProjectSettings_SetVideoFramerate - sets the currently set project's video-framerate and optionally the default for new projects</li>
@@ -71,6 +79,7 @@ bla</li>
 <li>API: Requirements - requires now JS-extension 1.215</li>
 <li>API: titles will now be references to FarScape-episode-titles, until I conquered the farscape of Gui-development</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links</li>
+<li>Error Management: error-messages - optional boolean errormessages include now, which is the default value when using nil</li>
 <li>Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -&gt; fixed</li>
 <li>Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -&gt; fixed</li>
 <li>MediaItem Management: SelectMediaItems_MediaItemArray - updates now arrangeview, so selected items are now visible as such</li>
@@ -79,6 +88,8 @@ bla</li>
 <li>TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one</li>
+<li>Theme Management: GetAllThemeLayoutNames - didn't return themelayout index 0 -&gt; fixed</li>
+<li>Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0 -&gt; fixed</li>
 <li>User Interface: GetHWND_ArrangeViewAndTimeLine - didn't find TCP-hwnd when TCP was on the right side of the arrange-view -&gt; fixed(thanks to Edgemeal)</li>
 </ul>
 <hr />

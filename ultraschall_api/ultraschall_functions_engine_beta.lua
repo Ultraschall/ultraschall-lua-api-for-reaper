@@ -1526,8 +1526,17 @@ function ultraschall.ApplyAllThemeLayoutParameters(ThemeLayoutParameters, persis
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ApplyAllThemeLayoutParameters(table ThemeLayoutParameters, boolean persist, boolean refresh)</functioncall>
-  <description>
-    allows applying all theme-layout-parameter-values from a 
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    allows applying all theme-layout-parameter-values from a ThemeLayoutParameters-table, as gettable by [GetAllThemeLayoutParameters](#GetAllThemeLayoutParameters)
+    
+    the table ThemeLayoutParameters is of the following format:
+
+    ThemeLayoutParameters[parameter_index]["name"] - the name of the parameter
+    ThemeLayoutParameters[parameter_index]["description"] - the description of the parameter
+    ThemeLayoutParameters[parameter_index]["value"] - the value of the parameter
+    ThemeLayoutParameters[parameter_index]["value default"] - the defult value of the parameter
+    ThemeLayoutParameters[parameter_index]["value min"] - the minimum value of the parameter
+    ThemeLayoutParameters[parameter_index]["value max"] - the maximum value of the parameter
     
     returns false in case of an error
   </description>
@@ -1535,7 +1544,7 @@ function ultraschall.ApplyAllThemeLayoutParameters(ThemeLayoutParameters, persis
     boolean retval - true, setting was successful; false, setting was unsuccessful
   </retvals>
   <parameters>
-    table ThemeLayoutParameters - a table, which holds all theme-layout-parameter-values to apply(as set by [ApplyAllThemeLayoutParameters](#ApplyAllThemeLayoutParameters)); set values to nil to use default-value
+    table ThemeLayoutParameters - a table, which holds all theme-layout-parameter-values to apply; set values to nil to use default-value
     boolean persist - true, the new values shall be persisting; false, values will not be persisting and lost after theme-change/Reaper restart
     boolean refresh - true, refresh the theme to show the applied changes; false, don't refresh
   </parameters>
@@ -2129,5 +2138,240 @@ function ultraschall.GetAllVisibleTracks_Arrange(master_track, completely_visibl
   return trackstring:sub(1,-2)
 end
 
+function ultraschall.GetTakeEnvelopeUnderMouseCursor()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetTakeEnvelopeUnderMouseCursor</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>TakeEnvelope env, MediaItem_Take take, number projectposition = ultraschall.GetTakeEnvelopeUnderMouseCursor()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the take-envelope underneath the mouse
+    </description>
+    <retvals>
+      TakeEnvelope env - the take-envelope found unterneath the mouse; nil, if none has been found
+      MediaItem_Take take - the take from which the take-envelope is
+      number projectposition - the project-position
+    </retvals>
+    <chapter_context>
+      Envelope Management
+      Envelopes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, take, envelope, mouse position</tags>
+  </US_DocBloc>
+  --]]
+  -- todo: retval for position within the take
+  
+  local Awindow, Asegment, Adetails = reaper.BR_GetMouseCursorContext()
+  local retval, takeEnvelope = reaper.BR_GetMouseCursorContext_Envelope()
+  if takeEnvelope==true then 
+    return retval, reaper.BR_GetMouseCursorContext_Position(), reaper.BR_GetMouseCursorContext_Item()
+  else
+    return nil, reaper.BR_GetMouseCursorContext_Position()
+  end
+end
+
+function ultraschall.GetThemeParameterIndexByName(parametername)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetThemeParameterIndexByName</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer parameterindex, string retval, optional string desc, optional number value, optional number defValue, optional number minValue, optional number maxValue = ultraschall.GetThemeParameterIndexByName(string parametername)</functioncall>
+  <description>
+    allows getting a theme-parameter's values by its name
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer parameterindex - the index of the theme-parameter
+    string retval - the name of the theme-parameter
+    optional string desc - the description of the theme-parameter
+    optional number value - the current value of the theme-parameter
+    optional number defValue - the default value of the theme-parameter
+    optional number minValue - the minimum-value of the theme-parameter
+    optional number maxValue - the maximum-value of the theme-parameter
+  </retvals>
+  <parameters>
+    string parametername - the name of the theme-parameter, whose attributes you want to get(default v6-Theme has usually paramX, where X is a number between 0 and 80, other themes may differ from that)
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, parameters, by name</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(parametername)~="string" then ultraschall.AddErrorMessage("GetThemeParameterIndexByName", "parametername", "must be a string", -1) return end
+  local retval=1
+  local index=-1
+  local desc, value, defValue, minValue, maxValue 
+  while retval~=nil do
+    index=index+1
+    retval, desc, value, defValue, minValue, maxValue = reaper.ThemeLayout_GetParameter(index)
+    if retval==parametername then return index, retval, desc, value, defValue, minValue, maxValue end
+  end
+  ultraschall.AddErrorMessage("GetThemeParameterIndexByName", "parametername", "no such parameter found", -2) 
+end
+
+--A={ultraschall.GetThemeParameterIndexByName("param1")}
+
+function ultraschall.SetThemeParameterIndexByName(parametername, value, persist, strict)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetThemeParameterIndexByName</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetThemeParameterIndexByName(string parametername, integer value, boolean persist, optional boolean strict)</functioncall>
+  <description>
+    allows setting the theme-parameter value by its name
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    string parametername - the name of the theme-parameter, whose attributes you want to set(default v6-Theme has usually paramX, where X is a number between 0 and 80, other themes may differ from that)
+    integer value - the new value to set
+    boolean persist - true, the new value shall persist; false, the new value shall only be used until Reaper is closed
+    optional boolean strict - true or nil, only allow values within the minimum and maximum values of the parameter; false, allows setting values out of the range
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, parameter, value, by name</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(parametername)~="string" then ultraschall.AddErrorMessage("SetThemeParameterIndexByName", "parametername", "must be a string", -1) return false end
+  if ultraschall.type(value)~="number: integer" then ultraschall.AddErrorMessage("SetThemeParameterIndexByName", "value", "must be an integer", -2) return false end
+  if ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("SetThemeParameterIndexByName", "persist", "must be a boolean", -3) return false end
+  if strict~=nil and ultraschall.type(strict)~="boolean" then ultraschall.AddErrorMessage("SetThemeParameterIndexByName", "strict", "must be nil(for true) or a boolean", -4) return false end
+  ultraschall.SuppressErrorMessages(true)
+  local index, retval, desc, pvalue, defValue, minValue, maxValue = ultraschall.GetThemeParameterIndexByName(parametername)
+  ultraschall.SuppressErrorMessages(false)
+  if index==nil then ultraschall.AddErrorMessage("SetThemeParameterIndexByName", "parametername", "no such parameter found", -5) return false end
+  if strict~=false then
+    if maxValue~=nil and minValue~=nil and (value>maxValue or value<minValue) then
+      ultraschall.AddErrorMessage("SetThemeParameterIndexByName", "value", "value "..value.." out of valid bounds between "..minValue.." and "..maxValue, -6) 
+      return false
+    end
+  end
+  return reaper.ThemeLayout_SetParameter(index, value, persist)
+end
+
+function ultraschall.GetThemeParameterIndexByDescription(description)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetThemeParameterIndexByDescription</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer parameterindex, string retval, optional string desc, optional number value, optional number defValue, optional number minValue, optional number maxValue = ultraschall.GetThemeParameterIndexByDescription(string description)</functioncall>
+  <description>
+    allows getting a theme-parameter's values by its description
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer parameterindex - the index of the theme-parameter
+    string retval - the name of the theme-parameter
+    optional string desc - the description of the theme-parameter
+    optional number value - the current value of the theme-parameter
+    optional number defValue - the default value of the theme-parameter
+    optional number minValue - the minimum-value of the theme-parameter
+    optional number maxValue - the maximum-value of the theme-parameter
+  </retvals>
+  <parameters>
+    string description - the description of the theme-parameter, whose attributes you want to get
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, parameters, by description</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(description)~="string" then ultraschall.AddErrorMessage("GetThemeParameterIndexByDescription", "description", "must be a string", -1) return end
+  local retval=1
+  local index=-1
+  local desc, value, defValue, minValue, maxValue 
+  while retval~=nil do
+    index=index+1
+    retval, desc, value, defValue, minValue, maxValue = reaper.ThemeLayout_GetParameter(index)
+    if desc==description then return index, retval, desc, value, defValue, minValue, maxValue end
+  end
+  ultraschall.AddErrorMessage("GetThemeParameterIndexByDescription", "description", "no such parameter found", -2) 
+end
+
+--A={ultraschall.GetThemeParameterIndexByDescription("A_tcp_LabelMeasure")}
+
+function ultraschall.SetThemeParameterIndexByDescription(description, value, persist, strict)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetThemeParameterIndexByDescription</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetThemeParameterIndexByDescription(string description, integer value, boolean persist, optional boolean strict)</functioncall>
+  <description>
+    allows setting the theme-parameter value by its description
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    string description - the description of the theme-parameter, whose attributes you want to set
+    integer value - the new value to set
+    boolean persist - true, the new value shall persist; false, the new value shall only be used until Reaper is closed
+    optional boolean strict - true or nil, only allow values within the minimum and maximum values of the parameter; false, allows setting values out of the range
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, parameter, value, by description</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(description)~="string" then ultraschall.AddErrorMessage("SetThemeParameterIndexByDescription", "description", "must be a string", -1) return false end
+  if ultraschall.type(value)~="number: integer" then ultraschall.AddErrorMessage("SetThemeParameterIndexByDescription", "value", "must be an integer", -2) return false end
+  if ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("SetThemeParameterIndexByDescription", "persist", "must be a boolean", -3) return false end
+  if strict~=nil and ultraschall.type(strict)~="boolean" then ultraschall.AddErrorMessage("SetThemeParameterIndexByDescription", "strict", "must be nil(for true) or a boolean", -4) return false end
+  ultraschall.SuppressErrorMessages(true)
+  local index, retval, desc, pvalue, defValue, minValue, maxValue = ultraschall.GetThemeParameterIndexByDescription(description)
+  ultraschall.SuppressErrorMessages(false)
+  if index==nil then ultraschall.AddErrorMessage("SetThemeParameterIndexByDescription", "description", "no such parameter found", -5) return false end
+  if strict~=false then
+    if maxValue~=nil and minValue~=nil and (value>maxValue or value<minValue) then
+      ultraschall.AddErrorMessage("SetThemeParameterIndexByDescription", "value", "value "..value.." out of valid bounds between "..minValue.." and "..maxValue, -6) 
+      return false
+    end
+  end
+  return reaper.ThemeLayout_SetParameter(index, value, persist)
+end
+
+--AAA=ultraschall.SetThemeParameterIndexByDescription("A_tcp_Record_Arm", 2, false, true)
 
 ultraschall.ShowLastErrorMessage()

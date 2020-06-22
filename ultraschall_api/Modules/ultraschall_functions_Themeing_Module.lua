@@ -87,7 +87,7 @@ function ultraschall.GetAllThemeLayoutNames()
 ]]
   local Aretval=true
   local Layoutnames={}
-  local i=1
+  local i=0
   while Aretval==true do
     Layoutnames[i]={}
     Aretval, Layoutnames[i]["layout section"] = reaper.ThemeLayout_GetLayout("seclist", i)
@@ -140,11 +140,12 @@ function ultraschall.GetAllThemeLayoutParameters()
   <tags>theme management, get, all, parameters</tags>
 </US_DocBloc>
 ]]
-  local i=1
+  local i=0
   local ParamsIdx ={}
-  
-  while reaper.ThemeLayout_GetParameter(i) ~= nil do
-    local tmp, desc, C, D, E, F = reaper.ThemeLayout_GetParameter(i)
+  local tmp, desc, C, D, E, F
+  tmp=1
+  while tmp ~= nil do
+    tmp, desc, C, D, E, F = reaper.ThemeLayout_GetParameter(i)
     ParamsIdx[i]={}
     ParamsIdx[i]["name"]=tmp
     ParamsIdx[i]["description"]=desc
