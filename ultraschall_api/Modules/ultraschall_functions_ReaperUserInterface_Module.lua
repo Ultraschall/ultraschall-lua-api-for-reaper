@@ -1419,7 +1419,7 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>HWND arrange_view, HWND timeline, HWND TrackControlPanel = ultraschall.GetHWND_ArrangeViewAndTimeLine()</functioncall>
+  <functioncall>HWND arrange_view, HWND timeline, HWND TrackControlPanel, HWND TrackListWindow = ultraschall.GetHWND_ArrangeViewAndTimeLine()</functioncall>
   <description>
     Returns the HWND-Reaper-Windowhandler for the tracklist- and timeline-area in the arrange-view 
     
@@ -1428,7 +1428,8 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   <retvals>
     HWND arrange_view - the HWND-window-handler for the tracklist-area of the arrangeview
     HWND timeline - the HWND-window-handler for the timeline/markerarea of the arrangeview
-    HWND TrackControlPanel - the HWND-window-handler for the track-control-panel(TCP)(may not work anymore in an upcoming Reaper-release!)
+    HWND TrackControlPanel - the HWND-window-handler for the track-control-panel(TCP)(may not work anymore in an upcoming Reaper-release! Send me a note in that case!)
+    HWND TrackListWindow - the HWND-window-handler for the tracklist-window
   </retvals>
   <chapter_context>
     User Interface
@@ -1487,12 +1488,6 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
          max~=ScrollState[i]["max"] or
          trackPos~=ScrollState[i]["trackPos"] then
         ARHWND=temphwnd 
-        --[[print2(reaper.JS_Window_GetTitle(temphwnd), position, ScrollState[i]["position"], 
-                                                    pageSize, ScrollState[i]["pageSize"],
-                                                    min, ScrollState[i]["min"],
-                                                    max, ScrollState[i]["max"],
-                                                    trackPos, ScrollState[i]["trackPos"]
-                                                    )--]]
         break
       end
     end
@@ -1561,7 +1556,7 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
     TCPHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "tcphwnd"))
     if TCPHWND=="" then TCPHWND=nil end
   end  
-  return ARHWND, TLHWND, TCPHWND
+  return ARHWND, TLHWND, TCPHWND, reaper.JS_Window_FindChildByID(reaper.GetMainHwnd(), 1000)
 end
 
 --reaper.SNM_SetIntConfigVar("mixerflag", 2)
@@ -1872,21 +1867,20 @@ function ultraschall.GetRenderToFileHWND()
 --]]
 
   local translation=reaper.JS_Localize("Render to File", "DLG_506")
-  local open_render_queue_tr=reaper.JS_Localize("Open render queue...", "DLG_506")
-  local save_changes_and_close_tr=reaper.JS_Localize("Save changes and close", "DLG_506")
-  local render_tr=reaper.JS_Localize("Render...", "DLG_506")
-  local wildcards_tr=reaper.JS_Localize("Wildcards", "DLG_506")
   
-  --count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find("Render to File", false)
+  local presets=reaper.JS_Localize("Presets", "DLG_506")
+  local monofiles=reaper.JS_Localize("Tracks with only mono media to mono files", "DLG_506")
+  local render_to=reaper.JS_Localize("Render to", "DLG_506")
+  
+  
   local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
   if count_hwnds==0 then return nil
   else
     for i=count_hwnds, 1, -1 do
       if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
-                                            open_render_queue_tr.."\0"..
-                                            save_changes_and_close_tr.."\0"..
---                                            render_tr.."\0".. -- includes number of to be rendered files, so you can't use this
-                                            wildcards_tr)==true then return hwnd_array[i] end
+                                            monofiles,
+                                            render_to,
+                                            presets)==true then return hwnd_array[i] end
     end
   end
   return nil

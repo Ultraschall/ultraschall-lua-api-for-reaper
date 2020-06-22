@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43183.00" author="Meo Mespotine">
+      <version name="43184.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Changelog-Api.txt</source>
@@ -115,6 +115,7 @@
 	<source file="/ultraschall_api/Modules/ultraschall_functions_TrackManagement_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Modules/ultraschall_functions_TrackManagement_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_TrackManagement_Routing_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Modules/ultraschall_functions_TrackManagement_Routing_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua</source>
+	<source file="/ultraschall_api/Modules/ultraschall_functions_TrackManager_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Modules/ultraschall_functions_TrackManager_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Ultraschall_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Modules/ultraschall_functions_Ultraschall_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_WebInterface_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Modules/ultraschall_functions_WebInterface_Module.lua</source>
 	<source file="/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua</source>
@@ -516,6 +517,22 @@ New features in 4.1.003
     parameter’s values by its name
 -   Track Management: GetAllVisibleTracks_Arrange - returns all tracks
     currently visible in viewable part of the arrange-view
+-   Track Manager: TrackManager_ClearFilter - clears the filter of the
+    opened track manager
+-   Track Manager: TrackManager_ShowAll - shows all tracks of the opened
+    track manager
+-   Track Manager: TrackManager_SelectionFromProject - sets the
+    selection of the opened track manager to the track-selection of the
+    project
+-   Track Manager: TrackManager_SelectionFromList - sets the
+    track-selection of the project into the track-selection of the
+    opened track manager
+-   Track Manager: TrackManager_SetFilter - sets the filter of the
+    opened track manager
+-   User Interface: GetTrackManagerHWND - gets the tcp of the
+    trackmanager, if opened
+-   User Interface: TCP_SetWidth - allows setting a new width of the
+    tcp(initial code by amagalma, thanks for that :) )
 -   Video Management: ProjectSettings_GetVideoFramerate - gets the
     currently set project’s video-framerate
 -   Video Management: ProjectSettings_SetVideoFramerate - sets the
@@ -540,6 +557,8 @@ Changes from 4.1.002 to 4.1.003
 -   ReaMote: AutoSearchReaMoteClients - renamed from
     AutoSearchReaMoteSlaves; the old name is still available but
     deprecated
+-   Render Management: GetRenderToFileHWND - didn’t return render to
+    file-dialog-hwnd on recent Reaper-versions -> fixed
 -   TrackGroups: GetTrackGroupFlagsState - updated nomenclature to
     Reaper’s new one
 -   TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to
@@ -552,9 +571,9 @@ Changes from 4.1.002 to 4.1.003
     index 0 -> fixed
 -   Theme Management: GetAllThemeLayoutParameters - didn’t return
     themeparameter index 0 -> fixed
--   User Interface: GetHWND_ArrangeViewAndTimeLine - didn’t find
-    TCP-hwnd when TCP was on the right side of the arrange-view ->
-    fixed(thanks to Edgemeal)
+-   User Interface: GetHWND_ArrangeViewAndTimeLine - returns now
+    tracklistwindow-tcp as well; didn’t find TCP-hwnd when TCP was on
+    the right side of the arrange-view -> fixed(thanks to Edgemeal)
 
 ------------------------------------------------------------------------
 
@@ -6285,7 +6304,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1176 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43183 from 22.06.2020 16:00:03).}
+a 1184 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43184 from 22.06.2020 20:16:57).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6299,7 +6318,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1176 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1184 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -6423,7 +6442,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1176 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43183 from 22.06.2020 16:00:03).}
+a 1184 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43184 from 22.06.2020 20:16:57).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6437,7 +6456,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1176 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1184 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

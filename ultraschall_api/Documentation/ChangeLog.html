@@ -71,6 +71,13 @@ bla</li>
 <li>Theme Management: SetThemeParameterIndexByName - sets the theme parameter's values by its name<br />
 </li>
 <li>Track Management: GetAllVisibleTracks_Arrange - returns all tracks currently visible in viewable part of the arrange-view</li>
+<li>Track Manager: TrackManager_ClearFilter - clears the filter of the opened track manager</li>
+<li>Track Manager: TrackManager_ShowAll - shows all tracks of the opened track manager</li>
+<li>Track Manager: TrackManager_SelectionFromProject - sets the selection of the opened track manager to the track-selection of the project</li>
+<li>Track Manager: TrackManager_SelectionFromList - sets the track-selection of the project into the track-selection of the opened track manager</li>
+<li>Track Manager: TrackManager_SetFilter - sets the filter of the opened track manager</li>
+<li>User Interface: GetTrackManagerHWND - gets the tcp of the trackmanager, if opened</li>
+<li>User Interface: TCP_SetWidth - allows setting a new width of the tcp(initial code by amagalma, thanks for that :) )</li>
 <li>Video Management: ProjectSettings_GetVideoFramerate - gets the currently set project's video-framerate</li>
 <li>Video Management: ProjectSettings_SetVideoFramerate - sets the currently set project's video-framerate and optionally the default for new projects</li>
 </ul>
@@ -84,13 +91,15 @@ bla</li>
 <li>Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -&gt; fixed</li>
 <li>MediaItem Management: SelectMediaItems_MediaItemArray - updates now arrangeview, so selected items are now visible as such</li>
 <li>ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated</li>
+<li>Render Management: GetRenderToFileHWND - didn't return render to file-dialog-hwnd on recent Reaper-versions -&gt; fixed</li>
 <li>TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one</li>
 <li>Theme Management: GetAllThemeLayoutNames - didn't return themelayout index 0 -&gt; fixed</li>
-<li>Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0 -&gt; fixed</li>
-<li>User Interface: GetHWND_ArrangeViewAndTimeLine - didn't find TCP-hwnd when TCP was on the right side of the arrange-view -&gt; fixed(thanks to Edgemeal)</li>
+<li>Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0 -&gt; fixed<br />
+</li>
+<li>User Interface: GetHWND_ArrangeViewAndTimeLine - returns now tracklistwindow-tcp as well; didn't find TCP-hwnd when TCP was on the right side of the arrange-view -&gt; fixed(thanks to Edgemeal)</li>
 </ul>
 <hr />
 <h3>4.1.002 - "The Buzzcocks - Why can't I touch it" - 8th of June 2020</h3>
