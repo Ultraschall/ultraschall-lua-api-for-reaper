@@ -1300,7 +1300,7 @@ function ultraschall.BatchConvertFiles(filelist, RenderTable, BWFStart, PadStart
     path, filename = ultraschall.GetPath(filelist[i])
     filename2=filename:match("(.-)%.")
     if filename2==nil then filename2=filename end
-    BatchConvertData=BatchConvertData..filelist[i].."\t"..filename2.."\n"
+    BatchConvertData=BatchConvertData..filelist[i].."\t"..filelist[i]:match("(.*)%.").."\n"
     i=i+1
   end
   BatchConvertData=BatchConvertData..[[
@@ -1322,13 +1322,13 @@ function ultraschall.BatchConvertFiles(filelist, RenderTable, BWFStart, PadStart
 ]]..PadEnd..[[
     OUTPATH ]]..RenderTable["RenderFile"]..[[
     
-    OUTPATTERN ']]..RenderTable["RenderPattern"]..[['
+    OUTPATTERN ']]..[['
   >
 >
 ]]
 
   ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/filelist.txt", BatchConvertData)
-print2(BatchConvertData)
+print3(BatchConvertData)
   if ultraschall.IsOS_Windows()==true then
     ExeFile=reaper.GetExePath().."\\reaper.exe"
     AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt", -1)
@@ -2115,11 +2115,11 @@ function ultraschall.GetAllVisibleTracks_Arrange(master_track, completely_visibl
   -- find all tracks currently visible
   local trackstring=""
   if master_track~=false then
-    local track=reaper.GetMasterTrack(0)
-    if completely_visible==true and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")>=0 then
-      trackstring="0,"
-    elseif completely_visible~=true and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")<=bottom-top then 
-      trackstring="0,"
+    if reaper.SNM_GetIntConfigVar("showmaintrack",-99)&1==1 then
+      local track=reaper.GetMasterTrack(0)
+      if completely_visible~=true and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")>0 then 
+        trackstring="0,"
+      end
     end
   end
    
@@ -2629,7 +2629,7 @@ function ultraschall.TrackManager_SetFilter(filter)
     JS=0.963
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.TrackManager_SetFilter()</functioncall>
+  <functioncall>boolean retval = ultraschall.TrackManager_SetFilter(string filter)</functioncall>
   <description>
     sets filter of the trackmanager, if the trackmanager-window is opened.
     
@@ -2638,6 +2638,9 @@ function ultraschall.TrackManager_SetFilter(filter)
   <retvals>
     boolean retval - true, setting filter was successful; false, setting filter was unsuccessful
   </retvals>
+  <parameters>
+    string filter - the new filter-phrase to be set 
+  </parameters>
   <chapter_context>
     TrackManager
   </chapter_context>

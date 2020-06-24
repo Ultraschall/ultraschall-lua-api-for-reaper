@@ -338,6 +338,7 @@ Has now 1146 functions, with 17 new ones
    - Error Management: error-messages - optional boolean errormessages include now, which is the default value when using nil
    - Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
    - Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
+   - Helper functions: OpenURL - didn't work on Linux -> fixed
    - MediaItem Management: SelectMediaItems\_MediaItemArray - updates now arrangeview, so selected items are now visible as such
    - ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated
    - Render Management: GetRenderToFileHWND - didn't return render to file-dialog-hwnd on recent Reaper-versions -> fixed
@@ -346,7 +347,7 @@ Has now 1146 functions, with 17 new ones
    - TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one
    - TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
    - Theme Management: GetAllThemeLayoutNames - didn't return themelayout index 0 -> fixed
-   - Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0 -> fixed   
+   - Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0 -> fixed
    - User Interface: GetHWND\_ArrangeViewAndTimeLine - returns now tracklistwindow-tcp as well; didn't find TCP-hwnd when TCP was on the right side of the arrange-view -> fixed(thanks to Edgemeal)
    
 ---
