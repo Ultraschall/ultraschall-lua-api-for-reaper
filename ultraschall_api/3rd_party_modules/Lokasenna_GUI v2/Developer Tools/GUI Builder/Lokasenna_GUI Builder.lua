@@ -1,10 +1,15 @@
+
+ 
 -- NoIndex: true
 --[[
-    GUI Builder for Lokasenna_GUI v2.9
+    GUI Builder for Lokasenna_GUI v2.9 Ultraschall-Mod
 
 ]]--
 
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+ultraschall.Lokasenna_LoadGuiLib_v2()
 
+--[[
 local lib_path = reaper.GetExtState("Lokasenna_GUI", "lib_path_v2")
 if not lib_path or lib_path == "" then
     reaper.MB("Couldn't load the Lokasenna_GUI library. Please install 'Lokasenna's GUI library v2 for Lua', available on ReaPack, then run the 'Set Lokasenna_GUI v2 library path.lua' script in your Action List.", "Whoops!", 0)
@@ -12,6 +17,7 @@ if not lib_path or lib_path == "" then
 end
 loadfile(lib_path .. "Core.lua")()
 
+--]]
 GUI.req("Classes/Class - Button.lua")()
 GUI.req("Classes/Class - Frame.lua")()
 GUI.req("Classes/Class - Knob.lua")()
@@ -25,8 +31,6 @@ GUI.req("Classes/Class - Tabs.lua")()
 GUI.req("Classes/Class - Textbox.lua")()
 GUI.req("Classes/Class - TextEditor.lua")()
 GUI.req("Classes/Class - Window.lua")()
-
-
 
 
 ------------------------------------
@@ -132,7 +136,7 @@ function GUI.elms.GB_frm_bg:draw()
                 false)
 
 end
-
+--mespotine
 function GUI.elms.GB_frm_bg:onmouseup()
 
     if GUI.mouse.cap & 8 == 8 then

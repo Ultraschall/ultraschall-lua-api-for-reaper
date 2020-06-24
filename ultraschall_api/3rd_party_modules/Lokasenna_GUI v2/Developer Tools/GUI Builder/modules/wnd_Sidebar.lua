@@ -47,7 +47,7 @@ GUI.New("GB_side_frm", "Frame",  3, 800, 0, 4, 768, true, true)
 GUI.New("GB_side_bg", "Frame", 9, Sidebar_ref_x(), 0, Sidebar_w, 768, false, false, "wnd_bg")
 
 GUI.New("GB_side_tab", "Tabs", 4, Sidebar_ref_x(), 20, 56, 20, "Element")
-GUI.New("GB_side_no_elm", "Label", 5, 816, 48, "No element selected", true, 2, "txt")
+GUI.New("GB_side_no_elm", "Label", 5, 816, 48, "No element selected\n\nTo add an element, rightclick into \nthe gui-area.", true, 2, "txt")
 
 GUI.elms.GB_side_tab:update_sets(
 
