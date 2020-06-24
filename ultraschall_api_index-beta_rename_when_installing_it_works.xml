@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43184.00" author="Meo Mespotine">
+      <version name="43187.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Changelog-Api.txt</source>
@@ -125,6 +125,7 @@
 	<source file="/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_TracknamePatterns.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_TracknamePatterns.lua</source>
 	<source file="/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_Tracknames.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_Tracknames.lua</source>
 	<source file="/ultraschall_api/Scripts/Ultraschall_EventManager.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/Ultraschall_EventManager.lua</source>
+	<source file="/ultraschall_api/Scripts/ultraschall_Help_Lokasenna_GuiLib_Documentation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/ultraschall_Help_Lokasenna_GuiLib_Documentation.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Documentation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Documentation.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Video_Documentation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Video_Documentation.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Web_Documentation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Web_Documentation.lua</source>
@@ -154,6 +155,12 @@
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library v2-developer tools.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library v2-developer tools.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library v2.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/README.md" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/README.md</source>
+	<source file="/ultraschall_api/3rd_party_modules/Scythe/CHANGELOG.md" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/CHANGELOG.md</source>
+	<source file="/ultraschall_api/3rd_party_modules/Scythe/LICENSE" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/LICENSE</source>
+	<source file="/ultraschall_api/3rd_party_modules/Scythe/README.md" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/README.md</source>
 	<source file="/ultraschall_api/3rd_party_modules/Scythe/scythe.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/scythe.lua</source>
 	<source file="/ultraschall_api/Documentation/gfx/Changelog.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Documentation/gfx/Changelog.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Changelog_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Documentation/gfx/Changelog_Un.png</source>
@@ -372,6 +379,10 @@
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Current_Project.webm" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Current_Project.webm</source>
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Project.webm" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Project.webm</source>
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/UserInterface_ProgressBar-Example.webm" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/UserInterface_ProgressBar-Example.webm</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Open Lokasenna_GUI v2 Developer Tools folder.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Open Lokasenna_GUI v2 Developer Tools folder.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Core.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Core.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Set Lokasenna_GUI v2 library path.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Set Lokasenna_GUI v2 library path.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Scythe/gui/config.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/gui/config.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Scythe/gui/core.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/gui/core.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Scythe/gui/element.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/gui/element.lua</source>
@@ -426,6 +437,29 @@
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_GFX_Converter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_GFX_Converter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_GUI_Converter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_GUI_Converter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_VID_Converter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_VID_Converter.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Adding a Main loop working with Z layers and Rewriting Methods.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Adding a Main loop working with Z layers and Rewriting Methods.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Creating elements with keyed tables.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Creating elements with keyed tables.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - General demonstration.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - General demonstration.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - GetUserInputs module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - GetUserInputs module.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Menubar Listbox and TextEditor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Menubar Listbox and TextEditor.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Typical script options.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Typical script options.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Template - Blank class.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Template - Blank class.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Template - Blank GUI script.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Template - Blank GUI script.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/Lokasenna_GUI Builder.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/Lokasenna_GUI Builder.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Button.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Button.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Frame.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Frame.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Knob.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Knob.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Label.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Label.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Listbox.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Listbox.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Menubar.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Menubar.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Menubox.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Menubox.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Options.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Options.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Slider.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Slider.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Tabs.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Tabs.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Textbox.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Textbox.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - TextEditor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - TextEditor.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Window.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/Class - Window.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Modules/Window - GetUserInputs.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Library/Modules/Window - GetUserInputs.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Scythe/gui/elements/Button.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/gui/elements/Button.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Scythe/gui/elements/Checklist.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/gui/elements/Checklist.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Scythe/gui/elements/ColorPicker.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/gui/elements/ColorPicker.lua</source>
@@ -449,6 +483,18 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/Ultraschall-Inspector.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/Ultraschall-Inspector.ini</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/Ultraschall_Inspector_Gfx_GetKey_Codes.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/Ultraschall_Inspector_Gfx_GetKey_Codes.ini</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/us.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts/Tools/DeveloperScripts/Ultraschall_StateInspector/us.png</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/class_Properties.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/class_Properties.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/data_Elements.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/data_Elements.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Elements.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Elements.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Export.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Export.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Menu.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Menu.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Prefs.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Prefs.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Project.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/func_Project.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/tab_Properties.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/tab_Properties.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/wnd_Help.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/wnd_Help.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/wnd_Prefs.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/wnd_Prefs.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/wnd_Project.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/wnd_Project.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/wnd_Sidebar.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/modules/wnd_Sidebar.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Scythe/gui/elements/shared/option.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/gui/elements/shared/option.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Scythe/gui/elements/shared/text.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_modules/Scythe/gui/elements/shared/text.lua</source>
 	<source main="true" file="/ultraschall_Add_ExampleScripts_To_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api/Scripts/ultraschall_Add_ExampleScripts_To_Reaper.lua</source>
@@ -503,6 +549,11 @@ New features in 4.1.003
     volume-envelope lane of a trackobject
 -   Envelopes: GetTakeEnvelopeUnderMouseCursor - returns the
     take-envelope currently under the mouse
+-   GUI: Lokasenna’s Gui Lib v2 - added his Gui-Lib v2 into
+    Ultraschall-API; will not affect other possible installations on
+    current Reaper-installation
+-   GUI: Lokasenna_LoadGuiLib_v2 - loads Lokasennas Gui-Lib and all
+    available classes into your script
 -   Image Handling: ResizeJPG - resizes jpgs to new jpgs
 -   Theme Management: ApplyAllThemeLayoutParameters - applies changes
     theme-layout parameters to the current theme; use
@@ -518,17 +569,19 @@ New features in 4.1.003
 -   Track Management: GetAllVisibleTracks_Arrange - returns all tracks
     currently visible in viewable part of the arrange-view
 -   Track Manager: TrackManager_ClearFilter - clears the filter of the
-    opened track manager
+    opened track manager(requested by Monomirror)
+-   Track Manager: TrackManager_OpenClose - open, closes and toggles
+    opening of the track manager(requested by Monomirror)
 -   Track Manager: TrackManager_ShowAll - shows all tracks of the opened
-    track manager
+    track manager(requested by Monomirror)
 -   Track Manager: TrackManager_SelectionFromProject - sets the
     selection of the opened track manager to the track-selection of the
-    project
+    project(requested by Monomirror)
 -   Track Manager: TrackManager_SelectionFromList - sets the
     track-selection of the project into the track-selection of the
-    opened track manager
+    opened track manager(requested by Monomirror)
 -   Track Manager: TrackManager_SetFilter - sets the filter of the
-    opened track manager
+    opened track manager(requested by Monomirror)
 -   User Interface: GetTrackManagerHWND - gets the tcp of the
     trackmanager, if opened
 -   User Interface: TCP_SetWidth - allows setting a new width of the
@@ -6304,7 +6357,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1184 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43184 from 22.06.2020 20:16:57).}
+a 1186 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43187 from 24.06.2020 02:16:54).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6318,7 +6371,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1184 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1186 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -6442,7 +6495,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1184 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43184 from 22.06.2020 20:16:57).}
+a 1186 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43187 from 24.06.2020 02:16:54).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6456,7 +6509,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1184 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1186 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

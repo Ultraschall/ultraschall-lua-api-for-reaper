@@ -2435,7 +2435,7 @@ function ultraschall.GetTrackManagerHWND()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackManagerHWND</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.965
     JS=0.963
     Lua=5.3
@@ -2484,7 +2484,7 @@ function ultraschall.TrackManager_ClearFilter()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>TrackManager_ClearFilter</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     JS=0.963
     Lua=5.3
@@ -2519,7 +2519,7 @@ function ultraschall.TrackManager_ShowAll()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>TrackManager_ShowAll</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     JS=0.963
     Lua=5.3
@@ -2554,7 +2554,7 @@ function ultraschall.TrackManager_SelectionFromProject()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>TrackManager_SelectionFromProject</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     JS=0.963
     Lua=5.3
@@ -2589,7 +2589,7 @@ function ultraschall.TrackManager_SelectionFromList()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>TrackManager_SelectionFromProject</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     JS=0.963
     Lua=5.3
@@ -2624,7 +2624,7 @@ function ultraschall.TrackManager_SetFilter(filter)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>TrackManager_SetFilter</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.02
     JS=0.963
     Lua=5.3
@@ -2653,5 +2653,96 @@ function ultraschall.TrackManager_SetFilter(filter)
   reaper.JS_Window_SetTitle(button, filter)
   return true
 end
+
+function ultraschall.TrackManager_OpenClose(toggle)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>TrackManager_OpenClose</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional boolean new_toggle_state = ultraschall.TrackManager_OpenClose(optional boolean toggle)</functioncall>
+  <description>
+    opens/closes the trackmanager
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, opening/closing was successful; false, there was an error
+    optional boolean new_toggle_state - true, track manager is opened; false, track manager is closed
+  </retvals>
+  <parameters>
+    optional boolean toggle - true, open the track manager; false, close the track manager; nil, just toggle open/close of the trackmanager
+  </parameters>
+  <chapter_context>
+    TrackManager
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManager_Module.lua</source_document>
+  <tags>trackmanager, open, close</tags>
+</US_DocBloc>
+--]]
+  if toggle~=nil and ultraschall.type(toggle)~="boolean" then ultraschall.AddErrorMessage("TrackManager_OpenClose", "toggle", "must be a boolean", -1) return false end
+  local state=reaper.GetToggleCommandState(40906)
+  if (state==0 and toggle==true) or
+     (state==1 and toggle==false) then
+    reaper.Main_OnCommand(40906,0)
+  elseif toggle==nil then
+    reaper.Main_OnCommand(40906,0)
+    if state==0 then return true, true else return true, false end
+  end
+  return true, toggle
+end
+
+--A,B=ultraschall.TrackManager_OpenClose()
+
+function ultraschall.Lokasenna_LoadGuiLib_v2()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Lokasenna_LoadGuiLib_v2</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.Lokasenna_LoadGuiLib_v2()</functioncall>
+  <description>
+    loads Lokasenna's Gui Lib v2 into the current script, so you can make your own guis.
+    
+    This prevents the need to use dofile, require, loadfile to load Lokasenna's Gui Lib, so you can code the actual Gui right after calling this function.
+    
+    It gives you access to all classes immediately.
+    
+    It uses a version of Lokasenna's Gui Lib v2 included with Ultraschall-API, so it doesn't get into conflict with other installed versions on your system.
+    
+    You can find the documentation for it <a href="../3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html">at this location.</a>
+  </description>
+  <chapter_context>
+    User Interface
+    Lokasenna Gui Lib v2
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManager_Module.lua</source_document>
+  <tags>user interface, load, lokasenna, guilib, v2, classes</tags>
+</US_DocBloc>
+--]]
+  loadfile(ultraschall.Api_Path.."/3rd_party_modules/Lokasenna_GUI v2/Library/Core.lua")()
+
+  local filename=""
+  local i=0
+  while filename~=nil do
+    filename=reaper.EnumerateFiles(ultraschall.Api_Path.."/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/", i)
+    if filename==nil then break end
+    i=i+1
+    loadfile(ultraschall.Api_Path.."/3rd_party_modules/Lokasenna_GUI v2/Library/Classes/"..filename)()
+  end
+end
+
+
+
+--ultraschall.Lokasenna_LoadGuiLib_v2()
 
 ultraschall.ShowLastErrorMessage()

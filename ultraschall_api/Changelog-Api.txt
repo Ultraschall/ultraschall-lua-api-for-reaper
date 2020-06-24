@@ -311,6 +311,8 @@ Has now 1146 functions, with 17 new ones
    - Envelopes: ActivateTrackVolumeEnv - activates the volume-envelope lane of a track
    - Envelopes: ActivateTrackVolumeEnv_TrackObject - activates the volume-envelope lane of a trackobject
    - Envelopes: GetTakeEnvelopeUnderMouseCursor - returns the take-envelope currently under the mouse
+   - GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible installations on current Reaper-installation
+   - GUI: Lokasenna\_LoadGuiLib\_v2 - loads Lokasennas Gui-Lib and all available classes into your script
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
    - Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table
    - Theme Management: GetThemeParameterIndexByDescription - gets the theme parameter's values by its description
@@ -318,11 +320,12 @@ Has now 1146 functions, with 17 new ones
    - Theme Management: SetThemeParameterIndexByDescription - sets the theme parameter's values by its description   
    - Theme Management: SetThemeParameterIndexByName - sets the theme parameter's values by its name   
    - Track Management: GetAllVisibleTracks\_Arrange - returns all tracks currently visible in viewable part of the arrange-view
-   - Track Manager: TrackManager\_ClearFilter - clears the filter of the opened track manager
-   - Track Manager: TrackManager\_ShowAll - shows all tracks of the opened track manager
-   - Track Manager: TrackManager\_SelectionFromProject - sets the selection of the opened track manager to the track-selection of the project
-   - Track Manager: TrackManager\_SelectionFromList - sets the track-selection of the project into the track-selection of the opened track manager
-   - Track Manager: TrackManager\_SetFilter - sets the filter of the opened track manager
+   - Track Manager: TrackManager\_ClearFilter - clears the filter of the opened track manager(requested by Monomirror)
+   - Track Manager: TrackManager\_OpenClose - open, closes and toggles opening of the track manager(requested by Monomirror)
+   - Track Manager: TrackManager\_ShowAll - shows all tracks of the opened track manager(requested by Monomirror)
+   - Track Manager: TrackManager\_SelectionFromProject - sets the selection of the opened track manager to the track-selection of the project(requested by Monomirror)
+   - Track Manager: TrackManager\_SelectionFromList - sets the track-selection of the project into the track-selection of the opened track manager(requested by Monomirror)
+   - Track Manager: TrackManager\_SetFilter - sets the filter of the opened track manager(requested by Monomirror)
    - User Interface: GetTrackManagerHWND - gets the tcp of the trackmanager, if opened
    - User Interface: TCP\_SetWidth - allows setting a new width of the tcp(initial code by amagalma, thanks for that :) )
    - Video Management: ProjectSettings\_GetVideoFramerate - gets the currently set project's video-framerate
