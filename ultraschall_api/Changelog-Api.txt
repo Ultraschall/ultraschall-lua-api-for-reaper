@@ -1,13 +1,23 @@
 <TODO>
+    
+    For 4.01.003:  
+        - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0
+        - Embed Metadata-checkbox must be part of RenderTable and render-preset-settings
+        - Theme-Parameter-monitoring-script
+        - LangPack-comparision-script
+        - JPG2PNG and PNG2JPG converter
+        - BatchConvertFiles - maybe finishing it up?
+    
+    
     BUG REPORT: MB and GetUserInputs: Can't find ID of the buttons anymore. Changes in Reaper in recent versions?
     
     ultraschall.Defer - can func==nil be used to use the function, in which Defer-was called?
                         And defer-identifier==nil should be no defer-identifier(defer default)
                         That way, it could be used as ultraschall.Defer()
     
-    For 4.01.002:  
+    
 
-    - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0
+    
 	
     -- ToggleMute(_Object): state=2 toggelt relativ zum derzeitigen Mute-State, so dass man nicht erst extra den letzten state heraussuchen muss.
 				--Bugfixes!! NOCHMAL INTENSIVST TESTEN!!! 
@@ -316,9 +326,11 @@ Has now 1146 functions, with 17 new ones
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
    - Metadata Management: Metadata\_BWF\_GetSet - gets, sets BWF-metadata-tags from/in the current project
    - Metadata Management: Metadata\_CART\_GetSet - gets, sets CART-metadata-tags from/in the current project
+   - Metadata Management: Metadata\_CUE\_GetSet - gets, sets CUE-metadata-tags from/in the current project
    - Metadata Management: Metadata\_ID3\_GetSet - gets, sets ID3-metadata-tags from/in the current project
    - Metadata Management: Metadata\_INFO\_GetSet - gets, sets INFO-metadata-tags from/in the current project
    - Metadata Management: Metadata\_IXML\_GetSet - gets, sets IXML-metadata-tags from/in the current project
+   - Metadata Management: Metadata\_VORBIS\_GetSet - gets, sets VORBIS-metadata-tags(for Opus/Ogg-files) from/in the current project
    - Render Management: GetRender\_EmbedMetaData - gets the checkbox-state for embed-metadata in the Render to File-dialog
    - Render Management: SetRender\_EmbedMetaData - sets the checkbox for embed-metadata in the Render to File-dialog
    - Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table
