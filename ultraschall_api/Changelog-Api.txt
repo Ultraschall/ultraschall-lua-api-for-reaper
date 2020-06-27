@@ -7,11 +7,12 @@
         - LangPack-comparision-script
         - JPG2PNG and PNG2JPG converter
         - BatchConvertFiles - maybe finishing it up?
+        - StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
+                                probably by adding a "depth"-parameter, which allows stting the number of spaces*2, who indent the statechunk accordingly
     
+        BUG REPORT: MB and GetUserInputs: Can't find ID of the buttons anymore. Changes in Reaper in recent versions? Mac(Linux?) only
     
-    BUG REPORT: MB and GetUserInputs: Can't find ID of the buttons anymore. Changes in Reaper in recent versions?
-    
-    ultraschall.Defer - can func==nil be used to use the function, in which Defer-was called?
+        - ultraschall.Defer - can func==nil be used to use the function, in which Defer-was called?
                         And defer-identifier==nil should be no defer-identifier(defer default)
                         That way, it could be used as ultraschall.Defer()
     
@@ -126,7 +127,7 @@ Have fun!"
        GetTimesignaturesByScreenCoordinates 
        GetTimeSignaturesByTime 
    
-        StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
+        
         - TODO!! Defer   - registering of defer-using-running scripts into an extstate ultraschall->running_script_instance-> for monitoring purposes
                          - Defer -> identifier management must be more stable, without possible nameconflicts
                          - Um zu verhindern, dass ein Name doppelt verwendet wird:
@@ -324,6 +325,8 @@ Has now 1146 functions, with 17 new ones
    - GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible installations on current Reaper-installation
    - GUI: Lokasenna\_LoadGuiLib\_v2 - loads Lokasennas Gui-Lib and all available classes into your script
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
+   - MediaItem Management: GetItem\_Video\_IgnoreAudio - gets the current state of the ignore audio-checkbox of a video-source of a MediaItem's take
+   - MediaItem Management: SetItem\_Video\_IgnoreAudio - sets the state of the ignore audio-checkbox of a video-source of a MediaItem's take
    - Metadata Management: Metadata\_BWF\_GetSet - gets, sets BWF-metadata-tags from/in the current project
    - Metadata Management: Metadata\_CART\_GetSet - gets, sets CART-metadata-tags from/in the current project
    - Metadata Management: Metadata\_CUE\_GetSet - gets, sets CUE-metadata-tags from/in the current project
