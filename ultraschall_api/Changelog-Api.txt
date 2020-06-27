@@ -314,6 +314,13 @@ Has now 1146 functions, with 17 new ones
    - GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible installations on current Reaper-installation
    - GUI: Lokasenna\_LoadGuiLib\_v2 - loads Lokasennas Gui-Lib and all available classes into your script
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
+   - Metadata Management: Metadata\_BWF\_GetSet - gets, sets BWF-metadata-tags from/in the current project
+   - Metadata Management: Metadata\_CART\_GetSet - gets, sets CART-metadata-tags from/in the current project
+   - Metadata Management: Metadata\_ID3\_GetSet - gets, sets ID3-metadata-tags from/in the current project
+   - Metadata Management: Metadata\_INFO\_GetSet - gets, sets INFO-metadata-tags from/in the current project
+   - Metadata Management: Metadata\_IXML\_GetSet - gets, sets IXML-metadata-tags from/in the current project
+   - Render Management: GetRender\_EmbedMetaData - gets the checkbox-state for embed-metadata in the Render to File-dialog
+   - Render Management: SetRender\_EmbedMetaData - sets the checkbox for embed-metadata in the Render to File-dialog
    - Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table
    - Theme Management: GetThemeParameterIndexByDescription - gets the theme parameter's values by its description
    - Theme Management: GetThemeParameterIndexByName - gets the theme parameter's values by its name

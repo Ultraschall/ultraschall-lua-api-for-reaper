@@ -8546,7 +8546,7 @@
            >8, Region render matrix  
            >32, Selected media items  
            >&256, "Embed stretch markers/transient guides"-checkbox; 0, unchecked; 1, checked  
-		   >&512, "Embed Metadata"-checkbox; 0, unchecked; 1, checked
+		   >&512, "Embed Metadata"-checkbox; 0, unchecked; 1, checked  
 		   >&1024, "Take Markers"-checkbox; 0, unchecked; 1, checked
 		   
            
