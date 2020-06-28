@@ -370,7 +370,7 @@ Has now 1146 functions, with 17 new ones
    - TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one
    - TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
    - Theme Management: GetAllThemeLayoutNames - didn't return themelayout index 0 -> fixed
-   - Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0 -> fixed
+   - Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0; had off-by-one error in retval index -> fixed
    - User Interface: GetHWND\_ArrangeViewAndTimeLine - returns now tracklistwindow-tcp as well; didn't find TCP-hwnd when TCP was on the right side of the arrange-view -> fixed(thanks to Edgemeal)
    
 ---

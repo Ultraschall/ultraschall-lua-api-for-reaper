@@ -98,7 +98,7 @@ function ShowParameters()
     gfx.y=gfx.texth+gfx.texth+yoffset
     local xoffset=0
     local xoffset2=230
-    for i=1, index-1 do
+    for i=1, index do
       if i==current_slot then mark=">" else mark="  " end
       gfx.set(0.5,0.5,0.5,0.1)
       gfx.line(0, gfx.y+(gfx.texth/2), 2048, gfx.y+(gfx.texth/2))
@@ -134,7 +134,7 @@ function main()
   if Key==1685026670.0 then current_slot=current_slot+1 end -- next slot
   if Key==30064.0 then current_slot=current_slot-1 end      -- previous slot
   if current_slot<1 then current_slot=1 end
-  if current_slot>=index then current_slot=index-1 end
+  if current_slot>=index then current_slot=index end
    
   if Key==1919379572.0 then -- add val
     A=reaper.ThemeLayout_SetParameter(current_slot, ThemeLayoutParameters[current_slot]["value"]+1, false) 

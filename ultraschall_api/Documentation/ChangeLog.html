@@ -114,7 +114,7 @@ bla</li>
 <li>TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one</li>
 <li>Theme Management: GetAllThemeLayoutNames - didn't return themelayout index 0 -&gt; fixed</li>
-<li>Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0 -&gt; fixed</li>
+<li>Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0; had off-by-one error in retval index -&gt; fixed</li>
 <li>User Interface: GetHWND_ArrangeViewAndTimeLine - returns now tracklistwindow-tcp as well; didn't find TCP-hwnd when TCP was on the right side of the arrange-view -&gt; fixed(thanks to Edgemeal)</li>
 </ul>
 <hr />

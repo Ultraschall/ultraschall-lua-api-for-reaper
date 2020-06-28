@@ -145,9 +145,10 @@ function ultraschall.GetAllThemeLayoutParameters()
   local tmp, desc, C, D, E, F
   tmp=1
   while tmp ~= nil do
-    tmp, desc, C, D, E, F = reaper.ThemeLayout_GetParameter(i)
+    tmp, desc, C, D, E, F = reaper.ThemeLayout_GetParameter(i)    
+    if tmp==nil then break end
     ParamsIdx[i]={}
-    ParamsIdx[i]["name"]=tmp
+    ParamsIdx[i]["name"]=tmp    
     ParamsIdx[i]["description"]=desc
     ParamsIdx[i]["value"]=C
     ParamsIdx[i]["value default"]=D
