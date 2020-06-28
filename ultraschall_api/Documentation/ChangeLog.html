@@ -50,6 +50,7 @@ bla</li>
 <h4>New features in 4.1.003</h4>
 <ul>
 <li>Developer Tools: Developer LangPack - added developer-langpack for Reaper 6.12c</li>
+<li>Developer Tools: ultraschall_developertool_Theme_Parameter_Monitor.lua - monitor and manipulate theme-parameters(like from the default Reaper6-theme)</li>
 <li>Envelopes: ActivateEnvelope - activates an envelope, so it can be shown in the arrangeview(thanks to sexan; requested by daniellumertz)</li>
 <li>Envelopes: ActivateTrackPanEnv - activates the pan-envelope lane of a track</li>
 <li>Envelopes: ActivateTrackPanEnv_TrackObject - activates the pan-envelope lane of a trackobject</li>
@@ -65,8 +66,8 @@ bla</li>
 <li>GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible installations on current Reaper-installation</li>
 <li>GUI: Lokasenna_LoadGuiLib_v2 - loads Lokasennas Gui-Lib and all available classes into your script</li>
 <li>Image Handling: ResizeJPG - resizes jpgs to new jpgs</li>
-<li>MediaItem Management: GetItem_Video_IgnoreAudio - gets the current state of the ignore audio-checkbox of a video-source of a MediaItem's take</li>
-<li>MediaItem Management: SetItem_Video_IgnoreAudio - sets the state of the ignore audio-checkbox of a video-source of a MediaItem's take</li>
+<li>MediaItem Management: GetItem_Video_IgnoreAudio - gets the current state of the ignore audio-checkbox of a video-source of a MediaItem's take(requested by earhax)</li>
+<li>MediaItem Management: SetItem_Video_IgnoreAudio - sets the state of the ignore audio-checkbox of a video-source of a MediaItem's take(requested by earhax)</li>
 <li>Metadata Management: Metadata_BWF_GetSet - gets, sets BWF-metadata-tags from/in the current project</li>
 <li>Metadata Management: Metadata_CART_GetSet - gets, sets CART-metadata-tags from/in the current project</li>
 <li>Metadata Management: Metadata_CUE_GetSet - gets, sets CUE-metadata-tags from/in the current project</li>
@@ -100,6 +101,7 @@ bla</li>
 <li>API: Requirements - requires now JS-extension 1.215</li>
 <li>API: titles will now be references to FarScape-episode-titles, until I conquered the farscape of Gui-development</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links</li>
+<li>GFX: GFX_Init - produced nil-error, when the optional-parameters weren't set due missing default-values on my side -&gt; fixed</li>
 <li>Error Management: error-messages - optional boolean errormessages include now, which is the default value when using nil</li>
 <li>Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -&gt; fixed</li>
 <li>Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -&gt; fixed</li>

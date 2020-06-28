@@ -564,7 +564,9 @@ function ultraschall.GFX_Init(...)
   if A&4==0 then
     local parms={...}
     local temp=parms[1]
-  
+    if parms[2]==nil then parms[2]=640 end
+    if parms[3]==nil then parms[3]=400 end
+    if parms[4]==nil then parms[4]=0 end
     -- check, if the given windowtitle is a valid one, 
     -- if that's not the case, use "" as name
     if temp==nil or type(temp)~="string" then temp="" end  

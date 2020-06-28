@@ -3,7 +3,6 @@
     For 4.01.003:  
         - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0
         - Embed Metadata-checkbox must be part of RenderTable and render-preset-settings
-        - Theme-Parameter-monitoring-script
         - LangPack-comparision-script
         - JPG2PNG and PNG2JPG converter
         - BatchConvertFiles - maybe finishing it up?
@@ -310,6 +309,7 @@ Has now 1146 functions, with 17 new ones
   
 #### New features in 4.1.003
    - Developer Tools: Developer LangPack - added developer-langpack for Reaper 6.12c
+   - Developer Tools: ultraschall\_developertool\_Theme\_Parameter\_Monitor.lua - monitor and manipulate theme-parameters(like from the default Reaper6-theme)
    - Envelopes: ActivateEnvelope - activates an envelope, so it can be shown in the arrangeview(thanks to sexan; requested by daniellumertz)
    - Envelopes: ActivateTrackPanEnv - activates the pan-envelope lane of a track
    - Envelopes: ActivateTrackPanEnv_TrackObject - activates the pan-envelope lane of a trackobject
@@ -325,8 +325,8 @@ Has now 1146 functions, with 17 new ones
    - GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible installations on current Reaper-installation
    - GUI: Lokasenna\_LoadGuiLib\_v2 - loads Lokasennas Gui-Lib and all available classes into your script
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
-   - MediaItem Management: GetItem\_Video\_IgnoreAudio - gets the current state of the ignore audio-checkbox of a video-source of a MediaItem's take
-   - MediaItem Management: SetItem\_Video\_IgnoreAudio - sets the state of the ignore audio-checkbox of a video-source of a MediaItem's take
+   - MediaItem Management: GetItem\_Video\_IgnoreAudio - gets the current state of the ignore audio-checkbox of a video-source of a MediaItem's take(requested by earhax)
+   - MediaItem Management: SetItem\_Video\_IgnoreAudio - sets the state of the ignore audio-checkbox of a video-source of a MediaItem's take(requested by earhax)
    - Metadata Management: Metadata\_BWF\_GetSet - gets, sets BWF-metadata-tags from/in the current project
    - Metadata Management: Metadata\_CART\_GetSet - gets, sets CART-metadata-tags from/in the current project
    - Metadata Management: Metadata\_CUE\_GetSet - gets, sets CUE-metadata-tags from/in the current project
@@ -357,6 +357,7 @@ Has now 1146 functions, with 17 new ones
    - API: Requirements - requires now JS-extension 1.215
    - API: titles will now be references to FarScape-episode-titles, until I conquered the farscape of Gui-development
    - Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links
+   - GFX: GFX\_Init - produced nil-error, when the optional-parameters weren't set due missing default-values on my side -> fixed
    - Error Management: error-messages - optional boolean errormessages include now, which is the default value when using nil
    - Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
    - Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
