@@ -1,10 +1,12 @@
 <TODO>
     
     For 4.01.003:  
-        - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0
+        - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
+        - DirectoryExists and DirectoryExists2: check, if they actually work on Linux and Mac
         - Embed Metadata-checkbox must be part of RenderTable and render-preset-settings
-        - LangPack-comparision-script
         - JPG2PNG and PNG2JPG converter
+        
+    For 4.01.004:
         - BatchConvertFiles - maybe finishing it up?
         - StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
                                 probably by adding a "depth"-parameter, which allows stting the number of spaces*2, who indent the statechunk accordingly
@@ -310,6 +312,7 @@ Has now 1146 functions, with 17 new ones
 #### New features in 4.1.003
    - Developer Tools: Developer LangPack - added developer-langpack for Reaper 6.12c
    - Developer Tools: ultraschall\_developertool\_Theme\_Parameter\_Monitor.lua - monitor and manipulate theme-parameters(like from the default Reaper6-theme)
+   - Developer Tools: ultraschall\_developertool\_Compare\_LangPacks.lua - allows you to select two ReaperLangPack-files and puts missing/changed entries from each file into the clipboard
    - Envelopes: ActivateEnvelope - activates an envelope, so it can be shown in the arrangeview(thanks to sexan; requested by daniellumertz)
    - Envelopes: ActivateTrackPanEnv - activates the pan-envelope lane of a track
    - Envelopes: ActivateTrackPanEnv_TrackObject - activates the pan-envelope lane of a trackobject
