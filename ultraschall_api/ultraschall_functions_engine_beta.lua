@@ -3481,4 +3481,244 @@ function ultraschall.SetItem_Video_IgnoreAudio(Item, take_index, checkbox_state,
   return SC3
 end
 
+function ultraschall.GetTrackFX_AlternativeName(tracknumber, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTrackFX_AlternativeName</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.11
+    Lua=5.3
+  </requires>
+  <functioncall>string alternative_fx_name = ultraschall.GetTrackFX_AlternativeName(integer tracknumber, integer fx_id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the alternazive name of a specific trackfx.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string alternative_fx_name - the alternative fx-name set for this fx
+  </retvals>
+  <parameters>
+    integer tracknumber - the tracknumber, in which this track is located; 0, for master-track
+    integer fx_id - the fx-id within the fxchain; 1, for the first trackfx
+  </parameter>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, alternative name, aliasname, trackfx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(tracknumber)~="number: integer" then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "tracknumber", "must be an integer", -1) return end
+  if tracknumber>reaper.CountTracks(0) or tracknumber<0 then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "tracknumber", "must be 1 and higher; 0, master track", -2) return end
+  if ultraschall.type(fx_id)~="number: integer" then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "fx_id", "must be an integer", -3) return end
+  if fx_id<1 then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "fx_id", "must be 1 and higher", -4) return end
+  local Track, _, StatChunk, FXStateChunk, counter, AltName, StartOffset, EndOffset, StateChunk
+  if tracknumber~=0 then
+    Track=reaper.GetTrack(0,tracknumber-1)
+  else
+    Track=reaper.GetMasterTrack(0)
+  end
+  _,StateChunk=reaper.GetTrackStateChunk(Track, "", false)
+  FXStateChunk = ultraschall.GetFXStateChunk(StateChunk, 1)
+
+  counter=0
+  AltName=""
+
+  FXStateChunk=string.gsub(FXStateChunk, "<JS_", " <JS_")
+  while AltName~=nil do
+
+    if FXStateChunk:match("\n    <(...)")=="JS " then 
+      AltName, FXStateChunk=FXStateChunk:match("\n    <JS .- (.-)\n(.*)")
+      AltName=string.gsub(AltName, "\"", "")
+    elseif FXStateChunk:match("\n    <(...)")=="VST" then 
+      AltName,StartOffset,EndOffset, FXStateChunk=FXStateChunk:match("\n    <.-\".-\" .- .- (().-() .-)(\n.*)")
+      if AltName:sub(1,1)=="\"" then AltName=AltName:sub(2,-1):match("(.-)\"") else AltName=AltName:match("(.-) ") end
+    elseif FXStateChunk:match("\n    <(...)")=="AU " then 
+      AltName,StartOffset,EndOffset, FXStateChunk=FXStateChunk:match("\n    <.-\".-\" \".-\" (().-() .-)(\n.*)")
+      if AltName:sub(1,1)=="\"" then AltName=AltName:sub(2,-1):match("(.-)\"") else AltName=AltName:match("(.-) ") end
+    elseif FXStateChunk:match("\n    <(...)")=="DX " then 
+      AltName,StartOffset,EndOffset, FXStateChunk=FXStateChunk:match("\n    <.-\".-\" .- .- (().-() .-)(\n.*)")
+      if AltName:sub(1,1)=="\"" then AltName=AltName:sub(2,-1):match("(.-)\"") end      
+    elseif FXStateChunk:match("\n    <(......)")=="VIDEO_" then 
+      AltName,StartOffset,EndOffset, FXStateChunk=FXStateChunk:match("\n    <.-\".-\" (().-() .-)(\n.*)")
+      if AltName:sub(1,1)=="\"" then AltName=AltName:sub(2,-1):match("(.-)\"") end 
+    end
+    if AltName==nil then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "fx_id", "no such fx", -5) return end
+    counter=counter+1
+    if counter==fx_id then
+      return AltName
+    end
+  end
+end
+
+function ultraschall.GetTakeFX_AlternativeName(item, take_id, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTakeFX_AlternativeName</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.11
+    Lua=5.3
+  </requires>
+  <functioncall>string alternative_fx_name = ultraschall.GetTakeFX_AlternativeName(integer tracknumber, integer take_id, integer fx_id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the alternazive name of a specific takefx.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string alternative_fx_name - the alternative fx-name set for this fx
+  </retvals>
+  <parameters>
+    integer tracknumber - the tracknumber, in which this track is located; 0, for master-track
+    integer take_id - the id of the take of whose FXChain's fx you want to get the alternative name
+    integer fx_id - the fx-id within the fxchain; 1, for the first trackfx
+  </parameter>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, alternative name, aliasname, takefx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(item)~="MediaItem" then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "item", "must be a MediaItem", -1) return end
+  if ultraschall.type(take_id)~="number: integer" then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "take_id", "must be an integer", -2) return end
+  if take_id<1 or reaper.CountTakes(item)<take_id then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "take_id", "no such take", -3) return end
+  if ultraschall.type(fx_id)~="number: integer" then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "fx_id", "must be an integer", -4) return end
+  if fx_id<1 then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "fx_id", "must be 1 and higher", -6) return end
+  local Track, _, StatChunk, FXStateChunk, counter, AltName, StartOffset, EndOffset, StateChunk
+
+  _,StateChunk=reaper.GetItemStateChunk(item, "", false)
+  FXStateChunk = ultraschall.GetFXStateChunk(StateChunk, take_id)
+
+  counter=0
+  AltName=""
+
+  FXStateChunk=string.gsub(FXStateChunk, "<JS_", " <JS_")
+  while AltName~=nil do
+
+    if FXStateChunk:match("\n    <(...)")=="JS " then 
+      AltName, FXStateChunk=FXStateChunk:match("\n    <JS .- (.-)\n(.*)")
+      AltName=string.gsub(AltName, "\"", "")
+    elseif FXStateChunk:match("\n    <(...)")=="VST" then 
+      AltName,StartOffset,EndOffset, FXStateChunk=FXStateChunk:match("\n    <.-\".-\" .- .- (().-() .-)(\n.*)")
+      if AltName:sub(1,1)=="\"" then AltName=AltName:sub(2,-1):match("(.-)\"") else AltName=AltName:match("(.-) ") end
+    elseif FXStateChunk:match("\n    <(...)")=="AU " then 
+      AltName,StartOffset,EndOffset, FXStateChunk=FXStateChunk:match("\n    <.-\".-\" \".-\" (().-() .-)(\n.*)")
+      if AltName:sub(1,1)=="\"" then AltName=AltName:sub(2,-1):match("(.-)\"") else AltName=AltName:match("(.-) ") end
+    elseif FXStateChunk:match("\n    <(...)")=="DX " then 
+      AltName,StartOffset,EndOffset, FXStateChunk=FXStateChunk:match("\n    <.-\".-\" .- .- (().-() .-)(\n.*)")
+      if AltName:sub(1,1)=="\"" then AltName=AltName:sub(2,-1):match("(.-)\"") end      
+    elseif FXStateChunk:match("\n    <(......)")=="VIDEO_" then 
+      AltName,StartOffset,EndOffset, FXStateChunk=FXStateChunk:match("\n    <.-\".-\" (().-() .-)(\n.*)")
+      if AltName:sub(1,1)=="\"" then AltName=AltName:sub(2,-1):match("(.-)\"") end 
+    end
+    if AltName==nil then ultraschall.AddErrorMessage("GetTrackFX_AlternativeName", "fx_id", "no such fx", 65) return end
+    counter=counter+1
+    if counter==fx_id then
+      return AltName
+    end
+  end
+end
+
+--AAAA=ultraschall.GetTakeFX_AlternativeName(reaper.GetMediaItem(0,0), 2, 5)
+
+function ultraschall.ConvertPNG2JPG(filename_with_path, outputfilename_with_path, quality)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertPNG2JPG</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    JS=1.215
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.ConvertPNG2JPG(string filename_with_path, string outputfilename_with_path, integer quality)</functioncall>
+  <description>
+    Converts a png to a jpg-imagefile.
+    
+    returns false in case of an error 
+  </description>
+  <parameters>
+    string filename_with_path - the png-file, that you want to convert into jpg
+    string outputfilename_with_path - the output-file, where to store the jpg
+    integer quality - the quality of the jpg in percent; 1 to 100
+  </parameters>
+  <retvals>
+    boolean retval - true, converting was successful; false, converting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Image File Handling
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Imagefile_Module.lua</source_document>
+  <tags>image file handling, convert, png, to jpg, image, graphics</tags>
+</US_DocBloc>
+]]
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ConvertPNG2JPG", "filename_with_path", "must be a string", -1) return false end
+  if type(outputfilename_with_path)~="string" then ultraschall.AddErrorMessage("ConvertPNG2JPG", "outputfilename_with_path", "must be a string", -2) return false end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ConvertPNG2JPG", "filename_with_path", "file can not be opened", -3) return false end
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("ConvertPNG2JPG", "quality", "must be an integer", -4) return false end
+  if quality<1 or quality>100 then ultraschall.AddErrorMessage("ConvertPNG2JPG", "quality", "must be between 1 and 100", -5) return false end
+  
+  local Identifier, Retval
+  Identifier=reaper.JS_LICE_LoadPNG(filename_with_path)
+  
+  Retval=reaper.JS_LICE_WriteJPG(outputfilename_with_path, Identifier, quality)
+  reaper.JS_LICE_DestroyBitmap(Identifier)
+  reaper.JS_LICE_DestroyBitmap(Identifier2)
+  if Retval==false then ultraschall.AddErrorMessage("ResizeJPG", "outputfilename_with_path", "Can't write outputfile", -9) return false end
+end
+
+function ultraschall.ConvertJPG2PNG(filename_with_path, outputfilename_with_path)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertPNG2JPG</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    JS=1.215
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.ConvertPNG2JPG(string filename_with_path, string outputfilename_with_path, integer quality)</functioncall>
+  <description>
+    Converts a jpg to a png-imagefile.
+    
+    returns false in case of an error 
+  </description>
+  <parameters>
+    string filename_with_path - the jpg-file, that you want to store as png
+    string outputfilename_with_path - the output-file, where to store the png-file
+  </parameters>
+  <retvals>
+    boolean retval - true, converting was successful; false, converting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Image File Handling
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Imagefile_Module.lua</source_document>
+  <tags>image file handling, convert, to png, jpg, image, graphics</tags>
+</US_DocBloc>
+]]
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ConvertJPG2PNG", "filename_with_path", "must be a string", -1) return false end
+  if type(outputfilename_with_path)~="string" then ultraschall.AddErrorMessage("ConvertJPG2PNG", "outputfilename_with_path", "must be a string", -2) return false end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ConvertJPG2PNG", "filename_with_path", "file can not be opened", -3) return false end
+  
+  local Identifier, Retval
+  Identifier=reaper.JS_LICE_LoadJPG(filename_with_path)
+  
+  Retval=reaper.JS_LICE_WritePNG(outputfilename_with_path, Identifier, false)
+  reaper.JS_LICE_DestroyBitmap(Identifier)
+  reaper.JS_LICE_DestroyBitmap(Identifier2)
+  if Retval==false then ultraschall.AddErrorMessage("ConvertJPG2PNG", "outputfilename_with_path", "Can't write outputfile", -4) return false end
+end
+
+
 ultraschall.ShowLastErrorMessage()

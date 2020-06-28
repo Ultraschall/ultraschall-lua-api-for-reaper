@@ -8252,11 +8252,11 @@
             Examples in Lua:
             getting the album name from the metadata of the current project:
             
-                retval, albumname    = reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TALB", false)
+                 retval, albumname    = reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TALB", false)
                 
             setting the album name in the metadata of the current project:
             
-                retval, albumame_new = reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TALB|New album name", true)
+                 retval, albumame_new = reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TALB|New album name", true)
             
 			Supported tags-codes are: TIT2(Title), TPE1(Artist), TPE2(Albumartist), TALB(Album), TRCK(Track), TCON(Genre), TYER(Year), TDRC(Recording time: YYYY-MM-DD), TKEY(Key), TBPM(Tempo), TSRC(International Standard Recording Code), COMM(Comment), COMM\_LANG(Comment language), APIC\_TYPE(Image type), APIC\_DESC(Image description), APIC\_FILE(Image file)
 			APIC\_TYPE can have be of the following:

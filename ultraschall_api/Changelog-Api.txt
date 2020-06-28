@@ -4,9 +4,12 @@
         - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
         - DirectoryExists and DirectoryExists2: check, if they actually work on Linux and Mac
         - Embed Metadata-checkbox must be part of RenderTable and render-preset-settings
-        - JPG2PNG and PNG2JPG converter
         
     For 4.01.004:
+        - AddMediaItemStateChunk_in_TrackStateChunk
+        - Rename FX-instance:
+            <VST "VST: ReaEQ (Cockos)" reaeq.dll 0 "HIER KÖNNTE IHR NEUER NAME STEHEN!!!" 1919247729<56535472656571726561657100000000> ""
+          How does it work for other FX and would it be enough to manipulate an FXChainStateChunks?
         - BatchConvertFiles - maybe finishing it up?
         - StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
                                 probably by adding a "depth"-parameter, which allows stting the number of spaces*2, who indent the statechunk accordingly
@@ -325,9 +328,13 @@ Has now 1146 functions, with 17 new ones
    - Envelopes: ActivateTrackVolumeEnv - activates the volume-envelope lane of a track
    - Envelopes: ActivateTrackVolumeEnv_TrackObject - activates the volume-envelope lane of a trackobject
    - Envelopes: GetTakeEnvelopeUnderMouseCursor - returns the take-envelope currently under the mouse
+   - FXManagement: GetTrackFX\_AlternativeName - gets the alternative/aliasname of a trackfx(requested by dimtok)
+   - FXManagement: GetTakeFX\_AlternativeName - gets the alternative/aliasname of a takefx(requested by dimtok)
    - GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible installations on current Reaper-installation
    - GUI: Lokasenna\_LoadGuiLib\_v2 - loads Lokasennas Gui-Lib and all available classes into your script
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
+   - Image Handling: ConvertPNG2JPG - converts png into jpg
+   - Image Handling: ConvertJPG2PNG - converts jpg into png
    - MediaItem Management: GetItem\_Video\_IgnoreAudio - gets the current state of the ignore audio-checkbox of a video-source of a MediaItem's take(requested by earhax)
    - MediaItem Management: SetItem\_Video\_IgnoreAudio - sets the state of the ignore audio-checkbox of a video-source of a MediaItem's take(requested by earhax)
    - Metadata Management: Metadata\_BWF\_GetSet - gets, sets BWF-metadata-tags from/in the current project
