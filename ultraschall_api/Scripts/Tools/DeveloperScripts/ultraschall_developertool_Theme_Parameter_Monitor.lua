@@ -49,6 +49,7 @@ end
 
 function UpdateThemeParameters()
   Newindex, NewThemeLayoutParameters = ultraschall.GetAllThemeLayoutParameters()
+  local updated2
   if Newindex~=index then
     index=Newindex
     for i=1, index do
@@ -61,6 +62,7 @@ function UpdateThemeParameters()
       if ThemeLayoutParameters[i]["value"]~=NewThemeLayoutParameters[i]["value"] then
         ThemeLayoutParameters_updated2[i]=1
         updated=1
+        updated2=1
       end
     end
     if updated==1 then
@@ -73,11 +75,13 @@ function UpdateThemeParameters()
     end
   end
   ThemeLayoutParameters=NewThemeLayoutParameters
+  return updated2
 end
 
 
 current_slot=1
 function ShowParameters()
+AA=os.time()
   gfx.dest=2
   gfx.set(0)
   gfx.rect(0,0,2048,2048,1)
@@ -128,9 +132,11 @@ function ShowParameters()
 end
 
 hwheel=0
+refreshcounter=0
 
 function main()
   Key=gfx.getchar()
+  if Key~=0 then refreshcounter=0 end
   if Key==1685026670.0 then current_slot=current_slot+1 end -- next slot
   if Key==30064.0 then current_slot=current_slot-1 end      -- previous slot
   if current_slot<1 then current_slot=1 end
@@ -224,8 +230,11 @@ H - shows this help
 
   -- update list and show it
   gfx.blit(2,1,0)
-  UpdateThemeParameters()
-  ShowParameters()
+  upd=UpdateThemeParameters()
+  if upd==1 or refreshcounter==0 then ShowParameters() shown=true end
+  if upd==1 then AAA=upd end
+  refreshcounter=1
+--  if refreshcounter>30 then refreshcounter=0 end
   -- show list
   gfx.update()
   reaper.defer(main)
