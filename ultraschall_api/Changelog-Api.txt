@@ -1,15 +1,13 @@
 <TODO>
     
     For 4.01.003:  
-        - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
-        - DirectoryExists and DirectoryExists2: check, if they actually work on Linux and Mac
-        - Embed Metadata-checkbox must be part of RenderTable and render-preset-settings
-        
-    For 4.01.004:
-        - AddMediaItemStateChunk_in_TrackStateChunk
         - Rename FX-instance:
             <VST "VST: ReaEQ (Cockos)" reaeq.dll 0 "HIER KÖNNTE IHR NEUER NAME STEHEN!!!" 1919247729<56535472656571726561657100000000> ""
-          How does it work for other FX and would it be enough to manipulate an FXChainStateChunks?
+          How does it work for other FX and would it be enough to manipulate an FXChainStateChunk?
+        
+    For 4.01.004:
+        - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
+        - AddMediaItemStateChunk_in_TrackStateChunk
         - BatchConvertFiles - maybe finishing it up?
         - StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
                                 probably by adding a "depth"-parameter, which allows stting the number of spaces*2, who indent the statechunk accordingly
@@ -374,7 +372,17 @@ Has now 1146 functions, with 17 new ones
    - Helper functions: OpenURL - didn't work on Linux -> fixed
    - MediaItem Management: SelectMediaItems\_MediaItemArray - updates now arrangeview, so selected items are now visible as such
    - ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated
+   - Render Management: AddRenderPreset - added option for embed-metadata-checkbox
+   - Render Management: ApplyRenderTable\_Project - added option for embed-metadata-checkbox
+   - Render Management: ApplyRenderTable\_ProjectFile - added option for embed-metadata-checkbox
+   - Render Management: CreateNewRenderTable - added option for embed-metadata-checkbox   
+   - Render Management: GetRenderTable\_Project - added option for embed-metadata-checkbox
+   - Render Management: GetRenderTable\_ProjectFile - added option for embed-metadata-checkbox
+   - Render Management: GetRenderPreset\_RenderTable - added option for embed-metadata-checkbox
    - Render Management: GetRenderToFileHWND - didn't return render to file-dialog-hwnd on recent Reaper-versions -> fixed
+   - Render Management: IsValidRenderTable - added option for embed-metadata-checkbox
+   - Render Management: RenderProject\_RenderTable - added option for embed-metadata-checkbox
+   - Render Management: SetRenderPreset - added option for embed-metadata-checkbox   
    - TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one
    - TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
    - TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one
