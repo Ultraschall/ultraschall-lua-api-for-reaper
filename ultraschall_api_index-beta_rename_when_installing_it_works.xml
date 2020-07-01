@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43214.00" author="Meo Mespotine">
+      <version name="43220.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Changelog-Api.txt</source>
@@ -151,6 +151,7 @@
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Render_Current_Project.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/US_Api_Examples_Render_Current_Project.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Render_Project.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/US_Api_Examples_Render_Project.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Render_Region_of_current_Project.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/US_Api_Examples_Render_Region_of_current_Project.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_SetAliasNamesOfFX-Plugins.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/US_Api_Examples_SetAliasNamesOfFX-Plugins.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -513,14 +514,109 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.1.003 - “Premier” - 30th of June 2020
+4.1.003 - “Premier” - 1st of July 2020
 
-Has now 1146 functions, with 17 new ones
+Has now 1200 functions, with 54 new ones
 
 new in this release:
 
--   bla
-    bla
+-   Theme Parameter Access and monitoring script
+    Since Reaper 6, Cockos added the option of influencing a theme via
+    so called theme-parameters. One such example is WhiteTie’s Default
+    Reaper6-Theme, which can be influenced via the theme-adjuster.
+    And here’s the thing: this can not only be influenced, it can also
+    be programmed.
+    So if you wanted to write scripts, who automatically adjust things
+    without having to use the theme-adjuster, by using
+    GetAllThemeLayoutParameters, ApplyAllThemeLayoutParameters,
+    GetAllThemeLayoutParameters, GetThemeParameterIndexByDescription,
+    GetThemeParameterIndexByName, SetThemeParameterIndexByDescription
+    and SetThemeParameterIndexByName.
+    And if you want to know, which theme-parameters can be set and which
+    values are the right ones, the developer-package includes now a
+    Theme-Parameter monitoring script.
+    With that, you can see altered parameters(in Reaper’s default v6
+    theme, for instance) and use the aforementioned functions to
+    influence them accordingly.
+    Just run the “Script:
+    ultraschall_Add_Developertools_To_Reaper.lua”-script after
+    installing the update and there you have it.
+    One huge step into theme-customization…
+
+-   MetaData
+    Since Reaper has metadata-export-capabilities now, I’ve added nice
+    and handy functions to get and set them, including docs and
+    everything.
+    The rendering-functions also allow now switching on the
+    metadata-embedding, so there’s no excuse anymore to not use it.
+
+-   LangPack Compare-script
+    This is probably useful for translators among you. I wrote a script,
+    which compares two ReaperLangPack-files and returns the differences
+    between the two into the clipboard.
+    That way you can compare the most recent official LangPack with a
+    former one and can see immediately, what has been added/altered and
+    into where, so you can update your translation accordingly.
+    Just run the “Script:
+    ultraschall_Add_Developertools_To_Reaper.lua”-script after
+    installing the update and there you have it.
+
+-   Envelope Activation
+    When working with envelopes, especially when scripting, you can not
+    really work with envelopes, unless they are activated. Funny enough:
+    there’s no “Activate”Envelope"-function in Reaper’s own API.
+    So I tried to find ways around it.
+    With ActivateEnvelope(good for send-envelopes), ActivateTrackPanEnv,
+    ActivateTrackPreFXPanEnv, ActivateTrackPreFXVolumeEnv,
+    ActivateTrackTrimVolumeEnv, ActivateTrackVolumeEnv you can activate
+    most of the most important envelopes and therefore script them.
+    Some are still missing, so I hope, I can add the missing ones too…
+
+-   TrackManager
+    It has been requested in the feature-request subforum and the
+    general-forum: functions for the trackmanager.
+    Thing is, it is quite useful, but there are simply no actions
+    available for it, even though having shortcuts set to some of the
+    basics can be very handy.
+    So I added TrackManager_ClearFilter, TrackManager_OpenClose,
+    TrackManager_ShowAll, TrackManager_SelectionFromProject,
+    TrackManager_SelectionFromList, TrackManager_SetFilter who allow you
+    to script many of the ui-elements of the track manager.
+
+-   Lokasenna’s Gui Lib v2
+    now part of Ultraschall-API. Just run the function
+    Lokasenna_LoadGuiLib_v2, which loads the GUI-Lib version deployed
+    with Ultraschall-API including all its classes and the rest is the
+    same as you are used to.
+    There’s nothing to worry, if you’ve already installed Lokasenna’s
+    GuiLib v2, as the version I deploy is independent of it.
+    So you can safely use both on one system.
+
+-   Ignore-Audio checkbox of video-items
+    This is requested from time to time again, so I finally added it:
+    the possibility to set the “ignore audio”-checkbox of a video-item.
+    GetItem_Video_IgnoreAudio and SetItem_Video_IgnoreAudio are the
+    functions of your choice.
+
+-   Setting Aliasnames for FX-plugins
+    Not available in the regular API, but in Ultraschall-API. This has
+    been requested shortly before this release, a way to set the
+    alternative/alias name of track and item-fx.
+    A demofile US_Api_Examples_SetAliasNamesOfFX-Plugins.lua shows, what
+    you can do with it…
+
+-   SetTimeUnit
+    Allows setting the timeunit of the transportfield, the ruler and the
+    alternative ruler. Good for toggling through-actions…
+
+-   Image Handling
+    ResizeJPG, ConvertPNG2JPG and ConvertJPG2PNG give you more control
+    over managing different image-files.
+
+-   Bugfixes and other stuff
+    For rendering, FXChains(as requested), updated nomenclature of
+    functions, SLEM allows now getting more than just the last
+    error-message, etc, etc
 
 New features in 4.1.003
 

@@ -3846,6 +3846,22 @@ else
     ultraschall.LM(26)
     return ultraschall.SetRender_NoSilentFiles(table.unpack({...}))
   end
+  function ultraschall.GetRender_AddRenderedFilesToProject(...)
+    ultraschall.LM(26)
+    return ultraschall.GetRender_AddRenderedFilesToProject(table.unpack({...}))
+  end
+  function ultraschall.SetRender_AddRenderedFilesToProject(...)
+    ultraschall.LM(26)
+    return ultraschall.SetRender_AddRenderedFilesToProject(table.unpack({...}))
+  end
+  function ultraschall.GetRender_TailLength(...)
+    ultraschall.LM(26)
+    return ultraschall.GetRender_TailLength(table.unpack({...}))
+  end
+  function ultraschall.SetRender_TailLength(...)
+    ultraschall.LM(26)
+    return ultraschall.SetRender_TailLength(table.unpack({...}))
+  end
   function ultraschall.GetAllThemeLayoutNames(...)
     ultraschall.LM(27)
     return ultraschall.GetAllThemeLayoutNames(table.unpack({...}))
