@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43210.00" author="Meo Mespotine">
+      <version name="43214.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.003/ultraschall_api/Changelog-Api.txt</source>
@@ -566,8 +566,8 @@ New features in 4.1.003
 -   FXManagement: SetTrackFX_AlternativeName - sets the
     alternative/aliasname of a takefx(requested by dimtok)
 -   GUI: Lokasenna’s Gui Lib v2 - added his Gui-Lib v2 into
-    Ultraschall-API; will not affect other possible installations on
-    current Reaper-installation
+    Ultraschall-API; will not affect other possible GuiLib-installations
+    on the current Reaper-installation
 -   GUI: Lokasenna_LoadGuiLib_v2 - loads Lokasennas Gui-Lib and all
     available classes into your script
 -   Image Handling: ResizeJPG - resizes jpgs to new jpgs
@@ -593,10 +593,26 @@ New features in 4.1.003
     IXML-metadata-tags from/in the current project
 -   Metadata Management: Metadata_VORBIS_GetSet - gets, sets
     VORBIS-metadata-tags(for Opus/Ogg-files) from/in the current project
+-   Render Management: GetRender_AddRenderedFilesToProject - gets the
+    checkbox-state for add rendered items to new tracks in
+    project-checkbox in the Render to File-dialog
 -   Render Management: GetRender_EmbedMetaData - gets the checkbox-state
     for embed-metadata in the Render to File-dialog
+-   Render Management: GetRender_NoSilentFiles - gets the checkbox-state
+    for “Do not render files that are likely silent”-checkbox in the
+    Render to File-dialog
+-   Render Management: GetRender_TailLength - gets the current
+    taillength, as set in the Render to File-dialog
+-   Render Management: SetRender_AddRenderedFilesToProject - gets the
+    checkbox-state for add rendered items to new tracks in
+    project-checkbox in the Render to File-dialog
 -   Render Management: SetRender_EmbedMetaData - sets the checkbox for
     embed-metadata in the Render to File-dialog
+-   Render Management: SetRender_NoSilentFiles - sets the checkbox-state
+    for “Do not render files that are likely silent”-checkbox in the
+    Render to File-dialog
+-   Render Management: SetRender_TailLength - sets the current
+    taillength, as set in the Render to File-dialog
 -   Theme Management: ApplyAllThemeLayoutParameters - applies changes
     theme-layout parameters to the current theme; use
     GetAllThemeLayoutParameters to get an alterable table
@@ -626,6 +642,8 @@ New features in 4.1.003
     opened track manager(requested by Monomirror)
 -   User Interface: GetTrackManagerHWND - gets the tcp of the
     trackmanager, if opened
+-   User Interface: SetTimeUnit - sets the timeunit for transport, ruler
+    and secondary ruler
 -   User Interface: TCP_SetWidth - allows setting a new width of the
     tcp(initial code by amagalma, thanks for that :) )
 -   Video Management: ProjectSettings_GetVideoFramerate - gets the
@@ -639,12 +657,58 @@ Changes from 4.1.002 to 4.1.003
 -   API: Requirements - requires now JS-extension 1.215
 -   API: titles will now be references to FarScape-episode-titles, until
     I conquered the farscape of Gui-development
+-   Docs: GetRender_AutoIncrementFilename - moved in the index to
+    Rendering Projects -> Render Settings, where I would expect such
+    functions
+-   Docs: GetRender_EmbedMetaData - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: GetRender_EmbedStretchMarkers - moved in the index to
+    Rendering Projects -> Render Settings, where I would expect such
+    functions
+-   Docs: GetRender_NoSilentFiles - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: GetRender_OfflineOnlineMode - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: GetRender_ProjectSampleRateForMix - moved in the index to
+    Rendering Projects -> Render Settings, where I would expect such
+    functions
+-   Docs: GetRender_QueueDelay - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: GetRender_ResampleMode - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: GetRender_SaveCopyOfProject - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
 -   Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted
     markdown-links
+-   Docs: SetRender_AutoIncrementFilename - moved in the index to
+    Rendering Projects -> Render Settings, where I would expect such
+    functions
+-   Docs: SetRender_EmbedMetaData - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: SetRender_EmbedStretchMarkers - moved in the index to
+    Rendering Projects -> Render Settings, where I would expect such
+    functions
+-   Docs: SetRender_NoSilentFiles - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: SetRender_OfflineOnlineMode - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: SetRender_ProjectSampleRateForMix - moved in the index to
+    Rendering Projects -> Render Settings, where I would expect such
+    functions
+-   Docs: SetRender_QueueDelay - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: SetRender_ResampleMode - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
+-   Docs: SetRender_SaveCopyOfProject - moved in the index to Rendering
+    Projects -> Render Settings, where I would expect such functions
 -   GFX: GFX_Init - produced nil-error, when the optional-parameters
     weren’t set due missing default-values on my side -> fixed
 -   Error Management: error-messages - optional boolean errormessages
     include now, which is the default value when using nil
+-   Error Management: ShowLastErrorMessage - allows now to access the
+    messages before the last one as well
+-   Error Management: SLEM - allows now to access the messages before
+    the last one as well
 -   Envelopes: ActivateMute - had wrong returnvalue in errormessages for
     parameter track -> fixed
 -   Envelopes: DeactivateMute - had wrong returnvalue in errormessages
@@ -6429,7 +6493,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1193 Lua-functions library for Reaper.}
+a 1200 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6443,7 +6507,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1193 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1200 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -6567,7 +6631,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1193 Lua-functions library for Reaper.}
+a 1200 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6581,7 +6645,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1193 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1200 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

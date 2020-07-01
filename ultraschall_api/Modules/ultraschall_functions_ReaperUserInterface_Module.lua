@@ -4202,3 +4202,115 @@ function ultraschall.GetTrackManagerHWND()
   return nil
 end
 
+function ultraschall.SetTimeUnit(transport_unit, ruler_unit, ruler_unit2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetTimeUnit</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolan retval = ultraschall.SetTimeUnit(optional integer transport_unit, optional integer ruler_unit, optional integer ruler_unit2)</functioncall>
+  <description>
+    Sets the time-unit for transport, ruler and secondary ruler
+    
+    returns false in case of error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    optional integer transport_unit - the unit for the transport
+                                    - nil, keep current
+                                    - 0, seconds
+                                    - 1, samples
+                                    - 2, Minutes:Seconds
+                                    - 3, Measures.Beats/minutes:Seconds
+                                    - 4, Measures.Beats
+                                    - 5, Hours:Minutes:Seconds:Frames
+                                    - 6, Absolute frames
+    optional integer ruler_unit - the unit for the ruler
+                                - nil, keep current
+                                - 0, seconds
+                                - 1, samples
+                                - 2, Minutes:Seconds
+                                - 3, Measures.Beats/minutes:Seconds
+                                - 4, Measures.Beats
+                                - 5, Hours:Minutes:Seconds:Frames
+                                - 6, Absolute frames
+                                - 7, Measures.Beats(minimal)/minutes:Seconds
+                                - 8, Measures.Beats(minimal)
+    optional integer ruler_unit2 - the unit for the secondary ruler
+                                 - nil, keep current
+                                 - 0, seconds
+                                 - 1, samples
+                                 - 2, Minutes:Seconds
+                                 - 3, Hours:Minutes:Seconds:Frames
+                                 - 4, Absolute frames
+                                 - 5, None
+  </parameters>
+  <chapter_context>
+    User Interface
+    Transport and Ruler
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, transport, ruler, set, time unit</tags>
+</US_DocBloc>
+]]
+  if transport_unit~=nil and ultraschall.type(transport_unit)~="number: integer" then ultraschall.AddErrorMessage("SetTimeUnit", "transport_unit", "must be an integer", -1) return false end
+  if transport_unit~=nil then
+    if transport_unit<0 or transport_unit>6 then 
+      ultraschall.AddErrorMessage("SetTimeUnit", "transport_unit", "must be between 0 and 6", -2) 
+      return false 
+    end
+  end
+  if ruler_unit~=nil and ultraschall.type(ruler_unit)~="number: integer" then ultraschall.AddErrorMessage("SetTimeUnit", "ruler_unit", "must be an integer", -3) return false end
+  if ruler_unit~=nil then
+    if ruler_unit<0 or ruler_unit>8 then 
+      ultraschall.AddErrorMessage("SetTimeUnit", "ruler_unit", "must be between 0 and 8", -4)
+      return false 
+    end
+  end
+  if ruler_unit2~=nil and ultraschall.type(ruler_unit2)~="number: integer" then ultraschall.AddErrorMessage("SetTimeUnit", "ruler_unit2", "must be an integer", -5) return false end
+  if ruler_unit2~=nil then
+    if ruler_unit2<0 or ruler_unit2>5 then 
+      ultraschall.AddErrorMessage("SetTimeUnit", "ruler_unit2", "must be between 0 and 8", -6)
+      return false 
+    end
+  end
+  if     transport_unit==0 then cmdid=40412 -- seconds
+  elseif transport_unit==1 then cmdid=40413 -- samples
+  elseif transport_unit==2 then cmdid=40410 -- Minutes:Seconds
+  elseif transport_unit==3 then cmdid=40534 -- Measures.Beats/minutes:Seconds
+  elseif transport_unit==4 then cmdid=40411 -- Measures.Beats
+  elseif transport_unit==5 then cmdid=40414 -- Hours:Minutes:Seconds:Frames
+  elseif transport_unit==6 then cmdid=41972 -- Absolute frames
+  end
+  if transport_unit~=nil then reaper.Main_OnCommand(cmdid, 0) end
+
+  if     ruler_unit==0 then cmdid=40368 -- seconds
+  elseif ruler_unit==1 then cmdid=40369 -- samples
+  elseif ruler_unit==2 then cmdid=40365 -- Minutes:Seconds
+  elseif ruler_unit==3 then cmdid=40366 -- Measures.Beats/minutes:Seconds
+  elseif ruler_unit==4 then cmdid=40367 -- Measures.Beats
+  elseif ruler_unit==5 then cmdid=40370 -- Hours:Minutes:Seconds:Frames
+  elseif ruler_unit==6 then cmdid=41973 -- Absolute frames
+  elseif ruler_unit==7 then cmdid=41918 -- Measures.Beats(minimal)/minutes:Seconds
+  elseif ruler_unit==8 then cmdid=41916 -- Measures.Beats(minimal)
+  end
+  if ruler_unit~=nil then reaper.Main_OnCommand(cmdid, 0) end
+  
+  if     ruler_unit2==0 then cmdid=42362 -- seconds
+  elseif ruler_unit2==1 then cmdid=42363 -- samples
+  elseif ruler_unit2==2 then cmdid=42361 -- Minutes:Seconds
+  elseif ruler_unit2==3 then cmdid=42364 -- Hours:Minutes:Seconds:Frames
+  elseif ruler_unit2==4 then cmdid=42365 -- Absolute frames
+  elseif ruler_unit2==5 then cmdid=42360 -- None
+  end
+  if ruler_unit2~=nil then reaper.Main_OnCommand(cmdid, 0) end
+  
+  return true
+end
+

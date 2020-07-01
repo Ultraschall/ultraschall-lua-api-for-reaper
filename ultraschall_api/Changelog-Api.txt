@@ -12,10 +12,7 @@
         - ultraschall.Defer - can func==nil be used to use the function, in which Defer-was called?
                         And defer-identifier==nil should be no defer-identifier(defer default)
                         That way, it could be used as ultraschall.Defer()
-    
-    
 
-    
 	
     -- ToggleMute(_Object): state=2 toggelt relativ zum derzeitigen Mute-State, so dass man nicht erst extra den letzten state heraussuchen muss.
 				--Bugfixes!! NOCHMAL INTENSIVST TESTEN!!! 
@@ -325,7 +322,7 @@ Has now 1146 functions, with 17 new ones
    - FXManagement: GetTrackFX\_AlternativeName - gets the alternative/aliasname of a trackfx(requested by dimtok)   
    - FXManagement: SetTakeFX\_AlternativeName - sets the alternative/aliasname of a takefx(requested by dimtok)
    - FXManagement: SetTrackFX\_AlternativeName - sets the alternative/aliasname of a takefx(requested by dimtok)
-   - GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible installations on current Reaper-installation
+   - GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible GuiLib-installations on the current Reaper-installation
    - GUI: Lokasenna\_LoadGuiLib\_v2 - loads Lokasennas Gui-Lib and all available classes into your script
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
    - Image Handling: ConvertPNG2JPG - converts png into jpg
@@ -339,8 +336,14 @@ Has now 1146 functions, with 17 new ones
    - Metadata Management: Metadata\_INFO\_GetSet - gets, sets INFO-metadata-tags from/in the current project
    - Metadata Management: Metadata\_IXML\_GetSet - gets, sets IXML-metadata-tags from/in the current project
    - Metadata Management: Metadata\_VORBIS\_GetSet - gets, sets VORBIS-metadata-tags(for Opus/Ogg-files) from/in the current project
+   - Render Management: GetRender\_AddRenderedFilesToProject - gets the checkbox-state for add rendered items to new tracks in project-checkbox in the Render to File-dialog
    - Render Management: GetRender\_EmbedMetaData - gets the checkbox-state for embed-metadata in the Render to File-dialog
+   - Render Management: GetRender\_NoSilentFiles - gets the checkbox-state for "Do not render files that are likely silent"-checkbox in the Render to File-dialog
+   - Render Management: GetRender\_TailLength - gets the current taillength, as set in the Render to File-dialog
+   - Render Management: SetRender\_AddRenderedFilesToProject - gets the checkbox-state for add rendered items to new tracks in project-checkbox in the Render to File-dialog
    - Render Management: SetRender\_EmbedMetaData - sets the checkbox for embed-metadata in the Render to File-dialog
+   - Render Management: SetRender\_NoSilentFiles - sets the checkbox-state for "Do not render files that are likely silent"-checkbox in the Render to File-dialog
+   - Render Management: SetRender\_TailLength - sets the current taillength, as set in the Render to File-dialog
    - Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table
    - Theme Management: GetThemeParameterIndexByDescription - gets the theme parameter's values by its description
    - Theme Management: GetThemeParameterIndexByName - gets the theme parameter's values by its name
@@ -354,16 +357,37 @@ Has now 1146 functions, with 17 new ones
    - Track Manager: TrackManager\_SelectionFromList - sets the track-selection of the project into the track-selection of the opened track manager(requested by Monomirror)
    - Track Manager: TrackManager\_SetFilter - sets the filter of the opened track manager(requested by Monomirror)
    - User Interface: GetTrackManagerHWND - gets the tcp of the trackmanager, if opened
-   - User Interface: TCP\_SetWidth - allows setting a new width of the tcp(initial code by amagalma, thanks for that :) )
+   - User Interface: SetTimeUnit - sets the timeunit for transport, ruler and secondary ruler
+   - User Interface: TCP\_SetWidth - allows setting a new width of the tcp(initial code by amagalma, thanks for that :) )   
    - Video Management: ProjectSettings\_GetVideoFramerate - gets the currently set project's video-framerate
    - Video Management: ProjectSettings\_SetVideoFramerate - sets the currently set project's video-framerate and optionally the default for new projects
    
 #### Changes from 4.1.002 to 4.1.003
    - API: Requirements - requires now JS-extension 1.215
-   - API: titles will now be references to FarScape-episode-titles, until I conquered the farscape of Gui-development
+   - API: titles will now be references to FarScape-episode-titles, until I conquered the farscape of Gui-development   
+   - Docs: GetRender_AutoIncrementFilename	- moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: GetRender_EmbedMetaData	- moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: GetRender_EmbedStretchMarkers - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: GetRender_NoSilentFiles - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: GetRender_OfflineOnlineMode - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: GetRender_ProjectSampleRateForMix - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: GetRender_QueueDelay - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: GetRender_ResampleMode - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: GetRender_SaveCopyOfProject - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
    - Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links
+   - Docs: SetRender_AutoIncrementFilename - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: SetRender_EmbedMetaData - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: SetRender_EmbedStretchMarkers - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: SetRender_NoSilentFiles - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: SetRender_OfflineOnlineMode - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: SetRender_ProjectSampleRateForMix - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: SetRender_QueueDelay - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: SetRender_ResampleMode - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
+   - Docs: SetRender_SaveCopyOfProject - moved in the index to Rendering Projects -> Render Settings, where I would expect such functions
    - GFX: GFX\_Init - produced nil-error, when the optional-parameters weren't set due missing default-values on my side -> fixed
    - Error Management: error-messages - optional boolean errormessages include now, which is the default value when using nil
+   - Error Management: ShowLastErrorMessage - allows now to access the messages before the last one as well
+   - Error Management: SLEM - allows now to access the messages before the last one as well
    - Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
    - Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
    - FXManagement: GetFXStateChunk - had numerous problems so I reimplemented it from scratch; returns now the linenumber at which the found FXStateChunk starts in the passed StateChunk
@@ -388,7 +412,7 @@ Has now 1146 functions, with 17 new ones
    - TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
    - Theme Management: GetAllThemeLayoutNames - didn't return themelayout index 0 -> fixed
    - Theme Management: GetAllThemeLayoutParameters - didn't return themeparameter index 0; had off-by-one error in retval index -> fixed
-   - User Interface: GetHWND\_ArrangeViewAndTimeLine - returns now tracklistwindow-tcp as well; didn't find TCP-hwnd when TCP was on the right side of the arrange-view -> fixed(thanks to Edgemeal)
+   - User Interface: GetHWND\_ArrangeViewAndTimeLine - returns now tracklistwindow-tcp as well; didn't find TCP-hwnd when TCP was on the right side of the arrange-view -> fixed(thanks to Edgemeal)  
    
 ---
 

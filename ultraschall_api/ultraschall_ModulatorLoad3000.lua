@@ -378,22 +378,6 @@ else
     ultraschall.LM(6)
     return ultraschall.GetSetConfigAutoSaveMode(table.unpack({...}))
   end
-  function ultraschall.SetRender_OfflineOnlineMode(...)
-    ultraschall.LM(6)
-    return ultraschall.SetRender_OfflineOnlineMode(table.unpack({...}))
-  end
-  function ultraschall.GetRender_OfflineOnlineMode(...)
-    ultraschall.LM(6)
-    return ultraschall.GetRender_OfflineOnlineMode(table.unpack({...}))
-  end
-  function ultraschall.GetRender_ResampleMode(...)
-    ultraschall.LM(6)
-    return ultraschall.GetRender_ResampleMode(table.unpack({...}))
-  end
-  function ultraschall.SetRender_ResampleMode(...)
-    ultraschall.LM(6)
-    return ultraschall.SetRender_ResampleMode(table.unpack({...}))
-  end
   function ultraschall.GetStartNewFileRecSizeState(...)
     ultraschall.LM(6)
     return ultraschall.GetStartNewFileRecSizeState(table.unpack({...}))
@@ -3518,6 +3502,10 @@ else
     ultraschall.LM(25)
     return ultraschall.GetTrackManagerHWND(table.unpack({...}))
   end
+  function ultraschall.SetTimeUnit(...)
+    ultraschall.LM(25)
+    return ultraschall.SetTimeUnit(table.unpack({...}))
+  end
   function ultraschall.GetRenderCFG_Settings_FLAC(...)
     ultraschall.LM(26)
     return ultraschall.GetRenderCFG_Settings_FLAC(table.unpack({...}))
@@ -3833,6 +3821,30 @@ else
   function ultraschall.SetRender_EmbedMetaData(...)
     ultraschall.LM(26)
     return ultraschall.SetRender_EmbedMetaData(table.unpack({...}))
+  end
+  function ultraschall.SetRender_OfflineOnlineMode(...)
+    ultraschall.LM(26)
+    return ultraschall.SetRender_OfflineOnlineMode(table.unpack({...}))
+  end
+  function ultraschall.GetRender_OfflineOnlineMode(...)
+    ultraschall.LM(26)
+    return ultraschall.GetRender_OfflineOnlineMode(table.unpack({...}))
+  end
+  function ultraschall.GetRender_ResampleMode(...)
+    ultraschall.LM(26)
+    return ultraschall.GetRender_ResampleMode(table.unpack({...}))
+  end
+  function ultraschall.SetRender_ResampleMode(...)
+    ultraschall.LM(26)
+    return ultraschall.SetRender_ResampleMode(table.unpack({...}))
+  end
+  function ultraschall.GetRender_NoSilentFiles(...)
+    ultraschall.LM(26)
+    return ultraschall.GetRender_NoSilentFiles(table.unpack({...}))
+  end
+  function ultraschall.SetRender_NoSilentFiles(...)
+    ultraschall.LM(26)
+    return ultraschall.SetRender_NoSilentFiles(table.unpack({...}))
   end
   function ultraschall.GetAllThemeLayoutNames(...)
     ultraschall.LM(27)

@@ -3327,8 +3327,8 @@ function ultraschall.GetRender_SaveCopyOfProject()
     boolean retval - true, checkbox is checked; false, checkbox is unchecked
   </retvals>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -3375,8 +3375,8 @@ function ultraschall.SetRender_QueueDelay(state, length)
     integer length - the number of seconds the delay shall be
   </parameters>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -3423,8 +3423,8 @@ function ultraschall.SetRender_SaveCopyOfProject(state)
     boolean state - true, check the checkbox; false, uncheck the checkbox
   </parameters>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -3474,8 +3474,8 @@ function ultraschall.GetRender_QueueDelay()
     integer length - the number of seconds the delay shall be
   </retvals>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -3525,8 +3525,8 @@ function ultraschall.SetRender_ProjectSampleRateForMix(state)
     boolean state - true, check the checkbox; false, uncheck the checkbox
   </parameters>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -3567,8 +3567,8 @@ function ultraschall.GetRender_ProjectSampleRateForMix()
     boolean state - true, check the checkbox; false, uncheck the checkbox
   </retvals>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -3612,8 +3612,8 @@ function ultraschall.SetRender_AutoIncrementFilename(state)
     boolean state - true, check the checkbox; false, uncheck the checkbox
   </parameters>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -3655,8 +3655,8 @@ function ultraschall.GetRender_AutoIncrementFilename()
     boolean state - true, check the checkbox; false, uncheck the checkbox
   </retvals>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -5948,8 +5948,8 @@ function ultraschall.GetRender_EmbedStretchMarkers()
     boolean state - true, check the checkbox; false, uncheck the checkbox
   </retvals>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -5993,8 +5993,8 @@ function ultraschall.SetRender_EmbedStretchMarkers(state)
     boolean state - true, check the checkbox; false, uncheck the checkbox
   </parameters>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -6156,8 +6156,8 @@ function ultraschall.GetRender_EmbedMetaData()
     boolean state - true, check the checkbox; false, uncheck the checkbox
   </retvals>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -6201,8 +6201,8 @@ function ultraschall.SetRender_EmbedMetaData(state)
     boolean state - true, check the checkbox; false, uncheck the checkbox
   </parameters>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    Rendering Projects
+    Render Settings
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
@@ -6233,3 +6233,442 @@ end
 --A=ultraschall.SetRender_EmbedMetaData(true)
 
 
+function ultraschall.SetRender_OfflineOnlineMode(mode)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_OfflineOnlineMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRender_OfflineOnlineMode(integer mode)</functioncall>
+  <description>
+    sets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    integer mode - the mode, that you want to set
+                 - 0, Full-speed Offline
+                 - 1, 1x Offline
+                 - 2, Online Render
+                 - 3, Offline Render (Idle)
+                 - 4, 1x Offline Render (Idle)
+  </parameters>
+  <retvals>
+    boolean retval - true, setting it was successful; false, setting it was unsuccessful
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ConfigurationSettings_Module.lua</source_document>
+  <tags>rendermanagement, render, set, offline, online, idle</tags>
+</US_DocBloc>
+]]
+  if math.type(mode)~="integer" then ultraschall.AddErrorMessage("SetRender_OfflineOnlineMode", "mode", "must be an integer", -1) return false end
+  if mode<0 or mode>4 then ultraschall.AddErrorMessage("SetRender_OfflineOnlineMode", "mode", "must be between 0 and 4", -2) return false end
+  local oldfocus=reaper.JS_Window_GetFocus()
+  
+  local hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then reaper.SNM_SetIntConfigVar("projrenderlimit", mode) return end
+
+    -- select the new format-setting
+    if ultraschall.IsOS_Windows()==true then
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1001), "CB_SETCURSEL", mode,0,0,0)
+    --[[
+      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "CB_SETCURSEL", mode,0,0,0)
+    
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
+      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONUP", 1,0,0,0)
+        
+      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
+      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONUP", 1,0,0,0)
+      --]]
+    elseif ultraschall.IsOS_Mac()==true then
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1001), "CB_SETCURSEL", mode,0,0,0)
+    else
+      -- ToDo: Check with Linux
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1001), "CB_SETCURSEL", mode,0,0,0)
+    end
+
+    reaper.JS_Window_SetFocus(oldfocus)    --]]
+    
+    --[[
+    -- select the new format-setting
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd,1001), "CB_SETCURSEL", mode,0,0,0)
+    -- the following triggers Reaper to understand, that changes occurred, by clicking at the
+    -- dropdownlist twice.
+    -- Does this work on Mac and Linux?
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONUP", 1,0,0,0)
+    
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONUP", 1,0,0,0)
+
+    reaper.JS_Window_SetFocus(oldfocus)    --]]
+    return true
+end
+
+--A=ultraschall.SetRender_OfflineOnlineMode(4)
+
+function ultraschall.GetRender_OfflineOnlineMode()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_OfflineOnlineMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>integer mode = ultraschall.GetRender_OfflineOnlineMode()</functioncall>
+  <description>
+    gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
+  </description>
+  <retvals>
+    integer mode - the mode, that is set
+                 - 0, Full-speed Offline
+                 - 1, 1x Offline
+                 - 2, Online Render
+                 - 3, Offline Render (Idle)
+                 - 4, 1x Offline Render (Idle)
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ConfigurationSettings_Module.lua</source_document>
+  <tags>rendermanagement, render, get, offline, online, idle</tags>
+</US_DocBloc>
+]]
+  local oldfocus=reaper.JS_Window_GetFocus()
+  
+  local hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then return reaper.SNM_GetIntConfigVar("projrenderlimit", -1) end
+
+  return reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1001), "CB_GETCURSEL", 0,100,0,100)
+end
+
+--A,B,C=ultraschall.GetRender_OfflineOnlineMode()
+
+
+function ultraschall.GetRender_ResampleMode()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_ResampleMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>integer mode = ultraschall.GetRender_ResampleMode()</functioncall>
+  <description>
+    gets the current mode of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog
+  </description>
+  <retvals>
+    integer mode - the mode, that is set
+                 -  0, Medium (64pt Sinc), 
+                 -  1, Low (Linear Interpolation), 
+                 -  2, Lowest (Point Sampling), 
+                 -  3, Good(192pt Sinc), 
+                 -  4, Better(384pt Sinc), 
+                 -  5, Fast (IIR + Linear Interpolation), 
+                 -  6, Fast (IIRx2 + Linear Interpolation), 
+                 -  7, Fast (16pt sinc) - Default, 
+                 -  8, HQ (512pt Sinc), 
+                 -  9, Extreme HQ (768pt HQ Sinc)
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ConfigurationSettings_Module.lua</source_document>
+  <tags>rendermanagement, render, get, resample mode</tags>
+</US_DocBloc>
+]]
+  local oldfocus=reaper.JS_Window_GetFocus()
+  
+  local hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then return reaper.SNM_GetIntConfigVar("projrenderresample", -1) end
+
+  return reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1000), "CB_GETCURSEL", 0,100,0,100)
+end
+
+--A,B,C=ultraschall.GetRender_ResampleMode()
+
+function ultraschall.SetRender_ResampleMode(mode)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_ResampleMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRender_ResampleMode(integer mode)</functioncall>
+  <description>
+    sets the current mode of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    integer mode - the mode, that is set
+                 -  0, Medium (64pt Sinc), 
+                 -  1, Low (Linear Interpolation), 
+                 -  2, Lowest (Point Sampling), 
+                 -  3, Good(192pt Sinc), 
+                 -  4, Better(384pt Sinc), 
+                 -  5, Fast (IIR + Linear Interpolation), 
+                 -  6, Fast (IIRx2 + Linear Interpolation), 
+                 -  7, Fast (16pt sinc) - Default, 
+                 -  8, HQ (512pt Sinc), 
+                 -  9, Extreme HQ (768pt HQ Sinc)
+  </parameters>
+  <retvals>
+    boolean retval - true, setting it was successful; false, setting it was unsuccessful
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ConfigurationSettings_Module.lua</source_document>
+  <tags>rendermanagement, render, set, resample mode</tags>
+</US_DocBloc>
+]]
+  if math.type(mode)~="integer" then ultraschall.AddErrorMessage("SetRender_ResampleMode", "mode", "must be an integer", -1) return false end
+  if mode<0 or mode>9 then ultraschall.AddErrorMessage("SetRender_ResampleMode", "mode", "must be between 0 and 9", -2) return false end
+  local oldfocus=reaper.JS_Window_GetFocus()
+  
+  local hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then reaper.SNM_SetIntConfigVar("projrenderresample", mode) return end
+
+    -- select the new format-setting
+    if ultraschall.IsOS_Windows()==true then
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)   
+    elseif ultraschall.IsOS_Mac()==true then
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
+    else
+      -- ToDo: Check with Linux
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
+    end
+
+    reaper.JS_Window_SetFocus(oldfocus)    --]]
+    return true
+end
+
+
+function ultraschall.GetRender_NoSilentFiles()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_NoSilentFiles</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+    Lua=5.3
+  </requires>
+  <functioncall>boolan curcheckstate = ultraschall.GetRender_NoSilentFiles()</functioncall>
+  <description>
+    Returns the current check-state of the "Do not render files that are likely silent"-checkbox of the Render to File-dialog
+  </description>
+  <retvals>
+    boolean curcheckstate - true, checkbox is checked; false, checkbox is unchecked
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, get, silent files render, checkbox</tags>
+</US_DocBloc>
+]]  
+  return reaper.GetSetProjectInfo(0, "RENDER_ADDTOPROJ", 0, false)&2==2
+end
+
+function ultraschall.SetRender_NoSilentFiles(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_NoSilentFiles</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+    Lua=5.3
+  </requires>
+  <functioncall>boolan retval = ultraschall.SetRender_NoSilentFiles(boolean state)</functioncall>
+  <description>
+    Sets the current check-state of the "Do not render files that are likely silent"-checkbox of the Render to File-dialog
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting checkbox was successful; false, setting checkbox was unsuccessful
+  </retvals>
+  <parameters>
+    boolean state - true, checkbox is checked; false, checkbox is unchecked
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, set, silent files render, checkbox</tags>
+</US_DocBloc>
+]]  
+  if ultraschall.type(state)~="boolean" then ultraschall.AddErrorMessage("SetRender_NoSilentFiles", "state", "must be a boolean", -1) return false end
+  local curstate=reaper.GetSetProjectInfo(0, "RENDER_ADDTOPROJ", 0, false)
+  if curstate&2==2 and state==false then reaper.GetSetProjectInfo(0, "RENDER_ADDTOPROJ", curstate-2, true)
+  elseif curstate&2==0 and state==true then reaper.GetSetProjectInfo(0, "RENDER_ADDTOPROJ", curstate+2, true)
+  end
+  return true
+end
+
+--ultraschall.SetRender_NoSilentFiles(false)
+
+function ultraschall.GetRender_AddRenderedFilesToProject()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_AddRenderedFilesToProject</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+    Lua=5.3
+  </requires>
+  <functioncall>boolan curcheckstate = ultraschall.GetRender_AddRenderedFilesToProject()</functioncall>
+  <description>
+    Returns the current check-state of the "Add rendered items to new tracks in project"-checkbox of the Render to File-dialog
+  </description>
+  <retvals>
+    boolean curcheckstate - true, checkbox is checked; false, checkbox is unchecked
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, get, add rendered items to new tracks in project, checkbox</tags>
+</US_DocBloc>
+]]  
+  return reaper.GetSetProjectInfo(0, "RENDER_ADDTOPROJ", 0, false)&1==1
+end
+
+--A=ultraschall.GetRender_AddRenderedFilesToProject()
+
+function ultraschall.SetRender_AddRenderedFilesToProject(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_AddRenderedFilesToProject</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+    Lua=5.3
+  </requires>
+  <functioncall>boolan retval = ultraschall.SetRender_AddRenderedFilesToProject(boolean state)</functioncall>
+  <description>
+    Sets the current check-state of the "Add rendered items to new tracks in project"-checkbox of the Render to File-dialog
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting checkbox was successful; false, setting checkbox was unsuccessful
+  </retvals>
+  <parameters>
+    boolean state - true, checkbox is checked; false, checkbox is unchecked
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, set, add rendered items to new tracks in project, checkbox</tags>
+</US_DocBloc>
+]]  
+  if ultraschall.type(state)~="boolean" then ultraschall.AddErrorMessage("SetRender_AddRenderedFilesToProject", "state", "must be a boolean", -1) return false end
+  local curstate=reaper.GetSetProjectInfo(0, "RENDER_ADDTOPROJ", 0, false)
+  if curstate&1==1 and state==false then reaper.GetSetProjectInfo(0, "RENDER_ADDTOPROJ", curstate-1, true)
+  elseif curstate&1==0 and state==true then reaper.GetSetProjectInfo(0, "RENDER_ADDTOPROJ", curstate+1, true)
+  end
+  return true
+end
+
+function ultraschall.GetRender_TailLength()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_TailLength</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+    Lua=5.3
+  </requires>
+  <functioncall>integer taillength_ms = ultraschall.GetRender_TailLength()</functioncall>
+  <description>
+    Returns the current tail-length in ms, as set in the Render to File-dialog
+  </description>
+  <retvals>
+    integer taillength_ms - the current taillength in ms
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, get, tail length, ms, checkbox</tags>
+</US_DocBloc>
+]]  
+  return math.tointeger(reaper.GetSetProjectInfo(0, "RENDER_TAILMS", 0, false))
+end
+
+--A=ultraschall.GetRender_TailLength()
+
+function ultraschall.SetRender_TailLength(taillength)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_TailLength</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+    Lua=5.3
+  </requires>
+  <functioncall>boolan retval = ultraschall.SetRender_TailLength(boolean state)</functioncall>
+  <description>
+    Sets the tail-length, as set in the Render to File-dialog
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer taillength - the taillength in milliseconds
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, set, tail length, ms, checkbox</tags>
+</US_DocBloc>
+]]  
+  if ultraschall.type(taillength)~="number: integer" then ultraschall.AddErrorMessage("SetRender_TailLength", "taillength", "must be an integer", -1) return false end
+  if taillength<0 then ultraschall.AddErrorMessage("SetRender_TailLength", "taillength", "must be an integer", -2) return false end
+
+  reaper.GetSetProjectInfo(0, "RENDER_TAILMS", taillength, true)
+  return true
+end

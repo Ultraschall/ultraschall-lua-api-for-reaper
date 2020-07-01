@@ -84,7 +84,9 @@ bla</li>
 <li>Metadata Management: Metadata_IXML_GetSet - gets, sets IXML-metadata-tags from/in the current project</li>
 <li>Metadata Management: Metadata_VORBIS_GetSet - gets, sets VORBIS-metadata-tags(for Opus/Ogg-files) from/in the current project</li>
 <li>Render Management: GetRender_EmbedMetaData - gets the checkbox-state for embed-metadata in the Render to File-dialog</li>
+<li>Render Management: GetRender_NoSilentFiles - gets the checkbos-state for "Do not render files that are likely silent"-checkbox in the Render to File-dialog</li>
 <li>Render Management: SetRender_EmbedMetaData - sets the checkbox for embed-metadata in the Render to File-dialog</li>
+<li>Render Management: SetRender_NoSilentFiles - Sets the checkbos-state for "Do not render files that are likely silent"-checkbox in the Render to File-dialog</li>
 <li>Theme Management: ApplyAllThemeLayoutParameters - applies changes theme-layout parameters to the current theme; use GetAllThemeLayoutParameters to get an alterable table</li>
 <li>Theme Management: GetThemeParameterIndexByDescription - gets the theme parameter's values by its description</li>
 <li>Theme Management: GetThemeParameterIndexByName - gets the theme parameter's values by its name</li>
@@ -100,7 +102,9 @@ bla</li>
 <li>Track Manager: TrackManager_SelectionFromList - sets the track-selection of the project into the track-selection of the opened track manager(requested by Monomirror)</li>
 <li>Track Manager: TrackManager_SetFilter - sets the filter of the opened track manager(requested by Monomirror)</li>
 <li>User Interface: GetTrackManagerHWND - gets the tcp of the trackmanager, if opened</li>
-<li>User Interface: TCP_SetWidth - allows setting a new width of the tcp(initial code by amagalma, thanks for that :) )</li>
+<li>User Interface: SetTimeUnit - sets the timeunit for transport, ruler and secondary ruler</li>
+<li>User Interface: TCP_SetWidth - allows setting a new width of the tcp(initial code by amagalma, thanks for that :) )<br />
+</li>
 <li>Video Management: ProjectSettings_GetVideoFramerate - gets the currently set project's video-framerate</li>
 <li>Video Management: ProjectSettings_SetVideoFramerate - sets the currently set project's video-framerate and optionally the default for new projects</li>
 </ul>
@@ -111,6 +115,8 @@ bla</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.12, fixed nonconverted markdown-links</li>
 <li>GFX: GFX_Init - produced nil-error, when the optional-parameters weren't set due missing default-values on my side -&gt; fixed</li>
 <li>Error Management: error-messages - optional boolean errormessages include now, which is the default value when using nil</li>
+<li>Error Management: ShowLastErrorMessage - allows now to access the messages before the last one as well</li>
+<li>Error Management: SLEM - allows now to access the messages before the last one as well</li>
 <li>Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -&gt; fixed</li>
 <li>Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -&gt; fixed</li>
 <li>FXManagement: GetFXStateChunk - had numerous problems so I reimplemented it from scratch; returns now the linenumber at which the found FXStateChunk starts in the passed StateChunk</li>
