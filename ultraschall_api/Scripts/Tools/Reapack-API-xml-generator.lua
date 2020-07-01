@@ -500,7 +500,7 @@ XML_file=XML_file.."\t"..[[<source file="ultraschall_api_readme.txt" type="exten
 for i=1, found_files do
   tempfile=files_array[i]:match("(ultraschall_api/.*)")
   if tempfile==nil then tempfile=files_array[i]:match("UserPlugins(/.*)") end
-  XML_file=XML_file.."\t<source file=\"/"..tempfile.."\" type=\"extension\">"..Url..string.gsub(tempfile," ", "+").."</source>\n"
+  XML_file=XML_file.."\t<source file=\"/"..tempfile.."\" type=\"extension\">"..Url..string.gsub(tempfile," ", "%%20").."</source>\n"
 end
 
 for i=1, Docs[1] do
