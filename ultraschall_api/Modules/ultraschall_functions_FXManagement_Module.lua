@@ -1752,7 +1752,7 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string FXStateChunk = ultraschall.GetFXStateChunk(string StateChunk, optional integer TakeFXChain_id)</functioncall>
+  <functioncall>string FXStateChunk, integer linenumber = ultraschall.GetFXStateChunk(string StateChunk, optional integer TakeFXChain_id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns an FXStateChunk from a TrackStateChunk or a MediaItemStateChunk.
     
@@ -1762,6 +1762,7 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
   </description>
   <retvals>
     string FXStateChunk - the FXStateChunk, stored in the StateChunk
+    integer linenumber - returns the first linenumber, at which the found FXStateChunk starts in the StateChunk
   </retvals>
   <parameters>
     string StateChunk - the StateChunk, from which you want to retrieve the FXStateChunk
@@ -1778,28 +1779,63 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
 ]]
   if ultraschall.IsValidTrackStateChunk(StateChunk)==false and ultraschall.IsValidMediaItemStateChunk(StateChunk)==false then ultraschall.AddErrorMessage("GetFXStateChunk", "StateChunk", "no valid Track/ItemStateChunk", -1) return end
   if TakeFXChain_id~=nil and math.type(TakeFXChain_id)~="integer" then ultraschall.AddErrorMessage("GetFXStateChunk", "TakeFXChain_id", "must be an integer", -2) return end
-  if TakeFXChain_id==nil then TakeFXChain_id=1 end
+  local add, takefx, trackfx
+  
+  local finallinenumber
+  local FXStateChunk=""
   
   if string.find(StateChunk, "\n  ")==nil then
     StateChunk=ultraschall.StateChunkLayouter(StateChunk)
   end
-  for w in string.gmatch(StateChunk, " <FXCHAIN.-\n  >") do
-    return w
-  end
-  local count=0
-  local FXStateChunk
-      
-  StateChunk=string.gsub(StateChunk, "TAKE\n", "TAKEend\n  TAKE\n")
-  StateChunk="  TAKE\n"..StateChunk.."\n  TAKEend\n"
 
-  for w in string.gmatch(StateChunk, "(  TAKE\n.-)\n  TAKEend\n") do
-    count=count+1
-    if TakeFXChain_id==count then
-      FXStateChunk=w:match("  <TAKEFX.-\n  >")
-      if FXStateChunk==nil then ultraschall.AddErrorMessage("GetFXStateChunk", "TakeFXChain_id", "No FXChain in this take available", -3) end
-      return FXStateChunk
+  local linenumber=0
+  if ultraschall.IsValidTrackStateChunk(StateChunk)==true then
+    for w in string.gmatch(StateChunk, ".-\n") do
+      linenumber=linenumber+1
+      if w=="  <FXCHAIN\n" then
+        trackfx=true
+        if finallinenumber==nil then finallinenumber=linenumber end
+      elseif trackfx==true and w=="  >\n" then
+        trackfx=false
+      end
+      if trackfx==true then
+        FXStateChunk=FXStateChunk..w
+      end
+    end
+    if FXStateChunk~="" then add="  >" else add="" end
+    if FXStateChunk:len()<7 then FXStateChunk="" end
+    
+    return FXStateChunk..add, finallinenumber
+  end
+  
+  if TakeFXChain_id==nil then TakeFXChain_id=1 end
+  local count=0
+  local FXStateChunk=""
+  
+  StateChunk="  TAKE\n"..StateChunk.."\n"
+  takefx=false
+  linenumber=0
+  
+  for w in string.gmatch(StateChunk, "(.-\n)") do
+    linenumber=linenumber+1
+    if w:sub(1,7)=="  TAKE\n" or w:sub(1,7)=="  TAKE "then
+      count=count+1
+    end
+    
+    if w=="  <TAKEFX\n" then
+      takefx=true
+    elseif takefx==true and w=="  >\n" then
+      takefx=false
+    end
+    
+    if takefx==true and TakeFXChain_id==count then
+      if finallinenumber==nil then finallinenumber=linenumber end
+      FXStateChunk=FXStateChunk..w
     end
   end
+  if FXStateChunk:len()<7 then FXStateChunk="" end
+  if FXStateChunk~="" then add="  >" else add="" end
+  return FXStateChunk..add, finallinenumber
 end
 
 

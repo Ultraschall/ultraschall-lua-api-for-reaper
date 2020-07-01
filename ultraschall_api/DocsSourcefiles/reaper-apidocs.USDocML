@@ -35968,6 +35968,10 @@
             Draws a string at gfx.x, gfx.y, and updates gfx.x/gfx.y so that subsequent draws will occur in a similar place.
             
             You can optionally set a clipping area for the text, if you set parameter flags&amp;256 and the parameters right and bottom.
+            
+            On Windows, fonts with a size > 255 may have trouble of being displayed correctly, due problems with the font-rendering and the alpha-channel. <a href="https://forum.cockos.com/showpost.php?p=2311977&postcount=7">Justin's post about this.</a>
+            To overcome this, try this to disable the alpha-channel: 
+            By default, gfx.blit() blits with alpha channel. You can disable this behavior by setting "gfx.mode=2" before calling gfx.blit().
         </description>
         <parameters>
             string str - the string to be drawn into the gfx.init-window

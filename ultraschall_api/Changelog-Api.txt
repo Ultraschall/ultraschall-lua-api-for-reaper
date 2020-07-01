@@ -326,8 +326,10 @@ Has now 1146 functions, with 17 new ones
    - Envelopes: ActivateTrackVolumeEnv - activates the volume-envelope lane of a track
    - Envelopes: ActivateTrackVolumeEnv_TrackObject - activates the volume-envelope lane of a trackobject
    - Envelopes: GetTakeEnvelopeUnderMouseCursor - returns the take-envelope currently under the mouse
-   - FXManagement: GetTrackFX\_AlternativeName - gets the alternative/aliasname of a trackfx(requested by dimtok)
    - FXManagement: GetTakeFX\_AlternativeName - gets the alternative/aliasname of a takefx(requested by dimtok)
+   - FXManagement: GetTrackFX\_AlternativeName - gets the alternative/aliasname of a trackfx(requested by dimtok)   
+   - FXManagement: SetTakeFX\_AlternativeName - sets the alternative/aliasname of a takefx(requested by dimtok)
+   - FXManagement: SetTrackFX\_AlternativeName - sets the alternative/aliasname of a takefx(requested by dimtok)
    - GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible installations on current Reaper-installation
    - GUI: Lokasenna\_LoadGuiLib\_v2 - loads Lokasennas Gui-Lib and all available classes into your script
    - Image Handling: ResizeJPG - resizes jpgs to new jpgs
@@ -369,6 +371,7 @@ Has now 1146 functions, with 17 new ones
    - Error Management: error-messages - optional boolean errormessages include now, which is the default value when using nil
    - Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
    - Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -> fixed
+   - FXManagement: GetFXStateChunk - had numerous problems so I reimplemented it from scratch; returns now the linenumber at which the found FXStateChunk starts in the passed StateChunk
    - Helper functions: OpenURL - didn't work on Linux -> fixed
    - MediaItem Management: SelectMediaItems\_MediaItemArray - updates now arrangeview, so selected items are now visible as such
    - ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated
@@ -382,8 +385,9 @@ Has now 1146 functions, with 17 new ones
    - Render Management: GetRenderToFileHWND - didn't return render to file-dialog-hwnd on recent Reaper-versions -> fixed
    - Render Management: IsValidRenderTable - added option for embed-metadata-checkbox
    - Render Management: RenderProject\_RenderTable - added option for embed-metadata-checkbox
-   - Render Management: SetRenderPreset - added option for embed-metadata-checkbox   
-   - TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one
+   - Render Management: SetRenderPreset - added option for embed-metadata-checkbox  
+   - Routing Management: GetAllAUXSendReceives - could produce a nil-error and returned wrong track-guid, PLEASE CHECK, IF YOUR ROUTING-CODE IS BUGGY NOW AND REPORT BACK2ME, Thanx! -> fixed
+   - TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one   
    - TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one
    - TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one
    - TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one

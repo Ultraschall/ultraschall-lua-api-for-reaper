@@ -1382,8 +1382,9 @@ function ultraschall.GetAllAUXSendReceives()
       AUXSendReceives[i][a]["snd_src"], 
       AUXSendReceives[i][a]["pan_law"], 
       AUXSendReceives[i][a]["midichanflag"], 
-      AUXSendReceives[i][a]["automation"] = ultraschall.GetTrackAUXSendReceives(i, a)     
-      AUXSendReceives[i][a]["recv_track_guid"]=reaper.GetTrackGUID(reaper.GetTrack(0,AUXSendReceives[i][a]["recv_tracknumber"]))
+      AUXSendReceives[i][a]["automation"] = ultraschall.GetTrackAUXSendReceives(i, a)
+      AUXSendReceives[i][a]["recv_track_guid"]=reaper.GetTrackGUID(reaper.GetTrack(0,AUXSendReceives[i][a]["recv_tracknumber"]-1))
+      
       --]]
     end
   end

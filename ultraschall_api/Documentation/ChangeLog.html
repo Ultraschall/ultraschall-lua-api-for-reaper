@@ -64,8 +64,11 @@ bla</li>
 <li>Envelopes: ActivateTrackVolumeEnv - activates the volume-envelope lane of a track</li>
 <li>Envelopes: ActivateTrackVolumeEnv_TrackObject - activates the volume-envelope lane of a trackobject</li>
 <li>Envelopes: GetTakeEnvelopeUnderMouseCursor - returns the take-envelope currently under the mouse</li>
-<li>FXManagement: GetTrackFX_AlternativeName - gets the alternative/aliasname of a trackfx(requested by dimtok)</li>
 <li>FXManagement: GetTakeFX_AlternativeName - gets the alternative/aliasname of a takefx(requested by dimtok)</li>
+<li>FXManagement: GetTrackFX_AlternativeName - gets the alternative/aliasname of a trackfx(requested by dimtok)<br />
+</li>
+<li>FXManagement: SetTakeFX_AlternativeName - sets the alternative/aliasname of a takefx(requested by dimtok)</li>
+<li>FXManagement: SetTrackFX_AlternativeName - sets the alternative/aliasname of a takefx(requested by dimtok)</li>
 <li>GUI: Lokasenna's Gui Lib v2 - added his Gui-Lib v2 into Ultraschall-API; will not affect other possible installations on current Reaper-installation</li>
 <li>GUI: Lokasenna_LoadGuiLib_v2 - loads Lokasennas Gui-Lib and all available classes into your script</li>
 <li>Image Handling: ResizeJPG - resizes jpgs to new jpgs</li>
@@ -110,6 +113,7 @@ bla</li>
 <li>Error Management: error-messages - optional boolean errormessages include now, which is the default value when using nil</li>
 <li>Envelopes: ActivateMute - had wrong returnvalue in errormessages for parameter track -&gt; fixed</li>
 <li>Envelopes: DeactivateMute - had wrong returnvalue in errormessages for parameter track -&gt; fixed</li>
+<li>FXManagement: GetFXStateChunk - had numerous problems so I reimplemented it from scratch; returns now the linenumber at which the found FXStateChunk starts in the passed StateChunk</li>
 <li>Helper functions: OpenURL - didn't work on Linux -&gt; fixed</li>
 <li>MediaItem Management: SelectMediaItems_MediaItemArray - updates now arrangeview, so selected items are now visible as such</li>
 <li>ReaMote: AutoSearchReaMoteClients - renamed from AutoSearchReaMoteSlaves; the old name is still available but deprecated</li>
@@ -126,7 +130,9 @@ bla</li>
 <li>Render Management: RenderProject_RenderTable - added option for embed-metadata-checkbox</li>
 <li>Render Management: SetRenderPreset - added option for embed-metadata-checkbox<br />
 </li>
-<li>TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one</li>
+<li>Routing Management: GetAllAUXSendReceives - could produce a nil-error and returned wrong track-guid, PLEASE CHECK, IF YOUR ROUTING-CODE IS BUGGY NOW AND REPORT BACK2ME, Thanx! -&gt; fixed</li>
+<li>TrackGroups: GetTrackGroupFlagsState - updated nomenclature to Reaper's new one<br />
+</li>
 <li>TrackGroups: GetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: SetTrackGroupFlagsState - updated nomenclature to Reaper's new one</li>
 <li>TrackGroups: SetTrackGroupFlags_HighState - updated nomenclature to Reaper's new one</li>
