@@ -1,9 +1,4 @@
 <TODO>
-    
-    For 4.01.003:  
-        - Rename FX-instance:
-            <VST "VST: ReaEQ (Cockos)" reaeq.dll 0 "HIER KÖNNTE IHR NEUER NAME STEHEN!!!" 1919247729<56535472656571726561657100000000> ""
-          How does it work for other FX and would it be enough to manipulate an FXChainStateChunk?
         
     For 4.01.004:
         - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf

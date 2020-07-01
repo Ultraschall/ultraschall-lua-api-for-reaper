@@ -6137,3 +6137,99 @@ function ultraschall.Render_Loop(RenderTable, RenderFilename, AutoIncrement, Fir
   return count, MediaItemStateChunkArray, Filearray
 end
 
+function ultraschall.GetRender_EmbedMetaData()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_EmbedMetaData</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.11
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.GetRender_EmbedMetaData()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the current state of the "Embed metadata"-checkbox from the Render to File-dialog.
+  </description>
+  <retvals>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+  </retvals>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render, get, checkbox, render, embed metadata</tags>
+</US_DocBloc>
+]]
+  local SaveCopyOfProject, hwnd, retval, length, state
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    state=reaper.SNM_GetIntConfigVar("projrenderstems", 0)&512
+  else
+    state = reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1178), "BM_GETCHECK", 0,0,0,0)
+  end
+  if state==0 then state=false else state=true end
+  return state
+end
+
+--A=ultraschall.GetRender_EmbedMetaData()
+
+function ultraschall.SetRender_EmbedMetaData(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_EmbedMetaData</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.11
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRender_EmbedMetaData(boolean state)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the new state of the "Embed metadata"-checkbox from the Render to File-dialog.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <parameters>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render, set, checkbox, render, embed metadata, transient guides</tags>
+</US_DocBloc>
+]]
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRender_EmbedStretchMarkers", "state", "must be a boolean", -1) return false end
+  local SaveCopyOfProject, hwnd, retval, Oldstate, Oldstate2, state2
+  if state==false then state=0 else state=1 end
+  hwnd = ultraschall.GetRenderToFileHWND()
+  Oldstate=reaper.SNM_GetIntConfigVar("projrenderstems", -99)
+  Oldstate2=Oldstate&512  
+  if Oldstate2==512 and state==0 then state2=Oldstate-512
+  elseif Oldstate2==0 and state==1 then state2=Oldstate+512
+  else state2=Oldstate
+  end
+  
+  
+  if hwnd==nil then
+    reaper.SNM_SetIntConfigVar("projrenderstems", state2)
+  else
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1178), "BM_SETCHECK", state,0,0,0)
+    reaper.SNM_SetIntConfigVar("projrenderstems", state2)
+  end
+  return true
+end
+
+--A=ultraschall.SetRender_EmbedMetaData(true)
+
+

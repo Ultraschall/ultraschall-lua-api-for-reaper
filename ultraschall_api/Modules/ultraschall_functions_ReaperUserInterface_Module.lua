@@ -4099,3 +4099,106 @@ function ultraschall.GetItemButtonsVisible()
   return Volume, Locked, Mute, Notes, PooledMidi, GroupedItems, PerTakeFX, Properties, AutomationEnvelopes
 end
 
+function ultraschall.TCP_SetWidth(width)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetThemeParameterIndexByDescription</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetThemeParameterIndexByDescription(integer width)</functioncall>
+  <description>
+    allows setting the width of the tcp.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer width - the new width of the tcp in pixels; 0 and higher
+  </parameters>
+  <chapter_context>
+    User Interface
+    Track Control Panel(TCP)
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>userinterface, set, width, tcp, track control panel</tags>
+</US_DocBloc>
+]]
+  -- initial code by amagalma
+  if ultraschall.type(width)~="number: integer" then ultraschall.AddErrorMessage("TCP_SetWidth", "width", "must be an integer", -1) return false end
+  if width<0 then ultraschall.AddErrorMessage("TCP_SetWidth", "width", "must be bigger or equal 0", -2) return false end
+
+  local main = reaper.GetMainHwnd()
+  local _, _, tcp_hwnd, tracklist = ultraschall.GetHWND_ArrangeViewAndTimeLine()
+  local x,y = 0,0 
+  local _, _, _, av_r = reaper.JS_Window_GetRect(tracklist) 
+  
+  local _, main_x = reaper.JS_Window_GetRect(main) 
+  local _, tcp_x, tcp_y, tcp_r = reaper.JS_Window_GetRect(tcp_hwnd) 
+
+  if tcp_r < av_r then
+    x,y = reaper.JS_Window_ScreenToClient(main, tcp_x+(tcp_r-tcp_x)+2, tcp_y)
+    reaper.JS_WindowMessage_Send(main, "WM_LBUTTONDOWN", 1, 0, x, y) -- mouse down message at splitter location
+    reaper.JS_WindowMessage_Send(main, "WM_LBUTTONUP", 0, 0, (tcp_x+width)-main_x-2, y) -- set width, mouse up message
+  else -- ' TCP is on right side
+    x,y = reaper.JS_Window_ScreenToClient(main, tcp_x-5, tcp_y)
+    reaper.JS_WindowMessage_Send(main, "WM_LBUTTONDOWN", 1, 0, x, y)
+    reaper.JS_WindowMessage_Send(main, "WM_LBUTTONUP", 0, 0, (tcp_r-width)-main_x-8, y)
+  end 
+  return true
+end
+
+--ultraschall.TCP_SetWidth(300)
+
+function ultraschall.GetTrackManagerHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTrackManagerHWND</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetTrackManagerHWND()</functioncall>
+  <description>
+    returns the HWND of the Track Manager-dialog, if the window is opened.
+    
+    returns nil if Track Manager-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Track Manager-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, window, track manager, hwnd, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Track Manager", "common")
+ 
+  local selection=reaper.JS_Localize("Set selection from:", "DLG_469")
+  local show_all=reaper.JS_Localize("Show all", "DLG_469")
+  local mcp=reaper.JS_Localize("MCP", "trackmgr")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                           selection,
+                                           show_all,
+                                           mcp)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+

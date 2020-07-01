@@ -27,7 +27,7 @@
 -------------------------------------
 --- ULTRASCHALL - API - FUNCTIONS ---
 -------------------------------------
----      WebInterface Module      ---
+---      TrackManager Module      ---
 -------------------------------------
 
 if type(ultraschall)~="table" then 
@@ -53,64 +53,226 @@ if type(ultraschall)~="table" then
 end
 
 
-function ultraschall.WebInterface_GetInstalledInterfaces()
+function ultraschall.TrackManager_ClearFilter()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>WebInterface_GetInstalledInterfaces</slug>
+  <slug>TrackManager_ClearFilter</slug>
   <requires>
     Ultraschall=4.1
     Reaper=6.02
+    JS=0.963
     Lua=5.3
   </requires>
-  <functioncall>integer reapers_count_of_webinterface, array reapers_webinterface_filenames_with_path, array reapers_webinterface_titles, integer users_count_of_webinterface, array users_webinterface_filenames_with_path, array users_webinterface_titles = ultraschall.WebInterface_GetInstalledInterfaces()</functioncall>
+  <functioncall>boolean retval = ultraschall.TrackManager_ClearFilter()</functioncall>
   <description>
-    Returns the currently installed web-interface-pages.
+    clears the filter of the trackmanager, if the window is opened.
     
-    Will return Reaper's default ones(resources-folder/Plugins/reaper_www_root/) as well as your customized ones(resources-folder/reaper_www_root/)
+    returns false if Track Manager is closed
   </description>
   <retvals>
-    integer reapers_count_of_webinterface - the number of factory-default webinterfaces, installed by Reaper
-    array reapers_webinterface_filenames_with_path - the filenames with path of the webinterfaces(can be .htm or .html)
-    array reapers_webinterface_titles - the titles of the webinterfaces, as shown in the titlebar of the browser
-    integer users_count_of_webinterface - the number of user-customized webinterfaces
-    array users_webinterface_filenames_with_path - the filenames with path of the webinterfaces(can be .htm or .html)
-    array users_webinterface_titles - the titles of the webinterfaces, as shown in the titlebar of the browser
+    boolean retval - true, clearing was successful; false, clearing was unsuccessful
   </retvals>
   <chapter_context>
-    Web Interface
+    TrackManager
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_WebInterface_Module.lua</source_document>
-  <tags>web interface, get, all, installed, webrc, filename, title</tags>
+  <source_document>Modules/ultraschall_functions_TrackManager_Module.lua</source_document>
+  <tags>trackmanager, clear, filter</tags>
 </US_DocBloc>
-]]  
-  local filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/Plugins/reaper_www_root")
-  local files_WEBRC_names={}
-  for i=filecount, 1, -1 do
-    if files[i]:sub(-5,-1):match("%.htm")==nil then
-      table.remove(files, i)
-      filecount=filecount-1
-    end
-  end
-  for i=1, filecount do
-    local A=ultraschall.ReadFullFile(files[i])
-    local start, ende=A:lower():match("<title>().-()</title>")
-    files_WEBRC_names[i]=A:sub(start, ende-1)
-  end
-
-  local filecount2, files2 = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/reaper_www_root")
-  local files_WEBRC_names2={}
-  for i=filecount2, 1, -1 do
-    if files2[i]:sub(-5,-1):match("%.htm")==nil then
-      table.remove(files2, i)
-      filecount2=filecount2-1
-    end
-  end
-  for i=1, filecount2 do
-    local A=ultraschall.ReadFullFile(files2[i])
-    local start, ende=A:lower():match("<title>().-()</title>")
-    files_WEBRC_names2[i]=A:sub(start, ende-1)
-  end
-  
-  return filecount, files, files_WEBRC_names, filecount2, files2, files_WEBRC_names2
+--]]
+  local tm_hwnd=ultraschall.GetTrackManagerHWND()
+  if tm_hwnd==nil then ultraschall.AddErrorMessage("TrackManager_ClearFilter", "", "Track Manager not opened", -1) return false end
+  local button=reaper.JS_Window_FindChildByID(tm_hwnd, 1056)
+  reaper.JS_WindowMessage_Send(button, "WM_LBUTTONDOWN", 1,1,1,1)
+  reaper.JS_WindowMessage_Send(button, "WM_LBUTTONUP", 1,1,1,1)
+  return true
 end
+
+function ultraschall.TrackManager_ShowAll()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>TrackManager_ShowAll</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.TrackManager_ShowAll()</functioncall>
+  <description>
+    shows all tracks, if the window is opened.
+    
+    returns false if Track Manager is closed
+  </description>
+  <retvals>
+    boolean retval - true, showall was successful; false, showall was unsuccessful
+  </retvals>
+  <chapter_context>
+    TrackManager
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManager_Module.lua</source_document>
+  <tags>trackmanager, show, all</tags>
+</US_DocBloc>
+--]]
+  local tm_hwnd=ultraschall.GetTrackManagerHWND()
+  if tm_hwnd==nil then ultraschall.AddErrorMessage("TrackManager_ShowAll", "", "Track Manager not opened", -1) return false end
+  local button=reaper.JS_Window_FindChildByID(tm_hwnd, 1058)
+  reaper.JS_WindowMessage_Send(button, "WM_LBUTTONDOWN", 1,1,1,1)
+  reaper.JS_WindowMessage_Send(button, "WM_LBUTTONUP", 1,1,1,1)
+  return true
+end
+
+function ultraschall.TrackManager_SelectionFromProject()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>TrackManager_SelectionFromProject</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.TrackManager_SelectionFromProject()</functioncall>
+  <description>
+    sets trackselection in trackmanager to the trackselection from the project, if the trackmanager-window is opened.
+    
+    returns false if Track Manager is closed
+  </description>
+  <retvals>
+    boolean retval - true, setting selection was successful; false, setting selection was unsuccessful
+  </retvals>
+  <chapter_context>
+    TrackManager
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManager_Module.lua</source_document>
+  <tags>trackmanager, set, selection, from project</tags>
+</US_DocBloc>
+--]]
+  local tm_hwnd=ultraschall.GetTrackManagerHWND()
+  if tm_hwnd==nil then ultraschall.AddErrorMessage("TrackManager_SelectionFromProject", "", "Track Manager not opened", -1) return false end
+  local button=reaper.JS_Window_FindChildByID(tm_hwnd, 1057)
+  reaper.JS_WindowMessage_Send(button, "WM_LBUTTONDOWN", 1,1,1,1)
+  reaper.JS_WindowMessage_Send(button, "WM_LBUTTONUP", 1,1,1,1)
+  return true
+end
+
+function ultraschall.TrackManager_SelectionFromList()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>TrackManager_SelectionFromProject</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.TrackManager_SelectionFromProject()</functioncall>
+  <description>
+    sets trackselection from trackmanager into the trackselection of the project, if the trackmanager-window is opened.
+    
+    returns false if Track Manager is closed
+  </description>
+  <retvals>
+    boolean retval - true, setting selection was successful; false, setting selection was unsuccessful
+  </retvals>
+  <chapter_context>
+    TrackManager
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManager_Module.lua</source_document>
+  <tags>trackmanager, set, selection, to project</tags>
+</US_DocBloc>
+--]]
+  local tm_hwnd=ultraschall.GetTrackManagerHWND()
+  if tm_hwnd==nil then ultraschall.AddErrorMessage("TrackManager_SelectionFromList", "", "Track Manager not opened", -1) return false end
+  local button=reaper.JS_Window_FindChildByID(tm_hwnd, 1062)
+  reaper.JS_WindowMessage_Send(button, "WM_LBUTTONDOWN", 1,1,1,1)
+  reaper.JS_WindowMessage_Send(button, "WM_LBUTTONUP", 1,1,1,1)
+  return true
+end
+
+function ultraschall.TrackManager_SetFilter(filter)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>TrackManager_SetFilter</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.TrackManager_SetFilter(string filter)</functioncall>
+  <description>
+    sets filter of the trackmanager, if the trackmanager-window is opened.
+    
+    returns false if Track Manager is closed
+  </description>
+  <retvals>
+    boolean retval - true, setting filter was successful; false, setting filter was unsuccessful
+  </retvals>
+  <parameters>
+    string filter - the new filter-phrase to be set 
+  </parameters>
+  <chapter_context>
+    TrackManager
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManager_Module.lua</source_document>
+  <tags>trackmanager, set, filter</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.type(filter)~="string" then ultraschall.AddErrorMessage("TrackManager_SetFilter", "filter", "must be a string", -1) return false end
+  local tm_hwnd=ultraschall.GetTrackManagerHWND()
+  if tm_hwnd==nil then ultraschall.AddErrorMessage("TrackManager_SelectionFromList", "", "Track Manager not opened", -2) return false end
+  local button=reaper.JS_Window_FindChildByID(tm_hwnd, 1007)
+  reaper.JS_Window_SetTitle(button, filter)
+  return true
+end
+
+function ultraschall.TrackManager_OpenClose(toggle)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>TrackManager_OpenClose</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional boolean new_toggle_state = ultraschall.TrackManager_OpenClose(optional boolean toggle)</functioncall>
+  <description>
+    opens/closes the trackmanager
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, opening/closing was successful; false, there was an error
+    optional boolean new_toggle_state - true, track manager is opened; false, track manager is closed
+  </retvals>
+  <parameters>
+    optional boolean toggle - true, open the track manager; false, close the track manager; nil, just toggle open/close of the trackmanager
+  </parameters>
+  <chapter_context>
+    TrackManager
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManager_Module.lua</source_document>
+  <tags>trackmanager, open, close</tags>
+</US_DocBloc>
+--]]
+  if toggle~=nil and ultraschall.type(toggle)~="boolean" then ultraschall.AddErrorMessage("TrackManager_OpenClose", "toggle", "must be a boolean", -1) return false end
+  local state=reaper.GetToggleCommandState(40906)
+  if (state==0 and toggle==true) or
+     (state==1 and toggle==false) then
+    reaper.Main_OnCommand(40906,0)
+  elseif toggle==nil then
+    reaper.Main_OnCommand(40906,0)
+    if state==0 then return true, true else return true, false end
+  end
+  return true, toggle
+end
+
+--A,B=ultraschall.TrackManager_OpenClose()
+
