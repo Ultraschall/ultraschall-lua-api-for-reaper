@@ -3805,7 +3805,8 @@ function ultraschall.SetTrackFX_AlternativeName(tracknumber, fx_id, newname)
     elseif k:match("    <(...)")=="DX " then 
       counter=counter+1    
       if counter==fx_id then
-        k=string.gsub(k, "<DX \".-\" (.*)", "<DX \".-\" "..newname)
+        local Pre=k:match("(.-<DX \".-\" ).*")
+        k=Pre..newname
       end
     elseif k:match("    <(...)")=="AU " then 
       counter=counter+1
@@ -3837,7 +3838,7 @@ end
 function ultraschall.SetTakeFX_AlternativeName(item, take_id, fx_id, newname)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetTrackFX_AlternativeName</slug>
+  <slug>SetTakeFX_AlternativeName</slug>
   <requires>
     Ultraschall=4.1
     Reaper=6.11
@@ -3894,7 +3895,8 @@ function ultraschall.SetTakeFX_AlternativeName(item, take_id, fx_id, newname)
     elseif k:match("    <(...)")=="DX " then 
       counter=counter+1    
       if counter==fx_id then
-        k=string.gsub(k, "<DX \".-\" (.*)", "<DX \".-\" "..newname)
+        local Pre=k:match("(.-<DX \".-\" ).*")
+        k=Pre..newname
       end
     elseif k:match("    <(...)")=="AU " then 
       counter=counter+1
