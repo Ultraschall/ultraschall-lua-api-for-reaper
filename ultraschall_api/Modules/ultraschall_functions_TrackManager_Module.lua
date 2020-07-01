@@ -161,14 +161,14 @@ end
 function ultraschall.TrackManager_SelectionFromList()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>TrackManager_SelectionFromProject</slug>
+  <slug>TrackManager_SelectionFromList</slug>
   <requires>
     Ultraschall=4.1
     Reaper=6.02
     JS=0.963
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.TrackManager_SelectionFromProject()</functioncall>
+  <functioncall>boolean retval = ultraschall.TrackManager_SelectionFromList()</functioncall>
   <description>
     sets trackselection from trackmanager into the trackselection of the project, if the trackmanager-window is opened.
     

@@ -4494,9 +4494,9 @@ else
     ultraschall.LM(31)
     return ultraschall.TrackManager_SelectionFromProject(table.unpack({...}))
   end
-  function ultraschall.TrackManager_SelectionFromProject(...)
+  function ultraschall.TrackManager_SelectionFromList(...)
     ultraschall.LM(31)
-    return ultraschall.TrackManager_SelectionFromProject(table.unpack({...}))
+    return ultraschall.TrackManager_SelectionFromList(table.unpack({...}))
   end
   function ultraschall.TrackManager_SetFilter(...)
     ultraschall.LM(31)
