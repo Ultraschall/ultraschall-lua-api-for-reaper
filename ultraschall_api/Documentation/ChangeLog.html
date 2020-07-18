@@ -48,11 +48,34 @@ Ultraschall API Changelog
 Bla</li>
 </ul>
 <h4>New features in 4.1.004</h4>
+<ul>
+<li>FileManagement: CopyFile_AddFileToQueue - add files to the background-copying-queue</li>
+<li>FileManagement: CopyFile_FlushCopiedFiles - flush the files from the copied list of the background-copying-queue</li>
+<li>FileManagement: CopyFile_GetBufferSize - get the current copying-buffer size of the background-copying-queue</li>
+<li>FileManagement: CopyFile_GetCopiedStatus - returns the current copy-status of a file in the background-copying-queue</li>
+<li>FileManagement: CopyFile_GetCurrentlyCopiedFile - get the currently copied file in the background-copying-queue</li>
+<li>FileManagement: CopyFile_GetCurrentlyRunningCopyInstances - get amount of currently running background-copying-instances</li>
+<li>FileManagement: CopyFile_GetPausedState - get paused state of the background-copying-queue</li>
+<li>FileManagement: CopyFile_GetRemainingFilesToCopy - get the remaining files in the background-copying-queue</li>
+<li>FileManagement: CopyFile_IsCurrentlyCopying - returns, if background-copying is currently copying</li>
+<li>FileManagement: CopyFile_Pause - toggle pausing of the background-copying-instances</li>
+<li>FileManagement: CopyFile_SetBufferSize - set the new copying-buffer-size of the background-copying-queue</li>
+<li>FileManagement: CopyFile_StartCopying - start copying all files in the background-copying-queue</li>
+<li>FileManagement: CopyFile_StopCopying - stop copying the files in the background-copying-queue</li>
+<li>Helper Functions: TimeToMeasures - converts a time to measures</li>
+</ul>
 <h4>Changes from 4.1.003 to 4.1.004</h4>
 <ul>
+<li>Docs: VideoProcessor-docs - added detailed description for @param and reworked code-examples, as they didn't work previously(thanks to Eliseat)</li>
 <li>Examplescripts: US_Api_Examples_Render_Current_Project.lua - updated to the more recent rendering-functions(used the first and outdated ones)</li>
 <li>Examplescripts: US_Api_Examples_Render_Project.lua - updated to the more recent rendering-functions(used the first and outdated ones)</li>
 <li>Examplescripts: US_Api_Examples_Render_Region_of_current_Project.lua - updated to the more recent rendering-functions(used the first and outdated ones)</li>
+<li>File Management: ReadBinaryFile_Offset - produced nil-error, when offset was after file's end; returned false in case of an error, even though it should return integer -&gt; fixed</li>
+<li>File Management: ReadBinaryFileFromPattern - returned false in case of an error, even though it should return integer -&gt; fixed</li>
+<li>File Management: ReadBinaryFileUntilPattern - returned false in case of an error, even though it should return integer -&gt; fixed</li>
+<li>MediaItems: RippleCut - moving of markers didn't work; added optional parameter which allows optionally moving markers as well</li>
+<li>Rendering: CreateNewRenderTable - did not allow EmbedMetadata being optional -&gt; fixed(thanks to aurelien)<br />
+</li>
 <li>Rendering: RenderProject - produced error, when a project's timeselection start&amp;end where stored "backwards"; rendercfg for secondary rendering didn't work and caused havoc in numerous functions -&gt; fixed (thanks to elzoido)</li>
 </ul>
 <hr />

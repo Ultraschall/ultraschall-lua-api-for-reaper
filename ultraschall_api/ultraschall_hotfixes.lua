@@ -24,6 +24,11 @@
 ################################################################################
 ]] 
 
+-- THIS FILE DOESN'T WORK SOMEHOW RIGHT NOW, so post fixes please as issues for the moment: 
+-- https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/
+-- Sorry for that...
+
+
 -- This is the file for hotfixes of buggy functions.
 
 -- If you have found buggy functions, you can submit fixes within here.
@@ -45,7 +50,6 @@
 --
 -- If you have new functions to contribute, you can use this file as well. Keep in mind, that I will probably change them to work
 -- with the error-messaging-system as well as adding information for the API-documentation.
-ultraschall.hotfixdate="XX_XXX_XXXX"
+ultraschall.hotfixdate="HotFix X: XX_XXX_XXXX"
 
 --ultraschall.ShowLastErrorMessage()
-

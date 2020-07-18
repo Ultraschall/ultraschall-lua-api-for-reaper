@@ -361,7 +361,7 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
     Pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.
     i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc
     
-    returns false in case of an error
+    returns -1 in case of an error
   </description>
   <retvals>
     integer length - the length of the returned data
@@ -382,19 +382,19 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
 ]]
   local temp=""
   local temp2
-  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "must be a string", -1) return false end
-  if type(pattern)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "must be a string", -2) return false end
-  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "malformed pattern", -3) return false end
+  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "must be a string", -1) return -1 end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "must be a string", -2) return -1 end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "malformed pattern", -3) return -1 end
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return false end
+    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return -1 end
     temp=fileread:read("*a")
     temp2=temp:match("(.-"..pattern..")")
-    if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "pattern not found in file", -4) return false end
+    if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "pattern not found in file", -4) return -1 end
     fileread:close()
   else
-    ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "file "..input_filename_with_path.." does not exist", -5) return false
+    ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "file "..input_filename_with_path.." does not exist", -5) return -1
   end
   return temp2:len(), temp2
 end
@@ -415,7 +415,7 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
     The pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.
     i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc
     
-    returns false in case of an error
+    returns -1 in case of an error
   </description>
   <retvals>
     integer length - the length of the returned data
@@ -436,19 +436,19 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
 ]]
   local temp=""
   local temp2
-  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "must be a string", -1) return false end
-  if type(pattern)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "must be a string", -2) return false end
-  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "malformed pattern", -3) return false end
+  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "must be a string", -1) return -1 end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "must be a string", -2) return -1 end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "malformed pattern", -3) return -1 end
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return false end
+    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return -1 end
     temp=fileread:read("*a")
     temp2=temp:match("("..pattern..".*)")
-    if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "pattern not found in file", -4) return false end
+    if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "pattern not found in file", -4) return -1 end
     fileread:close()
   else
-    ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "file "..input_filename_with_path.." does not exist", -5) return false
+    ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "file "..input_filename_with_path.." does not exist", -5) return -1
   end
   return temp2:len(), temp2
 end
@@ -575,7 +575,7 @@ function ultraschall.ReadBinaryFile_Offset(input_filename_with_path, startoffset
     When setting startoffset to a negative value, it will read from the end of the file, means: 
     -100 will start -100 characters before the end of the file and numberofbytes will read from that point on    
     
-    Returns false, if file can not be opened.
+    Returns -1, if file can not be opened.
   </description>
   <retvals>
     integer length - the length of the returned part of the file, might be shorter than requested, if file ends before
@@ -599,10 +599,10 @@ function ultraschall.ReadBinaryFile_Offset(input_filename_with_path, startoffset
   local temp=""
   local length, eof
   local temp2
-  if input_filename_with_path==nil then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "filename_with_path", "nil not allowed as filename", -1) return false end
-  if math.type(startoffset)~="integer" then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "startoffset", "no valid startoffset. Only integer allowed.", -2) return false end
-  if math.type(numberofbytes)~="integer" then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "numberofbytes", "no valid value. Only integer allowed.", -3) return false end
-  if numberofbytes<-1 then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "numberofbytes", "must be positive value (0 to n) or -1 for until end of file.", -4) return false end
+  if input_filename_with_path==nil then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "filename_with_path", "nil not allowed as filename", -1) return -1 end
+  if math.type(startoffset)~="integer" then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "startoffset", "no valid startoffset. Only integer allowed.", -2) return -1 end
+  if math.type(numberofbytes)~="integer" then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "numberofbytes", "no valid value. Only integer allowed.", -3) return -1 end
+  if numberofbytes<-1 then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "numberofbytes", "must be positive value (0 to n) or -1 for until end of file.", -4) return -1 end
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
@@ -610,10 +610,11 @@ function ultraschall.ReadBinaryFile_Offset(input_filename_with_path, startoffset
     if startoffset>=0 then fileread:seek ("set" , startoffset) else eof=fileread:seek ("end") fileread:seek ("set" , eof-1-(startoffset*-1)) end
     temp=fileread:read(numberofbytes)
     fileread:close()
+    if temp==nil then temp="" end
     return temp:len(), temp
   else
     ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "filename_with_path", "file does not exist."..input_filename_with_path, -6)
-    return false
+    return -1
   end
 end
 
@@ -627,7 +628,7 @@ function ultraschall.GetLengthOfFile(filename_with_path)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer lengthoffile = ultraschall.GetLengthOfFile(string filename_with_path)</functioncall>
+  <functioncall>integer length_of_file = ultraschall.GetLengthOfFile(string filename_with_path)</functioncall>
   <description>
     Returns the length of the file filename_with_path in bytes.
     Will return -1, if no such file exists.
@@ -636,7 +637,7 @@ function ultraschall.GetLengthOfFile(filename_with_path)
     string filename_with_path - filename to write the value to
   </parameters>
   <retvals>
-    integer lengthoffile - the length of the file in bytes. -1 in case of error
+    integer length_of_file - the length of the file in bytes. -1 in case of error
   </retvals>
   <chapter_context>
     File Management

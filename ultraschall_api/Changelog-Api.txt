@@ -1,6 +1,7 @@
 <TODO>
         
     For 4.01.004:
+        - IsFileUsedInProject - check, if a file is used in the current project, could allow deleting it, though getting if it's part of projectbay could be the issue here
         - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
         - AddMediaItemStateChunk_in_TrackStateChunk
         - BatchConvertFiles - maybe finishing it up?
@@ -303,13 +304,34 @@ Has now 1200 functions, with 54 new ones
     Bla
     
 #### New features in 4.1.004
+   - FileManagement: CopyFile_AddFileToQueue - add files to the background-copying-queue
+   - FileManagement: CopyFile_FlushCopiedFiles - flush the files from the copied list of the background-copying-queue
+   - FileManagement: CopyFile_GetBufferSize - get the current copying-buffer size of the background-copying-queue
+   - FileManagement: CopyFile_GetCopiedStatus - returns the current copy-status of a file in the background-copying-queue
+   - FileManagement: CopyFile_GetCurrentlyCopiedFile - get the currently copied file in the background-copying-queue
+   - FileManagement: CopyFile_GetCurrentlyRunningCopyInstances - get amount of currently running background-copying-instances
+   - FileManagement: CopyFile_GetPausedState - get paused state of the background-copying-queue
+   - FileManagement: CopyFile_GetRemainingFilesToCopy - get the remaining files in the background-copying-queue
+   - FileManagement: CopyFile_IsCurrentlyCopying - returns, if background-copying is currently copying
+   - FileManagement: CopyFile_Pause - toggle pausing of the background-copying-instances
+   - FileManagement: CopyFile_SetBufferSize - set the new copying-buffer-size of the background-copying-queue
+   - FileManagement: CopyFile_StartCopying - start copying all files in the background-copying-queue
+   - FileManagement: CopyFile_StopCopying - stop copying the files in the background-copying-queue
+   - Helper Functions: TimeToMeasures - converts a time to measures
+   
 
 #### Changes from 4.1.003 to 4.1.004
+   - Docs: VideoProcessor-docs - added detailed description for @param and reworked code-examples, as they didn't work previously(thanks to Eliseat)
    - Examplescripts: US\_Api\_Examples\_Render\_Current\_Project.lua - updated to the more recent rendering-functions(used the first and outdated ones)
    - Examplescripts: US\_Api\_Examples\_Render\_Project.lua - updated to the more recent rendering-functions(used the first and outdated ones)
    - Examplescripts: US\_Api\_Examples\_Render\_Region\_of\_current\_Project.lua - updated to the more recent rendering-functions(used the first and outdated ones)
+   - File Management: ReadBinaryFile\_Offset - produced nil-error, when offset was after file's end; returned false in case of an error, even though it should return integer -> fixed
+   - File Management: ReadBinaryFileFromPattern - returned false in case of an error, even though it should return integer -> fixed
+   - File Management: ReadBinaryFileUntilPattern - returned false in case of an error, even though it should return integer -> fixed
+   - MediaItems: RippleCut - moving of markers didn't work; added optional parameter which allows optionally moving markers as well
+   - Rendering: CreateNewRenderTable - did not allow EmbedMetadata being optional -> fixed(thanks to aurelien)   
    - Rendering: RenderProject - produced error, when a project's timeselection start&end where stored "backwards"; rendercfg for secondary rendering didn't work and caused havoc in numerous functions -> fixed (thanks to elzoido)
-   
+
 
 
    

@@ -3244,7 +3244,7 @@ EmbedStretchMarkers, RenderString2, EmbedTakeMarkers, SilentRender, EmbedMetadat
   if EmbedTakeMarkers~=nil and type(EmbedTakeMarkers)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "EmbedTakeMarkers", "#26: must be nil(for false) or boolean", -28) return end
   if SilentRender~=nil and type(SilentRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SilentRender", "#27: must be nil(for false) or boolean", -29) return end
   
-  if type(EmbedMetadata)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "CloseAfterRender", "#28: must be a boolean", -30) return end
+  if EmbedMetadata~=nil and type(EmbedMetadata)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "CloseAfterRender", "#28: must be a boolean", -30) return end
   if EmbedTakeMarkers==nil then EmbedTakeMarkers=false end  
   if SilentRender==nil then SilentRender=false end
   if EmbedMetadata==nil then EmbedMetadata=false end

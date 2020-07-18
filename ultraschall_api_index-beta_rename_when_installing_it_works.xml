@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43226.00" author="Meo Mespotine">
+      <version name="43229.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.004/ultraschall_api/Changelog-Api.txt</source>
@@ -525,8 +525,39 @@ new in this release:
 
 New features in 4.1.004
 
+-   FileManagement: CopyFile_AddFileToQueue - add files to the
+    background-copying-queue
+-   FileManagement: CopyFile_FlushCopiedFiles - flush the files from the
+    copied list of the background-copying-queue
+-   FileManagement: CopyFile_GetBufferSize - get the current
+    copying-buffer size of the background-copying-queue
+-   FileManagement: CopyFile_GetCopiedStatus - returns the current
+    copy-status of a file in the background-copying-queue
+-   FileManagement: CopyFile_GetCurrentlyCopiedFile - get the currently
+    copied file in the background-copying-queue
+-   FileManagement: CopyFile_GetCurrentlyRunningCopyInstances - get
+    amount of currently running background-copying-instances
+-   FileManagement: CopyFile_GetPausedState - get paused state of the
+    background-copying-queue
+-   FileManagement: CopyFile_GetRemainingFilesToCopy - get the remaining
+    files in the background-copying-queue
+-   FileManagement: CopyFile_IsCurrentlyCopying - returns, if
+    background-copying is currently copying
+-   FileManagement: CopyFile_Pause - toggle pausing of the
+    background-copying-instances
+-   FileManagement: CopyFile_SetBufferSize - set the new
+    copying-buffer-size of the background-copying-queue
+-   FileManagement: CopyFile_StartCopying - start copying all files in
+    the background-copying-queue
+-   FileManagement: CopyFile_StopCopying - stop copying the files in the
+    background-copying-queue
+-   Helper Functions: TimeToMeasures - converts a time to measures
+
 Changes from 4.1.003 to 4.1.004
 
+-   Docs: VideoProcessor-docs - added detailed description for @param
+    and reworked code-examples, as they didn’t work previously(thanks to
+    Eliseat)
 -   Examplescripts: US_Api_Examples_Render_Current_Project.lua - updated
     to the more recent rendering-functions(used the first and outdated
     ones)
@@ -536,6 +567,17 @@ Changes from 4.1.003 to 4.1.004
     US_Api_Examples_Render_Region_of_current_Project.lua - updated to
     the more recent rendering-functions(used the first and outdated
     ones)
+-   File Management: ReadBinaryFile_Offset - produced nil-error, when
+    offset was after file’s end; returned false in case of an error,
+    even though it should return integer -> fixed
+-   File Management: ReadBinaryFileFromPattern - returned false in case
+    of an error, even though it should return integer -> fixed
+-   File Management: ReadBinaryFileUntilPattern - returned false in case
+    of an error, even though it should return integer -> fixed
+-   MediaItems: RippleCut - moving of markers didn’t work; added
+    optional parameter which allows optionally moving markers as well
+-   Rendering: CreateNewRenderTable - did not allow EmbedMetadata being
+    optional -> fixed(thanks to aurelien)
 -   Rendering: RenderProject - produced error, when a project’s
     timeselection start&end where stored “backwards”; rendercfg for
     secondary rendering didn’t work and caused havoc in numerous
@@ -6618,7 +6660,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1200 Lua-functions library for Reaper.}
+a 1224 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43229 from 19.07.2020 00:04:54).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6632,7 +6674,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1200 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1224 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -6756,7 +6798,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1200 Lua-functions library for Reaper.}
+a 1224 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43229 from 19.07.2020 00:04:54).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6770,7 +6812,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1200 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1224 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
