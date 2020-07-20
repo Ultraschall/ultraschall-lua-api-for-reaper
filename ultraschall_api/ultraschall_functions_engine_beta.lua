@@ -1385,6 +1385,25 @@ function ultraschall.GetTakeEnvelopeUnderMouseCursor()
   end
 end
 
+function ultraschall.GetAllSelectedRegions_Project()
+  -- still has an issue, when GetProjectStateChunk doesn't return a ProjectStateChunk(probably due timeout-issues)
+  -- so check, if ProjectStateChunk is an actual one or nil!!
+  -- seems to be problematic on Mac mostly...
+  local ProjectStateChunk = ultraschall.GetProjectStateChunk(nil, false)
+  local markerregioncount, NumMarker, Numregions, Markertable = ultraschall.GetProject_MarkersAndRegions(nil, ProjectStateChunk)
+  
+  local regions={}
+  local regionscnt=0
+
+  for i=1, markerregioncount do
+    if Markertable[i][1]==true and Markertable[i][8]==true then
+      regionscnt=regionscnt+1
+      regions[regionscnt]=Markertable[i][5]
+    end
+  end
+  return regionscnt, regions
+end
+
 -- These seem to work working:
 
 function ultraschall.TimeToMeasures(project, Time)
@@ -1440,24 +1459,7 @@ function ultraschall.TimeToMeasures(project, Time)
   return Measures_Fin2
 end
 
-function ultraschall.GetAllSelectedRegions_Project()
-  -- still has an issue, when GetProjectStateChunk doesn't return a ProjectStateChunk(probably due timeout-issues)
-  -- so check, if ProjectStateChunk is an actual one or nil!!
-  -- seems to be problematic on Mac mostly...
-  local ProjectStateChunk = ultraschall.GetProjectStateChunk(nil, false)
-  local markerregioncount, NumMarker, Numregions, Markertable = ultraschall.GetProject_MarkersAndRegions(nil, ProjectStateChunk)
-  
-  local regions={}
-  local regionscnt=0
 
-  for i=1, markerregioncount do
-    if Markertable[i][1]==true and Markertable[i][8]==true then
-      regionscnt=regionscnt+1
-      regions[regionscnt]=Markertable[i][5]
-    end
-  end
-  return regionscnt, regions
-end
 
 ultraschall.CopyFile_Buffer=1000000 -- 1 MB/defer-cycle is default
 ultraschall.CopyFile_NumberOfFiles=0
@@ -1467,12 +1469,15 @@ ultraschall.CopyFile_FilesOffset=0
 ultraschall.CopyFile_CurrentFileLength=0
 ultraschall.CopyFile_CopiedFiles={}
 ultraschall.CopyFile_CopiedFilesState={}
+ultraschall.CopyFile_FilesOverwrite={}
 ultraschall.CopyFile_CopiedFilesError={}
 ultraschall.CopyFile_CopiedFilesErrorNr={}
 ultraschall.CopyFile_CopiedFilesOffset=0
 ultraschall.CopyFile_CopiedFilesMax=0
 ultraschall.CopyFile_Paused=false
 ultraschall.CopyFiles_InBackgroundInstanceCounter=0
+
+
 
 function ultraschall.CopyFiles_InBackgroundFunction()
   -- this helperfunction copies the files in the background and should never be started directly, but rather by CopyFiles_StartCopying
@@ -1491,9 +1496,14 @@ function ultraschall.CopyFiles_InBackgroundFunction()
     -- read the content of the file from fileoffset to fileoffset+buffersize
     local length, content = ultraschall.ReadBinaryFile_Offset(ultraschall.CopyFile_Files[1], ultraschall.CopyFile_FilesOffset, ultraschall.CopyFile_Buffer)
 
-  
-    -- if fileoffset=0 then empty the targetfile
-    if ultraschall.CopyFile_FilesOffset==0 and ultraschall.CopyFile_NumberOfFiles>0 then
+    if ultraschall.CopyFile_FilesOffset==0 and ultraschall.CopyFile_FilesOverwrite[1]==false and reaper.file_exists(ultraschall.CopyFile_FilesTarget[1])==true then
+      length=-2
+    end
+
+      -- if fileoffset=0 then empty the targetfile
+    if length>0 and ultraschall.CopyFile_FilesOffset==0 and ultraschall.CopyFile_NumberOfFiles>0 then
+      local path, filename = ultraschall.GetPath(ultraschall.CopyFile_FilesTarget[1])
+      reaper.RecursiveCreateDirectory(path, 0)
       errormsg=ultraschall.WriteValueToFile(ultraschall.CopyFile_FilesTarget[1], "", true, false)
       ultraschall.CopyFile_CurrentFileLength=ultraschall.GetLengthOfFile(ultraschall.CopyFile_Files[1])
     end
@@ -1504,19 +1514,23 @@ function ultraschall.CopyFiles_InBackgroundFunction()
       --SLEM()
       ultraschall.CopyFile_FilesOffset=ultraschall.CopyFile_FilesOffset+ultraschall.CopyFile_Buffer
     end
-    
     -- if file is fully written, drop it from the queue and reset fileoffset to 0
     if length<ultraschall.CopyFile_Buffer or errormsg==-1 then
       ultraschall.CopyFile_NumberOfFiles=ultraschall.CopyFile_NumberOfFiles-1
       table.remove(ultraschall.CopyFile_Files, 1)
       table.remove(ultraschall.CopyFile_FilesTarget, 1)
+      table.remove(ultraschall.CopyFile_FilesOverwrite, 1)
       ultraschall.CopyFile_FilesOffset=0
       ultraschall.CopyFile_CopiedFilesOffset=ultraschall.CopyFile_CopiedFilesOffset+1
       ultraschall.CopyFile_CopiedFilesState[ultraschall.CopyFile_CopiedFilesOffset]=true
-      if length==-1 or errormsg==-1 then 
+      if length<0 or errormsg==-1 then 
         local retval, errcode, functionname, parmname, errormessage = ultraschall.GetLastErrorMessage()
         ultraschall.CopyFile_CopiedFilesError[ultraschall.CopyFile_CopiedFilesOffset]=errormessage
         ultraschall.CopyFile_CopiedFilesErrorNr[ultraschall.CopyFile_CopiedFilesOffset]=errcode
+        if length==-2 then
+          ultraschall.CopyFile_CopiedFilesError[ultraschall.CopyFile_CopiedFilesOffset]="targetfile already exists"
+          ultraschall.CopyFile_CopiedFilesErrorNr[ultraschall.CopyFile_CopiedFilesOffset]=-98
+        end
       end
     end
   end
@@ -1729,7 +1743,7 @@ end
 
 
 
-function ultraschall.CopyFile_AddFileToQueue(filename, targetfilename)
+function ultraschall.CopyFile_AddFileToQueue(filename, targetfilename, overwrite)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CopyFile_AddFileToQueue</slug>
@@ -1738,9 +1752,11 @@ function ultraschall.CopyFile_AddFileToQueue(filename, targetfilename)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer current_copyqueue_position = ultraschall.CopyFile_AddFileToQueue(string filename, string targetfilename)</functioncall>
+  <functioncall>integer current_copyqueue_position = ultraschall.CopyFile_AddFileToQueue(string filename, string targetfilename, boolean overwrite)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Adds a new file to the copy-queue. 
+    
+    If you try to copy a file into a subdirectory, which does not exist yet, this subdirectory will be created.
     
     returns -1 in case of an error.
   </description>
@@ -1750,6 +1766,7 @@ function ultraschall.CopyFile_AddFileToQueue(filename, targetfilename)
   <parameters>
     string filename - the file to be copied, including its path
     string targetfilename - the targetfile, to which the file shall be copied including its path
+    boolean overwrite - true, overwrite an already existing file; false, don't overwrite an already existing file
   </parameters>
   <chapter_context>
     File Management
@@ -1757,14 +1774,17 @@ function ultraschall.CopyFile_AddFileToQueue(filename, targetfilename)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_FileManagement_Module.lua</source_document>
-  <tags>filemanagement, background copy, add, sourcefile, targetfile</tags>
+  <tags>filemanagement, background copy, add, sourcefile, targetfile, overwrite</tags>
 </US_DocBloc>
 ]]
   if ultraschall.type(filename)~="string" then ultraschall.AddErrorMessage("CopyFile_AddFileToQueue", "filename", "must be a string", -1) return -1 end
   if ultraschall.type(targetfilename)~="string" then ultraschall.AddErrorMessage("CopyFile_AddFileToQueue", "targetfilename", "must be a string", -2) return -1 end
+  if ultraschall.type(overwrite)~="boolean" then ultraschall.AddErrorMessage("CopyFile_AddFileToQueue", "overwrite", "must be a boolean", -3) return -1 end
   ultraschall.CopyFile_NumberOfFiles=ultraschall.CopyFile_NumberOfFiles+1  
   ultraschall.CopyFile_Files[ultraschall.CopyFile_NumberOfFiles]=filename
   ultraschall.CopyFile_FilesTarget[ultraschall.CopyFile_NumberOfFiles]=targetfilename
+  ultraschall.CopyFile_FilesOverwrite[ultraschall.CopyFile_NumberOfFiles]=overwrite
+  
   ultraschall.CopyFile_CopiedFilesMax=ultraschall.CopyFile_CopiedFilesMax+1
   ultraschall.CopyFile_CopiedFiles[ultraschall.CopyFile_CopiedFilesMax]=filename
   ultraschall.CopyFile_CopiedFilesState[ultraschall.CopyFile_CopiedFilesMax]=false
