@@ -40,12 +40,16 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.1.004 - "I, E.T." - 20th of July 2020</h3>
-<p>Has now 1200 functions, with 54 new ones</p>
+<h3>4.1.004 - "I, E.T." - 21st of July 2020</h3>
+<p>Has now 1214 functions, with 14 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><strong>Bla</strong><br />
-Bla</li>
+<li><p><strong>Background Copying</strong><br />
+You can now copy files in the background(as additional defer-loops) within your script, while you do other stuff in your main defer-loops.<br />
+You can set a buffer-size, which means, how much shall be copied per defer-cycle to balance between transfer-speed and possible Reaper-GUI-lags.</p></li>
+<li><p><strong>TimeToMeasures</strong> This allows you to convert a time in seconds to measures. I've used it in one script to set pre-roll(which only accepts measures) to a length in seconds.</p></li>
+<li><p><strong>RenderCodes for FFMPEG 4.1.3 on Windows</strong> If you've installed FFMPEG 4.1.3 in your Reaper-installation, you have additional output-render-formats available. I've added docs for these renderstring-settings now as well.</p></li>
+<li><p><strong>Updated docs, examplescripts and bugfixes</strong></p></li>
 </ul>
 <h4>New features in 4.1.004</h4>
 <ul>
@@ -66,6 +70,8 @@ Bla</li>
 </ul>
 <h4>Changes from 4.1.003 to 4.1.004</h4>
 <ul>
+<li>Docs: Reaper Internals - updated to Reaper 6.13</li>
+<li>Docs: render-codes - added codes, who are available after having FFMPEG 4.1.3 installed</li>
 <li>Docs: VideoProcessor-docs - added detailed description for @param and reworked code-examples, as they didn't work previously(thanks to Eliseat)</li>
 <li>Examplescripts: US_Api_Examples_Render_Current_Project.lua - updated to the more recent rendering-functions(used the first and outdated ones)</li>
 <li>Examplescripts: US_Api_Examples_Render_Project.lua - updated to the more recent rendering-functions(used the first and outdated ones)</li>
