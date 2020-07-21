@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43234.00" author="Meo Mespotine">
+      <version name="43235.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.004/ultraschall_api/Changelog-Api.txt</source>
@@ -529,14 +529,15 @@ new in this release:
     defer-cycle to balance between transfer-speed and possible
     Reaper-GUI-lags.
 
--   TimeToMeasures This allows you to convert a time in seconds to
-    measures. I’ve used it in one script to set pre-roll(which only
-    accepts measures) to a length in seconds.
+-   TimeToMeasures
+    This allows you to convert a time in seconds to measures. I’ve used
+    it in one script to set pre-roll(which only accepts measures) to a
+    length in seconds.
 
--   RenderCodes for FFMPEG 4.1.3 on Windows If you’ve installed FFMPEG
-    4.1.3 in your Reaper-installation, you have additional
-    output-render-formats available. I’ve added docs for these
-    renderstring-settings now as well.
+-   RenderCodes for FFMPEG 4.1.3 on Windows
+    If you’ve installed FFMPEG 4.1.3 in your Reaper-installation, you
+    have additional output-render-formats available. I’ve added docs for
+    these renderstring-settings now as well.
 
 -   Updated docs, examplescripts and bugfixes
 

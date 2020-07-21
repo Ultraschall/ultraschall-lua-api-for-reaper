@@ -304,10 +304,10 @@ Has now 1214 functions, with 14 new ones
     You can now copy files in the background(as additional defer-loops) within your script, while you do other stuff in your main defer-loops.  
     You can set a buffer-size, which means, how much shall be copied per defer-cycle to balance between transfer-speed and possible Reaper-GUI-lags.  
     
-  - **TimeToMeasures**
+  - **TimeToMeasures**  
     This allows you to convert a time in seconds to measures. I've used it in one script to set pre-roll(which only accepts measures) to a length in seconds.  
  
-  - **RenderCodes for FFMPEG 4.1.3 on Windows**
+  - **RenderCodes for FFMPEG 4.1.3 on Windows**  
     If you've installed FFMPEG 4.1.3 in your Reaper-installation, you have additional output-render-formats available. I've added docs for these renderstring-settings now as well.  
     
   - **Updated docs, examplescripts and bugfixes**
