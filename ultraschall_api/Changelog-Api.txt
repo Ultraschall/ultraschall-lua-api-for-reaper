@@ -1,6 +1,8 @@
 <TODO>
         
     For 4.01.004:
+        - Set Metadata from Project - still missing
+        
         - IsFileUsedInProject - check, if a file is used in the current project, could allow deleting it, though getting if it's part of projectbay could be the issue here
         - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
         - AddMediaItemStateChunk_in_TrackStateChunk
@@ -296,7 +298,7 @@ TODO!! buggy function
 
 ### 4.1.004 - "I, E.T." - 21st of July 2020
 
-Has now 1214 functions, with 14 new ones
+Has now 1215 functions, with 15 new ones
 
 **new in this release:**
 
@@ -313,6 +315,7 @@ Has now 1214 functions, with 14 new ones
   - **Updated docs, examplescripts and bugfixes**
     
 #### New features in 4.1.004
+   - Docs: Concepts: Background Copying - decribes, how to program the background-copying-queue
    - FileManagement: CopyFile_AddFileToQueue - add files to the background-copying-queue
    - FileManagement: CopyFile_FlushCopiedFiles - flush the files from the copied list of the background-copying-queue
    - FileManagement: CopyFile_GetBufferSize - get the current copying-buffer size of the background-copying-queue
@@ -327,6 +330,7 @@ Has now 1214 functions, with 14 new ones
    - FileManagement: CopyFile_StartCopying - start copying all files in the background-copying-queue
    - FileManagement: CopyFile_StopCopying - stop copying the files in the background-copying-queue
    - Helper Functions: TimeToMeasures - converts a time to measures
+   - Project Management: GetProject\_MetaDataStateChunk - gets the statechunk from a project, which holds all metadata
    
 
 #### Changes from 4.1.003 to 4.1.004

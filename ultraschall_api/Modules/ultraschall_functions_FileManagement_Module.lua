@@ -1875,15 +1875,15 @@ function ultraschall.CopyFile_StartCopying()
     Starts copying the files added to the background-copy-queue.
     
     You can run this function multiple times, to have multiple background-copy-instances, depending on how fast the copying shall be and how much ressources it should eat.
-    Each instance copies the amount of data set with [CopyFile_SetBufferSize](#CopyFile_SetBufferSize), so if the buffersize is set to 1048576(1 MB) then each instance will copy 1 MB per defer-cycle.
+    Each instance copies the amount of data set with [CopyFile\_SetBufferSize](#CopyFile_SetBufferSize), so if the buffersize is set to 1048576(1 MB) then each instance will copy 1 MB per defer-cycle.
     That way you can balance the amount of data copied each defer-cycle with the amount of time each defer-cycle uses Reaper's processing-time.
     So having multiple instances with smaller buffer-sizes can prevent lagging of the gui of Reaper.
         
     You can have up to 30 instances running in the background at the same time.
     
-    Add files with [CopyFile_AddFileToQueue](#CopyFile_AddFileToQueue)
+    Add files with [CopyFile\_AddFileToQueue](#CopyFile_AddFileToQueue)
     
-    If all files are copied, the instances will be stopped completely, so using [CopyFile_GetCurrentlyRunningCopyInstances](#CopyFile_GetCurrentlyRunningCopyInstances) returning 0 can tell you, if the copying is finished already.
+    If all files are copied, the instances will be stopped completely, so using [CopyFile\_GetCurrentlyRunningCopyInstances](#CopyFile_GetCurrentlyRunningCopyInstances) returning 0 can tell you, if the copying is finished already.
     
     Will return -1, if all possible 30 instances are started already.
   </description>
@@ -1947,7 +1947,7 @@ function ultraschall.CopyFile_GetCurrentlyRunningCopyInstances()
   </requires>
   <functioncall>integer number_of_instances = ultraschall.CopyFile_GetCurrentlyRunningCopyInstances()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the number of copying-instances currently started by [CopyFiles_StartCopying](#CopyFiles_StartCopying)
+    Returns the number of copying-instances currently started by [CopyFile\_StartCopying](#CopyFile_StartCopying)
   </description>
   <retvals>    
     integer number_of_instances - the number of copying instances started
@@ -1967,13 +1967,13 @@ end
 function ultraschall.CopyFile_GetCurrentlyCopiedFile()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CopyFile_GetCurrentlyRunningCopyInstances</slug>
+  <slug>CopyFile_GetCurrentlyCopiedFile</slug>
   <requires>
     Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer number_of_remaining_files, string filename, integer remaining_bytes_to_copy, integer percentage = ultraschall.CopyFile_GetCurrentlyRunningCopyInstances()</functioncall>
+  <functioncall>integer number_of_remaining_files, string filename, integer remaining_bytes_to_copy, integer percentage = ultraschall.CopyFile_GetCurrentlyCopiedFile()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the information about the file currently copied
   </description>
@@ -2020,7 +2020,7 @@ function ultraschall.CopyFile_SetBufferSize(buffersize)
   </parameters>
   <chapter_context>
     File Management
-    Read Files
+    Background Copy
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_FileManagement_Module.lua</source_document>
@@ -2078,7 +2078,11 @@ function ultraschall.CopyFile_AddFileToQueue(filename, targetfilename, overwrite
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Adds a new file to the copy-queue. 
     
-    If you try to copy a file into a subdirectory, which does not exist yet, this subdirectory will be created.
+    If you try to copy a file into a subdirectory, which does not exist yet, this subdirectory will be created.  
+    If the background-copying is still active(the copying-queue not finished with copying) at the time of adding, the file will be copied right away.  
+    To check, whether you need to start if there are still running copying-instances in the background, use [CopyFile\_IsCurrentlyCopying](#CopyFile_IsCurrentlyCopying).
+    
+    The returned value in current\_copyqueue\_position allows you get the current copying status and possible error-messages using [CopyFile\_GetCopiedStatus](#CopyFile_GetCopiedStatus)
     
     returns -1 in case of an error.
   </description>
@@ -2169,7 +2173,7 @@ function ultraschall.CopyFile_FlushCopiedFiles()
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Flushes the queue for the already copied files.
     
-    This invalidates the files-index given by [CopyFile_AddFileToQueue](#CopyFile_AddFileToQueue)!
+    This invalidates the files-index given by [CopyFile\_AddFileToQueue](#CopyFile_AddFileToQueue)!
   </description>
   <chapter_context>
     File Management

@@ -802,7 +802,7 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
                              -   4, Markers starting with # only
                              -   5, Regions only
                              -   6, Regions starting with # only 
-      boolean EmbedProjectTempo - Embed project tempo (use with care)-checkbox; true, checked; false, unchecked 
+      boolean EmbedProjectTempo - Embed tempo-checkbox; true, checked; false, unchecked 
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the wav-settings
@@ -5614,7 +5614,7 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
                            - 4, Markers starting with # only
                            - 5, Regions only
                            - 6, Regions starting with # only
-    boolean EmbedProjectTempo - Embed project tempo (use with care)-checkbox; true, checked; false, unchecked
+    boolean EmbedProjectTempo - Embed tempo-checkbox; true, checked; false, unchecked
   </parameters>
   <chapter_context>
     Rendering Projects
