@@ -1,8 +1,8 @@
 <TODO>
         
-    For 4.01.004:
+    For 4.01.005:
         - Set Metadata from Project - still missing
-        
+        - SetParmMIDIPLink_FXStateChunk - still missing?
         - IsFileUsedInProject - check, if a file is used in the current project, could allow deleting it, though getting if it's part of projectbay could be the issue here
         - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
         - AddMediaItemStateChunk_in_TrackStateChunk
@@ -295,6 +295,22 @@ TODO!! buggy function
 </TODO>
 
 ## Ultraschall Framework - Changelog
+
+### 4.1.005 - "Exodus from Genesis" - 15th of August 2020
+
+Has now 1215 functions, with 15 new ones
+
+**new in this release:**
+
+  - **Bla**  
+    Bla
+    
+#### New features in 4.1.005
+
+
+#### Changes from 4.1.004 to 4.1.005
+
+---
 
 ### 4.1.004 - "I, E.T." - 21st of July 2020
 
