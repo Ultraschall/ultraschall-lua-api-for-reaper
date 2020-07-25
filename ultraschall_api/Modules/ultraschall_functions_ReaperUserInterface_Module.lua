@@ -1380,7 +1380,7 @@ function ultraschall.GetReaScriptConsoleWindow()
   </retvals>
   <chapter_context>
     User Interface
-    Window Management
+    Reaper-Windowhandler
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>

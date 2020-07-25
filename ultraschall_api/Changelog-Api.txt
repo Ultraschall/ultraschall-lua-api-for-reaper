@@ -306,9 +306,13 @@ Has now 1215 functions, with 15 new ones
     Bla
     
 #### New features in 4.1.005
-
+   - Examplescript: US\_Api\_Examples\_FileManager\_example\_showcasing\_background\_copying.lua - a simple file-manager which showcases background-copying
+   - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
 
 #### Changes from 4.1.004 to 4.1.005
+   - File Management: CopyFile\_AddFileToQueue - basic check, if the target-file is the same as the source-file and throws an error in these cases
+   - File Management: GetAllDirectoriesInPath - omitted folderseparator in returned folders, if it hasn't been passed into parameter path
+   - File Management: CopyFile\_GetRemainingFilesToCopy - returned the wrong number of remaining files -> fixed
 
 ---
 

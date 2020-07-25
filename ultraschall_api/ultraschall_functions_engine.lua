@@ -1529,7 +1529,9 @@ function print_alt(...)
   <tags>helperfunctions, print, console</tags>
 </US_DocBloc>
 ]]
-
+  if ultraschall.Print_ToTheFront==true then 
+    ultraschall.BringReaScriptConsoleToFront()
+  end
   local string=""
   local count=1
   local temp={...}
@@ -1568,6 +1570,9 @@ function print(...)
   <tags>helperfunctions, print, console</tags>
 </US_DocBloc>
 ]]
+  if ultraschall.Print_ToTheFront==true then 
+    ultraschall.BringReaScriptConsoleToFront()
+  end
   local string=""
   local count=1
   local temp={...}
@@ -1695,7 +1700,9 @@ function print_update(...)
   <tags>helperfunctions, print, clear, update, console</tags>
 </US_DocBloc>
 ]]
-
+  if ultraschall.Print_ToTheFront==true then 
+    ultraschall.BringReaScriptConsoleToFront()
+  end
   reaper.ClearConsole()
   print(...)
 end
