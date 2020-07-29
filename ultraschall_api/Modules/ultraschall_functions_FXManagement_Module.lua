@@ -549,7 +549,7 @@ function ultraschall.GetParmModulationChunk_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Modulation
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
@@ -875,7 +875,7 @@ function ultraschall.GetParmAudioControl_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Modulation
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
@@ -978,7 +978,7 @@ function ultraschall.GetParmLFO_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Modulation
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
@@ -1108,7 +1108,7 @@ function ultraschall.GetParmMIDIPLink_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Modulation
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>

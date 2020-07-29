@@ -12890,15 +12890,17 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">
-            
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Converts a double-number to its panstr-equivalent.
+        
+            See [parsepanstr](#parsepanstr) for its counterpart. 
         </description>
         <retvals>
-            strNeed64 - 
+            string strNeed64 - the converted panstring, from -100% over center to 100%
         </retvals>
         <parameters>
-            strNeed64 - 
-            pan - 
+            string strNeed64 - just set this to ""
+            number pan - the pan-number which shall be converted to the panstring; valid numbers are -1.0 to 1.0 even if you can set higher ones
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -12919,16 +12921,20 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
+            creates a vol-pan-string, which holds a readable representation of the vol and pan-values.
             
+            The format is like "+6.02db center" or "+inf +80R", etc
+            
+            see [mkpanstr](#mkpanstr) and [mkvolstr](#mkvolstr) for the individual pan/vol-string functions.
         </description>
         <retvals>
-            strNeed64 - 
+            string strNeed64 - the converted volpan-string
         </retvals>
         <parameters>
-            strNeed64 - 
-            vol - 
-            pan - 
+            stirng strNeed64 - just set this to ""
+            number vol - the volume-value, which you want to convert into db
+            number pan - the pan-value, which you want to convert into its percentage value; valid -1.0 to 1.0
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -12950,14 +12956,16 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
+            Converts a volume-value into a string-representation of it as dB.
             
+            Note: Unlike panstr, there is no parsevolstr-string-function available!
         </description>
         <retvals>
-            strNeed64 - 
+            stirng strNeed64 - the converted vol-string
         </retvals>
         <parameters>
-            strNeed64 - 
-            vol - 
+            string strNeed64 - just set this to ""
+            number vol - the volume-value, which shall be converted; 0, -inf; 1, 0dB; 1.412, +3dB
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -12982,8 +12990,8 @@
             Moves the Edit Cursor.
         </description>
         <parameters>
-            adjamt - move of edit cursor by seconds, relative from the current position. positive-values=forward, negative values=backwards
-            dosel - true, create selection from old edit-cursor-position to the new position; false, just move the edit cursor
+            number adjamt - move of edit cursor by seconds, relative from the current position. positive-values=forward, negative values=backwards
+            boolean dosel - true, create selection from old edit-cursor-position to the new position; false, just move the edit cursor
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13013,8 +13021,8 @@
             boolean - true, if move succeeded; false, if not
         </retvals>
         <parameters>
-            item - the MediaItem, that shall be moved
-            desttr - the MediaTrack, to which the MediaItem shall be moved to
+            MediaItem item - the MediaItem, that shall be moved
+            MediaTrack desttr - the MediaTrack, to which the MediaItem shall be moved to
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13039,7 +13047,7 @@
             Mutes all tracks
         </description>
         <parameters>
-            mute - true, mutes all tracks; false, unmutes all tracks
+            boolean mute - true, mutes all tracks; false, unmutes all tracks
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13065,21 +13073,21 @@
             The function will return the left/top/right/bottom coordinates of the viewport that that rectangle is on/closest to.            
         </description>
         <parameters>
-            r.left - left coordinate of the rectangle
-            r.top - top coordinate of the rectangle
-            r.right - right coordinate of the rectangle
-            r.bot - bottom coordinate of the rectangle
-            sr.left - left coordinate of the rectangle in multimonitor usecases
-            sr.top - top coordinate of the rectangle in multimonitor usecases
-            sr.right - right coordinate of the rectangle in multimonitor usecases
-            sr.bot - bottom coordinate of the rectangle in mutlimonitor usecases
-            wantWorkArea - true, returns workspace only; false, full monitor coordinates of the returned viewport
+            number r.left - left coordinate of the rectangle
+            number r.top - top coordinate of the rectangle
+            number r.right - right coordinate of the rectangle
+            number r.bot - bottom coordinate of the rectangle
+            number sr.left - left coordinate of the rectangle in multimonitor usecases
+            number sr.top - top coordinate of the rectangle in multimonitor usecases
+            number sr.right - right coordinate of the rectangle in multimonitor usecases
+            number sr.bot - bottom coordinate of the rectangle in mutlimonitor usecases
+            boolean wantWorkArea - true, returns workspace only; false, full monitor coordinates of the returned viewport
         </parameters>
         <retvals>
-            left - left coordinate of the returned viewport
-            top - top coordinate of the returned viewport
-            right - right coordinate of the returned viewport
-            bottom - bottom coordinate of the returned viewport
+            integer left - left coordinate of the returned viewport
+            integer top - top coordinate of the returned viewport
+            integer right - right coordinate of the returned viewport
+            integer bottom - bottom coordinate of the returned viewport
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13109,7 +13117,7 @@
             integer - the command-id-number of the script/action, which can be used to e.g. run the action, toggle actions, refresh toolbars, etc.
         </retvals>
         <parameters>
-            command_name - the ActionCommandID of the script/action, whose command-id number you want. Must start with \_, eg. "SWS\_ABOUT" -> "\_SWS\_ABOUT"
+            string command_name - the ActionCommandID of the script/action, whose command-id number you want. Must start with \_, eg. "SWS\_ABOUT" -> "\_SWS\_ABOUT"
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13158,7 +13166,7 @@
             When stopped, it will start paused play.
         </description>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13205,7 +13213,7 @@
             Starts playing at edit-cursor. Will stop recording, when executed during recording.
         </description>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13252,7 +13260,7 @@
             Stops playing/recording.
         </description>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13267,7 +13275,7 @@
         <title>OpenColorThemeFile</title>
         <functioncall prog_lang="cpp">bool OpenColorThemeFile(const char* fn)</functioncall>
         <functioncall prog_lang="eel">bool OpenColorThemeFile("fn")</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.OpenColorThemeFile(string fn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.OpenColorThemeFile(string fn)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_OpenColorThemeFile(String fn)</functioncall>
         <requires>
             Reaper=5.62
@@ -13277,10 +13285,10 @@
             Open a different installed theme.
         </description>
         <retvals>
-            boolean - true, changing theme worked; false, changing theme didn't work
+            boolean retval - true, changing theme worked; false, changing theme didn't work
         </retvals>
         <parameters>
-            fn - the path+filename of the color-theme-file, usually with the ".ReaperTheme"-extension
+            string fn - the path+filename of the color-theme-file, usually with the ".ReaperTheme"-extension
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13303,13 +13311,15 @@
         </requires>
         <description prog_lang="*">
             Opens mediafn in the Media Explorer.
+            
+            If you just want to change folder in MediaExplorer, give it a path instead of a file and set play to false.
         </description>
         <retvals>
             HWND - the window of the Media Explorer
         </retvals>
         <parameters>
-            mediafn - the filename, to be opened with the Media Explorer
-            play - true, start/toggle playing immediately; false, just select file without playing
+            string mediafn - the filename/folder, to be opened with the Media Explorer
+            boolean play - true, start/toggle playing immediately; false, just select file without playing
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13334,9 +13344,13 @@
             Send an OSC message directly to REAPER. The value argument may be NULL. The message will be matched against the default OSC patterns. Only supported if control surface support was enabled when installing REAPER.
             
             This is not broadcast outside of Reaper, so you can't control devices, plugins, etc with it!
+            
+            Messages sent via this function can be used for parameter-learn/modulation and as shortcuts for scripts.
+            The parameter valueIn can be retrieved with the returnvalue val of the function reaper.get_action_context, so sending values to a script is possible that way.
         </description>
         <parameters>
-            string message - 
+            string message - the osc-message, which shall be sent to Reaper
+            optional number valueIn - a number, which can be sent to scripts who are started by the osc-message
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13351,7 +13365,7 @@
         <title>parse_timestr</title>
         <functioncall prog_lang="cpp">double parse_timestr(const char* buf)</functioncall>
         <functioncall prog_lang="eel">double parse_timestr("buf")</functioncall>
-        <functioncall prog_lang="lua">number = reaper.parse_timestr(string buf)</functioncall>
+        <functioncall prog_lang="lua">number timestr = reaper.parse_timestr(string buf)</functioncall>
         <functioncall prog_lang="python">Float RPR_parse_timestr(String buf)</functioncall>
         <requires>
             Reaper=5.62
@@ -13361,10 +13375,10 @@
             Parse hh:mm:ss.sss time string, return time in seconds (or 0.0 on error). See [parse\_timestr_pos](#parse_timestr_pos), [parse\_timestr_len](#parse_timestr_len).
         </description>
         <retvals>
-            number - the converted time in seconds
+            number timestr - the converted time in seconds
         </retvals>
         <parameters>
-            buf - the timestring to convert (hh:mm:ss.sss). Each position of the time can be one digit only, means: "1:2:3.4" is valid. Milliseconds can be more than 3 digits. Hours, seconds, minutes with more than two digits will be converted correctly "1:120" will be converted to 180 seconds.
+            string buf - the timestring to convert (hh:mm:ss.sss). Each position of the time can be one digit only, means: "1:2:3.4" is valid. Milliseconds can be more than 3 digits. Hours, seconds, minutes with more than two digits will be converted correctly "1:120" will be converted to 180 seconds.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13386,6 +13400,8 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
+            Converts a time-string in its time-in-seconds-representation
+        
             time formatting mode overrides: -1=proj default.
             0, time
             1, measures.beats + time
@@ -13395,12 +13411,12 @@
             5, h:m:s:f
         </description>
         <retvals>
-            number - 
+            number - the time, as interpreted from the buf-parameter 
         </retvals>
         <parameters>
-            buf - 
-            offset - ??Buggy??
-            modeoverride - 
+            string buf - the time-string, which shall be converted into its time in seconds
+            number offset - ??Buggy??
+            integer modeoverride - the format, in which the timestring is
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13428,8 +13444,8 @@
             number - the converted time in seconds
         </retvals>
         <parameters>
-            buf - the timestring to be parsed and converted into seconds
-            modeoverride - the format of the timestring to parse and convert
+            string buf - the timestring to be parsed and converted into seconds
+            integer modeoverride - the format of the timestring to parse and convert
                         --1, proj default.
                         -0, time
                         -1, measures.beats + time
@@ -13451,20 +13467,20 @@
         <title>parsepanstr</title>
         <functioncall prog_lang="cpp">double parsepanstr(const char* str)</functioncall>
         <functioncall prog_lang="eel">double parsepanstr("str")</functioncall>
-        <functioncall prog_lang="lua">number = reaper.parsepanstr(string str)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.parsepanstr(string str)</functioncall>
         <functioncall prog_lang="python">Float RPR_parsepanstr(String str)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">         
-               
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">         
+            Converts a string created by [mkpanstr](#mkpanstr) back to it's double-number.
         </description>
         <retvals>
-            number - 
+            number retval - the double-value of the panstring
         </retvals>
         <parameters>
-            str - 
+            string str - a panstring, whose value you want to convert back to its double-equivalent
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -13489,7 +13505,20 @@
             enumerates the available PCM-sink-formats, which means, the output-formats available in Reaper
         </description>
         <retvals>
-           integer retval - a number, which represents the PCM-sink-format
+           integer retval - a number, which represents the PCM-sink-format as an integer-representation
+                          - 2002876005 - WAV (evaw)
+                          - 1634297446 - AIFF (ffia)
+                          - 1769172768 - Audio CD Image (CUE/BIN format) ( osi)
+                          - 1684303904 - DDP ( pdd)
+                          - 1718378851 - FLAC (calf)
+                          - 1836069740 - MP3 (encoder by LAME project) (l3pm)
+                          - 1869047670 - OGG Vorbis (vggo)
+                          - 1332176723 - OGG Opus (SggO)
+                          - 1179012432 - Video (ffmpeg/libav encoder) (PMFF)
+                          - 1195984416 - Video (GIF) ( FIG)
+                          - 1279477280 - Video (LCF) ( FCL)
+                          - 2004250731 - WavPack lossless compressor (kpvw)
+                          - maybe others as well?
            string descstr - the PCM-sink-format
                     - 0 - WAV
                     - 1 - AIFF
@@ -13504,7 +13533,6 @@
                     - 10 - Video (LCF)
                     - 11 - WavPack lossless compressor
                     - maybe others as well?
-
         </retvals>
         <parameters>
            integer idx - the index of the sink-format, beginning with 0
@@ -13528,14 +13556,29 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
+            allows you to retrieve the file-extension of a certain PCM-sink/fileformat available.
             
+            See [PCM\_Sink\_Enum](#PCM_Sink_Enum) to enumerate available PCM-sink/fileformats.
         </description>
         <retvals>
-            string - 
+            string - the extension returned by a certain
         </retvals>
         <parameters>
-            data - 
+            string data - the format, whose extension-format you'd like to get:
+                        - evaw, extension: "wav"
+                        - ffia, extension: "aif"
+                        -  osi, extension: "cue"
+                        -  pdd, extension: "DAT"
+                        - calf, extension: "flac"
+                        - l3pm, extension: "mp3"
+                        - vggo, extension: "ogg"
+                        - SggO, extension: "opus"
+                        - PMFF, extension: "avi"
+                        -  FIG, extension: "gif"
+                        -  FCL, extension: "lcf"
+                        - kpvw, extension: "wv"
+                        - maybe others?
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -16635,6 +16678,11 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Stuffs a 3 byte MIDI message into either the Virtual MIDI Keyboard queue, or the MIDI-as-control input queue, or sends to a MIDI hardware output. mode=0 for VKB, 1 for control (actions map etc), 2 for VKB-on-current-channel; 16 for external MIDI device 0, 17 for external MIDI device 1, etc; see [GetNumMIDIOutputs](#GetNumMIDIOutputs), [GetMIDIOutputName](#GetMIDIOutputName).
+            
+            if mode is set to 1, you can send messages as control-message for Parameter LEarn/Modulation and as shortcut for scripts.
+            The parameter msg3 can be retrieved with the returnvalue val of the function reaper.get\_action\_context, so sending values to a script is possible that way.
+            
+            For more detailed information about the possible midi-messages you can send via StuffMIDIMessage, see: [StuffMIDIMessage-docs](../misc/misc_docs/Reaper-StuffMidiMessage-docs.txt)
         </description>
         <parameters>
             mode - 

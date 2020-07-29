@@ -1522,4 +1522,248 @@ function ultraschall.GFX_DrawEmbossedSquare(x, y, w, h, rbg, gbg, bbg, r, g, b)
   return true
 end 
 
+function ultraschall.GetParmModulationTable(FXStateChunk, index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmModulationTable</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>table ParmModulationTable = ultraschall.GetParmModulationTable(string FXStateChunk, integer index)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a table with all values of a specific Parameter-Modulation from an FXStateChunk.
+  
+    The table's format is as follows:
+    
+                ParamModTable["PARAM_NR"] - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
+                ParamModTable["PARAM_TYPE"] - the type of the parameter, usually "", "wet" or "bypass"
+
+                ParamModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"] - Enable parameter modulation, baseline value(envelope overrides)-checkbox; true, checked; false, unchecked
+                ParamModTable["PARAMOD_BASELINE"] - Enable parameter modulation, baseline value(envelope overrides)-slider; 0.000 to 1.000
+
+                ParamModTable["AUDIOCONTROL"] - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                ParamModTable["AUDIOCONTROL_CHAN"] - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; nil, if not available
+                ParamModTable["AUDIOCONTROL_STEREO"] - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus AUDIOCONTROL_CHAN+1; nil, if not available
+                ParamModTable["AUDIOCONTROL_ATTACK"] - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
+                ParamModTable["AUDIOCONTROL_RELEASE"] - the Release-slider; 0-1000ms; nil, if not available
+                ParamModTable["AUDIOCONTROL_MINVOLUME"] - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; nil, if not available
+                ParamModTable["AUDIOCONTROL_MAXVOLUME"] - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; nil, if not available
+                ParamModTable["AUDIOCONTROL_STRENGTH"] - the Strength-slider; 0(0%) to 1000(100%)
+                ParamModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
+
+                ParamModTable["LFO"] - if the LFO-checkbox checked; true, checked; false, unchecked
+                ParamModTable["LFO_SHAPE"] - the LFO Shape-dropdownlist; 0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random; nil, if not available
+                ParamModTable["LFO_SHAPEOLD"] - use the old-style of the LFO_SHAPE; 1, use old style of LFO_SHAPE; 0, use current style of LFO_SHAPE; nil, if not available
+                ParamModTable["LFO_TEMPOSYNC"] - the Tempo sync-checkbox; true, checked; false, unchecked
+                ParamModTable["LFO_SPEED"] - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
+                ParamModTable["LFO_STRENGTH"] - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
+                ParamModTable["LFO_PHASE"] - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
+                ParamModTable["LFO_DIRECTION"] - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
+                ParamModTable["LFO_PHASERESET"] - the LFO Phase reset-dropdownlist; 0, On seek/loop(deterministic output); 1, Free-running(non-deterministic output); nil, if not available
+
+
+                ParamModTable["PARMLINK"] - the Link from MIDI or FX parameter-checkbox; true, checked; false, unchecked
+                ParamModTable["PARMLINK_LINKEDPLUGIN"] - the selected plugin; nil, if not available
+                                                        - -1, nothing selected yet
+                                                        - -100, MIDI-parameter-settings
+                                                        - 1 - the first fx-plugin
+                                                        - 2 - the second fx-plugin
+                                                        - 3 - the third fx-plugin, etc
+                ParamModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
+                                                        When MIDI, this is irrelevant.
+                                                        When FX-parameter:
+                                                            0 to n; 0 for the first; 1, for the second, etc
+
+                ParamModTable["PARMLINK_OFFSET"] - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                ParamModTable["PARMLINK_SCALE"] - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+
+
+                ParamModTable["MIDIPLINK_BUS"] - the MIDI-bus selected in the button-menu; 0 to 15 for bus 1 to 16; nil, if not available
+                ParamModTable["MIDIPLINK_CHANNEL"] - the MIDI-channel selected in the button-menu; 0, omni; 1 to 16 for channel 1 to 16; nil, if not available
+                ParamModTable["MIDIPLINK_MIDICATEGORY"] - the MIDI_Category selected in the button-menu; nil, if not available
+                                                        -   144, MIDI note
+                                                        -   160, Aftertouch
+                                                        -   176, CC 14Bit and CC
+                                                        -   192, Program Change
+                                                        -   208, Channel Pressure
+                                                        -   224, Pitch
+                ParamModTable["MIDIPLINK_MIDINOTE"] - the MIDI-note selected in the button-menu; nil, if not available
+                                                        When MIDI note:
+                                                             0(C-2) to 127(G8)
+                                                        When Aftertouch:
+                                                             0(C-2) to 127(G8)
+                                                        When CC14 Bit:
+                                                             128 to 159; see dropdownlist for the commands(the order of the list is the same as this numbering)
+                                                        When CC:
+                                                             0 to 119; see dropdownlist for the commands(the order of the list is the same as this numbering)
+                                                        When Program Change:
+                                                             0
+                                                        When Channel Pressure:
+                                                             0
+                                                        When Pitch:
+                                                             0
+
+                ParamModTable["WINDOW_ALTEREDOPEN"] - if the position of the ParmMod-window is altered and currently open; nil, unchanged; 0, unopened; 1, open
+                ParamModTable["WINDOW_XPOS"] - the x-position of the altered ParmMod-window in pixels; nil, default position
+                ParamModTable["WINDOW_YPOS"] - the y-position of the altered ParmMod-window in pixels; nil, default position
+                ParamModTable["WINDOW_RIGHT_READONLY"] - the right-position of the altered ParmMod-window in pixels; nil, default position; only readable
+                ParamModTable["WINDOW_BOTTOM_READONLY"] - the bottom-position of the altered ParmMod-window in pixels; nil, default position; only readable
+
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string FXStateChunk - an FXStateChunk, of which you want to get the values of a specific parameter-modulation
+    integer index - the parameter-modulation, whose values you want to get; 1, for the first; 2, for the second, etc
+  </parameters>
+  <retvals>
+    table ParmModulationTable - a table which holds all values of a specfic parameter-modulation
+  </retvals>
+  <chapter_context>
+    FX-Management
+    Parameter Modulation
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, parameter modulation, table, all values</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(FXStateChunk)~="string" then ultraschall.AddErrorMessage("GetParmModulationTable", "FXStateChunk", "must be a string", -1) return nil end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmModulationTable", "FXStateChunk", "must be a valid FXStateChunk", -2) return nil end
+  if ultraschall.type(index)~="number: integer" then ultraschall.AddErrorMessage("GetParmModulationTable", "index", "must be an integer", -3) return nil end
+  if index<1 then ultraschall.AddErrorMessage("GetParmModulationTable", "index", "must be bigger than 0", -4) return nil end
+  local count=0
+  local found=""
+  ParmModTable={}
+  for k in string.gmatch(FXStateChunk, "\n    <PROGRAMENV.-\n    >") do
+    count=count+1
+    if count==index then found=k break end
+  end
+  if found=="" then ultraschall.AddErrorMessage("GetParmModulationTable", "index", "no such index", -5) return nil end
+  found=string.gsub(found, "\n", " \n")
+  
+--  print_update(found)
+
+  -- <PROGRAMENV
+  ParmModTable["PARAM_NR"], ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"]=found:match("<PROGRAMENV (.-) (.-) ")
+  if tonumber(ParmModTable["PARAM_NR"])~=nil then
+    ParmModTable["PARAM_NR"]=tonumber(ParmModTable["PARAM_NR"])
+    ParmModTable["PARAM_TYPE"]=""
+  else
+    ParmModTable["PARAM_TYPE"]=ParmModTable["PARAM_NR"]:match(":(.*)")
+    ParmModTable["PARAM_NR"]=tonumber(ParmModTable["PARAM_NR"]:match("(.-):"))
+  end
+  ParmModTable["PARAM_NR"]=ParmModTable["PARAM_NR"]+1
+  ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"]=tonumber(ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"])==0
+
+  -- PARAMBASE
+  ParmModTable["PARAMOD_BASELINE"]=tonumber(found:match("PARAMBASE (.-) "))
+  
+  ParmModTable["LFO"]=tonumber(found:match("LFO (.-) "))==1
+
+  -- LFOWT  
+  ParmModTable["LFO_STRENGTH"], 
+  ParmModTable["LFO_DIRECTION"]=found:match("LFOWT (.-) (.-) ")
+  ParmModTable["LFO_STRENGTH"]=tonumber(ParmModTable["LFO_STRENGTH"])
+  ParmModTable["LFO_DIRECTION"]=tonumber(ParmModTable["LFO_DIRECTION"])
+
+  -- AUDIOCTL
+  ParmModTable["AUDIOCONTROL"]=tonumber(found:match("AUDIOCTL (.-) "))==1
+  
+  -- AUDIOCTLWT
+  ParmModTable["AUDIOCONTROL_STRENGTH"], 
+  ParmModTable["AUDIOCONTROL_DIRECTION"]=found:match("AUDIOCTLWT (.-) (.-) ")
+  ParmModTable["AUDIOCONTROL_STRENGTH"]=tonumber(ParmModTable["AUDIOCONTROL_STRENGTH"])
+  ParmModTable["AUDIOCONTROL_DIRECTION"]=tonumber(ParmModTable["AUDIOCONTROL_DIRECTION"])
+  
+  -- PLINK
+  ParmModTable["PARMLINK_SCALE"], 
+  ParmModTable["PARMLINK_LINKEDPLUGIN"],
+  ParmModTable["PARMLINK_LINKEDPARMIDX"],
+  ParmModTable["PARMLINK_OFFSET"]
+  =found:match(" PLINK (.-) (.-) (.-) (.-) ")
+  
+  ParmModTable["PARMLINK_SCALE"]=tonumber(ParmModTable["PARMLINK_SCALE"])
+  if ParmModTable["PARMLINK_LINKEDPLUGIN"]~=nil then
+    if ParmModTable["PARMLINK_LINKEDPLUGIN"]:match(":")~=nil then 
+      ParmModTable["PARMLINK_LINKEDPLUGIN"]=tonumber(ParmModTable["PARMLINK_LINKEDPLUGIN"]:match("(.-):"))+1
+    else
+      ParmModTable["PARMLINK_LINKEDPLUGIN"]=tonumber(ParmModTable["PARMLINK_LINKEDPLUGIN"])
+    end
+  end
+  ParmModTable["PARMLINK_LINKEDPARMIDX"]=tonumber(ParmModTable["PARMLINK_LINKEDPARMIDX"])
+  if ParmModTable["PARMLINK_LINKEDPARMIDX"]~=nil and ParmModTable["PARMLINK_LINKEDPARMIDX"]>-1 then ParmModTable["PARMLINK_LINKEDPARMIDX"]=ParmModTable["PARMLINK_LINKEDPARMIDX"]+1 end
+  ParmModTable["PARMLINK_OFFSET"]=tonumber(ParmModTable["PARMLINK_OFFSET"])
+
+  ParmModTable["PARMLINK"]=ParmModTable["PARMLINK_SCALE"]~=nil
+
+  -- MIDIPLINK
+  ParmModTable["MIDIPLINK_BUS"], 
+  ParmModTable["MIDIPLINK_CHANNEL"],
+  ParmModTable["MIDIPLINK_MIDICATEGORY"],
+  ParmModTable["MIDIPLINK_MIDINOTE"]
+  =found:match("MIDIPLINK (.-) (.-) (.-) (.-) ")
+  ParmModTable["MIDIPLINK_BUS"]=tonumber(ParmModTable["MIDIPLINK_BUS"])
+  ParmModTable["MIDIPLINK_CHANNEL"]=tonumber(ParmModTable["MIDIPLINK_CHANNEL"])
+  ParmModTable["MIDIPLINK_MIDICATEGORY"]=tonumber(ParmModTable["MIDIPLINK_MIDICATEGORY"])
+  ParmModTable["MIDIPLINK_MIDINOTE"]=tonumber(ParmModTable["MIDIPLINK_MIDINOTE"])
+
+  ParmModTable["MIDIPLINK"]=ParmModTable["MIDIPLINK_MIDINOTE"]~=nil
+  
+  -- LFOSHAPE
+  ParmModTable["LFO_SHAPE"]=tonumber(found:match("LFOSHAPE (.-) "))
+  
+  -- LFOSYNC
+  ParmModTable["LFO_TEMPOSYNC"], 
+  ParmModTable["LFO_SHAPEOLD"],
+  ParmModTable["LFO_PHASERESET"]
+  =found:match("LFOSYNC (.-) (.-) (.-) ")
+  ParmModTable["LFO_TEMPOSYNC"] = tonumber(ParmModTable["LFO_TEMPOSYNC"])==1
+  ParmModTable["LFO_SHAPEOLD"]  = tonumber(ParmModTable["LFO_SHAPEOLD"])
+  ParmModTable["LFO_PHASERESET"]= tonumber(ParmModTable["LFO_PHASERESET"])
+  
+  -- LFOSPEED
+  ParmModTable["LFO_SPEED"], 
+  ParmModTable["LFO_PHASE"]
+  =found:match("LFOSPEED (.-) (.-) ")
+  ParmModTable["LFO_SPEED"]=tonumber(ParmModTable["LFO_SPEED"])
+  ParmModTable["LFO_PHASE"]=tonumber(ParmModTable["LFO_PHASE"])
+  
+  if found:match("CHAN (.-) ")~=nil then
+    ParmModTable["AUDIOCONTROL_CHAN"]  =tonumber(found:match("CHAN (.-) "))+1
+  end
+  ParmModTable["AUDIOCONTROL_STEREO"]=tonumber(found:match("STEREO (.-) "))
+
+  -- RMS
+  ParmModTable["AUDIOCONTROL_ATTACK"], 
+  ParmModTable["AUDIOCONTROL_RELEASE"]
+  =found:match("RMS (.-) (.-) ")
+  ParmModTable["AUDIOCONTROL_ATTACK"]=tonumber(ParmModTable["AUDIOCONTROL_ATTACK"])
+  ParmModTable["AUDIOCONTROL_RELEASE"]=tonumber(ParmModTable["AUDIOCONTROL_RELEASE"])
+  
+  --DBLO and DBHI
+  ParmModTable["AUDIOCONTROL_MINVOLUME"]=tonumber(found:match("DBLO (.-) "))
+  ParmModTable["AUDIOCONTROL_MAXVOLUME"]=tonumber(found:match("DBHI (.-) "))
+  
+  -- X2, Y2
+  ParmModTable["X2"]=tonumber(found:match("X2 (.-) "))
+  ParmModTable["Y2"]=tonumber(found:match("Y2 (.-) "))
+
+  -- MODHWND
+  ParmModTable["WINDOW_ALTEREDOPEN"], 
+  ParmModTable["WINDOW_XPOS"],
+  ParmModTable["WINDOW_YPOS"],
+  ParmModTable["WINDOW_RIGHT_READONLY"],
+  ParmModTable["WINDOW_BOTTOM_READONLY"]
+  =found:match("MODWND (.-) (.-) (.-) (.-) (.-) ")
+  ParmModTable["WINDOW_OPENED"]=tonumber(ParmModTable["WINDOW_OPENED"])==1
+  ParmModTable["WINDOW_XPOS"]  =tonumber(ParmModTable["WINDOW_XPOS"])
+  ParmModTable["WINDOW_YPOS"]  =tonumber(ParmModTable["WINDOW_YPOS"])
+  ParmModTable["WINDOW_RIGHT"] =tonumber(ParmModTable["WINDOW_RIGHT"])
+  ParmModTable["WINDOW_BOTTOM"]=tonumber(ParmModTable["WINDOW_BOTTOM"])
+  
+  return ParmModTable
+end
+
 ultraschall.ShowLastErrorMessage()

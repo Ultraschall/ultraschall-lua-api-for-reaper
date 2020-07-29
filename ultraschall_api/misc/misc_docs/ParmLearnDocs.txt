@@ -1,5 +1,5 @@
 Parameter-Learn/Modulation/Alias-Chunk - documentation
-compiled by Meo Mespotine 07.05.2019
+compiled by Meo Mespotine 28.07.2020
 
 Thanks to Anton9 for helping me with that :)
 
@@ -117,11 +117,20 @@ FX-parameter-modulation:
       AUDIOCTLWT number AudioCTL_Strength_slider  integer AudioCTL_direction_radiobuttons
         number AudioCTL_Strength_slider - 0.0000(0%) to 1.000(100%); 0.493(49.3%); default is 1
         integer AudioCTL_direction_radiobuttons - -1, Negative; 0, Centered; 1, Positive
+        
+      MODWND integer opened  integer win_x_position  integer win_y_position  integer winleft_readonly  integer winbottom_readonly
+      usually stored as last entry in the PROGRAMENV-statechunk
+      appears only, after the window has been moved but can be set as well, if not existing yet
+        integer opened - 0, ParmMod-window is closed; 1, ParmMod-window is opened; can be set to open/close ParmMod-window of this parmmodulation
+        integer win_x_position - the x-position in pixels of the ParmMod-window; can be set, when opened=0
+        integer win_y_position - the y-position in pixels of the ParmMod-window; can be set, when opened=0
+        integer winleft_readonly - the width of the window in pixels; can't be set
+        integer winbottom_readonly - the height of the window in pixels; can't be set
       
 the following are only available, when Link from MIDI or FX parameter-checkbox is enabled
       PLINK  number Scale  integer midi_fx_idx[:fx_idx] integer parmidx  number offset
         number Scale - Scale-slider; -1.00(-100%) to 1.00(100%); default is 0(0%)
-        integer midi_fx_idx[:fx_idx] - the big MIDI/FX-button in the "Link from MIDI or FX parameter"-area; [:fx_idx] is only available, when FX-plugin is selected, otherwise(when using MIDI) this is omitted
+        integer midi_fx_idx[:fx_idx] - the big MIDI/FX-button in the "Link from MIDI or FX parameter"-area; the part "[:fx_idx]" is only available, when FX-plugin is selected, otherwise(when using MIDI) this is omitted
                 -1, nothing selected
                 -100, MIDI-parameter-settings
                 0:0 - the first fx
@@ -129,8 +138,7 @@ the following are only available, when Link from MIDI or FX parameter-checkbox i
                 2:2 - the third fx, etc
                 
         integer parmidx - the parameter idx, that you want to link; 
-                    When MIDI:
-                        16
+                    When MIDI, this value is ignored and can be set to anything.
                     When FX-parameter:
                         0 to n; 0 for the first; 1, for the second, etc
                         
@@ -167,17 +175,18 @@ the following are only available, when Link from MIDI or FX parameter-checkbox i
                             
 The following are only available when LFO 1:
       LFOSHAPE  integer shape
-        integer shape - the shape of the LFO
-                    0, sine
-                    1, square
-                    2, saw L
-                    3, saw R
-                    4, triangle
-                    5, random
+        integer shape - the shape of the LFO/the old shape of LFO(if LFOSYNC -> lfo_shape_old=1)
+                    0, sine/sine(old)
+                    1, square/square(old)
+                    2, saw L/saw L(old)
+                    3, saw R/saw R(old)
+                    4, triangle/triangle(old)
+                    5, random/random(old)
       
-      LFOSYNC  integer tempo_sync_checkbox  integer unknown  integer phase_reset_dropdownlist
+      LFOSYNC  integer tempo_sync_checkbox  integer lfo_shape_old  integer phase_reset_dropdownlist
         integer tempo_sync_checkbox - 0, disabled; 1, enabled
-        integer unknown - unknown
+        integer lfo_shape_old - switches between old and new LFO-shape-versions; 0, new LFO-shapes; 1, old LFO-shapes
+                                must be turned on deliberatly using this parameter of they are not available in the dropdownlist                                
         integer phase_reset_dropdownlist - phase-reset-dropdownlist
                                    0, On seek/loop (deterministic output)
                                    1, Free-running (non-deterministic output)
@@ -185,6 +194,7 @@ The following are only available when LFO 1:
       LFOSPEED  number lfo_speed_slider  number lfo_phase
         number lfo_speed_slider - 0(0.0039Hz) to 1(8.0000Hz); higher values are possible, lower values go into negative; default is 0.124573(1.0000Hz)
         number lfo_phase - 0.000 to to 1.000; default is 0.5
+        
         
 The following are only available when AUDIOCTL 1:
       CHAN  integer Track_audio_channel_dropdownlist

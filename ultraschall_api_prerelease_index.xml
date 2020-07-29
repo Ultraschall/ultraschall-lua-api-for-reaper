@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43243.00" author="Meo Mespotine">
+      <version name="43257.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Changelog-Api.txt</source>
@@ -75,6 +75,7 @@
 	<source file="/ultraschall_api/IniFiles/ultraschall_api.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/IniFiles/ultraschall_api.ini</source>
 	<source file="/ultraschall_api/misc/Developer_Reaper5965.ReaperLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/Developer_Reaper5965.ReaperLangPack</source>
 	<source file="/ultraschall_api/misc/Developer_Reaper6_12c.ReaperLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/Developer_Reaper6_12c.ReaperLangPack</source>
+	<source file="/ultraschall_api/misc/Launchpad_functions.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/Launchpad_functions.lua</source>
 	<source file="/ultraschall_api/misc/Markdown_Newspeak-1.0-draft" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/Markdown_Newspeak-1.0-draft</source>
 	<source file="/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt</source>
 	<source file="/ultraschall_api/misc/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/Reaper_Internals.pfi</source>
@@ -335,11 +336,11 @@
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-ProjectDefault-ConfigSettings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/misc_docs/Reaper-ProjectDefault-ConfigSettings.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-StuffMidiMessage-Codes(engl_shortlist).txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/misc_docs/Reaper-StuffMidiMessage-Codes(engl_shortlist).txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/Reaper-StuffMidiMessage-docs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/misc_docs/Reaper-StuffMidiMessage-docs.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/RenderPreset-Configfile.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/misc_docs/RenderPreset-Configfile.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt</source>
-	<source file="/ultraschall_api/misc/misc_docs/StuffMidiMessage-docs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/misc_docs/StuffMidiMessage-docs.txt</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak</source>
@@ -530,11 +531,14 @@ New features in 4.1.005
 -   Examplescript:
     US_Api_Examples_FileManager_example_showcasing_background_copying.lua -
     a simple file-manager which showcases background-copying
+-   FXManagement: GetParmModulationTable - returns a table with all
+    values of a certain parameter-modulation(experimental)
 -   GFX-Management: GFX_DrawEmbossedSquare - draws an embossed square
     with optional background
 
 Changes from 4.1.004 to 4.1.005
 
+-   Docs: ParmLearn-docs - corrected information and added missing stuff
 -   File Management: CopyFile_AddFileToQueue - basic check, if the
     target-file is the same as the source-file and throws an error in
     these cases
@@ -6715,7 +6719,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1227 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43243 from 25.07.2020 20:31:46).}
+a 1228 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43257 from 29.07.2020 01:59:26).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6729,7 +6733,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1227 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1228 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -6853,7 +6857,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1227 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43243 from 25.07.2020 20:31:46).}
+a 1228 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43257 from 29.07.2020 01:59:26).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6867,7 +6871,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1227 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1228 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
