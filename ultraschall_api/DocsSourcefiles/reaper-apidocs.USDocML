@@ -7678,7 +7678,7 @@
         <title>GetSet_ArrangeView2</title>
         <functioncall prog_lang="cpp">void GetSet_ArrangeView2(ReaProject* proj, bool isSet, int screen_x_start, int screen_x_end, double* start_timeOut, double* end_timeOut)</functioncall>
         <functioncall prog_lang="eel">GetSet_ArrangeView2(ReaProject proj, bool isSet, int screen_x_start, int screen_x_end, &amp;start_time, &amp;end_time)</functioncall>
-        <functioncall prog_lang="lua">number start_time retval, number end_time = reaper.GetSet_ArrangeView2(ReaProject proj, boolean isSet, integer screen_x_start, integer screen_x_end, number start_time, number end_time)</functioncall>
+        <functioncall prog_lang="lua">number start_time, number end_time = reaper.GetSet_ArrangeView2(ReaProject proj, boolean isSet, integer screen_x_start, integer screen_x_end, number start_time, number end_time)</functioncall>
         <functioncall prog_lang="python">(ReaProject proj, Boolean isSet, Int screen_x_start, Int screen_x_end, Float start_timeOut, Float end_timeOut) = RPR_GetSet_ArrangeView2(proj, isSet, screen_x_start, screen_x_end, start_timeOut, end_timeOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -7686,18 +7686,22 @@
         </requires>
         <description prog_lang="*">
             Gets or sets the arrange view start/end time for screen coordinates. use screen_x_start=screen_x_end=0 to use the full arrange view's start/end time
+            
+            If you want to get the arrangeviewposition by pixels, set isSet=false and pass the pixel-position of the start and endposition to screen_x_start and screen_x_end.
+            
+            screen_x_start and screen_x_end will be ignored, when isSet=true
         </description>
         <retvals>
-            number start_time retval - 
-            number end_time - 
+            number start_time - the startposition of the arrangeview(left side) in seconds
+            number end_time - the startposition of the arrangeview(right side) in seconds
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
             ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
-            boolean isSet - 
-            integer screen_x_start - 
-            integer screen_x_end - 
-            number start_time - 
-            number end_time - 
+            boolean isSet - true, set a new arrangeview-time position; false, only get the current arrangeview-time position
+            integer screen_x_start - if isSet=false, this parameter returns the start-time-position at screen-pixel-x position. set this and screen_x_end to 0 for the whole shown arrangeview start/endtime
+            integer screen_x_end - if isSet=false, this parameter returns the end-time-position at screen-pixel-x position. set this and screen_x_end to 0 for the whole shown arrangeview start/endtime
+            number start_time - if isSet=true, this is the startposition of the arrangeview(the left side) in seconds
+            number end_time - if isSet=true, this is the startposition of the arrangeview(the right side) in seconds
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>

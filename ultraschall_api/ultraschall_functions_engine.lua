@@ -851,7 +851,7 @@ function ultraschall.ShowLastErrorMessage(dunk)
   -- get the error-information
   --local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
     local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp = ultraschall.ReadErrorMessage(dunk)
-    AAA=retval
+    --AAA=retval
   -- if errormessage exists and message is unread
   if retval==true and lastreadtime=="unread" then 
     if parmname~="" then 
@@ -2093,7 +2093,7 @@ function ultraschall.ActionsList_GetSelectedActions()
 	JS=0.963
     Lua=5.3
   </requires>
-  <functioncall>integer num_found_actions, integer sectionID, string sectionName, table selected_actions, table CmdIDs, table ToggleStates = ultraschall.ActionsList_GetSelectedActions()</functioncall>
+  <functioncall>integer num_found_actions, integer sectionID, string sectionName, table selected_actions, table CmdIDs, table ToggleStates, table shortcuts = ultraschall.ActionsList_GetSelectedActions()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
 	returns the selected entries from the actionlist, when opened.
 	
@@ -2109,13 +2109,14 @@ function ultraschall.ActionsList_GetSelectedActions()
 	table selected_actions - the texts of the found actions as a handy table
 	table CmdIDs - the ActionCommandIDs of the found actions as a handy table; all of them are strings, even the numbers, but can be converted using Reaper's own function reaper.NamedCommandLookup
 	table ToggleStates - the current toggle-states of the selected actions; 1, on; 0, off; -1, no such toggle state available
+    table shortcuts - the shortcuts of the action as a handy table; separated by ", "
   </retvals>
   <chapter_context>
     API-Helper functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, get, action, actionlist, sections, selected, toggle states, commandids, actioncommandid</tags>
+  <tags>helper functions, get, action, actionlist, sections, selected, toggle states, commandids, actioncommandid, shortcuts</tags>
 </US_DocBloc>
 --]]
   local hWnd_action = ultraschall.GetActionsHWND()
@@ -2130,11 +2131,14 @@ function ultraschall.ActionsList_GetSelectedActions()
 
   -- get the selected action-texts
   local selected_actions = {}
+  local selected_shortcuts = {}
   local i = 0
   for index in string.gmatch(sel_indexes, '[^,]+') do
     i = i + 1
     local desc = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 1)--:gsub(".+: ", "", 1)
-    selected_actions[i] = desc
+    local shortcut = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 0)--:gsub(".+: ", "", 1)
+    selected_actions[i] = desc    
+    selected_shortcuts[i] = shortcut
   end
   
   -- find the cmd-ids
@@ -2161,7 +2165,7 @@ function ultraschall.ActionsList_GetSelectedActions()
     ToggleStates[a]=reaper.GetToggleCommandStateEx(sectionID, temptable[selected_actions[a]])
   end
 
-  return i, sectionID, sectionName, selected_actions, CmdIDs, ToggleStates
+  return i, sectionID, sectionName, selected_actions, CmdIDs, ToggleStates, selected_shortcuts
 end
 
 --A,B,C,D,E,F,G = ultraschall.ActionsList_GetSelectedActions()

@@ -1283,32 +1283,31 @@ end
 
 --A,B,C,D,E=ultraschall.ReadSubtitles_VTT("c:\\test.vtt")
 
-function ultraschall.BatchConvertFiles(filelist, RenderTable, BWFStart, PadStart, PadEnd, FXChain)
+function ultraschall.BatchConvertFiles(inputfilelist, outputfilelist, RenderTable, BWFStart, PadStart, PadEnd, FXStateChunk, MetaDataStateChunk)
 -- Todo:
 -- Check on Mac and Linux
 --    Linux saves outfile into wrong directory -> lastcwd not OUTPATH for some reason
 -- Check all parameters for correct typings
--- Test FXChain-capability
+-- Test FXStateChunk-capability
   local BatchConvertData=""
   --local ExeFile, filename, path
-  if FXChain==nil then FXChain="" end
+  if FXStateChunk~=nil and FXStateChunk~="" and ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("BatchConvertFiles", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if FXStateChunk==nil then FXStateChunk="" end
+  if MetaDataStateChunk==nil then MetaDataStateChunk="" end
   if BWFStart==true then BWFStart="    USERCSTART 1\n" else BWFStart="" end
   if PadStart~=nil  then PadStart="    PAD_START "..PadStart.."\n" else PadStart="" end
   if PadEnd~=nil  then PadEnd="    PAD_END "..PadEnd.."\n" else PadEnd="" end
   local i=1
-  while filelist[i]~=nil do
-    path, filename = ultraschall.GetPath(filelist[i])
-    filename2=filename:match("(.-)%.")
-    if filename2==nil then filename2=filename end
-    BatchConvertData=BatchConvertData..filelist[i].."\t"..filelist[i]:match("(.*)%.").."\n"
+  local outputfile
+  while inputfilelist[i]~=nil do
+    if ultraschall.type(inputfilelist[i])=="string" then
+      if outputfilelist[i]==nil then outputfile="" else outputfile=outputfilelist[i] end
+      BatchConvertData=BatchConvertData..inputfilelist[i].."\t"..outputfile.."\n"
+    end
     i=i+1
   end
   BatchConvertData=BatchConvertData..[[
 <CONFIG
-]]..FXChain..[[
-  <OUTFMT 
-    ]]      ..RenderTable["RenderString"]..[[
-    
     SRATE ]]..RenderTable["SampleRate"]..[[
     
     NCH ]]..RenderTable["Channels"]..[[
@@ -1323,12 +1322,20 @@ function ultraschall.BatchConvertFiles(filelist, RenderTable, BWFStart, PadStart
     OUTPATH ]]..RenderTable["RenderFile"]..[[
     
     OUTPATTERN ']]..[['
+  <OUTFMT 
+    ]]      ..RenderTable["RenderString"]..[[
+
   >
+  ]]..FXStateChunk..[[
+  ]]..string.gsub(MetaDataStateChunk, "<RENDER_METADATA", "<METADATA")..[[
+
 >
 ]]
 
   ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/filelist.txt", BatchConvertData)
 print3(BatchConvertData)
+--if ll==nil then return end
+
   if ultraschall.IsOS_Windows()==true then
     ExeFile=reaper.GetExePath().."\\reaper.exe"
     AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt", -1)
@@ -1532,85 +1539,109 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
     Lua=5.3
   </requires>
   <functioncall>table ParmModulationTable = ultraschall.GetParmModulationTable(string FXStateChunk, integer index)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns a table with all values of a specific Parameter-Modulation from an FXStateChunk.
   
     The table's format is as follows:
-    
-                ParamModTable["PARAM_NR"] - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
-                ParamModTable["PARAM_TYPE"] - the type of the parameter, usually "", "wet" or "bypass"
+    <pre><code>
+                ParamModTable["PARAM_NR"]               - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
+                ParamModTable["PARAM_TYPE"]             - the type of the parameter, usually "", "wet" or "bypass"
 
-                ParamModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"] - Enable parameter modulation, baseline value(envelope overrides)-checkbox; true, checked; false, unchecked
-                ParamModTable["PARAMOD_BASELINE"] - Enable parameter modulation, baseline value(envelope overrides)-slider; 0.000 to 1.000
+                ParamModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"] 
+                                                        - Enable parameter modulation, baseline value(envelope overrides)-checkbox; 
+                                                          true, checked; false, unchecked
+                ParamModTable["PARAMOD_BASELINE"]       - Enable parameter modulation, baseline value(envelope overrides)-slider; 
+                                                            0.000 to 1.000
 
-                ParamModTable["AUDIOCONTROL"] - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
-                ParamModTable["AUDIOCONTROL_CHAN"] - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; nil, if not available
-                ParamModTable["AUDIOCONTROL_STEREO"] - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus AUDIOCONTROL_CHAN+1; nil, if not available
-                ParamModTable["AUDIOCONTROL_ATTACK"] - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
-                ParamModTable["AUDIOCONTROL_RELEASE"] - the Release-slider; 0-1000ms; nil, if not available
-                ParamModTable["AUDIOCONTROL_MINVOLUME"] - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; nil, if not available
-                ParamModTable["AUDIOCONTROL_MAXVOLUME"] - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; nil, if not available
-                ParamModTable["AUDIOCONTROL_STRENGTH"] - the Strength-slider; 0(0%) to 1000(100%)
+                ParamModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                ParamModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
+                                                          nil, if not available
+                ParamModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
+                                                            AUDIOCONTROL_CHAN+1; nil, if not available
+                ParamModTable["AUDIOCONTROL_ATTACK"]    - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
+                ParamModTable["AUDIOCONTROL_RELEASE"]   - the Release-slider; 0-1000ms; nil, if not available
+                ParamModTable["AUDIOCONTROL_MINVOLUME"] - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; 
+                                                          nil, if not available
+                ParamModTable["AUDIOCONTROL_MAXVOLUME"] - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; 
+                                                          nil, if not available
+                ParamModTable["AUDIOCONTROL_STRENGTH"]  - the Strength-slider; 0(0%) to 1000(100%)
                 ParamModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
 
-                ParamModTable["LFO"] - if the LFO-checkbox checked; true, checked; false, unchecked
-                ParamModTable["LFO_SHAPE"] - the LFO Shape-dropdownlist; 0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random; nil, if not available
-                ParamModTable["LFO_SHAPEOLD"] - use the old-style of the LFO_SHAPE; 1, use old style of LFO_SHAPE; 0, use current style of LFO_SHAPE; nil, if not available
-                ParamModTable["LFO_TEMPOSYNC"] - the Tempo sync-checkbox; true, checked; false, unchecked
-                ParamModTable["LFO_SPEED"] - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
-                ParamModTable["LFO_STRENGTH"] - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
-                ParamModTable["LFO_PHASE"] - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
-                ParamModTable["LFO_DIRECTION"] - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
-                ParamModTable["LFO_PHASERESET"] - the LFO Phase reset-dropdownlist; 0, On seek/loop(deterministic output); 1, Free-running(non-deterministic output); nil, if not available
+                ParamModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
+                ParamModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
+                                                            0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
+                                                            nil, if not available
+                ParamModTable["LFO_SHAPEOLD"]           - use the old-style of the LFO_SHAPE; 
+                                                            0, use current style of LFO_SHAPE; 
+                                                            1, use old style of LFO_SHAPE; 
+                                                            nil, if not available
+                ParamModTable["LFO_TEMPOSYNC"]          - the Tempo sync-checkbox; true, checked; false, unchecked
+                ParamModTable["LFO_SPEED"]              - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
+                ParamModTable["LFO_STRENGTH"]           - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
+                ParamModTable["LFO_PHASE"]              - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
+                ParamModTable["LFO_DIRECTION"]          - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
+                ParamModTable["LFO_PHASERESET"]         - the LFO Phase reset-dropdownlist; 
+                                                            0, On seek/loop(deterministic output)
+                                                            1, Free-running(non-deterministic output)
+                                                            nil, if not available
 
-
-                ParamModTable["PARMLINK"] - the Link from MIDI or FX parameter-checkbox; true, checked; false, unchecked
-                ParamModTable["PARMLINK_LINKEDPLUGIN"] - the selected plugin; nil, if not available
-                                                        - -1, nothing selected yet
-                                                        - -100, MIDI-parameter-settings
-                                                        - 1 - the first fx-plugin
-                                                        - 2 - the second fx-plugin
-                                                        - 3 - the third fx-plugin, etc
+                ParamModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
+                                                          true, checked; false, unchecked
+                ParamModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
+                                                            -1, nothing selected yet
+                                                            -100, MIDI-parameter-settings
+                                                            1 - the first fx-plugin
+                                                            2 - the second fx-plugin
+                                                            3 - the third fx-plugin, etc
                 ParamModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
-                                                        When MIDI, this is irrelevant.
-                                                        When FX-parameter:
-                                                            0 to n; 0 for the first; 1, for the second, etc
+                                                            When MIDI, this is irrelevant.
+                                                            When FX-parameter:
+                                                              0 to n; 0 for the first; 1, for the second, etc
 
-                ParamModTable["PARMLINK_OFFSET"] - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
-                ParamModTable["PARMLINK_SCALE"] - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                ParamModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                ParamModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
 
 
-                ParamModTable["MIDIPLINK_BUS"] - the MIDI-bus selected in the button-menu; 0 to 15 for bus 1 to 16; nil, if not available
-                ParamModTable["MIDIPLINK_CHANNEL"] - the MIDI-channel selected in the button-menu; 0, omni; 1 to 16 for channel 1 to 16; nil, if not available
+                ParamModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
+                                                            0 to 15 for bus 1 to 16; 
+                                                            nil, if not available
+                ParamModTable["MIDIPLINK_CHANNEL"]      - the MIDI-channel selected in the button-menu; 
+                                                            0, omni; 1 to 16 for channel 1 to 16; 
+                                                            nil, if not available
                 ParamModTable["MIDIPLINK_MIDICATEGORY"] - the MIDI_Category selected in the button-menu; nil, if not available
-                                                        -   144, MIDI note
-                                                        -   160, Aftertouch
-                                                        -   176, CC 14Bit and CC
-                                                        -   192, Program Change
-                                                        -   208, Channel Pressure
-                                                        -   224, Pitch
-                ParamModTable["MIDIPLINK_MIDINOTE"] - the MIDI-note selected in the button-menu; nil, if not available
-                                                        When MIDI note:
-                                                             0(C-2) to 127(G8)
-                                                        When Aftertouch:
-                                                             0(C-2) to 127(G8)
-                                                        When CC14 Bit:
-                                                             128 to 159; see dropdownlist for the commands(the order of the list is the same as this numbering)
-                                                        When CC:
-                                                             0 to 119; see dropdownlist for the commands(the order of the list is the same as this numbering)
-                                                        When Program Change:
-                                                             0
-                                                        When Channel Pressure:
-                                                             0
-                                                        When Pitch:
-                                                             0
+                                                            144, MIDI note
+                                                            160, Aftertouch
+                                                            176, CC 14Bit and CC
+                                                            192, Program Change
+                                                            208, Channel Pressure
+                                                            224, Pitch
+                ParamModTable["MIDIPLINK_MIDINOTE"]     - the MIDI-note selected in the button-menu; nil, if not available
+                                                          When MIDI note:
+                                                               0(C-2) to 127(G8)
+                                                          When Aftertouch:
+                                                               0(C-2) to 127(G8)
+                                                          When CC14 Bit:
+                                                               128 to 159; see dropdownlist for the commands(the order of the list 
+                                                               is the same as this numbering)
+                                                          When CC:
+                                                               0 to 119; see dropdownlist for the commands(the order of the list 
+                                                               is the same as this numbering)
+                                                          When Program Change:
+                                                               0
+                                                          When Channel Pressure:
+                                                               0
+                                                          When Pitch:
+                                                               0
 
-                ParamModTable["WINDOW_ALTEREDOPEN"] - if the position of the ParmMod-window is altered and currently open; nil, unchanged; 0, unopened; 1, open
-                ParamModTable["WINDOW_XPOS"] - the x-position of the altered ParmMod-window in pixels; nil, default position
-                ParamModTable["WINDOW_YPOS"] - the y-position of the altered ParmMod-window in pixels; nil, default position
-                ParamModTable["WINDOW_RIGHT_READONLY"] - the right-position of the altered ParmMod-window in pixels; nil, default position; only readable
-                ParamModTable["WINDOW_BOTTOM_READONLY"] - the bottom-position of the altered ParmMod-window in pixels; nil, default position; only readable
-
+                ParamModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
+                                                            nil, unchanged; 0, unopened; 1, open
+                ParamModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
+                ParamModTable["WINDOW_YPOS"]            - the y-position of the altered ParmMod-window in pixels; nil, default position
+                ParamModTable["WINDOW_RIGHT_READONLY"]  - the right-position of the altered ParmMod-window in pixels; 
+                                                            nil, default position; only readable
+                ParamModTable["WINDOW_BOTTOM_READONLY"] - the bottom-position of the altered ParmMod-window in pixels; 
+                                                            nil, default position; only readable
+    </code></pre>
     returns nil in case of an error
   </description>
   <parameters>
@@ -1635,7 +1666,7 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
   if index<1 then ultraschall.AddErrorMessage("GetParmModulationTable", "index", "must be bigger than 0", -4) return nil end
   local count=0
   local found=""
-  ParmModTable={}
+  local ParmModTable={}
   for k in string.gmatch(FXStateChunk, "\n    <PROGRAMENV.-\n    >") do
     count=count+1
     if count==index then found=k break end
@@ -1757,7 +1788,7 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
   ParmModTable["WINDOW_RIGHT_READONLY"],
   ParmModTable["WINDOW_BOTTOM_READONLY"]
   =found:match("MODWND (.-) (.-) (.-) (.-) (.-) ")
-  ParmModTable["WINDOW_OPENED"]=tonumber(ParmModTable["WINDOW_OPENED"])==1
+  ParmModTable["WINDOW_ALTEREDOPEN"]=tonumber(ParmModTable["WINDOW_ALTEREDOPEN"])==1
   ParmModTable["WINDOW_XPOS"]  =tonumber(ParmModTable["WINDOW_XPOS"])
   ParmModTable["WINDOW_YPOS"]  =tonumber(ParmModTable["WINDOW_YPOS"])
   ParmModTable["WINDOW_RIGHT"] =tonumber(ParmModTable["WINDOW_RIGHT"])
@@ -1765,5 +1796,220 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
   
   return ParmModTable
 end
+
+function ultraschall.IsAnyNamedEnvelopeVisible(name)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsAnyMuteEnvelopeVisible</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.IsAnyMuteEnvelopeVisible(string name)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns, if any mute-envelopes are currently set to visible in the current project
+      
+      Visible=true does include mute-envelopes, who are scrolled outside of the arrangeview
+    </description>
+    <retvals>
+      boolean retval - true, there are visible mute-envelopes in the project; false, no mute-envelope visible
+    </retvals>
+    <parameters>
+      string name - the name of the envelope; case-sensitive, just take the one displayed in the envelope-lane
+                  - Standard-Envelopes are: 
+                  -      "Volume (Pre-FX)", "Pan (Pre-FX)", "Width (Pre-FX)", "Volume", "Pan", "Width", "Trim Volume", "Mute"
+                  - Plugin's envelopes can also be checked against, like
+                  -      "Freq-Band 1 / ReaEQ"
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Envelopes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, any mute envelope, envelope, visible</tags>
+  </US_DocBloc>
+  --]] 
+  -- todo: 
+  --   visible in viewable arrangeview only, but this is difficult, as I need to know first, how high the arrangeview is.
+  for i=0, reaper.CountTracks()-1 do
+    local Track=reaper.GetTrack(0,i)
+    local TrackEnvelope = reaper.GetTrackEnvelopeByName(Track, name)
+    if TrackEnvelope~=nil then
+      local Aretval2 = reaper.GetEnvelopeInfo_Value(TrackEnvelope, "I_TCPH_USED")
+      if Aretval2>0 then return true end
+    end
+  end
+  return false
+end
+
+function ultraschall.IsEnvelope_Track(TrackEnvelope)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsEnvelope_Track</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.IsEnvelope_Track(TrackEnvelope env)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns, if the envelope is a track envelope(true) or a take-envelope(false)
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, the envelope is a TrackEnvelope; false, the envelope is a TakeEnvelope
+    </retvals>
+    <parameters>
+      TrackEnvelope env - the envelope to check
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Envelopes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, check, track envelope, take envelope</tags>
+  </US_DocBloc>
+  --]] 
+  if ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("IsEnvelope_Track", "TrackEnvelope", "must be an envelope-object", -1) return end
+  if reaper.GetEnvelopeInfo_Value(Mute, "P_TRACK")==0 then return false else return true end
+end
+
+function ultraschall.IsTrackEnvelopeVisible_ArrangeView(TrackEnvelope)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsTrackEnvelopeVisible_ArrangeView</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.IsTrackEnvelopeVisible_ArrangeView(TrackEnvelope env)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns, if the envelope is currently visible within arrange-view
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, the envelope is a TrackEnvelope; false, the envelope is a TakeEnvelope
+    </retvals>
+    <parameters>
+      TrackEnvelope env - the envelope to check for visibility
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Envelopes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, check, track envelope, take envelope, visible, arrangeview</tags>
+  </US_DocBloc>
+  --]] 
+  if ultraschall.IsEnvelope_Track(TrackEnvelope)==false then ultraschall.AddErrorMessage("IsTrackEnvelopeVisible_ArrangeView", "TrackEnvelope", "must be a track-envelope-object", -1) return false end
+  if reaper.GetEnvelopeInfo_Value(TrackEnvelope, "I_TCPH_USED")==0 then return false end
+  local arrange_view = ultraschall.GetHWND_ArrangeViewAndTimeLine()
+  local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(arrange_view)
+  
+  local Item = reaper.GetMediaTrackInfo_Value(reaper.GetEnvelopeInfo_Value(Mute, "P_TRACK"), "P_ITEM")
+  local HeightTrackY = reaper.GetMediaTrackInfo_Value(reaper.GetEnvelopeInfo_Value(Mute, "P_TRACK"), "I_TCPY")
+  local HeightTrack = reaper.GetMediaTrackInfo_Value(reaper.GetEnvelopeInfo_Value(Mute, "P_TRACK"), "I_TCPH")
+  local HeightEnv = reaper.GetEnvelopeInfo_Value(Mute, "I_TCPH")
+  local A=HeightTrack+HeightTrackY+HeightEnv>0
+  local B=HeightTrackY+HeightEnv+top<bottom
+  return A==B
+end
+
+function ultraschall.ActionsList_GetAllActions()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ActionsList_GetAllActions</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+	SWS=2.10.0.1
+	JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_found_actions, integer sectionID, string sectionName, table actions, table CmdIDs, table ToggleStates, table shortcuts = ultraschall.ActionsList_GetAllActions()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+	returns the all actions from the actionlist, when opened.
+	
+	The order of the tables of found actions, ActionCommandIDs and ToggleStates is the same in all of the three tables.
+	They also reflect the order of userselection in the ActionList itself from top to bottom of the ActionList.
+	
+	returns -1 in case of an error
+  </description>
+  <retvals>
+	integer num_found_actions - the number of found actions; -1, if not opened
+	integer sectionID - the id of the section, from which the found actions are from
+	string sectionName - the name of the found section
+	table actions - the texts of the found actions as a handy table
+	table CmdIDs - the ActionCommandIDs of the found actions as a handy table; all of them are strings, even the numbers, but can be converted using Reaper's own function reaper.NamedCommandLookup
+	table ToggleStates - the current toggle-states of the found actions; 1, on; 0, off; -1, no such toggle state available
+    table shortcuts - the shortcuts of the action as a handy table; separated by ", "
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, action, actionlist, sections, toggle states, commandids, actioncommandid, shortcuts</tags>
+</US_DocBloc>
+--]]
+  local hWnd_action = ultraschall.GetActionsHWND()
+  if hWnd_action==nil then ultraschall.AddErrorMessage("ActionsList_GetAllActions", "", "Action-List-Dialog not opened", -1) return -1 end
+  local hWnd_LV = reaper.JS_Window_FindChildByID(hWnd_action, 1323)
+  local combo = reaper.JS_Window_FindChildByID(hWnd_action, 1317)
+  local sectionName = reaper.JS_Window_GetTitle(combo,"") -- save item text to table
+  local sectionID =  reaper.JS_WindowMessage_Send( combo, "CB_GETCURSEL", 0, 0, 0, 0 )
+
+  -- get the action-texts
+  local actions = {}
+  local shortcuts = {}
+  local i = 0
+    --for index in string.gmatch(sel_indexes, '[^,]+') do
+  for index=0, 65535 do    
+    i = i + 1
+    local desc = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 1)--:gsub(".+: ", "", 1)
+    local shortcut = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 0)--:gsub(".+: ", "", 1)
+    --ToClip(FromClip()..tostring(desc).."\n")
+    if desc=="" then break end    
+    actions[i] = desc    
+    shortcuts[i] = shortcut
+  end
+  i=i-1 
+  -- find the cmd-ids
+  local temptable={}
+  for a=1, i do
+    if actions[a]==nil then break end
+    selectA=a
+    selectI=i
+    temptable[actions[a]]=actions[a]
+  end
+  
+  -- get command-ids of the found texts
+  for aaa=0, 65535 do
+    local Retval, Name = reaper.CF_EnumerateActions(sectionID, aaa, "")
+    if temptable[Name]~=nil then    
+      temptable[Name]=Retval
+    end
+    if Retval==0 then break end    
+  end
+
+  -- get ActionCommandIDs and toggle-states of the found actions
+  local CmdIDs={}
+  local ToggleStates={}
+  for a=1, i do
+    CmdIDs[a]=reaper.ReverseNamedCommandLookup(temptable[actions[a]])
+    if CmdIDs[a]==nil then CmdIDs[a]=tostring(temptable[actions[a]]) end
+    ToggleStates[a]=reaper.GetToggleCommandStateEx(sectionID, temptable[actions[a]])
+  end
+
+  return i, sectionID, sectionName, actions, CmdIDs, ToggleStates, shortcuts
+end
+
 
 ultraschall.ShowLastErrorMessage()

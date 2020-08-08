@@ -1,12 +1,37 @@
 <TODO>
         
     For 4.01.005:
+        - Doku! Viel Doku!
+        - Lua-Refmanual Doku mit einbinden, weil ich das darf -> Lizenz angeben
+            - haben Linux und MacOS(speziell Catalina) curl?
+        - Lokasenna's GuiLib v2 & v3-Lizenz angeben
+        - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
+        - BatchConvertFiles - maybe finishing it up?
+        - IsTakeEnvelopeVisible(könnt knifflig werden)
+        - IsItemVisible
+        - Download files via Curl -> darf ich Curl mit ausliefern oder beisst sich das mit Lizenz? Auf Windows kann ich auch certutil nutzen.
+            function ultraschall.DownloadFile(fileurl, target)
+              -- certutil
+              Filename=fileurl:match(".*/(.*)")
+              if ultraschall.IsOS_Win()==true then
+                os.execute("certutil -urlcache -f \""..fileurl.."\" \""..target.."/"..Filename.."\" >NIL")
+              end
+
+              -- curl
+              BatchFile=[[
+            cd "]]..target..[[" >:NIL
+            ]]..reaper.GetResourcePath().."/UserPlugins/ultraschall_api/3rd_party_modules/curl/curl -s -O \""..fileurl..[[" >:NIL 
+              ]]
+              ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/Curl.Bat", BatchFile)
+              os.execute(ultraschall.API_TempPath.."/Curl.Bat")
+            end
+
         - Set Metadata from Project - still missing
         - SetParmMIDIPLink_FXStateChunk - still missing?
         - IsFileUsedInProject - check, if a file is used in the current project, could allow deleting it, though getting if it's part of projectbay could be the issue here
         - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
         - AddMediaItemStateChunk_in_TrackStateChunk
-        - BatchConvertFiles - maybe finishing it up?
+        
         - StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
                                 probably by adding a "depth"-parameter, which allows stting the number of spaces*2, who indent the statechunk accordingly
     
@@ -306,15 +331,22 @@ Has now 1215 functions, with 15 new ones
     Bla
     
 #### New features in 4.1.005
+   - EnvelopeManagement: IsAnyNamedEnvelopeVisible - returns, if there's a specific named-envelope set to visible in any track
+   - EnvelopeManagement: IsEnvelope\_Track - returns, if an envelope is a TrackEnvelope(true) or a TakeEnvelope(false)
+   - EnvelopeManagement: IsTrackEnvelopeVisible\_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview
    - Examplescript: US\_Api\_Examples\_FileManager\_example\_showcasing\_background\_copying.lua - a simple file-manager which showcases background-copying
    - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation(experimental)
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
+   - Helper Functions: ActionsList\_GetActions - returns all actions and shortcuts currently visible in the opened actionlist
+   - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder
 
 #### Changes from 4.1.004 to 4.1.005
    - Docs: ParmLearn-docs - corrected information and added missing stuff
+   - EventManager: Eventmanager mainscript - always executed the checks-functions before updating externally sent states which could lead to race-condition-problems -> fixed(thanks to rstockm)
    - File Management: CopyFile\_AddFileToQueue - basic check, if the target-file is the same as the source-file and throws an error in these cases
    - File Management: GetAllDirectoriesInPath - omitted folderseparator in returned folders, if it hasn't been passed into parameter path
    - File Management: CopyFile\_GetRemainingFilesToCopy - returned the wrong number of remaining files -> fixed
+   - Helper Functions: ActionsList\_GetSelectedActions - returns now the shortcuts of the selected actions as well
 
 ---
 

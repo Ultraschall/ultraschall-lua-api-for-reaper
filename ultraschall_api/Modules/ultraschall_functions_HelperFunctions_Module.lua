@@ -1238,6 +1238,7 @@ end
 
 --L,LL=ultraschall.IsOS_Windows()
 
+ultraschall.IsOS_Win=ultraschall.IsOS_Windows
 
 function ultraschall.IsOS_Mac()
 --[[
