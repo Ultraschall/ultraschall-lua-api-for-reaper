@@ -60,7 +60,12 @@ Bla</li>
 </ul>
 <h4>Changes from 4.1.004 to 4.1.005</h4>
 <ul>
+<li>Docs: Lua Reference Manual - now added for Lua 5.3, so you have its manual right at hand</li>
 <li>Docs: ParmLearn-docs - corrected information and added missing stuff</li>
+<li>Docs: Reaper; GetUserInputs - added information about how to pass over default-retvals and its limitations</li>
+<li>Error Messaging-System: ReadErrorMessage - allows now keeping error-message readstate as unread</li>
+<li>Error Messaging-System: ShowLastErrorMessage - additional parameters and retvals for more control of the output-target and messagetype returned</li>
+<li>Error Messaging-System: SLEM - additional parameters and retvals for more control of the output-target and messagetype returned</li>
 <li>EventManager: Eventmanager mainscript - always executed the checks-functions before updating externally sent states which could lead to race-condition-problems -&gt; fixed(thanks to rstockm)</li>
 <li>File Management: CopyFile_AddFileToQueue - basic check, if the target-file is the same as the source-file and throws an error in these cases</li>
 <li>File Management: GetAllDirectoriesInPath - omitted folderseparator in returned folders, if it hasn't been passed into parameter path</li>

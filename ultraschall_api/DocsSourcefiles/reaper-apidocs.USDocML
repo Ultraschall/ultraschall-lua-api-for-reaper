@@ -8256,11 +8256,11 @@
             Examples in Lua:
             getting the album name from the metadata of the current project:
             
-                 retval, albumname    = reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TALB", false)
+                 retval, albumname    = reaper.GetSetProjectInfo\_String(0, "RENDER\_METADATA", "ID3:TALB", false)
                 
             setting the album name in the metadata of the current project:
             
-                 retval, albumame_new = reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TALB|New album name", true)
+                 retval, albumame\_new = reaper.GetSetProjectInfo\_String(0, "RENDER\_METADATA", "ID3:TALB|New album name", true)
             
 			Supported tags-codes are: TIT2(Title), TPE1(Artist), TPE2(Albumartist), TALB(Album), TRCK(Track), TCON(Genre), TYER(Year), TDRC(Recording time: YYYY-MM-DD), TKEY(Key), TBPM(Tempo), TSRC(International Standard Recording Code), COMM(Comment), COMM\_LANG(Comment language), APIC\_TYPE(Image type), APIC\_DESC(Image description), APIC\_FILE(Image file)
 			APIC\_TYPE can have be of the following:
@@ -9994,17 +9994,40 @@
             
             \n is recommended, as this allows the user entering everything, a one-lined-inputbox can handle.
             
-            Important: the separator-field in the captions has no effect on how captions are separated from each other. They still need to be separated by commas!
+            Important: the separator-field in the captions has no effect on how captions in parameter captions\_csv are separated from each other. They still need to be separated by commas!
+            
+            Note: the parameter retvals\_csv follows undisclosed csv rules. This is important when you want to set the default-captions for multiple input-field.
+            For instance every entry for each input-field: 
+            
+            - must contain an even number of quotes/single quotes
+            - every ( or must be closed by with )
+            
+            otherwise the separator will be ignored and the default-retvals will show in the wrong fields.
+            
+            Example:
+            
+            a retval_csv of _I'm enlightened,I am too_
+            
+            with one singlequote in it (the one in I'm) will NOT be shown in two fields
+            
+            _I'm enlightened_
+            _I am too_
+            
+            but rather in one field as 
+            
+            _I'm enlightened,I am too_
+            
+            These can't be escaped due Reaper's API-limitation. Keep this in mind!
         </description>
         <retvals>
-            retval - did the user click OK in the dialog(true) or close/cancel the dialog(false)
-            retvals_csv - the data from each of the input-fields, separated by a comma , or a separator you chose.
+            boolean retval - did the user click OK in the dialog(true) or close/cancel the dialog(false)
+            string retvals_csv - the data from each of the input-fields, separated by a comma , or a separator you chose.
         </retvals>
         <parameters>
-            title - title of the window
-            num_inputs - number of input-fields, 1-16.
-            captions_csv - a string with the captions for each input-field, each separated by a comma. Can be fewer than num_inputs. If a caption begins with *, the inputfield will display * instead of characters(for i.e. passwords).
-            retvals_csv - default-values for each input-field, separated by a comma or a separator you chose.
+            string title - title of the window
+            integer num_inputs - number of input-fields, 1-16.
+            string captions_csv - a string with the captions for each input-field, each separated by a comma. Can be fewer than num_inputs. If a caption begins with *, the inputfield will display * instead of characters(for i.e. passwords).
+            string retvals_csv - default-values for each input-field, separated by a comma or a separator you chose.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>

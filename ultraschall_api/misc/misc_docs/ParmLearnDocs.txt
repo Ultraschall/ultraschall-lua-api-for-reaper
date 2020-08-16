@@ -118,14 +118,14 @@ FX-parameter-modulation:
         number AudioCTL_Strength_slider - 0.0000(0%) to 1.000(100%); 0.493(49.3%); default is 1
         integer AudioCTL_direction_radiobuttons - -1, Negative; 0, Centered; 1, Positive
         
-      MODWND integer opened  integer win_x_position  integer win_y_position  integer winleft_readonly  integer winbottom_readonly
+      MODWND integer opened  integer win_x_position  integer win_y_position  integer winright_readonly  integer winbottom_readonly
       usually stored as last entry in the PROGRAMENV-statechunk
       appears only, after the window has been moved but can be set as well, if not existing yet
         integer opened - 0, ParmMod-window is closed; 1, ParmMod-window is opened; can be set to open/close ParmMod-window of this parmmodulation
         integer win_x_position - the x-position in pixels of the ParmMod-window; can be set, when opened=0
         integer win_y_position - the y-position in pixels of the ParmMod-window; can be set, when opened=0
-        integer winleft_readonly - the width of the window in pixels; can't be set
-        integer winbottom_readonly - the height of the window in pixels; can't be set
+        integer winright_readonly - the position of the right side of the window in pixels; can't be set
+        integer winbottom_readonly - the position of the bottom side of the window in pixels; can't be set
       
 the following are only available, when Link from MIDI or FX parameter-checkbox is enabled
       PLINK  number Scale  integer midi_fx_idx[:fx_idx] integer parmidx  number offset

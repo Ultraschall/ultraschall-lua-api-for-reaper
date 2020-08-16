@@ -506,16 +506,16 @@ function ultraschall.ToggleIDE_Errormessages(togglevalue)
   return ultraschall.IDEerror
 end
 
-function ultraschall.ReadErrorMessage(errornumber)
+function ultraschall.ReadErrorMessage(errornumber, keep_unread)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadErrorMessage</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer errcode, string functionname, string parmname, string errormessage, string lastreadtime, string err_creation_date, string err_creation_timestamp = ultraschall.ReadErrorMessage(integer errornumber)</functioncall>
+  <functioncall>boolean retval, integer errcode, string functionname, string parmname, string errormessage, string lastreadtime, string err_creation_date, string err_creation_timestamp = ultraschall.ReadErrorMessage(integer errornumber, optional boolean keep_unread)</functioncall>
   <description>
     Reads an error-message within the Ultraschall-ErrorMessagesystem.
     Returns a boolean value, the functionname, the errormessage, the "you've already read this message"-status, the date and a timestamp of the creation of the errormessage.
@@ -523,6 +523,7 @@ function ultraschall.ReadErrorMessage(errornumber)
   </description>
   <parameters>
     integer errornumber - the number of the error, beginning with 1. Use <a href="#CountErrorMessages">CountErrorMessages</a> to get the current number of error-messages.
+    optional boolean keep_unread - true, keeps the message unread; false or nil, sets the readstate of the message
   </parameters>
   <retvals>
     boolean retval - true, if it worked; false if it didn't
@@ -549,7 +550,9 @@ function ultraschall.ReadErrorMessage(errornumber)
 
   -- set readstate
   local readstate=ultraschall.ErrorMessage[errornumber]["readstate"] 
-  ultraschall.ErrorMessage[errornumber]["readstate"]=os.date()
+  if keep_unread~=true then    
+    ultraschall.ErrorMessage[errornumber]["readstate"]=os.date()
+  end
   
   --return values
   return true, ultraschall.ErrorMessage[errornumber]["errcode"],
@@ -815,21 +818,38 @@ function ultraschall.CountErrorMessages()
   return ultraschall.ErrorCounter
 end
 
-function ultraschall.ShowLastErrorMessage(dunk)
+function ultraschall.ShowLastErrorMessage(dunk, target, message_type)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ShowLastErrorMessage</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>ultraschall.ShowLastErrorMessage(optional integer dunk)</functioncall>
+  <functioncall>requested_error_message = ultraschall.ShowLastErrorMessage(optional integer dunk, optional integer target, optional integer message_type)</functioncall>
   <description>
-    Displays the last error message in a messagebox, if existing and unread.
+    Displays the last error message in a messagebox, the ReaScript-Console, the clipboard, if error is existing and unread.
   </description>
-  <paramters>
+  <retvals>
+    requested_error_message - the errormessage requested; 
+  </retvals>
+  <parameters>
     optional integer dunk - allows to index the last x'ish message to be returned; nil or 0, the last one; 1, the one before the last one, etc.
+    optional integer target - the target, where the error-message shall be output to
+                            - 0 or nil, target is a message box
+                            - 1, target is the ReaScript-Console
+                            - 2, target is the clipboard
+                            - 3, target is a returned string
+    optional integer message_type - if target is set to 3, you can set, which part of the error-messageshall be returned as returnvalue
+                                  - nil or 1, returns true, if error has happened, false, if error didn't happen
+                                  - 2, returns the errcode
+                                  - 3, returns the functionname which caused the error
+                                  - 4, returns the parmname which caused the error
+                                  - 5, returns the errormessage
+                                  - 6, returns the lastreadtime
+                                  - 7, returns the err_creation_date
+                                  - 8, returns the err_creation_timestamp      
   </parameters>
   <chapter_context>
     Developer
@@ -850,39 +870,94 @@ function ultraschall.ShowLastErrorMessage(dunk)
   if dunk<0 then dunk=CountErrMessage+dunk else dunk=CountErrMessage-dunk end
   -- get the error-information
   --local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
-    local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp = ultraschall.ReadErrorMessage(dunk)
+    local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp = ultraschall.ReadErrorMessage(dunk, true)
     --AAA=retval
   -- if errormessage exists and message is unread
   if retval==true and lastreadtime=="unread" then 
-    if parmname~="" then 
-      -- if error-causing-parameter was given, display this message
-      parmname="param: "..parmname 
-      reaper.MB(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
-    else
-      -- if no error-causing-parameter was given, display that message
-      reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+    if target==nil or target==0 then
+      if parmname~="" then 
+        -- if error-causing-parameter was given, display this message
+        parmname="param: "..parmname 
+        reaper.MB(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+      else
+        -- if no error-causing-parameter was given, display that message
+        reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+      end
+    elseif target==1 then
+      if parmname~="" then 
+        -- if error-causing-parameter was given, display this message
+        parmname="param: "..parmname 
+        reaper.ShowConsoleMsg(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+      else
+        -- if no error-causing-parameter was given, display that message
+        reaper.ShowConsoleMsg(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+      end
+    elseif target==2 then
+      if parmname~="" then 
+        -- if error-causing-parameter was given, display this message
+        parmname="param: "..parmname 
+        print3(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+      else
+        -- if no error-causing-parameter was given, display that message
+        print3(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+      end  
+    elseif target==3 then
+      if      message_type==nil or message_type==1 then return retval
+      elseif  message_type==2 then return errcode
+      elseif  message_type==3 then return functionname
+      elseif  message_type==4 then return parmname
+      elseif  message_type==5 then return errormessage
+      elseif  message_type==6 then return lastreadtime
+      elseif  message_type==7 then return err_creation_date
+      elseif  message_type==8 then return err_creation_timestamp     
+      end
     end
   end
-  return three
+  local retval
+  if parmname~="" then 
+    -- if error-causing-parameter was given, display this message
+    retval=functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode
+  else
+    -- if no error-causing-parameter was given, display that message
+    retval=functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode
+  end  
+  return retval, three
 end
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SLEM</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>SLEM(optional integer dunk)</functioncall>
+  <functioncall>requested_error_message = SLEM(optional integer dunk, optional integer target, optional integer message_type)</functioncall>
   <description>
-    Displays the last error message in a messagebox, if existing and unread.
+    Displays the last error message in a messagebox, the ReaScript-Console, the clipboard, if error is existing and unread.
     
     Like ultraschall.ShowLastErrorMessage() but this is easier to type.
     Note: written without ultraschall. in the beginning!
   </description>
+  <retvals>
+    requested_error_message - the errormessage requested; 
+  </retvals>
   <parameters>
     optional integer dunk - allows to index the last x'ish message to be returned; nil or 0, the last one; 1, the one before the last one, etc.
+    optional integer target - the target, where the error-message shall be output to
+                            - 0 or nil, target is a message box
+                            - 1, target is the ReaScript-Console
+                            - 2, target is the clipboard
+                            - 3, target is a returned string
+    optional integer message_type - if target is set to 3, you can set, which part of the error-messageshall be returned as returnvalue
+                                  - nil or 1, returns true, if error has happened, false, if error didn't happen
+                                  - 2, returns the errcode
+                                  - 3, returns the functionname which caused the error
+                                  - 4, returns the parmname which caused the error
+                                  - 5, returns the errormessage
+                                  - 6, returns the lastreadtime
+                                  - 7, returns the err_creation_date
+                                  - 8, returns the err_creation_timestamp      
   </parameters>
   <chapter_context>
     Developer

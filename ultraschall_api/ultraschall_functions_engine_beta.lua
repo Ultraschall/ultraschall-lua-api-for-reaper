@@ -1530,6 +1530,10 @@ function ultraschall.GFX_DrawEmbossedSquare(x, y, w, h, rbg, gbg, bbg, r, g, b)
 end 
 
 function ultraschall.GetParmModulationTable(FXStateChunk, index)
+-- TODO: FX index muss noch hinzugefügt werden, weil ParmMods per FX abgespeichert werden, nicht per FXStateChunk global
+--       das heißt, ParmMods für FX1 werden auch unter FX1 abgespeichert und nicht unter FX2
+--       WAK ist dabei der Separator, den ich dafür nutzen muss
+
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetParmModulationTable</slug>
@@ -1632,14 +1636,14 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
                                                                0
                                                           When Pitch:
                                                                0
-
+                ParamModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
                 ParamModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
                                                             nil, unchanged; 0, unopened; 1, open
                 ParamModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
                 ParamModTable["WINDOW_YPOS"]            - the y-position of the altered ParmMod-window in pixels; nil, default position
-                ParamModTable["WINDOW_RIGHT_READONLY"]  - the right-position of the altered ParmMod-window in pixels; 
+                ParamModTable["WINDOW_RIGHT"]  - the right-position of the altered ParmMod-window in pixels; 
                                                             nil, default position; only readable
-                ParamModTable["WINDOW_BOTTOM_READONLY"] - the bottom-position of the altered ParmMod-window in pixels; 
+                ParamModTable["WINDOW_BOTTOM"] - the bottom-position of the altered ParmMod-window in pixels; 
                                                             nil, default position; only readable
     </code></pre>
     returns nil in case of an error
@@ -1682,10 +1686,11 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
     ParmModTable["PARAM_NR"]=tonumber(ParmModTable["PARAM_NR"])
     ParmModTable["PARAM_TYPE"]=""
   else
-    ParmModTable["PARAM_TYPE"]=ParmModTable["PARAM_NR"]:match(":(.*)")
+    ParmModTable["PARAM_TYPE"]=ParmModTable["PARAM_NR"]:match(":(.*)") -- removes the : separator
     ParmModTable["PARAM_NR"]=tonumber(ParmModTable["PARAM_NR"]:match("(.-):"))
   end
-  ParmModTable["PARAM_NR"]=ParmModTable["PARAM_NR"]+1
+  ParmModTable["PARAM_NR"]=ParmModTable["PARAM_NR"]+1 -- add one to the paramnr(compared to the statechunk) so the 
+                                                      -- number matches the shown fx-number in the ui of Reaper
   ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"]=tonumber(ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"])==0
 
   -- PARAMBASE
@@ -1735,7 +1740,7 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
   ParmModTable["MIDIPLINK_MIDICATEGORY"],
   ParmModTable["MIDIPLINK_MIDINOTE"]
   =found:match("MIDIPLINK (.-) (.-) (.-) (.-) ")
-  ParmModTable["MIDIPLINK_BUS"]=tonumber(ParmModTable["MIDIPLINK_BUS"])
+  if ParmModTable["MIDIPLINK_BUS"]~=nil then ParmModTable["MIDIPLINK_BUS"]=tonumber(ParmModTable["MIDIPLINK_BUS"])+1 end -- add 1 to match the bus-number shown in Reaper's UI
   ParmModTable["MIDIPLINK_CHANNEL"]=tonumber(ParmModTable["MIDIPLINK_CHANNEL"])
   ParmModTable["MIDIPLINK_MIDICATEGORY"]=tonumber(ParmModTable["MIDIPLINK_MIDICATEGORY"])
   ParmModTable["MIDIPLINK_MIDINOTE"]=tonumber(ParmModTable["MIDIPLINK_MIDINOTE"])
@@ -1785,17 +1790,186 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
   ParmModTable["WINDOW_ALTEREDOPEN"], 
   ParmModTable["WINDOW_XPOS"],
   ParmModTable["WINDOW_YPOS"],
-  ParmModTable["WINDOW_RIGHT_READONLY"],
-  ParmModTable["WINDOW_BOTTOM_READONLY"]
+  ParmModTable["WINDOW_RIGHT"],
+  ParmModTable["WINDOW_BOTTOM"]
   =found:match("MODWND (.-) (.-) (.-) (.-) (.-) ")
+  if ParmModTable["WINDOW_ALTEREDOPEN"]==nil then ParmModTable["WINDOW_ALTERED"]=false else ParmModTable["WINDOW_ALTERED"]=true end
   ParmModTable["WINDOW_ALTEREDOPEN"]=tonumber(ParmModTable["WINDOW_ALTEREDOPEN"])==1
   ParmModTable["WINDOW_XPOS"]  =tonumber(ParmModTable["WINDOW_XPOS"])
   ParmModTable["WINDOW_YPOS"]  =tonumber(ParmModTable["WINDOW_YPOS"])
   ParmModTable["WINDOW_RIGHT"] =tonumber(ParmModTable["WINDOW_RIGHT"])
-  ParmModTable["WINDOW_BOTTOM"]=tonumber(ParmModTable["WINDOW_BOTTOM"])
+  ParmModTable["WINDOW_BOTTOM"]=tonumber(ParmModTable["WINDOW_BOTTOM"])  
   
   return ParmModTable
 end
+
+function ultraschall.IsValidParmModTable(ParmModTable)
+  if ParmModTable==nil then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModTable", "Warning: empty ParmModTable. This will remove a parameter-modulation if applied.", -100) return true end
+  if type(ParmModTable)~="table" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModTable", "must be a table", -1) return false end
+  if type(ParmModTable["AUDIOCONTROL"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL must be boolean", -2 ) return false end
+  if math.type(ParmModTable["AUDIOCONTROL_ATTACK"])~=nil and math.type(ParmModTable["AUDIOCONTROL_ATTACK"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL_ATTACK must either nil or be integer", -3 ) return false end
+  if ParmModTable["AUDIOCONTROL_CHAN"]~=nil and math.type(ParmModTable["AUDIOCONTROL_CHAN"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL_CHAN must be either nil or integer", -4) return false end
+  if ParmModTable["AUDIOCONTROL_DIRECTION"]~=nil and math.type(ParmModTable["AUDIOCONTROL_DIRECTION"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL_DIRECTION must be either nil or an integer", -5 ) return false end
+  if ParmModTable["AUDIOCONTROL_MAXVOLUME"]~=nil and type(ParmModTable["AUDIOCONTROL_MAXVOLUME"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL_MAXVOLUME must be either nil or a number", -6 ) return false end
+  if ParmModTable["AUDIOCONTROL_MINVOLUME"]~=nil and type(ParmModTable["AUDIOCONTROL_MINVOLUME"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL MINVOLUME must be either nil or a number", -7 ) return false end
+  if ParmModTable["AUDIOCONTROL_RELEASE"]~=nil and math.type(ParmModTable["AUDIOCONTROL_RELEASE"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL_RELEASE must be either nil or an integer", -8 ) return false end
+  if ParmModTable["AUDIOCONTROL_STEREO"]~=nil and math.type(ParmModTable["AUDIOCONTROL_STEREO"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL_STEREO must be either nil or an integer", -9 ) return false end
+  if type(ParmModTable["AUDIOCONTROL_STRENGTH"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL_STRENGTH must be a number", -10 ) return false end
+  if type(ParmModTable["LFO"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO must be a boolean", -11 ) return false end
+  if math.type(ParmModTable["LFO_DIRECTION"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO_DIRECTION must be an integer", -12 ) return false end
+  if ParmModTable["LFO_PHASE"]~=nil and type(ParmModTable["LFO_PHASE"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO_PHASE must be either nil or a number", -13 ) return false end
+  if ParmModTable["LFO_PHASERESET"]~=nil and math.type(ParmModTable["LFO_PHASERESET"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO PHASERESET must be either nil or an integer", -14 ) return false end
+  if ParmModTable["LFO_SHAPE"]~=nil and math.type(ParmModTable["LFO_SHAPE"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO_SHAPE must be either nil or an integer", -15 ) return false end
+  if ParmModTable["LFO_SHAPEOLD"]~=nil and math.type(ParmModTable["LFO_SHAPEOLD"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO_SHAPEOLD must be either nil or an integer", -16 ) return false end
+  if ParmModTable["LFO_SPEED"]~=nil and type(ParmModTable["LFO_SPEED"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO_SPEED must be either nil or a number", -17 ) return false end
+  if type(ParmModTable["LFO_STRENGTH"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO_STRENGTH must be a number", -18 ) return false end
+  if type(ParmModTable["LFO_TEMPOSYNC"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO_TEMPOSYNC must be a boolean", -19 ) return false end
+  if type(ParmModTable["MIDIPLINK"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK must be a boolean", -20 ) return false end
+  if ParmModTable["MIDIPLINK_BUS"]~=nil and math.type(ParmModTable["MIDIPLINK_BUS"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK_BUS must be either nil or an integer", -21 ) return false end
+  if ParmModTable["MIDIPLINK_CHANNEL"]~=nil and math.type(ParmModTable["MIDIPLINK_CHANNEL"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK_CHANNEL must be either nil or an integer", -22 ) return false end
+  if ParmModTable["MIDIPLINK_MIDICATEGORY"]~=nil and math.type(ParmModTable["MIDIPLINK_MIDICATEGORY"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK_MIDICATEGORY must be either nil or an integer", -23 ) return false end
+  if ParmModTable["MIDIPLINK_MIDINOTE"]~=nil and math.type(ParmModTable["MIDIPLINK_MIDINOTE"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK_MIDINOTE must be either nil or an integer", -24 ) return false end
+  if math.type(ParmModTable["PARAM_NR"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARAM_NR must be an integer", -25 ) return false end
+  if type(ParmModTable["PARAM_TYPE"])~="string" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARAM_TYPE must be wet or bypass or empty string", -26 ) return false end
+  if type(ParmModTable["PARAMOD_BASELINE"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARAMOD_BASELINE must be a number", -27 ) return false end
+  if type(ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARAMOD_ENABLE_PARAMETER_MODULATION must be boolean", -28 ) return false end
+  if type(ParmModTable["PARMLINK"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK must be a boolean", -29 ) return false end
+  if ParmModTable["PARMLINK_LINKEDPARMIDX"]~=nil and math.type(ParmModTable["PARMLINK_LINKEDPARMIDX"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK_LINKEDPARMIDX must be either nil or an integer", -30 ) return false end
+  if ParmModTable["PARMLINK_LINKEDPLUGIN"]~=nil and math.type(ParmModTable["PARMLINK_LINKEDPLUGIN"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK_LINKEDPLUGIN must be either nil or an integer", -31 ) return false end
+  if ParmModTable["PARMLINK_OFFSET"]~=nil and type(ParmModTable["PARMLINK_OFFSET"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK_OFFSET must be either nil or a number", -32 ) return false end
+  if ParmModTable["PARMLINK_SCALE"]~=nil and type(ParmModTable["PARMLINK_SCALE"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK_SCALE must be either nil or a number", -33 ) return false end
+  if type(ParmModTable["WINDOW_ALTERED"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_ALTERED must be boolean", -34 ) return false end
+  if ParmModTable["WINDOW_ALTEREDOPEN"]~=nil and type(ParmModTable["WINDOW_ALTEREDOPEN"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_ALTEREDOPEN must be either nil or a boolean", -35 ) return false end
+  if ParmModTable["WINDOW_BOTTOM"]~=nil and math.type(ParmModTable["WINDOW_BOTTOM"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_BOTTOM must be either nil or an integer", -36 ) return false end
+  if ParmModTable["WINDOW_RIGHT"]~=nil and math.type(ParmModTable["WINDOW_RIGHT"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_RIGHT must be either nil or an integer", -37 ) return false end
+  if ParmModTable["WINDOW_XPOS"]~=nil and math.type(ParmModTable["WINDOW_XPOS"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_XPOS must be either nil or an integer", -38 ) return false end
+  if ParmModTable["WINDOW_YPOS"]~=nil and math.type(ParmModTable["WINDOW_YPOS"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_YPOS must be either nil or an integer", -39 ) return false end
+  if ParmModTable["X2"]~=nil and type(ParmModTable["X2"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry X2 must be either nil or a number", -40 ) return false end
+  if ParmModTable["Y2"]~=nil and type(ParmModTable["Y2"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry Y2 must be either nil or a number", -41 ) return false end
+  return true
+end
+
+function ultraschall.SetParmModulationTable(FXStateChunk, idx, ParmModTable)
+-- TODO: FX index muss noch hinzugefügt werden, weil ParmMods per FX abgespeichert werden, nicht per FXStateChunk global
+--       das heißt, ParmMods für FX1 werden auch unter FX1 abgespeichert und nicht unter FX2
+--       WAK ist dabei der Separator, den ich dafür nutzen muss
+-- todo: docs
+  if ultraschall.IsValidParmModTable(ParmModTable)==false then ultraschall.AddErrorMessage("SetParmModulationTable", "ParmModTable", SLEM(nil, 3, 5), -1) return false end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmModulationTable", "FXStateChunk", "must be a valid FXStateChunk", -2) return false end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetParmModulationTable", "idx", "must be an integer", -3) return false end
+  local NewParmModTable=""
+  if ParmModTable~=nil and (ParmModTable["PARMLINK"]==true or ParmModTable["LFO"]==true or ParmModTable["AUDIOCONTROL"]==true) then
+    local Sep=""
+    local LFO, AudioControl, LinkedPlugin, offset, ParmModEnable, LFOTempoSync, WindowAlteredOpen
+    if ParmModTable["PARAM_TYPE"]~="" then Sep=":" end
+    if ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"]==true then ParmModEnable=0 else ParmModEnable=1 end
+    if ParmModTable["LFO"]==true then LFO=1 else LFO=0 end
+    if ParmModTable["AUDIOCONTROL"]==true then AudioControl=1 else AudioControl=0 end
+    
+    NewParmModTable=
+    " <PROGRAMENV "..(tonumber(ParmModTable["PARAM_NR"])-1)..Sep..ParmModTable["PARAM_TYPE"].." "..ParmModEnable.."\n"..
+    "      PARAMBASE " ..ParmModTable["PARAMOD_BASELINE"].."\n"..
+    "      LFO "       ..LFO.."\n"..
+    "      LFOWT "     ..ParmModTable["LFO_STRENGTH"].." "..ParmModTable["LFO_DIRECTION"].."\n"..
+    "      AUDIOCTL "  ..AudioControl.."\n"..
+    "      AUDIOCTLWT "..ParmModTable["AUDIOCONTROL_STRENGTH"].." "..ParmModTable["AUDIOCONTROL_DIRECTION"].."\n"
+    
+    -- if ParameterLinking is enabled, then add this line
+    if ParmModTable["PARMLINK"]==true then 
+      if ParmModTable["PARMLINK_LINKEDPLUGIN"]>=0 then
+        LinkedPlugin=(ParmModTable["PARMLINK_LINKEDPLUGIN"]-1)..":"..(ParmModTable["PARMLINK_LINKEDPLUGIN"]-1)
+      else
+        LinkedPlugin=tostring(ParmModTable["PARMLINK_LINKEDPLUGIN"])
+      end
+      if ParmModTable["PARMLINK_LINKEDPARMIDX"]==-1 then offset=0 else offset=1 end
+      NewParmModTable=NewParmModTable..
+    "      PLINK "..ParmModTable["PARMLINK_SCALE"].." "..LinkedPlugin.." "..(ParmModTable["PARMLINK_LINKEDPARMIDX"]-offset).." "..ParmModTable["PARMLINK_OFFSET"].."\n"
+    
+      -- if midi-parameter is linked, then add this line
+      if ParmModTable["PARMLINK_LINKEDPLUGIN"]<-1 then
+        NewParmModTable=NewParmModTable.."      MIDIPLINK "..(ParmModTable["MIDIPLINK_BUS"]-1).." "..ParmModTable["MIDIPLINK_CHANNEL"].." "..ParmModTable["MIDIPLINK_MIDICATEGORY"].." "..ParmModTable["MIDIPLINK_MIDINOTE"].."\n"
+      end
+    end
+    
+    -- if LFO is turned on, add these lines
+    if ParmModTable["LFO"]==true then
+      if ParmModTable["LFO_TEMPOSYNC"]==true then LFOTempoSync=1 else LFOTempoSync=0 end
+      NewParmModTable=NewParmModTable..
+    "      LFOSHAPE "..ParmModTable["LFO_SHAPE"].."\n"..
+    "      LFOSYNC " ..LFOTempoSync.." "..ParmModTable["LFO_SHAPEOLD"].." "..ParmModTable["LFO_PHASERESET"].."\n"..
+    "      LFOSPEED "..ParmModTable["LFO_SPEED"].." "..ParmModTable["LFO_PHASE"].."\n"
+    end
+    
+    -- if Audio Control Signal(sidechain) is enabled, add these lines
+    if ParmModTable["AUDIOCONTROL"]==true then
+      NewParmModTable=NewParmModTable..
+    "      CHAN "  ..(ParmModTable["AUDIOCONTROL_CHAN"]-1).."\n"..
+    "      STEREO "..(ParmModTable["AUDIOCONTROL_STEREO"]).."\n"..
+    "      RMS "   ..(ParmModTable["AUDIOCONTROL_ATTACK"]).." "..(ParmModTable["AUDIOCONTROL_RELEASE"]).."\n"..
+    "      DBLO "  ..(ParmModTable["AUDIOCONTROL_MINVOLUME"]).."\n"..
+    "      DBHI "  ..(ParmModTable["AUDIOCONTROL_MAXVOLUME"]).."\n"..
+    "      X2 "    ..(ParmModTable["X2"]).."\n"..
+    "      Y2 "    ..(ParmModTable["Y2"]).."\n"
+    end
+    
+    -- if the window shall be modified, add these lines
+    if ParmModTable["WINDOW_ALTERED"]==true then
+      if ParmModTable["WINDOW_ALTEREDOPEN"]==true then 
+        WindowAlteredOpen=1
+      else
+        WindowAlteredOpen=0
+      end
+      
+      NewParmModTable=NewParmModTable..
+    "      MODWND "..WindowAlteredOpen.." "..ParmModTable["WINDOW_XPOS"].." "..ParmModTable["WINDOW_YPOS"].." "..ParmModTable["WINDOW_RIGHT"].." "..ParmModTable["WINDOW_BOTTOM"].."\n"
+    end
+    
+    NewParmModTable=NewParmModTable.."    >\n"
+  end
+  local index=0
+
+  for k,v in string.gmatch(FXStateChunk, "()  <PROGRAMENV.-\n%s->\n()") do
+    index=index+1
+    if index==idx then
+      FXStateChunk=FXStateChunk:sub(1,k)..NewParmModTable..FXStateChunk:sub(v,-1)
+      break
+    end
+  end
+  return FXStateChunk
+end
+
+function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, idx)
+-- TODO: FX index muss noch hinzugefügt werden, weil ParmMods per FX abgespeichert werden, nicht per FXStateChunk global
+--       das heißt, ParmMods für FX1 werden auch unter FX1 abgespeichert und nicht unter FX2
+--       WAK ist dabei der Separator, den ich dafür nutzen muss
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "idx", "must be an integer", -2) return nil end
+  if idx<1 then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "idx", "must be bigger than 0", -3) return nil end
+  local index=0
+  for k,v in string.gmatch(FXStateChunk, "()  <PROGRAMENV.-\n%s->()\n") do
+    index=index+1
+    if index==idx then
+      return FXStateChunk:sub(1,k)..""..FXStateChunk:sub(v,-1)
+    end
+  end
+  ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "idx", "no such parameter-modulation-entry found", -4)
+  return FXStateChunk
+end
+
+function ultraschall.CountParmModFromFXStateChunk(FXStateChunk)
+-- TODO: FX index muss noch hinzugefügt werden, weil ParmMods per FX abgespeichert werden, nicht per FXStateChunk global
+--       das heißt, ParmMods für FX1 werden auch unter FX1 abgespeichert und nicht unter FX2
+--       WAK ist dabei der Separator, den ich dafür nutzen muss
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return -1 end
+  local index=0
+  for k,v in string.gmatch(FXStateChunk, "()  <PROGRAMENV.-\n%s->()\n") do
+    index=index+1
+  end
+  return index
+end
+
+
+
 
 function ultraschall.IsAnyNamedEnvelopeVisible(name)
   --[[

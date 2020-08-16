@@ -2,11 +2,22 @@
         
     For 4.01.005:
         - Doku! Viel Doku!
-        - Lua-Refmanual Doku mit einbinden, weil ich das darf -> Lizenz angeben
-            - haben Linux und MacOS(speziell Catalina) curl?
-        - Lokasenna's GuiLib v2 & v3-Lizenz angeben
+            - Lokasenna's GuiLib v2 & v3-Lizenz angeben in Doku
+            - FXStateChunk-Management
+            - ParmModulation
+        -- ParmModulation
+            -- TODO: FX index muss noch hinzugefügt werden, weil ParmMods per FX abgespeichert werden, nicht per FXStateChunk global
+            --       das heißt, ParmMods für FX1 werden auch unter FX1 abgespeichert und nicht unter FX2
+            --       WAK ist dabei der Separator, den ich dafür nutzen muss
+           - AddParmModulation fehlt noch, richtet sich aber nach dem Management der FX. Sprich, wenn es für SetParmModulation programmiert ist,
+                        ist add relativ einfach zu managen
+        
+        
         - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
         - BatchConvertFiles - maybe finishing it up?
+        - Set Metadata from Project - still missing
+
+    -- later releases
         - IsTakeEnvelopeVisible(könnt knifflig werden)
         - IsItemVisible
         - Download files via Curl -> darf ich Curl mit ausliefern oder beisst sich das mit Lizenz? Auf Windows kann ich auch certutil nutzen.
@@ -25,9 +36,7 @@
               ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/Curl.Bat", BatchFile)
               os.execute(ultraschall.API_TempPath.."/Curl.Bat")
             end
-
-        - Set Metadata from Project - still missing
-        - SetParmMIDIPLink_FXStateChunk - still missing?
+              - haben Linux und MacOS(speziell Catalina) curl?
         - IsFileUsedInProject - check, if a file is used in the current project, could allow deleting it, though getting if it's part of projectbay could be the issue here
         - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
         - AddMediaItemStateChunk_in_TrackStateChunk
@@ -341,7 +350,12 @@ Has now 1215 functions, with 15 new ones
    - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder
 
 #### Changes from 4.1.004 to 4.1.005
+   - Docs: Lua Reference Manual - now added for Lua 5.3, so you have its manual right at hand
    - Docs: ParmLearn-docs - corrected information and added missing stuff
+   - Docs: Reaper; GetUserInputs - added information about how to pass over default-retvals and its limitations
+   - Error Messaging-System: ReadErrorMessage - allows now keeping error-message readstate as unread
+   - Error Messaging-System: ShowLastErrorMessage - additional parameters and retvals for more control of the output-target and messagetype returned
+   - Error Messaging-System: SLEM - additional parameters and retvals for more control of the output-target and messagetype returned
    - EventManager: Eventmanager mainscript - always executed the checks-functions before updating externally sent states which could lead to race-condition-problems -> fixed(thanks to rstockm)
    - File Management: CopyFile\_AddFileToQueue - basic check, if the target-file is the same as the source-file and throws an error in these cases
    - File Management: GetAllDirectoriesInPath - omitted folderseparator in returned folders, if it hasn't been passed into parameter path
