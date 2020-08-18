@@ -1938,22 +1938,57 @@ function ultraschall.SetParmModulationTable(FXStateChunk, idx, ParmModTable)
   return FXStateChunk
 end
 
-function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, idx)
--- TODO: FX index muss noch hinzugefügt werden, weil ParmMods per FX abgespeichert werden, nicht per FXStateChunk global
---       das heißt, ParmMods für FX1 werden auch unter FX1 abgespeichert und nicht unter FX2
---       WAK ist dabei der Separator, den ich dafür nutzen muss
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
-  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "idx", "must be an integer", -2) return nil end
-  if idx<1 then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "idx", "must be bigger than 0", -3) return nil end
+function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, fxindex, parmmodidx)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>DeleteParmModFromFXStateChunk</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>string altered_FXStateChunk, boolean altered = ultraschall.DeleteParmModFromFXStateChunk(string FXStateChunk, integer fxindex, integer parmmodidx)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      deletes a parameter-modulation of a specific fx from an FXStateChunk
+      
+      retval altered returns false in case of an error
+    </description>
+    <retvals>
+      string altered_FXStateChunk - the FXStateChunk, from which the 
+      boolean altered - true, deleting was successful; false, deleting was unsuccessful
+    </retvals>
+    <parameters>
+      string FXStateChunk - the FXStateChunk from which you want to delete a parameter-modulation of a specific fx
+      integer fxindex - the index of the fx, whose parameter-modulations you want to delete
+      integer parmmodidx - the parameter-modulation that you want to delete
+    </parameters>
+    <chapter_context>
+      FX-Management
+      Parameter Modulation
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+    <tags>fxmanagement, delete, parameter modulation, fxstatechunk</tags>
+  </US_DocBloc>
+  --]] 
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return FXStateChunk, false end
+  if math.type(parmmodidx)~="integer" then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmmodidx", "must be an integer", -2) return FXStateChunk, false end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "fxindex", "must be an integer", -3) return FXStateChunk, false end
+  if parmmodidx<1 then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmmodidx", "must be bigger than 0", -4) return FXStateChunk, false end
+  if fxindex<1 then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "fxindex", "must be bigger than 0", -5) return FXStateChunk, false end
   local index=0
-  for k,v in string.gmatch(FXStateChunk, "()  <PROGRAMENV.-\n%s->()\n") do
+  
+  local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+  
+  for k,v in string.gmatch(FX, "()%s-<PROGRAMENV.-\n%s->()\n") do
     index=index+1
-    if index==idx then
-      return FXStateChunk:sub(1,k)..""..FXStateChunk:sub(v,-1)
+    if index==parmmodidx then
+      FX=FX:sub(1,k-1)..""..FX:sub(v,-1).."\n"
+      return string.gsub(FXStateChunk:sub(1,StartOFS-1)..FX..FXStateChunk:sub(EndOFS,-1), "\n\n", "\n"), true
     end
   end
-  ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "idx", "no such parameter-modulation-entry found", -4)
-  return FXStateChunk
+  ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmmodidx", "no such parameter-modulation-entry found", -6)
+  return FXStateChunk, false
 end
 
 function ultraschall.CountParmModFromFXStateChunk(FXStateChunk, fxindex)
@@ -1980,7 +2015,7 @@ function ultraschall.CountParmModFromFXStateChunk(FXStateChunk, fxindex)
     </parameters>
     <chapter_context>
       FX-Management
-      Get States
+      Parameter Modulation
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>

@@ -864,6 +864,7 @@ function ultraschall.ShowLastErrorMessage(dunk, target, message_type)
   if dunk=="dunk" then three="Three points" end
   dunk=math.tointeger(dunk)
   if dunk==nil then dunk=0 end
+ 
   
   local CountErrMessage=ultraschall.CountErrorMessages()
   if CountErrMessage<=0 then return end

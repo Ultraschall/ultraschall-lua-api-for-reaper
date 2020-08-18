@@ -11,6 +11,9 @@
             --       WAK ist dabei der Separator, den ich dafür nutzen muss
            - AddParmModulation fehlt noch, richtet sich aber nach dem Management der FX. Sprich, wenn es für SetParmModulation programmiert ist,
                         ist add relativ einfach zu managen
+           - CreateDefaultParmModTable - liefert ne ParmModTable mit default-Einträgen, die Reaper immer setzt
+                                       - Checkboxen sind aber auf false gesetzt
+                                       - woher bekomme ich die default-position des parmmod-Fensters?
         
         
         - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
@@ -345,9 +348,10 @@ Has now 1215 functions, with 15 new ones
    - EnvelopeManagement: IsEnvelope\_Track - returns, if an envelope is a TrackEnvelope(true) or a TakeEnvelope(false)
    - EnvelopeManagement: IsTrackEnvelopeVisible\_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview
    - Examplescript: US\_Api\_Examples\_FileManager\_example\_showcasing\_background\_copying.lua - a simple file-manager which showcases background-copying
+   - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
+   - FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation(experimental)
    - FXManagement: GetFXStatesFromFXStateChunk - returns the lines from a FXStateChunk associated with a specific fx
-   - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - Helper Functions: ActionsList\_GetActions - returns all actions and shortcuts currently visible in the opened actionlist
    - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder
