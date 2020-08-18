@@ -340,17 +340,19 @@ Has now 1215 functions, with 15 new ones
     Bla
     
 #### New features in 4.1.005
+   - Docs: Lua Reference Manual - now added for Lua 5.3, so you have its manual right at hand
    - EnvelopeManagement: IsAnyNamedEnvelopeVisible - returns, if there's a specific named-envelope set to visible in any track
    - EnvelopeManagement: IsEnvelope\_Track - returns, if an envelope is a TrackEnvelope(true) or a TakeEnvelope(false)
    - EnvelopeManagement: IsTrackEnvelopeVisible\_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview
    - Examplescript: US\_Api\_Examples\_FileManager\_example\_showcasing\_background\_copying.lua - a simple file-manager which showcases background-copying
    - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation(experimental)
+   - FXManagement: GetFXStatesFromFXStateChunk - returns the lines from a FXStateChunk associated with a specific fx
+   - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - Helper Functions: ActionsList\_GetActions - returns all actions and shortcuts currently visible in the opened actionlist
    - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder
 
-#### Changes from 4.1.004 to 4.1.005
-   - Docs: Lua Reference Manual - now added for Lua 5.3, so you have its manual right at hand
+#### Changes from 4.1.004 to 4.1.005   
    - Docs: ParmLearn-docs - corrected information and added missing stuff
    - Docs: Reaper; GetUserInputs - added information about how to pass over default-retvals and its limitations
    - Error Messaging-System: ReadErrorMessage - allows now keeping error-message readstate as unread

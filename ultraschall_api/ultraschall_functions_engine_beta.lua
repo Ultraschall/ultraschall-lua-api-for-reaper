@@ -1956,19 +1956,98 @@ function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, idx)
   return FXStateChunk
 end
 
-function ultraschall.CountParmModFromFXStateChunk(FXStateChunk)
--- TODO: FX index muss noch hinzugefügt werden, weil ParmMods per FX abgespeichert werden, nicht per FXStateChunk global
---       das heißt, ParmMods für FX1 werden auch unter FX1 abgespeichert und nicht unter FX2
---       WAK ist dabei der Separator, den ich dafür nutzen muss
+function ultraschall.CountParmModFromFXStateChunk(FXStateChunk, fxindex)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>CountParmModFromFXStateChunk</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>integer number_of_parmmodulations = ultraschall.CountParmModFromFXStateChunk(string FXStateChunk, integer fxindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the number of parameter-modulations available for a specific fx in an FXStateChunk
+      
+      returns -1 in case of an error
+    </description>
+    <retvals>
+      integer number_of_parmmodulations - the number of parameter-modulations available for this fx within this FXStateChunk
+    </retvals>
+    <parameters>
+      string FXStateChunk - the FXStateChunk from which you want to count the parameter-modulations available for a specific fx
+      integer fxindex - the index of the fx, whose number of parameter-modulations you want to know
+    </parameters>
+    <chapter_context>
+      FX-Management
+      Get States
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+    <tags>fxmanagement, count, parameter modulation, fxstatechunk</tags>
+  </US_DocBloc>
+  --]] 
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return -1 end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "fxindex", "must be an integer", -2) return end
+  
   local index=0
-  for k,v in string.gmatch(FXStateChunk, "()  <PROGRAMENV.-\n%s->()\n") do
+
+  local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+  if FX==nil then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "fxindex", "no such fx", -3) return end
+  for k,v in string.gmatch(FX, "()  <PROGRAMENV.-\n%s->()\n") do
     index=index+1
   end
+
   return index
 end
 
-
+function ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetFXStatesFromFXStateChunk</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>string fx_lines, integer startoffset, integer endoffset = ultraschall.GetFXStatesFromFXStateChunk(string FXStateChunk, integer fxindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the statechunk-lines of fx with fxindex from an FXStateChunk
+      
+      It also returns the start and endoffset of these lines, so you can manipulate these lines and replace them in the
+      original FXStateChunk, by replacing the part between start and endoffset with your altered lines.
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      string fx_lines - the statechunk-lines associated with this fx
+      integer startoffset - the startoffset in bytes of these lines within the FXStateChunk
+      integer endoffset - the endoffset in bytes of these lines within the FXStateChunk
+    </retvals>
+    <parameters>
+      string FXStateChunk - the FXStateChunk from which you want to retrieve the fx's-lines
+      integer fxindex - the index of the fx, whose statechunk lines you want to retrieve; with 1 for the first
+    </parameters>
+    <chapter_context>
+      FX-Management
+      Get States
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+    <tags>fxmanagement, get, fxlines, fxstatechunk</tags>
+  </US_DocBloc>
+  --]] 
+  -- returns the individual fx-statechunk-lines and the start/endoffset of these lines within the FXStateChunk
+  -- so its easy to manipulate the stuff
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXStatesFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetFXStatesFromFXStateChunk", "fxindex", "must be an integer", -2) return end
+  local index=0
+  for a,b,c in string.gmatch(FXStateChunk, "()(%s-BYPASS.-\n.-WAK.-)\n()") do
+    index=index+1
+    if index==fxindex then return b,a,c end
+  end
+  return nil
+end
 
 
 function ultraschall.IsAnyNamedEnvelopeVisible(name)
