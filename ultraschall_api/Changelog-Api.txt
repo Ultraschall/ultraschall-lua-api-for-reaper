@@ -350,8 +350,9 @@ Has now 1215 functions, with 15 new ones
    - Examplescript: US\_Api\_Examples\_FileManager\_example\_showcasing\_background\_copying.lua - a simple file-manager which showcases background-copying
    - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
    - FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk
-   - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation(experimental)
+   - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation of an fx
    - FXManagement: GetFXStatesFromFXStateChunk - returns the lines from a FXStateChunk associated with a specific fx
+   - FXManagement: IsValidParmModTable - returns, if a table is a valid ParmModTable(used for altering Parameter-Modulations)
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - Helper Functions: ActionsList\_GetActions - returns all actions and shortcuts currently visible in the opened actionlist
    - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder

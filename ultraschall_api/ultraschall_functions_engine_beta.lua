@@ -1529,11 +1529,7 @@ function ultraschall.GFX_DrawEmbossedSquare(x, y, w, h, rbg, gbg, bbg, r, g, b)
   return true
 end 
 
-function ultraschall.GetParmModulationTable(FXStateChunk, index)
--- TODO: FX index muss noch hinzugefügt werden, weil ParmMods per FX abgespeichert werden, nicht per FXStateChunk global
---       das heißt, ParmMods für FX1 werden auch unter FX1 abgespeichert und nicht unter FX2
---       WAK ist dabei der Separator, den ich dafür nutzen muss
-
+function ultraschall.GetParmModulationTable(FXStateChunk, fxindex, parmodindex)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetParmModulationTable</slug>
@@ -1542,7 +1538,7 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>table ParmModulationTable = ultraschall.GetParmModulationTable(string FXStateChunk, integer index)</functioncall>
+  <functioncall>table ParmModulationTable = ultraschall.GetParmModulationTable(string FXStateChunk, integer fxindex, integer parmodindex)</functioncall>
   <description>
     Returns a table with all values of a specific Parameter-Modulation from an FXStateChunk.
   
@@ -1650,7 +1646,8 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
   </description>
   <parameters>
     string FXStateChunk - an FXStateChunk, of which you want to get the values of a specific parameter-modulation
-    integer index - the parameter-modulation, whose values you want to get; 1, for the first; 2, for the second, etc
+    integer fxindex - the index if the fx, of which you want to get specific parameter-modulation-values
+    integer parmodindex - the parameter-modulation, whose values you want to get; 1, for the first; 2, for the second, etc
   </parameters>
   <retvals>
     table ParmModulationTable - a table which holds all values of a specfic parameter-modulation
@@ -1666,16 +1663,22 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
 ]]
   if ultraschall.type(FXStateChunk)~="string" then ultraschall.AddErrorMessage("GetParmModulationTable", "FXStateChunk", "must be a string", -1) return nil end
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmModulationTable", "FXStateChunk", "must be a valid FXStateChunk", -2) return nil end
-  if ultraschall.type(index)~="number: integer" then ultraschall.AddErrorMessage("GetParmModulationTable", "index", "must be an integer", -3) return nil end
-  if index<1 then ultraschall.AddErrorMessage("GetParmModulationTable", "index", "must be bigger than 0", -4) return nil end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetParmModulationTable", "fxindex", "must be an integer", -3) return FXStateChunk, false end
+  if fxindex<1 then ultraschall.AddErrorMessage("GetParmModulationTable", "fxindex", "must be bigger than 0", -4) return FXStateChunk, false end
+  
+  if ultraschall.type(parmodindex)~="number: integer" then ultraschall.AddErrorMessage("GetParmModulationTable", "parmodindex", "must be an integer", -5) return nil end
+  if parmodindex<1 then ultraschall.AddErrorMessage("GetParmModulationTable", "parmodindex", "must be bigger than 0", -6) return nil end
   local count=0
   local found=""
   local ParmModTable={}
-  for k in string.gmatch(FXStateChunk, "\n    <PROGRAMENV.-\n    >") do
+  local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+  
+  if FX==nil then ultraschall.AddErrorMessage("GetParmModulationTable", "fxindex", "no such index", -7) return nil end
+  for k in string.gmatch(FX, "\n    <PROGRAMENV.-\n    >") do
     count=count+1
-    if count==index then found=k break end
+    if count==parmodindex then found=k break end
   end
-  if found=="" then ultraschall.AddErrorMessage("GetParmModulationTable", "index", "no such index", -5) return nil end
+  if found=="" then ultraschall.AddErrorMessage("GetParmModulationTable", "parmodindex", "no such index", -8) return nil end
   found=string.gsub(found, "\n", " \n")
   
 --  print_update(found)
@@ -1804,6 +1807,37 @@ function ultraschall.GetParmModulationTable(FXStateChunk, index)
 end
 
 function ultraschall.IsValidParmModTable(ParmModTable)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsValidParmModTable</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.IsValidParmModTable(table ParmModTable)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      checks, if a ParmModTable is a valid one
+      
+      Does not check, if the value-ranges are valid, only if the datatypes are correct!
+      
+      returns false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, ParmModTable is a valid one; false, ParmModTable has errors(use SLEM() to get which one)
+    </retvals>
+    <parameters>
+      table ParmModTable - the table to check, if it's a valid ParmModTable
+    </parameters>
+    <chapter_context>
+      FX-Management
+      Parameter Modulation
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+    <tags>fxmanagement, check, parameter modulation, parmmodtable</tags>
+  </US_DocBloc>
+  --]] 
   if ParmModTable==nil then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModTable", "Warning: empty ParmModTable. This will remove a parameter-modulation if applied.", -100) return true end
   if type(ParmModTable)~="table" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModTable", "must be a table", -1) return false end
   if type(ParmModTable["AUDIOCONTROL"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL must be boolean", -2 ) return false end
@@ -1975,7 +2009,7 @@ function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, fxindex, parmmo
   if math.type(parmmodidx)~="integer" then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmmodidx", "must be an integer", -2) return FXStateChunk, false end
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "fxindex", "must be an integer", -3) return FXStateChunk, false end
   if parmmodidx<1 then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmmodidx", "must be bigger than 0", -4) return FXStateChunk, false end
-  if fxindex<1 then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "fxindex", "must be bigger than 0", -5) return FXStateChunk, false end
+  
   local index=0
   
   local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
