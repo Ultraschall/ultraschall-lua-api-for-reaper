@@ -865,6 +865,9 @@ function ultraschall.ShowLastErrorMessage(dunk, target, message_type)
   dunk=math.tointeger(dunk)
   if dunk==nil then dunk=0 end
  
+  if target==nil then 
+    target=tonumber(reaper.GetExtState("ultraschall_api", "ShowLastErrorMessage_Target"))
+  end
   
   local CountErrMessage=ultraschall.CountErrorMessages()
   if CountErrMessage<=0 then return end
@@ -888,10 +891,10 @@ function ultraschall.ShowLastErrorMessage(dunk, target, message_type)
       if parmname~="" then 
         -- if error-causing-parameter was given, display this message
         parmname="param: "..parmname 
-        reaper.ShowConsoleMsg(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        reaper.ShowConsoleMsg("\n"..functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
       else
         -- if no error-causing-parameter was given, display that message
-        reaper.ShowConsoleMsg(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        reaper.ShowConsoleMsg("\n"..functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
       end
     elseif target==2 then
       if parmname~="" then 

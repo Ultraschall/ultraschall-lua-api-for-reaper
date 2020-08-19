@@ -6,14 +6,9 @@
             - FXStateChunk-Management
             - ParmModulation
         -- ParmModulation
-            -- TODO: FX index muss noch hinzugefügt werden, weil ParmMods per FX abgespeichert werden, nicht per FXStateChunk global
-            --       das heißt, ParmMods für FX1 werden auch unter FX1 abgespeichert und nicht unter FX2
-            --       WAK ist dabei der Separator, den ich dafür nutzen muss
-           - AddParmModulation fehlt noch, richtet sich aber nach dem Management der FX. Sprich, wenn es für SetParmModulation programmiert ist,
-                        ist add relativ einfach zu managen
-           - CreateDefaultParmModTable - liefert ne ParmModTable mit default-Einträgen, die Reaper immer setzt
-                                       - Checkboxen sind aber auf false gesetzt
-                                       - woher bekomme ich die default-position des parmmod-Fensters?
+            Add/SetParmModulation
+              -- still buggy, try to set LFO=true, which will remove the entire ParmMod
+              -- needs error-messages, when LFO==true but the other relevant settings are set still to nil
         
         
         - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
@@ -348,11 +343,14 @@ Has now 1215 functions, with 15 new ones
    - EnvelopeManagement: IsEnvelope\_Track - returns, if an envelope is a TrackEnvelope(true) or a TakeEnvelope(false)
    - EnvelopeManagement: IsTrackEnvelopeVisible\_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview
    - Examplescript: US\_Api\_Examples\_FileManager\_example\_showcasing\_background\_copying.lua - a simple file-manager which showcases background-copying
+   - FXManagement: AddParmModulationTable - adds a new parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
+   - FXManagement: CreateDefaultParmModTable - creates a ParameterModulationTable which holds Reaper's default values and can be altered
    - FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation of an fx
    - FXManagement: GetFXStatesFromFXStateChunk - returns the lines from a FXStateChunk associated with a specific fx
    - FXManagement: IsValidParmModTable - returns, if a table is a valid ParmModTable(used for altering Parameter-Modulations)
+   - FXManagement: SetParmModulationTable - sets a parameter-modulation of an fx in an FXStateChunk
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - Helper Functions: ActionsList\_GetActions - returns all actions and shortcuts currently visible in the opened actionlist
    - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder
@@ -368,6 +366,7 @@ Has now 1215 functions, with 15 new ones
    - File Management: GetAllDirectoriesInPath - omitted folderseparator in returned folders, if it hasn't been passed into parameter path
    - File Management: CopyFile\_GetRemainingFilesToCopy - returned the wrong number of remaining files -> fixed
    - Helper Functions: ActionsList\_GetSelectedActions - returns now the shortcuts of the selected actions as well
+   - TrackManagement: SetTrackStateChunk\_Tracknumber - had inner variable exposed -> fixed
 
 ---
 

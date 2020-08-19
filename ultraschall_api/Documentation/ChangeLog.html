@@ -54,11 +54,14 @@ Bla</li>
 <li>EnvelopeManagement: IsEnvelope_Track - returns, if an envelope is a TrackEnvelope(true) or a TakeEnvelope(false)</li>
 <li>EnvelopeManagement: IsTrackEnvelopeVisible_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview</li>
 <li>Examplescript: US_Api_Examples_FileManager_example_showcasing_background_copying.lua - a simple file-manager which showcases background-copying</li>
+<li>FXManagement: AddParmModulationTable - adds a new parameter-modulation of a specific FX in an FXStateChunk</li>
 <li>FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk</li>
+<li>FXManagement: CreateDefaultParmModTable - creates a ParameterModulationTable which holds Reaper's default values and can be altered</li>
 <li>FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk</li>
 <li>FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation of an fx</li>
 <li>FXManagement: GetFXStatesFromFXStateChunk - returns the lines from a FXStateChunk associated with a specific fx</li>
 <li>FXManagement: IsValidParmModTable - returns, if a table is a valid ParmModTable(used for altering Parameter-Modulations)</li>
+<li>FXManagement: SetParmModulationTable - sets a parameter-modulation of an fx in an FXStateChunk</li>
 <li>GFX-Management: GFX_DrawEmbossedSquare - draws an embossed square with optional background</li>
 <li>Helper Functions: ActionsList_GetActions - returns all actions and shortcuts currently visible in the opened actionlist</li>
 <li>Misc: Launchpad_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder</li>
@@ -75,6 +78,7 @@ Bla</li>
 <li>File Management: GetAllDirectoriesInPath - omitted folderseparator in returned folders, if it hasn't been passed into parameter path</li>
 <li>File Management: CopyFile_GetRemainingFilesToCopy - returned the wrong number of remaining files -&gt; fixed</li>
 <li>Helper Functions: ActionsList_GetSelectedActions - returns now the shortcuts of the selected actions as well</li>
+<li>TrackManagement: SetTrackStateChunk_Tracknumber - had inner variable exposed -&gt; fixed</li>
 </ul>
 <hr />
 <h3>4.1.004 - "I, E.T." - 21st of July 2020</h3>
