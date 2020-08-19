@@ -1554,6 +1554,7 @@ function ultraschall.GetParmModulationTable(FXStateChunk, fxindex, parmodindex)
                                                             0.000 to 1.000
 
                 ParamModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                                                            Note: if true, this needs all AUDIOCONTROL_-entries to be set
                 ParamModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
                                                           nil, if not available
                 ParamModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
@@ -1568,6 +1569,7 @@ function ultraschall.GetParmModulationTable(FXStateChunk, fxindex, parmodindex)
                 ParamModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
 
                 ParamModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
+                                                            Note: if true, this needs all LFO_-entries to be set
                 ParamModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
                                                             0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
                                                             nil, if not available
@@ -1601,7 +1603,8 @@ function ultraschall.GetParmModulationTable(FXStateChunk, fxindex, parmodindex)
                 ParamModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
                 ParamModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
 
-
+                ParamModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
+                                                            Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
                 ParamModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
                                                             0 to 15 for bus 1 to 16; 
                                                             nil, if not available
@@ -1633,6 +1636,7 @@ function ultraschall.GetParmModulationTable(FXStateChunk, fxindex, parmodindex)
                                                           When Pitch:
                                                                0
                 ParamModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
+                                                            Note: if true, this needs all WINDOW_-entries to be set
                 ParamModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
                                                             nil, unchanged; 0, unopened; 1, open
                 ParamModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
@@ -1661,13 +1665,13 @@ function ultraschall.GetParmModulationTable(FXStateChunk, fxindex, parmodindex)
   <tags>fxmanagement, get, parameter modulation, table, all values</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.type(FXStateChunk)~="string" then ultraschall.AddErrorMessage("GetParmModulationTable", "FXStateChunk", "must be a string", -1) return nil end
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmModulationTable", "FXStateChunk", "must be a valid FXStateChunk", -2) return nil end
-  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetParmModulationTable", "fxindex", "must be an integer", -3) return FXStateChunk, false end
-  if fxindex<1 then ultraschall.AddErrorMessage("GetParmModulationTable", "fxindex", "must be bigger than 0", -4) return FXStateChunk, false end
+  if ultraschall.type(FXStateChunk)~="string" then ultraschall.AddErrorMessage("GetParmModulationTable", "FXStateChunk", "must be a string", -1) return end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmModulationTable", "FXStateChunk", "must be a valid FXStateChunk", -2) return end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetParmModulationTable", "fxindex", "must be an integer", -3) return end
+  if fxindex<1 then ultraschall.AddErrorMessage("GetParmModulationTable", "fxindex", "must be bigger than 0", -4) return end
   
-  if ultraschall.type(parmodindex)~="number: integer" then ultraschall.AddErrorMessage("GetParmModulationTable", "parmodindex", "must be an integer", -5) return nil end
-  if parmodindex<1 then ultraschall.AddErrorMessage("GetParmModulationTable", "parmodindex", "must be bigger than 0", -6) return nil end
+  if ultraschall.type(parmodindex)~="number: integer" then ultraschall.AddErrorMessage("GetParmModulationTable", "parmodindex", "must be an integer", -5) return end
+  if parmodindex<1 then ultraschall.AddErrorMessage("GetParmModulationTable", "parmodindex", "must be bigger than 0", -6) return end
   local count=0
   local found=""
   local ParmModTable={}
@@ -1840,6 +1844,7 @@ function ultraschall.CreateDefaultParmModTable()
                                                                   0.000 to 1.000
       
                       ParamModTable["AUDIOCONTROL"]=false           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                                                                        Note: if true, this needs all AUDIOCONTROL_-entries to be set                      
                       ParamModTable["AUDIOCONTROL_CHAN"]=0          - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
                                                                       nil, if not available
                       ParamModTable["AUDIOCONTROL_STEREO"]=0        - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
@@ -1854,9 +1859,10 @@ function ultraschall.CreateDefaultParmModTable()
                       ParamModTable["AUDIOCONTROL_DIRECTION"]=1     - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
       
                       ParamModTable["LFO"]=false                    - if the LFO-checkbox checked; true, checked; false, unchecked
+                                                                       Note: if true, this needs all LFO_-entries to be set
                       ParamModTable["LFO_SHAPE"]=0                  - the LFO Shape-dropdownlist; 
-                                                                      0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
-                                                                      nil, if not available
+                                                                       0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
+                                                                       nil, if not available
                       ParamModTable["LFO_SHAPEOLD"]=0              - use the old-style of the LFO_SHAPE; 
                                                                       0, use current style of LFO_SHAPE; 
                                                                       1, use old style of LFO_SHAPE; 
@@ -1888,12 +1894,15 @@ function ultraschall.CreateDefaultParmModTable()
                       ParamModTable["PARMLINK_SCALE"]=1            - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
       
       
+                      ParamModTable["MIDIPLINK"]=false             - true, if any parameter-linking with MIDI-stuff; false, if not
+                                                                     Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
                       ParamModTable["MIDIPLINK_BUS"]=nil           - the MIDI-bus selected in the button-menu; 
                                                                       0 to 15 for bus 1 to 16; 
                                                                       nil, if not available
                       ParamModTable["MIDIPLINK_CHANNEL"]=nil       - the MIDI-channel selected in the button-menu; 
                                                                       0, omni; 1 to 16 for channel 1 to 16; 
                                                                       nil, if not available
+                                                                     
                       ParamModTable["MIDIPLINK_MIDICATEGORY"]=nil  - the MIDI_Category selected in the button-menu; nil, if not available
                                                                       144, MIDI note
                                                                       160, Aftertouch
@@ -1919,6 +1928,7 @@ function ultraschall.CreateDefaultParmModTable()
                                                                       When Pitch:
                                                                          0
                       ParamModTable["WINDOW_ALTERED"]=false         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
+                                                                        Note: if true, this needs all WINDOW_-entries to be set
                       ParamModTable["WINDOW_ALTEREDOPEN"]=true      - if the position of the ParmMod-window is altered and currently open; 
                                                                        nil, unchanged; 0, unopened; 1, open
                       ParamModTable["WINDOW_XPOS"]=0                - the x-position of the altered ParmMod-window in pixels; nil, default position
@@ -1946,7 +1956,7 @@ function ultraschall.CreateDefaultParmModTable()
   </US_DocBloc>
   --]] 
   
-  ParmModTable={}
+  local ParmModTable={}
   ParmModTable["AUDIOCONTROL_RELEASE"]=300
   ParmModTable["PARMLINK_LINKEDPLUGIN"]=-1
   ParmModTable["LFO_STRENGTH"]=1
@@ -2019,8 +2029,11 @@ function ultraschall.IsValidParmModTable(ParmModTable)
     <tags>fxmanagement, check, parameter modulation, parmmodtable</tags>
   </US_DocBloc>
   --]] 
+  -- check if table is valid in the first place
   if ParmModTable==nil then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModTable", "Warning: empty ParmModTable. This will remove a parameter-modulation if applied.", -100) return true end
   if type(ParmModTable)~="table" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModTable", "must be a table", -1) return false end
+  
+  -- check, if the contents of the table have valid datatypes
   if type(ParmModTable["AUDIOCONTROL"])~="boolean" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL must be boolean", -2 ) return false end
   if math.type(ParmModTable["AUDIOCONTROL_ATTACK"])~=nil and math.type(ParmModTable["AUDIOCONTROL_ATTACK"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL_ATTACK must either nil or be integer", -3 ) return false end
   if ParmModTable["AUDIOCONTROL_CHAN"]~=nil and math.type(ParmModTable["AUDIOCONTROL_CHAN"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL_CHAN must be either nil or integer", -4) return false end
@@ -2061,6 +2074,58 @@ function ultraschall.IsValidParmModTable(ParmModTable)
   if ParmModTable["WINDOW_YPOS"]~=nil and math.type(ParmModTable["WINDOW_YPOS"])~="integer" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_YPOS must be either nil or an integer", -39 ) return false end
   if ParmModTable["X2"]~=nil and type(ParmModTable["X2"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry X2 must be either nil or a number", -40 ) return false end
   if ParmModTable["Y2"]~=nil and type(ParmModTable["Y2"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry Y2 must be either nil or a number", -41 ) return false end
+  
+  -- check, if certain combinations are valid, like LFO-checkbox=true but some LFO-settings are still set to nil
+  if ParmModTable["PARMLINK"]==true and
+    (ParmModTable["PARMLINK_LINKEDPARMIDX"]==nil or
+     ParmModTable["PARMLINK_LINKEDPLUGIN"]==nil or
+     ParmModTable["PARMLINK_OFFSET"]==nil or
+     ParmModTable["PARMLINK_SCALE"]==nil) then
+     ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK=true but there are PARMLINK_-entries still set to nil", -42 ) return false
+  end
+
+  if ParmModTable["MIDIPLINK"]==true and
+    (ParmModTable["MIDIPLINK_BUS"]==nil or
+     ParmModTable["MIDIPLINK_CHANNEL"]==nil or
+     ParmModTable["MIDIPLINK_MIDICATEGORY"]==nil or
+     ParmModTable["MIDIPLINK_MIDINOTE"]==nil) then
+     if ParmModTable["PARMLINK_LINKEDPLUGIN"]~=-100 then
+        ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK=true but PARMLINK_LINKEDPLUGIN is not set to -100", -43 ) return false
+     end
+     ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK=true but there are MIDIPLINK_-entries still set to nil", -44 ) return false
+  end
+
+  if ParmModTable["LFO"]==true and
+    (ParmModTable["LFO_PHASE"]==nil or
+     ParmModTable["LFO_PHASERESET"]==nil or
+     ParmModTable["LFO_SHAPE"]==nil or
+     ParmModTable["LFO_SHAPEOLD"]==nil or
+     ParmModTable["LFO_SPEED"]==nil) then
+     ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO=true but there are LFO_-entries still set to nil", -45 ) return false
+  end
+  
+  if ParmModTable["WINDOW_ALTERED"]==true and
+      (ParmModTable["WINDOW_ALTEREDOPEN"]==nil or
+       ParmModTable["WINDOW_BOTTOM"]==nil or
+       ParmModTable["WINDOW_RIGHT"]==nil or
+       ParmModTable["WINDOW_XPOS"]==nil or
+       ParmModTable["WINDOW_YPOS"]==nil) then
+       ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_ALTERED=true but there are WINDOW_-entries still set to nil", -46 ) return false
+  end
+
+  if ParmModTable["AUDIOCONTROL"]==true and
+      (ParmModTable["AUDIOCONTROL_ATTACK"]==nil or
+       ParmModTable["AUDIOCONTROL_CHAN"]==nil or
+       ParmModTable["AUDIOCONTROL_MAXVOLUME"]==nil or
+       ParmModTable["AUDIOCONTROL_MINVOLUME"]==nil or
+       ParmModTable["AUDIOCONTROL_RELEASE"]==nil or 
+       ParmModTable["AUDIOCONTROL_STEREO"]==nil) then
+       ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL=true but there are AUDIOCONTROL_-entries still set to nil", -47 ) return false
+  end
+  
+  if ParmModTable["MIDIPLINK"]==false and ParmModTable["PARMLINK_LINKEDPLUGIN"]==-100 then
+    ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK_LINKEDPLUGIN=-100(linked plugin is MIDI) but MIDIPLINK(selected MIDI-plugin) is set to false", -48 ) return false
+  end
   return true
 end
 
@@ -2092,6 +2157,7 @@ function ultraschall.AddParmModulationTable(FXStateChunk, fxindex, ParmModTable)
                                                             0.000 to 1.000
 
                 ParamModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                                                            Note: if true, this needs all AUDIOCONTROL_-entries to be set                
                 ParamModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
                                                           nil, if not available
                 ParamModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
@@ -2106,6 +2172,7 @@ function ultraschall.AddParmModulationTable(FXStateChunk, fxindex, ParmModTable)
                 ParamModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
 
                 ParamModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
+                                                            Note: if true, this needs all LFO_-entries to be set
                 ParamModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
                                                             0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
                                                             nil, if not available
@@ -2122,7 +2189,9 @@ function ultraschall.AddParmModulationTable(FXStateChunk, fxindex, ParmModTable)
                                                             0, On seek/loop(deterministic output)
                                                             1, Free-running(non-deterministic output)
                                                             nil, if not available
-
+                
+                ParamModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
+                                                            Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
                 ParamModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
                                                           true, checked; false, unchecked
                 ParamModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
@@ -2139,7 +2208,8 @@ function ultraschall.AddParmModulationTable(FXStateChunk, fxindex, ParmModTable)
                 ParamModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
                 ParamModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
 
-
+                ParamModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
+                                                            Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
                 ParamModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
                                                             0 to 15 for bus 1 to 16; 
                                                             nil, if not available
@@ -2171,6 +2241,7 @@ function ultraschall.AddParmModulationTable(FXStateChunk, fxindex, ParmModTable)
                                                           When Pitch:
                                                                0
                 ParamModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
+                                                            Note: if true, this needs all WINDOW_-entries to be set
                 ParamModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
                                                             nil, unchanged; 0, unopened; 1, open
                 ParamModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
@@ -2315,6 +2386,7 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
                                                             0.000 to 1.000
 
                 ParamModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                                                            Note: if true, this needs all AUDIOCONTROL_-entries to be set
                 ParamModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
                                                           nil, if not available
                 ParamModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
@@ -2329,6 +2401,7 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
                 ParamModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
 
                 ParamModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
+                                                            Note: if true, this needs all LFO_-entries to be set
                 ParamModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
                                                             0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
                                                             nil, if not available
@@ -2362,7 +2435,8 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
                 ParamModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
                 ParamModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
 
-
+                ParamModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
+                                                            Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
                 ParamModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
                                                             0 to 15 for bus 1 to 16; 
                                                             nil, if not available
@@ -2394,6 +2468,7 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
                                                           When Pitch:
                                                                0
                 ParamModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
+                                                            Note: if true, this needs all WINDOW_-entries to be set
                 ParamModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
                                                             nil, unchanged; 0, unopened; 1, open
                 ParamModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
@@ -2435,7 +2510,10 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
   if fxindex<1 then ultraschall.AddErrorMessage("SetParmModulationTable", "fxindex", "must be bigger than 0", -6) return FXStateChunk end
     
   local NewParmModTable=""
+  
   if ParmModTable~=nil and (ParmModTable["PARMLINK"]==true or ParmModTable["LFO"]==true or ParmModTable["AUDIOCONTROL"]==true) then
+    
+    
     local Sep=""
     local LFO, AudioControl, LinkedPlugin, offset, ParmModEnable, LFOTempoSync, WindowAlteredOpen
     if ParmModTable["PARAM_TYPE"]~="" then Sep=":" end
@@ -2508,13 +2586,15 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
   local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
   
 
-  for k,v in string.gmatch(FX, "()  <PROGRAMENV.-\n%s->\n()") do
+  for k,v in string.gmatch(FX, "()  <PROGRAMENV.-\n%s->()\n") do
     cindex=cindex+1
     if cindex==parmodindex then
       FX=FX:sub(1,k)..NewParmModTable..FX:sub(v,-1)
       break
-    end
+    end    
   end
+  
+  FX=string.gsub(FX, "\n%s-\n", "\n")
 
   return string.gsub(FXStateChunk:sub(1,StartOFS)..FX.."\n"..FXStateChunk:sub(EndOFS, -1), "\n\n", "\n")
 end

@@ -891,10 +891,10 @@ function ultraschall.ShowLastErrorMessage(dunk, target, message_type)
       if parmname~="" then 
         -- if error-causing-parameter was given, display this message
         parmname="param: "..parmname 
-        reaper.ShowConsoleMsg("\n"..functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        reaper.ShowConsoleMsg("\n\nErrortime: "..os.date().."\n"..functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
       else
         -- if no error-causing-parameter was given, display that message
-        reaper.ShowConsoleMsg("\n"..functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        reaper.ShowConsoleMsg("\n\nErrortime: "..os.date().."\n"..functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
       end
     elseif target==2 then
       if parmname~="" then 
