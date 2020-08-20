@@ -9,12 +9,12 @@
             Add/SetParmModulation
               -- CreateDefaultParmModTable() - allow passing a ParmModTable, and this function will set all missing values to the default ones
                                              - returns an error, if the resulting table is an invalid one(?)
-                                             
+              -- Create ParmModulaionStateChunkFromParmModTable() - needed
               
-              -- still buggy, try to set LFO=true, which will remove the entire ParmMod
-              -- values set to nil must be set with the values from CreateDefaultParmModTable(), when AUDIOCONTROL, PARMLINK or LFO are set to true
+              -- (solved?)still buggy, try to set LFO=true, which will remove the entire ParmMod
+              -- (solved?)values set to nil must be set with the values from CreateDefaultParmModTable(), when AUDIOCONTROL, PARMLINK or LFO are set to true
               
-              -- needs error-messages, when LFO==true but the other relevant settings are set still to nil
+              -- (solved?)needs error-messages, when LFO==true but the other relevant settings are set still to nil
         
         
         - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals

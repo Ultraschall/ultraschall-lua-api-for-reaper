@@ -2010,7 +2010,9 @@ function ultraschall.IsValidParmModTable(ParmModTable)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       checks, if a ParmModTable is a valid one
       
-      Does not check, if the value-ranges are valid, only if the datatypes are correct!
+      Does not check, if the value-ranges are valid, only if the datatypes are correct and if certain combinations are valid!
+      
+      Use SLEM() to get error-messages who tell you, which entries are problematic.
       
       returns false in case of an error
     </description>
@@ -2076,51 +2078,71 @@ function ultraschall.IsValidParmModTable(ParmModTable)
   if ParmModTable["Y2"]~=nil and type(ParmModTable["Y2"])~="number" then ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry Y2 must be either nil or a number", -41 ) return false end
   
   -- check, if certain combinations are valid, like LFO-checkbox=true but some LFO-settings are still set to nil
-  if ParmModTable["PARMLINK"]==true and
-    (ParmModTable["PARMLINK_LINKEDPARMIDX"]==nil or
-     ParmModTable["PARMLINK_LINKEDPLUGIN"]==nil or
-     ParmModTable["PARMLINK_OFFSET"]==nil or
-     ParmModTable["PARMLINK_SCALE"]==nil) then
-     ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK=true but there are PARMLINK_-entries still set to nil", -42 ) return false
+  if ParmModTable["PARMLINK"]==true then
+    local errormsg=""
+    if ParmModTable["PARMLINK_LINKEDPARMIDX"]==nil then errormsg=errormsg.."PARMLINK_LINKEDPARMIDX, " end
+    if ParmModTable["PARMLINK_LINKEDPLUGIN"]==nil then  errormsg=errormsg.."PARMLINK_LINKEDPLUGIN, " end
+    if ParmModTable["PARMLINK_OFFSET"]==nil then        errormsg=errormsg.."PARMLINK_OFFSET, " end
+    if ParmModTable["PARMLINK_SCALE"]==nil then         errormsg=errormsg.."PARMLINK_SCALE, " end
+    if errormsg~="" then
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK=true but "..errormsg:sub(1,-3).." is still set to nil", -46 ) 
+      return false
+    end
   end
 
-  if ParmModTable["MIDIPLINK"]==true and
-    (ParmModTable["MIDIPLINK_BUS"]==nil or
-     ParmModTable["MIDIPLINK_CHANNEL"]==nil or
-     ParmModTable["MIDIPLINK_MIDICATEGORY"]==nil or
-     ParmModTable["MIDIPLINK_MIDINOTE"]==nil) then
-     if ParmModTable["PARMLINK_LINKEDPLUGIN"]~=-100 then
-        ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK=true but PARMLINK_LINKEDPLUGIN is not set to -100", -43 ) return false
-     end
-     ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK=true but there are MIDIPLINK_-entries still set to nil", -44 ) return false
-  end
-
-  if ParmModTable["LFO"]==true and
-    (ParmModTable["LFO_PHASE"]==nil or
-     ParmModTable["LFO_PHASERESET"]==nil or
-     ParmModTable["LFO_SHAPE"]==nil or
-     ParmModTable["LFO_SHAPEOLD"]==nil or
-     ParmModTable["LFO_SPEED"]==nil) then
-     ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO=true but there are LFO_-entries still set to nil", -45 ) return false
+  if ParmModTable["MIDIPLINK"]==true then
+    if ParmModTable["PARMLINK_LINKEDPLUGIN"]~=-100 then
+       ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK=true but PARMLINK_LINKEDPLUGIN is not set to -100", -43 ) return false
+    end
+    local errormsg=""
+    if ParmModTable["MIDIPLINK_BUS"]==nil then           errormsg=errormsg.."MIDIPLINK_BUS, " end
+    if ParmModTable["MIDIPLINK_CHANNEL"]==nil then       errormsg=errormsg.."MIDIPLINK_CHANNEL, " end
+    if ParmModTable["MIDIPLINK_MIDICATEGORY"]==nil then  errormsg=errormsg.."MIDIPLINK_MIDICATEGORY, " end
+    if ParmModTable["MIDIPLINK_MIDINOTE"]==nil then      errormsg=errormsg.."MIDIPLINK_MIDINOTE, " end
+    if errormsg~="" then
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK=true but "..errormsg:sub(1,-3).." is still set to nil", -46 ) 
+      return false
+    end
   end
   
-  if ParmModTable["WINDOW_ALTERED"]==true and
-      (ParmModTable["WINDOW_ALTEREDOPEN"]==nil or
-       ParmModTable["WINDOW_BOTTOM"]==nil or
-       ParmModTable["WINDOW_RIGHT"]==nil or
-       ParmModTable["WINDOW_XPOS"]==nil or
-       ParmModTable["WINDOW_YPOS"]==nil) then
-       ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_ALTERED=true but there are WINDOW_-entries still set to nil", -46 ) return false
+  if ParmModTable["LFO"]==true then
+    local errormsg=""
+    if ParmModTable["LFO_PHASE"]==nil then       errormsg=errormsg.."LFO_PHASE, " end
+    if ParmModTable["LFO_PHASERESET"]==nil then  errormsg=errormsg.."LFO_PHASERESET, " end
+    if ParmModTable["LFO_SHAPE"]==nil then       errormsg=errormsg.."LFO_SHAPE, " end
+    if ParmModTable["LFO_SHAPEOLD"]==nil then    errormsg=errormsg.."LFO_SHAPEOLD, " end
+    if ParmModTable["LFO_SPEED"]==nil then       errormsg=errormsg.."LFO_SPEED, " end
+    if errormsg~="" then
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO=true but "..errormsg:sub(1,-3).." is still set to nil", -46 ) 
+      return false
+    end
+  end
+  
+  if ParmModTable["WINDOW_ALTERED"]==true then
+    local errormsg=""
+    if ParmModTable["WINDOW_ALTEREDOPEN"]==nil then errormsg=errormsg.."WINDOW_ALTEREDOPEN, " end
+    if ParmModTable["WINDOW_BOTTOM"]==nil then      errormsg=errormsg.."WINDOW_BOTTOM, " end
+    if ParmModTable["WINDOW_RIGHT"]==nil then       errormsg=errormsg.."WINDOW_RIGHT, " end
+    if ParmModTable["WINDOW_XPOS"]==nil then        errormsg=errormsg.."WINDOW_XPOS, " end
+    if ParmModTable["WINDOW_YPOS"]==nil then        errormsg=errormsg.."WINDOW_YPOS, " end
+    if errormsg~="" then
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_ALTERED=true but "..errormsg:sub(1,-3).." is still set to nil", -46 ) 
+      return false
+    end
   end
 
-  if ParmModTable["AUDIOCONTROL"]==true and
-      (ParmModTable["AUDIOCONTROL_ATTACK"]==nil or
-       ParmModTable["AUDIOCONTROL_CHAN"]==nil or
-       ParmModTable["AUDIOCONTROL_MAXVOLUME"]==nil or
-       ParmModTable["AUDIOCONTROL_MINVOLUME"]==nil or
-       ParmModTable["AUDIOCONTROL_RELEASE"]==nil or 
-       ParmModTable["AUDIOCONTROL_STEREO"]==nil) then
-       ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL=true but there are AUDIOCONTROL_-entries still set to nil", -47 ) return false
+  if ParmModTable["AUDIOCONTROL"]==true then
+    local errormsg=""
+    if ParmModTable["AUDIOCONTROL_ATTACK"]==nil then    errormsg=errormsg.."AUDIOCONTROL_ATTACK, " end
+    if ParmModTable["AUDIOCONTROL_CHAN"]==nil then      errormsg=errormsg.."AUDIOCONTROL_CHAN, " end
+    if ParmModTable["AUDIOCONTROL_MAXVOLUME"]==nil then errormsg=errormsg.."AUDIOCONTROL_MAXVOLUME, " end
+    if ParmModTable["AUDIOCONTROL_MINVOLUME"]==nil then errormsg=errormsg.."AUDIOCONTROL_MINVOLUME, " end
+    if ParmModTable["AUDIOCONTROL_RELEASE"]==nil   then errormsg=errormsg.."AUDIOCONTROL_RELEASE, " end
+    if ParmModTable["AUDIOCONTROL_STEREO"]==nil then    errormsg=errormsg.."AUDIOCONTROL_STEREO, " end
+    if errormsg~="" then 
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL=true but "..errormsg:sub(1,-3).." is still set to nil", -47 ) 
+      return false
+    end
   end
   
   if ParmModTable["MIDIPLINK"]==false and ParmModTable["PARMLINK_LINKEDPLUGIN"]==-100 then
@@ -2130,9 +2152,6 @@ function ultraschall.IsValidParmModTable(ParmModTable)
 end
 
 function ultraschall.AddParmModulationTable(FXStateChunk, fxindex, ParmModTable)
--- still buggy, try to set LFO=true
--- needs error-messages, when LFO==true but the other relevant settings are set still to nil
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddParmModulationTable</slug>
@@ -2359,9 +2378,6 @@ end
 
 
 function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, ParmModTable)
--- still buggy, try to set LFO=true
--- needs error-messages, when LFO==true but the other relevant settings are set still to nil
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetParmModulationTable</slug>

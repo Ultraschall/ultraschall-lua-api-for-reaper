@@ -1,5 +1,5 @@
 Parameter-Learn/Modulation/Alias-Chunk - documentation
-compiled by Meo Mespotine 28.07.2020
+compiled by Meo Mespotine 20.08.2020
 
 Thanks to Anton9 for helping me with that :)
 
@@ -124,8 +124,8 @@ FX-parameter-modulation:
         integer opened - 0, ParmMod-window is closed; 1, ParmMod-window is opened; can be set to open/close ParmMod-window of this parmmodulation
         integer win_x_position - the x-position in pixels of the ParmMod-window; can be set, when opened=0
         integer win_y_position - the y-position in pixels of the ParmMod-window; can be set, when opened=0
-        integer winright_readonly - the position of the right side of the window in pixels; can't be set
-        integer winbottom_readonly - the position of the bottom side of the window in pixels; can't be set
+        integer winright_readonly - the position of the right side of the window in pixels; can't be set so set it to anything
+        integer winbottom_readonly - the position of the bottom side of the window in pixels; can't be set so set it to anything
       
 the following are only available, when Link from MIDI or FX parameter-checkbox is enabled
       PLINK  number Scale  integer midi_fx_idx[:fx_idx] integer parmidx  number offset
