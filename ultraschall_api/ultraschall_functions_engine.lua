@@ -1557,6 +1557,8 @@ function print2(...)
   <description>
     replaces Lua's own print-function. 
     
+    shows \0-characters as .
+    
     Converts all parametes given into string using tostring() and displays them as a MessageBox, separated by two spaces.
   </description>
   <parameters>
@@ -1571,14 +1573,15 @@ function print2(...)
 </US_DocBloc>
 ]]
 
-  local string=""
+  local stringer=""
   local count=1
   local temp={...}
   while temp[count]~=nil or temp[count+1]~=nil do
-   string=string.."  "..tostring(temp[count])
+   stringer=stringer.."  "..tostring(temp[count])
     count=count+1
   end
-  reaper.MB(string:sub(3,-1),"Print",0)
+  stringer=string.gsub(stringer, "\0", "\\0")
+  reaper.MB(stringer:sub(3,-1),"Print",0)
 end
 
 
@@ -1594,6 +1597,8 @@ function print_alt(...)
   <functioncall>print_alt(parameter_1 to parameter_n)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     replaces Lua's own print-function, that is quite useless in Reaper.
+    
+    shows \0-characters as .
     
     like [print](#print), but separates the entries by a two spaced, not a newline
   </description>
@@ -1611,15 +1616,16 @@ function print_alt(...)
   if ultraschall.Print_ToTheFront==true then 
     ultraschall.BringReaScriptConsoleToFront()
   end
-  local string=""
+  local stringer=""
   local count=1
   local temp={...}
   while temp[count]~=nil do
-    string=string.."  "..tostring(temp[count])
+    stringer=stringer.."  "..tostring(temp[count])
     count=count+1
   end
-  if string:sub(-1,-1)=="\n" then string=string:sub(1,-2) end
-  reaper.ShowConsoleMsg(string:sub(3,-1).."\n","Print",0)
+  if stringer:sub(-1,-1)=="\n" then stringer=stringer:sub(1,-2) end
+  stringer=string.gsub(stringer, "\0", ".")
+  reaper.ShowConsoleMsg(stringer:sub(3,-1).."\n","Print",0)
 end
 
 
@@ -1635,6 +1641,8 @@ function print(...)
   <functioncall>print(parameter_1 to parameter_n)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     replaces Lua's own print-function, that is quite useless in Reaper.
+    
+    displays \0-characters as .
     
     Converts all parametes given into string using tostring() and displays them in the ReaScript-console, separated by a newline and ending with a newline.
   </description>
@@ -1652,15 +1660,16 @@ function print(...)
   if ultraschall.Print_ToTheFront==true then 
     ultraschall.BringReaScriptConsoleToFront()
   end
-  local string=""
+  local stringer=""
   local count=1
   local temp={...}
   while temp[count]~=nil do
-    string=string.."\n"..tostring(temp[count])
+    stringer=stringer.."\n"..tostring(temp[count])
     count=count+1
   end
-  if string:sub(-1,-1)=="\n" then string=string:sub(1,-2) end
-  reaper.ShowConsoleMsg(string:sub(2,-1).."\n","Print",0)
+  if stringer:sub(-1,-1)=="\n" then stringer=stringer:sub(1,-2) end
+  stringer=string.gsub(stringer, "\0", ".")
+  reaper.ShowConsoleMsg(stringer:sub(2,-1).."\n","Print",0)
 end
 
 
@@ -1725,8 +1734,10 @@ function print3(...)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     like [print](#print), but puts the parameters into the clipboard.
     
-    Converts all parametes given into string using tostring() and puts them into the clipboard, with each parameter separated by two spaces.
+    Converts all parametes given into string using tostring() and puts them into the clipboard, with each parameter separated by two spaces.    
     Unlike print and print2, this does NOT end with a newline!
+    
+    Note: \0-characters will be seen as string-termination, so strings may be truncated. Please replace \0 with string.gsub, if you need to have the full string with all nil-values included.
   </description>
   <parameters>
     parameter_1 to parameter_n - the parameters, that you want to have put into the clipboard
@@ -1765,6 +1776,8 @@ function print_update(...)
     replaces Lua's own print-function, that is quite useless in Reaper.
     
     Converts all parametes given into string using tostring() and displays them in the ReaScript-console, separated by two spaces, ending with a newline.
+    
+    Shows \0-characters as .
     
     This is like [print](#print), but clears console everytime before displaying the values. Good for status-display, that shall not scroll.
   </description>
@@ -2072,6 +2085,8 @@ function ToClip(toclipstring)
   <functioncall>ToClip(string toclipstring)</functioncall>
   <description>
     Puts a string into clipboard.
+    
+    \0-characters will be seen as string-termination, so if you want to put strings into clipboard containing them, you need to replace them first or your string might be truncated
   </description>
   <parameters>
     string toclipstring - the string, which you want to put into the clipboard

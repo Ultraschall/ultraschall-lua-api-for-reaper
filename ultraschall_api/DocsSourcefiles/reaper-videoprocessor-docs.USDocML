@@ -1676,6 +1676,8 @@
             Example:
                 variable=gmem[7]; // put the value from gmem with index 7 into variable
                 gmem[8]=project_time; // put the current project_time into gmem with index 8
+                
+            Note: you can have only one gmem-buffername attached per video-processor-script.
         </description>
         <target_document>ReaperVideoProcessorApiReference</target_document>
         <source_document></source_document>

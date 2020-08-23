@@ -95,46 +95,53 @@ end
 --B=ultraschall.IsValidFXStateChunk(A)
 
 
-function ultraschall.GetFXFromFXStateChunk(FXStateChunk, id)
+
+function ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetFXFromFXStateChunk</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    Lua=5.3
-  </requires>
-  <functioncall>string fx = ultraschall.GetFXFromFXStateChunk(string FXStateChunk, integer id)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns all lines of a specific TrackFX/ItemFX from a StateChunk
-    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    string fx - all lines of an fx from a statechunk
-  </retvals>
-  <parameters>
-    string FXStateChunk - the FXStateChunk, from which you want to retrieve the FX-entries
-    integer id - the id of the FX-entries you want to have, starting with 1 for the first
-  </parameters>
-  <chapter_context>
-    FX-Management
-    FXStateChunks
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
-  <tags>fxmanagement, get, fx</tags>
-</US_DocBloc>
-]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
-  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "id", "must be an integer", -2) return nil end
-  local count=0
-  FXStateChunk=FXStateChunk:match("(BYPASS.*)")
-  for w in string.gmatch(FXStateChunk, ".-WAK %d\n") do
-    count=count+1
-    if count==id then return w end
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>string fx_lines, integer startoffset, integer endoffset = ultraschall.GetFXFromFXStateChunk(string FXStateChunk, integer fxindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the statechunk-lines of fx with fxindex from an FXStateChunk
+      
+      It also returns the start and endoffset of these lines, so you can manipulate these lines and replace them in the
+      original FXStateChunk, by replacing the part between start and endoffset with your altered lines.
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      string fx_lines - the statechunk-lines associated with this fx
+      integer startoffset - the startoffset in bytes of these lines within the FXStateChunk
+      integer endoffset - the endoffset in bytes of these lines within the FXStateChunk
+    </retvals>
+    <parameters>
+      string FXStateChunk - the FXStateChunk from which you want to retrieve the fx's-lines
+      integer fxindex - the index of the fx, whose statechunk lines you want to retrieve; with 1 for the first
+    </parameters>
+    <chapter_context>
+      FX-Management
+      Get States
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+    <tags>fxmanagement, get, fxlines, fxstatechunk</tags>
+  </US_DocBloc>
+  --]] 
+  -- returns the individual fx-statechunk-lines and the start/endoffset of these lines within the FXStateChunk
+  -- so its easy to manipulate the stuff
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "fxindex", "must be an integer", -2) return end
+  local index=0
+  for a,b,c in string.gmatch(FXStateChunk, "()(%s-BYPASS.-\n.-WAK.-)\n()") do
+    index=index+1
+    if index==fxindex then return b,a,c end
   end
+  return nil
 end
 
 --temp, SC=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)

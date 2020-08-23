@@ -1411,6 +1411,76 @@ function ultraschall.GetAllSelectedRegions_Project()
   return regionscnt, regions
 end
 
+function ultraschall.VideoProcessor_SetText(text, font, fontsize, x, y, r, g, b, a)
+  -- needs modules/additionals/VideoProcessor-Presets.RPL to be imported somehow
+  local OldName=ultraschall.Gmem_GetCurrentAttachedName()
+  local fontnameoffset=50
+  local textoffset=font:len()+20
+  reaper.gmem_attach("Ultraschall_VideoProcessor_Settings")
+  reaper.gmem_write(0, 0)           -- type: 0, Text
+  reaper.gmem_write(1, text:len())  -- length of text
+  reaper.gmem_write(2, textoffset)  -- at which gmem-index does the text start
+  reaper.gmem_write(3, font:len())  -- the length of the fontname
+  reaper.gmem_write(4, fontnameoffset) -- at which gmem-index does the fontname start
+  reaper.gmem_write(5, fontsize)    -- the size of the font 0-1
+  reaper.gmem_write(6, 0)           -- is the update-signal; 0, update text and fontname; 1, already updated
+  reaper.gmem_write(7, x)           -- x-position of the text
+  reaper.gmem_write(8, y)           -- y-position of the text
+  reaper.gmem_write(9,  r)          -- red color of the text
+  reaper.gmem_write(10, g)          -- green color of the text
+  reaper.gmem_write(11, b)          -- blue color of the text
+  reaper.gmem_write(12, a)          -- alpha of the text
+  for i=1, text:len() do
+    Byte=string.byte(text:sub(i,i))
+    reaper.gmem_write(i+textoffset, Byte)
+  end
+  
+  for i=1, font:len() do
+    Byte=string.byte(font:sub(i,i))
+    reaper.gmem_write(i+fontnameoffset, Byte)
+  end
+  
+  if OldName~=nil then
+    reaper.gmem_attach(OldName)
+  end
+end
+
+function ultraschall.VideoProcessor_SetTextPosition(x,y)
+-- needs modules/additionals/VideoProcessor-Presets.RPL to be imported somehow
+  local OldName=ultraschall.Gmem_GetCurrentAttachedName()
+  reaper.gmem_attach("Ultraschall_VideoProcessor_Settings")
+  reaper.gmem_write(7, x)
+  reaper.gmem_write(8, y)
+  if OldName~=nil then
+    reaper.gmem_attach(OldName)
+  end
+end
+
+function ultraschall.VideoProcessor_SetFontColor(r,g,b,a)
+-- needs modules/additionals/VideoProcessor-Presets.RPL to be imported somehow
+  local OldName=ultraschall.Gmem_GetCurrentAttachedName()
+  reaper.gmem_attach("Ultraschall_VideoProcessor_Settings")
+  
+  reaper.gmem_write(9,  r)
+  reaper.gmem_write(10, g)  
+  reaper.gmem_write(11, b)
+  reaper.gmem_write(12, a)
+  if OldName~=nil then
+    reaper.gmem_attach(OldName)
+  end  
+end
+
+function ultraschall.VideoProcessor_SetFontSize(fontsize)
+-- needs modules/additionals/VideoProcessor-Presets.RPL to be imported somehow
+  local OldName=ultraschall.Gmem_GetCurrentAttachedName()
+  reaper.gmem_attach("Ultraschall_VideoProcessor_Settings")
+  reaper.gmem_write(5, fontsize)
+  
+  if OldName~=nil then
+    reaper.gmem_attach(OldName)
+  end
+end
+
 -- These seem to work working:
 
 function ultraschall.BringReaScriptConsoleToFront()
@@ -1675,7 +1745,7 @@ function ultraschall.GetParmModulationTable(FXStateChunk, fxindex, parmodindex)
   local count=0
   local found=""
   local ParmModTable={}
-  local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+  local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   
   if FX==nil then ultraschall.AddErrorMessage("GetParmModulationTable", "fxindex", "no such index", -7) return nil end
   for k in string.gmatch(FX, "\n    <PROGRAMENV.-\n    >") do
@@ -2369,7 +2439,7 @@ function ultraschall.AddParmModulationTable(FXStateChunk, fxindex, ParmModTable)
   end
   local cindex=0
 
-  local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+  local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   
   FX=FX:match("(.*\n%s-)%sWAK")..NewParmModTable..FX:match("%s-WAK.*")
 
@@ -2599,7 +2669,7 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
   end
   local cindex=0
 
-  local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+  local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   
 
   for k,v in string.gmatch(FX, "()  <PROGRAMENV.-\n%s->()\n") do
@@ -2655,7 +2725,7 @@ function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, fxindex, parmmo
   
   local index=0
   
-  local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+  local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   
   for k,v in string.gmatch(FX, "()%s-<PROGRAMENV.-\n%s->()\n") do
     index=index+1
@@ -2704,7 +2774,7 @@ function ultraschall.CountParmModFromFXStateChunk(FXStateChunk, fxindex)
   
   local index=0
 
-  local FX,StartOFS,EndOFS=ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+  local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   if FX==nil then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "fxindex", "no such fx", -3) return end
   for k,v in string.gmatch(FX, "()  <PROGRAMENV.-\n%s->()\n") do
     index=index+1
@@ -2712,17 +2782,17 @@ function ultraschall.CountParmModFromFXStateChunk(FXStateChunk, fxindex)
 
   return index
 end
-
-function ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
+--[[
+function ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>GetFXStatesFromFXStateChunk</slug>
+    <slug>GetFXFromFXStateChunk</slug>
     <requires>
       Ultraschall=4.1
       Reaper=6.10
       Lua=5.3
     </requires>
-    <functioncall>string fx_lines, integer startoffset, integer endoffset = ultraschall.GetFXStatesFromFXStateChunk(string FXStateChunk, integer fxindex)</functioncall>
+    <functioncall>string fx_lines, integer startoffset, integer endoffset = ultraschall.GetFXFromFXStateChunk(string FXStateChunk, integer fxindex)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       returns the statechunk-lines of fx with fxindex from an FXStateChunk
       
@@ -2748,11 +2818,11 @@ function ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
     <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
     <tags>fxmanagement, get, fxlines, fxstatechunk</tags>
   </US_DocBloc>
-  --]] 
+
   -- returns the individual fx-statechunk-lines and the start/endoffset of these lines within the FXStateChunk
   -- so its easy to manipulate the stuff
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXStatesFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return end
-  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetFXStatesFromFXStateChunk", "fxindex", "must be an integer", -2) return end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "fxindex", "must be an integer", -2) return end
   local index=0
   for a,b,c in string.gmatch(FXStateChunk, "()(%s-BYPASS.-\n.-WAK.-)\n()") do
     index=index+1
@@ -2760,8 +2830,8 @@ function ultraschall.GetFXStatesFromFXStateChunk(FXStateChunk, fxindex)
   end
   return nil
 end
-
-
+--]]
+--]]
 function ultraschall.IsAnyNamedEnvelopeVisible(name)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2975,6 +3045,95 @@ function ultraschall.ActionsList_GetAllActions()
 
   return i, sectionID, sectionName, actions, CmdIDs, ToggleStates, shortcuts
 end
+
+
+function ultraschall.GetFXSettingsString_FXLines(fx_lines)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXSettingsString_FXLines</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string fx_statestring_base64, string fx_statestring = ultraschall.GetFXSettingsString_FXLines(string fx_lines)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the fx-states-string of a fx, as stored as an base64-string.byte
+    It returns its decoded and encoded version of it.
+    
+    Use [GetFXFromFXStateChunk](#GetFXFromFXStateChunk) to get the requested parameter "fx_lines"
+  
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string fx_lines - the statechunk-lines of an fx, as returned by the function GetFXFromFXStateChunk()
+  </parameters>
+  <retvals>
+    string fx_statestring_base64 - the base64-version of the state-string, which holds all fx-settings of the fx
+    string fx_statestring - the decoded binary-version of the state-string, which holds all fx-settings of the fx
+  </retvals>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, fxstatestring, base64</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.type(FXLines)~="string" then ultraschall.AddErrorMessage("GetFXSettingsString_FXLines", "fx_lines" , "must be a string", -1) return nil end
+  if FXLines:match("    <VST")~=nil then
+    FXSettings=FXLines:match("<VST.-\n(.-)    >")
+  elseif FXLines:match("    <JS_SER")~=nil then
+    FXSettings=FXLines:match("<JS_SER.-\n(.-)    >")
+  elseif FXLines:match("    <DX")~=nil then
+    FXSettings=FXLines:match("<DX.-\n(.-)    >")
+  elseif FXLines:match("    <AU")~=nil then
+    FXSettings=FXLines:match("<AU.-\n(.-)    >")
+  elseif FXLines:match("    <VIDEO_EFFECT")~=nil then
+    return "", string.gsub(FXLines:match("<VIDEO_EFFECT.-      <CODE\n(.-)      >"), "%s-|", "\n")
+  end
+    FXSettings=string.gsub(FXSettings, "[\n%s]*", "")
+    FXSettings_dec=ultraschall.Base64_Decoder(FXSettings)
+    return FXSettings, FXSettings_dec
+end
+
+
+ultraschall.reaper_gmem_attach=reaper.gmem_attach
+
+function reaper.gmem_attach(GMem_Name)
+  
+  ultraschall.reaper_gmem_attach_curname=GMem_Name
+  ultraschall.reaper_gmem_attach(GMem_Name)
+end
+
+function ultraschall.Gmem_GetCurrentAttachedName()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gmem_GetCurrentAttachedName</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string current_gmem_attachname = ultraschall.Gmem_GetCurrentAttachedName()</functioncall>
+  <description>
+    returns nil if no gmem had been attached since addition of Ultraschall-API
+  </description>
+  <retvals>
+    string current_gmem_attachname - the name of the currently attached gmem
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>helperfunctions, get, current, gmem, attached name</tags>
+</US_DocBloc>
+--]]
+  return ultraschall.reaper_gmem_attach_curname
+end
+
 
 
 ultraschall.ShowLastErrorMessage()

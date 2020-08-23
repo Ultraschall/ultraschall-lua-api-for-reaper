@@ -49,26 +49,34 @@ Bla</li>
 </ul>
 <h4>New features in 4.1.005</h4>
 <ul>
-<li>API: Settings-Dialog - allows you to set US-API-default-settings(currently the default output of ShowLastErrorMessage()/SLEM())</li>
+<li>API: Settings-Dialog - allows you to set US-API-default-settings(currently the default output of ShowLastErrorMessage()/SLEM())<br />
+</li>
 <li>Docs: Lua Reference Manual - now added for Lua 5.3, so you have its manual right at hand</li>
 <li>EnvelopeManagement: IsAnyNamedEnvelopeVisible - returns, if there's a specific named-envelope set to visible in any track</li>
 <li>EnvelopeManagement: IsEnvelope_Track - returns, if an envelope is a TrackEnvelope(true) or a TakeEnvelope(false)</li>
-<li>EnvelopeManagement: IsTrackEnvelopeVisible_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview</li>
-<li>Examplescript: US_Api_Examples_FileManager_example_showcasing_background_copying.lua - a simple file-manager which showcases background-copying</li>
+<li>EnvelopeManagement: IsTrackEnvelopeVisible_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview<br />
+</li>
+<li>Examplescript: US_Api_Examples_FileManager_example_showcasing_background_copying.lua - a simple file-manager which showcases background-copying<br />
+</li>
 <li>FXManagement: AddParmModulationTable - adds a new parameter-modulation of a specific FX in an FXStateChunk</li>
 <li>FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk</li>
 <li>FXManagement: CreateDefaultParmModTable - creates a ParameterModulationTable which holds Reaper's default values and can be altered</li>
 <li>FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk</li>
 <li>FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation of an fx</li>
-<li>FXManagement: GetFXStatesFromFXStateChunk - returns the lines from a FXStateChunk associated with a specific fx</li>
+<li>FXManagement: GetFXSettingsString_FXLines - returns the statestring of an fx as base64 and decoded-binary string</li>
 <li>FXManagement: IsValidParmModTable - returns, if a table is a valid ParmModTable(used for altering Parameter-Modulations)</li>
 <li>FXManagement: SetParmModulationTable - sets a parameter-modulation of an fx in an FXStateChunk</li>
 <li>GFX-Management: GFX_DrawEmbossedSquare - draws an embossed square with optional background</li>
-<li>Helper Functions: ActionsList_GetActions - returns all actions and shortcuts currently visible in the opened actionlist</li>
+<li>GMEM: Gmem_GetCurrentAttachedName - returns the name of the currently attached gmem</li>
+<li>Helper Functions: ActionsList_GetAllActions - returns all actions and shortcuts currently visible in the opened actionlist</li>
 <li>Misc: Launchpad_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder</li>
 </ul>
 <h4>Changes from 4.1.004 to 4.1.005</h4>
 <ul>
+<li>API: print - replaces null-characters now with . when displaying strings containing them</li>
+<li>API: print2 - replaces null-characters now with . when displaying strings containing them</li>
+<li>API: print_alt - replaces null-characters now with . when displaying strings containing them</li>
+<li>API: print_update - replaces null-characters now with . when displaying strings containing them</li>
 <li>Docs: ParmLearn-docs - corrected information and added missing stuff</li>
 <li>Docs: Reaper; GetUserInputs - added information about how to pass over default-retvals and its limitations</li>
 <li>Error Messaging-System: ReadErrorMessage - allows now keeping error-message readstate as unread</li>
@@ -78,6 +86,7 @@ Bla</li>
 <li>File Management: CopyFile_AddFileToQueue - basic check, if the target-file is the same as the source-file and throws an error in these cases</li>
 <li>File Management: GetAllDirectoriesInPath - omitted folderseparator in returned folders, if it hasn't been passed into parameter path</li>
 <li>File Management: CopyFile_GetRemainingFilesToCopy - returned the wrong number of remaining files -&gt; fixed</li>
+<li>FXManagement: GetFXFromFXStateChunk - returns now the start and endoffset of the returned lines, so they could be used for string substitution; didn't return anything under some circumstances -&gt; fixed</li>
 <li>Helper Functions: ActionsList_GetSelectedActions - returns now the shortcuts of the selected actions as well</li>
 <li>TrackManagement: SetTrackStateChunk_Tracknumber - had inner variable exposed -&gt; fixed</li>
 </ul>
