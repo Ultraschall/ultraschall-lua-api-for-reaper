@@ -66,7 +66,7 @@
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Introduction_002_How_to_Use</slug>
-        <title>How to use the Ultraschall API</title>
+        <title>How to install and use the Ultraschall API</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Using the Ultraschall-API is quite easy.
             
@@ -898,9 +898,9 @@
             This renderstring can then be passed over to [SetProject_RenderCFG](usdocml://SetProject_RenderCFG) to set it into a project-file, or to [RenderProject](usdocml://RenderProject) to render a projectfile using the format-settings in the Render-string or put into [RenderTables](#Datatypes_008_RenderTable), that can be used for the rendering function [RenderProject_RenderTable](usdocml://RenderProject_RenderTable).
             
             The following render-string-functions are available in Ultraschall-API:  
-            >[CreateRenderCFG_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
-            >[CreateRenderCFG_MP3ABR](usdocml://CreateRenderCFG_MP3ABR),[CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), 
-            >[CreateRenderCFG_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK),
+            >[CreateRenderCFG\_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG\_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG\_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG\_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
+            >[CreateRenderCFG\_MP3ABR](usdocml://CreateRenderCFG_MP3ABR),[CreateRenderCFG\_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG\_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG\_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), 
+            >[CreateRenderCFG\_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK),
             >[CreateRenderCFG\_AVI_Video](usdocml://CreateRenderCFG_AVI_Video), [CreateRenderCFG_GIF](usdocml://CreateRenderCFG_GIF), [CreateRenderCFG_LCF](usdocml://CreateRenderCFG_LCF), [CreateRenderCFG\_MKV_Video](usdocml://CreateRenderCFG_MKV_Video), [CreateRenderCFG\_MOVMAC_Video](usdocml://CreateRenderCFG_MOVMAC_Video), [CreateRenderCFG\_MP4MAC_Video](usdocml://CreateRenderCFG_MP4MAC_Video), 
             >[CreateRenderCFG\_QTMOVMP4_Video](usdocml://CreateRenderCFG_QTMOVMP4_Video), [CreateRenderCFG_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)
                  
@@ -3344,10 +3344,17 @@
             
             >**[ShowLastErrorMessage](usdocml://ShowLastErrorMessage)**
             
-                                    ultraschall.ShowLastErrorMessage()
+                                    ultraschall.ShowLastErrorMessage(optional integer dunk, optional integer target, optional integer message_type)
                                     
-            >This is probably the most useful for debugging purposes. It simply shows a message-box with the last added error-message in the error-messaging-system, including the functionname, the parametername, the errormessage and the errorcode.
+                                    or 
+                                    
+                                    SLEM(optional integer dunk, optional integer target, optional integer message_type)
+                                    
+            >This is probably the most useful for debugging purposes. It simply shows the last added error-message stored in the error-messaging-system, including the functionname, the parametername, the errormessage and the errorcode.
+            >You can optionally select, which other "last" errormessage you want to display, as well as its target. That means, you can select if the error-message shall be displayed in a messagebox, the reascript-console, the clipboard or if certain error-messages shall be returned as string be the function.
+            >You can also select the default-output-target in the Ultraschall-API-settings-dialog(just look for "Script: Ultraschall\_API\_Settings.lua" in the actionslist).
             >Add this at the end of your script or within a function, after the code where problems arise to see, which function caused the trouble.
+
             
             >**[GetLastErrorMessage](usdocml://GetLastErrorMessage)**
             
@@ -3381,9 +3388,10 @@
             
                                     boolean retval, integer errcode, string functionname, string parmname, string errormessage, 
                                     string lastreadtime, string err_creation_date, string err_creation_timestamp = 
-                                                                                        ultraschall.ReadErrorMessage(integer errornumber)
+                                                                                        ultraschall.ReadErrorMessage(integer errornumber, optional boolean keep_unread)
                                                                                         
             >Just like GetLastErrorMessage, but returns a specific errormessage, as specified by the parameter errornumber.
+            >You can also keep the error-message state as "unread" if you want to build a function that peeks into an error-message without leaving a trace.
             
             In addition to that, there's also:
              

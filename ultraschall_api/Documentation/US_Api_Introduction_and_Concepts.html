@@ -55,8 +55,8 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.1005 - "Exodus from Genesis" - 15th of August 2020 - Build: 43286</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
-<td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.1005 - "Exodus from Genesis" - 15th of August 2020 - Build: 43295</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<td><a href="#Introduction_002_How_to_Use">How to install and use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to install hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
 </tr><tr><td><a href="#Introduction_005_License">Introduction: License</a></td>
@@ -206,7 +206,7 @@ Ultraschall API functions
 <p>PS: In this documentation, I assume you have some basic knowledge in Lua and in using Reaper's own API-functions. Explaining both of these is beyond the scope of this doc.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_002_How_to_Use"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_002_How_to_Use">^</a> <u>How to use the Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
+<div style="font-size:100%"><h4><a href="#Introduction_002_How_to_Use">^</a> <u>How to install and use the Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
 <p>First make sure, you use the right versions of Reaper and SWS: <a href="https://www.reaper.fm">Reaper 6.02</a>, <a href="https://www.sws-extension.org">SWS 2.10.0.1</a> and <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">Julian Sader's plugin 1.215.</a> You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively. Julian Sader's plugin can be installed using ReaPack or gotten from <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">his own github-site</a></p>
 <p>To install the Ultraschall-API, just follow the following steps:</p>
 <p><strong>Installation via ReaPack</strong>:</p>
@@ -2464,10 +2464,14 @@ For that, I added the following functions: <a href="US_Api_Functions.html#CountE
 <blockquote>
 <p><strong><a href="US_Api_Functions.html#ShowLastErrorMessage">ShowLastErrorMessage</a></strong></p>
 </blockquote>
-<pre><code>                    ultraschall.ShowLastErrorMessage()
+<pre><code>                    ultraschall.ShowLastErrorMessage(optional integer dunk, optional integer target, optional integer message_type)
+                    
+                    or 
+                    
+                    SLEM(optional integer dunk, optional integer target, optional integer message_type)
                     </code></pre>
 <blockquote>
-<p>This is probably the most useful for debugging purposes. It simply shows a message-box with the last added error-message in the error-messaging-system, including the functionname, the parametername, the errormessage and the errorcode. Add this at the end of your script or within a function, after the code where problems arise to see, which function caused the trouble.</p>
+<p>This is probably the most useful for debugging purposes. It simply shows the last added error-message stored in the error-messaging-system, including the functionname, the parametername, the errormessage and the errorcode. You can optionally select, which other "last" errormessage you want to display, as well as its target. That means, you can select if the error-message shall be displayed in a messagebox, the reascript-console, the clipboard or if certain error-messages shall be returned as string be the function. You can also select the default-output-target in the Ultraschall-API-settings-dialog(just look for "Script: Ultraschall_API_Settings.lua" in the actionslist). Add this at the end of your script or within a function, after the code where problems arise to see, which function caused the trouble.</p>
 </blockquote>
 <blockquote>
 <p><strong><a href="US_Api_Functions.html#GetLastErrorMessage">GetLastErrorMessage</a></strong></p>
@@ -2511,10 +2515,10 @@ When setread is set to true, ShowLastErrorMessage will not show this errormessag
 </blockquote>
 <pre><code>                    boolean retval, integer errcode, string functionname, string parmname, string errormessage, 
                     string lastreadtime, string err_creation_date, string err_creation_timestamp = 
-                                                                        ultraschall.ReadErrorMessage(integer errornumber)
+                                                                        ultraschall.ReadErrorMessage(integer errornumber, optional boolean keep_unread)
                                                                         </code></pre>
 <blockquote>
-<p>Just like GetLastErrorMessage, but returns a specific errormessage, as specified by the parameter errornumber.</p>
+<p>Just like GetLastErrorMessage, but returns a specific errormessage, as specified by the parameter errornumber. You can also keep the error-message state as "unread" if you want to build a function that peeks into an error-message without leaving a trace.</p>
 </blockquote>
 <p>In addition to that, there's also:</p>
 <ul>

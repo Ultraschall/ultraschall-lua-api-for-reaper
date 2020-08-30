@@ -8190,7 +8190,7 @@
             Reaper=6.11
             Lua=5.3
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get or set project information.
  
             RENDER_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp; 128=Selected tracks via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;512=Embed Metadata, if format supports is, &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master)
@@ -32683,16 +32683,32 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_defer</slug>
         <title>defer</title>
-        <functioncall prog_lang="eel">defer("code")</functioncall>
+        <functioncall prog_lang="eel">defer(string "code")</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Adds code to be called back by REAPER. Used to create persistent ReaScripts that continue to run and respond to input, while the user does other tasks. Identical to runloop().
             Note that no undo point will be automatically created when the script finishes, unless you create it explicitly.
+            
+            Each function called by defer can only be deferred once per defer-cycle(unlike in Lua, where you can have one function deferred multiple times).
+            
+            Unlike "normal" loops, defer allows looped code to run in the background without blocking Reaper's user interface.
+            That way, scripts, who need longer time to run, can be made possible.
+            
+            Example:
+            the following example allows adding a to variable A with each defer-cycle.
+            <pre><code>
+            function main()(
+              A=A+1;
+              defer("main()");
+            );
+
+            main();
+            </code></pre>
         </description>
         <parameters>
-            code -
+            string code - the code to be run. You can also add a regular functioncall into this string, like "main()", if there's a main-function in the script
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34703,7 +34719,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_runloop</slug>
         <title>runloop</title>
-        <functioncall prog_lang="eel">runloop(code)</functioncall>
+        <functioncall prog_lang="eel">runloop(string code)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -34711,9 +34727,25 @@
             Adds code to be called back by REAPER. Used to create persistent ReaScripts that continue to run and respond to input, while the user does other tasks. Identical to defer().
             
             Note that no undo point will be automatically created when the script finishes, unless you create it explicitly.
+            
+            Each function called by runloop can only be deferred once per runloop-cycle(unlike in Lua, where you can have one function deferred multiple times).
+            
+            Unlike "normal" loops, runloop allows looped code to run in the background without blocking Reaper's user interface.
+            That way, scripts, who need longer time to run, can be made possible.
+            
+            Example:
+            the following example allows adding a to variable A with each runloop-cycle.
+            <pre><code>
+            function main()(
+              A=A+1;
+              runloop("main()");
+            );
+
+            main();
+            </code></pre>
         </description>
         <parameters>
-            code - 
+            string code - the code to be run. You can also add a regular functioncall into this string, like "main()", if there's a main-function in the script
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>

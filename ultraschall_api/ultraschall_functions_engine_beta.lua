@@ -3135,5 +3135,173 @@ function ultraschall.Gmem_GetCurrentAttachedName()
 end
 
 
+function ultraschall.GetAllParmAliasNames_FXStateChunk(FXStateChunk, fxindex)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllParmAliasNames_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_aliasnames, array parameteridx, array parameter_aliasnames = ultraschall.GetAllParmAliasNames_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns all aliasnames of a specific fx within an FXStateChunk
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    integer count_aliasnames - the number of parameter-aliases found for this fx
+    array parameteridx - an array, which holds all parameter-index-numbers of all fx with parameter-aliasnames
+    array parameter_aliasnames - an array with all parameter-aliasnames found
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to get all Parm-Aliases
+    integer fxid - the id of the fx, whose Parm-Aliases you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Alias
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, all, parm, aliasname</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetAllParmAliasNames_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return -1 end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetAllParmAliasNames_FXStateChunk", "fxindex", "must be an integer", -2) return -1 end
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
+  if fx_lines==nil then ultraschall.AddErrorMessage("GetAllParmAliasNames_FXStateChunk", "fxindex", "no such fx", -3) return -1 end
+  local aliasnames={}
+  local aliasparm={}
+  local aliascount=0
+  for parmidx, k in string.gmatch(fx_lines, "%s-PARMALIAS (.-) (.-)\n") do
+    aliascount=aliascount+1
+    aliasnames[aliascount]=k
+    aliasparm[aliascount]=tonumber(parmidx)+1
+  end
+  for i=1, aliascount do
+    if aliasnames[i]:sub(1,1)=="\"" and aliasnames[i]:sub(-1,-1)=="\"" then aliasnames[i]=aliasnames[i]:sub(2,-2) end
+  end
+  return aliascount, aliasparm, aliasnames
+end
+
+function ultraschall.DeleteParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteParmAlias2_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmAlias2_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Deletes a ParmAlias-entry from an FXStateChunk.
+    
+    It's the PARMALIAS-entry
+    
+    Unlike DeleteParmAlias_FXStateChunk, this indexes aliasnames by parameter-index directly, not by number of already existing aliasnames.
+    When in doubt, use this one.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if deletion was successful; false, if the function couldn't delete anything
+    string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, which you want to delete a ParmAlias from
+    integer fxid - the id of the fx, which holds the to-delete-ParmAlias-entry; beginning with 1
+    integer parmidx - the id of the parameter, whose parmalias you want to delete; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Alias
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, parm, alias, delete, parm, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmAlias2_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("DeleteParmAlias2_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("DeleteParmAlias2_FXStateChunk", "parmidx", "must be an integer", -3) return false end
+    
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  if UseFX~=nil then
+    UseFX2=string.gsub(UseFX, "\n%s-PARMALIAS "..(parmidx-1).." .-\n", "\n")
+    if UseFX2==UseFX then UseFX2=nil end
+  end  
+  
+  if UseFX2~=nil then
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false, FXStateChunk
+  end
+end
+
+function ultraschall.GetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmAlias2_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parm_idx, string parm_aliasname = ultraschall.GetParmAlias2_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a parameter-alias-setting of a specific parameter from an FXStateChunk
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    Parameter-aliases are only stored for MediaTracks.
+    
+    It is the PARMALIAS-entry
+    
+    Returns nil in case of an error or if no such aliasname has been found
+  </description>
+  <retvals>
+    integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
+    string parm_aliasname - the alias-name of the parameter
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmAlias-settings
+    integer fxid - the fx, of which you want to get the parameter-alias-settings
+    integer parmidx - the id of the parameter whose aliasname you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Alias
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, parameter, alias, fxstatechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmAlias2_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("GetParmAlias2_FXStateChunk", "parmidx", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmAlias2_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  
+  if fx_lines==nil then ultraschall.AddErrorMessage("GetParmAlias2_FXStateChunk", "fxid", "no such fx", -4) return nil end
+
+  local aliasname=fx_lines:match("\n%s-PARMALIAS "..(parmidx-1).." (.-)\n")
+  if aliasname:sub(1,1)=="\"" and aliasname:sub(-1,-1)=="\"" then aliasname=aliasname:sub(2,-2) end
+  
+  return aliasname
+end
+
+
 
 ultraschall.ShowLastErrorMessage()

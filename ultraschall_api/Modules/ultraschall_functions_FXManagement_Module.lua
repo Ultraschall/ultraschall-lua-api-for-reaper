@@ -836,59 +836,6 @@ end
 --A1,B,C,D,E,F,G=ultraschall.GetParmLFOLearn_MediaTrack(reaper.GetTrack(0,0), 1, 1)
 
 function ultraschall.GetParmAudioControl_FXStateChunk(FXStateChunk, fxid, id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetParmAudioControl_FXStateChunk</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    Lua=5.3
-  </requires>
-  <functioncall>integer parmidx, string parmname, integer parameter_modulation, number parmbase, integer audioctrl, number audioctrlstrength, integer audioctrl_direction, integer channels, integer stereo, integer rms_attack, integer rms_release, number db_lo, number db_hi, number audioctrlshaping_x, number audioctrlshaping_y = ultraschall.GetParmAudioControl_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the parameter-modulation-settings of the Audio control signal-settings from an FXStateChunk
-    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
-    
-    It is entries from the <PROGRAMENV-chunk
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    integer parmidx - the id of the parameter, that shall be modulated; order like in the dropdownlist
-    string parmname - the name of the parameter, usually bypass or wet
-    integer parameter_modulation - the "Enable parameter modulation, baseline value(envelope overrides)"-checkbox; 0, enabled; 1, disabled
-    number parmbase - parameter-modulation-baseline-slider; between 0.0000 and 1.0000; default is 0.2500
-    integer audioctrl - "Audio control signal (sidechain)"-checkbox - 0, disabled; 1, enabled
-    number audioctrlstrength - the strength-slider for AudioControlSignal; 0.0000(0%) to 1.000(100%); 0.493(49.3%); default is 1
-    integer audioctrl_direction - the direction-radiobuttons for AudioControlSignal; -1, Negative; 0, Centered; 1, Positive
-    integer channels - the Track audio channel-dropdownlist; linked to entry parameter stereo as well
-                     - -1, no channel selected(yet) (default)
-                     - 0 and higher, track 1 and higher is selected
-    integer stereo - linked to channels as well
-                   - 0, mono(use only the channel set in CHAN); 1, stereo(use the channel set in CHAN and CHAN+1)
-    integer rms_attack - rms attack in milliseconds; 0 to 1000; default is 300
-    integer rms_release - rms release in milliseconds; 0 to 1000; default is 300
-    number db_lo - db_lo decides the lowest value possible for parameter db_hi; db_hi decides the highest volume for db_lo
-                 - Min volume-slider in dB; maximum valuerange possible is -60dB to 11.9dB
-    number db_hi - db_lo decides the lowest value possible for parameter db_hi; db_hi decides the highest volume for db_lo
-                 - Max volume-slider in dB; maximum valuerange possible is -59.9dB to 12dB
-    number audioctrlshaping_x - the x-position of the shaping-dragging-point; between 0.000000 and 1.000000
-    number audioctrlshaping_y - the y-position of the shaping-dragging-point; between 0.000000 and 1.000000
-  </retvals>
-  <parameters>
-    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmModulation-settings
-    integer fxid - the fx, of which you want to get the parameter-modulation-settings
-    integer id - the id of the ParmModulation-settings you want to have, starting with 1 for the first
-  </parameters>
-  <chapter_context>
-    FX-Management
-    Parameter Modulation
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
-  <tags>fxmanagement, get, parameter, modulation, fxstatechunk, audio control signal</tags>
-</US_DocBloc>
-]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmAudioControls_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmAudioControls_FXStateChunk", "id", "must be an integer", -2) return nil end
   if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmAudioControls_FXStateChunk", "fxid", "must be an integer", -3) return nil end
@@ -936,62 +883,6 @@ end
 
 
 function ultraschall.GetParmLFO_FXStateChunk(FXStateChunk, fxid, id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetParmLFO_FXStateChunk</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    Lua=5.3
-  </requires>
-  <functioncall>integer parmidx, string parmname, integer parameter_modulation, number parmbase, integer lfo, number lfo_strength, integer lfo_direction, integer lfo_shape, integer temposync, integer unknown, integer phase_reset, number lfo_speed, number lfo_speedphase = ultraschall.GetParmLFO_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the parameter-modulation-settings of the LFO-settings from an FXStateChunk
-    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
-    
-    It is entries from the <PROGRAMENV-chunk
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    integer parmidx - the id of the parameter, that shall be modulated; order like in the dropdownlist
-    string parmname - the name of the parameter, usually bypass or wet
-    integer parameter_modulation - the "Enable parameter modulation, baseline value(envelope overrides)"-checkbox; 0, enabled; 1, disabled
-    number parmbase - parameter-modulation-baseline-slider; between 0.0000 and 1.0000; default is 0.2500
-    integer lfo - LFO checkbox; 0, disabled; 1, enabled
-    number lfo_strength - Strength-slider in the LFO parameter-modulation; 0.0000(0%) to 1.000(100%); 0.493(49.3%); default is 1
-    integer lfo_direction - Direction-radiobuttons in the LFO parameter modulation; -1, Negative; 0, Centered; 1, Positive
-    integer lfo_shape - the shape of the LFO
-                    - 0, sine
-                    - 1, square
-                    - 2, saw L
-                    - 3, saw R
-                    - 4, triangle
-                    - 5, random
-    integer temposync - the Tempo sync-checkbox in the LFO parameter-modulation; 0, disabled; 1, enabled
-    integer unknown - unknown
-    integer phase_reset - phase-reset-dropdownlist
-                        - 0, On seek/loop (deterministic output)
-                        - 1, Free-running (non-deterministic output)
-    number lfo_speed - Speed-slider in the LFO parameter-modulation; either Hz(temposync=0) or QN(temposync=1) 
-                     - Hz: 0(0.0039Hz) to 1(8.0000Hz); higher values are possible, lower values go into negative; default is 0.124573(1.0000Hz)
-                     - QN: 0(8.0000QN) to 1(0.2500QN); lower values are possible; higher values go into negative; default is 0.9(1.0000QN)
-    number lfo_speedphase - Phase-slider in the LFO parameter-modulation; 0.000 to to 1.000; default is 0.5
-  </retvals>
-  <parameters>
-    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmModulation-settings
-    integer fxid - the fx, of which you want to get the parameter-modulation-settings
-    integer id - the id of the ParmModulation-settings you want to have, starting with 1 for the first
-  </parameters>
-  <chapter_context>
-    FX-Management
-    Parameter Modulation
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
-  <tags>fxmanagement, get, parameter, modulation, fxstatechunk, lfo</tags>
-</US_DocBloc>
-]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLFO_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLFO_FXStateChunk", "id", "must be an integer", -2) return nil end
   if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLFO_FXStateChunk", "fxid", "must be an integer", -3) return nil end
@@ -1040,88 +931,6 @@ end
 
 -- integer parmidx, string parmname, boolean plink_enabled, number scale, integer midi_fx_idx, integer midi_fx_idx2, integer linked_parmidx, number offset, optional integer bus, optional integer channel, optional integer category, optional integer midi_note
 function ultraschall.GetParmMIDIPLink_FXStateChunk(FXStateChunk, fxid, id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetParmMIDIPLink_FXStateChunk</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    Lua=5.3
-  </requires>
-  <functioncall>integer parmidx, string parmname, integer parameter_modulation, number parmbase, boolean plink_enabled, number scale, integer midi_fx_idx, integer midi_fx_idx2, integer linked_parmidx, number offset, optional integer bus, optional integer channel, optional integer category, optional integer midi_note = ultraschall.GetParmMIDIPLink_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the parameter-modulation-settings of the Parameter-Link-Modulation-settings from an FXStateChunk
-    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
-    
-    It is entries from the <PROGRAMENV-chunk
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    integer parmidx - the id of the parameter, that shall be modulated; order like in the dropdownlist
-    string parmname - the name of the parameter, usually bypass or wet
-    integer parameter_modulation - the "Enable parameter modulation, baseline value(envelope overrides)"-checkbox; 0, enabled; 1, disabled
-    number parmbase - parameter-modulation-baseline-slider; between 0.0000 and 1.0000; default is 0.2500
-    boolean plink_enabled - true, parameter-linking is enabled; false, parameter linking is disabled
-    number scale - the scale-slider; -1.00(-100%) to 1.00(100%); default is 0(0%)
-    integer midi_fx_idx - the big MIDI/FX-button in the "Link from MIDI or FX parameter"-area
-                        -  -1, nothing selected
-                        -  -100, MIDI-parameter-settings
-                        -  0 - the first fx
-                        -  1 - the second fx
-                        -  2 - the third fx, etc
-    integer midi_fx_idx2 - the big MIDI/FX-button in the "Link from MIDI or FX parameter"-area; Reaper stores the idx for idx using two values, where this is the second one
-                         - it is unknown why, so I include it in here anyway
-                         -  -1, nothing selected
-                         -  -100, MIDI-parameter-settings
-                         -  0 - the first fx
-                         -  1 - the second fx
-                         -  2 - the third fx, etc
-    integer linked_parmidx - the parameter idx, that you want to link; 
-                    - When MIDI:
-                    -     16
-                    - When FX-parameter:
-                    -     0 to n; 0 for the first; 1, for the second, etc
-    number offset - Offset-slider; -1.00(-100%) to 1.00(100%); default is 0(0%) 
-    optional integer bus - the MIDI-bus; 0 to 15 for bus 1 to 16; only available, when midi_fx_idx=-100, otherwise nil
-    optional integer channel - the MIDI-channel; 0, omni; 1 to 16 for channel 1 to 16; only available, when midi_fx_idx=-100, otherwise nil
-    optional integer category - the MIDI-category, which affects the meaning of parameter midi_note; only available, when midi_fx_idx=-100, otherwise nil
-                              - 144, MIDI note
-                              - 160, Aftertouch
-                              - 176, CC 14Bit and CC
-                              - 192, Program Change
-                              - 208, Channel Pressure
-                              - 224, Pitch
-    optional integer midi_note - the midi_note/command, whose meaning depends on parameter category; only available, when midi_fx_idx=-100, otherwise nil
-                               -   When MIDI note:
-                               -        0(C-2) to 127(G8)
-                               -   When Aftertouch:
-                               -        0(C-2) to 127(G8)
-                               -   When CC14 Bit:
-                               -        128 to 159; see dropdownlist for the commands(the order of the list is the same as this numbering)
-                               -   When CC:
-                               -        0 to 119; see dropdownlist for the commands(the order of the list is the same as this numbering)
-                               -   When Program Change:
-                               -        0
-                               -   When Channel Pressure:
-                               -        0
-                               -   When Pitch:
-                               -        0
-  </retvals>
-  <parameters>
-    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmLinkModulation-settings
-    integer fxid - the fx, of which you want to get the parameter-linking-modulation-settings
-    integer id - the id of the ParmLinkModulation-settings you want to have, starting with 1 for the first
-  </parameters>
-  <chapter_context>
-    FX-Management
-    Parameter Modulation
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
-  <tags>fxmanagement, get, parameter, linking, linked, midi, fx, modulation, fxstatechunk, lfo</tags>
-</US_DocBloc>
-]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmMIDIPLink_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmMIDIPLink_FXStateChunk", "id", "must be an integer", -2) return nil end
   if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmMIDIPLink_FXStateChunk", "fxid", "must be an integer", -3) return nil end
@@ -1628,7 +1437,7 @@ function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetParmAlias_FXStateChunk</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.979
     Lua=5.3
   </requires>
@@ -1638,6 +1447,9 @@ function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias
     
     It's the PARMALIAS-entry
     
+    The parameter id counts with the first aliasname found in the FXStateChunk for this fx, regardless, if the first found aliasname is for parameter 1 or 23, etc. 
+    If you want to adress it by parameter-index, use [SetParmAlias2_FXStateChunk](#SetParmAlias2_FXStateChunk) instead.
+    
     returns false in case of an error
   </description>
   <retvals>
@@ -1645,9 +1457,9 @@ function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias
     optional string alteredFXStateChunk - the altered FXStateChunk
   </retvals>
   <parameters>
-    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
-    integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
-    integer id - the id of the Parm-Learn-entry to set; beginning with 1
+    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Alias-entry
+    integer fxid - the id of the fx, which holds the to-set-Parm-Alias-entry; beginning with 1
+    integer id - the id of the Parm-Alias-entry to set; beginning with 1
     string parmalias - the new aliasname of the parameter
   </parameters>
   <chapter_context>
@@ -1664,7 +1476,9 @@ function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("SetParmAlias_FXStateChunk", "id", "must be an integer", -3) return false end    
 
   if type(parmalias)~="string" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "parmalias", "must be a string", -4) return false end
-    
+  
+  if parmalias:match("%s")~=nil then parmalias="\""..parmalias.."\"" end
+  
   local count=0
   local FX, UseFX2, start, stop, UseFX
   for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
@@ -1691,6 +1505,76 @@ function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias
     return false
   end
 end
+
+function ultraschall.SetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx, parmalias)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetParmAlias2_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.SetParmAlias2_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx, string parmalias)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets an already existing Parm-Learn-entry of an FX-plugin from an FXStateChunk.
+    
+    Unlike SetParmAlias_FXStateChunk, the parameter parmidx counts by parameter-order, not existing aliasnames. If a parameter has no aliasname yet, it will return false.
+    
+    It's the PARMALIAS-entry
+    
+    
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful(e.g. no such ParmLearn)
+    optional string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Alias-entry
+    integer fxid - the id of the fx, which holds the to-set-Parm-Alias-entry; beginning with 1
+    integer parmidx - the index of the parameter, whose Parm-Alias-entry you want to to set; beginning with 1
+    string parmalias - the new aliasname of the parameter
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Alias
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, parm, aliasname</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmAlias2_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("SetParmAlias2_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("SetParmAlias2_FXStateChunk", "parmidx", "must be an integer", -3) return false end    
+
+  if type(parmalias)~="string" then ultraschall.AddErrorMessage("SetParmLearn2_FXStateChunk", "parmalias", "must be a string", -4) return false end
+  
+  if parmalias:match("%s")~=nil then parmalias="\""..parmalias.."\"" end
+  
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    UseFX2=string.gsub(UseFX, "\n%s-PARMALIAS "..(parmidx-1).." .-\n", "\n    PARMALIAS "..(parmidx-1).." "..parmalias.."\n")
+    if UseFX2==UseFX then UseFX2=nil end
+  end  
+  
+  if UseFX2~=nil then
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)  
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false
+  end
+end
+
 
 function ultraschall.SetFXStateChunk(StateChunk, FXStateChunk, TakeFXChain_id)
 --[[
@@ -1974,7 +1858,7 @@ function ultraschall.AddParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parm
     string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
     integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
     integer parmidx - the parameter, whose alias you want to add
-    string parmname - the name of the parameter, usually \"\" or \"byp\" for bypass or \"wet\" for wet; when using wet or bypass, these are essential to give!
+    string parmname - the name of the parameter, usually \"\" or \"byp\" for bypass or \"wet\" for wet; when using wet or bypass, these are essential to give, otherwise just pass ""
     integer midi_note -   an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
                       -    examples:
                       -            0,   OSC is used
@@ -2057,11 +1941,11 @@ function ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, fxid, parmidx, parm
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddParmAlias_FXStateChunk</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.979
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.AddParmAlias_FXStateChunk(string FXStateChunk, integer fxid, string parmalias)</functioncall>
+  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.AddParmAlias_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx, string parmalias)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Adds a new Parm-Alias-entry to an FX-plugin from an FXStateChunk.
     
@@ -2074,8 +1958,8 @@ function ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, fxid, parmidx, parm
     optional string alteredFXStateChunk - the altered FXStateChunk
   </retvals>
   <parameters>
-    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
-    integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
+    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Alias-entry
+    integer fxid - the id of the fx, which holds the to-set-Parm-Alias-entry; beginning with 1
     integer parmidx - the parameter, whose alias you want to add
     string parmalias - the new aliasname of the parameter
   </parameters>
@@ -2090,10 +1974,11 @@ function ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, fxid, parmidx, parm
 ]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
   if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "fxid", "must be an integer", -2) return false end
-  if math.type(id)~="integer" then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "id", "must be an integer", -3) return false end    
 
   if type(parmalias)~="string" then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "parmalias", "must be a string", -4) return false end
   if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "parmidx", "must be an integer", -5) return false end
+  
+  if parmalias:match("%s")~=nil then parmalias="\""..parmalias.."\"" end
   
   local count=0
   local FX, UseFX2, start, stop, UseFX
@@ -2102,9 +1987,9 @@ function ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, fxid, parmidx, parm
     if count==fxid then UseFX=k end
   end
   
-  if UseFX:match("PARMALIAS "..parmidx)~=nil then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "parmidx", "there's already an alias for this parmidx", -6) return false end
+  if UseFX:match("PARMALIAS "..parmidx)~=nil then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "parmidx", "There's already an alias for this parmidx. Please use SetParmAlias_FXStateChunk to set it to a new one.", -6) return false end
   local UseFX_start, UseFX_end=UseFX:match("(.-)(FXID.*)")
-  UseFX2=UseFX_start.."PARMALIAS "..parmidx.." "..parmalias.."\n    "..UseFX_end
+  UseFX2=UseFX_start.."PARMALIAS "..(parmidx-1).." "..parmalias.."\n    "..UseFX_end
   
   if UseFX2~=nil then
     start,stop=string.find(FXStateChunk, UseFX, 0, true)  
@@ -2522,7 +2407,7 @@ function ultraschall.LoadFXStateChunkFromRFXChainFile(filename, trackfx_or_takef
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Loads an FXStateChunk from an RFXChain-file.
     
-    If you don't give a path, it will try to load the file from the folder ResourcePath()/FXChains.
+    If you don't give a path, it will try to load the file from the folder ResourcePath/FXChains.
     
     returns nil in case of an error
   </description>
@@ -2530,7 +2415,7 @@ function ultraschall.LoadFXStateChunkFromRFXChainFile(filename, trackfx_or_takef
     string FXStateChunk - the loaded FXStateChunk; nil, in case of an error
   </retvals>
   <parameters>
-    string filename - the filename of the RFXChain-file(must include ".RfxChain"); omit the path to load it from the folder ResourcePath()/FXChains
+    string filename - the filename of the RFXChain-file(must include ".RfxChain"); omit the path to load it from the folder ResourcePath/FXChains
     integer trackfx_or_takefx - 0, return the FXStateChunk as Track-FXStateChunk; 1, return the FXStateChunk as Take-FXStateChunk
   </parameters>
   <chapter_context>

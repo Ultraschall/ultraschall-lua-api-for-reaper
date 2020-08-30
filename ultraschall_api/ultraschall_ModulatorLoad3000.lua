@@ -935,18 +935,6 @@ else
     ultraschall.LM(11)
     return ultraschall.GetParmLFOLearn_MediaTrack(table.unpack({...}))
   end
-  function ultraschall.GetParmAudioControl_FXStateChunk(...)
-    ultraschall.LM(11)
-    return ultraschall.GetParmAudioControl_FXStateChunk(table.unpack({...}))
-  end
-  function ultraschall.GetParmLFO_FXStateChunk(...)
-    ultraschall.LM(11)
-    return ultraschall.GetParmLFO_FXStateChunk(table.unpack({...}))
-  end
-  function ultraschall.GetParmMIDIPLink_FXStateChunk(...)
-    ultraschall.LM(11)
-    return ultraschall.GetParmMIDIPLink_FXStateChunk(table.unpack({...}))
-  end
   function ultraschall.ScanDXPlugins(...)
     ultraschall.LM(11)
     return ultraschall.ScanDXPlugins(table.unpack({...}))
@@ -974,6 +962,10 @@ else
   function ultraschall.SetParmAlias_FXStateChunk(...)
     ultraschall.LM(11)
     return ultraschall.SetParmAlias_FXStateChunk(table.unpack({...}))
+  end
+  function ultraschall.SetParmAlias2_FXStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.SetParmAlias2_FXStateChunk(table.unpack({...}))
   end
   function ultraschall.SetFXStateChunk(...)
     ultraschall.LM(11)

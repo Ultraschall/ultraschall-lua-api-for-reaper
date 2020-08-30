@@ -353,10 +353,14 @@ Has now 1215 functions, with 15 new ones
    - FXManagement: AddParmModulationTable - adds a new parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
    - FXManagement: CreateDefaultParmModTable - creates a ParameterModulationTable which holds Reaper's default values and can be altered
+   - FXManagement: DeleteParmAlias2\_FXStateChunk - like DeleteParmAlias\_FXStateChunk, but allows indexing by parameter-index, not by number of existing aliasnames
    - FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk
+   - FXManagement: GetAllParmAliasNames\_FXStateChunk - gets all parameter-aliasnames of a specific fx from an FXStateChunk
+   - FXManagement: GetParmAlias2\_FXStateChunk - like GetParmAlias\_FXStateChunk but allows indexing by parameter-index instead
    - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation of an fx
    - FXManagement: GetFXSettingsString\_FXLines - returns the statestring of an fx as base64 and decoded-binary string
    - FXManagement: IsValidParmModTable - returns, if a table is a valid ParmModTable(used for altering Parameter-Modulations)
+   - FXManagement: SetParmAlias2\_FXStateChunk - like SetParmAlias\_FXStateChunk but indexes by parameterindex, not already existing aliases
    - FXManagement: SetParmModulationTable - sets a parameter-modulation of an fx in an FXStateChunk
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - GMEM: Gmem\_GetCurrentAttachedName - returns the name of the currently attached gmem
@@ -368,6 +372,7 @@ Has now 1215 functions, with 15 new ones
    - API: print2 - replaces null-characters now with . when displaying strings containing them
    - API: print_alt - replaces null-characters now with . when displaying strings containing them
    - API: print_update - replaces null-characters now with . when displaying strings containing them
+   - Docs: AddParmAlias\_FXStateChunk - was missing parameter in functioncall -> fixed
    - Docs: ParmLearn-docs - corrected information and added missing stuff
    - Docs: Reaper; GetUserInputs - added information about how to pass over default-retvals and its limitations
    - Error Messaging-System: ReadErrorMessage - allows now keeping error-message readstate as unread
@@ -378,7 +383,12 @@ Has now 1215 functions, with 15 new ones
    - File Management: GetAllDirectoriesInPath - omitted folderseparator in returned folders, if it hasn't been passed into parameter path
    - File Management: CopyFile\_GetRemainingFilesToCopy - returned the wrong number of remaining files -> fixed
    - FXManagement: GetFXFromFXStateChunk - returns now the start and endoffset of the returned lines, so they could be used for string substitution; didn't return anything under some circumstances -> fixed
+   - FXManagement: GetParmAudioControl\_FXStateChunk - deprecated  
+   - FXManagement: GetParmLFO\_FXStateChunk - deprecated
+   - FXManagement: GetParmMIDIPLink\_FXStateChunk - deprecated
    - Helper Functions: ActionsList\_GetSelectedActions - returns now the shortcuts of the selected actions as well
+   - ParmAlias: AddParmLearn_FXStateChunk - did not add aliasnames with spaces correctly, added it to one parameter higher than requested -> fixed
+   - ParmAlias: SetParmLearn_FXStateChunk - did not set aliasnames with spaces correctly -> fixed
    - TrackManagement: SetTrackStateChunk\_Tracknumber - had inner variable exposed -> fixed
 
 ---
