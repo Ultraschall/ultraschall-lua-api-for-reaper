@@ -5748,6 +5748,343 @@
         <next_chapter>Helper_Functions_001_Introduction</next_chapter>
         <tags>eventmanager, startup events</tags>
     </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FX_Introduction</slug>
+        <title>FX-Management: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When working with audio, it's almost impossible to not use FX on items and tracks, using parameter modulation and learn.  
+            But sometimes, the way Reaper's user interface manages things is not enough. You want to code the stuff yourself to make it 
+            behave to your needs.  
+            
+            So I simply had to implement a lot of features for manipulation of FX, including some stuff never been codeable before.  
+            
+            So let's dive into the magical wonderful world of fx-management.
+        </description>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
+        <source_document>US_Api-Concepts.USDocML</source_document>
+        <chapter_context>
+            FX-Management
+        </chapter_context>
+        <previous_chapter>EventManager_StartupEvents</previous_chapter>
+        <next_chapter>FX_Working_with_FXStateChunks</next_chapter>
+        <tags>fx management, introduction</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FX_Working_with_FXStateChunks</slug>
+        <title>FX-Management: Working with FX-StateChunks</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            A lot of fx-possibilities are already possible with Reaper's native API-functions, but sometimes you need the real deal, the full control.  
+            And Reaper has such a datastructure for that, called FXStateChunk.  
+            
+            FXStateChunks are parts of either MediaItemStateChunks or TrackStateChunks. What they basically do is hold all information, settings, etc of all fx in the FXChain of the MediaItem or MediaTrack.  
+            These hold bypass-settings, state-binary strings, aliasnames of the fx, parameter-learn/parameter modulation, etc. So if you want to manipulate specific fx beyond Reaper's own api-functions, manipulating FXStateChunks is the way to go.  
+            
+            Getting an FXStateChunk is quite easy.
+            
+            1. Get the item/track-statechunk, using [GetTrackStateChunk\_Tracknumber](usdocml://GetTrackStateChunk_Tracknumber)(for trackfx) or reaper.GetItemStateChunk(item/take-fx).
+            2. Get the FXStateChunk from the item/track-statechunk with [GetFXStateChunk](usdocml://GetFXStateChunk)
+            
+            Now you can manipulate it to your needs. When you're finished manipulating the FXStateChunk, you can set it back into the original item or track-statechunk.
+            
+            To set it again, you go the path into the other direction
+            1. Set the FXStateChunk in the item/take-statechunk via [SetFXStateChunk](usdocml://SetFXStateChunk)
+            2. Set the item/track-statechunk into the item/track, using [SetTrackStateChunk\_Tracknumber](usdocml://SetTrackStateChunk_Tracknumber)(for trackfx) or reaper.SetItemStateChunk(item/take-fx).
+            
+            That's the basic workflow to toy around with FXStateChunks. More details in the next chapters
+        </description>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
+        <source_document>US_Api-Concepts.USDocML</source_document>
+        <chapter_context>
+            FX-Management
+        </chapter_context>
+        <previous_chapter>FX_Introduction</previous_chapter>
+        <next_chapter>FX_Working_with_FXStateChunks_Functions</next_chapter>
+        <tags>fx management, fxstatechunks, basics</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FX_Working_with_FXStateChunks_Functions</slug>
+        <title>FX-Management: Working with FX-StateChunk's functions</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Now let's go into more detail on numerous functions regarding FXStateChunks.
+            
+            The most important ones are the functions for getting and setting a FXStateChunk from/into track/item-statechunks.  
+            
+            >**[GetFXStateChunk](usdocml://GetFXStateChunk)**
+            
+                                    string FXStateChunk, integer linenumber = 
+                                                    ultraschall.GetFXStateChunk(string StateChunk, optional integer TakeFXChain_id)
+                                    
+            >This gets the FXStateChunk from a track or item-statechunk and returns also its linenumber within the original statechunk.
+            >There's also an optional parameter TakeFXChain\_id, which is helpful in item-statechunks, as they can have multiple FXStateChunks, with one for each existing take. 
+            >Just set it to the take-id(beginning with 1) which shall get the FXStateChunk.
+            >Unlike Reaper's own Get/Set-TrackStateChunk-functions, this formats the StateChunk properly, so using the fileformat for string-substitution is possible to do.  
+            
+            >**[SetFXStateChunk](usdocml://SetFXStateChunk)**
+            
+                                    boolean retval, optional string alteredStateChunk = 
+                                                    ultraschall.SetFXStateChunk(string StateChunk, string FXStateChunk, optional integer TakeFXChain_id)
+                                    
+            >This sets the FXStateChunk in a track or item-statechunk and returns the altered Item/Track-StateChunk.  
+            >There's also an optional parameter TakeFXChain\_id, which is helpful in item-statechunks, as they can have multiple FXStateChunks, with one for each existing take. 
+            >Just set it to the take-id(beginning with 1) which shall get the FXStateChunk.
+            
+            There are more helper-functions included, like:
+            
+            >**[CountFXStateChunksInStateChunk](usdocml://CountFXStateChunksInStateChunk)**
+            
+                                    integer count_of_takefx_statechunks, integer count_of_trackfx_statechunks 
+                                                                = ultraschall.CountFXStateChunksInStateChunk(string StateChunk)
+                                    
+            >This counts all available FXStateChunks existing within an item/track/project-statechunk.
+            
+            >**[IsValidFXStateChunk](usdocml://IsValidFXStateChunk)**
+            
+                                    boolean retval = ultraschall.IsValidFXStateChunk(string StateChunk)
+                                    
+            >This checks, if a statechunk is a valid FXStateChunk and returns true in that case. 
+            
+            >**[RemoveFXStateChunkFromItemStateChunk](usdocml://RemoveFXStateChunkFromItemStateChunk)**
+            
+                                    string alteredItemStateChunk = ultraschall.RemoveFXStateChunkFromItemStateChunk(
+                                                                                        string ItemStateChunk, integer take_id)
+                                                                                        
+            >This removes an FXStateChunk from an ItemStateChunk. Just pass to it the ItemStateChunk as well as the take-number.
+            >It returns the StateChunk without the FXStateChunk of the take with take\_id.
+        
+            >**[RemoveFXStateChunkFromTrackStateChunk](usdocml://RemoveFXStateChunkFromTrackStateChunk)**
+            
+                                    string altered_TrackStateChunk = ultraschall.RemoveFXStateChunkFromTrackStateChunk(
+                                                                                                        string TrackStateChunk)
+                                                                                        
+            >This removes an FXStateChunk from a TrackStateChunk. It returns the StateChunk without the FXStateChunk.
+            
+            Now there are numerous sources for FXChains, including RFXChain-files, who are files you can store in Reaper, who hold all settings of an FXChain.
+            So if you want to deal with these files, I've included functions for it:
+            
+            >**[LoadFXStateChunkFromRFXChainFile](usdocml://LoadFXStateChunkFromRFXChainFile)**
+            
+                                    string FXStateChunk = ultraschall.LoadFXStateChunkFromRFXChainFile(string filename, 
+                                                                                                        integer trackfx_or_takefx)
+                                                                                        
+            >This loads an FXChain from an RFXChain-file. You can set the whole path to it but if you only set the filename, it will try to read the RFXChain-file from the folder Resourcepath/FXChains/
+            >It's important to tell the function, whether it shall be used as track or take-fx, as there are small detail-differences between the two FXChain-types.
+            
+            >**[SaveFXStateChunkAsRFXChainfile](usdocml://SaveFXStateChunkAsRFXChainfile)**
+            
+                                    integer retval = ultraschall.SaveFXStateChunkAsRFXChainfile(
+                                                                                              string filename, string FXStateChunk)
+                                                                                        
+            >This saves an FXChain into an RFXChain-file. You can set the whole path to the target-file but if you only set the filename, it will store the RFXChain-file into the folder Resourcepath/FXChains/
+        </description>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
+        <source_document>US_Api-Concepts.USDocML</source_document>
+        <chapter_context>
+            FX-Management
+        </chapter_context>
+        <previous_chapter>FX_Working_with_FXStateChunks</previous_chapter>
+        <next_chapter>FX_Manipulating_Individual_Effects</next_chapter>
+        <tags>fx management, fxstatechunk, advanced</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FX_Manipulating_Individual_Effects</slug>
+        <title>FX-Management: Manipulating individual effects</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Now that you have the FXStateChunk, you might want to manipulate individual FX. Problem is, you need to parse them out of the FXChain by hand.  
+            Or you use the following way to manipulate individual effects because...you can already guess: I made some functions for that.  
+            
+            Manipulating individual effects needs some special treatment, but don't be afraid, it's not that hard to manage.
+            
+            First, get the FXStateChunk, like described in the previous chapters.  
+            Then you can get the lines of the FXStateChunk for a specific fx by using [GetFXFromFXStateChunk](usdocml://GetFXFromFXStateChunk).  
+            
+                                    string fx_lines, integer startoffset, integer endoffset = 
+                                            ultraschall.GetFXFromFXStateChunk(string FXStateChunk, integer fxindex)
+                                            
+            Just pass to it the FXStateChunk and the index of the fx, whose lines you want to get.  
+            It will return these lines as a string and the start and endoffset of these lines within the FXStateChunk.  
+            Keep these values, we'll need them later.  
+            
+            Now that we have the string "fx\_lines", you can manipulate this string, using Lua's string-manipulation-functions, string.gsub for instance.  
+            So to set the bypass-state of the fx-lines, you can use:
+            
+                                    fx_lines=string.gsub(fx_lines, "BYPASS.-\n", "BYPASS 1 0 0\n")
+                                    
+            This will replace the part of the string beginning with BYPASS and ending with the next newline(\n) with BYPASS 1 0 0, where the 1 signals,  
+            that this fx is not bypassed anymore.
+            
+            Now if you've changed the fx-lines accordingly, you can put it into the FXStateChunk quite easily. We just need to use the returnvalues returned by GetFXFromFXStateChunk that you hopefully kept.  
+            
+                                    FXStateChunk=FXStateChunk:sub(1,startoffset)..fx_lines..FXStateChunk:sub(endoffset, -1)
+                                    
+            and that's it. You've successfully set the bypass-state of the fx you've got via GetFXFromFXStateChunk. You can set this FXStateChunk back into its original statechunk and then commit it to the track/item of your choice.
+
+            The following example-script toggles bypass for the first FX in the first track of your project:
+            
+                                    -- toggle bypass-state of the first fx in the first track on and off
+                                    dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+
+                                    -- get the FXStateChunk
+                                    retval, TrackStateChunk = ultraschall.GetTrackStateChunk_Tracknumber(1)
+                                    if retval==false then 
+                                        print2("An error has happened: No track available") 
+                                        return 
+                                    end
+                                    FXStateChunk = ultraschall.GetFXStateChunk(TrackStateChunk)
+
+                                    -- get the lines of the first fx in the FXStateChunk
+                                    fx_lines, startoffset, endoffset =  ultraschall.GetFXFromFXStateChunk(FXStateChunk, 1)
+                                    if fx_lines==nil then 
+                                        print2("An error has happened: No such FX available") 
+                                        return 
+                                    end
+
+                                    -- see, if the first number in the BYPASS-line is 1(not bypassed) or not
+                                    -- and toggle accordingly (when 1 newtoggle=0 else newtoggle=1)
+                                    if fx_lines:match("BYPASS 1") then newtoggle="0" else newtoggle="1" end
+
+                                    -- set the new bypassed-value into the fx-lines
+                                    fx_lines=string.gsub(fx_lines, "BYPASS.-\n", "BYPASS "..newtoggle.." 0 0\n")
+
+                                    -- use the fx_lines and put them into the right place of the FXStateChunk
+                                    FXStateChunk=FXStateChunk:sub(1,startoffset)
+                                                 ..fx_lines
+                                                 ..FXStateChunk:sub(endoffset, -1)
+
+                                    -- Put the altered FXStateChunk back into the TrackStateChunk
+                                    retval, TrackStateChunk=ultraschall.SetFXStateChunk(TrackStateChunk, FXStateChunk)
+
+                                    -- commit the TrackStateChunk to the first track so we actually toggle 
+                                    -- the bypass-state of the first fx of track 1
+                                    ultraschall.SetTrackStateChunk_Tracknumber(1, TrackStateChunk)
+
+        </description>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
+        <source_document>US_Api-Concepts.USDocML</source_document>
+        <chapter_context>
+            FX-Management
+        </chapter_context>
+        <previous_chapter>FX_Working_with_FXStateChunks_Functions</previous_chapter>
+        <next_chapter>FX_ParameterModulationLearnAliasMapping_Introduction</next_chapter>
+        <tags>fx management, fxstatechunk, fxmanipulation</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FX_ParameterModulationLearnAliasMapping_Introduction</slug>
+        <title>Parameter Modulation/Learn/Alias: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            For those, who want more control on how fx are managed, Reaper has this feature called Parameter Modulation as well as Parameter Learn and Parameter Alias and there's a lot of stuff you can do with it.  
+            But: it wasn't programmable yet.  
+            And as you all know this: if it's not yet programmable and you're asking for it, I try to make it happen.  
+            Hence, Ladies and Gentlemen and varieties inbetween, please welcome: Parameter Learn, Alias and Modulation.
+            
+            First things first: to influence one of these, you need to get FXStateChunks and, if needed, set them after your changes.  
+            So if you don't know yet on how to work with FXStateChunks, read the chapters on [FXStateChunks](#FX_Introduction)
+            
+            Let's start with the easiest of the three: Parameter Alias
+        </description>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
+        <source_document>US_Api-Concepts.USDocML</source_document>
+        <chapter_context>
+            FX-Management
+        </chapter_context>
+        <previous_chapter>FX_Manipulating_Individual_Effects</previous_chapter>
+        <next_chapter>FX_ParameterModulationLearnMapping_Introduction</next_chapter>
+        <tags>fx management, Parameter Modulation, Parameter Learn, Parameter Alias</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FX_ParameterAlias</slug>
+        <title>Parameter Alias</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Parameter Aliases allow you to give new names to parameters. For instance, you have added ReaEQ as first effect in the FXChain and you have this parameter called "Freq-Band 1".  
+            You may want to have a name, which describes more what the parameter does, like "Humming Removal".  
+            
+            In that case, you can set parameter-alias-names.
+            
+            1. First you need to get the FXStateChunk, into which you want to set the parameter-alias-name.  
+            2. Then you can use [AddParmAlias_FXStateChunk](usdocml://AddParmAlias_FXStateChunk) to add a new aliasname or [SetParmAlias2_FXStateChunk](usdocml://SetParmAlias2_FXStateChunk) to set an existing aliasname in the FXStateChunk  
+            3. Set the FXStateChunk back into the original statechunk
+            
+            In the following example, I assume that track 1 has ReaEQ in its FXChain as first parameter and the "Reset to factory defaults"-preset selected.  
+            The first parameter of ReaEQ is named "Freq-Low Shelf".  
+            As there is no aliasname available yet, we need to add it:
+            
+                                    dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+                                    
+                                    aliasname="The new parameter-alias-name"
+                                    
+                                    -- Get the trackstatechunk and the FXStateChunk from it
+                                    retval,TrackStateChunk = ultraschall.GetTrackStateChunk_Tracknumber(1)
+                                    FXStateChunk=ultraschall.GetFXStateChunk(TrackStateChunk)
+
+                                    -- add the new parameter-aliasname, and show an error-message, if there is already one
+                                    retval, alteredFXStateChunk = ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, 1, 1, aliasname)
+                                    if retval==false then print2("Parameter-has already an aliasname. Please use "..
+                                                                 "SetParmAlias2_FXStateChunk to set it to a new one.") return end
+
+                                    -- set the altered FXStateChunk to the TrackStateChunk and commit it to the first track
+                                    retval, TrackStateChunk=ultraschall.SetFXStateChunk(TrackStateChunk, alteredFXStateChunk)
+                                    retval = ultraschall.SetTrackStateChunk_Tracknumber(1, TrackStateChunk)
+            
+            If you want to set it to a new name, you can use [SetParmAlias2_FXStateChunk](usdocml://SetParmAlias2_FXStateChunk). The following code sets the parameter-aliasname to "Totally new name"
+            
+                                    dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+                                    
+                                    aliasname="Totally new name"
+                                    
+                                    -- Get the trackstatechunk and the FXStateChunk from it
+                                    retval,TrackStateChunk = ultraschall.GetTrackStateChunk_Tracknumber(1)
+                                    FXStateChunk=ultraschall.GetFXStateChunk(TrackStateChunk)
+
+                                    -- set the new parameter-aliasname
+                                    retval, alteredFXStateChunk = ultraschall.SetParmAlias2_FXStateChunk(FXStateChunk, 1, 1, aliasname)
+
+                                    -- set the altered FXStateChunk to the TrackStateChunk and commit it to the first track
+                                    retval, TrackStateChunk=ultraschall.SetFXStateChunk(TrackStateChunk, alteredFXStateChunk)
+                                    retval = ultraschall.SetTrackStateChunk_Tracknumber(1, TrackStateChunk)
+            
+            There are more functions related to Parameter Aliases, that give you more possibilities:  
+            >[GetAllParmAliasNames\_FXStateChunk](usdocml://GetAllParmAliasNames_FXStateChunk) - this gets all aliasnames from an fx within an FXStateChunk  
+            >[CountParmAlias\_FXStateChunk](usdocml://CountParmAlias_FXStateChunk) - this counts all aliasnames of an fx within an FXStateChunk  
+            >[DeleteParmAlias\_FXStateChunk](usdocml://DeleteParmAlias_FXStateChunk) - this deletes an aliasname of an fx within an FXStateChunk, indexed by existing aliasnames  
+            >[DeleteParmAlias2\_FXStateChunk](usdocml://DeleteParmAlias2_FXStateChunk) - this deletes an aliasname of an fx within an FXStateChunk, indexed by parameterindex  
+            >[SetParmAlias\_FXStateChunk](usdocml://SetParmAlias_FXStateChunk) - this sets an aliasname of an fx within an FXStateChunk, indexed by existing aliasnames  
+            >[SetParmAlias2\_FXStateChunk](usdocml://SetParmAlias2_FXStateChunk) - this sets an aliasname of an fx within an FXStateChunk, indexed by parameterindex  
+            
+            In the next chapter, we'll discuss, how to map MIDI and OSC by learning to parameters.
+        </description>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
+        <source_document>US_Api-Concepts.USDocML</source_document>
+        <chapter_context>
+            FX-Management
+        </chapter_context>
+        <previous_chapter>FX_ParameterModulationLearnAliasMapping_Introduction</previous_chapter>
+        <next_chapter>FX_ParameterMappingLearn</next_chapter>
+        <tags>fx management, Parameter Alias</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FX_ParameterMappingLearn</slug>
+        <title>Parameter Mapping Learn</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            
+                TO DO
+        </description>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
+        <source_document>US_Api-Concepts.USDocML</source_document>
+        <chapter_context>
+            FX-Management
+        </chapter_context>
+        <previous_chapter>FX_ParameterAlias</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>fx management, parameter mapping learn</tags>
+    </US_DocBloc>
+    
+    
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Helper_Functions_001_Introduction</slug>
