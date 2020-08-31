@@ -1,6 +1,7 @@
 <TODO>
         
     For 4.01.005:
+        - MB -- new implementation must be checked on Mac(and probably needs a Mac-weiche in SetMessageBox_Helper_Script.lua)
         - Doku! Viel Doku!
             - Lokasenna's GuiLib v2 & v3-Lizenz angeben in Doku
             - FXStateChunk-Management
@@ -390,6 +391,7 @@ Has now 1215 functions, with 15 new ones
    - ParmAlias: AddParmLearn_FXStateChunk - did not add aliasnames with spaces correctly, added it to one parameter higher than requested -> fixed
    - ParmAlias: SetParmLearn_FXStateChunk - did not set aliasnames with spaces correctly -> fixed
    - TrackManagement: SetTrackStateChunk\_Tracknumber - had inner variable exposed -> fixed
+   - User Interface: MB - workaround for Mac, so this should work again on Mac OS
 
 ---
 

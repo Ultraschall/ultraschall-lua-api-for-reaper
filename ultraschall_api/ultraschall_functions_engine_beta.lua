@@ -3303,5 +3303,46 @@ function ultraschall.GetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx)
 end
 
 
-
+function ultraschall.ReturnAllChildHWND(hwnd)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ReturnAllChildHWND</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.965    
+    JS=0.962
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_of_hwnds, table hwnds = ultraschall.ReturnAllChildHWND(HWND hwnd)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns all child-window-handler of hwnd.
+    
+    Returns -1 in case of an error
+  </description>
+  <retvals>
+    integer count_of_hwnds - the number of found child-window-handler
+    table hwnds - the found child-window-handler of hwnd
+  </retvals>
+  <parameters>
+    HWND hwnd - the HWND-handler to check for
+  </parameters>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>window, hwnd, get, all, child</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidHWND(hwnd)==false then ultraschall.AddErrorMessage("ReturnAllChildHWND", "hwnd", "must be a valid hwnd", -1) return -1 end
+  local Aretval, Alist = reaper.JS_Window_ListAllChild(hwnd)
+  local HWND={}
+  local count=0
+  for k in string.gmatch(Alist..",", "(.-),") do
+    count=count+1
+    HWND[count]=reaper.JS_Window_HandleFromAddress(k)
+  end
+  return count, HWND
+end
 ultraschall.ShowLastErrorMessage()
