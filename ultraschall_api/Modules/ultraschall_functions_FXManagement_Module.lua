@@ -1,7 +1,7 @@
 --[[
 ################################################################################
 # 
-# Copyright (c) 2014-2019 Ultraschall (http://ultraschall.fm)
+# Copyright (c) 2014-2020 Ultraschall (http://ultraschall.fm)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -1038,6 +1038,8 @@ function ultraschall.DeleteParmLearn_FXStateChunk(FXStateChunk, fxid, id)
   <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmLearn_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Deletes a ParmLearn-entry from an FXStateChunk.
+  
+    Unlike [DeleteParmLearn2\_FXStateChunk](#DeleteParmLearn2_FXStateChunk), this indexes by the already existing parmlearns and not by parameters.
     
     returns false in case of an error
   </description>
@@ -1064,23 +1066,18 @@ function ultraschall.DeleteParmLearn_FXStateChunk(FXStateChunk, fxid, id)
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn_FXStateChunk", "id", "must be an integer", -3) return false end
     
   local count=0
-  local FX, UseFX2, start, stop, UseFX
-  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
-    count=count+1
-    if count==fxid then UseFX=k end
-  end
-  
-  count=0
+  local FX, UseFX2, start, stop  
+  local UseFX, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+
   if UseFX~=nil then
     for k in string.gmatch(UseFX, "    PARMLEARN.-\n") do
       count=count+1
       if count==id then UseFX2=string.gsub(UseFX, k, "") break end
     end
   end
-  
+
   if UseFX2~=nil then
-    start,stop=string.find(FXStateChunk, UseFX, 0, true)
-    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+    return true, FXStateChunk:sub(1, startoffset)..UseFX2:sub(2,-2)..FXStateChunk:sub(endoffset-1, -1)
   else
     return false, FXStateChunk
   end

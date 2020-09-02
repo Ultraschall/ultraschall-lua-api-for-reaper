@@ -1,6 +1,7 @@
 <TODO>
         
     For 4.01.005:
+        - GetUserInputs - new implementation for captions and retvals BUT OK/Cancel Button buggy and length of captions/retvals buggy
         - MB -- new implementation must be checked on Mac(and probably needs a Mac-weiche in SetMessageBox_Helper_Script.lua)
         - Doku! Viel Doku!
             - Lokasenna's GuiLib v2 & v3-Lizenz angeben in Doku
@@ -355,6 +356,7 @@ Has now 1215 functions, with 15 new ones
    - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
    - FXManagement: CreateDefaultParmModTable - creates a ParameterModulationTable which holds Reaper's default values and can be altered
    - FXManagement: DeleteParmAlias2\_FXStateChunk - like DeleteParmAlias\_FXStateChunk, but allows indexing by parameter-index, not by number of existing aliasnames
+   - FXManagement: DeleteParmLearn2\_FXStateChunk - like DeleteParmLearn\_FXStateChunk, but allows indexing by parameter-index, not by number of existing parameter learnings
    - FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: GetAllParmAliasNames\_FXStateChunk - gets all parameter-aliasnames of a specific fx from an FXStateChunk
    - FXManagement: GetParmAlias2\_FXStateChunk - like GetParmAlias\_FXStateChunk but allows indexing by parameter-index instead
@@ -365,8 +367,9 @@ Has now 1215 functions, with 15 new ones
    - FXManagement: SetParmModulationTable - sets a parameter-modulation of an fx in an FXStateChunk
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - GMEM: Gmem\_GetCurrentAttachedName - returns the name of the currently attached gmem
-   - Helper Functions: ActionsList\_GetAllActions - returns all actions and shortcuts currently visible in the opened actionlist
+   - Helper Functions: ActionsList\_GetAllActions - returns all actions and shortcuts currently visible in the opened actionlist   
    - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder
+   - ProjectManagement: GetProject\_Author - gets the author of a projectfile or ProjectStateChunk(requested by dragonetti)
 
 #### Changes from 4.1.004 to 4.1.005   
    - API: print - replaces null-characters now with . when displaying strings containing them

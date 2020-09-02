@@ -3118,7 +3118,7 @@ function ultraschall.Gmem_GetCurrentAttachedName()
   </requires>
   <functioncall>string current_gmem_attachname = ultraschall.Gmem_GetCurrentAttachedName()</functioncall>
   <description>
-    returns nil if no gmem had been attached since addition of Ultraschall-API
+    returns nil if no gmem had been attached since addition of Ultraschall-API to the current script
   </description>
   <retvals>
     string current_gmem_attachname - the name of the currently attached gmem
@@ -3302,6 +3302,57 @@ function ultraschall.GetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx)
   return aliasname
 end
 
+function ultraschall.DeleteParmLearn2_FXStateChunk(FXStateChunk, fxid, parmidx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteParmLearn2_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmLearn2_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Deletes a ParmLearn-entry from an FXStateChunk, by parameter index.
+    
+    Unlike [DeleteParmLearn\_FXStateChunk](#DeleteParmLearn_FXStateChunk), this indexes the parameters not the already existing parmlearns.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if deletion was successful; false, if the function couldn't delete anything
+    string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, which you want to delete a ParmLearn from
+    integer fxid - the id of the fx, which holds the to-delete-ParmLearn-entry; beginning with 1
+    integer parmidx - the index of the parameter, whose parmlearn you want to delete; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Learn
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, parm, learn, delete, parm, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "parmidx", "must be an integer", -3) return false end
+    
+  local UseFX, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if UseFX==nil then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "fxid", "no such fx", -4) return false end
+  
+  local ParmLearnEntry=UseFX:match("%s-PARMLEARN "..(parmidx-1).."[:]*%a* .-\n")
+  if ParmLearnEntry==nil then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "parmidx", "no such parameter", -5) return false end
+    
+  local UseFX2=string.gsub(UseFX, ParmLearnEntry, "\n")
+
+  return true, FXStateChunk:sub(1, startoffset)..UseFX2:sub(2,-2)..FXStateChunk:sub(endoffset-1, -1)
+end
+
+
 
 function ultraschall.ReturnAllChildHWND(hwnd)
 --[[
@@ -3345,4 +3396,51 @@ function ultraschall.ReturnAllChildHWND(hwnd)
   end
   return count, HWND
 end
+
+function ultraschall.GetProject_Author(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_Author</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string projectauthor = ultraschall.GetProject_Author(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Returns the author from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry "  AUTHOR"
+    
+    Returns nil in case of error or if no such entry exists.
+  </description>
+  <parameters>
+    string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
+    optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
+  </parameters>
+  <retvals>
+    string author - the author of the project; "", if there's no author given
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
+  <tags>projectfiles, rpp, state, get, author, projectstatechunk</tags>
+</US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Author","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Author","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_Author","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Author", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+  end
+  -- get the values and return them
+  return ProjectStateChunk:match("  AUTHOR [\"]*(.-)[\"]*\n") or ""
+end
+
 ultraschall.ShowLastErrorMessage()

@@ -1687,8 +1687,9 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetUserInputs</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.980
+    Ultraschall=4.1
+    Reaper=6.02
+    SWS=2.11.0
     JS=0.986
     Lua=5.3
   </requires>
@@ -1705,7 +1706,7 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
       caption_names[1]="*third caption name, which creates an inputfield for passwords, due the * at the beginning"
       
    The number of entries in the tables "caption_names" and "default_retvals" decide, how many inputfields are shown. Maximum is 16 inputfields.
-   You can safely pass "" as entry for a name, if you don't want to set it.
+   You can safely pass "" as table-entry for a name, if you don't want to set it.
       
       The following example shows an input-dialog with three fields, where the first two the have default-values:
       
@@ -1730,6 +1731,7 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
     table default_retvals - a table with all default retvals. All non-string-entries will be converted to string-entries.
                           - it can be up to 16 fields
                           - Only enter nil as default-retval, if no further default-retvals are existing, otherwise use "" for empty retvals.
+                          - for no default-retvals, write nil
     optional integer values_length - the extralength of the values-inputfield. With that, you can enhance the length of the inputfields. 
                             - 1-500
     optional integer caption_length - the length of the caption in pixels; inputfields and OK, Cancel-buttons will be moved accordingly.
@@ -1747,14 +1749,16 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
   <tags>userinterface, dialog, get, user input</tags>
 </US_DocBloc>
 --]]
-  if ultraschall.IsOS_Windows()==true then ultraschall.AddErrorMessage("GetUserInputs", "", "works only on Windows, sorry", 0) return false end
+  if ultraschall.IsOS_Windows()==false then ultraschall.AddErrorMessage("GetUserInputs", "", "works only on Windows, sorry", 0) return false end
   local count33, autolength
   if type(title)~="string" then ultraschall.AddErrorMessage("GetUserInputs", "title", "must be a string", -1) return false end
-  if type(caption_names)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "caption_names", "must be a table", -2) return false end
-  if type(default_retvals)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "default_retvals", "must be a table", -3) return false end
+  if caption_names~=nil and type(caption_names)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "caption_names", "must be a table", -2) return false end
+  if caption_names==nil then caption_names={""} end
+  if default_retvals~=nil and type(default_retvals)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "default_retvals", "must be a table", -3) return false end
+  if default_retvals==nil then default_retvals={""} end
   if values_length~=nil and math.type(values_length)~="integer" then ultraschall.AddErrorMessage("GetUserInputs", "values_length", "must be an integer", -4) return false end
-  if values_length==nil then values_length=10 end
-  if (values_length>500 or values_length<1) and values_length~=-1 then ultraschall.AddErrorMessage("GetUserInputs", "values_length", "must be between 1 and 500, or -1 for autolength", -5) return false end
+  if values_length==nil then values_length=40 end
+  if (values_length>500 or values_length<1) and values_length~=-1 then ultraschall.AddErrorMessage("GetUserInputs", "values_length", "must be between 1 and 500", -5) return false end
   if values_length==-1 then values_length=1 autolength=true end
   local count = ultraschall.CountEntriesInTable_Main(caption_names)
   local count2 = ultraschall.CountEntriesInTable_Main(default_retvals)
@@ -1769,7 +1773,9 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
   if y_pos==nil then y_pos="keep" end
   
   if caption_length~=nil and math.type(caption_length)~="integer" then ultraschall.AddErrorMessage("GetUserInputs", "caption_length", "must be an integer or nil!", -9) return false end
-  if caption_length==nil then caption_length="keep" end
+  if caption_length==nil then caption_length=40 end
+  caption_length=(caption_length*2)+18
+  
   
   local captions=""
   local retvals=""  
@@ -1818,15 +1824,16 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
   
   local temptitle="Tudelu"..reaper.genGuid()
   
-  ultraschall.Main_OnCommandByFilename(ultraschall.Api_Path.."/Scripts/GetUserInputValues_Helper_Script.lua", temptitle, title, 3, x_pos, y_pos, caption_length, "Tudelu", table.unpack(concatenated_table))
-
-  local retval, retvalcsv = reaper.GetUserInputs(temptitle, count33, captions, "")
+  
+  ultraschall.Main_OnCommandByFilename(ultraschall.Api_Path.."/Scripts/GetUserInputValues_Helper_Script.lua", temptitle, title, 3, x_pos, y_pos, caption_length, values_length, "Tudelu", table.unpack(concatenated_table))
+  SLEM()
+  local retval, retvalcsv = reaper.GetUserInputs(temptitle, count33, "A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16", "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16")
   if retval==false then reaper.DeleteExtState(ultraschall.ScriptIdentifier, "values", false) return false end
   local Values=reaper.GetExtState(ultraschall.ScriptIdentifier, "values")
   --print2(Values)
   reaper.DeleteExtState(ultraschall.ScriptIdentifier, "values", false)
   local count2,Values=ultraschall.CSV2IndividualLinesAsArray(Values ,"\n")
-  for i=count+1, 17 do
+  for i=count2, 17 do
     Values[i]=nil
   end
   return retval, count33, Values
