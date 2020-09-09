@@ -369,7 +369,12 @@ Has now 1215 functions, with 15 new ones
    - GMEM: Gmem\_GetCurrentAttachedName - returns the name of the currently attached gmem
    - Helper Functions: ActionsList\_GetAllActions - returns all actions and shortcuts currently visible in the opened actionlist   
    - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder
+   - ProjectManagement: AutoSave\_GetMinutes - returns the number of minutes, at which a new autosaved project shall be saved
+   - ProjectManagement: AutoSave\_GetOptions - gets several auto-save-options
+   - ProjectManagement: AutoSave\_SetMinutes - sets the number of minutes, at which a new autosaved project shall be saved
+   - ProjectManagement: AutoSave\_SetOptions - sets several auto-save-options
    - ProjectManagement: GetProject\_Author - gets the author of a projectfile or ProjectStateChunk(requested by dragonetti)
+   
 
 #### Changes from 4.1.004 to 4.1.005   
    - API: print - replaces null-characters now with . when displaying strings containing them

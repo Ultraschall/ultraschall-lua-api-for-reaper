@@ -10433,7 +10433,9 @@
            
            >&8=0, Save to timestamped file in additional directory(off) - unchecked  
            >&8=1, Save to timestamped file in additional directory(on) - checked  
-           
+      
+            The next option is only for Project Saving
+      
            >&16=0, Timestamp backup(off) - unchecked  
            >&16=1, Timestamp backup(on) - checked  
             

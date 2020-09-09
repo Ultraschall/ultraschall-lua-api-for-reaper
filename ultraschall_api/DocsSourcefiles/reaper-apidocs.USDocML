@@ -5539,14 +5539,16 @@
         <title>GetItemFromPoint</title>
         <functioncall prog_lang="cpp">MediaItem* GetItemFromPoint(int screen_x, int screen_y, bool allow_locked, MediaItem_Take** takeOutOptional)</functioncall>
         <functioncall prog_lang="eel">MediaItem GetItemFromPoint(int screen_x, int screen_y, bool allow_locked, MediaItem_Take &take)</functioncall>
-        <functioncall prog_lang="lua">MediaItem, MediaItem_Take take = reaper.GetItemFromPoint(integer screen_x, integer screen_y, boolean allow_locked)</functioncall>
+        <functioncall prog_lang="lua">MediaItem, MediaItem_Take take = reaper.GetItemFromPoint(integer screen_x, integer screen_y, boolean allow_locked, optional MediaItem_Take)</functioncall>
         <functioncall prog_lang="python">MediaItem RPR_GetItemFromPoint(Int screen_x, Int screen_y, Boolean allow_locked, MediaItem_Take* takeOutOptional)</functioncall>
         <requires>
             Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Returns the first item at the screen coordinates specified. If allow_locked is false, locked items are ignored. If takeOutOptional specified, returns the take hit.
+            Returns the first item at the screen coordinates specified. If allow_locked is false, locked items are ignored. If takeOutOptional specified, returns the take hit(in Lua, this function simply returns the take as additional return-value).
+            
+            Note: You can not get the item at screen-coordinates, where it is hidden by other windows.
         </description>
         <retvals>
             MediaItem - the MediaItem at the position
@@ -9221,6 +9223,8 @@
         </requires>
         <description prog_lang="*">
             Returns the track from the screen coordinates specified. If the screen coordinates refer to a window associated to the track (such as FX), the track will be returned. infoOutOptional will be set to 1 if it is likely an envelope, 2 if it is likely a track FX.
+            
+            Note: You can not get the track at screen-coordinates, where it is hidden by other windows.
         </description>
         <retvals>
             MediaTrack retval - the MediaTrack at position; if the position is above a window associated with the track, this holds the track, where retval info will hold additional information
