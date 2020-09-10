@@ -18615,13 +18615,7 @@
             Adds or queries the position of a named FX from the track FX chain (recFX=false) or record input FX/monitoring FX (recFX=true, monitoring FX are on master track). 
             
             Specify a negative value for instantiate to always create a new effect, 
-            0 to only query the first instance of an effect, or a positive value to add an instance if one is not found. 
-            If instantiate is &lt;= -1000, it is used for the insertion position (-1000 is first item in chain, -1001 is second, etc). 
-            
-            fxname can have prefix to specify type: VST3:,VST2:,VST:,AU:,JS:, or DX:, or 
-            FXADD: which adds selected items from the currently-open FX browser, 
-            FXADD:2 to limit to 2 FX added, or 
-            FXADD:2e to only succeed if exactly 2 FX are selected. 
+            0 to only query the first instance of an effect, or a positive value to add an instance if one is not found.             
             
             Returns -1 on failure or the new position in chain on success.
         </description>
