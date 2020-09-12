@@ -41,7 +41,7 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.1.005 - "The Beatles - I want you(she's so heavy)" - 15th of September 2020</h3>
-<p>Has now 1235 functions, with 20 new ones</p>
+<p>Has now 1237 functions, with 22 new ones</p>
 <p><strong>new in this release:</strong> - <strong>Parameter Modulation/Learn/Alias/LFOLearn</strong><br />
 A long time feature-request finally fulfilled. You have full access to programmatically get/alter parameter-modulation, parameter aliases, LFOLearn or Learn in general.<br />
 So anything you would want to do with parameter-modulation can now be scripted.<br />
@@ -72,6 +72,7 @@ Did you know, that you can change the length of captions and retval-inputfields 
 <li>API: Settings-Dialog - allows you to set US-API-default-settings(currently the default output of ShowLastErrorMessage()/SLEM())<br />
 </li>
 <li>Docs: Lua Reference Manual - now added for Lua 5.3, so you have its manual right at hand</li>
+<li>DeveloperTools: MonitorParmModulation.lua - monitors a certain parameter-modulation and shows the contents of its ParmModTable</li>
 <li>EnvelopeManagement: IsAnyNamedEnvelopeVisible - returns, if there's a specific named-envelope set to visible in any track</li>
 <li>EnvelopeManagement: IsEnvelope_Track - returns, if an envelope is a TrackEnvelope(true) or a TakeEnvelope(false)</li>
 <li>EnvelopeManagement: IsTrackEnvelopeVisible_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview<br />
@@ -81,11 +82,14 @@ Did you know, that you can change the length of captions and retval-inputfields 
 <li>FXManagement: AddParmModulationTable - adds a new parameter-modulation of a specific FX in an FXStateChunk</li>
 <li>FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk</li>
 <li>FXManagement: CreateDefaultParmModTable - creates a ParameterModulationTable which holds Reaper's default values and can be altered</li>
+<li>FXManagement: DeleteParmAlias2_FXStateChunk - like DeleteParmAlias_FXStateChunk, but allows indexing by parameter-index, not by number of existing aliasnames</li>
 <li>FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk</li>
 <li>FXManagement: GetAllParmAliasNames_FXStateChunk - gets all parameter-aliasnames of a specific fx from an FXStateChunk</li>
+<li>FXManagement: GetParmAlias2_FXStateChunk - like GetParmAlias_FXStateChunk but allows indexing by parameter-index instead</li>
 <li>FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation of an fx</li>
 <li>FXManagement: GetFXSettingsString_FXLines - returns the statestring of an fx as base64 and decoded-binary string</li>
 <li>FXManagement: IsValidParmModTable - returns, if a table is a valid ParmModTable(used for altering Parameter-Modulations)</li>
+<li>FXManagement: SetParmAlias2_FXStateChunk - like SetParmAlias_FXStateChunk but indexes by parameterindex, not already existing aliases</li>
 <li>FXManagement: SetParmModulationTable - sets a parameter-modulation of an fx in an FXStateChunk</li>
 <li>GFX-Management: GFX_DrawEmbossedSquare - draws an embossed square with optional background</li>
 <li>GMEM: Gmem_GetCurrentAttachedName - returns the name of the currently attached gmem</li>

@@ -331,11 +331,8 @@ TODO!! buggy function
    - RenderManagement: GetProject_RenderOutputPath - gets the render-output-path
    - RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
-
-- FXManagement: DeleteParmAlias2\_FXStateChunk - like DeleteParmAlias\_FXStateChunk, but allows indexing by parameter-index, not by number of existing aliasnames
 - FXManagement: DeleteParmLearn2\_FXStateChunk - like DeleteParmLearn\_FXStateChunk, but allows indexing by parameter-index, not by number of existing parameter learnings
-- FXManagement: GetParmAlias2\_FXStateChunk - like GetParmAlias\_FXStateChunk but allows indexing by parameter-index instead
-- FXManagement: SetParmAlias2\_FXStateChunk - like SetParmAlias\_FXStateChunk but indexes by parameterindex, not already existing aliases
+
    
 </TODO>
 
@@ -343,7 +340,7 @@ TODO!! buggy function
 
 ### 4.1.005 - "The Beatles - I want you(she's so heavy)" - 15th of September 2020
 
-Has now 1235 functions, with 20 new ones
+Has now 1237 functions, with 22 new ones
 
 **new in this release:**
   - **Parameter Modulation/Learn/Alias/LFOLearn**  
@@ -383,18 +380,22 @@ Has now 1235 functions, with 20 new ones
 #### New features in 4.1.005
    - API: Settings-Dialog - allows you to set US-API-default-settings(currently the default output of ShowLastErrorMessage()/SLEM())   
    - Docs: Lua Reference Manual - now added for Lua 5.3, so you have its manual right at hand
+   - DeveloperTools: MonitorParmModulation.lua - monitors a certain parameter-modulation and shows the contents of its ParmModTable
    - EnvelopeManagement: IsAnyNamedEnvelopeVisible - returns, if there's a specific named-envelope set to visible in any track
    - EnvelopeManagement: IsEnvelope\_Track - returns, if an envelope is a TrackEnvelope(true) or a TakeEnvelope(false)
    - EnvelopeManagement: IsTrackEnvelopeVisible\_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview   
-   - Examplescript: US\_Api\_Examples\_FileManager\_example\_showcasing\_background\_copying.lua - a simple file-manager which showcases background-copying   
+   - Examplescript: US\_Api\_Examples\_FileManager\_example\_showcasing\_background\_copying.lua - a simple file-manager which showcases background-copying      
    - FXManagement: AddParmModulationTable - adds a new parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
    - FXManagement: CreateDefaultParmModTable - creates a ParameterModulationTable which holds Reaper's default values and can be altered
+   - FXManagement: DeleteParmAlias2\_FXStateChunk - like DeleteParmAlias\_FXStateChunk, but allows indexing by parameter-index, not by number of existing aliasnames
    - FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: GetAllParmAliasNames\_FXStateChunk - gets all parameter-aliasnames of a specific fx from an FXStateChunk
+   - FXManagement: GetParmAlias2\_FXStateChunk - like GetParmAlias\_FXStateChunk but allows indexing by parameter-index instead
    - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation of an fx
    - FXManagement: GetFXSettingsString\_FXLines - returns the statestring of an fx as base64 and decoded-binary string
    - FXManagement: IsValidParmModTable - returns, if a table is a valid ParmModTable(used for altering Parameter-Modulations)
+   - FXManagement: SetParmAlias2\_FXStateChunk - like SetParmAlias\_FXStateChunk but indexes by parameterindex, not already existing aliases
    - FXManagement: SetParmModulationTable - sets a parameter-modulation of an fx in an FXStateChunk
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - GMEM: Gmem\_GetCurrentAttachedName - returns the name of the currently attached gmem

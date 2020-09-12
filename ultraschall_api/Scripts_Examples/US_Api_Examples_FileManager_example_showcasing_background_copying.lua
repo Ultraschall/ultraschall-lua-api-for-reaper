@@ -25,11 +25,14 @@
   --]]
   
   
--- Ultraschall-API demoscript by Meo Mespotine 26.02.2020
+-- Ultraschall-API demoscript by Meo Mespotine 12.09.2020
 --
 -- a simple filemanager-demoscript, which showcases background copying and filemanagement in general
 
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+
+
+O=ultraschall.CopyFile_SetBufferSize(10000)
 
 CurrentFolderL=string.gsub(reaper.GetResourcePath(), "\\", "/")
 OldFolderL=string.gsub(reaper.GetResourcePath(), "\\", "/")
@@ -306,7 +309,7 @@ function main()
   -- F1 for help
   if Key==26161.0 then
     print2([[
-    Simple Filemanager 0.2 by Meo-Ada Mespotine
+    Simple Filemanager by Meo-Ada Mespotine
     
     demonstrates background-copying.
     
@@ -326,10 +329,8 @@ function main()
     F5              - copy file
     F8/Del        - delete file
     Tab            - switch between both folder-boxes
-    P                - pauses background-copying
-    S                - stops background-copying
     
-    Esc            - close window
+    Esc - close window
     ]]) 
     reaper.JS_Window_SetFocus(FMHWND)
   end
@@ -401,14 +402,20 @@ function main()
     gfx.rect(0,0,gfx.w,gfx.h,1)
     ShowFolders()
     ShowCopyProgress()
-    redraw=false
+    --redraw=false
     DrawEmbossedSquare(false, 10, gfx.h-gfx.texth-6, 810, gfx.texth+3, 0.3, 0.3, 0.3, r, g, b)
     DrawStr("F1 Help             F5 - Copy             F7 - New Folder             F8 - Delete             Enter - Start file/enter folder             Tab - Switch filebox            Esc - Close", 
             0.7, 0.7, 0.7, 21, gfx.h-gfx.texth-5, 1)
   end
   
   if copy==true and ultraschall.CopyFile_IsCurrentlyCopying()==false then ChangeFolder(true) ShowFolders() ShowCopyProgress() copy=false end
-  if Key~=-1 then oldw=gfx.w oldh=gfx.h reaper.defer(main) end
+  if Key~=-1 then oldw=gfx.w oldh=gfx.h reaper.defer(main) 
+  else 
+    if ultraschall.CopyFile_IsCurrentlyCopying()==true then
+      ultraschall.CopyFile_FlushCopiedFiles()
+      reaper.MB("Stopped current copying. Copied files may be incomplete", "Aborted copying", 0)
+    end
+  end
 end
 
 -- do some prep and start the magic
@@ -417,4 +424,6 @@ gfx.setfont(3,"Arial",20,66)
 gfx.setfont(2,"Arial",15,0)
 gfx.setfont(1,"Arial",15,0)
 ChangeFolder(true)
+redraw=true
 main()
+
