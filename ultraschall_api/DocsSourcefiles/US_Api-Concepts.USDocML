@@ -3353,7 +3353,7 @@
             >This is probably the most useful for debugging purposes. It simply shows the last added error-message stored in the error-messaging-system, including the functionname, the parametername, the errormessage and the errorcode.
             >You can optionally select, which other "last" errormessage you want to display, as well as its target. That means, you can select if the error-message shall be displayed in a messagebox, the reascript-console, the clipboard or if certain error-messages shall be returned as string be the function.
             >You can also select the default-output-target in the Ultraschall-API-settings-dialog(just look for "Script: Ultraschall\_API\_Settings.lua" in the actionslist).
-            >Add this at the end of your script or within a function, after the code where problems arise to see, which function caused the trouble.
+            >Add this at the end of your script or within a function, after the code where problems arise to see, which function caused the trouble.  
 
             
             >**[GetLastErrorMessage](usdocml://GetLastErrorMessage)**
@@ -6122,6 +6122,23 @@
                                     
             >This is like reaper.CF_SetClipboard(), but is doing all the FastString-management for you in the background. In other words: it simply returns the string-contents from the clipboard.
             
+            I also added some faster ones, like:
+            
+            >**[FromClip](usdocml://FromClip)**
+                                    
+                                    string clipboard_string = FromClip()
+                                    
+            >This allows getting the current string stored in the clipboard. It's faster to type and takes care of all the SWS-management.
+            
+            >**[ToClip](usdocml://ToClip)**
+                                    
+                                    ToClip(string toclipstring)
+                                    
+            >This allows setting the current string in the clipboard. It's faster to type and takes care of all the SWS-management.  
+            >Important: if you have \0-characters in them, you need to convert them to something else, as otherwise the string
+            >could be truncated at the \0-character. So everything after a \0-character will be thrown away.
+            >This is important, if you want to store binary-strings into the clipboard.
+            
             
             When dealing with MediaItems, I also created functions for that. Let's put something into the clipboard.
             
@@ -6143,6 +6160,7 @@
             >But what if you want to insert them into a project? Use [InsertMediaItem_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk) to insert 
             >a MediaItem into a project using it's StateChunk.  
             >How does GetMediaItemsFromClipboard work? It inserts the Items from the clipboard at the end of the project, gets them, using [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) and deletes them again.
+            
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>

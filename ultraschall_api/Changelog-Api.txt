@@ -331,20 +331,55 @@ TODO!! buggy function
    - RenderManagement: GetProject_RenderOutputPath - gets the render-output-path
    - RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
+
+- FXManagement: DeleteParmAlias2\_FXStateChunk - like DeleteParmAlias\_FXStateChunk, but allows indexing by parameter-index, not by number of existing aliasnames
+- FXManagement: DeleteParmLearn2\_FXStateChunk - like DeleteParmLearn\_FXStateChunk, but allows indexing by parameter-index, not by number of existing parameter learnings
+- FXManagement: GetParmAlias2\_FXStateChunk - like GetParmAlias\_FXStateChunk but allows indexing by parameter-index instead
+- FXManagement: SetParmAlias2\_FXStateChunk - like SetParmAlias\_FXStateChunk but indexes by parameterindex, not already existing aliases
    
 </TODO>
 
 ## Ultraschall Framework - Changelog
 
-### 4.1.005 - "Exodus from Genesis" - 15th of August 2020
+### 4.1.005 - "The Beatles - I want you(she's so heavy)" - 15th of September 2020
 
-Has now 1215 functions, with 15 new ones
+Has now 1235 functions, with 20 new ones
 
 **new in this release:**
-
-  - **Bla**  
-    Bla
+  - **Parameter Modulation/Learn/Alias/LFOLearn**  
+    A long time feature-request finally fulfilled. You have full access to programmatically get/alter parameter-modulation, parameter aliases, LFOLearn or Learn in general.  
+    So anything you would want to do with parameter-modulation can now be scripted.  
+    I'm curious, what will happen because of that feature. Surprise me.  
+    Requested by so many.
+        
+  - **SLEM**  
+    Allows now different output-targets, so outputting the last error-message to the ReaScript-console or even the clipboard is possible with that.  
+   
+  - **Lua-ReferenceManual**  
+    Now included the Lua 5.3 reference-manual, so it's always at your hand when needed.  
     
+  - **Ultraschall-API settings dialog**  
+    There's now an Ultraschall-API settings dialog. Not much in there yet, but you can already set, where SLEM() or 
+    ultraschall.ShowLastErrorMessage() shall output their error-messages.  
+    More to follow.  
+
+  - **Launchpad\_functions**
+    I wrote some launchpad 1st generation-functions, which you can find in the misc-folder. So if you want to be able to program its button's lights, you can do it.  
+    
+  - **Gmem functions**
+    For those of you, who want to use different gmem-names in your functions, you sometimes run into trouble, that you can't restore the old gmem-attachement again, as you can't get its name.  
+    Now you can. Gmem\_GetCurrentAttachedName returns the last used gmem-attachname.  
+    This works best, if you add the dofile-line to activate Ultraschall-API as first code-line in your script.  
+    
+  - **Filemanager demo**  
+    To showcase the background-copying-functions, I wrote a small filemanager demo, which is now available in the example-scripts.  
+    It shows you, how you can copy even large files in the background and still manage to run the UI of a script without having to code complex background-copying-routines.      
+
+  - **MB and GetUserInputs on Mac**  
+    They broke with Reaper 6 due some internal changes of Reaper. I finally managed to make them work again.  
+    So you can successfully replace button-texts of the messagebox again, as well as get and set the captions and retvals again of the GetUserInputs-dialog.  
+    Did you know, that you can change the length of captions and retval-inputfields as well in GetUserInputs?  
+
 #### New features in 4.1.005
    - API: Settings-Dialog - allows you to set US-API-default-settings(currently the default output of ShowLastErrorMessage()/SLEM())   
    - Docs: Lua Reference Manual - now added for Lua 5.3, so you have its manual right at hand
@@ -355,15 +390,11 @@ Has now 1215 functions, with 15 new ones
    - FXManagement: AddParmModulationTable - adds a new parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
    - FXManagement: CreateDefaultParmModTable - creates a ParameterModulationTable which holds Reaper's default values and can be altered
-   - FXManagement: DeleteParmAlias2\_FXStateChunk - like DeleteParmAlias\_FXStateChunk, but allows indexing by parameter-index, not by number of existing aliasnames
-   - FXManagement: DeleteParmLearn2\_FXStateChunk - like DeleteParmLearn\_FXStateChunk, but allows indexing by parameter-index, not by number of existing parameter learnings
    - FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: GetAllParmAliasNames\_FXStateChunk - gets all parameter-aliasnames of a specific fx from an FXStateChunk
-   - FXManagement: GetParmAlias2\_FXStateChunk - like GetParmAlias\_FXStateChunk but allows indexing by parameter-index instead
    - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation of an fx
    - FXManagement: GetFXSettingsString\_FXLines - returns the statestring of an fx as base64 and decoded-binary string
    - FXManagement: IsValidParmModTable - returns, if a table is a valid ParmModTable(used for altering Parameter-Modulations)
-   - FXManagement: SetParmAlias2\_FXStateChunk - like SetParmAlias\_FXStateChunk but indexes by parameterindex, not already existing aliases
    - FXManagement: SetParmModulationTable - sets a parameter-modulation of an fx in an FXStateChunk
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - GMEM: Gmem\_GetCurrentAttachedName - returns the name of the currently attached gmem
@@ -375,7 +406,7 @@ Has now 1215 functions, with 15 new ones
    - ProjectManagement: AutoSave\_SetOptions - sets several auto-save-options
    - ProjectManagement: GetProject\_Author - gets the author of a projectfile or ProjectStateChunk(requested by dragonetti)
    
-
+   
 #### Changes from 4.1.004 to 4.1.005   
    - API: print - replaces null-characters now with . when displaying strings containing them
    - API: print2 - replaces null-characters now with . when displaying strings containing them
@@ -399,6 +430,7 @@ Has now 1215 functions, with 15 new ones
    - ParmAlias: AddParmLearn_FXStateChunk - did not add aliasnames with spaces correctly, added it to one parameter higher than requested -> fixed
    - ParmAlias: SetParmLearn_FXStateChunk - did not set aliasnames with spaces correctly -> fixed
    - TrackManagement: SetTrackStateChunk\_Tracknumber - had inner variable exposed -> fixed
+   - User Interface: GetUserInputs - workaround for Mac, so this should work again on Mac OS
    - User Interface: MB - workaround for Mac, so this should work again on Mac OS
 
 ---

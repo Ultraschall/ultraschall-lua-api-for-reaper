@@ -55,7 +55,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.1005 - "Exodus from Genesis" - 15th of August 2020 - Build: 43304</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.1005 - "Exodus from Genesis" - 15th of August 2020 - Build: 43308</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to install and use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to install hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -4468,6 +4468,24 @@ So I added functions to deal with that.</p>
                     </code></pre>
 <blockquote>
 <p>This is like reaper.CF_SetClipboard(), but is doing all the FastString-management for you in the background. In other words: it simply returns the string-contents from the clipboard.</p>
+</blockquote>
+<p>I also added some faster ones, like:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#FromClip">FromClip</a></strong></p>
+</blockquote>
+<pre><code>                    string clipboard_string = FromClip()
+                    </code></pre>
+<blockquote>
+<p>This allows getting the current string stored in the clipboard. It's faster to type and takes care of all the SWS-management.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ToClip">ToClip</a></strong></p>
+</blockquote>
+<pre><code>                    ToClip(string toclipstring)
+                    </code></pre>
+<blockquote>
+<p>This allows setting the current string in the clipboard. It's faster to type and takes care of all the SWS-management.<br />
+Important: if you have \0-characters in them, you need to convert them to something else, as otherwise the string could be truncated at the \0-character. So everything after a \0-character will be thrown away. This is important, if you want to store binary-strings into the clipboard.</p>
 </blockquote>
 <p>When dealing with MediaItems, I also created functions for that. Let's put something into the clipboard.</p>
 <blockquote>

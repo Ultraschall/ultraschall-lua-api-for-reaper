@@ -603,6 +603,18 @@ else
     ultraschall.LM(8)
     return ultraschall.GetTakeEnvelopeUnderMouseCursor(table.unpack({...}))
   end
+  function ultraschall.IsAnyMuteEnvelopeVisible(...)
+    ultraschall.LM(8)
+    return ultraschall.IsAnyMuteEnvelopeVisible(table.unpack({...}))
+  end
+  function ultraschall.IsEnvelope_Track(...)
+    ultraschall.LM(8)
+    return ultraschall.IsEnvelope_Track(table.unpack({...}))
+  end
+  function ultraschall.IsTrackEnvelopeVisible_ArrangeView(...)
+    ultraschall.LM(8)
+    return ultraschall.IsTrackEnvelopeVisible_ArrangeView(table.unpack({...}))
+  end
   function ultraschall.EventManager_EnumerateStartupEvents(...)
     ultraschall.LM(9)
     return ultraschall.EventManager_EnumerateStartupEvents(table.unpack({...}))
@@ -1050,6 +1062,50 @@ else
   function ultraschall.SetTakeFX_AlternativeName(...)
     ultraschall.LM(11)
     return ultraschall.SetTakeFX_AlternativeName(table.unpack({...}))
+  end
+  function ultraschall.GetFXSettingsString_FXLines(...)
+    ultraschall.LM(11)
+    return ultraschall.GetFXSettingsString_FXLines(table.unpack({...}))
+  end
+  function ultraschall.GetParmModulationTable(...)
+    ultraschall.LM(11)
+    return ultraschall.GetParmModulationTable(table.unpack({...}))
+  end
+  function ultraschall.CreateDefaultParmModTable(...)
+    ultraschall.LM(11)
+    return ultraschall.CreateDefaultParmModTable(table.unpack({...}))
+  end
+  function ultraschall.IsValidParmModTable(...)
+    ultraschall.LM(11)
+    return ultraschall.IsValidParmModTable(table.unpack({...}))
+  end
+  function ultraschall.AddParmModulationTable(...)
+    ultraschall.LM(11)
+    return ultraschall.AddParmModulationTable(table.unpack({...}))
+  end
+  function ultraschall.SetParmModulationTable(...)
+    ultraschall.LM(11)
+    return ultraschall.SetParmModulationTable(table.unpack({...}))
+  end
+  function ultraschall.DeleteParmModFromFXStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.DeleteParmModFromFXStateChunk(table.unpack({...}))
+  end
+  function ultraschall.CountParmModFromFXStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.CountParmModFromFXStateChunk(table.unpack({...}))
+  end
+  function ultraschall.GetAllParmAliasNames_FXStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.GetAllParmAliasNames_FXStateChunk(table.unpack({...}))
+  end
+  function ultraschall.DeleteParmAlias2_FXStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.DeleteParmAlias2_FXStateChunk(table.unpack({...}))
+  end
+  function ultraschall.GetParmAlias2_FXStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.GetParmAlias2_FXStateChunk(table.unpack({...}))
   end
   function ultraschall.SplitStringAtLineFeedToArray(...)
     ultraschall.LM(12)
@@ -2611,6 +2667,26 @@ else
     ultraschall.LM(22)
     return ultraschall.IsTimeSelectionActive(table.unpack({...}))
   end
+  function ultraschall.GetProject_Author(...)
+    ultraschall.LM(22)
+    return ultraschall.GetProject_Author(table.unpack({...}))
+  end
+  function ultraschall.AutoSave_SetMinutes(...)
+    ultraschall.LM(22)
+    return ultraschall.AutoSave_SetMinutes(table.unpack({...}))
+  end
+  function ultraschall.AutoSave_GetMinutes(...)
+    ultraschall.LM(22)
+    return ultraschall.AutoSave_GetMinutes(table.unpack({...}))
+  end
+  function ultraschall.AutoSave_SetOptions(...)
+    ultraschall.LM(22)
+    return ultraschall.AutoSave_SetOptions(table.unpack({...}))
+  end
+  function ultraschall.AutoSave_GetOptions(...)
+    ultraschall.LM(22)
+    return ultraschall.AutoSave_GetOptions(table.unpack({...}))
+  end
   function ultraschall.GetProjectState_NumbersOnly(...)
     ultraschall.LM(23)
     return ultraschall.GetProjectState_NumbersOnly(table.unpack({...}))
@@ -3558,6 +3634,10 @@ else
   function ultraschall.SetTimeUnit(...)
     ultraschall.LM(25)
     return ultraschall.SetTimeUnit(table.unpack({...}))
+  end
+  function ultraschall.ReturnAllChildHWND(...)
+    ultraschall.LM(25)
+    return ultraschall.ReturnAllChildHWND(table.unpack({...}))
   end
   function ultraschall.GetRenderCFG_Settings_FLAC(...)
     ultraschall.LM(26)

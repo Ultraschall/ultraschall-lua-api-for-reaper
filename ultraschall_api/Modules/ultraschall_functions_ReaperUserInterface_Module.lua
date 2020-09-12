@@ -1826,7 +1826,7 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
   
   
   ultraschall.Main_OnCommandByFilename(ultraschall.Api_Path.."/Scripts/GetUserInputValues_Helper_Script.lua", temptitle, title, 3, x_pos, y_pos, caption_length, values_length, "Tudelu", table.unpack(concatenated_table))
-  SLEM()
+  
   local retval, retvalcsv = reaper.GetUserInputs(temptitle, count33, "A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12,A13,A14,A15,A16", "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16")
   if retval==false then reaper.DeleteExtState(ultraschall.ScriptIdentifier, "values", false) return false end
   local Values=reaper.GetExtState(ultraschall.ScriptIdentifier, "values")
@@ -4321,3 +4321,45 @@ function ultraschall.SetTimeUnit(transport_unit, ruler_unit, ruler_unit2)
   return true
 end
 
+function ultraschall.ReturnAllChildHWND(hwnd)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ReturnAllChildHWND</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=5.965    
+    JS=0.962
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_of_hwnds, table hwnds = ultraschall.ReturnAllChildHWND(HWND hwnd)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns all child-window-handler of hwnd.
+    
+    Returns -1 in case of an error
+  </description>
+  <retvals>
+    integer count_of_hwnds - the number of found child-window-handler
+    table hwnds - the found child-window-handler of hwnd
+  </retvals>
+  <parameters>
+    HWND hwnd - the HWND-handler to check for
+  </parameters>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>window, hwnd, get, all, child</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidHWND(hwnd)==false then ultraschall.AddErrorMessage("ReturnAllChildHWND", "hwnd", "must be a valid hwnd", -1) return -1 end
+  local Aretval, Alist = reaper.JS_Window_ListAllChild(hwnd)
+  local HWND={}
+  local count=0
+  for k in string.gmatch(Alist..",", "(.-),") do
+    count=count+1
+    HWND[count]=reaper.JS_Window_HandleFromAddress(k)
+  end
+  return count, HWND
+end

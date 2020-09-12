@@ -2264,6 +2264,159 @@ end
 
 --A,B,C,D,E,F,G = ultraschall.ActionsList_GetSelectedActions()
 
+--GMEM-related-functions
+
+ultraschall.reaper_gmem_attach=reaper.gmem_attach
+
+function reaper.gmem_attach(GMem_Name)
+  ultraschall.reaper_gmem_attach_curname=GMem_Name
+  ultraschall.reaper_gmem_attach(GMem_Name)
+end
+
+function ultraschall.Gmem_GetCurrentAttachedName()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gmem_GetCurrentAttachedName</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string current_gmem_attachname = ultraschall.Gmem_GetCurrentAttachedName()</functioncall>
+  <description>
+    returns nil if no gmem had been attached since addition of Ultraschall-API to the current script
+  </description>
+  <retvals>
+    string current_gmem_attachname - the name of the currently attached gmem
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>helperfunctions, get, current, gmem, attached name</tags>
+</US_DocBloc>
+--]]
+  return ultraschall.reaper_gmem_attach_curname
+end
+
+
+function ultraschall.ActionsList_GetAllActions()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ActionsList_GetAllActions</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+	SWS=2.10.0.1
+	JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_found_actions, integer sectionID, string sectionName, table actions, table CmdIDs, table ToggleStates, table shortcuts = ultraschall.ActionsList_GetAllActions()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+	returns the all actions from the actionlist, when opened.
+	
+	The order of the tables of found actions, ActionCommandIDs and ToggleStates is the same in all of the three tables.
+	They also reflect the order of userselection in the ActionList itself from top to bottom of the ActionList.
+	
+	returns -1 in case of an error
+  </description>
+  <retvals>
+	integer num_found_actions - the number of found actions; -1, if not opened
+	integer sectionID - the id of the section, from which the found actions are from
+	string sectionName - the name of the found section
+	table actions - the texts of the found actions as a handy table
+	table CmdIDs - the ActionCommandIDs of the found actions as a handy table; all of them are strings, even the numbers, but can be converted using Reaper's own function reaper.NamedCommandLookup
+	table ToggleStates - the current toggle-states of the found actions; 1, on; 0, off; -1, no such toggle state available
+    table shortcuts - the shortcuts of the action as a handy table; separated by ", "
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, action, actionlist, sections, toggle states, commandids, actioncommandid, shortcuts</tags>
+</US_DocBloc>
+--]]
+  local hWnd_action = ultraschall.GetActionsHWND()
+  if hWnd_action==nil then ultraschall.AddErrorMessage("ActionsList_GetAllActions", "", "Action-List-Dialog not opened", -1) return -1 end
+  local hWnd_LV = reaper.JS_Window_FindChildByID(hWnd_action, 1323)
+  local combo = reaper.JS_Window_FindChildByID(hWnd_action, 1317)
+  local sectionName = reaper.JS_Window_GetTitle(combo,"") -- save item text to table
+  local sectionID =  reaper.JS_WindowMessage_Send( combo, "CB_GETCURSEL", 0, 0, 0, 0 )
+
+  -- get the action-texts
+  local actions = {}
+  local shortcuts = {}
+  local i = 0
+    --for index in string.gmatch(sel_indexes, '[^,]+') do
+  for index=0, 65535 do    
+    i = i + 1
+    local desc = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 1)--:gsub(".+: ", "", 1)
+    local shortcut = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 0)--:gsub(".+: ", "", 1)
+    --ToClip(FromClip()..tostring(desc).."\n")
+    if desc=="" then break end    
+    actions[i] = desc    
+    shortcuts[i] = shortcut
+  end
+  i=i-1 
+  -- find the cmd-ids
+  local temptable={}
+  for a=1, i do
+    if actions[a]==nil then break end
+    selectA=a
+    selectI=i
+    temptable[actions[a]]=actions[a]
+  end
+  
+  -- get command-ids of the found texts
+  for aaa=0, 65535 do
+    local Retval, Name = reaper.CF_EnumerateActions(sectionID, aaa, "")
+    if temptable[Name]~=nil then    
+      temptable[Name]=Retval
+    end
+    if Retval==0 then break end    
+  end
+
+  -- get ActionCommandIDs and toggle-states of the found actions
+  local CmdIDs={}
+  local ToggleStates={}
+  for a=1, i do
+    CmdIDs[a]=reaper.ReverseNamedCommandLookup(temptable[actions[a]])
+    if CmdIDs[a]==nil then CmdIDs[a]=tostring(temptable[actions[a]]) end
+    ToggleStates[a]=reaper.GetToggleCommandStateEx(sectionID, temptable[actions[a]])
+  end
+
+  return i, sectionID, sectionName, actions, CmdIDs, ToggleStates, shortcuts
+end
+
+function ultraschall.BringReaScriptConsoleToFront()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>BringReaScriptConsoleToFront</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.BringReaScriptConsoleToFront()</functioncall>
+  <description>
+    Brings Reaper's ReaScriptConsole-window to the front, when it's opened.
+  </description>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, activate, front, reascript console, window</tags>
+</US_DocBloc>
+]]
+  local OldHWND=reaper.JS_Window_GetForeground()
+  local HWND=ultraschall.GetReaScriptConsoleWindow()
+  if HWND~=nil and OldHWND~=HWND then 
+    reaper.JS_Window_SetForeground(HWND)
+  end
+end
 
 
 
