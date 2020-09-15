@@ -416,6 +416,7 @@ Has now 1237 functions, with 22 new ones
    - Docs: AddParmAlias\_FXStateChunk - was missing parameter in functioncall -> fixed
    - Docs: ParmLearn-docs - corrected information and added missing stuff
    - Docs: Reaper; GetUserInputs - added information about how to pass over default-retvals and its limitations
+   - Docs: Reaper Internals - updated to Reaper 6.14
    - Error Messaging-System: ReadErrorMessage - allows now keeping error-message readstate as unread
    - Error Messaging-System: ShowLastErrorMessage - additional parameters and retvals for more control of the output-target and messagetype returned
    - Error Messaging-System: SLEM - additional parameters and retvals for more control of the output-target and messagetype returned
