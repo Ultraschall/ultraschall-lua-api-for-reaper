@@ -11,7 +11,7 @@
                 This API was to be used within Ultraschall only, but quickly evolved into a huge 1000+ function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:
                
                 - [Rendering](#Rendering_001_Introduction) - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want.
-                                   Just create a renderstring and pass it over to [RenderProject](usdocml://RenderProject) or [RenderProject_Regions](usdocml://RenderProject_Regions)
+                                   Just create a renderstring and pass it over to [RenderProject](usdocml://RenderProject) or [RenderProject\_Regions](usdocml://RenderProject_Regions)
                 - [EventManager](#EventManager_001_Introduction) - run actions when certain events happen. You can fully customize that the way you want and need.
                 - [Navigation, Follow and Arrangeview-Manipulation](#Navigation_001_Introduction) - get/set cursors, zoom, autoscroll-management, scroll, etc
                 - [ArrangeView-Snapshots](#Arrangeview_Snapshots_001_Introduction) - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project
@@ -28,7 +28,7 @@
                     e.g. [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) and [GetMediaItemsAtPosition ](usdocml://GetMediaItemsAtPosition ), etc
                 - Gaps between items - you can get the gaps between items in a track, using [GetGapsBetweenItems](usdocml://GetGapsBetweenItems)
                 - [Edit item(s)](#Getting_Manipulating_Items_001_Introduction) - Split, Cut, Copy, Paste, Move, RippleCut, RippleInsert, SectionCut by tracks AND time/start to endposition
-                    e.g. [RippleCut](usdocml://RippleCut), [RippleInsert](RippleInsert), [SectionCut](usdocml://SectionCut), [SplitMediaItems_Position](usdocml://SplitMediaItems_Position), [MoveMediaItemsBefore_By](usdocml://MoveMediaItemsBefore_By), [MoveMediaItemsSectionTo](usdocml://MoveMediaItemsSectionTo) and many more
+                    e.g. [RippleCut](usdocml://RippleCut), [RippleInsert](RippleInsert), [SectionCut](usdocml://SectionCut), [SplitMediaItems\_Position](usdocml://SplitMediaItems_Position), [MoveMediaItemsBefore\_By](usdocml://MoveMediaItemsBefore_By), [MoveMediaItemsSectionTo](usdocml://MoveMediaItemsSectionTo) and many more
                 - [Previewing MediaItems and files](#Getting_Manipulating_Items_009_Miscellaneous) - you can preview MediaItems and files without having to start playback of a project
                 - KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings
                 - [Checking for Datatypes](#Datatypes_050_CheckingDatatypes) - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes
@@ -346,13 +346,13 @@
             With trackstrings, passing the wanted tracks to a function is really easy.  
             
             - You can create trackstrings using:  
-                    [CreateTrackString](usdocml://CreateTrackString), [CreateTrackString_AllTracks](usdocml://CreateTrackString_AllTracks), [CreateTrackString_ArmedTracks](usdocml://CreateTrackString_ArmedTracks), [CreateTrackString_UnarmedTracks](usdocml://CreateTrackString_UnarmedTracks), [CreateTrackString_SelectedTracks](usdocml://CreateTrackString_SelectedTracks).  
+                    [CreateTrackString](usdocml://CreateTrackString), [CreateTrackString\_AllTracks](usdocml://CreateTrackString_AllTracks), [CreateTrackString\_ArmedTracks](usdocml://CreateTrackString_ArmedTracks), [CreateTrackString\_UnarmedTracks](usdocml://CreateTrackString_UnarmedTracks), [CreateTrackString\_SelectedTracks](usdocml://CreateTrackString_SelectedTracks).  
             - You can manipulate trackstrings using:  
-                    [InverseTrackstring](usdocml://InverseTrackstring), [OnlyTracksInBothTrackstrings](usdocml://OnlyTracksInBothTrackstrings), [OnlyTracksInOneTrackstring](usdocml://OnlyTracksInOneTrackstring), [RemoveDuplicateTracksInTrackstring](usdocml://RemoveDuplicateTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring](usdocml://OnlyMediaItemsOfTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](usdocml://OnlyMediaItemsOfTracksInTrackstring_StateChunk)
+                    [InverseTrackstring](usdocml://InverseTrackstring), [OnlyTracksInBothTrackstrings](usdocml://OnlyTracksInBothTrackstrings), [OnlyTracksInOneTrackstring](usdocml://OnlyTracksInOneTrackstring), [RemoveDuplicateTracksInTrackstring](usdocml://RemoveDuplicateTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring](usdocml://OnlyMediaItemsOfTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring\_StateChunk](usdocml://OnlyMediaItemsOfTracksInTrackstring_StateChunk)
             - You can check for valid trackstrings using:  
                     [IsValidTrackString](usdocml://IsValidTrackString)
             - Some of the functions who make use of trackstrings are: 
-                    [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween), [GetAllMediaItemsInTimeSelection](usdocml://GetAllMediaItemsInTimeSelection), [DeleteMediaItems_Position](usdocml://DeleteMediaItems_Position), [IsItemInTrack3](usdocml://IsItemInTrack3), and more
+                    [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween), [GetAllMediaItemsInTimeSelection](usdocml://GetAllMediaItemsInTimeSelection), [DeleteMediaItems\_Position](usdocml://DeleteMediaItems_Position), [IsItemInTrack3](usdocml://IsItemInTrack3), and more
 
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
@@ -394,11 +394,11 @@
             - You can create MediaItemArrays using:  
                     [GetAllMediaItems](usdocml://GetAllMediaItems), [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween), [GetAllMediaItemsFromTrack](usdocml://GetAllMediaItemsFromTrack), [GetMediaItemsAtPosition](usdocml://GetMediaItemsAtPosition), [GetAllMediaItemsInTimeSelection](usdocml://GetAllMediaItemsInTimeSelection), etc
             - You can manipulate MediaItemArrays using:  
-                    [ApplyActionToMediaItemArray](usdocml://ApplyActionToMediaItemArray), [ApplyFunctionToMediaItemArray](usdocml://ApplyFunctionToMediaItemArray), [InsertMediaItemArray](usdocml://InsertMediaItemArray), [ChangeDeltaLengthOfMediaItems_FromArray](usdocml://ChangeDeltaLengthOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems_FromArray](usdocml://ChangeDeltaOffsetOfMediaItems_FromArray), etc
+                    [ApplyActionToMediaItemArray](usdocml://ApplyActionToMediaItemArray), [ApplyFunctionToMediaItemArray](usdocml://ApplyFunctionToMediaItemArray), [InsertMediaItemArray](usdocml://InsertMediaItemArray), [ChangeDeltaLengthOfMediaItems\_FromArray](usdocml://ChangeDeltaLengthOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems\_FromArray](usdocml://ChangeDeltaOffsetOfMediaItems_FromArray), etc
             - You can check for valid MediaItemArrays using:  
                     [IsValidMediaItemArray](usdocml://IsValidMediaItemArray)
             - Some of the functions who make use of MediaItemArray are:  
-                    [DeleteMediaItemsFromArray](usdocml://DeleteMediaItemsFromArray), [DeselectMediaItems_MediaItemArray](usdocml://DeselectMediaItems_MediaItemArray), [GetAllLockedItemsFromMediaItemArray](usdocml://GetAllLockedItemsFromMediaItemArray), [InsertMediaItemArray](usdocml://InsertMediaItemArray), and more
+                    [DeleteMediaItemsFromArray](usdocml://DeleteMediaItemsFromArray), [DeselectMediaItems\_MediaItemArray](usdocml://DeselectMediaItems_MediaItemArray), [GetAllLockedItemsFromMediaItemArray](usdocml://GetAllLockedItemsFromMediaItemArray), [InsertMediaItemArray](usdocml://InsertMediaItemArray), and more
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>
@@ -446,11 +446,11 @@
             - You can create MediaItemStateChunkArrays using:  
                     [GetAllMediaItems](usdocml://GetAllMediaItems), [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween), [GetAllMediaItemsFromTrack](usdocml://GetAllMediaItemsFromTrack), [GetMediaItemsAtPosition](usdocml://GetMediaItemsAtPosition), [GetAllMediaItemsInTimeSelection](usdocml://GetAllMediaItemsInTimeSelection), etc
             - You can manipulate MediaItemStateChunkArrays using:  
-                    [AddLockStateTo_MediaItemStateChunkArray](usdocml://AddLockStateTo_MediaItemStateChunkArray), [ApplyStateChunkToItems](usdocml://ApplyStateChunkToItems), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](usdocml://OnlyMediaItemsOfTracksInTrackstring_StateChunk), etc
+                    [AddLockStateTo\_MediaItemStateChunkArray](usdocml://AddLockStateTo_MediaItemStateChunkArray), [ApplyStateChunkToItems](usdocml://ApplyStateChunkToItems), [OnlyMediaItemsOfTracksInTrackstring\_StateChunk](usdocml://OnlyMediaItemsOfTracksInTrackstring_StateChunk), etc
             - You can check for valid MediaItemStateChunkArrays using:  
                     [IsValidMediaItemStateChunkArray](usdocml://IsValidMediaItemStateChunkArray)
             - Some of the functions who make use of MediaItemStateChunkArrays are:  
-                    [GetMediaItemStateChunkArrayLength](usdocml://GetMediaItemStateChunkArrayLength), [InsertMediaItemStateChunkArray](usdocml://InsertMediaItemStateChunkArray), [RippleInsert_MediaItemStateChunks](usdocml://RippleInsert_MediaItemStateChunks), [GetAllMediaItemsFromTrackStateChunk](usdocml://GetAllMediaItemsFromTrackStateChunk) and more
+                    [GetMediaItemStateChunkArrayLength](usdocml://GetMediaItemStateChunkArrayLength), [InsertMediaItemStateChunkArray](usdocml://InsertMediaItemStateChunkArray), [RippleInsert\_MediaItemStateChunks](usdocml://RippleInsert_MediaItemStateChunks), [GetAllMediaItemsFromTrackStateChunk](usdocml://GetAllMediaItemsFromTrackStateChunk) and more
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>
@@ -500,7 +500,7 @@
             - You can check for valid EnvelopePointObjects using: 
                     [IsValidEnvelopePointObject](usdocml://IsValidEnvelopePointObject)
             - Some of the functions who make use of EnvelopePointObjects are: 
-                    [AddEnvelopePoints_EnvelopePointObject](usdocml://AddEnvelopePoints_EnvelopePointObject), [SetEnvelopePoints_EnvelopePointObject](usdocml://SetEnvelopePoints_EnvelopePointObject), [DeleteEnvelopePoints_EnvelopePointObject](usdocml://DeleteEnvelopePoints_EnvelopePointObject) and more
+                    [AddEnvelopePoints\_EnvelopePointObject](usdocml://AddEnvelopePoints_EnvelopePointObject), [SetEnvelopePoints\_EnvelopePointObject](usdocml://SetEnvelopePoints_EnvelopePointObject), [DeleteEnvelopePoints\_EnvelopePointObject](usdocml://DeleteEnvelopePoints_EnvelopePointObject) and more
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>
@@ -537,11 +537,11 @@
             EnvelopePointArray makes passing multiple EnvelopePointObjects to functions much easier.
             
             - You can create EnvelopePointArrays using: 
-                    [GetEnvelopePointIDX_Between](usdocml://GetEnvelopePointIDX_Between)
+                    [GetEnvelopePointIDX\_Between](usdocml://GetEnvelopePointIDX_Between)
             - You can check for valid EnvelopePointArrays using: 
                     [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray)
             - Some of the functions who make use of EnvelopePointArrays are: 
-                    [AddEnvelopePoints_EnvelopePointArray](usdocml://AddEnvelopePoints_EnvelopePointArray), [SetEnvelopePoints_EnvelopePointArray](usdocml://SetEnvelopePoints_EnvelopePointArray), [DeleteEnvelopePoints_EnvelopePointArray](usdocml://DeleteEnvelopePoints_EnvelopePointArray) and more
+                    [AddEnvelopePoints\_EnvelopePointArray](usdocml://AddEnvelopePoints_EnvelopePointArray), [SetEnvelopePoints\_EnvelopePointArray](usdocml://SetEnvelopePoints_EnvelopePointArray), [DeleteEnvelopePoints\_EnvelopePointArray](usdocml://DeleteEnvelopePoints_EnvelopePointArray) and more
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>
@@ -683,14 +683,14 @@
                                                                        &32, selected project regions
                         RenderTable["TailMS"]                  - the amount of milliseconds of the tail
                     
-            This rendertable can be used by, e.g. [RenderProject_RenderTable](usdocml://RenderProject_RenderTable)
+            This rendertable can be used by, e.g. [RenderProject\_RenderTable](usdocml://RenderProject_RenderTable)
             
             - You can create Rendertables using: 
-                    [CreateNewRenderTable](usdocml://CreateNewRenderTable)(new rendertable), [GetRenderTable_Project](usdocml://GetRenderTable_Project)(create from the current project), [GetRenderTable_ProjectFile](usdocml://GetRenderTable_ProjectFile)(create from an rpp-projectfile), [GetRenderPreset_RenderTable](usdocml://GetRenderPreset_RenderTable)(create from render-preset)
+                    [CreateNewRenderTable](usdocml://CreateNewRenderTable)(new rendertable), [GetRenderTable\_Project](usdocml://GetRenderTable_Project)(create from the current project), [GetRenderTable\_ProjectFile](usdocml://GetRenderTable_ProjectFile)(create from an rpp-projectfile), [GetRenderPreset\_RenderTable](usdocml://GetRenderPreset_RenderTable)(create from render-preset)
             - You can check for valid RenderTables using: 
                     [IsValidRenderTable](usdocml://IsValidRenderTable)
             - Some of the functions who make use of RenderTables are: 
-                    [RenderProject_RenderTable](usdocml://RenderProject_RenderTable)
+                    [RenderProject\_RenderTable](usdocml://RenderProject_RenderTable)
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>
@@ -775,11 +775,11 @@
             When working with the Ultraschall-API or general programming in Reaper, some additional things may or may not be helpful to know.  
             So I added some API-variables, like:
             
-               1. [Script_Path](usdocml://Script_Path) - which contains the current path to Reaper's-scripts-folder
+               1. [Script\_Path](usdocml://Script_Path) - which contains the current path to Reaper's-scripts-folder
                2. [Separator](usdocml://Separator) - which contains the correct separator for paths; on Windows it is \ on Mac and Linux it is /
                3. [StartTime](usdocml://StartTime) - contains the starting time of the Ultraschall-API as used in the current script. That means, the starting time of the now running script.
-               4. [Api_Path](usdocml://Api_Path) - the current path to the Ultraschall-API folder.
-               5. [Api_InstallPath](usdocml://Api_InstallPath) - an API-variable that contains the path to the install-folder of the Ultraschall-API
+               4. [Api\_Path](usdocml://Api_Path) - the current path to the Ultraschall-API folder.
+               5. [Api\_InstallPath](usdocml://Api_InstallPath) - an API-variable that contains the path to the install-folder of the Ultraschall-API
                
             These can be accessed using:
             
@@ -811,14 +811,14 @@
             The easy way:  
             
                1. creating a renderstring with all format-specific-settings, using the accompanying functions:  
-                   [CreateRenderCFG_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
-                   [CreateRenderCFG_MP3ABR](usdocml://CreateRenderCFG_MP3ABR),[CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), 
-                   [CreateRenderCFG_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK)
-                   [CreateRenderCFG\_AVI_Video](usdocml://CreateRenderCFG_AVI_Video), [CreateRenderCFG_GIF](usdocml://CreateRenderCFG_GIF), [CreateRenderCFG_LCF](usdocml://CreateRenderCFG_LCF), [CreateRenderCFG\_MKV_Video](usdocml://CreateRenderCFG_MKV_Video), [CreateRenderCFG\_MOVMAC_Video](usdocml://CreateRenderCFG_MOVMAC_Video), [CreateRenderCFG\_MP4MAC_Video](usdocml://CreateRenderCFG_MP4MAC_Video), 
-                   [CreateRenderCFG\_QTMOVMP4_Video](usdocml://CreateRenderCFG_QTMOVMP4_Video), [CreateRenderCFG_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)
+                   [CreateRenderCFG\_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG\_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG\_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG\_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG\_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
+                   [CreateRenderCFG\_MP3ABR](usdocml://CreateRenderCFG_MP3ABR),[CreateRenderCFG\_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG\_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG\_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), 
+                   [CreateRenderCFG\_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG\_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG\_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG\_WAVPACK](usdocml://CreateRenderCFG_WAVPACK)
+                   [CreateRenderCFG\_AVI_Video](usdocml://CreateRenderCFG_AVI_Video), [CreateRenderCFG\_GIF](usdocml://CreateRenderCFG_GIF), [CreateRenderCFG\_LCF](usdocml://CreateRenderCFG_LCF), [CreateRenderCFG\_MKV_Video](usdocml://CreateRenderCFG_MKV_Video), [CreateRenderCFG\_MOVMAC_Video](usdocml://CreateRenderCFG_MOVMAC_Video), [CreateRenderCFG\_MP4MAC_Video](usdocml://CreateRenderCFG_MP4MAC_Video), 
+                   [CreateRenderCFG\_QTMOVMP4_Video](usdocml://CreateRenderCFG_QTMOVMP4_Video), [CreateRenderCFG\_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)
                     
                2. passing the render-string to one of the Render-functions  
-                   [RenderProject](usdocml://RenderProject), [RenderProject_Regions](usdocml://RenderProject_Regions)
+                   [RenderProject](usdocml://RenderProject), [RenderProject\_Regions](usdocml://RenderProject_Regions)
                     
                So the following code should render the current project into an MP3 with a Constant Bitrate of 128kbps.
                
@@ -832,18 +832,18 @@
             The full control way:  
             
                1. creating a [RenderTable](#Datatypes_008_RenderTable), which holds all settings you can set for the rendering-process, using one of the following functions:  
-                   [CreateNewRenderTable](usdocml://CreateNewRenderTable)(new rendertable), [GetRenderTable_Project](usdocml://GetRenderTable_Project)(create from the current project), 
-                   [GetRenderTable_ProjectFile](usdocml://GetRenderTable_ProjectFile)(create from an rpp-projectfile), [GetRenderPreset_RenderTable](usdocml://GetRenderPreset_RenderTable)(create from render-preset)
+                   [CreateNewRenderTable](usdocml://CreateNewRenderTable)(new rendertable), [GetRenderTable\_Project](usdocml://GetRenderTable_Project)(create from the current project), 
+                   [GetRenderTable\_ProjectFile](usdocml://GetRenderTable_ProjectFile)(create from an rpp-projectfile), [GetRenderPreset\_RenderTable](usdocml://GetRenderPreset_RenderTable)(create from render-preset)
                
                2. optionally exchanging the renderstring(which holds all format-specific-settings) in the RenderTable, using the accompanying functions:  
-                   [CreateRenderCFG_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
-                   [CreateRenderCFG_MP3ABR](usdocml://CreateRenderCFG_MP3ABR),[CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), 
-                   [CreateRenderCFG_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK)
-                   [CreateRenderCFG\_AVI_Video](usdocml://CreateRenderCFG_AVI_Video), [CreateRenderCFG_GIF](usdocml://CreateRenderCFG_GIF), [CreateRenderCFG_LCF](usdocml://CreateRenderCFG_LCF), [CreateRenderCFG\_MKV_Video](usdocml://CreateRenderCFG_MKV_Video), [CreateRenderCFG\_MOVMAC_Video](usdocml://CreateRenderCFG_MOVMAC_Video), [CreateRenderCFG\_MP4MAC_Video](usdocml://CreateRenderCFG_MP4MAC_Video), 
-                   [CreateRenderCFG\_QTMOVMP4_Video](usdocml://CreateRenderCFG_QTMOVMP4_Video), [CreateRenderCFG_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)
+                   [CreateRenderCFG\_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG\_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG\_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG\_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG\_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
+                   [CreateRenderCFG\_MP3ABR](usdocml://CreateRenderCFG_MP3ABR),[CreateRenderCFG\_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG\_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG\_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), 
+                   [CreateRenderCFG\_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG\_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG\_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG\_WAVPACK](usdocml://CreateRenderCFG_WAVPACK)
+                   [CreateRenderCFG\_AVI_Video](usdocml://CreateRenderCFG_AVI_Video), [CreateRenderCFG\_GIF](usdocml://CreateRenderCFG_GIF), [CreateRenderCFG\_LCF](usdocml://CreateRenderCFG_LCF), [CreateRenderCFG\_MKV_Video](usdocml://CreateRenderCFG_MKV_Video), [CreateRenderCFG\_MOVMAC_Video](usdocml://CreateRenderCFG_MOVMAC_Video), [CreateRenderCFG\_MP4MAC_Video](usdocml://CreateRenderCFG_MP4MAC_Video), 
+                   [CreateRenderCFG\_QTMOVMP4_Video](usdocml://CreateRenderCFG_QTMOVMP4_Video), [CreateRenderCFG\_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)
 
                3. Render the project, using the function:  
-                   [RenderProject_RenderTable](usdocml://RenderProject_RenderTable)  
+                   [RenderProject\_RenderTable](usdocml://RenderProject_RenderTable)  
                    
                So the following code should render the current project, using the settings stored in a projectfile "c:\testproject.rpp", into an MP3 with a Constant Bitrate of 128kbps.
                
@@ -857,7 +857,7 @@
                     rendered_files_count, rendered_files_MediaItemStateChunk, rendered_files_array 
                                                                 = ultraschall.RenderProject_RenderTable(nil, RenderTable, false, false, false)
                
-               Read the accompanying documentation-entries for [CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR) and [RenderProject](usdocml://RenderProject) for more details and/or the following chapters.
+               Read the accompanying documentation-entries for [CreateRenderCFG\_MP3CBR](usdocml://CreateRenderCFG_MP3CBR) and [RenderProject](usdocml://RenderProject) for more details and/or the following chapters.
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>
@@ -895,14 +895,14 @@
             
             This will create a render-string for FLAC with 24bit-depth and the encoding-speed of 5(which is the default-setting in the render-dialog).
             
-            This renderstring can then be passed over to [SetProject_RenderCFG](usdocml://SetProject_RenderCFG) to set it into a project-file, or to [RenderProject](usdocml://RenderProject) to render a projectfile using the format-settings in the Render-string or put into [RenderTables](#Datatypes_008_RenderTable), that can be used for the rendering function [RenderProject_RenderTable](usdocml://RenderProject_RenderTable).
+            This renderstring can then be passed over to [SetProject\_RenderCFG](usdocml://SetProject_RenderCFG) to set it into a project-file, or to [RenderProject](usdocml://RenderProject) to render a projectfile using the format-settings in the Render-string or put into [RenderTables](#Datatypes_008_RenderTable), that can be used for the rendering function [RenderProject\_RenderTable](usdocml://RenderProject_RenderTable).
             
             The following render-string-functions are available in Ultraschall-API:  
-            >[CreateRenderCFG\_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG\_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG\_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG\_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
+            >[CreateRenderCFG\_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG\_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG\_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG\_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG\_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
             >[CreateRenderCFG\_MP3ABR](usdocml://CreateRenderCFG_MP3ABR),[CreateRenderCFG\_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG\_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG\_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), 
-            >[CreateRenderCFG\_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK),
-            >[CreateRenderCFG\_AVI_Video](usdocml://CreateRenderCFG_AVI_Video), [CreateRenderCFG_GIF](usdocml://CreateRenderCFG_GIF), [CreateRenderCFG_LCF](usdocml://CreateRenderCFG_LCF), [CreateRenderCFG\_MKV_Video](usdocml://CreateRenderCFG_MKV_Video), [CreateRenderCFG\_MOVMAC_Video](usdocml://CreateRenderCFG_MOVMAC_Video), [CreateRenderCFG\_MP4MAC_Video](usdocml://CreateRenderCFG_MP4MAC_Video), 
-            >[CreateRenderCFG\_QTMOVMP4_Video](usdocml://CreateRenderCFG_QTMOVMP4_Video), [CreateRenderCFG_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)
+            >[CreateRenderCFG\_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG\_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG\_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG\_WAVPACK](usdocml://CreateRenderCFG_WAVPACK),
+            >[CreateRenderCFG\_AVI_Video](usdocml://CreateRenderCFG_AVI_Video), [CreateRenderCFG\_GIF](usdocml://CreateRenderCFG_GIF), [CreateRenderCFG\_LCF](usdocml://CreateRenderCFG_LCF), [CreateRenderCFG\_MKV_Video](usdocml://CreateRenderCFG_MKV_Video), [CreateRenderCFG\_MOVMAC_Video](usdocml://CreateRenderCFG_MOVMAC_Video), [CreateRenderCFG\_MP4MAC_Video](usdocml://CreateRenderCFG_MP4MAC_Video), 
+            >[CreateRenderCFG\_QTMOVMP4_Video](usdocml://CreateRenderCFG_QTMOVMP4_Video), [CreateRenderCFG\_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)
                  
             If you have already a Base64-encoded-renderstring but would love to know, which settings it holds, you can analyze them as well.
             First, you need to determine, which format is stored in this render-string, using:
@@ -963,14 +963,14 @@
             
             **Get render-settings a RenderTable:**  
             
-            - **[GetRenderTable_Project](usdocml://GetRenderTable_Project)** - creates a new RenderTable, taking the render-settings from the current active project  
-            - **[GetRenderTable_ProjectFile](usdocml://GetRenderTable_ProjectFile)** - creates a new RenderTable, taking the render-settings from an rpp-projectfile  
-            - **[GetRenderPreset_RenderTable](usdocml://GetRenderPreset_RenderTable)** - creates a new RenderTable, taking the render-settings from stored render-presets(more on render-presets later)  
+            - **[GetRenderTable\_Project](usdocml://GetRenderTable_Project)** - creates a new RenderTable, taking the render-settings from the current active project  
+            - **[GetRenderTable\_ProjectFile](usdocml://GetRenderTable_ProjectFile)** - creates a new RenderTable, taking the render-settings from an rpp-projectfile  
+            - **[GetRenderPreset\_RenderTable](usdocml://GetRenderPreset_RenderTable)** - creates a new RenderTable, taking the render-settings from stored render-presets(more on render-presets later)  
             
             **Apply settings from a RenderTable:**  
             
-            - **[ApplyRenderTable_Project](usdocml://ApplyRenderTable_Project)** - applies settings from a RenderTable to the current active project  
-            - **[ApplyRenderTable_ProjectFile](usdocml://ApplyRenderTable_ProjectFile)** - applies settings from a RenderTable to an rpp-projectfile  
+            - **[ApplyRenderTable\_Project](usdocml://ApplyRenderTable_Project)** - applies settings from a RenderTable to the current active project  
+            - **[ApplyRenderTable\_ProjectFile](usdocml://ApplyRenderTable_ProjectFile)** - applies settings from a RenderTable to an rpp-projectfile  
             - **[SetRenderPreset](usdocml://SetRenderPreset)** - applies settings from a RenderTable to a render-preset  
 
             **Check for validity:**  
@@ -1000,8 +1000,8 @@
             There are currently three different render-functions available:  
             
             1. [RenderProject](usdocml://RenderProject) - with this one, you can render a whole project or just timeselection or from startposition to endposition in seconds  
-            2. [RenderProject_Regions](usdocml://RenderProject_Regions) - with this one, you can render specific regions of a project  
-            3. [RenderProject_RenderTable](usdocml://RenderProject_RenderTable) - with this one, you can render a project using a [RenderTable](#Rendering_002a_About_RenderTables), which allows you full control over all render-settings  
+            2. [RenderProject\_Regions](usdocml://RenderProject_Regions) - with this one, you can render specific regions of a project  
+            3. [RenderProject\_RenderTable](usdocml://RenderProject_RenderTable) - with this one, you can render a project using a [RenderTable](#Rendering_002a_About_RenderTables), which allows you full control over all render-settings  
             
             ####RenderProject and RenderProject_Regions 
             
@@ -1094,14 +1094,14 @@
             Sometimes, you want to alter Render-Settings in a projectfile by hand, without using RenderTables for that. So, the API has many useful functions as well, starting with SetProject_
             You can alter a projectfile using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:
             
-               - [SetProject_RenderFilename](usdocml://SetProject_RenderFilename) - to alter the output-filename
-               - [SetProject_RenderPattern](usdocml://SetProject_RenderPattern) - to set the wildcards for the output-filename 
-               - [SetProject_RenderDitherState](usdocml://SetProject_RenderDitherState) - to set the "Master mix: Dither/Noise shaping"-checkboxes
-               - [SetProject_RenderFreqNChans](usdocml://SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
-               - [SetProject_RenderRange](usdocml://SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
-               - [SetProject_RenderResample](usdocml://SetProject_RenderResample) - to set "Resample mode (if needed)" 
-               - [SetProject_RenderSpeed](usdocml://SetProject_RenderSpeed) to set the render-speed, and
-               - [SetProject_RenderStems](usdocml://SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  
+               - [SetProject\_RenderFilename](usdocml://SetProject_RenderFilename) - to alter the output-filename
+               - [SetProject\_RenderPattern](usdocml://SetProject_RenderPattern) - to set the wildcards for the output-filename 
+               - [SetProject\_RenderDitherState](usdocml://SetProject_RenderDitherState) - to set the "Master mix: Dither/Noise shaping"-checkboxes
+               - [SetProject\_RenderFreqNChans](usdocml://SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
+               - [SetProject\_RenderRange](usdocml://SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
+               - [SetProject\_RenderResample](usdocml://SetProject_RenderResample) - to set "Resample mode (if needed)" 
+               - [SetProject\_RenderSpeed](usdocml://SetProject_RenderSpeed) to set the render-speed, and
+               - [SetProject\_RenderStems](usdocml://SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  
                
             If you want to alter the currently opened project in its rpp-projectfile, you need to save it first. After that, use:
             
@@ -1138,18 +1138,18 @@
             That means, to get the full render-settings as a Rendertable, you need to get both, the settings for a Renderformat-preset and a Bounds-preset.  
             And to make that easier, I added numerous functions:
             
-            **[GetRenderPreset_Names](usdocml://GetRenderPreset_Names)**
+            **[GetRenderPreset\_Names](usdocml://GetRenderPreset_Names)**
             
                         integer bounds_presets, table bounds_names, integer options_format_presets, table options_format_names, 
                                                       integer both_presets, table both_names = ultraschall.GetRenderPreset_Names()
             
             >This gets all Bounds-presetnames and all Options and Format-presetnames. These are important, as you need them to for getting them 
-            >as RenderTable using [GetRenderPreset_RenderTable](usdocml://GetRenderPreset_RenderTable).  
+            >as RenderTable using [GetRenderPreset\_RenderTable](usdocml://GetRenderPreset_RenderTable).  
             >As a general rule: RenderPresets who were stored using "All Settings" in the Render-Presets-menu of the Render to File-dialog, share the same presetname.  
             
             If you know the preset-names, you can create a [RenderTable](#Datatypes_008_RenderTable), that stores all render-settings stored in their presets.
             
-            **[GetRenderPreset_RenderTable](usdocml://GetRenderPreset_RenderTable)**
+            **[GetRenderPreset\_RenderTable](usdocml://GetRenderPreset_RenderTable)**
             
                         RenderTable RenderTable = ultraschall.GetRenderPreset_RenderTable(string Bounds_Name, string Options_and_Format_Name)
             
@@ -1160,7 +1160,7 @@
             >TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, 
             >RenderQueueDelaySeconds=false  
             >
-            >This RenderTable can be used for the [RenderProject_RenderTable](usdocml://RenderProject_RenderTable)-function.  
+            >This RenderTable can be used for the [RenderProject\_RenderTable](usdocml://RenderProject_RenderTable)-function.  
             
             Using already existing render-presets is nice, but being able to change them is even nicer. Once they are added/set, they are available after (re-)opening the Render to File-dialog.
             
@@ -1189,18 +1189,18 @@
             
             Now we have get, add and set, so what is still missing? You're right: deleting them.
             
-            **[DeleteRenderPreset_Bounds](usdocml://DeleteRenderPreset_Bounds)**
+            **[DeleteRenderPreset\_Bounds](usdocml://DeleteRenderPreset_Bounds)**
             
                         boolean retval = ultraschall.DeleteRenderPreset_Bounds(string Bounds_Name)
             
             >This function deletes an already stored bounds-render-preset. Just pass the Bounds-presetname and it deletes it, if existing.
             >If the preset does not exist, it returns false, otherwise it returns true.
             
-            **[DeleteRenderPreset_FormatOptions](usdocml://DeleteRenderPreset_FormatOptions)**
+            **[DeleteRenderPreset\_FormatOptions](usdocml://DeleteRenderPreset_FormatOptions)**
             
                         boolean retval = ultraschall.DeleteRenderPreset_FormatOptions(string Options_and_Format_Name)
             
-            >Basically like [DeleteRenderPreset_Bounds](usdocml://DeleteRenderPreset_Bounds), but deletes an Options and Format-renderpreset.
+            >Basically like [DeleteRenderPreset\_Bounds](usdocml://DeleteRenderPreset_Bounds), but deletes an Options and Format-renderpreset.
             >Just pass the Options and Format-presetname and it deletes it from the presets.
             >If the preset does not exist, it returns false, otherwise it returns true.
             
@@ -1227,10 +1227,10 @@
                         integer Filecount, array Filearray = ultraschall.GetRenderQueuedProjects()
             
             >This function allows you to get the projects currently stored in RenderQueue and the number of queued projects.  
-            >The order of the projects in FileArray represent the index, which can be used in [RenderProject_RenderQueue](usdocml://RenderProject_RenderQueue), with the first project being index 1, the second being index 2, etc.  
+            >The order of the projects in FileArray represent the index, which can be used in [RenderProject\_RenderQueue](usdocml://RenderProject_RenderQueue), with the first project being index 1, the second being index 2, etc.  
             >You can also render these projects using the other render-functions as well.
             
-            **[RenderProject_RenderQueue](usdocml://RenderProject_RenderQueue)**  
+            **[RenderProject\_RenderQueue](usdocml://RenderProject_RenderQueue)**  
             
                         boolean retval = ultraschall.RenderProject_RenderQueue(integer index)
             
@@ -1382,12 +1382,12 @@
                   - [JumpBackwardBy](usdocml://JumpBackwardBy) - jumps backward editcursor by as many seconds you like; optionally you can move the playcursor as well to the new position.
                
                - Playcursor only:
-                  - [SetPlayCursor_WhenPlaying](usdocml://SetPlayCursor_WhenPlaying) - sets the playcursor to a new position, during playing
-                  - [JumpForwardBy_Recording](usdocml://JumpForwardBy_Recording) - stops recording, jumps forward a given amount of seconds and resumes recording
-                  - [JumpBackwardBy_Recording](usdocml://JumpBackwardBy_Recording) - stops recording, jumps backward a given amount of seconds and resumes recording
+                  - [SetPlayCursor\_WhenPlaying](usdocml://SetPlayCursor_WhenPlaying) - sets the playcursor to a new position, during playing
+                  - [JumpForwardBy\_Recording](usdocml://JumpForwardBy_Recording) - stops recording, jumps forward a given amount of seconds and resumes recording
+                  - [JumpBackwardBy\_Recording](usdocml://JumpBackwardBy_Recording) - stops recording, jumps backward a given amount of seconds and resumes recording
                    
                - Both:
-                  - [SetPlayAndEditCursor_WhenPlaying](usdocml://SetPlayAndEditCursor_WhenPlaying) - sets play and editcursor to position during playback
+                  - [SetPlayAndEditCursor\_WhenPlaying](usdocml://SetPlayAndEditCursor_WhenPlaying) - sets play and editcursor to position during playback
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>
@@ -1530,7 +1530,7 @@
             In Setting-State-functions, it is basically the same: the first parameter the object and the last parameter is the optional StateChunk(when the first parameter is set to nil). The parameters inbetween set the individual settings for that state.  
             
             
-            Let's have a look at two example functions [GetProject_CursorPos](usdocml://GetProject_CursorPos) and [SetProject_CursorPos](usdocml://SetProject_CursorPos):  
+            Let's have a look at two example functions [GetProject\_CursorPos](usdocml://GetProject_CursorPos) and [SetProject\_CursorPos](usdocml://SetProject_CursorPos):  
             Get Project-State:  
 
                         number cursorpos = ultraschall.GetProject_CursorPos(string projectfilename_with_path, optional string ProjectStateChunk) 
@@ -1660,10 +1660,10 @@
         <title>MediaItems: Splitting MediaItems by Time and Tracks</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. For that, I also added some functions:  
-            The easiest ones are [SplitMediaItems_Position](usdocml://SplitMediaItems_Position) and [SplitItemsAtPositionFromArray](usdocml://SplitItemsAtPositionFromArray)  
+            The easiest ones are [SplitMediaItems\_Position](usdocml://SplitMediaItems_Position) and [SplitItemsAtPositionFromArray](usdocml://SplitItemsAtPositionFromArray)  
             Let's have a look at:  
             
-            **[SplitMediaItems_Position](usdocml://SplitMediaItems_Position)**:
+            **[SplitMediaItems\_Position](usdocml://SplitMediaItems_Position)**:
             
                             boolean retval, array MediaItemArray = ultraschall.SplitMediaItems_Position(number position, string trackstring, boolean crossfade)
             
@@ -1702,7 +1702,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Deleting of MediaItems is often a useful thing. Unfortunately, this is inconvenient to do within the Reaper-API. The only such function is DeleteTrackMediaItem, but it requires you to give the function the track in which the MediaItem lies too. 
             But often, you want to have a function that simply deletes a MediaItem-object or deletes items at position from numerous tracks, etc.  
-            So I added some functions, that make life easier: [DeleteMediaItem](usdocml://DeleteMediaItem), [DeleteMediaItemsFromArray](usdocml://DeleteMediaItemsFromArray), [DeleteMediaItems_Position](usdocml://DeleteMediaItems_Position) and [DeleteMediaItemsBetween](usdocml://DeleteMediaItemsBetween)
+            So I added some functions, that make life easier: [DeleteMediaItem](usdocml://DeleteMediaItem), [DeleteMediaItemsFromArray](usdocml://DeleteMediaItemsFromArray), [DeleteMediaItems\_Position](usdocml://DeleteMediaItems_Position) and [DeleteMediaItemsBetween](usdocml://DeleteMediaItemsBetween)
             
             In addition to deleting the MediaItems, all these functions return the statechunks of the deleted MediaItems. These statechunks contain an additional field 
             
@@ -1768,7 +1768,7 @@
             Impossible you say!  
             With naked Reaper, yes. But possible with the Ultraschall-API.  
             
-            For that I added the following functions: [RippleCut](usdocml://RippleCut), [RippleCut_Reverse](usdocml://RippleCut_Reverse), [RippleInsert](usdocml://RippleInsert), [SectionCut](usdocml://SectionCut), [SectionCut_Inverse](usdocml://SectionCut_Inverse)  
+            For that I added the following functions: [RippleCut](usdocml://RippleCut), [RippleCut\_Reverse](usdocml://RippleCut_Reverse), [RippleInsert](usdocml://RippleInsert), [SectionCut](usdocml://SectionCut), [SectionCut\_Inverse](usdocml://SectionCut_Inverse)  
             All these functions return a MediaItemStateChunkArray, where every StateChunk includes an additional entry "ULTRASCHALL_TRACKNUMBER", which holds the tracknumber, in which the cut MediaItem/piece of a MediaItem was originally located.  
             
             **[RippleCut](usdocml://RippleCut)**:
@@ -1825,7 +1825,7 @@
             
                             number_items, MediaItemArray_StateChunk = ultraschall.SectionCut(77, 99, "1,2,4,6", false)
                 
-            **[SectionCut_Inverse](usdocml://SectionCut_Inverse)**:
+            **[SectionCut\_Inverse](usdocml://SectionCut_Inverse)**:
             
                             integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, 
                             integer number_items_afterend, array MediaItemArray_StateChunk_afterend 
@@ -1860,14 +1860,14 @@
             Getting, splitting, editing and deleting MediaItems isn't enough. In fact, you also want to manipulate them. And you also want to be able to manipulate many of them at once.  
             Hence, I added lots of functions to manipulate MediaItems, like:  
                 
-            - Moving: [MoveMediaItemsAfter_By](usdocml://MoveMediaItemsAfter_By), [MoveMediaItemsBefore_By](usdocml://MoveMediaItemsBefore_By), [MoveMediaItemsBetween_To](usdocml://MoveMediaItemsBetween_To), [MoveMediaItems_FromArray](usdocml://MoveMediaItems_FromArray)  
-            - Length: [ChangeLengthOfMediaItems_FromArray](usdocml://ChangeLengthOfMediaItems_FromArray), [ChangeDeltaLengthOfMediaItems_FromArray](usdocml://ChangeDeltaLengthOfMediaItems_FromArray)  
-            - Offset: [ChangeOffsetOfMediaItems_FromArray](usdocml://ChangeOffsetOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems_FromArray](usdocml://ChangeDeltaOffsetOfMediaItems_FromArray)  
+            - Moving: [MoveMediaItemsAfter\_By](usdocml://MoveMediaItemsAfter_By), [MoveMediaItemsBefore\_By](usdocml://MoveMediaItemsBefore_By), [MoveMediaItemsBetween\_To](usdocml://MoveMediaItemsBetween_To), [MoveMediaItems\_FromArray](usdocml://MoveMediaItems_FromArray)  
+            - Length: [ChangeLengthOfMediaItems\_FromArray](usdocml://ChangeLengthOfMediaItems_FromArray), [ChangeDeltaLengthOfMediaItems\_FromArray](usdocml://ChangeDeltaLengthOfMediaItems_FromArray)  
+            - Offset: [ChangeOffsetOfMediaItems\_FromArray](usdocml://ChangeOffsetOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems\_FromArray](usdocml://ChangeDeltaOffsetOfMediaItems_FromArray)  
             
             **Moving**  
             >Let's have a look at the moving-MediaItems-functions.
             
-            >**[MoveMediaItemsAfter_By](usdocml://MoveMediaItemsAfter_By)**
+            >**[MoveMediaItemsAfter\_By](usdocml://MoveMediaItemsAfter_By)**
             
                             boolean retval = ultraschall.MoveMediaItemsAfter_By(number old_position, number change_position_by, string trackstring)
                 
@@ -1875,20 +1875,20 @@
             >If change\_position\_by is negative, the MediaItems will be move towards the beginning of the project; a positive value will move the MediaItems toward the end.  
             >The parameter trackstring tells the function, in which tracks the MediaItems shall be moved.  
             
-            >**[MoveMediaItemsBefore_By](usdocml://MoveMediaItemsBefore_By)**
+            >**[MoveMediaItemsBefore\_By](usdocml://MoveMediaItemsBefore_By)**
             
                             boolean retval = ultraschall.MoveMediaItemsBefore_By(number old_position, number change_position_by, string trackstring)
                
             >This basically works like the MoveMediaItemsAfter_By above, with the difference, that it moves the MediaItems BEFORE old\_position.
             
-            >**[MoveMediaItemsBetween_To](usdocml://MoveMediaItemsBetween_To)**
+            >**[MoveMediaItemsBetween\_To](usdocml://MoveMediaItemsBetween_To)**
             
                             boolean retval = ultraschall.MoveMediaItemsBetween_To(number startposition, number endposition, number newposition, string trackstring, boolean inside)
             
             >This also moves MediaItems, but the MediaItems between startposition and endposition. Unlike the functions above, you give the new position in seconds, at which the MediaItems shall start. The relative-positions of the MediaItems will stay intact.  
             >The parameter inside allows you to tell the function, whether to include only MediaItems completely within start and endposition(true) or also MediaItems that are partially within start and endposition(false).  
             
-            >**[MoveMediaItems_FromArray](usdocml://MoveMediaItems_FromArray)**
+            >**[MoveMediaItems\_FromArray](usdocml://MoveMediaItems_FromArray)**
             
                             integer retval, number earliest_itemtime, number latest_itemtime = ultraschall.MoveMediaItems_FromArray(array MediaItemArray, number newposition)
             
@@ -1899,7 +1899,7 @@
             >And not just the length to a given length, but also a deltalength.
             >Let's have a look.
             
-            >**[ChangeLengthOfMediaItems_FromArray](usdocml://ChangeLengthOfMediaItems_FromArray)**
+            >**[ChangeLengthOfMediaItems\_FromArray](usdocml://ChangeLengthOfMediaItems_FromArray)**
             
                             boolean retval = ultraschall.ChangeLengthOfMediaItems_FromArray(array MediaItemArray, number newlength)
                 
@@ -1915,7 +1915,7 @@
                 
             >This examplecode will change the length of all MediaItems in MediaItemArray to a length of 3 seconds.
             
-            >**[ChangeDeltaLengthOfMediaItems_FromArray](usdocml://ChangeDeltaLengthOfMediaItems_FromArray)**
+            >**[ChangeDeltaLengthOfMediaItems\_FromArray](usdocml://ChangeDeltaLengthOfMediaItems_FromArray)**
             
                             boolean retval = ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(array MediaItemArray, number deltalength)
                 
@@ -1936,7 +1936,7 @@
             >And not just the length to a given length, but also a deltalength.
             >Let's have a look.
             
-            >**[ChangeOffsetOfMediaItems_FromArray](usdocml://ChangeOffsetOfMediaItems_FromArray)**
+            >**[ChangeOffsetOfMediaItems\_FromArray](usdocml://ChangeOffsetOfMediaItems_FromArray)**
             
                             boolean retval = ultraschall.ChangeOffsetOfMediaItems_FromArray(array MediaItemArray, number newoffset)
                 
@@ -1952,7 +1952,7 @@
                 
             >This examplecode will change the offset of all MediaItems in MediaItemArray to a the new offset of 3 seconds.
             
-            >**[ChangeDeltaOffsetOfMediaItems_FromArray](usdocml://ChangeDeltaOffsetOfMediaItems_FromArray)**
+            >**[ChangeDeltaOffsetOfMediaItems\_FromArray](usdocml://ChangeDeltaOffsetOfMediaItems_FromArray)**
             
                             boolean retval = ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(array MediaItemArray, number deltaoffset)
                 
@@ -1972,10 +1972,10 @@
 
                - [SetItemsLockState](usdocml://SetItemsLockState) - sets MediaItems in a MediaItemArray to either locked or unlocked    
                - [AddLockStateToMediaItemStateChunk](usdocml://AddLockStateToMediaItemStateChunk) - sets the locked-state in a MediaItemStateChunk  
-               - [AddLockStateTo_MediaItemStateChunkArray](usdocml://AddLockStateTo_MediaItemStateChunkArray) - sets the locked-state to the MediaItemStateChunks in a MediaItemStateChunkArray  
-               - [SetMediaItemsSelected_TimeSelection](usdocml://SetMediaItemsSelected_TimeSelection) - sets MediaItems selected within time-selection  
-               - [SelectMediaItems_MediaItemArray](usdocml://SelectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray to selected  
-               - [DeselectMediaItems_MediaItemArray](usdocml://DeselectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray deselected  
+               - [AddLockStateTo\_MediaItemStateChunkArray](usdocml://AddLockStateTo_MediaItemStateChunkArray) - sets the locked-state to the MediaItemStateChunks in a MediaItemStateChunkArray  
+               - [SetMediaItemsSelected\_TimeSelection](usdocml://SetMediaItemsSelected_TimeSelection) - sets MediaItems selected within time-selection  
+               - [SelectMediaItems\_MediaItemArray](usdocml://SelectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray to selected  
+               - [DeselectMediaItems\_MediaItemArray](usdocml://DeselectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray deselected  
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>
@@ -1994,11 +1994,11 @@
         <title>MediaItems: Inserting Items and Files</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Last, but not least, it would be nice to be able to insert MediaItems as well. And not just inserting them from a project, but also from files.  
-            For that, I made: [InsertMediaItem_MediaItem](usdocml://InsertMediaItem_MediaItem), [InsertMediaItem_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk), [InsertMediaItemArray](usdocml://InsertMediaItemArray), [InsertMediaItemStateChunkArray](usdocml://InsertMediaItemStateChunkArray), [InsertMediaItemFromFile](usdocml://InsertMediaItemFromFile), [InsertImageFile](usdocml://InsertImageFile)  
+            For that, I made: [InsertMediaItem\_MediaItem](usdocml://InsertMediaItem_MediaItem), [InsertMediaItem\_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk), [InsertMediaItemArray](usdocml://InsertMediaItemArray), [InsertMediaItemStateChunkArray](usdocml://InsertMediaItemStateChunkArray), [InsertMediaItemFromFile](usdocml://InsertMediaItemFromFile), [InsertImageFile](usdocml://InsertImageFile)  
             
             Lets have a look at inserting MediaItems.
             
-            >**[InsertMediaItem_MediaItem](usdocml://InsertMediaItem_MediaItem)**
+            >**[InsertMediaItem\_MediaItem](usdocml://InsertMediaItem_MediaItem)**
             
                             integer retval, MediaItem MediaItem, number startposition, number endposition, number length 
                                         = ultraschall.InsertMediaItem_MediaItem(number position, MediaItem MediaItem, MediaTrack MediaTrack)
@@ -2007,7 +2007,7 @@
             >Just give the position, at which to insert the MediaItem, the MediaItem to be included and the MediaTrack into which to include the MediaItem.  
             >It will return the newly created MediaItem, it's startposition, endposition and the length.  
             
-            >**[InsertMediaItem_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk)**
+            >**[InsertMediaItem\_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk)**
             
                             integer retval, MediaItem MediaItem 
                                         = ultraschall.InsertMediaItem_MediaItemStateChunk(number position, string MediaItemStateChunk, MediaTrack MediaTrack)
@@ -2028,7 +2028,7 @@
                                             = ultraschall.InsertMediaItemStateChunkArray(number position, array MediaItemStateChunkArray, string trackstring)
 
            >This works like InsertMediaItemArray, but it's inserting MediaItemStateChunks from the MediaItemStateChunkArray instead.  
-           >In addition to that, it also lifts the track-limitation, when you insert the tracknumber into each MediaItemStateChunk using [SetItemUSTRackNumber_StateChunk](usdocml://SetItemUSTRackNumber_StateChunk), which is automatically done by [GetItem-functions](#Getting_Manipulating_Items_002_GetMediaItems) from the Ultraschall-API.  
+           >In addition to that, it also lifts the track-limitation, when you insert the tracknumber into each MediaItemStateChunk using [SetItemUSTRackNumber\_StateChunk](usdocml://SetItemUSTRackNumber_StateChunk), which is automatically done by [GetItem-functions](#Getting_Manipulating_Items_002_GetMediaItems) from the Ultraschall-API.  
            >The addition of the tracknumber is mandatory, otherwise the MediaItemStateChunk will not be inserted!  
            
            >**[InsertMediaItemFromFile](usdocml://InsertMediaItemFromFile)**
@@ -2205,7 +2205,7 @@
                                                                                 
             >which allows applying main and midi-editor-actions to MediaItem. Just pass the command\_id/action\_command\_id to the parameter.  
             >With parameter repeat\_action, you can set, how often the action shall be applied to the MediaItem.  
-            >To apply MIDI-Editor, actions, set midi=true and pass over a HWND of the used MIDI-Editor, using Reaper's own API function [MIDIEditor_GetActive](Reaper_Api_Documentation.html#MIDIEditor_GetActive).  
+            >To apply MIDI-Editor, actions, set midi=true and pass over a HWND of the used MIDI-Editor, using Reaper's own API function [MIDIEditor\_GetActive](Reaper_Api_Documentation.html#MIDIEditor_GetActive).  
             
             To apply action to multiple MediaItems, use:
             
@@ -2287,7 +2287,7 @@
         <title>File Management: Read</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             To read files, I included some nice functions, like: [ReadFullFile](usdocml://ReadFullFile), [ReadBinaryFile](usdocml://ReadBinaryFile), [ReadBinaryFileFromPattern](usdocml://ReadBinaryFileFromPattern), [ReadBinaryFileUntilPattern](usdocml://ReadBinaryFileUntilPattern),  
-                                                                 [ReadFileAsLines_Array](usdocml://ReadFileAsLines_Array), [ReadLinerangeFromFile](usdocml://ReadLinerangeFromFile), [ReadValueFromFile](usdocml://ReadValueFromFile), [ReadBinaryFile_Offset](usdocml://ReadBinaryFile_Offset)  
+                                                                 [ReadFileAsLines\_Array](usdocml://ReadFileAsLines_Array), [ReadLinerangeFromFile](usdocml://ReadLinerangeFromFile), [ReadValueFromFile](usdocml://ReadValueFromFile), [ReadBinaryFile\_Offset](usdocml://ReadBinaryFile_Offset)  
                                                                  
             Let's start with the function probably used the most:
             
@@ -2329,7 +2329,7 @@
             
             But what if you want to read a file from a start-offset to an endoffset? Use this:
 
-            >**[ReadBinaryFile_Offset](usdocml://ReadBinaryFile_Offset)**
+            >**[ReadBinaryFile\_Offset](usdocml://ReadBinaryFile_Offset)**
             
                             integer length, string content = 
                                     ultraschall.ReadBinaryFile_Offset(string input_filename_with_path, integer startoffset, integer numberofbytes)
@@ -2346,7 +2346,7 @@
             
             When you have a textfile and you want to work with it on an individual line-basis, use:  
             
-            >**[ReadFileAsLines_Array](usdocml://ReadFileAsLines_Array)**
+            >**[ReadFileAsLines\_Array](usdocml://ReadFileAsLines_Array)**
             
                             array contents, boolean correctnumberoflines, integer number_of_lines = 
                                     ultraschall.ReadFileAsLines_Array(string filename_with_path, integer firstlinenumber, integer lastlinenumber)
@@ -2380,7 +2380,7 @@
         <slug>FileManagement_003_Write</slug>
         <title>File Management: Write</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Reading files is cool, writing files is cool as well, so I added some for exactly that: [WriteValueToFile](usdocml://WriteValueToFile), [WriteValueToFile_Insert](usdocml://WriteValueToFile_Insert), [WriteValueToFile_Replace](usdocml://WriteValueToFile_Replace), [WriteValueToFile_InsertBinary](usdocml://WriteValueToFile_InsertBinary), [WriteValueToFile_ReplaceBinary](usdocml://WriteValueToFile_ReplaceBinary)
+            Reading files is cool, writing files is cool as well, so I added some for exactly that: [WriteValueToFile](usdocml://WriteValueToFile), [WriteValueToFile\_Insert](usdocml://WriteValueToFile_Insert), [WriteValueToFile\_Replace](usdocml://WriteValueToFile_Replace), [WriteValueToFile\_InsertBinary](usdocml://WriteValueToFile_InsertBinary), [WriteValueToFile\_ReplaceBinary](usdocml://WriteValueToFile_ReplaceBinary)
             
             Let's start with the function, that you'll probably use the most for writing:
             
@@ -2393,7 +2393,7 @@
 
             To insert values into a textfile, use:
             
-            >**[WriteValueToFile_Insert](usdocml://WriteValueToFile_Insert)**
+            >**[WriteValueToFile\_Insert](usdocml://WriteValueToFile_Insert)**
             
                             integer retval = ultraschall.WriteValueToFile_Insert(string filename_with_path, integer linenumber, string value)
                             
@@ -2401,7 +2401,7 @@
             
             To replace parts of a textfile, use:
             
-            >**[WriteValueToFile_Replace](usdocml://WriteValueToFile_Replace)**
+            >**[WriteValueToFile\_Replace](usdocml://WriteValueToFile_Replace)**
             
                             integer retval = ultraschall.WriteValueToFile_Replace(string filename_with_path, integer startlinenumber, integer endlinenumber, string value)
             
@@ -2409,7 +2409,7 @@
             
             For binary-files, we have dedicated functions for that as well:
             
-            >**[WriteValueToFile_InsertBinary](usdocml://WriteValueToFile_InsertBinary)**
+            >**[WriteValueToFile\_InsertBinary](usdocml://WriteValueToFile_InsertBinary)**
             
                             integer retval = ultraschall.WriteValueToFile_InsertBinary(string filename_with_path, integer byteposition, string value)
                             
@@ -2417,7 +2417,7 @@
             
             To replace contents of a binaryfile, you can use:
             
-            >**[WriteValueToFile_ReplaceBinary](usdocml://WriteValueToFile_ReplaceBinary)**
+            >**[WriteValueToFile\_ReplaceBinary](usdocml://WriteValueToFile_ReplaceBinary)**
             
                             integer retval = ultraschall.WriteValueToFile_ReplaceBinary(string filename_with_path, integer startbyteposition, integer endbyteposition, string value)
                             
@@ -2643,7 +2643,7 @@
             - [GetAllFilesnamesInPath](usdocml://GetAllFilesnamesInPath) - returns all filenames in a path as array
             - [GetPath](usdocml://GetPath) - separates a filename from it's path
             - [MakeCopyOfFile](usdocml://MakeCopyOfFile) - copies a textfile
-            - [MakeCopyOfFile_Binary](usdocml://MakeCopyOfFile_Binary) - copies a binaryfile
+            - [MakeCopyOfFile\_Binary](usdocml://MakeCopyOfFile_Binary) - copies a binaryfile
             - [GetReaperWorkDir](usdocml://GetReaperWorkDir) - returns the current workdir of Reaper, where files(without a path) will be created in
             - [SetReaperWorkDir](usdocml://SetReaperWorkDir) - sets the current workdir of Reaper, where files(without a path) will be created in(needs Reaper-restart)
         </description>
@@ -2670,8 +2670,8 @@
             - [EnumProjects](usdocml://EnumProjects) - returns Project and projectfilename of an opened project; more streamlined alternative to Reaper's own EnumProjects
             - [GetCurrentTimeLengthOfFrame](usdocml://GetCurrentTimeLengthOfFrame) - returns the length in seconds of a frame in a project
             - [GetLengthOfFrames](usdocml://GetLengthOfFrames) - returns the length of a number of frames in a project
-            - [GetOutputFormat_RenderCfg](usdocml://GetOutputFormat_RenderCfg) - get the output-format of a render-string as used by [Rendering functions](#Rendering_002_About_Renderstrings)
-            - [GetProject_Tabs](usdocml://GetProject_Tabs) - returns all projects and project-filenames currently opened in tabs
+            - [GetOutputFormat\_RenderCfg](usdocml://GetOutputFormat_RenderCfg) - get the output-format of a render-string as used by [Rendering functions](#Rendering_002_About_Renderstrings)
+            - [GetProject\_Tabs](usdocml://GetProject_Tabs) - returns all projects and project-filenames currently opened in tabs
             - [IsValidProjectStateChunk](usdocml://IsValidProjectStateChunk) - checks, whether a string is a valid ProjectStateChunk(i.e. you read an rpp-roject into a variable, you can check this)
             - [IsValidReaProject](usdocml://IsValidReaProject) - checks, whether an object is a valid ReaProject-object
         </description>
@@ -3136,7 +3136,7 @@
         <slug>Cough_Mute_Buttons_002_Toggling_Mute</slug>
         <title>Cough and Mute Buttons/Actions: Toggling Mute</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            The first and foremost thing you probably want is actually muting a mute-envelope of a track, for that there are the two functions: [ToggleMute](usdocml://ToggleMute), [ToggleMute_TrackObject](usdocml://ToggleMute_TrackObject)
+            The first and foremost thing you probably want is actually muting a mute-envelope of a track, for that there are the two functions: [ToggleMute](usdocml://ToggleMute), [ToggleMute\_TrackObject](usdocml://ToggleMute_TrackObject)
             
             >**[ToggleMute](usdocml://ToggleMute)**
             
@@ -3148,7 +3148,7 @@
             
             To mute a certain MediaTrack-object, you can use the function:
             
-            >**[ToggleMute_TrackObject](usdocml://ToggleMute_TrackObject)**
+            >**[ToggleMute\_TrackObject](usdocml://ToggleMute_TrackObject)**
             
                                     integer retval = ultraschall.ToggleMute_TrackObject(MediaTrack trackobject, number position, integer state)
                                     
@@ -3169,7 +3169,7 @@
         <title>Cough and Mute Buttons/Actions: Toggling Mute</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Toggling is cool, but you probably want to know, if toggling is even necessary of where the next/previous mute-object currently is.  
-            For that, I added the functions: [IsMuteAtPosition](usdocml://IsMuteAtPosition), [IsMuteAtPosition_TrackObject](usdocml://IsMuteAtPosition_TrackObject), [GetNextMuteState](usdocml://GetNextMuteState), [GetNextMuteState_TrackObject](usdocml://GetNextMuteState_TrackObject), [GetPreviousMuteState](usdocml://GetPreviousMuteState), [GetPreviousMuteState_TrackObject](usdocml://GetPreviousMuteState_TrackObject)
+            For that, I added the functions: [IsMuteAtPosition](usdocml://IsMuteAtPosition), [IsMuteAtPosition\_TrackObject](usdocml://IsMuteAtPosition_TrackObject), [GetNextMuteState](usdocml://GetNextMuteState), [GetNextMuteState\_TrackObject](usdocml://GetNextMuteState_TrackObject), [GetPreviousMuteState](usdocml://GetPreviousMuteState), [GetPreviousMuteState\_TrackObject](usdocml://GetPreviousMuteState_TrackObject)
             
             If you want to know, how many mute-points exist in a track, you can use:
             
@@ -3209,9 +3209,9 @@
             
             If you want to use a trackobject rather than the tracknumber, you can use the functions:
             
-             - [IsMuteAtPosition_TrackObject](usdocml://IsMuteAtPosition_TrackObject) - like IsMuteAtPosition, but uses a MediaTrack-object instead of a tracknumber
-             - [GetNextMuteState_TrackObject](usdocml://GetNextMuteState_TrackObject) - like GetNextMuteState, but uses a MediaTrack-object instead of a tracknumber
-             - [GetPreviousMuteState_TrackObject](usdocml://GetPreviousMuteState_TrackObject) - like GetPreviousMuteState, but uses a MediaTrack-object instead of a tracknumber
+             - [IsMuteAtPosition\_TrackObject](usdocml://IsMuteAtPosition_TrackObject) - like IsMuteAtPosition, but uses a MediaTrack-object instead of a tracknumber
+             - [GetNextMuteState\_TrackObject](usdocml://GetNextMuteState_TrackObject) - like GetNextMuteState, but uses a MediaTrack-object instead of a tracknumber
+             - [GetPreviousMuteState\_TrackObject](usdocml://GetPreviousMuteState_TrackObject) - like GetPreviousMuteState, but uses a MediaTrack-object instead of a tracknumber
              
             With that, you should get a good overview over the mute-points in your project.
         </description>
@@ -3230,7 +3230,7 @@
         <title>Cough and Mute Buttons/Actions: Toggling Mute</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Being able to set and toggle and find mute-points is quite good, but sometimes, you want to get rid of them as well.  
-            For that, I added the functions: [DeleteMuteState](usdocml://DeleteMuteState), [DeleteMuteState_TrackObject](usdocml://DeleteMuteState_TrackObject)
+            For that, I added the functions: [DeleteMuteState](usdocml://DeleteMuteState), [DeleteMuteState\_TrackObject](usdocml://DeleteMuteState_TrackObject)
             
             >**[DeleteMuteState](usdocml://DeleteMuteState)**
             
@@ -3241,7 +3241,7 @@
             
             To delete a mute-point using a MediaTrack-object, you can use instead:
             
-            >**[DeleteMuteState_TrackObject](usdocml://DeleteMuteState_TrackObject)**
+            >**[DeleteMuteState\_TrackObject](usdocml://DeleteMuteState_TrackObject)**
             
                                     boolean retval = ultraschall.DeleteMuteState_TrackObject(MediaTrack MediaTrack, number position)
                                     
@@ -3396,9 +3396,9 @@
             In addition to that, there's also:
              
              - [CountErrorMessages](usdocml://CountErrorMessages) - which returns the number of error-messages currently available  
-             - [CountErrorMessage_Funcname](usdocml://CountErrorMessage_Funcname) - returns the number of error-messages a specific function provided  
-             - [GetErrorMessage_Funcname](usdocml://GetErrorMessage_Funcname) - gets an errormessage a specific function provided, can be indexed  
-             - [GetLastErrorMessage_Funcname](usdocml://GetLastErrorMessage_Funcname) - gets the last errormessage a specific function provided  
+             - [CountErrorMessage\_Funcname](usdocml://CountErrorMessage_Funcname) - returns the number of error-messages a specific function provided  
+             - [GetErrorMessage\_Funcname](usdocml://GetErrorMessage_Funcname) - gets an errormessage a specific function provided, can be indexed  
+             - [GetLastErrorMessage\_Funcname](usdocml://GetLastErrorMessage_Funcname) - gets the last errormessage a specific function provided  
              - [ShowErrorMessagesInReascriptConsole](usdocml://ShowErrorMessagesInReascriptConsole) - prints the errormessages to the console, when they happen for "realtime"-debug-errorchecking
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
@@ -3453,9 +3453,9 @@
         <title>Error Messaging System: Toggling showing errors in IDE instead</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             As cool, as the error-messaging-system is for debugging, you may prefer getting your errors like any other Lua/Reaper-API-error at the bottom of the IDE or in Reaper's error-window.  
-            So I included toggling exactly that, using: [ToggleIDE_Errormessages](usdocml://ToggleIDE_Errormessages)
+            So I included toggling exactly that, using: [ToggleIDE\_Errormessages](usdocml://ToggleIDE_Errormessages)
             
-            >**[ToggleIDE_Errormessages](usdocml://ToggleIDE_Errormessages)**
+            >**[ToggleIDE\_Errormessages](usdocml://ToggleIDE_Errormessages)**
             
                                     boolean retval = ultraschall.ToggleIDE_Errormessages(optional boolean togglevalue)
                                     
@@ -3962,8 +3962,8 @@
              This is easy, but sometimes you have to deal with unknown ini-files or want to search through it for sections, keys and values stored inside of ini-files, without haveing to guess.  
              For that, I added numerous functions for:  
               
-              - counting the number of sections/keys/values in an ini-file: [CountIniFileExternalState_key](usdocml://CountIniFileExternalState_key), [CountIniFileExternalState_sec](usdocml://CountIniFileExternalState_sec), [CountKeysByPattern](usdocml://CountKeysByPattern), [CountSectionsByPattern](usdocml://CountSectionsByPattern), [CountValuesByPattern](usdocml://CountValuesByPattern)  
-              - enumerating ini-file-extstates by index-number: [EnumerateIniFileExternalState_key](usdocml://EnumerateIniFileExternalState_key), [EnumerateIniFileExternalState_sec](usdocml://EnumerateIniFileExternalState_sec)  
+              - counting the number of sections/keys/values in an ini-file: [CountIniFileExternalState\_key](usdocml://CountIniFileExternalState_key), [CountIniFileExternalState\_sec](usdocml://CountIniFileExternalState_sec), [CountKeysByPattern](usdocml://CountKeysByPattern), [CountSectionsByPattern](usdocml://CountSectionsByPattern), [CountValuesByPattern](usdocml://CountValuesByPattern)  
+              - enumerating ini-file-extstates by index-number: [EnumerateIniFileExternalState\_key](usdocml://EnumerateIniFileExternalState_key), [EnumerateIniFileExternalState\_sec](usdocml://EnumerateIniFileExternalState_sec)  
               - enumerating ini-file-extstates by pattern: [EnumerateKeysByPattern](usdocml://EnumerateKeysByPattern), [EnumerateSectionsByPattern](usdocml://EnumerateSectionsByPattern), [EnumerateValuesByPattern](usdocml://EnumerateValuesByPattern)  
 
               **Count Ini-File-ExtStates**
@@ -3971,7 +3971,7 @@
               >They also split into two functions, with one for counting all of them, with the other only counting the ones, that contain a specific string in them, so e.g. you can count the sections with the string ultra in them.  
               >Let's have a look at some of them:
               
-              >>**[CountIniFileExternalState_sec](usdocml://CountIniFileExternalState_sec)**
+              >>**[CountIniFileExternalState\_sec](usdocml://CountIniFileExternalState_sec)**
               
                                     integer sectioncount = ultraschall.CountIniFileExternalState_sec(string ini_filename_with_path)
                                     
@@ -4001,13 +4001,13 @@
               **Enumerate Ini-Files by number**
               >These functions are meant to enumerate within sections and keys.
               
-              >>**[EnumerateIniFileExternalState_sec](usdocml://EnumerateIniFileExternalState_sec)**
+              >>**[EnumerateIniFileExternalState\_sec](usdocml://EnumerateIniFileExternalState_sec)**
               
                                     string sectionname = ultraschall.EnumerateIniFileExternalState_sec(integer number_of_section, string ini_filename_with_path)
               
               >>This enumerates the sections within an ini-file. You just pass the index-number to the function into parameter number\_of\_section and the ini-filename with path and it returns the appropriate sectionname.
               
-              >>**[EnumerateIniFileExternalState_key](usdocml://EnumerateIniFileExternalState_key)**
+              >>**[EnumerateIniFileExternalState\_key](usdocml://EnumerateIniFileExternalState_key)**
               
                                     string keyname = ultraschall.EnumerateIniFileExternalState_key(string section, integer number, string ini_filename_with_path)
                                     
@@ -4066,10 +4066,10 @@
             
              - [GetUSExternalState](usdocml://GetUSExternalState) - gets an external state from the ultraschall.ini
              - [SetUSExternalState](usdocml://SetUSExternalState) - sets an external state to the ultraschall.ini
-             - [CountUSExternalState_key](usdocml://CountUSExternalState_key) - counts the number of keys in the ultraschall.ini
-             - [CountUSExternalState_sec](usdocml://CountUSExternalState_sec) - counts the number of sections in the ultraschall.ini
-             - [EnumerateUSExternalState_key](usdocml://EnumerateUSExternalState_key) - enumerates the keys of a section in the ultraschall.ini
-             - [EnumerateUSExternalState_sec](usdocml://EnumerateUSExternalState_sec) - enumerates the sections of the ultraschall.ini
+             - [CountUSExternalState\_key](usdocml://CountUSExternalState_key) - counts the number of keys in the ultraschall.ini
+             - [CountUSExternalState\_sec](usdocml://CountUSExternalState_sec) - counts the number of sections in the ultraschall.ini
+             - [EnumerateUSExternalState\_key](usdocml://EnumerateUSExternalState_key) - enumerates the keys of a section in the ultraschall.ini
+             - [EnumerateUSExternalState\_sec](usdocml://EnumerateUSExternalState_sec) - enumerates the sections of the ultraschall.ini
 
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
@@ -4389,7 +4389,7 @@
             - [GetLastTimeSigMarkerPosition](usdocml://GetLastTimeSigMarkerPosition)) - returns the last tempo/time-signature-marker in the project
             - [GetMarkerAndRegionsByIndex](usdocml://GetMarkerAndRegionsByIndex) - returns markers and regions by index
             - [GetMarkerByName](usdocml://GetMarkerByName) - returns markers by their title
-            - [GetMarkerByName_Pattern](usdocml://GetMarkerByName_Pattern) - returns markers by their title but using the title as a pattern
+            - [GetMarkerByName\_Pattern](usdocml://GetMarkerByName_Pattern) - returns markers by their title but using the title as a pattern
             - [ImportMarkersFromFile](usdocml://ImportMarkersFromFile) - imports markers from an exported file as normal markers
             - [SetMarkerByIndex](usdocml://SetMarkerByIndex) - allows you to set markers and regions on their own, without having to deal with differentiating between them
             - [GetNextFreeRegionIndex](usdocml://GetNextFreeRegionIndex) - gets the next free region-shown-indexnumber
@@ -4557,7 +4557,7 @@
             
             But you may ask: how can I know, what kind of a ScriptIdentifier a script has, that I want to run?
             
-            Good question. For that I added another feature, that is actually used by the [ultraschall.Main_OnCommandByFilename](usdocml://Main_OnCommandByFilename)-function of the Ultraschall-API itself.
+            Good question. For that I added another feature, that is actually used by the [ultraschall.Main\_OnCommandByFilename](usdocml://Main_OnCommandByFilename)-function of the Ultraschall-API itself.
             
             You can, if you want, influence this ScriptIdentifier yourself, by influencing the filename of the script.
             So, what you should do is, create a copy of the script, using [MakeCopyOfFile](usdocml://MakeCopyOfFile) and give it a different name of the following scheme:
@@ -4591,12 +4591,12 @@
         <title>Child Scripts: Running Childscripts</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Now that you know a lot about ScriptIdentifiers, you probably want to know, how to run such a child-script and get its ScriptIdentifier.
-            For that, I added mainly two functions: [Main_OnCommandByFilename](usdocml://Main_OnCommandByFilename) and [MIDI_OnCommandByFilename](usdocml://MIDI_OnCommandByFilename) 
+            For that, I added mainly two functions: [Main\_OnCommandByFilename](usdocml://Main_OnCommandByFilename) and [MIDI\_OnCommandByFilename](usdocml://MIDI_OnCommandByFilename) 
             
             These two functions allow you to run a script and get the corresponding ScriptIdentifier returned.  
             Let's have a look:  
             
-            >**[Main_OnCommandByFilename](usdocml://Main_OnCommandByFilename)**
+            >**[Main\_OnCommandByFilename](usdocml://Main_OnCommandByFilename)**
             
                                     boolean retval, string script_identifier = ultraschall.Main_OnCommandByFilename(string filename, string ...)
                                     
@@ -4609,7 +4609,7 @@
             
             This is good, but if you want to have such a script started within a Midi-Editor-context, you should use:
             
-            >**[MIDI_OnCommandByFilename](usdocml://MIDI_OnCommandByFilename)**
+            >**[MIDI\_OnCommandByFilename](usdocml://MIDI_OnCommandByFilename)**
             
                                     boolean retval, string script_identifier = ultraschall.MIDI_OnCommandByFilename(string filename, optional HWND Midi_EditorHWND, string ...)
                                     
@@ -4640,7 +4640,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Sometimes you want to pass parameters after you've started a script. Or you are a started script and want to return values to the script that started you.  
             
-            For that, I added the functions: [GetScriptParameters](usdocml://GetScriptParameters), [SetScriptParameters](usdocml://SetScriptParameters), [GetScriptReturnvalues](usdocml://GetScriptReturnvalues), [SetScriptReturnvalues](usdocml://SetScriptReturnvalues), [GetScriptReturnvalues_Sender](usdocml://GetScriptReturnvalues_Sender)
+            For that, I added the functions: [GetScriptParameters](usdocml://GetScriptParameters), [SetScriptParameters](usdocml://SetScriptParameters), [GetScriptReturnvalues](usdocml://GetScriptReturnvalues), [SetScriptReturnvalues](usdocml://SetScriptReturnvalues), [GetScriptReturnvalues\_Sender](usdocml://GetScriptReturnvalues_Sender)
             
             If you remember from [the previous chapter about running child-scripts](#ChildScripts_003_RunChildScripts), the function returns a unique identifier for that started script.  
             Don't lose that identifier, as we'll need that to communicate with it, like for passing parameters to the childscript.  
@@ -4661,7 +4661,7 @@
             
                     boolean retval, string script_identifier = ultraschall.SetScriptParameters(string script_identifier, string ...)
                     
-            >Pass to it the ScriptIdentifier of your child-script and the parameters you want to pass. The same parameter-rules for [Main_OnCommandByFilename](usdocml://Main_OnCommandByFilename) apply here:  
+            >Pass to it the ScriptIdentifier of your child-script and the parameters you want to pass. The same parameter-rules for [Main\_OnCommandByFilename](usdocml://Main_OnCommandByFilename) apply here:  
             >Parameters must be strings. Everything else will be converted into a string, except a nil, which is seen as the last parameter, no matter if parameters would follow.  
             
             Passing parameters is quite cool, but if you're a child-script, you may want to return something to your parent/caller-script.  
@@ -4688,7 +4688,7 @@
             Now, there's only one question left: How do I know, which script has sent me returnvalues and what ScriptIdentifier it has?
             Well, use this function:
             
-            >**[GetScriptReturnvalues_Sender](usdocml://GetScriptReturnvalues_Sender)**
+            >**[GetScriptReturnvalues\_Sender](usdocml://GetScriptReturnvalues_Sender)**
             
                     integer count, array retval_sender = ultraschall.GetScriptReturnvalues_Sender()
                     
@@ -5123,7 +5123,7 @@
         <title>Localize Scripts: Functions</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Using a translationfile to localize texts in your script is very easy. There are only three functions to deal with that:  
-            [Localize_UseFile](usdocml://Localize_UseFile), [Localize\_RefreshFile](usdocml://Localize_RefreshFile), [Localize](usdocml://Localize)  
+            [Localize\_UseFile](usdocml://Localize_UseFile), [Localize\_RefreshFile](usdocml://Localize_RefreshFile), [Localize](usdocml://Localize)  
             
             Let's go into more detail:
             
@@ -6006,7 +6006,7 @@
             In that case, you can set parameter-alias-names.
             
             1. First you need to get the FXStateChunk, into which you want to set the parameter-alias-name.  
-            2. Then you can use [AddParmAlias_FXStateChunk](usdocml://AddParmAlias_FXStateChunk) to add a new aliasname or [SetParmAlias2_FXStateChunk](usdocml://SetParmAlias2_FXStateChunk) to set an existing aliasname in the FXStateChunk  
+            2. Then you can use [AddParmAlias\_FXStateChunk](usdocml://AddParmAlias_FXStateChunk) to add a new aliasname or [SetParmAlias2\_FXStateChunk](usdocml://SetParmAlias2_FXStateChunk) to set an existing aliasname in the FXStateChunk  
             3. Set the FXStateChunk back into the original statechunk
             
             In the following example, I assume that track 1 has ReaEQ in its FXChain as first parameter and the "Reset to factory defaults"-preset selected.  
@@ -6030,7 +6030,7 @@
                                     retval, TrackStateChunk=ultraschall.SetFXStateChunk(TrackStateChunk, alteredFXStateChunk)
                                     retval = ultraschall.SetTrackStateChunk_Tracknumber(1, TrackStateChunk)
             
-            If you want to set it to a new name, you can use [SetParmAlias2_FXStateChunk](usdocml://SetParmAlias2_FXStateChunk). The following code sets the parameter-aliasname to "Totally new name"
+            If you want to set it to a new name, you can use [SetParmAlias2\_FXStateChunk](usdocml://SetParmAlias2_FXStateChunk). The following code sets the parameter-aliasname to "Totally new name"
             
                                     dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
                                     
@@ -6116,7 +6116,7 @@
             Putting MediaItems into the clipboard or finding out, which MediaItems are located in the clipboard is also possible but really inconvenient.  
             So I added functions to deal with that.
             
-            >**[GetStringFromClipboard_SWS](usdocml://GetStringFromClipboard_SWS)**
+            >**[GetStringFromClipboard\_SWS](usdocml://GetStringFromClipboard_SWS)**
             
                                     string clipboard_string = ultraschall.GetStringFromClipboard_SWS()
                                     
@@ -6142,7 +6142,7 @@
             
             When dealing with MediaItems, I also created functions for that. Let's put something into the clipboard.
             
-            >**[PutMediaItemsToClipboard_MediaItemArray](usdocml://PutMediaItemsToClipboard_MediaItemArray)**
+            >**[PutMediaItemsToClipboard\_MediaItemArray](usdocml://PutMediaItemsToClipboard_MediaItemArray)**
             
                                     boolean retval = ultraschall.PutMediaItemsToClipboard_MediaItemArray(MediaItemArray MediaItemArray)
                                     
@@ -6157,7 +6157,7 @@
             >This function returns the number of MediaItems in the clipboard as well as an array with all StateChunks of the MediaItems in the clipboard.  
             >Why not the MediaItem-objects? Because, they only work within the current project, but MediaItems in the clipboard can also be from another project,
             >not having any references to the current project. Working with StateChunks instead makes them independent from a certain project.  
-            >But what if you want to insert them into a project? Use [InsertMediaItem_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk) to insert 
+            >But what if you want to insert them into a project? Use [InsertMediaItem\_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk) to insert 
             >a MediaItem into a project using it's StateChunk.  
             >How does GetMediaItemsFromClipboard work? It inserts the Items from the clipboard at the end of the project, gets them, using [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) and deletes them again.
             
@@ -6194,7 +6194,7 @@
             - [CSV2IndividualLinesAsArray](usdocml://CSV2IndividualLinesAsArray) - this splits a csv-line into individual entries as array. You can define the separator, default is a ,  
             - [CompareStringWithAsciiValues](usdocml://CompareStringWithAsciiValues) - this allows you to compare a string with individual bytes, with one byte per string-position. Good for file-header-checking-stuff.  
             - [GetPartialString](usdocml://GetPartialString) - gets a part of a string that is in the middle of a string. You can define a left and a right separator for cropping this searchstring out.  
-            - [ConvertStringToAscii_Array](usdocml://ConvertStringToAscii_Array) - converts a string into it's individual bytes, returning a byte-array that includes the character and the ascii-representation of each character  
+            - [ConvertStringToAscii\_Array](usdocml://ConvertStringToAscii_Array) - converts a string into it's individual bytes, returning a byte-array that includes the character and the ascii-representation of each character  
             - [CountCharacterInString](usdocml://CountCharacterInString) - counts a character in a string. good for &gt; and &lt; character counting in statechunks  
             - [CountLinesInString](usdocml://CountLinesInString) - counts the number of lines within a string  
             - [CountPatternInString](usdocml://CountPatternInString) - counts the number a certain pattern occurs in a string  
@@ -6203,7 +6203,7 @@
             
             **Dealing with Tables**
             
-            - [CountEntriesInTable_Main](usdocml://CountEntriesInTable_Main) - counts the number of entries in the main-branch of an array  
+            - [CountEntriesInTable\_Main](usdocml://CountEntriesInTable_Main) - counts the number of entries in the main-branch of an array  
             - [CycleTable](usdocml://CycleTable) - cycles the entries in a table forward or backward. You can also decide the stepsize. Good for color-cycling-effects.  
             - [GetAllEntriesFromTable](usdocml://GetAllEntriesFromTable) - returns an interable version of a table, so non-numerical tables can be iterated over  
             - [GetDuplicatesFromArrays](usdocml://GetDuplicatesFromArrays) - returns duplicates as well as unique values from two tables  
@@ -6266,9 +6266,9 @@
             
             **Checking for the current operating system**
                 
-            - [IsOS_Windows](usdocml://IsOS_Windows) - returns true, if the current operating system is Windows  
-            - [IsOS_Mac](usdocml://IsOS_Mac) - returns true, if the current operating system is MacOS  
-            - [IsOS_Other](usdocml://IsOS_Other) - returns true, if the current operating system is Other(usually Linux)  
+            - [IsOS\_Windows](usdocml://IsOS_Windows) - returns true, if the current operating system is Windows  
+            - [IsOS\_Mac](usdocml://IsOS_Mac) - returns true, if the current operating system is MacOS  
+            - [IsOS\_Other](usdocml://IsOS_Other) - returns true, if the current operating system is Other(usually Linux)  
                 
             **Reaper-related stuff**
                 
@@ -6283,19 +6283,19 @@
             - [Euro](usdocml://Euro) - the Euro-symbol, which is difficult to type in Reaper's IDE  
             - [Separator](usdocml://Separator) - the correct-separator for the current system your script is running on  
             - [StartTime](usdocml://StartTime) - the start-time of the current instance of the Ultraschall-API, which is usually the starting time of your script  
-            - [Api_InstallPath](usdocml://Api_InstallPath) - the installation-path of the Ultraschall-API, in which the ultraschall\_api.lua and the ultraschall\_api-folder lie  
-            - [Api_Path](usdocml://Api_Path) - the path to the ultraschall_api-folder  
+            - [Api\_InstallPath](usdocml://Api_InstallPath) - the installation-path of the Ultraschall-API, in which the ultraschall\_api.lua and the ultraschall\_api-folder lie  
+            - [Api\_Path](usdocml://Api_Path) - the path to the ultraschall_api-folder  
                 
             **Configuration Settings**
                 
-            - [SetIntConfigVar_Bitfield](usdocml://SetIntConfigVar_Bitfield) - this helps you setting an integer-bitfield for a specific [configuration-variable](Reaper_Config_Variables.html)  
+            - [SetIntConfigVar\_Bitfield](usdocml://SetIntConfigVar_Bitfield) - this helps you setting an integer-bitfield for a specific [configuration-variable](Reaper_Config_Variables.html)  
             
             **User Interface stuff**
                 
             - [ShowMenu](usdocml://ShowMenu) - shows a context-menu that you can customize yourself  
             - [OpenItemInMidiEditor](usdocml://OpenItemInMidiEditor) - this opens a midi-item in a MidiEditor  
-            - [ZoomHorizontal_MidiEditor](usdocml://ZoomHorizontal_MidiEditor) - this zooms horizontally within the current or another Midi-Editor  
-            - [ZoomVertical_MidiEditor](usdocml://ZoomVertical_MidiEditor) - this zooms vertically within the current or another Midi-Editor  
+            - [ZoomHorizontal\_MidiEditor](usdocml://ZoomHorizontal_MidiEditor) - this zooms horizontally within the current or another Midi-Editor  
+            - [ZoomVertical\_MidiEditor](usdocml://ZoomVertical_MidiEditor) - this zooms vertically within the current or another Midi-Editor  
             - [GetVZoom](usdocml://GetVZoom) - gets the vertical-zoom-factor currently set in the arrange-view  
             - [SetVZoom](usdocml://SetVZoom) - sets the vertical-zoom-factor in the arrange-view  
             - [GetScreenHeight](usdocml://GetScreenHeight) - returns the current screen-height in pixels  
@@ -6318,8 +6318,8 @@
             **print replacements**
             
             - [print](usdocml://print) - prints its parameters to the ReaScript-console, separated by newlines  
-            - [print_alt](usdocml://print_alt) - prints its parameters to the ReaScript-console, separated by two spaces. Ends with a newline.  
-            - [print_update](usdocml://print_update) - prints its parameters to the ReaScript-console, but clears it first  
+            - [print\_alt](usdocml://print_alt) - prints its parameters to the ReaScript-console, separated by two spaces. Ends with a newline.  
+            - [print\_update](usdocml://print_update) - prints its parameters to the ReaScript-console, but clears it first  
             - [print2](usdocml://print2) - prints its parameters to a message-box-window  
             - [print3](usdocml://print3) - prints its parameters to the clipboard  
             
@@ -6329,7 +6329,7 @@
             - [RunCommand](usdocml://RunCommand) - this runs a command directly, without the hassle of needing to get the command-id. So you can run an action by it's command-id as well as the ActionCommandID, like _RSblabla.  
             - [ToggleStateAction](usdocml://ToggleStateAction) - toggles the state of an action and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.  
             - [ToggleStateButton](usdocml://ToggleStateButton) - toggles the state of a button and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.  
-            - [RefreshToolbar_Action](usdocml://RefreshToolbar_Action) - refreshes a toolbar-button and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.  
+            - [RefreshToolbar\_Action](usdocml://RefreshToolbar_Action) - refreshes a toolbar-button and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.  
             - [CheckActionCommandIDFormat](usdocml://CheckActionCommandIDFormat) - checks, if a string is a valid formatted ActionCommandID or commandid-nr  
             - [CheckActionCommandIDFormat2](usdocml://CheckActionCommandIDFormat2) - checks, if a string is a valid formatted ActionCommandID or commandid-nr; checks also for the existence of the commandid/ActionCommandID  
             - [OpenURL](usdocml://OpenURL) - opens an html-webpage in your browser  

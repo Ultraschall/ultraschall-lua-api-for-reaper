@@ -19,7 +19,7 @@
             
             The IDE in Reaper has some limitations, as every line must not exceed 4095 characters, or they will be split when the script is loaded the next time.
             
-            The base-directory for files created from ReaScript can be read from the reaper.ini -> [REAPER] -> lastcwd=
+            The base-directory for files created from ReaScript can be read from the reaper.ini -> [REAPER)] -> lastcwd=
             That means, if you create a new file without giving it a path, it will be created in the path set in lastcwd.
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -38,7 +38,7 @@
             Note: the C++ pure virtual interfaces used require the MSVC-compatible C++ ABI on Win32.  Sorry, mingw users.
 
             Reaper extensions: see [http://www.cockos.com/reaper/sdk/plugin/plugin.php](http://www.cockos.com/reaper/sdk/plugin/plugin.php) and reaper\_plugin.h.
-            The API functions in this header can be retrieved using reaper\_plugin\_info\_t.GetFunc() or by using the Action "\[developer\] Write C++ API functions header" directly in Reaper.
+            The API functions in this header can be retrieved using reaper\_plugin\_info\_t.GetFunc() or by using the Action "[developer] Write C++ API functions header" directly in Reaper.
 
             VST plugins: see [http://www.cockos.com/reaper/sdk/vst/vst\_ext.php](http://www.cockos.com/reaper/sdk/vst/vst_ext.php)
             The API functions in this header can be retrieved using audioMasterCallback.
@@ -83,7 +83,7 @@
 
             Examples:
                 // function returning a single (scalar) value:
-                sec = [parse_timestr("1:12")](#parse_timestr);
+                sec = [parse\_timestr("1:12")](#parse_timestr);
 
                 // function returning information in the first parameter (function returns void):
                 [GetProjectPath(#string)](#GetProjectPath);
@@ -157,7 +157,7 @@
 
             Examples:
                 -- function returning a single (scalar) value:
-                sec = reaper.[parse_timestr("1:12")](#parse_timestr)
+                sec = reaper.[parse\_timestr("1:12")](#parse_timestr)
 
                 -- function with an ignored (dummy) parameter:
                 path = reaper.[GetProjectPath("")](#GetProjectPath)
@@ -237,7 +237,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
-            Creates a new media item. It will be empty and therefore not be shown in the arrange-view, until you associate a mediafile(audio, picture, video, etc) or a length and position to it using [SetMediaItemInfo_Value](#SetMediaItemInfo_Value)
+            Creates a new media item. It will be empty and therefore not be shown in the arrange-view, until you associate a mediafile(audio, picture, video, etc) or a length and position to it using [SetMediaItemInfo\_Value](#SetMediaItemInfo_Value)
         </description>
         <retvals markup_type="markdown" markup_version="1.0.1">
             MediaItem item - the newly created MediaItem-object
@@ -1459,7 +1459,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Create a send/receive (desttrInOptional!=NULL), or a hardware output (desttrInOptional==NULL) with default properties, return &gt;=0 on success (== new send/receive index). See [RemoveTrackSend](#RemoveTrackSend), [GetSetTrackSendInfo](#GetSetTrackSendInfo), [GetTrackSendInfo_Value](#GetTrackSendInfo_Value), [SetTrackSendInfo_Value](#SetTrackSendInfo_Value).
+            Create a send/receive (desttrInOptional!=NULL), or a hardware output (desttrInOptional==NULL) with default properties, return &gt;=0 on success (== new send/receive index). See [RemoveTrackSend](#RemoveTrackSend), [GetSetTrackSendInfo](#GetSetTrackSendInfo), [GetTrackSendInfo\_Value](#GetTrackSendInfo_Value), [SetTrackSendInfo\_Value](#SetTrackSendInfo_Value).
             
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         </description>
@@ -1897,7 +1897,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
-            Toggles between pause and play or when recording has started between pause and rec. Unlike [CSurf_OnPlay()](#CSurf_OnPlay) it toggles pause first, then plays.
+            Toggles between pause and play or when recording has started between pause and rec. Unlike [CSurf\_OnPlay()](#CSurf_OnPlay) it toggles pause first, then plays.
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -1919,7 +1919,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
-            Toggles between play and pause or, when recording, rec and pause. Unlike [CSurf_OnPause()](#CSurf_OnPause) it toggles play first, then pauses.
+            Toggles between play and pause or, when recording, rec and pause. Unlike [CSurf\_OnPause()](#CSurf_OnPause) it toggles play first, then pauses.
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -8196,7 +8196,7 @@
             Get or set project information.
  
             RENDER_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp; 128=Selected tracks via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;512=Embed Metadata, if format supports is, &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master)
-            OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using [GetSetProjectInfo_String](#GetSetProjectInfo_String).
+            OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using [GetSetProjectInfo\_String](#GetSetProjectInfo_String).
             RENDER_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions
             RENDER_CHANNELS : number of channels in rendered file
             RENDER_SRATE : sample rate of rendered file (or 0 for project sample rate)
@@ -11011,7 +11011,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see [NamedCommandLookup](#NamedCommandLookup)().
-            See [Main_OnCommandEx](#Main_OnCommandEx).
+            See [Main\_OnCommandEx](#Main_OnCommandEx).
         </description>
         <parameters>
             command -  the command-id of the action, you want to run
@@ -11712,7 +11712,7 @@
             A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float.
             For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.
             
-            See [MIDI_SetAllEvts](#MIDI_SetAllEvts).
+            See [MIDI\_SetAllEvts](#MIDI_SetAllEvts).
         </description>
         <retvals>
             retval - 
@@ -11777,7 +11777,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get CC shape and bezier tension. See [MIDI_GetCC](#MIDI_GetCC), [MIDI_SetCCShape](#MIDI_SetCCShape)
+            Get CC shape and bezier tension. See [MIDI\_GetCC](#MIDI_GetCC), [MIDI\_SetCCShape](#MIDI_SetCCShape)
         </description>
         <retvals>
             boolean retval - 
@@ -11871,7 +11871,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. See [MIDI_GetTrackHash](#MIDI_GetTrackHash)
+            Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. See [MIDI\_GetTrackHash](#MIDI_GetTrackHash)
         </description>
         <retvals>
             retval - 
@@ -12144,7 +12144,7 @@
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Get MIDI meta-event properties. Allowable types are -1:sysex (msg should not include bounding F0..F7), 1-14:MIDI text event types, 15=REAPER notation event. For all other meta-messages, type is returned as -2 and msg returned as all zeroes. 
             
-            See [MIDI_GetEvt](#MIDI_GetEvt).
+            See [MIDI\_GetEvt](#MIDI_GetEvt).
         </description>
         <retvals>
             retval - 
@@ -12178,7 +12178,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. See [MIDI_GetHash](#MIDI_GetHash)
+            Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. See [MIDI\_GetHash](#MIDI_GetHash)
         </description>
         <retvals>
             retval - 
@@ -12402,7 +12402,7 @@
             A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float.
             For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.
 
-            See [MIDI_GetAllEvts](#MIDI_GetAllEvts).
+            See [MIDI\_GetAllEvts](#MIDI_GetAllEvts).
         </description>
         <retvals>
             boolean - 
@@ -12468,7 +12468,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Set CC shape and bezier tension. set noSort if setting multiple events, then call MIDI_Sort when done. See [MIDI_SetCC](#MIDI_SetCC), [MIDI_GetCCShape](#MIDI_GetCCShape)
+            Set CC shape and bezier tension. set noSort if setting multiple events, then call MIDI_Sort when done. See [MIDI\_SetCC](#MIDI_SetCC), [MIDI\_GetCCShape](#MIDI_GetCCShape)
         </description>
         <retvals>
             boolean retval - 
@@ -12662,7 +12662,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             get a pointer to the focused MIDI editor window
-            see [MIDIEditor_GetMode](#MIDIEditor_GetMode), [MIDIEditor_OnCommand](#MIDIEditor_OnCommand)
+            see [MIDIEditor\_GetMode](#MIDIEditor_GetMode), [MIDIEditor\_OnCommand](#MIDIEditor_OnCommand)
         </description>
         <retvals>
             HWND - 
@@ -12688,7 +12688,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             get the mode of a MIDI editor (0=piano roll, 1=event list, -1=invalid editor)
-            see [MIDIEditor_GetActive](#MIDIEditor_GetActive), [MIDIEditor_OnCommand](#MIDIEditor_OnCommand)
+            see [MIDIEditor\_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_OnCommand](#MIDIEditor_OnCommand)
         </description>
         <retvals>
             integer - 
@@ -12738,7 +12738,7 @@
                 scale\_enabled: returns 0-1
                 scale\_root: returns 0-12 (0=C)
                 if setting\_desc is unsupported, the function returns -1.
-                See [MIDIEditor_SetSetting_int](#MIDIEditor_SetSetting_int), [MIDIEditor_GetActive](#MIDIEditor_GetActive), [MIDIEditor_GetSetting_str](#MIDIEditor_GetSetting_str)
+                See [MIDIEditor\_SetSetting\_int](#MIDIEditor_SetSetting_int), [MIDIEditor\_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_GetSetting\_str](#MIDIEditor_GetSetting_str)
         </description>
         <retvals>
             integer - 
@@ -12861,7 +12861,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Send an action command to a MIDI editor. Returns false if the supplied MIDI editor pointer is not valid (not an open MIDI editor).
-            see [MIDIEditor_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_LastFocused\_OnCommand](#MIDIEditor_LastFocused_OnCommand)
+            see [MIDIEditor\_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_LastFocused\_OnCommand](#MIDIEditor_LastFocused_OnCommand)
         </description>
         <retvals>
             boolean - 
@@ -13140,9 +13140,9 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
-            Get the command ID number for named command that was registered by an extension such as "\_SWS\_ABOUT" or "_113088d11ae641c193a2b7ede3041ad5" for a ReaScript or a custom action.
+            Get the command ID number for named command that was registered by an extension such as "\_SWS\_ABOUT" or "\_113088d11ae641c193a2b7ede3041ad5" for a ReaScript or a custom action.
             
-            see [Main_OnCommand](#Main_OnCommand) for executing actions with command-ID-numbers.
+            see [Main\_OnCommand](#Main_OnCommand) for executing actions with command-ID-numbers.
         </description>
         <retvals>
             integer - the command-id-number of the script/action, which can be used to e.g. run the action, toggle actions, refresh toolbars, etc.
@@ -14118,7 +14118,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Remove a send/receive/hardware output. See [CreateTrackSend](#CreateTrackSend), [GetSetTrackSendInfo](#GetSetTrackSendInfo), [GetTrackSendInfo_Value](#GetTrackSendInfo_Value), [SetTrackSendInfo_Value](#SetTrackSendInfo_Value), [GetTrackNumSends](#GetTrackNumSends).
+            Remove a send/receive/hardware output. See [CreateTrackSend](#CreateTrackSend), [GetSetTrackSendInfo](#GetSetTrackSendInfo), [GetTrackSendInfo\_Value](#GetTrackSendInfo_Value), [SetTrackSendInfo\_Value](#SetTrackSendInfo_Value), [GetTrackNumSends](#GetTrackNumSends).
             
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         </description>
@@ -14246,7 +14246,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [resolve_fn2](#resolve_fn2).
+            See [resolve\_fn2](#resolve_fn2).
         </description>
         <retvals>
             out - 
@@ -14496,7 +14496,7 @@
         <title>SetCurrentBPM</title>
         <functioncall prog_lang="cpp">void SetCurrentBPM(ReaProject* __proj, double bpm, bool wantUndo)</functioncall>
         <functioncall prog_lang="eel">SetCurrentBPM(ReaProject __proj, bpm, bool wantUndo)</functioncall>
-        <functioncall prog_lang="lua">reaper.SetCurrentBPM(ReaProject __proj, number bpm, boolean wantUndo)</functioncall>
+        <functioncall prog_lang="lua">reaper.SetCurrentBPM(ReaProject proj, number bpm, boolean wantUndo)</functioncall>
         <functioncall prog_lang="python">RPR_SetCurrentBPM(ReaProject __proj, Float bpm, Boolean wantUndo)</functioncall>
         <requires>
             Reaper=5.62
@@ -14506,7 +14506,7 @@
             set current BPM in project, set wantUndo=true to add undo point
         </description>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            __proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
             bpm - the new beats per minute-value
             wantUndo - true, add undo point; false, no undo point added
         </parameters>
@@ -16741,7 +16741,7 @@
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Adds or queries the position of a named FX in a take. See [TrackFX_AddByName()](#TrackFX_AddByName) for information on fxname and instantiate. 
+            Adds or queries the position of a named FX in a take. See [TrackFX\_AddByName()](#TrackFX_AddByName) for information on fxname and instantiate. 
         </description>
         <retvals>
             integer - 
@@ -16921,7 +16921,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [TakeFX_SetEnabled](#TakeFX_SetEnabled)
+            See [TakeFX\_SetEnabled](#TakeFX_SetEnabled)
         </description>
         <retvals>
             boolean - 
@@ -17191,7 +17191,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns true if this FX UI is open in the FX chain window or a floating window. See [TakeFX_SetOpen](#TakeFX_SetOpen)
+            Returns true if this FX UI is open in the FX chain window or a floating window. See [TakeFX\_SetOpen](#TakeFX_SetOpen)
         </description>
         <retvals>
             boolean - 
@@ -17412,7 +17412,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). See [TakeFX_SetPreset](#TakeFX_SetPreset).
+            Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). See [TakeFX\_SetPreset](#TakeFX_SetPreset).
         </description>
         <retvals>
             retval - 
@@ -17442,7 +17442,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns current preset index, or -1 if error. numberOfPresetsOut will be set to total number of presets available. See [TakeFX_SetPresetByIndex](#TakeFX_SetPresetByIndex)
+            Returns current preset index, or -1 if error. numberOfPresetsOut will be set to total number of presets available. See [TakeFX\_SetPresetByIndex](#TakeFX_SetPresetByIndex)
         </description>
         <retvals>
             retval - 
@@ -17531,7 +17531,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [TakeFX_GetEnabled](#TakeFX_GetEnabled)
+            See [TakeFX\_GetEnabled](#TakeFX_GetEnabled)
         </description>
         <parameters>
             take - 
@@ -17589,7 +17589,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Open this FX UI. See [TakeFX_GetOpen](#TakeFX_GetOpen)
+            Open this FX UI. See [TakeFX\_GetOpen](#TakeFX_GetOpen)
         </description>
         <parameters>
             take - 
@@ -17711,7 +17711,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Activate a preset with the name shown in the REAPER dropdown. Full paths to .vstpreset files are also supported for VST3 plug-ins. See [TakeFX_GetPreset](#TakeFX_GetPreset).
+            Activate a preset with the name shown in the REAPER dropdown. Full paths to .vstpreset files are also supported for VST3 plug-ins. See [TakeFX\_GetPreset](#TakeFX_GetPreset).
         </description>
         <retvals>
             boolean - 
@@ -17741,7 +17741,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Sets the preset idx, or the factory preset (idx==-2), or the default user preset (idx==-1). Returns true on success. See [TakeFX_GetPresetIndex](#TakeFX_GetPresetIndex).
+            Sets the preset idx, or the factory preset (idx==-2), or the default user preset (idx==-1). Returns true on success. See [TakeFX\_GetPresetIndex](#TakeFX_GetPresetIndex).
         </description>
         <retvals>
             boolean - 
@@ -18408,7 +18408,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Converts project quarter note count (QN) to time. QN is counted from the start of the project, regardless of any partial measures. See [TimeMap2_QNToTime](#TimeMap2_QNToTime)
+            Converts project quarter note count (QN) to time. QN is counted from the start of the project, regardless of any partial measures. See [TimeMap2\_QNToTime](#TimeMap2_QNToTime)
         </description>
         <retvals>
             number - 
@@ -18465,7 +18465,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Converts project time position to quarter note count (QN). QN is counted from the start of the project, regardless of any partial measures. See [TimeMap2_timeToQN](#TimeMap2_timeToQN)
+            Converts project time position to quarter note count (QN). QN is counted from the start of the project, regardless of any partial measures. See [TimeMap2\_timeToQN](#TimeMap2_timeToQN)
         </description>
         <retvals>
             number - 
@@ -18605,7 +18605,7 @@
         <title>TrackFX_AddByName</title>
         <functioncall prog_lang="cpp">int TrackFX_AddByName(MediaTrack* track, const char* fxname, bool recFX, int instantiate)</functioncall>
         <functioncall prog_lang="eel">int TrackFX_AddByName(MediaTrack track, "fxname", bool recFX, int instantiate)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.TrackFX_AddByName(MediaTrack track, string fxname, boolean recFX, integer instantiate)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.TrackFX_AddByName(MediaTrack track, string fxname, boolean recFX, integer instantiate)</functioncall>
         <functioncall prog_lang="python">Int RPR_TrackFX_AddByName(MediaTrack track, String fxname, Boolean recFX, Int instantiate)</functioncall>
         <requires>
             Reaper=5.92
@@ -18620,20 +18620,20 @@
             Returns -1 on failure or the new position in chain on success.
         </description>
         <retvals>
-            integer - 
+            integer retval - the index of the position of the new fx; -1, in case of an error
         </retvals>
         <parameters>
-            track - 
-            fxname - 
-            recFX - 
-            instantiate - 
+            MediaTrack track - the track, into whose FXChain you want to add a new FX; for inputFX(monitoring FX), this must be the master track + recFX==true
+            string fxname - the name of the fx/instrument-plugin
+            boolean recFX - true, add the fx to the inputFX(only when track=master track); false, add it to track
+            integer instantiate - negative, always create this new fx; positive, create the fx, if it does not yet exist; 0, query position of the first fx with that name
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
             FX Management
         </chapter_context>
-        <tags></tags>
+        <tags>fxmanagement, add, track fx, input fx</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -18651,11 +18651,11 @@
             Copies (or moves) FX from src_track to dest_track. Can be used with src_track=dest_track to reorder, FX indices have 0x1000000 set to reference input FX. 
         </description>
         <parameters>
-            MediaTrack src_track - 
-            Int src_fx - 
-            MediaTrack dest_track - 
-            Int dest_fx - 
-            Boolean is_move - 
+            MediaTrack src_track - the source-track, whose fx you want to copy; use master-track to address inputfx
+            Int src_fx - the index of the fx(0-based); add 0x1000000 to use it for inputfx(needs src_track=mastertrack)
+            MediaTrack dest_track - the destination-track, into which you want to paste/insert the fx; use master-track to address inputfx
+            Int dest_fx - the index of the fx(0-based); add 0x1000000 to use it for inputfx(needs dest_track=mastertrack)
+            Boolean is_move - true, move the fx; false, just copy the fx as new fx to the new position
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18680,11 +18680,11 @@
             Copies (or moves) FX from src_track to dest_take. src_fx can have 0x1000000 set to reference input FX. 
         </description>
         <parameters>
-            MediaTrack src_track - 
-            integer src_fx - 
-            MediaItem_Take dest_take - 
-            integer dest_fx - 
-            boolean is_move - 
+            MediaTrack src_track - the source-track, whose fx you want to copy; use master-track to address inputfx
+            Int src_fx - the index of the fx(0-based); add 0x1000000 to use it for inputfx(needs src_track=mastertrack)
+            MediaItem_Take dest_take - the destination-take, into which you want to paste/insert the fx
+            Int dest_fx - the index of the fx(0-based)
+            Boolean is_move - true, move the fx; false, just copy the fx as new fx to the new position
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18712,9 +18712,9 @@
             boolean - 
         </retvals>
         <parameters>
-            track - 
-            fx - 
-            param - 
+            MediaTrack track - 
+            integer fx - 
+            integer param - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18736,17 +18736,22 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
+            returns a formatted version of the currently set parameter-value.
+            
             Note: only works with FX that support Cockos VST extensions.
+            
+            returns false in case of an error
         </description>
         <retvals>
-            retval - 
-            buf - 
+            boolean retval - true, parameter can be retrieved; false, an error occured(e.g. no such fx)
+            string buf - the formatted parameter value
         </retvals>
         <parameters>
-            track - 
-            fx - 
-            param - 
-            val - 
+            MediaTrack track - the track, which contains the fx; use master-track if you want to address input-fx(see fx)
+            integer fx - the index of the fx(0-based); add 0x1000000 to use inputFX(only with track=mastertrack)
+            integer param - the parameter, whose format you want to apply to the value
+            number val - a value, which shall be formatted accordingly
+            string buf - simply set this to ""
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18768,17 +18773,22 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
+            returns a formatted version of the currently set parameter-value and normalizes it.
+        
             Note: only works with FX that support Cockos VST extensions.
+            
+            returns false in case of an error
         </description>
         <retvals>
-            retval - 
-            buf - 
+            boolean retval - true, parameter can be retrieved; false, an error occured(e.g. no such fx)
+            string buf - the formatted parameter value
         </retvals>
         <parameters>
-            track - 
-            fx - 
-            param - 
-            value - 
+            MediaTrack track - the track, which contains the fx; use master-track if you want to address input-fx(see fx)
+            integer fx - the index of the fx(0-based); add 0x1000000 to use inputFX(only with track=mastertrack)
+            integer param - the parameter, whose format you want to apply to the value
+            number val - a value, which shall be formatted accordingly
+            string buf - simply set this to ""
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18800,15 +18810,17 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the index of the first track FX insert that matches fxname. If the FX is not in the chain and instantiate is true, it will be inserted. See [TrackFX_GetInstrument](#TrackFX_GetInstrument), [TrackFX_GetEQ](#TrackFX_GetEQ). Deprecated in favor of TrackFX_AddByName.
+            Get the index of the first track FX insert that matches fxname. If the FX is not in the chain and instantiate is true, it will be inserted. See [TrackFX\_GetInstrument](#TrackFX_GetInstrument), [TrackFX\_GetEQ](#TrackFX_GetEQ). Deprecated in favor of TrackFX_AddByName.
+            
+            returns -1 in case of an error
         </description>
         <retvals>
-            integer retval - 
+            integer retval - the index of the first track FX with fxname
         </retvals>
         <parameters>
-            MediaTrack track - 
-            string fxname - 
-            boolean instantiate - 
+            MediaTrack track - the MediaTrack, which may hold the fx
+            string fxname - the name of the fx, whose first index-position you want to query
+            boolean instantiate - true, add the fx, is it's not existing; false, just query
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18833,10 +18845,13 @@
             returns index of effect visible in chain, or -1 for chain hidden, or -2 for chain visible but no effect selected
         </description>
         <retvals>
-            integer - 
+            integer - the current visibility/selected state of the FXChain:
+                    - positive, the index of the selected fx(0-based)
+                    - -1, hidden
+                    - -2, visible but no effect inserted
         </retvals>
         <parameters>
-            track - 
+            MediaTrack track - the track, whose FXChain-visibility you want to query
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18858,13 +18873,13 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            
+            returns the number of trackfx in the FXChain of track
         </description>
         <retvals>
-            integer - 
+            integer - the number of fx in the FXChain of track
         </retvals>
         <parameters>
-            track - 
+            MediaTrack track - the track, whose number of fx in the FXChain you want to count
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18886,14 +18901,18 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [TrackFX_SetEnabled](#TrackFX_SetEnabled)
+            returns, if a certain FX in track is enabled
+            
+            See [TrackFX\_SetEnabled](#TrackFX_SetEnabled)
+            
+            returns false in case of an error
         </description>
         <retvals>
-            boolean - 
+            boolean - true, fx is enabled; false, fx is disabled or not existing
         </retvals>
         <parameters>
-            track - 
-            fx - 
+            MediaTrack track - the track, whose fx-enabled-state you want to query; use master-track to query inputFX(see fx)
+            integer fx - the index of the fx, whose enabled-state you want to query(0-based); add 0x1000000 to query inputFX
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18915,14 +18934,16 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the index of ReaEQ in the track FX chain. If ReaEQ is not in the chain and instantiate is true, it will be inserted. See [TrackFX_GetInstrument](#TrackFX_GetInstrument), [TrackFX_GetByName](#TrackFX_GetByName).
+            Get the index of ReaEQ in the track FX chain. If ReaEQ is not in the chain and instantiate is true, it will be inserted. See [TrackFX\_GetInstrument](#TrackFX_GetInstrument), [TrackFX\_GetByName](#TrackFX_GetByName).
+            
+            returns -1 if no ReaEQ is available.
         </description>
         <retvals>
-            integer - 
+            integer - the index of first ReaEQ in the FXChain; -1, if no ReaEQ is available
         </retvals>
         <parameters>
-            track - 
-            instantiate - 
+            MediaTrack track - the track, whose first ReaEQ-instance-index you want to query
+            boolean instantiate - true, add ReaEQ if not existing yet; false, just query its position
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18948,16 +18969,17 @@
             Returns false if the band is disabled, or if track/fxidx is not ReaEQ.
             Bandtype: 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             Bandidx: 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
-            See [TrackFX_GetEQ](#TrackFX_GetEQ), [TrackFX_GetEQParam](#TrackFX_GetEQParam), [TrackFX_SetEQParam](#TrackFX_SetEQParam), [TrackFX_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
+            
+            See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetEQParam](#TrackFX_GetEQParam), [TrackFX\_SetEQParam](#TrackFX_SetEQParam), [TrackFX\_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
         </description>
         <retvals>
-            boolean - 
+            boolean - true, if the EQ band is enabled; false, if the EQ band is disabled
         </retvals>
         <parameters>
-            track - 
-            fxidx - 
-            bandtype - 
-            bandidx - 
+            MediaTrack track - the track, whose ReaEQ-instance-enabledstate you want to query
+            integer fxidx - the index of the fx in the FXChain, that is the ReaEQ-instance in question
+            integer bandtype - 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
+            integer bandidx - 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18983,7 +19005,7 @@
             Bandtype: -1=master gain, 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             Bandidx (ignored for master gain): 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
             Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q.
-            See [TrackFX_GetEQ](#TrackFX_GetEQ), [TrackFX_SetEQParam](#TrackFX_SetEQParam), [TrackFX_GetEQBandEnabled](#TrackFX_GetEQBandEnabled), [TrackFX_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
+            See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_SetEQParam](#TrackFX_SetEQParam), [TrackFX\_GetEQBandEnabled](#TrackFX_GetEQBandEnabled), [TrackFX\_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
         </description>
         <retvals>
             retval - 
@@ -19136,7 +19158,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the index of the first track FX insert that is a virtual instrument, or -1 if none. See [TrackFX_GetEQ](#TrackFX_GetEQ), [TrackFX_GetByName](#TrackFX_GetByName).
+            Get the index of the first track FX insert that is a virtual instrument, or -1 if none. See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetByName](#TrackFX_GetByName).
         </description>
         <retvals>
             integer - 
@@ -19255,7 +19277,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns true if this FX UI is open in the FX chain window or a floating window. See [TrackFX_SetOpen](#TrackFX_SetOpen)
+            Returns true if this FX UI is open in the FX chain window or a floating window. See [TrackFX\_SetOpen](#TrackFX_SetOpen)
         </description>
         <retvals>
             boolean - true, TrackFX is open; false, TrackFX is closed
@@ -19476,7 +19498,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). See [TrackFX_SetPreset](#TrackFX_SetPreset).
+            Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). See [TrackFX\_SetPreset](#TrackFX_SetPreset).
         </description>
         <retvals>
             retval - 
@@ -19506,7 +19528,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns current preset index, or -1 if error. numberOfPresetsOut will be set to total number of presets available. See [TrackFX_SetPresetByIndex](#TrackFX_SetPresetByIndex)
+            Returns current preset index, or -1 if error. numberOfPresetsOut will be set to total number of presets available. See [TrackFX\_SetPresetByIndex](#TrackFX_SetPresetByIndex)
         </description>
         <retvals>
             retval - 
@@ -19651,7 +19673,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [TrackFX_GetEnabled](#TrackFX_GetEnabled)
+            See [TrackFX\_GetEnabled](#TrackFX_GetEnabled)
         </description>
         <parameters>
             track - 
@@ -19682,7 +19704,7 @@
             Returns false if track/fxidx is not ReaEQ.
             Bandtype: 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             Bandidx: 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
-            See [TrackFX_GetEQ](#TrackFX_GetEQ), [TrackFX_GetEQParam](#TrackFX_GetEQParam), [TrackFX_SetEQParam](#TrackFX_SetEQParam), [TrackFX_GetEQBandEnabled](#TrackFX_GetEQBandEnabled).
+            See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetEQParam](#TrackFX_GetEQParam), [TrackFX\_SetEQParam](#TrackFX_SetEQParam), [TrackFX\_GetEQBandEnabled](#TrackFX_GetEQBandEnabled).
         </description>
         <retvals>
             boolean - 
@@ -19718,7 +19740,7 @@
             Bandtype: -1=master gain, 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             Bandidx (ignored for master gain): 0=target first band matching bandtype, 1=target 2nd band matching bandtype, etc.
             Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q.
-            See [TrackFX_GetEQ](#TrackFX_GetEQ), [TrackFX_GetEQParam](#TrackFX_GetEQParam), [TrackFX_GetEQBandEnabled](#TrackFX_GetEQBandEnabled), [TrackFX_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
+            See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetEQParam](#TrackFX_GetEQParam), [TrackFX\_GetEQBandEnabled](#TrackFX_GetEQBandEnabled), [TrackFX\_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
         </description>
         <retvals>
             boolean - 
@@ -19784,7 +19806,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [TrackFX_GetOffline](#TrackFX_GetOffline)
+            See [TrackFX\_GetOffline](#TrackFX_GetOffline)
         </description>
         <parameters>
             MediaTrack track - 
@@ -19811,7 +19833,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [TakeFX_GetOffline](#TakeFX_GetOffline)
+            See [TakeFX\_GetOffline](#TakeFX_GetOffline)
         </description>
         <parameters>
             MediaItem_Take take - 
@@ -19838,7 +19860,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [TakeFX_SetOffline](#TakeFX_SetOffline)
+            See [TakeFX\_SetOffline](#TakeFX_SetOffline)
         </description>
         <retvals>
             boolean retval - 
@@ -19954,7 +19976,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [TrackFX_SetOffline](#TrackFX_SetOffline)
+            See [TrackFX\_SetOffline](#TrackFX_SetOffline)
         </description>
         <retvals>
             boolean retval - 
@@ -20071,7 +20093,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Open this FX UI. See [TrackFX_GetOpen](#TrackFX_GetOpen)
+            Open this FX UI. See [TrackFX\_GetOpen](#TrackFX_GetOpen)
         </description>
         <parameters>
             track - the track, in which the FX to be opened is located
@@ -20193,7 +20215,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Activate a preset with the name shown in the REAPER dropdown. Full paths to .vstpreset files are also supported for VST3 plug-ins. See [TrackFX_GetPreset](#TrackFX_GetPreset).
+            Activate a preset with the name shown in the REAPER dropdown. Full paths to .vstpreset files are also supported for VST3 plug-ins. See [TrackFX\_GetPreset](#TrackFX_GetPreset).
         </description>
         <retvals>
             boolean - 
@@ -20223,7 +20245,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Sets the preset idx, or the factory preset (idx==-2), or the default user preset (idx==-1). Returns true on success. See [TrackFX_GetPresetIndex](#TrackFX_GetPresetIndex).
+            Sets the preset idx, or the factory preset (idx==-2), or the default user preset (idx==-1). Returns true on success. See [TrackFX\_GetPresetIndex](#TrackFX_GetPresetIndex).
         </description>
         <retvals>
             boolean - 
@@ -20284,7 +20306,7 @@
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Updates the TCP and optionally the MCP. Helpful, when setting a new trackheight using I_HEIGHTOVERRIDE in [SetMediaTrackInfo_Value](#SetMediaTrackInfo_Value).
+            Updates the TCP and optionally the MCP. Helpful, when setting a new trackheight using I\_HEIGHTOVERRIDE in [SetMediaTrackInfo\_Value](#SetMediaTrackInfo_Value).
         </description>
         <parameters>
             isMinor - false, updates only TCP; true, updates TCP and MCP
@@ -20353,7 +20375,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
-            call to start a new undo block. Code after that and before [Undo_EndBlock](#Undo_EndBlock) can be undone.
+            call to start a new undo block. Code after that and before [Undo\_EndBlock](#Undo_EndBlock) can be undone.
         </description>
         <parameters markup_type="markdown" markup_version="1.0.1">
             proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
@@ -20983,10 +21005,10 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Create a BR\_Envelope-object from a track-envelope pointer or take-envelope pointer. 
-            To apply changes to a BR\_Envelope-object, always call [BR_EnvFree](#BR_EnvFree) to release the object and commit changes if needed.
+            To apply changes to a BR\_Envelope-object, always call [BR\_EnvFree](#BR_EnvFree) to release the object and commit changes if needed.
             A BR_Envelope is not a TrackEnvelope-object and therefore can't be used as TrackEnvelope-object!
                         
-            For manipulation see [BR_EnvCountPoints](#BR_EnvCountPoints), [BR_EnvDeletePoint](#BR_EnvDeletePoint), [BR_EnvFind](#BR_EnvFind), [BR_EnvFindNext](#BR_EnvFindNext), [BR_EnvFindPrevious](#BR_EnvFindPrevious), [BR_EnvGetParentTake](#BR_EnvGetParentTake), [BR_EnvGetParentTrack](#BR_EnvGetParentTrack), [BR_EnvGetPoint](#BR_EnvGetPoint), [BR_EnvGetProperties](#BR_EnvGetProperties), [BR_EnvSetPoint](#BR_EnvSetPoint), [BR_EnvSetProperties](#BR_EnvSetProperties), [BR_EnvValueAtPos](#BR_EnvValueAtPos).
+            For manipulation see [BR\_EnvCountPoints](#BR_EnvCountPoints), [BR\_EnvDeletePoint](#BR_EnvDeletePoint), [BR\_EnvFind](#BR_EnvFind), [BR\_EnvFindNext](#BR_EnvFindNext), [BR\_EnvFindPrevious](#BR_EnvFindPrevious), [BR\_EnvGetParentTake](#BR_EnvGetParentTake), [BR\_EnvGetParentTrack](#BR_EnvGetParentTrack), [BR\_EnvGetPoint](#BR_EnvGetPoint), [BR\_EnvGetProperties](#BR_EnvGetProperties), [BR\_EnvSetPoint](#BR_EnvSetPoint), [BR\_EnvSetProperties](#BR_EnvSetProperties), [BR\_EnvValueAtPos](#BR_EnvValueAtPos).
         </description>
         <retvals>
             BR_Envelope - the requested Envelope as a BR_Envelope-object
@@ -21016,7 +21038,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Count envelope points in the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc).
+            \[BR\] Count envelope points in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc).
         </description>
         <retvals>
             integer - the number of envelope-points in the BR_Envelope-object
@@ -21045,7 +21067,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Delete envelope point by index (zero-based) in the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc).
+            \[BR\] Delete envelope point by index (zero-based) in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc).
         </description>
         <retvals>
             boolean - true, deleting was successful; false, deleting was unsuccessful
@@ -21075,7 +21097,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Find envelope point at time position in the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc). Pass delta &gt; 0 to search surrounding range - in that case the closest point to position within delta will be searched for. Returns envelope point id (zero-based) on success or -1 on failure.
+            \[BR\] Find envelope point at time position in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). Pass delta &gt; 0 to search surrounding range - in that case the closest point to position within delta will be searched for. Returns envelope point id (zero-based) on success or -1 on failure.
         </description>
         <retvals>
             integer - envelope-point-id or -1 on failure
@@ -21106,7 +21128,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Find next envelope point after time position in the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc). Returns envelope point id (zero-based) on success or -1 on failure.
+            \[BR\] Find next envelope point after time position in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). Returns envelope point id (zero-based) on success or -1 on failure.
         </description>
         <retvals>
             integer - envelope-point-id or -1 on failure
@@ -21136,7 +21158,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Find previous envelope point before time position in the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc). Returns envelope point id (zero-based) on success or -1 on failure.
+            \[BR\] Find previous envelope point before time position in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). Returns envelope point id (zero-based) on success or -1 on failure.
         </description>
         <retvals>
             integer - envelope-point-id or -1 on failure
@@ -21196,7 +21218,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] If envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc) is take envelope, returns parent media item take, otherwise NULL.
+            \[BR\] If envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc) is take envelope, returns parent media item take, otherwise NULL.
         </description>
         <retvals>
             MediaItem_Take - 
@@ -21225,7 +21247,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get parent track of envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc). If take envelope, returns NULL.
+            \[BR\] Get parent track of envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). If take envelope, returns NULL.
         </description>
         <retvals>
             MediaItem - 
@@ -21254,7 +21276,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get envelope point by id (zero-based) from the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc). Returns true on success.
+            \[BR\] Get envelope point by id (zero-based) from the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). Returns true on success.
         </description>
         <retvals>
             retval - 
@@ -21289,7 +21311,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get envelope properties for the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc).
+            \[BR\] Get envelope properties for the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc).
 
             active: true if envelope is active
             visible: true if envelope is visible
@@ -21340,7 +21362,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Set envelope point by id (zero-based) in the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc). To create point instead, pass id = -1. Note that if new point is inserted or existing point's time position is changed, points won't automatically get sorted. To do that, see [BR_EnvSortPoints](#BR_EnvSortPoints).
+            \[BR\] Set envelope point by id (zero-based) in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). To create point instead, pass id = -1. Note that if new point is inserted or existing point's time position is changed, points won't automatically get sorted. To do that, see [BR\_EnvSortPoints](#BR_EnvSortPoints).
             Returns true on success.
         </description>
         <retvals>
@@ -21376,7 +21398,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Set envelope properties for the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc). For parameter description see [BR_EnvGetProperties](#BR_EnvGetProperties).
+            \[BR\] Set envelope properties for the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). For parameter description see [BR\_EnvGetProperties](#BR_EnvGetProperties).
 			Setting automationItemsOptions requires REAPER 5.979+.
         </description>
         <parameters>
@@ -21410,7 +21432,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Sort envelope points by position. The only reason to call this is if sorted points are explicitly needed after editing them with [BR_EnvSetPoint](#BR_EnvSetPoint). Note that you do not have to call this before doing [BR_EnvFree](#BR_EnvFree) since it does handle unsorted points too.
+            \[BR\] Sort envelope points by position. The only reason to call this is if sorted points are explicitly needed after editing them with [BR\_EnvSetPoint](#BR_EnvSetPoint). Note that you do not have to call this before doing [BR\_EnvFree](#BR_EnvFree) since it does handle unsorted points too.
         </description>
         <parameters>
             envelope - 
@@ -21436,7 +21458,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get envelope value at time position for the envelope object allocated with [BR_EnvAlloc](#BR_EnvAlloc).
+            \[BR\] Get envelope value at time position for the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc).
         </description>
         <retvals>
             number - 
@@ -21466,7 +21488,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Deprecated, see [GetSet_ArrangeView2](#GetSet_ArrangeView2) (REAPER v5.12pre4+) -- Get start and end time position of arrange view. To set arrange view instead, see [BR_SetArrangeView](#BR_SetArrangeView).
+            \[BR\] Deprecated, see [GetSet\_ArrangeView2](#GetSet_ArrangeView2) (REAPER v5.12pre4+) -- Get start and end time position of arrange view. To set arrange view instead, see [BR\_SetArrangeView](#BR_SetArrangeView).
         </description>
         <retvals>
             startTime retval - the current starttime in the arrangeview in seconds
@@ -21496,7 +21518,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get closest grid division to position. Note that this functions is different from [SnapToGrid](#SnapToGrid) in two regards. SnapToGrid() needs snap enabled to work and this one works always. Secondly, grid divisions are different from grid lines because some grid lines may be hidden due to zoom level - this function ignores grid line visibility and always searches for the closest grid division at given position. For more grid division functions, see [BR_GetNextGridDivision](#BR_GetNextGridDivision) and [BR_GetPrevGridDivision](#BR_GetPrevGridDivision).
+            \[BR\] Get closest grid division to position. Note that this functions is different from [SnapToGrid](#SnapToGrid) in two regards. SnapToGrid() needs snap enabled to work and this one works always. Secondly, grid divisions are different from grid lines because some grid lines may be hidden due to zoom level - this function ignores grid line visibility and always searches for the closest grid division at given position. For more grid division functions, see [BR\_GetNextGridDivision](#BR_GetNextGridDivision) and [BR\_GetPrevGridDivision](#BR_GetPrevGridDivision).
         </description>
         <retvals>
             number - 
@@ -21552,7 +21574,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get media item from GUID string. Note that the GUID must be enclosed in braces {}. To get item's GUID as a string, see [BR_GetMediaItemGUID](#BR_GetMediaItemGUID).
+            \[BR\] Get media item from GUID string. Note that the GUID must be enclosed in braces {}. To get item's GUID as a string, see [BR\_GetMediaItemGUID](#BR_GetMediaItemGUID).
         </description>
         <retvals>
             MediaItem - the requested MediaItem as a MediaItem-object
@@ -21582,7 +21604,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get media item GUID as a string (guidStringOut_sz should be at least 64). To get media item back from GUID string, see [BR_GetMediaItemByGUID](#BR_GetMediaItemByGUID).
+            \[BR\] Get media item GUID as a string (guidStringOut_sz should be at least 64). To get media item back from GUID string, see [BR\_GetMediaItemByGUID](#BR_GetMediaItemByGUID).
         </description>
         <retvals>
             guidString - the requested guid of the MediaItem
@@ -21642,7 +21664,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get media item take GUID as a string (guidStringOut_sz should be at least 64). To get take from GUID string, see [SNM_GetMediaItemTakeByGUID](#SNM_GetMediaItemTakeByGUID).
+            \[BR\] Get media item take GUID as a string (guidStringOut_sz should be at least 64). To get take from GUID string, see [SNM\_GetMediaItemTakeByGUID](#SNM_GetMediaItemTakeByGUID).
         </description>
         <retvals>
             guidString - 
@@ -21672,7 +21694,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Get take media source properties as they appear in Item properties. Returns false if take can't have them (MIDI items etc.).
-            To set source properties, see [BR_SetMediaSourceProperties](#BR_SetMediaSourceProperties).
+            To set source properties, see [BR\_SetMediaSourceProperties](#BR_SetMediaSourceProperties).
         </description>
         <retvals>
             retval - 
@@ -21706,7 +21728,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get media track from GUID string. Note that the GUID must be enclosed in braces {}. To get track's GUID as a string, see [BR_GetMediaTrackGUID](#BR_GetMediaTrackGUID).
+            \[BR\] Get media track from GUID string. Note that the GUID must be enclosed in braces {}. To get track's GUID as a string, see [BR\_GetMediaTrackGUID](#BR_GetMediaTrackGUID).
         </description>
         <retvals>
             MediaTrack - the MediaTrack requested, as MediaTrack-object
@@ -21765,7 +21787,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get media track GUID as a string (guidStringOut_sz should be at least 64). To get media track back from GUID string, see [BR_GetMediaTrackByGUID](#BR_GetMediaTrackByGUID).
+            \[BR\] Get media track GUID as a string (guidStringOut_sz should be at least 64). To get media track back from GUID string, see [BR\_GetMediaTrackByGUID](#BR_GetMediaTrackByGUID).
         </description>
         <retvals>
             guidString - 
@@ -21794,7 +21816,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Deprecated, see [GetSetMediaTrackInfo](#GetSetMediaTrackInfo) (REAPER v5.02+). Get media track layouts for MCP and TCP. Empty string ("") means that layout is set to the default layout. To set media track layouts, see [BR_SetMediaTrackLayouts](#BR_SetMediaTrackLayouts).
+            \[BR\] Deprecated, see [GetSetMediaTrackInfo](#GetSetMediaTrackInfo) (REAPER v5.02+). Get media track layouts for MCP and TCP. Empty string ("") means that layout is set to the default layout. To set media track layouts, see [BR\_SetMediaTrackLayouts](#BR_SetMediaTrackLayouts).
         </description>
         <retvals>
             mcpLayoutName retval - 
@@ -21830,7 +21852,7 @@
             sendidx is zero-based (see [GetTrackNumSends](#GetTrackNumSends) to count track sends/receives/hardware outputs)
             envelopeType determines which envelope is returned (0=volume, 1=pan, 2=mute)
 
-            Note: To get or set other send attributes, see [BR_GetSetTrackSendInfo](#BR_GetSetTrackSendInfo) and [BR_GetMediaTrackSendInfo_Track](#BR_GetMediaTrackSendInfo_Track).
+            Note: To get or set other send attributes, see [BR\_GetSetTrackSendInfo](#BR_GetSetTrackSendInfo) and [BR\_GetMediaTrackSendInfo\_Track](#BR_GetMediaTrackSendInfo_Track).
         </description>
         <retvals>
             TrackEnvelope - 
@@ -22044,7 +22066,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Returns envelope that was captured with the last call to [BR_GetMouseCursorContext](#BR_GetMouseCursorContext). In case the envelope belongs to take, takeEnvelope will be true.
+            \[BR\] Returns envelope that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext). In case the envelope belongs to take, takeEnvelope will be true.
         </description>
         <retvals>
             retval - 
@@ -22071,7 +22093,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Returns item under mouse cursor that was captured with the last call to [BR_GetMouseCursorContext](#BR_GetMouseCursorContext). Note that the function will return item even if mouse cursor is over some other track lane element like stretch marker or envelope. This enables for easier identification of items when you want to ignore elements within the item.
+            \[BR\] Returns item under mouse cursor that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext). Note that the function will return item even if mouse cursor is over some other track lane element like stretch marker or envelope. This enables for easier identification of items when you want to ignore elements within the item.
         </description>
         <retvals>
             MediaItem - 
@@ -22097,7 +22119,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Returns midi editor under mouse cursor that was captured with the last call to [BR_GetMouseCursorContext](#BR_GetMouseCursorContext).
+            \[BR\] Returns midi editor under mouse cursor that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext).
 
             inlineEditor: if mouse was captured in inline MIDI editor, this will be true (consequentially, returned MIDI editor will be NULL)
             noteRow: note row or piano key under mouse cursor (0-127)
@@ -22136,7 +22158,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Returns project time position in arrange/ruler/midi editor that was captured with the last call to [BR_GetMouseCursorContext](#BR_GetMouseCursorContext).
+            \[BR\] Returns project time position in arrange/ruler/midi editor that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext).
         </description>
         <retvals>
             number - 
@@ -22162,7 +22184,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Returns id of a stretch marker under mouse cursor that was captured with the last call to [BR_GetMouseCursorContext](#BR_GetMouseCursorContext).
+            \[BR\] Returns id of a stretch marker under mouse cursor that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext).
         </description>
         <retvals>
             integer - 
@@ -22188,7 +22210,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Returns take under mouse cursor that was captured with the last call to [BR_GetMouseCursorContext](#BR_GetMouseCursorContext).
+            \[BR\] Returns take under mouse cursor that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext).
         </description>
         <retvals>
             MediaItem_Take - 
@@ -22214,7 +22236,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Returns track under mouse cursor that was captured with the last call to [BR_GetMouseCursorContext](#BR_GetMouseCursorContext).
+            \[BR\] Returns track under mouse cursor that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext).
         </description>
         <retvals>
             MediaTrack - 
@@ -22240,7 +22262,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get next grid division after the time position. For more grid divisions function, see [BR_GetClosestGridDivision](#BR_GetClosestGridDivision) and [BR_GetPrevGridDivision](#BR_GetPrevGridDivision).
+            \[BR\] Get next grid division after the time position. For more grid divisions function, see [BR\_GetClosestGridDivision](#BR_GetClosestGridDivision) and [BR\_GetPrevGridDivision](#BR_GetPrevGridDivision).
         </description>
         <retvals>
             number - 
@@ -22269,7 +22291,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Get previous grid division before the time position. For more grid division functions, see [BR_GetClosestGridDivision](#BR_GetClosestGridDivision) and [BR_GetNextGridDivision](#BR_GetNextGridDivision).
+            \[BR\] Get previous grid division before the time position. For more grid division functions, see [BR\_GetClosestGridDivision](#BR_GetClosestGridDivision) and [BR\_GetNextGridDivision](#BR_GetNextGridDivision).
         </description>
         <retvals>
             number - 
@@ -22561,7 +22583,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Deprecated, see [GetSet_ArrangeView2](#GetSet_ArrangeView2) (REAPER v5.12pre4+) -- Set start and end time position of arrange view. To get arrange view instead, see [BR_GetArrangeView](#BR_GetArrangeView).
+            \[BR\] Deprecated, see [GetSet\_ArrangeView2](#GetSet_ArrangeView2) (REAPER v5.12pre4+) -- Set start and end time position of arrange view. To get arrange view instead, see [BR\_GetArrangeView](#BR_GetArrangeView).
         </description>
         <parameters markup_type="markdown" markup_version="1.0.1">
             proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
@@ -22651,7 +22673,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Set take media source properties. Returns false if take can't have them (MIDI items etc.). Section parameters have to be valid only when passing section=true.
-            To get source properties, see [BR_GetMediaSourceProperties](#BR_GetMediaSourceProperties).
+            To get source properties, see [BR\_GetMediaSourceProperties](#BR_GetMediaSourceProperties).
         </description>
         <retvals>
             boolean - 
@@ -22686,7 +22708,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Deprecated, see [GetSetMediaTrackInfo](#GetSetMediaTrackInfo) (REAPER v5.02+). Set media track layouts for MCP and TCP. To set default layout, pass empty string ("") as layout name. In case layouts were successfully set, returns true (if layouts are already set to supplied layout names, it will return false since no changes were made).
-            To get media track layouts, see [BR_GetMediaTrackLayouts](#BR_GetMediaTrackLayouts).
+            To get media track layouts, see [BR\_GetMediaTrackLayouts](#BR_GetMediaTrackLayouts).
         </description>
         <retvals>
             boolean - 
@@ -22751,8 +22773,8 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Set new take source from file. To import MIDI file as in-project source data pass inProjectData=true. Returns false if failed.
-            Any take source properties from the previous source will be lost - to preserve them, see [BR_SetTakeSourceFromFile2](#BR_SetTakeSourceFromFile2).
-            Note: To set source from existing take, see [SNM_GetSetSourceState2](#SNM_GetSetSourceState2).
+            Any take source properties from the previous source will be lost - to preserve them, see [BR\_SetTakeSourceFromFile2](#BR_SetTakeSourceFromFile2).
+            Note: To set source from existing take, see [SNM\_GetSetSourceState2](#SNM_GetSetSourceState2).
         </description>
         <retvals>
             boolean - 
@@ -22783,7 +22805,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Differs from [BR_SetTakeSourceFromFile](#BR_SetTakeSourceFromFile) only that it can also preserve existing take media source properties.
+            \[BR\] Differs from [BR\_SetTakeSourceFromFile](#BR_SetTakeSourceFromFile) only that it can also preserve existing take media source properties.
         </description>
         <retvals>
             boolean - 
@@ -23039,7 +23061,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[DEPRECATED: Use [CF_GetClipboard](#CF_GetClipboard)\] Read the contents of the system clipboard. See [SNM_CreateFastString](#SNM_CreateFastString) and [SNM_DeleteFastString](#SNM_DeleteFastString).
+            \[DEPRECATED: Use [CF\_GetClipboard](#CF_GetClipboard)\] Read the contents of the system clipboard. See [SNM\_CreateFastString](#SNM_CreateFastString) and [SNM\_DeleteFastString](#SNM_DeleteFastString).
         </description>
         <retvals>
             string - the content of the clipboard
@@ -23331,7 +23353,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Same as [NF_AnalyzeTakeLoudness](#NF_AnalyzeTakeLoudness) but additionally returns shortTermMaxPos and momentaryMaxPos (in absolute project time). Note: shortTermMaxPos and momentaryMaxPos actually indicate the beginning of time *intervalls*, (3 sec. and 0.4 sec. resp.). 
+            Same as [NF\_AnalyzeTakeLoudness](#NF_AnalyzeTakeLoudness) but additionally returns shortTermMaxPos and momentaryMaxPos (in absolute project time). Note: shortTermMaxPos and momentaryMaxPos actually indicate the beginning of time *intervalls*, (3 sec. and 0.4 sec. resp.). 
         </description>
         <retvals>
             retval - 
@@ -23369,7 +23391,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Does LUFS integrated analysis only. Faster than full loudness analysis ([NF_AnalyzeTakeLoudness](#NF_AnalyzeTakeLoudness)) . Use this if only LUFS integrated is required.
+            Does LUFS integrated analysis only. Faster than full loudness analysis ([NF\_AnalyzeTakeLoudness](#NF_AnalyzeTakeLoudness)) . Use this if only LUFS integrated is required.
             Take vol. env. is taken into account. 
             
             See: [Signal flow](http://wiki.cockos.com/wiki/index.php/Measure_and_normalize_loudness_with_SWS).
@@ -23587,7 +23609,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[S&amp;M\] Instantiates a new "fast string". You must delete this string, see [SNM_DeleteFastString](#SNM_DeleteFastString).
+            \[S&amp;M\] Instantiates a new "fast string". You must delete this string, see [SNM\_DeleteFastString](#SNM_DeleteFastString).
         </description>
         <retvals>
             WDL_FastString - 
@@ -23768,7 +23790,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[S&amp;M\] Gets a take by GUID as string. The GUID must be enclosed in braces {}. To get take GUID as string, see [BR_GetMediaItemTakeGUID](#BR_GetMediaItemTakeGUID)
+            \[S&amp;M\] Gets a take by GUID as string. The GUID must be enclosed in braces {}. To get take GUID as string, see [BR\_GetMediaItemTakeGUID](#BR_GetMediaItemTakeGUID)
         </description>
         <retvals>
             MediaItem_Take - 
@@ -23898,7 +23920,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[S&amp;M\] Gets or sets a take source state. Returns false if failed.
-            Note: this function cannot deal with empty takes, see [SNM_GetSetSourceState](#SNM_GetSetSourceState).
+            Note: this function cannot deal with empty takes, see [SNM\_GetSetSourceState](#SNM_GetSetSourceState).
         </description>
         <retvals>
             boolean - 
@@ -23990,7 +24012,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[S&amp;M\] Reads a media file tag. Supported tags: "artist", "album", "genre", "comment", "title", or "year". Returns false if tag was not found. See [SNM_TagMediaFile](#SNM_TagMediaFile).
+            \[S&amp;M\] Reads a media file tag. Supported tags: "artist", "album", "genre", "comment", "title", or "year". Returns false if tag was not found. See [SNM\_TagMediaFile](#SNM_TagMediaFile).
         </description>
         <retvals>
             retval - 
@@ -24245,7 +24267,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[S&amp;M\] Tags a media file thanks to [TagLib](https://taglib.github.io). Use an empty tagval to clear a tag. When a file is opened in REAPER, turn it offline before using this function. Returns false if nothing updated. See [SNM_ReadMediaFileTag](#SNM_ReadMediaFileTag).
+            \[S&amp;M\] Tags a media file thanks to [TagLib](https://taglib.github.io). Use an empty tagval to clear a tag. When a file is opened in REAPER, turn it offline before using this function. Returns false if nothing updated. See [SNM\_ReadMediaFileTag](#SNM_ReadMediaFileTag).
         </description>
         <retvals>
             boolean - true, if adding the tag worked; false, if adding didn't work.
@@ -24327,7 +24349,7 @@
         <description markup_type="markdown" markup_version="1.0.1" prog_lang="*">
             \[ULT\]Get item notes.
             
-            Gets the information from the NOTES-tag, as stored by [ULT_SetMediaItemNote](#ULT_SetMediaItemNote).
+            Gets the information from the NOTES-tag, as stored by [ULT\_SetMediaItemNote](#ULT_SetMediaItemNote).
         </description>
         <retvals>
             string - the notes, as stored in the MediaItem. If no notes exist, it will return ""
@@ -24358,7 +24380,7 @@
         <description markup_type="markdown" markup_version="1.0.1" prog_lang="*">
             \[ULT\]Set item notes.
             
-            Will be added as new tag NOTES in the MediaItem-StateChunk. Can be read again with [ULT_GetMediaItemNote](#ULT_GetMediaItemNote)
+            Will be added as new tag NOTES in the MediaItem-StateChunk. Can be read again with [ULT\_GetMediaItemNote](#ULT_GetMediaItemNote)
         </description>
         <parameters>
             item - the MediaItem in which to add the Notes
@@ -31369,7 +31391,7 @@
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Alternative to [MIDIEditor_GetActive](#MIDIEditor_GetActive). REAPER seems to have problems with extensions using HWND type for exported functions so all BR\_Win32 functions use void* instead of HWND type.
+            \[BR\] Alternative to [MIDIEditor\_GetActive](#MIDIEditor_GetActive). REAPER seems to have problems with extensions using HWND type for exported functions so all BR\_Win32 functions use void* instead of HWND type.
 
         </description>
         <retvals>
@@ -32475,7 +32497,7 @@
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Redraw the Notes window (call if you've changed a subtitle via [NF_SetSWSMarkerRegionSub](#NF_SetSWSMarkerRegionSub) which is currently displayed in the Notes window and you want to appear the new subtitle immediately.)
+            Redraw the Notes window (call if you've changed a subtitle via [NF\_SetSWSMarkerRegionSub](#NF_SetSWSMarkerRegionSub) which is currently displayed in the Notes window and you want to appear the new subtitle immediately.)
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33316,7 +33338,7 @@
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             If three parameters are specified, copies the entirity of the source bitmap to gfx\_x,gfx\_y using current opacity and copy mode (set with gfx\_a, gfx\_mode). You can specify scale (1.0 is unscaled) and rotation (0.0 is not rotated, angles are in radians).
-            For the "source" parameter specify -1 to use the main framebuffer as source, or an image index (see [gfx_loadimg()](#eel_gfx_loadimg).
+            For the "source" parameter specify -1 to use the main framebuffer as source, or an image index (see [gfx\_loadimg()](#eel_gfx_loadimg).
         </description>
         <parameters>
             source - 
@@ -33722,7 +33744,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
         Initializes the graphics window with title name. Suggested width and height can be specified.
 
-        Once the graphics window is open, [gfx_update()](#eel_gfx_update) should be called periodically. 
+        Once the graphics window is open, [gfx\_update()](#eel_gfx_update) should be called periodically. 
 		
 		To resizes/reposition the window, call gfx.init again and pass an empty string as name-parameter.
         </description>
@@ -35083,7 +35105,7 @@
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Sets value at offset offset, type optional. offset may be negative to refer to offset relative to end of string, or between 0 and length, inclusive, and if set to length it will lengthen string. See [str_getchar()](#eel_str_getchar) for more information on types.
+            Sets value at offset offset, type optional. offset may be negative to refer to offset relative to end of string, or between 0 and length, inclusive, and if set to length it will lengthen string. See [str\_getchar()](#eel_str_getchar) for more information on types.
         </description>
         <parameters>
             #str - 
@@ -37537,7 +37559,7 @@
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Add an Extensions main menu, which the extension can populate/modify with [plugin_register("hookcustommenu")](#plugin_register)
+            Add an Extensions main menu, which the extension can populate/modify with [plugin\_register("hookcustommenu")](#plugin_register)
         </description>
         <retvals>
             bool -
@@ -38780,7 +38802,7 @@
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the string of a key assigned to command "cmd" in a section.
-            This function is poorly named as it doesn't return the command's name, see [kbd_getTextFromCmd](#kbd_getTextFromCmd).
+            This function is poorly named as it doesn't return the command's name, see [kbd\_getTextFromCmd](#kbd_getTextFromCmd).
         </description>
         <retvals>
             void -
@@ -41426,7 +41448,7 @@
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Create a MIDI_eventlist object. The returned object must be deleted with [MIDI_eventlist_destroy()](#MIDI_eventlist_destroy).
+            Create a MIDI_eventlist object. The returned object must be deleted with [MIDI\_eventlist\_destroy()](#MIDI_eventlist_destroy).
         </description>
         <retvals>
             MIDI_eventlist* -
@@ -41448,7 +41470,7 @@
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Destroy a MIDI_eventlist object that was created using [MIDI_eventlist_Create()](#MIDI_eventlist_Create).
+            Destroy a MIDI_eventlist object that was created using [MIDI\_eventlist\_Create()](#MIDI_eventlist_Create).
         </description>
         <retvals>
             void -
@@ -41723,7 +41745,7 @@
             boolean - true, if the dialog is shown
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            PackageEntry entry - the installed Reapack-package, whose about dialog you want to show; see [ReaPack_GetOwner](#ReaPack_GetOwner) to get this parameter
+            PackageEntry entry - the installed Reapack-package, whose about dialog you want to show; see [ReaPack\_GetOwner](#ReaPack_GetOwner) to get this parameter
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -41776,7 +41798,7 @@
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Add or modify a repository. Set url to nullptr (or empty string in Lua) to keep the existing URL. Call [ReaPack_ProcessQueue(true)](#ReaPack_ProcessQueue) when done to process the new list and update the GUI.
+            Add or modify a repository. Set url to nullptr (or empty string in Lua) to keep the existing URL. Call [ReaPack\_ProcessQueue(true)](#ReaPack_ProcessQueue) when done to process the new list and update the GUI.
 
             autoInstall: usually set to 2 (obey user setting).
         </description>
@@ -41876,7 +41898,7 @@
             Enumerate the files owned by the given package. Returns false when there is no more data.
 
                 sections: 0=not in action list, &1=main, &2=midi editor, &4=midi inline editor
-                type: see [ReaPack_GetEntryInfo](#ReaPack_GetEntryInfo).
+                type: see [ReaPack\_GetEntryInfo](#ReaPack_GetEntryInfo).
         </description>
         <retvals>
             boolean retval - true, if more files exist; false, if this is the last/only file
@@ -41896,7 +41918,7 @@
                         -   7, webinterface
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            PackageEntry entry - the installed Reapack-package, whose file you want to enumerate; see [ReaPack_GetOwner](#ReaPack_GetOwner) to get this parameter
+            PackageEntry entry - the installed Reapack-package, whose file you want to enumerate; see [ReaPack\_GetOwner](#ReaPack_GetOwner) to get this parameter
             integer index - the index of the file of this ReaPack-package with 0 for the first file
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -41920,13 +41942,13 @@
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Free resources allocated for the given package entry. Must be used to free PackageEntry-objects created by [ReaPack_GetOwner](#ReaPack_GetOwner).
+            Free resources allocated for the given package entry. Must be used to free PackageEntry-objects created by [ReaPack\_GetOwner](#ReaPack_GetOwner).
         </description>
         <retvals>
             boolean retval - true, if freeing was successful; false, if no
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            PackageEntry entry - the installed Reapack-package, whose ressources you want to free; see [ReaPack_GetOwner](#ReaPack_GetOwner) to get this parameter
+            PackageEntry entry - the installed Reapack-package, whose ressources you want to free; see [ReaPack\_GetOwner](#ReaPack_GetOwner) to get this parameter
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -41971,7 +41993,7 @@
             number fileCount - the number of files of this package
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            PackageEntry entry - the installed Reapack-package, whose package-infos you want; see [ReaPack_GetOwner](#ReaPack_GetOwner) to get this parameter
+            PackageEntry entry - the installed Reapack-package, whose package-infos you want; see [ReaPack\_GetOwner](#ReaPack_GetOwner) to get this parameter
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -41995,7 +42017,7 @@
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the package entry owning the given file.
-            Delete the returned object from memory after use with [ReaPack_FreeEntry](#ReaPack_FreeEntry).
+            Delete the returned object from memory after use with [ReaPack\_FreeEntry](#ReaPack_FreeEntry).
         </description>
         <retvals>
             PackageEntry retval - the installed Reapack-package, who is owner of this file
