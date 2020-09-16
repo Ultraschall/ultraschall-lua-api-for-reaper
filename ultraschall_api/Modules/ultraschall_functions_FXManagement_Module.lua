@@ -486,7 +486,7 @@ function ultraschall.GetParmAlias_MediaTrack(MediaTrack, fxid, id)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetParmAlias_MediaTrack</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -2067,7 +2067,7 @@ function ultraschall.CountParmLearn_FXStateChunk(FXStateChunk, fxid)
     returns -1 in case of an error
   </description>
   <retvals>
-    integer count - the number of ParmLearn-entried found
+    integer count - the number of ParmLearn-entries found
   </retvals>
   <parameters>
     string FXStateChunk - the FXStateChunk, in which you want to count a Parm-Learn-entry
@@ -2120,7 +2120,7 @@ function ultraschall.CountParmLFOLearn_FXStateChunk(FXStateChunk, fxid)
     returns -1 in case of an error
   </description>
   <retvals>
-    integer count - the number of LFOLearn-entried found
+    integer count - the number of LFOLearn-entries found
   </retvals>
   <parameters>
     string FXStateChunk - the FXStateChunk, in which you want to count a Parm-LFOLearn-entry
@@ -3261,7 +3261,7 @@ function ultraschall.CreateDefaultParmModTable()
       Lua=5.3
     </requires>
     <functioncall>table ParmModTable = ultraschall.CreateDefaultParmModTable()</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       returns a parameter-modulation-table with default settings set.
       You can alter these settings to your needs before committing it to an FXStateChunk.
       
@@ -3381,12 +3381,8 @@ function ultraschall.CreateDefaultParmModTable()
           </code></pre>
     </description>
     <retvals>
-      integer number_of_parmmodulations - the number of parameter-modulations available for this fx within this FXStateChunk
+      table ParmModTable - a ParmModTable with all settings set to Reaper's defaults 
     </retvals>
-    <parameters>
-      string FXStateChunk - the FXStateChunk from which you want to count the parameter-modulations available for a specific fx
-      integer fxindex - the index of the fx, whose number of parameter-modulations you want to know
-    </parameters>
     <chapter_context>
       FX-Management
       Parameter Modulation
@@ -3818,7 +3814,7 @@ function ultraschall.AddParmModulationTable(FXStateChunk, fxindex, ParmModTable)
 end
 
 
-function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, ParmModTable)
+function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, ParmModTable)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetParmModulationTable</slug>
@@ -3827,7 +3823,7 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string FXStateChunk = ultraschall.SetParmModulationTable(string FXStateChunk, integer fxindex, integer parmodindex, table ParmModTable)</functioncall>
+  <functioncall>string FXStateChunk = ultraschall.SetParmModulationTable(string FXStateChunk, integer fxindex, table ParmModTable)</functioncall>
   <description>
     Takes a ParmModTable and sets its values into a Parameter Modulation of a specifix fx within an FXStateChunk.
   
@@ -3938,12 +3934,14 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
     
     This function does not check, if the values are within valid value-ranges, only if the datatypes are valid.
     
+    Note: If you want to apply a ParmModulationTable from a bypass/wet-parameter to a non bypass/wet-parameter, you need to set ParamModTable["PARAM_TYPE"]="" or it will remove the parameter-modulation!
+    Also note: set ParamModTable["PARAM_NR"] to choose the parameter-index, whose ParameterModulation shall be set.
+    
     returns nil in case of an error
   </description>
   <parameters>
     string FXStateChunk - an FXStateChunk, of which you want to set the values of a specific parameter-modulation
     integer fxindex - the index if the fx, of which you want to set specific parameter-modulation-values
-    integer parmodindex - the parameter-modulation, whose values you want to set; 1, for the first; 2, for the second, etc
     table ParmModTable - the table which holds all parameter-modulation-values to be set
   </parameters>
   <retvals>
@@ -3960,8 +3958,6 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
 ]]
   if ultraschall.IsValidParmModTable(ParmModTable)==false then ultraschall.AddErrorMessage("SetParmModulationTable", "ParmModTable", SLEM(nil, 3, 5), -1) return FXStateChunk end
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmModulationTable", "FXStateChunk", "must be a valid FXStateChunk", -2) return FXStateChunk end
-  if math.type(parmodindex)~="integer" then ultraschall.AddErrorMessage("SetParmModulationTable", "parmodindex", "must be an integer", -3) return FXStateChunk end
-  if parmodindex<1 then ultraschall.AddErrorMessage("SetParmModulationTable", "parmodindex", "must be bigger than 0", -4) return FXStateChunk end
   
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("SetParmModulationTable", "fxindex", "must be an integer", -5) return FXStateChunk end
   if fxindex<1 then ultraschall.AddErrorMessage("SetParmModulationTable", "fxindex", "must be bigger than 0", -6) return FXStateChunk end
@@ -4042,21 +4038,15 @@ function ultraschall.SetParmModulationTable(FXStateChunk, fxindex, parmodindex, 
 
   local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   
-
-  for k,v in string.gmatch(FX, "()  <PROGRAMENV.-\n%s->()\n") do
-    cindex=cindex+1
-    if cindex==parmodindex then
-      FX=FX:sub(1,k)..NewParmModTable..FX:sub(v,-1)
-      break
-    end    
-  end
+  local Start, Middle, End = FX:match("()(<PROGRAMENV "..(tonumber(ParmModTable["PARAM_NR"])-1).."[:%s]+.-  >)()")
+  if Middle==nil then ultraschall.AddErrorMessage("SetParmModulationTable", "Parameter: "..tonumber(ParmModTable["PARAM_NR"]), "no such parameter-modulation", -4) return FXStateChunk end
   
-  FX=string.gsub(FX, "\n%s-\n", "\n")
+  FX=FX:sub(1, Start-2)..NewParmModTable..FX:sub(End+1, -1)
 
   return string.gsub(FXStateChunk:sub(1,StartOFS)..FX.."\n"..FXStateChunk:sub(EndOFS, -1), "\n\n", "\n")
 end
 
-function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, fxindex, parmmodidx)
+function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, fxindex, parmidx)
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>DeleteParmModFromFXStateChunk</slug>
@@ -4065,7 +4055,7 @@ function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, fxindex, parmmo
       Reaper=6.10
       Lua=5.3
     </requires>
-    <functioncall>string altered_FXStateChunk, boolean altered = ultraschall.DeleteParmModFromFXStateChunk(string FXStateChunk, integer fxindex, integer parmmodidx)</functioncall>
+    <functioncall>string altered_FXStateChunk, boolean altered = ultraschall.DeleteParmModFromFXStateChunk(string FXStateChunk, integer fxindex, integer parmidx)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       deletes a parameter-modulation of a specific fx from an FXStateChunk
       
@@ -4078,7 +4068,7 @@ function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, fxindex, parmmo
     <parameters>
       string FXStateChunk - the FXStateChunk from which you want to delete a parameter-modulation of a specific fx
       integer fxindex - the index of the fx, whose parameter-modulations you want to delete
-      integer parmmodidx - the parameter-modulation that you want to delete
+      integer parmmodidx - the parameter-index, whose parameter-modulation you want to delete
     </parameters>
     <chapter_context>
       FX-Management
@@ -4090,23 +4080,20 @@ function ultraschall.DeleteParmModFromFXStateChunk(FXStateChunk, fxindex, parmmo
   </US_DocBloc>
   --]] 
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return FXStateChunk, false end
-  if math.type(parmmodidx)~="integer" then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmmodidx", "must be an integer", -2) return FXStateChunk, false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmidx", "must be an integer", -2) return FXStateChunk, false end
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "fxindex", "must be an integer", -3) return FXStateChunk, false end
-  if parmmodidx<1 then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmmodidx", "must be bigger than 0", -4) return FXStateChunk, false end
+  if parmidx<1 then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmidx", "must be bigger than 0", -4) return FXStateChunk, false end
   
   local index=0
   
   local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   
-  for k,v in string.gmatch(FX, "()%s-<PROGRAMENV.-\n%s->()\n") do
-    index=index+1
-    if index==parmmodidx then
-      FX=FX:sub(1,k-1)..""..FX:sub(v,-1).."\n"
-      return string.gsub(FXStateChunk:sub(1,StartOFS-1)..FX..FXStateChunk:sub(EndOFS,-1), "\n\n", "\n"), true
-    end
-  end
-  ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmmodidx", "no such parameter-modulation-entry found", -6)
-  return FXStateChunk, false
+  local Start, Middle, End = FX:match("()(<PROGRAMENV "..(parmidx-1).."[:%s]+.-  >)()")
+  if Middle==nil then ultraschall.AddErrorMessage("DeleteParmModFromFXStateChunk", "parmidx", "no such parameter-modulation-entry found", -6) return FXStateChunk, false end
+  
+  FX=FX:sub(1, Start-4)..""..FX:sub(End+1, -1)
+
+  return string.gsub(FXStateChunk:sub(1,StartOFS)..FX.."\n"..FXStateChunk:sub(EndOFS, -1), "\n\n", "\n"), true
 end
 
 function ultraschall.CountParmModFromFXStateChunk(FXStateChunk, fxindex)

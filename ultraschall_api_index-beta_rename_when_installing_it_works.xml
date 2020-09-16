@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43325.00" author="Meo Mespotine">
+      <version name="43328.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Changelog-Api.txt</source>
@@ -197,10 +197,6 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.997.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_0.997.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.998.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_0.998.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.999.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_0.999.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/JS_0_995.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_0_995.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/JS_0_997.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_0_997.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/JS_0_998.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_0_998.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_1.000.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_1.000.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_1.001.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_1.001.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_1.002.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Documentation/gfx/JS_1.002.png</source>
@@ -372,7 +368,6 @@
 	<source file="/ultraschall_api/Scripts/Tools/MarkDownChecker.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/MarkDownChecker.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/MarkDownChecker2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/MarkDownChecker2.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Missing-Actions-List.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/Missing-Actions-List.lua</source>
-	<source file="/ultraschall_api/Scripts/Tools/MonitorParmModulation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/MonitorParmModulation.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Reapack-API-xml-generator.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/Reapack-API-xml-generator.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Reaper_Configvar_String_Searcher.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/Reaper_Configvar_String_Searcher.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/RenderCodeGenerator.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/RenderCodeGenerator.lua</source>
@@ -450,6 +445,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_gfx_deltablit_displayer.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Item_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Item_State_Diffs_Monitor.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorParmModulation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorParmModulation.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Project_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Project_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_StateInspector.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_StateInspector.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Theme_Parameter_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Theme_Parameter_Monitor.lua</source>
@@ -672,7 +668,7 @@ Requested by so many.
     possible with that.
 
 -   Lua-ReferenceManual
-    Now included the Lua 5.3 reference-manual, so it’s always at your
+    Now included is the Lua 5.3 reference-manual, so it’s always at your
     hand when needed.
 
 -   Ultraschall-API settings dialog
@@ -689,9 +685,9 @@ Requested by so many.
 -   Gmem functions For those of you, who want to use different
     gmem-names in your functions, you sometimes run into trouble, that
     you can’t restore the old gmem-attachement again, as you can’t get
-    its name.
+    its old name.
     Now you can. Gmem_GetCurrentAttachedName returns the last used
-    gmem-attachname.
+    gmem-attachname. Keep it to later attach the old gmem back.
     This works best, if you add the dofile-line to activate
     Ultraschall-API as first code-line in your script.
 
@@ -709,13 +705,19 @@ Requested by so many.
     again, as well as get and set the captions and retvals again of the
     GetUserInputs-dialog.
     Did you know, that you can change the length of captions and
-    retval-inputfields as well in GetUserInputs?
+    retval-inputfields as well in GetUserInputs? Now you know.
 
 New features in 4.1.005
 
 -   API: Settings-Dialog - allows you to set
     US-API-default-settings(currently the default output of
     ShowLastErrorMessage()/SLEM())
+-   Docs: FXManagement - added chapters about Introduction, Manipulating
+    individual effects, Working with FX-StateChunks, Working with
+    FX-StateChunk’s functions
+-   Docs: ParameterMod/Learn/Mapping - added chapters about
+    Introduction, Parameter Alias, Parameter LFO Learn, Parameter
+    Mapping Learn
 -   Docs: Lua Reference Manual - now added for Lua 5.3, so you have its
     manual right at hand
 -   DeveloperTools: MonitorParmModulation.lua - monitors a certain
@@ -770,7 +772,8 @@ New features in 4.1.005
     which all fields are indexable right away; optionally set to a
     default value
 -   Helper Functions: CreateMultiDimTable - create an up to
-    10-dimensional table; optionally set to a default value
+    10-dimensional table, of which all fields are indexable right away;
+    optionally set to a default value
 -   Misc: Launchpad_functions - if you have a first generation LaunchPad
     by Novation, you can program it via a function-library in the
     misc-folder
