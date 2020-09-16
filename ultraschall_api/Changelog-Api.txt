@@ -340,7 +340,7 @@ TODO!! buggy function
 
 ### 4.1.005 - "The Beatles - I want you(she's so heavy)" - 30th of September 2020
 
-Has now 1239 functions, with 24 new ones
+Has now 1240 functions, with 25 new ones
 
 **new in this release:**
   - **Parameter Modulation/Learn/Alias/LFOLearn**  
