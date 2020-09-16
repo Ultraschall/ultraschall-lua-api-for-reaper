@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43319.00" author="Meo Mespotine">
+      <version name="43321.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Changelog-Api.txt</source>
@@ -653,9 +653,9 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.1.005 - “The Beatles - I want you(she’s so heavy)” - 15th of September 2020
+4.1.005 - “The Beatles - I want you(she’s so heavy)” - 30th of September 2020
 
-Has now 1237 functions, with 22 new ones
+Has now 1239 functions, with 24 new ones
 
 new in this release: - Parameter Modulation/Learn/Alias/LFOLearn
 A long time feature-request finally fulfilled. You have full access to
@@ -763,6 +763,12 @@ New features in 4.1.005
     currently attached gmem
 -   Helper Functions: ActionsList_GetAllActions - returns all actions
     and shortcuts currently visible in the opened actionlist
+-   Helper Functions: Create2DTable - creates a 2-dimensional table, of
+    which all fields are indexable right away; optionally set to a
+    default value
+-   Helper Functions: Create3DTable - creates a 3-dimensional table, of
+    which all fields are indexable right away; optionally set to a
+    default value
 -   Misc: Launchpad_functions - if you have a first generation LaunchPad
     by Novation, you can program it via a function-library in the
     misc-folder
@@ -7003,7 +7009,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1237 Lua-functions library for Reaper.}
+a 1239 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7017,7 +7023,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1237 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1239 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -7141,7 +7147,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1237 Lua-functions library for Reaper.}
+a 1239 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7155,7 +7161,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1237 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1239 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

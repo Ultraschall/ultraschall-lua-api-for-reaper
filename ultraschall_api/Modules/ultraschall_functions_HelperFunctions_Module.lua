@@ -5832,7 +5832,7 @@ function ultraschall.TimeToMeasures(project, Time)
       Reaper=6.10
       Lua=5.3
     </requires>
-    <functioncall>number measure = ultraschall.TimeToMeasures(ReaProject project, number Time))</functioncall>
+    <functioncall>number measure = ultraschall.TimeToMeasures(ReaProject project, number Time)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
        a function which converts a time into current projects time-measures
        only useful, when there are no tempo-changes in the project
@@ -5877,3 +5877,130 @@ function ultraschall.TimeToMeasures(project, Time)
 end
 
 
+
+
+function ultraschall.Create2DTable(maxx, maxy, defval)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Create2DTable</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>table 2dtable = ultraschall.Create2DTable(integer maxx, integer maxy, optional anytype defval)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+       creates a 2-dimensional table with x-lines and y-rows, of which all entries are indexable right away.
+       
+       It also has two additional fields ["x"] and ["y"] who hold the x and y-dimensions of the table you've set for later reference.
+       
+       returns nil in case of an error
+    </description>
+    <retvals>
+      table 2dtable - the 2d-table you've created
+    </retvals>
+    <parameters>
+        integer maxx - the number of rows in the table(x-dimension)
+        integer maxy - the number of lines in the table(y-dimension)
+        optional anytype defval - the default-value to set in each field, can be any type
+    </parameters>
+    <chapter_context>
+      API-Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
+    <tags>helper functions, create, 2d table</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(maxx)~="integer" then ultraschall.AddErrorMessage("Create2DTable", "maxx", "must be an integer", -1) return nil end
+  if math.type(maxy)~="integer" then ultraschall.AddErrorMessage("Create2DTable", "maxy", "must be an integer", -2) return nil end
+  if maxx<1 then ultraschall.AddErrorMessage("Create2DTable", "maxx", "must be 1 or higher", -4) return nil end
+  if maxy<1 then ultraschall.AddErrorMessage("Create2DTable", "maxy", "must be 1 or higher", -5) return nil end
+  local Table={}
+
+  -- create table-datatypes for each entry in the 2d-table
+  for x=1, maxx do
+    Table[x]={}
+    for y=1, maxy do
+      Table[x][y]={defval}
+    end
+  end
+  
+  -- store x and y dimensions for later reference
+  Table["x"]=maxx
+  Table["y"]=maxy
+  
+  return Table
+end
+
+
+--A=ultraschall.Create2DTable(1, 1)
+--SLEM()
+
+
+function ultraschall.Create3DTable(maxx, maxy, maxz, defval)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Create3DTable</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>table 3dtable = ultraschall.Create3DTable(integer maxx, integer maxy, integer maxz, optional anytype defval)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+       creates a 3-dimensional table with x-lines and y-rows and z-depths, of which all entries are indexable right away.
+       
+       It also has two additional fields ["x"], ["y"] and ["z"] who hold the x, y and z-dimensions of the table you've set for later reference.
+       
+       returns nil in case of an error
+    </description>
+    <retvals>
+      table 3dtable - the 3d-table you've created
+    </retvals>
+    <parameters>
+        integer maxx - the number of rows in the table(x-dimension)
+        integer maxy - the number of lines in the table(y-dimension)
+        integer maxz - the number of depths in the table(z-dimension)
+        optional anytype defval - the default-value to set in each field, can be any type
+    </parameters>
+    <chapter_context>
+      API-Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
+    <tags>helper functions, create, 3d table</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(maxx)~="integer" then ultraschall.AddErrorMessage("Create3DTable", "maxx", "must be an integer", -1) return nil end
+  if math.type(maxy)~="integer" then ultraschall.AddErrorMessage("Create3DTable", "maxy", "must be an integer", -2) return nil end
+  if math.type(maxz)~="integer" then ultraschall.AddErrorMessage("Create3DTable", "maxy", "must be an integer", -3) return nil end
+
+  if maxx<1 then ultraschall.AddErrorMessage("Create3DTable", "maxx", "must be 1 or higher", -4) return nil end
+  if maxy<1 then ultraschall.AddErrorMessage("Create3DTable", "maxy", "must be 1 or higher", -5) return nil end
+  if maxz<1 then ultraschall.AddErrorMessage("Create3DTable", "maxz", "must be 1 or higher", -6) return nil end
+  local Table={}
+
+  -- create table-datatypes for each entry in the 3d-table
+  for x=1, maxx do
+    Table[x]={}
+    for y=1, maxy do
+      Table[x][y]={}
+      for z=1, maxz do
+        Table[x][y][z]={defval}
+      end
+    end
+  end
+
+  -- store x,y and z dimensions for later reference
+  Table["x"]=maxx
+  Table["y"]=maxy
+  Table["z"]=maxy
+  
+  return Table
+end
+
+--B=ultraschall.Create3DTable(5,5,5, "trudel")
+
+
+--B=ultraschall.Create3DTable(20,20,20)

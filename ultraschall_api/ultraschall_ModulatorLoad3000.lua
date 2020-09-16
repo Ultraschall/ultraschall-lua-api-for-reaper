@@ -1551,6 +1551,14 @@ else
     ultraschall.LM(12)
     return ultraschall.TimeToMeasures(table.unpack({...}))
   end
+  function ultraschall.Create2DTable(...)
+    ultraschall.LM(12)
+    return ultraschall.Create2DTable(table.unpack({...}))
+  end
+  function ultraschall.Create3DTable(...)
+    ultraschall.LM(12)
+    return ultraschall.Create3DTable(table.unpack({...}))
+  end
   function ultraschall.ResizePNG(...)
     ultraschall.LM(13)
     return ultraschall.ResizePNG(table.unpack({...}))

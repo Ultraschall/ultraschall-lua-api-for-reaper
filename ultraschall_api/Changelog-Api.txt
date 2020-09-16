@@ -338,9 +338,9 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
-### 4.1.005 - "The Beatles - I want you(she's so heavy)" - 15th of September 2020
+### 4.1.005 - "The Beatles - I want you(she's so heavy)" - 30th of September 2020
 
-Has now 1237 functions, with 22 new ones
+Has now 1239 functions, with 24 new ones
 
 **new in this release:**
   - **Parameter Modulation/Learn/Alias/LFOLearn**  
@@ -400,6 +400,8 @@ Has now 1237 functions, with 22 new ones
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - GMEM: Gmem\_GetCurrentAttachedName - returns the name of the currently attached gmem
    - Helper Functions: ActionsList\_GetAllActions - returns all actions and shortcuts currently visible in the opened actionlist   
+   - Helper Functions: Create2DTable - creates a 2-dimensional table, of which all fields are indexable right away; optionally set to a default value
+   - Helper Functions: Create3DTable - creates a 3-dimensional table, of which all fields are indexable right away; optionally set to a default value
    - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder
    - ProjectManagement: AutoSave\_GetMinutes - returns the number of minutes, at which a new autosaved project shall be saved
    - ProjectManagement: AutoSave\_GetOptions - gets several auto-save-options
