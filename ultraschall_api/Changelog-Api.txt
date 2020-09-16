@@ -402,6 +402,7 @@ Has now 1239 functions, with 24 new ones
    - Helper Functions: ActionsList\_GetAllActions - returns all actions and shortcuts currently visible in the opened actionlist   
    - Helper Functions: Create2DTable - creates a 2-dimensional table, of which all fields are indexable right away; optionally set to a default value
    - Helper Functions: Create3DTable - creates a 3-dimensional table, of which all fields are indexable right away; optionally set to a default value
+   - Helper Functions: CreateMultiDimTable - create an up to 10-dimensional table; optionally set to a default value
    - Misc: Launchpad\_functions - if you have a first generation LaunchPad by Novation, you can program it via a function-library in the misc-folder
    - ProjectManagement: AutoSave\_GetMinutes - returns the number of minutes, at which a new autosaved project shall be saved
    - ProjectManagement: AutoSave\_GetOptions - gets several auto-save-options

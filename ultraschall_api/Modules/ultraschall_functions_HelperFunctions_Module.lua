@@ -6004,3 +6004,135 @@ end
 
 
 --B=ultraschall.Create3DTable(20,20,20)
+
+
+function ultraschall.CreateMultiDimTable(defval, ...)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>CreateMultiDimTable</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>table multidimtable = ultraschall.CreateMultiDimTable(optional anytype defval, optional integer dimension1, optional integer dimension2, ... , optional integer dimensionN)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+       creates a multidimensional table
+       
+       It also adds additional fields ["dimension1"] to ["dimension10"] who hold the number of available entries in this dimension for later reference.
+
+       It supports up to 10 dimensions.
+       Note: the more dimensions, the more memory you need and the longer it takes to create the table.
+       
+       returns nil in case of an error
+    </description>
+    <retvals>
+      table multidimtable - the multidimensional-table you've created
+    </retvals>
+    <parameters>
+        optional anytype defval - the default-value to set in each field, can be any type; set to nil to keep empty
+        integer dimension1 - the number of entries in the first dimension of the table
+        integer dimension2 - the number of entries in the second dimension of the table
+        integer dimensionN - the number of entries in the n'th dimension of the table
+    </parameters>
+    <chapter_context>
+      API-Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
+    <tags>helper functions, create, multidimensional table</tags>
+  </US_DocBloc>
+  --]]
+  Parms={...}
+
+  if math.type(Parms[1])~="integer" then ultraschall.AddErrorMessage("CreateMultiDimTable", "parameter "..2, "must be an integer", -1) return nil end
+  if Parms[1]<1 then ultraschall.AddErrorMessage("CreateMultiDimTable", "parameter "..2, "must be 1 or higher", -2) return nil end
+  
+  for i=2, #Parms do
+    if math.type(Parms[i])~="integer" then ultraschall.AddErrorMessage("CreateMultiDimTable", "parameter "..i+1, "must be an integer", -1) return nil end
+    if Parms[i]<1 then ultraschall.AddErrorMessage("CreateMultiDimTable", "parameter "..i+1, "must be 1 or higher", -2) return nil end
+  end
+
+  local Table={defval}
+  Table={}
+  for a=1, Parms[1] do
+    if Parms[2]~=nil then
+      Table[a]={}
+      for b=1, Parms[2] do
+        if Parms[3]~=nil then
+          Table[a][b]={}
+          for c=1, Parms[3] do
+            if Parms[4]~=nil then
+              Table[a][b][c]={}
+              for d=1, Parms[4] do
+                if Parms[5]~=nil then
+                  Table[a][b][c][d]={}
+                  for e=1, Parms[5] do
+                    if Parms[6]~=nil then
+                      Table[a][b][c][d][e]={}
+                      for f=1, Parms[6] do
+                        if Parms[7]~=nil then
+                          Table[a][b][c][d][e][f]={}
+                          for g=1, Parms[7] do
+                            if Parms[8]~=nil then
+                              Table[a][b][c][d][e][f][g]={}
+                              for h=1, Parms[8] do
+                                if Parms[9]~=nil then
+                                  Table[a][b][c][d][e][f][g][h]={}
+                                  for i=1, Parms[9] do
+                                    if Parms[10]~=nil then
+                                      Table[a][b][c][d][e][f][g][h][i]={}
+                                      for j=1, Parms[10] do
+                                        Table[a][b][c][d][e][f][g][h][i][j]=defval 
+                                      end
+                                    else 
+                                      Table[a][b][c][d][e][f][g][h][i]=defval 
+                                    end
+                                  end
+                                else 
+                                  Table[a][b][c][d][e][f][g][h]=defval 
+                                end
+                              end
+                            else 
+                              Table[a][b][c][d][e][f][g]=defval 
+                            end
+                          end
+                        else 
+                          Table[a][b][c][d][e][f]=defval 
+                        end              
+                      end
+                    else 
+                      Table[a][b][c][d][e]=defval 
+                    end
+                  end
+                else 
+                  Table[a][b][c][d]=defval 
+                end
+              end
+            else 
+              Table[a][b][c]=defval 
+            end
+          end
+        else 
+          Table[a][b]=defval 
+        end
+      end
+    else 
+      Table[a]=defval 
+    end
+  end
+  
+  -- store size of each dimension for later reference
+  local O=#Parms
+  if O>10 then O=10 end
+  
+  for i=1, O do
+    Table["dimension"..i]=Parms[i]
+  end
+  
+  return Table
+end
+
+--max=1
+
+--A=ultraschall.CreateMultiDimTable(33, max, max, max, max, max, max, max, max, max, max)

@@ -1559,6 +1559,10 @@ else
     ultraschall.LM(12)
     return ultraschall.Create3DTable(table.unpack({...}))
   end
+  function ultraschall.CreateMultiDimTable(...)
+    ultraschall.LM(12)
+    return ultraschall.CreateMultiDimTable(table.unpack({...}))
+  end
   function ultraschall.ResizePNG(...)
     ultraschall.LM(13)
     return ultraschall.ResizePNG(table.unpack({...}))
