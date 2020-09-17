@@ -3,27 +3,26 @@
     For 4.01.005:
         - GetUserInputs - new implementation for captions and retvals BUT OK/Cancel Button buggy and length of captions/retvals buggy
         - MB -- new implementation must be checked on Mac(and probably needs a Mac-weiche in SetMessageBox_Helper_Script.lua)
+            BUG REPORT: MB and GetUserInputs: Can't find ID of the buttons anymore. Changes in Reaper in recent versions? Mac(Linux?) only
         - Doku! Viel Doku!
             - Lokasenna's GuiLib v2 & v3-Lizenz angeben in Doku
-            - FXStateChunk-Management
             - ParmModulation
         -- ParmModulation
             Add/SetParmModulation
-              -- CreateDefaultParmModTable() - allow passing a ParmModTable, and this function will set all missing values to the default ones
-                                             - returns an error, if the resulting table is an invalid one(?)
-              -- Create ParmModulaionStateChunkFromParmModTable() - needed
-              
-              -- (solved?)still buggy, try to set LFO=true, which will remove the entire ParmMod
-              -- (solved?)values set to nil must be set with the values from CreateDefaultParmModTable(), when AUDIOCONTROL, PARMLINK or LFO are set to true
+
+              --IsValidParmModTable shall get the additional feature to make a ParmModTable valid by setting dependent-entries to default values, when AUDIOCONTROL, PARMLINK or LFO are set to true(and PARMLINK_LINKEDPLUGIN=-100(link to MIDI))
+              -- if that is the case, it's possible to add to Add/Set-functions an additional parameter "SetUsefulDefaults", where all entries are set to useful defaults, if needed.
+              -- ParmLearn;ParmLFOLearn need Get/Set/Delete-functions, who allow indexing by parameter-index, rather than existence. Look for ParmAlias2-functions to get an idea.
               
               -- (solved?)needs error-messages, when LFO==true but the other relevant settings are set still to nil
         
         
         - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
-        - BatchConvertFiles - maybe finishing it up?
-        - Set Metadata from Project - still missing
+
 
     -- later releases
+        - BatchConvertFiles - maybe finishing it up?
+        - Set Metadata from Project - still missing
         - IsTakeEnvelopeVisible(könnt knifflig werden)
         - IsItemVisible
         - Download files via Curl -> darf ich Curl mit ausliefern oder beisst sich das mit Lizenz? Auf Windows kann ich auch certutil nutzen.
@@ -50,7 +49,7 @@
         - StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
                                 probably by adding a "depth"-parameter, which allows stting the number of spaces*2, who indent the statechunk accordingly
     
-        BUG REPORT: MB and GetUserInputs: Can't find ID of the buttons anymore. Changes in Reaper in recent versions? Mac(Linux?) only
+        
     
         - ultraschall.Defer - can func==nil be used to use the function, in which Defer-was called?
                         And defer-identifier==nil should be no defer-identifier(defer default)
@@ -388,18 +387,18 @@ Has now 1240 functions, with 25 new ones
    - EnvelopeManagement: IsEnvelope\_Track - returns, if an envelope is a TrackEnvelope(true) or a TakeEnvelope(false)
    - EnvelopeManagement: IsTrackEnvelopeVisible\_ArrangeView - returns, if a TrackEnvelope is currently visible in arrangeview   
    - Examplescript: US\_Api\_Examples\_FileManager\_example\_showcasing\_background\_copying.lua - a simple file-manager which showcases background-copying      
-   - FXManagement: AddParmModulationTable - adds a new parameter-modulation of a specific FX in an FXStateChunk
+   - FXManagement: AddParmMod\_ParmModTable - adds a new parameter-modulation of a specific FX in an FXStateChunk via a ParmModTable
    - FXManagement: CountParmModFromFXStateChunk - counts the number of parameter-modulations of a specifix FX in an FXStateChunk
    - FXManagement: CreateDefaultParmModTable - creates a ParameterModulationTable which holds Reaper's default values and can be altered
    - FXManagement: DeleteParmAlias2\_FXStateChunk - like DeleteParmAlias\_FXStateChunk, but allows indexing by parameter-index, not by number of existing aliasnames
    - FXManagement: DeleteParmModFromFXStateChunk - deletes a parameter-modulation of a specific FX in an FXStateChunk
    - FXManagement: GetAllParmAliasNames\_FXStateChunk - gets all parameter-aliasnames of a specific fx from an FXStateChunk
    - FXManagement: GetParmAlias2\_FXStateChunk - like GetParmAlias\_FXStateChunk but allows indexing by parameter-index instead
-   - FXManagement: GetParmModulationTable - returns a table with all values of a certain parameter-modulation of an fx
+   - FXManagement: GetParmModTable\_FXStateChunk - returns a table with all values of a certain parameter-modulation of an fx
    - FXManagement: GetFXSettingsString\_FXLines - returns the statestring of an fx as base64 and decoded-binary string
    - FXManagement: IsValidParmModTable - returns, if a table is a valid ParmModTable(used for altering Parameter-Modulations)
    - FXManagement: SetParmAlias2\_FXStateChunk - like SetParmAlias\_FXStateChunk but indexes by parameterindex, not already existing aliases
-   - FXManagement: SetParmModulationTable - sets a parameter-modulation of an fx in an FXStateChunk
+   - FXManagement: SetParmMod\_ParmModTable - sets a parameter-modulation of an fx in an FXStateChunk via a ParmModTable
    - GFX-Management: GFX\_DrawEmbossedSquare - draws an embossed square with optional background
    - GMEM: Gmem\_GetCurrentAttachedName - returns the name of the currently attached gmem
    - Helper Functions: ActionsList\_GetAllActions - returns all actions and shortcuts currently visible in the opened actionlist   

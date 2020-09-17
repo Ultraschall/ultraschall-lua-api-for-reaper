@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43328.00" author="Meo Mespotine">
+      <version name="43330.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Changelog-Api.txt</source>
@@ -731,8 +731,9 @@ New features in 4.1.005
 -   Examplescript:
     US_Api_Examples_FileManager_example_showcasing_background_copying.lua -
     a simple file-manager which showcases background-copying
--   FXManagement: AddParmModulationTable - adds a new
-    parameter-modulation of a specific FX in an FXStateChunk
+-   FXManagement: AddParmMod_ParmModTable - adds a new
+    parameter-modulation of a specific FX in an FXStateChunk via a
+    ParmModTable
 -   FXManagement: CountParmModFromFXStateChunk - counts the number of
     parameter-modulations of a specifix FX in an FXStateChunk
 -   FXManagement: CreateDefaultParmModTable - creates a
@@ -748,8 +749,8 @@ New features in 4.1.005
 -   FXManagement: GetParmAlias2_FXStateChunk - like
     GetParmAlias_FXStateChunk but allows indexing by parameter-index
     instead
--   FXManagement: GetParmModulationTable - returns a table with all
-    values of a certain parameter-modulation of an fx
+-   FXManagement: GetParmModTable_FXStateChunk - returns a table with
+    all values of a certain parameter-modulation of an fx
 -   FXManagement: GetFXSettingsString_FXLines - returns the statestring
     of an fx as base64 and decoded-binary string
 -   FXManagement: IsValidParmModTable - returns, if a table is a valid
@@ -757,8 +758,8 @@ New features in 4.1.005
 -   FXManagement: SetParmAlias2_FXStateChunk - like
     SetParmAlias_FXStateChunk but indexes by parameterindex, not already
     existing aliases
--   FXManagement: SetParmModulationTable - sets a parameter-modulation
-    of an fx in an FXStateChunk
+-   FXManagement: SetParmMod_ParmModTable - sets a parameter-modulation
+    of an fx in an FXStateChunk via a ParmModTable
 -   GFX-Management: GFX_DrawEmbossedSquare - draws an embossed square
     with optional background
 -   GMEM: Gmem_GetCurrentAttachedName - returns the name of the

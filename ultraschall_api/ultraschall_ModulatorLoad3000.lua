@@ -1067,9 +1067,9 @@ else
     ultraschall.LM(11)
     return ultraschall.GetFXSettingsString_FXLines(table.unpack({...}))
   end
-  function ultraschall.GetParmModulationTable(...)
+  function ultraschall.GetParmModTable_FXStateChunk(...)
     ultraschall.LM(11)
-    return ultraschall.GetParmModulationTable(table.unpack({...}))
+    return ultraschall.GetParmModTable_FXStateChunk(table.unpack({...}))
   end
   function ultraschall.CreateDefaultParmModTable(...)
     ultraschall.LM(11)
@@ -1079,13 +1079,13 @@ else
     ultraschall.LM(11)
     return ultraschall.IsValidParmModTable(table.unpack({...}))
   end
-  function ultraschall.AddParmModulationTable(...)
+  function ultraschall.AddParmMod_ParmModTable(...)
     ultraschall.LM(11)
-    return ultraschall.AddParmModulationTable(table.unpack({...}))
+    return ultraschall.AddParmMod_ParmModTable(table.unpack({...}))
   end
-  function ultraschall.SetParmModulationTable(...)
+  function ultraschall.SetParmMod_ParmModTable(...)
     ultraschall.LM(11)
-    return ultraschall.SetParmModulationTable(table.unpack({...}))
+    return ultraschall.SetParmMod_ParmModTable(table.unpack({...}))
   end
   function ultraschall.DeleteParmModFromFXStateChunk(...)
     ultraschall.LM(11)

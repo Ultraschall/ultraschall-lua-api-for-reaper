@@ -6297,8 +6297,10 @@
                                                             nil, default position; only readable
         </code></pre>
         
-        Some entries depend on each other. For instance, all MIDIPLINK_-entries need the PARMLINK_-entries available.  
-        But don't worry. If you set an entry to an invalid value or have invalid combinations, the ParmMod-functions will return useful error-messages.  
+        Some entries depend on each other, which is important to know:
+        If you've set AUDIOCONTROL=true then you need to set all AUDIOCONTROL_-entries to useful values. Same goes for LFO=true -> set all LFO_-entries to useful values, and PARMLINK=true, which needs all PARMLINK_-entries being set.  
+        For PARMLINK you also need to keep in mind, that setting PARMLINK_LINKEDPLUGIN=-100(link to MIDI) means, that you need to set all MIDIPLINK-entries as well.  
+        But don't worry. If you set an entry to an invalid value or have invalid combinations, the ParmMod-functions, especially [IsValidParmModTable](usdocml://IsValidParmModTable), will return useful error-messages.  
         So just run SLEM() after calling one of the ParmMod-functions and it will tell you, what you did wrong.  
         
         Note: If you commit a ParmModTable of a currently opened Parameter Modulation, some things may not be updated in the gui. If you change the checkbox-state of the LFO-checkbox, it will only be updated after closing and reopening the window again. This affects only the gui, so if you enable the LFO-checkbox, it will be recognize as activated, even though the gui does not reflect that.  
