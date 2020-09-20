@@ -178,26 +178,29 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, fxid, id)
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
-    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
-                    -  examples:
-                    -          0,   OSC is used
-                    -          176, MIDI Chan 1 CC 0
-                    -          ...
-                    -          432, MIDI Chan 1 CC 1
-                    -          ...
-                    -          9360, MIDI Chan 1 Note 36
-                    -          9616, MIDI Chan 1 Note 37
-                    -          9872, MIDI Chan 1 Note 38
-                    -            ...
-                    -            
-                    -      CC Mode-dropdownlist:
-                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
-                    -          &65536 &131072 &262144 
-                    -             0       0       0,      Absolute
-                    -             1       0       0,      Relative 1(127=-1, 1=+1)
-                    -             0       1       0,      Relative 2(63=-1, 65=+1)
-                    -             1       1       0,      Relative 3(65=-1, 1=+1)
-                    -             0       0       1,      Toggle (>0=toggle)
+    integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
+                      -   being the MIDI-mode, and the second byte the MIDI/CC-note
+                      -       0,   OSC is used
+                      -       176, MIDI Chan 1 CC 0     (Byte1=176, Byte2=0)
+                      -       ...
+                      -       432, MIDI Chan 1 CC 1     (Byte1=176, Byte2=1)
+                      -       ...
+                      -       144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                      -       400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                      -       ...
+                      -       9360, MIDI Chan 1 Note 36 (Byte1=144, Byte2=36)
+                      -       9616, MIDI Chan 1 Note 37 (Byte1=144, Byte2=37)
+                      -       9872, MIDI Chan 1 Note 38 (Byte1=144, Byte2=38)
+                      -         ...
+                      -         
+                      -   CC Mode-dropdownlist:
+                      -      set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -       &65536 &131072 &262144 
+                      -          0       0       0,      Absolute
+                      -          1       0       0,      Relative 1(127=-1, 1=+1)
+                      -          0       1       0,      Relative 2(63=-1, 65=+1)
+                      -          1       1       0,      Relative 3(65=-1, 1=+1)
+                      -          0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -275,26 +278,29 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, fxid, id)
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
-    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
-                    -  examples:
-                    -          0,   OSC is used
-                    -          176, MIDI Chan 1 CC 0
-                    -          ...
-                    -          432, MIDI Chan 1 CC 1
-                    -          ...
-                    -          9360, MIDI Chan 1 Note 36
-                    -          9616, MIDI Chan 1 Note 37
-                    -          9872, MIDI Chan 1 Note 38
-                    -            ...
-                    -            
-                    -      CC Mode-dropdownlist:
-                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
-                    -          &65536 &131072 &262144 
-                    -             0       0       0,      Absolute
-                    -             1       0       0,      Relative 1(127=-1, 1=+1)
-                    -             0       1       0,      Relative 2(63=-1, 65=+1)
-                    -             1       1       0,      Relative 3(65=-1, 1=+1)
-                    -             0       0       1,      Toggle (>0=toggle)
+    integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
+                      -   being the MIDI-mode, and the second byte the MIDI/CC-note
+                      -       0,   OSC is used
+                      -       176, MIDI Chan 1 CC 0     (Byte1=176, Byte2=0)
+                      -       ...
+                      -       432, MIDI Chan 1 CC 1     (Byte1=176, Byte2=1)
+                      -       ...
+                      -       144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                      -       400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                      -       ...
+                      -       9360, MIDI Chan 1 Note 36 (Byte1=144, Byte2=36)
+                      -       9616, MIDI Chan 1 Note 37 (Byte1=144, Byte2=37)
+                      -       9872, MIDI Chan 1 Note 38 (Byte1=144, Byte2=38)
+                      -         ...
+                      -         
+                      -   CC Mode-dropdownlist:
+                      -      set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -       &65536 &131072 &262144 
+                      -          0       0       0,      Absolute
+                      -          1       0       0,      Relative 1(127=-1, 1=+1)
+                      -          0       1       0,      Relative 2(63=-1, 65=+1)
+                      -          1       1       0,      Relative 3(65=-1, 1=+1)
+                      -          0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -350,26 +356,29 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, fxid, id)
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
-    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-messages
-                    -  examples:
-                    -          0,   OSC is used
-                    -          176, MIDI Chan 1 CC 0
-                    -          ...
-                    -          432, MIDI Chan 1 CC 1
-                    -          ...
-                    -          9360, MIDI Chan 1 Note 36
-                    -          9616, MIDI Chan 1 Note 37
-                    -          9872, MIDI Chan 1 Note 38
-                    -            ...
-                    -            
-                    -      CC Mode-dropdownlist:
-                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
-                    -          &65536 &131072 &262144 
-                    -             0       0       0,      Absolute
-                    -             1       0       0,      Relative 1(127=-1, 1=+1)
-                    -             0       1       0,      Relative 2(63=-1, 65=+1)
-                    -             1       1       0,      Relative 3(65=-1, 1=+1)
-                    -             0       0       1,      Toggle (>0=toggle)
+    integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
+                      -   being the MIDI-mode, and the second byte the MIDI/CC-note
+                      -       0,   OSC is used
+                      -       176, MIDI Chan 1 CC 0     (Byte1=176, Byte2=0)
+                      -       ...
+                      -       432, MIDI Chan 1 CC 1     (Byte1=176, Byte2=1)
+                      -       ...
+                      -       144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                      -       400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                      -       ...
+                      -       9360, MIDI Chan 1 Note 36 (Byte1=144, Byte2=36)
+                      -       9616, MIDI Chan 1 Note 37 (Byte1=144, Byte2=37)
+                      -       9872, MIDI Chan 1 Note 38 (Byte1=144, Byte2=38)
+                      -         ...
+                      -         
+                      -   CC Mode-dropdownlist:
+                      -      set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -       &65536 &131072 &262144 
+                      -          0       0       0,      Absolute
+                      -          1       0       0,      Relative 1(127=-1, 1=+1)
+                      -          0       1       0,      Relative 2(63=-1, 65=+1)
+                      -          1       1       0,      Relative 3(65=-1, 1=+1)
+                      -          0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -608,26 +617,29 @@ function ultraschall.GetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
-    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
-                    -  examples:
-                    -          0,   OSC is used
-                    -          176, MIDI Chan 1 CC 0
-                    -          ...
-                    -          432, MIDI Chan 1 CC 1
-                    -          ...
-                    -          9360, MIDI Chan 1 Note 36
-                    -          9616, MIDI Chan 1 Note 37
-                    -          9872, MIDI Chan 1 Note 38
-                    -            ...
-                    -            
-                    -      CC Mode-dropdownlist:
-                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
-                    -          &65536 &131072 &262144 
-                    -             0       0       0,      Absolute
-                    -             1       0       0,      Relative 1(127=-1, 1=+1)
-                    -             0       1       0,      Relative 2(63=-1, 65=+1)
-                    -             1       1       0,      Relative 3(65=-1, 1=+1)
-                    -             0       0       1,      Toggle (>0=toggle)
+    integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
+                      - being the MIDI-mode, and the second byte the MIDI/CC-note
+                      -       0,   OSC is used
+                      -       176, MIDI Chan 1 CC 0     (Byte1=176, Byte2=0)
+                      -       ...
+                      -       432, MIDI Chan 1 CC 1     (Byte1=176, Byte2=1)
+                      -       ...
+                      -       144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                      -       400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                      -       ...
+                      -       9360, MIDI Chan 1 Note 36 (Byte1=144, Byte2=36)
+                      -       9616, MIDI Chan 1 Note 37 (Byte1=144, Byte2=37)
+                      -       9872, MIDI Chan 1 Note 38 (Byte1=144, Byte2=38)
+                      -         ...        
+                      -              
+                      -        CC Mode-dropdownlist:
+                      -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -            &65536 &131072 &262144 
+                      -               0       0       0,      Absolute
+                      -               1       0       0,      Relative 1(127=-1, 1=+1)
+                      -               0       1       0,      Relative 2(63=-1, 65=+1)
+                      -               1       1       0,      Relative 3(65=-1, 1=+1)
+                      -               0       0       1,      Toggle (>0=toggle) 
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -705,26 +717,29 @@ function ultraschall.GetParmLFOLearn_MediaItem(MediaItem, fxid, id)
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
-    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
-                    -  examples:
-                    -          0,   OSC is used
-                    -          176, MIDI Chan 1 CC 0
-                    -          ...
-                    -          432, MIDI Chan 1 CC 1
-                    -          ...
-                    -          9360, MIDI Chan 1 Note 36
-                    -          9616, MIDI Chan 1 Note 37
-                    -          9872, MIDI Chan 1 Note 38
-                    -            ...
-                    -            
-                    -      CC Mode-dropdownlist:
-                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
-                    -          &65536 &131072 &262144 
-                    -             0       0       0,      Absolute
-                    -             1       0       0,      Relative 1(127=-1, 1=+1)
-                    -             0       1       0,      Relative 2(63=-1, 65=+1)
-                    -             1       1       0,      Relative 3(65=-1, 1=+1)
-                    -             0       0       1,      Toggle (>0=toggle)
+    integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
+                      - being the MIDI-mode, and the second byte the MIDI/CC-note
+                      -       0,   OSC is used
+                      -       176, MIDI Chan 1 CC 0     (Byte1=176, Byte2=0)
+                      -       ...
+                      -       432, MIDI Chan 1 CC 1     (Byte1=176, Byte2=1)
+                      -       ...
+                      -       144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                      -       400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                      -       ...
+                      -       9360, MIDI Chan 1 Note 36 (Byte1=144, Byte2=36)
+                      -       9616, MIDI Chan 1 Note 37 (Byte1=144, Byte2=37)
+                      -       9872, MIDI Chan 1 Note 38 (Byte1=144, Byte2=38)
+                      -         ...        
+                      -              
+                      -        CC Mode-dropdownlist:
+                      -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -            &65536 &131072 &262144 
+                      -               0       0       0,      Absolute
+                      -               1       0       0,      Relative 1(127=-1, 1=+1)
+                      -               0       1       0,      Relative 2(63=-1, 65=+1)
+                      -               1       1       0,      Relative 3(65=-1, 1=+1)
+                      -               0       0       1,      Toggle (>0=toggle) 
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -780,26 +795,29 @@ function ultraschall.GetParmLFOLearn_MediaTrack(MediaTrack, fxid, id)
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
-    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-messages
-                           -  examples:
-                           -          0,   OSC is used
-                           -          176, MIDI Chan 1 CC 0
-                           -          ...
-                           -          432, MIDI Chan 1 CC 1
-                           -          ...
-                           -          9360, MIDI Chan 1 Note 36
-                           -          9616, MIDI Chan 1 Note 37
-                           -          9872, MIDI Chan 1 Note 38
-                           -            ...
-                           -            
-                           -      CC Mode-dropdownlist:
-                           -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
-                           -          &65536 &131072 &262144 
-                           -             0       0       0,      Absolute
-                           -             1       0       0,      Relative 1(127=-1, 1=+1)
-                           -             0       1       0,      Relative 2(63=-1, 65=+1)
-                           -             1       1       0,      Relative 3(65=-1, 1=+1)
-                           -             0       0       1,      Toggle (>0=toggle)
+    integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
+                      - being the MIDI-mode, and the second byte the MIDI/CC-note
+                      -       0,   OSC is used
+                      -       176, MIDI Chan 1 CC 0     (Byte1=176, Byte2=0)
+                      -       ...
+                      -       432, MIDI Chan 1 CC 1     (Byte1=176, Byte2=1)
+                      -       ...
+                      -       144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                      -       400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                      -       ...
+                      -       9360, MIDI Chan 1 Note 36 (Byte1=144, Byte2=36)
+                      -       9616, MIDI Chan 1 Note 37 (Byte1=144, Byte2=37)
+                      -       9872, MIDI Chan 1 Note 38 (Byte1=144, Byte2=38)
+                      -         ...        
+                      -              
+                      -        CC Mode-dropdownlist:
+                      -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -            &65536 &131072 &262144 
+                      -               0       0       0,      Absolute
+                      -               1       0       0,      Relative 1(127=-1, 1=+1)
+                      -               0       1       0,      Relative 2(63=-1, 65=+1)
+                      -               1       1       0,      Relative 3(65=-1, 1=+1)
+                      -               0       0       1,      Toggle (>0=toggle) 
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -1245,17 +1263,20 @@ function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, midi_n
     string FXStateChunk - the FXStateChunk, in which you want to set a ParmLFO-Learn-entry
     integer fxid - the id of the fx, which holds the to-set-ParmLFO-Learn-entry; beginning with 1
     integer id - the id of the ParmLFO-Learn-entry to set; beginning with 1
-    integer midi_note -   an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
-                      -    examples:
-                      -            0,   OSC is used
-                      -            176, MIDI Chan 1 CC 0
-                      -            ...
-                      -            432, MIDI Chan 1 CC 1
-                      -            ...
-                      -            9360, MIDI Chan 1 Note 36
-                      -            9616, MIDI Chan 1 Note 37
-                      -            9872, MIDI Chan 1 Note 38
-                      -              ...
+    integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
+                      - being the MIDI-mode, and the second byte the MIDI/CC-note
+                      -       0,   OSC is used
+                      -       176, MIDI Chan 1 CC 0     (Byte1=176, Byte2=0)
+                      -       ...
+                      -       432, MIDI Chan 1 CC 1     (Byte1=176, Byte2=1)
+                      -       ...
+                      -       144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                      -       400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                      -       ...
+                      -       9360, MIDI Chan 1 Note 36 (Byte1=144, Byte2=36)
+                      -       9616, MIDI Chan 1 Note 37 (Byte1=144, Byte2=37)
+                      -       9872, MIDI Chan 1 Note 38 (Byte1=144, Byte2=38)
+                      -         ...        
                       -              
                       -        CC Mode-dropdownlist:
                       -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
@@ -1350,26 +1371,29 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note
     string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
     integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
     integer id - the id of the Parm-Learn-entry to set; beginning with 1
-    integer midi_note -   an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
-                      -    examples:
-                      -            0,   OSC is used
-                      -            176, MIDI Chan 1 CC 0
-                      -            ...
-                      -            432, MIDI Chan 1 CC 1
-                      -            ...
-                      -            9360, MIDI Chan 1 Note 36
-                      -            9616, MIDI Chan 1 Note 37
-                      -            9872, MIDI Chan 1 Note 38
-                      -              ...
-                      -              
-                      -        CC Mode-dropdownlist:
-                      -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
-                      -            &65536 &131072 &262144 
-                      -               0       0       0,      Absolute
-                      -               1       0       0,      Relative 1(127=-1, 1=+1)
-                      -               0       1       0,      Relative 2(63=-1, 65=+1)
-                      -               1       1       0,      Relative 3(65=-1, 1=+1)
-                      -               0       0       1,      Toggle (>0=toggle) 
+    integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
+                      -   being the MIDI-mode, and the second byte the MIDI/CC-note
+                      -       0,   OSC is used
+                      -       176, MIDI Chan 1 CC 0     (Byte1=176, Byte2=0)
+                      -       ...
+                      -       432, MIDI Chan 1 CC 1     (Byte1=176, Byte2=1)
+                      -       ...
+                      -       144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                      -       400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                      -       ...
+                      -       9360, MIDI Chan 1 Note 36 (Byte1=144, Byte2=36)
+                      -       9616, MIDI Chan 1 Note 37 (Byte1=144, Byte2=37)
+                      -       9872, MIDI Chan 1 Note 38 (Byte1=144, Byte2=38)
+                      -         ...
+                      -         
+                      -   CC Mode-dropdownlist:
+                      -      set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -       &65536 &131072 &262144 
+                      -          0       0       0,      Absolute
+                      -          1       0       0,      Relative 1(127=-1, 1=+1)
+                      -          0       1       0,      Relative 2(63=-1, 65=+1)
+                      -          1       1       0,      Relative 3(65=-1, 1=+1)
+                      -          0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           -    0, no checkboxes
                           -    1, enable only when track or item is selected
@@ -1753,17 +1777,20 @@ function ultraschall.AddParmLFOLearn_FXStateChunk(FXStateChunk, fxid, parmidx, p
     integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
     integer parmidx - the parameter, whose alias you want to add
     string parmname - the name of the parameter, usually \"\" or \"byp\" for bypass or \"wet\" for wet; when using wet or bypass, these are essential to give!
-    integer midi_note -   an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
-                      -    examples:
-                      -            0,   OSC is used
-                      -            176, MIDI Chan 1 CC 0
-                      -            ...
-                      -            432, MIDI Chan 1 CC 1
-                      -            ...
-                      -            9360, MIDI Chan 1 Note 36
-                      -            9616, MIDI Chan 1 Note 37
-                      -            9872, MIDI Chan 1 Note 38
-                      -              ...
+    integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
+                      - being the MIDI-mode, and the second byte the MIDI/CC-note
+                      -       0,   OSC is used
+                      -       176, MIDI Chan 1 CC 0     (Byte1=176, Byte2=0)
+                      -       ...
+                      -       432, MIDI Chan 1 CC 1     (Byte1=176, Byte2=1)
+                      -       ...
+                      -       144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                      -       400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                      -       ...
+                      -       9360, MIDI Chan 1 Note 36 (Byte1=144, Byte2=36)
+                      -       9616, MIDI Chan 1 Note 37 (Byte1=144, Byte2=37)
+                      -       9872, MIDI Chan 1 Note 38 (Byte1=144, Byte2=38)
+                      -         ...        
                       -              
                       -        CC Mode-dropdownlist:
                       -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)

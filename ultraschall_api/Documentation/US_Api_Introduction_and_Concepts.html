@@ -55,7 +55,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.1005 - "The Beatles - I want you(she's so heavy)" - 30th of September 2020 - Build: 43330</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.1005 - "The Beatles - I want you(she's so heavy)" - 30th of September 2020 - Build: 43332</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to install and use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to install hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -4499,6 +4499,10 @@ And it can be set as well, in very much the same way, as ParmLearn in the previo
 <a href="US_Api_Functions.html#GetParmLFOLearn_FXStateChunk">GetParmLFOLearn_FXStateChunk</a> - this gets a LFOLearn of an fx within an FXStateChunk, indexed by existing LFOLearns</p>
 </blockquote>
 <p>These should allow you to add/set/delete LFOLearns with all possible options you can set in the dialog.</p>
+<p>Important: the parameter midi_note some of these functions have, is a multibyte value, which allows you setting MIDI-Notes as well as Chan/CC. So if you want to add MIDI chan1-Note 0, you set the value to<br />
+144, MIDI Chan 1 Note 1 (Byte1=144, Byte2=0)</p>
+<pre><code>       while MIDI-chan1-Note 1 must be set as
+             400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)</code></pre>
 <p>Due API-limitations, I haven't got around some get/set/delete-functions, that allow you to index by parameter-index, only by already existing ones.<br />
 So for the moment, if you want to set/delete an LFOLearn-entry for a specific parameter-index, you should check all of them via <a href="US_Api_Functions.html#GetParmLFOLearn_FXStateChunk">GetParmLFOLearn_FXStateChunk</a>(which returns the parameter-index as well) and use its "order-index".<br />
 For instance: if you want to delete a possibly existing LFOLearn-entry for parameter 16, check all existing ones, if you find one with parameter-index 16.<br />

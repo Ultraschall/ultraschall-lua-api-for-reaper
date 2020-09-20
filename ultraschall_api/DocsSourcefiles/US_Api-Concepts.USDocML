@@ -6131,6 +6131,13 @@
 
             These should allow you to add/set/delete LFOLearns with all possible options you can set in the dialog.  
             
+            Important: the parameter midi_note some of these functions have, is a multibyte value, which allows you setting MIDI-Notes as well as Chan/CC.
+                       So if you want to add MIDI chan1-Note 0, you set the value to                       
+                             144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
+                       
+                       while MIDI-chan1-Note 1 must be set as
+                             400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+            
             Due API-limitations, I haven't got around some get/set/delete-functions, that allow you to index by parameter-index, only by already existing ones.  
             So for the moment, if you want to set/delete an LFOLearn-entry for a specific parameter-index, you should check all of them via [GetParmLFOLearn\_FXStateChunk](usdocml://GetParmLFOLearn_FXStateChunk)(which returns the parameter-index as well) and use its "order-index".  
             For instance: if you want to delete a possibly existing LFOLearn-entry for parameter 16, check all existing ones, if you find one with parameter-index 16.  
