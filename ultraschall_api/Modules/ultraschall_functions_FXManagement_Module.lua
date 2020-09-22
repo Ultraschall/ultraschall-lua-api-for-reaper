@@ -3012,81 +3012,83 @@ function ultraschall.GetParmModTable_FXStateChunk(FXStateChunk, fxindex, parmodi
   
     The table's format is as follows:
     <pre><code>
-                ParamModTable["PARAM_NR"]               - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
-                ParamModTable["PARAM_TYPE"]             - the type of the parameter, usually "", "wet" or "bypass"
+                ParmModTable["PARAM_NR"]               - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
+                ParmModTable["PARAM_TYPE"]             - the type of the parameter, usually "", "wet" or "bypass"
 
-                ParamModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"] 
+                ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"] 
                                                         - Enable parameter modulation, baseline value(envelope overrides)-checkbox; 
                                                           true, checked; false, unchecked
-                ParamModTable["PARAMOD_BASELINE"]       - Enable parameter modulation, baseline value(envelope overrides)-slider; 
+                ParmModTable["PARAMOD_BASELINE"]       - Enable parameter modulation, baseline value(envelope overrides)-slider; 
                                                             0.000 to 1.000
 
-                ParamModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                ParmModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
                                                             Note: if true, this needs all AUDIOCONTROL_-entries to be set
-                ParamModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
+                ParmModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
                                                           nil, if not available
-                ParamModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
+                ParmModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
                                                             AUDIOCONTROL_CHAN+1; nil, if not available
-                ParamModTable["AUDIOCONTROL_ATTACK"]    - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
-                ParamModTable["AUDIOCONTROL_RELEASE"]   - the Release-slider; 0-1000ms; nil, if not available
-                ParamModTable["AUDIOCONTROL_MINVOLUME"] - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; 
+                ParmModTable["AUDIOCONTROL_ATTACK"]    - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
+                ParmModTable["AUDIOCONTROL_RELEASE"]   - the Release-slider; 0-1000ms; nil, if not available
+                ParmModTable["AUDIOCONTROL_MINVOLUME"] - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; 
                                                           nil, if not available
-                ParamModTable["AUDIOCONTROL_MAXVOLUME"] - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; 
+                ParmModTable["AUDIOCONTROL_MAXVOLUME"] - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; 
                                                           nil, if not available
-                ParamModTable["AUDIOCONTROL_STRENGTH"]  - the Strength-slider; 0(0%) to 1000(100%)
-                ParamModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
-
-                ParamModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
+                ParmModTable["AUDIOCONTROL_STRENGTH"]  - the Strength-slider; 0(0%) to 1000(100%)
+                ParmModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
+                ParmModTable["X2"]=0.5                 - the audiocontrol signal shaping-x-coordinate
+                ParmModTable["Y2"]=0.5                 - the audiocontrol signal shaping-y-coordinate    
+                
+                ParmModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
                                                             Note: if true, this needs all LFO_-entries to be set
-                ParamModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
+                ParmModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
                                                             0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
                                                             nil, if not available
-                ParamModTable["LFO_SHAPEOLD"]           - use the old-style of the LFO_SHAPE; 
+                ParmModTable["LFO_SHAPEOLD"]           - use the old-style of the LFO_SHAPE; 
                                                             0, use current style of LFO_SHAPE; 
                                                             1, use old style of LFO_SHAPE; 
                                                             nil, if not available
-                ParamModTable["LFO_TEMPOSYNC"]          - the Tempo sync-checkbox; true, checked; false, unchecked
-                ParamModTable["LFO_SPEED"]              - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
-                ParamModTable["LFO_STRENGTH"]           - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
-                ParamModTable["LFO_PHASE"]              - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
-                ParamModTable["LFO_DIRECTION"]          - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
-                ParamModTable["LFO_PHASERESET"]         - the LFO Phase reset-dropdownlist; 
+                ParmModTable["LFO_TEMPOSYNC"]          - the Tempo sync-checkbox; true, checked; false, unchecked
+                ParmModTable["LFO_SPEED"]              - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
+                ParmModTable["LFO_STRENGTH"]           - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
+                ParmModTable["LFO_PHASE"]              - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
+                ParmModTable["LFO_DIRECTION"]          - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
+                ParmModTable["LFO_PHASERESET"]         - the LFO Phase reset-dropdownlist; 
                                                             0, On seek/loop(deterministic output)
                                                             1, Free-running(non-deterministic output)
                                                             nil, if not available
 
-                ParamModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
+                ParmModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
                                                           true, checked; false, unchecked
-                ParamModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
+                ParmModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
                                                             -1, nothing selected yet
                                                             -100, MIDI-parameter-settings
                                                             1 - the first fx-plugin
                                                             2 - the second fx-plugin
                                                             3 - the third fx-plugin, etc
-                ParamModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
+                ParmModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
                                                             When MIDI, this is irrelevant.
                                                             When FX-parameter:
                                                               0 to n; 0 for the first; 1, for the second, etc
 
-                ParamModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
-                ParamModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                ParmModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                ParmModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
 
-                ParamModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
+                ParmModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
                                                             Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
-                ParamModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
+                ParmModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
                                                             0 to 15 for bus 1 to 16; 
                                                             nil, if not available
-                ParamModTable["MIDIPLINK_CHANNEL"]      - the MIDI-channel selected in the button-menu; 
+                ParmModTable["MIDIPLINK_CHANNEL"]      - the MIDI-channel selected in the button-menu; 
                                                             0, omni; 1 to 16 for channel 1 to 16; 
                                                             nil, if not available
-                ParamModTable["MIDIPLINK_MIDICATEGORY"] - the MIDI_Category selected in the button-menu; nil, if not available
+                ParmModTable["MIDIPLINK_MIDICATEGORY"] - the MIDI_Category selected in the button-menu; nil, if not available
                                                             144, MIDI note
                                                             160, Aftertouch
                                                             176, CC 14Bit and CC
                                                             192, Program Change
                                                             208, Channel Pressure
                                                             224, Pitch
-                ParamModTable["MIDIPLINK_MIDINOTE"]     - the MIDI-note selected in the button-menu; nil, if not available
+                ParmModTable["MIDIPLINK_MIDINOTE"]     - the MIDI-note selected in the button-menu; nil, if not available
                                                           When MIDI note:
                                                                0(C-2) to 127(G8)
                                                           When Aftertouch:
@@ -3103,15 +3105,15 @@ function ultraschall.GetParmModTable_FXStateChunk(FXStateChunk, fxindex, parmodi
                                                                0
                                                           When Pitch:
                                                                0
-                ParamModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
+                ParmModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
                                                             Note: if true, this needs all WINDOW_-entries to be set
-                ParamModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
+                ParmModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
                                                             nil, unchanged; 0, unopened; 1, open
-                ParamModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
-                ParamModTable["WINDOW_YPOS"]            - the y-position of the altered ParmMod-window in pixels; nil, default position
-                ParamModTable["WINDOW_RIGHT"]           - the right-position of the altered ParmMod-window in pixels; 
+                ParmModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
+                ParmModTable["WINDOW_YPOS"]            - the y-position of the altered ParmMod-window in pixels; nil, default position
+                ParmModTable["WINDOW_RIGHT"]           - the right-position of the altered ParmMod-window in pixels; 
                                                             nil, default position; only readable
-                ParamModTable["WINDOW_BOTTOM"]          - the bottom-position of the altered ParmMod-window in pixels; 
+                ParmModTable["WINDOW_BOTTOM"]          - the bottom-position of the altered ParmMod-window in pixels; 
                                                             nil, default position; only readable
     </code></pre>
     returns nil in case of an error
@@ -3298,7 +3300,7 @@ function ultraschall.CreateDefaultParmModTable()
       You can alter these settings to your needs before committing it to an FXStateChunk.
       
       The checkboxes for "Audio control signal (sidechain)", "LFO", "Link from MIDI or FX parameter" are unchecked and the fx-parameter is set to 1(the first parameter of the plugin).
-      To enable and change them, alter the following entries accordingly:
+      To enable and change them, you need to alter the following entries accordingly, or applying the ParmModTable has no effect:
         
               ParmModTable["AUDIOCONTROL"] - the checkbox for "Audio control signal (sidechain)"
               ParmModTable["LFO"]      - the checkbox for "LFO"
@@ -3307,83 +3309,85 @@ function ultraschall.CreateDefaultParmModTable()
        
       The table's format and its default-values is as follows:
           <pre><code>
-                      ParamModTable["PARAM_NR"]=1              - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
-                      ParamModTable["PARAM_TYPE"]=""           - the type of the parameter, usually "", "wet" or "bypass"
+                      ParmModTable["PARAM_NR"]=1              - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
+                      ParmModTable["PARAM_TYPE"]=""           - the type of the parameter, usually "", "wet" or "bypass"
       
-                      ParamModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"]=true
+                      ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"]=true
                                                               - Enable parameter modulation, baseline value(envelope overrides)-checkbox; 
                                                                 true, checked; false, unchecked
-                      ParamModTable["PARAMOD_BASELINE"]=0     - Enable parameter modulation, baseline value(envelope overrides)-slider; 
+                      ParmModTable["PARAMOD_BASELINE"]=0     - Enable parameter modulation, baseline value(envelope overrides)-slider; 
                                                                   0.000 to 1.000
       
-                      ParamModTable["AUDIOCONTROL"]=false           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                      ParmModTable["AUDIOCONTROL"]=false           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
                                                                         Note: if true, this needs all AUDIOCONTROL_-entries to be set                      
-                      ParamModTable["AUDIOCONTROL_CHAN"]=0          - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
+                      ParmModTable["AUDIOCONTROL_CHAN"]=1          - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
                                                                       nil, if not available
-                      ParamModTable["AUDIOCONTROL_STEREO"]=0        - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
+                      ParmModTable["AUDIOCONTROL_STEREO"]=0        - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
                                                                         AUDIOCONTROL_CHAN+1; nil, if not available
-                      ParamModTable["AUDIOCONTROL_ATTACK"]=300      - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
-                      ParamModTable["AUDIOCONTROL_RELEASE"]=300     - the Release-slider; 0-1000ms; nil, if not available
-                      ParamModTable["AUDIOCONTROL_MINVOLUME"]=-24   - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; 
+                      ParmModTable["AUDIOCONTROL_ATTACK"]=300      - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
+                      ParmModTable["AUDIOCONTROL_RELEASE"]=300     - the Release-slider; 0-1000ms; nil, if not available
+                      ParmModTable["AUDIOCONTROL_MINVOLUME"]=-24   - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; 
                                                                         nil, if not available
-                      ParamModTable["AUDIOCONTROL_MAXVOLUME"]=0     - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; 
+                      ParmModTable["AUDIOCONTROL_MAXVOLUME"]=0     - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; 
                                                                         nil, if not available
-                      ParamModTable["AUDIOCONTROL_STRENGTH"]=1      - the Strength-slider; 0(0%) to 1000(100%)
-                      ParamModTable["AUDIOCONTROL_DIRECTION"]=1     - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
+                      ParmModTable["AUDIOCONTROL_STRENGTH"]=1      - the Strength-slider; 0(0%) to 1000(100%)
+                      ParmModTable["AUDIOCONTROL_DIRECTION"]=1     - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
+                      ParmModTable["X2"]=0.5                        - the audiocontrol signal shaping-x-coordinate
+                      ParmModTable["Y2"]=0.5                        - the audiocontrol signal shaping-y-coordinate
       
-                      ParamModTable["LFO"]=false                    - if the LFO-checkbox checked; true, checked; false, unchecked
+                      ParmModTable["LFO"]=false                    - if the LFO-checkbox checked; true, checked; false, unchecked
                                                                        Note: if true, this needs all LFO_-entries to be set
-                      ParamModTable["LFO_SHAPE"]=0                  - the LFO Shape-dropdownlist; 
+                      ParmModTable["LFO_SHAPE"]=0                  - the LFO Shape-dropdownlist; 
                                                                        0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
                                                                        nil, if not available
-                      ParamModTable["LFO_SHAPEOLD"]=0              - use the old-style of the LFO_SHAPE; 
+                      ParmModTable["LFO_SHAPEOLD"]=0              - use the old-style of the LFO_SHAPE; 
                                                                       0, use current style of LFO_SHAPE; 
                                                                       1, use old style of LFO_SHAPE; 
                                                                       nil, if not available
-                      ParamModTable["LFO_TEMPOSYNC"]=false         - the Tempo sync-checkbox; true, checked; false, unchecked
-                      ParamModTable["LFO_SPEED"]=0.124573          - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
-                      ParamModTable["LFO_STRENGTH"]=1              - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
-                      ParamModTable["LFO_PHASE"]=0                 - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
-                      ParamModTable["LFO_DIRECTION"]=1             - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
-                      ParamModTable["LFO_PHASERESET"]=0            - the LFO Phase reset-dropdownlist; 
+                      ParmModTable["LFO_TEMPOSYNC"]=false         - the Tempo sync-checkbox; true, checked; false, unchecked
+                      ParmModTable["LFO_SPEED"]=0.124573          - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
+                      ParmModTable["LFO_STRENGTH"]=1              - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
+                      ParmModTable["LFO_PHASE"]=0                 - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
+                      ParmModTable["LFO_DIRECTION"]=1             - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
+                      ParmModTable["LFO_PHASERESET"]=0            - the LFO Phase reset-dropdownlist; 
                                                                       0, On seek/loop(deterministic output)
                                                                       1, Free-running(non-deterministic output)
                                                                       nil, if not available
       
-                      ParamModTable["PARMLINK"]=false              - the Link from MIDI or FX parameter-checkbox
+                      ParmModTable["PARMLINK"]=false              - the Link from MIDI or FX parameter-checkbox
                                                                       true, checked; false, unchecked
-                      ParamModTable["PARMLINK_LINKEDPLUGIN"]=-1    - the selected plugin; nil, if not available
+                      ParmModTable["PARMLINK_LINKEDPLUGIN"]=-1    - the selected plugin; nil, if not available
                                                                       -1, nothing selected yet
                                                                       -100, MIDI-parameter-settings
                                                                       1 - the first fx-plugin
                                                                       2 - the second fx-plugin
                                                                       3 - the third fx-plugin, etc
-                      ParamModTable["PARMLINK_LINKEDPARMIDX"]=-1   - the id of the linked parameter; -1, if none is linked yet; nil, if not available
+                      ParmModTable["PARMLINK_LINKEDPARMIDX"]=-1   - the id of the linked parameter; -1, if none is linked yet; nil, if not available
                                                                       When MIDI, this is irrelevant.
                                                                       When FX-parameter:
                                                                         0 to n; 0 for the first; 1, for the second, etc
       
-                      ParamModTable["PARMLINK_OFFSET"]=0           - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
-                      ParamModTable["PARMLINK_SCALE"]=1            - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                      ParmModTable["PARMLINK_OFFSET"]=0           - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                      ParmModTable["PARMLINK_SCALE"]=1            - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
       
       
-                      ParamModTable["MIDIPLINK"]=false             - true, if any parameter-linking with MIDI-stuff; false, if not
+                      ParmModTable["MIDIPLINK"]=false             - true, if any parameter-linking with MIDI-stuff; false, if not
                                                                      Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
-                      ParamModTable["MIDIPLINK_BUS"]=nil           - the MIDI-bus selected in the button-menu; 
+                      ParmModTable["MIDIPLINK_BUS"]=nil           - the MIDI-bus selected in the button-menu; 
                                                                       0 to 15 for bus 1 to 16; 
                                                                       nil, if not available
-                      ParamModTable["MIDIPLINK_CHANNEL"]=nil       - the MIDI-channel selected in the button-menu; 
+                      ParmModTable["MIDIPLINK_CHANNEL"]=nil       - the MIDI-channel selected in the button-menu; 
                                                                       0, omni; 1 to 16 for channel 1 to 16; 
                                                                       nil, if not available
                                                                      
-                      ParamModTable["MIDIPLINK_MIDICATEGORY"]=nil  - the MIDI_Category selected in the button-menu; nil, if not available
+                      ParmModTable["MIDIPLINK_MIDICATEGORY"]=nil  - the MIDI_Category selected in the button-menu; nil, if not available
                                                                       144, MIDI note
                                                                       160, Aftertouch
                                                                       176, CC 14Bit and CC
                                                                       192, Program Change
                                                                       208, Channel Pressure
                                                                       224, Pitch
-                      ParamModTable["MIDIPLINK_MIDINOTE"]=nil      - the MIDI-note selected in the button-menu; nil, if not available
+                      ParmModTable["MIDIPLINK_MIDINOTE"]=nil      - the MIDI-note selected in the button-menu; nil, if not available
                                                                       When MIDI note:
                                                                          0(C-2) to 127(G8)
                                                                       When Aftertouch:
@@ -3400,15 +3404,15 @@ function ultraschall.CreateDefaultParmModTable()
                                                                          0
                                                                       When Pitch:
                                                                          0
-                      ParamModTable["WINDOW_ALTERED"]=false         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
+                      ParmModTable["WINDOW_ALTERED"]=false         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
                                                                         Note: if true, this needs all WINDOW_-entries to be set
-                      ParamModTable["WINDOW_ALTEREDOPEN"]=true      - if the position of the ParmMod-window is altered and currently open; 
+                      ParmModTable["WINDOW_ALTEREDOPEN"]=true      - if the position of the ParmMod-window is altered and currently open; 
                                                                        nil, unchanged; 0, unopened; 1, open
-                      ParamModTable["WINDOW_XPOS"]=0                - the x-position of the altered ParmMod-window in pixels; nil, default position
-                      ParamModTable["WINDOW_YPOS"]=40               - the y-position of the altered ParmMod-window in pixels; nil, default position
-                      ParamModTable["WINDOW_RIGHT"]=594             - the right-position of the altered ParmMod-window in pixels; 
+                      ParmModTable["WINDOW_XPOS"]=0                - the x-position of the altered ParmMod-window in pixels; nil, default position
+                      ParmModTable["WINDOW_YPOS"]=40               - the y-position of the altered ParmMod-window in pixels; nil, default position
+                      ParmModTable["WINDOW_RIGHT"]=594             - the right-position of the altered ParmMod-window in pixels; 
                                                                        nil, default position; only readable
-                      ParamModTable["WINDOW_BOTTOM"]=729            - the bottom-position of the altered ParmMod-window in pixels; 
+                      ParmModTable["WINDOW_BOTTOM"]=729            - the bottom-position of the altered ParmMod-window in pixels; 
                                                                        nil, default position; only readable
           </code></pre>
     </description>
@@ -3432,7 +3436,7 @@ function ultraschall.CreateDefaultParmModTable()
   ParmModTable["LFO_SPEED"]=0.124573
   ParmModTable["WINDOW_ALTERED"]=false
   ParmModTable["AUDIOCONTROL_DIRECTION"]=1
-  ParmModTable["AUDIOCONTROL_CHAN"]=0
+  ParmModTable["AUDIOCONTROL_CHAN"]=1
   ParmModTable["AUDIOCONTROL_MINVOLUME"]=-24
   ParmModTable["AUDIOCONTROL_MAXVOLUME"]=0
   ParmModTable["AUDIOCONTROL_ATTACK"]=300
@@ -3554,7 +3558,7 @@ function ultraschall.IsValidParmModTable(ParmModTable)
     if ParmModTable["PARMLINK_OFFSET"]==nil then        errormsg=errormsg.."PARMLINK_OFFSET, " end
     if ParmModTable["PARMLINK_SCALE"]==nil then         errormsg=errormsg.."PARMLINK_SCALE, " end
     if errormsg~="" then
-      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK=true but "..errormsg:sub(1,-3).." is still set to nil", -46 ) 
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry PARMLINK=true but "..errormsg:sub(1,-3).." still set to nil", -46 ) 
       return false
     end
   end
@@ -3569,7 +3573,7 @@ function ultraschall.IsValidParmModTable(ParmModTable)
     if ParmModTable["MIDIPLINK_MIDICATEGORY"]==nil then  errormsg=errormsg.."MIDIPLINK_MIDICATEGORY, " end
     if ParmModTable["MIDIPLINK_MIDINOTE"]==nil then      errormsg=errormsg.."MIDIPLINK_MIDINOTE, " end
     if errormsg~="" then
-      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK=true but "..errormsg:sub(1,-3).." is still set to nil", -46 ) 
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry MIDIPLINK=true but "..errormsg:sub(1,-3).." still set to nil", -46 ) 
       return false
     end
   end
@@ -3582,7 +3586,7 @@ function ultraschall.IsValidParmModTable(ParmModTable)
     if ParmModTable["LFO_SHAPEOLD"]==nil then    errormsg=errormsg.."LFO_SHAPEOLD, " end
     if ParmModTable["LFO_SPEED"]==nil then       errormsg=errormsg.."LFO_SPEED, " end
     if errormsg~="" then
-      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO=true but "..errormsg:sub(1,-3).." is still set to nil", -46 ) 
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry LFO=true but "..errormsg:sub(1,-3).." still set to nil", -46 ) 
       return false
     end
   end
@@ -3595,7 +3599,7 @@ function ultraschall.IsValidParmModTable(ParmModTable)
     if ParmModTable["WINDOW_XPOS"]==nil then        errormsg=errormsg.."WINDOW_XPOS, " end
     if ParmModTable["WINDOW_YPOS"]==nil then        errormsg=errormsg.."WINDOW_YPOS, " end
     if errormsg~="" then
-      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_ALTERED=true but "..errormsg:sub(1,-3).." is still set to nil", -46 ) 
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry WINDOW_ALTERED=true but "..errormsg:sub(1,-3).." still set to nil", -46 ) 
       return false
     end
   end
@@ -3608,8 +3612,10 @@ function ultraschall.IsValidParmModTable(ParmModTable)
     if ParmModTable["AUDIOCONTROL_MINVOLUME"]==nil then errormsg=errormsg.."AUDIOCONTROL_MINVOLUME, " end
     if ParmModTable["AUDIOCONTROL_RELEASE"]==nil   then errormsg=errormsg.."AUDIOCONTROL_RELEASE, " end
     if ParmModTable["AUDIOCONTROL_STEREO"]==nil then    errormsg=errormsg.."AUDIOCONTROL_STEREO, " end
+    if ParmModTable["X2"]==nil then    errormsg=errormsg.."X2, " end
+    if ParmModTable["Y2"]==nil then    errormsg=errormsg.."Y2, " end
     if errormsg~="" then 
-      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL=true but "..errormsg:sub(1,-3).." is still set to nil", -47 ) 
+      ultraschall.AddErrorMessage("IsValidParmModTable", "ParmModulationTable", "Entry AUDIOCONTROL=true but "..errormsg:sub(1,-3).." still set to nil", -47 ) 
       return false
     end
   end
@@ -3631,87 +3637,89 @@ function ultraschall.AddParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
   </requires>
   <functioncall>string FXStateChunk = ultraschall.AddParmMod_ParmModTable(string FXStateChunk, integer fxindex, table ParmModTable)</functioncall>
   <description>
-    Takes a ParmModTable and adds with its values a new Parameter Modulation of a specifix fx within an FXStateChunk.
+    Takes a ParmModTable and adds with its values a new Parameter Modulation of a specific fx within an FXStateChunk.
   
     The expected table's format is as follows:
     <pre><code>
-                ParamModTable["PARAM_NR"]               - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
-                ParamModTable["PARAM_TYPE"]             - the type of the parameter, usually "", "wet" or "bypass"
+                ParmModTable["PARAM_NR"]               - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
+                ParmModTable["PARAM_TYPE"]             - the type of the parameter, usually "", "wet" or "bypass"
 
-                ParamModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"] 
+                ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"] 
                                                         - Enable parameter modulation, baseline value(envelope overrides)-checkbox; 
                                                           true, checked; false, unchecked
-                ParamModTable["PARAMOD_BASELINE"]       - Enable parameter modulation, baseline value(envelope overrides)-slider; 
+                ParmModTable["PARAMOD_BASELINE"]       - Enable parameter modulation, baseline value(envelope overrides)-slider; 
                                                             0.000 to 1.000
 
-                ParamModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                ParmModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
                                                             Note: if true, this needs all AUDIOCONTROL_-entries to be set                
-                ParamModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
+                ParmModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
                                                           nil, if not available
-                ParamModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
+                ParmModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
                                                             AUDIOCONTROL_CHAN+1; nil, if not available
-                ParamModTable["AUDIOCONTROL_ATTACK"]    - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
-                ParamModTable["AUDIOCONTROL_RELEASE"]   - the Release-slider; 0-1000ms; nil, if not available
-                ParamModTable["AUDIOCONTROL_MINVOLUME"] - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; 
+                ParmModTable["AUDIOCONTROL_ATTACK"]    - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
+                ParmModTable["AUDIOCONTROL_RELEASE"]   - the Release-slider; 0-1000ms; nil, if not available
+                ParmModTable["AUDIOCONTROL_MINVOLUME"] - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; 
                                                           nil, if not available
-                ParamModTable["AUDIOCONTROL_MAXVOLUME"] - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; 
+                ParmModTable["AUDIOCONTROL_MAXVOLUME"] - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; 
                                                           nil, if not available
-                ParamModTable["AUDIOCONTROL_STRENGTH"]  - the Strength-slider; 0(0%) to 1000(100%)
-                ParamModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
-
-                ParamModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
+                ParmModTable["AUDIOCONTROL_STRENGTH"]  - the Strength-slider; 0(0%) to 1000(100%)
+                ParmModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
+                ParmModTable["X2"]=0.5                 - the audiocontrol signal shaping-x-coordinate
+                ParmModTable["Y2"]=0.5                 - the audiocontrol signal shaping-y-coordinate    
+                
+                ParmModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
                                                             Note: if true, this needs all LFO_-entries to be set
-                ParamModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
+                ParmModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
                                                             0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
                                                             nil, if not available
-                ParamModTable["LFO_SHAPEOLD"]           - use the old-style of the LFO_SHAPE; 
+                ParmModTable["LFO_SHAPEOLD"]           - use the old-style of the LFO_SHAPE; 
                                                             0, use current style of LFO_SHAPE; 
                                                             1, use old style of LFO_SHAPE; 
                                                             nil, if not available
-                ParamModTable["LFO_TEMPOSYNC"]          - the Tempo sync-checkbox; true, checked; false, unchecked
-                ParamModTable["LFO_SPEED"]              - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
-                ParamModTable["LFO_STRENGTH"]           - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
-                ParamModTable["LFO_PHASE"]              - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
-                ParamModTable["LFO_DIRECTION"]          - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
-                ParamModTable["LFO_PHASERESET"]         - the LFO Phase reset-dropdownlist; 
+                ParmModTable["LFO_TEMPOSYNC"]          - the Tempo sync-checkbox; true, checked; false, unchecked
+                ParmModTable["LFO_SPEED"]              - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
+                ParmModTable["LFO_STRENGTH"]           - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
+                ParmModTable["LFO_PHASE"]              - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
+                ParmModTable["LFO_DIRECTION"]          - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
+                ParmModTable["LFO_PHASERESET"]         - the LFO Phase reset-dropdownlist; 
                                                             0, On seek/loop(deterministic output)
                                                             1, Free-running(non-deterministic output)
                                                             nil, if not available
                 
-                ParamModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
+                ParmModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
                                                             Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
-                ParamModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
+                ParmModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
                                                           true, checked; false, unchecked
-                ParamModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
+                ParmModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
                                                             -1, nothing selected yet
                                                             -100, MIDI-parameter-settings
                                                             1 - the first fx-plugin
                                                             2 - the second fx-plugin
                                                             3 - the third fx-plugin, etc
-                ParamModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
+                ParmModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
                                                             When MIDI, this is irrelevant.
                                                             When FX-parameter:
                                                               0 to n; 0 for the first; 1, for the second, etc
 
-                ParamModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
-                ParamModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                ParmModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                ParmModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
 
-                ParamModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
+                ParmModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
                                                             Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
-                ParamModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
+                ParmModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
                                                             0 to 15 for bus 1 to 16; 
                                                             nil, if not available
-                ParamModTable["MIDIPLINK_CHANNEL"]      - the MIDI-channel selected in the button-menu; 
+                ParmModTable["MIDIPLINK_CHANNEL"]      - the MIDI-channel selected in the button-menu; 
                                                             0, omni; 1 to 16 for channel 1 to 16; 
                                                             nil, if not available
-                ParamModTable["MIDIPLINK_MIDICATEGORY"] - the MIDI_Category selected in the button-menu; nil, if not available
+                ParmModTable["MIDIPLINK_MIDICATEGORY"] - the MIDI_Category selected in the button-menu; nil, if not available
                                                             144, MIDI note
                                                             160, Aftertouch
                                                             176, CC 14Bit and CC
                                                             192, Program Change
                                                             208, Channel Pressure
                                                             224, Pitch
-                ParamModTable["MIDIPLINK_MIDINOTE"]     - the MIDI-note selected in the button-menu; nil, if not available
+                ParmModTable["MIDIPLINK_MIDINOTE"]     - the MIDI-note selected in the button-menu; nil, if not available
                                                           When MIDI note:
                                                                0(C-2) to 127(G8)
                                                           When Aftertouch:
@@ -3728,15 +3736,15 @@ function ultraschall.AddParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
                                                                0
                                                           When Pitch:
                                                                0
-                ParamModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
+                ParmModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
                                                             Note: if true, this needs all WINDOW_-entries to be set
-                ParamModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
+                ParmModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
                                                             nil, unchanged; 0, unopened; 1, open
-                ParamModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
-                ParamModTable["WINDOW_YPOS"]            - the y-position of the altered ParmMod-window in pixels; nil, default position
-                ParamModTable["WINDOW_RIGHT"]           - the right-position of the altered ParmMod-window in pixels; 
+                ParmModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
+                ParmModTable["WINDOW_YPOS"]            - the y-position of the altered ParmMod-window in pixels; nil, default position
+                ParmModTable["WINDOW_RIGHT"]           - the right-position of the altered ParmMod-window in pixels; 
                                                             nil, default position; only readable
-                ParamModTable["WINDOW_BOTTOM"]          - the bottom-position of the altered ParmMod-window in pixels; 
+                ParmModTable["WINDOW_BOTTOM"]          - the bottom-position of the altered ParmMod-window in pixels; 
                                                             nil, default position; only readable
     </code></pre>
     
@@ -3840,8 +3848,9 @@ function ultraschall.AddParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
 
   local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   
+  
   FX=FX:match("(.*\n%s-)%sWAK")..NewParmModTable..FX:match("%s-WAK.*")
-
+  
   return string.gsub(FXStateChunk:sub(1,StartOFS)..FX.."\n"..FXStateChunk:sub(EndOFS, -1), "\n\n", "\n")
 end
 
@@ -3857,85 +3866,87 @@ function ultraschall.SetParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
   </requires>
   <functioncall>string FXStateChunk = ultraschall.SetParmMod_ParmModTable(string FXStateChunk, integer fxindex, table ParmModTable)</functioncall>
   <description>
-    Takes a ParmModTable and sets its values into a Parameter Modulation of a specifix fx within an FXStateChunk.
+    Takes a ParmModTable and sets its values into a Parameter Modulation of a specific fx within an FXStateChunk.
   
     The expected table's format is as follows:
     <pre><code>
-                ParamModTable["PARAM_NR"]               - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
-                ParamModTable["PARAM_TYPE"]             - the type of the parameter, usually "", "wet" or "bypass"
+                ParmModTable["PARAM_NR"]               - the parameter that you want to modulate; 1 for the first, 2 for the second, etc
+                ParmModTable["PARAM_TYPE"]             - the type of the parameter, usually "", "wet" or "bypass"
 
-                ParamModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"] 
+                ParmModTable["PARAMOD_ENABLE_PARAMETER_MODULATION"] 
                                                         - Enable parameter modulation, baseline value(envelope overrides)-checkbox; 
                                                           true, checked; false, unchecked
-                ParamModTable["PARAMOD_BASELINE"]       - Enable parameter modulation, baseline value(envelope overrides)-slider; 
+                ParmModTable["PARAMOD_BASELINE"]       - Enable parameter modulation, baseline value(envelope overrides)-slider; 
                                                             0.000 to 1.000
 
-                ParamModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
+                ParmModTable["AUDIOCONTROL"]           - is the Audio control signal(sidechain)-checkbox checked; true, checked; false, unchecked
                                                             Note: if true, this needs all AUDIOCONTROL_-entries to be set
-                ParamModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
+                ParmModTable["AUDIOCONTROL_CHAN"]      - the Track audio channel-dropdownlist; When stereo, the first stereo-channel; 
                                                           nil, if not available
-                ParamModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
+                ParmModTable["AUDIOCONTROL_STEREO"]    - 0, just use mono-channels; 1, use the channel AUDIOCONTROL_CHAN plus 
                                                             AUDIOCONTROL_CHAN+1; nil, if not available
-                ParamModTable["AUDIOCONTROL_ATTACK"]    - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
-                ParamModTable["AUDIOCONTROL_RELEASE"]   - the Release-slider; 0-1000ms; nil, if not available
-                ParamModTable["AUDIOCONTROL_MINVOLUME"] - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; 
+                ParmModTable["AUDIOCONTROL_ATTACK"]    - the Attack-slider of Audio Control Signal; 0-1000 ms; nil, if not available
+                ParmModTable["AUDIOCONTROL_RELEASE"]   - the Release-slider; 0-1000ms; nil, if not available
+                ParmModTable["AUDIOCONTROL_MINVOLUME"] - the Min volume-slider; -60dB to 11.9dB; must be smaller than AUDIOCONTROL_MAXVOLUME; 
                                                           nil, if not available
-                ParamModTable["AUDIOCONTROL_MAXVOLUME"] - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; 
+                ParmModTable["AUDIOCONTROL_MAXVOLUME"] - the Max volume-slider; -59.9dB to 12dB; must be bigger than AUDIOCONTROL_MINVOLUME; 
                                                           nil, if not available
-                ParamModTable["AUDIOCONTROL_STRENGTH"]  - the Strength-slider; 0(0%) to 1000(100%)
-                ParamModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
-
-                ParamModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
+                ParmModTable["AUDIOCONTROL_STRENGTH"]  - the Strength-slider; 0(0%) to 1000(100%)
+                ParmModTable["AUDIOCONTROL_DIRECTION"] - the direction-radiobuttons; -1, negative; 0, centered; 1, positive
+                ParmModTable["X2"]=0.5                 - the audiocontrol signal shaping-x-coordinate
+                ParmModTable["Y2"]=0.5                 - the audiocontrol signal shaping-y-coordinate    
+                
+                ParmModTable["LFO"]                    - if the LFO-checkbox checked; true, checked; false, unchecked
                                                             Note: if true, this needs all LFO_-entries to be set
-                ParamModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
+                ParmModTable["LFO_SHAPE"]              - the LFO Shape-dropdownlist; 
                                                             0, sine; 1, square; 2, saw L; 3, saw R; 4, triangle; 5, random
                                                             nil, if not available
-                ParamModTable["LFO_SHAPEOLD"]           - use the old-style of the LFO_SHAPE; 
+                ParmModTable["LFO_SHAPEOLD"]           - use the old-style of the LFO_SHAPE; 
                                                             0, use current style of LFO_SHAPE; 
                                                             1, use old style of LFO_SHAPE; 
                                                             nil, if not available
-                ParamModTable["LFO_TEMPOSYNC"]          - the Tempo sync-checkbox; true, checked; false, unchecked
-                ParamModTable["LFO_SPEED"]              - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
-                ParamModTable["LFO_STRENGTH"]           - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
-                ParamModTable["LFO_PHASE"]              - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
-                ParamModTable["LFO_DIRECTION"]          - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
-                ParamModTable["LFO_PHASERESET"]         - the LFO Phase reset-dropdownlist; 
+                ParmModTable["LFO_TEMPOSYNC"]          - the Tempo sync-checkbox; true, checked; false, unchecked
+                ParmModTable["LFO_SPEED"]              - the LFO Speed-slider; 0(0.0039Hz) to 1(8.0000Hz); nil, if not available
+                ParmModTable["LFO_STRENGTH"]           - the LFO Strength-slider; 0.000(0.0%) to 1.000(100.0%)
+                ParmModTable["LFO_PHASE"]              - the LFO Phase-slider; 0.000 to 1.000; nil, if not available
+                ParmModTable["LFO_DIRECTION"]          - the LFO Direction-radiobuttons; -1, Negative; 0, Centered; 1, Positive
+                ParmModTable["LFO_PHASERESET"]         - the LFO Phase reset-dropdownlist; 
                                                             0, On seek/loop(deterministic output)
                                                             1, Free-running(non-deterministic output)
                                                             nil, if not available
 
-                ParamModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
+                ParmModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
                                                           true, checked; false, unchecked
-                ParamModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
+                ParmModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
                                                             -1, nothing selected yet
                                                             -100, MIDI-parameter-settings
                                                             1 - the first fx-plugin
                                                             2 - the second fx-plugin
                                                             3 - the third fx-plugin, etc
-                ParamModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
+                ParmModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
                                                             When MIDI, this is irrelevant.
                                                             When FX-parameter:
                                                               0 to n; 0 for the first; 1, for the second, etc
 
-                ParamModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
-                ParamModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                ParmModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
+                ParmModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
 
-                ParamModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
+                ParmModTable["MIDIPLINK"]              - true, if any parameter-linking with MIDI-stuff; false, if not
                                                             Note: if true, this needs all MIDIPLINK_-entries and PARMLINK_LINKEDPLUGIN=-100 to be set
-                ParamModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
+                ParmModTable["MIDIPLINK_BUS"]          - the MIDI-bus selected in the button-menu; 
                                                             0 to 15 for bus 1 to 16; 
                                                             nil, if not available
-                ParamModTable["MIDIPLINK_CHANNEL"]      - the MIDI-channel selected in the button-menu; 
+                ParmModTable["MIDIPLINK_CHANNEL"]      - the MIDI-channel selected in the button-menu; 
                                                             0, omni; 1 to 16 for channel 1 to 16; 
                                                             nil, if not available
-                ParamModTable["MIDIPLINK_MIDICATEGORY"] - the MIDI_Category selected in the button-menu; nil, if not available
+                ParmModTable["MIDIPLINK_MIDICATEGORY"] - the MIDI_Category selected in the button-menu; nil, if not available
                                                             144, MIDI note
                                                             160, Aftertouch
                                                             176, CC 14Bit and CC
                                                             192, Program Change
                                                             208, Channel Pressure
                                                             224, Pitch
-                ParamModTable["MIDIPLINK_MIDINOTE"]     - the MIDI-note selected in the button-menu; nil, if not available
+                ParmModTable["MIDIPLINK_MIDINOTE"]     - the MIDI-note selected in the button-menu; nil, if not available
                                                           When MIDI note:
                                                                0(C-2) to 127(G8)
                                                           When Aftertouch:
@@ -3952,22 +3963,22 @@ function ultraschall.SetParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
                                                                0
                                                           When Pitch:
                                                                0
-                ParamModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
+                ParmModTable["WINDOW_ALTERED"]         - false, if the windowposition hasn't been altered yet; true, if the window has been altered
                                                             Note: if true, this needs all WINDOW_-entries to be set
-                ParamModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
+                ParmModTable["WINDOW_ALTEREDOPEN"]     - if the position of the ParmMod-window is altered and currently open; 
                                                             nil, unchanged; 0, unopened; 1, open
-                ParamModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
-                ParamModTable["WINDOW_YPOS"]            - the y-position of the altered ParmMod-window in pixels; nil, default position
-                ParamModTable["WINDOW_RIGHT"]           - the right-position of the altered ParmMod-window in pixels; 
+                ParmModTable["WINDOW_XPOS"]            - the x-position of the altered ParmMod-window in pixels; nil, default position
+                ParmModTable["WINDOW_YPOS"]            - the y-position of the altered ParmMod-window in pixels; nil, default position
+                ParmModTable["WINDOW_RIGHT"]           - the right-position of the altered ParmMod-window in pixels; 
                                                             nil, default position; only readable
-                ParamModTable["WINDOW_BOTTOM"]          - the bottom-position of the altered ParmMod-window in pixels; 
+                ParmModTable["WINDOW_BOTTOM"]          - the bottom-position of the altered ParmMod-window in pixels; 
                                                             nil, default position; only readable
     </code></pre>
     
     This function does not check, if the values are within valid value-ranges, only if the datatypes are valid.
     
-    Note: If you want to apply a ParmModulationTable from a bypass/wet-parameter to a non bypass/wet-parameter, you need to set ParamModTable["PARAM_TYPE"]="" or it will remove the parameter-modulation!
-    Also note: set ParamModTable["PARAM_NR"] to choose the parameter-index, whose ParameterModulation shall be set.
+    Note: If you want to apply a ParmModulationTable from a bypass/wet-parameter to a non bypass/wet-parameter, you need to set ParmModTable["PARAM_TYPE"]="" or it will remove the parameter-modulation!
+    Also note: set ParmModTable["PARAM_NR"] to choose the parameter-index, whose ParameterModulation shall be set.
     
     returns nil in case of an error
   </description>
