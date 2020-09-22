@@ -6131,12 +6131,11 @@
 
             These should allow you to add/set/delete LFOLearns with all possible options you can set in the dialog.  
             
-            Important: the parameter midi_note some of these functions have, is a multibyte value, which allows you setting MIDI-Notes as well as Chan/CC.
+            Important: the parameter midi_note some of these functions have, is a multibyte value, which allows you setting MIDI-Notes as well as Chan/CC.  
                        So if you want to add MIDI chan1-Note 0, you set the value to                       
-                             144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)
-                       
-                       while MIDI-chan1-Note 1 must be set as
-                             400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)
+                             144,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=0)  
+                       while MIDI-chan1-Note 1 must be set as  
+                             400,  MIDI Chan 1 Note 1  (Byte1=144, Byte2=1)  
             
             Due API-limitations, I haven't got around some get/set/delete-functions, that allow you to index by parameter-index, only by already existing ones.  
             So for the moment, if you want to set/delete an LFOLearn-entry for a specific parameter-index, you should check all of them via [GetParmLFOLearn\_FXStateChunk](usdocml://GetParmLFOLearn_FXStateChunk)(which returns the parameter-index as well) and use its "order-index".  
@@ -6202,7 +6201,8 @@
             
             Now, what are the actual entries of the ParmModTable and their meanings? Glad you ask:
             
-                <pre><code>
+        <pre><code>
+                
                 ParmModTable["PARAM_NR"]               - the index of the parameter that you want to modulate; 1 for the first, 2 for the second, etc
                 ParmModTable["PARAM_TYPE"]             - the type of the parameter, usually "", "wet" or "bypass"
 
@@ -6307,8 +6307,8 @@
         </code></pre>
         
         Some entries depend on each other, which is important to know:  
-        If you've set AUDIOCONTROL=true then you need to set all AUDIOCONTROL_-entries as well as X2 and Y2 to useful values. Same goes for LFO=true -> set all LFO_-entries to useful values, and PARMLINK=true, which needs all PARMLINK_-entries being set.  
-        For PARMLINK you also need to keep in mind, that setting PARMLINK_LINKEDPLUGIN=-100(link to MIDI) means, that you need to set all MIDIPLINK-entries as well.  
+        If you've set AUDIOCONTROL=true then you need to set all AUDIOCONTROL\_-entries as well as X2 and Y2 to useful values. Same goes for LFO=true -> set all LFO\_-entries to useful values, and PARMLINK=true, which needs all PARMLINK\_-entries being set.  
+        For PARMLINK you also need to keep in mind, that setting PARMLINK\_LINKEDPLUGIN=-100(link to MIDI) means, that you need to set all MIDIPLINK-entries as well. 
         But don't worry. If you set an entry to an invalid value or have invalid combinations, the ParmMod-functions, especially [IsValidParmModTable](usdocml://IsValidParmModTable), will return useful error-messages.  
         So just run SLEM() after calling one of the ParmMod-functions and it will tell you, what you did wrong.  
         
@@ -6367,9 +6367,10 @@
             5. commit the statechunk to the original track/item
             
             There are more functions to deal with ParmModulation, like:
+
             - [CountParmModFromFXStateChunk](usdocml://CountParmModFromFXStateChunk) - this counts all parameter modulations that exist for a specific fx in an FXStateChunk    
             - [GetParmModTable\_FXStateChunk](usdocml://GetParmModTable_FXStateChunk) - get the settings of an already existing parameter modulation as a ParmModTable  
-            - [SetParmModTable\_FXStateChunk](usdocml://SetParmModTable_FXStateChunk) - set the settings of an already existing parameter modulation with the values stored in a ParmModTable  
+            - [SetParmMod\_ParmModTable](usdocml://SetParmMod_ParmModTable) - set the settings of an already existing parameter modulation with the values stored in a ParmModTable  
             - [DeleteParmModFromFXStateChunk](usdocml://DeleteParmModFromFXStateChunk) - this deletes a parameter modulation of a specifix fx in an FXStateChunk  
             - [GetParmModulationChunk\_FXStateChunk](usdocml://GetParmModulationChunk_FXStateChunk) - with this, you can get a parameter modulation as statechunk of an fx in an FXStateChunk  
             
