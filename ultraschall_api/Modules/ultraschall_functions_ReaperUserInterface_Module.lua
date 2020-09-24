@@ -1068,7 +1068,7 @@ function ultraschall.MB(caption, title, mbtype, button1_caption, button2_caption
   <tags>user interface, user, interface, input, dialog, messagebox</tags>
 </US_DocBloc>
 --]]
-  if ultraschall.IsOS_Windows()==false then ultraschall.AddErrorMessage("MB", "", "works only on Windows, sorry", 0) return -1 end
+--  if ultraschall.IsOS_Windows()==false then ultraschall.AddErrorMessage("MB", "", "works only on Windows, sorry", 0) return -1 end
   if type(caption)~="string" then ultraschall.AddErrorMessage("MB", "caption", "must be a string", -1) return -1 end
   if title~=nil and type(title)~="string" then ultraschall.AddErrorMessage("MB", "title", "must be a string or nil", -2) return -1 end
   if mbtype~=nil and math.type(mbtype)~="integer" then ultraschall.AddErrorMessage("MB", "mbtype", "must be an integer or nil(defaults to 0)", -3) return -1 end
@@ -1749,7 +1749,7 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
   <tags>userinterface, dialog, get, user input</tags>
 </US_DocBloc>
 --]]
-  if ultraschall.IsOS_Windows()==false then ultraschall.AddErrorMessage("GetUserInputs", "", "works only on Windows, sorry", 0) return false end
+--  if ultraschall.IsOS_Windows()==false then ultraschall.AddErrorMessage("GetUserInputs", "", "works only on Windows, sorry", 0) return false end
   local count33, autolength
   if type(title)~="string" then ultraschall.AddErrorMessage("GetUserInputs", "title", "must be a string", -1) return false end
   if caption_names~=nil and type(caption_names)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "caption_names", "must be a table", -2) return false end

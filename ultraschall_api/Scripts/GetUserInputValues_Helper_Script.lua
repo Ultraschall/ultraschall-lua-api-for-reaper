@@ -81,7 +81,7 @@ function main2()
     reaper.SetExtState(caller_script_identifier, "values", A, false)
     found=true
   if ultraschall.IsValidHWND(hwnd)==true then 
-    print(ultraschall.IsValidHWND(hwnd))
+    --print(ultraschall.IsValidHWND(hwnd))
     reaper.defer(main2) 
   end
 end
