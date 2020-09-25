@@ -46,7 +46,7 @@ Ultraschall API Changelog
 A long time feature-request finally fulfilled. You have full access to programmatically get/alter parameter-modulation, parameter aliases, LFOLearn or Learn in general.<br />
 So anything you would want to do with parameter-modulation can now be scripted.<br />
 I'm curious, what will happen because of that feature. Surprise me.<br />
-Requested by so many. Please consider donating, as this was a massive undertaking. Holy cow!</p>
+Requested by so many. <a href="https://www.amazon.de/hz/wishlist/ls/KGWIN4MFRZ8?&amp;sort=default">Please consider donating</a>, as this was a massive undertaking. Holy cow!</p>
 <ul>
 <li><p><strong>SLEM</strong><br />
 Allows now different output-targets, so outputting the last error-message to the ReaScript-console or even the clipboard is possible with that.</p></li>
@@ -62,13 +62,16 @@ This works best, if you add the dofile-line to activate Ultraschall-API as first
 <li><p><strong>Filemanager demo</strong><br />
 To showcase the background-copying-functions, I wrote a small filemanager demo, which is now available in the example-scripts.<br />
 It shows you, how you can copy even large files in the background and still manage to run the UI of a script without having to code complex background-copying-routines.</p></li>
-<li><p><strong>MB and GetUserInputs on Mac</strong><br />
-They broke with Reaper 6 due some internal changes of Reaper. I finally managed to make them work again.<br />
-So you can successfully replace button-texts of the messagebox again, as well as get and set the captions and retvals again of the GetUserInputs-dialog.<br />
-Did you know, that you can change the length of captions and retval-inputfields as well in GetUserInputs? Now you know.</p></li>
+<li><p><strong>MB works again on Windows and Linux</strong> Broke in Reaper 6 but I could fix it so replacing the button-texts is possible again. Mac-users are out of luck, as the button-texts can't be replaced there in the first place. Sorry.</p></li>
+<li><p><strong>GetUserInputs on Mac</strong><br />
+Also broke with Reaper 6 due some internal changes of Reaper. I finally managed to make it work again.<br />
+So you can get and set the captions and retvals again of the GetUserInputs-dialog.<br />
+Resizing of caption/retval-fields and the positioning of the GetUserInput-window doesn't work on Mac currently, but will return later.<br />
+So you can use these parameters safely on Mac and one of the future updates will make it work out of a sudden. :)</p></li>
 </ul>
 <h4>New features in 4.1.005</h4>
 <ul>
+<li>API: requirements - raised required Reaper-version to 6.05</li>
 <li>API: Settings-Dialog - allows you to set US-API-default-settings(currently the default output of ShowLastErrorMessage()/SLEM())<br />
 </li>
 <li>Docs: FXManagement - added chapters about Introduction, Manipulating individual effects, Working with FX-StateChunks, Working with FX-StateChunk's functions</li>

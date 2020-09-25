@@ -119,48 +119,55 @@ function main()
       HWNDS_Def[i] =reaper.JS_Window_FindChild(GetUserInputsHWND, i, true)
     end
 
-    -- set caption and resize them
-    for i=1, 16 do
+    -- set captions
+    for i=1, 16 do 
       if HWNDS_Capt[i]==nil then break end
-      retval, left, top, right, bottom = reaper.JS_Window_GetRect(HWNDS_Capt[i])
-      reaper.JS_Window_Resize(HWNDS_Capt[i], caplength, bottom-top)
       reaper.JS_Window_SetTitle(HWNDS_Capt[i], params[i+caption_offset+5])
     end
-
-    -- set retvals and resize them
-    for i=1, 16 do
+    
+    -- set retvals
+    for i=1, 16 do 
       if HWNDS_Def[i]==nil then break end
-      retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(HWNDS_Def[i])
-      reaper.JS_Window_Resize(HWNDS_Def[i], retlength, bottom-top)
       reaper.JS_Window_SetTitle(HWNDS_Def[i], params[i+caption_offset+21])
     end
 
-    -- move retvals accordingly in relation to captions
-    if caplength>155 then 
+    if ultraschall.IsOS_Mac()==false then    
+    -- resize captions
+      for i=1, 16 do
+        if HWNDS_Capt[i]==nil then break end
+        retval, left, top, right, bottom = reaper.JS_Window_GetRect(HWNDS_Capt[i])
+        reaper.JS_Window_Resize(HWNDS_Capt[i], caplength, bottom-top)      
+      end
+
+      -- set retvals and resize them
       for i=1, 16 do
         if HWNDS_Def[i]==nil then break end
         retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(HWNDS_Def[i])
-        ultraschall.MoveChildWithinParentHWND(GetUserInputsHWND, HWNDS_Def[i], true, caplength-155, 0, retlength, 7)
+        reaper.JS_Window_Resize(HWNDS_Def[i], retlength, bottom-top)      
       end
+
+      -- move retvals accordingly in relation to captions
+      if caplength>155 then 
+        for i=1, 16 do
+          if HWNDS_Def[i]==nil then break end
+          retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(HWNDS_Def[i])
+          ultraschall.MoveChildWithinParentHWND(GetUserInputsHWND, HWNDS_Def[i], true, caplength-155, 0, retlength, 7)
+        end
+      end
+       -- resize GetUserInputs-window
+      caplength=caplength-155
+      if caplength<0 then caplength=0 end
+      retval, left, top, right, bottom = reaper.BR_Win32_GetWindowRect(GetUserInputsHWND)
+      retval1, left1, top1, right1, bottom1 = reaper.BR_Win32_GetWindowRect(HWNDS_Def[1])
+      reaper.JS_Window_SetPosition(GetUserInputsHWND, left, top, right1+13-left, bottom-top)
+       -- reposition OK and Cancel-buttons
+      OK=reaper.JS_Window_FindChild(GetUserInputsHWND, reaper.JS_Localize("OK", "common"), true)
+      Cancel=reaper.JS_Window_FindChild(GetUserInputsHWND, reaper.JS_Localize("Cancel", "common"), true)
+      retval, left , top , right , bottom  = reaper.BR_Win32_GetWindowRect(GetUserInputsHWND)
+      retval, left2, top2, right2, bottom2 = reaper.BR_Win32_GetWindowRect(Cancel)
+      ultraschall.MoveChildWithinParentHWND(GetUserInputsHWND, Cancel, true, right-right2-13, 1, 0, -2)
+      ultraschall.MoveChildWithinParentHWND(GetUserInputsHWND, OK, true, right-right2-13, 0, 0, 0)
     end
-
-    -- resize GetUserInputs-window
-    caplength=caplength-155
-    if caplength<0 then caplength=0 end
-    retval, left, top, right, bottom = reaper.BR_Win32_GetWindowRect(GetUserInputsHWND)
-    retval1, left1, top1, right1, bottom1 = reaper.BR_Win32_GetWindowRect(HWNDS_Def[1])
-    reaper.JS_Window_SetPosition(GetUserInputsHWND, left, top, right1+13-left, bottom-top)
-
-    -- reposition OK and Cancel-buttons
-    OK=reaper.JS_Window_FindChild(GetUserInputsHWND, reaper.JS_Localize("OK", "common"), true)
-    Cancel=reaper.JS_Window_FindChild(GetUserInputsHWND, reaper.JS_Localize("Cancel", "common"), true)
-
-    retval, left , top , right , bottom  = reaper.BR_Win32_GetWindowRect(GetUserInputsHWND)
-    retval, left2, top2, right2, bottom2 = reaper.BR_Win32_GetWindowRect(Cancel)
-
-    ultraschall.MoveChildWithinParentHWND(GetUserInputsHWND, Cancel, true, right-right2-13, 1, 0, -2)
-    ultraschall.MoveChildWithinParentHWND(GetUserInputsHWND, OK, true, right-right2-13, 0, 0, 0)
-    
     reaper.defer(main2)
   end
 end

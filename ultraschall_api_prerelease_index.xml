@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43338.00" author="Meo Mespotine">
+      <version name="43342.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.005/ultraschall_api/Changelog-Api.txt</source>
@@ -700,17 +700,25 @@ undertaking. Holy cow!
     and still manage to run the UI of a script without having to code
     complex background-copying-routines.
 
--   MB and GetUserInputs on Mac
-    They broke with Reaper 6 due some internal changes of Reaper. I
-    finally managed to make them work again.
-    So you can successfully replace button-texts of the messagebox
-    again, as well as get and set the captions and retvals again of the
+-   MB works again on Windows and Linux Broke in Reaper 6 but I could
+    fix it so replacing the button-texts is possible again. Mac-users
+    are out of luck, as the button-texts can’t be replaced there in the
+    first place. Sorry.
+
+-   GetUserInputs on Mac
+    Also broke with Reaper 6 due some internal changes of Reaper. I
+    finally managed to make it work again.
+    So you can get and set the captions and retvals again of the
     GetUserInputs-dialog.
-    Did you know, that you can change the length of captions and
-    retval-inputfields as well in GetUserInputs? Now you know.
+    Resizing of caption/retval-fields and the positioning of the
+    GetUserInput-window doesn’t work on Mac currently, but will return
+    later.
+    So you can use these parameters safely on Mac and one of the future
+    updates will make it work out of a sudden. :)
 
 New features in 4.1.005
 
+-   API: requirements - raised required Reaper-version to 6.05
 -   API: Settings-Dialog - allows you to set
     US-API-default-settings(currently the default output of
     ShowLastErrorMessage()/SLEM())

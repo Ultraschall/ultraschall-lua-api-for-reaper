@@ -1022,19 +1022,19 @@ function ultraschall.MB(caption, title, mbtype, button1_caption, button2_caption
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MB</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.977
-    JS=0.986
+    Ultraschall=4.1
+    Reaper=6.11
+    JS=1.215
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.MB(string msg, optional string title, optional integer type, optional string button1_caption, optional string button2_caption, optional string button3_caption)</functioncall>
   <description>
     Shows Messagebox with user-clickable buttons. Works like reaper.MB() but unlike reaper.MB, this function accepts omitting some parameters for quicker use.
     
-    Important: This works only on Windows, due some bug on Mac which I couldn't work out yet.
+    Important: This doesn't work on Mac, as you can not replace the button texts there in the first place. Sorry...
     
     You can change the text in the buttons with button1_caption, button2_caption and button3_caption.
-    
+        
     Returns -1 in case of an error
   </description>
   <parameters>
@@ -1688,9 +1688,9 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
   <slug>GetUserInputs</slug>
   <requires>
     Ultraschall=4.1
-    Reaper=6.02
+    Reaper=6.11
     SWS=2.11.0
-    JS=0.986
+    JS=1.215
     Lua=5.3
   </requires>
   <functioncall>boolean retval, integer number_of_inputfields, table returnvalues = ultraschall.GetUserInputs(string title, table caption_names, table default_retvals, optional integer values_length, optional integer caption_length, optional integer x_pos, optional integer y_pos)</functioncall>
@@ -1715,6 +1715,9 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
    Note: Don't use this function within defer-scripts or scripts that are started by defer-scripts, as this produces errors.
          This is due limitations in Reaper, sorry.
 
+   Note for Mac-Users: size of caption/retval-fields and positioning of the window doesn't work on Mac yet, but you can use these parameters anyways.
+                       This is due Mac's way of having y-coordinate starting at the bottom and I will fix it as soon as I figured that out.
+
    returns false in case of an error.
   </description>
   <retvals>
@@ -1733,13 +1736,13 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
                           - Only enter nil as default-retval, if no further default-retvals are existing, otherwise use "" for empty retvals.
                           - for no default-retvals, write nil
     optional integer values_length - the extralength of the values-inputfield. With that, you can enhance the length of the inputfields. 
-                            - 1-500
-    optional integer caption_length - the length of the caption in pixels; inputfields and OK, Cancel-buttons will be moved accordingly.
-    optional integer x_pos - the x-position of the GetUserInputs-dialog; nil, to keep default position
-    optional integer y_pos - the y-position of the GetUserInputs-dialog; nil, to keep default position
+                            - 1-500(doesn't work on Mac yet)
+    optional integer caption_length - the length of the caption in pixels; inputfields and OK, Cancel-buttons will be moved accordingly.(doesn't work on Mac yet)
+    optional integer x_pos - the x-position of the GetUserInputs-dialog; nil, to keep default position(doesn't work on Mac yet)
+    optional integer y_pos - the y-position of the GetUserInputs-dialog; nil, to keep default position(doesn't work on Mac yet)
+  </parameters>
                            - keep in mind: on Mac, the y-position starts with 0 at the bottom, while on Windows and Linux, 0 starts at the top of the screen!
                            -               this is the standard-behavior of the operating-systems themselves.
-  </parameters>
   <chapter_context>
     User Interface
     Dialogs
