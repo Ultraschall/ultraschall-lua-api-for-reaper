@@ -337,7 +337,7 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
-### 4.1.005 - "The Beatles - I want you(she's so heavy)" - 30th of September 2020
+### 4.1.005 - "The Beatles - I want you(she's so heavy)" - 25th of September 2020
 
 Has now 1240 functions, with 25 new ones
 
@@ -347,7 +347,7 @@ Has now 1240 functions, with 25 new ones
     So anything you would want to do with parameter-modulation can now be scripted.  
     I'm curious, what will happen because of that feature. Surprise me.  
     Requested by so many.
-    [Please consider donating](https://www.amazon.de/hz/wishlist/ls/KGWIN4MFRZ8?&sort=default), as this was a massive undertaking. Holy cow!
+    [Please consider donating](https://mespotin.uber.space/Mespotine/mespotine-unterstuetzen/), as this was a massive undertaking. Holy cow!
         
   - **SLEM**  
     Allows now different output-targets, so outputting the last error-message to the ReaScript-console or even the clipboard is possible with that.  
