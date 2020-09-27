@@ -1502,25 +1502,116 @@ end
 -- Ultraschall 4.1.006
 
 function ultraschall.InputFX_AddByName(fxname, always_new_instance)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_AddByName</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.InputFX_AddByName(string fxname, boolean always_new_instance)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Adds an FX as monitoring FX.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the index of the newly inserted fx or the index of the already existing fx; -1, in case of an error
+  </retvals>
+  <parameters>
+    string fxname - the name of the fx to be inserted
+    boolean always_new_instance - true, always add a new instance of the fx; false, only add if there's none yet
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, add, inputfx, byname</tags>
+</US_DocBloc>
+]]
   if type(fxname)~="string" then ultraschall.AddErrorMessage("InputFX_AddByName", "fxname", "must be a string", -1) return -1 end
-  if math.type(always_new_instance)~="boolean" then ultraschall.AddErrorMessage("InputFX_AddByName", "always_new_instance", "must be a boolean", -2) return -1 end
+  if type(always_new_instance)~="boolean" then ultraschall.AddErrorMessage("InputFX_AddByName", "always_new_instance", "must be a boolean", -2) return -1 end
   if indexposition==nil then indexposition=0 end
   if always_new_instance==true then instantiate=-1 else instantiate=1 end
   
-  return reaper.TrackFX_AddByName(reaper.GetMasterTrack(), fxname, true, instantiate)
+  local retval = reaper.TrackFX_AddByName(reaper.GetMasterTrack(), fxname, true, instantiate)+1
+  if retval==0 then return -1 else return retval end
 end
 
 
 --A=ultraschall.InputFX_AddByName("ReaCast", false)
 
 function ultraschall.InputFX_QueryFirstFXIndex(fxname)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_QueryFirstFXIndex</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>integer fxindex = ultraschall.InputFX_QueryFirstFXIndex(string fxname)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Queries the fx-index of the first inputfx with fxname
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer fxindex - the index of the queried fx; -1, in case of an error
+  </retvals>
+  <parameters>
+    string fxname - the name of the fx to be queried
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, query, inputfx, byname</tags>
+</US_DocBloc>
+]]
   if type(fxname)~="string" then ultraschall.AddErrorMessage("InputFX_QueryFirstFXIndex", "fxname", "must be a string", -1) return -1 end
-  return reaper.TrackFX_AddByName(reaper.GetMasterTrack(), fxname, true, 0)
+  local retval=reaper.TrackFX_AddByName(reaper.GetMasterTrack(), fxname, true, 0)+1
+  if retval==0 then return -1 else return retval end
 end
 
 --A1=ultraschall.InputFX_QueryFirstFXIndex("ReaCast")
 
 function ultraschall.InputFX_MoveFX(old_fxindex, new_fxindex)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_MoveFX</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_MoveFX(integer old_fxindex, integer new_fxindex)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Moves a monitoring-fx from an old to a new position
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, moving was successful; false, moving was unsuccessful
+  </retvals>
+  <parameters>
+    integer old_fxindex - the index of the input-fx to be moved
+    integer new_fxindex - the new position of the input-fx
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, move, inputfx</tags>
+</US_DocBloc>
+]]
   if math.type(old_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFX", "old_fxindex", "must be an integer", -1) return false end
   if math.type(new_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFX", "new_fxindex", "must be an integer", -2) return false end
   if old_fxindex<1 or old_fxindex>ultraschall.InputFX_GetCount() then ultraschall.AddErrorMessage("InputFX_MoveFX", "old_fxindex", "no such inputFX", -3) return false end
@@ -1534,22 +1625,89 @@ end
 --ultraschall.InputFX_MoveFX(2, 1)
 
 function ultraschall.InputFX_CopyFX(old_fxindex, new_fxindex)
-  if math.type(old_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFX", "old_fxindex", "must be an integer", -1) return false end
-  if math.type(new_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFX", "new_fxindex", "must be an integer", -2) return false end
-  if old_fxindex<1 or old_fxindex>ultraschall.InputFX_GetCount() then ultraschall.AddErrorMessage("InputFX_CopyFX", "old_fxindex", "no such inputFX", -3) return false end
-  if new_fxindex<1 or new_fxindex>ultraschall.InputFX_GetCount() then ultraschall.AddErrorMessage("InputFX_CopyFX", "new_fxindex", "no such inputFX", -4) return false end
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_CopyFX</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_CopyFX(integer old_fxindex, integer new_fxindex)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Copies a monitoring-fx and inserts it at a new position
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the index of the inserted fx(in case of being different from new_fxindex); -1, in case of an error
+  </retvals>
+  <parameters>
+    integer old_fxindex - the index of the input-fx to be copied
+    integer new_fxindex - the position of the newly inserted input-fx
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, copy, inputfx</tags>
+</US_DocBloc>
+]]
+  if math.type(old_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFX", "old_fxindex", "must be an integer", -1) return -1 end
+  if math.type(new_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFX", "new_fxindex", "must be an integer", -2) return -1 end
+  if old_fxindex<1 or old_fxindex>ultraschall.InputFX_GetCount() then ultraschall.AddErrorMessage("InputFX_CopyFX", "old_fxindex", "no such inputFX", -3) return -1 end
+  if new_fxindex<1 then ultraschall.AddErrorMessage("InputFX_CopyFX", "new_fxindex", "no such inputFX", -4) return -1 end
   old_fxindex=old_fxindex-1
-  if old_fxindex<new_fxindex then new_fxindex=new_fxindex-2 else new_fxindex=new_fxindex-1 end
+  local newfx
+  if old_fxindex<new_fxindex then newfx=new_fxindex new_fxindex=new_fxindex-2 else new_fxindex=new_fxindex-1 end
   new_fxindex=new_fxindex
-  return reaper.TrackFX_CopyToTrack(reaper.GetMasterTrack(0), old_fxindex+0x1000000, reaper.GetMasterTrack(0), new_fxindex+0x1000000, false)
+  reaper.TrackFX_CopyToTrack(reaper.GetMasterTrack(0), old_fxindex+0x1000000, reaper.GetMasterTrack(0), new_fxindex+0x1000000, false)
+  if new_fxindex>ultraschall.InputFX_GetCount()-1 then return ultraschall.InputFX_GetCount() else return newfx end
 end
 
 --A=ultraschall.InputFX_CopyFX(9, 1)
 
 function ultraschall.InputFX_CopyFXFromTrackFX(track, old_fxindex, new_fxindex)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_CopyFXFromTrackFX</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.InputFX_CopyFXFromTrackFX(MediaTrack track, integer old_fxindex, integer new_fxindex)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Copies a monitoring-fx and inserts it at a new position
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    integer retval - the index of the inserted fx(in case of being different from new_fxindex); -1, in case of an error
+  </retvals>
+  <parameters>
+    integer old_fxindex - the index of the track-fx to be copied
+    integer new_fxindex - the position of the newly inserted input-fx
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, copy, inputfx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("InputFX_CopyFXFromTrackFX", "track", "must be a mediatrack", -1) return -1 end
+  if math.type(old_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFXFromTrackFX", "old_fxindex", "must be an integer", -2) return -1 end
+  if math.type(new_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFXFromTrackFX", "new_fxindex", "must be an integer", -3) return -1 end
+  local newfx=new_fxindex
   old_fxindex=old_fxindex-1
   new_fxindex=new_fxindex-1 
-  return reaper.TrackFX_CopyToTrack(track, old_fxindex, reaper.GetMasterTrack(0), new_fxindex+0x1000000, false)
+  reaper.TrackFX_CopyToTrack(track, old_fxindex, reaper.GetMasterTrack(0), new_fxindex+0x1000000, false)
+  if new_fxindex>ultraschall.InputFX_GetCount()-1 then return ultraschall.InputFX_GetCount() else return newfx end
 end
 
 --A=ultraschall.InputFX_CopyFXFromTrackFX(reaper.GetMasterTrack(), 1, 10)
