@@ -2380,6 +2380,42 @@ end
 
 
 function ultraschall.InputFX_NavigatePresets(fxindex, presetmove)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_NavigatePresets</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_NavigatePresets(integer fxindex, integer presetmove)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    switches the preset of a monitoring-fx through, relative from its current preset-index.
+    You can move by multiple presets, so 1 moves one further, 2 moves 2 further, -3 moves 3 backwards.
+    
+    If you hit the first/last preset, it will go back to the last/first preset respectively.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, altering was successful; false, altering was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx, whose preset you want to switch through
+    integer presetmove - positive, move forward by value of presetmove; negative, move backwards by value of presetmove
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, navigate, switch, preset, inputfx</tags>
+</US_DocBloc>
+]]
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_NavigatePresets", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_NavigatePresets", "fxindex", "no such fx", -2) return false end
+  if math.type(presetmove)~="integer" then ultraschall.AddErrorMessage("InputFX_NavigatePresets", "presetmove", "must be an integer", -3) return false end
   return reaper.TrackFX_NavigatePresets(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, presetmove)
 end
 
@@ -2388,60 +2424,166 @@ end
 --A1={ultraschall.InputFX_GetPresetIndex(1)}
 
 function ultraschall.InputFX_SetEnabled(fxindex, enabled)
-  return reaper.TrackFX_SetEnabled(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, enabled)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetEnabled</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetEnabled(integer fxindex, boolean presetmove)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets a monitoring-fx to enabled.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx which you want to disable/enable
+    boolean enabled - true, enable the monitoring-fx; false, disable the monitoring-fx
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, set, enabled, disabled, inputfx</tags>
+</US_DocBloc>
+]]
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEnabled", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_SetEnabled", "fxindex", "no such fx", -2) return false end
+  if type(enabled)~="boolean" then ultraschall.AddErrorMessage("InputFX_SetEnabled", "enabled", "must be a boolean", -3) return false end
+  reaper.TrackFX_SetEnabled(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, enabled)
+  return true
 end
 
 --A=ultraschall.InputFX_SetEnabled(1, true)
 
-function ultraschall.InputFX_SetEQBandEnabled(fxindex, bandtype, bandidx, enable)
-  return reaper.TrackFX_SetEQBandEnabled(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, bandtype, bandidx, enable)
-end
-
---A=ultraschall.InputFX_SetEQBandEnabled(1, 2, 1, true)
-
-
-function ultraschall.InputFX_SetEQParam(fxindex, bandtype, bandidx, paramtype, val, isnorm)
-  return reaper.TrackFX_SetEQParam(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, bandtype, bandidx, paramtype, val, isnorm)
-end
-
---ultraschall.InputFX_SetEQParam(1, -1, 1, 1, -1, true)
 
 
 function ultraschall.InputFX_SetOffline(fxindex, offline)
-  return reaper.TrackFX_SetOffline(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, offline)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetOffline</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetOffline(integer fxindex, boolean offline)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets a monitoring-fx to online/offline.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx which you want to set offline/online
+    boolean offline - true, set the monitoring-fx offline; false, set the monitoring-fx online
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, set, online, offline, inputfx</tags>
+</US_DocBloc>
+]]
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetOffline", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_SetOffline", "fxindex", "no such fx", -2) return false end
+  if type(offline)~="boolean" then ultraschall.AddErrorMessage("InputFX_SetOffline", "offline", "must be a boolean", -3) return false end
+  reaper.TrackFX_SetOffline(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, offline)
+  return true
 end
 
 --A=ultraschall.InputFX_SetOffline(1, false)
 
 function ultraschall.InputFX_SetOpen(fxindex, open)
-  return reaper.TrackFX_SetOpen(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, open)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetOpen</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetOpen(integer fxindex, boolean open)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets a monitoring-fx visible of invisible
+    
+    If you change the index while open=true, the visible fx will change to the new one.
+    
+    Setting open=false closes the monitoring-fx-chain, open=true will open the monitoring-fx-chain if not visible yet.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx which you want to visible/invisible
+    boolean open - true, set the monitoring-fx visible; false, set the monitoring-fx invisible
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, set, visible, invisible, inputfx</tags>
+</US_DocBloc>
+]]
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetOpen", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_SetOpen", "fxindex", "no such fx", -2) return false end
+  if type(open)~="boolean" then ultraschall.AddErrorMessage("InputFX_SetOpen", "open", "must be a boolean", -3) return false end
+  reaper.TrackFX_SetOpen(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, open)
+  return true
 end
 
 --ultraschall.InputFX_SetOpen(1, true)
 
-function ultraschall.InputFX_SetParam(fxindex, parameterindex, val)
-  return reaper.TrackFX_SetParam(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, parameterindex-1, val)
-end
-
---A=ultraschall.InputFX_SetParam(1, 1, 1)
-
-
-function ultraschall.InputFX_SetParamNormalized(fxindex, parameterindex, val)
-  return reaper.TrackFX_SetParamNormalized(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, parameterindex-1, val)
-end
-
---A=ultraschall.InputFX_SetParamNormalized(1, 2, 0)
-
-
-
-function ultraschall.InputFX_SetPinMappings(fxindex, isoutput, pin, low32bits, hi32bits)
-  return reaper.TrackFX_SetPinMappings(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, isoutput-1, pin-1, low32bits, hi32bits)
-end
-
---A={ultraschall.InputFX_GetPinMappings(2, 1, 1)}
---B=ultraschall.InputFX_SetPinMappings(2, 1, 1, 4, 3)
 
 function ultraschall.InputFX_SetPreset(fxindex, presetname)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetPreset</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetPreset(integer fxindex, string presetname)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the preset of a monitoring-fx by presetname.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx of which you want to set the preset
+    string presetname - the name of the preset, that you want to select
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, set, preset, by name, inputfx</tags>
+</US_DocBloc>
+]]
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPreset", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_SetPreset", "fxindex", "no such fx", -2) return false end
+  if type(presetname)~="string" then ultraschall.AddErrorMessage("InputFX_SetPreset", "presetname", "must be a string", -3) return false end
   return reaper.TrackFX_SetPreset(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, presetname)
 end
 
@@ -2449,13 +2591,83 @@ end
 
 
 function ultraschall.InputFX_SetPresetByIndex(fxindex, presetindex)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetPresetByIndex</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetPresetByIndex(integer fxindex, integer presetindex)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the preset of a monitoring-fx by preset-index.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx which you want to set the preset
+    integer presetindex - the index of the preset, that you want to select; 0, for default; -1, for no preset
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, set, preset, by index, inputfx</tags>
+</US_DocBloc>
+]]
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPresetByIndex", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_SetPresetByIndex", "fxindex", "no such fx", -2) return false end
+  if math.type(presetindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPresetByIndex", "presetindex", "must be an integer", -3) return false end
   return reaper.TrackFX_SetPresetByIndex(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, presetindex-1)
 end
 
 --A=ultraschall.InputFX_SetPresetByIndex(2, 1)
 
 function ultraschall.InputFX_Show(fxindex, showflag)
-  return reaper.TrackFX_Show(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, showflag)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_Show</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_Show(integer fxindex, integer showflag)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets visibility and floating-state of a monitoring-fx
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx which you want to set the preset
+    integer showflag - 0, for hidechain 
+                     - 1, for show chain(index valid)
+                     - 2, for hide floating window(index valid)
+                     - 3, for show floating window (index valid)
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, set, visibility, floating, inputfx</tags>
+</US_DocBloc>
+]]
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_Show", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_Show", "fxindex", "no such fx", -2) return false end
+  if math.type(showflag)~="integer" then ultraschall.AddErrorMessage("InputFX_Show", "showflag", "must be an integer", -3) return false end
+  reaper.TrackFX_Show(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, showflag)
+  return true
 end
 
 --A=ultraschall.InputFX_Show(1, 3)
@@ -2572,6 +2784,42 @@ function ultraschall.InputFX_GetPinMappings(fxindex, isoutput, pin)
 end
 
 --A={ultraschall.InputFX_GetPinMappings(1, 2, 1)}
+
+function ultraschall.InputFX_SetEQBandEnabled(fxindex, bandtype, bandidx, enable)
+  return reaper.TrackFX_SetEQBandEnabled(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, bandtype, bandidx, enable)
+end
+
+--A=ultraschall.InputFX_SetEQBandEnabled(1, 2, 1, true)
+
+
+function ultraschall.InputFX_SetEQParam(fxindex, bandtype, bandidx, paramtype, val, isnorm)
+  return reaper.TrackFX_SetEQParam(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, bandtype, bandidx, paramtype, val, isnorm)
+end
+
+--ultraschall.InputFX_SetEQParam(1, -1, 1, 1, -1, true)
+
+function ultraschall.InputFX_SetParam(fxindex, parameterindex, val)
+  return reaper.TrackFX_SetParam(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, parameterindex-1, val)
+end
+
+--A=ultraschall.InputFX_SetParam(1, 1, 1)
+
+
+function ultraschall.InputFX_SetParamNormalized(fxindex, parameterindex, val)
+  return reaper.TrackFX_SetParamNormalized(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, parameterindex-1, val)
+end
+
+--A=ultraschall.InputFX_SetParamNormalized(1, 2, 0)
+
+
+
+function ultraschall.InputFX_SetPinMappings(fxindex, isoutput, pin, low32bits, hi32bits)
+  return reaper.TrackFX_SetPinMappings(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, isoutput-1, pin-1, low32bits, hi32bits)
+end
+
+--A={ultraschall.InputFX_GetPinMappings(2, 1, 1)}
+--B=ultraschall.InputFX_SetPinMappings(2, 1, 1, 4, 3)
+
 
 function ultraschall.InputFX_GetFXChain(trackfx_or_takefx)
   if math.type(trackfx_or_takefx)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFXChain", "trackfx_or_takefx", "must be an integer", -1) return nil end

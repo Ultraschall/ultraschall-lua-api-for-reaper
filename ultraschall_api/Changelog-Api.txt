@@ -367,9 +367,17 @@ Has now 1240 functions, with 25 new ones
    - FXManagement: InputFX\_MoveFX - moves a monitoring fx to a new position
    - FXManagement: InputFX\_MoveFXFromTrackFX - moves a trackfx into monitoring-fx
    - FXManagement: InputFX\_MoveFXToTrackFX - moves a monitoring-fx into a track as trackFX
+   - FXManagement: InputFX\_NavigatePresets - navigates through the presets of a monitoring-fx
+   - FXManagement: InputFX\_SetEnabled - set a monitoring-fx enabled or disabled
+   - FXManagement: InputFX\_SetOffline - sets a monitoring-fx offline/online
+   - FXManagement: InputFX\_SetOpen - sets visibility of a monitoring fx visible/invisible
+   - FXManagement: InputFX\_SetPreset - sets a preset of a monitoring-fx by presetname
+   - FXManagement: InputFX\_SetPresetByIndex - sets a preset of a monitoring-fx by presetindex
+   - FXManagement: InputFX\_Show - sets visibility and floating-state of a monitoring-fx
    - FXManagement: InputFX\_QueryFirstFXIndex - queries the first fx within monitoring fx with a certain fxname
    
 #### Changes from 4.1.005 to 4.1.006   
+
 
 ---
 
