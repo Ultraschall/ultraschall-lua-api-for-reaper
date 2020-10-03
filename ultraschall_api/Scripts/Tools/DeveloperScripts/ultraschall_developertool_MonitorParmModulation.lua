@@ -55,14 +55,14 @@ parmmodindex=1
 
 Retval, TrackStateChunk = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)
 FXStateChunk           = ultraschall.GetFXStateChunk(TrackStateChunk)
-OldParmModulationTable    = ultraschall.GetParmModulationTable(FXStateChunk, fxindex, parmmodindex)
+OldParmModulationTable    = ultraschall.GetParmModTable_FXStateChunk(FXStateChunk, fxindex, parmmodindex)
 
 function main()
   A=A+1
   if A==15 then
     Retval, TrackStateChunk = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)
     FXStateChunk           = ultraschall.GetFXStateChunk(TrackStateChunk)
-    ParmModulationTable    = ultraschall.GetParmModulationTable(FXStateChunk, fxindex, parmmodindex)
+    ParmModulationTable    = ultraschall.GetParmModTable_FXStateChunk(FXStateChunk, fxindex, parmmodindex)
 --    print_update(FXStateChunk)
     gfx.x=0
     gfx.y=10
