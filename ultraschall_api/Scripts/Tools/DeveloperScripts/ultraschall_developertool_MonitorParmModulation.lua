@@ -97,6 +97,9 @@ function main()
         tracknumber=A
         fxindex=B
         parmmodindex=C
+        Retval, TrackStateChunk = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)
+        FXStateChunk           = ultraschall.GetFXStateChunk(TrackStateChunk)
+        OldParmModulationTable    = ultraschall.GetParmModTable_FXStateChunk(FXStateChunk, fxindex, parmmodindex)
       else
         reaper.MB("Only numbers are allowed!", "Error", 0)
       end
