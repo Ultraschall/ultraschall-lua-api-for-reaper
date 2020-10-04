@@ -2672,29 +2672,55 @@ end
 
 --A=ultraschall.InputFX_Show(1, 3)
 
-function ultraschall.InputFX_CopyFXToTakeFX(old_fxindex, dest_take, new_fxindex)
-  old_fxindex=old_fxindex-1
-  new_fxindex=new_fxindex-1 
-  return reaper.TrackFX_CopyToTake(reaper.GetMasterTrack(0), old_fxindex+0x1000000, dest_take, new_fxindex, false)
+function ultraschall.InputFX_CopyFXToTakeFX(src_fx, dest_take, dest_fx)
+  if math.type(src_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFXToTakeFX", "src_fx", "must be an integer", -1) return false end
+  if src_fx<1 or ultraschall.InputFX_GetCount()<src_fx then ultraschall.AddErrorMessage("InputFX_CopyFXToTakeFX", "src_fx", "no such fx", -2) return false end
+  if math.type(dest_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFXToTakeFX", "dest_fx", "must be an integer", -3) return false end  
+  if ultraschall.type(dest_take)~="MediaItem_Take" then ultraschall.AddErrorMessage("InputFX_CopyFXToTakeFX", "dest_take", "must be a MediaItem_Take", -4) return false end  
+  src_fx=src_fx-1
+  dest_fx=dest_fx-1 
+  local OldFX=reaper.TakeFX_GetCount(dest_take)
+  reaper.TrackFX_CopyToTake(reaper.GetMasterTrack(0), src_fx+0x1000000, dest_take, dest_fx, false)
+  return OldFX~=reaper.TakeFX_GetCount(dest_take)
 end
 
 --A=ultraschall.InputFX_CopyFXToTrackFX(1, reaper.GetMasterTrack(), 1)
 
-function ultraschall.InputFX_CopyFXFromTakeFX(take, src_fx, dest_fx)
-  return reaper.TakeFX_CopyToTrack(take, src_fx-1, reaper.GetMasterTrack(0), 0x1000000+dest_fx-1, false)
+function ultraschall.InputFX_CopyFXFromTakeFX(src_take, src_fx, dest_fx)
+  if ultraschall.type(src_take)~="MediaItem_Take" then ultraschall.AddErrorMessage("InputFX_CopyFXFromTakeFX", "src_take", "must be a MediaItem_Take", -4) return false end  
+  if math.type(src_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFXFromTakeFX", "src_fx", "must be an integer", -1) return false end
+  if src_fx<1 or reaper.TakeFX_GetCount(src_take)<src_fx then ultraschall.AddErrorMessage("InputFX_CopyFXFromTakeFX", "src_fx", "no such fx", -2) return false end
+  if math.type(dest_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFXFromTakeFX", "dest_fx", "must be an integer", -3) return false end  
+  if dest_fx<1 then ultraschall.AddErrorMessage("InputFX_CopyFXFromTakeFX", "dest_fx", "must be bigger or equal 1", -5) return false end  
+  
+  local OldFX=ultraschall.InputFX_GetCount()
+  reaper.TakeFX_CopyToTrack(src_take, src_fx-1, reaper.GetMasterTrack(0), 0x1000000+dest_fx-1, false)
+  return ultraschall.InputFX_GetCount()~=OldFX
 end
 
 --ultraschall.InputFX_CopyFXFromTakeFX(reaper.GetMediaItemTake(reaper.GetMediaItem(0,0),0), 1, 1)
 
-function ultraschall.InputFX_MoveFXFromTakeFX(take, src_fx, dest_fx)
-  return reaper.TakeFX_CopyToTrack(take, src_fx-1, reaper.GetMasterTrack(0), 0x1000000+dest_fx-1, true)
+function ultraschall.InputFX_MoveFXFromTakeFX(src_take, src_fx, dest_fx)
+  if ultraschall.type(src_take)~="MediaItem_Take" then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "src_take", "must be a MediaItem_Take", -4) return false end  
+  if math.type(src_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "src_fx", "must be an integer", -1) return false end
+  if src_fx<1 or reaper.TakeFX_GetCount(src_take)<src_fx then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "src_fx", "no such fx", -2) return false end
+  if math.type(dest_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "dest_fx", "must be an integer", -3) return false end  
+  if dest_fx<1 then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "dest_fx", "must be bigger or equal 1", -5) return false end  
+  local OldFX=ultraschall.InputFX_GetCount()
+  reaper.TakeFX_CopyToTrack(src_take, src_fx-1, reaper.GetMasterTrack(0), 0x1000000+dest_fx-1, true)
+  return ultraschall.InputFX_GetCount()~=OldFX
 end
 
-function ultraschall.InputFX_MoveFXToTakeFX(take, src_fx, dest_fx)
-   -- TESTEN!!!
+function ultraschall.InputFX_MoveFXToTakeFX(src_fx, dest_take, dest_fx)
+  if math.type(src_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "src_fx", "must be an integer", -1) return false end
+  if src_fx<1 or ultraschall.InputFX_GetCount()<src_fx then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "src_fx", "no such fx", -2) return false end
+  if math.type(dest_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "dest_fx", "must be an integer", -3) return false end  
+  if ultraschall.type(dest_take)~="MediaItem_Take" then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "dest_take", "must be a MediaItem_Take", -4) return false end  
   src_fx=src_fx-1
   dest_fx=dest_fx-1 
-  return reaper.TrackFX_CopyToTake(reaper.GetMasterTrack(0), old_fxindex+0x1000000, dest_take, new_fxindex, true)
+  local OldFX=reaper.TakeFX_GetCount(dest_take)
+  reaper.TrackFX_CopyToTake(reaper.GetMasterTrack(0), src_fx+0x1000000, dest_take, dest_fx, true)
+  return OldFX~=reaper.TakeFX_GetCount(dest_take)
 end
 
 function ultraschall.InputFX_FormatParamValue(fxindex, paramindex, value)

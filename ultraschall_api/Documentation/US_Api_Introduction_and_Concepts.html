@@ -55,7 +55,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.1006 - "Rage against the machines - Renegades of Funk" - 15th of October 2020 - Build: 43349</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.1006 - "Rage against the machines - Renegades of Funk" - 15th of October 2020 - Build: 43350</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to install and use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to install hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -4580,16 +4580,21 @@ So if you want to know, which setting that you want to alter is stored in which 
     ParmModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
                                               true, checked; false, unchecked
     ParmModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
+                                             Will be ignored, when PARMLINK_LINKEDPLUGIN_RELATIVE is set.
                                                 -1, nothing selected yet
                                                 -100, MIDI-parameter-settings
                                                 1 - the first fx-plugin
                                                 2 - the second fx-plugin
                                                 3 - the third fx-plugin, etc
+    ParmModTable["PARMLINK_LINKEDPLUGIN_RELATIVE"] - the linked plugin relative to the current one in the FXChain
+                                                   - 0, use parameter of the current fx-plugin
+                                                   - negative, use parameter of a plugin above of the current plugin(-1, the one above; -2, two above, etc)
+                                                   - positive, use parameter of a plugin below the current plugin(1, the one below; 2, two below, etc)
+                                                   - nil, uses only the plugin linked absolute(the one linked with PARMLINK_LINKEDPARMIDX)
     ParmModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
                                                 When MIDI, this is irrelevant.
                                                 When FX-parameter:
-                                                  0 to n; 0 for the first; 1, for the second, etc
-
+                                                  0 to n; 0 for the first; 1, for the second, etc                                                               
     ParmModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
     ParmModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
 

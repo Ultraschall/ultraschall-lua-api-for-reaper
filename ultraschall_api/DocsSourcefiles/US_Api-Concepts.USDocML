@@ -6249,16 +6249,21 @@
                 ParmModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
                                                           true, checked; false, unchecked
                 ParmModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
+                                                         Will be ignored, when PARMLINK_LINKEDPLUGIN_RELATIVE is set.
                                                             -1, nothing selected yet
                                                             -100, MIDI-parameter-settings
                                                             1 - the first fx-plugin
                                                             2 - the second fx-plugin
                                                             3 - the third fx-plugin, etc
+                ParmModTable["PARMLINK_LINKEDPLUGIN_RELATIVE"] - the linked plugin relative to the current one in the FXChain
+                                                               - 0, use parameter of the current fx-plugin
+                                                               - negative, use parameter of a plugin above of the current plugin(-1, the one above; -2, two above, etc)
+                                                               - positive, use parameter of a plugin below the current plugin(1, the one below; 2, two below, etc)
+                                                               - nil, uses only the plugin linked absolute(the one linked with PARMLINK_LINKEDPARMIDX)
                 ParmModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
                                                             When MIDI, this is irrelevant.
                                                             When FX-parameter:
-                                                              0 to n; 0 for the first; 1, for the second, etc
-
+                                                              0 to n; 0 for the first; 1, for the second, etc                                                               
                 ParmModTable["PARMLINK_OFFSET"]        - the Offset-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
                 ParmModTable["PARMLINK_SCALE"]         - the Scale-slider; -1.00(-100%) to 1.00(+100%); nil, if not available
 

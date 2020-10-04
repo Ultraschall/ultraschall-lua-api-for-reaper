@@ -377,7 +377,13 @@ Has now 1240 functions, with 25 new ones
    - FXManagement: InputFX\_QueryFirstFXIndex - queries the first fx within monitoring fx with a certain fxname
    
 #### Changes from 4.1.005 to 4.1.006   
-
+   - FXManagement: ParmModTable - new entry PARMLINK_LINKEDPLUGIN_RELATIVE, which allows indexing linked parameters relative to current fx(thanks to anton9 and Justin)
+   - FXManagement: GetParmModTable\_FXStateChunk - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)
+   - FXManagement: CreateDefaultParmModTable - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)
+   - FXManagement: IsValidParmModTable - didn't correctly check the linked-parameter index(thanks to anton9 and Justin)
+   - FXManagement: AddParmMod_ParmModTable - didn't correctly set the linked-parameter index(thanks to anton9 and Justin)
+   
+   
 
 ---
 
