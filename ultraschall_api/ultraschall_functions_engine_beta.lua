@@ -2979,12 +2979,26 @@ function ultraschall.InputFX_SetFXChain(FXStateChunk, replacefx)
 end
 
 function ultraschall.InputFX_FormatParamValue(fxindex, paramindex, value)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "fxindex", "must 1 or higher", -2) return false end  
+  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "paramindex", "must be an integer", -3) return false end
+  if paramindex<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "paramindex", "must 1 or higher", -4) return false end  
+  if type(value)~="number" then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "value", "must be a number", -5) return false end
+  if value<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "value", "must 1 or higher", -6) return false end  
+  
   return reaper.TrackFX_FormatParamValue(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1, value, "")
 end
 
 --A,B,C=ultraschall.InputFX_FormatParamValue(2, 1, 0)
 
 function ultraschall.InputFX_FormatParamValueNormalized(fxindex, paramindex, value)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "fxindex", "must 1 or higher", -2) return false end  
+  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "paramindex", "must be an integer", -3) return false end
+  if paramindex<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "paramindex", "must 1 or higher", -4) return false end  
+  if type(value)~="number" then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "value", "must be a number", -5) return false end
+  if value<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "value", "must 1 or higher", -6) return false end  
+
   return reaper.TrackFX_FormatParamValueNormalized(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1, value, "")
 end
 
@@ -2992,6 +3006,7 @@ end
 
 
 function ultraschall.InputFX_GetEQ(instantiate)
+  if type(instantiate)~="boolean" then ultraschall.AddErrorMessage("InputFX_GetEQ", "instantiate", "must be a boolean", -1) return -1 end
   if instantiate==true then instantiate=1 else instantiate=0 end
   return reaper.TrackFX_AddByName(reaper.GetMasterTrack(), "ReaEQ", true, instantiate)+1
 end
@@ -2999,36 +3014,65 @@ end
 --A1,B1=ultraschall.InputFX_GetEQ(true)
 
 function ultraschall.InputFX_GetEQBandEnabled(fxindex, bandtype, bandidx)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEQBandEnabled", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetEQBandEnabled", "fxindex", "must 1 or higher", -2) return false end  
+  if math.type(bandtype)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEQBandEnabled", "bandtype", "must be an integer", -3) return false end
+  if bandtype<0 then ultraschall.AddErrorMessage("InputFX_GetEQBandEnabled", "bandtype", "must 0 or higher", -4) return false end  
+  if type(bandidx)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEQBandEnabled", "bandidx", "must be an integer", -5) return false end
+  if bandidx<0 then ultraschall.AddErrorMessage("InputFX_GetEQBandEnabled", "bandidx", "must 0 or higher", -6) return false end  
+  
   return reaper.TrackFX_GetEQBandEnabled(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, bandtype, bandidx)
 end
 
 --A,B,C,D,E=ultraschall.InputFX_GetEQBandEnabled(14, 2, 0)
 
 function ultraschall.InputFX_GetEQParam(fxindex, paramidx)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEQParam", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetEQParam", "fxindex", "must 1 or higher", -2) return false end  
+  if math.type(paramidx)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEQParam", "paramidx", "must be an integer", -3) return false end
+  if paramidx<1 then ultraschall.AddErrorMessage("InputFX_GetEQParam", "paramidx", "must 1 or higher", -4) return false end  
+  
   return reaper.TrackFX_GetEQParam(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramidx-1)
 end
 
 --A={ultraschall.InputFX_GetEQParam(14, 1)}
 
 function ultraschall.InputFX_GetFormattedParamValue(fxindex, paramindex)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFormattedParamValue", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetFormattedParamValue", "fxindex", "must 1 or higher", -2) return false end  
+  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFormattedParamValue", "paramindex", "must be an integer", -3) return false end
+  if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetFormattedParamValue", "paramindex", "must 1 or higher", -4) return false end  
+  
   return reaper.TrackFX_GetFormattedParamValue(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1, "")
 end
 
 --A={ultraschall.InputFX_GetFormattedParamValue(2, 1)}
 
 function ultraschall.InputFX_GetIOSize(fxindex)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetIOSize", "fxindex", "must be an integer", -1) return -1 end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetIOSize", "fxindex", "must 1 or higher", -2) return -1 end  
   return reaper.TrackFX_GetIOSize(reaper.GetMasterTrack(0), 0x1000000+fxindex-1)
 end
 
 --A={ultraschall.InputFX_GetIOSize(1)}
 
 function ultraschall.InputFX_GetNamedConfigParm(fxindex, parmname)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetNamedConfigParm", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetNamedConfigParm", "fxindex", "must 1 or higher", -2) return false end  
+  if type(parmname)~="string" then ultraschall.AddErrorMessage("InputFX_GetNamedConfigParm", "parmname", "must be a string", -3) return false end
+
   return reaper.TrackFX_GetNamedConfigParm(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, parmname)
 end
 
 --A3={ultraschall.InputFX_GetNamedConfigParm(2, "")}
 
 function ultraschall.InputFX_GetParam(fxindex, paramindex)
+  -- returns nil in case of an error
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParam", "fxindex", "must be an integer", -1) return end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetParam", "fxindex", "must 1 or higher", -2) return end  
+  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParam", "paramindex", "must be an integer", -3) return end
+  if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetParam", "paramindex", "must 1 or higher", -4) return end  
+  
   return reaper.TrackFX_GetParam(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1)
 end
 
@@ -3036,18 +3080,34 @@ end
 
 
 function ultraschall.InputFX_GetParameterStepSizes(fxindex, paramindex)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParameterStepSizes", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetParameterStepSizes", "fxindex", "must 1 or higher", -2) return false end  
+  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParameterStepSizes", "paramindex", "must be an integer", -3) return false end
+  if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetParameterStepSizes", "paramindex", "must 1 or higher", -4) return false end  
+
   return reaper.TrackFX_GetParameterStepSizes(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1)
 end
 
 --A={ultraschall.InputFX_GetParameterStepSizes(4, 2)}
 
 function ultraschall.InputFX_GetParamEx(fxindex, paramindex)
+  -- returns nil in case of an error
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParamEx", "fxindex", "must be an integer", -1) return end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetParamEx", "fxindex", "must 1 or higher", -2) return end  
+  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParamEx", "paramindex", "must be an integer", -3) return end
+  if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetParamEx", "paramindex", "must 1 or higher", -4) return end  
+  
   return reaper.TrackFX_GetParamEx(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1)
 end
 
 --A={ultraschall.InputFX_GetParamEx(1, 3)}
 
 function ultraschall.InputFX_GetParamName(fxindex, paramindex)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParamName", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetParamName", "fxindex", "must 1 or higher", -2) return false end  
+  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParamName", "paramindex", "must be an integer", -3) return false end
+  if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetParamName", "paramindex", "must 1 or higher", -4) return false end  
+
   return reaper.TrackFX_GetParamName(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1, "")
 end
 
@@ -3055,18 +3115,38 @@ end
 
 
 function ultraschall.InputFX_GetParamNormalized(fxindex, paramindex)
+  -- returns nil in case of an error
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParamNormalized", "fxindex", "must be an integer", -1) return end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetParamNormalized", "fxindex", "must 1 or higher", -2) return end  
+  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParamNormalized", "paramindex", "must be an integer", -3) return end
+  if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetParamNormalized", "paramindex", "must 1 or higher", -4) return end  
+  
   return reaper.TrackFX_GetParamNormalized(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1)
 end
 
 --A={ultraschall.InputFX_GetParamNormalized(1, 3)}
 
 function ultraschall.InputFX_GetPinMappings(fxindex, isoutput, pin)
+  -- returns nil in case of an error
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetPinMappings", "fxindex", "must be an integer", -1) return end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetPinMappings", "fxindex", "must 1 or higher", -2) return end  
+  if math.type(isoutput)~="integer" then ultraschall.AddErrorMessage("InputFX_GetPinMappings", "isoutput", "must be an integer", -3) return end  
+  if math.type(pin)~="integer" then ultraschall.AddErrorMessage("InputFX_GetPinMappings", "pin", "must be an integer", -4) return end
+  
   return reaper.TrackFX_GetPinMappings(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, isoutput-1, pin-1)
 end
 
 --A={ultraschall.InputFX_GetPinMappings(1, 2, 1)}
 
 function ultraschall.InputFX_SetEQBandEnabled(fxindex, bandtype, bandidx, enable)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "fxindex", "must 1 or higher", -2) return false end
+  if math.type(bandtype)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "bandtype", "must be an integer", -3) return false end
+  if bandtype<0 then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "bandtype", "must 0 or higher", -4) return false end  
+  if math.type(bandidx)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "bandidx", "must be an integer", -4) return false end
+  if bandidx<0 then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "bandidx", "must 0 or higher", -5) return false end  
+  if type(enable)~="boolean" then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "enable", "must be a boolean", -6) return false end
+  
   return reaper.TrackFX_SetEQBandEnabled(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, bandtype, bandidx, enable)
 end
 
@@ -3074,12 +3154,29 @@ end
 
 
 function ultraschall.InputFX_SetEQParam(fxindex, bandtype, bandidx, paramtype, val, isnorm)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQParam", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetEQParam", "fxindex", "must 1 or higher", -2) return false end
+  if math.type(bandtype)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQParam", "bandtype", "must be an integer", -3) return false end
+  if bandtype<0 then ultraschall.AddErrorMessage("InputFX_SetEQParam", "bandtype", "must 0 or higher", -4) return false end  
+  if math.type(bandidx)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQParam", "bandidx", "must be an integer", -5) return false end
+  if bandidx<0 then ultraschall.AddErrorMessage("InputFX_SetEQParam", "bandidx", "must 0 or higher", -6) return false end  
+  if math.type(paramtype)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQParam", "paramtype", "must be an integer", -7) return false end
+  if paramtype<0 then ultraschall.AddErrorMessage("InputFX_SetEQParam", "paramtype", "must 0 or higher", -8) return false end  
+  if type(val)~="number" then ultraschall.AddErrorMessage("InputFX_SetEQParam", "val", "must be a number", -9) return false end  
+  if type(isnorm)~="boolean" then ultraschall.AddErrorMessage("InputFX_SetEQParam", "isnorm", "must be a boolean", -10) return false end
+  
   return reaper.TrackFX_SetEQParam(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, bandtype, bandidx, paramtype, val, isnorm)
 end
 
 --ultraschall.InputFX_SetEQParam(1, -1, 1, 1, -1, true)
 
 function ultraschall.InputFX_SetParam(fxindex, parameterindex, val)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetParam", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetParam", "fxindex", "must 1 or higher", -2) return false end
+  if math.type(parameterindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetParam", "parameterindex", "must be an integer", -3) return false end
+  if parameterindex<1 then ultraschall.AddErrorMessage("InputFX_SetParam", "parameterindex", "must 1 or higher", -4) return false end  
+  if type(val)~="number" then ultraschall.AddErrorMessage("InputFX_SetParam", "val", "must be a number", -5) return false end  
+  
   return reaper.TrackFX_SetParam(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, parameterindex-1, val)
 end
 
@@ -3087,6 +3184,12 @@ end
 
 
 function ultraschall.InputFX_SetParamNormalized(fxindex, parameterindex, val)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetParamNormalized", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetParamNormalized", "fxindex", "must 1 or higher", -2) return false end
+  if math.type(parameterindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetParamNormalized", "parameterindex", "must be an integer", -3) return false end
+  if parameterindex<1 then ultraschall.AddErrorMessage("InputFX_SetParamNormalized", "parameterindex", "must 1 or higher", -4) return false end  
+  if type(val)~="number" then ultraschall.AddErrorMessage("InputFX_SetParamNormalized", "val", "must be a number", -5) return false end  
+  
   return reaper.TrackFX_SetParamNormalized(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, parameterindex-1, val)
 end
 
@@ -3095,6 +3198,14 @@ end
 
 
 function ultraschall.InputFX_SetPinMappings(fxindex, isoutput, pin, low32bits, hi32bits)
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "fxindex", "must be an integer", -1) return false end
+  if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "fxindex", "must 1 or higher", -2) return false end
+  if math.type(isoutput)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "isoutput", "must be an integer", -3) return false end
+  if math.type(pin)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "pin", "must be an integer", -4) return false end
+  if math.type(low32bits)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "low32bits", "must be an integer", -4) return false end
+  if math.type(hi32bits)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "hi32bits", "must be an integer", -4) return false end
+  
+  
   return reaper.TrackFX_SetPinMappings(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, isoutput-1, pin-1, low32bits, hi32bits)
 end
 
