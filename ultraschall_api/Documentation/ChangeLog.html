@@ -48,7 +48,9 @@ bla</p>
 <ul>
 <li>FXManagement: InputFX_AddByName - adds an fx as monitoring fx</li>
 <li>FXManagement: InputFX_CopyFX - copies a monitoring fx and inserts it at a new position</li>
+<li>FXManagement: InputFX_CopyFXFromTakeFX - copies a monitoring fx to a takeFX</li>
 <li>FXManagement: InputFX_CopyFXFromTrackFX - copies a trackfx into a monitoring fx</li>
+<li>FXManagement: InputFX_CopyFXToTakeFX - copies a monitoring fx to a takeFX</li>
 <li>FXManagement: InputFX_CopyFXToTrackFX - copies a monitoring fx into a track as trackfx</li>
 <li>FXManagement: InputFX_Delete - deletes a certain monitoring-fx</li>
 <li>FXManagement: InputFX_EndParamEdit - no idea what this function does, but it exists for trackFX and now for monitoring-fx too</li>
@@ -56,6 +58,7 @@ bla</p>
 <li>FXManagement: InputFX_GetCount - returns the number of available monitoring-fx</li>
 <li>FXManagement: InputFX_GetEnabled - returns, if a certain monitoring-fx is enabled or not</li>
 <li>FXManagement: InputFX_GetFloatingWindow - returns the hwnd of a floating monitoring-fx-window</li>
+<li>FXManagement: InputFX_GetFXChain - gets the FXStateChunk of the current monitoring-fx-chain</li>
 <li>FXManagement: InputFX_GetFXGUID - returns the guid of a monitoring-fx</li>
 <li>FXManagement: InputFX_GetFXName - returns the name of a monitoring-fx</li>
 <li>FXManagement: InputFX_GetNumParams - returns the number of parameters of a monitoring-fx</li>
@@ -65,10 +68,13 @@ bla</p>
 <li>FXManagement: InputFX_GetPresetIndex - returns the index of the currently selected monitoring-fx plus all available presets</li>
 <li>FXManagement: InputFX_GetUserPresetFilename - gets the preset's-filename(which stores the presets) of a certain monitoring-fx</li>
 <li>FXManagement: InputFX_MoveFX - moves a monitoring fx to a new position</li>
-<li>FXManagement: InputFX_MoveFXFromTrackFX - moves a trackfx into monitoring-fx</li>
+<li>FXManagement: InputFX_MoveFXFromTakeFX - moves a takeFX to the monitoring-fx-chain</li>
+<li>FXManagement: InputFX_MoveFXToTakeFX - moves a monitoring-fx into take as takeFX</li>
+<li>FXManagement: InputFX_MoveFXFromTrackFX - moves a trackFX to the monitoring-fx-chain</li>
 <li>FXManagement: InputFX_MoveFXToTrackFX - moves a monitoring-fx into a track as trackFX</li>
 <li>FXManagement: InputFX_NavigatePresets - navigates through the presets of a monitoring-fx</li>
 <li>FXManagement: InputFX_SetEnabled - set a monitoring-fx enabled or disabled</li>
+<li>FXManagement: InputFX_SetFXChain - sets a FXStateChunk into the monitoring-fx-chain; optionally replaces it</li>
 <li>FXManagement: InputFX_SetOffline - sets a monitoring-fx offline/online</li>
 <li>FXManagement: InputFX_SetOpen - sets visibility of a monitoring fx visible/invisible</li>
 <li>FXManagement: InputFX_SetPreset - sets a preset of a monitoring-fx by presetname</li>

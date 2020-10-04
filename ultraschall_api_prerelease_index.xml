@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43352.00" author="Meo Mespotine">
+      <version name="43354.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Changelog-Api.txt</source>
@@ -662,8 +662,12 @@ New features in 4.1.006
 -   FXManagement: InputFX_AddByName - adds an fx as monitoring fx
 -   FXManagement: InputFX_CopyFX - copies a monitoring fx and inserts it
     at a new position
+-   FXManagement: InputFX_CopyFXFromTakeFX - copies a monitoring fx to a
+    takeFX
 -   FXManagement: InputFX_CopyFXFromTrackFX - copies a trackfx into a
     monitoring fx
+-   FXManagement: InputFX_CopyFXToTakeFX - copies a monitoring fx to a
+    takeFX
 -   FXManagement: InputFX_CopyFXToTrackFX - copies a monitoring fx into
     a track as trackfx
 -   FXManagement: InputFX_Delete - deletes a certain monitoring-fx
@@ -678,6 +682,8 @@ New features in 4.1.006
     monitoring-fx is enabled or not
 -   FXManagement: InputFX_GetFloatingWindow - returns the hwnd of a
     floating monitoring-fx-window
+-   FXManagement: InputFX_GetFXChain - gets the FXStateChunk of the
+    current monitoring-fx-chain
 -   FXManagement: InputFX_GetFXGUID - returns the guid of a
     monitoring-fx
 -   FXManagement: InputFX_GetFXName - returns the name of a
@@ -697,14 +703,20 @@ New features in 4.1.006
     monitoring-fx
 -   FXManagement: InputFX_MoveFX - moves a monitoring fx to a new
     position
--   FXManagement: InputFX_MoveFXFromTrackFX - moves a trackfx into
-    monitoring-fx
+-   FXManagement: InputFX_MoveFXFromTakeFX - moves a takeFX to the
+    monitoring-fx-chain
+-   FXManagement: InputFX_MoveFXToTakeFX - moves a monitoring-fx into
+    take as takeFX
+-   FXManagement: InputFX_MoveFXFromTrackFX - moves a trackFX to the
+    monitoring-fx-chain
 -   FXManagement: InputFX_MoveFXToTrackFX - moves a monitoring-fx into a
     track as trackFX
 -   FXManagement: InputFX_NavigatePresets - navigates through the
     presets of a monitoring-fx
 -   FXManagement: InputFX_SetEnabled - set a monitoring-fx enabled or
     disabled
+-   FXManagement: InputFX_SetFXChain - sets a FXStateChunk into the
+    monitoring-fx-chain; optionally replaces it
 -   FXManagement: InputFX_SetOffline - sets a monitoring-fx
     offline/online
 -   FXManagement: InputFX_SetOpen - sets visibility of a monitoring fx
@@ -7121,7 +7133,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1280 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43352 from 04.10.2020 16:28:30).}
+a 1286 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43354 from 04.10.2020 18:13:29).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7135,7 +7147,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1280 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1286 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -7259,7 +7271,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1280 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43352 from 04.10.2020 16:28:30).}
+a 1286 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43354 from 04.10.2020 18:13:29).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7273,7 +7285,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1280 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1286 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
