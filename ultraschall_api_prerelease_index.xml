@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43350.00" author="Meo Mespotine">
+      <version name="43352.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Changelog-Api.txt</source>
@@ -717,20 +717,32 @@ New features in 4.1.006
     monitoring-fx
 -   FXManagement: InputFX_QueryFirstFXIndex - queries the first fx
     within monitoring fx with a certain fxname
-
-Changes from 4.1.005 to 4.1.006
-
 -   FXManagement: ParmModTable - new entry
     PARMLINK_LINKEDPLUGIN_RELATIVE, which allows indexing linked
     parameters relative to current fx(thanks to anton9 and Justin)
--   FXManagement: GetParmModTable_FXStateChunk - didn’t correctly return
-    the linked-parameter index(thanks to anton9 and Justin)
+
+Changes from 4.1.005 to 4.1.006
+
+-   FXManagement: AddParmMod_ParmModTable - produced nil-error with
+    invalid fx-index; didn’t correctly set the linked-parameter
+    index(thanks to anton9 and Justin)
 -   FXManagement: CreateDefaultParmModTable - didn’t correctly return
+    the linked-parameter index(thanks to anton9 and Justin)
+-   FXManagement: GetParmModTable_FXStateChunk - didn’t correctly return
     the linked-parameter index(thanks to anton9 and Justin)
 -   FXManagement: IsValidParmModTable - didn’t correctly check the
     linked-parameter index(thanks to anton9 and Justin)
--   FXManagement: AddParmMod_ParmModTable - didn’t correctly set the
-    linked-parameter index(thanks to anton9 and Justin)
+-   FXManagement: SetParmMod_ParmModTable - produced nil-error with
+    invalid fx-index; didn’t correctly set the linked-parameter
+    index(thanks to anton9 and Justin)
+-   Rendering: Render_Loop - created unneeded peakfiles under some
+    circumstances -> fixed(thanks to pandabot)
+-   Rendering: RenderProject - created unneeded peakfiles under some
+    circumstances -> fixed(thanks to pandabot)
+-   Rendering: RenderProject_Regions - created unneeded peakfiles under
+    some circumstances -> fixed(thanks to pandabot)
+-   Rendering: RenderProject_RenderTable - created unneeded peakfiles
+    under some circumstances -> fixed(thanks to pandabot)
 
 ------------------------------------------------------------------------
 
@@ -7109,7 +7121,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1280 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43350 from 04.10.2020 15:15:47).}
+a 1280 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43352 from 04.10.2020 16:28:30).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7247,7 +7259,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1280 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43350 from 04.10.2020 15:15:47).}
+a 1280 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43352 from 04.10.2020 16:28:30).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

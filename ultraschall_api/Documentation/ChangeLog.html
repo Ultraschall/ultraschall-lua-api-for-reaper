@@ -75,14 +75,19 @@ bla</p>
 <li>FXManagement: InputFX_SetPresetByIndex - sets a preset of a monitoring-fx by presetindex</li>
 <li>FXManagement: InputFX_Show - sets visibility and floating-state of a monitoring-fx</li>
 <li>FXManagement: InputFX_QueryFirstFXIndex - queries the first fx within monitoring fx with a certain fxname</li>
+<li>FXManagement: ParmModTable - new entry PARMLINK<em>LINKEDPLUGIN</em>RELATIVE, which allows indexing linked parameters relative to current fx(thanks to anton9 and Justin)</li>
 </ul>
 <h4>Changes from 4.1.005 to 4.1.006</h4>
 <ul>
-<li>FXManagement: ParmModTable - new entry PARMLINK<em>LINKEDPLUGIN</em>RELATIVE, which allows indexing linked parameters relative to current fx(thanks to anton9 and Justin)</li>
-<li>FXManagement: GetParmModTable_FXStateChunk - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)</li>
+<li>FXManagement: AddParmMod_ParmModTable - produced nil-error with invalid fx-index; didn't correctly set the linked-parameter index(thanks to anton9 and Justin)</li>
 <li>FXManagement: CreateDefaultParmModTable - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)</li>
+<li>FXManagement: GetParmModTable_FXStateChunk - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)</li>
 <li>FXManagement: IsValidParmModTable - didn't correctly check the linked-parameter index(thanks to anton9 and Justin)</li>
-<li>FXManagement: AddParmMod_ParmModTable - didn't correctly set the linked-parameter index(thanks to anton9 and Justin)</li>
+<li>FXManagement: SetParmMod_ParmModTable - produced nil-error with invalid fx-index; didn't correctly set the linked-parameter index(thanks to anton9 and Justin)</li>
+<li>Rendering: Render_Loop - created unneeded peakfiles under some circumstances -&gt; fixed(thanks to pandabot)</li>
+<li>Rendering: RenderProject - created unneeded peakfiles under some circumstances -&gt; fixed(thanks to pandabot)</li>
+<li>Rendering: RenderProject_Regions - created unneeded peakfiles under some circumstances -&gt; fixed(thanks to pandabot)</li>
+<li>Rendering: RenderProject_RenderTable - created unneeded peakfiles under some circumstances -&gt; fixed(thanks to pandabot)</li>
 </ul>
 <hr />
 <h3>4.1.005 - "The Beatles - I want you(she's so heavy)" - 25th of September 2020</h3>

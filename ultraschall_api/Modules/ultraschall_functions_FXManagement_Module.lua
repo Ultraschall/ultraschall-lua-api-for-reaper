@@ -3879,14 +3879,14 @@ function ultraschall.AddParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
   local cindex=0
 
   local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
-  
+  if FX==nil then ultraschall.AddErrorMessage("AddParmMod_ParmModTable", "fxindex", "no such index", -7) return nil end
   
   FX=FX:match("(.*\n%s-)%sWAK")..NewParmModTable..FX:match("%s-WAK.*")
   
   return string.gsub(FXStateChunk:sub(1,StartOFS)..FX.."\n"..FXStateChunk:sub(EndOFS, -1), "\n\n", "\n")
 end
 
-
+  
 function ultraschall.SetParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3950,11 +3950,17 @@ function ultraschall.SetParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
                 ParmModTable["PARMLINK"]               - the Link from MIDI or FX parameter-checkbox
                                                           true, checked; false, unchecked
                 ParmModTable["PARMLINK_LINKEDPLUGIN"]  - the selected plugin; nil, if not available
+                                                         Will be ignored, when PARMLINK_LINKEDPLUGIN_RELATIVE is set.
                                                             -1, nothing selected yet
                                                             -100, MIDI-parameter-settings
                                                             1 - the first fx-plugin
                                                             2 - the second fx-plugin
                                                             3 - the third fx-plugin, etc
+                ParmModTable["PARMLINK_LINKEDPLUGIN_RELATIVE"] - the linked plugin relative to the current one in the FXChain
+                                                               - 0, use parameter of the current fx-plugin
+                                                               - negative, use parameter of a plugin above of the current plugin(-1, the one above; -2, two above, etc)
+                                                               - positive, use parameter of a plugin below the current plugin(1, the one below; 2, two below, etc)
+                                                               - nil, uses only the plugin linked absolute(the one linked with PARMLINK_LINKEDPARMIDX)
                 ParmModTable["PARMLINK_LINKEDPARMIDX"] - the id of the linked parameter; -1, if none is linked yet; nil, if not available
                                                             When MIDI, this is irrelevant.
                                                             When FX-parameter:
@@ -4058,12 +4064,23 @@ function ultraschall.SetParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
     "      AUDIOCTLWT "..ParmModTable["AUDIOCONTROL_STRENGTH"].." "..ParmModTable["AUDIOCONTROL_DIRECTION"].."\n"
     
     -- if ParameterLinking is enabled, then add this line
+    local PARMLINK_LINKEDPLUGIN_RELATIVE, PARMLINK_LINKEDPLUGIN
     if ParmModTable["PARMLINK"]==true then 
       if ParmModTable["PARMLINK_LINKEDPLUGIN"]>=0 then
-        LinkedPlugin=(ParmModTable["PARMLINK_LINKEDPLUGIN"]-1)..":"..(ParmModTable["PARMLINK_LINKEDPLUGIN"]-1)
+        if ParmModTable["PARMLINK_LINKEDPLUGIN_RELATIVE"]==nil then
+          PARMLINK_LINKEDPLUGIN_RELATIVE=""
+          PARMLINK_LINKEDPLUGIN=ParmModTable["PARMLINK_LINKEDPLUGIN"]-1
+        else
+          PARMLINK_LINKEDPLUGIN_RELATIVE=":"..(ParmModTable["PARMLINK_LINKEDPLUGIN_RELATIVE"])
+          PARMLINK_LINKEDPLUGIN=ParmModTable["PARMLINK_LINKEDPLUGIN"]-1
+        end
+        LinkedPlugin=PARMLINK_LINKEDPLUGIN..PARMLINK_LINKEDPLUGIN_RELATIVE
       else
         LinkedPlugin=tostring(ParmModTable["PARMLINK_LINKEDPLUGIN"])
       end
+      
+      --print2(PARMLINK_LINKEDPLUGIN_RELATIVE, ParmModTable["PARMLINK_LINKEDPLUGIN_RELATIVE"])
+      
       if ParmModTable["PARMLINK_LINKEDPARMIDX"]==-1 then offset=0 else offset=1 end
       NewParmModTable=NewParmModTable..
     "      PLINK "..ParmModTable["PARMLINK_SCALE"].." "..LinkedPlugin.." "..(ParmModTable["PARMLINK_LINKEDPARMIDX"]-offset).." "..ParmModTable["PARMLINK_OFFSET"].."\n"
@@ -4073,6 +4090,7 @@ function ultraschall.SetParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
         NewParmModTable=NewParmModTable.."      MIDIPLINK "..(ParmModTable["MIDIPLINK_BUS"]-1).." "..ParmModTable["MIDIPLINK_CHANNEL"].." "..ParmModTable["MIDIPLINK_MIDICATEGORY"].." "..ParmModTable["MIDIPLINK_MIDINOTE"].."\n"
       end
     end
+
     
     -- if LFO is turned on, add these lines
     if ParmModTable["LFO"]==true then
@@ -4112,6 +4130,7 @@ function ultraschall.SetParmMod_ParmModTable(FXStateChunk, fxindex, ParmModTable
   local cindex=0
 
   local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
+  if FX==nil then ultraschall.AddErrorMessage("SetParmMod_ParmModTable", "fxindex", "no such index", -7) return nil end  
   
   local Start, Middle, End = FX:match("()(<PROGRAMENV "..(tonumber(ParmModTable["PARAM_NR"])-1).."[:%s]+.-  >)()")
   if Middle==nil then ultraschall.AddErrorMessage("SetParmMod_ParmModTable", "Parameter: "..tonumber(ParmModTable["PARAM_NR"]), "no such parameter-modulation", -4) return FXStateChunk end
