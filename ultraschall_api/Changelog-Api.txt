@@ -357,16 +357,28 @@ Has now 1240 functions, with 25 new ones
    - FXManagement: InputFX\_GetChainVisible - returns, if the current monitoring-fx-chain is visible and the index of the currently visible fx
    - FXManagement: InputFX\_GetCount - returns the number of available monitoring-fx
    - FXManagement: InputFX\_GetEnabled - returns, if a certain monitoring-fx is enabled or not
+   - FXManagement: InputFX\_GetEQ - returns the index of the first ReaEQ-instance in monitoring-fx; optionally creates an instance
    - FXManagement: InputFX\_GetFloatingWindow - returns the hwnd of a floating monitoring-fx-window
+   - FXManagement: InputFX\_GetFormattedParamValue - returns the current value of a parameter of a monitoring fx formatted
    - FXManagement: InputFX\_GetFXChain - gets the FXStateChunk of the current monitoring-fx-chain
    - FXManagement: InputFX\_GetFXGUID - returns the guid of a monitoring-fx
    - FXManagement: InputFX\_GetFXName - returns the name of a monitoring-fx
+   - FXManagement: InputFX\_GetIOSize - returns the plugin-type and the number of input/output pins(if available) for a monitoring-fx
+   - FXManagement: InputFX\_GetNamedConfigParm - returns the plug-in specific named configuration value of a monitoring-fx
    - FXManagement: InputFX\_GetNumParams - returns the number of parameters of a monitoring-fx
    - FXManagement: InputFX\_GetOffline - returns, if a certain monitoring-fx is offline or not
    - FXManagement: InputFX\_GetOpen - returns, if a certain monitoring-fx is visible or not
+   - FXManagement: InputFX\_GetParam - returns the current, maximum and minimum value of a parameter of a monitoring-fx
+   - FXManagement: InputFX\_GetParamEx - returns the current, maximum, minimum and mid-values of a parameter of a monitoring-fx
+   - FXManagement: InputFX\_GetParameterStepSizes - returns the stepsizes of a parameter of a monitoring-fx
+   - FXManagement: InputFX\_GetParamName - returns the name of a parameter of a monitoring-fx
+   - FXManagement: InputFX\_GetParamNormalized - returns a normalized version of the current value of a parameter of a monitoring-fx
+   - FXManagement: InputFX\_GetPinMappings - returns the current pin-mappings of a monitoring-fx
    - FXManagement: InputFX\_GetPreset - returns the name of the currently selected preset
    - FXManagement: InputFX\_GetPresetIndex - returns the index of the currently selected monitoring-fx plus all available presets
    - FXManagement: InputFX\_GetUserPresetFilename - gets the preset's-filename(which stores the presets) of a certain monitoring-fx
+   - FXManagement: InputFX\_FormatParamValue - formats a value in the style of a parameter
+   - FXManagement: InputFX\_FormatParamValueNormalized - formats a value in the style of a parameter as normalized
    - FXManagement: InputFX\_MoveFX - moves a monitoring fx to a new position
    - FXManagement: InputFX\_MoveFXFromTakeFX - moves a takeFX to the monitoring-fx-chain
    - FXManagement: InputFX\_MoveFXToTakeFX - moves a monitoring-fx into take as takeFX
