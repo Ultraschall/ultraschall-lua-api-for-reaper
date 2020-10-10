@@ -1497,7 +1497,55 @@ function ultraschall.print_BringReaScriptToFrontToggle(toggle)
 end
 
 -- These seem to work working:
+function ultraschall.DeleteParmLearn2_FXStateChunk(FXStateChunk, fxid, parmidx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteParmLearn2_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmLearn2_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Deletes a ParmLearn-entry from an FXStateChunk, by parameter index.
+    
+    Unlike [DeleteParmLearn\_FXStateChunk](#DeleteParmLearn_FXStateChunk), this indexes the parameters not the already existing parmlearns.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if deletion was successful; false, if the function couldn't delete anything
+    string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, which you want to delete a ParmLearn from
+    integer fxid - the id of the fx, which holds the to-delete-ParmLearn-entry; beginning with 1
+    integer parmidx - the index of the parameter, whose parmlearn you want to delete; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Learn
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, parm, learn, delete, parm, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "parmidx", "must be an integer", -3) return false end
+    
+  local UseFX, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if UseFX==nil then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "fxid", "no such fx", -4) return false end
+  
+  local ParmLearnEntry=UseFX:match("%s-PARMLEARN "..(parmidx-1).."[:]*%a* .-\n")
+  if ParmLearnEntry==nil then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "parmidx", "no such parameter", -5) return false end
+    
+  local UseFX2=string.gsub(UseFX, ParmLearnEntry, "\n")
 
+  return true, FXStateChunk:sub(1, startoffset)..UseFX2:sub(2,-2)..FXStateChunk:sub(endoffset-1, -1)
+end
 
 -- Ultraschall 4.1.006
 
@@ -3268,8 +3316,8 @@ function ultraschall.InputFX_GetParam(fxindex, paramindex)
     number maxval - the maximum value of this parameter
   </retvals>
   <parameters>
-    integer fxindex - the index of the monitoring-fx
-    integer paramindex - the parameter, whose value you want to retrieve
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer paramindex - the parameter, whose value you want to retrieve; 1-based
   </parameters>
   <chapter_context>
     FX-Management
@@ -3314,8 +3362,8 @@ function ultraschall.InputFX_GetParameterStepSizes(fxindex, paramindex)
     boolean istoggle - true, this parameter is a toggle parameter; false, this parameter is not a togle parameter
   </retvals>
   <parameters>
-    integer fxindex - the index of the monitoring-fx
-    integer paramindex - the parameter, whose values you want to retrieve
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer paramindex - the parameter, whose values you want to retrieve; 1-based
   </parameters>
   <chapter_context>
     FX-Management
@@ -3359,8 +3407,8 @@ function ultraschall.InputFX_GetParamEx(fxindex, paramindex)
     number midval - the mid-value of this parameter
   </retvals>
   <parameters>
-    integer fxindex - the index of the monitoring-fx
-    integer paramindex - the parameter, whose value you want to retrieve
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer paramindex - the parameter, whose value you want to retrieve; 1-based
   </parameters>
   <chapter_context>
     FX-Management
@@ -3401,8 +3449,8 @@ function ultraschall.InputFX_GetParamName(fxindex, paramindex)
     string paramname - the name of the parameter
   </retvals>
   <parameters>
-    integer fxindex - the index of the monitoring-fx
-    integer paramindex - the parameter, whose name you want to retrieve
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer paramindex - the parameter, whose name you want to retrieve; 1-based
   </parameters>
   <chapter_context>
     FX-Management
@@ -3444,8 +3492,8 @@ function ultraschall.InputFX_GetParamNormalized(fxindex, paramindex)
     integer normalized_value - the normalized version of the current value 
   </retvals>
   <parameters>
-    integer fxindex - the index of the monitoring-fx
-    integer paramindex - the parameter, whose normalized value you want to retrieve
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer paramindex - the parameter, whose normalized value you want to retrieve; 1-based
   </parameters>
   <chapter_context>
     FX-Management
@@ -3468,7 +3516,7 @@ end
 
 function ultraschall.InputFX_GetPinMappings(fxindex, isoutput, pin)
   -- returns nil in case of an error
-  --[[
+--[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetPinMappings</slug>
   <requires>
@@ -3487,7 +3535,7 @@ function ultraschall.InputFX_GetPinMappings(fxindex, isoutput, pin)
     integer pinmappings_Hi32Bit - a bitmask for the second 32 connectors, where each bit represents, if this pin is connected(1) or not(0)
   </retvals>
   <parameters>
-    integer fxindex - the index of the monitoring-fx
+    integer fxindex - the index of the monitoring-fx; 1-based
     integer isoutput - 0, for querying input pins; 1, for querying output pins
     integer pin - the pin requested, like 0(left), 1(right), etc.
   </parameters>
@@ -3499,7 +3547,7 @@ function ultraschall.InputFX_GetPinMappings(fxindex, isoutput, pin)
   <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
   <tags>fx management, get, pin mapping, inpin, outpin, monitoringfx, inputfx</tags>
 </US_DocBloc>
-]]    
+]]
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetPinMappings", "fxindex", "must be an integer", -1) return end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetPinMappings", "fxindex", "must 1 or higher", -2) return end  
   if math.type(isoutput)~="integer" then ultraschall.AddErrorMessage("InputFX_GetPinMappings", "isoutput", "must be an integer", -3) return end  
@@ -3511,6 +3559,44 @@ end
 --A={ultraschall.InputFX_GetPinMappings(1, 2, 1)}
 
 function ultraschall.InputFX_SetEQBandEnabled(fxindex, bandtype, bandidx, enable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetEQBandEnabled</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetEQBandEnabled(integer fxindex, integer bandtype, integer bandidx, boolean enable)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Enable or disable a ReaEQ band of a monitoring-fx.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer bandtype - the bandtype of the band to change;
+                     - 0, lhipass
+                     - 1, loshelf
+                     - 2, band
+                     - 3, notch
+                     - 4, hishelf
+                     - 5, lopass
+    integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc.
+    boolean enable - true, enable band; false, disable band
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, reaeq, band, bandtype, enable, disable, monitoringfx, inputfx</tags>
+</US_DocBloc>
+]]    
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "fxindex", "must be an integer", -1) return false end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "fxindex", "must 1 or higher", -2) return false end
   if math.type(bandtype)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQBandEnabled", "bandtype", "must be an integer", -3) return false end
@@ -3526,6 +3612,46 @@ end
 
 
 function ultraschall.InputFX_SetEQParam(fxindex, bandtype, bandidx, paramtype, val, isnorm)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetEQParam</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetEQParam(integer fxindex, integer bandtype, integer bandidx, integer paramtype, number val, boolean isnorm)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets an EQ-parameter of a ReaEQ-instance in monitoring-fx
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer bandtype - the bandtype of the band to change;
+                     - 0, lhipass
+                     - 1, loshelf
+                     - 2, band
+                     - 3, notch
+                     - 4, hishelf
+                     - 5, lopass
+    integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc.
+    integer paramtype - 0, freq; 1, gain; 2, Q
+    number val - the new value for the paramtype of a bandidx
+    boolean isnorm - true, value is normalized; false, value is not normalized
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, reaeq, band, bandtype, gain, frequency, normalize, monitoringfx, inputfx</tags>
+</US_DocBloc>
+]]    
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQParam", "fxindex", "must be an integer", -1) return false end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetEQParam", "fxindex", "must 1 or higher", -2) return false end
   if math.type(bandtype)~="integer" then ultraschall.AddErrorMessage("InputFX_SetEQParam", "bandtype", "must be an integer", -3) return false end
@@ -3543,6 +3669,37 @@ end
 --ultraschall.InputFX_SetEQParam(1, -1, 1, 1, -1, true)
 
 function ultraschall.InputFX_SetParam(fxindex, parameterindex, val)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetParam</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetParam(integer fxindex, index parameterindex, number val)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets a new value of a parameter of a monitoring-fx
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx; 1-based
+    index parameterindex - the index of the parameter to be set; 1-based
+    number val - the new value to set
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, parameter, monitoringfx, inputfx</tags>
+</US_DocBloc>
+]]    
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetParam", "fxindex", "must be an integer", -1) return false end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetParam", "fxindex", "must 1 or higher", -2) return false end
   if math.type(parameterindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetParam", "parameterindex", "must be an integer", -3) return false end
@@ -3556,6 +3713,37 @@ end
 
 
 function ultraschall.InputFX_SetParamNormalized(fxindex, parameterindex, val)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetParamNormalized</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetParamNormalized(integer fxindex, index parameterindex, number val)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets a new value as normalized of a parameter of a monitoring-fx
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx; 1-based
+    index parameterindex - the index of the parameter to be set; 1-based
+    number val - the new value to set
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, parameter, normalized, monitoringfx, inputfx</tags>
+</US_DocBloc>
+]]    
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetParamNormalized", "fxindex", "must be an integer", -1) return false end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetParamNormalized", "fxindex", "must 1 or higher", -2) return false end
   if math.type(parameterindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetParamNormalized", "parameterindex", "must be an integer", -3) return false end
@@ -3570,6 +3758,39 @@ end
 
 
 function ultraschall.InputFX_SetPinMappings(fxindex, isoutput, pin, low32bits, hi32bits)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_SetPinMappings</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_SetPinMappings(integer fxindex, integer isoutput, integer pin, integer low32bits, integer hi32bits)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    sets the pinmappings as bitfield of a parameter of a monitoring-fx.
+    
+    returns false in case of an error or if unsupported (not all types of plug-ins support this capability)
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer isoutput - 0, for querying input pins; 1, for querying output pins
+    integer pin - the pin requested, like 0(left), 1(right), etc.
+    integer pinmappings_Lo32Bit - a bitmask for the first 32 connectors, where each bit represents, if this pin is connected(1) or not(0)
+    integer pinmappings_Hi32Bit - a bitmask for the second 32 connectors, where each bit represents, if this pin is connected(1) or not(0)
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, pin mapping, inpin, outpin, monitoringfx, inputfx</tags>
+</US_DocBloc>
+]]
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "fxindex", "must be an integer", -1) return false end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "fxindex", "must 1 or higher", -2) return false end
   if math.type(isoutput)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "isoutput", "must be an integer", -3) return false end
@@ -3578,7 +3799,7 @@ function ultraschall.InputFX_SetPinMappings(fxindex, isoutput, pin, low32bits, h
   if math.type(hi32bits)~="integer" then ultraschall.AddErrorMessage("InputFX_SetPinMappings", "hi32bits", "must be an integer", -4) return false end
   
   
-  return reaper.TrackFX_SetPinMappings(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, isoutput-1, pin-1, low32bits, hi32bits)
+  return reaper.TrackFX_SetPinMappings(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, isoutput, pin, low32bits, hi32bits)
 end
 
 --A={ultraschall.InputFX_GetPinMappings(2, 1, 1)}
@@ -3587,6 +3808,43 @@ end
 
 
 function ultraschall.InputFX_GetEQBandEnabled(fxindex, bandtype, bandidx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_GetEQBandEnabled</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean enabled = ultraschall.InputFX_GetEQBandEnabled(integer fxindex, integer bandtype, integer bandidx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the enable or disable-state of a ReaEQ band of a monitoring-fx.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean enabled - true, band is enabled; false, band is disabled
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer bandtype - the bandtype of the band to change;
+                     - 0, lhipass
+                     - 1, loshelf
+                     - 2, band
+                     - 3, notch
+                     - 4, hishelf
+                     - 5, lopass
+    integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc.
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, reaeq, band, bandtype, enable, disable, monitoringfx, inputfx</tags>
+</US_DocBloc>
+]]    
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEQBandEnabled", "fxindex", "must be an integer", -1) return false end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetEQBandEnabled", "fxindex", "must 1 or higher", -2) return false end  
   if math.type(bandtype)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEQBandEnabled", "bandtype", "must be an integer", -3) return false end
@@ -3600,6 +3858,47 @@ end
 --A,B,C,D,E=ultraschall.InputFX_GetEQBandEnabled(14, 2, 0)
 
 function ultraschall.InputFX_GetEQParam(fxindex, paramidx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_GetEQParam</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, number bandtype, number bandidx, number paramtype, number normval = ultraschall.InputFX_GetEQParam(integer fxindex, integer paramidx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the states and values of an EQ-parameter of a ReaEQ-instance in monitoring-fx
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if it's a ReaEQ-instance; false, is not a ReaEQ-instance or in case of an error
+    integer bandtype - the bandtype of the band to change;
+                     - -1, master gain
+                     - 0, lhipass
+                     - 1, loshelf
+                     - 2, band
+                     - 3, notch
+                     - 4, hishelf
+                     - 5, lopass
+    integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc.
+    number paramtype -  0, freq; 1, gain; 2, Q
+    number normval - the normalized value
+  </retvals>
+  <parameters>
+    integer fxindex - the index of the monitoring-fx; 1-based
+    integer paramidx - the parameter whose eq-states you want to retrieve; 1-based
+  </parameters>
+  <chapter_context>
+    FX-Management
+    InputFX
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, reaeq, band, bandtype, gain, frequency, normalize, monitoringfx, inputfx</tags>
+</US_DocBloc>
+]]    
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEQParam", "fxindex", "must be an integer", -1) return false end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetEQParam", "fxindex", "must 1 or higher", -2) return false end  
   if math.type(paramidx)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEQParam", "paramidx", "must be an integer", -3) return false end
@@ -3609,56 +3908,6 @@ function ultraschall.InputFX_GetEQParam(fxindex, paramidx)
 end
 
 --A={ultraschall.InputFX_GetEQParam(14, 1)}
-
-function ultraschall.DeleteParmLearn2_FXStateChunk(FXStateChunk, fxid, parmidx)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>DeleteParmLearn2_FXStateChunk</slug>
-  <requires>
-    Ultraschall=4.1
-    Reaper=6.02
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmLearn2_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Deletes a ParmLearn-entry from an FXStateChunk, by parameter index.
-    
-    Unlike [DeleteParmLearn\_FXStateChunk](#DeleteParmLearn_FXStateChunk), this indexes the parameters not the already existing parmlearns.
-    
-    returns false in case of an error
-  </description>
-  <retvals>
-    boolean retval - true, if deletion was successful; false, if the function couldn't delete anything
-    string alteredFXStateChunk - the altered FXStateChunk
-  </retvals>
-  <parameters>
-    string FXStateChunk - the FXStateChunk, which you want to delete a ParmLearn from
-    integer fxid - the id of the fx, which holds the to-delete-ParmLearn-entry; beginning with 1
-    integer parmidx - the index of the parameter, whose parmlearn you want to delete; beginning with 1
-  </parameters>
-  <chapter_context>
-    FX-Management
-    Parameter Mapping Learn
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
-  <tags>fx management, parm, learn, delete, parm, learn, midi, osc, binding</tags>
-</US_DocBloc>
-]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
-  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "fxid", "must be an integer", -2) return false end
-  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "parmidx", "must be an integer", -3) return false end
-    
-  local UseFX, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
-  if UseFX==nil then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "fxid", "no such fx", -4) return false end
-  
-  local ParmLearnEntry=UseFX:match("%s-PARMLEARN "..(parmidx-1).."[:]*%a* .-\n")
-  if ParmLearnEntry==nil then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "parmidx", "no such parameter", -5) return false end
-    
-  local UseFX2=string.gsub(UseFX, ParmLearnEntry, "\n")
-
-  return true, FXStateChunk:sub(1, startoffset)..UseFX2:sub(2,-2)..FXStateChunk:sub(endoffset-1, -1)
-end
 
 
 ultraschall.ShowLastErrorMessage()

@@ -1,26 +1,7 @@
 <TODO>
-        
-    For 4.01.005:
-        - GetUserInputs - new implementation for captions and retvals BUT OK/Cancel Button buggy and length of captions/retvals buggy
-        - MB -- new implementation must be checked on Mac(and probably needs a Mac-weiche in SetMessageBox_Helper_Script.lua)
-            BUG REPORT: MB and GetUserInputs: Can't find ID of the buttons anymore. Changes in Reaper in recent versions? Mac(Linux?) only
-        - Doku! Viel Doku!
-            - Lokasenna's GuiLib v2 & v3-Lizenz angeben in Doku
-            - ParmModulation
-        -- ParmModulation
-            Add/SetParmModulation
-
-              --IsValidParmModTable shall get the additional feature to make a ParmModTable valid by setting dependent-entries to default values, when AUDIOCONTROL, PARMLINK or LFO are set to true(and PARMLINK_LINKEDPLUGIN=-100(link to MIDI))
-              -- if that is the case, it's possible to add to Add/Set-functions an additional parameter "SetUsefulDefaults", where all entries are set to useful defaults, if needed.
-              -- ParmLearn;ParmLFOLearn need Get/Set/Delete-functions, who allow indexing by parameter-index, rather than existence. Look for ParmAlias2-functions to get an idea.
-              
-              -- (solved?)needs error-messages, when LFO==true but the other relevant settings are set still to nil
-        
-        
-        - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
-
-
     -- later releases
+        - GetUserInputs - new implementation for captions and retvals BUT OK/Cancel Button buggy and length of captions/retvals buggy
+        - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
         - BatchConvertFiles - maybe finishing it up?
         - Set Metadata from Project - still missing
         - IsTakeEnvelopeVisible(könnt knifflig werden)
@@ -358,6 +339,8 @@ Has now 1240 functions, with 25 new ones
    - FXManagement: InputFX\_GetCount - returns the number of available monitoring-fx
    - FXManagement: InputFX\_GetEnabled - returns, if a certain monitoring-fx is enabled or not
    - FXManagement: InputFX\_GetEQ - returns the index of the first ReaEQ-instance in monitoring-fx; optionally creates an instance
+   - FXManagement: InputFX\_GetEQBandEnabled - returns the enabled/disabled state of a band of a ReaEQ-instance in monitoring-fx
+   - FXManagement: InputFX\_GetEQParam - returns the parameter-value of a ReaEQ-instance in monitoring-fx
    - FXManagement: InputFX\_GetFloatingWindow - returns the hwnd of a floating monitoring-fx-window
    - FXManagement: InputFX\_GetFormattedParamValue - returns the current value of a parameter of a monitoring fx formatted
    - FXManagement: InputFX\_GetFXChain - gets the FXStateChunk of the current monitoring-fx-chain
@@ -386,9 +369,14 @@ Has now 1240 functions, with 25 new ones
    - FXManagement: InputFX\_MoveFXToTrackFX - moves a monitoring-fx into a track as trackFX
    - FXManagement: InputFX\_NavigatePresets - navigates through the presets of a monitoring-fx
    - FXManagement: InputFX\_SetEnabled - set a monitoring-fx enabled or disabled
+   - FXManagement: InputFX\_SetEQBandEnabled - sets a enable-state of a band of a ReaEQ-instance in monitoring-fx
+   - FXManagement: InputFX\_SetEQParam - sets new values of a band of a ReaEQ-instance in monitoring-fx
    - FXManagement: InputFX\_SetFXChain - sets a FXStateChunk into the monitoring-fx-chain; optionally replaces it
    - FXManagement: InputFX\_SetOffline - sets a monitoring-fx offline/online
    - FXManagement: InputFX\_SetOpen - sets visibility of a monitoring fx visible/invisible
+   - FXManagement: InputFX\_SetParam - sets a parameter of a monitoring-fx
+   - FXManagement: InputFX\_SetParamNormalized - sets a parameter of a monitoring-fx as normalized value
+   - FXManagement: InputFX\_SetPinMappings - sets the pinmappings of a monitoring-fx
    - FXManagement: InputFX\_SetPreset - sets a preset of a monitoring-fx by presetname
    - FXManagement: InputFX\_SetPresetByIndex - sets a preset of a monitoring-fx by presetindex
    - FXManagement: InputFX\_Show - sets visibility and floating-state of a monitoring-fx
