@@ -41,9 +41,22 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.1.006 - "Rage against the machine - Renegades of Funk" - 15th of October 2020</h3>
-<p>Has now 1240 functions, with 25 new ones</p>
-<p><strong>new in this release:</strong> - <strong>Bla</strong><br />
-bla</p>
+<p>Has now 1294 functions, with 54 new ones</p>
+<p><strong>new in this release:</strong></p>
+<ul>
+<li><p><strong>InputFX/MonitoringFX</strong><br />
+You can now code monitoringFX the same as you already could code TrackFX and TakeFX. Ever wanted to set a full FXChain into monitoring fx? Now you can.<br />
+54 functions only for that. I must be insane...</p></li>
+<li><p><strong>ParameterModulation</strong><br />
+Fixed a bug and therefore added a new feature for parameter linking.<br />
+ParmModTables have now two entries to set the index of the linked plugin: PARMLINK_LINKEDPLUGIN and PARMLINK_LINKEDPLUGIN_RELATIVE.<br />
+To set an absolute plugin-index, set PARMLINK_LINKEDPLUGIN=absolute-index and PARMLINK_LINKEDPLUGIN_RELATIVE=nil<br />
+To set a relative plugin-index, set PARMLINK_LINKEDPLUGIN=any number and<br />
+PARMLINK_LINKEDPLUGIN_RELATIVE=0(current plugin), negative(higher in the FXChain), positive(lower in the FXChain)<br />
+GetFunctions will usually have the linked plugin indexed in a relative-to-the-current-plugin-index(Reaper's standard behavior).</p></li>
+<li><p><strong>RenderFixes</strong><br />
+Renderfunctions sometimes created peak-files when not necessary. This is fixed now and speeds up the time between finished render and returning to the project.</p></li>
+</ul>
 <h4>New features in 4.1.006</h4>
 <ul>
 <li>FXManagement: InputFX_AddByName - adds an fx as monitoring fx</li>
@@ -104,6 +117,7 @@ bla</p>
 </ul>
 <h4>Changes from 4.1.005 to 4.1.006</h4>
 <ul>
+<li>Docs: VideoProcessor - added default-value-descriptions for param</li>
 <li>FXManagement: AddParmMod_ParmModTable - produced nil-error with invalid fx-index; didn't correctly set the linked-parameter index(thanks to anton9 and Justin)</li>
 <li>FXManagement: CreateDefaultParmModTable - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)</li>
 <li>FXManagement: GetParmModTable_FXStateChunk - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)</li>

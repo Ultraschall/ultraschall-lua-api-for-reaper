@@ -320,11 +320,26 @@ TODO!! buggy function
 
 ### 4.1.006 - "Rage against the machine - Renegades of Funk" - 15th of October 2020
 
-Has now 1240 functions, with 25 new ones
+Has now 1294 functions, with 54 new ones
 
-**new in this release:**
-  - **Bla**  
-    bla
+**new in this release:**  
+
+  - **InputFX/MonitoringFX**  
+    You can now code monitoringFX the same as you already could code TrackFX and TakeFX. Ever wanted to set a full FXChain into monitoring fx? Now you can.  
+    54 functions only for that. I must be insane...
+    
+  - **ParameterModulation**  
+    Fixed a bug and therefore added a new feature for parameter linking.  
+    ParmModTables have now two entries to set the index of the linked plugin:
+    PARMLINK\_LINKEDPLUGIN and PARMLINK\_LINKEDPLUGIN\_RELATIVE.  
+    To set an absolute plugin-index, set PARMLINK\_LINKEDPLUGIN=absolute-index and PARMLINK\_LINKEDPLUGIN\_RELATIVE=nil  
+    To set a relative plugin-index, set 
+      PARMLINK\_LINKEDPLUGIN=any number and  
+      PARMLINK\_LINKEDPLUGIN\_RELATIVE=0(current plugin), negative(higher in the FXChain), positive(lower in the FXChain)  
+    GetFunctions will usually have the linked plugin indexed in a relative-to-the-current-plugin-index(Reaper's standard behavior).
+    
+  - **RenderFixes**  
+    Renderfunctions sometimes created peak-files when not necessary. This is fixed now and speeds up the time between finished render and returning to the project.   
 
 #### New features in 4.1.006
    - FXManagement: InputFX\_AddByName - adds an fx as monitoring fx
@@ -384,6 +399,7 @@ Has now 1240 functions, with 25 new ones
    - FXManagement: ParmModTable - new entry PARMLINK_LINKEDPLUGIN_RELATIVE, which allows indexing linked parameters relative to current fx(thanks to anton9 and Justin)
    
 #### Changes from 4.1.005 to 4.1.006   
+   - Docs: VideoProcessor - added default-value-descriptions for param
    - FXManagement: AddParmMod\_ParmModTable - produced nil-error with invalid fx-index; didn't correctly set the linked-parameter index(thanks to anton9 and Justin)
    - FXManagement: CreateDefaultParmModTable - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)
    - FXManagement: GetParmModTable\_FXStateChunk - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)
