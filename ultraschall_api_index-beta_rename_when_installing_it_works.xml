@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43369.00" author="Meo Mespotine">
+      <version name="43373.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Changelog-Api.txt</source>
@@ -202,6 +202,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_1.002.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Documentation/gfx/JS_1.002.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_1.010.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Documentation/gfx/JS_1.010.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_1.215.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Documentation/gfx/JS_1.215.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_1.217.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Documentation/gfx/JS_1.217.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_1_002.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006/ultraschall_api/Documentation/gfx/JS_Logo_1_002.pfi</source>
@@ -650,7 +651,7 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.006//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.1.006 - “Rage against the machine - Renegades of Funk” - 15th of October 2020
+4.1.006 - “Rage against the machine - Renegades of Funk” - 11th of October 2020
 
 Has now 1294 functions, with 54 new ones
 
@@ -797,6 +798,7 @@ New features in 4.1.006
 
 Changes from 4.1.005 to 4.1.006
 
+-   Docs: ReaperAPIDocs - updated to JS-extension 1.217
 -   Docs: VideoProcessor - added default-value-descriptions for param
 -   FXManagement: AddParmMod_ParmModTable - produced nil-error with
     invalid fx-index; didn’t correctly set the linked-parameter
@@ -832,8 +834,8 @@ LFOLearn or Learn in general.
 So anything you would want to do with parameter-modulation can now be
 scripted.
 I’m curious, what will happen because of that feature. Surprise me.
-Requested by so many. Please consider donating, as this was a massive
-undertaking. Holy cow!
+Requested by so many.
+Please consider donating, as this was a massive undertaking. Holy cow!
 
 -   SLEM
     Allows now different output-targets, so outputting the last

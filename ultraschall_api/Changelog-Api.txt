@@ -311,14 +311,14 @@ TODO!! buggy function
    - RenderManagement: GetProject_RenderOutputPath - gets the render-output-path
    - RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
-- FXManagement: DeleteParmLearn2\_FXStateChunk - like DeleteParmLearn\_FXStateChunk, but allows indexing by parameter-index, not by number of existing parameter learnings
+   - FXManagement: DeleteParmLearn2\_FXStateChunk - like DeleteParmLearn\_FXStateChunk, but allows indexing by parameter-index, not by number of existing parameter learnings
 
    
 </TODO>
 
 ## Ultraschall Framework - Changelog
 
-### 4.1.006 - "Rage against the machine - Renegades of Funk" - 15th of October 2020
+### 4.1.006 - "Rage against the machine - Renegades of Funk" - 11th of October 2020
 
 Has now 1294 functions, with 54 new ones
 
@@ -396,9 +396,10 @@ Has now 1294 functions, with 54 new ones
    - FXManagement: InputFX\_SetPresetByIndex - sets a preset of a monitoring-fx by presetindex
    - FXManagement: InputFX\_Show - sets visibility and floating-state of a monitoring-fx
    - FXManagement: InputFX\_QueryFirstFXIndex - queries the first fx within monitoring fx with a certain fxname
-   - FXManagement: ParmModTable - new entry PARMLINK_LINKEDPLUGIN_RELATIVE, which allows indexing linked parameters relative to current fx(thanks to anton9 and Justin)
+   - FXManagement: ParmModTable - new entry PARMLINK\_LINKEDPLUGIN\_RELATIVE, which allows indexing linked parameters relative to current fx(thanks to anton9 and Justin)
    
 #### Changes from 4.1.005 to 4.1.006   
+   - Docs: ReaperAPIDocs - updated to JS-extension 1.217
    - Docs: VideoProcessor - added default-value-descriptions for param
    - FXManagement: AddParmMod\_ParmModTable - produced nil-error with invalid fx-index; didn't correctly set the linked-parameter index(thanks to anton9 and Justin)
    - FXManagement: CreateDefaultParmModTable - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)
@@ -422,7 +423,7 @@ Has now 1240 functions, with 25 new ones
     A long time feature-request finally fulfilled. You have full access to programmatically get/alter parameter-modulation, parameter aliases, LFOLearn or Learn in general.  
     So anything you would want to do with parameter-modulation can now be scripted.  
     I'm curious, what will happen because of that feature. Surprise me.  
-    Requested by so many.
+    Requested by so many.  
     [Please consider donating](https://mespotin.uber.space/Mespotine/mespotine-unterstuetzen/), as this was a massive undertaking. Holy cow!
         
   - **SLEM**  

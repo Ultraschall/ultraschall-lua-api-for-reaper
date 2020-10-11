@@ -24642,6 +24642,50 @@
         <tags></tags>
     </US_DocBloc>
   
+  <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_File_Stat</slug>
+        <title>JS_File_Stat(JS)</title>
+        <functioncall prog_lang="cpp">int JS_File_Stat(const char* filePath, double* sizeOut, char* accessedTimeOut, char* modifiedTimeOut, char* cTimeOut, int* deviceIDOut, int* deviceSpecialIDOut, int* inodeOut, int* modeOut, int* numLinksOut, int* ownerUserIDOut, int* ownerGroupIDOut)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_File_Stat", "filePath", &size, #accessedTime, #modifiedTime, #cTime, int &deviceID, int &deviceSpecialID, int &inode, int &mode, int &numLinks, int &ownerUserID, int &ownerGroupID)</functioncall>
+        <functioncall prog_lang="lua">integer retval, number size, string accessedTime, string modifiedTime, string cTime, number deviceID, number deviceSpecialID, number inode, number mode, number numLinks, number ownerUserID, number ownerGroupID = reaper.JS_File_Stat(string filePath)</functioncall>
+        <functioncall prog_lang="python">(Int retval, String filePath, Float sizeOut, String accessedTimeOut, String modifiedTimeOut, String cTimeOut, Int deviceIDOut, Int deviceSpecialIDOut, Int inodeOut, Int modeOut, Int numLinksOut, Int ownerUserIDOut, Int ownerGroupIDOut) = JS_File_Stat(filePath, sizeOut, accessedTimeOut, modifiedTimeOut, cTimeOut, deviceIDOut, deviceSpecialIDOut, inodeOut, modeOut, numLinksOut, ownerUserIDOut, ownerGroupIDOut)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.217
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Returns information about a file.
+
+            cTime is not implemented on all systems. If it does return a time, the value may differ depending on the OS: on WindowsOS, it may refer to the time that the file was either created or copied, whereas on Linux and macOS, it may refer to the time of last status change.
+
+            retval is 0 if successful, negative if not.
+        </description>
+        <retvals>
+           integer retval - negative, if not retrievable; 0, if retrieving was successful
+           number size - the size of the file in bytes
+           string accessedTime - the last time the file was accessed
+           string modifiedTime - the last time the file was modified
+           string cTime - the time the file was created(Windows) or the last time its status had changed(Mac and Linux)
+           number deviceID - the ID of the device
+           number deviceSpecialID - the special ID of the file
+           number inode - the inode
+           number mode - the attributes set
+           number numLinks - the number of links
+           number ownerUserID - ID of the user the file belongs to
+           number ownerGroupID - ID of the group the file belongs to
+        </retvals>
+        <parameters>
+           string filePath - the file, whose file-stats you want to get
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+  
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_GDI_Blit</slug>
         <title>JS_GDI_Blit(JS)</title>
@@ -30092,6 +30136,42 @@
         <tags></tags>
     </US_DocBloc>
     
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_ListView_GetItemRect</slug>
+        <title>JS_ListView_GetItemRect(JS)</title>
+        <functioncall prog_lang="cpp">bool JS_ListView_GetItemRect(void* listviewHWND, int index, int* leftOut, int* topOut, int* rightOut, int* bottomOut)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_ListView_GetItemRect", void* listviewHWND, int index, int &left, int &top, int &right, int &bottom)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, number left, number top, number right, number bottom = reaper.JS_ListView_GetItemRect(identifier listviewHWND, integer index)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, void listviewHWND, Int index, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = JS_ListView_GetItemRect(listviewHWND, index, leftOut, topOut, rightOut, bottomOut)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.217
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Returns client coordinates of the item.
+        </description>
+        <parameters>
+           identifier listviewHWND - 
+           integer index - 
+        </parameters>
+        <retvals>
+           boolean retval - 
+           number left - 
+           number top - 
+           number right - 
+           number bottom - 
+        </retvals>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+
+
 
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_ListView_GetItemState</slug>
@@ -30102,11 +30182,14 @@
         <functioncall prog_lang="python">Int JS_ListView_GetItemState(void listviewHWND, Int index)</functioncall>
         <requires>
             Reaper=5.974
-            JS=0.963
+            JS=1.217
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            
+            State is a bitmask:
+            1 = selected, 2 = focused. On Windows only, cut-and-paste marked = 4, drag-and-drop highlighted = 8.
+
+            Warning: this function uses the Win32 bitmask values, which differ from the values used by WDL/swell.
         </description>
         <parameters>
            identifier listviewHWND - 
@@ -30187,6 +30270,69 @@
     
 
     <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_ListView_GetTopIndex</slug>
+        <title>JS_ListView_GetTopIndex(JS)</title>
+        <functioncall prog_lang="cpp">int JS_ListView_GetTopIndex(void* listviewHWND)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_ListView_GetTopIndex", void* listviewHWND)</functioncall>
+        <functioncall prog_lang="lua">integer reaper.JS_ListView_GetTopIndex(identifier listviewHWND)</functioncall>
+        <functioncall prog_lang="python">Int JS_ListView_GetTopIndex(void listviewHWND)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.217
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            
+        </description>
+        <parameters>
+           identifier listviewHWND - 
+        </parameters>
+        <retvals>
+           integer retval - 
+        </retvals>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_ListView_HitTest</slug>
+        <title>JS_ListView_HitTest(JS)</title>
+        <functioncall prog_lang="cpp">void JS_ListView_HitTest(void* listviewHWND, int clientX, int clientY, int* indexOut, int* subItemOut, int* flagsOut)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_ListView_HitTest", void* listviewHWND, int clientX, int clientY, int &index, int &subItem, int &flags)</functioncall>
+        <functioncall prog_lang="lua">number index, number subItem, number flags = reaper.JS_ListView_HitTest(identifier listviewHWND, integer clientX, integer clientY)</functioncall>
+        <functioncall prog_lang="python">(void listviewHWND, Int clientX, Int clientY, Int indexOut, Int subItemOut, Int flagsOut) = JS_ListView_HitTest(listviewHWND, clientX, clientY, indexOut, subItemOut, flagsOut)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.217
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            
+        </description>
+        <parameters>
+           identifier listviewHWND - 
+           integer clientX - 
+           integer clientY - 
+        </parameters>
+        <retvals>
+           number index - 
+           number subItem - 
+           number flags - 
+        </retvals>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_ListView_ListAllSelItems</slug>
         <title>JS_ListView_ListAllSelItems(JS)</title>
         <functioncall prog_lang="cpp">int JS_ListView_ListAllSelItems(void* listviewHWND, char* itemsOutNeedBig, int itemsOutNeedBig_sz)</functioncall>
@@ -30216,6 +30362,70 @@
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_ListView_SetItemState</slug>
+        <title>JS_ListView_SetItemState(JS)</title>
+        <functioncall prog_lang="cpp">void JS_ListView_SetItemState(void* listviewHWND, int index, int state, int mask)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_ListView_SetItemState", void* listviewHWND, int index, int state, int mask)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_ListView_SetItemState(identifier listviewHWND, integer index, integer state, integer mask)</functioncall>
+        <functioncall prog_lang="python">JS_ListView_SetItemState(void listviewHWND, Int index, Int state, Int mask)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.217
+            Lua=5.3
+        </requires>
+        <description>
+            The mask parameter specifies the state bits that must be set, and the state parameter specifies the new values for those bits.
+
+            1 = selected, 2 = focused. On Windows only, cut-and-paste marked = 4, drag-and-drop highlighted = 8.
+
+            Warning: this function uses the Win32 bitmask values, which differ from the values used by WDL/swell.
+        </description>
+        <parameters>
+           identifier listviewHWND - 
+           integer index - 
+           integer state - 
+           integer mask - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_ListView_SetItemText</slug>
+        <title>JS_ListView_SetItemText(JS)</title>
+        <functioncall prog_lang="cpp">void JS_ListView_SetItemText(void* listviewHWND, int index, int subItem, const char* text)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_ListView_SetItemText", void* listviewHWND, int index, int subItem, "text")</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_ListView_SetItemText(identifier listviewHWND, integer index, integer subItem, string text)</functioncall>
+        <functioncall prog_lang="python">JS_ListView_SetItemText(void listviewHWND, Int index, Int subItem, String text)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.217
+            Lua=5.3
+        </requires>
+        <description>
+            Currently, this fuction only accepts ASCII text.
+        </description>
+        <parameters>
+           identifier listviewHWND - 
+           integer index - 
+           integer subItem - 
+           string text - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+
     
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>Xen_AudioWriter_Create</slug>

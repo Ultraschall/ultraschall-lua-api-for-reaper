@@ -40,7 +40,7 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.1.006 - "Rage against the machine - Renegades of Funk" - 15th of October 2020</h3>
+<h3>4.1.006 - "Rage against the machine - Renegades of Funk" - 11th of October 2020</h3>
 <p>Has now 1294 functions, with 54 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
@@ -113,10 +113,11 @@ Renderfunctions sometimes created peak-files when not necessary. This is fixed n
 <li>FXManagement: InputFX_SetPresetByIndex - sets a preset of a monitoring-fx by presetindex</li>
 <li>FXManagement: InputFX_Show - sets visibility and floating-state of a monitoring-fx</li>
 <li>FXManagement: InputFX_QueryFirstFXIndex - queries the first fx within monitoring fx with a certain fxname</li>
-<li>FXManagement: ParmModTable - new entry PARMLINK<em>LINKEDPLUGIN</em>RELATIVE, which allows indexing linked parameters relative to current fx(thanks to anton9 and Justin)</li>
+<li>FXManagement: ParmModTable - new entry PARMLINK_LINKEDPLUGIN_RELATIVE, which allows indexing linked parameters relative to current fx(thanks to anton9 and Justin)</li>
 </ul>
 <h4>Changes from 4.1.005 to 4.1.006</h4>
 <ul>
+<li>Docs: ReaperAPIDocs - updated to JS-extension 1.217</li>
 <li>Docs: VideoProcessor - added default-value-descriptions for param</li>
 <li>FXManagement: AddParmMod_ParmModTable - produced nil-error with invalid fx-index; didn't correctly set the linked-parameter index(thanks to anton9 and Justin)</li>
 <li>FXManagement: CreateDefaultParmModTable - didn't correctly return the linked-parameter index(thanks to anton9 and Justin)</li>
@@ -135,7 +136,8 @@ Renderfunctions sometimes created peak-files when not necessary. This is fixed n
 A long time feature-request finally fulfilled. You have full access to programmatically get/alter parameter-modulation, parameter aliases, LFOLearn or Learn in general.<br />
 So anything you would want to do with parameter-modulation can now be scripted.<br />
 I'm curious, what will happen because of that feature. Surprise me.<br />
-Requested by so many. <a href="https://mespotin.uber.space/Mespotine/mespotine-unterstuetzen/">Please consider donating</a>, as this was a massive undertaking. Holy cow!</p>
+Requested by so many.<br />
+<a href="https://mespotin.uber.space/Mespotine/mespotine-unterstuetzen/">Please consider donating</a>, as this was a massive undertaking. Holy cow!</p>
 <ul>
 <li><p><strong>SLEM</strong><br />
 Allows now different output-targets, so outputting the last error-message to the ReaScript-console or even the clipboard is possible with that.</p></li>
