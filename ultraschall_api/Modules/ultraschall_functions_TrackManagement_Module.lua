@@ -262,7 +262,7 @@ function ultraschall.InsertTrack_TrackStateChunk(trackstatechunk)
   <tags>trackstring, track, create, trackstate, trackstatechunk, chunk, state</tags>
 </US_DocBloc>
 ]]--
-  if ultraschall.IsValidTrackStateChunk(trackstatechunk)==false then ultraschall.AddErrorMessage("InsertTrack_TrackStateChunk", "trackstatechunk", "Must be a valid TrackStateChunk", -1) return false end
+  if ultraschall.IsValidTrackStateChunk(trackstatechunk)==false then ultraschall.AddErrorMessage("InsertTrack_TrackStateChunk", "trackstatechunk", "Must be a valid TrackStateChunk", -1) return false end  
   reaper.InsertTrackAtIndex(reaper.CountTracks(0), true)
   local MediaTrack=reaper.GetTrack(0,reaper.CountTracks(0)-1)
   if MediaTrack==nil then ultraschall.AddErrorMessage("InsertTrack_TrackStateChunk", "", "Couldn't create new track.", -2) return false end
@@ -2050,14 +2050,18 @@ function ultraschall.GetAllVisibleTracks_Arrange(master_track, completely_visibl
       Reaper=6.10
       Lua=5.3
     </requires>
-    <functioncall>string trackstring = ultraschall.GetAllVisibleTracks_Arrange(optional boolean master_track, optional boolean completely_visible)</functioncall>
+    <functioncall>string trackstring, integer tracktable_count, table tracktable = ultraschall.GetAllVisibleTracks_Arrange(optional boolean master_track, optional boolean completely_visible)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       returns a trackstring with all tracks currently visible in the arrange-view.
-        
+      
+      Note: Item who start above and end below the visible arrangeview will be treated as not completely visible!
+      
       returns nil in case of error
     </description>
     <retvals>
       string trackstring - a string with holds all tracknumbers from all found tracks, separated by a comma; beginning with 1 for the first track
+      integer tracktable_count - the number of tracks found
+      table tracktable - a table which holds all MediaTrack-objects
     </retvals>
     <parameters>
       optional boolean master_track - nil or true, check for visibility of the master-track; false, don't include the master-track
@@ -2076,14 +2080,26 @@ function ultraschall.GetAllVisibleTracks_Arrange(master_track, completely_visibl
   if master_track~=nil and ultraschall.type(master_track)~="boolean" then ultraschall.AddErrorMessage("GetAllVisibleTracks_Arrange", "master_track", "must be either nil(for true) or a boolean",-1) return end
   local arrange_view = ultraschall.GetHWND_ArrangeViewAndTimeLine()
   local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(arrange_view)
-
+  
   -- find all tracks currently visible
   local trackstring=""
+  local tracktable={}
+  local tracktable_count=0
   if master_track~=false then
     if reaper.SNM_GetIntConfigVar("showmaintrack",-99)&1==1 then
       local track=reaper.GetMasterTrack(0)
-      if completely_visible~=true and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")>0 then 
-        trackstring="0,"
+      if completely_visible==false then
+        if reaper.GetMediaTrackInfo_Value(track, "I_TCPY")<=bottom-top or reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")>=0 then
+          trackstring="0,"
+          tracktable_count=tracktable_count+1
+          tracktable[tracktable_count]=track
+        end
+      else
+        if reaper.GetMediaTrackInfo_Value(track, "I_TCPY")>=0 and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")<=bottom-top then
+          trackstring="0,"
+          tracktable_count=tracktable_count+1
+          tracktable[tracktable_count]=track
+        end
       end
     end
   end
@@ -2093,14 +2109,18 @@ function ultraschall.GetAllVisibleTracks_Arrange(master_track, completely_visibl
     if completely_visible==true then 
       if reaper.GetMediaTrackInfo_Value(track, "I_TCPY")>=0 and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")<=bottom-top then
         trackstring=trackstring..i.."," 
+        tracktable_count=tracktable_count+1
+        tracktable[tracktable_count]=track
       end
     else
       if reaper.GetMediaTrackInfo_Value(track, "I_TCPY")<=bottom-top and reaper.GetMediaTrackInfo_Value(track, "I_TCPY")+reaper.GetMediaTrackInfo_Value(track, "I_WNDH")>=0 then
         trackstring=trackstring..i..","
+        tracktable_count=tracktable_count+1
+        tracktable[tracktable_count]=track
       end
     end
   end
-  return trackstring:sub(1,-2)
+  return trackstring:sub(1,-2), tracktable_count, tracktable
 end
 
 

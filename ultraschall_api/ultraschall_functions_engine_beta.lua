@@ -1037,159 +1037,6 @@ function ultraschall.StartLiceCap(autorun)
     local retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/LiceCapSave.lua")
 end
 
---ultraschall.StartLiceCap(autorun)
-
---ultraschall.SetupLiceCap("Hula", "Hachgotterl\nahh", 20, 1, 2, 3, 4, 123, 1, 987, 64)
---ultraschall.SetupLiceCap("Hurtz.lcf")
-
-
-
-function ultraschall.SaveProjectAs(filename_with_path, fileformat, overwrite, create_subdirectory, copy_all_media, copy_rather_than_move)
-  -- TODO:  - if a file exists already, fileformats like edl and txt may lead to showing of a overwrite-prompt of the savedialog
-  --                this is mostly due Reaper adding the accompanying extension to the filename
-  --                must be treated somehow or the other formats must be removed
-  --        - convert mediafiles into another format(possible at all?)
-  --        - check on Linux and Mac
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SaveProjectAs</slug>
-  <requires>
-    Ultraschall=4.1
-    Reaper=5.965
-    SWS=2.10.0.1
-    JS=0.963
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval, string newfilename_with_path = ultraschall.SaveProjectAs(string filename_with_path, integer fileformat, boolean overwrite, boolean create_subdirectory, integer copy_all_media, boolean copy_rather_than_move)</functioncall>
-  <description>
-    Saves the current project under a new filename.
-    
-    returns false in case of an error
-  </description>
-  <retvals>
-    boolean retval - true, saving was successful; false, saving wasn't successful
-    string newfilename_with_path - the new projectfilename with path, helpful if you only gave the filename
-  </retvals>
-  <parameters>
-    string filename_with_path - the new projectfile; omitting the path saves the project in the last used folder
-    integer fileformat - the fileformat, in which you want to save the project
-                       - 0, REAPER Project files (*.RPP)
-                       - 1, EDL TXT (Vegas) files (*.TXT)
-                       - 2, EDL (Samplitude) files (*.EDL)
-    boolean overwrite - true, overwrites the projectfile, if it exists; false, keep an already existing projectfile
-    boolean create_subdirectory - true, create a subdirectory for the project; false, save it into the given folder
-    integer copy_all_media - shall the project's mediafiles be copied or moved or left as they are?
-                           - 0, don't copy/move media
-                           - 1, copy the project's mediafiles into projectdirectory
-                           - 2, move the project's mediafiles into projectdirectory
-    boolean copy_rather_than_move - true, copy rather than move source media if not in old project media path; false, leave the files as they are
-  </parameters>
-  <chapter_context>
-    Project-Management
-    Helper functions
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>project management, save, project as, edl, rpp, vegas, samplitude</tags>
-</US_DocBloc>
---]]
-  -- check parameters
-  local A=ultraschall.GetSaveProjectAsHWND()
-  if A~=nil then ultraschall.AddErrorMessage("SaveProjectAs", "", "SaveAs-dialog already open", -1) return false end
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("SaveProjectAs", "filename_with_path", "must be a string", -2) return false end
-  local A,B=reaper.BR_Win32_GetPrivateProfileString("REAPER", "lastprojuiref", "", reaper.get_ini_file())
-  local C,D=ultraschall.GetPath(B)
-  local E,F=ultraschall.GetPath(filename_with_path)
-  
-  if E=="" then filename_with_path=C..filename_with_path end
-  if E~="" and ultraschall.DirectoryExists2(E)==false then 
-    reaper.RecursiveCreateDirectory(E,1)
-    if ultraschall.DirectoryExists2(E)==false then 
-      ultraschall.AddErrorMessage("SaveProjectAs", "filename_with_path", "invalid path", -3)
-      return false
-    end
-  end
-  if type(overwrite)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "overwrite", "must be a boolean", -4) return false end
-  if type(create_subdirectory)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "create_subdirectory", "must be a boolean", -5) return false end
-  if math.type(copy_all_media)~="integer" then ultraschall.AddErrorMessage("SaveProjectAs", "copy_all_media", "must be an integer", -6) return false end
-  if type(copy_rather_than_move)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "copy_rather_than_move", "must be a boolean", -7) return false end
-  if math.type(fileformat)~="integer" then ultraschall.AddErrorMessage("SaveProjectAs", "fileformat", "must be an integer", -8) return false end
-  if fileformat<0 or fileformat>2 then ultraschall.AddErrorMessage("SaveProjectAs", "fileformat", "must be between 0 and 2", -9) return false end
-  if copy_all_media<0 or copy_all_media>2 then ultraschall.AddErrorMessage("SaveProjectAs", "copy_all_media", "must be between 0 and 2", -10) return false end
-  
-  -- management of, if file already exists
-  if overwrite==false and reaper.file_exists(filename_with_path)==true then ultraschall.AddErrorMessage("SaveProjectAs", "filename_with_path", "file already exists", -11) return false end
-  if overwrite==true and reaper.file_exists(filename_with_path)==true then os.remove(filename_with_path) end
-
-  
-  -- create the background-script, which will manage the saveas-dialog and run it
-      ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/saveprojectas.lua", [[
-      dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-      num_params, params, caller_script_identifier = ultraschall.GetScriptParameters()
-
-      filename_with_path=params[1]
-      fileformat=tonumber(params[2])
-      create_subdirectory=toboolean(params[3])
-      copy_all_media=params[4]
-      copy_rather_than_move=toboolean(params[5])
-      
-      function main2()
-        --if A~=nil then print2("Hooray") end
-        translation=reaper.JS_Localize("Create subdirectory for project", "DLG_185")
-        PP=reaper.JS_Window_Find("Create subdirectory", false)
-        A2=reaper.JS_Window_GetParent(PP)
-        ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1042), create_subdirectory)
-        if copy_all_media==1 then 
-          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), true)
-          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), false)
-        elseif copy_all_media==2 then 
-          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), false)
-          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), true)
-        else
-          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), false)
-          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), false)
-        end
-        ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1045), copy_rather_than_move)
-        A3=reaper.JS_Window_FindChildByID(A, 0)
-        A3=reaper.JS_Window_FindChildByID(A3, 0)
-        A3=reaper.JS_Window_FindChildByID(A3, 0)
-        A3=reaper.JS_Window_FindChildByID(A3, 0)
-        reaper.JS_Window_SetTitle(A3, filename_with_path)
-        reaper.JS_WindowMessage_Send(A3, "WM_LBUTTONDOWN", 1,1,1,1)
-        reaper.JS_WindowMessage_Send(A3, "WM_LBUTTONUP", 1,1,1,1)
-        
-        XX=reaper.JS_Window_FindChild(A, "REAPER Project files (*.RPP)", true)
-
-        reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONDOWN", 1,1,1,1)
-        reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONUP", 1,1,1,1)
-        reaper.JS_WindowMessage_Send(XX, "CB_SETCURSEL", fileformat,0,0,0)
-        reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONDOWN", 1,1,1,1)
-        reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONUP", 1,1,1,1)
-        
-        reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONDOWN", 1,1,1,1)
-        reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONUP", 1,1,1,1)
-      end
-
-      function main1()
-        A=ultraschall.GetSaveProjectAsHWND()
-        if A==nil then reaper.defer(main1) else main2() end
-      end
-      
-      --print("alive")
-      
-      main1()
-      ]])
-      local retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/saveprojectas.lua", filename_with_path, fileformat, create_subdirectory, copy_all_media, copy_rather_than_move)
-    
-  -- open SaveAs-dialog
-  reaper.Main_SaveProject(0, true)
-  -- remove background-script
-  os.remove(ultraschall.API_TempPath.."/saveprojectas.lua")
-  return true, filename_with_path
-end
-
---reaper.Main_SaveProject(0, true)
---ultraschall.SaveProjectAs("Fix it all of that HUUUIII", true, 0, true)
 
 
 function ultraschall.TransientDetection_Set(Sensitivity, Threshold, ZeroCrossings)
@@ -1283,32 +1130,31 @@ end
 
 --A,B,C,D,E=ultraschall.ReadSubtitles_VTT("c:\\test.vtt")
 
-function ultraschall.BatchConvertFiles(filelist, RenderTable, BWFStart, PadStart, PadEnd, FXChain)
+function ultraschall.BatchConvertFiles(inputfilelist, outputfilelist, RenderTable, BWFStart, PadStart, PadEnd, FXStateChunk, MetaDataStateChunk)
 -- Todo:
 -- Check on Mac and Linux
 --    Linux saves outfile into wrong directory -> lastcwd not OUTPATH for some reason
 -- Check all parameters for correct typings
--- Test FXChain-capability
+-- Test FXStateChunk-capability
   local BatchConvertData=""
   --local ExeFile, filename, path
-  if FXChain==nil then FXChain="" end
+  if FXStateChunk~=nil and FXStateChunk~="" and ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("BatchConvertFiles", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if FXStateChunk==nil then FXStateChunk="" end
+  if MetaDataStateChunk==nil then MetaDataStateChunk="" end
   if BWFStart==true then BWFStart="    USERCSTART 1\n" else BWFStart="" end
   if PadStart~=nil  then PadStart="    PAD_START "..PadStart.."\n" else PadStart="" end
   if PadEnd~=nil  then PadEnd="    PAD_END "..PadEnd.."\n" else PadEnd="" end
   local i=1
-  while filelist[i]~=nil do
-    path, filename = ultraschall.GetPath(filelist[i])
-    filename2=filename:match("(.-)%.")
-    if filename2==nil then filename2=filename end
-    BatchConvertData=BatchConvertData..filelist[i].."\t"..filelist[i]:match("(.*)%.").."\n"
+  local outputfile
+  while inputfilelist[i]~=nil do
+    if ultraschall.type(inputfilelist[i])=="string" then
+      if outputfilelist[i]==nil then outputfile="" else outputfile=outputfilelist[i] end
+      BatchConvertData=BatchConvertData..inputfilelist[i].."\t"..outputfile.."\n"
+    end
     i=i+1
   end
   BatchConvertData=BatchConvertData..[[
 <CONFIG
-]]..FXChain..[[
-  <OUTFMT 
-    ]]      ..RenderTable["RenderString"]..[[
-    
     SRATE ]]..RenderTable["SampleRate"]..[[
     
     NCH ]]..RenderTable["Channels"]..[[
@@ -1323,12 +1169,20 @@ function ultraschall.BatchConvertFiles(filelist, RenderTable, BWFStart, PadStart
     OUTPATH ]]..RenderTable["RenderFile"]..[[
     
     OUTPATTERN ']]..[['
+  <OUTFMT 
+    ]]      ..RenderTable["RenderString"]..[[
+
   >
+  ]]..FXStateChunk..[[
+  ]]..string.gsub(MetaDataStateChunk, "<RENDER_METADATA", "<METADATA")..[[
+
 >
 ]]
 
   ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/filelist.txt", BatchConvertData)
 print3(BatchConvertData)
+--if ll==nil then return end
+
   if ultraschall.IsOS_Windows()==true then
     ExeFile=reaper.GetExePath().."\\reaper.exe"
     AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt", -1)
@@ -1385,27 +1239,564 @@ function ultraschall.GetTakeEnvelopeUnderMouseCursor()
   end
 end
 
-function ultraschall.GetAllSelectedRegions_Project()
-  -- still has an issue, when GetProjectStateChunk doesn't return a ProjectStateChunk(probably due timeout-issues)
-  -- so check, if ProjectStateChunk is an actual one or nil!!
-  -- seems to be problematic on Mac mostly...
-  local ProjectStateChunk = ultraschall.GetProjectStateChunk(nil, false)
-  local markerregioncount, NumMarker, Numregions, Markertable = ultraschall.GetProject_MarkersAndRegions(nil, ProjectStateChunk)
-  
-  local regions={}
-  local regionscnt=0
 
-  for i=1, markerregioncount do
-    if Markertable[i][1]==true and Markertable[i][8]==true then
-      regionscnt=regionscnt+1
-      regions[regionscnt]=Markertable[i][5]
-    end
+function ultraschall.VideoProcessor_SetText(text, font, fontsize, x, y, r, g, b, a)
+  -- needs modules/additionals/VideoProcessor-Presets.RPL to be imported somehow
+  local OldName=ultraschall.Gmem_GetCurrentAttachedName()
+  local fontnameoffset=50
+  local textoffset=font:len()+20
+  reaper.gmem_attach("Ultraschall_VideoProcessor_Settings")
+  reaper.gmem_write(0, 0)           -- type: 0, Text
+  reaper.gmem_write(1, text:len())  -- length of text
+  reaper.gmem_write(2, textoffset)  -- at which gmem-index does the text start
+  reaper.gmem_write(3, font:len())  -- the length of the fontname
+  reaper.gmem_write(4, fontnameoffset) -- at which gmem-index does the fontname start
+  reaper.gmem_write(5, fontsize)    -- the size of the font 0-1
+  reaper.gmem_write(6, 0)           -- is the update-signal; 0, update text and fontname; 1, already updated
+  reaper.gmem_write(7, x)           -- x-position of the text
+  reaper.gmem_write(8, y)           -- y-position of the text
+  reaper.gmem_write(9,  r)          -- red color of the text
+  reaper.gmem_write(10, g)          -- green color of the text
+  reaper.gmem_write(11, b)          -- blue color of the text
+  reaper.gmem_write(12, a)          -- alpha of the text
+  for i=1, text:len() do
+    Byte=string.byte(text:sub(i,i))
+    reaper.gmem_write(i+textoffset, Byte)
   end
-  return regionscnt, regions
+  
+  for i=1, font:len() do
+    Byte=string.byte(font:sub(i,i))
+    reaper.gmem_write(i+fontnameoffset, Byte)
+  end
+  
+  if OldName~=nil then
+    reaper.gmem_attach(OldName)
+  end
 end
 
+function ultraschall.VideoProcessor_SetTextPosition(x,y)
+-- needs modules/additionals/VideoProcessor-Presets.RPL to be imported somehow
+  local OldName=ultraschall.Gmem_GetCurrentAttachedName()
+  reaper.gmem_attach("Ultraschall_VideoProcessor_Settings")
+  reaper.gmem_write(7, x)
+  reaper.gmem_write(8, y)
+  if OldName~=nil then
+    reaper.gmem_attach(OldName)
+  end
+end
+
+function ultraschall.VideoProcessor_SetFontColor(r,g,b,a)
+-- needs modules/additionals/VideoProcessor-Presets.RPL to be imported somehow
+  local OldName=ultraschall.Gmem_GetCurrentAttachedName()
+  reaper.gmem_attach("Ultraschall_VideoProcessor_Settings")
+  
+  reaper.gmem_write(9,  r)
+  reaper.gmem_write(10, g)  
+  reaper.gmem_write(11, b)
+  reaper.gmem_write(12, a)
+  if OldName~=nil then
+    reaper.gmem_attach(OldName)
+  end  
+end
+
+function ultraschall.VideoProcessor_SetFontSize(fontsize)
+-- needs modules/additionals/VideoProcessor-Presets.RPL to be imported somehow
+  local OldName=ultraschall.Gmem_GetCurrentAttachedName()
+  reaper.gmem_attach("Ultraschall_VideoProcessor_Settings")
+  reaper.gmem_write(5, fontsize)
+  
+  if OldName~=nil then
+    reaper.gmem_attach(OldName)
+  end
+end
+
+function ultraschall.InputFX_GetInstrument()
+  -- undone, no idea how to do it. Maybe parsing reaper-hwoutfx.ini or checking fx-names from InputFX_GetFXName against being instruments?
+end
+
+
+function ultraschall.InputFX_SetNamedConfigParm(fxindex, parmname, value)
+  -- dunno, if this function works at all with monitoring fx...
+  return reaper.TrackFX_SetNamedConfigParm(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, parmname, value)
+end
+
+
 -- These seem to work working:
+function ultraschall.DeleteParmLearn2_FXStateChunk(FXStateChunk, fxid, parmidx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteParmLearn2_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmLearn2_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Deletes a ParmLearn-entry from an FXStateChunk, by parameter index.
+    
+    Unlike [DeleteParmLearn\_FXStateChunk](#DeleteParmLearn_FXStateChunk), this indexes the parameters not the already existing parmlearns.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if deletion was successful; false, if the function couldn't delete anything
+    string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, which you want to delete a ParmLearn from
+    integer fxid - the id of the fx, which holds the to-delete-ParmLearn-entry; beginning with 1
+    integer parmidx - the index of the parameter, whose parmlearn you want to delete; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Learn
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, parm, learn, delete, parm, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "parmidx", "must be an integer", -3) return false end
+    
+  local UseFX, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if UseFX==nil then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "fxid", "no such fx", -4) return false end
+  
+  local ParmLearnEntry=UseFX:match("%s-PARMLEARN "..(parmidx-1).."[:]*%a* .-\n")
+  if ParmLearnEntry==nil then ultraschall.AddErrorMessage("DeleteParmLearn2_FXStateChunk", "parmidx", "no such parameter", -5) return false end
+    
+  local UseFX2=string.gsub(UseFX, ParmLearnEntry, "\n")
+
+  return true, FXStateChunk:sub(1, startoffset)..UseFX2:sub(2,-2)..FXStateChunk:sub(endoffset-1, -1)
+end
+
+-- Ultraschall 4.1.006
+
+function SFEM()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SFEM</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=5.40
+      Lua=5.3
+    </requires>
+    <functioncall>requested_error_message = SFEM(optional integer dunk, optional integer target, optional integer message_type)</functioncall>
+    <description>
+      Displays the first error message in a messagebox, the ReaScript-Console, the clipboard, if error is existing and unread.
+    </description>
+    <retvals>
+      requested_error_message - the errormessage requested; 
+    </retvals>
+    <parameters>
+      optional integer dunk - allows to index the last x'ish message to be returned; nil or 0, the last one; 1, the one before the last one, etc.
+      optional integer target - the target, where the error-message shall be output to
+                              - 0 or nil, target is a message box
+                              - 1, target is the ReaScript-Console
+                              - 2, target is the clipboard
+                              - 3, target is a returned string
+      optional integer message_type - if target is set to 3, you can set, which part of the error-messageshall be returned as returnvalue
+                                    - nil or 1, returns true, if error has happened, false, if error didn't happen
+                                    - 2, returns the errcode
+                                    - 3, returns the functionname which caused the error
+                                    - 4, returns the parmname which caused the error
+                                    - 5, returns the errormessage
+                                    - 6, returns the lastreadtime
+                                    - 7, returns the err_creation_date
+                                    - 8, returns the err_creation_timestamp      
+    </parameters>
+    <chapter_context>
+      Developer
+      Error Handling
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>developer, error, show, message</tags>
+  </US_DocBloc>
+  --]]
+    local three
+    if dunk=="dunk" then three="Three points" end
+    dunk=math.tointeger(dunk)
+    if dunk==nil then dunk=ultraschall.ErrorCounter-1 end
+   
+    if target==nil then 
+      target=tonumber(reaper.GetExtState("ultraschall_api", "ShowLastErrorMessage_Target"))
+    end
+    
+    local CountErrMessage=ultraschall.CountErrorMessages()
+    if CountErrMessage<=0 then return end
+    if dunk<0 then dunk=CountErrMessage+dunk else dunk=CountErrMessage-dunk end
+    -- get the error-information
+    --local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
+      local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp = ultraschall.ReadErrorMessage(dunk, true)
+      --AAA=retval
+    -- if errormessage exists and message is unread
+    if retval==true and lastreadtime=="unread" then 
+      if target==nil or target==0 then
+        if parmname~="" then 
+          -- if error-causing-parameter was given, display this message
+          parmname="param: "..parmname 
+          reaper.MB(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+        else
+          -- if no error-causing-parameter was given, display that message
+          reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+        end
+      elseif target==1 then
+        if parmname~="" then 
+          -- if error-causing-parameter was given, display this message
+          parmname="param: "..parmname 
+          reaper.ShowConsoleMsg("\n\nErrortime: "..os.date().."\n"..functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        else
+          -- if no error-causing-parameter was given, display that message
+          reaper.ShowConsoleMsg("\n\nErrortime: "..os.date().."\n"..functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        end
+      elseif target==2 then
+        if parmname~="" then 
+          -- if error-causing-parameter was given, display this message
+          parmname="param: "..parmname 
+          print3(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        else
+          -- if no error-causing-parameter was given, display that message
+          print3(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        end  
+      elseif target==3 then
+        if      message_type==nil or message_type==1 then return retval
+        elseif  message_type==2 then return errcode
+        elseif  message_type==3 then return functionname
+        elseif  message_type==4 then return parmname
+        elseif  message_type==5 then return errormessage
+        elseif  message_type==6 then return lastreadtime
+        elseif  message_type==7 then return err_creation_date
+        elseif  message_type==8 then return err_creation_timestamp     
+        end
+      end
+    end
+    local retval
+    if parmname~="" then 
+      -- if error-causing-parameter was given, display this message
+      retval=functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode
+    else
+      -- if no error-causing-parameter was given, display that message
+      retval=functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode
+    end  
+    return retval, three
+end
+
+function ultraschall.IsTrackVisible(track, completely_visible)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsTrackVisible</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.IsTrackVisible(MediaTrack track, boolean completely_visible)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns if a track is currently visible in arrangeview
+        
+      returns nil in case of error
+    </description>
+    <retvals>
+      boolean retval - true, track is visible; false, track is not visible
+    </retvals>
+    <parameters>
+      MediaTrack track - the track, whose visibility you want to query
+      boolean completely_visible - false, all tracks including partially visible ones; true, only fully visible tracks
+    </parameters>
+    <chapter_context>
+      Track Management
+      Assistance functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+    <tags>track management, get, visible, tracks, arrangeview</tags>
+  </US_DocBloc>
+  --]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("IsTrackVisible", "track", "must be a MediaTrack", -1) return end
+  if type(completely_visible)~="boolean" then ultraschall.AddErrorMessage("IsTrackVisible", "completely_visible", "must be a boolean", -2) return end
+  local trackstring, tracktable_count, tracktable = ultraschall.GetAllVisibleTracks_Arrange(true, completely_visible)
+  local found=false
+  for i=1, tracktable_count do
+    if tracktable[i]==track then found=true end
+  end
+  return found
+end
+
+function ultraschall.IsTrackVisible(track, completely_visible)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsTrackVisible</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean visible = ultraschall.IsTrackVisible(MediaTrack track, boolean completely_visible)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns if a track is currently visible in arrangeview
+      
+      Note: Tracks who start above and end below the arrangeview will be treated as not completely visible!
+        
+      returns nil in case of error
+    </description>
+    <retvals>
+      boolean visible - true, track is visible; false, track is not visible
+    </retvals>
+    <parameters>
+      MediaTrack track - the track, whose visibility you want to query
+      boolean completely_visible - false, the track can be partially visible; true, the track must be fully visible
+    </parameters>
+    <chapter_context>
+      Track Management
+      Assistance functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+    <tags>track management, get, visible, track, arrangeview</tags>
+  </US_DocBloc>
+  --]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("IsTrackVisible", "track", "must be a MediaTrack", -1) return end
+  if type(completely_visible)~="boolean" then ultraschall.AddErrorMessage("IsTrackVisible", "completely_visible", "must be a boolean", -2) return end
+  local trackstring, tracktable_count, tracktable = ultraschall.GetAllVisibleTracks_Arrange(true, completely_visible)
+  local found=false
+  for i=1, tracktable_count do
+    if tracktable[i]==track then found=true end
+  end
+  return found
+end
+
+--A=ultraschall.IsTrackVisible(reaper.GetMasterTrack(0,0), true)
+
+--trackstring, tracktable_count, tracktable = ultraschall.GetAllVisibleTracks_Arrange(true, true)
+--            ultraschall.GetAllVisibleTracks_Arrange(master_track, completely_visible)
 
 
+function ultraschall.IsItemVisible(item, completely_visible)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsItemVisible</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean visible, boolean parent_track_visible, boolean within_start_and_endtime  = ultraschall.IsItemVisible(MediaItem item, boolean completely_visible)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns if n item is currently visible in arrangeview
+
+      Note: Items who start above and end below the visible arrangeview will be treated as not completely visible!
+      
+      parent_track_visible and within_start_and_endtime will allow you to determine, if the item could be visible if scrolled in only x or y direction.
+        
+      returns nil in case of error
+    </description>
+    <retvals>
+      boolean visible - true, the item is visible; false, the item is not visible
+      boolean parent_track_visible - true, its parent-track is visible; false, its parent track is not visible
+      boolean within_start_and_endtime - true, the item is within start and endtime of the arrangeview; false, it is not
+    </retvals>
+    <parameters>
+      MediaTrack track - the track, whose visibility you want to query
+      boolean completely_visible - false, all tracks including partially visible ones; true, only fully visible tracks
+    </parameters>
+    <chapter_context>
+      MediaItem Management
+      Assistance functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+    <tags>track management, get, visible, item, arrangeview</tags>
+  </US_DocBloc>
+  --]]
+  if ultraschall.type(item)~="MediaTrack" then ultraschall.AddErrorMessage("IsItemVisible", "item", "must be a MediaItem", -1) return end
+  if type(completely_visible)~="boolean" then ultraschall.AddErrorMessage("IsItemVisible", "completely_visible", "must be a boolean", -2) return end
+  local MediaTrack=reaper.GetMediaItemInfo_Value(item, "P_TRACK")
+  local trackstring, tracktable_count, tracktable = ultraschall.GetAllVisibleTracks_Arrange(false, completely_visible)
+  local found=false
+  for i=1, tracktable_count do
+    if tracktable[i]==MediaTrack then found=true end
+  end
+  local start_item=reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+  local end_item=reaper.GetMediaItemInfo_Value(item, "D_LENGTH")+start_item
+  local start_time, end_time = reaper.GetSet_ArrangeView2(0, false, 0, 0, 0, 0)
+  local yeah=false
+  
+  if completely_visible==true then
+    if start_item>=start_time and end_item<=end_time then yeah=true else yeah=false end
+  else
+    if start_item>=start_time and end_item<=end_time then yeah=true end
+    if start_item<=end_time and end_item>=start_time then yeah=true end
+  end
+  return yeah==found, found, yeah
+end
+
+
+--A={ultraschall.IsItemVisible(reaper.GetMediaItem(0,0), false)}
+
+function ultraschall.GetFocusedFX()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFocusedFX</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval, integer tracknumber, integer fxidx, integer itemnumber, integer takeidx, MediaTrack track, optional MediaItem item, optional MediaItemTake take = ultraschall.GetFocusedFX()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the focused FX
+  </description>
+  <retvals>
+    integer retval -   0, if no FX window has focus
+                   -   1, if a track FX window has focus or was the last focused and still open
+                   -   2, if an item FX window has focus or was the last focused and still open
+    integer tracknumber - tracknumber; 0, master track; 1, track 1; etc.
+    integer fxidx - the index of the FX; 1-based
+    integer itemnumber - -1, if it's a track-fx; 1 and higher, the mediaitem-number
+    integer takeidx - -1, if it's a track-fx; 1 and higher, the take-number
+    MediaTrack track - the MediaTrack-object
+    optional MediaItem item - the MediaItem, if take-fx
+    optional MediaItemTake take - the MediaItem-Take, if take-fx
+  </retvals>
+  <chapter_context>
+    FX-Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, focused, fx</tags>
+</US_DocBloc>
+]]    
+  local retval, tracknumber, itemnumber, fxnumber = reaper.GetFocusedFX()
+  if retval==0 then return 0 end
+  local FXID, TakeID, item, take, track
+  FXID=fxnumber+1
+  TakeID=-1
+  if itemnumber~=-1 then
+    FXID=fxnumber&1+(fxnumber&2)+(fxnumber&4)+(fxnumber&8)+(fxnumber&16)+(fxnumber&32)+(fxnumber&64)+(fxnumber&128)+
+         (fxnumber&256)+(fxnumber&512)+(fxnumber&1024)+(fxnumber&2048)+(fxnumber&4096)+(fxnumber&8192)+(fxnumber&16384)+(fxnumber&32768)
+    TakeID=fxnumber>>16
+    TakeID=TakeID+1
+    FXID=FXID+1
+    item=reaper.GetMediaItem(0, itemnumber)
+    take=reaper.GetMediaItemTake(reaper.GetMediaItem(0, itemnumber), TakeID-1)
+    itemnumber=itemnumber+1
+  end
+
+  if tracknumber>0 then 
+    track=reaper.GetTrack(0, tracknumber-1)
+  elseif tracknumber==0 then
+    track=reaper.GetMasterTrack(0)
+  end
+  return retval, tracknumber, FXID, itemnumber, TakeID, track, item, take
+end
+
+function ultraschall.GetLastTouchedFX()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLastTouchedFX</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer sourcetype, integer track_take_number, integer fxnumber, integer paramnumber, integer takeID, optional MediaTrack track, optional MediaItemTake take = ultraschall.GetLastTouchedFX()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the last touched FX
+    
+    Note: Does not return last touched monitoring-FX!
+  </description>
+  <retvals>
+    boolean retval - true, valid FX; false, no valid FX
+    integer sourcetype - 0, takeFX; 1, trackFX
+    integer track_take_number - the track or takenumber(see sourcetype-retval); 1-based
+    integer fxnumber - the number of the fx; 1-based
+    integer paramnumber - the number of the parameter; 1-based
+    integer takeID - the number of the take; 1-based; -1, if takeFX
+    optional MediaTrack track - the track of the TrackFX
+    optional MediaItemTake take - the take of the TakeFX
+  </retvals>
+  <chapter_context>
+    FX-Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, last touched, fx</tags>
+</US_DocBloc>
+]]    
+  local retval, tracknumber, fxnumber, paramnumber = reaper.GetLastTouchedFX()
+  if retval==false then return false end
+  local FXID, TakeID, track
+  local inputfx=false
+  if tracknumber>65536 then
+    tracknumber=tracknumber&1+(tracknumber&2)+(tracknumber&4)+(tracknumber&8)+(tracknumber&16)+(tracknumber&32)+(tracknumber&64)+(tracknumber&128)+
+         (tracknumber&256)+(tracknumber&512)+(tracknumber&1024)+(tracknumber&2048)+(tracknumber&4096)+(tracknumber&8192)+(tracknumber&16384)+(tracknumber&32768)
+    FXID=fxnumber&1+(fxnumber&2)+(fxnumber&4)+(fxnumber&8)+(fxnumber&16)+(fxnumber&32)+(fxnumber&64)+(fxnumber&128)+
+         (fxnumber&256)+(fxnumber&512)+(fxnumber&1024)+(fxnumber&2048)+(fxnumber&4096)+(fxnumber&8192)+(fxnumber&16384)+(fxnumber&32768)
+    TakeID=fxnumber>>16           
+    TakeID=TakeID+1
+    Itemnumber=tracknumber
+    return retval, 0, Itemnumber,  FXID+1,     paramnumber+1, TakeID, nil,   reaper.GetMediaItemTake(reaper.GetMediaItem(0, tracknumber-1), TakeID-1)
+  else
+    if tracknumber>0 then 
+      track=reaper.GetTrack(0, tracknumber-1)
+    elseif tracknumber==0 then
+      track=reaper.GetMasterTrack(0)
+    end
+    return retval, 1, tracknumber, fxnumber+1, paramnumber+1, -1,     track, nil
+  end
+end
+
+function ultraschall.EditReaScript(filename)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EditReaScript</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.EditReaScript(string filename)</functioncall>
+  <description>
+    Opens a script in Reaper's ReaScript-IDE.
+    
+    If the file does not exist yet, it will try to create it. If parameter filename doesn't contain a valid directory, it will try to create the script in the Scripts-folder of Reaper.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    boolean flag - true, suppress error-messages; false, don't suppress error-messages
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, you didn't pass a boolean as parameter
+  </retvals>
+  <chapter_context>
+    Developer
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>developer, edit, reascript, ide</tags>
+</US_DocBloc>
+]]
+  if type(filename)~="string" then ultraschall.AddErrorMessage("EditReaScript", "filename", "must be a string", -1) return false end
+  if reaper.file_exists(filename)==false and ultraschall.DirectoryExists2(ultraschall.GetPath(filename))==false then
+    local Path, Filename=ultraschall.GetPath(filename)
+    filename=reaper.GetResourcePath().."/Scripts/"..Filename
+  end
+  if reaper.file_exists(filename)==false then
+    ultraschall.WriteValueToFile(filename, "")
+  end
+  local A, B, C
+  A=ultraschall.GetUSExternalState("REAPER", "lastscript", "reaper.ini")
+  B=ultraschall.SetUSExternalState("REAPER", "lastscript", filename, "reaper.ini")
+  reaper.Main_OnCommand(41931,0)
+  C=ultraschall.SetUSExternalState("REAPER", "lastscript", A, "reaper.ini")
+  return true
+end
 
 ultraschall.ShowLastErrorMessage()
