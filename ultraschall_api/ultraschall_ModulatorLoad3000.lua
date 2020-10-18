@@ -3851,9 +3851,9 @@ else
     ultraschall.LM(25)
     return ultraschall.GetItemButtonsVisible(table.unpack({...}))
   end
-  function ultraschall.SetThemeParameterIndexByDescription(...)
+  function ultraschall.TCP_SetWidth(...)
     ultraschall.LM(25)
-    return ultraschall.SetThemeParameterIndexByDescription(table.unpack({...}))
+    return ultraschall.TCP_SetWidth(table.unpack({...}))
   end
   function ultraschall.GetTrackManagerHWND(...)
     ultraschall.LM(25)

@@ -266,9 +266,14 @@ Has now 1294 functions, with 54 new ones
    - FXManagement: GetLastTouchedFX - returns the last touched fx(easier than Reaper's own API-function)
    - MediaItem-Management: IsItemVisible - returns, if a MediaItem is visible or not
    - TrackManagement: IsTrackVisible - returns, if a track is visible or not
+   - ThemeManagement: Theme\_Defaultv6\_GetHideTCPElement - gets the current hidden-states of tcp-element when using default v6-theme
+   - ThemeManagement: Theme\_Defaultv6\_GetTCPNameSize - gets the current size of the track-name-label when using default v6-theme
+   - ThemeManagement: Theme\_Defaultv6\_SetHideTCPElement - sets the hidden-states of tcp-element when using default v6-theme
+   - ThemeManagement: Theme\_Defaultv6\_SetTCPNameSize - sets the new size of the track-name-label when using default v6-theme
    
 #### Changes from 4.1.006 to 4.1.007   
    - TrackManagement: GetAllVisibleTracks\_Arrange - returns the found tracks now as MediaTrack-objects as well; didn't find master-track under certain circumstances -> fixed
+   - UserInterface: TCP\_SetWidth - errors in the docs -> fixed
    
 ---
 

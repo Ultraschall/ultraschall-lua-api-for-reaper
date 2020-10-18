@@ -1799,4 +1799,263 @@ function ultraschall.EditReaScript(filename)
   return true
 end
 
+function ultraschall.Theme_Defaultv6_SetHideTCPElement(Layout, Element, if_mixer_visible, if_track_not_selected, if_track_not_armed, always_hide, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetHideTCPElement</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetHideTCPElement(string Layout, integer Element, boolean if_mixer_visible, boolean if_track_not_selected, boolean if_track_not_armed, boolean always_hide, boolean persist)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Hides/unhides elements from TCP when using the default Reaper 6-theme
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose element you want to hide/unhide; either "A", "B" or "C"
+    integer Element - the element, whose hide-state you want to set
+                    - 1, record arm
+                    - 2, monitor
+                    - 3, trackname
+                    - 4, volume
+                    - 5, routing
+                    - 6, insert fx
+                    - 7, envelope
+                    - 8, pan and width
+                    - 9, record mode
+                    - 10, input
+                    - 11, labels and values
+                    - 12, meter values
+    boolean if_mixer_visible - true, hide element, when mixer is visible; false, don't hide element, when mixer is visible
+    boolean if_track_not_selected - true, hide element, when track is not selected; false, don't hide element when track is not selected
+    boolean if_track_not_armed - true, hides element, when track is not armed; false, don't hide element when track is not armed
+    boolean always_hide - true, always hides element; false, don't always hide element
+    boolean persist - true, this setting persists after restart of Reaper; false, this setting is only valid until closing Reaper
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, hidel, element, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetHideTCPElement", "Layout", "must be either A, B or C", -1) return false end
+  if math.type(Element)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetHideTCPElement", "Element", "must be an integer", -2) return false end
+  if Element<1 or Element>12 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetHideTCPElement", "Element", "must be between 1 and 12", -3) return false end
+  if type(if_mixer_visible)~="boolean"  then ultraschall.AddErrorMessage("Theme_Defaultv6_SetHideTCPElement", "if_mixer_visible", "must be a boolean", -4) return false end
+  
+  if type(if_track_not_selected)~="boolean"  then ultraschall.AddErrorMessage("Theme_Defaultv6_SetHideTCPElement", "if_track_not_selected", "must be a boolean", -5) return false end
+  if type(if_track_not_armed)~="boolean"  then ultraschall.AddErrorMessage("Theme_Defaultv6_SetHideTCPElement", "if_track_not_armed", "must be a boolean", -6) return false end
+  if type(always_hide)~="boolean"  then ultraschall.AddErrorMessage("Theme_Defaultv6_SetHideTCPElement", "always_hide", "must be a boolean", -7) return false end
+  if type(persist)~="boolean"  then ultraschall.AddErrorMessage("Theme_Defaultv6_SetHideTCPElement", "persist", "must be a boolean", -8) return false end
+
+  local val=0
+  if if_mixer_visible==true then val=val+1 end
+  if if_track_not_selected==true then val=val+2 end
+  if if_track_not_armed==true then val=val+4 end
+  if always_hide==true then val=val+8 end
+  if     Element==1 then elementname="Record_Arm" 
+  elseif Element==2 then elementname="Monitor" 
+  elseif Element==3 then elementname="Track_Name"
+  elseif Element==4 then elementname="Volume"
+  elseif Element==5 then elementname="Routing"
+  elseif Element==6 then elementname="Effects"
+  elseif Element==7 then elementname="Envelope"
+  elseif Element==8 then elementname="Pan_&_Width"
+  elseif Element==9 then elementname="Record_Mode"
+  elseif Element==10 then elementname="Input"
+  elseif Element==11 then elementname="Values"
+  elseif Element==12 then elementname="Meter_Values"
+  end
+
+  ultraschall.SetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname, val, persist, false)
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+--ultraschall.Theme_Defaultv6_HideTCPElement("A", 1, true, false, false, false, false)
+
+
+function ultraschall.Theme_Defaultv6_GetHideTCPElement(Layout, Element)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetHideTCPElement</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, boolean if_mixer_visible, boolean if_track_not_selected, boolean if_track_not_armed, boolean always_hide = ultraschall.Theme_Defaultv6_GetHideTCPElement(string Layout, integer Element)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Get the current hides/unhide-state of elements from TCP when using the default Reaper 6-theme
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, getting was successful; false, getting was unsuccessful
+    boolean if_mixer_visible - true, element is hidden, when mixer is visible; false, element is not hidden, when mixer is visible
+    boolean if_track_not_selected - true, element is hidden, when track is not selected; false, element is not hidden when track is not selected
+    boolean if_track_not_armed - true, element is hidden, when track is not armed; false, element is not hidden when track is not armed
+    boolean always_hide - true, element is always hidden; false, element isn't always hidden
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose element-hide/unhide-state you want to get; either "A", "B" or "C"
+    integer Element - the element, whose hide-state you want to get
+                    - 1, record arm
+                    - 2, monitor
+                    - 3, trackname
+                    - 4, volume
+                    - 5, routing
+                    - 6, insert fx
+                    - 7, envelope
+                    - 8, pan and width
+                    - 9, record mode
+                    - 10, input
+                    - 11, labels and values
+                    - 12, meter values
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, hidel, element, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_GetHideTCPElement", "Layout", "must be either A, B or C", -1) return false end
+  if math.type(Element)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_GetHideTCPElement", "Element", "must be an integer", -2) return false end
+  if Element<1 or Element>12 then ultraschall.AddErrorMessage("Theme_Defaultv6_GetHideTCPElement", "Element", "must be between 1 and 12", -3) return false end
+
+  if     Element==1 then elementname="Record_Arm" 
+  elseif Element==2 then elementname="Monitor" 
+  elseif Element==3 then elementname="Track_Name"
+  elseif Element==4 then elementname="Volume"
+  elseif Element==5 then elementname="Routing"
+  elseif Element==6 then elementname="Effects"
+  elseif Element==7 then elementname="Envelope"
+  elseif Element==8 then elementname="Pan_&_Width"
+  elseif Element==9 then elementname="Record_Mode"
+  elseif Element==10 then elementname="Input"
+  elseif Element==11 then elementname="Values"
+  elseif Element==12 then elementname="Meter_Values"
+  end
+
+  local parameterindex, retval, desc, val, defValue, minValue, maxValue 
+  = ultraschall.GetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname)
+  return true, val&1~=0, val&2~=0, val&4~=0, val&8~=0
+end
+
+--ultraschall.Theme_Defaultv6_SetHideTCPElement("A", 1, false, false, false, true, false)
+--A={ultraschall.Theme_Defaultv6_GetHideTCPElement("A", 1)}
+
+function ultraschall.Theme_Defaultv6_SetTCPNameSize(Layout, size, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetTCPNameSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetTCPNameSize(string Layout, integer size, boolean persist)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the size of the trackname-label in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose trackname-label-size you want to set; either "A", "B" or "C"
+    integer size - the new size of the tcp-trackname-label
+                    - 0, auto
+                    - 1, 20
+                    - 2, 50
+                    - 3, 80
+                    - 4, 110
+                    - 5, 140
+                    - 6, 170
+    boolean persist - true, this setting persists after restart of Reaper; false, this setting is only valid until closing Reaper
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, trackname, label, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPNameSize", "Layout", "must be either A, B or C", -1) return false end
+  if math.type(size)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPNameSize", "size", "must be an integer", -2) return false end
+  if size<0 or size>6 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPNameSize", "size", "must be between 0 and 6", -3) return false end
+  local elementname="LabelSize"
+
+  ultraschall.SetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname, size+1, persist, false)
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+--A=ultraschall.Theme_Defaultv6_SetTCPNameSize("A", 6, false)
+
+function ultraschall.Theme_Defaultv6_GetTCPNameSize(Layout)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetTCPNameSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer size = ultraschall.Theme_Defaultv6_GetTCPNameSize(string Layout)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the size of the trackname-label in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer size - the current size of the tcp-trackname-label
+                    - 0, auto
+                    - 1, 20
+                    - 2, 50
+                    - 3, 80
+                    - 4, 110
+                    - 5, 140
+                    - 6, 170
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose trackname-size you want to get; either "A", "B" or "C"
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, trackname, label, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPNameSize", "Layout", "must be either A, B or C", -1) return end
+  local elementname="LabelSize"
+
+  local A, B, C, size = ultraschall.GetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname)
+  return size-1
+end
+
+--A=ultraschall.Theme_Defaultv6_GetTCPNameSize("C")
+
 ultraschall.ShowLastErrorMessage()
