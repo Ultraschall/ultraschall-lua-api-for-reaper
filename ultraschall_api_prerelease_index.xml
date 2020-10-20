@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43379.00" author="Meo Mespotine">
+      <version name="43380.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007/ultraschall_api/Changelog-Api.txt</source>
@@ -683,10 +683,27 @@ New features in 4.1.007
     visible or not
 -   TrackManagement: IsTrackVisible - returns, if a track is visible or
     not
+-   ThemeManagement: Theme_Defaultv6_GetEnvFaderSize - gets the current
+    size of the faders of envelopes when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetEnvNameSize - gets the current
+    size of the name of envelopes when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetEnvSize - gets the current size
+    of the envelope when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetEnvFolderIndent - gets the
+    current indentation-related-to-trackfolder-setting when using the
+    default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetHideTCPElement - gets the
     current hidden-states of tcp-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetMCPAlignControls - gets the
     current alignement of controls in tcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetMCPBorderStyle - gets the
+    current border-style of the mcp when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetMCPFolderIndent - gets the
+    current folder indentation of mcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetMCPMeterExpansion - gets the
+    current MCP meter expansion when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetStyleMCPElement - gets the style
+    of an mcp-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetTCPAlignControls - gets the
     current alignement of controls in tcp when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetTCPInputSize - gets the current
@@ -701,12 +718,31 @@ New features in 4.1.007
     size of the track-name-label when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetTCPVolumeSize - gets the current
     size of the volume-element when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetTransPlayRateSize - gets the
+    current size of the playrate-slider when using the default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetTransSize - gets the current
     size of the transport when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetEnvFaderSize - sets the current
+    size of the faders of envelopes when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetEnvNameSize - sets the new size
+    of the name of envelopes when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetEnvSize - sets the new size of
+    the envelope when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetEnvFolderIndent - sets the new
+    indentation-related-to-trackfolder-setting when using the default
+    v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetHideTCPElement - sets the
     hidden-states of tcp-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetMCPAlignControls - sets the new
     alignement of controls in tcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetMCPBorderStyle - sets the new
+    border-style of the mcp when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetMCPFolderIndent - sets the new
+    folder indentation of mcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetMCPMeterExpansion - sets the new
+    MCP meter expansion when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetStyleMCPElement - sets the style
+    of an mcp-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetTCPAlignControls - sets the new
     alignement of controls in tcp when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetTCPInputSize - sets the new size
@@ -721,6 +757,8 @@ New features in 4.1.007
     of the track-name-label when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetTCPVolumeSize - sets the new
     size of the volume-element when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetTransPlayRateSize - sets the new
+    size of the playrate-slider when using the default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetTransSize - sets the new size of
     the transport when using the default v6-theme
 
@@ -7282,7 +7320,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1331 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43379 from 20.10.2020 04:54:07).}
+a 1349 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43380 from 20.10.2020 23:09:52).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7296,7 +7334,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1331 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1349 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -7420,7 +7458,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1331 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43379 from 20.10.2020 04:54:07).}
+a 1349 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43380 from 20.10.2020 23:09:52).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7434,7 +7472,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1331 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1349 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
