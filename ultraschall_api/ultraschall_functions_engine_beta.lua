@@ -2058,4 +2058,745 @@ end
 
 --A=ultraschall.Theme_Defaultv6_GetTCPNameSize("C")
 
+function ultraschall.Theme_Defaultv6_SetTCPVolumeSize(Layout, size, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetTCPVolumeSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetTCPVolumeSize(string Layout, integer size, boolean persist)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the size of the volume in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose volume-size you want to set; either "A", "B" or "C"
+    integer size - the new size of the tcp-volume
+                    - 0, knob
+                    - 1, 40
+                    - 2, 70
+                    - 3, 100
+                    - 4, 130
+                    - 5, 160
+                    - 6, 190
+    boolean persist - true, this setting persists after restart of Reaper; false, this setting is only valid until closing Reaper
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, volume, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPVolumeSize", "Layout", "must be either A, B or C", -1) return false end
+  if math.type(size)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPVolumeSize", "size", "must be an integer", -2) return false end
+  if size<0 or size>6 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPVolumeSize", "size", "must be between 0 and 6", -3) return false end
+  local elementname="vol_size"
+
+  ultraschall.SetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname, size+1, persist, false)
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+--A=ultraschall.Theme_Defaultv6_SetTCPVolumeSize("A", 2, false)
+
+function ultraschall.Theme_Defaultv6_GetTCPVolumeSize(Layout)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetTCPVolumeSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer size = ultraschall.Theme_Defaultv6_GetTCPVolumeSize(string Layout)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the size of the volume in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer size - the current size of the tcp-volume
+                    - 0, knob
+                    - 1, 40
+                    - 2, 70
+                    - 3, 100
+                    - 4, 130
+                    - 5, 160
+                    - 6, 190
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose volume-size you want to get; either "A", "B" or "C"
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, volume, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_GetTCPVolumeSize", "Layout", "must be either A, B or C", -1) return end
+  local elementname="vol_size"
+
+  local A, B, C, size = ultraschall.GetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname)
+  return size-1
+end
+
+--A=ultraschall.Theme_Defaultv6_GetTCPVolumeSize("A")
+
+function ultraschall.Theme_Defaultv6_SetTCPInputSize(Layout, size, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetTCPInputSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetTCPInputSize(string Layout, integer size, boolean persist)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the size of the input in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose input-size you want to set; either "A", "B" or "C"
+    integer size - the new size of the tcp-input
+                    - 0, MIN
+                    - 1, 25
+                    - 2, 40
+                    - 3, 60
+                    - 4, 90
+                    - 5, 150
+                    - 6, 200
+    boolean persist - true, this setting persists after restart of Reaper; false, this setting is only valid until closing Reaper
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, input, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPInputSize", "Layout", "must be either A, B or C", -1) return false end
+  if math.type(size)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPInputSize", "size", "must be an integer", -2) return false end
+  if size<0 or size>6 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPInputSize", "size", "must be between 0 and 6", -3) return false end
+  local elementname="InputSize"
+
+  ultraschall.SetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname, size+1, persist, false)
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+--A=ultraschall.Theme_Defaultv6_SetTCPInputSize("A", 2, false)
+
+function ultraschall.Theme_Defaultv6_GetTCPInputSize(Layout)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetTCPInputSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer size = ultraschall.Theme_Defaultv6_GetTCPInputSize(string Layout)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the size of the input in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer size - the current size of the tcp-input
+                    - 0, MIN
+                    - 1, 25
+                    - 2, 40
+                    - 3, 60
+                    - 4, 90
+                    - 5, 150
+                    - 6, 200
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose input-size you want to get; either "A", "B" or "C"
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, input, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_GetTCPInputSize", "Layout", "must be either A, B or C", -1) return end
+  local elementname="InputSize"
+
+  local A, B, C, size = ultraschall.GetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname)
+  return size-1
+end
+
+--A=ultraschall.Theme_Defaultv6_GetTCPInputSize("B")
+
+function ultraschall.Theme_Defaultv6_SetTCPMeterSize(Layout, size, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetTCPMeterSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetTCPMeterSize(string Layout, integer size, boolean persist)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the size of the meter in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose meter-size you want to set; either "A", "B" or "C"
+    integer size - the new size of the tcp-meter
+                    - 1, 4
+                    - 2, 10
+                    - 3, 20
+                    - 4, 40
+                    - 5, 80
+                    - 6, 160
+                    - 7, 320
+    boolean persist - true, this setting persists after restart of Reaper; false, this setting is only valid until closing Reaper
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, meter, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPMeterSize", "Layout", "must be either A, B or C", -1) return false end
+  if math.type(size)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPMeterSize", "size", "must be an integer", -2) return false end
+  if size<1 or size>7 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPMeterSize", "size", "must be between 1 and 7", -3) return false end
+  local elementname="MeterSize"
+
+  ultraschall.SetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname, size, persist, false)
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+--A=ultraschall.Theme_Defaultv6_SetTCPMeterSize("A", 1, false)
+
+function ultraschall.Theme_Defaultv6_GetTCPMeterSize(Layout)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetTCPMeterSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer size = ultraschall.Theme_Defaultv6_GetTCPMeterSize(string Layout)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the size of the meter in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer size - the current size of the tcp-meter
+                    - 1, 4
+                    - 2, 10
+                    - 3, 20
+                    - 4, 40
+                    - 5, 80
+                    - 6, 160
+                    - 7, 320
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose meter-size you want to get; either "A", "B" or "C"
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, meter, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_GetTCPMeterSize", "Layout", "must be either A, B or C", -1) return end
+  local elementname="MeterSize"
+
+  local A, B, C, size = ultraschall.GetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname)
+  return size
+end
+
+--A=ultraschall.Theme_Defaultv6_GetTCPMeterSize("A")
+
+function ultraschall.Theme_Defaultv6_SetTCPMeterLocation(Layout, location, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetTCPMeterLocation</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetTCPMeterLocation(string Layout, integer location, boolean persist)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the location of the meter in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose meter-location you want to set; either "A", "B" or "C"
+    integer location - the new location of the tcp-meter
+                    - 1, LEFT
+                    - 2, RIGHT
+                    - 3, LEFT IF ARMED
+    boolean persist - true, this setting persists after restart of Reaper; false, this setting is only valid until closing Reaper
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, meter, location, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPMeterLocation", "Layout", "must be either A, B or C", -1) return false end
+  if math.type(location)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPMeterLocation", "location", "must be an integer", -2) return false end
+  if location<1 or location>3 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPMeterLocation", "location", "must be between 1 and 3", -3) return false end
+  local elementname="MeterLoc"
+
+  ultraschall.SetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname, location, persist, false)
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+--A=ultraschall.Theme_Defaultv6_SetTCPMeterLocation("A", 3, false)
+
+function ultraschall.Theme_Defaultv6_GetTCPMeterLocation(Layout)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetTCPMeterLocation</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer location = ultraschall.Theme_Defaultv6_GetTCPMeterLocation(string Layout)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the location of the meter in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer location - the current location of the tcp-meter
+                    - 1, Left
+                    - 2, Right
+                    - 3, Left if armed
+  </retvals>
+  <parameters>
+    string Layout - the layout, whose meter-location you want to get; either "A", "B" or "C"
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, meter, location, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_GetTCPMeterLocation", "Layout", "must be either A, B or C", -1) return end
+  local elementname="MeterLoc"
+
+  local A, B, C, location = ultraschall.GetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname)
+  return location
+end
+
+--A=ultraschall.Theme_Defaultv6_GetTCPMeterLocation("A")
+
+function ultraschall.Theme_Defaultv6_SetTCPFolderIndent(indent, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetTCPFolderIndent</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetTCPFolderIndent(integer indent, boolean persist)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the indentation of folders in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer indent - the indentation-setting of tcp-folders
+                    - 0, None
+                    - 1, 1/8
+                    - 2, 1/4
+                    - 3, 1/2
+                    - 4, 1
+                    - 5, 2
+                    - 6, MAX
+    boolean persist - true, this setting persists after restart of Reaper; false, this setting is only valid until closing Reaper
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, folder, indent, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if math.type(indent)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPFolderIndent", "indent", "must be an integer", -1) return false end
+  if indent<0 or indent>6 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPFolderIndent", "indent", "must be between 0 and 6", -2) return false end
+  local Layout="A"
+  local elementname="indent"
+
+  ultraschall.SetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname, indent+1, persist, false)
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+--A=ultraschall.Theme_Defaultv6_SetTCPFolderIndent(6, false)
+
+function ultraschall.Theme_Defaultv6_GetTCPFolderIndent()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetTCPFolderIndent</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer indent = ultraschall.Theme_Defaultv6_GetTCPFolderIndent()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the indentation of folders in the tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer indent - the indentation-setting of tcp-folders
+                    - 0, None
+                    - 1, 1/8
+                    - 2, 1/4
+                    - 3, 1/2
+                    - 4, 1
+                    - 5, 2
+                    - 6, MAX
+  </retvals>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, folder, indent, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  local Layout="A"
+  local elementname="indent"
+
+  local A, B, C, size = ultraschall.GetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname)
+  return size-1
+end
+
+--A=ultraschall.Theme_Defaultv6_GetTCPFolderIndent()
+
+function ultraschall.Theme_Defaultv6_SetTCPAlignControls(alignement, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetTCPAlignControls</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetTCPAlignControls(integer size, boolean persist)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the alignment of controls in tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer alignement - the alignment-setting of tcp-controls
+                    - 1, Folder Indent
+                    - 2, Aligned
+                    - 3, Extend Name
+    boolean persist - true, this setting persists after restart of Reaper; false, this setting is only valid until closing Reaper
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, control, alignement, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if math.type(alignement)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPAlignControls", "alignement", "must be an integer", -1) return false end
+  if alignement<1 or alignement>3 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPAlignControls", "alignement", "must be between 1 and 3", -2) return false end
+  local Layout="A"
+  local elementname="control_align"
+
+  ultraschall.SetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname, alignement, persist, false)
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+--A=ultraschall.Theme_Defaultv6_SetTCPAlignControls(1, false)
+
+function ultraschall.Theme_Defaultv6_GetTCPAlignControls()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetTCPAlignControls</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer alignement = ultraschall.Theme_Defaultv6_GetTCPAlignControls()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the alignment of controls in the tcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer alignement - the alignment-setting of tcp-controls
+                    - 1, Folder Indent
+                    - 2, Aligned
+                    - 3, Extend Name
+  </retvals>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, control, alignement, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  local Layout="A"
+  local elementname="control_align"
+
+  local A, B, C, alignement = ultraschall.GetThemeParameterIndexByDescription(Layout.."_tcp_"..elementname)
+  return alignement
+end
+
+--A=ultraschall.Theme_Defaultv6_GetTCPAlignControls()
+
+function ultraschall.Theme_Defaultv6_SetMCPAlignControls(alignement, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetMCPAlignControls</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetMCPAlignControls(integer size, boolean persist)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the alignment of controls in mcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer alignement - the alignment-setting of mcp-controls
+                    - 1, Folder Indent
+                    - 2, Aligned
+    boolean persist - true, this setting persists after restart of Reaper; false, this setting is only valid until closing Reaper
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, control, alignement, mcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if math.type(alignement)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetMCPAlignControls", "alignement", "must be an integer", -1) return false end
+  if alignement<1 or alignement>2 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetMCPAlignControls", "alignement", "must be between 1 and 2", -2) return false end
+  local Layout="A"
+  local elementname="control_align"
+
+  ultraschall.SetThemeParameterIndexByDescription(Layout.."_mcp_"..elementname, alignement, persist, false)
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+--A=ultraschall.Theme_Defaultv6_SetMCPAlignControls(2, false)
+
+function ultraschall.Theme_Defaultv6_GetMCPAlignControls()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetMCPAlignControls</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer alignement = ultraschall.Theme_Defaultv6_GetMCPAlignControls()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the alignment of controls in the mcp
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer alignement - the alignment-setting of mcp-controls
+                    - 1, Folder Indent
+                    - 2, Aligned
+  </retvals>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, control, alignement, mcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  local Layout="A"
+  local elementname="control_align"
+
+  local A, B, C, alignement = ultraschall.GetThemeParameterIndexByDescription(Layout.."_mcp_"..elementname)
+  return alignement
+end
+
+--A=ultraschall.Theme_Defaultv6_GetMCPAlignControls()
+
+function ultraschall.Theme_Defaultv6_SetTransSize(size)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetTransSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetTransSize(integer size)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the size of the transport-controls
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer alignement - the alignment-setting of mcp-controls
+                    - 1, normal
+                    - 2, 150%
+                    - 3, 200%
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, control, size, transport, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if math.type(size)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTransSize", "size", "must be an integer", -1) return false end
+  if size<1 or size>3 then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTransSize", "size", "must be between 1 and 3", -2) return false end
+  if size==1 then size=""
+  elseif size==2 then size="150%_"
+  elseif size==3 then size="200%_"
+  end
+  local A=reaper.ThemeLayout_SetLayout("trans", size.."A")
+  reaper.ThemeLayout_RefreshAll()
+  return true
+end
+
+function ultraschall.Theme_Defaultv6_GetTransSize()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetTransSize</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_GetTransSize()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the size of the transport-controls
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    integer alignement - the alignment-setting of mcp-controls
+                    - 1, normal
+                    - 2, 150%
+                    - 3, 200%
+  </retvals>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, control, size, transport, default v6 theme</tags>
+</US_DocBloc>
+]]
+  local A,B=reaper.ThemeLayout_GetLayout("trans", -1)
+  if B=="A" then return 1
+  elseif B=="150%_A" then return 2
+  elseif B=="200%_A" then return 3
+  end
+end
+
+--A=ultraschall.Theme_Defaultv6_SetTransSize(3)
+--A=ultraschall.Theme_Defaultv6_GetTransSize()
+
 ultraschall.ShowLastErrorMessage()

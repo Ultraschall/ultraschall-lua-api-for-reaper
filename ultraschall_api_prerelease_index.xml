@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43376.00" author="Meo Mespotine">
+      <version name="43379.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007/ultraschall_api/Changelog-Api.txt</source>
@@ -651,7 +651,7 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.1.007 - “Black Sabbath - War Pigs” - 30th of October 2020
+4.1.007 - “Radiohead - Street Spirit” - 30th of October 2020
 
 Has now 1294 functions, with 54 new ones
 
@@ -685,15 +685,49 @@ New features in 4.1.007
     not
 -   ThemeManagement: Theme_Defaultv6_GetHideTCPElement - gets the
     current hidden-states of tcp-element when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetMCPAlignControls - gets the
+    current alignement of controls in tcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetTCPAlignControls - gets the
+    current alignement of controls in tcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetTCPInputSize - gets the current
+    size of the input-element when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetTCPFolderIndent - gets the new
+    folder-indent-size of tcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetTCPMeterLocation - gets the
+    current location of the meter-element when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetTCPMeterSize - gets the current
+    size of the meter-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetTCPNameSize - gets the current
     size of the track-name-label when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetTCPVolumeSize - gets the current
+    size of the volume-element when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetTransSize - gets the current
+    size of the transport when using the default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetHideTCPElement - sets the
     hidden-states of tcp-element when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetMCPAlignControls - sets the new
+    alignement of controls in tcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetTCPAlignControls - sets the new
+    alignement of controls in tcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetTCPInputSize - sets the new size
+    of the input-element when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetTCPFolderIndent - sets the new
+    folder-indent-size of tcp when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetTCPMeterLocation - sets the new
+    location of the meter-element when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetTCPMeterSize - sets the new size
+    of the meter-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetTCPNameSize - sets the new size
     of the track-name-label when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetTCPVolumeSize - sets the new
+    size of the volume-element when using the default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetTransSize - sets the new size of
+    the transport when using the default v6-theme
 
 Changes from 4.1.006 to 4.1.007
 
+-   Developer Tools: Theme Parameter Monitor - didn’t stop script, when
+    closed by close-window-button -> fixed
 -   TrackManagement: GetAllVisibleTracks_Arrange - returns the found
     tracks now as MediaTrack-objects as well; didn’t find master-track
     under certain circumstances -> fixed
@@ -7248,7 +7282,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1315 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43376 from 19.10.2020 01:21:22).}
+a 1331 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43379 from 20.10.2020 04:54:07).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7262,7 +7296,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1315 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1331 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -7386,7 +7420,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1315 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43376 from 19.10.2020 01:21:22).}
+a 1331 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43379 from 20.10.2020 04:54:07).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7400,7 +7434,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1315 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1331 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
