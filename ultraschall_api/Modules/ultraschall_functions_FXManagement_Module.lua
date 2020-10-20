@@ -6764,3 +6764,119 @@ function ultraschall.InputFX_GetEQParam(fxindex, paramidx)
 end
 
 --A={ultraschall.InputFX_GetEQParam(14, 1)}
+
+function ultraschall.GetFocusedFX()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFocusedFX</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval, integer tracknumber, integer fxidx, integer itemnumber, integer takeidx, MediaTrack track, optional MediaItem item, optional MediaItemTake take = ultraschall.GetFocusedFX()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the focused FX
+  </description>
+  <retvals>
+    integer retval -   0, if no FX window has focus
+                   -   1, if a track FX window has focus or was the last focused and still open
+                   -   2, if an item FX window has focus or was the last focused and still open
+    integer tracknumber - tracknumber; 0, master track; 1, track 1; etc.
+    integer fxidx - the index of the FX; 1-based
+    integer itemnumber - -1, if it's a track-fx; 1 and higher, the mediaitem-number
+    integer takeidx - -1, if it's a track-fx; 1 and higher, the take-number
+    MediaTrack track - the MediaTrack-object
+    optional MediaItem item - the MediaItem, if take-fx
+    optional MediaItemTake take - the MediaItem-Take, if take-fx
+  </retvals>
+  <chapter_context>
+    FX-Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, focused, fx</tags>
+</US_DocBloc>
+]]    
+  local retval, tracknumber, itemnumber, fxnumber = reaper.GetFocusedFX()
+  if retval==0 then return 0 end
+  local FXID, TakeID, item, take, track
+  FXID=fxnumber+1
+  TakeID=-1
+  if itemnumber~=-1 then
+    FXID=fxnumber&1+(fxnumber&2)+(fxnumber&4)+(fxnumber&8)+(fxnumber&16)+(fxnumber&32)+(fxnumber&64)+(fxnumber&128)+
+         (fxnumber&256)+(fxnumber&512)+(fxnumber&1024)+(fxnumber&2048)+(fxnumber&4096)+(fxnumber&8192)+(fxnumber&16384)+(fxnumber&32768)
+    TakeID=fxnumber>>16
+    TakeID=TakeID+1
+    FXID=FXID+1
+    item=reaper.GetMediaItem(0, itemnumber)
+    take=reaper.GetMediaItemTake(reaper.GetMediaItem(0, itemnumber), TakeID-1)
+    itemnumber=itemnumber+1
+  end
+
+  if tracknumber>0 then 
+    track=reaper.GetTrack(0, tracknumber-1)
+  elseif tracknumber==0 then
+    track=reaper.GetMasterTrack(0)
+  end
+  return retval, tracknumber, FXID, itemnumber, TakeID, track, item, take
+end
+
+function ultraschall.GetLastTouchedFX()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLastTouchedFX</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer sourcetype, integer track_take_number, integer fxnumber, integer paramnumber, integer takeID, optional MediaTrack track, optional MediaItemTake take = ultraschall.GetLastTouchedFX()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the last touched FX
+    
+    Note: Does not return last touched monitoring-FX!
+  </description>
+  <retvals>
+    boolean retval - true, valid FX; false, no valid FX
+    integer sourcetype - 0, takeFX; 1, trackFX
+    integer track_take_number - the track or takenumber(see sourcetype-retval); 1-based
+    integer fxnumber - the number of the fx; 1-based
+    integer paramnumber - the number of the parameter; 1-based
+    integer takeID - the number of the take; 1-based; -1, if takeFX
+    optional MediaTrack track - the track of the TrackFX
+    optional MediaItemTake take - the take of the TakeFX
+  </retvals>
+  <chapter_context>
+    FX-Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, last touched, fx</tags>
+</US_DocBloc>
+]]    
+  local retval, tracknumber, fxnumber, paramnumber = reaper.GetLastTouchedFX()
+  if retval==false then return false end
+  local FXID, TakeID, track
+  local inputfx=false
+  if tracknumber>65536 then
+    tracknumber=tracknumber&1+(tracknumber&2)+(tracknumber&4)+(tracknumber&8)+(tracknumber&16)+(tracknumber&32)+(tracknumber&64)+(tracknumber&128)+
+         (tracknumber&256)+(tracknumber&512)+(tracknumber&1024)+(tracknumber&2048)+(tracknumber&4096)+(tracknumber&8192)+(tracknumber&16384)+(tracknumber&32768)
+    FXID=fxnumber&1+(fxnumber&2)+(fxnumber&4)+(fxnumber&8)+(fxnumber&16)+(fxnumber&32)+(fxnumber&64)+(fxnumber&128)+
+         (fxnumber&256)+(fxnumber&512)+(fxnumber&1024)+(fxnumber&2048)+(fxnumber&4096)+(fxnumber&8192)+(fxnumber&16384)+(fxnumber&32768)
+    TakeID=fxnumber>>16           
+    TakeID=TakeID+1
+    Itemnumber=tracknumber
+    return retval, 0, Itemnumber,  FXID+1,     paramnumber+1, TakeID, nil,   reaper.GetMediaItemTake(reaper.GetMediaItem(0, tracknumber-1), TakeID-1)
+  else
+    if tracknumber>0 then 
+      track=reaper.GetTrack(0, tracknumber-1)
+    elseif tracknumber==0 then
+      track=reaper.GetMasterTrack(0)
+    end
+    return retval, 1, tracknumber, fxnumber+1, paramnumber+1, -1,     track, nil
+  end
+end
+

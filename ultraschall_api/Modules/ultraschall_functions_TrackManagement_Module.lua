@@ -2124,3 +2124,45 @@ function ultraschall.GetAllVisibleTracks_Arrange(master_track, completely_visibl
 end
 
 
+
+function ultraschall.IsTrackVisible(track, completely_visible)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsTrackVisible</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.IsTrackVisible(MediaTrack track, boolean completely_visible)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns if a track is currently visible in arrangeview
+        
+      returns nil in case of error
+    </description>
+    <retvals>
+      boolean retval - true, track is visible; false, track is not visible
+    </retvals>
+    <parameters>
+      MediaTrack track - the track, whose visibility you want to query
+      boolean completely_visible - false, all tracks including partially visible ones; true, only fully visible tracks
+    </parameters>
+    <chapter_context>
+      Track Management
+      Assistance functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+    <tags>track management, get, visible, tracks, arrangeview</tags>
+  </US_DocBloc>
+  --]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("IsTrackVisible", "track", "must be a MediaTrack", -1) return end
+  if type(completely_visible)~="boolean" then ultraschall.AddErrorMessage("IsTrackVisible", "completely_visible", "must be a boolean", -2) return end
+  local trackstring, tracktable_count, tracktable = ultraschall.GetAllVisibleTracks_Arrange(true, completely_visible)
+  local found=false
+  for i=1, tracktable_count do
+    if tracktable[i]==track then found=true end
+  end
+  return found
+end
+

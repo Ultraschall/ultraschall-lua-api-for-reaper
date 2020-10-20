@@ -1323,6 +1323,14 @@ else
     ultraschall.LM(11)
     return ultraschall.InputFX_GetEQParam(table.unpack({...}))
   end
+  function ultraschall.GetFocusedFX(...)
+    ultraschall.LM(11)
+    return ultraschall.GetFocusedFX(table.unpack({...}))
+  end
+  function ultraschall.GetLastTouchedFX(...)
+    ultraschall.LM(11)
+    return ultraschall.GetLastTouchedFX(table.unpack({...}))
+  end
   function ultraschall.SplitStringAtLineFeedToArray(...)
     ultraschall.LM(12)
     return ultraschall.SplitStringAtLineFeedToArray(table.unpack({...}))
@@ -2618,6 +2626,10 @@ else
   function ultraschall.GetTake_ReverseState(...)
     ultraschall.LM(17)
     return ultraschall.GetTake_ReverseState(table.unpack({...}))
+  end
+  function ultraschall.IsItemVisible(...)
+    ultraschall.LM(17)
+    return ultraschall.IsItemVisible(table.unpack({...}))
   end
   function ultraschall.DeleteProjExtState_Section(...)
     ultraschall.LM(18)
@@ -4251,6 +4263,158 @@ else
     ultraschall.LM(27)
     return ultraschall.SetThemeParameterIndexByDescription(table.unpack({...}))
   end
+  function ultraschall.Theme_Defaultv6_SetHideTCPElement(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetHideTCPElement(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetHideTCPElement(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetHideTCPElement(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTCPNameSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTCPNameSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTCPNameSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTCPNameSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTCPVolumeSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTCPVolumeSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTCPVolumeSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTCPVolumeSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTCPInputSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTCPInputSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTCPInputSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTCPInputSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTCPMeterSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTCPMeterSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTCPMeterSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTCPMeterSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTCPMeterLocation(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTCPMeterLocation(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTCPMeterLocation(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTCPMeterLocation(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTCPFolderIndent(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTCPFolderIndent(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTCPFolderIndent(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTCPFolderIndent(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTCPAlignControls(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTCPAlignControls(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTCPAlignControls(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTCPAlignControls(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetMCPAlignControls(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetMCPAlignControls(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetMCPAlignControls(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetMCPAlignControls(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTransSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTransSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTransSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTransSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTransPlayRateSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTransPlayRateSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTransPlayRateSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTransPlayRateSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetEnvNameSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetEnvNameSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetEnvNameSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetEnvNameSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetEnvFaderSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetEnvFaderSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetEnvFaderSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetEnvFaderSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetEnvFolderIndent(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetEnvFolderIndent(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetEnvFolderIndent(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetEnvFolderIndent(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetEnvSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetEnvSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetEnvSize(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetEnvSize(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetMCPFolderIndent(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetMCPFolderIndent(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetMCPFolderIndent(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetMCPFolderIndent(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetStyleMCPElement(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetStyleMCPElement(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetStyleMCPElement(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetStyleMCPElement(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetMCPBorderStyle(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetMCPBorderStyle(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetMCPBorderStyle(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetMCPBorderStyle(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetMCPMeterExpansion(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetMCPMeterExpansion(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetMCPMeterExpansion(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetMCPMeterExpansion(table.unpack({...}))
+  end
   function ultraschall.IsValidTrackString(...)
     ultraschall.LM(28)
     return ultraschall.IsValidTrackString(table.unpack({...}))
@@ -4426,6 +4590,10 @@ else
   function ultraschall.GetAllVisibleTracks_Arrange(...)
     ultraschall.LM(28)
     return ultraschall.GetAllVisibleTracks_Arrange(table.unpack({...}))
+  end
+  function ultraschall.IsTrackVisible(...)
+    ultraschall.LM(28)
+    return ultraschall.IsTrackVisible(table.unpack({...}))
   end
   function ultraschall.GetTrackHWOut(...)
     ultraschall.LM(29)
