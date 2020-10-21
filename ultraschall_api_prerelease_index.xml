@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43384.00" author="Meo Mespotine">
+      <version name="43387.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.007/ultraschall_api/Changelog-Api.txt</source>
@@ -656,21 +656,38 @@
 
 4.1.007 - “Frank Zappa - Carolina Hard-Core Ecstasy” - 21st of October 2020
 
-Has now 1294 functions, with 54 new ones
+Has now 1342 functions, with 48 new ones
 
 new in this release:
 
--   
+-   Default v6-Theme-functions
+    Ever wanted to write scripts that do, what the theme-adjuster can?
+    Here’s your chance.
+    42 functions give you life, themeiverse and all the rest needed.
 
-    ------------------------------------------------------------------------
+-   EditReaScript
+    Create new scripts and open them in the IDE right from a script. Or
+    edit an existing one. Now possible with EditReaScript().
 
--   
+-   GetFocusedFX and GetLastTouchedFX
+    Basically like Reaper’s own ones BUT I improved the
+    parameter-interface so it is actually useable for regular scripters.
 
-    ------------------------------------------------------------------------
+-   SFEM
+    Sometimes, you want to get the first error-message that has happened
+    in your script, which signals, what’s the first thing that went
+    wrong.
+    SFEM(for Show First Error Message) is your way to go.
 
--   
+-   IsItemVisible and IsTrackVisible
+    That’s right, you can check now, if an item or track is visible in
+    the arrangeview.
+    You can check, whether they are fully in arrangeview or just
+    partially.
 
-    ------------------------------------------------------------------------
+-   Small Fixes and Docs
+    Small bugfixes here and there as well updates to the docs for Reaper
+    6.15 and SWS 2.12.1
 
 New features in 4.1.007
 
@@ -705,6 +722,8 @@ New features in 4.1.007
     current folder indentation of mcp when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetMCPMeterExpansion - gets the
     current MCP meter expansion when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetMCPSizeAndLayout - gets the
+    current MCP-size and layout when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetStyleMCPElement - gets the style
     of an mcp-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetTCPAlignControls - gets the
@@ -719,6 +738,8 @@ New features in 4.1.007
     size of the meter-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetTCPNameSize - gets the current
     size of the track-name-label when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_GetTCPSizeAndLayout - gets the
+    current TCP-size and layout when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetTCPVolumeSize - gets the current
     size of the volume-element when using the default v6-theme
 -   ThemeManagement: Theme_Defaultv6_GetTransPlayRateSize - gets the
@@ -744,6 +765,8 @@ New features in 4.1.007
     folder indentation of mcp when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetMCPMeterExpansion - sets the new
     MCP meter expansion when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetMCPSizeAndLayout - sets the new
+    MCP-size and layout when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetStyleMCPElement - sets the style
     of an mcp-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetTCPAlignControls - sets the new
@@ -758,6 +781,8 @@ New features in 4.1.007
     of the meter-element when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetTCPNameSize - sets the new size
     of the track-name-label when using default v6-theme
+-   ThemeManagement: Theme_Defaultv6_SetTCPSizeAndLayout - sets the new
+    TCP-size and layout when using default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetTCPVolumeSize - sets the new
     size of the volume-element when using the default v6-theme
 -   ThemeManagement: Theme_Defaultv6_SetTransPlayRateSize - sets the new
@@ -769,6 +794,8 @@ Changes from 4.1.006 to 4.1.007
 
 -   Developer Tools: Theme Parameter Monitor - didn’t stop script, when
     closed by close-window-button -> fixed
+-   ThemeManagement: Theme_Defaultv6_SetMCPSize - didn’t work, when no
+    layout was present already -> fixed
 -   TrackManagement: GetAllVisibleTracks_Arrange - returns the found
     tracks now as MediaTrack-objects as well; didn’t find master-track
     under certain circumstances -> fixed
@@ -7323,7 +7350,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1338 Lua-functions library for Reaper.}
+a 1342 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7337,7 +7364,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1338 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1342 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -7461,7 +7488,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1338 Lua-functions library for Reaper.}
+a 1342 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7475,7 +7502,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1338 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1342 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

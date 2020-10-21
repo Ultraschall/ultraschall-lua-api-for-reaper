@@ -4415,6 +4415,22 @@ else
     ultraschall.LM(27)
     return ultraschall.Theme_Defaultv6_GetMCPMeterExpansion(table.unpack({...}))
   end
+  function ultraschall.Theme_Defaultv6_SetMCPSizeAndLayout(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetMCPSizeAndLayout(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_SetTCPSizeAndLayout(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_SetTCPSizeAndLayout(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetTCPSizeAndLayout(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetTCPSizeAndLayout(table.unpack({...}))
+  end
+  function ultraschall.Theme_Defaultv6_GetMCPSizeAndLayout(...)
+    ultraschall.LM(27)
+    return ultraschall.Theme_Defaultv6_GetMCPSizeAndLayout(table.unpack({...}))
+  end
   function ultraschall.IsValidTrackString(...)
     ultraschall.LM(28)
     return ultraschall.IsValidTrackString(table.unpack({...}))

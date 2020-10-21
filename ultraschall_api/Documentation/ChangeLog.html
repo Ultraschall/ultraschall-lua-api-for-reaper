@@ -41,12 +41,24 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.1.007 - "Frank Zappa - Carolina Hard-Core Ecstasy" - 21st of October 2020</h3>
-<p>Has now 1294 functions, with 54 new ones</p>
+<p>Has now 1342 functions, with 48 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><hr /></li>
-<li><hr /></li>
-<li><hr /></li>
+<li><p><strong>Default v6-Theme-functions</strong><br />
+Ever wanted to write scripts that do, what the theme-adjuster can? Here's your chance.<br />
+42 functions give you life, themeiverse and all the rest needed.</p></li>
+<li><p><strong>EditReaScript</strong><br />
+Create new scripts and open them in the IDE right from a script. Or edit an existing one. Now possible with EditReaScript().</p></li>
+<li><p><strong>GetFocusedFX and GetLastTouchedFX</strong><br />
+Basically like Reaper's own ones BUT I improved the parameter-interface so it is actually useable for regular scripters.</p></li>
+<li><p><strong>SFEM</strong><br />
+Sometimes, you want to get the first error-message that has happened in your script, which signals, what's the first thing that went wrong.<br />
+SFEM(for Show First Error Message) is your way to go.</p></li>
+<li><p><strong>IsItemVisible and IsTrackVisible</strong><br />
+That's right, you can check now, if an item or track is visible in the arrangeview.<br />
+You can check, whether they are fully in arrangeview or just partially.</p></li>
+<li><p><strong>Small Fixes and Docs</strong><br />
+Small bugfixes here and there as well updates to the docs for Reaper 6.15 and SWS 2.12.1</p></li>
 </ul>
 <h4>New features in 4.1.007</h4>
 <ul>
@@ -65,6 +77,7 @@ Ultraschall API Changelog
 <li>ThemeManagement: Theme_Defaultv6_GetMCPBorderStyle - gets the current border-style of the mcp when using the default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetMCPFolderIndent - gets the current folder indentation of mcp when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetMCPMeterExpansion - gets the current MCP meter expansion when using default v6-theme</li>
+<li>ThemeManagement: Theme_Defaultv6_GetMCPSizeAndLayout - gets the current MCP-size and layout when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetStyleMCPElement - gets the style of an mcp-element when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetTCPAlignControls - gets the current alignement of controls in tcp when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetTCPInputSize - gets the current size of the input-element when using default v6-theme</li>
@@ -72,6 +85,7 @@ Ultraschall API Changelog
 <li>ThemeManagement: Theme_Defaultv6_GetTCPMeterLocation - gets the current location of the meter-element when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetTCPMeterSize - gets the current size of the meter-element when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetTCPNameSize - gets the current size of the track-name-label when using default v6-theme</li>
+<li>ThemeManagement: Theme_Defaultv6_GetTCPSizeAndLayout - gets the current TCP-size and layout when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetTCPVolumeSize - gets the current size of the volume-element when using the default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetTransPlayRateSize - gets the current size of the playrate-slider when using the default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_GetTransSize - gets the current size of the transport when using the default v6-theme</li>
@@ -84,6 +98,7 @@ Ultraschall API Changelog
 <li>ThemeManagement: Theme_Defaultv6_SetMCPBorderStyle - sets the new border-style of the mcp when using the default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetMCPFolderIndent - sets the new folder indentation of mcp when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetMCPMeterExpansion - sets the new MCP meter expansion when using default v6-theme</li>
+<li>ThemeManagement: Theme_Defaultv6_SetMCPSizeAndLayout - sets the new MCP-size and layout when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetStyleMCPElement - sets the style of an mcp-element when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetTCPAlignControls - sets the new alignement of controls in tcp when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetTCPInputSize - sets the new size of the input-element when using default v6-theme</li>
@@ -91,6 +106,7 @@ Ultraschall API Changelog
 <li>ThemeManagement: Theme_Defaultv6_SetTCPMeterLocation - sets the new location of the meter-element when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetTCPMeterSize - sets the new size of the meter-element when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetTCPNameSize - sets the new size of the track-name-label when using default v6-theme</li>
+<li>ThemeManagement: Theme_Defaultv6_SetTCPSizeAndLayout - sets the new TCP-size and layout when using default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetTCPVolumeSize - sets the new size of the volume-element when using the default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetTransPlayRateSize - sets the new size of the playrate-slider when using the default v6-theme</li>
 <li>ThemeManagement: Theme_Defaultv6_SetTransSize - sets the new size of the transport when using the default v6-theme</li>
@@ -98,7 +114,9 @@ Ultraschall API Changelog
 <h4>Changes from 4.1.006 to 4.1.007</h4>
 <ul>
 <li>Developer Tools: Theme Parameter Monitor - didn't stop script, when closed by close-window-button -&gt; fixed</li>
-<li>TrackManagement: GetAllVisibleTracks_Arrange - returns the found tracks now as MediaTrack-objects as well; didn't find master-track under certain circumstances -&gt; fixed</li>
+<li>ThemeManagement: Theme_Defaultv6_SetMCPSize - didn't work, when no layout was present already -&gt; fixed</li>
+<li>TrackManagement: GetAllVisibleTracks_Arrange - returns the found tracks now as MediaTrack-objects as well; didn't find master-track under certain circumstances -&gt; fixed<br />
+</li>
 <li>UserInterface: TCP_SetWidth - errors in the docs -&gt; fixed</li>
 </ul>
 <hr />

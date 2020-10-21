@@ -2345,3 +2345,217 @@ end
 
 --A=ultraschall.Theme_Defaultv6_GetMCPMeterExpansion("A")
 
+function ultraschall.Theme_Defaultv6_SetMCPSizeAndLayout(tracknumber, Layout, size)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetMCPSizeAndLayout</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetMCPSizeAndLayout(integer tracknumber, string Layout, integer size)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the size and layout of the mcp when using default v6-theme
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer tracknumber - the number of the track, whose MCP-layout and size you want to set(no master track supported)
+    string Layout - the new mcp-layout; either "A", "B" or "C"
+    integer size - the new size of the mcp
+                    - 1, normal
+                    - 2, 150%
+                    - 3, 200%
+  </parameters>
+  <chapter_context>
+    Themeing
+    Default v6-Theme
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, size, layout, mcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetMCPSizeAndLayout", "Layout", "must be either A, B or C", -1) return false end
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetMCPSizeAndLayout", "tracknumber", "must be an integer", -2) return false end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("Theme_Defaultv6_SetMCPSizeAndLayout", "tracknumber", "must be a valid tracknumber, 1 or higher", -3) return false end  
+  if math.type(size)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetMCPSizeAndLayout", "size", "must be an integer", -4) return false end
+  if size<1 or size>reaper.CountTracks(0) then ultraschall.AddErrorMessage("Theme_Defaultv6_SetMCPSizeAndLayout", "size", "must be between 1 and 3", -5) return false end  
+
+  if size==1 then size=""
+  elseif size==2 then size="150%_"
+  elseif size==3 then size="200%_"
+  end
+  
+  reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0, tracknumber-1), "P_MCP_LAYOUT", size..Layout, true)
+  return true
+end
+
+--ultraschall.Theme_Defaultv6_SetMCPSize(6, "A", 1)
+--  ultraschall.SetTrackLayoutNames(3, "", "150%_A")
+--  SLEM()
+
+
+function ultraschall.Theme_Defaultv6_SetTCPSizeAndLayout(tracknumber, Layout, size)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_SetTCPSizeAndLayout</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_SetTCPSizeAndLayout(integer tracknumber, string Layout, integer size)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the size and layout of the tcp when using default v6-theme
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer tracknumber - the number of the track, whose TCP-layout and size you want to set(no master track supported)
+    string Layout - the new tcp-layout; either "A", "B" or "C"
+    integer size - the new size of the mcp
+                    - 1, normal
+                    - 2, 150%
+                    - 3, 200%
+  </parameters>
+  <chapter_context>
+    Themeing
+    Default v6-Theme
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, set, size, layout, mcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if Layout~="A" and Layout~="B" and Layout~="C" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPSizeAndLayout", "Layout", "must be either A, B or C", -1) return false end
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPSizeAndLayout", "tracknumber", "must be an integer", -2) return false end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPSizeAndLayout", "tracknumber", "must be a valid tracknumber, 1 or higher", -3) return false end  
+  if math.type(size)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPSizeAndLayout", "size", "must be an integer", -4) return false end
+  if size<1 or size>reaper.CountTracks(0) then ultraschall.AddErrorMessage("Theme_Defaultv6_SetTCPSizeAndLayout", "size", "must be between 1 and 3", -5) return false end  
+  
+  if size==1 then size=""
+  elseif size==2 then size="150%_"
+  elseif size==3 then size="200%_"
+  end
+  
+  reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0, tracknumber-1), "P_TCP_LAYOUT", size..Layout, true)
+  return true
+end
+
+--ultraschall.Theme_Defaultv6_SetTCPSize(6, "A", 1)
+
+function ultraschall.Theme_Defaultv6_GetTCPSizeAndLayout(tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetTCPSizeAndLayout</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_GetTCPSizeAndLayout(integer tracknumber, string Layout, integer size)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the size and layout of the tcp when using default v6-theme
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    string Layout - the current layout of the tcp; either "A", "B", "C" or ""(if no layout is set yet)
+    integer size - the current size of the tcp
+                    - 1, normal
+                    - 2, 150%
+                    - 3, 200%
+  </retvals>
+  <parameters>
+    integer tracknumber - the number of the track, whose TCP-layout and size you want to get(no master track supported)
+  </parameters>
+  <chapter_context>
+    Themeing
+    Default v6-Theme
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, size, layout, tcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_GetTCPSizeAndLayout", "tracknumber", "must be an integer", -1) return end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("Theme_Defaultv6_GetTCPSizeAndLayout", "tracknumber", "must be a valid tracknumber, 1 or higher", -2) return end  
+  
+  local retval, TCPLayout = reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0, tracknumber-1), "P_TCP_LAYOUT", "", false)
+  
+  local size 
+  
+  if TCPLayout:match("150") then size=2
+  elseif TCPLayout:match("200") then size=3
+  else size=1
+  end
+  
+  return TCPLayout:sub(-1,-1), size
+end
+
+--A,B=ultraschall.Theme_Defaultv6_GetTCPSize(2)
+
+function ultraschall.Theme_Defaultv6_GetMCPSizeAndLayout(tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Theme_Defaultv6_GetMCPSizeAndLayout</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Theme_Defaultv6_GetMCPSizeAndLayout(integer tracknumber, string Layout, integer size)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the size and layout of the mcp when using default v6-theme
+    
+    This reflects the settings from the Theme-Adjuster.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    string Layout - the current layout of the mcp; either "A", "B", "C" or ""(if no layout is set yet)
+    integer size - the current size of the mcp
+                    - 1, normal
+                    - 2, 150%
+                    - 3, 200%
+  </retvals>
+  <parameters>
+    integer tracknumber - the number of the track, whose MCP-layout and size you want to get(no master track supported)
+  </parameters>
+  <chapter_context>
+    Themeing
+    Default v6-Theme
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, size, layout, mcp, default v6 theme</tags>
+</US_DocBloc>
+]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("Theme_Defaultv6_GetMCPSizeAndLayout", "tracknumber", "must be an integer", -1) return end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("Theme_Defaultv6_GetMCPSizeAndLayout", "tracknumber", "must be a valid tracknumber, 1 or higher", -2) return end  
+  
+  local retval, TCPLayout = reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0, tracknumber-1), "P_MCP_LAYOUT", "", false)
+  
+  local size 
+  
+  if TCPLayout:match("150") then size=2
+  elseif TCPLayout:match("200") then size=3
+  else size=1
+  end
+  
+  return TCPLayout:sub(-1,-1), size
+end
