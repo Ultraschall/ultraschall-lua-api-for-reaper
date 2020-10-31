@@ -211,7 +211,7 @@ function ultraschall.GetApiVersion()
 </US_DocBloc>
 --]]
   local retval, BuildNumber = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  return 410.007, "4.1","21st of October 2020", "007",  "\"Frank Zappa - Carolina Hard-Core Ecstasy\"", ultraschall.hotfixdate, BuildNumber
+  return 410.008, "4.1","1st of December 2020", "008",  "\" - \"", ultraschall.hotfixdate, BuildNumber
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -2618,5 +2618,13 @@ dofile(script_path .. "Modules/ultraschall_functions_Ultraschall_Module.lua")
 
 
 
-dofile(script_path.."ultraschall_ModulatorLoad3000.lua")
+if ultraschall.US_BetaFunctions==false then
+  dofile(script_path.."ultraschall_ModulatorLoad3000.lua")
+else
+  for i=0, 1024 do
+    file=reaper.EnumerateFiles(script_path.."/Modules/", i)
+    if file==nil then break end
+    dofile(script_path.."/Modules/"..file)
+  end
+end
 ultraschall.ShowLastErrorMessage()

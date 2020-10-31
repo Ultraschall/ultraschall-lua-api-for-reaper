@@ -244,6 +244,24 @@ Have fun!"
 
 ## Ultraschall Framework - Changelog
 
+### 4.1.008 - "Frank Zappa - Carolina Hard-Core Ecstasy" - 1st of December 2020
+
+Has now 1342 functions, with 48 new ones
+
+**new in this release:**  
+
+  - ** **  
+    
+    
+
+
+#### New features in 4.1.008
+   
+   
+#### Changes from 4.1.007 to 4.1.008  
+   - API: Loadspeed - sped up loading-speed of API by 30%
+
+
 ### 4.1.007 - "Frank Zappa - Carolina Hard-Core Ecstasy" - 21st of October 2020
 
 Has now 1342 functions, with 48 new ones
