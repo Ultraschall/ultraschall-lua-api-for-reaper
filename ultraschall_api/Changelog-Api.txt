@@ -260,6 +260,15 @@ Has now 1342 functions, with 48 new ones
    
 #### Changes from 4.1.007 to 4.1.008  
    - API: Loadspeed - sped up loading-speed of API by 30%
+   - Developer Tools: State Inspector - reduced needed files to save space
+   - Docs: Example-videos - removed
+   - Docs: StuffMIDIMessage-docs - corrected errors and improved description of modifiers
+   - IniFiles: Reaper-ActionList_v5_96.ini - removed, can be produced using developertool ultraschall\_developertool\_ActionlistToIni-Converter.lua
+   - Misc: Docs-gfx - removed them from the misc-folder(were redundant)
+   - Misc: Reaper 5 developer translationpack - removed
+   - Misc: Notifications-sound - removed
+   - Misc: ShowVars_Toggle.txt - removed(was redundant)
+   - Rendering: CreateRenderCFG\_Opus - didn't create correct bitrate in string -> fixed
 
 
 ### 4.1.007 - "Frank Zappa - Carolina Hard-Core Ecstasy" - 21st of October 2020

@@ -13283,9 +13283,10 @@
           
           It is an integer  
           
-          - 0, video-processor-window is closed  
-          - 1, video-processor-window is open
-            
+          >- 0, video-processor-window is closed  
+          >- 1, video-processor-window is open
+          
+          Stored in reaper.ini -> [reaper_video]
       </description>  
       <chapter_context>  
          Reaper Ini-Only
@@ -13304,10 +13305,12 @@
             
             It is an integer
 
-            - 0, Disabled(default)
-            - 1, 2 threads
-            - 2, 3 threads
-            - 3, 4 threads
+            >- 0, Disabled(default)
+            >- 1, 2 threads
+            >- 2, 3 threads
+            >- 3, 4 threads
+            
+            Stored in reaper.ini -> [reaper_video]
       </description>  
       <chapter_context>  
          Reaper Ini-Only
@@ -13326,11 +13329,12 @@
             
             It is an integer
             
-            - 0, Disabled(default)
-            - 1, 2 threads
-            - 2, 3 threads
-            - 3, 4 threads
+            >- 0, Disabled(default)
+            >- 1, 2 threads
+            >- 2, 3 threads
+            >-3, 4 threads
             
+            Stored in reaper.ini -> [reaper_video]
       </description>  
       <chapter_context>  
          Reaper Ini-Only
@@ -13349,14 +13353,16 @@
 
             It is an integer-bitfield
 
-            &1=0, show underruns during playback as green frames - unchecked  
-            &1=1, show underruns during playback as green frames - checked  
+            >&1=0, show underruns during playback as green frames - unchecked  
+            >&1=1, show underruns during playback as green frames - checked  
                 
-            &2=0, Aggressively update video during arrange/edit scrolls - unchecked  
-            &2=1, Aggressively update video during arrange/edit scrolls - checked  
+            >&2=0, Aggressively update video during arrange/edit scrolls - unchecked  
+            >&2=1, Aggressively update video during arrange/edit scrolls - checked  
             
-            &4=0, Send MIDI CC control messages [BB xx vv] when mouse dragging in video window - unchecked
-            &4=1, Send MIDI CC control messages [BB xx vv] when mouse dragging in video window - checked
+            >&4=0, Send MIDI CC control messages [BB xx vv] when mouse dragging in video window - unchecked
+            >&4=1, Send MIDI CC control messages [BB xx vv] when mouse dragging in video window - checked
+            
+            Stored in reaper.ini -> [reaper_video]
       </description>  
       <chapter_context>  
          Reaper Ini-Only
@@ -13378,7 +13384,9 @@
                 Given in seconds.
                 
                 The menu holds the values for:
-                0.100, 0.250, 0.500, 1.000(default), 1.500, 2.000
+                >0.100, 0.250, 0.500, 1.000(default), 1.500, 2.000
+                
+                Stored in reaper.ini -> [reaper_video]
       </description>  
       <chapter_context>  
          Reaper Ini-Only
@@ -13398,10 +13406,12 @@
                 
                 It is an integer
                     
-                0, Monitoring FX are low latency(default)  
-                1, Monitoring FX and master FX are low latency  
-                2, Monitoring FX and master FX are processed like track FX  
-                3, All media and FX are not cached
+                >0, Monitoring FX are low latency(default)  
+                >1, Monitoring FX and master FX are low latency  
+                >2, Monitoring FX and master FX are processed like track FX  
+                >3, All media and FX are not cached
+                
+                Stored in reaper.ini -> [reaper_video]
       </description>  
       <chapter_context>  
          Reaper Ini-Only
@@ -13422,6 +13432,8 @@
                 
             the number of last prefetched video sources, defaults are 2, 5, 10, 15
 
+
+            Stored in reaper.ini -> [reaper_video]
       </description>  
       <chapter_context>  
          Reaper Ini-Only
@@ -13444,6 +13456,30 @@
                >2, Video-tab
                >3, Advanced-tab
                >4, Notes-tab
+               
+            Stored in reaper.ini -> [REAPER]
+      </description>  
+      <chapter_context>  
+         Reaper Ini-Only
+         REAPER
+      </chapter_context>  
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>REAPER->autoclosekeymap</slug>  
+      <title>REAPER->autoclosekeymap</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            The "Automatically close window on key/MIDI input"-checkbox in the Keyboard/MIDI/OSC-input-dialog.    
+            
+            It is an integer
+                
+               >0, unchecked
+               >1, checked
+            
+            Can be set while Reaper is running and will be used the next time the dialog opens.
+            Stored in reaper.ini -> [REAPER]
       </description>  
       <chapter_context>  
          Reaper Ini-Only

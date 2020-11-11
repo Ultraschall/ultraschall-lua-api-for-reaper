@@ -239,11 +239,14 @@ function ultraschall.DoubleToInt(float, selector)
     if (float:match("%.(.*)")):len()==1 then 
       float=float.."0" 
     end
-    retval, String = reaper.BR_Win32_GetPrivateProfileString("FloatsInt", float, "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini")
+    retval, String = reaper.BR_Win32_GetPrivateProfileString("FloatsInt", string.gsub(tostring(float), "%.", ""), "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini")
+    String=tonumber(String)+1000000000
   else
-    retval, String = reaper.BR_Win32_GetPrivateProfileString("OpusFloatsInt", float, "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini")
+    --print2(float)
+    retval, String = reaper.BR_Win32_GetPrivateProfileString("OpusFloatsInt", math.tointeger(float), "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini")
+    String=tonumber(String)+4000000
   end
-  return tonumber(String)
+  return String
 end
 
 function ultraschall.SuppressErrorMessages(flag)

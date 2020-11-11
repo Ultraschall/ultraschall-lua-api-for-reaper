@@ -24,7 +24,7 @@
 ################################################################################
 ]]
 
--- Ultraschall State-Inspector 2.2.1 [Ultraschall-Developer Tools] 28.04.2020
+-- Ultraschall State-Inspector 2.2.2 [Ultraschall-Developer Tools] 11.11.2020
 --
 -- This Inspector monitors toggle-command-states or external-states of your choice.
 -- It's good for checking, if some toggling of states or changing of external-states
@@ -40,7 +40,7 @@ Aa,Ab,Ac,Ad,Ae=reaper.get_action_context()
 Path=Ab:match("(.*\\)")
 if Path==nil then Path=Ab:match("(.*/)") end
 
-version="2.2.1 - 28. 04. 2020"
+version="2.2.2 - 11. 11. 2020"
 
 gfx.init("Ultraschall State Inspector "..version, 560, 520)
 
@@ -70,7 +70,7 @@ end
 
 KeyCodeIni_File=Path.."/Ultraschall_StateInspector/Ultraschall_Inspector_Gfx_GetKey_Codes.ini"
 InspectorIni_File=Path.."/Ultraschall_StateInspector/Ultraschall-Inspector.ini"
-ActionlistReaper_File=Path.."/Ultraschall_StateInspector/ActionList_Reaper.ini"
+
 
 ultraschall={}
 
@@ -92,7 +92,7 @@ function ultraschall.ReadFullFile(filename_with_path, binary)
   return filecontent, filecontent:len()
 end 
 
-ActionList_Reaper=ultraschall.ReadFullFile(Path.."ActionList_Reaper.txt", false)
+
 
 if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
     -- user_folder = buf --"C:\\Users\\[username]" -- need to be test
@@ -457,9 +457,9 @@ function ShowStates()
       if states[i][0]==true then gfx.x=row1-10 gfx.drawstr(">") gfx.x=row1 gfx.setfont(1,"Arial", 12, 86) end
       if states[i][1]=="toggle" then
         if states[i][3]=="0" then
-          retval, actionname= reaper.BR_Win32_GetPrivateProfileString("Main", tostring(states[i][2]), "", ActionlistReaper_File)
+          actionname = reaper.CF_GetCommandText(0, reaper.NamedCommandLookup(states[i][2]))
         else
-          retval, actionname= reaper.BR_Win32_GetPrivateProfileString("MIDI-Editor", tostring(states[i][2]), "", ActionlistReaper_File)
+          actionname = reaper.CF_GetCommandText(1, reaper.NamedCommandLookup(states[i][2]))
         end
         gfx.drawstr(i)
         gfx.set(0.3,0.3,0.3)

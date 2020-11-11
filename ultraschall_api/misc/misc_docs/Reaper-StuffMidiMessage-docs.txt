@@ -31,13 +31,13 @@ Lets' begin.
                          place to store, which channel you want to adress.
                          
    Accepted Keyboard-modifiers:
-                * Odd Modifier-Values 1-127 (1, 3, 5, ..., 123, 125, 127)
-                  The Note/Key-Values go from 0-255 and include the Modifier, 
-                  means: modifier 0  key_midinote 65 is "nothing" "Shift+A"
-                
-                * Even Modifier-Values (0, 2, 4, 6, ..., 122, 124, 126)
-                    The Note/Key-Values are pure ASCII and go from 0-255 and don't(!) include the Modifier, 
-                    means: 5 65 is "Shift" "A"
+                * supported keyboard modifiers:                    
+                    &1=0 - exclude control-characters(Enter, Backspace, Tab)
+                    &1=1 - include control-characters(Enter, Backspace, Tab)
+                    &4 - Shift
+                    &8 - Ctrl
+                    &16 - Alt
+                    &32 - Win
                     
                 * Special Modifier 255
                     This modifier is the only one, that includes special modifiers, like MultiZoom, Mousewheel, Horizontal-Mousewheel, MediaKbd-keys
@@ -136,10 +136,12 @@ Lets' begin.
                 1-255, the velocity to send
                 
                 With keyboard-shortcuts(mode=1, in the Add/Find Shortcuts-dialog of the Actions-dialog), even values mean no keypress, odd values mean keypress.
-                Exception: modifier 255 and notevalue 232++ is various MediaKbd-keys, selected by the velocity-value
+                        &1=0, standard character set (e.g. 65=A)                        
+                        &1=1, enhanced character set (e.g. 65=Á)
+                Exception: modifier 255 notevalue 232++ is various MediaKbd-keys, selected by the velocity-value
                            This is a little bit tricky, as this stores the modifiers in the key_midinote and the MediaKbd-key in the velocity-value, unlike all other keyvalues.
                 
-                MediaKeyboard-Keys-modifier, as stored in the :
+                For MediaKeyboard-Keys-modifier, as stored in the :
                         For additional MediaKbd-modifier-combinations, add the following values to the key_midinote-Value:
                         +1=Ctrl+
                         +2=Alt+
@@ -148,62 +150,66 @@ Lets' begin.
                         +5=Ctrl+Shift+
                         +6=Alt+Shift+
                         +7=Ctrl+Alt+Shift+
-                        example: "255, 233, 142" leads to "Special_Modifier, Ctrl +, MediaKbdBrowseHome"
+                        
+                        example: 
+                            "255, 232, 142" leads to "Special_Modifier, no modifier, MediaKbdBrowseHome"
+                            "255, 233, 142" leads to "Special_Modifier, Ctrl +,      MediaKbdBrowseHome"
+                        There's no Win-key supported as modifier for MediaKB-keys
                 
-                The velovity-values are valid
-                        0 MediaKbd??
-                        2 MediaKbdBrowse-
-                        4 MediaKbdBrowse+
-                        6 MediaKbdBrowseRefr
-                        8 MediaKbdBrowseStop
-                        10 MediaKbdBrowseSrch
-                        12 MediaKbdBrowseFav
-                        14 MediaKbdBrowseHome
-                        16 MediaKbdMute
-                        18 MediaKbdVol-
-                        20 MediaKbdVol+
-                        22 MediaKbdTrack+
-                        24 MediaKbdTrack-
-                        26 MediaKbdStop
-                        28 MediaKbdPlayPause
-                        30 MediaKbdMail
-                        32 MediaKbdMedia
-                        34 MediaKbdApp1
-                        36 MediaKbdApp2
-                        38 MediaKbdBass-
-                        40 MediaKbdBass++
-                        42 MediaKbdBass+
-                        44 MediaKbdTreble-
-                        46 MediaKbdTreble+
-                        48 MediaKbdMicMute
-                        50 MediaKbdMic-
-                        52 MediaKbdMic+
-                        54 MediaKbdHelp
-                        56 MediaKbdFind
-                        58 MediaKbdNew
-                        60 MediaKbdOpen
-                        62 MediaKbdClose
-                        64 MediaKbdSave
-                        66 MediaKbdPrint
-                        68 MediaKbdUndo
-                        70 MediaKbdRedo
-                        72 MediaKbdCopy
-                        74 MediaKbdCut
-                        76 MediaKbdPaste
-                        78 MediaKbdReply
-                        80 MediaKbdForward
-                        82 MediaKbdSend
-                        84 MediaKbdSpellChk
-                        86 MediaKbdCmdCtl
-                        88 MediaKbdMicOnOff
-                        90 MediaKbdCorrect
-                        92 MediaKbdPlay
-                        94 MediaKbdPause
-                        96 MediaKbdRecord
-                        98 MediaKbdFF
-                        100 MediaKbdRew
-                        102 MediaKbdChan+
-                        104 MediaKbdChan-
+                        These velocity-values for MediaKBD-keys are valid:
+                            0 MediaKbd??
+                            2 MediaKbdBrowse-
+                            4 MediaKbdBrowse+
+                            6 MediaKbdBrowseRefr
+                            8 MediaKbdBrowseStop
+                            10 MediaKbdBrowseSrch
+                            12 MediaKbdBrowseFav
+                            14 MediaKbdBrowseHome
+                            16 MediaKbdMute
+                            18 MediaKbdVol-
+                            20 MediaKbdVol+
+                            22 MediaKbdTrack+
+                            24 MediaKbdTrack-
+                            26 MediaKbdStop
+                            28 MediaKbdPlayPause
+                            30 MediaKbdMail
+                            32 MediaKbdMedia
+                            34 MediaKbdApp1
+                            36 MediaKbdApp2
+                            38 MediaKbdBass-
+                            40 MediaKbdBass++
+                            42 MediaKbdBass+
+                            44 MediaKbdTreble-
+                            46 MediaKbdTreble+
+                            48 MediaKbdMicMute
+                            50 MediaKbdMic-
+                            52 MediaKbdMic+
+                            54 MediaKbdHelp
+                            56 MediaKbdFind
+                            58 MediaKbdNew
+                            60 MediaKbdOpen
+                            62 MediaKbdClose
+                            64 MediaKbdSave
+                            66 MediaKbdPrint
+                            68 MediaKbdUndo
+                            70 MediaKbdRedo
+                            72 MediaKbdCopy
+                            74 MediaKbdCut
+                            76 MediaKbdPaste
+                            78 MediaKbdReply
+                            80 MediaKbdForward
+                            82 MediaKbdSend
+                            84 MediaKbdSpellChk
+                            86 MediaKbdCmdCtl
+                            88 MediaKbdMicOnOff
+                            90 MediaKbdCorrect
+                            92 MediaKbdPlay
+                            94 MediaKbdPause
+                            96 MediaKbdRecord
+                            98 MediaKbdFF
+                            100 MediaKbdRew
+                            102 MediaKbdChan+
+                            104 MediaKbdChan-
                         
 ## The Function
 
