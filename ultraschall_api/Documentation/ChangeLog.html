@@ -40,24 +40,28 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.1.008 - "Frank Zappa - Carolina Hard-Core Ecstasy" - 1st of December 2020</h3>
+<h3>4.1.008 - "Pink Floyd - High Hopes" - 1st of December 2020</h3>
 <p>Has now 1342 functions, with 48 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><hr /></li>
 </ul>
 <h4>New features in 4.1.008</h4>
+<ul>
+<li>Helper functions: CharacterCodes_ReverseLookup - converts the StuffMIDIMessage-bytes(with parameter mode=1) into their character-representation</li>
+</ul>
 <h4>Changes from 4.1.007 to 4.1.008</h4>
 <ul>
 <li>API: Loadspeed - sped up loading-speed of API by 30%</li>
 <li>Developer Tools: State Inspector - reduced needed files to save space</li>
 <li>Docs: Example-videos - removed</li>
-<li>Docs: StuffMIDIMessage-docs - corrected errors and improved description of modifiers</li>
+<li>Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors</li>
 <li>IniFiles: Reaper-ActionList<em>v5</em>96.ini - removed, can be produced using developertool ultraschall_developertool_ActionlistToIni-Converter.lua</li>
 <li>Misc: Docs-gfx - removed them from the misc-folder(were redundant)</li>
 <li>Misc: Reaper 5 developer translationpack - removed</li>
 <li>Misc: Notifications-sound - removed</li>
 <li>Misc: ShowVars_Toggle.txt - removed(was redundant)</li>
+<li>Misc: StuffMidiMessage-AllMessages_Englisch_Windows.ini - removed, use CharacterCodes_ReverseLookup instead to get the codes</li>
 <li>Rendering: CreateRenderCFG_Opus - didn't create correct bitrate in string -&gt; fixed</li>
 </ul>
 <h3>4.1.007 - "Frank Zappa - Carolina Hard-Core Ecstasy" - 21st of October 2020</h3>

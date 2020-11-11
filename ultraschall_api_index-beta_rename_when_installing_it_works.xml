@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43391.00" author="Meo Mespotine">
+      <version name="43393.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/Changelog-Api.txt</source>
@@ -70,7 +70,7 @@
 	<source file="/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-KEY-Codes_for_reaper-kb_ini.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/IniFiles/Reaper-KEY-Codes_for_reaper-kb_ini.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-Menu-Only-Actions.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/IniFiles/Reaper-Menu-Only-Actions.ini</source>
-	<source file="/ultraschall_api/IniFiles/StuffMidiMessage-AllMessages_Englisch_Windows.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/IniFiles/StuffMidiMessage-AllMessages_Englisch_Windows.ini</source>
+	<source file="/ultraschall_api/IniFiles/StuffMidiMessage-CharacterCodes.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/IniFiles/StuffMidiMessage-CharacterCodes.ini</source>
 	<source file="/ultraschall_api/IniFiles/ultraschall_api.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/IniFiles/ultraschall_api.ini</source>
 	<source file="/ultraschall_api/misc/Developer_Reaper6_12c.ReaperLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/misc/Developer_Reaper6_12c.ReaperLangPack</source>
 	<source file="/ultraschall_api/misc/Launchpad_functions.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/misc/Launchpad_functions.lua</source>
@@ -570,7 +570,7 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.1.008 - “Frank Zappa - Carolina Hard-Core Ecstasy” - 1st of December 2020
+4.1.008 - “Pink Floyd - High Hopes” - 1st of December 2020
 
 Has now 1342 functions, with 48 new ones
 
@@ -582,14 +582,18 @@ new in this release:
 
 New features in 4.1.008
 
+-   Helper functions: CharacterCodes_ReverseLookup - converts the
+    StuffMIDIMessage-bytes(with parameter mode=1) into their
+    character-representation
+
 Changes from 4.1.007 to 4.1.008
 
 -   API: Loadspeed - sped up loading-speed of API by 30%
 -   Developer Tools: State Inspector - reduced needed files to save
     space
 -   Docs: Example-videos - removed
--   Docs: StuffMIDIMessage-docs - corrected errors and improved
-    description of modifiers
+-   Docs: StuffMIDIMessage-docs - rewrote it as it contained many many
+    errors
 -   IniFiles: Reaper-ActionList_v5_96.ini - removed, can be produced
     using developertool
     ultraschall_developertool_ActionlistToIni-Converter.lua
@@ -597,6 +601,8 @@ Changes from 4.1.007 to 4.1.008
 -   Misc: Reaper 5 developer translationpack - removed
 -   Misc: Notifications-sound - removed
 -   Misc: ShowVars_Toggle.txt - removed(was redundant)
+-   Misc: StuffMidiMessage-AllMessages_Englisch_Windows.ini - removed,
+    use CharacterCodes_ReverseLookup instead to get the codes
 -   Rendering: CreateRenderCFG_Opus - didn’t create correct bitrate in
     string -> fixed
 

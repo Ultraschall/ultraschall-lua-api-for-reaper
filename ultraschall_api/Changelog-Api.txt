@@ -244,7 +244,7 @@ Have fun!"
 
 ## Ultraschall Framework - Changelog
 
-### 4.1.008 - "Frank Zappa - Carolina Hard-Core Ecstasy" - 1st of December 2020
+### 4.1.008 - "Pink Floyd - High Hopes" - 1st of December 2020
 
 Has now 1342 functions, with 48 new ones
 
@@ -252,22 +252,21 @@ Has now 1342 functions, with 48 new ones
 
   - ** **  
     
-    
-
 
 #### New features in 4.1.008
-   
+   - Helper functions: CharacterCodes\_ReverseLookup - converts the StuffMIDIMessage-bytes(with parameter mode=1) into their character-representation
    
 #### Changes from 4.1.007 to 4.1.008  
    - API: Loadspeed - sped up loading-speed of API by 30%
    - Developer Tools: State Inspector - reduced needed files to save space
    - Docs: Example-videos - removed
-   - Docs: StuffMIDIMessage-docs - corrected errors and improved description of modifiers
+   - Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors
    - IniFiles: Reaper-ActionList_v5_96.ini - removed, can be produced using developertool ultraschall\_developertool\_ActionlistToIni-Converter.lua
    - Misc: Docs-gfx - removed them from the misc-folder(were redundant)
    - Misc: Reaper 5 developer translationpack - removed
    - Misc: Notifications-sound - removed
    - Misc: ShowVars_Toggle.txt - removed(was redundant)
+   - Misc: StuffMidiMessage-AllMessages\_Englisch\_Windows.ini - removed, use CharacterCodes\_ReverseLookup instead to get the codes
    - Rendering: CreateRenderCFG\_Opus - didn't create correct bitrate in string -> fixed
 
 
