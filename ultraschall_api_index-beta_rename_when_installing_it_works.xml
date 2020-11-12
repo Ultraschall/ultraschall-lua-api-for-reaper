@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43395.00" author="Meo Mespotine">
+      <version name="43396.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/Changelog-Api.txt</source>
@@ -153,8 +153,6 @@
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt</source>
-	<source file="/ultraschall_api/3rd_party_modules/curl/curl-ca-bundle.crt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/3rd_party_modules/curl/curl-ca-bundle.crt</source>
-	<source file="/ultraschall_api/3rd_party_modules/curl/curl.exe" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/3rd_party_modules/curl/curl.exe</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library v2-developer tools.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Lokasenna_GUI%20library%20v2-developer%20tools.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Lokasenna_GUI%20library%20v2.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/README.md" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.008/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/README.md</source>
