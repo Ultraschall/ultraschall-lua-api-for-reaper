@@ -42,7 +42,8 @@ Lets' begin.
     The following rules apply in this case:
         
       Modifiers:
-        0   - 159 Keyboard Modifier
+        0   - 159 Keyboard Modifier - second byte the key, third byte mostly unused
+                                      byte3: &1=0, normal character-codes(byte2); &1=1, adds 128 to byte2
                 bitfield: &1=0, ASCII-character set with control-keys(Tab, Esc, Enter, etc)
                           &1=1, ASCII-character set without control-keys
                           &4, Shift
@@ -70,10 +71,16 @@ Lets' begin.
                          56=MultiVert, when MultiSwipe is enabled in Preferences->Keyboard/Multitouch-page
                          72=MultiZoom, when MultiZoom is enabled in Preferences->Keyboard/Multitouch-page
                          88=HorizMouseWheel
-                         120=MouseWheel     
+                         120=MouseWheel 
+                         152=MultiRotate, when MultiRotatate is enabled in Preferences->Keyboard/Multitouch-page
+                         168=MultiHorz, when MultiSwipe is enabled in Preferences->Keyboard/Multitouch-page
+                         184=MultiVert, when MultiSwipe is enabled in Preferences->Keyboard/Multitouch-page
+                         200=MultiZoom, when MultiZoom is enabled in Preferences->Keyboard/Multitouch-page
+                         216=HorizMouseWheel
+                         248=MouseWheel 
                          
                       The following accept byte_three&1 set to either.
-                         232, will make byte three signalling numerous variants of MediaKbd-keys(no WIN as modifier supported)
+                         104 or 232, will make byte three signalling numerous variants of MediaKbd-keys(no WIN as modifier supported)
                                 0 MediaKbd??
                                 2 MediaKbdBrowse-
                                 4 MediaKbdBrowse+

@@ -1603,6 +1603,79 @@ function ultraschall.CharacterCodes_ReverseLookup(byte1, byte2, byte3, lang, smm
   end
 end
 
-
+function ultraschall.CharacterCodes_ReverseLookup_KBIni(byte1, byte2, lang)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CharacterCodes_ReverseLookup_KBIni</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string Character, optional boolean special_modifier, optional boolean shift, optional boolean control, optional boolean alt, optional boolean win, optional boolean opt, optional boolean cmd = ultraschall.CharacterCodes_ReverseLookup_KBIni(integer byte1, integer byte2, optional integer lang)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns the character-code+modifiers of a control-message-character as stored in the KEY-entries in the reaper-kb.ini
+    they will be returned as shown in the add shortcut-dialog, though the keyboard-modifiers are returned as extra returnvalues.
+    
+    optionally, you can select a multitude of keymaps for localization
+    
+    Note: as there are many different language-keymaps out there, I tried to use some common ones. That also means, that they might be different in detail to your used one.
+    So the only keymap 100% reliable is the default-us-english one.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string Character - the character/midi-message associated with this KEY-entry-character-code
+    optional boolean special_modifier - true, this is the special modifier(byte1=255); false, regular character/midimessage
+                                      - the special modifier stores multizoom, multirotate, multiswipe, mousewheel, mediakbd-buttons
+    optional boolean shift - true, shift-key is needed; false, shift-key is not needed
+    optional boolean control - true, ctrl-key is needed; false, ctrl-key is not needed
+    optional boolean alt - true, alt-key is needed; false, alt-key is not needed
+    optional boolean win - true, win-key is needed; false, win-key is not needed
+    optional boolean opt - true, opt-key is needed; false, opt-key is not needed - (mac only)
+    optional boolean cmd - true, cmd-key is needed; false, cmd-key is not needed - (mac only)
+  </retvals>
+  <parameters>
+    integer byte1 - the first byte of the kb.ini-KEY-entry, usually stores modifiers
+    integer byte2 - the first byte of the kb.ini-KEY-entry, usually stores character-codes
+    optional integer lang - the languagekeymap used. The following list includes the specific keymap supported
+                          - so they might differ in details. I used the ones supported by Windows 7
+                          - nil and 1, englisch(usa) default
+                          - 2, german
+                          - 3, arabian(saudi arabia)
+                          - 4, catalan(spain)
+                          - 5, greek(greece)
+                          - 6, french(france)
+                          - 7, hebrew(israel)
+                          - 8, icelandic(iceland)
+                          - 9, italian(italy)
+                          - 10, japanese(japan)
+                          - 11, russian(russian federation)
+                          - 12, turkish(turkey)
+                          - 13, indonesian(indonesia)
+                          - 14, hindi(india)
+                          - 15, punjabi(india)
+                          - 16, chinese_simplified(china)
+                          - 17, portuguese(portugal)
+                          - 18, spanish(spain)
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>helper functions, lookup, shortcutcode, modifiers, reaper-kb.ini, kb.ini, key</tags>
+</US_DocBloc>
+]]
+  if math.type(byte1)~="integer" then ultraschall.AddErrorMessage("CharacterCodes_ReverseLookup_KBIni", "byte1", "must be an integer", -1) return nil end
+  if math.type(byte2)~="integer" then ultraschall.AddErrorMessage("CharacterCodes_ReverseLookup_KBIni", "byte2", "must be an integer", -2) return nil end  
+  if math.type(lang)~="integer" then ultraschall.AddErrorMessage("CharacterCodes_ReverseLookup_KBIni", "lang", "must be an integer", -3) return nil end
+  local Byte1, Byte2 = ultraschall.SplitIntegerIntoBytes(byte2)
+  if byte1==255 then 
+    if Byte1&128==128 then Byte1=Byte1-128 Byte2=1 end 
+    if Byte1==104 then Byte2=Byte2+1 end
+  end
+  return ultraschall.CharacterCodes_ReverseLookup(byte1, Byte1, Byte2, lang)
+end
 
 ultraschall.ShowLastErrorMessage()

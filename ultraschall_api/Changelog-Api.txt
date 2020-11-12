@@ -255,6 +255,7 @@ Has now 1342 functions, with 48 new ones
 
 #### New features in 4.1.008
    - Helper functions: CharacterCodes\_ReverseLookup - converts the StuffMIDIMessage-bytes(with parameter mode=1) into their character-representation
+   - Helper functions: CharacterCodes\_ReverseLookup\_KBIni - converts the first two bytes of the KEY-entries in reaper-kb.ini into their character-representation
    
 #### Changes from 4.1.007 to 4.1.008  
    - API: Loadspeed - sped up loading-speed of API by 30%
