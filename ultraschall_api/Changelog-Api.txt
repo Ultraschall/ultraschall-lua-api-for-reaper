@@ -254,19 +254,22 @@ Has now 1342 functions, with 48 new ones
     
 
 #### New features in 4.1.008
+   - ConfigFile Management: KBIniGetAllShortcuts - returns all shortcuts of the currently running Reaper-instance as a handy table
    - Helper functions: CharacterCodes\_ReverseLookup - converts the StuffMIDIMessage-bytes(with parameter mode=1) into their character-representation
    - Helper functions: CharacterCodes\_ReverseLookup\_KBIni - converts the first two bytes of the KEY-entries in reaper-kb.ini into their character-representation
+   
    
 #### Changes from 4.1.007 to 4.1.008  
    - API: Loadspeed - sped up loading-speed of API by 30%
    - Developer Tools: State Inspector - reduced needed files to save space
    - Docs: Example-videos - removed
    - Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors
-   - IniFiles: Reaper-ActionList_v5_96.ini - removed, can be produced using developertool ultraschall\_developertool\_ActionlistToIni-Converter.lua
+   - IniFiles: Reaper-ActionList\_v5\_96.ini - removed, can be produced using developertool ultraschall\_developertool\_ActionlistToIni-Converter.lua
+   - Ini-Files: Reaper-factory-default-KEY-Codes\_for\_reaper-kb\_ini.ini - corrected some mistakes
    - Misc: Docs-gfx - removed them from the misc-folder(were redundant)
    - Misc: Reaper 5 developer translationpack - removed
    - Misc: Notifications-sound - removed
-   - Misc: ShowVars_Toggle.txt - removed(was redundant)
+   - Misc: ShowVars\_Toggle.txt - removed(was redundant)
    - Misc: StuffMidiMessage-AllMessages\_Englisch\_Windows.ini - removed, use CharacterCodes\_ReverseLookup instead to get the codes
    - Rendering: CreateRenderCFG\_Opus - didn't create correct bitrate in string -> fixed
 

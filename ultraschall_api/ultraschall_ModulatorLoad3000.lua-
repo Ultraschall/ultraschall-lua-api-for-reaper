@@ -1807,9 +1807,9 @@ else
     ultraschall.LM(13)
     return ultraschall.ConvertPNG2JPG(table.unpack({...}))
   end
-  function ultraschall.ConvertPNG2JPG(...)
+  function ultraschall.ConvertJPG2PNG(...)
     ultraschall.LM(13)
-    return ultraschall.ConvertPNG2JPG(table.unpack({...}))
+    return ultraschall.ConvertJPG2PNG(table.unpack({...}))
   end
   function ultraschall.Localize_UseFile(...)
     ultraschall.LM(14)
