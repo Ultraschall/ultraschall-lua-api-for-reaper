@@ -14,7 +14,7 @@ Discussion on the dedicated [Cockos Forum thread](https://forum.cockos.com/showt
 
 Use the following link to install via [Reapack](https://www.reapack.com) extension.
 
-`https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api_index.xml`
+`https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml`
 
 ### Manual
 
