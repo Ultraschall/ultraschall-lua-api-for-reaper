@@ -1327,7 +1327,7 @@ function ultraschall.DeleteParmLearn2_FXStateChunk(FXStateChunk, fxid, parmidx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteParmLearn2_FXStateChunk</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1379,7 +1379,7 @@ function ultraschall.CharacterCodes_ReverseLookup(byte1, byte2, byte3, lang, smm
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CharacterCodes_ReverseLookup</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1608,7 +1608,7 @@ function ultraschall.CharacterCodes_ReverseLookup_KBIni(byte1, byte2, lang)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CharacterCodes_ReverseLookup_KBIni</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1683,7 +1683,7 @@ function ultraschall.KBIniGetAllShortcuts(exclude_factory_default, lang)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>KBIniGetAllShortcuts</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>

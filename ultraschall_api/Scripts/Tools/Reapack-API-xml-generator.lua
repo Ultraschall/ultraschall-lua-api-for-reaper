@@ -87,12 +87,12 @@ C2vers=string.gsub(C2," ","")
 C2vers=C2vers:lower()
 if C2vers~="" then C2vers="_"..C2vers end
 
-
+--if lol==nil then return end
 -- set this to the online-repo of the Ultraschall-API
 --Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API4.00-beta2.71/"
-Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1."..beta.."/"
+Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-"..C.."."..beta.."/"
 --Url="file:///c:/Ultraschall-Api-Git-Repo/Ultraschall-Api-for-Reaper/" -- for reapindex-tests first
-Url2="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1."..beta.."/"
+Url2="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-"..C.."."..beta.."/"
 
 -- set this to the repository-folder of the api on your system
 --Target_Dir="c:\\Ultraschall-Api-Git-Repo\\Ultraschall-Api-for-Reaper\\"
@@ -136,8 +136,8 @@ ultraschall.WriteValueToFile(SourceDir.."/ultraschall_api/Reaper-Internals-readm
 Batter=[[
 cd ]]..SourceDir..[[
 
-del ]]..Target_Dir..[[\ultraschall_api4.1]]..C2vers..[[.zip
-zip.exe -r ]]..Target_Dir..[[\ultraschall_api4.1]]..C2vers..[[.zip *.lua *.txt ultraschall_api
+del ]]..Target_Dir..[[\ultraschall_api]]..C..C2vers..[[.zip
+zip.exe -r ]]..Target_Dir..[[\ultraschall_api]]..C..C2vers..[[.zip *.lua *.txt ultraschall_api
 
 del ultraschall_api\Reaper-Internals-readme.txt
 del ultraschall_api\Scripts\Tools\batter.bat

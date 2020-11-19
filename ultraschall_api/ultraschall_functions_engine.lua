@@ -211,13 +211,16 @@ function ultraschall.GetApiVersion()
 </US_DocBloc>
 --]]
   local retval, BuildNumber = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  return 410.008, "4.1","1st of December 2020", "008",  "\"Pink Floyd - High Hopes\"", ultraschall.hotfixdate, BuildNumber
+  return 420.001, "4.2","1st of December 2020", "001",  "\"Pink Floyd - High Hopes\"", ultraschall.hotfixdate, BuildNumber
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
 
 function ultraschall.IntToDouble(integer, selector)
   if selector==nil then
+    -- this branch needs to be rewritten, it still does it wrong
+    -- encode the int to the 4-byte-sequence and then check them all through, until you find it.
+    -- then use the index and divide it by 100 I think and return that.
     for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
       if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
     end
@@ -243,12 +246,28 @@ function ultraschall.DoubleToInt(float, selector)
     --String=tonumber(String)+1000000000
     local found=""
     local counter=0
+    local one, two, three, four, A
     local finalcounter=string.gsub(tostring(float), "%.", "")
-    finalcounter=tonumber(finalcounter)
+    finalcounter=tonumber(finalcounter)    
+    A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)
+    for k in string.gmatch(A, "(....)") do
+      if finalcounter==counter then
+        one = tostring(string.byte(k:sub(1,1))-1) if one:len()==1 then one="0"..one end
+        two = tostring(string.byte(k:sub(2,2))-1) if two:len()==1 then two="0"..two end
+        three=tostring(string.byte(k:sub(3,3))-1) if three:len()==1 then three="0"..three end
+        four =tostring(string.byte(k:sub(4,4))-1) if four:len()==1 then four="0"..four end
+        
+        found=tonumber(one..two..three..four)
+        break
+      end
+      counter=counter+1
+    end
+    
+    --[[
     for k in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
       if finalcounter==counter then found=tonumber(k) break end
       counter=counter+1
-    end
+    end--]]
     if finalcounter>1807 then found=found+100000000 end
     if found>0 then found=found+1000000000 end
                                  --041865114
