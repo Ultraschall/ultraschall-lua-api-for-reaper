@@ -221,9 +221,27 @@ function ultraschall.IntToDouble(integer, selector)
     -- this branch needs to be rewritten, it still does it wrong
     -- encode the int to the 4-byte-sequence and then check them all through, until you find it.
     -- then use the index and divide it by 100 I think and return that.
-    for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
-      if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
-    end
+        --for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
+        --  if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
+        --end
+      if integer>1099998167 then integer=integer-100000000 end
+      if integer>0 then integer=integer-1000000000 end
+      integer=tostring(integer)
+      for i=1, 8 do
+        if integer:len()<8 then 
+          integer=(0)..integer
+        end
+      end
+      
+      local A=string.char(integer:sub(1,2)+1)..string.char(integer:sub(3,4)+1)..string.char(integer:sub(5,6)+1)..string.char(integer:sub(7,8)+1)
+      --local B=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)
+ B=UseMe -- debug
+      local i=-1
+      for k in string.gmatch(B, "....") do
+        i=i+1
+    --    if reaper.MB(k, k:len(), 1)==2 then break end
+        if k==A then return ultraschall.LimitFractionOfFloat(i/100, 2, true)  end
+      end
   else
     for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini") do
       if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
@@ -232,6 +250,8 @@ function ultraschall.IntToDouble(integer, selector)
 end
 
 --A=ultraschall.IntToDouble(4595772,1)
+
+
 
 function ultraschall.DoubleToInt(float, selector)
   float=float+0.0
@@ -245,11 +265,15 @@ function ultraschall.DoubleToInt(float, selector)
     --retval, String = reaper.BR_Win32_GetPrivateProfileString("FloatsInt", string.gsub(tostring(float), "%.", ""), "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini")
     --String=tonumber(String)+1000000000
     local found=""
+    local found2=""
+    local found3=""
     local counter=0
     local one, two, three, four, A
-    local finalcounter=string.gsub(tostring(float), "%.", "")
+    local finalcounter=string.gsub(tostring(float), "%.", "") --math.tointeger(float*100) -- string.gsub(tostring(float), "%.", "")
     finalcounter=tonumber(finalcounter)    
-    A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)
+ --   local A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)
+ local A=UseMe -- debug line
+    
     for k in string.gmatch(A, "(....)") do
       if finalcounter==counter then
         one = tostring(string.byte(k:sub(1,1))-1) if one:len()==1 then one="0"..one end
@@ -258,6 +282,8 @@ function ultraschall.DoubleToInt(float, selector)
         four =tostring(string.byte(k:sub(4,4))-1) if four:len()==1 then four="0"..four end
         
         found=tonumber(one..two..three..four)
+        found2=k
+        --found3=one..two..three..four
         break
       end
       counter=counter+1
@@ -268,10 +294,12 @@ function ultraschall.DoubleToInt(float, selector)
       if finalcounter==counter then found=tonumber(k) break end
       counter=counter+1
     end--]]
-    if finalcounter>1807 then found=found+100000000 end
+    if finalcounter>1807 then 
+      found=found+100000000 
+    end
     if found>0 then found=found+1000000000 end
                                  --041865114
-    return found
+    return found, found2, found3
   else
     --print2(float)
     retval, String = reaper.BR_Win32_GetPrivateProfileString("OpusFloatsInt", math.tointeger(float), "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini")
@@ -2662,3 +2690,5 @@ else
   end
 end
 ultraschall.ShowLastErrorMessage()
+
+UseMe=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)

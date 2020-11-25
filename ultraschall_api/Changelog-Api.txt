@@ -255,7 +255,6 @@ Has now 1342 functions, with 48 new ones
 
   - ** **  
     
-    
 
 #### New features in 4.2.001
    - ConfigFile Management: KBIniGetAllShortcuts - returns all shortcuts of the currently running Reaper-instance as a handy table
@@ -268,6 +267,8 @@ Has now 1342 functions, with 48 new ones
    - Developer Tools: State Inspector - reduced needed files to save space
    - Docs: Example-videos - removed
    - Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors
+   - Helper functions: GetReaperAppVersion - returns now additional information when using Reaper 6.16 and higher(arm, architecture, linux-version); had inner variable exposed -> fixed
+   - Helper functions: LimitFractionOfFloat - removed roundit-parameter(if you need it, give me a hint); more stable now.
    - IniFiles: Reaper-ActionList\_v5\_96.ini - removed, can be produced using developertool ultraschall\_developertool\_ActionlistToIni-Converter.lua
    - Ini-Files: Reaper-factory-default-KEY-Codes\_for\_reaper-kb\_ini.ini - corrected some mistakes
    - Misc: Docs-gfx - removed them from the misc-folder(were redundant)
@@ -275,8 +276,9 @@ Has now 1342 functions, with 48 new ones
    - Misc: Notifications-sound - removed
    - Misc: ShowVars\_Toggle.txt - removed(was redundant)
    - Misc: StuffMidiMessage-AllMessages\_Englisch\_Windows.ini - removed, use CharacterCodes\_ReverseLookup instead to get the codes
+   - Misc: Reaper-KEY-Codes\_for\_reaper-kb\_ini.ini - removed, use CharacterCodes\_ReverseLookup instead to get the codes
    - Rendering: CreateRenderCFG\_Opus - didn't create correct bitrate in string -> fixed
-
+   
 ---
 
 ### 4.1.007 - "Frank Zappa - Carolina Hard-Core Ecstasy" - 21st of October 2020

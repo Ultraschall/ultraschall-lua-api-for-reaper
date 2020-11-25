@@ -32,7 +32,7 @@ majorversion, subversion, bits, Os, portable = ultraschall.GetReaperAppVersion()
 SWS=reaper.CF_GetSWSVersion("")
 JS= reaper.JS_ReaScriptAPI_Version()
 
-A,B,C=reaper.GetAppVersion()
+--A,B,C=reaper.GetAppVersion()
 
 beta=beta:lower()
 beta=string.gsub(beta," ","")

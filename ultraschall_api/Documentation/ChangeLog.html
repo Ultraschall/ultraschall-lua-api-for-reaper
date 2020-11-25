@@ -59,6 +59,8 @@ Ultraschall API Changelog
 <li>Developer Tools: State Inspector - reduced needed files to save space</li>
 <li>Docs: Example-videos - removed</li>
 <li>Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors</li>
+<li>Helper functions: GetReaperAppVersion - returns now additional information when using Reaper 6.16 and higher(arm, architecture, linux-version); had inner variable exposed -&gt; fixed</li>
+<li>Helper functions: LimitFractionOfFloat - removed roundit-parameter(if you need it, give me a hint); more stable now.</li>
 <li>IniFiles: Reaper-ActionList_v5_96.ini - removed, can be produced using developertool ultraschall_developertool_ActionlistToIni-Converter.lua</li>
 <li>Ini-Files: Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini - corrected some mistakes</li>
 <li>Misc: Docs-gfx - removed them from the misc-folder(were redundant)</li>
@@ -66,6 +68,7 @@ Ultraschall API Changelog
 <li>Misc: Notifications-sound - removed</li>
 <li>Misc: ShowVars_Toggle.txt - removed(was redundant)</li>
 <li>Misc: StuffMidiMessage-AllMessages_Englisch_Windows.ini - removed, use CharacterCodes_ReverseLookup instead to get the codes</li>
+<li>Misc: Reaper-KEY-Codes_for_reaper-kb_ini.ini - removed, use CharacterCodes_ReverseLookup instead to get the codes</li>
 <li>Rendering: CreateRenderCFG_Opus - didn't create correct bitrate in string -&gt; fixed</li>
 </ul>
 <hr />
