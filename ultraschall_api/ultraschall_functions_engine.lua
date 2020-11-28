@@ -1,7 +1,7 @@
 --[[
 ################################################################################
 # 
-# Copyright (c) 2014-2019 Ultraschall (http://ultraschall.fm)
+# Copyright (c) 2014-2021 Ultraschall (http://ultraschall.fm)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -218,31 +218,38 @@ end
 
 function ultraschall.IntToDouble(integer, selector)
   if selector==nil then
-    -- this branch needs to be rewritten, it still does it wrong
-    -- encode the int to the 4-byte-sequence and then check them all through, until you find it.
-    -- then use the index and divide it by 100 I think and return that.
-        --for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
-        --  if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
-        --end
-      if integer>1099998167 then integer=integer-100000000 end
-      if integer>0 then integer=integer-1000000000 end
-      integer=tostring(integer)
-      for i=1, 8 do
-        if integer:len()<8 then 
-          integer=(0)..integer
-        end
+    -- get the double-float-version of this integer-representation
+    -- as the file, in which I added the float-representation only has the last
+    -- 8 characters encoded, I need to strip it from anything not needed for the encoding
+    
+    -- subtract the redundant values, that I didn't store anyway
+    if integer>1099998167 then integer=integer-100000000 end
+    if integer>0 then integer=integer-1000000000 end
+    
+    -- now convert the 8 bytes into the 4-byte-sequence I have stored in double_to_int_2-inifile
+    integer=tostring(integer)
+    for i=1, 8 do
+      if integer:len()<8 then -- if the value i 0 then we need to fill up with padding 0
+        integer=(0)..integer
       end
-      
-      local A=string.char(integer:sub(1,2)+1)..string.char(integer:sub(3,4)+1)..string.char(integer:sub(5,6)+1)..string.char(integer:sub(7,8)+1)
+    end
+    
+    -- create the final 4-byte-sequence, which we're looking for in the ini-file
+    local A=string.char(integer:sub(1,2)+1)..string.char(integer:sub(3,4)+1)..string.char(integer:sub(5,6)+1)..string.char(integer:sub(7,8)+1)
+    
+    -- read ini-file
       --local B=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)
  B=UseMe -- debug
-      local i=-1
-      for k in string.gmatch(B, "....") do
-        i=i+1
-    --    if reaper.MB(k, k:len(), 1)==2 then break end
-        if k==A then return ultraschall.LimitFractionOfFloat(i/100, 2, true)  end
-      end
+    -- look for the byte-sequence in the ini-file. The (offset/4)/100 is the double-float-value
+    local i=-1
+    for k in string.gmatch(B, "....") do
+      i=i+1
+      if k==A then return ultraschall.LimitFractionOfFloat(i/100, 2, true)  end
+    end
   else
+    -- convert integer-value to 14f-float, by reading it from the double_to_int_24bit-inifile
+    integer=integer-4000000 -- subtract the value I haven't stored in double_to_int_24bit-inifile as it was redundant
+    -- read through the whole file to get the correct entry and return the entry
     for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini") do
       if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
     end  
@@ -259,50 +266,37 @@ function ultraschall.DoubleToInt(float, selector)
   float=tostring(float)
   local String, retval
   if selector == nil then 
-    if (float:match("%.(.*)")):len()==1 then 
-      float=float.."0" 
-    end
-    --retval, String = reaper.BR_Win32_GetPrivateProfileString("FloatsInt", string.gsub(tostring(float), "%.", ""), "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini")
-    --String=tonumber(String)+1000000000
+    -- get float
+    if (float:match("%.(.*)")):len()==1 then float=float.."0" end -- make float an indexable string
+    
+    -- prepare variables
     local found=""
-    local found2=""
-    local found3=""
-    local counter=0
     local one, two, three, four, A
-    local finalcounter=string.gsub(tostring(float), "%.", "") --math.tointeger(float*100) -- string.gsub(tostring(float), "%.", "")
+    local finalcounter=string.gsub(tostring(float), "%.", "")
     finalcounter=tonumber(finalcounter)    
- --   local A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)
- local A=UseMe -- debug line
+ 
+    -- read byte-sequence, that we need to convert into the integer-value
+    -- from double_to_int_2.ini-file
+    local length, k = ultraschall.ReadBinaryFile_Offset(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", finalcounter*4, 4)
     
-    for k in string.gmatch(A, "(....)") do
-      if finalcounter==counter then
-        one = tostring(string.byte(k:sub(1,1))-1) if one:len()==1 then one="0"..one end
-        two = tostring(string.byte(k:sub(2,2))-1) if two:len()==1 then two="0"..two end
-        three=tostring(string.byte(k:sub(3,3))-1) if three:len()==1 then three="0"..three end
-        four =tostring(string.byte(k:sub(4,4))-1) if four:len()==1 then four="0"..four end
-        
-        found=tonumber(one..two..three..four)
-        found2=k
-        --found3=one..two..three..four
-        break
-      end
-      counter=counter+1
-    end
+    -- convert the bytesequence into the 8-character-byte-sequence
+    one = tostring(string.byte(k:sub(1,1))-1) if one:len()==1 then one="0"..one end
+    two = tostring(string.byte(k:sub(2,2))-1) if two:len()==1 then two="0"..two end
+    three=tostring(string.byte(k:sub(3,3))-1) if three:len()==1 then three="0"..three end
+    four =tostring(string.byte(k:sub(4,4))-1) if four:len()==1 then four="0"..four end
+    found=tonumber(one..two..three..four)
     
-    --[[
-    for k in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
-      if finalcounter==counter then found=tonumber(k) break end
-      counter=counter+1
-    end--]]
-    if finalcounter>1807 then 
+    -- add additional offsets(this is due saving space in the double_to_int_2.ini-file, as this information
+    -- was redundant in the first place, so I cropped it and reinsert it here)
+    if finalcounter>1808 then 
       found=found+100000000 
     end
-    if found>0 then found=found+1000000000 end
-                                 --041865114
-    return found, found2, found3
+    if found>0 then found=found+1000000000 end    
+    return found --return the integer-value.
   else
-    --print2(float)
+    -- for 14f-floats, use this file and read it like any regular ini-file
     retval, String = reaper.BR_Win32_GetPrivateProfileString("OpusFloatsInt", math.tointeger(float), "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini")
+    -- add an offset(I removed it from the ini-file, as it was redundant. So I need to readd that value again in here)
     String=tonumber(String)+4000000
   end
   return String
@@ -2639,47 +2633,6 @@ function SFEM()
 end
 
 
-
-
-
-
-
-
-
---[[
-dofile(script_path .. "Modules/ultraschall_functions_AudioManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_AutomationItems_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Clipboard_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Color_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ConfigurationFiles_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ConfigurationSettings_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_DeferManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Envelope_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_EventManager.lua")
-dofile(script_path .. "Modules/ultraschall_functions_FileManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_FXManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_HelperFunctions_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Localize_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Markers_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MediaItem_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MetaData_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MIDIManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Muting_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Navigation_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ProjectManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ReaMote_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ReaperUserInterface_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Render_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_Routing_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Ultraschall_Module.lua")
---]]
-
-
-
 if ultraschall.US_BetaFunctions==false then
   dofile(script_path.."ultraschall_ModulatorLoad3000.lua")
 else
@@ -2690,5 +2643,3 @@ else
   end
 end
 ultraschall.ShowLastErrorMessage()
-
-UseMe=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)

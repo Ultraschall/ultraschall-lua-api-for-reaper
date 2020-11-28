@@ -55,9 +55,9 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.2001 - "Pink Floyd - High Hopes" - 1st of December 2020 - Build: 43404</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
-<td><a href="#Introduction_002_How_to_Use">How to install and use the Ultraschall API</a></td>
-<td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to install hotfixes</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.2001 - "Pink Floyd - High Hopes" - 1st of December 2020 - Build: 43406</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<td><a href="#Introduction_002_How_to_Install">How to install Ultraschall API</a></td>
+<td><a href="#Introduction_003_How_to_Use">How to use Ultraschall API</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
 </tr><tr><td><a href="#Introduction_005_License">Introduction: License</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Datatypes</b></td></tr><tr><td><a href="#Datatypes_001_Introduction">Datatypes: Introduction</a></td>
@@ -217,8 +217,8 @@ Ultraschall API functions
 <p>For more information about Ultraschall itself, see <a href="http://www.ultraschall.fm">ultraschall.fm</a> and if you want to support us, see <a href="http://www.ultraschall.fm/danke">ultraschall.fm/danke</a> for donating to us.</p>
 <p>PS: In this documentation, I assume you have some basic knowledge in Lua and in using Reaper's own API-functions. Explaining both of these is beyond the scope of this doc.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_002_How_to_Use"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_002_How_to_Use">^</a> <u>How to install and use the Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_002_How_to_Install"></a>
+<div style="font-size:100%"><h4><a href="#Introduction_002_How_to_Install">^</a> <u>How to install Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
 <p>First make sure, you use the right versions of Reaper and SWS: <a href="https://www.reaper.fm">Reaper 6.02 and higher</a>, <a href="https://www.sws-extension.org">SWS 2.10.0.1 and higher</a> and <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">Julian Sader's plugin 1.215 and higher.</a> You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively. Julian Sader's plugin can be installed using ReaPack or gotten from <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">his own github-site</a></p>
 <p>To install the Ultraschall-API, just follow the following steps:</p>
 <p><strong>Installation via ReaPack</strong>:</p>
@@ -253,47 +253,16 @@ For more information on ReaPack and it's usage, refer <a href="https://reapack.c
 <p><strong>Manual Installation</strong>:</p>
 <p>If you can't or don't want to install ReaPack, you can also install it manually.</p>
 <ol>
-<li>Just download the zip-file of the current version from <a href="https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.1_001.zip">ultraschall_api4.1_001.zip</a>.<br />
+<li>Just download the zip-file of the current version from <a href="https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.2_001.zip">ultraschall_api4.2_001.zip</a>.<br />
 </li>
 <li>Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -&gt; Show REAPER resource path in explorer/finder...".<br />
 The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua after this step.<br />
 </li>
 <li>Restart Reaper.</li>
 </ol>
-<p><strong>Check Installation</strong>:</p>
-<p>After installation, you might want to check, whether installing the Ultraschall-API was successful.</p>
-<ol>
-<li><p>Create a new script, by opening the Actions-window (Menu: Actions -&gt; Show action list) and clicking the New-button next to "ReaScript:", give it a name and hit save.<br />
-Include the following line in your script at the beginning:</p>
-<pre><code>     dofile(reaper.GetResourcePath()..&quot;/UserPlugins/ultraschall_api.lua&quot;)</code></pre></li>
-</ol>
-<p>Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.</p>
-<ol>
-<li><p>To test, if it's successfully installed, add</p>
-<pre><code>     ultraschall.ApiTest()</code></pre></li>
-</ol>
-<p>after the dofile-line and hit ctrl+s or cmd+s(on mac).</p>
-<p>The script should show a messagebox, that tells you, which of the Ultraschall-API-parts are activated. If it shows, everything works fine :)<br />
-If not, it will probably show you a messagebox, which will tell you, which required extension or Reaper-version is missing and where to find it.</p>
-<p>If you are already familiar with programming Reaper's own API-functions, you know, that all of Reaper's functions are placed in a table called "reaper."<br />
-e.g. reaper.ShowConsoleMsg("msg")</p>
-<p>The Ultraschall-API is quite the same, but is using the table "ultraschall." instead.<br />
-e.g. ultraschall.ApiTest()</p>
-<p>Some functions need background-scripts be run first. Refer the <a href="#Background_Scripts_001_Introduction">Introduction to background-scripts</a> for information about that.</p>
-<p>See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.</p>
-<p>Oh, before I forget: The ultraschall_api-folder holds a folder "Scripts_Examples" in which you can find some demos and example-scripts using this API.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">^</a> <u>How to install hotfixes</u></h4></div><p><p>Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks.<br />
-So I added a way to deal with that.</p>
-<p>Hotfixes<br />
-Hotfixes are available at <a href="http://ultraschall.fm/api">ultraschall.fm/api</a>. They provide fixes for functions and bugs that came across after a release, but no new functions.<br />
-Just download the ultraschall_hotfixes.lua and put it into UserPlugins/ultraschall_api-folder.<br />
-The chance is high, that there is already an ultraschall_hotfixes.lua-file in the folder. You can safely overwrite it.<br />
-Voila, you have added the most recent bugfixes.</p>
-<p>To get the bugs back, just delete the ultraschall_hotfixes.lua.</p>
-<p>All fixes in ultraschall_hotfixes.lua will be part of the next full version of the Ultraschall-API.</p>
-<p>Check again from time to time to get the latest hotfixes.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_003_How_to_Use"></a>
+<div style="font-size:100%"><h4><a href="#Introduction_003_How_to_Use">^</a> <u>How to use Ultraschall API</u></h4></div><p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_004_Bugreporting_FeatureRequests"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_004_Bugreporting_FeatureRequests">^</a> <u>Introduction: Bugreporting and Feature Requests</u></h4></div><p><p>If you find any bugs or itches and want to report them, I suggest you the following procedure:</p>

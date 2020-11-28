@@ -1319,11 +1319,50 @@ function ultraschall.IsOS_Other()
   return os, bits
 end
 
-
-
 function ultraschall.GetReaperAppVersion()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetReaperAppVersion</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer majorversion, integer subversion, string bits, string operating_system, boolean portable, optional string betaversion = ultraschall.GetReaperAppVersion()</functioncall>
+  <description>
+    Returns operating system and if it's a 64bit/32bit-operating system.
+  </description>
+  <retvals>
+    integer majorversion - the majorversion of Reaper. Can be used for comparisions like "if version<5 then ... end".
+    integer subversion - the subversion of Reaper. Can be used for comparisions like "if subversion<96 then ... end".
+    string bits - the number of bits of the reaper-app
+    string operating_system - the operating system, either "Win", "OSX" or "Other"
+    boolean portable - true, if it's a portable installation; false, if it isn't a portable installation
+    optional string betaversion - if you use a pre-release of Reaper, this contains the beta-version, like "rc9" or "+dev0423" or "pre6"
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
+  <tags>helper functions, appversion, reaper, version, bits, majorversion, subversion, operating system</tags>
+</US_DocBloc>
+--]]
+  -- if exe-path and resource-path are the same, it is an portable-installation
+  if reaper.GetExePath()==reaper.GetResourcePath() then portable=true else portable=false end
+  -- separate the returned value from GetAppVersion
+  local majvers=tonumber(reaper.GetAppVersion():match("(.-)%..-/"))
+  local subvers=tonumber(reaper.GetAppVersion():match("%.(%d*)"))
+  local bits=reaper.GetAppVersion():match("/(.*)")
+  local OS=reaper.GetOS():match("(.-)%d")
+  local beta=reaper.GetAppVersion():match("%.%d*(.-)/")
+  return majvers, subvers, bits, OS, portable, beta
+end
+
+
+function ultraschall.unused_GetReaperAppVersion()
+--[[
+<\US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetReaperAppVersion</slug>
   <requires>
     Ultraschall=4.2
@@ -1350,7 +1389,7 @@ function ultraschall.GetReaperAppVersion()
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
   <tags>helper functions, appversion, reaper, version, bits, majorversion, subversion, operating system</tags>
-</US_DocBloc>
+<\/US_DocBloc>
 --]]
   -- if exe-path and resource-path are the same, it is an portable-installation
   local portable
@@ -1395,7 +1434,7 @@ function ultraschall.LimitFractionOfFloat(number, length_of_fraction)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>LimitFractionOfFloat</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.16
     Lua=5.3
   </requires>

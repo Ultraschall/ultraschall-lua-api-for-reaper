@@ -110,6 +110,7 @@ end
 --remove unneeded files:
 for i=found_files, 1, -1 do
     if files_array[i]:match("EventManager_Startup.ini") then table.remove(files_array,i) found_files=found_files-1 end
+    if files_array[i]:match("Ultraschall-Inspector.ini") then table.remove(files_array,i) found_files=found_files-1 end
 end
 
 
@@ -120,7 +121,7 @@ L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/ultraschall_api_readme.txt", Ta
 ReadMe_Reaper_Internals=[[
 compiled by Meo Mespotine(mespotine.de) for the ultraschall.fm-project
 
-Documentation for Reaper-Internals ]]..majorversion.."."..subversion..[[ and Ultraschall Api 4.00]]..beta..[[, SWS ]]..SWS..[[, JS-extension-plugin ]]..JS..[[ and ReaPack
+Documentation for Reaper-Internals ]]..majorversion.."."..subversion..[[ and Ultraschall Api 4.2]]..beta..[[, SWS ]]..SWS..[[, JS-extension-plugin ]]..JS..[[ and ReaPack
 
 Written and compiled by Meo Mespotine (mespotine.de) for the Ultraschall.FM-project.
 licensed under creative-commons by-sa-nc-license

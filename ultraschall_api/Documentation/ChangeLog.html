@@ -56,7 +56,8 @@ Ultraschall API Changelog
 <h4>Changes from 4.1.007 to 4.2.001</h4>
 <ul>
 <li>API: Loadspeed - sped up loading-speed of API by 30%</li>
-<li>Developer Tools: State Inspector - reduced needed files to save space</li>
+<li>DeveloperTools: Config Var Displayer - improved layout for monospaced ReaScript-console-font</li>
+<li>Developer Tools: State Inspector - supports now config-vars; reduced needed files to save space; ini-file accidentally overwritten when updating API via ReaPack -&gt; fixed</li>
 <li>Docs: Example-videos - removed</li>
 <li>Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors</li>
 <li>Helper functions: GetReaperAppVersion - returns now additional information when using Reaper 6.16 and higher(arm, architecture, linux-version); had inner variable exposed -&gt; fixed</li>
@@ -66,10 +67,13 @@ Ultraschall API Changelog
 <li>Misc: Docs-gfx - removed them from the misc-folder(were redundant)</li>
 <li>Misc: Reaper 5 developer translationpack - removed</li>
 <li>Misc: Notifications-sound - removed</li>
+<li>Misc: Reaper-KEY-Codes_for_reaper-kb_ini.ini - removed, use CharacterCodes_ReverseLookup instead to get the codes</li>
 <li>Misc: ShowVars_Toggle.txt - removed(was redundant)</li>
 <li>Misc: StuffMidiMessage-AllMessages_Englisch_Windows.ini - removed, use CharacterCodes_ReverseLookup instead to get the codes</li>
-<li>Misc: Reaper-KEY-Codes_for_reaper-kb_ini.ini - removed, use CharacterCodes_ReverseLookup instead to get the codes</li>
+<li>Rendering: CreateRenderCFG_OGG - didn't allow for 1.0 vbr-setting in certain edge-cases -&gt; fixed</li>
 <li>Rendering: CreateRenderCFG_Opus - didn't create correct bitrate in string -&gt; fixed</li>
+<li>Rendering: various create-render-cfg-function - parameter fps didn't always produce the correct fps-values -&gt; fixed</li>
+<li>Rendering: various functions - had parameter fps incorrectly documented as integer though it's number -&gt; fixed</li>
 </ul>
 <hr />
 <h3>4.1.007 - "Frank Zappa - Carolina Hard-Core Ecstasy" - 21st of October 2020</h3>
