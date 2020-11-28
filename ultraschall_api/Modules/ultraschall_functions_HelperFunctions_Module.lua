@@ -1349,6 +1349,7 @@ function ultraschall.GetReaperAppVersion()
 </US_DocBloc>
 --]]
   -- if exe-path and resource-path are the same, it is an portable-installation
+  local portable
   if reaper.GetExePath()==reaper.GetResourcePath() then portable=true else portable=false end
   -- separate the returned value from GetAppVersion
   local majvers=tonumber(reaper.GetAppVersion():match("(.-)%..-/"))

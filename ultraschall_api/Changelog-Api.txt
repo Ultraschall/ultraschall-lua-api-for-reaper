@@ -236,17 +236,43 @@ Have fun!"
 
 ### 4.2.001 - "Pink Floyd - High Hopes" - 1st of December 2020
 
-Has now 1342 functions, with 48 new ones
+Has now 1351 functions, with 9 new ones
 
 **new in this release:**  
+  - ** StuffMIDIMessage and KB.ini-functions**  
+  You can now convert the KEY-entry-codes of shortcuts(as stored in the reaper-kb.ini) into their text representation: CharacterCodes\_ReverseLookup\_KBIni  
+  This is also possible, if you use StuffMIDIMessage to send control-messages, as these can be converted now into their 
+  text-representation as well: CharacterCodes\_ReverseLookup  
+  Multiple keymaps supported.  
+  Oh, and did I mention, you can now also get all currently set shortcuts as a handy table? Optionally with factory-default shortcuts?  
+  Now I did: KBIniGetAllShortcuts  
 
-  - ** Toop **  
+  - ** Metadata for AIFF, APE and XMP**  
+  As of Reaper 6.16, you can add metadata for AIFF, APE and XMP as well. I also updated the other metadata-functions to 
+  feature the lastest metadata-features Reaper can offer.  
+  And yes, this includes also support for the new Media Explorer-tags.
+  
+  - ** ConfigVars support in StateInspector **  
+  That's right: you can now monitor config-vars in the StateInspector as well. I also removed the fact that I accidentally
+  deleted your saved slots with each updated.  
+  How come, you didn't tell me that, huh? ;)
+
+  - ** CleanUp and Speedup **  
+  I made Ultraschall-API much smaller by removing tons of useless files and improving storage of other files by magnitude.  
+  To give you a number: Ultraschall-API is 50% smaller compared to the previous release.  
+  It also loads now 30% faster, so starting scripts using Ultraschall-API is now close to lightspeed.  
     
+  - ** Various Bugfixes **  
+  The render-string-functions didn't work properly with floats. Mostly fps-settings were affected. Now it's working.  
+  Also the StuffMIDIMessage-docs is improved now and more precise.  
 
 #### New features in 4.2.001
    - ConfigFile Management: KBIniGetAllShortcuts - returns all shortcuts of the currently running Reaper-instance as a handy table
    - Helper functions: CharacterCodes\_ReverseLookup - converts the StuffMIDIMessage-bytes(with parameter mode=1) into their character-representation
    - Helper functions: CharacterCodes\_ReverseLookup\_KBIni - converts the first two bytes of the KEY-entries in reaper-kb.ini into their character-representation   
+   - Helper functions: RFR - (ReturnFirstRetvals) allows you to get only the first x return-values of a function
+   - Helper functions: RLR - (ReturnLastRetvals) allows you to get only the last x return-values of a function
+   - Helper functions: RRR - (ReturnRangeRetvals) allows you to get only a range of all return-values of a function
    - Metadata: Metadata\_AIFF\_GetSet - gets/sets the AIFF-metadata of the current project
    - Metadata: Metadata\_APE\_GetSet - gets/sets the APE-metadata of the current project
    - Metadata: Metadata\_XMP\_GetSet - gets/sets the XMP-metadata of the current project
@@ -255,7 +281,9 @@ Has now 1342 functions, with 48 new ones
    - API: Loadspeed - sped up loading-speed of API by 30%
    - DeveloperTools: Config Var Displayer - improved layout for monospaced ReaScript-console-font
    - Developer Tools: State Inspector - supports now config-vars; reduced needed files to save space; ini-file accidentally overwritten when updating API via ReaPack -> fixed
+   - Docs: Concepts - split installation and usage of Ultraschall-API into two chapters; removed the hotfix-chapter(was outdated); corrected download-link
    - Docs: Example-videos - removed
+   - Docs: Reaper Internals - updated to Reaper 6.17
    - Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors
    - Helper functions: LimitFractionOfFloat - removed roundit-parameter(if you need it, give me a hint); more stable now.
    - IniFiles: Reaper-ActionList\_v5\_96.ini - removed, can be produced using developertool ultraschall\_developertool\_ActionlistToIni-Converter.lua

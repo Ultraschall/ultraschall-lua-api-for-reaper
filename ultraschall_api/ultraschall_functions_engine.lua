@@ -2632,6 +2632,191 @@ function SFEM()
     return retval, three
 end
 
+function RFR(length, ...)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>RFR</slug>
+    <requires>
+      Ultraschall=4.2
+      Reaper=5.40
+      Lua=5.3
+    </requires>
+    <functioncall>... = RFR(integer length, ...)</functioncall>
+    <description>
+      returns only the first x return-values, as given by length.
+      
+      You can put the return-values of another function and just get the first x ones. So if the function returns 10 returnvalues, 
+      but you only need the first two, set length=2 and add the function(with the 10 returnvalues) after it as second parameter.
+      
+      
+      For example:
+      
+      integer r, integer g, integer b = reaper.ColorFromNative(integer col)
+      
+      returns three colorvalues. If you only want the first one(r), use it this way:
+      
+      r=RFR(1, reaper.ColorFromNative(12739))
+      
+      
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      various ... - the requested first-n returnvalues
+    </retvals>
+    <parameters>
+      integer length - the number of the first return-values to return
+      various ... - further parameters, which can be multiple values or just the return-values of another function.
+    </parameters>
+    <chapter_context>
+      Developer
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>developer, return values, retval, only first</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("RFR", "length", "must be an integer", -1) return end
+  if length<1 then ultraschall.AddErrorMessage("RFR", "length", "must be bigger than 0", -2) return end
+  local Table={...}
+  if length>=#Table then return table.unpack(Table) end
+  local Table2={}
+  for i=1, length do
+    if Table[i]==nil then return table.unpack(Table2) end
+    Table2[i]=Table[i]
+  end
+  return table.unpack(Table2)
+end
+
+
+function RLR(length, ...)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>RLR</slug>
+    <requires>
+      Ultraschall=4.2
+      Reaper=5.40
+      Lua=5.3
+    </requires>
+    <functioncall>... = RLR(integer length, ...)</functioncall>
+    <description>
+      returns only the last x return-values, as given by length.
+      
+      You can put the return-values of another function and just get the last x ones. So if the function returns 10 returnvalues, 
+      but you only need the last two, set length=2 and add the function(with the 10 returnvalues) after it as second parameter.
+      
+      
+      For example:
+      
+      integer r, integer g, integer b = reaper.ColorFromNative(integer col)
+      
+      returns three colorvalues. If you only want the last one(b), use it this way:
+      
+      b=RLR(1, reaper.ColorFromNative(12739))
+      
+      
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      various ... - the requested last-n returnvalues
+    </retvals>
+    <parameters>
+      integer length - the number of the last return-values to return
+      various ... - further parameters, which can be multiple values or just the return-values of another function.
+    </parameters>
+    <chapter_context>
+      Developer
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>developer, return values, retval, only last</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("RLR", "length", "must be an integer", -1) return end
+  if length<1 then ultraschall.AddErrorMessage("RLR", "length", "must be bigger than 0", -2) return end
+  local Table={...}
+  if length>=#Table then return table.unpack(Table) end
+  local Table2={}
+  local a=0
+  for i=#Table-length+1, #Table do
+    if Table[i]~=nil then 
+      a=a+1
+      Table2[a]=Table[i]
+    end
+  end
+  return table.unpack(Table2)
+end
+
+function RRR(position, length, ...)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>RRR</slug>
+    <requires>
+      Ultraschall=4.2
+      Reaper=5.40
+      Lua=5.3
+    </requires>
+    <functioncall>... = RRR(integer position, integer length, ...)</functioncall>
+    <description>
+      returns only the x return-values between position and position+length.
+      
+      You can put the return-values of another function and just get the ones between position and position+length. So if the function returns 10 returnvalues, 
+      but you only need the third through the fifth, set position=3 and length=3 and add the function(with the 10 returnvalues) after it as third parameter.
+      
+      
+      For example:
+      
+      integer r, integer g, integer b = reaper.ColorFromNative(integer col)
+      
+      returns three colorvalues. If you only want the middle one(g), use it this way:
+      
+      g=RLR(2, 1, reaper.ColorFromNative(12739))
+      
+      
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      various ... - the requested n returnvalues between position and length+position
+    </retvals>
+    <parameters>
+      integer position - the first return-value to return
+      integer length - the number of return-values to return(position+length)
+      various ... - further parameters, which can be multiple values or just the return-values of another function.
+    </parameters>
+    <chapter_context>
+      Developer
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>developer, return values, retval, between</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(position)~="integer" then ultraschall.AddErrorMessage("RFR", "position", "must be an integer", -1) return end
+  if position<1 then ultraschall.AddErrorMessage("RFR", "position", "must be bigger than 0", -2) return end
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("RFR", "length", "must be an integer", -3) return end
+  if length<0 then ultraschall.AddErrorMessage("RFR", "length", "must be bigger or equal 0", -4) return end
+  local Table={...}
+  local Table2={}
+  local a=0
+  if length>#Table then length=#Table end
+  for i=position, length do
+    if Table[i]~=nil then 
+      a=a+1
+      Table2[a]=Table[i]
+    end
+  end
+  return table.unpack(Table2)
+end
+
+
+
+
+-- Load ModulatorLoad3000
 
 if ultraschall.US_BetaFunctions==false then
   dofile(script_path.."ultraschall_ModulatorLoad3000.lua")

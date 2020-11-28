@@ -68,9 +68,9 @@
         <slug>Introduction_002_How_to_Install</slug>
         <title>How to install Ultraschall API</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Using the Ultraschall-API is quite easy.
+            Installing Ultraschall-API is quite easy.
             
-            First make sure, you use the right versions of Reaper and SWS:
+            First make sure, you use the right versions of Reaper, SWS and JS-extension:
                [Reaper 6.02 and higher](https://www.reaper.fm), [SWS 2.10.0.1 and higher](https://www.sws-extension.org) and [Julian Sader's plugin 1.215 and higher.](https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/)
             You can download them at [reaper.fm](http://www.reaper.fm) and [sws-extension.org](http://www.sws-extension.org) respectively.
             Julian Sader's plugin can be installed using ReaPack or gotten from [his own github-site](https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/)
@@ -112,6 +112,7 @@
                The folder UserPlugins should contain the folder ultraschall\_api and the files ultraschall\_api\_readme.txt and ultraschall\_api.lua after this step.  
             3. Restart Reaper.
             
+            In the next chapter, I'll explain, how to use Ultraschall-API.
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>
@@ -120,15 +121,13 @@
         </chapter_context>
         <previous_chapter>Introduction_001_Api</previous_chapter>
         <next_chapter>Introduction_003_How_to_Use</next_chapter>
-        <tags>documentation, introduction, how to use</tags>
+        <tags>documentation, introduction, how to install</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Introduction_003_How_to_Use</slug>
-        <title>How to use Ultraschall API</title>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">                      
-            ** Usage of Ultraschall-API **
-            
+        <title>Introduction: How to use Ultraschall API</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Usage is really simple. First, create a new script. For this, go into the menu "Actions", hit "Show action list",
             click the "New action"-button and select "New ReaScript".
             In the file-requester, you enter a filename for the new script. Just test it by naming it "Test_Ultraschall_Api.lua"

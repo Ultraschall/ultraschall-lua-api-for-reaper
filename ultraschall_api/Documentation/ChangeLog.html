@@ -41,10 +41,28 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.2.001 - "Pink Floyd - High Hopes" - 1st of December 2020</h3>
-<p>Has now 1342 functions, with 48 new ones</p>
-<p><strong>new in this release:</strong></p>
+<p>Has now 1351 functions, with 9 new ones</p>
+<p><strong>new in this release:</strong><br />
+- ** StuffMIDIMessage and KB.ini-functions**<br />
+You can now convert the KEY-entry-codes of shortcuts(as stored in the reaper-kb.ini) into their text representation: CharacterCodes_ReverseLookup_KBIni<br />
+This is also possible, if you use StuffMIDIMessage to send control-messages, as these can be converted now into their text-representation as well: CharacterCodes_ReverseLookup<br />
+Multiple keymaps supported.<br />
+Oh, and did I mention, you can now also get all currently set shortcuts as a handy table? Optionally with factory-default shortcuts?<br />
+Now I did: KBIniGetAllShortcuts</p>
 <ul>
-<li>** Toop **</li>
+<li><p>** Metadata for AIFF, APE and XMP**<br />
+As of Reaper 6.16, you can add metadata for AIFF, APE and XMP as well. I also updated the other metadata-functions to feature the lastest metadata-features Reaper can offer.<br />
+And yes, this includes also support for the new Media Explorer-tags.</p></li>
+<li><p>** ConfigVars support in StateInspector **<br />
+That's right: you can now monitor config-vars in the StateInspector as well. I also removed the fact that I accidentally deleted your saved slots with each updated.<br />
+How come, you didn't tell me that, huh? ;)</p></li>
+<li><p>** CleanUp and Speedup **<br />
+I made Ultraschall-API much smaller by removing tons of useless files and improving storage of other files by magnitude.<br />
+To give you a number: Ultraschall-API is 50% smaller compared to the previous release.<br />
+It also loads now 30% faster, so starting scripts using Ultraschall-API is now close to lightspeed.</p></li>
+<li><p>** Various Bugfixes **<br />
+The render-string-functions didn't work properly with floats. Mostly fps-settings were affected. Now it's working.<br />
+Also the StuffMIDIMessage-docs is improved now and more precise.</p></li>
 </ul>
 <h4>New features in 4.2.001</h4>
 <ul>
@@ -52,6 +70,9 @@ Ultraschall API Changelog
 <li>Helper functions: CharacterCodes_ReverseLookup - converts the StuffMIDIMessage-bytes(with parameter mode=1) into their character-representation</li>
 <li>Helper functions: CharacterCodes_ReverseLookup_KBIni - converts the first two bytes of the KEY-entries in reaper-kb.ini into their character-representation<br />
 </li>
+<li>Helper functions: RFR - (ReturnFirstRetvals) allows you to get only the first x return-values of a function</li>
+<li>Helper functions: RLR - (ReturnLastRetvals) allows you to get only the last x return-values of a function</li>
+<li>Helper functions: RRR - (ReturnRangeRetvals) allows you to get only a range of all return-values of a function</li>
 <li>Metadata: Metadata_AIFF_GetSet - gets/sets the AIFF-metadata of the current project</li>
 <li>Metadata: Metadata_APE_GetSet - gets/sets the APE-metadata of the current project</li>
 <li>Metadata: Metadata_XMP_GetSet - gets/sets the XMP-metadata of the current project</li>
@@ -61,7 +82,9 @@ Ultraschall API Changelog
 <li>API: Loadspeed - sped up loading-speed of API by 30%</li>
 <li>DeveloperTools: Config Var Displayer - improved layout for monospaced ReaScript-console-font</li>
 <li>Developer Tools: State Inspector - supports now config-vars; reduced needed files to save space; ini-file accidentally overwritten when updating API via ReaPack -&gt; fixed</li>
+<li>Docs: Concepts - split installation and usage of Ultraschall-API into two chapters; removed the hotfix-chapter(was outdated); corrected download-link</li>
 <li>Docs: Example-videos - removed</li>
+<li>Docs: Reaper Internals - updated to Reaper 6.17</li>
 <li>Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors</li>
 <li>Helper functions: LimitFractionOfFloat - removed roundit-parameter(if you need it, give me a hint); more stable now.</li>
 <li>IniFiles: Reaper-ActionList_v5_96.ini - removed, can be produced using developertool ultraschall_developertool_ActionlistToIni-Converter.lua</li>
