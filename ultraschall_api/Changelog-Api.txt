@@ -242,8 +242,6 @@ Have fun!"
    
 </TODO>
 
-IMPORTANT: IntToDouble not yet converted to new behavior!!!
-
 
 ## Ultraschall Framework - Changelog
 
@@ -253,14 +251,16 @@ Has now 1342 functions, with 48 new ones
 
 **new in this release:**  
 
-  - ** **  
+  - ** Toop **  
     
 
 #### New features in 4.2.001
    - ConfigFile Management: KBIniGetAllShortcuts - returns all shortcuts of the currently running Reaper-instance as a handy table
    - Helper functions: CharacterCodes\_ReverseLookup - converts the StuffMIDIMessage-bytes(with parameter mode=1) into their character-representation
-   - Helper functions: CharacterCodes\_ReverseLookup\_KBIni - converts the first two bytes of the KEY-entries in reaper-kb.ini into their character-representation
-   
+   - Helper functions: CharacterCodes\_ReverseLookup\_KBIni - converts the first two bytes of the KEY-entries in reaper-kb.ini into their character-representation   
+   - Metadata: Metadata\_AIFF\_GetSet - gets/sets the AIFF-metadata of the current project
+   - Metadata: Metadata\_APE\_GetSet - gets/sets the APE-metadata of the current project
+   - Metadata: Metadata\_XMP\_GetSet - gets/sets the XMP-metadata of the current project
    
 #### Changes from 4.1.007 to 4.2.001  
    - API: Loadspeed - sped up loading-speed of API by 30%
@@ -272,6 +272,11 @@ Has now 1342 functions, with 48 new ones
    - Helper functions: LimitFractionOfFloat - removed roundit-parameter(if you need it, give me a hint); more stable now.
    - IniFiles: Reaper-ActionList\_v5\_96.ini - removed, can be produced using developertool ultraschall\_developertool\_ActionlistToIni-Converter.lua
    - Ini-Files: Reaper-factory-default-KEY-Codes\_for\_reaper-kb\_ini.ini - corrected some mistakes
+   - Metadata: Metadata\_BWF\_GetSet - added new tags as of Reaper 6.16
+   - Metadata: Metadata\_ID3\_GetSet - added new tags as of Reaper 6.16
+   - Metadata: Metadata\_INFO\_GetSet - added new tags as of Reaper 6.16
+   - Metadata: Metadata\_IXML\_GetSet - added new tags as of Reaper 6.16
+   - Metadata: Metadata\_VORBIS\_GetSet - added new tags as of Reaper 6.16
    - Misc: Docs-gfx - removed them from the misc-folder(were redundant)
    - Misc: Reaper 5 developer translationpack - removed
    - Misc: Notifications-sound - removed

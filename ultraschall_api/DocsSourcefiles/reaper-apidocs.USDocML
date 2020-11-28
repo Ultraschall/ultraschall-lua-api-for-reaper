@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 6.15
+            ## ReaScript API as of Reaper 6.17
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -5325,12 +5325,49 @@
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Get focused FX. 
             
+            !!Deprecated, use [GetFocusedFX2](#GetFocusedFX) instead
+            
             See [GetLastTouchedFX](#GetLastTouchedFX).
         </description>
         <retvals>
             integer retval - 0, if no FX window has focus
                            - 1, if a track FX window has focus or was the last focused and still open
                            - 2, if an item FX window has focus or was the last focused and still open
+            integer tracknumber - tracknumber; 0, master track; 1, track 1; etc. 
+            integer itemnumber - -1, if it's a track-fx; 0 and higher, the mediaitem-number
+            integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index
+        </retvals>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags>fxmanagement, get, focused, fx</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetFocusedFX2</slug>
+        <title>GetFocusedFX2</title>
+        <functioncall prog_lang="cpp">int GetFocusedFX2(int* tracknumberOut, int* itemnumberOut, int* fxnumberOut)</functioncall>
+        <functioncall prog_lang="eel">int GetFocusedFX2(int &tracknumber, int &itemnumber, int &fxnumber)</functioncall>
+        <functioncall prog_lang="lua">integer retval, number tracknumber, number itemnumber, number fxnumber = reaper.GetFocusedFX2()</functioncall>
+        <functioncall prog_lang="python">(Int retval, Int tracknumberOut, Int itemnumberOut, Int fxnumberOut) = RPR_GetFocusedFX2(tracknumberOut, itemnumberOut, fxnumberOut)</functioncall>
+        <requires>
+            Reaper=6.16
+            Lua=5.3
+        </requires>
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Return value has 1 set if track FX, 2 if take/item FX, 4 set if FX is no longer focused but still open. 
+            
+            tracknumber==0 means the master track, 1 means track 1, etc. itemnumber is zero-based (or -1 if not an item). 
+            
+            For interpretation of fxnumber, see [GetLastTouchedFX](#GetLastTouchedFX).
+        </description>
+        <retvals>
+            integer retval - 0, if no FX window has focus
+                           - 1, if a track FX window has focus or was the last focused and still open
+                           - 2, if an item FX window has focus or was the last focused and still open
+                           - 4, if FX is no longer focused but still open
             integer tracknumber - tracknumber; 0, master track; 1, track 1; etc. 
             integer itemnumber - -1, if it's a track-fx; 0 and higher, the mediaitem-number
             integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index
@@ -5698,7 +5735,7 @@
             
             The low word of tracknumber is the 1-based track index -- 0 means the master track, 1 means track 1, etc. 
             
-            See [GetFocusedFX](#GetFocusedFX).
+            See [GetFocusedFX2](#GetFocusedFX2).
         </description>
         <retvals>
             boolean retval - true, if last touched FX parameter is valid; false, if otherwise
@@ -10440,7 +10477,7 @@
         <functioncall prog_lang="lua">integer = reaper.InsertMedia(string file, integer mode)</functioncall>
         <functioncall prog_lang="python">Int RPR_InsertMedia(String file, Int mode)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.16
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -10448,14 +10485,17 @@
             0=add to current track, 
             1=add new track, 
             3=add to selected items as takes, 
+            1024=add to sample player on new track, 
             &amp;4=stretch/loop to fit time sel, 
             &amp;8=try to match tempo 1x, 
             &amp;16=try to match tempo 0.5x, 
             &amp;32=try to match tempo 2x, 
             &amp;64=don't preserve pitch when matching tempo, 
             &amp;128=no loop/section if startpct/endpct set, 
-            &amp;256=force loop regardless of global preference for looping imported items. 
-            &amp;512=use high word as absolute track index if mode&amp;3==0.
+            &amp;256=force loop regardless of global preference for looping imported items, 
+            &amp;512=use high word as absolute track index if mode&amp;3==0, 
+            &amp;1024=insert into reasamplomatic on a new track, 
+            &amp;2048=insert into open reasamplomatic instance
         </description>
         <retvals>
             integer - 
@@ -10483,8 +10523,8 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">
-            
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
+            see [InsertMedia](#InsertMedia)
         </description>
         <retvals>
             integer - 
@@ -15709,6 +15749,8 @@
              * genlist_selfg : Window list selected text 
              * genlist_seliabg : Window list selected row (inactive) 
              * genlist_seliafg : Window list selected text (inactive) 
+             * genlist_hilite : Window list highlighted text
+             * genlist_hilite_sel : Window list highlighted selected text
              * col_buttonbg : Button background 
              * col_tcp_text : Track panel text 
              * col_tcp_textsel : Track panel (selected) text 
@@ -41115,10 +41157,12 @@
         <title>PlayPreviewEx</title>
         <functioncall prog_lang="cpp">int (*PlayPreviewEx)(preview_register_t* preview, int bufflags, double MSI)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.16
         </requires>
         <description indent="default">
-            Play preview ex. Return nonzero on success.
+            return nonzero on success. bufflags
+            &amp;1 = buffer source, 
+            &amp;2 = treat length changes in source as varispeed and adjust internal state accordingly if buffering.
         </description>
         <retvals>
             int -
@@ -41193,10 +41237,10 @@
         <title>PlayTrackPreview2Ex</title>
         <functioncall prog_lang="cpp">int (*PlayTrackPreview2Ex)(ReaProject* proj, preview_register_t* preview, int flags, double msi)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.16
         </requires>
-        <description indent="default">
-            Play track preview 2 Ex. Return nonzero on success,in these,m_out_chan is a track index (0-n).
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            return nonzero on success,in these,m_out_chan is a track index (0-n). for flags see [PlayPreviewEx](#PlayPreviewEx) bufflags
         </description>
         <retvals>
             int -

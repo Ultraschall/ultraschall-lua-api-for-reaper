@@ -39,19 +39,22 @@ Ultraschall API Changelog
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<p>IMPORTANT: IntToDouble not yet converted to new behavior!!!</p>
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.2.001 - "Pink Floyd - High Hopes" - 1st of December 2020</h3>
 <p>Has now 1342 functions, with 48 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><hr /></li>
+<li>** Toop **</li>
 </ul>
 <h4>New features in 4.2.001</h4>
 <ul>
 <li>ConfigFile Management: KBIniGetAllShortcuts - returns all shortcuts of the currently running Reaper-instance as a handy table</li>
 <li>Helper functions: CharacterCodes_ReverseLookup - converts the StuffMIDIMessage-bytes(with parameter mode=1) into their character-representation</li>
-<li>Helper functions: CharacterCodes_ReverseLookup_KBIni - converts the first two bytes of the KEY-entries in reaper-kb.ini into their character-representation</li>
+<li>Helper functions: CharacterCodes_ReverseLookup_KBIni - converts the first two bytes of the KEY-entries in reaper-kb.ini into their character-representation<br />
+</li>
+<li>Metadata: Metadata_AIFF_GetSet - gets/sets the AIFF-metadata of the current project</li>
+<li>Metadata: Metadata_APE_GetSet - gets/sets the APE-metadata of the current project</li>
+<li>Metadata: Metadata_XMP_GetSet - gets/sets the XMP-metadata of the current project</li>
 </ul>
 <h4>Changes from 4.1.007 to 4.2.001</h4>
 <ul>
@@ -64,6 +67,11 @@ Ultraschall API Changelog
 <li>Helper functions: LimitFractionOfFloat - removed roundit-parameter(if you need it, give me a hint); more stable now.</li>
 <li>IniFiles: Reaper-ActionList_v5_96.ini - removed, can be produced using developertool ultraschall_developertool_ActionlistToIni-Converter.lua</li>
 <li>Ini-Files: Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini - corrected some mistakes</li>
+<li>Metadata: Metadata_BWF_GetSet - added new tags as of Reaper 6.16</li>
+<li>Metadata: Metadata_ID3_GetSet - added new tags as of Reaper 6.16</li>
+<li>Metadata: Metadata_INFO_GetSet - added new tags as of Reaper 6.16</li>
+<li>Metadata: Metadata_IXML_GetSet - added new tags as of Reaper 6.16</li>
+<li>Metadata: Metadata_VORBIS_GetSet - added new tags as of Reaper 6.16</li>
 <li>Misc: Docs-gfx - removed them from the misc-folder(were redundant)</li>
 <li>Misc: Reaper 5 developer translationpack - removed</li>
 <li>Misc: Notifications-sound - removed</li>
