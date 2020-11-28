@@ -446,7 +446,8 @@ function ultraschall.Metadata_ID3_GetSet(Tag, Value)
       TSRC - International Standard Recording Code
       TCOP - Copyright Message
       COMM\_LANG - Comment language, 3-character code like "eng"
-      APIC\_TYPE - the type of the cover-image
+      APIC\_TYPE - the type of the cover-image, which can be of the following:
+      
         "", unset
         0, Other
         1, 32x32 pixel file icon (PNG only)
@@ -469,6 +470,7 @@ function ultraschall.Metadata_ID3_GetSet(Tag, Value)
         18, Illustration
         19, Band/Artist logotype
         20, Publisher/Studiotype
+    
     APIC\_DESC - the description of the cover-image
     APIC\_FILE - the filename+absolute path of the cover-image; must be either png or jpg
     

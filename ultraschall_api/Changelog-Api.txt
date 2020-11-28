@@ -1,7 +1,5 @@
 <TODO>
     -- later releases
-        - EventManager - allow one-time-events, that unregister themselves, as soon as they hit the true-stage and have executed their actions.
-        - GetUserInputs - new implementation for captions and retvals BUT OK/Cancel Button buggy and length of captions/retvals buggy
         - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
         - BatchConvertFiles - maybe finishing it up?
         - Set Metadata from Project - still missing
@@ -135,7 +133,7 @@ Have fun!"
         - TODO!! in the eventmanager-script: 
             - CheckEveryXSeconds: mach Wert 0 zu permanent und negative Werte zu EveryXDeferCycle-Werten für mehr Kontrolle darüber(letzteres Kür)
             - CheckForXSeconds: mach Wert 0 zu dauerhaft und evtl negative Werte für Anzahl Defer-Cycles, die gecheckt werden soll(letzteres Kür)
-            
+            - One Time Events, who remove themselves after first event=true
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
                       tempfile=files_array[i]
                       tempfile2=string.gsub(tempfile, "&", "%%26")
@@ -179,15 +177,6 @@ Have fun!"
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
                       MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
-         - TODO!! Add/Set/DeleteModulation
-
-         - TODO!! GetUserInputs 
-                - set length of caption-textfields and move inputboxes accordingly, as well as the width of the DialogWindow AND
-                  position it correctly centered
-                - Captions ending with \n shall be the full width of the window(for full readability of the caption), where the 
-                  associated inputbox is moved into the next line,which means, that all lines must be moved downwards properly 
-                  and height must be adjusted accordingly
-
     - TODO!! Monitor the rendering to file-dialog for queue-renders, to get the rendered filenames, using a background script, if possible at all
       TODO!! Default-Color-Theme-Colortables and loading ColorTable from Theme-functions
               Originally Posted by mespotine  View Post
@@ -268,7 +257,6 @@ Has now 1342 functions, with 48 new ones
    - Developer Tools: State Inspector - supports now config-vars; reduced needed files to save space; ini-file accidentally overwritten when updating API via ReaPack -> fixed
    - Docs: Example-videos - removed
    - Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors
-   - Helper functions: GetReaperAppVersion - returns now additional information when using Reaper 6.16 and higher(arm, architecture, linux-version); had inner variable exposed -> fixed
    - Helper functions: LimitFractionOfFloat - removed roundit-parameter(if you need it, give me a hint); more stable now.
    - IniFiles: Reaper-ActionList\_v5\_96.ini - removed, can be produced using developertool ultraschall\_developertool\_ActionlistToIni-Converter.lua
    - Ini-Files: Reaper-factory-default-KEY-Codes\_for\_reaper-kb\_ini.ini - corrected some mistakes
@@ -278,6 +266,7 @@ Has now 1342 functions, with 48 new ones
    - Metadata: Metadata\_IXML\_GetSet - added new tags as of Reaper 6.16
    - Metadata: Metadata\_VORBIS\_GetSet - added new tags as of Reaper 6.16
    - Misc: Docs-gfx - removed them from the misc-folder(were redundant)
+   - Misc: Developer-langpack removed - use ultraschall\_developertool\_LangPack2Developer\_langpack\_converter.lua to create one
    - Misc: Reaper 5 developer translationpack - removed
    - Misc: Notifications-sound - removed
    - Misc: Reaper-KEY-Codes\_for\_reaper-kb\_ini.ini - removed, use CharacterCodes\_ReverseLookup instead to get the codes

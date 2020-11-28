@@ -26,6 +26,8 @@
 
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
+print2("Please put the content of the original language-pack into the clipboard")
+
 clipboard_string = ultraschall.GetStringFromClipboard_SWS()
 
 count, split_string = ultraschall.SplitStringAtLineFeedToArray(clipboard_string)
@@ -46,3 +48,4 @@ for i=1, count do
 end
 
 print3(A)
+print2("Converted Langpack has been put into the clipboard.")
