@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43429.00" author="Meo Mespotine">
+      <version name="43435.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.001//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.001//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.001/ultraschall_api/Changelog-Api.txt</source>
@@ -634,6 +634,7 @@ Changes from 4.1.007 to 4.2.001
 -   Docs: Concepts - split installation and usage of Ultraschall-API
     into two chapters; removed the hotfix-chapter(was outdated);
     corrected download-link
+-   Docs: Config-Vars - added mac-only-configvars(thanks to cfillion)
 -   Docs: Example-videos - removed
 -   Docs: Reaper Internals - updated to Reaper 6.17
 -   Docs: StuffMIDIMessage-docs - rewrote it as it contained many many

@@ -4578,11 +4578,11 @@
         <functioncall prog_lang="lua">string = reaper.GetAppVersion()</functioncall>
         <functioncall prog_lang="python">String RPR_GetAppVersion()</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.17
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Returns the current version of Reaper, e.g "5.62/x64"
+            Returns the current version of Reaper, e.g "5.62/x64"(windows x64) or "6.16/macOS-arm64"(for arm macs)
         </description>
         <retvals>
             string - the returned version-number of Reaper
@@ -6929,14 +6929,14 @@
         <functioncall prog_lang="lua">string os = reaper.GetOS()</functioncall>
         <functioncall prog_lang="python">String RPR_GetOS()</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.17
             Lua=5.3
         </requires>
         <description prog_lang="*">
             Returns the current operating-system. Good for determining, e.g. the correct filesystem-separators.
         </description>
         <retvals>
-            string os - "Win32", "Win64", "OSX32", "OSX64", or "Other"
+            string os - "Win32", "Win64", "OSX32", "OSX64", "macOS-arm64" or "Other"
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10477,25 +10477,25 @@
         <functioncall prog_lang="lua">integer = reaper.InsertMedia(string file, integer mode)</functioncall>
         <functioncall prog_lang="python">Int RPR_InsertMedia(String file, Int mode)</functioncall>
         <requires>
-            Reaper=6.16
+            Reaper=6.17
             Lua=5.3
         </requires>
         <description prog_lang="*">
             mode: 
-            0=add to current track, 
-            1=add new track, 
-            3=add to selected items as takes, 
-            1024=add to sample player on new track, 
-            &amp;4=stretch/loop to fit time sel, 
-            &amp;8=try to match tempo 1x, 
-            &amp;16=try to match tempo 0.5x, 
-            &amp;32=try to match tempo 2x, 
-            &amp;64=don't preserve pitch when matching tempo, 
-            &amp;128=no loop/section if startpct/endpct set, 
-            &amp;256=force loop regardless of global preference for looping imported items, 
-            &amp;512=use high word as absolute track index if mode&amp;3==0, 
-            &amp;1024=insert into reasamplomatic on a new track, 
+            0=add to current track
+            1=add new track
+            3=add to selected items as takes
+            &amp;4=stretch/loop to fit time sel
+            &amp;8=try to match tempo 1x
+            &amp;16=try to match tempo 0.5x
+            &amp;32=try to match tempo 2x
+            &amp;64=don't preserve pitch when matching tempo
+            &amp;128=no loop/section if startpct/endpct set
+            &amp;256=force loop regardless of global preference for looping imported items
+            &amp;512=use high word as absolute track index if mode&amp;3==0
+            &amp;1024=insert into reasamplomatic on a new track
             &amp;2048=insert into open reasamplomatic instance
+            &amp;4096=move to BWF source preferred position
         </description>
         <retvals>
             integer - 

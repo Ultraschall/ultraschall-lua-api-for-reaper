@@ -3363,6 +3363,21 @@
       <source_document>reaper-config_var.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>disk_rdmodeexmac</slug>  
+      <title>disk_rdmodeexmac</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          Unknown, probably diskmode on mac?
+          It is an integer  
+
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>disk_rdsizeex</slug>  
@@ -6798,7 +6813,22 @@
       <source_document>reaper-config_var.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
-  
+ 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>nativedrawtext2</slug>  
+      <title>nativedrawtext2</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          Unknown
+          It is an integer  
+            
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+ 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>newfnopt</slug>  
       <title>newfnopt</title>  
@@ -7071,6 +7101,21 @@
                     
           Stored in reaper.ini under the same name in the section REAPER.  
             
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>osxnomiddlemancocoa</slug>  
+      <title>osxnomiddlemancocoa</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          unknown, probably mac-related
+          It is an integer  
+          
       </description>  
       <chapter_context>  
          Config Variables  
@@ -12624,6 +12669,21 @@
       <source_document>reaper-config_var.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>vstbr32</slug>  
+      <title>vstbr32</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          unknown, probably bridging for 32bit-vst-plugins?
+          It is an integer              
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>vstbr64</slug>  

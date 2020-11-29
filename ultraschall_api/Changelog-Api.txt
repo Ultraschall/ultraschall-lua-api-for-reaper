@@ -282,6 +282,7 @@ Has now 1351 functions, with 9 new ones
    - DeveloperTools: Config Var Displayer - improved layout for monospaced ReaScript-console-font
    - Developer Tools: State Inspector - supports now config-vars; reduced needed files to save space; ini-file accidentally overwritten when updating API via ReaPack -> fixed
    - Docs: Concepts - split installation and usage of Ultraschall-API into two chapters; removed the hotfix-chapter(was outdated); corrected download-link
+   - Docs: Config-Vars - added mac-only-configvars(thanks to cfillion)
    - Docs: Example-videos - removed
    - Docs: Reaper Internals - updated to Reaper 6.17
    - Docs: StuffMIDIMessage-docs - rewrote it as it contained many many errors
