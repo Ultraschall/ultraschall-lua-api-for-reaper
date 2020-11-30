@@ -26,7 +26,9 @@
 
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
-print2("Please put the content of the original language-pack into the clipboard")
+if reaper.GetExtState("ultraschall_api", "dontask_developertools")~="false" then 
+  print2("Please put the content of the original language-pack into the clipboard")
+end
 
 clipboard_string = ultraschall.GetStringFromClipboard_SWS()
 
@@ -48,4 +50,6 @@ for i=1, count do
 end
 
 print3(A)
-print2("Converted Langpack has been put into the clipboard.")
+if reaper.GetExtState("ultraschall_api", "dontask_developertools")~="false" then 
+  print2("Converted Langpack has been put into the clipboard.")
+end
