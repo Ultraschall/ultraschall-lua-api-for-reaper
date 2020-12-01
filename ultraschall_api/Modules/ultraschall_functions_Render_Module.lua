@@ -2884,8 +2884,17 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
 	if RenderTable["Source"]&1024~=0 then RenderTable["Source"]=RenderTable["Source"]-1024 end
   end
   
-  if RenderTable["MultiChannelFiles"]==true and RenderTable["Source"]&4~=0 then RenderTable["Source"]=RenderTable["Source"]+4 end
-  if RenderTable["OnlyMonoMedia"]==false and RenderTable["Source"]&16~=0 then RenderTable["Source"]=RenderTable["Source"]+16 end
+  if RenderTable["MultiChannelFiles"]==true and RenderTable["Source"]&4==0 then 
+    RenderTable["Source"]=RenderTable["Source"]+4 
+  elseif RenderTable["MultiChannelFiles"]==false and RenderTable["Source"]&4==4 then 
+    RenderTable["Source"]=RenderTable["Source"]-4 
+  end
+  
+  if RenderTable["OnlyMonoMedia"]==true and RenderTable["Source"]&16==0 then 
+    RenderTable["Source"]=RenderTable["Source"]+16 
+  elseif RenderTable["OnlyMonoMedia"]==false and RenderTable["Source"]&16==16 then 
+    RenderTable["Source"]=RenderTable["Source"]-16 
+  end
   
   reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", RenderTable["Source"], true)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_BOUNDSFLAG", RenderTable["Bounds"], true)
@@ -3032,8 +3041,17 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
   
   
   
-  if RenderTable["MultiChannelFiles"]==true and RenderTable["Source"]&4~=0 then RenderTable["Source"]=RenderTable["Source"]+4 end
-  if RenderTable["OnlyMonoMedia"]==false and RenderTable["Source"]&16~=0 then RenderTable["Source"]=RenderTable["Source"]+16 end
+  if RenderTable["MultiChannelFiles"]==true and RenderTable["Source"]&4==0 then 
+    RenderTable["Source"]=RenderTable["Source"]+4 
+  elseif RenderTable["MultiChannelFiles"]==false and RenderTable["Source"]&4==4 then 
+    RenderTable["Source"]=RenderTable["Source"]-4 
+  end
+  
+  if RenderTable["OnlyMonoMedia"]==true and RenderTable["Source"]&16==0 then 
+    RenderTable["Source"]=RenderTable["Source"]+16 
+  elseif RenderTable["OnlyMonoMedia"]==false and RenderTable["Source"]&16==16 then 
+    RenderTable["Source"]=RenderTable["Source"]-16 
+  end
   
   if RenderTable["EmbedStretchMarkers"]==true then 
     if RenderTable["Source"]&256==0 then 
