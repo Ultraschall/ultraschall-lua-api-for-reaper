@@ -1,7 +1,7 @@
 --[[
 ################################################################################
 # 
-# Copyright (c) 2014-2019 Ultraschall (http://ultraschall.fm)
+# Copyright (c) 2014-2021 Ultraschall (http://ultraschall.fm)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -211,17 +211,45 @@ function ultraschall.GetApiVersion()
 </US_DocBloc>
 --]]
   local retval, BuildNumber = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  return 410.004, "4.1","21st of July 2020", "004",  "\"I, E.T.\"", ultraschall.hotfixdate, BuildNumber
+  return 420.001, "4.2","1st of December 2020", "001",  "\"Pink Floyd - High Hopes\"", ultraschall.hotfixdate, BuildNumber
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
 
 function ultraschall.IntToDouble(integer, selector)
   if selector==nil then
-    for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
-      if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
+    -- get the double-float-version of this integer-representation
+    -- as the file, in which I added the float-representation only has the last
+    -- 8 characters encoded, I need to strip it from anything not needed for the encoding
+    
+    -- subtract the redundant values, that I didn't store anyway
+    if integer>1099998167 then integer=integer-100000000 end
+    if integer>0 then integer=integer-1000000000 end
+    
+    -- now convert the 8 bytes into the 4-byte-sequence I have stored in double_to_int_2-inifile
+    integer=tostring(integer)
+    for i=1, 8 do
+      if integer:len()<8 then -- if the value i 0 then we need to fill up with padding 0
+        integer=(0)..integer
+      end
+    end
+    
+    -- create the final 4-byte-sequence, which we're looking for in the ini-file
+    local A=string.char(integer:sub(1,2)+1)..string.char(integer:sub(3,4)+1)..string.char(integer:sub(5,6)+1)..string.char(integer:sub(7,8)+1)
+    
+    -- read ini-file
+      --local B=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)
+ B=UseMe -- debug
+    -- look for the byte-sequence in the ini-file. The (offset/4)/100 is the double-float-value
+    local i=-1
+    for k in string.gmatch(B, "....") do
+      i=i+1
+      if k==A then return ultraschall.LimitFractionOfFloat(i/100, 2, true)  end
     end
   else
+    -- convert integer-value to 14f-float, by reading it from the double_to_int_24bit-inifile
+    integer=integer-4000000 -- subtract the value I haven't stored in double_to_int_24bit-inifile as it was redundant
+    -- read through the whole file to get the correct entry and return the entry
     for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini") do
       if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
     end  
@@ -230,20 +258,48 @@ end
 
 --A=ultraschall.IntToDouble(4595772,1)
 
+
+
 function ultraschall.DoubleToInt(float, selector)
   float=float+0.0
   float=ultraschall.LimitFractionOfFloat(float, 2, true)
   float=tostring(float)
   local String, retval
   if selector == nil then 
-    if (float:match("%.(.*)")):len()==1 then 
-      float=float.."0" 
+    -- get float
+    if (float:match("%.(.*)")):len()==1 then float=float.."0" end -- make float an indexable string
+    
+    -- prepare variables
+    local found=""
+    local one, two, three, four, A
+    local finalcounter=string.gsub(tostring(float), "%.", "")
+    finalcounter=tonumber(finalcounter)    
+ 
+    -- read byte-sequence, that we need to convert into the integer-value
+    -- from double_to_int_2.ini-file
+    local length, k = ultraschall.ReadBinaryFile_Offset(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", finalcounter*4, 4)
+    
+    -- convert the bytesequence into the 8-character-byte-sequence
+    one = tostring(string.byte(k:sub(1,1))-1) if one:len()==1 then one="0"..one end
+    two = tostring(string.byte(k:sub(2,2))-1) if two:len()==1 then two="0"..two end
+    three=tostring(string.byte(k:sub(3,3))-1) if three:len()==1 then three="0"..three end
+    four =tostring(string.byte(k:sub(4,4))-1) if four:len()==1 then four="0"..four end
+    found=tonumber(one..two..three..four)
+    
+    -- add additional offsets(this is due saving space in the double_to_int_2.ini-file, as this information
+    -- was redundant in the first place, so I cropped it and reinsert it here)
+    if finalcounter>1808 then 
+      found=found+100000000 
     end
-    retval, String = reaper.BR_Win32_GetPrivateProfileString("FloatsInt", float, "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini")
+    if found>0 then found=found+1000000000 end    
+    return found --return the integer-value.
   else
-    retval, String = reaper.BR_Win32_GetPrivateProfileString("OpusFloatsInt", float, "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini")
+    -- for 14f-floats, use this file and read it like any regular ini-file
+    retval, String = reaper.BR_Win32_GetPrivateProfileString("OpusFloatsInt", math.tointeger(float), "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini")
+    -- add an offset(I removed it from the ini-file, as it was redundant. So I need to readd that value again in here)
+    String=tonumber(String)+4000000
   end
-  return tonumber(String)
+  return String
 end
 
 function ultraschall.SuppressErrorMessages(flag)
@@ -506,16 +562,16 @@ function ultraschall.ToggleIDE_Errormessages(togglevalue)
   return ultraschall.IDEerror
 end
 
-function ultraschall.ReadErrorMessage(errornumber)
+function ultraschall.ReadErrorMessage(errornumber, keep_unread)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadErrorMessage</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer errcode, string functionname, string parmname, string errormessage, string lastreadtime, string err_creation_date, string err_creation_timestamp = ultraschall.ReadErrorMessage(integer errornumber)</functioncall>
+  <functioncall>boolean retval, integer errcode, string functionname, string parmname, string errormessage, string lastreadtime, string err_creation_date, string err_creation_timestamp = ultraschall.ReadErrorMessage(integer errornumber, optional boolean keep_unread)</functioncall>
   <description>
     Reads an error-message within the Ultraschall-ErrorMessagesystem.
     Returns a boolean value, the functionname, the errormessage, the "you've already read this message"-status, the date and a timestamp of the creation of the errormessage.
@@ -523,6 +579,7 @@ function ultraschall.ReadErrorMessage(errornumber)
   </description>
   <parameters>
     integer errornumber - the number of the error, beginning with 1. Use <a href="#CountErrorMessages">CountErrorMessages</a> to get the current number of error-messages.
+    optional boolean keep_unread - true, keeps the message unread; false or nil, sets the readstate of the message
   </parameters>
   <retvals>
     boolean retval - true, if it worked; false if it didn't
@@ -549,7 +606,9 @@ function ultraschall.ReadErrorMessage(errornumber)
 
   -- set readstate
   local readstate=ultraschall.ErrorMessage[errornumber]["readstate"] 
-  ultraschall.ErrorMessage[errornumber]["readstate"]=os.date()
+  if keep_unread~=true then    
+    ultraschall.ErrorMessage[errornumber]["readstate"]=os.date()
+  end
   
   --return values
   return true, ultraschall.ErrorMessage[errornumber]["errcode"],
@@ -815,21 +874,38 @@ function ultraschall.CountErrorMessages()
   return ultraschall.ErrorCounter
 end
 
-function ultraschall.ShowLastErrorMessage(dunk)
+function ultraschall.ShowLastErrorMessage(dunk, target, message_type)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ShowLastErrorMessage</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>ultraschall.ShowLastErrorMessage(optional integer dunk)</functioncall>
+  <functioncall>requested_error_message = ultraschall.ShowLastErrorMessage(optional integer dunk, optional integer target, optional integer message_type)</functioncall>
   <description>
-    Displays the last error message in a messagebox, if existing and unread.
+    Displays the last error message in a messagebox, the ReaScript-Console, the clipboard, if error is existing and unread.
   </description>
-  <paramters>
+  <retvals>
+    requested_error_message - the errormessage requested; 
+  </retvals>
+  <parameters>
     optional integer dunk - allows to index the last x'ish message to be returned; nil or 0, the last one; 1, the one before the last one, etc.
+    optional integer target - the target, where the error-message shall be output to
+                            - 0 or nil, target is a message box
+                            - 1, target is the ReaScript-Console
+                            - 2, target is the clipboard
+                            - 3, target is a returned string
+    optional integer message_type - if target is set to 3, you can set, which part of the error-messageshall be returned as returnvalue
+                                  - nil or 1, returns true, if error has happened, false, if error didn't happen
+                                  - 2, returns the errcode
+                                  - 3, returns the functionname which caused the error
+                                  - 4, returns the parmname which caused the error
+                                  - 5, returns the errormessage
+                                  - 6, returns the lastreadtime
+                                  - 7, returns the err_creation_date
+                                  - 8, returns the err_creation_timestamp      
   </parameters>
   <chapter_context>
     Developer
@@ -844,45 +920,104 @@ function ultraschall.ShowLastErrorMessage(dunk)
   if dunk=="dunk" then three="Three points" end
   dunk=math.tointeger(dunk)
   if dunk==nil then dunk=0 end
+ 
+  if target==nil then 
+    target=tonumber(reaper.GetExtState("ultraschall_api", "ShowLastErrorMessage_Target"))
+  end
   
   local CountErrMessage=ultraschall.CountErrorMessages()
   if CountErrMessage<=0 then return end
   if dunk<0 then dunk=CountErrMessage+dunk else dunk=CountErrMessage-dunk end
   -- get the error-information
   --local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
-    local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp = ultraschall.ReadErrorMessage(dunk)
-    AAA=retval
+    local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp = ultraschall.ReadErrorMessage(dunk, true)
+    --AAA=retval
   -- if errormessage exists and message is unread
   if retval==true and lastreadtime=="unread" then 
-    if parmname~="" then 
-      -- if error-causing-parameter was given, display this message
-      parmname="param: "..parmname 
-      reaper.MB(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
-    else
-      -- if no error-causing-parameter was given, display that message
-      reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+    if target==nil or target==0 then
+      if parmname~="" then 
+        -- if error-causing-parameter was given, display this message
+        parmname="param: "..parmname 
+        reaper.MB(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+      else
+        -- if no error-causing-parameter was given, display that message
+        reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+      end
+    elseif target==1 then
+      if parmname~="" then 
+        -- if error-causing-parameter was given, display this message
+        parmname="param: "..parmname 
+        reaper.ShowConsoleMsg("\n\nErrortime: "..os.date().."\n"..functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+      else
+        -- if no error-causing-parameter was given, display that message
+        reaper.ShowConsoleMsg("\n\nErrortime: "..os.date().."\n"..functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+      end
+    elseif target==2 then
+      if parmname~="" then 
+        -- if error-causing-parameter was given, display this message
+        parmname="param: "..parmname 
+        print3(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+      else
+        -- if no error-causing-parameter was given, display that message
+        print3(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+      end  
+    elseif target==3 then
+      if      message_type==nil or message_type==1 then return retval
+      elseif  message_type==2 then return errcode
+      elseif  message_type==3 then return functionname
+      elseif  message_type==4 then return parmname
+      elseif  message_type==5 then return errormessage
+      elseif  message_type==6 then return lastreadtime
+      elseif  message_type==7 then return err_creation_date
+      elseif  message_type==8 then return err_creation_timestamp     
+      end
     end
   end
-  return three
+  local retval
+  if parmname~="" then 
+    -- if error-causing-parameter was given, display this message
+    retval=functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode
+  else
+    -- if no error-causing-parameter was given, display that message
+    retval=functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode
+  end  
+  return retval, three
 end
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SLEM</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>SLEM(optional integer dunk)</functioncall>
+  <functioncall>requested_error_message = SLEM(optional integer dunk, optional integer target, optional integer message_type)</functioncall>
   <description>
-    Displays the last error message in a messagebox, if existing and unread.
+    Displays the last error message in a messagebox, the ReaScript-Console, the clipboard, if error is existing and unread.
     
     Like ultraschall.ShowLastErrorMessage() but this is easier to type.
     Note: written without ultraschall. in the beginning!
   </description>
+  <retvals>
+    requested_error_message - the errormessage requested; 
+  </retvals>
   <parameters>
     optional integer dunk - allows to index the last x'ish message to be returned; nil or 0, the last one; 1, the one before the last one, etc.
+    optional integer target - the target, where the error-message shall be output to
+                            - 0 or nil, target is a message box
+                            - 1, target is the ReaScript-Console
+                            - 2, target is the clipboard
+                            - 3, target is a returned string
+    optional integer message_type - if target is set to 3, you can set, which part of the error-messageshall be returned as returnvalue
+                                  - nil or 1, returns true, if error has happened, false, if error didn't happen
+                                  - 2, returns the errcode
+                                  - 3, returns the functionname which caused the error
+                                  - 4, returns the parmname which caused the error
+                                  - 5, returns the errormessage
+                                  - 6, returns the lastreadtime
+                                  - 7, returns the err_creation_date
+                                  - 8, returns the err_creation_timestamp      
   </parameters>
   <chapter_context>
     Developer
@@ -1478,6 +1613,8 @@ function print2(...)
   <description>
     replaces Lua's own print-function. 
     
+    shows \0-characters as .
+    
     Converts all parametes given into string using tostring() and displays them as a MessageBox, separated by two spaces.
   </description>
   <parameters>
@@ -1492,14 +1629,15 @@ function print2(...)
 </US_DocBloc>
 ]]
 
-  local string=""
+  local stringer=""
   local count=1
   local temp={...}
   while temp[count]~=nil or temp[count+1]~=nil do
-   string=string.."  "..tostring(temp[count])
+   stringer=stringer.."  "..tostring(temp[count])
     count=count+1
   end
-  reaper.MB(string:sub(3,-1),"Print",0)
+  stringer=string.gsub(stringer, "\0", "\\0")
+  reaper.MB(stringer:sub(3,-1),"Print",0)
 end
 
 
@@ -1516,6 +1654,8 @@ function print_alt(...)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     replaces Lua's own print-function, that is quite useless in Reaper.
     
+    shows \0-characters as .
+    
     like [print](#print), but separates the entries by a two spaced, not a newline
   </description>
   <parameters>
@@ -1529,16 +1669,19 @@ function print_alt(...)
   <tags>helperfunctions, print, console</tags>
 </US_DocBloc>
 ]]
-
-  local string=""
+  if ultraschall.Print_ToTheFront==true then 
+    ultraschall.BringReaScriptConsoleToFront()
+  end
+  local stringer=""
   local count=1
   local temp={...}
   while temp[count]~=nil do
-    string=string.."  "..tostring(temp[count])
+    stringer=stringer.."  "..tostring(temp[count])
     count=count+1
   end
-  if string:sub(-1,-1)=="\n" then string=string:sub(1,-2) end
-  reaper.ShowConsoleMsg(string:sub(3,-1).."\n","Print",0)
+  if stringer:sub(-1,-1)=="\n" then stringer=stringer:sub(1,-2) end
+  stringer=string.gsub(stringer, "\0", ".")
+  reaper.ShowConsoleMsg(stringer:sub(3,-1).."\n","Print",0)
 end
 
 
@@ -1555,6 +1698,8 @@ function print(...)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     replaces Lua's own print-function, that is quite useless in Reaper.
     
+    displays \0-characters as .
+    
     Converts all parametes given into string using tostring() and displays them in the ReaScript-console, separated by a newline and ending with a newline.
   </description>
   <parameters>
@@ -1568,15 +1713,19 @@ function print(...)
   <tags>helperfunctions, print, console</tags>
 </US_DocBloc>
 ]]
-  local string=""
+  if ultraschall.Print_ToTheFront==true then 
+    ultraschall.BringReaScriptConsoleToFront()
+  end
+  local stringer=""
   local count=1
   local temp={...}
   while temp[count]~=nil do
-    string=string.."\n"..tostring(temp[count])
+    stringer=stringer.."\n"..tostring(temp[count])
     count=count+1
   end
-  if string:sub(-1,-1)=="\n" then string=string:sub(1,-2) end
-  reaper.ShowConsoleMsg(string:sub(2,-1).."\n","Print",0)
+  if stringer:sub(-1,-1)=="\n" then stringer=stringer:sub(1,-2) end
+  stringer=string.gsub(stringer, "\0", ".")
+  reaper.ShowConsoleMsg(stringer:sub(2,-1).."\n","Print",0)
 end
 
 
@@ -1641,8 +1790,10 @@ function print3(...)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     like [print](#print), but puts the parameters into the clipboard.
     
-    Converts all parametes given into string using tostring() and puts them into the clipboard, with each parameter separated by two spaces.
+    Converts all parametes given into string using tostring() and puts them into the clipboard, with each parameter separated by two spaces.    
     Unlike print and print2, this does NOT end with a newline!
+    
+    Note: \0-characters will be seen as string-termination, so strings may be truncated. Please replace \0 with string.gsub, if you need to have the full string with all nil-values included.
   </description>
   <parameters>
     parameter_1 to parameter_n - the parameters, that you want to have put into the clipboard
@@ -1682,6 +1833,8 @@ function print_update(...)
     
     Converts all parametes given into string using tostring() and displays them in the ReaScript-console, separated by two spaces, ending with a newline.
     
+    Shows \0-characters as .
+    
     This is like [print](#print), but clears console everytime before displaying the values. Good for status-display, that shall not scroll.
   </description>
   <parameters>
@@ -1695,7 +1848,9 @@ function print_update(...)
   <tags>helperfunctions, print, clear, update, console</tags>
 </US_DocBloc>
 ]]
-
+  if ultraschall.Print_ToTheFront==true then 
+    ultraschall.BringReaScriptConsoleToFront()
+  end
   reaper.ClearConsole()
   print(...)
 end
@@ -1986,6 +2141,8 @@ function ToClip(toclipstring)
   <functioncall>ToClip(string toclipstring)</functioncall>
   <description>
     Puts a string into clipboard.
+    
+    \0-characters will be seen as string-termination, so if you want to put strings into clipboard containing them, you need to replace them first or your string might be truncated
   </description>
   <parameters>
     string toclipstring - the string, which you want to put into the clipboard
@@ -2086,7 +2243,7 @@ function ultraschall.ActionsList_GetSelectedActions()
 	JS=0.963
     Lua=5.3
   </requires>
-  <functioncall>integer num_found_actions, integer sectionID, string sectionName, table selected_actions, table CmdIDs, table ToggleStates = ultraschall.ActionsList_GetSelectedActions()</functioncall>
+  <functioncall>integer num_found_actions, integer sectionID, string sectionName, table selected_actions, table CmdIDs, table ToggleStates, table shortcuts = ultraschall.ActionsList_GetSelectedActions()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
 	returns the selected entries from the actionlist, when opened.
 	
@@ -2102,13 +2259,14 @@ function ultraschall.ActionsList_GetSelectedActions()
 	table selected_actions - the texts of the found actions as a handy table
 	table CmdIDs - the ActionCommandIDs of the found actions as a handy table; all of them are strings, even the numbers, but can be converted using Reaper's own function reaper.NamedCommandLookup
 	table ToggleStates - the current toggle-states of the selected actions; 1, on; 0, off; -1, no such toggle state available
+    table shortcuts - the shortcuts of the action as a handy table; separated by ", "
   </retvals>
   <chapter_context>
     API-Helper functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, get, action, actionlist, sections, selected, toggle states, commandids, actioncommandid</tags>
+  <tags>helper functions, get, action, actionlist, sections, selected, toggle states, commandids, actioncommandid, shortcuts</tags>
 </US_DocBloc>
 --]]
   local hWnd_action = ultraschall.GetActionsHWND()
@@ -2123,11 +2281,14 @@ function ultraschall.ActionsList_GetSelectedActions()
 
   -- get the selected action-texts
   local selected_actions = {}
+  local selected_shortcuts = {}
   local i = 0
   for index in string.gmatch(sel_indexes, '[^,]+') do
     i = i + 1
     local desc = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 1)--:gsub(".+: ", "", 1)
-    selected_actions[i] = desc
+    local shortcut = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 0)--:gsub(".+: ", "", 1)
+    selected_actions[i] = desc    
+    selected_shortcuts[i] = shortcut
   end
   
   -- find the cmd-ids
@@ -2154,53 +2315,516 @@ function ultraschall.ActionsList_GetSelectedActions()
     ToggleStates[a]=reaper.GetToggleCommandStateEx(sectionID, temptable[selected_actions[a]])
   end
 
-  return i, sectionID, sectionName, selected_actions, CmdIDs, ToggleStates
+  return i, sectionID, sectionName, selected_actions, CmdIDs, ToggleStates, selected_shortcuts
 end
 
 --A,B,C,D,E,F,G = ultraschall.ActionsList_GetSelectedActions()
 
+--GMEM-related-functions
 
+ultraschall.reaper_gmem_attach=reaper.gmem_attach
 
+function reaper.gmem_attach(GMem_Name)
+  ultraschall.reaper_gmem_attach_curname=GMem_Name
+  ultraschall.reaper_gmem_attach(GMem_Name)
+end
 
-
-
-
-
-
-
+function ultraschall.Gmem_GetCurrentAttachedName()
 --[[
-dofile(script_path .. "Modules/ultraschall_functions_AudioManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_AutomationItems_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Clipboard_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Color_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ConfigurationFiles_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ConfigurationSettings_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_DeferManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Envelope_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_EventManager.lua")
-dofile(script_path .. "Modules/ultraschall_functions_FileManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_FXManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_HelperFunctions_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Localize_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Markers_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MediaItem_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MetaData_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MIDIManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Muting_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Navigation_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ProjectManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ReaMote_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ReaperUserInterface_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Render_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_Routing_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Ultraschall_Module.lua")
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gmem_GetCurrentAttachedName</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string current_gmem_attachname = ultraschall.Gmem_GetCurrentAttachedName()</functioncall>
+  <description>
+    returns nil if no gmem had been attached since addition of Ultraschall-API to the current script
+  </description>
+  <retvals>
+    string current_gmem_attachname - the name of the currently attached gmem
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>helperfunctions, get, current, gmem, attached name</tags>
+</US_DocBloc>
 --]]
+  return ultraschall.reaper_gmem_attach_curname
+end
+
+
+function ultraschall.ActionsList_GetAllActions()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ActionsList_GetAllActions</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+	SWS=2.10.0.1
+	JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_found_actions, integer sectionID, string sectionName, table actions, table CmdIDs, table ToggleStates, table shortcuts = ultraschall.ActionsList_GetAllActions()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+	returns the all actions from the actionlist, when opened.
+	
+	The order of the tables of found actions, ActionCommandIDs and ToggleStates is the same in all of the three tables.
+	They also reflect the order of userselection in the ActionList itself from top to bottom of the ActionList.
+	
+	returns -1 in case of an error
+  </description>
+  <retvals>
+	integer num_found_actions - the number of found actions; -1, if not opened
+	integer sectionID - the id of the section, from which the found actions are from
+	string sectionName - the name of the found section
+	table actions - the texts of the found actions as a handy table
+	table CmdIDs - the ActionCommandIDs of the found actions as a handy table; all of them are strings, even the numbers, but can be converted using Reaper's own function reaper.NamedCommandLookup
+	table ToggleStates - the current toggle-states of the found actions; 1, on; 0, off; -1, no such toggle state available
+    table shortcuts - the shortcuts of the action as a handy table; separated by ", "
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, action, actionlist, sections, toggle states, commandids, actioncommandid, shortcuts</tags>
+</US_DocBloc>
+--]]
+  local hWnd_action = ultraschall.GetActionsHWND()
+  if hWnd_action==nil then ultraschall.AddErrorMessage("ActionsList_GetAllActions", "", "Action-List-Dialog not opened", -1) return -1 end
+  local hWnd_LV = reaper.JS_Window_FindChildByID(hWnd_action, 1323)
+  local combo = reaper.JS_Window_FindChildByID(hWnd_action, 1317)
+  local sectionName = reaper.JS_Window_GetTitle(combo,"") -- save item text to table
+  local sectionID =  reaper.JS_WindowMessage_Send( combo, "CB_GETCURSEL", 0, 0, 0, 0 )
+
+  -- get the action-texts
+  local actions = {}
+  local shortcuts = {}
+  local i = 0
+    --for index in string.gmatch(sel_indexes, '[^,]+') do
+  for index=0, 65535 do    
+    i = i + 1
+    local desc = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 1)--:gsub(".+: ", "", 1)
+    local shortcut = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 0)--:gsub(".+: ", "", 1)
+    --ToClip(FromClip()..tostring(desc).."\n")
+    if desc=="" then break end    
+    actions[i] = desc    
+    shortcuts[i] = shortcut
+  end
+  i=i-1 
+  -- find the cmd-ids
+  local temptable={}
+  for a=1, i do
+    if actions[a]==nil then break end
+    selectA=a
+    selectI=i
+    temptable[actions[a]]=actions[a]
+  end
+  
+  -- get command-ids of the found texts
+  for aaa=0, 65535 do
+    local Retval, Name = reaper.CF_EnumerateActions(sectionID, aaa, "")
+    if temptable[Name]~=nil then    
+      temptable[Name]=Retval
+    end
+    if Retval==0 then break end    
+  end
+
+  -- get ActionCommandIDs and toggle-states of the found actions
+  local CmdIDs={}
+  local ToggleStates={}
+  for a=1, i do
+    CmdIDs[a]=reaper.ReverseNamedCommandLookup(temptable[actions[a]])
+    if CmdIDs[a]==nil then CmdIDs[a]=tostring(temptable[actions[a]]) end
+    ToggleStates[a]=reaper.GetToggleCommandStateEx(sectionID, temptable[actions[a]])
+  end
+
+  return i, sectionID, sectionName, actions, CmdIDs, ToggleStates, shortcuts
+end
+
+function ultraschall.BringReaScriptConsoleToFront()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>BringReaScriptConsoleToFront</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.BringReaScriptConsoleToFront()</functioncall>
+  <description>
+    Brings Reaper's ReaScriptConsole-window to the front, when it's opened.
+  </description>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, activate, front, reascript console, window</tags>
+</US_DocBloc>
+]]
+  local OldHWND=reaper.JS_Window_GetForeground()
+  local HWND=ultraschall.GetReaScriptConsoleWindow()
+  if HWND~=nil and OldHWND~=HWND then 
+    reaper.JS_Window_SetForeground(HWND)
+  end
+end
+
+function ultraschall.EditReaScript(filename)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EditReaScript</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.10
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.EditReaScript(string filename)</functioncall>
+  <description>
+    Opens a script in Reaper's ReaScript-IDE.
+    
+    If the file does not exist yet, it will try to create it. If parameter filename doesn't contain a valid directory, it will try to create the script in the Scripts-folder of Reaper.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    boolean flag - true, suppress error-messages; false, don't suppress error-messages
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, you didn't pass a boolean as parameter
+  </retvals>
+  <chapter_context>
+    Developer
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>developer, edit, reascript, ide</tags>
+</US_DocBloc>
+]]
+  if type(filename)~="string" then ultraschall.AddErrorMessage("EditReaScript", "filename", "must be a string", -1) return false end
+  if reaper.file_exists(filename)==false and ultraschall.DirectoryExists2(ultraschall.GetPath(filename))==false then
+    local Path, Filename=ultraschall.GetPath(filename)
+    filename=reaper.GetResourcePath().."/Scripts/"..Filename
+  end
+  if reaper.file_exists(filename)==false then
+    ultraschall.WriteValueToFile(filename, "")
+  end
+  local A, B, C
+  A=ultraschall.GetUSExternalState("REAPER", "lastscript", "reaper.ini")
+  B=ultraschall.SetUSExternalState("REAPER", "lastscript", filename, "reaper.ini")
+  reaper.Main_OnCommand(41931,0)
+  C=ultraschall.SetUSExternalState("REAPER", "lastscript", A, "reaper.ini")
+  return true
+end
+
+function SFEM()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SFEM</slug>
+    <requires>
+      Ultraschall=4.1
+      Reaper=5.40
+      Lua=5.3
+    </requires>
+    <functioncall>requested_error_message = SFEM(optional integer dunk, optional integer target, optional integer message_type)</functioncall>
+    <description>
+      Displays the first error message in a messagebox, the ReaScript-Console, the clipboard, if error is existing and unread.
+    </description>
+    <retvals>
+      requested_error_message - the errormessage requested; 
+    </retvals>
+    <parameters>
+      optional integer dunk - allows to index the last x'ish message to be returned; nil or 0, the last one; 1, the one before the last one, etc.
+      optional integer target - the target, where the error-message shall be output to
+                              - 0 or nil, target is a message box
+                              - 1, target is the ReaScript-Console
+                              - 2, target is the clipboard
+                              - 3, target is a returned string
+      optional integer message_type - if target is set to 3, you can set, which part of the error-messageshall be returned as returnvalue
+                                    - nil or 1, returns true, if error has happened, false, if error didn't happen
+                                    - 2, returns the errcode
+                                    - 3, returns the functionname which caused the error
+                                    - 4, returns the parmname which caused the error
+                                    - 5, returns the errormessage
+                                    - 6, returns the lastreadtime
+                                    - 7, returns the err_creation_date
+                                    - 8, returns the err_creation_timestamp      
+    </parameters>
+    <chapter_context>
+      Developer
+      Error Handling
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>developer, error, show, message</tags>
+  </US_DocBloc>
+  --]]
+    local three
+    if dunk=="dunk" then three="Three points" end
+    dunk=math.tointeger(dunk)
+    if dunk==nil then dunk=ultraschall.ErrorCounter-1 end
+   
+    if target==nil then 
+      target=tonumber(reaper.GetExtState("ultraschall_api", "ShowLastErrorMessage_Target"))
+    end
+    
+    local CountErrMessage=ultraschall.CountErrorMessages()
+    if CountErrMessage<=0 then return end
+    if dunk<0 then dunk=CountErrMessage+dunk else dunk=CountErrMessage-dunk end
+    -- get the error-information
+    --local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
+      local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp = ultraschall.ReadErrorMessage(dunk, true)
+      --AAA=retval
+    -- if errormessage exists and message is unread
+    if retval==true and lastreadtime=="unread" then 
+      if target==nil or target==0 then
+        if parmname~="" then 
+          -- if error-causing-parameter was given, display this message
+          parmname="param: "..parmname 
+          reaper.MB(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+        else
+          -- if no error-causing-parameter was given, display that message
+          reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+        end
+      elseif target==1 then
+        if parmname~="" then 
+          -- if error-causing-parameter was given, display this message
+          parmname="param: "..parmname 
+          reaper.ShowConsoleMsg("\n\nErrortime: "..os.date().."\n"..functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        else
+          -- if no error-causing-parameter was given, display that message
+          reaper.ShowConsoleMsg("\n\nErrortime: "..os.date().."\n"..functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        end
+      elseif target==2 then
+        if parmname~="" then 
+          -- if error-causing-parameter was given, display this message
+          parmname="param: "..parmname 
+          print3(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        else
+          -- if no error-causing-parameter was given, display that message
+          print3(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode) 
+        end  
+      elseif target==3 then
+        if      message_type==nil or message_type==1 then return retval
+        elseif  message_type==2 then return errcode
+        elseif  message_type==3 then return functionname
+        elseif  message_type==4 then return parmname
+        elseif  message_type==5 then return errormessage
+        elseif  message_type==6 then return lastreadtime
+        elseif  message_type==7 then return err_creation_date
+        elseif  message_type==8 then return err_creation_timestamp     
+        end
+      end
+    end
+    local retval
+    if parmname~="" then 
+      -- if error-causing-parameter was given, display this message
+      retval=functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode
+    else
+      -- if no error-causing-parameter was given, display that message
+      retval=functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode
+    end  
+    return retval, three
+end
+
+function RFR(length, ...)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>RFR</slug>
+    <requires>
+      Ultraschall=4.2
+      Reaper=5.40
+      Lua=5.3
+    </requires>
+    <functioncall>... = RFR(integer length, ...)</functioncall>
+    <description>
+      returns only the first x return-values, as given by length.
+      
+      You can put the return-values of another function and just get the first x ones. So if the function returns 10 returnvalues, 
+      but you only need the first two, set length=2 and add the function(with the 10 returnvalues) after it as second parameter.
+      
+      
+      For example:
+      
+      integer r, integer g, integer b = reaper.ColorFromNative(integer col)
+      
+      returns three colorvalues. If you only want the first one(r), use it this way:
+      
+      r=RFR(1, reaper.ColorFromNative(12739))
+      
+      
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      various ... - the requested first-n returnvalues
+    </retvals>
+    <parameters>
+      integer length - the number of the first return-values to return
+      various ... - further parameters, which can be multiple values or just the return-values of another function.
+    </parameters>
+    <chapter_context>
+      Developer
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>developer, return values, retval, only first</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("RFR", "length", "must be an integer", -1) return end
+  if length<1 then ultraschall.AddErrorMessage("RFR", "length", "must be bigger than 0", -2) return end
+  local Table={...}
+  if length>=#Table then return table.unpack(Table) end
+  local Table2={}
+  for i=1, length do
+    if Table[i]==nil then return table.unpack(Table2) end
+    Table2[i]=Table[i]
+  end
+  return table.unpack(Table2)
+end
+
+
+function RLR(length, ...)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>RLR</slug>
+    <requires>
+      Ultraschall=4.2
+      Reaper=5.40
+      Lua=5.3
+    </requires>
+    <functioncall>... = RLR(integer length, ...)</functioncall>
+    <description>
+      returns only the last x return-values, as given by length.
+      
+      You can put the return-values of another function and just get the last x ones. So if the function returns 10 returnvalues, 
+      but you only need the last two, set length=2 and add the function(with the 10 returnvalues) after it as second parameter.
+      
+      
+      For example:
+      
+      integer r, integer g, integer b = reaper.ColorFromNative(integer col)
+      
+      returns three colorvalues. If you only want the last one(b), use it this way:
+      
+      b=RLR(1, reaper.ColorFromNative(12739))
+      
+      
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      various ... - the requested last-n returnvalues
+    </retvals>
+    <parameters>
+      integer length - the number of the last return-values to return
+      various ... - further parameters, which can be multiple values or just the return-values of another function.
+    </parameters>
+    <chapter_context>
+      Developer
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>developer, return values, retval, only last</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("RLR", "length", "must be an integer", -1) return end
+  if length<1 then ultraschall.AddErrorMessage("RLR", "length", "must be bigger than 0", -2) return end
+  local Table={...}
+  if length>=#Table then return table.unpack(Table) end
+  local Table2={}
+  local a=0
+  for i=#Table-length+1, #Table do
+    if Table[i]~=nil then 
+      a=a+1
+      Table2[a]=Table[i]
+    end
+  end
+  return table.unpack(Table2)
+end
+
+function RRR(position, length, ...)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>RRR</slug>
+    <requires>
+      Ultraschall=4.2
+      Reaper=5.40
+      Lua=5.3
+    </requires>
+    <functioncall>... = RRR(integer position, integer length, ...)</functioncall>
+    <description>
+      returns only the x return-values between position and position+length.
+      
+      You can put the return-values of another function and just get the ones between position and position+length. So if the function returns 10 returnvalues, 
+      but you only need the third through the fifth, set position=3 and length=3 and add the function(with the 10 returnvalues) after it as third parameter.
+      
+      
+      For example:
+      
+      integer r, integer g, integer b = reaper.ColorFromNative(integer col)
+      
+      returns three colorvalues. If you only want the middle one(g), use it this way:
+      
+      g=RLR(2, 1, reaper.ColorFromNative(12739))
+      
+      
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      various ... - the requested n returnvalues between position and length+position
+    </retvals>
+    <parameters>
+      integer position - the first return-value to return
+      integer length - the number of return-values to return(position+length)
+      various ... - further parameters, which can be multiple values or just the return-values of another function.
+    </parameters>
+    <chapter_context>
+      Developer
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>developer, return values, retval, between</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(position)~="integer" then ultraschall.AddErrorMessage("RFR", "position", "must be an integer", -1) return end
+  if position<1 then ultraschall.AddErrorMessage("RFR", "position", "must be bigger than 0", -2) return end
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("RFR", "length", "must be an integer", -3) return end
+  if length<0 then ultraschall.AddErrorMessage("RFR", "length", "must be bigger or equal 0", -4) return end
+  local Table={...}
+  local Table2={}
+  local a=0
+  if length>#Table then length=#Table end
+  for i=position, length do
+    if Table[i]~=nil then 
+      a=a+1
+      Table2[a]=Table[i]
+    end
+  end
+  return table.unpack(Table2)
+end
 
 
 
-dofile(script_path.."ultraschall_ModulatorLoad3000.lua")
+
+-- Load ModulatorLoad3000
+
+if ultraschall.US_BetaFunctions==false then
+  dofile(script_path.."ultraschall_ModulatorLoad3000.lua")
+else
+  for i=0, 1024 do
+    file=reaper.EnumerateFiles(script_path.."/Modules/", i)
+    if file==nil then break end
+    dofile(script_path.."/Modules/"..file)
+  end
+end
 ultraschall.ShowLastErrorMessage()
