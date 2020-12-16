@@ -211,7 +211,7 @@ function ultraschall.GetApiVersion()
 </US_DocBloc>
 --]]
   local retval, BuildNumber = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  return 420.002, "4.2","31st of December 2020", "002",  "\"\"", ultraschall.hotfixdate, BuildNumber
+  return 420.002, "4.2","31st of December 2020", "002",  "\"Dave Brubeck - Take Five\"", ultraschall.hotfixdate, BuildNumber
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -2474,28 +2474,41 @@ function ultraschall.BringReaScriptConsoleToFront()
   end
 end
 
-function ultraschall.EditReaScript(filename)
+function ultraschall.EditReaScript(filename, add_ultraschall_api, add_to_actionlist_section)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EditReaScript</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.10
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.EditReaScript(string filename)</functioncall>
+  <functioncall>boolean retval, optional command_id = ultraschall.EditReaScript(optional string filename, optional boolean add_ultraschall_api, optional integer add_to_actionlist_section)</functioncall>
   <description>
     Opens a script in Reaper's ReaScript-IDE.
     
     If the file does not exist yet, it will try to create it. If parameter filename doesn't contain a valid directory, it will try to create the script in the Scripts-folder of Reaper.
     
+    Setting filename=nil will open the last one edited using this function.
+    
     returns false in case of an error
   </description>
   <parameters>
-    boolean flag - true, suppress error-messages; false, don't suppress error-messages
+    optional string filename - the filename of the new reascript-file to create(add .lua or .py or .eel to select the language).
+                             - nil, opens the last ReaScript-file you opened with this function
+    optional boolean add_ultraschall_api - true, add Ultraschall-API-call into the script(only in newly created ones!); false or nil, just open a blank script
+    optional integer add_to_actionlist_section - the section, into which you want to add the script
+                                               - nil, don't add, only open the script in IDE
+                                               - 0, Main
+                                               - 100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                                               - 32060, MIDI Editor
+                                               - 32061, MIDI Event List Editor
+                                               - 32062, MIDI Inline Editor
+                                               - 32063, Media Explorer
   </parameters>
   <retvals>
-    boolean retval - true, setting was successful; false, you didn't pass a boolean as parameter
+    boolean retval - true, opening was successful; false, opening was unsuccessful
+    optional integer command_id - the command-id of the script, when it gets newly created
   </retvals>
   <chapter_context>
     Developer
@@ -2506,20 +2519,61 @@ function ultraschall.EditReaScript(filename)
   <tags>developer, edit, reascript, ide</tags>
 </US_DocBloc>
 ]]
-  if type(filename)~="string" then ultraschall.AddErrorMessage("EditReaScript", "filename", "must be a string", -1) return false end
+  if filename~=nil and type(filename)~="string" then ultraschall.AddErrorMessage("EditReaScript", "filename", "must be a string", -1) return false end
+  if filename==nil then 
+    -- when user has not set a filename, use the last edited on(with this function) or 
+    -- the last created one(using the action-list-dialog), checked in that order
+    filename=reaper.GetExtState("ultraschall_api", "last_edited_script") 
+    if filename=="" then 
+        filename=ultraschall.GetUSExternalState("REAPER", "lastscript", "reaper.ini")
+    end
+  end
+  
+  local command_id
+  
   if reaper.file_exists(filename)==false and ultraschall.DirectoryExists2(ultraschall.GetPath(filename))==false then
+    -- if path does not exist, create filename in the scripts-folder
     local Path, Filename=ultraschall.GetPath(filename)
     filename=reaper.GetResourcePath().."/Scripts/"..Filename
   end
   if reaper.file_exists(filename)==false then
-    ultraschall.WriteValueToFile(filename, "")
+    -- create new file if not yet existing
+    local content  
+    if add_ultraschall_api==true then 
+      content="dofile(reaper.GetResourcePath()..\"/UserPlugins/ultraschall_api.lua\")\n\n"
+    else
+      content=""
+    end
+  
+    ultraschall.WriteValueToFile(filename, content)
+    if add_to_actionlist_section~=nil then
+      if add_to_actionlist_section~=0 and
+         add_to_actionlist_section~=100 and
+         add_to_actionlist_section~=32060 and
+         add_to_actionlist_section~=32061 and
+         add_to_actionlist_section~=32062 and
+         add_to_actionlist_section~=32063 then
+         add_to_actionlist_section=0
+      end
+
+      command_id = reaper.AddRemoveReaScript(true, add_to_actionlist_section, filename, true)
+    end
   end
+  
+  -- set script that shall be opened and run the action to Edit last edited script
   local A, B, C
   A=ultraschall.GetUSExternalState("REAPER", "lastscript", "reaper.ini")
   B=ultraschall.SetUSExternalState("REAPER", "lastscript", filename, "reaper.ini")
+  
   reaper.Main_OnCommand(41931,0)
+
+  -- reset old edited script in reaper.ini
   C=ultraschall.SetUSExternalState("REAPER", "lastscript", A, "reaper.ini")
-  return true
+  
+  -- store last created/edited file using this function, so it can be opened with filename=nil
+  reaper.SetExtState("ultraschall_api", "last_edited_script", filename, true)
+
+  return true, command_id
 end
 
 function SFEM()

@@ -137,10 +137,17 @@ function ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return end
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "fxindex", "must be an integer", -2) return end
   local index=0
+  
   for a,b,c in string.gmatch(FXStateChunk, "()(%s-BYPASS.-\n.-WAK.-)\n()") do
     index=index+1
-    if index==fxindex then return b,a,c end
+    if index==fxindex then 
+      local temp, offset=FXStateChunk:sub(c,-1):match("(.-<COMMENT \n.-\n.->\n)()")
+      if offset==nil then offset=0 end
+      if temp==nil then temp="\n" else temp="\n"..temp end
+      return b..temp,a,c+offset
+    end
   end
+  
   return nil
 end
 

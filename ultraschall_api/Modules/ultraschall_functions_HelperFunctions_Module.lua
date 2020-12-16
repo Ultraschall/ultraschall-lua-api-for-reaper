@@ -3714,7 +3714,7 @@ function ultraschall.Base64_Decoder(source_string, base64_type)
   local bitarray={}
   local count=1
   local temp
-  for i=1, source_string:len()-1 do
+  for i=1, source_string:len() do
     temp=base64_string:match(source_string:sub(i,i).."()")-2
     if temp&32~=0 then bitarray[count]=1 else bitarray[count]=0 end
     if temp&16~=0 then bitarray[count+1]=1 else bitarray[count+1]=0 end
@@ -3740,6 +3740,7 @@ function ultraschall.Base64_Decoder(source_string, base64_type)
     if bitarray[i+8]==1 then temp2=temp2+1 end
     decoded_string=decoded_string..string.char(temp2)
   end
+  if decoded_string:sub(-1,-1)=="\0" then decoded_string=decoded_string:sub(1,-2) end
   return decoded_string
 end
 

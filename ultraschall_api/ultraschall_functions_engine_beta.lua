@@ -1372,7 +1372,168 @@ function ultraschall.DeleteParmLearn2_FXStateChunk(FXStateChunk, fxid, parmidx)
   return true, FXStateChunk:sub(1, startoffset)..UseFX2:sub(2,-2)..FXStateChunk:sub(endoffset-1, -1)
 end
 
--- Ultraschall 4.2.001
+-- Ultraschall 4.2.002
 
+function ultraschall.GetFXComment_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXComment_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string comment = ultraschall.GetFXComment_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns the fx-comment of a specific fx from an FXStateChunk
+    
+    will return "" if no comment exists
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string comment - the comment as stored for this specific fx; "", if no comment exists
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from whose fx you want to return a specifix fx-comment
+    integer fxid - the fx, whose comment you want to return
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, fx, comment</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXComment_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXComment_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  ultraschall.SuppressErrorMessages(true)
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXComment_FXStateChunk", "fx_id", "no such fx", -4) return nil end
+  local Comment=fx_lines:match("\n    <COMMENT%s-\n%s*(.-)>\n")
+  Comment=string.gsub(Comment,"[%s%c]","")
+  
+  if Comment~=nil then Comment=ultraschall.Base64_Decoder(Comment) else return "" end
+  ultraschall.SuppressErrorMessages(false)
+  return Comment
+end
+
+--A=ultraschall.GetFXComment_FXStateChunk(FXStateChunk, 4)
+--print2(A)
+
+
+function ultraschall.SetFXComment_FXStateChunk(FXStateChunk, fx_id, NewComment)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetFXComment_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.SetFXComment_FXStateChunk(string FXStateChunk, integer fxid, string NewComment)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    sets an fx-comment of a specific fx within an FXStateChunk
+    
+    Set to "" to remove the comment
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the altered FXStateChunk with the new comment
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, into which you want to set the new comment
+    integer fxid - the fx, whose comment you want to set
+    string NewComment - the new comment; "", to remove the currently set comment; newlines are allowed
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Set States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, fx, comment</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXComment_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("SetFXComment_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("SetFXComment_FXStateChunk", "fx_id", "no such fx", -4) return nil end
+  local Comment=fx_lines:match("()\n    <COMMENT%s-\n")
+  if NewComment=="" then 
+    FXStateChunk=FXStateChunk:sub(1, startoffset)..fx_lines:sub(1,Comment+1)..FXStateChunk:sub(endoffset, -1)
+    return FXStateChunk
+  end
+  if Comment==nil then Comment=fx_lines:len() end
+  --print2(fx_lines)
+  NewComment=ultraschall.Base64_Encoder(NewComment)
+  if NewComment:len()>280 then
+    local temp=NewComment
+    NewComment=""
+    while temp:len()>1 do
+      NewComment=NewComment.."      "..temp:sub(1,280).."\n"
+      temp=temp:sub(281,-1)
+    end
+  else
+    NewComment="      "..NewComment.."\n"
+  end
+  
+  fx_lines=fx_lines:sub(1,Comment)..[[
+    <COMMENT 
+]]..NewComment..[[
+    >
+ ]]    
+
+
+  FXStateChunk=FXStateChunk:sub(1, startoffset)..fx_lines..FXStateChunk:sub(endoffset, -1)
+  return FXStateChunk
+end
+
+--A=ultraschall.SetFXComment_FXStateChunk(FXStateChunk, "Alternative Text", 1)
+
+function ultraschall.OpenReaperFunctionDoc(functionname)
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("OpenReaperFunctionDoc", "functionname", "must be a string", -1) return false end
+  if reaper[functionname]==nil then ultraschall.AddErrorMessage("OpenReaperFunctionDoc", "functionname", "no such function", -2) return false end
+  local A=[[
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta http-equiv="refresh" content="0; url=]]..ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation.html#"..functionname..[[">
+    </head>
+    <body>
+    </body>
+  </html>
+  ]]
+  ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/start.html", A)
+  ultraschall.OpenURL(ultraschall.API_TempPath.."/start.html")
+  return true
+end
+
+
+--ultraschall.OpenReaperFunctionDoc("MB")
+
+function ultraschall.OpenUltraschallFunctionDoc(functionname)
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("OpenUltraschallFunctionDoc", "functionname", "must be a string", -1) return false end
+  if ultraschall[functionname]==nil then ultraschall.AddErrorMessage("OpenUltraschallFunctionDoc", "functionname", "no such function", -2) return false end
+  local A=[[
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta http-equiv="refresh" content="0; url=]]..ultraschall.Api_Path.."/Documentation/US_Api_Functions.html#"..functionname..[[">
+    </head>
+    <body>
+    </body>
+  </html>
+  ]]
+  ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/start.html", A)
+  ultraschall.OpenURL(ultraschall.API_TempPath.."/start.html")
+  return true
+end
+
+--ultraschall.OpenUltraschallFunctionDoc("RenderProject")
 
 ultraschall.ShowLastErrorMessage()

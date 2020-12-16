@@ -228,13 +228,32 @@ Have fun!"
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
    - FXManagement: DeleteParmLearn2\_FXStateChunk - like DeleteParmLearn\_FXStateChunk, but allows indexing by parameter-index, not by number of existing parameter learnings
 
-   
+
+TODO:
+    - function for FXChain-entry MIDIPRESET: When using vst, click the +-button in FXChain and select Link to Midi Programchange
+    - function for WAK, which allows setting "Send all keyboard input to plug-in"-setting(also in FXChain->+-Button-menu)
+    - function for getting/setting comment-section of an fx(in FX-Chain the field above the preset-dropdownlist)
+        NOTE: This is stored AFTER the WAK-entry inside its own <COMMENT-statechunk as Base64-string
+            WAK 1 0
+            <COMMENT
+              SGVsbG8gV29ybGQ=
+            >
+    -   ALSO IMPORTANT:
+            Get/Set-FXChain-functions do not support yet the COMMENT-section, as they work with the idea of WAK being
+            the final entry of a plugin.
+            Which it's not, when the COMMENT-section is present!!!
+    - Markdown Converter: use 
+        A="Test[LULU[H[ULU](T\n\nudel)Kallo[Tudelu](Huch)"
+        B=A:match(".*(%[.-%]%(.-%))") -- URL-parsen!!!
+       to parse URLs
+    - InputFX_GetNamedConfigParm has markdownissues
+    - RenderProject - write nil as option for optional-parameters
 </TODO>
 
 
 ## Ultraschall Framework - Changelog
 
-### 4.2.002 - "" - 31st of December 2020
+### 4.2.002 - "Dave Brubeck - Take Five" - 31st of December 2020
 
 Has now 1351 functions, with 9 new ones
 
@@ -244,11 +263,17 @@ Has now 1351 functions, with 9 new ones
 
 #### New features in 4.2.002  
    - DeveloperTools: ultraschall\_developertool\_SortLinesInClipboardText.lua - sorts the lines of the string in the clipboard
+   - FX-Management: GetFXComment\_FXStateChunk - allows getting the comment of an fx within an FXStateChunk(requested by en5ca)
+   - FX-Management: SetFXComment\_FXStateChunk - allows setting the comment of an fx within an FXStateChunk(requested by en5ca)
    
 #### Changes from 4.2.001 to 4.2.002  
    - API: Settings - allows now turning on/off confirmation dialogs in certain devtools(for streamlined manipulation of strings); had some bug, when not set a value yet -> fixed
-   
-   
+   - File-Management: PreviewMediaFile - allows now setting the output-channel of the preview as well
+   - FX-Management: GetFXFromFXStateChunk - didn't return possible comment-field -> fixed
+   - Helper functions: EditReaScript - allows now opening the last file you opened up with this function by passing nil; adding Ultraschall-AP is now supported; optionally add this script to the actionlist; docs were wrong -> fixed
+   - Helper functions: Base64\_Decoder - fixed off-by-one-error that could mess up the last character in the Base-64-string under certain conditions
+   - RenderManagement: ApplyRenderTable\_Project - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
+   - RenderManagement: ApplyRenderTable\_ProjectFile - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
 
 
 ---
