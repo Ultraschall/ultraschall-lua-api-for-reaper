@@ -268,6 +268,7 @@ Has now 1351 functions, with 9 new ones
    
 #### Changes from 4.2.001 to 4.2.002  
    - API: Settings - allows now turning on/off confirmation dialogs in certain devtools(for streamlined manipulation of strings); had some bug, when not set a value yet -> fixed
+   - Docs: Reaper Internals - updated to Reaper 6.19 and SWS 2.12.1.1
    - File-Management: PreviewMediaFile - allows now setting the output-channel of the preview as well
    - FX-Management: GetFXFromFXStateChunk - didn't return possible comment-field -> fixed
    - FX-Management: GetFXSettingsString\_FXLines - didn't work due stupid bug on my side; crashed when an fx didn't have fx-lines available -> both fixed(thanks to woodslanding)

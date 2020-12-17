@@ -90,7 +90,7 @@ function onLoad() {
 </td></tr><tr><td style="width:25%; font-size:small;"><a href="#REAPER->autoclosekeymap">REAPER->autoclosekeymap</a></td><td style="width:25%; font-size:small;"><a href="#REAPER->pspage_last">REAPER->pspage_last</a></td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td></tr></table><table style="width:100%;" border="0"><tr><td><b style="font-size:small;"> Reaper Ini-Only</b>
  reaper_video
 </td></tr><tr><td style="width:25%; font-size:small;"><a href="#reaper_video->fx_mode">reaper_video->fx_mode</a></td><td style="width:25%; font-size:small;"><a href="#reaper_video->misc_flags">reaper_video->misc_flags</a></td><td style="width:25%; font-size:small;"><a href="#reaper_video->playback_cache">reaper_video->playback_cache</a></td><td style="width:25%; font-size:small;"><a href="#reaper_video->smp">reaper_video->smp</a></td></tr><td style="width:25%; font-size:small;"><a href="#reaper_video->vdprefetch_srcs">reaper_video->vdprefetch_srcs</a></td><td style="width:25%; font-size:small;"><a href="#reaper_video->vdprefetch_threads">reaper_video->vdprefetch_threads</a></td><td style="width:25%; font-size:small;"><a href="#reaper_video->visible">reaper_video->visible</a></td><td style="width:25%;">&nbsp;</td></tr></table><br><hr><a id="Introduction"></a>
-&nbsp;<a href="#Introduction"><b>Introduction to Config Variables</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>List of all Config Variables as of Reaper 6.17 and probably are missing some, but should be fairly complete anyway.<br />
+&nbsp;<a href="#Introduction"><b>Introduction to Config Variables</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>List of all Config Variables as of Reaper 6.19 and probably are missing some, but should be fairly complete anyway.<br />
 These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.<br />
 To change them, you can use the following ReaScript API-functions(requires SWS being installed):</p>
 <blockquote>
@@ -3682,10 +3682,14 @@ It is an integer-bitfield</p>
 </blockquote>
 <blockquote>
 <p>&amp;8192=0, Pooled MIDI(Preferences -&gt; Media, section Media item buttons)(on) - checked<br />
-&amp;8192=1, Pooled MIDI(Preferences -&gt; Media, section Media item buttons)(off) - unchecked<br />
-&amp;16384=0, Item volume control-dropdownlist: Knob(on) - checked<br />
-&amp;16384=1, Item volume control-dropdownlist: Knob(off) - unchecked<br />
-&amp;32768 and &amp;65536, Show fade-in/out handle-radiobuttons</p>
+&amp;8192=1, Pooled MIDI(Preferences -&gt; Media, section Media item buttons)(off) - unchecked</p>
+</blockquote>
+<blockquote>
+<p>&amp;16384=0, Item volume control-dropdownlist: Knob(on) - checked<br />
+&amp;16384=1, Item volume control-dropdownlist: Knob(off) - unchecked</p>
+</blockquote>
+<blockquote>
+<p>&amp;32768 and &amp;65536, Show fade-in/out handle-radiobuttons</p>
 </blockquote>
 <blockquote>
 <blockquote>
@@ -4305,8 +4309,14 @@ It is an integer</p>
 <p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midisendflags">midisendflags</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock">midiouts_clock</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a>, <a href="midiouts_llmode">midiouts_llmode</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="midipeaks"></a>
-&nbsp;<a href="#midipeaks"><b>midipeaks</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>unknown It is an integer</p>
-<p>Default is 0</p>
+&nbsp;<a href="#midipeaks"><b>midipeaks</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Display-settings as set in Preferences -&gt; Peaks/Waveforms It is an integer bitfield</p>
+<blockquote>
+<p>&amp;1=0, Program names - checked &amp;1=1, Program names - unchecked</p>
+</blockquote>
+<blockquote>
+<p>&amp;2=0, Text events - unchecked &amp;2=1, Text events - checked</p>
+</blockquote>
+<p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="midisendflags"></a>
 &nbsp;<a href="#midisendflags"><b>midisendflags</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>The Reset by/Reset on-checkboxes, as set in Preferences -&gt; MIDI Devices as well as in section Playback settings in Preferences -&gt; Playback<br />
 It is an integer-bitfield</p>
@@ -4549,6 +4559,9 @@ It is an integer-bitfield</p>
 <blockquote>
 <p>&amp;128=0, Allow space key to be used for navigation in various windows(off) - unchecked<br />
 &amp;128=1, Allow space key to be used for navigation in various windows(on) - checked</p>
+</blockquote>
+<blockquote>
+<p>&amp;256=0, Horizontal mousewheel over mixer scrolls tracks rather than arrangeview - unchecked &amp;256=1, Horizontal mousewheel over mixer scrolls tracks rather than arrangeview - checked</p>
 </blockquote>
 <p>For more settings set in Preferences -&gt; Mouse, see <a href="#transflags">transflags</a>, <a href="#trackselonmouse">trackselonmouse</a>, <a href="#loopclickmode">loopclickmode</a>, <a href="#scnameedit">scnameedit</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
@@ -4898,6 +4911,9 @@ It is an integer-bitfield</p>
 <blockquote>
 <p>&amp;2=0, Automatically rebuild peaks - checked<br />
 &amp;2=1, Automatically rebuild peaks - unchecked</p>
+</blockquote>
+<blockquote>
+<p>&amp;4=0, Allow videos to go offline (slow) - unchecked &amp;4=1, Allow videos to go offline (slow) - checked</p>
 </blockquote>
 <p>For other settings, set in the preferences -&gt; Media, see <a href="#showpeaksbuild">showpeaksbuild</a>, <a href="#copyimpmedia">copyimpmedia</a>, <a href="#relativeedges">relativeedges</a>, <a href="#applyfxtail">applyfxtail</a>, <a href="#itemfxtail">itemfxtail</a>, <a href="#peakcachegenmode">peakcachegenmode</a>,<br />
 <a href="#altpeaks">altpeaks</a>, <a href="#showpeaks">showpeaks</a>, <a href="#peakcachegenrs">peakcachegenrs</a>, <a href="#insertmtrack">insertmtrack</a>, <a href="#opencopyprompt">opencopyprompt</a></p>
@@ -6568,8 +6584,7 @@ It is an integer</p>
 </blockquote>
 <p>Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked, but with more settings.</p>
 </td></tr></table></divl><hr><a id="renderclosewhendone"></a>
-&nbsp;<a href="#renderclosewhendone"><b>renderclosewhendone</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Some render-settings, as set in either the Render to File-dialog or in the Rendering to File-status window<br />
-It is an integer-bitfield.</p>
+&nbsp;<a href="#renderclosewhendone"><b>renderclosewhendone</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Some render-settings, as set in either the Render to File-dialog or in the Rendering to File-status window and the Project Render Metadata-dialog It is an integer-bitfield.</p>
 <blockquote>
 <p>&amp;1=0, Automatically close, when finished - checkbox in the Rendering to File-status-window - unchecked<br />
 &amp;1=1, Automatically close, when finished - checkbox in the Rendering to File-status-window - checked</p>
@@ -6589,6 +6604,12 @@ It is an integer-bitfield.</p>
 <blockquote>
 <p>&amp;16=0, Silently increment filenames to avoid overwriting - unchecked<br />
 &amp;16=1, Silently increment filenames to avoid overwriting - checked</p>
+</blockquote>
+<blockquote>
+<p>&amp;32=0, Always embed title/date/time - unchecked &amp;32=1, Always embed title/date/time - checked</p>
+</blockquote>
+<blockquote>
+<p>&amp;64=0, Always embed start offset (media position in project) - unchecked &amp;64=1, Always embed start offset (media position in project) - checked</p>
 </blockquote>
 <blockquote>
 <p>seems not to be available anymore as of Reaper 5.977:<br />
@@ -7464,6 +7485,9 @@ It is an integer-bitfield</p>
 <blockquote>
 <p>&amp;16=0, Right click on crossfade sets fade shape for only one side of the crossfade(shift toggles)(off) - unchecked<br />
 &amp;16=1, Right click on crossfade sets fade shape for only one side of the crossfade(shift toggles)(on) - checked</p>
+</blockquote>
+<blockquote>
+<p>&amp;64=0, Use fade names instead of images for fade menus - unchecked &amp;64=1, Use fade names instead of images for fade menus - checked</p>
 </blockquote>
 <p>For other settings, as set in Preferences -&gt; Media Item Defaults, see <a href="#loopnewitems">loopnewitems</a>, <a href="#autoxfade">autoxfade</a>, <a href="#deffadeshape">deffadeshape</a>, <a href="#defxfadeshape">defxfadeshape</a>,<br />
 <a href="#deffadelen">deffadelen</a>, <a href="#defsplitxfadelen">defsplitxfadelen</a><br />

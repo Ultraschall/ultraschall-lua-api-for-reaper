@@ -3,7 +3,7 @@
       <slug>Introduction</slug>  
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.17 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 6.19 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -4845,8 +4845,10 @@
            
            >&8192=0, Pooled MIDI(Preferences -> Media, section Media item buttons)(on) - checked  
            >&8192=1, Pooled MIDI(Preferences -> Media, section Media item buttons)(off) - unchecked  
+           
            >&16384=0, Item volume control-dropdownlist: Knob(on) - checked  
            >&16384=1, Item volume control-dropdownlist: Knob(off) - unchecked  
+           
            >&32768 and &65536, Show fade-in/out handle-radiobuttons  
            
             >> 0 0, never  
@@ -6106,10 +6108,16 @@
       <slug>midipeaks</slug>  
       <title>midipeaks</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          unknown
-          It is an integer  
+          Display-settings as set in Preferences -> Peaks/Waveforms
+          It is an integer bitfield
           
-          Default is 0
+             >&1=0, Program names - checked
+             >&1=1, Program names - unchecked
+          
+             >&2=0, Text events - unchecked
+             >&2=1, Text events - checked
+            
+          Stored in reaper.ini under the same name in the section REAPER. 
       </description>  
       <chapter_context>  
          Config Variables  
@@ -6412,6 +6420,11 @@
            
            >&128=0, Allow space key to be used for navigation in various windows(off) - unchecked  
            >&128=1, Allow space key to be used for navigation in various windows(on) - checked  
+           
+           >&256=0, Horizontal mousewheel over mixer scrolls tracks rather than arrangeview - unchecked
+           >&256=1, Horizontal mousewheel over mixer scrolls tracks rather than arrangeview - checked
+           
+           
            
           For more settings set in Preferences -> Mouse, see [transflags](#transflags), [trackselonmouse](#trackselonmouse), [loopclickmode](#loopclickmode), [scnameedit](#scnameedit)  
             
@@ -6999,6 +7012,9 @@
            
            >&2=0, Automatically rebuild peaks - checked  
            >&2=1, Automatically rebuild peaks - unchecked  
+           
+           >&4=0, Allow videos to go offline (slow) - unchecked
+           >&4=1, Allow videos to go offline (slow) - checked
            
           For other settings, set in the preferences -> Media, see [showpeaksbuild](#showpeaksbuild), [copyimpmedia](#copyimpmedia), [relativeedges](#relativeedges), [applyfxtail](#applyfxtail), [itemfxtail](#itemfxtail), [peakcachegenmode](#peakcachegenmode),   
                                                 [altpeaks](#altpeaks), [showpeaks](#showpeaks), [peakcachegenrs](#peakcachegenrs), [insertmtrack](#insertmtrack), [opencopyprompt](#opencopyprompt)  
@@ -9987,7 +10003,7 @@
       <slug>renderclosewhendone</slug>  
       <title>renderclosewhendone</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Some render-settings, as set in either the Render to File-dialog or in the Rendering to File-status window  
+          Some render-settings, as set in either the Render to File-dialog or in the Rendering to File-status window and the Project Render Metadata-dialog
           It is an integer-bitfield.  
           
            >&1=0, Automatically close, when finished - checkbox in the Rendering to File-status-window - unchecked  
@@ -10004,6 +10020,12 @@
            
            >&16=0, Silently increment filenames to avoid overwriting - unchecked  
            >&16=1, Silently increment filenames to avoid overwriting - checked  
+           
+           >&32=0, Always embed title/date/time - unchecked
+           >&32=1, Always embed title/date/time - checked
+           
+           >&64=0, Always embed start offset (media position in project) - unchecked
+           >&64=1, Always embed start offset (media position in project) - checked
            
            >seems not to be available anymore as of Reaper 5.977:  
            >&65537=0, Save copy of project to outfile.wav.RPP - unchecked  
@@ -11545,6 +11567,9 @@
            
            >&16=0, Right click on crossfade sets fade shape for only one side of the crossfade(shift toggles)(off) - unchecked  
            >&16=1, Right click on crossfade sets fade shape for only one side of the crossfade(shift toggles)(on) - checked  
+           
+           >&64=0, Use fade names instead of images for fade menus - unchecked
+           >&64=1, Use fade names instead of images for fade menus - checked
            
           For other settings, as set in Preferences -> Media Item Defaults, see [loopnewitems](#loopnewitems), [autoxfade](#autoxfade), [deffadeshape](#deffadeshape), [defxfadeshape](#defxfadeshape),   
                                                        [deffadelen](#deffadelen), [defsplitxfadelen](#defsplitxfadelen)  
