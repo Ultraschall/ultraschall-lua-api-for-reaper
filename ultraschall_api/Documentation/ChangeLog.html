@@ -55,7 +55,8 @@ Ultraschall API Changelog
 <li>API: Settings - allows now turning on/off confirmation dialogs in certain devtools(for streamlined manipulation of strings); had some bug, when not set a value yet -&gt; fixed</li>
 <li>File-Management: PreviewMediaFile - allows now setting the output-channel of the preview as well</li>
 <li>FX-Management: GetFXFromFXStateChunk - didn't return possible comment-field -&gt; fixed</li>
-<li>Helper functions: EditReaScript - allows now opening the last file you opened up with this function by passing nil; adding Ultraschall-AP is now supported; optionally add this script to the actionlist; docs were wrong -&gt; fixed</li>
+<li>FX-Management: GetFXSettingsString_FXLines - didn't work due stupid bug on my side; crashed when an fx didn't have fx-lines available -&gt; both fixed(thanks to woodslanding)</li>
+<li>Helper functions: EditReaScript - allows now opening the last file you opened up with this function by passing nil; adding Ultraschall-API is now supported; optionally add this script to the actionlist; docs were wrong -&gt; fixed</li>
 <li>Helper functions: Base64_Decoder - fixed off-by-one-error that could mess up the last character in the Base-64-string under certain conditions</li>
 <li>RenderManagement: ApplyRenderTable_Project - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -&gt; fixed(thanks to aurelien)</li>
 <li>RenderManagement: ApplyRenderTable_ProjectFile - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -&gt; fixed(thanks to aurelien)</li>

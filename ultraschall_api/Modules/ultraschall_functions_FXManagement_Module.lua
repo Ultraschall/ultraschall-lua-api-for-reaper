@@ -101,7 +101,7 @@ function ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetFXFromFXStateChunk</slug>
     <requires>
-      Ultraschall=4.1
+      Ultraschall=4.2
       Reaper=6.10
       Lua=5.3
     </requires>
@@ -138,12 +138,16 @@ function ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "fxindex", "must be an integer", -2) return end
   local index=0
   
-  for a,b,c in string.gmatch(FXStateChunk, "()(%s-BYPASS.-\n.-WAK.-)\n()") do
+  for a,b,c in string.gmatch(FXStateChunk, "()(%s-BYPASS.-\n.-WAK.-)\n()") do    
     index=index+1
     if index==fxindex then 
-      local temp, offset=FXStateChunk:sub(c,-1):match("(.-<COMMENT \n.-\n.->\n)()")
+      --print2(1,b:sub(1,1000))
+      local temp, offset=FXStateChunk:sub(c,-1):match("(    <COMMENT \n.-\n.->\n)()")
+      --print2(2,b:sub(1,1000),temp)
       if offset==nil then offset=0 end
+      --print2(3,b:sub(1,1000))
       if temp==nil then temp="\n" else temp="\n"..temp end
+      --print2(4,b:sub(1,1000))
       return b..temp,a,c+offset
     end
   end
@@ -2957,7 +2961,7 @@ function ultraschall.GetFXSettingsString_FXLines(fx_lines)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetFXSettingsString_FXLines</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -2986,21 +2990,24 @@ function ultraschall.GetFXSettingsString_FXLines(fx_lines)
   <tags>fxmanagement, get, fxstatestring, base64</tags>
 </US_DocBloc>
 --]]
-  if ultraschall.type(FXLines)~="string" then ultraschall.AddErrorMessage("GetFXSettingsString_FXLines", "fx_lines" , "must be a string", -1) return nil end
-  if FXLines:match("    <VST")~=nil then
-    FXSettings=FXLines:match("<VST.-\n(.-)    >")
-  elseif FXLines:match("    <JS_SER")~=nil then
-    FXSettings=FXLines:match("<JS_SER.-\n(.-)    >")
-  elseif FXLines:match("    <DX")~=nil then
-    FXSettings=FXLines:match("<DX.-\n(.-)    >")
-  elseif FXLines:match("    <AU")~=nil then
-    FXSettings=FXLines:match("<AU.-\n(.-)    >")
-  elseif FXLines:match("    <VIDEO_EFFECT")~=nil then
-    return "", string.gsub(FXLines:match("<VIDEO_EFFECT.-      <CODE\n(.-)      >"), "%s-|", "\n")
+  
+  if ultraschall.type(fx_lines)~="string" then ultraschall.AddErrorMessage("GetFXSettingsString_FXLines", "fx_lines" , "must be a string", -1) return nil end
+  if fx_lines:match("    <VST")~=nil then
+    FXSettings=fx_lines:match("<VST.-\n(.-)    >")
+  elseif fx_lines:match("    <JS_SER")~=nil then
+    FXSettings=fx_lines:match("<JS_SER.-\n(.-)    >")
+  elseif fx_lines:match("    <DX")~=nil then
+    FXSettings=fx_lines:match("<DX.-\n(.-)    >")
+  elseif fx_lines:match("    <AU")~=nil then
+    FXSettings=fx_lines:match("<AU.-\n(.-)    >")
+  elseif fx_lines:match("    <VIDEO_EFFECT")~=nil then
+    return "", string.gsub(fx_lines:match("<VIDEO_EFFECT.-      <CODE\n(.-)      >"), "%s-|", "\n")  
   end
-    FXSettings=string.gsub(FXSettings, "[\n%s]*", "")
-    FXSettings_dec=ultraschall.Base64_Decoder(FXSettings)
-    return FXSettings, FXSettings_dec
+  
+  if FXSettings==nil then ultraschall.AddErrorMessage("GetFXSettingsString_FXLines", "fx_lines" , "fx has no base64-encoded fx-lines", -2) return nil end
+  FXSettings=string.gsub(FXSettings, "[\n%s]*", "")  
+  FXSettings_dec=ultraschall.Base64_Decoder(FXSettings)
+  return FXSettings, FXSettings_dec
 end
 
 -- ParmModulation:

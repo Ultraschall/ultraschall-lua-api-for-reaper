@@ -270,7 +270,8 @@ Has now 1351 functions, with 9 new ones
    - API: Settings - allows now turning on/off confirmation dialogs in certain devtools(for streamlined manipulation of strings); had some bug, when not set a value yet -> fixed
    - File-Management: PreviewMediaFile - allows now setting the output-channel of the preview as well
    - FX-Management: GetFXFromFXStateChunk - didn't return possible comment-field -> fixed
-   - Helper functions: EditReaScript - allows now opening the last file you opened up with this function by passing nil; adding Ultraschall-AP is now supported; optionally add this script to the actionlist; docs were wrong -> fixed
+   - FX-Management: GetFXSettingsString\_FXLines - didn't work due stupid bug on my side; crashed when an fx didn't have fx-lines available -> both fixed(thanks to woodslanding)
+   - Helper functions: EditReaScript - allows now opening the last file you opened up with this function by passing nil; adding Ultraschall-API is now supported; optionally add this script to the actionlist; docs were wrong -> fixed
    - Helper functions: Base64\_Decoder - fixed off-by-one-error that could mess up the last character in the Base-64-string under certain conditions
    - RenderManagement: ApplyRenderTable\_Project - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
    - RenderManagement: ApplyRenderTable\_ProjectFile - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
