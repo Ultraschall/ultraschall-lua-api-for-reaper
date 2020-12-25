@@ -140,7 +140,7 @@ function ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
   
   for a,b,c in string.gmatch(FXStateChunk, "()(%s-BYPASS.-\n.-WAK.-)\n()") do    
     index=index+1
-    if index==fxindex then 
+    if index==fxindex then         
       --print2(1,b:sub(1,1000))
       local temp, offset=FXStateChunk:sub(c,-1):match("(    <COMMENT \n.-\n.->\n)()")
       --print2(2,b:sub(1,1000),temp)
@@ -5810,7 +5810,7 @@ function ultraschall.InputFX_GetFXChain(trackfx_or_takefx)
   
   if trackfx_or_takefx==0 then FXChain="<FXCHAIN\n" else FXChain="<TAKEFX\n" end
   
-  return FXChain.."  "..string.gsub(FXStateChunk, "\n", "\n  ").."\n>"
+  return ultraschall.StateChunkLayouter(FXChain.."  "..string.gsub(FXStateChunk, "\n", "\n  ").."\n>")
 end
 
 function ultraschall.InputFX_SetFXChain(FXStateChunk, replacefx)

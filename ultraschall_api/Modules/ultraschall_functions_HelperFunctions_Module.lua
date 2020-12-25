@@ -3595,7 +3595,7 @@ function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines,
   if remove_tabs~=nil and math.type(remove_tabs)~="integer" then ultraschall.AddErrorMessage("Base64_Encoder", "remove_tabs", "must be an integer", -3) return nil end
   if base64_type~=nil and math.type(base64_type)~="integer" then ultraschall.AddErrorMessage("Base64_Encoder", "base64_type", "must be an integer", -4) return nil end
   
-  tempstring={}
+  local tempstring={}
   local a=1
   local temp
   

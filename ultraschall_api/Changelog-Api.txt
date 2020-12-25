@@ -253,27 +253,40 @@ TODO:
 
 ## Ultraschall Framework - Changelog
 
-### 4.2.002 - "Dave Brubeck - Take Five" - 31st of December 2020
+### 4.2.002 - "Dave Brubeck - Take Five" - 25th of December 2020
 
-Has now 1351 functions, with 9 new ones
+Has now 1359 functions, with 8 new ones
 
 **new in this release:**  
-  - **LOL**  
+  - **Get/Set Comment-field of fx**  
+  You can now get and set the comment-field of trackfx and takefx programmatically. Also gave me the chance to fix some bugs as well ;)
   
+  - **Linesorting script for clipboard-content**  
+  Sometimes, you would love to sort the lines in the clipboard. Now you can, using the new developer-tool.  
+  
+  - **bugfixes and docs**  
+  various bugfixes and update to Reaper Internals to Reaper 6.19, SWS 2.12.1.1, JS-extension 1.220  
 
 #### New features in 4.2.002  
    - DeveloperTools: ultraschall\_developertool\_SortLinesInClipboardText.lua - sorts the lines of the string in the clipboard
+   - FX-Management: CountFXFromFXStateChunk - counts the number of fx in an FXStateChunk
    - FX-Management: GetFXComment\_FXStateChunk - allows getting the comment of an fx within an FXStateChunk(requested by en5ca)
+   - FX-Management: GetTrackFXComment - gets the text in the comment-field of a trackfx(requested by en5ca)
+   - FX-Management: GetTakeFXComment - gets the text in the comment-field of an itemfx(requested by en5ca)
+   - FX-Management: InputFX\_GetComment - gets the text in the comment-field of an inputfx
    - FX-Management: SetFXComment\_FXStateChunk - allows setting the comment of an fx within an FXStateChunk(requested by en5ca)
+   - FX-Management: SetTrackFXComment - sets the text in the comment-field of a trackfx(requested by en5ca)
+   - FX-Management: SetTakeFXComment - sets the text in the comment-field of an itemfx(requested by en5ca)
    
 #### Changes from 4.2.001 to 4.2.002  
    - API: Settings - allows now turning on/off confirmation dialogs in certain devtools(for streamlined manipulation of strings); had some bug, when not set a value yet -> fixed
-   - Docs: Reaper Internals - updated to Reaper 6.19 and SWS 2.12.1.1
+   - Docs: Reaper Internals - updated to Reaper 6.19 and SWS 2.12.1.1 and JS-extension 1.220
    - File-Management: PreviewMediaFile - allows now setting the output-channel of the preview as well
    - FX-Management: GetFXFromFXStateChunk - didn't return possible comment-field -> fixed
    - FX-Management: GetFXSettingsString\_FXLines - didn't work due stupid bug on my side; crashed when an fx didn't have fx-lines available -> both fixed(thanks to woodslanding)
    - Helper functions: EditReaScript - allows now opening the last file you opened up with this function by passing nil; adding Ultraschall-API is now supported; optionally add this script to the actionlist; docs were wrong -> fixed
    - Helper functions: Base64\_Decoder - fixed off-by-one-error that could mess up the last character in the Base-64-string under certain conditions
+   - Helper functions: Base64\_Encoder - had inner variable exposed -> fixed
    - RenderManagement: ApplyRenderTable\_Project - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
    - RenderManagement: ApplyRenderTable\_ProjectFile - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
 

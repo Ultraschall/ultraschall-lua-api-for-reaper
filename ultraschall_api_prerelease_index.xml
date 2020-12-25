@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43463.00" author="Meo Mespotine">
+      <version name="43467.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.002//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.002//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.002/ultraschall_api/Changelog-Api.txt</source>
@@ -563,29 +563,52 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.002//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.2.002 - “Dave Brubeck - Take Five” - 31st of December 2020
+4.2.002 - “Dave Brubeck - Take Five” - 25th of December 2020
 
-Has now 1351 functions, with 9 new ones
+Has now 1359 functions, with 8 new ones
 
 new in this release:
-- LOL
+- Get/Set Comment-field of fx
+You can now get and set the comment-field of trackfx and takefx
+programmatically. Also gave me the chance to fix some bugs as well ;)
+
+-   Linesorting script for clipboard-content
+    Sometimes, you would love to sort the lines in the clipboard. Now
+    you can, using the new developer-tool.
+
+-   bugfixes and docs
+    various bugfixes and update to Reaper Internals to Reaper 6.19, SWS
+    2.12.1.1, JS-extension 1.220
 
 New features in 4.2.002
 
 -   DeveloperTools:
     ultraschall_developertool_SortLinesInClipboardText.lua - sorts the
     lines of the string in the clipboard
+-   FX-Management: CountFXFromFXStateChunk - counts the number of fx in
+    an FXStateChunk
 -   FX-Management: GetFXComment_FXStateChunk - allows getting the
     comment of an fx within an FXStateChunk(requested by en5ca)
+-   FX-Management: GetTrackFXComment - gets the text in the
+    comment-field of a trackfx(requested by en5ca)
+-   FX-Management: GetTakeFXComment - gets the text in the comment-field
+    of an itemfx(requested by en5ca)
+-   FX-Management: InputFX_GetComment - gets the text in the
+    comment-field of an inputfx
 -   FX-Management: SetFXComment_FXStateChunk - allows setting the
     comment of an fx within an FXStateChunk(requested by en5ca)
+-   FX-Management: SetTrackFXComment - sets the text in the
+    comment-field of a trackfx(requested by en5ca)
+-   FX-Management: SetTakeFXComment - sets the text in the comment-field
+    of an itemfx(requested by en5ca)
 
 Changes from 4.2.001 to 4.2.002
 
 -   API: Settings - allows now turning on/off confirmation dialogs in
     certain devtools(for streamlined manipulation of strings); had some
     bug, when not set a value yet -> fixed
--   Docs: Reaper Internals - updated to Reaper 6.19 and SWS 2.12.1.1
+-   Docs: Reaper Internals - updated to Reaper 6.19 and SWS 2.12.1.1 and
+    JS-extension 1.220
 -   File-Management: PreviewMediaFile - allows now setting the
     output-channel of the preview as well
 -   FX-Management: GetFXFromFXStateChunk - didn’t return possible
@@ -600,6 +623,8 @@ Changes from 4.2.001 to 4.2.002
 -   Helper functions: Base64_Decoder - fixed off-by-one-error that could
     mess up the last character in the Base-64-string under certain
     conditions
+-   Helper functions: Base64_Encoder - had inner variable exposed ->
+    fixed
 -   RenderManagement: ApplyRenderTable_Project - didn’t always apply
     Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to
     aurelien)
@@ -7420,7 +7445,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1363 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43463 from 17.12.2020 03:25:22).}
+a 1369 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43467 from 25.12.2020 02:19:45).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7434,7 +7459,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1363 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1369 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -7558,7 +7583,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1363 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43463 from 17.12.2020 03:25:22).}
+a 1369 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43467 from 25.12.2020 02:19:45).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7572,7 +7597,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1363 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1369 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
