@@ -1772,7 +1772,7 @@ function ultraschall.QueryKeyboardShortcutByKeyID(modifier, key)
     Lua=5.3
   </requires>
   <functioncall>string Shortcutname = ultraschall.QueryKeyboardShortcutByKeyID(integer modifier, integer key)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the name of the shortcut of the modifier-key-values, as stored in the KEY-entries within the reaper-kb.ini
     
     That way, you can take a KEY-entry from the reaper-kb.ini, like

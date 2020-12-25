@@ -23763,7 +23763,155 @@
         <tags>mediaitemmanagement, set, mediaitem, notes, sws</tags>
     </US_DocBloc>
     
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_Actions_CountShortcuts</slug>
+        <title>JS_Actions_CountShortcuts(JS)</title>
+        <functioncall prog_lang="cpp">int JS_Actions_CountShortcuts(int section, int cmdID)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Actions_CountShortcuts", int section, int cmdID)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Actions_CountShortcuts(integer section, integer cmdID)</functioncall>
+        <functioncall prog_lang="python">Int JS_Actions_CountShortcuts(Int section, Int cmdID)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.220
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Counts the shortcuts available for a specific action within a section.
+        </description>
+        <retvals>
+           integer retval - the number of shortcuts available
+        </retvals>
+        <parameters>
+           integer section - the section of the action:
+                           - 0, Main
+                           - 100, Main (alt recording)
+                           - 32060, MIDI Editor
+                           - 32061, MIDI Event List Editor
+                           - 32062, MIDI Inline Editor
+                           - 32063, Media Explorer
+           integer cmdID - the command-id of the action, whose shortcuts you want to count
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+  
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_Actions_DeleteShortcut</slug>
+        <title>JS_Actions_DeleteShortcut(JS)</title>
+        <functioncall prog_lang="cpp">bool JS_Actions_DeleteShortcut(int section, int cmdID, int shortcutidx)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_Actions_DeleteShortcut", int section, int cmdID, int shortcutidx)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.JS_Actions_DeleteShortcut(integer section, integer cmdID, integer shortcutidx)</functioncall>
+        <functioncall prog_lang="python">Boolean JS_Actions_DeleteShortcut(Int section, Int cmdID, Int shortcutidx)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.220
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Deletes a shortcut of a specific action within a section.
+
+        </description>
+        <retvals>
+           boolean retval - true, deleting was successful; false, deleting was unsuccessful
+        </retvals>
+        <parameters>
+           integer section - the section of the action:
+                           - 0, Main
+                           - 100, Main (alt recording)
+                           - 32060, MIDI Editor
+                           - 32061, MIDI Event List Editor
+                           - 32062, MIDI Inline Editor
+                           - 32063, Media Explorer
+           integer cmdID - the command-id of the action, whose shortcut you want to delete
+           integer shortcutidx - the shortcut that you want to delete; 0-based
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>  
     
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_Actions_DoShortcutDialog</slug>
+        <title>JS_Actions_DoShortcutDialog(JS)</title>
+        <functioncall prog_lang="cpp">bool JS_Actions_DoShortcutDialog(int section, int cmdID, int shortcutidx)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_Actions_DoShortcutDialog", int section, int cmdID, int shortcutidx)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.JS_Actions_DoShortcutDialog(integer section, integer cmdID, integer shortcutidx)</functioncall>
+        <functioncall prog_lang="python">Boolean JS_Actions_DoShortcutDialog(Int section, Int cmdID, Int shortcutidx)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.220
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Opens the do-shortcut-dialog, which allows you setting a shortcut for a specific action.
+            
+            If the shortcut index is higher than the current number of shortcuts, it will add a new shortcut.
+        </description>
+        <retvals>
+           boolean retval - true, setting was successful; false, setting was unsuccessful
+        </retvals>
+        <parameters>
+           integer section - the section of the action:
+                           - 0, Main
+                           - 100, Main (alt recording)
+                           - 32060, MIDI Editor
+                           - 32061, MIDI Event List Editor
+                           - 32062, MIDI Inline Editor
+                           - 32063, Media Explorer
+           integer cmdID - the command-id of the action, whose shortcut you want to set
+           integer shortcutidx - the shortcut that you want to set; 0-based
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>  
+   
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_Actions_GetShortcutDesc</slug>
+        <title>JS_Actions_GetShortcutDesc(JS)</title>
+        <functioncall prog_lang="cpp">bool JS_Actions_GetShortcutDesc(int section, int cmdID, int shortcutidx, char* descOut, int descOut_sz)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_Actions_GetShortcutDesc", int section, int cmdID, int shortcutidx, #desc)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string desc = reaper.JS_Actions_GetShortcutDesc(integer section, integer cmdID, integer shortcutidx)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, Int section, Int cmdID, Int shortcutidx, String descOut, Int descOut_sz) = JS_Actions_GetShortcutDesc(section, cmdID, shortcutidx, descOut, descOut_sz)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.220
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            returns the description of a shortcut, as stored for a specific action within a section.
+            
+            This will be the shown representation of the shortcut as seen in the actionlist. That means, it is localized!
+        </description>
+        <retvals>
+           boolean retval - true, getting was successful; false, getting was unsuccessful
+           string desc - the description of the shortcut; "", if shortcut is not available
+        </retvals>
+        <parameters>
+           integer section - the section of the action:
+                           - 0, Main
+                           - 100, Main (alt recording)
+                           - 32060, MIDI Editor
+                           - 32061, MIDI Event List Editor
+                           - 32062, MIDI Inline Editor
+                           - 32063, Media Explorer
+           integer cmdID - the command-id of the action, whose shortcut-description you want to get
+           integer shortcutidx - the shortcut whose description you want to get; 0-based
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>  
+   
   <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_Byte</slug>
         <title>JS_Byte(JS)</title>
@@ -28803,16 +28951,18 @@
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_Window_SetParent</slug>
         <title>JS_Window_SetParent(JS)</title>
-        <functioncall prog_lang="cpp">void* JS_Window_SetParent(void* childHWND, void* parentHWND)</functioncall>
+        <functioncall prog_lang="cpp">void* JS_Window_SetParent(void* childHWND, void* parentHWNDOptional)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("JS_Window_SetParent", void* childHWND, void* parentHWND)</functioncall>
         <functioncall prog_lang="lua">identifier reaper.JS_Window_SetParent(identifier childHWND, identifier parentHWND)</functioncall>
-        <functioncall prog_lang="python">void JS_Window_SetParent(void childHWND, void parentHWND)</functioncall>
+        <functioncall prog_lang="python">void JS_Window_SetParent(void childHWND, void parentHWNDOptional)</functioncall>
         <requires>
             Reaper=5.974
-            JS=0.998
+            JS=1.220
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             If successful, returns a handle to the previous parent window.
+            
+            Only on WindowsOS: If parentHWND is not specified, the desktop window becomes the new parent window.
         </description>
         <retvals>
            identifier Identifier  - 
