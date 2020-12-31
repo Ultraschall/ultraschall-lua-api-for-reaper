@@ -550,7 +550,12 @@ function ultraschall.ToggleStateAction(section, actioncommand_id, state)
                             -32062 - MIDI Inline Editor
                             -32063 - Media Explorer
     string actioncommand_id - the ActionCommandID of the action to toggle
-    integer state - 1 or 0
+    integer state - toggle-state 
+                    -0, off
+                    -&1, on/checked in menus
+                    -&2, on/grayed out in menus
+                    -&16, on/bullet in front of the entry in menus
+                    --1, NA because the action does not have on/off states.
   </parameters>
   <chapter_context>
     API-Helper functions

@@ -8708,9 +8708,11 @@
         </description>
         <retvals>
             integer - toggle-state 
-                -0, off
-                -1, on
-                --1, NA because the action does not have on/off states.
+                    -0, off
+                    -&1, on/checked in menus
+                    -&2, on/grayed out in menus
+                    -&16, on/bullet in front of the entry in menus
+                    --1, NA because the action does not have on/off states.
         </retvals>
         <parameters>
             command_id - the command_id, whose toggle-state you want to know.
@@ -8740,9 +8742,11 @@
         </description>
         <retvals>
             integer - toggle-state 
-                -0, off
-                -1, on
-                --1, NA because the action does not have on/off states.
+                    -0, off
+                    -&1, on/checked in menus
+                    -&2, on/grayed out in menus
+                    -&16, on/bullet in front of the entry in menus
+                    --1, NA because the action does not have on/off states.
         </retvals>
         <parameters>
             section_id - the section, in which the action lies
@@ -15621,12 +15625,23 @@
             Updates the toggle state of an action, returns true if succeeded. Only ReaScripts can have their toggle states changed programmatically. See [RefreshToolbar2](#RefreshToolbar2).
         </description>
         <retvals>
-            boolean - 
+            boolean - true, setting was successful; false, setting was unsuccessful
         </retvals>
         <parameters>
-            section_id - 
-            command_id - 
-            state - 
+            section_id - the section of the action
+                       -        0, Main  
+                       -        100, Main (alt recording)  
+                       -        32060, MIDI Editor  
+                       -        32061, MIDI Event List Editor  
+                       -        32062, MIDI Inline Editor  
+                       -        32063, Media Explorer  
+            integer command_id - the command-id of the action whose toggle command state you want to query
+            integer state - toggle-state 
+                    -0, off
+                    -&1, on/checked in menus
+                    -&2, on/grayed out in menus
+                    -&16, on/bullet in front of the entry in menus
+                    --1, NA because the action does not have on/off states.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>

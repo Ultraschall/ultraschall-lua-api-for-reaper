@@ -231,64 +231,127 @@ Have fun!"
 
 TODO:
     - function for FXChain-entry MIDIPRESET: When using vst, click the +-button in FXChain and select Link to Midi Programchange
-    - function for WAK, which allows setting "Send all keyboard input to plug-in"-setting(also in FXChain->+-Button-menu)
-    - function for getting/setting comment-section of an fx(in FX-Chain the field above the preset-dropdownlist)
-        NOTE: This is stored AFTER the WAK-entry inside its own <COMMENT-statechunk as Base64-string
-            WAK 1 0
-            <COMMENT
-              SGVsbG8gV29ybGQ=
-            >
-    -   ALSO IMPORTANT:
-            Get/Set-FXChain-functions do not support yet the COMMENT-section, as they work with the idea of WAK being
-            the final entry of a plugin.
-            Which it's not, when the COMMENT-section is present!!!
+    - function for WAK, which allows setting "Send all keyboard input to plug-in"-setting(also in FXChain->+-Button-menu)   
     - Markdown Converter: use 
         A="Test[LULU[H[ULU](T\n\nudel)Kallo[Tudelu](Huch)"
         B=A:match(".*(%[.-%]%(.-%))") -- URL-parsen!!!
        to parse URLs
     - InputFX_GetNamedConfigParm has markdownissues
     - RenderProject - write nil as option for optional-parameters
+
+
+function GetActionCommandIDByFilename(searchfilename, searchsection)
+  -- returns the action-command-id for a given scriptfilename installed in Reaper
+  -- keep in mind: some scripts are stored in subfolders, like Cockos/lyrics.lua
+  --               in that case, you need to give the full path to avoid possible
+  --               confusion between files with the same filenames but in different
+  --               subfolders.
+  --               Scripts that are simply in the Scripts-folder, not within a 
+  --               subfolder of Scripts can be accessed just by their filename
+  --
+  -- Parameters:
+  --            string searchfilename - the filename, whose action-command-id you want to have
+  --            integer section - the section, in which the file is stored
+  --                                0 = Main, 
+  --                                100 = Main (alt recording), 
+  --                                32060 = MIDI Editor, 
+  --                                32061 = MIDI Event List Editor, 
+  --                                32062 = MIDI Inline Editor,
+  --                                32063 = Media Explorer.
+  -- Returnvalue:
+  --            string AID - the actioncommand-id of the scriptfile; "", if no such file is installed
+  for k in io.lines(reaper.GetResourcePath().."/reaper-kb.ini") do
+    if k:sub(1,3)=="SCR" then
+      local section, aid, desc, filename=k:match("SCR .- (.-) (.-) (\".-\") (.*)")
+      local filename=string.gsub(filename, "\"", "") 
+      if filename==searchfilename and tonumber(section)==searchsection then
+        return "_"..aid
+      end
+    end
+  end
+  return ""
+end
+
+
+A=GetActionCommandIDByFilename("Cockos/lyrics.lua", 0)
 </TODO>
 
 
 ## Ultraschall Framework - Changelog
 
-### 4.2.002 - "Dave Brubeck - Take Five" - 25th of December 2020
+    ### 4.2.003 - "Georg Friedrich Händel - Sarabande" - 15th of January 2021
 
-Has now 1359 functions, with 8 new ones
+    Has now 1359 functions, with 8 new ones
 
-**new in this release:**  
-  - **Get/Set Comment-field of fx**  
-  You can now get and set the comment-field of trackfx and takefx programmatically. Also gave me the chance to fix some bugs as well ;)
-  
-  - **Linesorting script for clipboard-content**  
-  Sometimes, you would love to sort the lines in the clipboard. Now you can, using the new developer-tool.  
-  
-  - **bugfixes and docs**  
-  various bugfixes and update to Reaper Internals to Reaper 6.19, SWS 2.12.1.1, JS-extension 1.220  
+    **new in this release:**  
+      - **Bla**  
+      
+      
 
-#### New features in 4.2.002  
-   - DeveloperTools: ultraschall\_developertool\_SortLinesInClipboardText.lua - sorts the lines of the string in the clipboard
-   - FX-Management: CountFXFromFXStateChunk - counts the number of fx in an FXStateChunk
-   - FX-Management: GetFXComment\_FXStateChunk - allows getting the comment of an fx within an FXStateChunk(requested by en5ca)
-   - FX-Management: GetTrackFXComment - gets the text in the comment-field of a trackfx(requested by en5ca)
-   - FX-Management: GetTakeFXComment - gets the text in the comment-field of an itemfx(requested by en5ca)
-   - FX-Management: InputFX\_GetComment - gets the text in the comment-field of an inputfx
-   - FX-Management: SetFXComment\_FXStateChunk - allows setting the comment of an fx within an FXStateChunk(requested by en5ca)
-   - FX-Management: SetTrackFXComment - sets the text in the comment-field of a trackfx(requested by en5ca)
-   - FX-Management: SetTakeFXComment - sets the text in the comment-field of an itemfx(requested by en5ca)
-   
-#### Changes from 4.2.001 to 4.2.002  
-   - API: Settings - allows now turning on/off confirmation dialogs in certain devtools(for streamlined manipulation of strings); had some bug, when not set a value yet -> fixed
-   - Docs: Reaper Internals - updated to Reaper 6.19 and SWS 2.12.1.1 and JS-extension 1.220
-   - File-Management: PreviewMediaFile - allows now setting the output-channel of the preview as well
-   - FX-Management: GetFXFromFXStateChunk - didn't return possible comment-field -> fixed
-   - FX-Management: GetFXSettingsString\_FXLines - didn't work due stupid bug on my side; crashed when an fx didn't have fx-lines available -> both fixed(thanks to woodslanding)
-   - Helper functions: EditReaScript - allows now opening the last file you opened up with this function by passing nil; adding Ultraschall-API is now supported; optionally add this script to the actionlist; docs were wrong -> fixed
-   - Helper functions: Base64\_Decoder - fixed off-by-one-error that could mess up the last character in the Base-64-string under certain conditions
-   - Helper functions: Base64\_Encoder - had inner variable exposed -> fixed
-   - RenderManagement: ApplyRenderTable\_Project - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
-   - RenderManagement: ApplyRenderTable\_ProjectFile - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
+    #### New features in 4.2.003  
+       
+       
+    #### Changes from 4.2.002 to 4.2.003  
+       - RenderManagement: CreateNewRenderTable - all parameters are optional and when passed nil, will be set with Reaper's factory defaults
+       - RenderManagement: GetRenderCFG\_Settings\_AIFF - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_AVI\_Video - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_AudioCD - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_FLAC - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_GIF - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_LCF - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_MKV\_Video - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_MP3 - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_MP3ABR - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_MP3CBR - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_MP3MaxQuality - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_MP3VBR - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_MP4Mac\_Video - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_OGG - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_OPUS - stabilized some edgecases       
+       - RenderManagement: GetRenderCFG\_Settings\_QTMOVMP4_Video - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_WAV - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_WAVPACK - stabilized some edgecases
+       - RenderManagement: GetRenderCFG\_Settings\_WebMVideo - stabilized some edgecases
+       - RenderManagement: GetRenderTable\_ProjectFile - didn't return render-cfg and render-cfg2 as empty string when not set in project -> fixed
+
+---
+
+    ### 4.2.002 - "Dave Brubeck - Take Five" - 25th of December 2020
+
+    Has now 1359 functions, with 8 new ones
+
+    **new in this release:**  
+      - **Get/Set Comment-field of fx**  
+      You can now get and set the comment-field of trackfx and takefx programmatically. Also gave me the chance to fix some bugs as well ;)
+      
+      - **Linesorting script for clipboard-content**  
+      Sometimes, you would love to sort the lines in the clipboard. Now you can, using the new developer-tool.  
+      
+      - **bugfixes and docs**  
+      various bugfixes and update to Reaper Internals to Reaper 6.19, SWS 2.12.1.1, JS-extension 1.220  
+
+    #### New features in 4.2.002  
+       - DeveloperTools: ultraschall\_developertool\_SortLinesInClipboardText.lua - sorts the lines of the string in the clipboard
+       - FX-Management: CountFXFromFXStateChunk - counts the number of fx in an FXStateChunk
+       - FX-Management: GetFXComment\_FXStateChunk - allows getting the comment of an fx within an FXStateChunk(requested by en5ca)
+       - FX-Management: GetTrackFXComment - gets the text in the comment-field of a trackfx(requested by en5ca)
+       - FX-Management: GetTakeFXComment - gets the text in the comment-field of an itemfx(requested by en5ca)
+       - FX-Management: InputFX\_GetComment - gets the text in the comment-field of an inputfx
+       - FX-Management: SetFXComment\_FXStateChunk - allows setting the comment of an fx within an FXStateChunk(requested by en5ca)
+       - FX-Management: SetTrackFXComment - sets the text in the comment-field of a trackfx(requested by en5ca)
+       - FX-Management: SetTakeFXComment - sets the text in the comment-field of an itemfx(requested by en5ca)
+       
+    #### Changes from 4.2.001 to 4.2.002  
+       - API: Settings - allows now turning on/off confirmation dialogs in certain devtools(for streamlined manipulation of strings); had some bug, when not set a value yet -> fixed
+       - Docs: Reaper Internals - updated to Reaper 6.19 and SWS 2.12.1.1 and JS-extension 1.220
+       - File-Management: PreviewMediaFile - allows now setting the output-channel of the preview as well
+       - FX-Management: GetFXFromFXStateChunk - didn't return possible comment-field -> fixed
+       - FX-Management: GetFXSettingsString\_FXLines - didn't work due stupid bug on my side; crashed when an fx didn't have fx-lines available -> both fixed(thanks to woodslanding)
+       - Helper functions: EditReaScript - allows now opening the last file you opened up with this function by passing nil; adding Ultraschall-API is now supported; optionally add this script to the actionlist; docs were wrong -> fixed
+       - Helper functions: Base64\_Decoder - fixed off-by-one-error that could mess up the last character in the Base-64-string under certain conditions
+       - Helper functions: Base64\_Encoder - had inner variable exposed -> fixed
+       - RenderManagement: ApplyRenderTable\_Project - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
+       - RenderManagement: ApplyRenderTable\_ProjectFile - didn't always apply Mono-Media and Multi-Channel-checkboxes properly -> fixed(thanks to aurelien)
 
 
 ---
