@@ -12252,12 +12252,13 @@
       <slug>uiscale</slug>  
       <title>uiscale</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Changed by Reaper, when mouse-clicking on MediaItems, TrackEnvelopes and Automation Items
+          The ui-scaling of Reaper's UI, as set in Preferences->General->Advanced UI/system tweaks-dialog.
+          Setting this variable has only an effect, when the "Scale UI elements of track/mixer panels, transport, etc, by-checkbox is checked(usually, when the scaling-value in the inputfield is something else than 1.00).
           It is a double  
            
-           >either  
-           >-1.#QNAN(unclicked) or anything else(currently clicked)
-           
+           >0.3-3, the scaling value; other values are also supported(0, turns off tabs)
+          
+          Stored in reaper.ini under the same name in the section REAPER.
       </description>  
       <chapter_context>  
          Config Variables  

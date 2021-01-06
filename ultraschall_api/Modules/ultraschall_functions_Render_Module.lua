@@ -4679,7 +4679,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     optional boolean CloseAfterRender - true or nil, closes rendering to file-dialog after rendering is finished; false, keep it open
                                       - will overwrite the settings in the RenderTable; will default to true, if no RenderTable is passed
     optional boolean SilentlyIncrementFilename - true or nil, silently increment filename, when file already exists; false, ask for overwriting
-                                              - will overwrite the settings in the RenderTable; will default to true, if no RenderTable is passed
+                                               - will overwrite the settings in the RenderTable; will default to true, if no RenderTable is passed
   </parameters>
   <chapter_context>
     Rendering Projects

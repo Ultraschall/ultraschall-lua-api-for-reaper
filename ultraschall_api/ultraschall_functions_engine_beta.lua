@@ -1418,4 +1418,223 @@ end
 
 --ultraschall.OpenUltraschallFunctionDoc("RenderProject")
 
+function ultraschall.SetUIScale(scaling)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetUIScale</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.17
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetUIScale(number scaling)</functioncall>
+  <description>
+    Sets the UI-scaling of Reaper's UI.
+    
+    Works only, if the "Scale UI elements of track/mixer panels, tansport, etc, by:"-checkbox is enabled in Preferences -> General -> Advanced UI/system tweaks-dialog, 
+    by setting the value in the dialog to anything else than 1.0.
+    
+    returns false in case of an error.
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    number scaling - the scaling-factor; safe range is between 0.30 and 3.00, though 0 to 2000 is supported
+  </parameters>
+  <chapter_context>
+    User Interface
+    Miscellaneous
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, uiscaling, set</tags>
+</US_DocBloc>
+--]]
+  if type(scaling)~="number" then ultraschall.AddErrorMessage("SetUIScale", "scaling", "must be a number", -1) return false end
+  if scaling<0 or scaling>2000 then ultraschall.AddErrorMessage("SetUIScale", "scaling", "must be between 0 and 2000", -2) return false end
+  local B,BB=reaper.BR_Win32_GetPrivateProfileString("REAPER", "uiscale", "", reaper.get_ini_file())
+  if BB=="1.00000000" then ultraschall.AddErrorMessage("SetUIScale", "", "Works only, if the \n\n   \"Scale UI elements of track/mixer panels, tansport, etc, by:\"-checkbox \n\nis enabled in \n\n    Preferences -> General -> Advanced UI/system tweaks-dialog,\n\n by setting the value in the dialog to anything else than 1.0.", -3) return false end
+  local A=ultraschall.DoubleToInt(scaling)
+  return reaper.SNM_SetIntConfigVar("uiscale", A)
+end
+
+--B=ultraschall.SetUIScale(1)
+
+function ultraschall.GetActionCommandIDByFilename(searchfilename, searchsection, case_sensitive)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetActionCommandIDByFilename</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.17
+    Lua=5.3
+  </requires>
+  <functioncall>string ActionCommandID = ultraschall.GetActionCommandIDByFilename(string searchfilename, integer searchsection, optional boolean case_sensitive)</functioncall>
+  <description>
+    Returns the action-command-id of a script by its filename, as registered in the reaper-kb.ini.
+    
+    Important: scripts in subfolders of Scripts must be written with their full path. \ and / are supported as folder-separators.
+    Setting case_sensitive=false will return the action-command-id of the first script matching the filename, when you don't know the exact case-sensitivity.
+    Keep in mind, that on Linux, camelcase can mean different filenames. So Prototype.lua and prototype.lua are different files on Linux, when they exist together. 
+    Keep that in mind or you risk finding the wrong ActionCommandID.
+    
+    Returns nil in case of an error 
+  </description>
+  <parameters>
+    string searchfilename - the filename(plus path, if needed) of the script, whose ActionCommandID you want to have.
+    integer section - the section, in which the file is stored
+                    - 0, Main, 
+                    - 100, Main (alt recording), 
+                    - 32060, MIDI Editor, 
+                    - 32061, MIDI Event List Editor, 
+                    - 32062, MIDI Inline Editor,
+                    - 32063, Media Explorer.
+    optional boolean case_sensitive - true or nil, search for filename on a case-sensitive base; false, case-sensitivity in filename is ignored
+  </parameters>
+  <retvals>
+    string ActionCommandID - the actioncommand-id of the scriptfile; "", if no such file is installed; nil, in case of an error
+  </retvals>
+  <chapter_context>
+    Configuration-Files Management
+    Reaper-kb.ini
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configuration files management, get, actioncommandid, scriptfilename, reaper-kb.ini</tags>
+</US_DocBloc>
+]]
+
+  -- returns the action-command-id for a given scriptfilename installed in Reaper
+  -- keep in mind: some scripts are stored in subfolders, like Cockos/lyrics.lua
+  --               in that case, you need to give the full path to avoid possible
+  --               confusion between files with the same filenames but in different
+  --               subfolders.
+  --               Scripts that are simply in the Scripts-folder, not within a 
+  --               subfolder of Scripts can be accessed just by their filename
+  --
+  -- Parameters:
+  --            string searchfilename - the filename, whose action-command-id you want to have
+  --            integer section - the section, in which the file is stored
+  --                                0 = Main, 
+  --                                100 = Main (alt recording), 
+  --                                32060 = MIDI Editor, 
+  --                                32061 = MIDI Event List Editor, 
+  --                                32062 = MIDI Inline Editor,
+  --                                32063 = Media Explorer.
+  -- Returnvalue:
+  --            string AID - the actioncommand-id of the scriptfile; "", if no such file is installed
+
+  if type(searchfilename)~="string" then ultraschall.AddErrorMessage("GetActionCommandIDByFilename", "searchfilename", "must be a string", -1) return nil end
+  if math.type(searchsection)~="integer" then ultraschall.AddErrorMessage("GetActionCommandIDByFilename", "searchsection", "must be an integer", -2) return nil end
+  
+  if case_sensitive==false then searchfilename=searchfilename:lower() end
+  searchfilename=string.gsub(searchfilename, "\\", "/")
+  for k in io.lines(reaper.GetResourcePath().."/reaper-kb.ini") do
+    if k:sub(1,3)=="SCR" then
+      local section, aid, desc, filename=k:match("SCR .- (.-) (.-) (\".-\") (.*)")
+      local filename=string.gsub(filename, "\"", "") 
+      filename=string.gsub(filename, "\\", "/")
+      if case_sensitive==false then filename=filename:lower() end
+      if filename==searchfilename and tonumber(section)==searchsection then
+        return "_"..aid
+      end
+    end
+  end
+  return ""
+end
+
+function ultraschall.GetFXWAK_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXWAK_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer keyboard_input_2_plugin, integer unknown = ultraschall.GetFXWAK_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description>
+    returns the WAK-entryvalues of a specific fx from an FXStateChunk, as set by the +-button->Send all keyboard input to plugin-menuentry in the FX-window of the visible plugin.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer keyboard_input_2_plugin - 0, don't send all the keyboard-input to plugin; 1, send all keyboard-input to plugin
+    integer unknown - unknown, usually 0
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from whose fx you want to return the WAK-entry
+    integer fxid - the fx, whose WAK-entrievalues you want to return
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, fx, wak, keyboard input, plugin</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXWAK_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXWAK_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  ultraschall.SuppressErrorMessages(true)
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXWAK_FXStateChunk", "fx_id", "no such fx", -4) return nil end
+  local WAK=fx_lines:match("\n.-WAK (.-)\n")
+  
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(WAK.." ", " ")
+  for i=1, count do
+    individual_values[i]=tonumber(individual_values[i])
+  end
+  ultraschall.SuppressErrorMessages(false)
+  return table.unpack(individual_values)
+end
+
+function ultraschall.GetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXMIDIPRESET_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer midi_preset = ultraschall.GetFXMIDIPRESET_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description>
+    returns the MIDIPRESET-entryvalues of a specific fx from an FXStateChunk as set by the +-button->Link to MIDI program change-menuentry in the FX-window of the visible plugin.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer midi_preset - 0, No Link; 17, Link all channels sequentially; 1-16, MIDI-channel 1-16
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from whose fx you want to return the MIDIPRESET-entry
+    integer fxid - the fx, whose MIDIPRESET-entrievalues you want to return
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, fx, midipreset, keyboard input, plugin</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXMIDIPRESET_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXMIDIPRESET_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  ultraschall.SuppressErrorMessages(true)
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXMIDIPRESET_FXStateChunk", "fx_id", "no such fx", -4) return nil end
+  local MIDIPreset=fx_lines:match("\n.-MIDIPRESET (.-)\n")
+  if MIDIPreset==nil then ultraschall.SuppressErrorMessages(false) return 0 end
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(MIDIPreset.." ", " ")
+  for i=1, count do
+    individual_values[i]=tonumber(individual_values[i])
+  end
+  ultraschall.SuppressErrorMessages(false)
+  return table.unpack(individual_values)
+end
+
 ultraschall.ShowLastErrorMessage()
