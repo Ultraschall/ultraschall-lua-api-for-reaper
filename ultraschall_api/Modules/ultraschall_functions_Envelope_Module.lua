@@ -1144,17 +1144,17 @@ function ultraschall.SetArmState_Envelope(TrackEnvelope, state, EnvelopeStateChu
 end
 
 
-function ultraschall.GetTrackEnvelope_ClickState()
+function ultraschall.GetTrackEnvelope_ClickState(mouse_button)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackEnvelope_ClickState</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.981
+    Ultraschall=4.2
+    Reaper=6.10
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean clickstate, number position, MediaTrack track, TrackEnvelope envelope, integer EnvelopePointIDX = ultraschall.GetTrackEnvelope_ClickState()</functioncall>
+  <functioncall>boolean clickstate, number position, MediaTrack track, TrackEnvelope envelope, integer EnvelopePointIDX = ultraschall.GetTrackEnvelope_ClickState(integer mouse_button)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the currently clicked Envelopepoint and TrackEnvelope, as well as the current timeposition.
     
@@ -1169,6 +1169,17 @@ function ultraschall.GetTrackEnvelope_ClickState()
     TrackEnvelope envelope - the TrackEnvelope, in which the clicked envelope-point lies
     integer EnvelopePointIDX - the id of the clicked EnvelopePoint
   </retvals>
+  <parameters>
+    integer mouse_button - the mousebutton, that shall be clicked at the envelope; you can combine them as flags
+                       - -1, get all states
+                       - &1, only left mouse button
+                       - &2, only right mouse button
+                       - &4, Ctrl/Cmd-key
+                       - &8, Shift-key
+                       - &16, Alt key
+                       - &32, Windows key
+                       - &64, Middle mouse button
+  </parameters>
   <chapter_context>
     Envelope Management
     Helper functions
@@ -1180,11 +1191,13 @@ function ultraschall.GetTrackEnvelope_ClickState()
 --]]
   -- TODO: Has an issue, if the mousecursor drags the item, but moves above or underneath the item(if item is in first or last track).
   --       Even though the item is still clicked, it isn't returned as such.
-  --       The ConfigVar uiscale supports dragging information, but the information which item has been clicked gets lost somehow
-  local B=reaper.SNM_GetDoubleConfigVar("uiscale", -999)
+
+  if math.type(mouse_button)~="integer" then ultraschall.AddErrorMessage("GetTrackEnvelope_ClickState", "mouse_button", "must be an integer", -1) return false end
+
   local X,Y=reaper.GetMousePosition()
   local Track, Info = reaper.GetTrackFromPoint(X,Y)
-  if tostring(B)=="-1.#QNAN" or Info==0 then
+  local A=reaper.JS_Mouse_GetState(mouse_button)
+  if A==0 or Info==0 then
     return false
   end
   reaper.BR_GetMouseCursorContext()
