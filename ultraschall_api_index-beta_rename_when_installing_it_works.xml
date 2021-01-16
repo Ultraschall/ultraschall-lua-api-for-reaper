@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43489.00" author="Meo Mespotine">
+      <version name="43493.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003/ultraschall_api/Changelog-Api.txt</source>
@@ -589,7 +589,18 @@ New features in 4.2.003
 
 Changes from 4.2.002 to 4.2.003
 
+-   Docs: Reaper Internals - update to Reaper 6.20
 -   EnvelopeManagement: GetTrackEnvelope_ClickState - works now again
+-   File-Management: CountDirectoriesAndFilesInPath - flushes cache on
+    Reaper 6.20+ to be more reliable
+-   File-Management: DirectoryExists - flushes cache on Reaper 6.20+ to
+    be more reliable
+-   File-Management: GetAllDirectoriesInPath - flushes cache on Reaper
+    6.20+ to be more reliable
+-   File-Management: GetAllFilenamesInPath - flushes cache on Reaper
+    6.20+ to be more reliable
+-   File-Management: GetAllRecursiveFilesAndSubdirectories - flushes
+    cache on Reaper 6.20+ to be more reliable
 -   MediaItem Management: GetItem_ClickState - works now again
 -   ProjectManagement: GetProjectStateChunk - works now reliable in
     Reaper 6.20+; fixed some bugs that might improve stability on
@@ -7522,7 +7533,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1374 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43489 from 15.01.2021 00:33:51).}
+a 1374 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43493 from 16.01.2021 14:28:21).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7660,7 +7671,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1374 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43489 from 15.01.2021 00:33:51).}
+a 1374 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43493 from 16.01.2021 14:28:21).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

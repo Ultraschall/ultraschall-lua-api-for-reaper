@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 6.19
+            ## ReaScript API as of Reaper 6.20
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -1296,12 +1296,12 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>CountTracks</slug>
         <title>CountTracks</title>
-        <functioncall prog_lang="cpp">int CountTracks(ReaProject* proj)</functioncall>
+        <functioncall prog_lang="cpp">int CountTracks(ReaProject* projOptional)</functioncall>
         <functioncall prog_lang="eel">int CountTracks(ReaProject proj)</functioncall>
         <functioncall prog_lang="lua">integer = reaper.CountTracks(ReaProject proj)</functioncall>
-        <functioncall prog_lang="python">Int RPR_CountTracks(ReaProject proj)</functioncall>
+        <functioncall prog_lang="python">Int RPR_CountTracks(ReaProject projOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.20
         </requires>
         <description prog_lang="*">
             count the number of tracks in the project (proj=0 for active project)
@@ -3526,10 +3526,10 @@
         <functioncall prog_lang="lua">string = reaper.EnumerateFiles(string path, integer fileindex)</functioncall>
         <functioncall prog_lang="python">String RPR_EnumerateFiles(String path, Int fileindex)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.20
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            List the files in the "path" directory. Returns NULL (or empty string, in Lua) when all files have been listed. See [EnumerateSubdirectories](#EnumerateSubdirectories)
+            List the files in the "path" directory. Returns NULL/nil when all files have been listed. Use fileindex = -1 to force re-read of directory (invalidate cache). See [EnumerateSubdirectories](#EnumerateSubdirectories)
         </description>
         <retvals>
             string - the filename in path, with index fileindex
@@ -3554,10 +3554,10 @@
         <functioncall prog_lang="lua">string = reaper.EnumerateSubdirectories(string path, integer subdirindex)</functioncall>
         <functioncall prog_lang="python">String RPR_EnumerateSubdirectories(String path, Int subdirindex)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.20
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            List the subdirectories in the "path" directory. Returns NULL (or empty string, in Lua) when all subdirectories have been listed. See [EnumerateFiles](#EnumerateFiles)
+            List the subdirectories in the "path" directory. Use subdirindex = -1 to force re-read of directory (invalidate cache). Returns NULL/nil when all subdirectories have been listed. See [EnumerateFiles](#EnumerateFiles)
         </description>
         <retvals>
             string - the filename in path, with index fileindex
@@ -7990,12 +7990,12 @@
         <functioncall prog_lang="lua">number value = reaper.GetSetProjectInfo(ReaProject project, string desc, number value, boolean is_set)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetSetProjectInfo(ReaProject project, String desc, Float value, Boolean is_set)</functioncall>
         <requires>
-            Reaper=6.11
+            Reaper=6.20
         </requires>
         <description>
             Get or set project information.
  
-            RENDER_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp; 128=Selected tracks via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;512=Embed Metadata, if format supports is, &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master)
+            RENDER_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp; 128=Selected tracks via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;512=Embed Metadata, if format supports is, &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master); &amp;2048=2nd pass render
             OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using [GetSetProjectInfo\_String](#GetSetProjectInfo_String).
             RENDER_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions
             RENDER_CHANNELS : number of channels in rendered file
@@ -32859,22 +32859,30 @@
         <title>gfx_variables</title>
         <functioncall prog_lang="eel">gfx VARIABLES</functioncall>
         <requires>
-            Reaper=5.97
+            Reaper=6.20
         </requires>
         <description>
             The following global variables are special and will be used by the graphics system:
 
-               * gfx_r, gfx_g, gfx_b, gfx_a2 - These represent the current red, green, blue, and alpha components used by drawing operations (0.0..1.0). gfx_a2 is the value written to the alpha channel when writing solid colors (normally ignored but useful when creating transparent images)
-               * gfx_a, gfx_mode - Alpha and blend mode for drawing. Set mode to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx_a to negative and use gfx_mode as additive). Add 2.0 to disable source alpha for gfx_blit(). Add 4.0 to disable filtering for gfx_blit(). 
-               * gfx_w, gfx_h - These are set to the current width and height of the UI framebuffer. 
-               * gfx_x, gfx_y - These set the "current" graphics position in x,y. You can set these yourselves, and many of the drawing functions update them as well. 
-               * gfx_clear - If set to a value greater than -1.0, this will result in the framebuffer being cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black). 
-               * gfx_dest - Defaults to -1, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
-               * gfx_texth - Set to the height of a line of text in the current font. Do not modify this variable.
-               * gfx_ext_retina - If set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx_w/gfx_h/etc will be doubled.
-               * mouse_x, mouse_y - mouse_x and mouse_y are set to the coordinates of the mouse relative to the graphics window.
-               * mouse_wheel, mouse_hwheel - mouse wheel (and horizontal wheel) positions. These will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
-               * mouse_cap is a bitfield of mouse and keyboard modifier state.
+               * gfx_r - current red component (0..1) used by drawing operations.
+               * gfx_g - current green component (0..1) used by drawing operations.
+               * gfx_b - current blue component (0..1) used by drawing operations.
+               * gfx_a2 - current alpha component (0..1) used by drawing operations when writing solid colors (normally ignored but useful when creating transparent images).
+               * gfx_a - alpha for drawing (1=normal).
+               * gfx_mode - blend mode for drawing. Set mode to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx_a to negative and use gfx_mode as additive). Add 2.0 to disable source alpha for gfx_blit(). Add 4.0 to disable filtering for gfx_blit().
+               * gfx_w - width of the UI framebuffer.
+               * gfx_h - height of the UI framebuffer.
+               * gfx_x - current graphics position X. Some drawing functions use as start position and update.
+               * gfx_y - current graphics position Y. Some drawing functions use as start position and update.
+               * gfx_clear - if greater than -1.0, framebuffer will be cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black).
+               * gfx_dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
+               * gfx_texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.
+               * gfx_ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx_w/gfx_h/etc will be doubled.
+               * mouse_x - current X coordinate of the mouse relative to the graphics window.
+               * mouse_y - current Y coordinate of the mouse relative to the graphics window.
+               * mouse_wheel - wheel position, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
+               * mouse_hwheel - horizontal wheel positions, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
+               * mouse_cap - a bitfield of mouse and keyboard modifier state:
                     1: left mouse button
                     2: right mouse button
                     4: Control key
@@ -32882,6 +32890,7 @@
                     16: Alt key
                     32: Windows key
                     64: middle mouse button
+                    
                 Note: Mousebuttons will be returned after gfx_init(), the other keyboard-modifier only when using gfx_getchar()!
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -35352,23 +35361,31 @@
         <title>gfx_variables</title>
         <functioncall prog_lang="lua">gfx VARIABLES</functioncall>
         <requires>
-            Reaper=5.97
+            Reaper=6.20
 
         </requires>
         <description indent="default">
             The following global variables are special and will be used by the graphics system:
             
-            * gfx.r, gfx.g, gfx.b, gfx.a2 - These represent the current red, green, blue, and alpha components used by drawing operations (0.0..1.0). gfx.a2 is the value written to the alpha channel when writing solid colors (normally ignored but useful when creating transparent images)
-            * gfx.a, gfx.mode - Alpha and blend mode for drawing. Set mode to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). Add 2.0 to disable source alpha for gfx.blit(). Add 4.0 to disable filtering for gfx.blit(). 
-            * gfx.w, gfx.h - These are set to the current width and height of the UI framebuffer. 
-            * gfx.x, gfx.y - These set the "current" graphics position in x,y. You can set these yourselves, and many of the drawing functions update them as well. 
-            * gfx.clear - If set to a value greater than -1.0, this will result in the framebuffer being cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black). 
-            * gfx.dest - Defaults to -1, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
-            * gfx.texth - Set to the height of a line of text in the current font. Do not modify this variable.
-            * gfx.ext_retina - If set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.
-            * gfx.mouse_x, gfx.mouse_y - gfx.mouse_x and gfx.mouse_y are set to the coordinates of the mouse relative to the graphics window.
-            * gfx.mouse_wheel, gfx.mouse_hwheel - mouse wheel (and horizontal wheel) positions. These will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
-            * gfx.mouse_cap is a bitfield of mouse and keyboard modifier state.
+               * gfx.r - current red component (0..1) used by drawing operations.
+               * gfx.g - current green component (0..1) used by drawing operations.
+               * gfx.b - current blue component (0..1) used by drawing operations.
+               * gfx.a2 - current alpha component (0..1) used by drawing operations when writing solid colors (normally ignored but useful when creating transparent images).
+               * gfx.a - alpha for drawing (1=normal).
+               * gfx.mode - blend mode for drawing. Set mode to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). Add 2.0 to disable source alpha for gfx.blit(). Add 4.0 to disable filtering for gfx.blit().
+               * gfx.w - width of the UI framebuffer.
+               * gfx.h - height of the UI framebuffer.
+               * gfx.x - current graphics position X. Some drawing functions use as start position and update.
+               * gfx.y - current graphics position Y. Some drawing functions use as start position and update.
+               * gfx.clear - if greater than -1.0, framebuffer will be cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black).
+               * gfx.dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
+               * gfx.texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.
+               * gfx.ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.
+               * gfx.mouse_x - current X coordinate of the mouse relative to the graphics window.
+               * gfx.mouse_y - current Y coordinate of the mouse relative to the graphics window.
+               * gfx.mouse_wheel - wheel position, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
+               * gfx.mouse_hwheel - horizontal wheel positions, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
+               * gfx.mouse_cap - a bitfield of mouse and keyboard modifier state:
                 1: left mouse button
                 2: right mouse button
                 4: Control key
@@ -36594,15 +36611,18 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gmem_attach</slug>
         <title>gmem_attach</title>
-        <functioncall prog_lang="lua">reaper.gmem_attach(string sharedMemoryName)</functioncall>
+        <functioncall prog_lang="lua">string former_attached_gmemname = reaper.gmem_attach(string sharedMemoryName)</functioncall>
         <requires>
-            Reaper=5.97
+            Reaper=6.20
         </requires>
         <description indent="default">
-            Causes gmem_read()/gmem_write() to read EEL2/JSFX/Video shared memory segment named by parameter. Set to empty string to detach.
+            Causes gmem_read()/gmem_write() to read EEL2/JSFX/Video shared memory segment named by parameter. Set to empty string to detach. 6.20+: returns previous shared memory segment name.
             
             Must be called, before you can use a specific gmem-variable-index with gmem_write!
         </description>
+        <retvals>
+            string former_attached_gmemname - if you change the attached-gmem from one to a new one, this will hold the name of the previous attached shared memory(gmem)
+        </retvals>
         <parameters>
             string sharedMemoryName - the name of the shared memory
         </parameters>

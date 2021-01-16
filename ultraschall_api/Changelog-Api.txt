@@ -260,7 +260,13 @@ Has now 1359 functions, with 8 new ones
   - User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)
        
 #### Changes from 4.2.002 to 4.2.003  
+  - Docs: Reaper Internals - update to Reaper 6.20
   - EnvelopeManagement: GetTrackEnvelope\_ClickState - works now again
+  - File-Management: CountDirectoriesAndFilesInPath - flushes cache on Reaper 6.20+ to be more reliable
+  - File-Management: DirectoryExists - flushes cache on Reaper 6.20+ to be more reliable
+  - File-Management: GetAllDirectoriesInPath - flushes cache on Reaper 6.20+ to be more reliable
+  - File-Management: GetAllFilenamesInPath - flushes cache on Reaper 6.20+ to be more reliable      
+  - File-Management: GetAllRecursiveFilesAndSubdirectories - flushes cache on Reaper 6.20+ to be more reliable  
   - MediaItem Management: GetItem\_ClickState - works now again
   - ProjectManagement: GetProjectStateChunk - works now reliable in Reaper 6.20+; fixed some bugs that might improve stability on earlier Reaper-versions
   - RenderManagement: CreateNewRenderTable - all parameters are optional and when passed nil, will be set with Reaper's factory defaults
