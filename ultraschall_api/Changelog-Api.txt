@@ -261,6 +261,7 @@ Has now 1359 functions, with 8 new ones
        
 #### Changes from 4.2.002 to 4.2.003  
   - Docs: Reaper Internals - update to Reaper 6.20
+  - Developer: EditReaScript - allows now setting position and size of the to-open-IDE-window
   - EnvelopeManagement: GetTrackEnvelope\_ClickState - works now again
   - File-Management: CountDirectoriesAndFilesInPath - flushes cache on Reaper 6.20+ to be more reliable
   - File-Management: DirectoryExists - flushes cache on Reaper 6.20+ to be more reliable
