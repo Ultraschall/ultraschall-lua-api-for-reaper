@@ -220,7 +220,7 @@ function ultraschall.IsValidProjectStateChunk(ProjectStateChunk)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsValidProjectStateChunk</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -243,7 +243,14 @@ function ultraschall.IsValidProjectStateChunk(ProjectStateChunk)
   <tags>projectfiles, rpp, projectstatechunk, statechunk, check, valid</tags>
 </US_DocBloc>
 ]]  
-  if type(ProjectStateChunk)=="string" and ProjectStateChunk:match("^<REAPER_PROJECT.*>")~=nil then return true else return false end
+  if type(ProjectStateChunk)=="string" and 
+    ProjectStateChunk:sub(1,15)=="<REAPER_PROJECT" and 
+    ProjectStateChunk:sub(-10,-1):match("\n>")~=nil 
+    then return true else return false end--]]
+    
+    --[[if type(ProjectStateChunk)=="string" and 
+    ProjectStateChunk:match("^<REAPER_PROJECT.*\n>")~=nil 
+    then return true else return false end--]]
 end
 
 
@@ -352,8 +359,8 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
   -- reset old hwnd-focus-state 
   reaper.JS_Window_SetFocus(oldfocushwnd)
   
-  local timer=reaper.time_precise()
-  
+  -- wait, until 
+  local timer=reaper.time_precise()  
   while filecount2==filecount do
     if timer+20000<reaper.time_precise() then ultraschall.AddErrorMessage("GetProjectStateChunk", "", "timeout: Getting the ProjectStateChunk didn't work within 20 seconds for some reasons, please report this as bug to me and include the projectfile with which this happened!", -2) return end --end
     reaper.EnumerateFiles(reaper.GetResourcePath().."/QueuedRenders", -1)
@@ -363,7 +370,7 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
   --print(filecount2, filecount)
   
   local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2)
-
+    
    -- read found render-queued-project and delete it
   local ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[1])
   os.remove(originals_array2[1])
@@ -373,9 +380,9 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
     reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", oldbounds, true)
     reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", oldstartpos, true)
     reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", oldendpos, true)
-    retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, math.floor(oldbounds), math.floor(oldstartpos), math.floor(oldendpos), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILFLAG", 0, false)), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILMS", 0, false)), ProjectStateChunk)
+    retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, math.floor(oldbounds), math.floor(oldstartpos), math.floor(oldendpos), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILFLAG", 0, false)), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILMS", 0, false)), ProjectStateChunk)    
   end
-      
+     
   -- remove QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE-entries, if keepqrender==true
   if keepqrender~=true then
     ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_OUTFILE .-%c", "")
@@ -384,9 +391,7 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
       
   -- reset old auto-increment-checkbox-state
   ultraschall.SetRender_AutoIncrementFilename(old_autoincrement)
-      
-  
-  
+        
   -- restore old render-qdelay-setting
   retval = ultraschall.SetRender_QueueDelay(qretval, qlength)
   

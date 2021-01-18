@@ -1021,8 +1021,8 @@ function ultraschall.OpenURL(url)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>OpenURL</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.2
+    Reaper=6.19
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.OpenURL(string url)</functioncall>
@@ -1048,7 +1048,7 @@ integer retval - -1 in case of error
   if type(url)~="string" then ultraschall.AddErrorMessage("OpenURL","url", "Must be a string.", -1) return -1 end
   local OS=reaper.GetOS()
   url="\""..url.."\""
-  if OS=="OSX32" or OS=="OSX64" then
+  if OS=="OSX32" or OS=="OSX64" or OS=="macOS-arm64" then
     os.execute("open ".. url)
   elseif OS=="Other" then
     os.execute("xdg-open "..url)
@@ -1169,8 +1169,8 @@ function ultraschall.GetOS()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetOS</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.2
+    Reaper=6.17
     Lua=5.3
   </requires>
   <functioncall>string operating_system, integer bits = ultraschall.GetOS()</functioncall>
@@ -1191,15 +1191,16 @@ function ultraschall.GetOS()
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
-  local os, bits
+  local Os, bits
   
   -- check for os and bits and return it
-  if retval:match("Win")~=nil then os="Win" end
-  if retval:match("OSX")~=nil then os="Mac" end
-  if retval:match("Other")~=nil then os="Other" end
+  if retval:match("Win")~=nil then Os="Win" end
+  if retval:match("OSX")~=nil then Os="Mac" end
+  if retval:match("macOS-arm64")~=nil then OS="Mac" end
+  if retval:match("Other")~=nil then Os="Other" end
   if retval:match("32")~=nil then bits=32 end
   if retval:match("64")~=nil then bits=64 end
-  return os, bits
+  return Os, bits
 end
 
 function ultraschall.IsOS_Windows()
@@ -1229,16 +1230,16 @@ function ultraschall.IsOS_Windows()
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
-  local os, bits
+  local Os, bits
   
   -- check for os and bits
-  if retval:match("Win")~=nil then os=true 
+  if retval:match("Win")~=nil then Os=true 
   else
-    os=false
+    Os=false
   end
-  if os==true and retval:match("32")~=nil then bits=32 end
-  if os==true and retval:match("64")~=nil then bits=64 end
-  return os, bits
+  if Os==true and retval:match("32")~=nil then bits=32 end
+  if Os==true and retval:match("64")~=nil then bits=64 end
+  return Os, bits
 end
 
 --L,LL=ultraschall.IsOS_Windows()
@@ -1250,8 +1251,8 @@ function ultraschall.IsOS_Mac()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsOS_Mac</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.2
+    Reaper=6.19
     Lua=5.3
   </requires>
   <functioncall>boolean is_mac, integer number_of_bits = ultraschall.IsOS_Mac()</functioncall>
@@ -1272,16 +1273,16 @@ function ultraschall.IsOS_Mac()
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
-  local os, bits
+  local Os, bits
   
   -- check for os and bits
-  if retval:match("OSX")~=nil then os=true 
+  if retval:match("OSX")~=nil or retval:match("macOS-arm64")~=nil then Os=true 
   else
-    os=false
+    Os=false
   end
-  if os==true and retval:match("32")~=nil then bits=32 end
-  if os==true and retval:match("64")~=nil then bits=64 end
-  return os, bits
+  if Os==true and retval:match("32")~=nil then bits=32 end
+  if Os==true and retval:match("64")~=nil then bits=64 end
+  return Os, bits
 end
 
 
@@ -1312,16 +1313,16 @@ function ultraschall.IsOS_Other()
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
-  local os, bits
+  local Os, bits
   
   -- check for os and bits
-  if retval:match("Other")~=nil then os=true 
+  if retval:match("Other")~=nil then Os=true 
   else
-    os=false
+    Os=false
   end
-  if os==true and retval:match("32")~=nil then bits=32 end
-  if os==true and retval:match("64")~=nil then bits=64 end
-  return os, bits
+  if Os==true and retval:match("32")~=nil then bits=32 end
+  if Os==true and retval:match("64")~=nil then bits=64 end
+  return Os, bits
 end
 
 function ultraschall.GetReaperAppVersion()

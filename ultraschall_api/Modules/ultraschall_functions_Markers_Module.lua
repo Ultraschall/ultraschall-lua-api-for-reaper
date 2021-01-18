@@ -114,8 +114,8 @@ function ultraschall.AddPodRangeRegion(startposition, endposition)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddPodRangeRegion</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=6.02
+    Ultraschall=4.2
+    Reaper=6.19
     Lua=5.3
   </requires>
   <functioncall>integer marker_number, string guid = ultraschall.AddPodRangeRegion(number startposition, number endposition)</functioncall>
@@ -148,11 +148,8 @@ function ultraschall.AddPodRangeRegion(startposition, endposition)
   
   -- prepare colorvalue
   local Os = reaper.GetOS()
-  if string.match(Os, "OSX") then 
-    color = 0xFFFFFF|0x1000000
-  else
-    color = 0xFFFFFF|0x1000000
-  end
+  
+  color = 0xFFFFFF|0x1000000
 
   local a,nummarkers,numregions=reaper.CountProjectMarkers(0)
   local count=0
@@ -439,8 +436,8 @@ function ultraschall.AddEditMarker(position, shown_number, edittitle)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddEditMarker</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=6.02
+    Ultraschall=4.2
+    Reaper=6.19
     Lua=5.3
   </requires>
   <functioncall> integer marker_number, string guid = ultraschall.AddEditMarker(number position, integer shown_number, string edittitle)</functioncall>
@@ -471,10 +468,10 @@ function ultraschall.AddEditMarker(position, shown_number, edittitle)
   local color=0
   local noteID=0
   local Os = reaper.GetOS()
-  if string.match(Os, "OSX") then 
-    color = 0xFF0000|0x1000000
-  else
+  if string.match(Os, "Win") then 
     color = 0x0000FF|0x1000000
+  else
+    color = 0xFF0000|0x1000000
   end
   
   -- check parameters
@@ -2286,8 +2283,8 @@ function ultraschall.AddEditRegion(startposition, endposition, text)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddEditRegion</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=6.02
+    Ultraschall=4.2
+    Reaper=6.19
     Lua=5.3
   </requires>
   <functioncall>integer markernr, string guid = ultraschall.AddEditRegion(number startposition, number endposition, string text)</functioncall>
@@ -2324,10 +2321,10 @@ function ultraschall.AddEditRegion(startposition, endposition, text)
   local noteID=0
   
   local Os = reaper.GetOS()
-  if string.match(Os, "OSX") then 
-    color = 0xFF0000|0x1000000
-  else
+  if string.match(Os, "Win") then 
     color = 0x0000FF|0x1000000
+  else
+    color = 0xFF0000|0x1000000
   end
   
   local count=0
@@ -2357,8 +2354,8 @@ function ultraschall.SetEditRegion(number, position, endposition, edittitle)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetEditRegion</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.2
+    Reaper=6.19
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetEditRegion(integer number, number position, number endposition, string edittitle)</functioncall>
@@ -2397,10 +2394,10 @@ function ultraschall.SetEditRegion(number, position, endposition, edittitle)
 
   local color=0
   local Os = reaper.GetOS()
-  if string.match(Os, "OSX") then 
-    color = 0xFF0000|0x1000000
-  else
+  if string.match(Os, "Win") then 
     color = 0x0000FF|0x1000000
+  else
+    color = 0xFF0000|0x1000000
   end
   
   local shown_number=-1

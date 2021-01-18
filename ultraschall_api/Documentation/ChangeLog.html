@@ -65,8 +65,15 @@ Ultraschall API Changelog
 </li>
 <li>File-Management: GetAllRecursiveFilesAndSubdirectories - flushes cache on Reaper 6.20+ to be more reliable<br />
 </li>
+<li>HelperFunctions: IsOS_Mac - works now on arm-macs as well</li>
+<li>MarkerManagement: AddEditMarker - works now on arm-macs as well</li>
+<li>MarkerManagement: AddEditRegion - works now on arm-macs as well</li>
+<li>MarkerManagement: AddPodRangeRegion - works now on arm-macs as well</li>
+<li>MarkerManagement: SetEditRegion - works now on arm-macs as well</li>
 <li>MediaItem Management: GetItem_ClickState - works now again</li>
+<li>Miscellaneous: OpenURL - works now on arm-macs as well</li>
 <li>ProjectManagement: GetProjectStateChunk - works now reliable in Reaper 6.20+; fixed some bugs that might improve stability on earlier Reaper-versions</li>
+<li>ProjectManagement: IsValidProjectStateChunk - sped up by magnitudes, which is important for checking huge ProjectStateChunks</li>
 <li>RenderManagement: CreateNewRenderTable - all parameters are optional and when passed nil, will be set with Reaper's factory defaults</li>
 <li>RenderManagement: GetRenderCFG_Settings_AIFF - stabilized some edgecases</li>
 <li>RenderManagement: GetRenderCFG_Settings_AVI_Video - stabilized some edgecases</li>
