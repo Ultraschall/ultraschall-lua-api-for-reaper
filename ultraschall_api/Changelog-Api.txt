@@ -274,7 +274,9 @@ Has now 1359 functions, with 8 new ones
   - User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)
        
 #### Changes from 4.2.002 to 4.2.003  
-  - Docs: Reaper Internals - update to Reaper 6.20
+  - Docs: Reaper Internals - update to Reaper 6.20; added missing retvals and params, removed duplicated ones  
+  - Doc-Engine: Docs\_GetUSDocBloc\_Params - returns now 0, when no retval is found
+  - Doc-Engine: Docs\_GetUSDocBloc\_Retvals - returns now 0, when no retval is found
   - Developer: EditReaScript - allows now setting position and size of the to-open-IDE-window
   - EnvelopeManagement: GetTrackEnvelope\_ClickState - works now again
   - File-Management: CountDirectoriesAndFilesInPath - flushes cache on Reaper 6.20+ to be more reliable

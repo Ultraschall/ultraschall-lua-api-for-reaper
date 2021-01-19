@@ -29,8 +29,8 @@
          I documented bitfields differently than you usually use them. That means, &16384=1 is actually &16384=16384, while &16384=0 is &16384=0. This is only for better readability of the document, not for any technical reasons.  
          Some bitfields are documented as "unknown", though it's uncertain if they're unknown or just unused.  
           
-         Sometimes, variables seem not be existing and valid until they've been set somehow. For instance, [afxcfg](#afxcfg) appears only as valid, when an audio-format for "Apply FX, Glue, Freeze, etc" in the Project Settings -> Media-dialog has  
-         been set. So if you discover a variable as not functioning, keep in mind it might not be set(yet) and therefore not be available. Just set it and it should appear as existing.  
+         Sometimes, variables seem not be existing and valid until they've been set somehow. 
+         So if you discover a variable as not functioning, keep in mind it might not be set(yet) and therefore not be available. Just set it and it should appear as existing.  
           
          Some variables can't be set. Even if you can set them with new values using the SWS-functions, these new values have no effect on the setting behind them and therefore can only be used for getting their current setting.  
          So test this out beforehand, if you need to get/set a specific variable in your script.  
@@ -246,7 +246,9 @@
            >1869047670, OGG Vorbis  
            >2002876005, WAV  
            >2004250731, WavPack lossless compressor  
-            
+         
+          Note: doesn't seem to work anymore as of Reaper 6.xx
+         
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked..  
       </description>  
       <chapter_context>  
@@ -3584,7 +3586,7 @@
           
            >0 to 2147483647 ; default is 50
            
-          For general Reascript-settings, see [reascript](#reascript), [reascripttimeout](#reascripttimeout), [reascriptwatchms](#reascriptwatchms]
+          For general Reascript-settings, see [reascript](#reascript), [reascripttimeout](#reascripttimeout), [reascriptwatchms](#reascriptwatchms)
            
           Stored in reaper.ini under the same name in the section REAPER; is updated as soon as the variable is changed.  
            
@@ -9643,7 +9645,7 @@
            >&4=0, Clear Console before running any ReaScript - unchecked  
            >&4=1, Clear Console before running any ReaScript - checked  
            
-          For general Reascript-settings, see [reascripttimeout](#reascripttimeout), [reascriptwatchms](#reascriptwatchms], [edit\_sug](#edit_sug)
+          For general Reascript-settings, see [reascripttimeout](#reascripttimeout), [reascriptwatchms](#reascriptwatchms), [edit\_sug](#edit_sug)
             
                     
           Stored in reaper.ini under the same name in the section REAPER.  
@@ -9664,7 +9666,7 @@
           It's a double float  
            >negative values are allowed, but what's the point?  
            
-          For general Reascript-settings, see [reascript](#reascript), [reascriptwatchms](#reascriptwatchms], [edit\_sug](#edit_sug)
+          For general Reascript-settings, see [reascript](#reascript), [reascriptwatchms](#reascriptwatchms), [edit\_sug](#edit_sug)
             
           Stored in reaper.ini under the same name in the section REAPER, with higher precision(!).  
       </description>  

@@ -111,8 +111,7 @@ They can also be accessed as integer, but only have the first 8 bytes available(
 <p>Integer-variables are usually 32bits, only those who can be accessed as string-variable can be read as up to 64bits-integers as well.</p>
 <p>I documented bitfields differently than you usually use them. That means, &amp;16384=1 is actually &amp;16384=16384, while &amp;16384=0 is &amp;16384=0. This is only for better readability of the document, not for any technical reasons.<br />
 Some bitfields are documented as “unknown”, though it’s uncertain if they’re unknown or just unused.</p>
-<p>Sometimes, variables seem not be existing and valid until they’ve been set somehow. For instance, <a href="#afxcfg">afxcfg</a> appears only as valid, when an audio-format for “Apply FX, Glue, Freeze, etc” in the Project Settings -&gt; Media-dialog has<br />
-been set. So if you discover a variable as not functioning, keep in mind it might not be set(yet) and therefore not be available. Just set it and it should appear as existing.</p>
+<p>Sometimes, variables seem not be existing and valid until they’ve been set somehow. So if you discover a variable as not functioning, keep in mind it might not be set(yet) and therefore not be available. Just set it and it should appear as existing.</p>
 <p>Some variables can’t be set. Even if you can set them with new values using the SWS-functions, these new values have no effect on the setting behind them and therefore can only be used for getting their current setting.<br />
 So test this out beforehand, if you need to get/set a specific variable in your script.</p>
 <p>Setting some of the variables results in a different behavior, as you might expect them to behave.<br />
@@ -228,6 +227,7 @@ It is an integer</p>
 2002876005, WAV<br />
 2004250731, WavPack lossless compressor</p>
 </blockquote>
+<p>Note: doesn’t seem to work anymore as of Reaper 6.xx</p>
 <p>Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked..</p>
 </td></tr></table></divl><hr><a id="allstereopairs"></a>
 &nbsp;<a href="#allstereopairs"><b>allstereopairs</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Show non-standard stereo channel pairs(i.e Input2/Input3 etc)-checkbox in the Channel naming/mapping-section, as set in Preferences -&gt; Audio<br />
@@ -2906,7 +2906,7 @@ It is an integer</p>
 <blockquote>
 <p>0 to 2147483647 ; default is 50</p>
 </blockquote>
-<p>For general Reascript-settings, see <a href="#reascript">reascript</a>, <a href="#reascripttimeout">reascripttimeout</a>, [reascriptwatchms](#reascriptwatchms]</p>
+<p>For general Reascript-settings, see <a href="#reascript">reascript</a>, <a href="#reascripttimeout">reascripttimeout</a>, <a href="#reascriptwatchms">reascriptwatchms</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER; is updated as soon as the variable is changed.</p>
 </td></tr></table></divl><hr><a id="env_autoadd"></a>
 &nbsp;<a href="#env_autoadd"><b>env_autoadd</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Several settings from the Automation-section, as set in Preferences -&gt; Automation.<br />
@@ -6352,13 +6352,13 @@ It’s an integer-bitfield</p>
 <p>&amp;4=0, Clear Console before running any ReaScript - unchecked<br />
 &amp;4=1, Clear Console before running any ReaScript - checked</p>
 </blockquote>
-<p>For general Reascript-settings, see <a href="#reascripttimeout">reascripttimeout</a>, [reascriptwatchms](#reascriptwatchms], <a href="#edit_sug">edit_sug</a></p>
+<p>For general Reascript-settings, see <a href="#reascripttimeout">reascripttimeout</a>, <a href="#reascriptwatchms">reascriptwatchms</a>, <a href="#edit_sug">edit_sug</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="reascripttimeout"></a>
 &nbsp;<a href="#reascripttimeout"><b>reascripttimeout</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>The Reascript-“Timeout limit for Lua ReaScripts”-input-setting in seconds as set in Preferences -&gt; ReaScript<br />
 It’s a double float<br />
 &gt;negative values are allowed, but what’s the point?</p>
-<p>For general Reascript-settings, see <a href="#reascript">reascript</a>, [reascriptwatchms](#reascriptwatchms], <a href="#edit_sug">edit_sug</a></p>
+<p>For general Reascript-settings, see <a href="#reascript">reascript</a>, <a href="#reascriptwatchms">reascriptwatchms</a>, <a href="#edit_sug">edit_sug</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER, with higher precision(!).</p>
 </td></tr></table></divl><hr><a id="reascriptwatchms"></a>
 &nbsp;<a href="#reascriptwatchms"><b>reascriptwatchms</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>The Reascript-“IDE watch window update interval”-input-setting in milliseconds as set in Preferences -&gt; ReaScript<br />
