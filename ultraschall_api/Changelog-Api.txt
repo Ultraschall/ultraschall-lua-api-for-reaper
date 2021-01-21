@@ -268,8 +268,10 @@ Has now 1359 functions, with 8 new ones
 #### New features in 4.2.003      
   - Configuration-files: GetActionCommandIDByFilename - get the actioncommand-id of a registered script
   - File-Management: BatchConvertFiles - allows converting files using the batch-converter of Reaper
-  - FX-Management: GetFXWAK\_FXStateChunk - returns the WAK-entry-values of an FXStateChunk
-  - FX-Management: GetFXMIDIPRESET\_FXStateChunk - returns the MIDIPRESET-entry-values of an FXStateChunk
+  - FX-Management: GetFXWAK\_FXStateChunk - returns the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)
+  - FX-Management: GetFXMIDIPRESET\_FXStateChunk - returns the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
+  - FX-Management: SetFXWAK\_FXStateChunk - sets the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)
+  - FX-Management: SetFXMIDIPRESET\_FXStateChunk - sets the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
   - Misc: Ultraschall\_Api\_List\_Of\_USDocML-Containing\_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)
   - User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)
        

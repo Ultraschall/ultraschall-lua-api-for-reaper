@@ -48,8 +48,10 @@ Ultraschall API Changelog
 <ul>
 <li>Configuration-files: GetActionCommandIDByFilename - get the actioncommand-id of a registered script</li>
 <li>File-Management: BatchConvertFiles - allows converting files using the batch-converter of Reaper</li>
-<li>FX-Management: GetFXWAK_FXStateChunk - returns the WAK-entry-values of an FXStateChunk</li>
-<li>FX-Management: GetFXMIDIPRESET_FXStateChunk - returns the MIDIPRESET-entry-values of an FXStateChunk</li>
+<li>FX-Management: GetFXWAK_FXStateChunk - returns the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)</li>
+<li>FX-Management: GetFXMIDIPRESET_FXStateChunk - returns the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)</li>
+<li>FX-Management: SetFXWAK_FXStateChunk - sets the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)</li>
+<li>FX-Management: SetFXMIDIPRESET_FXStateChunk - sets the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)</li>
 <li>Misc: Ultraschall_Api_List_Of_USDocML-Containing_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)</li>
 <li>User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)</li>
 </ul>

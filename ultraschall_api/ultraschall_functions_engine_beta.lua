@@ -1708,4 +1708,94 @@ function ultraschall.GetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id)
   return table.unpack(individual_values)
 end
 
+function ultraschall.SetFXWAK_FXStateChunk(FXStateChunk, fx_id, send_all_keyboard_input_to_fx, fx_embed_state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetFXWAK_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.19
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.SetFXWAK_FXStateChunk(string FXStateChunk, integer fxid, integer send_all_keyboard_input_to_fx, integer fx_embed_state)</functioncall>
+  <description>
+    sets the fx-WAK-entry of a specific fx within an FXStateChunk, which allows setting "sending all keyboard input to plugin"-option and "embed fx in tcp/mcp"-option of an fx
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the altered FXStateChunk with the new wak-state
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, into which you want to set the new wak-state
+    integer fxid - the fx, whose wak-state you want to set
+    integer send_all_keyboard_input_to_fx - state of sen all keyboard input to plug-in; 0, turned off; 1, turned on
+    integer fx_embed_state - set embedding of the fx; &amp;1=TCP, &amp;2=MCP
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Set States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, fx, wak, embed fx in tcp mcp, send all keyboardinput to fx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXWAK_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("SetFXWAK_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  if math.type(send_all_keyboard_input_to_fx)~="integer" then ultraschall.AddErrorMessage("SetFXWAK_FXStateChunk", "send_all_keyboard_input_to_fx", "must be an integer", -3) return nil end
+  if math.type(fx_embed_state)~="integer" then ultraschall.AddErrorMessage("SetFXWAK_FXStateChunk", "fx_embed_state", "must be an integer", -4) return nil end
+  
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  fx_lines=string.gsub(fx_lines, "WAK.-\n", "WAK "..send_all_keyboard_input_to_fx.." "..fx_embed_state.."\n")
+  FXStateChunk=FXStateChunk:sub(1, startoffset-1)..fx_lines..FXStateChunk:sub(endoffset, -1)
+  return FXStateChunk
+end
+
+
+function ultraschall.SetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id, midi_preset)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetFXMIDIPRESET_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.SetFXMIDIPRESET_FXStateChunk(string FXStateChunk, integer fxid, integer midi_preset)</functioncall>
+  <description>
+    sets the MIDIPRESET-entryvalues of a specific fx from an FXStateChunk as set by the +-button->Link to MIDI program change-menuentry in the FX-window of the visible plugin.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the altered FXStateChunk with the new comment
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, into which you want to set the new comment
+    integer fxid - the fx, whose comment you want to set
+    integer midi_preset - 0, No Link; 17, Link all channels sequentially; 1-16, MIDI-channel 1-16 
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Set States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, fx, midi preset</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXMIDIPRESET_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("SetFXMIDIPRESET_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  if math.type(midi_preset)~="integer" then ultraschall.AddErrorMessage("SetFXMIDIPRESET_FXStateChunk", "midi_preset", "must be an integer", -3) return nil end
+  
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  if midi_preset==0 then midi_preset="" else midi_preset="MIDIPRESET "..midi_preset.."\n    " end
+  fx_lines=string.gsub(fx_lines, "\n( -MIDIPRESET.-\n)", "\n")
+  local offset=fx_lines:match("()PRESETNAME")
+  fx_lines=fx_lines:sub(1,offset-1)..midi_preset..fx_lines:sub(offset,-1)
+  FXStateChunk=FXStateChunk:sub(1, startoffset-1)..fx_lines..FXStateChunk:sub(endoffset, -1)
+  return FXStateChunk
+end
+
 ultraschall.ShowLastErrorMessage()
