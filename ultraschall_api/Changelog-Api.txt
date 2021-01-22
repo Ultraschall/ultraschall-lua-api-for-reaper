@@ -267,16 +267,25 @@ Has now 1359 functions, with 8 new ones
 
 #### New features in 4.2.003      
   - Configuration-files: GetActionCommandIDByFilename - get the actioncommand-id of a registered script
-  - File-Management: BatchConvertFiles - allows converting files using the batch-converter of Reaper
-  - FX-Management: GetFXWAK\_FXStateChunk - returns the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)
-  - FX-Management: GetFXMIDIPRESET\_FXStateChunk - returns the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
-  - FX-Management: SetFXWAK\_FXStateChunk - sets the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)
-  - FX-Management: SetFXMIDIPRESET\_FXStateChunk - sets the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
+  - File-Management: BatchConvertFiles - allows converting files using the batch-converter of Reaper  
+  - FX-Management: GetDocked\_FXStateChunk - gets the docked state of an fxchain from an FXStateChunk
+  - FX-Management: GetFXBypass\_FXStateChunk - returns the BYPASS-entry-values of an FXStateChunk(bypass and online/offline state)
+  - FX-Management: GetFXFloatPos\_FXStateChunk - returns the float state and position of the fx-window of an fx in an FXStateChunk
+  - FX-Management: GetFXGuid\_FXStateChunk - returns the guid of an fx in an FXStateChunk
+  - FX-Management: GetFXMidiPreset\_FXStateChunk - returns the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
+  - FX-Management: GetFXWak\_FXStateChunk - returns the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)  
+  - FX-Management: GetLastSel\_FXStateChunk - returns the last selected fx of an FXStateChunk
+  - FX-Management: GetShow\_FXStateChunk - gets the state of visibility of the fxchain-window and a specific fx from an FXStateChunk
+  - FX-Management: GetWndRect\_FXStateChunk - gets the position of the fxchain-window when floating from an FXStateChunk
+  - FX-Management: SetFXMidiPreset\_FXStateChunk - sets the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
+  - FX-Management: SetFXWak\_FXStateChunk - sets the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)  
   - Misc: Ultraschall\_Api\_List\_Of\_USDocML-Containing\_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)
   - User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)
        
 #### Changes from 4.2.002 to 4.2.003  
-  - Docs: Reaper Internals - update to Reaper 6.20; added missing retvals and params, removed duplicated ones  
+  - Developer Tools: ultraschall\_functions\_ProjectManagement\_ProjectFiles\_Module.lua - uses now the project active at script-start.
+  - Docs: Reaper Internals - update to Reaper 6.20; added missing retvals and params, removed duplicated ones    
+  - Docs: Render-presetfile-docs - added 2nd pass render-option
   - Doc-Engine: Docs\_GetUSDocBloc\_Params - returns now 0, when no retval is found
   - Doc-Engine: Docs\_GetUSDocBloc\_Retvals - returns now 0, when no retval is found
   - Developer: EditReaScript - allows now setting position and size of the to-open-IDE-window

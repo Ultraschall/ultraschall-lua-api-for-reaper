@@ -1615,16 +1615,16 @@ function ultraschall.GetActionCommandIDByFilename(searchfilename, searchsection,
   return ""
 end
 
-function ultraschall.GetFXWAK_FXStateChunk(FXStateChunk, fx_id)
+function ultraschall.GetFXWak_FXStateChunk(FXStateChunk, fx_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetFXWAK_FXStateChunk</slug>
+  <slug>GetFXWak_FXStateChunk</slug>
   <requires>
     Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer keyboard_input_2_plugin, integer unknown = ultraschall.GetFXWAK_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <functioncall>integer keyboard_input_2_plugin, integer unknown = ultraschall.GetFXWak_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
   <description>
     returns the WAK-entryvalues of a specific fx from an FXStateChunk, as set by the +-button->Send all keyboard input to plugin-menuentry in the FX-window of the visible plugin.
     
@@ -1636,7 +1636,7 @@ function ultraschall.GetFXWAK_FXStateChunk(FXStateChunk, fx_id)
   </retvals>
   <parameters>
     string FXStateChunk - the FXStateChunk, from whose fx you want to return the WAK-entry
-    integer fxid - the fx, whose WAK-entrievalues you want to return
+    integer fxid - the fx, whose WAK-entryvalues you want to return
   </parameters>
   <chapter_context>
     FX-Management
@@ -1647,11 +1647,11 @@ function ultraschall.GetFXWAK_FXStateChunk(FXStateChunk, fx_id)
   <tags>fx management, get, fx, wak, keyboard input, plugin</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXWAK_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
-  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXWAK_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXWak_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXWak_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
   ultraschall.SuppressErrorMessages(true)
   local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
-  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXWAK_FXStateChunk", "fx_id", "no such fx", -4) return nil end
+  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXWak_FXStateChunk", "fx_id", "no such fx", -4) return nil end
   local WAK=fx_lines:match("\n.-WAK (.-)\n")
   
   local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(WAK.." ", " ")
@@ -1662,16 +1662,16 @@ function ultraschall.GetFXWAK_FXStateChunk(FXStateChunk, fx_id)
   return table.unpack(individual_values)
 end
 
-function ultraschall.GetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id)
+function ultraschall.GetFXMidiPreset_FXStateChunk(FXStateChunk, fx_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetFXMIDIPRESET_FXStateChunk</slug>
+  <slug>GetFXMidiPreset_FXStateChunk</slug>
   <requires>
     Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer midi_preset = ultraschall.GetFXMIDIPRESET_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <functioncall>integer midi_preset = ultraschall.GetFXMidiPreset_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
   <description>
     returns the MIDIPRESET-entryvalues of a specific fx from an FXStateChunk as set by the +-button->Link to MIDI program change-menuentry in the FX-window of the visible plugin.
     
@@ -1682,7 +1682,7 @@ function ultraschall.GetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id)
   </retvals>
   <parameters>
     string FXStateChunk - the FXStateChunk, from whose fx you want to return the MIDIPRESET-entry
-    integer fxid - the fx, whose MIDIPRESET-entrievalues you want to return
+    integer fxid - the fx, whose MIDIPRESET-entryvalues you want to return
   </parameters>
   <chapter_context>
     FX-Management
@@ -1693,11 +1693,11 @@ function ultraschall.GetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id)
   <tags>fx management, get, fx, midipreset, keyboard input, plugin</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXMIDIPRESET_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
-  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXMIDIPRESET_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXMidiPreset_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXMidiPreset_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
   ultraschall.SuppressErrorMessages(true)
   local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
-  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXMIDIPRESET_FXStateChunk", "fx_id", "no such fx", -4) return nil end
+  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXMidiPreset_FXStateChunk", "fx_id", "no such fx", -4) return nil end
   local MIDIPreset=fx_lines:match("\n.-MIDIPRESET (.-)\n")
   if MIDIPreset==nil then ultraschall.SuppressErrorMessages(false) return 0 end
   local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(MIDIPreset.." ", " ")
@@ -1708,16 +1708,16 @@ function ultraschall.GetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id)
   return table.unpack(individual_values)
 end
 
-function ultraschall.SetFXWAK_FXStateChunk(FXStateChunk, fx_id, send_all_keyboard_input_to_fx, fx_embed_state)
+function ultraschall.SetFXWak_FXStateChunk(FXStateChunk, fx_id, send_all_keyboard_input_to_fx, fx_embed_state)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetFXWAK_FXStateChunk</slug>
+  <slug>SetFXWak_FXStateChunk</slug>
   <requires>
     Ultraschall=4.2
     Reaper=6.19
     Lua=5.3
   </requires>
-  <functioncall>string FXStateChunk = ultraschall.SetFXWAK_FXStateChunk(string FXStateChunk, integer fxid, integer send_all_keyboard_input_to_fx, integer fx_embed_state)</functioncall>
+  <functioncall>string FXStateChunk = ultraschall.SetFXWak_FXStateChunk(string FXStateChunk, integer fxid, integer send_all_keyboard_input_to_fx, integer fx_embed_state)</functioncall>
   <description>
     sets the fx-WAK-entry of a specific fx within an FXStateChunk, which allows setting "sending all keyboard input to plugin"-option and "embed fx in tcp/mcp"-option of an fx
     
@@ -1741,10 +1741,10 @@ function ultraschall.SetFXWAK_FXStateChunk(FXStateChunk, fx_id, send_all_keyboar
   <tags>fx management, set, fx, wak, embed fx in tcp mcp, send all keyboardinput to fx</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXWAK_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
-  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("SetFXWAK_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
-  if math.type(send_all_keyboard_input_to_fx)~="integer" then ultraschall.AddErrorMessage("SetFXWAK_FXStateChunk", "send_all_keyboard_input_to_fx", "must be an integer", -3) return nil end
-  if math.type(fx_embed_state)~="integer" then ultraschall.AddErrorMessage("SetFXWAK_FXStateChunk", "fx_embed_state", "must be an integer", -4) return nil end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXWak_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("SetFXWak_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  if math.type(send_all_keyboard_input_to_fx)~="integer" then ultraschall.AddErrorMessage("SetFXWak_FXStateChunk", "send_all_keyboard_input_to_fx", "must be an integer", -3) return nil end
+  if math.type(fx_embed_state)~="integer" then ultraschall.AddErrorMessage("SetFXWak_FXStateChunk", "fx_embed_state", "must be an integer", -4) return nil end
   
   local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
   fx_lines=string.gsub(fx_lines, "WAK.-\n", "WAK "..send_all_keyboard_input_to_fx.." "..fx_embed_state.."\n")
@@ -1753,16 +1753,16 @@ function ultraschall.SetFXWAK_FXStateChunk(FXStateChunk, fx_id, send_all_keyboar
 end
 
 
-function ultraschall.SetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id, midi_preset)
+function ultraschall.SetFXMidiPreset_FXStateChunk(FXStateChunk, fx_id, midi_preset)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetFXMIDIPRESET_FXStateChunk</slug>
+  <slug>SetFXMidiPreset_FXStateChunk</slug>
   <requires>
     Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string FXStateChunk = ultraschall.SetFXMIDIPRESET_FXStateChunk(string FXStateChunk, integer fxid, integer midi_preset)</functioncall>
+  <functioncall>string FXStateChunk = ultraschall.SetFXMidiPreset_FXStateChunk(string FXStateChunk, integer fxid, integer midi_preset)</functioncall>
   <description>
     sets the MIDIPRESET-entryvalues of a specific fx from an FXStateChunk as set by the +-button->Link to MIDI program change-menuentry in the FX-window of the visible plugin.
     
@@ -1785,9 +1785,9 @@ function ultraschall.SetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id, midi_pres
   <tags>fx management, set, fx, midi preset</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXMIDIPRESET_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
-  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("SetFXMIDIPRESET_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
-  if math.type(midi_preset)~="integer" then ultraschall.AddErrorMessage("SetFXMIDIPRESET_FXStateChunk", "midi_preset", "must be an integer", -3) return nil end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXMidiPreset_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("SetFXMidiPreset_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  if math.type(midi_preset)~="integer" then ultraschall.AddErrorMessage("SetFXMidiPreset_FXStateChunk", "midi_preset", "must be an integer", -3) return nil end
   
   local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
   if midi_preset==0 then midi_preset="" else midi_preset="MIDIPRESET "..midi_preset.."\n    " end
@@ -1796,6 +1796,320 @@ function ultraschall.SetFXMIDIPRESET_FXStateChunk(FXStateChunk, fx_id, midi_pres
   fx_lines=fx_lines:sub(1,offset-1)..midi_preset..fx_lines:sub(offset,-1)
   FXStateChunk=FXStateChunk:sub(1, startoffset-1)..fx_lines..FXStateChunk:sub(endoffset, -1)
   return FXStateChunk
+end
+
+function ultraschall.GetFXBypass_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXBypass_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer bypass, integer offline, integer unknown = ultraschall.GetFXBypass_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description>
+    returns the BYPASS-entryvalues of a specific fx from an FXStateChunk, like bypass and online-state..
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer bypass - 0, non-bypassed; 1, bypassed
+    integer offline - 0, online; 1, offline
+    integer unknown - unknown; default is 0
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from whose fx you want to return the BYPASS-entry
+    integer fxid - the fx, whose BYPASS-entryvalues you want to return
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, fx, bypass, online, offline</tags>
+</US_DocBloc>
+]]
+
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXBypass_FXStateChunk.GetFXWAK_FXStateChunk()", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXBypass_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  ultraschall.SuppressErrorMessages(true)
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXBypass_FXStateChunk", "fx_id", "no such fx", -4) return nil end
+  local BYPASS=fx_lines:match("\n.-BYPASS (.-)\n")
+  
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(BYPASS.." ", " ")
+  for i=1, count do
+    individual_values[i]=tonumber(individual_values[i])
+  end
+  ultraschall.SuppressErrorMessages(false)
+  return table.unpack(individual_values)
+end
+
+function ultraschall.GetFXFloatPos_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXFloatPos_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean floating, integer x, integer y, integer width, integer height = ultraschall.GetFXFloatPos_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description>
+    returns the FLOATPOS/FLOAT-entryvalues of a specific fx from an FXStateChunk, like float-state and float-coordinates.
+    
+    If all coordinates of the floating fx-window are 0, then the fx-window was never in float-state, yet.
+    
+    There is only one of the FLOATPOS/FLOAT-entries present at any time.
+    FLOATPOS, when the fx-window is not floating
+    FLOAT, when the fx-window is floating.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean floating - true, fx-window is floating; false, fx-window isn't floating
+    integer x - the x-position of the floating window; 0, if it hasn't been floating yet
+    integer y - the y-position of the floating window; 0, if it hasn't been floating yet
+    integer width - the width of the floating window; 0, if it hasn't been floating yet
+    integer height - the height of the floating window; 0, if it hasn't been floating yet
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from whose fx you want to return the FLOAT/FLOATPOS-entry
+    integer fxid - the fx, whose FLOAT/FLOATPOS-entryvalues you want to return
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, fx, float, floatpos, floatstate</tags>
+</US_DocBloc>
+]]
+
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXFloatPos_FXStateChunk.GetFXWAK_FXStateChunk()", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXFloatPos_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  ultraschall.SuppressErrorMessages(true)
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXFloatPos_FXStateChunk", "fx_id", "no such fx", -4) return nil end
+  local float, FLOATPOS=fx_lines:match("\n.-FLOAT(%a-) (.-)\n")
+  
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(FLOATPOS.." ", " ")
+  for i=1, count do
+    individual_values[i]=tonumber(individual_values[i])
+  end
+  ultraschall.SuppressErrorMessages(false)
+  return float~="POS", table.unpack(individual_values)
+end
+
+function ultraschall.GetFXGuid_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXGuid_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string guid = ultraschall.GetFXGuid_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description>
+    returns the FXID-entryvalues of a specific fx from an FXStateChunk, which is the guid of the fx.
+
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the fx
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from whose fx you want to return the guid-entry
+    integer fxid - the fx, whose guid you want to return
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, fx, guid</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXGuid_FXStateChunk.GetFXWAK_FXStateChunk()", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("GetFXGuid_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  ultraschall.SuppressErrorMessages(true)
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  if fx_lines==nil then ultraschall.SuppressErrorMessages(false) ultraschall.AddErrorMessage("GetFXGuid_FXStateChunk", "fx_id", "no such fx", -4) return nil end
+  local GUID=fx_lines:match("\n.-FXID (.-)\n")
+
+  ultraschall.SuppressErrorMessages(false)
+  return GUID
+end
+
+function ultraschall.GetWndRect_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetWndRect_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer x, integer y, integer width, integer height = ultraschall.GetWndRect_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description>
+    returns the WNDRECT-entryvalues from an FXStateChunk.
+    
+    These are the window-positions of the fx-chain, when the window is floating.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer x - the x-position of the floating window; 0, if it hasn't been floating yet
+    integer y - the y-position of the floating window; 0, if it hasn't been floating yet
+    integer width - the width of the floating window; 0, if it hasn't been floating yet
+    integer height - the height of the floating window; 0, if it hasn't been floating yet
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, whose floating-window-position you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, wndrect, fxstatechunk, floating window position</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetWndRect_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  local WNDRect=FXStateChunk:match("\n.-WNDRECT (.-)\n")
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(WNDRect.." ", " ")
+  for i=1, count do
+    individual_values[i]=tonumber(individual_values[i])
+  end
+  
+  return table.unpack(individual_values)
+end
+
+function ultraschall.GetShow_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetShow_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer showstate = ultraschall.GetShow_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description>
+    returns the SHOW-entryvalues from an FXStateChunk.
+    
+    This shows, whether the fxchain is currently shown and which fx is visible in Reaper's UI.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer shownstate - 0, the fx-chain is not shown; 1, first fx is shown; 2, second fx is shown, etc
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, whose show-state you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, showstate</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetShow_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  local Show=FXStateChunk:match("\n.-SHOW (.-)\n")
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(Show.." ", " ")
+  for i=1, count do
+    individual_values[i]=tonumber(individual_values[i])
+  end
+  
+  return table.unpack(individual_values)
+end
+
+function ultraschall.GetLastSel_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLastSel_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer last_selected_fx = ultraschall.GetLastSel_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description>
+    returns the LASTSEL-entryvalues from an FXStateChunk.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer last_selected_fx - the last selected fx; 1, the first fx; 2, the second fx; 3, the third fx
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, whose last-selected-fx you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, last selected fx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetLastSel_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  local LASTSEL=FXStateChunk:match("\n.-LASTSEL (.-)\n")
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(LASTSEL.." ", " ")
+  for i=1, count do
+    individual_values[i]=tonumber(individual_values[i])
+  end
+  individual_values[1]=individual_values[1]+1
+  return table.unpack(individual_values)
+end
+
+function ultraschall.GetDocked_FXStateChunk(FXStateChunk, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetDocked_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer dockstate = ultraschall.GetDocked_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description>
+    returns the DOCKED-entryvalues from an FXStateChunk.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer dockstate - 0, undocked; 1, docked
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, whose dockstate you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Get States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, get, dockstate</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetDocked_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  local GetDocked_FXStateChunk=FXStateChunk:match("\n.-DOCKED (.-)\n")
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(GetDocked_FXStateChunk.." ", " ")
+  for i=1, count do
+    individual_values[i]=tonumber(individual_values[i])
+  end
+  return table.unpack(individual_values)
 end
 
 ultraschall.ShowLastErrorMessage()
