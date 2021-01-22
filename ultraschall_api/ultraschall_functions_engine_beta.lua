@@ -2112,4 +2112,84 @@ function ultraschall.GetDocked_FXStateChunk(FXStateChunk, fx_id)
   return table.unpack(individual_values)
 end
 
+function ultraschall.GetAllCustomMarkerNames()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllCustomMarkerNames</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, table custom_marker_names = ultraschall.GetAllCustomMarkerNames()</functioncall>
+  <description>
+    Will return all names of all available custom-markers.
+  </description>  
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    integer count - the number of found markers; -1, in case of an error
+    table custom_marker_names - a table with all found custom-markernames. 
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, all, custom marker names</tags>
+</US_DocBloc>
+]]
+  local MarkerNames={}
+  local CountMarkerNames=0
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local A,B,C,D,E,F=reaper.EnumProjectMarkers(i)
+    if B==false then
+      local name=E:match("%_(.-):")
+      if name~=nil then CountMarkerNames=CountMarkerNames+1 MarkerNames[CountMarkerNames]=name end
+    end
+  end
+  return CountMarkerNames, MarkerNames
+end
+
+--A1,B1=ultraschall.GetAllCustomMarkerNames()
+
+function ultraschall.GetAllCustomRegionNames()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllCustomRegionNames</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, table custom_region_names = ultraschall.GetAllCustomRegionNames()</functioncall>
+  <description>
+    Will return all names of all available custom-regions.
+  </description>  
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    integer count - the number of found markers; -1, in case of an error
+    table custom_region_names - a table with all found custom-regionnames. 
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, all, custom region names</tags>
+</US_DocBloc>
+]]
+  local MarkerNames={}
+  local CountMarkerNames=0
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local A,B,C,D,E=reaper.EnumProjectMarkers(i)
+    if B==true then
+      local name=E:match("%_(.-):")
+      if name~=nil then CountMarkerNames=CountMarkerNames+1 MarkerNames[CountMarkerNames]=name end
+    end
+  end
+  return CountMarkerNames, MarkerNames
+end
+
+--A,B=ultraschall.GetAllCustomMarkerNames()
+
 ultraschall.ShowLastErrorMessage()

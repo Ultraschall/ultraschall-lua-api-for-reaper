@@ -280,6 +280,8 @@ Has now 1359 functions, with 8 new ones
   - FX-Management: GetWndRect\_FXStateChunk - gets the position of the fxchain-window when floating from an FXStateChunk
   - FX-Management: SetFXMidiPreset\_FXStateChunk - sets the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
   - FX-Management: SetFXWak\_FXStateChunk - sets the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)  
+  - MarkerManagement: GetAllCustomMarkerNames - returns all custom-region-names available in the current project(requested by fernsehmuell)
+  - MarkerManagement: GetAllCustomRegionNames - returns all custom-region-names available in the current project(requested by fernsehmuell)
   - Misc: Ultraschall\_Api\_List\_Of\_USDocML-Containing\_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)
   - User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)
        
@@ -300,6 +302,18 @@ Has now 1359 functions, with 8 new ones
   - MarkerManagement: AddEditMarker - works now on arm-macs as well(thanks to rstockm)
   - MarkerManagement: AddEditRegion - works now on arm-macs as well(thanks to rstockm)
   - MarkerManagement: AddPodRangeRegion - works now on arm-macs as well(thanks to rstockm)
+  - MarkerManagement: CountAllCustomMarkers - "" counts now all custom-markers, regardless of their name
+  - MarkerManagement: CountAllCustomRegions - "" counts now all custom-regions, regardless of their name
+  - MarkerManagement: DeleteCustomMarkers - "" deletes now over all custom-markers, regardless of their name
+  - MarkerManagement: DeleteCustomRegions - "" deletes now over all custom-regions, regardless of their name
+  - MarkerManagement: EnumerateCustomMarkers - "" enumerates now over all custom-markers, regardless of their name
+  - MarkerManagement: EnumerateCustomRegions - "" enumerates now over all custom-regions, regardless of their name
+  - MarkerManagement: GetAllCustomMarkers - "" returns now all custom-markers, regardless of their name(requested by fernsehmuell)  
+  - MarkerManagement: GetAllCustomRegions - "" returns now all custom-regions, regardless of their name
+  - MarkerManagement: IsMarkerValidCustomMarker - "" checks now over all custom-markers, regardless of their name
+  - MarkerManagement: IsRegionValidCustomRegion - "" checks now over all custom-regions, regardless of their name
+  - MarkerManagement: SetCustomMarker - "" sets now over all custom-markers, regardless of their name
+  - MarkerManagement: SetCustomRegion - "" sets now over all custom-regions, regardless of their name
   - MarkerManagement: SetEditRegion - works now on arm-macs as well(thanks to rstockm)
   - MediaItem Management: GetItem\_ClickState - works now again
   - Miscellaneous: OpenURL - works now on arm-macs as well

@@ -3711,7 +3711,7 @@ function ultraschall.GetAllCustomMarkers(custom_marker_name)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllCustomMarkers</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -3740,6 +3740,7 @@ function ultraschall.GetAllCustomMarkers(custom_marker_name)
   <parameters>
     string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+                              - "" will return all custom marker
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     integer count - the number of found markers; -1, in case of an error
@@ -3765,6 +3766,7 @@ function ultraschall.GetAllCustomMarkers(custom_marker_name)
   if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("GetAllCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return -1 end
   local count=0
   local MarkerArray={}
+  if custom_marker_name=="" then custom_marker_name=".*" end
 
   for i=0, reaper.CountProjectMarkers(0)-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
@@ -3790,7 +3792,7 @@ function ultraschall.GetAllCustomRegions(custom_region_name)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllCustomRegions</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -3819,6 +3821,7 @@ function ultraschall.GetAllCustomRegions(custom_region_name)
   <parameters>
     string custom_region_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+                              - "" will return all custom-regions
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     integer count - the number of found regions; -1, in case of an error
@@ -3842,6 +3845,7 @@ function ultraschall.GetAllCustomRegions(custom_region_name)
 </US_DocBloc>
 ]]
   if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("GetAllCustomRegions", "custom_region_name", "must be a string", -1) return -1 end
+  if custom_region_name=="" then custom_region_name=".*" end
   if ultraschall.IsValidMatchingPattern(custom_region_name)==false then ultraschall.AddErrorMessage("GetAllCustomRegions", "custom_region_name", "not a valid matching-pattern", -2) return -1 end
   local count=0
   local MarkerArray={}
@@ -3870,7 +3874,7 @@ function ultraschall.CountAllCustomMarkers(custom_marker_name)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountAllCustomMarkers</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -3899,6 +3903,7 @@ function ultraschall.CountAllCustomMarkers(custom_marker_name)
   <parameters>
     string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+                              - "" counts all custom markers, regardless of their name
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     integer count - the number of found markers; -1, in case of an error
@@ -3912,10 +3917,10 @@ function ultraschall.CountAllCustomMarkers(custom_marker_name)
   <tags>marker management, count, all, custom markers</tags>
 </US_DocBloc>
 ]]
-  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("GetAllCustomMarkers", "custom_marker_name", "must be a string", -1) return -1 end
-  if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("GetAllCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return -1 end
+  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("CountAllCustomMarkers", "custom_marker_name", "must be a string", -1) return -1 end
+  if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("CountAllCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return -1 end
   local count=0
-
+  if custom_marker_name=="" then custom_marker_name=".*" end
   for i=0, reaper.CountProjectMarkers(0)-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
     if isrgn==false and name:match("^_"..custom_marker_name..":")~=nil then 
@@ -3933,7 +3938,7 @@ function ultraschall.CountAllCustomRegions(custom_region_name)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountAllCustomRegions</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -3962,6 +3967,7 @@ function ultraschall.CountAllCustomRegions(custom_region_name)
   <parameters>
     string custom_region_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+                              - "" will count all custom-regions, regardless of their names
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     integer count - the number of found regions; -1, in case of an error
@@ -3978,7 +3984,7 @@ function ultraschall.CountAllCustomRegions(custom_region_name)
   if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("CountAllCustomRegions", "custom_region_name", "must be a string", -1) return -1 end
   if ultraschall.IsValidMatchingPattern(custom_region_name)==false then ultraschall.AddErrorMessage("CountAllCustomRegions", "custom_region_name", "not a valid matching-pattern", -2) return -1 end
   local count=0
-
+  if custom_region_name=="" then custom_region_name=".*" end
   for i=0, reaper.CountProjectMarkers(0)-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
     if isrgn==true and name:match("^_"..custom_region_name..":")~=nil then 
@@ -3996,7 +4002,7 @@ function ultraschall.EnumerateCustomMarkers(custom_marker_name, idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateCustomMarkers</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -4025,6 +4031,7 @@ function ultraschall.EnumerateCustomMarkers(custom_marker_name, idx)
   <parameters>
     string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+                              - "" will enumerate over all existing custom-markers
     integer idx - the index of the marker within all same-named custom-markers; 0, for the first custom-marker
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -4049,6 +4056,7 @@ function ultraschall.EnumerateCustomMarkers(custom_marker_name, idx)
   if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("EnumerateCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateCustomMarkers", "idx", "must be an integer", -3) return false end
   local count=0
+  if custom_marker_name=="" then custom_marker_name=".*" end
 
   for i=0, reaper.CountProjectMarkers(0)-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
@@ -4069,7 +4077,7 @@ function ultraschall.EnumerateCustomRegions(custom_region_name, idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateCustomRegions</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -4123,6 +4131,7 @@ function ultraschall.EnumerateCustomRegions(custom_region_name, idx)
   if ultraschall.IsValidMatchingPattern(custom_region_name)==false then ultraschall.AddErrorMessage("EnumerateCustomRegions", "custom_region_name", "not a valid matching-pattern", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateCustomRegions", "idx", "must be an integer", -3) return false end
   local count=0
+  if custom_region_name=="" then custom_region_name=".*" end
 
   for i=0, reaper.CountProjectMarkers(0)-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
@@ -4142,7 +4151,7 @@ function ultraschall.DeleteCustomMarkers(custom_marker_name, idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteCustomMarkers</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -4171,7 +4180,8 @@ function ultraschall.DeleteCustomMarkers(custom_marker_name, idx)
   <parameters>
     string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
-    integer idx - the index of the marker within all same-named custom-markers; 0, for the first custom-marker
+                              - "" will delete over all custom-markers available, regardless of their name
+    integer idx - the index of the marker within all same-named custom-markers; 0, for the first custom-marker    
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     boolean retval - true, if the custom-marker exists; false, if not or an error occurred
@@ -4194,6 +4204,7 @@ function ultraschall.DeleteCustomMarkers(custom_marker_name, idx)
   if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("DeleteCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteCustomMarkers", "idx", "must be an integer", -3) return false end
   local count=0
+  if custom_marker_name=="" then custom_marker_name=".*" end
 
   for i=0, reaper.CountProjectMarkers(0)-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
@@ -4216,7 +4227,7 @@ function ultraschall.DeleteCustomRegions(custom_region_name, idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteCustomRegions</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -4245,6 +4256,7 @@ function ultraschall.DeleteCustomRegions(custom_region_name, idx)
   <parameters>
     string custom_region_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+                              - "" will delete over all custom-regions available, regardless of their name
     integer idx - the index of the region within all same-named custom-regions; 0, for the first custom-region
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -4269,6 +4281,7 @@ function ultraschall.DeleteCustomRegions(custom_region_name, idx)
   if ultraschall.IsValidMatchingPattern(custom_region_name)==false then ultraschall.AddErrorMessage("DeleteCustomRegions", "custom_region_name", "not a valid matching-pattern", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteCustomRegions", "idx", "must be an integer", -3) return false end
   local count=0
+  if custom_region_name=="" then custom_region_name=".*" end
 
   for i=0, reaper.CountProjectMarkers(0)-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
@@ -4446,7 +4459,7 @@ function ultraschall.SetCustomMarker(custom_marker_name, idx, pos, name, shown_n
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetCustomMarker</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -4474,6 +4487,7 @@ function ultraschall.SetCustomMarker(custom_marker_name, idx, pos, name, shown_n
   </description>
   <parameters>
     string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"; nil, make it a normal marker
+                              - "" will use idx over all custom-markers, regardless of their name
     integer idx - the index-number of the custom-marker within all custom-markers
     number pos - the position of the marker in seconds
     string name - the name of the marker, exluding the custom-marker-name
@@ -4516,7 +4530,7 @@ function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, na
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetCustomRegion</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -4544,6 +4558,7 @@ function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, na
   </description>
   <parameters>
     string custom_marker_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
+                              - "" will use idx over all custom-markers, regardless of their name
     integer idx - the index of the custom region to change
     number pos - the position of the region in seconds
     string name - the name of the region, exluding the custom-region-name
@@ -4552,6 +4567,7 @@ function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, na
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     boolean retval - true, if adding the region was successful; false, if not or an error occurred
+                   - false could be an indicator, that there's already a region using the number passed over in shown_number
     integer shown_number - if the desired shown_number is already used by another region, this will hold the alternative number for the new custom-region
   </retvals>
   <chapter_context>
@@ -4571,7 +4587,7 @@ function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, na
   if math.type(color)~="integer" then ultraschall.AddErrorMessage("SetCustomRegion", "color", "must be an integer; 0, for default color", -5) return false end  
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetCustomRegion", "idx", "must be an integer", -6) return false end
   
-  local retval, markerindex = ultraschall.EnumerateCustomRegions(custom_region_name, idx)
+  retval, markerindex = ultraschall.EnumerateCustomRegions(custom_region_name, idx)
   
   if retval==false then ultraschall.AddErrorMessage("SetCustomRegion", "idx", "no such custom-region", -7) return false end
   
@@ -4632,7 +4648,7 @@ function ultraschall.IsMarkerValidCustomMarker(custom_marker_name, markeridx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsMarkerValidCustomMarker</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -4646,6 +4662,7 @@ function ultraschall.IsMarkerValidCustomMarker(custom_marker_name, markeridx)
   </description>
   <paramters>
     string custom_marker_name - the custom-marker-name to check against; can also be a Lua-pattern-matching-expression
+                              - "" checks, whether a marker is custom-marker in general, regardless of their name
     integer markeridx - the index of the marker to check; this is the index of all markers and regions!
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -4678,7 +4695,7 @@ function ultraschall.IsRegionValidCustomRegion(custom_region_name, markeridx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsRegionValidCustomRegion</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -4692,6 +4709,7 @@ function ultraschall.IsRegionValidCustomRegion(custom_region_name, markeridx)
   </description>
   <paramters>
     string custom_region_name - the custom-reion-name to check against; can also be a Lua-pattern-matching-expression
+                              - "" checks, whether a region is custom-region in general, regardless of their name
     integer markeridx - the index of the marker to check; this is the index of all markers and regions!
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43509.00" author="Meo Mespotine">
+      <version name="43510.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003/ultraschall_api/Changelog-Api.txt</source>
@@ -606,6 +606,12 @@ New features in 4.2.003
     change)
 -   FX-Management: SetFXWak_FXStateChunk - sets the WAK-entry-values of
     an FXStateChunk(embed and send keyboardinput to fx)
+-   MarkerManagement: GetAllCustomMarkerNames - returns all
+    custom-region-names available in the current project(requested by
+    fernsehmuell)
+-   MarkerManagement: GetAllCustomRegionNames - returns all
+    custom-region-names available in the current project(requested by
+    fernsehmuell)
 -   Misc: Ultraschall_Api_List_Of_USDocML-Containing_Files.txt - a list
     of all Lua-files, that contain Ultraschall-API-related
     USDocBlocs(requested by gxray)
@@ -645,6 +651,30 @@ Changes from 4.2.002 to 4.2.003
     well(thanks to rstockm)
 -   MarkerManagement: AddPodRangeRegion - works now on arm-macs as
     well(thanks to rstockm)
+-   MarkerManagement: CountAllCustomMarkers - "" counts now all
+    custom-markers, regardless of their name
+-   MarkerManagement: CountAllCustomRegions - "" counts now all
+    custom-regions, regardless of their name
+-   MarkerManagement: DeleteCustomMarkers - "" deletes now over all
+    custom-markers, regardless of their name
+-   MarkerManagement: DeleteCustomRegions - "" deletes now over all
+    custom-regions, regardless of their name
+-   MarkerManagement: EnumerateCustomMarkers - "" enumerates now over
+    all custom-markers, regardless of their name
+-   MarkerManagement: EnumerateCustomRegions - "" enumerates now over
+    all custom-regions, regardless of their name
+-   MarkerManagement: GetAllCustomMarkers - "" returns now all
+    custom-markers, regardless of their name(requested by fernsehmuell)
+-   MarkerManagement: GetAllCustomRegions - "" returns now all
+    custom-regions, regardless of their name
+-   MarkerManagement: IsMarkerValidCustomMarker - "" checks now over all
+    custom-markers, regardless of their name
+-   MarkerManagement: IsRegionValidCustomRegion - "" checks now over all
+    custom-regions, regardless of their name
+-   MarkerManagement: SetCustomMarker - "" sets now over all
+    custom-markers, regardless of their name
+-   MarkerManagement: SetCustomRegion - "" sets now over all
+    custom-regions, regardless of their name
 -   MarkerManagement: SetEditRegion - works now on arm-macs as
     well(thanks to rstockm)
 -   MediaItem Management: GetItem_ClickState - works now again
@@ -7602,7 +7632,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1383 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43509 from 22.01.2021 18:13:45).}
+a 1385 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43510 from 23.01.2021 00:29:52).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7616,7 +7646,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1383 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1385 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -7740,7 +7770,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1383 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43509 from 22.01.2021 18:13:45).}
+a 1385 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43510 from 23.01.2021 00:29:52).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7754,7 +7784,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1383 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1385 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
