@@ -70,15 +70,21 @@ Ultraschall API Changelog
 </li>
 <li>File-Management: GetAllRecursiveFilesAndSubdirectories - flushes cache on Reaper 6.20+ to be more reliable<br />
 </li>
-<li>HelperFunctions: IsOS_Mac - works now on arm-macs as well</li>
-<li>MarkerManagement: AddEditMarker - works now on arm-macs as well</li>
-<li>MarkerManagement: AddEditRegion - works now on arm-macs as well</li>
-<li>MarkerManagement: AddPodRangeRegion - works now on arm-macs as well</li>
-<li>MarkerManagement: SetEditRegion - works now on arm-macs as well</li>
+<li>HelperFunctions: IsOS_Mac - works now on arm-macs as well(thanks to rstockm)</li>
+<li>MarkerManagement: AddEditMarker - works now on arm-macs as well(thanks to rstockm)</li>
+<li>MarkerManagement: AddEditRegion - works now on arm-macs as well(thanks to rstockm)</li>
+<li>MarkerManagement: AddPodRangeRegion - works now on arm-macs as well(thanks to rstockm)</li>
+<li>MarkerManagement: SetEditRegion - works now on arm-macs as well(thanks to rstockm)</li>
 <li>MediaItem Management: GetItem_ClickState - works now again</li>
 <li>Miscellaneous: OpenURL - works now on arm-macs as well</li>
 <li>ProjectManagement: GetProjectStateChunk - works now reliable in Reaper 6.20+; fixed some bugs that might improve stability on earlier Reaper-versions</li>
+<li>ProjectManagement: GetProject_RenderStems - supports now 2nd pass rendering(Reaper 6.20+)<br />
+</li>
 <li>ProjectManagement: IsValidProjectStateChunk - sped up by magnitudes, which is important for checking huge ProjectStateChunks</li>
+<li>ProjectManagement: SetProject_RenderStems - supports now 2nd pass rendering(Reaper 6.20+)</li>
+<li>RenderManagement: AddRenderPreset - supports now 2nd pass rendering(Reaper 6.20+)</li>
+<li>RenderManagement: ApplyRenderTable_Project - supports now 2nd pass rendering(Reaper 6.20+)</li>
+<li>RenderManagement: ApplyRenderTable_ProjectFile - supports now 2nd pass rendering(Reaper 6.20+)</li>
 <li>RenderManagement: CreateNewRenderTable - all parameters are optional and when passed nil, will be set with Reaper's factory defaults</li>
 <li>RenderManagement: GetRenderCFG_Settings_AIFF - stabilized some edgecases</li>
 <li>RenderManagement: GetRenderCFG_Settings_AVI_Video - stabilized some edgecases</li>
@@ -100,7 +106,12 @@ Ultraschall API Changelog
 <li>RenderManagement: GetRenderCFG_Settings_WAV - stabilized some edgecases</li>
 <li>RenderManagement: GetRenderCFG_Settings_WAVPACK - stabilized some edgecases</li>
 <li>RenderManagement: GetRenderCFG_Settings_WebMVideo - stabilized some edgecases</li>
-<li>RenderManagement: GetRenderTable_ProjectFile - didn't return render-cfg and render-cfg2 as empty string when not set in project -&gt; fixed</li>
+<li>RenderManagement: GetRenderTable_Project - supports now 2nd pass rendering(Reaper 6.20+)</li>
+<li>RenderManagement: GetRenderTable_ProjectFile - supports now 2nd pass rendering(Reaper 6.20+); didn't return render-cfg and render-cfg2 as empty string when not set in project -&gt; fixed</li>
+<li>RenderManagement: GetRenderPreset_RenderTable - supports now 2nd pass rendering(Reaper 6.20+)</li>
+<li>RenderManagement: IsValidRenderTable - supports now 2nd pass rendering(Reaper 6.20+)</li>
+<li>RenderManagement: RenderProject_RenderTable - supports now 2nd pass rendering(Reaper 6.20+)</li>
+<li>RenderManagement: SetRenderPreset - supports now 2nd pass rendering(Reaper 6.20+)</li>
 </ul>
 <hr />
 <h3>4.2.002 - "Dave Brubeck - Take Five" - 25th of December 2020</h3>

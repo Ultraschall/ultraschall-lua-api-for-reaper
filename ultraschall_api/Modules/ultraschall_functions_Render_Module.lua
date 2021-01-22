@@ -2155,8 +2155,8 @@ function ultraschall.GetRenderTable_Project()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRenderTable_Project</slug>
   <requires>
-    Ultraschall=4.1
-    Reaper=6.10
+    Ultraschall=4.2
+    Reaper=6.20
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -2172,8 +2172,9 @@ function ultraschall.GetRenderTable_Project()
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping stems
             RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked
             RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides; true, checked; false, unchecked
-			RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked            
-            RenderTable["Endposition"] - the endposition of the rendering selection in seconds
+			RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked                        
+            RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
+            RenderTable["Endposition"] - the endposition of the rendering selection in seconds            
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
 			RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle)
@@ -2235,6 +2236,7 @@ function ultraschall.GetRenderTable_Project()
   if RenderTable["Source"]&256~=0 then RenderTable["Source"]=RenderTable["Source"]-256 RenderTable["EmbedStretchMarkers"]=true else RenderTable["EmbedStretchMarkers"]=false end
   if RenderTable["Source"]&512~=0 then RenderTable["Source"]=RenderTable["Source"]-512 RenderTable["EmbedMetaData"]=true else RenderTable["EmbedMetaData"]=false end
   if RenderTable["Source"]&1024~=0 then RenderTable["Source"]=RenderTable["Source"]-1024 RenderTable["EmbedTakeMarkers"]=true else RenderTable["EmbedTakeMarkers"]=false end
+  if RenderTable["Source"]&2048~=0 then RenderTable["Source"]=RenderTable["Source"]-2048 RenderTable["Enable2ndPassRender"]=true else RenderTable["Enable2ndPassRender"]=false end
   RenderTable["Bounds"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_BOUNDSFLAG", 0, false))
   RenderTable["Channels"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_CHANNELS", 0, false))
   RenderTable["SampleRate"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_SRATE", 0, false))
@@ -2289,7 +2291,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
   <slug>GetRenderTable_ProjectFile</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.11
+    Reaper=6.20
     Lua=5.3
   </requires>
   <functioncall>table RenderTable = ultraschall.GetRenderTable_ProjectFile(string projectfilename_with_path)</functioncall>
@@ -2304,6 +2306,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
             RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked
             RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides; true, checked; false, unchecked
 			RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked
+            RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
 			RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
@@ -2372,6 +2375,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
   if render_stems&256~=0 then RenderTable["EmbedStretchMarkers"]=true RenderTable["Source"]=RenderTable["Source"]-256 else RenderTable["EmbedStretchMarkers"]=false end
   if render_stems&512~=0 then RenderTable["Source"]=RenderTable["Source"]-512 RenderTable["EmbedMetaData"]=true elseif render_stems&512==0 then RenderTable["EmbedMetaData"]=false end
   if render_stems&1024~=0 then RenderTable["Source"]=RenderTable["Source"]-1024 RenderTable["EmbedTakeMarkers"]=true elseif render_stems&1024==0 then RenderTable["EmbedTakeMarkers"]=false end
+  if render_stems&2048~=0 then RenderTable["Source"]=RenderTable["Source"]-2048 RenderTable["Enable2ndPassRender"]=true elseif render_stems&1024==0 then RenderTable["Enable2ndPassRender"]=false end
   if RenderTable["Source"]&4~=0 then RenderTable["Source"]=RenderTable["Source"]-4 RenderTable["MultiChannelFiles"]=true else RenderTable["MultiChannelFiles"]=false end
   if RenderTable["Source"]&16~=0 then RenderTable["Source"]=RenderTable["Source"]-16 RenderTable["OnlyMonoMedia"]=true else RenderTable["OnlyMonoMedia"]=false end
   RenderTable["Bounds"]=bounds
@@ -2857,8 +2861,8 @@ function ultraschall.IsValidRenderTable(RenderTable)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsValidRenderTable</slug>
   <requires>
-    Ultraschall=4.1
-    Reaper=6.10
+    Ultraschall=4.2
+    Reaper=6.20
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsValidRenderTable(RenderTable RenderTable)</functioncall>
@@ -2912,7 +2916,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
   if type(RenderTable["EmbedTakeMarkers"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"EmbedTakeMarkers\"] must be a boolean", -18) return false end 
   if type(RenderTable["NoSilentRender"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"NoSilentRender\"] must be a boolean", -19) return false end 
   if type(RenderTable["EmbedMetaData"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"EmbedMetaData\"] must be a boolean", -20) return false end   
-    
+  if type(RenderTable["Enable2ndPassRender"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Enable2ndPassRender\"] must be a boolean", -21) return false end     
 
   return true
 end
@@ -2922,8 +2926,8 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderTable_Project</slug>
   <requires>
-    Ultraschall=4.1
-    Reaper=6.10
+    Ultraschall=4.2
+    Reaper=6.20
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -2943,6 +2947,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked
             RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides; true, checked; false, unchecked
 			RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked
+            RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
 			RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
@@ -3005,6 +3010,12 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
 	if RenderTable["Source"]&1024==0 then RenderTable["Source"]=RenderTable["Source"]+1024 end
   else 
 	if RenderTable["Source"]&1024~=0 then RenderTable["Source"]=RenderTable["Source"]-1024 end
+  end
+  
+  if RenderTable["Enable2ndPassRender"]==true then 
+	if RenderTable["Source"]&2048==0 then RenderTable["Source"]=RenderTable["Source"]+2048 end
+  else 
+	if RenderTable["Source"]&2048~=0 then RenderTable["Source"]=RenderTable["Source"]-2048 end
   end
   
   if RenderTable["MultiChannelFiles"]==true and RenderTable["Source"]&4==0 then 
@@ -3093,8 +3104,8 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderTable_ProjectFile</slug>
   <requires>
-    Ultraschall=4.1
-    Reaper=6.10
+    Ultraschall=4.2
+    Reaper=6.20
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string ProjectStateChunk = ultraschall.ApplyRenderTable_ProjectFile(RenderTable RenderTable, string projectfilename_with_path, optional boolean apply_rendercfg_string, optional string ProjectStateChunk)</functioncall>
@@ -3111,6 +3122,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides; true, checked; false, unchecked
 			RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
+            RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
 			RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  
@@ -3205,6 +3217,17 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
        RenderTable["Source"]=RenderTable["Source"]-1024
     end
   end
+  
+  if RenderTable["Enable2ndPassRender"]==true then 
+    if RenderTable["Source"]&2048==0 then 
+       RenderTable["Source"]=RenderTable["Source"]+2048
+    end
+  else
+    if RenderTable["Source"]&2048~=0 then 
+       RenderTable["Source"]=RenderTable["Source"]-2048
+    end
+  end
+  
   retval, ProjectStateChunk = ultraschall.SetProject_RenderStems(nil, RenderTable["Source"], ProjectStateChunk)
   retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, RenderTable["Bounds"], RenderTable["Startposition"], RenderTable["Endposition"], RenderTable["TailFlag"], RenderTable["TailMS"], ProjectStateChunk)  
   retval, ProjectStateChunk = ultraschall.SetProject_RenderFreqNChans(nil, 0, RenderTable["Channels"], RenderTable["SampleRate"], ProjectStateChunk)
@@ -3257,16 +3280,16 @@ TailMS, RenderFile, RenderPattern, SampleRate, Channels,
 OfflineOnlineRendering, ProjectSampleRateFXProcessing, RenderResample, OnlyMonoMedia, MultiChannelFiles,
 Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, 
 RenderQueueDelay, RenderQueueDelaySeconds, CloseAfterRender, EmbedStretchMarkers, RenderString2, 
-EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata)
+EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateNewRenderTable</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.10
+    Reaper=6.20
     Lua=5.3
   </requires>
-  <functioncall>RenderTable RenderTable = ultraschall.CreateNewRenderTable(optional integer Source, optional integer Bounds, optional number Startposition, optional number Endposition, optional integer TailFlag, optional integer TailMS, optional string RenderFile, optional string RenderPattern, optional integer SampleRate, optional integer Channels, optional integer OfflineOnlineRendering, optional boolean ProjectSampleRateFXProcessing, optional integer RenderResample, optional boolean OnlyMonoMedia, optional boolean MultiChannelFiles, optional integer Dither, optional string RenderString, optional boolean SilentlyIncrementFilename, optional boolean AddToProj, optional boolean SaveCopyOfProject, optional boolean RenderQueueDelay, optional integer RenderQueueDelaySeconds, optional boolean CloseAfterRender, optional boolean EmbedStretchMarkers, optional string RenderString2, optional boolean EmbedTakeMarkers, optional boolean DoNotSilentRender, optional boolean EmbedMetadata)</functioncall>
+  <functioncall>RenderTable RenderTable = ultraschall.CreateNewRenderTable(optional integer Source, optional integer Bounds, optional number Startposition, optional number Endposition, optional integer TailFlag, optional integer TailMS, optional string RenderFile, optional string RenderPattern, optional integer SampleRate, optional integer Channels, optional integer OfflineOnlineRendering, optional boolean ProjectSampleRateFXProcessing, optional integer RenderResample, optional boolean OnlyMonoMedia, optional boolean MultiChannelFiles, optional integer Dither, optional string RenderString, optional boolean SilentlyIncrementFilename, optional boolean AddToProj, optional boolean SaveCopyOfProject, optional boolean RenderQueueDelay, optional integer RenderQueueDelaySeconds, optional boolean CloseAfterRender, optional boolean EmbedStretchMarkers, optional string RenderString2, optional boolean EmbedTakeMarkers, optional boolean DoNotSilentRender, optional boolean EmbedMetadata, optional boolean Enable2ndPassRender)</functioncall>
   <description>
     Creates a new RenderTable.
     
@@ -3281,6 +3304,7 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata)
               RenderTable["EmbedMetaData"]=false
               RenderTable["EmbedStretchMarkers"]=false
               RenderTable["EmbedTakeMarkers"]=false
+              RenderTable["Enable2ndPassRender"]=false
               RenderTable["Endposition"]=0
               RenderTable["MultiChannelFiles"]=false
               RenderTable["NoSilentRender"]=false
@@ -3379,6 +3403,7 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata)
 	optional boolean EmbedTakeMarkers - the "Take markers"-checkbox; true, checked; false, unchecked(default)
 	optional boolean DoNotSilentRender - the "Do not render files that are likely silent"-checkbox; true, checked; false, unchecked(default)
     optional boolean EmbedMetadata - the "Embed metadata"-checkbox; true, checked; false, unchecked(default)
+    optional boolean Enable2ndPassRender - true, 2nd pass render is enabled; false, 2nd pass render is disabled
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -3422,6 +3447,7 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata)
   if DoNotSilentRender~=nil and type(DoNotSilentRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "DoNotSilentRender", "#27: must be nil or boolean", -29) return end
   
   if EmbedMetadata~=nil and type(EmbedMetadata)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "CloseAfterRender", "#28: must be nil or a boolean", -30) return end
+  if Enable2ndPassRender~=nil and type(Enable2ndPassRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Enable2ndPassRender", "#29: must be nil or a boolean", -31) return end
 
   -- create Reaper-vanilla default RenderTable
   local RenderTable={}  
@@ -3454,6 +3480,7 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata)
   RenderTable["Startposition"]=0
   RenderTable["TailFlag"]=18
   RenderTable["TailMS"]=1000
+  RenderTable["Enable2ndPassRender"]=false
 
   -- set all attributes passed via parameters
   if AddToProj~=nil           then RenderTable["AddToProj"]=AddToProj end
@@ -3484,6 +3511,8 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata)
   if Startposition~=nil       then RenderTable["Startposition"]=Startposition end
   if TailFlag~=nil            then RenderTable["TailFlag"]=TailFlag end
   if TailMS~=nil              then RenderTable["TailMS"]=TailMS end
+  if Enable2ndPassRender~=nil then RenderTable["Enable2ndPassRender"]=Enable2ndPassRender end
+  
 
   return RenderTable
 end
@@ -3495,14 +3524,14 @@ end
                                      3,    false,   2, false, false,        -- 15
                                      1, "", true, true, true,               -- 20
                                      true, 0, true, true, "",               -- 25
-                                     true, true, true)                     -- 30
+                                     true, true, true, true)                     -- 30
                                      SLEM()
 --]]
 --Source, Bounds, Startposition, Endposition, TailFlag, TailMS, RenderFile, RenderPattern,
 --SampleRate, Channels, OfflineOnlineRendering, ProjectSampleRateFXProcessing, RenderResample, OnlyMonoMedia, MultiChannelFiles,
 --Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, RenderQueueDelay
 -- RenderQueueDelaySeconds, CloseAfterRender, EmbedStretchMarkers, RenderString2, 
--- EmbedTakeMarkers, SilentRender, EmbedMetadata)
+-- EmbedTakeMarkers, SilentRender, EmbedMetadata, Enable2ndPassRender)
 
 
 --O=ultraschall.CreateNewRenderTable(2, 0, 2, 22, 0, 190, "aRenderFile", "apattern", 99, 3, 3,    false,   2, false, false, 1, "l3pm", true, true, true, true)
@@ -3960,8 +3989,8 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>GetRenderPreset_RenderTable</slug>
    <requires>
-     Ultraschall=4.1
-     Reaper=6.10
+     Ultraschall=4.2
+     Reaper=6.20
      Lua=5.3
    </requires>
    <functioncall>RenderTable RenderTable = ultraschall.GetRenderPreset_RenderTable(string Bounds_Name, string Options_and_Format_Name)</functioncall>
@@ -3983,6 +4012,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
      RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked
      RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides; true, checked; false, unchecked
 	 RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked
+     RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
      RenderTable["Endposition"] - the endposition of the rendering selection in seconds
      RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
      RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle)
@@ -4149,6 +4179,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   RenderTable["Source"]=tonumber(Source_dropdownlist_and_checkboxes2)
   RenderTable["Dither"]=tonumber(Various_checkboxes)
   RenderTable["EmbedMetaData"]=tonumber(Various_checkboxes2)&512==512
+  RenderTable["Enable2ndPassRender"]=tonumber(Various_checkboxes2)&2048==2048
 
   return RenderTable
 end
@@ -4259,8 +4290,8 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>AddRenderPreset</slug>
    <requires>
-     Ultraschall=4.1
-     Reaper=6.10
+     Ultraschall=4.2
+     Reaper=6.20
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.AddRenderPreset(string Bounds_Name, string Options_and_Format_Name, RenderTable RenderTable)</functioncall>
@@ -4335,6 +4366,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
               RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked
               RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides-checkbox
 			  RenderTable["EmbedTakeMarkers"] - Embed Take markers-checkbox
+              RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
               RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings
               RenderTable["RenderString2"] - the render-cfg-string, which holds the secondary render-outformat-settings
   
@@ -4372,6 +4404,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
   if RenderTable["EmbedStretchMarkers"]==true then CheckBoxes=CheckBoxes+256 end
   if RenderTable["EmbedMetaData"]==true then CheckBoxes=CheckBoxes+512 end
   if RenderTable["EmbedTakeMarkers"]==true then CheckBoxes=CheckBoxes+1024 end
+  if RenderTable["Enable2ndPassRender"]==true then CheckBoxes=CheckBoxes+2048 end
   
   if RenderTable["ProjectSampleRateFXProcessing"]==true then ProjectSampleRateFXProcessing=1 else ProjectSampleRateFXProcessing=0 end
   if RenderTable["RenderPattern"]=="" or RenderTable["RenderPattern"]:match("%s")~=nil then
@@ -4437,8 +4470,8 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>SetRenderPreset</slug>
    <requires>
-     Ultraschall=4.1
-     Reaper=6.10
+     Ultraschall=4.2
+     Reaper=6.20
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.SetRenderPreset(string Bounds_Name, string Options_and_Format_Name, RenderTable RenderTable)</functioncall>
@@ -4513,6 +4546,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
               RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked  
               RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides-checkbox
               RenderTable["EmbedTakeMarkers"] - Embed Take markers-checkbox
+              RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
               RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings
               RenderTable["RenderString2"] - the render-cfg-string, which holds the secondary render-outformat-settings; "" to remove it from this preset
       
@@ -4553,6 +4587,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
   if RenderTable["EmbedStretchMarkers"]==true then MonoMultichannelEmbed=MonoMultichannelEmbed+256 end
   if RenderTable["EmbedMetaData"]==true then CheckBoxes=CheckBoxes+512 end
   if RenderTable["EmbedTakeMarkers"]==true then MonoMultichannelEmbed=MonoMultichannelEmbed+1024 end
+  if RenderTable["Enable2ndPassRender"]==true then MonoMultichannelEmbed=MonoMultichannelEmbed+2048 end
   
   if RenderTable["ProjectSampleRateFXProcessing"]==true then ProjectSampleRateFXProcessing=1 else ProjectSampleRateFXProcessing=0 end
   if RenderTable["RenderPattern"]=="" or RenderTable["RenderPattern"]:match("%s")~=nil then
@@ -4624,8 +4659,8 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RenderProject_RenderTable</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=6.04
+    Ultraschall=4.2
+    Reaper=6.20
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -4642,6 +4677,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping stems
             RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked  
             RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides; true, checked; false, unchecked
+            RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle)

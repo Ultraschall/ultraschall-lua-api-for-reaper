@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43506.00" author="Meo Mespotine">
+      <version name="43507.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003/ultraschall_api/Changelog-Api.txt</source>
@@ -616,18 +616,33 @@ Changes from 4.2.002 to 4.2.003
     6.20+ to be more reliable
 -   File-Management: GetAllRecursiveFilesAndSubdirectories - flushes
     cache on Reaper 6.20+ to be more reliable
--   HelperFunctions: IsOS_Mac - works now on arm-macs as well
--   MarkerManagement: AddEditMarker - works now on arm-macs as well
--   MarkerManagement: AddEditRegion - works now on arm-macs as well
--   MarkerManagement: AddPodRangeRegion - works now on arm-macs as well
--   MarkerManagement: SetEditRegion - works now on arm-macs as well
+-   HelperFunctions: IsOS_Mac - works now on arm-macs as well(thanks to
+    rstockm)
+-   MarkerManagement: AddEditMarker - works now on arm-macs as
+    well(thanks to rstockm)
+-   MarkerManagement: AddEditRegion - works now on arm-macs as
+    well(thanks to rstockm)
+-   MarkerManagement: AddPodRangeRegion - works now on arm-macs as
+    well(thanks to rstockm)
+-   MarkerManagement: SetEditRegion - works now on arm-macs as
+    well(thanks to rstockm)
 -   MediaItem Management: GetItem_ClickState - works now again
 -   Miscellaneous: OpenURL - works now on arm-macs as well
 -   ProjectManagement: GetProjectStateChunk - works now reliable in
     Reaper 6.20+; fixed some bugs that might improve stability on
     earlier Reaper-versions
+-   ProjectManagement: GetProject_RenderStems - supports now 2nd pass
+    rendering(Reaper 6.20+)
 -   ProjectManagement: IsValidProjectStateChunk - sped up by magnitudes,
     which is important for checking huge ProjectStateChunks
+-   ProjectManagement: SetProject_RenderStems - supports now 2nd pass
+    rendering(Reaper 6.20+)
+-   RenderManagement: AddRenderPreset - supports now 2nd pass
+    rendering(Reaper 6.20+)
+-   RenderManagement: ApplyRenderTable_Project - supports now 2nd pass
+    rendering(Reaper 6.20+)
+-   RenderManagement: ApplyRenderTable_ProjectFile - supports now 2nd
+    pass rendering(Reaper 6.20+)
 -   RenderManagement: CreateNewRenderTable - all parameters are optional
     and when passed nil, will be set with Reaper’s factory defaults
 -   RenderManagement: GetRenderCFG_Settings_AIFF - stabilized some
@@ -668,9 +683,19 @@ Changes from 4.2.002 to 4.2.003
     edgecases
 -   RenderManagement: GetRenderCFG_Settings_WebMVideo - stabilized some
     edgecases
--   RenderManagement: GetRenderTable_ProjectFile - didn’t return
-    render-cfg and render-cfg2 as empty string when not set in project
-    -> fixed
+-   RenderManagement: GetRenderTable_Project - supports now 2nd pass
+    rendering(Reaper 6.20+)
+-   RenderManagement: GetRenderTable_ProjectFile - supports now 2nd pass
+    rendering(Reaper 6.20+); didn’t return render-cfg and render-cfg2 as
+    empty string when not set in project -> fixed
+-   RenderManagement: GetRenderPreset_RenderTable - supports now 2nd
+    pass rendering(Reaper 6.20+)
+-   RenderManagement: IsValidRenderTable - supports now 2nd pass
+    rendering(Reaper 6.20+)
+-   RenderManagement: RenderProject_RenderTable - supports now 2nd pass
+    rendering(Reaper 6.20+)
+-   RenderManagement: SetRenderPreset - supports now 2nd pass
+    rendering(Reaper 6.20+)
 
 ------------------------------------------------------------------------
 
@@ -7556,7 +7581,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1376 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43506 from 21.01.2021 18:18:10).}
+a 1376 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43507 from 22.01.2021 02:32:32).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7694,7 +7719,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1376 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43506 from 21.01.2021 18:18:10).}
+a 1376 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43507 from 22.01.2021 02:32:32).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
