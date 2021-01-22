@@ -277,7 +277,8 @@ Has now 1359 functions, with 8 new ones
   - FX-Management: GetFXWak\_FXStateChunk - returns the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)  
   - FX-Management: GetLastSel\_FXStateChunk - returns the last selected fx of an FXStateChunk
   - FX-Management: GetShow\_FXStateChunk - gets the state of visibility of the fxchain-window and a specific fx from an FXStateChunk
-  - FX-Management: GetWndRect\_FXStateChunk - gets the position of the fxchain-window when floating from an FXStateChunk
+  - FX-Management: GetWndRect\_FXStateChunk - gets the position of the fxchain-window when floating from an FXStateChunk  
+  - FX-Management: SetFXBypass\_FXStateChunk - sets the BYPASS-entry-values of an FXStateChunk(bypass, online/offline-state)
   - FX-Management: SetFXMidiPreset\_FXStateChunk - sets the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
   - FX-Management: SetFXWak\_FXStateChunk - sets the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)  
   - MarkerManagement: GetAllCustomMarkerNames - returns all custom-region-names available in the current project(requested by fernsehmuell)

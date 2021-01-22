@@ -2192,4 +2192,50 @@ end
 
 --A,B=ultraschall.GetAllCustomMarkerNames()
 
+function ultraschall.SetFXBypass_FXStateChunk(FXStateChunk, fx_id, bypass, online, unknown)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetFXBypass_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.19
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.SetFXBypass_FXStateChunk(string FXStateChunk, integer fxid, integer bypass, integer offline, integer unknown)</functioncall>
+  <description>
+    sets the fx-BYPASS-entry of a specific fx within an FXStateChunk, which allows setting online/offline and bypass-settings.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the altered FXStateChunk with the new BYPASS-state
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, into which you want to set the new bypass-state
+    integer fxid - the fx, whose bypass-state you want to set
+    integer bypass - 0, non-bypassed; 1, bypassed
+    integer offline - 0, online; 1, offline
+    integer unknown - unknown; default is 0
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Set States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, fx, bypass, online/offline</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXBypass_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("SetFXBypass_FXStateChunk", "fx_id", "must be an integer", -2) return nil end
+  if math.type(bypass)~="integer" then ultraschall.AddErrorMessage("SetFXBypass_FXStateChunk", "bypass", "must be an integer", -3) return nil end
+  if math.type(online)~="integer" then ultraschall.AddErrorMessage("SetFXBypass_FXStateChunk", "online", "must be an integer", -4) return nil end
+  if math.type(unknown)~="integer" then ultraschall.AddErrorMessage("SetFXBypass_FXStateChunk", "unknown", "must be an integer", -5) return nil end
+  
+  local fx_lines, startoffset, endoffset = ultraschall.GetFXFromFXStateChunk(FXStateChunk, fx_id)
+  fx_lines=string.gsub(fx_lines, "BYPASS.-\n", "BYPASS "..bypass.." "..online.." "..unknown.."\n")
+  FXStateChunk=FXStateChunk:sub(1, startoffset-1)..fx_lines..FXStateChunk:sub(endoffset, -1)
+  return FXStateChunk
+end
+
 ultraschall.ShowLastErrorMessage()
