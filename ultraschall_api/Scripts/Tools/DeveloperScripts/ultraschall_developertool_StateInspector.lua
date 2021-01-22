@@ -1475,30 +1475,93 @@ function ShowSelectedItemState()
   gfx.blit(10,1,0,0+(sidestep*font_height),0+(font_height*math.floor(start_state2)),1024,1024)
 end
 
+-- variables for gettrackstatechunk
+oldstatechange=1
+tscstart=1
+OldStateChunk={}
+OldStateChunk_Delta={}
+for i=1, 10000 do
+  OldStateChunk_Delta[i]=false
+end
+tscupdate=true
 function ShowSelectedTrackState()
- if oldstatechange==nil then oldstatechange=-1 end
- statechange=reaper.GetProjectStateChangeCount(0)
+ if gfx.mouse_wheel<0 then tscstart=tscstart+4 tscupdate=true if tscstart>#OldStateChunk then tscstart=#OldStateChunk end end
+ if gfx.mouse_wheel>0 then tscstart=tscstart-4 tscupdate=true if tscstart<0 then tscstart=0 end end
+  gfx.mouse_wheel=0
+ if oldgfxw~=gfx.w then tscupdate=true oldgfxw=gfx.w end
+ if oldgfxh~=gfx.h then tscupdate=true oldgfxh=gfx.h end
+ 
+ statechange=reaper.GetProjectStateChangeCount()
+ if statechange~=oldstatechange then
+   for i=1, 10000 do
+     OldStateChunk_Delta[i]=false
+   end 
+ end
+ if reaper.JS_Mouse_GetState(-1)~=0 then statechange=oldstatechange+1 end
  if statechange~=oldstatechange then 
    str=""
    MediaTrack=reaper.GetLastTouchedTrack()--reaper.GetSelectedTrack(0,0)
---   if MediaTrack==nil then MediaTrack=reaper.GetMasterTrack
-   if MediaTrack~=nil then _h, str = reaper.GetTrackStateChunk(MediaTrack,"",false) end
-    gfx.set(0.01,0.01,0.01,1,0,10)
-    gfx.setimgdim(10,2048,2048)
-    gfx.rect(0,0,2048,2048,true)
-    gfx.set(1,1,1,1,0,10)
-    gfx.x=10
-    gfx.y=30
-    str=StateChunkLayouter(str)
-    gfx.drawstr(str)
-    oldstatechange=statechange
-    --gfx.set(0.1,0.1,0.1,1,0,-1)
-    --gfx.rect(0,20,gfx.w,gfx.h,true)
-  end  
+   retval, str=reaper.GetTrackStateChunk(MediaTrack, "", false)
+   gfx.set(1,1,1,1)
+   gfx.x=10
+   gfx.y=30
+   str=StateChunkLayouter(str)
+   CurrentStateChunk={}
+   CurrentStateChunk_Delta={}
+   scindex=0
+   for k in string.gmatch(str, ".-\n") do
+    scindex=scindex+1
+    CurrentStateChunk[scindex]=k
+    if OldStateChunk[scindex]~=CurrentStateChunk[scindex] and OldStateChunk[scindex]~=nil then CurrentStateChunk_Delta[scindex]=true else CurrentStateChunk_Delta[scindex]=false end
+    if OldStateChunk[scindex]~=CurrentStateChunk[scindex] then tscupdate=true end
+   end
+  end 
+  for i=1, #CurrentStateChunk_Delta do
+    if CurrentStateChunk_Delta[i]==true and OldStateChunk_Delta[i]~=true then
+      OldStateChunk_Delta=CurrentStateChunk_Delta
+    end
+  end
+  
   gfx.x=0
   gfx.y=20
+  if tscupdate==true then
+  for i=tscstart, 200 do
+  gfx.dest=1000
+    if CurrentStateChunk[i]==nil then break end
+    if OldStateChunk_Delta[i]==false then 
+      gfx.set(1,1,1,1)
+    elseif OldStateChunk_Delta[i]~=nil then
+      gfx.set(1,0,1,1)
+    end
+    str=""
+    newline=1
+    if CurrentStateChunk[i]:len()>100 then 
+      for a=1, 10000, 100 do
+        str=str..CurrentStateChunk[i]:sub(a,a+100).."\n"
+        if CurrentStateChunk[i]:len()<a then break end
+        newline=newline+1
+      end
+      newline=newline-4
+      P=newline
+    else
+      str=CurrentStateChunk[i]
+      newline=1
+    end
+    gfx.drawstr(i..":  \t"..str)--CurrentStateChunk[i])
+    gfx.x=0
+    gfx.y=gfx.y+(gfx.texth*newline)
+  end
   gfx.set(1,1,1,1,0,-1)
-  gfx.blit(10,1,0,0+(sidestep*font_height),0+(font_height*math.floor(start_state2)),1024,1024)
+  gfx.blit(10,1,0,0,0,1024,1024)
+  gfx.dest=-1
+  end
+  OldStateChunk=CurrentStateChunk
+  tscupdate=false
+  --OldStateChunk_Delta=CurrentStateChunk_Delta
+  gfx.dest=-1
+  gfx.x=1
+  gfx.y=1
+  gfx.blit(1000,1,0)
 end
 
 function Show(integer)

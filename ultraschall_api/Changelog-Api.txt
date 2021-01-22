@@ -267,6 +267,7 @@ Has now 1359 functions, with 8 new ones
 
 #### New features in 4.2.003      
   - Configuration-files: GetActionCommandIDByFilename - get the actioncommand-id of a registered script
+  - Docs: misc/USDocML-Specs1\_0.txt - describes the USDocML-format I use for my Reaper/Ultraschall-API documentation
   - File-Management: BatchConvertFiles - allows converting files using the batch-converter of Reaper  
   - FX-Management: GetDocked\_FXStateChunk - gets the docked state of an fxchain from an FXStateChunk
   - FX-Management: GetFXBypass\_FXStateChunk - returns the BYPASS-entry-values of an FXStateChunk(bypass and online/offline state)
