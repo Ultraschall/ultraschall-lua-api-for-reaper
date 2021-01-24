@@ -9277,6 +9277,13 @@
            >&4096 = 0, checked: Preserve aspect ratio(letterbox) when resizing  
            >&4096 = 1, unchecked: Preserve aspect ratio(letterbox) when resizing  
            
+           >&8192 = 0, unchecked: Video is affected by the solo state of other tracks
+           >&8192 = 1, checked: Video is affected by the solo state of other tracks
+           
+           >&16384 = 0, unchecked: Video is affected by muted parent tracks
+           >&16384 = 1, unchecked: Video is affected by muted parent tracks
+           
+           
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  

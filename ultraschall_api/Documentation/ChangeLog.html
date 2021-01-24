@@ -146,10 +146,10 @@ Ultraschall API Changelog
 <hr />
 <h3>4.2.002 - "Dave Brubeck - Take Five" - 25th of December 2020</h3>
 <p>Has now 1359 functions, with 8 new ones</p>
-<p><strong>new in this release:</strong><br />
-- <strong>Get/Set Comment-field of fx</strong><br />
-You can now get and set the comment-field of trackfx and takefx programmatically. Also gave me the chance to fix some bugs as well ;)</p>
+<p><strong>new in this release:</strong></p>
 <ul>
+<li><p><strong>Get/Set Comment-field of fx</strong><br />
+You can now get and set the comment-field of trackfx and takefx programmatically. Also gave me the chance to fix some bugs as well ;)</p></li>
 <li><p><strong>Linesorting script for clipboard-content</strong><br />
 Sometimes, you would love to sort the lines in the clipboard. Now you can, using the new developer-tool.</p></li>
 <li><p><strong>bugfixes and docs</strong><br />
@@ -183,25 +183,25 @@ various bugfixes and update to Reaper Internals to Reaper 6.19, SWS 2.12.1.1, JS
 <hr />
 <h3>4.2.001 - "Pink Floyd - High Hopes" - 1st of December 2020</h3>
 <p>Has now 1351 functions, with 9 new ones</p>
-<p><strong>new in this release:</strong><br />
-- ** StuffMIDIMessage and KB.ini-functions**<br />
+<p><strong>new in this release:</strong></p>
+<ul>
+<li><p><strong>StuffMIDIMessage and KB.ini-functions</strong><br />
 You can now convert the KEY-entry-codes of shortcuts(as stored in the reaper-kb.ini) into their text representation: CharacterCodes_ReverseLookup_KBIni<br />
 This is also possible, if you use StuffMIDIMessage to send control-messages, as these can be converted now into their text-representation as well: CharacterCodes_ReverseLookup<br />
 Multiple keymaps supported.<br />
 Oh, and did I mention, you can now also get all currently set shortcuts as a handy table? Optionally with factory-default shortcuts?<br />
-Now I did: KBIniGetAllShortcuts</p>
-<ul>
-<li><p>** Metadata for AIFF, APE and XMP**<br />
+Now I did: KBIniGetAllShortcuts</p></li>
+<li><p><strong>Metadata for AIFF, APE and XMP</strong><br />
 As of Reaper 6.16, you can add metadata for AIFF, APE and XMP as well. I also updated the other metadata-functions to feature the lastest metadata-features Reaper can offer.<br />
 And yes, this includes also support for the new Media Explorer-tags.</p></li>
-<li><p>** ConfigVars support in StateInspector **<br />
+<li><p><strong>ConfigVars support in StateInspector </strong><br />
 That's right: you can now monitor config-vars in the StateInspector as well. I also removed the fact that I accidentally deleted your saved slots with each updated.<br />
 How come, you didn't tell me that, huh? ;)</p></li>
-<li><p>** CleanUp and Speedup **<br />
+<li><p><strong>CleanUp and Speedup </strong><br />
 I made Ultraschall-API much smaller by removing tons of useless files and improving storage of other files by magnitude.<br />
 To give you a number: Ultraschall-API is 50% smaller compared to the previous release.<br />
 It also loads now 30% faster, so starting scripts using Ultraschall-API is now close to lightspeed.</p></li>
-<li><p>** Various Bugfixes **<br />
+<li><p><strong>Various Bugfixes </strong><br />
 The render-string-functions didn't work properly with floats. Mostly fps-settings were affected. Now it's working.<br />
 Also the StuffMIDIMessage-docs is improved now and more precise.</p></li>
 </ul>

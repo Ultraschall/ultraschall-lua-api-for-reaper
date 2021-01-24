@@ -251,6 +251,7 @@ TODO:
     reaper.EnumerateFiles(path, 1) -- get the file with index 1 in path
     
     - CreateRenderCFG-functions - support getting default format-settings(only ffia, evaw, etc as from GetProjectSettings_String?)
+    - Button to install developer-tools in settings-window
 
 </TODO>
 
@@ -359,6 +360,7 @@ Has now 1359 functions, with 8 new ones
 Has now 1359 functions, with 8 new ones
 
 **new in this release:**  
+  
   - **Get/Set Comment-field of fx**  
   You can now get and set the comment-field of trackfx and takefx programmatically. Also gave me the chance to fix some bugs as well ;)
      
@@ -398,8 +400,9 @@ Has now 1359 functions, with 8 new ones
 
 Has now 1351 functions, with 9 new ones
 
-**new in this release:**  
-  - ** StuffMIDIMessage and KB.ini-functions**  
+**new in this release:** 
+ 
+  - **StuffMIDIMessage and KB.ini-functions**  
   You can now convert the KEY-entry-codes of shortcuts(as stored in the reaper-kb.ini) into their text representation: CharacterCodes\_ReverseLookup\_KBIni  
   This is also possible, if you use StuffMIDIMessage to send control-messages, as these can be converted now into their 
   text-representation as well: CharacterCodes\_ReverseLookup  
@@ -407,22 +410,22 @@ Has now 1351 functions, with 9 new ones
   Oh, and did I mention, you can now also get all currently set shortcuts as a handy table? Optionally with factory-default shortcuts?  
   Now I did: KBIniGetAllShortcuts  
 
-  - ** Metadata for AIFF, APE and XMP**  
+  - **Metadata for AIFF, APE and XMP**  
   As of Reaper 6.16, you can add metadata for AIFF, APE and XMP as well. I also updated the other metadata-functions to 
   feature the lastest metadata-features Reaper can offer.  
   And yes, this includes also support for the new Media Explorer-tags.
   
-  - ** ConfigVars support in StateInspector **  
+  - **ConfigVars support in StateInspector **  
   That's right: you can now monitor config-vars in the StateInspector as well. I also removed the fact that I accidentally
   deleted your saved slots with each updated.  
   How come, you didn't tell me that, huh? ;)
 
-  - ** CleanUp and Speedup **  
+  - **CleanUp and Speedup **  
   I made Ultraschall-API much smaller by removing tons of useless files and improving storage of other files by magnitude.  
   To give you a number: Ultraschall-API is 50% smaller compared to the previous release.  
   It also loads now 30% faster, so starting scripts using Ultraschall-API is now close to lightspeed.  
     
-  - ** Various Bugfixes **  
+  - **Various Bugfixes **  
   The render-string-functions didn't work properly with floats. Mostly fps-settings were affected. Now it's working.  
   Also the StuffMIDIMessage-docs is improved now and more precise.  
 
