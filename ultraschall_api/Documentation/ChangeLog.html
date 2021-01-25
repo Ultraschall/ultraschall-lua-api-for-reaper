@@ -61,9 +61,14 @@ Ultraschall API Changelog
 <li>FX-Management: GetShow_FXStateChunk - gets the state of visibility of the fxchain-window and a specific fx from an FXStateChunk</li>
 <li>FX-Management: GetWndRect_FXStateChunk - gets the position of the fxchain-window when floating from an FXStateChunk<br />
 </li>
+<li>FX-Management: SetDocked_FXStateChunk - sets the docked state of an fxchain from an FXStateChunk</li>
 <li>FX-Management: SetFXBypass_FXStateChunk - sets the BYPASS-entry-values of an FXStateChunk(bypass, online/offline-state)</li>
 <li>FX-Management: SetFXMidiPreset_FXStateChunk - sets the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)</li>
 <li>FX-Management: SetFXWak_FXStateChunk - sets the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)<br />
+</li>
+<li>FX-Management: SetLastSel_FXStateChunk - sets the last selected fx of an FXStateChunk</li>
+<li>FX-Management: SetShow_FXStateChunk - sets the SHOW-entry-values of an FXStateChunk(the currently shown fx in the fxchain)</li>
+<li>FX-Management: SetWndRect_FXStateChunk - sets the position of the fxchain-window when floating from an FXStateChunk<br />
 </li>
 <li>MarkerManagement: GetAllCustomMarkerNames - returns all custom-region-names available in the current project(requested by fernsehmuell)</li>
 <li>MarkerManagement: GetAllCustomRegionNames - returns all custom-region-names available in the current project(requested by fernsehmuell)</li>
@@ -421,13 +426,14 @@ Renderfunctions sometimes created peak-files when not necessary. This is fixed n
 <hr />
 <h3>4.1.005 - "The Beatles - I want you(she's so heavy)" - 25th of September 2020</h3>
 <p>Has now 1240 functions, with 25 new ones</p>
-<p><strong>new in this release:</strong> - <strong>Parameter Modulation/Learn/Alias/LFOLearn</strong><br />
+<p><strong>new in this release:</strong></p>
+<ul>
+<li><p><strong>Parameter Modulation/Learn/Alias/LFOLearn</strong><br />
 A long time feature-request finally fulfilled. You have full access to programmatically get/alter parameter-modulation, parameter aliases, LFOLearn or Learn in general.<br />
 So anything you would want to do with parameter-modulation can now be scripted.<br />
 I'm curious, what will happen because of that feature. Surprise me.<br />
 Requested by so many.<br />
-<a href="https://mespotin.uber.space/Mespotine/mespotine-unterstuetzen/">Please consider donating</a>, as this was a massive undertaking. Holy cow!</p>
-<ul>
+<a href="https://mespotin.uber.space/Mespotine/mespotine-unterstuetzen/">Please consider donating</a>, as this was a massive undertaking. Holy cow!</p></li>
 <li><p><strong>SLEM</strong><br />
 Allows now different output-targets, so outputting the last error-message to the ReaScript-console or even the clipboard is possible with that.</p></li>
 <li><p><strong>Lua-ReferenceManual</strong><br />

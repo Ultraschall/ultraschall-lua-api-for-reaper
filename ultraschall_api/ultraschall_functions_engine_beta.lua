@@ -2238,4 +2238,175 @@ function ultraschall.SetFXBypass_FXStateChunk(FXStateChunk, fx_id, bypass, onlin
   return FXStateChunk
 end
 
+function ultraschall.SetShow_FXStateChunk(FXStateChunk, showstate)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetShow_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.19
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.SetShow_FXStateChunk(string FXStateChunk, integer showstate)</functioncall>
+  <description>
+    sets the shown-plugin of an FXStateChunk.
+    
+    It is the SHOW-entry
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the altered FXStateChunk with the new SHOW-state
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, into which you want to set the new shown-fx-state
+    integer showstate - the fx shown; 1, for the first fx; 2, for the second fx; etc
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Set States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, fx, show fx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetShow_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(showstate)~="integer" then ultraschall.AddErrorMessage("SetShow_FXStateChunk", "showstate", "must be an integer", -2) return nil end
+  
+  FXStateChunk=string.gsub(FXStateChunk, "\n    SHOW .-\n", "\n    SHOW "..showstate.."\n")
+  return FXStateChunk
+end
+
+function ultraschall.SetWndRect_FXStateChunk(FXStateChunk, x, y, w, h)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetWndRect_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.19
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.SetWndRect_FXStateChunk(string FXStateChunk, integer x, integer y, integer w, integer h)</functioncall>
+  <description>
+    sets the docked-state of an FXStateChunk.
+    
+    It is the WNDRECT-entry
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the altered FXStateChunk with the new WNDRECT-state
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, into which you want to set the new undocked-windowposition-state
+    integer x - the x-position of the undocked window
+    integer y - the y-position of the undocked window
+    integer w - the width of the window-rectangle
+    integer h - the height of the window-rectangle
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Set States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, fx, last selected</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetWndRect_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("SetWndRect_FXStateChunk", "x", "must be an integer", -2) return nil end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("SetWndRect_FXStateChunk", "y", "must be an integer", -3) return nil end
+  if math.type(w)~="integer" then ultraschall.AddErrorMessage("SetWndRect_FXStateChunk", "w", "must be an integer", -4) return nil end
+  if math.type(h)~="integer" then ultraschall.AddErrorMessage("SetWndRect_FXStateChunk", "h", "must be an integer", -5) return nil end
+  
+  FXStateChunk=string.gsub(FXStateChunk, "\n    WNDRECT .-\n", "\n    WNDRECT "..x.." "..y.." "..w.." "..h.."\n")
+  return FXStateChunk
+end
+
+function ultraschall.SetDocked_FXStateChunk(FXStateChunk, docked)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetDocked_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.19
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.SetDocked_FXStateChunk(string FXStateChunk, integer docked)</functioncall>
+  <description>
+    sets the docked-state of an FXStateChunk.
+    
+    It is the DOCKED-entry
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the altered FXStateChunk with the new DOCKED-state
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, into which you want to set the new last-selected-fx-state
+    integer docked - the docked-state of the fx-chain-window; 0, undocked; 1, docked
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Set States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, fx, docked</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetDocked_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(docked)~="integer" then ultraschall.AddErrorMessage("SetDocked_FXStateChunk", "docked", "must be an integer", -2) return nil end
+  
+  FXStateChunk=string.gsub(FXStateChunk, "\n    DOCKED .-\n", "\n    DOCKED "..docked.."\n")
+  return FXStateChunk
+end
+
+function ultraschall.SetLastSel_FXStateChunk(FXStateChunk, lastsel)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetLastSel_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.19
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.SetLastSel_FXStateChunk(string FXStateChunk, integer lastsel)</functioncall>
+  <description>
+    sets the last selected-plugin of an FXStateChunk.
+    
+    It is the LASTSEL-entry
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the altered FXStateChunk with the new LASTSEL-state
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, into which you want to set the new last-selected-fx-state
+    integer lastsel - the last fx selected; 1, for the first fx; 2, for the second fx; etc
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Set States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fx management, set, fx, last selected</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetLastSel_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(lastsel)~="integer" then ultraschall.AddErrorMessage("SetLastSel_FXStateChunk", "lastsel", "must be an integer", -2) return nil end
+  lastsel=lastsel-1
+  
+  FXStateChunk=string.gsub(FXStateChunk, "\n    LASTSEL .-\n", "\n    LASTSEL "..lastsel.."\n")
+  return FXStateChunk
+end
+
+
+
+
+
 ultraschall.ShowLastErrorMessage()

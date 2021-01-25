@@ -279,9 +279,13 @@ Has now 1359 functions, with 8 new ones
   - FX-Management: GetLastSel\_FXStateChunk - returns the last selected fx of an FXStateChunk
   - FX-Management: GetShow\_FXStateChunk - gets the state of visibility of the fxchain-window and a specific fx from an FXStateChunk
   - FX-Management: GetWndRect\_FXStateChunk - gets the position of the fxchain-window when floating from an FXStateChunk  
+  - FX-Management: SetDocked\_FXStateChunk - sets the docked state of an fxchain from an FXStateChunk
   - FX-Management: SetFXBypass\_FXStateChunk - sets the BYPASS-entry-values of an FXStateChunk(bypass, online/offline-state)
   - FX-Management: SetFXMidiPreset\_FXStateChunk - sets the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
   - FX-Management: SetFXWak\_FXStateChunk - sets the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)  
+  - FX-Management: SetLastSel\_FXStateChunk - sets the last selected fx of an FXStateChunk
+  - FX-Management: SetShow\_FXStateChunk - sets the SHOW-entry-values of an FXStateChunk(the currently shown fx in the fxchain)
+  - FX-Management: SetWndRect\_FXStateChunk - sets the position of the fxchain-window when floating from an FXStateChunk  
   - MarkerManagement: GetAllCustomMarkerNames - returns all custom-region-names available in the current project(requested by fernsehmuell)
   - MarkerManagement: GetAllCustomRegionNames - returns all custom-region-names available in the current project(requested by fernsehmuell)
   - Misc: Ultraschall\_Api\_List\_Of\_USDocML-Containing\_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)
@@ -660,6 +664,7 @@ Has now 1294 functions, with 54 new ones
 Has now 1240 functions, with 25 new ones
 
 **new in this release:**
+
   - **Parameter Modulation/Learn/Alias/LFOLearn**  
     A long time feature-request finally fulfilled. You have full access to programmatically get/alter parameter-modulation, parameter aliases, LFOLearn or Learn in general.  
     So anything you would want to do with parameter-modulation can now be scripted.  

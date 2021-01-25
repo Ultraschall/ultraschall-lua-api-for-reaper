@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43518.00" author="Meo Mespotine">
+      <version name="43520.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003/ultraschall_api/Changelog-Api.txt</source>
@@ -601,6 +601,8 @@ New features in 4.2.003
     of the fxchain-window and a specific fx from an FXStateChunk
 -   FX-Management: GetWndRect_FXStateChunk - gets the position of the
     fxchain-window when floating from an FXStateChunk
+-   FX-Management: SetDocked_FXStateChunk - sets the docked state of an
+    fxchain from an FXStateChunk
 -   FX-Management: SetFXBypass_FXStateChunk - sets the
     BYPASS-entry-values of an FXStateChunk(bypass, online/offline-state)
 -   FX-Management: SetFXMidiPreset_FXStateChunk - sets the
@@ -608,6 +610,12 @@ New features in 4.2.003
     change)
 -   FX-Management: SetFXWak_FXStateChunk - sets the WAK-entry-values of
     an FXStateChunk(embed and send keyboardinput to fx)
+-   FX-Management: SetLastSel_FXStateChunk - sets the last selected fx
+    of an FXStateChunk
+-   FX-Management: SetShow_FXStateChunk - sets the SHOW-entry-values of
+    an FXStateChunk(the currently shown fx in the fxchain)
+-   FX-Management: SetWndRect_FXStateChunk - sets the position of the
+    fxchain-window when floating from an FXStateChunk
 -   MarkerManagement: GetAllCustomMarkerNames - returns all
     custom-region-names available in the current project(requested by
     fernsehmuell)
@@ -1267,15 +1275,18 @@ Changes from 4.1.005 to 4.1.006
 
 Has now 1240 functions, with 25 new ones
 
-new in this release: - Parameter Modulation/Learn/Alias/LFOLearn
-A long time feature-request finally fulfilled. You have full access to
-programmatically get/alter parameter-modulation, parameter aliases,
-LFOLearn or Learn in general.
-So anything you would want to do with parameter-modulation can now be
-scripted.
-I’m curious, what will happen because of that feature. Surprise me.
-Requested by so many.
-Please consider donating, as this was a massive undertaking. Holy cow!
+new in this release:
+
+-   Parameter Modulation/Learn/Alias/LFOLearn
+    A long time feature-request finally fulfilled. You have full access
+    to programmatically get/alter parameter-modulation, parameter
+    aliases, LFOLearn or Learn in general.
+    So anything you would want to do with parameter-modulation can now
+    be scripted.
+    I’m curious, what will happen because of that feature. Surprise me.
+    Requested by so many.
+    Please consider donating, as this was a massive undertaking. Holy
+    cow!
 
 -   SLEM
     Allows now different output-targets, so outputting the last
@@ -7638,7 +7649,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1386 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43518 from 25.01.2021 00:10:30).}
+a 1390 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43520 from 25.01.2021 01:15:57).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7652,7 +7663,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1386 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1390 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -7776,7 +7787,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1386 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43518 from 25.01.2021 00:10:30).}
+a 1390 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43520 from 25.01.2021 01:15:57).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7790,7 +7801,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1386 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1390 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
