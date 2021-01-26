@@ -281,12 +281,14 @@ Has now 1359 functions, with 8 new ones
   - FX-Management: GetWndRect\_FXStateChunk - gets the position of the fxchain-window when floating from an FXStateChunk  
   - FX-Management: SetDocked\_FXStateChunk - sets the docked state of an fxchain from an FXStateChunk
   - FX-Management: SetFXBypass\_FXStateChunk - sets the BYPASS-entry-values of an FXStateChunk(bypass, online/offline-state)
+  - FX-Management: SetFXFloatPos\_FXStateChunk - sets the float state and position of the fx-window of an fx in an FXStateChunk
+  - FX-Management: GetFXGuid\_FXStateChunk - sets the new guid of an fx in an FXStateChunk
   - FX-Management: SetFXMidiPreset\_FXStateChunk - sets the MIDIPRESET-entry-values of an FXStateChunk(link to midi program change)
   - FX-Management: SetFXWak\_FXStateChunk - sets the WAK-entry-values of an FXStateChunk(embed and send keyboardinput to fx)  
   - FX-Management: SetLastSel\_FXStateChunk - sets the last selected fx of an FXStateChunk
   - FX-Management: SetShow\_FXStateChunk - sets the SHOW-entry-values of an FXStateChunk(the currently shown fx in the fxchain)
   - FX-Management: SetWndRect\_FXStateChunk - sets the position of the fxchain-window when floating from an FXStateChunk  
-  - MarkerManagement: GetAllCustomMarkerNames - returns all custom-region-names available in the current project(requested by fernsehmuell)
+  - MarkerManagement: GetAllCustomMarkerNames - returns all custom-marker-names available in the current project(requested by fernsehmuell)
   - MarkerManagement: GetAllCustomRegionNames - returns all custom-region-names available in the current project(requested by fernsehmuell)
   - Misc: Ultraschall\_Api\_List\_Of\_USDocML-Containing\_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)
   - User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)
