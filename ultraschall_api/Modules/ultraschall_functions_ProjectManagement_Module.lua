@@ -349,7 +349,10 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
     -- set prep_changes to true, so we know, we need to reset these settings, later
     prep_changes=true
   end
-      
+  
+  reaper.EnumerateFiles(reaper.GetResourcePath(), 1)
+  reaper.EnumerateFiles(reaper.GetResourcePath().."/Scripts", 1)
+  reaper.EnumerateFiles(reaper.GetResourcePath().."/ColorThemes", 1)
   filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/QueuedRenders")
   filecount2, files2 = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/QueuedRenders")
   
