@@ -252,6 +252,12 @@ TODO:
     
     - CreateRenderCFG-functions - support getting default format-settings(only ffia, evaw, etc as from GetProjectSettings_String?)
     - Button to install developer-tools in settings-window
+    
+    - Stretchmarkers
+    The problem is: SetTakeStretchMarkerSlope will set the beginning of the slope, according to the value of the end of the slope.
+    So: we would need to set the end of the slope correctly, THEN use SetTakeStretchMarkerSlope to set the beginning, THEN adjust the slope again by moving the next SM's position.
+    That way, we would have full control over beginning and end of it.
+    
 
 </TODO>
 
@@ -294,7 +300,9 @@ Has now 1359 functions, with 8 new ones
   - User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)
        
 #### Changes from 4.2.002 to 4.2.003  
+  - Automation Items: AutomationItem\_Delete - didn't work due stupid bug, completely rewritten -> fixed(thanks to XRaym)
   - Developer Tools: ultraschall\_functions\_ProjectManagement\_ProjectFiles\_Module.lua - uses now the project active at script-start.
+  - Developer Tools: ultraschall\_ShowProjectDiffs.lua - doesn't need to save the project anymore to show changes in the projectfile
   - Docs: Reaper Internals - update to Reaper 6.20; added missing retvals and params, removed duplicated ones    
   - Docs: Render-presetfile-docs - added 2nd pass render-option
   - Doc-Engine: Docs\_GetUSDocBloc\_Params - returns now 0, when no retval is found

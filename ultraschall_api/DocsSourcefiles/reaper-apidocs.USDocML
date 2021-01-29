@@ -4114,6 +4114,9 @@
         
             Commands executed with ExecProcess() don't benefit from PATH-system-variables. That said, you must give the full path to a command, even if you can usually just type the command into a shell. You also may need to set a codepage manually to get the correct character-encoding. So in some cases, writing a batch-script and executing it with ExecProcess() might be a good idea.
             
+            Note: when using this in Lua, you need to take care of the right file-separators: / on Mac and Linux or \ on Windows. Unlike other Lua/Lua-used-ReaScript-functions, this will not convert the file-separators to the current system's equivalent.
+            Keep that in mind, when doing multi-platform-scripts!
+            
             The base-directory is Reaper's appdirectory.
             
             On Windows, you can not use command-line-internal commands, like dir or cd, directly. To use them, you need to use cmd.exe. 
@@ -18229,12 +18232,16 @@ Mespotine
         </requires>
         <description prog_lang="*">
             Copies (or moves) FX from src_track to dest_track. Can be used with src_track=dest_track to reorder, FX indices have 0x1000000 set to reference input FX. 
+            
+            Note:
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            Add 0x1000000 to the fx-indices to address monitoringFX/rec-inputFX.
         </description>
         <parameters>
             MediaTrack src_track - the source-track, whose fx you want to copy; use master-track to address inputfx
-            Int src_fx - the index of the fx(0-based); add 0x1000000 to use it for inputfx(needs src_track=mastertrack)
+            Int src_fx - the index of the fx(0-based); add 0x1000000 to use it for inputfx
             MediaTrack dest_track - the destination-track, into which you want to paste/insert the fx; use master-track to address inputfx
-            Int dest_fx - the index of the fx(0-based); add 0x1000000 to use it for inputfx(needs dest_track=mastertrack)
+            Int dest_fx - the index of the fx(0-based); add 0x1000000 to use it for inputfx
             Boolean is_move - true, move the fx; false, just copy the fx as new fx to the new position
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -18257,10 +18264,14 @@ Mespotine
         </requires>
         <description prog_lang="*">
             Copies (or moves) FX from src_track to dest_take. src_fx can have 0x1000000 set to reference input FX. 
+            
+            Note:
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            Add 0x1000000 to the fx-indices to address monitoringFX/rec-inputFX.
         </description>
         <parameters>
             MediaTrack src_track - the source-track, whose fx you want to copy; use master-track to address inputfx
-            Int src_fx - the index of the fx(0-based); add 0x1000000 to use it for inputfx(needs src_track=mastertrack)
+            Int src_fx - the index of the fx(0-based); add 0x1000000 to use it for inputfx
             MediaItem_Take dest_take - the destination-take, into which you want to paste/insert the fx
             Int dest_fx - the index of the fx(0-based)
             Boolean is_move - true, move the fx; false, just copy the fx as new fx to the new position
@@ -18284,14 +18295,15 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.            
         </description>
         <retvals>
-            boolean - 
+            boolean - true, setting value was successful; false, setting value was unsuccessful
         </retvals>
         <parameters>
-            MediaTrack track - 
-            integer fx - 
+            MediaTrack track - the track, of which you want to set an fx's parameter editing ended
+            integer fx - the index of the fx; ass 0x1000000 to address rec-input-fx/monitoringfx
             integer param - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -18317,6 +18329,9 @@ Mespotine
             
             Note: only works with FX that support Cockos VST extensions.
             
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+
             returns false in case of an error
         </description>
         <retvals>
@@ -18353,6 +18368,9 @@ Mespotine
         
             Note: only works with FX that support Cockos VST extensions.
             
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
             returns false in case of an error
         </description>
         <retvals>
@@ -18386,7 +18404,7 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the index of the first track FX insert that matches fxname. If the FX is not in the chain and instantiate is true, it will be inserted. See [TrackFX\_GetInstrument](#TrackFX_GetInstrument), [TrackFX\_GetEQ](#TrackFX_GetEQ). Deprecated in favor of TrackFX_AddByName.
-            
+                        
             returns -1 in case of an error
         </description>
         <retvals>
@@ -18477,6 +18495,9 @@ Mespotine
             
             See [TrackFX\_SetEnabled](#TrackFX_SetEnabled)
             
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
             returns false in case of an error
         </description>
         <retvals>
@@ -18527,10 +18548,10 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_GetEQBandEnabled</slug>
         <title>TrackFX_GetEQBandEnabled</title>
-        <functioncall prog_lang="cpp">bool TrackFX_GetEQBandEnabled(MediaTrack* track, int fxidx, int bandtype, int bandidx)</functioncall>
-        <functioncall prog_lang="eel">bool TrackFX_GetEQBandEnabled(MediaTrack track, int fxidx, int bandtype, int bandidx)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.TrackFX_GetEQBandEnabled(MediaTrack track, integer fxidx, integer bandtype, integer bandidx)</functioncall>
-        <functioncall prog_lang="python">Boolean RPR_TrackFX_GetEQBandEnabled(MediaTrack track, Int fxidx, Int bandtype, Int bandidx)</functioncall>
+        <functioncall prog_lang="cpp">bool TrackFX_GetEQBandEnabled(MediaTrack* track, int fx, int bandtype, int bandidx)</functioncall>
+        <functioncall prog_lang="eel">bool TrackFX_GetEQBandEnabled(MediaTrack track, int fx, int bandtype, int bandidx)</functioncall>
+        <functioncall prog_lang="lua">boolean = reaper.TrackFX_GetEQBandEnabled(MediaTrack track, integer fx, integer bandtype, integer bandidx)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_TrackFX_GetEQBandEnabled(MediaTrack track, Int fx, Int bandtype, Int bandidx)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -18540,6 +18561,9 @@ Mespotine
             Bandtype: 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             Bandidx: 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
             
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
             See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetEQParam](#TrackFX_GetEQParam), [TrackFX\_SetEQParam](#TrackFX_SetEQParam), [TrackFX\_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
         </description>
         <retvals>
@@ -18547,7 +18571,7 @@ Mespotine
         </retvals>
         <parameters>
             MediaTrack track - the track, whose ReaEQ-instance-enabledstate you want to query
-            integer fxidx - the index of the fx in the FXChain, that is the ReaEQ-instance in question
+            integer fx - the index of the fx in the FXChain, that is the ReaEQ-instance in question
             integer bandtype - 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             integer bandidx - 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
         </parameters>
@@ -18562,10 +18586,10 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_GetEQParam</slug>
         <title>TrackFX_GetEQParam</title>
-        <functioncall prog_lang="cpp">bool TrackFX_GetEQParam(MediaTrack* track, int fxidx, int paramidx, int* bandtypeOut, int* bandidxOut, int* paramtypeOut, double* normvalOut)</functioncall>
-        <functioncall prog_lang="eel">bool TrackFX_GetEQParam(MediaTrack track, int fxidx, int paramidx, int &amp;bandtype, int &amp;bandidx, int &amp;paramtype, &amp;normval)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number bandtype, number bandidx, number paramtype, number normval = reaper.TrackFX_GetEQParam(MediaTrack track, integer fxidx, integer paramidx)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fxidx, Int paramidx, Int bandtypeOut, Int bandidxOut, Int paramtypeOut, Float normvalOut) = RPR_TrackFX_GetEQParam(track, fxidx, paramidx, bandtypeOut, bandidxOut, paramtypeOut, normvalOut)</functioncall>
+        <functioncall prog_lang="cpp">bool TrackFX_GetEQParam(MediaTrack* track, int fx, int paramidx, int* bandtypeOut, int* bandidxOut, int* paramtypeOut, double* normvalOut)</functioncall>
+        <functioncall prog_lang="eel">bool TrackFX_GetEQParam(MediaTrack track, int fx, int paramidx, int &amp;bandtype, int &amp;bandidx, int &amp;paramtype, &amp;normval)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, number bandtype, number bandidx, number paramtype, number normval = reaper.TrackFX_GetEQParam(MediaTrack track, integer fx, integer paramidx)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int paramidx, Int bandtypeOut, Int bandidxOut, Int paramtypeOut, Float normvalOut) = RPR_TrackFX_GetEQParam(track, fxidx, paramidx, bandtypeOut, bandidxOut, paramtypeOut, normvalOut)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -18574,19 +18598,30 @@ Mespotine
             Bandtype: -1=master gain, 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             Bandidx (ignored for master gain): 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
             Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q.
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
             See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_SetEQParam](#TrackFX_SetEQParam), [TrackFX\_GetEQBandEnabled](#TrackFX_GetEQBandEnabled), [TrackFX\_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
         </description>
         <retvals>
-            retval - 
-            bandtype - 
-            bandidx - 
-            paramtype - 
-            normval - 
+            boolean retval - true, if it's a ReaEQ-instance; false, is not a ReaEQ-instance or in case of an error
+            number bandtype - the bandtype of the band to change;
+                            - -1, master gain
+                            - 0, lhipass
+                            - 1, loshelf
+                            - 2, band
+                            - 3, notch
+                            - 4, hishelf
+                            - 5, lopass 
+            number bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc. 
+            number paramtype - 0, freq; 1, gain; 2, Q 
+            number normval - the normalized value
         </retvals>
         <parameters>
-            track - 
-            fxidx - 
-            paramidx - 
+            MediaTrack track - the track, whose ReaEQ-instance-attributes you want to get
+            integer fx - the index of the fx; add 0x1000000 to address rec-input-fx/monitoringfx; 0-based
+            integer paramidx - the parameter whose eq-states you want to retrieve; 0-based
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18599,22 +18634,25 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_GetFloatingWindow</slug>
         <title>TrackFX_GetFloatingWindow</title>
-        <functioncall prog_lang="cpp">HWND TrackFX_GetFloatingWindow(MediaTrack* track, int index)</functioncall>
-        <functioncall prog_lang="eel">HWND TrackFX_GetFloatingWindow(MediaTrack track, int index)</functioncall>
-        <functioncall prog_lang="lua">HWND = reaper.TrackFX_GetFloatingWindow(MediaTrack track, integer index)</functioncall>
-        <functioncall prog_lang="python">HWND RPR_TrackFX_GetFloatingWindow(MediaTrack track, Int index)</functioncall>
+        <functioncall prog_lang="cpp">HWND TrackFX_GetFloatingWindow(MediaTrack* track, int fx)</functioncall>
+        <functioncall prog_lang="eel">HWND TrackFX_GetFloatingWindow(MediaTrack track, int fx)</functioncall>
+        <functioncall prog_lang="lua">HWND = reaper.TrackFX_GetFloatingWindow(MediaTrack track, integer fx)</functioncall>
+        <functioncall prog_lang="python">HWND RPR_TrackFX_GetFloatingWindow(MediaTrack track, Int fx)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description prog_lang="*">
             returns HWND of floating window for effect index, if any
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             HWND - 
         </retvals>
         <parameters>
-            track - 
-            index - 
+            MediaTrack track - 
+            integer fx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18635,7 +18673,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.            
         </description>
         <retvals>
             retval - 
@@ -18666,7 +18705,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
              GUID - 
@@ -18694,7 +18734,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             retval - 
@@ -18752,6 +18793,9 @@ Mespotine
         </requires>
         <description prog_lang="*">
             sets the number of input/output pins for FX if available, returns plug-in type or -1 on error
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             retval - 
@@ -18782,6 +18826,9 @@ Mespotine
         </requires>
         <description prog_lang="*">
             gets plug-in specific named configuration value (returns true on success). Special values: 'pdc' returns PDC latency. 'in_pin_0' returns name of first input pin (if available), 'out_pin_0' returns name of first output pin (if available), etc.
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             retval - 
@@ -18811,7 +18858,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             integer - 
@@ -18840,6 +18888,9 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns true if this FX UI is open in the FX chain window or a floating window. See [TrackFX\_SetOpen](#TrackFX_SetOpen)
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - true, TrackFX is open; false, TrackFX is closed
@@ -18867,7 +18918,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             retval - 
@@ -18898,7 +18950,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             retval - 
@@ -18931,7 +18984,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             retval - 
@@ -18963,7 +19017,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             retval - 
@@ -18994,7 +19049,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             number - 
@@ -19024,6 +19080,9 @@ Mespotine
         </requires>
         <description prog_lang="*">
             gets the effective channel mapping bitmask for a particular pin. high32OutOptional will be set to the high 32 bits
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             retval - 
@@ -19055,6 +19114,9 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). See [TrackFX\_SetPreset](#TrackFX_SetPreset).
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean retval - 
@@ -19085,6 +19147,9 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns current preset index, or -1 if error. numberOfPresetsOut will be set to total number of presets available. See [TrackFX\_SetPresetByIndex](#TrackFX_SetPresetByIndex)
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             retval - 
@@ -19114,6 +19179,12 @@ Mespotine
         </requires>
         <description prog_lang="*">
             returns index of effect visible in record input chain, or -1 for chain hidden, or -2 for chain visible but no effect selected
+            
+            To get the monitoring FX rather than record input FX, use Master-Track.
+            
+            Note:
+            To access record input FX in other TrackFX-functions, use FX indices [0x1000000..0x1000000+n) for the individual fxs in the FXChain and pass over the track, whose rec-input-fxchain you want to access.
+            Also pass over the track, whose rec-input-fx you want to access. Pass over MasterTrack to get the monitoring FX-chain.
         </description>
         <retvals>
             integer - 
@@ -19140,7 +19211,14 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            returns count of record input FX. To access record input FX, use a FX indices [0x1000000..0x1000000+n). On the master track, this accesses monitoring FX rather than record input FX.
+            returns count of record input FX of a track. 
+            
+            To get the monitoring FX rather than record input FX, use Master-Track.
+            
+            Note:
+            To access record input FX in other TrackFX-functions, use FX indices [0x1000000..0x1000000+n) for the individual fxs in the FXChain and pass over the track, whose rec-input-fxchain you want to access.
+            Also pass over the track, whose rec-input-fx you want to access. Pass over MasterTrack to get the monitoring FX-chain.
+            
         </description>
         <retvals>
             integer - 
@@ -19167,7 +19245,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             string fn - 
@@ -19197,6 +19276,9 @@ Mespotine
         </requires>
         <description prog_lang="*">
             presetmove==1 activates the next preset, presetmove==-1 activates the previous preset, etc.
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - 
@@ -19225,6 +19307,11 @@ Mespotine
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Set a TrackFX enabled/disabled.
+        
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+        
             See [TrackFX\_GetEnabled](#TrackFX_GetEnabled)
         </description>
         <parameters>
@@ -19243,10 +19330,10 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_SetEQBandEnabled</slug>
         <title>TrackFX_SetEQBandEnabled</title>
-        <functioncall prog_lang="cpp">bool TrackFX_SetEQBandEnabled(MediaTrack* track, int fxidx, int bandtype, int bandidx, bool enable)</functioncall>
-        <functioncall prog_lang="eel">bool TrackFX_SetEQBandEnabled(MediaTrack track, int fxidx, int bandtype, int bandidx, bool enable)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.TrackFX_SetEQBandEnabled(MediaTrack track, integer fxidx, integer bandtype, integer bandidx, boolean enable)</functioncall>
-        <functioncall prog_lang="python">Boolean RPR_TrackFX_SetEQBandEnabled(MediaTrack track, Int fxidx, Int bandtype, Int bandidx, Boolean enable)</functioncall>
+        <functioncall prog_lang="cpp">bool TrackFX_SetEQBandEnabled(MediaTrack* track, int fx, int bandtype, int bandidx, bool enable)</functioncall>
+        <functioncall prog_lang="eel">bool TrackFX_SetEQBandEnabled(MediaTrack track, int fx, int bandtype, int bandidx, bool enable)</functioncall>
+        <functioncall prog_lang="lua">boolean = reaper.TrackFX_SetEQBandEnabled(MediaTrack track, integer fx, integer bandtype, integer bandidx, boolean enable)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_TrackFX_SetEQBandEnabled(MediaTrack track, Int fx, Int bandtype, Int bandidx, Boolean enable)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -19256,13 +19343,16 @@ Mespotine
             Bandtype: 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             Bandidx: 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
             See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetEQParam](#TrackFX_GetEQParam), [TrackFX\_SetEQParam](#TrackFX_SetEQParam), [TrackFX\_GetEQBandEnabled](#TrackFX_GetEQBandEnabled).
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - 
         </retvals>
         <parameters>
             track - 
-            fxidx - 
+            fx - 
             bandtype - 
             bandidx - 
             enable - 
@@ -19278,10 +19368,10 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_SetEQParam</slug>
         <title>TrackFX_SetEQParam</title>
-        <functioncall prog_lang="cpp">bool TrackFX_SetEQParam(MediaTrack* track, int fxidx, int bandtype, int bandidx, int paramtype, double val, bool isnorm)</functioncall>
-        <functioncall prog_lang="eel">bool TrackFX_SetEQParam(MediaTrack track, int fxidx, int bandtype, int bandidx, int paramtype, val, bool isnorm)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.TrackFX_SetEQParam(MediaTrack track, integer fxidx, integer bandtype, integer bandidx, integer paramtype, number val, boolean isnorm)</functioncall>
-        <functioncall prog_lang="python">Boolean RPR_TrackFX_SetEQParam(MediaTrack track, Int fxidx, Int bandtype, Int bandidx, Int paramtype, Float val, Boolean isnorm)</functioncall>
+        <functioncall prog_lang="cpp">bool TrackFX_SetEQParam(MediaTrack* track, int fx, int bandtype, int bandidx, int paramtype, double val, bool isnorm)</functioncall>
+        <functioncall prog_lang="eel">bool TrackFX_SetEQParam(MediaTrack track, int fx, int bandtype, int bandidx, int paramtype, val, bool isnorm)</functioncall>
+        <functioncall prog_lang="lua">boolean = reaper.TrackFX_SetEQParam(MediaTrack track, integer fx, integer bandtype, integer bandidx, integer paramtype, number val, boolean isnorm)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_TrackFX_SetEQParam(MediaTrack track, Int fx, Int bandtype, Int bandidx, Int paramtype, Float val, Boolean isnorm)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -19291,13 +19381,16 @@ Mespotine
             Bandidx (ignored for master gain): 0=target first band matching bandtype, 1=target 2nd band matching bandtype, etc.
             Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q.
             See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetEQParam](#TrackFX_GetEQParam), [TrackFX\_GetEQBandEnabled](#TrackFX_GetEQBandEnabled), [TrackFX\_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - 
         </retvals>
         <parameters>
             track - 
-            fxidx - 
+            fx - 
             bandtype - 
             bandidx - 
             paramtype - 
@@ -19324,6 +19417,9 @@ Mespotine
         </requires>
         <description prog_lang="*">
             sets plug-in specific named configuration value (returns true on success)
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - 
@@ -19355,6 +19451,9 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TrackFX\_GetOffline](#TrackFX_GetOffline)
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <parameters>
             MediaTrack track - 
@@ -19490,7 +19589,11 @@ Mespotine
             Reaper=5.95
         </requires>
         <description prog_lang="*">
-            Copies (or moves) FX from src_take to dest_track. dest_fx can have 0x1000000 set to reference input FX.
+            Copies (or moves) FX from src_take to dest_track. 
+            
+            Note:
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            Add 0x1000000 to the fx-indices to address monitoringFX/rec-inputFX.
         </description>
         <parameters>
             MediaItem_Take src_take - 
@@ -19519,6 +19622,9 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TrackFX\_SetOffline](#TrackFX_SetOffline)
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean retval - 
@@ -19603,6 +19709,9 @@ Mespotine
         </requires>
         <description prog_lang="*">
             Remove a FX from track chain (returns true on success).
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean retval - 
@@ -19631,6 +19740,9 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Open this FX UI. See [TrackFX\_GetOpen](#TrackFX_GetOpen)
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <parameters>
             track - the track, in which the FX to be opened is located
@@ -19656,7 +19768,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - 
@@ -19686,7 +19799,8 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - 
@@ -19717,6 +19831,9 @@ Mespotine
         </requires>
         <description prog_lang="*">
             sets the channel mapping bitmask for a particular pin. returns false if unsupported (not all types of plug-ins support this capability)
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - 
@@ -19749,6 +19866,9 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Activate a preset with the name shown in the REAPER dropdown. Full paths to .vstpreset files are also supported for VST3 plug-ins. See [TrackFX\_GetPreset](#TrackFX_GetPreset).
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - 
@@ -19778,6 +19898,9 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Sets the preset idx, or the factory preset (idx==-2), or the default user preset (idx==-1). Returns true on success. See [TrackFX\_GetPresetIndex](#TrackFX_GetPresetIndex).
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             boolean - 
@@ -19798,19 +19921,22 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_Show</slug>
         <title>TrackFX_Show</title>
-        <functioncall prog_lang="cpp">void TrackFX_Show(MediaTrack* track, int index, int showFlag)</functioncall>
-        <functioncall prog_lang="eel">TrackFX_Show(MediaTrack track, int index, int showFlag)</functioncall>
-        <functioncall prog_lang="lua">reaper.TrackFX_Show(MediaTrack track, integer index, integer showFlag)</functioncall>
-        <functioncall prog_lang="python">RPR_TrackFX_Show(MediaTrack track, Int index, Int showFlag)</functioncall>
+        <functioncall prog_lang="cpp">void TrackFX_Show(MediaTrack* track, int fx, int showFlag)</functioncall>
+        <functioncall prog_lang="eel">TrackFX_Show(MediaTrack track, int fx, int showFlag)</functioncall>
+        <functioncall prog_lang="lua">reaper.TrackFX_Show(MediaTrack track, integer fx, integer showFlag)</functioncall>
+        <functioncall prog_lang="python">RPR_TrackFX_Show(MediaTrack track, Int fx, Int showFlag)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description prog_lang="*">
             Shows a track-FX-window.
+            
+            By setting fx you can add 0x1000000 set to reference input FX. 
+            To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <parameters>
             track - the MediaTrack, whose TrackFX you want to show
-            index - the id of the track within the fxchain
+            fx - the id of the track within the fxchain
             showFlag - how to show the FX-window
                     -0, for hidechain
                     -1, for show chain(index valid)

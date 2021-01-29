@@ -4818,7 +4818,7 @@ function ultraschall.InputFX_EndParamEdit(fxindex, paramindex)
   </requires>
   <functioncall>boolean retval = ultraschall.InputFX_EndParamEdit(integer fxindex, integer paramindex)</functioncall>
   <description>
-    moves a monitoring-fx and inserts it as trackfx at a certain position
+    This ends the capture of a parameter(e.g when finished writing automation)
     
     returns false in case of an error
   </description>
