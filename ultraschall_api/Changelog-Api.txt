@@ -258,6 +258,8 @@ TODO:
     So: we would need to set the end of the slope correctly, THEN use SetTakeStretchMarkerSlope to set the beginning, THEN adjust the slope again by moving the next SM's position.
     That way, we would have full control over beginning and end of it.
     
+    -- Tracks can have rec-fxchains(click on Arm-button and on the bottom of the menu), who are stored beside the FXCHAIN-Statechunk.
+    -- Add them AND a trackindex to the inputfx-functions
 
 </TODO>
 
@@ -300,7 +302,25 @@ Has now 1359 functions, with 8 new ones
   - User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)
        
 #### Changes from 4.2.002 to 4.2.003  
-  - Automation Items: AutomationItem\_Delete - didn't work due stupid bug, completely rewritten -> fixed(thanks to XRaym)
+  - Automation Items: AutomationItem\_Delete - didn't work due stupid bug, completely rewritten -> fixed(thanks to XRaym)  
+  - Configuration-files: CountKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: CountKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: CountKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: DeleteKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: DeleteKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: DeleteKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetActionCommandIDByFilename - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniActionsID\_ByActionCommandID - setting filename_with_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -> fixed(thanks to Aaron Cendan)
+  - Configuration-files: GetKBIniFilepath - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniKeys\_ByActionCommandID - setting filename_with_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -> fixed(thanks to Aaron Cendan)
+  - Configuration-files: GetKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniScripts\_ByActionCommandID - setting filename_with_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -> fixed(thanks to Aaron Cendan)
+  - Configuration-files: QueryKeyboardShortcutByKeyID - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: SetKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: SetKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: SetKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini
   - Developer Tools: ultraschall\_functions\_ProjectManagement\_ProjectFiles\_Module.lua - uses now the project active at script-start.
   - Developer Tools: ultraschall\_ShowProjectDiffs.lua - doesn't need to save the project anymore to show changes in the projectfile
   - Docs: Reaper Internals - update to Reaper 6.20; added missing retvals and params, removed duplicated ones    
@@ -314,6 +334,7 @@ Has now 1359 functions, with 8 new ones
   - File-Management: GetAllDirectoriesInPath - flushes cache on Reaper 6.20+ to be more reliable
   - File-Management: GetAllFilenamesInPath - flushes cache on Reaper 6.20+ to be more reliable      
   - File-Management: GetAllRecursiveFilesAndSubdirectories - flushes cache on Reaper 6.20+ to be more reliable  
+  - HelperFunctions: CheckActionCommandIDFormat - returns now true, when the command-id-number is passed over as string as well; fixes some functions(thanks to Aaron Cendan)
   - HelperFunctions: IsOS\_Mac - works now on arm-macs as well(thanks to rstockm)
   - MarkerManagement: AddEditMarker - works now on arm-macs as well(thanks to rstockm)
   - MarkerManagement: AddEditRegion - works now on arm-macs as well(thanks to rstockm)

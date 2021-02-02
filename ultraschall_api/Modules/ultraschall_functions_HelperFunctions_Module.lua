@@ -476,7 +476,8 @@ function ultraschall.CheckActionCommandIDFormat(aid)
   -- check parameter
   if math.type(aid)~="integer" and type(aid)~="string" then ultraschall.AddErrorMessage("CheckActionCommandIDFormat", "action_command_id", "must be an integer or a string", -1) return false end
   
-  if type(aid)=="number" and tonumber(aid)==math.floor(tonumber(aid)) and tonumber(aid)<=65535 and tonumber(aid)>=0 then return true -- is it a valid number?
+  
+  if math.type(tonumber(aid))=="integer" and tonumber(aid)==math.floor(tonumber(aid)) and tonumber(aid)<=65535 and tonumber(aid)>=0 then return true -- is it a valid number?
   elseif type(aid)=="string" and aid:sub(1,1)=="_" and aid:len()>1 then return true -- is it a valid string, formatted right=
   else return false -- if neither, return false
   end

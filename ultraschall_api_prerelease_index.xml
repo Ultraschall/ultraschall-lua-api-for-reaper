@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43529.00" author="Meo Mespotine">
+      <version name="43530.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.003/ultraschall_api/Changelog-Api.txt</source>
@@ -636,6 +636,48 @@ Changes from 4.2.002 to 4.2.003
 
 -   Automation Items: AutomationItem_Delete - didn’t work due stupid
     bug, completely rewritten -> fixed(thanks to XRaym)
+-   Configuration-files: CountKBIniActions - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: CountKBIniKeys - setting filename_with_path=nil
+    uses default reaper-kb.ini
+-   Configuration-files: CountKBIniScripts - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: DeleteKBIniActions - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: DeleteKBIniKeys - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: DeleteKBIniScripts - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: GetActionCommandIDByFilename - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: GetKBIniActions - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: GetKBIniActionsID_ByActionCommandID - setting
+    filename_with_path=nil uses default reaper-kb.ini; rewritten and
+    sped up by magnitudes; returns found indices as table now; didn’t
+    work with command-id-numbers -> fixed(thanks to Aaron Cendan)
+-   Configuration-files: GetKBIniFilepath - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: GetKBIniKeys - setting filename_with_path=nil
+    uses default reaper-kb.ini
+-   Configuration-files: GetKBIniKeys_ByActionCommandID - setting
+    filename_with_path=nil uses default reaper-kb.ini; rewritten and
+    sped up by magnitudes; returns found indices as table now; didn’t
+    work with command-id-numbers -> fixed(thanks to Aaron Cendan)
+-   Configuration-files: GetKBIniScripts - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: GetKBIniScripts_ByActionCommandID - setting
+    filename_with_path=nil uses default reaper-kb.ini; rewritten and
+    sped up by magnitudes; returns found indices as table now; didn’t
+    work with command-id-numbers -> fixed(thanks to Aaron Cendan)
+-   Configuration-files: QueryKeyboardShortcutByKeyID - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: SetKBIniActions - setting
+    filename_with_path=nil uses default reaper-kb.ini
+-   Configuration-files: SetKBIniKeys - setting filename_with_path=nil
+    uses default reaper-kb.ini
+-   Configuration-files: SetKBIniScripts - setting
+    filename_with_path=nil uses default reaper-kb.ini
 -   Developer Tools:
     ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua -
     uses now the project active at script-start.
@@ -661,6 +703,9 @@ Changes from 4.2.002 to 4.2.003
     6.20+ to be more reliable
 -   File-Management: GetAllRecursiveFilesAndSubdirectories - flushes
     cache on Reaper 6.20+ to be more reliable
+-   HelperFunctions: CheckActionCommandIDFormat - returns now true, when
+    the command-id-number is passed over as string as well; fixes some
+    functions(thanks to Aaron Cendan)
 -   HelperFunctions: IsOS_Mac - works now on arm-macs as well(thanks to
     rstockm)
 -   MarkerManagement: AddEditMarker - works now on arm-macs as
@@ -7657,7 +7702,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1392 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43529 from 29.01.2021 21:34:59).}
+a 1392 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43530 from 03.02.2021 00:16:58).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7795,7 +7840,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1392 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43529 from 29.01.2021 21:34:59).}
+a 1392 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43530 from 03.02.2021 00:16:58).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

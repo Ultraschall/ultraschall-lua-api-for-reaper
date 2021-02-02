@@ -79,7 +79,26 @@ Ultraschall API Changelog
 </ul>
 <h4>Changes from 4.2.002 to 4.2.003</h4>
 <ul>
-<li>Automation Items: AutomationItem_Delete - didn't work due stupid bug, completely rewritten -&gt; fixed(thanks to XRaym)</li>
+<li>Automation Items: AutomationItem_Delete - didn't work due stupid bug, completely rewritten -&gt; fixed(thanks to XRaym)<br />
+</li>
+<li>Configuration-files: CountKBIniActions - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: CountKBIniKeys - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: CountKBIniScripts - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: DeleteKBIniActions - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: DeleteKBIniKeys - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: DeleteKBIniScripts - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetActionCommandIDByFilename - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniActions - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniActionsID_ByActionCommandID - setting filename<em>with</em>path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -&gt; fixed(thanks to Aaron Cendan)</li>
+<li>Configuration-files: GetKBIniFilepath - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniKeys - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniKeys_ByActionCommandID - setting filename<em>with</em>path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -&gt; fixed(thanks to Aaron Cendan)</li>
+<li>Configuration-files: GetKBIniScripts - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniScripts_ByActionCommandID - setting filename<em>with</em>path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -&gt; fixed(thanks to Aaron Cendan)</li>
+<li>Configuration-files: QueryKeyboardShortcutByKeyID - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: SetKBIniActions - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: SetKBIniKeys - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: SetKBIniScripts - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
 <li>Developer Tools: ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua - uses now the project active at script-start.</li>
 <li>Developer Tools: ultraschall_ShowProjectDiffs.lua - doesn't need to save the project anymore to show changes in the projectfile</li>
 <li>Docs: Reaper Internals - update to Reaper 6.20; added missing retvals and params, removed duplicated ones<br />
@@ -96,6 +115,7 @@ Ultraschall API Changelog
 </li>
 <li>File-Management: GetAllRecursiveFilesAndSubdirectories - flushes cache on Reaper 6.20+ to be more reliable<br />
 </li>
+<li>HelperFunctions: CheckActionCommandIDFormat - returns now true, when the command-id-number is passed over as string as well; fixes some functions(thanks to Aaron Cendan)</li>
 <li>HelperFunctions: IsOS_Mac - works now on arm-macs as well(thanks to rstockm)</li>
 <li>MarkerManagement: AddEditMarker - works now on arm-macs as well(thanks to rstockm)</li>
 <li>MarkerManagement: AddEditRegion - works now on arm-macs as well(thanks to rstockm)</li>

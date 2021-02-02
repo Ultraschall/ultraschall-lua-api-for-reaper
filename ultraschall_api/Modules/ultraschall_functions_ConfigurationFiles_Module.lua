@@ -716,12 +716,11 @@ function ultraschall.GetKBIniFilepath()
 end
 
 function ultraschall.CountKBIniActions(filename_with_path)
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountKBIniActions</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -730,9 +729,9 @@ function ultraschall.CountKBIniActions(filename_with_path)
     Count the number of "ACT"-Actions of the Reaper-kb.ini-file.
     Returns -1, if no such file exists.
   </description>
-<parameter>
-string filename_with_path - path and filename of the reaper-kb.ini
-</parameter>
+  <parameter>
+    string filename_with_path - path and filename of the reaper-kb.ini; nil, use current Reaper's reaper-kb.ini
+  </parameter>
   <retvals>
     integer actions - number of actions in the reaper-kb.ini
   </retvals>
@@ -745,6 +744,7 @@ string filename_with_path - path and filename of the reaper-kb.ini
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, count, actions, action</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CountKBIniActions", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountKBIniActions", "filename_with_path", "file does not exist", -2) return -1 end
   local count=0
@@ -763,7 +763,7 @@ function ultraschall.CountKBIniScripts(filename_with_path)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountKBIniScripts</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -772,9 +772,9 @@ function ultraschall.CountKBIniScripts(filename_with_path)
     Count the number of "SCR"-Scripts of the Reaper-kb.ini-file.
     Returns -1, if no such file exists.
   </description>
-<parameter>
-string filename_with_path - path and filename of the reaper-kb.ini
-</parameter>
+  <parameter>
+    string filename_with_path - path and filename of the reaper-kb.ini; nil, use current Reaper's reaper-kb.ini
+  </parameter>
   <retvals>
     integer scripts - number of scripts in the reaper-kb.ini
   </retvals>
@@ -786,7 +786,8 @@ string filename_with_path - path and filename of the reaper-kb.ini
   <source_document>Modules/ultraschall_functions_ConfigurationFiles_Module.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, count, scripts, script</tags>
 </US_DocBloc>
-]]  
+]]
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CountKBIniScripts", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountKBIniScripts", "filename_with_path", "file does not exist", -2) return -1 end
   local count=0
@@ -805,7 +806,7 @@ function ultraschall.CountKBIniKeys(filename_with_path)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountKBIniKeys</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -814,9 +815,9 @@ function ultraschall.CountKBIniKeys(filename_with_path)
     Count the number of "KEY"-Keybindings of the Reaper-kb.ini-file.
     Returns -1, if no such file exists.
   </description>
-<parameter>
-string filename_with_path - path and filename of the reaper-kb.ini
-</parameter>
+  <parameter>
+    string filename_with_path - path and filename of the reaper-kb.ini; nil, use current Reaper's reaper-kb.ini
+  </parameter>
   <retvals>
     integer keys - number of keys in the reaper-kb.ini
   </retvals>
@@ -829,6 +830,7 @@ string filename_with_path - path and filename of the reaper-kb.ini
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, count, keys, key</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CountKBIniKeys", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountKBIniKeys", "filename_with_path", "file does not exist", -2) return -1 end
   local count=0
@@ -847,7 +849,7 @@ function ultraschall.GetKBIniActions(filename_with_path, idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniActions</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -857,7 +859,7 @@ function ultraschall.GetKBIniActions(filename_with_path, idx)
     Returns -1, if no such entry or file exists.
   </description>
   <parameters>
-    string filename_with_path - path and filename of the reaper-kb.ini
+    string filename_with_path - path and filename of the reaper-kb.ini; nil, use current Reaper's reaper-kb.ini
     integer idx - the number of the action to get, beginning with 1 for the first one
   </parameters>
   <retvals>
@@ -889,6 +891,7 @@ function ultraschall.GetKBIniActions(filename_with_path, idx)
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, actions, action</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniActions", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniActions", "filename_with_path", "file does not exist", -2) return -1 end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetKBIniActions", "idx", "must be an integer", -3) return -1 end
@@ -915,7 +918,7 @@ function ultraschall.GetKBIniScripts(filename_with_path, idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniScripts</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -925,7 +928,7 @@ function ultraschall.GetKBIniScripts(filename_with_path, idx)
     Returns -1, if no such entry or file exists.
   </description>
   <parameters>
-    string filename_with_path - path and filename of the reaper-kb.ini
+    string filename_with_path - path and filename of the reaper-kb.ini; nil, use current Reaper's reaper-kb.ini
     integer idx - the number of the action to get, beginning with 1 for the first one
   </parameters>
   <retvals>
@@ -956,6 +959,7 @@ function ultraschall.GetKBIniScripts(filename_with_path, idx)
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, scripts, script</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniScripts", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniScripts", "filename_with_path", "file does not exist", -2) return -1 end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetKBIniScripts", "idx", "must be an integer", -3) return -1 end
@@ -982,7 +986,7 @@ function ultraschall.GetKBIniKeys(filename_with_path, idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniKeys</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -997,7 +1001,7 @@ function ultraschall.GetKBIniKeys(filename_with_path, idx)
     returns -1 in case of an error
   </description>
   <parameters>
-    string filename_with_path - path and filename of the reaper-kb.ini
+    string filename_with_path - path and filename of the reaper-kb.ini; nil, use current Reaper's reaper-kb.ini
     integer idx - the number of the action to get, beginning with 1 for the first one
   </parameters>
   <retvals>
@@ -1024,6 +1028,7 @@ function ultraschall.GetKBIniKeys(filename_with_path, idx)
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, keys, key</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniKeys", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniKeys", "filename_with_path", "file does not exist", -2) return -1 end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetKBIniKeys", "idx", "must be an integer", -3) return -1 end
@@ -1049,21 +1054,23 @@ function ultraschall.GetKBIniActionsID_ByActionCommandID(filename_with_path, Act
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniActionsID_ByActionCommandID</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string retval = ultraschall.GetKBIniActionsID_ByActionCommandID(filename_with_path, ActionCommandID)</functioncall>
+  <functioncall>string retval, integer indexcount, table indices = ultraschall.GetKBIniActionsID_ByActionCommandID(filename_with_path, ActionCommandID)</functioncall>
   <description>
     Returns the indexnumber(s) of actions by ActionCommandIDs within a reaper-kb.ini.
     Returns -1, if no such entry or file exists.
   </description>
   <parameters>
-    string filename_with_path - path and filename of the reaper-kb.ini
+    string filename_with_path - path and filename of the reaper-kb.ini; nil, use current Reaper's reaper-kb.ini
     string ActionCommandID - the ActionCommandID
   </parameters>
   <retvals>
     string retval - the ids of actions with ActionCommandID, separated by a ,
+    integer indexcount - the number of indices found
+    table indices - a table with all indices found
   </retvals>
   <chapter_context>
     Configuration-Files Management
@@ -1074,19 +1081,31 @@ function ultraschall.GetKBIniActionsID_ByActionCommandID(filename_with_path, Act
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, actions, action</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniActionsID_ByActionCommandID", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniActionsID_ByActionCommandID", "filename_with_path", "file does not exist", -2) return -1 end
   if ultraschall.CheckActionCommandIDFormat(ActionCommandID)==false then ultraschall.AddErrorMessage("GetKBIniActionsID_ByActionCommandID", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return -1 end
   
+  if ActionCommandID:sub(1,1)=="_" then ActionCommandID=ActionCommandID:sub(2,-1) end
+  
   local idx_string=""
-  local consolidate, section, AID, Description, ActionsToBeExecuted
-  for i=1, ultraschall.CountKBIniActions(filename_with_path)-1 do
-    consolidate, section, AID, Description, ActionsToBeExecuted=ultraschall.GetKBIniActions(filename_with_path,i)
-    if AID:sub(1,1)=="\"" then AID=AID:sub(2,-1) end
-    if AID:sub(-1,-1)=="\"" then AID=AID:sub(1,-2) end
-    if ActionCommandID==AID then idx_string=idx_string..i.."," end
+  local actcount=0
+  local i=0
+  local actidx={}
+  local CID
+  
+  for k in io.lines(filename_with_path) do      
+    if k:sub(1,3)=="ACT" then 
+      actcount=actcount+1
+      CID=k:match("ACT .- .- \"(.-)\" ")      
+      if CID==ActionCommandID then        
+        idx_string=idx_string..actcount..","
+        i=i+1 
+        actidx[i]=actcount
+      end
+    end
   end
-  return idx_string:sub(1,-2)
+  return idx_string:sub(1,-2), i, actidx
 end
 
 --A=ultraschall.GetKBIniActionsID_ByActionCommandID("c:\\test.txt","_Ultraschall_ZoomToSelection")
@@ -1096,21 +1115,23 @@ function ultraschall.GetKBIniScripts_ByActionCommandID(filename_with_path, Actio
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniScripts_ByActionCommandID</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string retval = ultraschall.GetKBIniScripts_ByActionCommandID(filename_with_path, ActionCommandID)</functioncall>
+  <functioncall>string retval, integer indexcount, table indices = ultraschall.GetKBIniScripts_ByActionCommandID(filename_with_path, ActionCommandID)</functioncall>
   <description>
     Returns the indexnumber(s) of scripts by ActionCommandIDs within a reaper-kb.ini.
     Returns nil, if no such entry or file exists.
   </description>
   <parameters>
-    string filename_with_path - path and filename of the reaper-kb.ini
+    string filename_with_path - path and filename of the reaper-kb.ini; nil, use current Reaper's reaper-kb.ini
     string ActionCommandID - the ActionCommandID
   </parameters>
   <retvals>
     string retval - the ids of scripts with ActionCommandID, separated by a ,
+    integer indexcount - the number of indices found
+    table indices - a table with all indices found
   </retvals>
   <chapter_context>
     Configuration-Files Management
@@ -1121,19 +1142,30 @@ function ultraschall.GetKBIniScripts_ByActionCommandID(filename_with_path, Actio
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, scripts, script</tags>
 </US_DocBloc>
 ]]  
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "filename_with_path", "must be a string", -1) return end
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "filename_with_path", "must be a string", -1) return end  
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "filename_with_path", "file does not exist", -2) return end
   if ultraschall.CheckActionCommandIDFormat(ActionCommandID)==false then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return end
+  if ActionCommandID:sub(1,1)=="_" then ActionCommandID=ActionCommandID:sub(2,-1) end
   
   local idx_string=""
-  local consolidate, section, AID, Description, ScriptFile
-  for i=1, ultraschall.CountKBIniScripts(filename_with_path)-1 do
-    consolidate, section, AID, Description, ScriptFile=ultraschall.GetKBIniScripts(filename_with_path,i)
-    if AID:sub(1,1)=="\"" then AID=AID:sub(2,-1) end
-    if AID:sub(-1,-1)=="\"" then AID=AID:sub(1,-2) end
-    if ActionCommandID==AID then idx_string=idx_string..i.."," end
+  local scrcount=0
+  local i=0
+  local scridx={}
+  local CID
+  
+  for k in io.lines(filename_with_path) do      
+    if k:sub(1,3)=="SCR" then 
+      scrcount=scrcount+1
+      CID=k:match("SCR .- .- (.-) ")      
+      if CID==ActionCommandID then        
+        idx_string=idx_string..scrcount..","
+        i=i+1 
+        scridx[i]=scrcount
+      end
+    end
   end
-  return idx_string:sub(1,-2)
+  return idx_string:sub(1,-2), i, scridx
 end
 
 --A=ultraschall.GetKBIniScripts_ByActionCommandID("c:\\test.txt", "Haselnuss") --
@@ -1143,21 +1175,23 @@ function ultraschall.GetKBIniKeys_ByActionCommandID(filename_with_path, ActionCo
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniKeys_ByActionCommandID</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string retval = ultraschall.GetKBIniKeys_ByActionCommandID(filename_with_path, ActionCommandID)</functioncall>
+  <functioncall>string retval, integer indexcount, table indices = ultraschall.GetKBIniKeys_ByActionCommandID(filename_with_path, ActionCommandID)</functioncall>
   <description>
     Returns the indexnumber(s) of keys by ActionCommandIDs within a reaper-kb.ini.
     Returns nil, if no such entry or file exists.
   </description>
   <parameters>
-    string filename_with_path - path and filename of the reaper-kb.ini
+    string filename_with_path - path and filename of the reaper-kb.ini; nil, use current Reaper's reaper-kb.ini
     string ActionCommandID - the ActionCommandID
   </parameters>
   <retvals>
     string retval - the ids of keys with ActionCommandID, separated by a ,
+    integer indexcount - the number of indices found
+    table indices - a table with all indices found
   </retvals>
   <chapter_context>
     Configuration-Files Management
@@ -1168,19 +1202,29 @@ function ultraschall.GetKBIniKeys_ByActionCommandID(filename_with_path, ActionCo
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, keys, key</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "filename_with_path", "must be a string", -1) return end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "filename_with_path", "file does not exist", -2) return end
   if ultraschall.CheckActionCommandIDFormat(ActionCommandID)==false then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return end
+  if ActionCommandID:sub(1,1)=="_" then ActionCommandID=ActionCommandID:sub(2,-1) end
   
   local idx_string=""
-  local Keytype, KeyNote, AID, section
-  for i=1, ultraschall.CountKBIniKeys(filename_with_path)-1 do
-    Keytype, KeyNote, AID, section=ultraschall.GetKBIniKeys(filename_with_path,i)
-    if AID:sub(1,1)=="\"" then AID=AID:sub(2,-1) end
-    if AID:sub(-1,-1)=="\"" then AID=AID:sub(1,-2) end
-    if ActionCommandID==AID then idx_string=idx_string..i.."," end
+  local keycount=0
+  local i=0
+  local CID
+  local keyidx={}
+  for k in io.lines(filename_with_path) do
+    if k:sub(1,3)=="KEY" then 
+      keycount=keycount+1
+      CID=k:match("KEY .- .- (.-) ")
+      if CID==ActionCommandID then        
+        idx_string=idx_string..keycount..","
+        i=i+1 
+        keyidx[i]=keycount
+      end
+    end
   end
-  return idx_string:sub(1,-2)
+  return idx_string:sub(1,-2), i, keyidx
 end
 
 --A=ultraschall.GetKBIniKeys_ByActionCommandID("c:\\test.txt","40626")
@@ -1238,6 +1282,7 @@ function ultraschall.SetKBIniActions(filename_with_path, consolidate, section, A
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, add, set, replace, action, actions</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("SetKBIniActions", "filename_with_path", "must be a string", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("SetKBIniActions", "filename_with_path", "file does not exist", -2) return false end
   if type(ActionCommandID)~="string" then ultraschall.AddErrorMessage("SetKBIniActions", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return false end
@@ -1336,6 +1381,7 @@ function ultraschall.SetKBIniScripts(filename_with_path, terminate_state, sectio
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, add, set, script, scripts, replace</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("SetKBIniScripts", "filename_with_path", "must be a string", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("SetKBIniScripts", "filename_with_path", "file does not exist", -2) return false end
   if type(ActionCommandID)~="string" then ultraschall.AddErrorMessage("SetKBIniScripts", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return false end
@@ -1439,7 +1485,7 @@ function ultraschall.SetKBIniKeys(filename_with_path, KeyType, KeyNote, ActionCo
 ]]  
 
 -- filename_with_path, KeyType, KeyNote, ActionCommandID, section, replace
-
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("SetKBIniKeys", "filename_with_path", "must be a string", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("SetKBIniKeys", "filename_with_path", "file does not exist", -2) return false end
   if ultraschall.CheckActionCommandIDFormat(ActionCommandID)==false then ultraschall.AddErrorMessage("SetKBIniKeys", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return false end
@@ -1520,6 +1566,7 @@ function ultraschall.DeleteKBIniActions(filename_with_path, idx)
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, delete, action, actions</tags>
 </US_DocBloc>
 ]]  
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniActions", "filename_with_path", "must be a string", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniActions", "filename_with_path", "file does not exist", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteKBIniActions", "idx", "must be an integer", -3) return false end
@@ -1579,6 +1626,7 @@ function ultraschall.DeleteKBIniScripts(filename_with_path, idx)
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, delete, script, scripts</tags>
 </US_DocBloc>
 ]]
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniScripts", "filename_with_path", "must be a string", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniScripts", "filename_with_path", "file does not exist", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteKBIniScripts", "idx", "must be an integer", -3) return false end
@@ -1638,6 +1686,7 @@ function ultraschall.DeleteKBIniKeys(filename_with_path, idx)
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, delete, key, keys, keybind</tags>
 </US_DocBloc>
 ]]
+  if filename_with_path==nil then filename_with_path=reaper.GetResourcePath().."/reaper-kb.ini" end  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniKeys", "filename_with_path", "must be a string", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniKeys", "filename_with_path", "file does not exist", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteKBIniKeys", "idx", "must be an integer", -3) return false end
