@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 6.20
+            ## ReaScript API as of Reaper 6.23
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -10224,7 +10224,7 @@ Mespotine
         <functioncall prog_lang="lua">integer = reaper.InsertMedia(string file, integer mode)</functioncall>
         <functioncall prog_lang="python">Int RPR_InsertMedia(String file, Int mode)</functioncall>
         <requires>
-            Reaper=6.19
+            Reaper=6.23
         </requires>
         <description prog_lang="*">
             mode: 
@@ -10242,6 +10242,7 @@ Mespotine
             &amp;1024=insert into reasamplomatic on a new track
             &amp;2048=insert into open reasamplomatic instance
             &amp;4096=move to BWF source preferred position(BWF start offset)
+            &amp;8192=reverse
         </description>
         <retvals>
             integer - 0, inserting was unsuccessful; 1, inserting was successful
