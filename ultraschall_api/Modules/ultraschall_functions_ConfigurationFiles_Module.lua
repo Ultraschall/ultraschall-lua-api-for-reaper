@@ -2307,3 +2307,87 @@ function ultraschall.KBIniGetAllShortcuts(exclude_factory_default, lang)
   
   return KeyTable2_count, KeyTable2
 end
+
+function ultraschall.GetActionCommandIDByFilename(searchfilename, searchsection, case_sensitive)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetActionCommandIDByFilename</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.17
+    Lua=5.3
+  </requires>
+  <functioncall>string ActionCommandID = ultraschall.GetActionCommandIDByFilename(string searchfilename, integer searchsection, optional boolean case_sensitive)</functioncall>
+  <description>
+    Returns the action-command-id of a script by its filename, as registered in the reaper-kb.ini.
+    
+    Important: scripts in subfolders of Scripts must be written with their full path. \ and / are supported as folder-separators.
+    Setting case_sensitive=false will return the action-command-id of the first script matching the filename, when you don't know the exact case-sensitivity.
+    Keep in mind, that on Linux, camelcase can mean different filenames. So Prototype.lua and prototype.lua are different files on Linux, when they exist together. 
+    Keep that in mind or you risk finding the wrong ActionCommandID.
+    
+    Returns nil in case of an error 
+  </description>
+  <parameters>
+    string searchfilename - the filename(plus path, if needed) of the script, whose ActionCommandID you want to have.
+    integer section - the section, in which the file is stored
+                    - 0, Main, 
+                    - 100, Main (alt recording), 
+                    - 32060, MIDI Editor, 
+                    - 32061, MIDI Event List Editor, 
+                    - 32062, MIDI Inline Editor,
+                    - 32063, Media Explorer.
+    optional boolean case_sensitive - true or nil, search for filename on a case-sensitive base; false, case-sensitivity in filename is ignored
+  </parameters>
+  <retvals>
+    string ActionCommandID - the actioncommand-id of the scriptfile; "", if no such file is installed; nil, in case of an error
+  </retvals>
+  <chapter_context>
+    Configuration-Files Management
+    Reaper-kb.ini
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ConfigurationFiles_Module.lua</source_document>
+  <tags>configuration files management, get, actioncommandid, scriptfilename, reaper-kb.ini</tags>
+</US_DocBloc>
+]]
+
+  -- returns the action-command-id for a given scriptfilename installed in Reaper
+  -- keep in mind: some scripts are stored in subfolders, like Cockos/lyrics.lua
+  --               in that case, you need to give the full path to avoid possible
+  --               confusion between files with the same filenames but in different
+  --               subfolders.
+  --               Scripts that are simply in the Scripts-folder, not within a 
+  --               subfolder of Scripts can be accessed just by their filename
+  --
+  -- Parameters:
+  --            string searchfilename - the filename, whose action-command-id you want to have
+  --            integer section - the section, in which the file is stored
+  --                                0 = Main, 
+  --                                100 = Main (alt recording), 
+  --                                32060 = MIDI Editor, 
+  --                                32061 = MIDI Event List Editor, 
+  --                                32062 = MIDI Inline Editor,
+  --                                32063 = Media Explorer.
+  -- Returnvalue:
+  --            string AID - the actioncommand-id of the scriptfile; "", if no such file is installed
+
+  if type(searchfilename)~="string" then ultraschall.AddErrorMessage("GetActionCommandIDByFilename", "searchfilename", "must be a string", -1) return nil end
+  if math.type(searchsection)~="integer" then ultraschall.AddErrorMessage("GetActionCommandIDByFilename", "searchsection", "must be an integer", -2) return nil end
+  
+  if case_sensitive==false then searchfilename=searchfilename:lower() end
+  searchfilename=string.gsub(searchfilename, "\\", "/")
+  for k in io.lines(reaper.GetResourcePath().."/reaper-kb.ini") do
+    if k:sub(1,3)=="SCR" then
+      local section, aid, desc, filename=k:match("SCR .- (.-) (.-) (\".-\") (.*)")
+      local filename=string.gsub(filename, "\"", "") 
+      filename=string.gsub(filename, "\\", "/")
+      if case_sensitive==false then filename=filename:lower() end
+      if filename==searchfilename and tonumber(section)==searchsection then
+        return "_"..aid
+      end
+    end
+  end
+  return ""
+end
+

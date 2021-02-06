@@ -266,14 +266,47 @@ TODO:
 
 ## Ultraschall Framework - Changelog
 
-### 4.2.003 - "Georg Friedrich Händel - Sarabande" - 15th of January 2021
+### 4.2.003 - "Georg Friedrich Händel - Sarabande" - 6th of February 2021
 
-Has now 1359 functions, with 8 new ones
+Has now 1382 functions, with 23 new ones
 
 **new in this release:**  
-  - **Bla**  
-      
 
+  - **BatchConvertFiles**  
+  Ever fancied programming the batch-converter? Now you can, with BatchConvertFiles. No more fiddling around with command-line.    
+  
+  - **GetProjectStateChunk**  
+  Is now improved and finally working stable. What a difficult birth, but now you can access all your project-states available.  
+
+  - **FXStateChunk-functions**  
+  Getting and setting FXStateChunk-entries should be fully supported now. Some can't be set at runtime in Reaper, due some quirks with setting statechunks, but nevertheless.  
+
+  - **GetActionCommandIDByFilename**  
+  So here's the story: you have this nice filename of a nice ReaScript and would like to call it for a date or just by Main_OnCommand, but:  
+  you don't know the ActionCommandID. GetActionCommandIDByFilename will be your knight in shining armor and give you what you need.  
+  
+  - **M1-Mac support**  
+  Now all scripts using Ultraschall-API run smooth on the new Arm-Macs as well. Dozens of fixes and bugreports made it possible.  
+
+  - **SetUIScale**  
+  Now you can scale your Reaper-window to planet-size, by setting its UI-scaling-factor. So if 2 isn't enough for your oldening eyes, set it to 100.  
+
+  - **2nd pass rendering**  
+  Also added, so you can use the new 2nd-pass-rendering-feature in your scripts. Loop Loop!  
+  
+  - **Custom Markers/Regions**  
+  They can now be enumerated, set, deleted and count with "" as well. This will give you all custom-marker/regions instead of a specific one.
+  
+  - **GetItem\_ClickState and GetTrackEnvelope\_ClickState**  
+  Stopped working due bugfix in SWS, now returned back to working due bugfix in Ultraschall-API. So getting the currently clicked/dragged item/envelope-point is available again.  
+  
+  - **EditReaScript**  
+  Open a specific ReaScript with a specific window-position and size. So arranging your ReaScript-IDE-windows is now real easy.  
+  Under the assumption, you have a taste for a nice IDE-arrangement.  
+  
+  - **Bugfixes, improvements, speedups**  
+  The usual cleanup of old functions that usually eliminate bugs and slow code.  
+  
 #### New features in 4.2.003      
   - Configuration-files: GetActionCommandIDByFilename - get the actioncommand-id of a registered script
   - Docs: misc/USDocML-Specs1\_0.txt - describes the USDocML-format I use for my Reaper/Ultraschall-API documentation
