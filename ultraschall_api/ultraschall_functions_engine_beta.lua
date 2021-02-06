@@ -1139,7 +1139,7 @@ function ultraschall.BatchConvertFiles(inputfilelist, outputfilelist, RenderTabl
     Reaper=6.12
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.BatchConvertFiles(table inputfilelist, table outputfilelist, table RenderTable, optional boolean BWFStart, PadStart, PadEnd, FXStateChunk)</functioncall>
+  <functioncall>boolean retval = ultraschall.BatchConvertFiles(table inputfilelist, table outputfilelist, table RenderTable, optional boolean BWFStart, optional integer PadStart, optional integer PadEnd, optional string FXStateChunk)</functioncall>
   <description>
     Converts files using Reaper's own BatchConverter.
     
@@ -1147,6 +1147,8 @@ function ultraschall.BatchConvertFiles(inputfilelist, outputfilelist, RenderTabl
     Though as it is another instance, you can safely go back to the old instance of Reaper.
     
     This function will probably NOT finish before the batch-converter is finished with conversion, keep this in mind.
+    
+    Will take away the focus from the currently focused window, as Reaper puts keyboard-focus to the newly started Reaper-instance that does the batch-conversion.    
     
     returns nil in case of an error
   </description>
@@ -1172,29 +1174,27 @@ function ultraschall.BatchConvertFiles(inputfilelist, outputfilelist, RenderTabl
 </US_DocBloc>
 --]]
   if type(inputfilelist)~="table" then ultraschall.AddErrorMessage("BatchConvertFiles", "inputfilelist", "must be a table of string", -1) return false end
+  
+  if #inputfilelist~=#outputfilelist then ultraschall.AddErrorMessage("BatchConvertFiles", "inputfilelist and outputfilelist", "both filelist-tables must have the same number of entries", -2) return false end
   for i=1, #inputfilelist do
-    if type(inputfilelist[i])~="string" then ultraschall.AddErrorMessage("BatchConvertFiles", "inputfilelist", "all entries of the table must be strings", -2) return false end
-    if reaper.file_exists(inputfilelist[i])==false then ultraschall.AddErrorMessage("BatchConvertFiles", "inputfilelist", "all entries of the table must be valid filenames", -3) return false end
+    if type(inputfilelist[i])~="string" then ultraschall.AddErrorMessage("BatchConvertFiles", "inputfilelist", "all entries of the table must be strings", -3) return false end
+    if reaper.file_exists(inputfilelist[i])==false then ultraschall.AddErrorMessage("BatchConvertFiles", "inputfilelist", "all entries of the table must be valid filenames", -4) return false end
   end
 
-  if type(outputfilelist)~="table" then ultraschall.AddErrorMessage("BatchConvertFiles", "outputfilelist", "must be a table of string", -4) return false end
+  if type(outputfilelist)~="table" then ultraschall.AddErrorMessage("BatchConvertFiles", "outputfilelist", "must be a table of string", -5) return false end
   for i=1, #inputfilelist do
-    if type(inputfilelist[i])~="string" then ultraschall.AddErrorMessage("BatchConvertFiles", "inputfilelist", "all entries of the table must be strings", -5) return false end
+    if type(inputfilelist[i])~="string" then ultraschall.AddErrorMessage("BatchConvertFiles", "inputfilelist", "all entries of the table must be strings", -6) return false end
   end
   
-  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("BatchConvertFiles", "RenderTable", "must be a valid RenderTable", -6) return false end
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("BatchConvertFiles", "RenderTable", "must be a valid RenderTable", -7) return false end
   
   -- temporary solution:
   if type(MetaDataStateChunk)~="string" then MetaDataStateChunk="" end  
-  local HWND=reaper.JS_Window_GetFocus()
 
 -- Todo:
--- Check on Mac and Linux
---    Linux saves outfile into wrong directory -> lastcwd not OUTPATH for some reason
--- Check all parameters for correct typings
--- Test FXStateChunk-capability
+
   local BatchConvertData=""
-  --local ExeFile, filename, path
+  local ExeFile, filename, path
   if FXStateChunk~=nil and FXStateChunk~="" and ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("BatchConvertFiles", "FXStateChunk", "must be a valid FXStateChunk", -7) return false end
   if FXStateChunk==nil then FXStateChunk="" end
   if MetaDataStateChunk==nil then MetaDataStateChunk="" end
@@ -1238,35 +1238,24 @@ function ultraschall.BatchConvertFiles(inputfilelist, outputfilelist, RenderTabl
 ]]
 
   ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/filelist.txt", BatchConvertData)
---print3(BatchConvertData)
---if ll==nil then return end
 
+  local ExeFile, AAAA, AAAAAA
   if ultraschall.IsOS_Windows()==true then
+    -- Batchconvert On Windows
     ExeFile=reaper.GetExePath().."\\reaper.exe"
-    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt", -1)
-    --print3(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt")
-
+    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert \""..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt\"", -1)
   elseif ultraschall.IsOS_Mac()==true then
-    --print2("Must be checked on Mac!!!!")
-    ExeFile=reaper.GetExePath().."\\reaper"
-    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "\\\\", "/").."/filelist.txt", -1)
+    -- Batchconvert On Mac
+    ExeFile=reaper.GetExePath().."/Reaper64.app/Contents/MacOS/reaper"
+    if reaper.file_exists(ExeFile)==false then
+      ExeFile=reaper.GetExePath().."/Reaper.app/Contents/MacOS/reaper"
+    end
+    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert \""..string.gsub(ultraschall.API_TempPath, "\\\\", "/").."/filelist.txt\"", -1)
   else
-    --print2("Must be checked on Linux!!!!")
+    -- Batchconvert On Linux
     ExeFile=reaper.GetExePath().."/reaper"
---print3(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "\\\\", "/").."/filelist.txt")
-    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "\\\\", "/").."/filelist.txt", -1)
+    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert \""..string.gsub(ultraschall.API_TempPath, "\\\\", "/").."/filelist.txt\"", -1)
   end
-  
-  A=reaper.time_precise()
-  
-  --while A+10000<reaper.time_precise() do
-  --end
-  
-  for i=0, 10000000000 do
-    aO=1/987
-  end
-  --print("1")
-  reaper.JS_Window_SetFocus(HWND)
   
   return true
 end
