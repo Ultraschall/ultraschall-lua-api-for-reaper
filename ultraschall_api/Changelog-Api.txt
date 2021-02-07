@@ -268,7 +268,7 @@ TODO:
 
 ### 4.2.003 - "Georg Friedrich Händel - Sarabande" - 6th of February 2021
 
-Has now 1382 functions, with 23 new ones
+Has now 1385 functions, with 26 new ones
 
 **new in this release:**  
 
@@ -329,9 +329,12 @@ Has now 1382 functions, with 23 new ones
   - FX-Management: SetLastSel\_FXStateChunk - sets the last selected fx of an FXStateChunk
   - FX-Management: SetShow\_FXStateChunk - sets the SHOW-entry-values of an FXStateChunk(the currently shown fx in the fxchain)
   - FX-Management: SetWndRect\_FXStateChunk - sets the position of the fxchain-window when floating from an FXStateChunk  
+  - ItemManagement: GetItemImage - gets the image, associated with an item in the item-notes-dialog
+  - ItemManagement: SetItemImage - sets the image, associated with an item in the item-notes-dialog
   - MarkerManagement: GetAllCustomMarkerNames - returns all custom-marker-names available in the current project(requested by fernsehmuell)
   - MarkerManagement: GetAllCustomRegionNames - returns all custom-region-names available in the current project(requested by fernsehmuell)
-  - Misc: Ultraschall\_Api\_List\_Of\_USDocML-Containing\_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)
+  - Misc: Ultraschall\_Api\_List\_Of\_USDocML-Containing\_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)  
+  - User Interface: GetUIScale - gets the scaling of Reaper's UI(requested by willpadgett)
   - User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)
        
 #### Changes from 4.2.002 to 4.2.003  
@@ -356,7 +359,7 @@ Has now 1382 functions, with 23 new ones
   - Configuration-files: SetKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini
   - Developer Tools: ultraschall\_functions\_ProjectManagement\_ProjectFiles\_Module.lua - uses now the project active at script-start.
   - Developer Tools: ultraschall\_ShowProjectDiffs.lua - doesn't need to save the project anymore to show changes in the projectfile
-  - Docs: Reaper Internals - update to Reaper 6.20; added missing retvals and params, removed duplicated ones    
+  - Docs: Reaper Internals - update to Reaper 6.20, SWS 2.12.1.3; added missing retvals and params, removed duplicated ones    
   - Docs: Render-presetfile-docs - added 2nd pass render-option
   - Doc-Engine: Docs\_GetUSDocBloc\_Params - returns now 0, when no retval is found
   - Doc-Engine: Docs\_GetUSDocBloc\_Retvals - returns now 0, when no retval is found

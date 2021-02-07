@@ -20867,10 +20867,10 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>BR_EnvGetParentTrack</slug>
         <title>BR_EnvGetParentTrack(SWS)</title>
-        <functioncall prog_lang="cpp">MediaItem* BR_EnvGetParentTrack(BR_Envelope* envelope)</functioncall>
-        <functioncall prog_lang="eel">MediaItem extension_api("BR_EnvGetParentTrack", BR_Envelope envelope)</functioncall>
-        <functioncall prog_lang="lua">MediaItem = reaper.BR_EnvGetParentTrack(BR_Envelope envelope)</functioncall>
-        <functioncall prog_lang="python">MediaItem BR_EnvGetParentTrack(BR_Envelope envelope)</functioncall>
+        <functioncall prog_lang="cpp">MediaTrack* BR_EnvGetParentTrack(BR_Envelope* envelope)</functioncall>
+        <functioncall prog_lang="eel">MediaTrack extension_api("BR_EnvGetParentTrack", BR_Envelope envelope)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack = reaper.BR_EnvGetParentTrack(BR_Envelope envelope)</functioncall>
+        <functioncall prog_lang="python">MediaTrack BR_EnvGetParentTrack(BR_Envelope envelope)</functioncall>
         <requires>
             Reaper=5.62
             SWS=2.9.7
@@ -20879,10 +20879,10 @@ Mespotine
             \[BR\] Get parent track of envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). If take envelope, returns NULL.
         </description>
         <retvals>
-            MediaItem - 
+            MediaTrack - 
         </retvals>
         <parameters>
-            envelope - 
+            BR_Envelope envelope - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>

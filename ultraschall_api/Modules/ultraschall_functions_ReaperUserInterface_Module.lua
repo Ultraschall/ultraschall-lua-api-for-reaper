@@ -4409,3 +4409,33 @@ function ultraschall.SetUIScale(scaling)
 end
 
 --B=ultraschall.SetUIScale(1)
+
+function ultraschall.GetUIScale()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetUIScale</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.17
+    Lua=5.3
+  </requires>
+  <functioncall>number uiscale = ultraschall.GetUIScale()</functioncall>
+  <description>
+    Gets the current UI-scaling of Reaper's UI.
+    
+    returns false in case of an error.
+  </description>
+  <retvals>
+    number uiscale - the current scaling-factor of Reaper's UI
+  </retvals>
+  <chapter_context>
+    User Interface
+    Miscellaneous
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, uiscaling, get</tags>
+</US_DocBloc>
+--]]
+  return reaper.SNM_GetDoubleConfigVar("uiscale", -1)
+end

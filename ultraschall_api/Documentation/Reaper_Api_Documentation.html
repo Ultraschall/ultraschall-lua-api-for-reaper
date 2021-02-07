@@ -7368,16 +7368,16 @@ Note: the C++ pure virtual interfaces used require the MSVC-compatible C++ ABI o
 <table><tr><td><u>Returnvalues:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">MediaItem_Take</i></i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">
 </td></tr></table><br><hr><a id="BR_EnvGetParentTrack"></a>
   <a href="#BR_EnvGetParentTrack"> ^</a> <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><img width="3%" src="gfx/sws2.9.7.png" alt="SWS version 2.9.7"> <b  ><u>BR_EnvGetParentTrack(SWS)</u></b><p><u>Functioncall:</u><div style="padding-left:4%;font-size:104%">
-<b><div class="c_func"><span class='all_view'>C: </span><code><i style="color:#0000ff;">MediaItem*</i>  BR_EnvGetParentTrack(BR_Envelope* envelope)</code><br><br></div>
-<div class="e_func"><span class='all_view'>EEL2: </span><code><i style="color:#0000ff;">MediaItem</i> extension_api("BR_EnvGetParentTrack", <i style="color:#0000ff;">BR_Envelope</i> envelope)</code><br><br></div>
-<div class="l_func"><span class='all_view'>Lua: </span><code><i style="color:#0000ff;">MediaItem</i> = reaper.BR_EnvGetParentTrack(<i style="color:#0000ff;">BR_Envelope</i> envelope)</code><br><br></div>
-<div class="p_func"><span class='all_view'>Python: </span><code><i style="color:#0000ff;">MediaItem</i> BR_EnvGetParentTrack(<i style="color:#0000ff;">BR_Envelope</i> envelope)</code><br><br></div></b></div>
+<b><div class="c_func"><span class='all_view'>C: </span><code><i style="color:#0000ff;">MediaTrack*</i>  BR_EnvGetParentTrack(BR_Envelope* envelope)</code><br><br></div>
+<div class="e_func"><span class='all_view'>EEL2: </span><code><i style="color:#0000ff;">MediaTrack</i> extension_api("BR_EnvGetParentTrack", <i style="color:#0000ff;">BR_Envelope</i> envelope)</code><br><br></div>
+<div class="l_func"><span class='all_view'>Lua: </span><code><i style="color:#0000ff;">MediaTrack</i> = reaper.BR_EnvGetParentTrack(<i style="color:#0000ff;">BR_Envelope</i> envelope)</code><br><br></div>
+<div class="p_func"><span class='all_view'>Python: </span><code><i style="color:#0000ff;">MediaTrack</i> BR_EnvGetParentTrack(<i style="color:#0000ff;">BR_Envelope</i> envelope)</code><br><br></div></b></div>
 
 <u>Description:</u><br><div style="padding-left:4%;">[BR] Get parent track of envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>. If take envelope, returns NULL.<br> <br>
 </div>
-<table style="border-collapse: separate;border-spacing: 0px 0px;"><tr><td><u>Parameters:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>envelope</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">
+<table style="border-collapse: separate;border-spacing: 0px 0px;"><tr><td><u>Parameters:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">BR_Envelope</i> envelope</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">
 </td></tr></table>
-<table><tr><td><u>Returnvalues:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">MediaItem</i></i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">
+<table><tr><td><u>Returnvalues:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">MediaTrack</i></i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">
 </td></tr></table><br><hr><a id="BR_EnvGetPoint"></a>
   <a href="#BR_EnvGetPoint"> ^</a> <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><img width="3%" src="gfx/sws2.9.7.png" alt="SWS version 2.9.7"> <b  ><u>BR_EnvGetPoint(SWS)</u></b><p><u>Functioncall:</u><div style="padding-left:4%;font-size:104%">
 <b><div class="c_func"><span class='all_view'>C: </span><code><i style="color:#0000ff;">bool</i> BR_EnvGetPoint(BR_Envelope* envelope, <i style="color:#0000ff;">int</i> id, <i style="color:#0000ff;">double*</i> positionOut, <i style="color:#0000ff;">double*</i> valueOut, <i style="color:#0000ff;">int*</i> shapeOut, <i style="color:#0000ff;">bool*</i> selectedOut, <i style="color:#0000ff;">double*</i> bezierOut)</code><br><br></div>

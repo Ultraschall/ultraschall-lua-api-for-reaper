@@ -41,7 +41,7 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.2.003 - "Georg Friedrich Händel - Sarabande" - 6th of February 2021</h3>
-<p>Has now 1382 functions, with 23 new ones</p>
+<p>Has now 1385 functions, with 26 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><p><strong>BatchConvertFiles</strong><br />
@@ -97,9 +97,13 @@ The usual cleanup of old functions that usually eliminate bugs and slow code.</p
 <li>FX-Management: SetShow_FXStateChunk - sets the SHOW-entry-values of an FXStateChunk(the currently shown fx in the fxchain)</li>
 <li>FX-Management: SetWndRect_FXStateChunk - sets the position of the fxchain-window when floating from an FXStateChunk<br />
 </li>
+<li>ItemManagement: GetItemImage - gets the image, associated with an item in the item-notes-dialog</li>
+<li>ItemManagement: SetItemImage - sets the image, associated with an item in the item-notes-dialog</li>
 <li>MarkerManagement: GetAllCustomMarkerNames - returns all custom-marker-names available in the current project(requested by fernsehmuell)</li>
 <li>MarkerManagement: GetAllCustomRegionNames - returns all custom-region-names available in the current project(requested by fernsehmuell)</li>
-<li>Misc: Ultraschall_Api_List_Of_USDocML-Containing_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)</li>
+<li>Misc: Ultraschall_Api_List_Of_USDocML-Containing_Files.txt - a list of all Lua-files, that contain Ultraschall-API-related USDocBlocs(requested by gxray)<br />
+</li>
+<li>User Interface: GetUIScale - gets the scaling of Reaper's UI(requested by willpadgett)</li>
 <li>User Interface: SetUIScale - sets the scaling of Reaper's UI(requested by willpadgett)</li>
 </ul>
 <h4>Changes from 4.2.002 to 4.2.003</h4>
@@ -126,7 +130,7 @@ The usual cleanup of old functions that usually eliminate bugs and slow code.</p
 <li>Configuration-files: SetKBIniScripts - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
 <li>Developer Tools: ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua - uses now the project active at script-start.</li>
 <li>Developer Tools: ultraschall_ShowProjectDiffs.lua - doesn't need to save the project anymore to show changes in the projectfile</li>
-<li>Docs: Reaper Internals - update to Reaper 6.20; added missing retvals and params, removed duplicated ones<br />
+<li>Docs: Reaper Internals - update to Reaper 6.20, SWS 2.12.1.3; added missing retvals and params, removed duplicated ones<br />
 </li>
 <li>Docs: Render-presetfile-docs - added 2nd pass render-option</li>
 <li>Doc-Engine: Docs_GetUSDocBloc_Params - returns now 0, when no retval is found</li>
