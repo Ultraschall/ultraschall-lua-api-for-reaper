@@ -476,7 +476,8 @@ function ultraschall.CheckActionCommandIDFormat(aid)
   -- check parameter
   if math.type(aid)~="integer" and type(aid)~="string" then ultraschall.AddErrorMessage("CheckActionCommandIDFormat", "action_command_id", "must be an integer or a string", -1) return false end
   
-  if type(aid)=="number" and tonumber(aid)==math.floor(tonumber(aid)) and tonumber(aid)<=65535 and tonumber(aid)>=0 then return true -- is it a valid number?
+  
+  if math.type(tonumber(aid))=="integer" and tonumber(aid)==math.floor(tonumber(aid)) and tonumber(aid)<=65535 and tonumber(aid)>=0 then return true -- is it a valid number?
   elseif type(aid)=="string" and aid:sub(1,1)=="_" and aid:len()>1 then return true -- is it a valid string, formatted right=
   else return false -- if neither, return false
   end
@@ -550,7 +551,12 @@ function ultraschall.ToggleStateAction(section, actioncommand_id, state)
                             -32062 - MIDI Inline Editor
                             -32063 - Media Explorer
     string actioncommand_id - the ActionCommandID of the action to toggle
-    integer state - 1 or 0
+    integer state - toggle-state 
+                    -0, off
+                    -&1, on/checked in menus
+                    -&2, on/grayed out in menus
+                    -&16, on/bullet in front of the entry in menus
+                    --1, NA because the action does not have on/off states.
   </parameters>
   <chapter_context>
     API-Helper functions
@@ -1016,8 +1022,8 @@ function ultraschall.OpenURL(url)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>OpenURL</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.2
+    Reaper=6.19
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.OpenURL(string url)</functioncall>
@@ -1043,7 +1049,7 @@ integer retval - -1 in case of error
   if type(url)~="string" then ultraschall.AddErrorMessage("OpenURL","url", "Must be a string.", -1) return -1 end
   local OS=reaper.GetOS()
   url="\""..url.."\""
-  if OS=="OSX32" or OS=="OSX64" then
+  if OS=="OSX32" or OS=="OSX64" or OS=="macOS-arm64" then
     os.execute("open ".. url)
   elseif OS=="Other" then
     os.execute("xdg-open "..url)
@@ -1164,8 +1170,8 @@ function ultraschall.GetOS()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetOS</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.2
+    Reaper=6.17
     Lua=5.3
   </requires>
   <functioncall>string operating_system, integer bits = ultraschall.GetOS()</functioncall>
@@ -1186,15 +1192,16 @@ function ultraschall.GetOS()
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
-  local os, bits
+  local Os, bits
   
   -- check for os and bits and return it
-  if retval:match("Win")~=nil then os="Win" end
-  if retval:match("OSX")~=nil then os="Mac" end
-  if retval:match("Other")~=nil then os="Other" end
+  if retval:match("Win")~=nil then Os="Win" end
+  if retval:match("OSX")~=nil then Os="Mac" end
+  if retval:match("macOS-arm64")~=nil then OS="Mac" end
+  if retval:match("Other")~=nil then Os="Other" end
   if retval:match("32")~=nil then bits=32 end
   if retval:match("64")~=nil then bits=64 end
-  return os, bits
+  return Os, bits
 end
 
 function ultraschall.IsOS_Windows()
@@ -1224,16 +1231,16 @@ function ultraschall.IsOS_Windows()
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
-  local os, bits
+  local Os, bits
   
   -- check for os and bits
-  if retval:match("Win")~=nil then os=true 
+  if retval:match("Win")~=nil then Os=true 
   else
-    os=false
+    Os=false
   end
-  if os==true and retval:match("32")~=nil then bits=32 end
-  if os==true and retval:match("64")~=nil then bits=64 end
-  return os, bits
+  if Os==true and retval:match("32")~=nil then bits=32 end
+  if Os==true and retval:match("64")~=nil then bits=64 end
+  return Os, bits
 end
 
 --L,LL=ultraschall.IsOS_Windows()
@@ -1245,8 +1252,8 @@ function ultraschall.IsOS_Mac()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsOS_Mac</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.2
+    Reaper=6.19
     Lua=5.3
   </requires>
   <functioncall>boolean is_mac, integer number_of_bits = ultraschall.IsOS_Mac()</functioncall>
@@ -1267,16 +1274,16 @@ function ultraschall.IsOS_Mac()
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
-  local os, bits
+  local Os, bits
   
   -- check for os and bits
-  if retval:match("OSX")~=nil then os=true 
+  if retval:match("OSX")~=nil or retval:match("macOS-arm64")~=nil then Os=true 
   else
-    os=false
+    Os=false
   end
-  if os==true and retval:match("32")~=nil then bits=32 end
-  if os==true and retval:match("64")~=nil then bits=64 end
-  return os, bits
+  if Os==true and retval:match("32")~=nil then bits=32 end
+  if Os==true and retval:match("64")~=nil then bits=64 end
+  return Os, bits
 end
 
 
@@ -1307,16 +1314,16 @@ function ultraschall.IsOS_Other()
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
-  local os, bits
+  local Os, bits
   
   -- check for os and bits
-  if retval:match("Other")~=nil then os=true 
+  if retval:match("Other")~=nil then Os=true 
   else
-    os=false
+    Os=false
   end
-  if os==true and retval:match("32")~=nil then bits=32 end
-  if os==true and retval:match("64")~=nil then bits=64 end
-  return os, bits
+  if Os==true and retval:match("32")~=nil then bits=32 end
+  if Os==true and retval:match("64")~=nil then bits=64 end
+  return Os, bits
 end
 
 function ultraschall.GetReaperAppVersion()
@@ -3595,7 +3602,7 @@ function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines,
   if remove_tabs~=nil and math.type(remove_tabs)~="integer" then ultraschall.AddErrorMessage("Base64_Encoder", "remove_tabs", "must be an integer", -3) return nil end
   if base64_type~=nil and math.type(base64_type)~="integer" then ultraschall.AddErrorMessage("Base64_Encoder", "base64_type", "must be an integer", -4) return nil end
   
-  tempstring={}
+  local tempstring={}
   local a=1
   local temp
   
@@ -3714,7 +3721,7 @@ function ultraschall.Base64_Decoder(source_string, base64_type)
   local bitarray={}
   local count=1
   local temp
-  for i=1, source_string:len()-1 do
+  for i=1, source_string:len() do
     temp=base64_string:match(source_string:sub(i,i).."()")-2
     if temp&32~=0 then bitarray[count]=1 else bitarray[count]=0 end
     if temp&16~=0 then bitarray[count+1]=1 else bitarray[count+1]=0 end
@@ -3740,6 +3747,7 @@ function ultraschall.Base64_Decoder(source_string, base64_type)
     if bitarray[i+8]==1 then temp2=temp2+1 end
     decoded_string=decoded_string..string.char(temp2)
   end
+  if decoded_string:sub(-1,-1)=="\0" then decoded_string=decoded_string:sub(1,-2) end
   return decoded_string
 end
 

@@ -4237,17 +4237,17 @@ end
 
 
 
-function ultraschall.PreviewMediaFile(filename_with_path, gain, loop)
+function ultraschall.PreviewMediaFile(filename_with_path, gain, loop, outputChannel)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>PreviewMediaFile</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.92
     JS=0.986
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.PreviewMediaFile(string filename_with_path, optional number gain, optional boolean loop)</functioncall>
+  <functioncall>integer retval = ultraschall.PreviewMediaFile(string filename_with_path, optional number gain, optional boolean loop, optional outputChannel)</functioncall>
   <description>
     Plays a preview of a media-file. You can only play one file at a time.
     
@@ -4260,6 +4260,7 @@ function ultraschall.PreviewMediaFile(filename_with_path, gain, loop)
     string filename_with_path - the filename with path of the media-file to play
     optional number gain - the gain of the volume; nil, defaults to 1
     optional boolean loop - true, loop the previewed file; false or nil, don't loop the file
+    optional integer outputChannel - the outputChannel; for multichannel files, this is the first hardware-output-channel for e.g. left channel of a stereo file; default, 0
   </parameters>
   <chapter_context>
     MediaItem Management
@@ -4267,7 +4268,7 @@ function ultraschall.PreviewMediaFile(filename_with_path, gain, loop)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
-  <tags>mediaitemmanagement, preview, play, audio, file</tags>
+  <tags>mediaitemmanagement, preview, play, audio, file, output channel</tags>
 </US_DocBloc>
 ]]
 
@@ -4276,12 +4277,14 @@ function ultraschall.PreviewMediaFile(filename_with_path, gain, loop)
 
   if type(loop)~="boolean" then loop=false end
   if type(gain)~="number" then gain=1 end
+  if outputChannel~=nil and math.type(outputChannel)~="integer" then ultraschall.AddErrorMessage("PreviewMediaItem", "outputChannel", "Must be nil or an integer.", -3) return false end
+  if outputChannel==nil then outputChannel=1 end
   --ultraschall.StopAnyPreview()
   reaper.Xen_StopSourcePreview(-1)
   --if ultraschall.PreviewPCMSource~=nil then reaper.PCM_Source_Destroy(ultraschall.PreviewPCMSource) end
   ultraschall.PreviewPCMSource=reaper.PCM_Source_CreateFromFile(filename_with_path)
   
-  local retval=reaper.Xen_StartSourcePreview(ultraschall.PreviewPCMSource, gain, loop)
+  local retval=reaper.Xen_StartSourcePreview(ultraschall.PreviewPCMSource, gain, loop, outputChannel)
   return retval
 end
 
@@ -4953,17 +4956,17 @@ function ultraschall.GetItem_HighestRecCounter()
  return recpass, found
 end
 
-function ultraschall.GetItem_ClickState()
+function ultraschall.GetItem_ClickState(mouse_button)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetItem_ClickState</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=6.02
+    Ultraschall=4.2
+    Reaper=6.10
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean clickstate, number position, MediaItem item, MediaItem_Take take = ultraschall.GetItem_ClickState()</functioncall>
+  <functioncall>boolean clickstate, number position, MediaItem item, MediaItem_Take take = ultraschall.GetItem_ClickState(integer mouse_button)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the currently clicked item and take, as well as the current timeposition.
     
@@ -4977,6 +4980,17 @@ function ultraschall.GetItem_ClickState()
     MediaItem item - the Item, which is currently clicked at
     MediaItem_Take take - the take found at clickposition
   </retvals>
+  <parameters>
+    integer mouse_button - the mousebutton, that shall be clicked at the item; you can combine them as flags
+                       - -1, get all states
+                       - &1, only left mouse button
+                       - &2, only right mouse button
+                       - &4, Ctrl/Cmd-key
+                       - &8, Shift-key
+                       - &16, Alt key
+                       - &32, Windows key
+                       - &64, Middle mouse button
+  </parameters>
   <chapter_context>
     MediaItem Management
     Assistance functions
@@ -4986,14 +5000,16 @@ function ultraschall.GetItem_ClickState()
   <tags>mediaitem management, get, clicked, item</tags>
 </US_DocBloc>
 --]]
-  local B=reaper.SNM_GetDoubleConfigVar("uiscale", -999)
+  if math.type(mouse_button)~="integer" then ultraschall.AddErrorMessage("GetItem_ClickState", "mouse_button", "must be an integer", -1) return false end
   local X,Y=reaper.GetMousePosition()
   local Item, ItemTake = reaper.GetItemFromPoint(X,Y, true)
   if Item==nil then Item=ultraschall.ItemClickState_OldItem end
   if Item~=nil then ultraschall.ItemClickState_OldItem=Item end
   if ItemTake==nil then ItemTake=ultraschall.ItemClickState_OldTake end
   if ItemTake~=nil then ultraschall.ItemClickState_OldTake=ItemTake end
-  if tostring(B)=="-1.#QNAN" or Item==nil then
+  local A=reaper.JS_Mouse_GetState(mouse_button)
+  if A==0 or Item==nil then
+    O=reaper.time_precise()
     ultraschall.ItemClickState_OldTake=nil
     ultraschall.ItemClickState_OldItem=nil
     return false

@@ -120,7 +120,7 @@ function onLoad() {
                 </div>
             <div style="width: 95%;">
                                 <hr>
-                <a id="Reaper-kb.ini"><h2>Reaper-kb.ini (as of Reaper 5.979)</h2></a>
+                <a id="Reaper-kb.ini"><h2>Reaper-kb.ini (as of Reaper 6.18)</h2></a>
                 Stored in Reaper-ressources-folder or in the Reaper-Application-Folder(in portable installations)<p>
                     In the file Reaper-kb.ini, the custom shortcuts, scripts and acts, their descriptions, sections-association and Action-Command-IDs are defined.<p> 
                     The reaper-kb.ini does NOT store OSC-Keybindings or FX-shortcuts, they are stored in reaper-osc-actions.ini or reaper-fxoptions.ini respectively.<p>
@@ -912,9 +912,10 @@ The following entry might follow now. It might happen for every kind of plugin, 
     &gt;<p></p>
 
 The following entry ends the entries for this plugin. After it, the next block of entries can begin(with another BYPASS-entry)<p>
-    <i>WAK val - unknown.</i>
+    <i>WAK val1 val2 - additional settings.</i>
     <div style="padding-left:4%;">
-        <i>val</i> - 0 or 1 seem to be valid values, higher values will be changed to 1 whenever the RfxChain-file will be rewritten by Reaper.<p></p>
+        <i>val</i> - Send all keyboard-input to plug-in; 0, don't send; 1, send
+        <i>val2</i> - unknown, 0 or 1 seem to be valid values, higher values will be changed to 1 whenever the RfxChain-file will be rewritten by Reaper.<p></p>
     </div>
 
 
