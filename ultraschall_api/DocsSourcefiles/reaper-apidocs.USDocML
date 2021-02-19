@@ -7943,6 +7943,7 @@
             P_ICON : const char * : track icon (full filename, or relative to resource_path/data/track_icons)
             P_MCP_LAYOUT : const char * : layout name
             P_RAZOREDITS : const char * : list of razor edit areas, as space-separated triples of start time, end time, and envelope GUID string.
+                Passing the guid sets selection within the envelope; not passing the guid sets the selection within the track itself.
                 Example: "0.00 1.00 \"\" 0.00 1.00 "{xyz-...}"
                 Set stringNeedBig="" and setnewvalue=false to query the currently set razor-edits on this track.
             P_TCP_LAYOUT : const char * : layout name
