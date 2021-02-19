@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 6.23
+            ## ReaScript API as of Reaper 6.24
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -5922,7 +5922,7 @@
                             - B_UISEL : bool * : selected in arrange view
                             - C_BEATATTACHMODE : char * : item timebase, -1=track or project default, 1=beats (position, length, rate), 2=beats (position only). for auto-stretch timebase: C_BEATATTACHMODE=1, C_AUTOSTRETCH=1
                             - C_AUTOSTRETCH: : char * : auto-stretch at project tempo changes, 1=enabled, requires C_BEATATTACHMODE=1
-                            - C_LOCK : char * : locked, &1=locked
+                            - C_LOCK : char * : locked, &1=locked, &2=lock to active take
                             - D_VOL : double * : item volume, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
                             - D_POSITION : double * : item position in seconds
                             - D_LENGTH : double * : item length in seconds
@@ -6392,7 +6392,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
-            Reaper=6.19
+            Reaper=6.24
         </requires>
         <description prog_lang="*">
             Get track numerical-value attributes.
@@ -6431,7 +6431,7 @@
             D_DUALPANR : double * : dualpan position 2, -1..1, only if I_PANMODE==6
             I_PANMODE : int * : pan mode, 0=classic 3.x, 3=new balance, 5=stereo pan, 6=dual pan
             D_PANLAW : double * : pan law of track, &lt;0=project default, 1=+0dB, etc
-            P_ENV:&lt;envchunkname : TrackEnvelope*, read only. Call with :&lt;VOLENV, :&lt;PANENV, etc appended.
+            P_ENV:&lt;envchunkname or P_ENV:{GUID... : TrackEnvelope*, read only. chunkname can be &lt;VOLENV, &lt;PANENV, etc; GUID is the stringified envelope GUID.
             B_SHOWINMIXER : bool * : track control panel visible in mixer (do not use on master track)
             B_SHOWINTCP : bool * : track control panel visible in arrange view (do not use on master track)
             B_MAINSEND : bool * : track sends audio to parent
@@ -7714,11 +7714,12 @@
         <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetEnvelopeInfo_String(TrackEnvelope env, string parmname_attribute, string valueStringNeedBig, boolean setNewValue)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope env, String parmname, String stringNeedBig, Boolean setNewValue) = RPR_GetSetEnvelopeInfo_String(env, parmname, stringNeedBig, setNewValue)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=6.24
         </requires>
         <description prog_lang="*">
             Gets/sets an attribute string:
             P_EXT:xyz : char * : extension-specific persistent data
+            GUID : GUID * : 16-byte GUID, can query only, not set. If using a _String() function, GUID is a string {xyz-...}.
             
             This is basically a key-value-store for envelopes.
         </description>
@@ -7934,13 +7935,15 @@
         <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetMediaTrackInfo_String(MediaTrack tr, string parmname, string stringNeedBig, boolean setnewvalue)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack tr, String parmname, String stringNeedBig, Boolean setnewvalue) = RPR_GetSetMediaTrackInfo_String(tr, parmname, stringNeedBig, setnewvalue)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=6.24
         </requires>
         <description prog_lang="*">
             Get or set track string attributes.
             P_NAME : char * : track name (on master returns NULL)
             P_ICON : const char * : track icon (full filename, or relative to resource_path/data/track_icons)
             P_MCP_LAYOUT : const char * : layout name
+            P_RAZOREDITS : const char * : list of razor edit areas, as space-separated triples of start time, end time, and envelope GUID string.
+                Example: "0.00 1.00 \"\" 0.00 1.00 "{xyz-...}"
             P_TCP_LAYOUT : const char * : layout name
             P_EXT:xyz : char * : extension-specific persistent data
             GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
@@ -8973,15 +8976,15 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetTrackEnvelopeByChunkName</slug>
         <title>GetTrackEnvelopeByChunkName</title>
-        <functioncall prog_lang="cpp">TrackEnvelope* GetTrackEnvelopeByChunkName(MediaTrack* tr, const char* cfgchunkname)</functioncall>
-        <functioncall prog_lang="eel">TrackEnvelope GetTrackEnvelopeByChunkName(MediaTrack tr, "cfgchunkname")</functioncall>
-        <functioncall prog_lang="lua">TrackEnvelope = reaper.GetTrackEnvelopeByChunkName(MediaTrack tr, string cfgchunkname)</functioncall>
-        <functioncall prog_lang="python">TrackEnvelope RPR_GetTrackEnvelopeByChunkName(MediaTrack tr, String cfgchunkname)</functioncall>
+        <functioncall prog_lang="cpp">TrackEnvelope* GetTrackEnvelopeByChunkName(MediaTrack* tr, const char* cfgchunkname_or_guid)</functioncall>
+        <functioncall prog_lang="eel">TrackEnvelope GetTrackEnvelopeByChunkName(MediaTrack tr, "cfgchunkname_or_guid")</functioncall>
+        <functioncall prog_lang="lua">TrackEnvelope = reaper.GetTrackEnvelopeByChunkName(MediaTrack tr, string cfgchunkname_or_guid)</functioncall>
+        <functioncall prog_lang="python">TrackEnvelope RPR_GetTrackEnvelopeByChunkName(MediaTrack tr, String cfgchunkname_or_guid)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.24
         </requires>
         <description prog_lang="*">
-            Gets a built-in track envelope by configuration chunk name, e.g. "&lt;VOLENV".
+            Gets a built-in track envelope by configuration chunk name, e.g. "&lt;VOLENV" or GUID string, like "{B577250D-146F-B544-9B34-F24FBE488F1F}".
 
         </description>
         <retvals>
@@ -8989,7 +8992,7 @@
         </retvals>
         <parameters>
             MediaTrack tr - 
-            string cfgchunkname - 
+            string cfgchunkname_or_guid - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -14509,7 +14512,7 @@ Mespotine
             B_UISEL : bool * : selected in arrange view
             C_BEATATTACHMODE : char * : item timebase, -1=track or project default, 1=beats (position, length, rate), 2=beats (position only). for auto-stretch timebase: C_BEATATTACHMODE=1, C_AUTOSTRETCH=1
             C_AUTOSTRETCH: : char * : auto-stretch at project tempo changes, 1=enabled, requires C_BEATATTACHMODE=1
-            C_LOCK : char * : locked, &1=locked
+            C_LOCK : char * : locked, &1=locked, &2=lock to active take
             D_VOL : double * : item volume, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
             D_POSITION : double * : item position in seconds
             D_LENGTH : double * : item length in seconds
@@ -14708,7 +14711,7 @@ Mespotine
         <functioncall prog_lang="lua">boolean = reaper.SetMediaTrackInfo_Value(MediaTrack tr, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaTrackInfo_Value(MediaTrack tr, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=6.19
+            Reaper=6.24
         </requires>
         <description>
             Set track numerical-value attributes.
@@ -14747,7 +14750,7 @@ Mespotine
             D_DUALPANR : double * : dualpan position 2, -1..1, only if I_PANMODE==6
             I_PANMODE : int * : pan mode, 0=classic 3.x, 3=new balance, 5=stereo pan, 6=dual pan
             D_PANLAW : double * : pan law of track, &lt;0=project default, 1=+0dB, etc
-            P_ENV:&lt;envchunkname : TrackEnvelope*, read only. Call with :&lt;VOLENV, :&lt;PANENV, etc appended.
+            P_ENV:&lt;envchunkname or P_ENV:{GUID... : TrackEnvelope*, read only. chunkname can be &lt;VOLENV, &lt;PANENV, etc; GUID is the stringified envelope GUID.
             B_SHOWINMIXER : bool * : track control panel visible in mixer (do not use on master track)
             B_SHOWINTCP : bool * : track control panel visible in arrange view (do not use on master track)
             B_MAINSEND : bool * : track sends audio to parent
@@ -15314,7 +15317,7 @@ Mespotine
         <functioncall prog_lang="lua">integer retval = reaper.SetThemeColor(string ini_key, integer color, integer flags)</functioncall>
         <functioncall prog_lang="python">Int RPR_SetThemeColor(String ini_key, Int color, Int flagsOptional)</functioncall>
         <requires>
-            Reaper=6.11
+            Reaper=6.24
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Temporarily updates the theme color to the color specified (or the theme default color if -1 is specified). Returns -1 on failure, otherwise returns the color (or transformed-color). Note that the UI is not updated by this, the caller should call [UpdateArrange()](#UpdateArrange) etc as necessary. If the low bit of flags is set, any color transformations are bypassed. To read a value see [GetThemeColor](#GetThemeColor).
@@ -15344,8 +15347,8 @@ Mespotine
              * genlist_selfg : Window list selected text 
              * genlist_seliabg : Window list selected row (inactive) 
              * genlist_seliafg : Window list selected text (inactive) 
-             * genlist_hilite : Window list highlighted text
-             * genlist_hilite_sel : Window list highlighted selected text
+             * genlist_hilite : Window list highlighted text 
+             * genlist_hilite_sel : Window list highlighted selected text 
              * col_buttonbg : Button background 
              * col_tcp_text : Track panel text 
              * col_tcp_textsel : Track panel (selected) text 
@@ -15411,6 +15414,8 @@ Mespotine
              * activetake_tag : Active media item take bar color 
              * col_tr1_bg : Track background (odd tracks) 
              * col_tr2_bg : Track background (even tracks) 
+             * selcol_tr1_bg : Selected track background (odd tracks) 
+             * selcol_tr2_bg : Selected track background (even tracks) 
              * col_tr1_divline : Track divider line (odd tracks) 
              * col_tr2_divline : Track divider line (even tracks) 
              * col_envlane1_divline : Envelope lane divider line (odd tracks) 
@@ -15421,16 +15426,20 @@ Mespotine
              * marqueezoom_fill : Marquee zoom fill 
              * marqueezoom_drawmode : Marquee zoom fill mode 
              * marqueezoom_outline : Marquee zoom outline 
+             * areasel_fill : Razor edit area fill 
+             * areasel_drawmode : Razor edit area fill mode 
+             * areasel_outline : Razor edit area outline 
+             * areasel_outlinemode : Razor edit area outline mode 
              * col_cursor : Edit cursor 
              * col_cursor2 : Edit cursor (alternate) 
              * playcursor_color : Play cursor 
              * playcursor_drawmode : Play cursor fill mode 
              * col_gridlines2 : Grid lines (start of measure) 
-             * col_gridlines2dm : Grid lines (start of measure) 
+             * col_gridlines2dm : Grid lines (start of measure) - draw mode 
              * col_gridlines3 : Grid lines (start of beats) 
-             * col_gridlines3dm : Grid lines (start of beats) 
+             * col_gridlines3dm : Grid lines (start of beats) - draw mode 
              * col_gridlines : Grid lines (in between beats) 
-             * col_gridlines1dm : Grid lines (in between beats) 
+             * col_gridlines1dm : Grid lines (in between beats) - draw mode 
              * guideline_color : Editing guide line color 
              * guideline_drawmode : Editing guide fill mode 
              * region : Regions 
@@ -15445,7 +15454,7 @@ Mespotine
              * timesig_sel_bg : Time signature marker selected background 
              * col_routinghl1 : Routing matrix row highlight 
              * col_routinghl2 : Routing matrix column highlight 
-             * col_vudoint : Theme has interlaced VU meters
+             * col_vudoint : Theme has interlaced VU meters 
              * col_vuclip : VU meter clip indicator 
              * col_vutop : VU meter top 
              * col_vumid : VU meter middle 
@@ -15467,21 +15476,21 @@ Mespotine
              * mcp_fxparm_bypassed : FX parameter text: bypassed 
              * mcp_fxparm_offlined : FX parameter text: offline 
              * tcp_list_scrollbar : List scrollbar (track panel) 
-             * tcp_list_scrollbar_mode : List scrollbar (track panel) 
+             * tcp_list_scrollbar_mode : List scrollbar (track panel) - draw mode 
              * tcp_list_scrollbar_mouseover : List scrollbar mouseover (track panel) 
-             * tcp_list_scrollbar_mouseover_mode : List scrollbar mouseover (track panel) 
+             * tcp_list_scrollbar_mouseover_mode : List scrollbar mouseover (track panel) - draw mode 
              * mcp_list_scrollbar : List scrollbar (mixer panel) 
-             * mcp_list_scrollbar_mode : List scrollbar (mixer panel) 
+             * mcp_list_scrollbar_mode : List scrollbar (mixer panel) - draw mode 
              * mcp_list_scrollbar_mouseover : List scrollbar mouseover (mixer panel) 
-             * mcp_list_scrollbar_mouseover_mode : List scrollbar mouseover (mixer panel)  
+             * mcp_list_scrollbar_mouseover_mode : List scrollbar mouseover (mixer panel) - draw mode 
              * midi_rulerbg : MIDI editor ruler background 
              * midi_rulerfg : MIDI editor ruler text 
              * midi_grid2 : MIDI editor grid line (start of measure) 
-             * midi_griddm2 : MIDI editor grid line (start of measure) 
+             * midi_griddm2 : MIDI editor grid line (start of measure) - draw mode 
              * midi_grid3 : MIDI editor grid line (start of beats) 
-             * midi_griddm3 : MIDI editor grid line (start of beats) 
+             * midi_griddm3 : MIDI editor grid line (start of beats) - draw mode 
              * midi_grid1 : MIDI editor grid line (between beats) 
-             * midi_griddm1 : MIDI editor grid line (between beats) 
+             * midi_griddm1 : MIDI editor grid line (between beats) - draw mode 
              * midi_trackbg1 : MIDI editor background color (naturals) 
              * midi_trackbg2 : MIDI editor background color (sharps/flats) 
              * midi_trackbg_outer1 : MIDI editor background color, out of bounds (naturals) 
@@ -15491,9 +15500,9 @@ Mespotine
              * midi_selbg : MIDI editor time selection color 
              * midi_selbg_drawmode : MIDI editor time selection fill mode 
              * midi_gridhc : MIDI editor CC horizontal center line 
-             * midi_gridhcdm : MIDI editor CC horizontal center line 
+             * midi_gridhcdm : MIDI editor CC horizontal center line - draw mode 
              * midi_gridh : MIDI editor CC horizontal line 
-             * midi_gridhdm : MIDI editor CC horizontal line 
+             * midi_gridhdm : MIDI editor CC horizontal line - draw mode 
              * midi_ccbut : MIDI editor CC lane add/remove buttons 
              * midi_ccbut_text : MIDI editor CC lane button text 
              * midi_ccbut_arrow : MIDI editor CC lane button arrow 
@@ -15517,7 +15526,7 @@ Mespotine
              * midi_leftbg : MIDI piano pane background 
              * midifont_col_light_unsel : MIDI editor note text and control color, unselected (light) 
              * midifont_col_dark_unsel : MIDI editor note text and control color, unselected (dark) 
-             * midifont_mode_unsel : MIDI editor note text and control mode, unselected
+             * midifont_mode_unsel : MIDI editor note text and control mode, unselected 
              * midifont_col_light : MIDI editor note text and control color (light) 
              * midifont_col_dark : MIDI editor note text and control color (dark) 
              * midifont_mode : MIDI editor note text and control mode 
@@ -35862,18 +35871,19 @@ Mespotine
             Queries or sets the docking-state of the gfx.init()-window.
             Call with v=-1 to query docked state, otherwise v&gt;=0 to set docked state. 
             State is &amp;1 if docked, second byte is docker index (or last docker index if undocked). 
-            If wx-wh specified, additional values will be returned with the undocked window position/size
+            
+            If you pass numbers to wx-wh, you can query window size and position additionally to the dock-state
             
             A specific docking index does not necessarily represent a specific docker, means, you can not query/set left docker top, but rather all dockers that exist in the current screenset.
             So the first queried/set docker can be top-left-docker or the top docker or even one of the bottom dockers.
-            The order doesn't seem to make any sense. Especially with more than 16 windows docked in the current screenset.
+            The order doesn't seem to make any sense. Especially with more than 16 windows docked in the current screenset.                        
         </description>
         <retvals>
             integer querystate - 0 if not docked; &amp;1 if docked;  the bits &amp;256, &amp;512, &amp;1024, &amp;2048 get the docker-index
-            integer window_x_position - the x position of the window in pixels
-            integer window_y_position - the y position of the window in pixels
-            integer window_width - the width of the window in pixels
-            integer window_height - the height of the window in pixels 
+            integer window_x_position - the x position of the window in pixels; only if wx~=nil
+            integer window_y_position - the y position of the window in pixels; only if wy~=nil
+            integer window_width - the width of the window in pixels; only if ww~=nil
+            integer window_height - the height of the window in pixels ; only if wh~=nil
         </retvals>
         <parameters>
             integer v - -1, query docking-state; 0 and higher, set state of the window to docked; the bits &amp;256, &amp;512, &amp;1024, &amp;2048 set the docker-index
@@ -38236,7 +38246,7 @@ Mespotine
         <title>GetSetMediaTrackInfo</title>
         <functioncall prog_lang="cpp">void* (*GetSetMediaTrackInfo)(MediaTrack* tr, const char* parmname, void* setNewValue)</functioncall>
         <requires>
-            Reaper=5.941
+            Reaper=6.24
         </requires>
         <description indent="default">
             Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMediaTrackInfo_Value but has more parameters.
@@ -38249,48 +38259,62 @@ Mespotine
             parmname - the parameter to be gotten or set
                  -P_PARTRACK : MediaTrack * : parent track (read-only)
                  -P_PROJECT : ReaProject * : parent project (read-only)
-                 -GUID : GUID * : 16-byte GUID, can query or update (do not use on master though)
                  -P_NAME : char * : track name (on master returns NULL)
                  -P_ICON : const char * : track icon (full filename, or relative to resource_path/data/track_icons)
                  -P_MCP_LAYOUT : const char * : layout name
+                 -P_RAZOREDITS : const char * : list of razor edit areas, as space-separated triples of start time, end time, and envelope GUID string.
+                   -Example: "0.00 1.00 \"\" 0.00 1.00 "{xyz-...}"
                  -P_TCP_LAYOUT : const char * : layout name
-                 -
-                 -B_MUTE : bool * : mute flag
-                 -B_PHASE : bool * : invert track phase
-                 -IP_TRACKNUMBER : int : track number (returns zero if not found, -1 for master track) (read-only, returns the int directly)
-                 -I_SOLO : int * : 0=not soloed, 1=solo, 2=soloed in place. also: 5=solo-safe solo, 6=solo-safe soloed in place
-                 -I_FXEN : int * : 0=fx bypassed, nonzero = fx active
-                 -I_RECARM : int * : 0=not record armed, 1=record armed
-                 -I_RECINPUT : int * : record input. &lt;0 = no input, 0..n = mono hardware input, 512+n = rearoute input, 1024 set for stereo input pair. 4096 set for MIDI input, if set, then low 5 bits represent channel (0=all, 1-16=only chan), then next 6 bits represent physical input (63=all, 62=VKB)
-                 -I_RECMODE : int * : record mode (0=input, 1=stereo out, 2=none, 3=stereo out w/latcomp, 4=midi output, 5=mono out, 6=mono out w/ lat comp, 7=midi overdub, 8=midi replace
-                 -I_RECMON : int * : record monitor (0=off, 1=normal, 2=not when playing (tapestyle))
-                 -I_RECMONITEMS : int * : monitor items while recording (0=off, 1=on)
-                 -I_AUTOMODE : int * : track automation mode (0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-                 -I_NCHAN : int * : number of track channels, must be 2-64, even
-                 -I_SELECTED : int * : track selected? 0 or 1
-                 -I_WNDH : int * : current TCP window height (Read-only)
-                 -I_FOLDERDEPTH : int * : folder depth change (0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
-                 -I_FOLDERCOMPACT : int * : folder compacting (only valid on folders), 0=normal, 1=small, 2=tiny children
-                 -I_MIDIHWOUT : int * : track midi hardware output index (&lt;0 for disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31))
-                 -I_PERFFLAGS : int * : track perf flags (&amp;1=no media buffering, &amp;2=no anticipative FX)
-                 -I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).
-                 -I_HEIGHTOVERRIDE : int * : custom height override for TCP window. 0 for none, otherwise size in pixels
-                 -D_VOL : double * : trim volume of track (0 (-inf)..1 (+0dB) .. 2 (+6dB) etc ..)
-                 -D_PAN : double * : trim pan of track (-1..1)
-                 -D_WIDTH : double * : width of track (-1..1)
-                 -D_DUALPANL : double * : dualpan position 1 (-1..1), only if I_PANMODE==6
-                 -D_DUALPANR : double * : dualpan position 2 (-1..1), only if I_PANMODE==6
-                 -I_PANMODE : int * : pan mode (0 = classic 3.x, 3=new balance, 5=stereo pan, 6 = dual pan)
-                 -D_PANLAW : double * : pan law of track. &lt;0 for project default, 1.0 for +0dB, etc
-                 -P_ENV : read only, returns TrackEnvelope *, setNewValue=&lt;VOLENV, &lt;PANENV, etc
-                 -B_SHOWINMIXER : bool * : show track panel in mixer -- do not use on master
-                 -B_SHOWINTCP : bool * : show track panel in tcp -- do not use on master
+                 -P_EXT:xyz : char * : extension-specific persistent data
+                 -GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
+                 -B_MUTE : bool * : muted
+                 -B_PHASE : bool * : track phase inverted
+                 -B_RECMON_IN_EFFECT : bool * : record monitoring in effect (current audio-thread playback state, read-only)
+                 -IP_TRACKNUMBER : int : track number 1-based, 0=not found, -1=master track (read-only, returns the int directly)
+                 -I_SOLO : int * : soloed, 0=not soloed, 1=soloed, 2=soloed in place, 5=safe soloed, 6=safe soloed in place
+                 -I_FXEN : int * : fx enabled, 0=bypassed, !0=fx active
+                 -I_RECARM : int * : record armed, 0=not record armed, 1=record armed
+                 -I_RECINPUT : int * : record input, &amp;lt;0=no input. if 4096 set, input is MIDI and low 5 bits represent channel (0=all, 1-16=only chan), next 6 bits represent physical input (63=all, 62=VKB). If 4096 is not set, low 10 bits (0..1023) are input start channel (ReaRoute/Loopback start at 512). If 2048 is set, input is multichannel input (using track channel count), or if 1024 is set, input is stereo input, otherwise input is mono.
+                 -I_RECMODE : int * : record mode, 0=input, 1=stereo out, 2=none, 3=stereo out w/latency compensation, 4=midi output, 5=mono out, 6=mono out w/ latency compensation, 7=midi overdub, 8=midi replace
+                 -I_RECMON : int * : record monitoring, 0=off, 1=normal, 2=not when playing (tape style)
+                 -I_RECMONITEMS : int * : monitor items while recording, 0=off, 1=on
+                 -I_AUTOMODE : int * : track automation mode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch
+                 -I_NCHAN : int * : number of track channels, 2-64, even numbers only
+                 -I_SELECTED : int * : track selected, 0=unselected, 1=selected
+                 -I_WNDH : int * : current TCP window height in pixels including envelopes (read-only)
+                 -I_TCPH : int * : current TCP window height in pixels not including envelopes (read-only)
+                 -I_TCPY : int * : current TCP window Y-position in pixels relative to top of arrange view (read-only)
+                 -I_MCPX : int * : current MCP X-position in pixels relative to mixer container
+                 -I_MCPY : int * : current MCP Y-position in pixels relative to mixer container
+                 -I_MCPW : int * : current MCP width in pixels
+                 -I_MCPH : int * : current MCP height in pixels
+                 -I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
+                 -I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children
+                 -I_MIDIHWOUT : int * : track midi hardware output index, &amp;lt;0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
+                 -I_PERFFLAGS : int * : track performance flags, &amp;1=no media buffering, &amp;2=no anticipative FX
+                 -I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color
+                 -I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
+                 -B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
+                 -D_VOL : double * : trim volume of track, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
+                 -D_PAN : double * : trim pan of track, -1..1
+                 -D_WIDTH : double * : width of track, -1..1
+                 -D_DUALPANL : double * : dualpan position 1, -1..1, only if I_PANMODE==6
+                 -D_DUALPANR : double * : dualpan position 2, -1..1, only if I_PANMODE==6
+                 -I_PANMODE : int * : pan mode, 0=classic 3.x, 3=new balance, 5=stereo pan, 6=dual pan
+                 -D_PANLAW : double * : pan law of track, &amp;lt;0=project default, 1=+0dB, etc
+                 -P_ENV:&amp;lt;envchunkname or P_ENV:{GUID... : TrackEnvelope*, read only. chunkname can be &amp;lt;VOLENV, &amp;lt;PANENV, etc; GUID is the stringified envelope GUID.
+                 -B_SHOWINMIXER : bool * : track control panel visible in mixer (do not use on master track)
+                 -B_SHOWINTCP : bool * : track control panel visible in arrange view (do not use on master track)
                  -B_MAINSEND : bool * : track sends audio to parent
-                 -C_MAINSEND_OFFS : char * : track send to parent channel offset
-                 -B_FREEMODE : bool * : track free-mode enabled (requires UpdateTimeline() after changing etc)
-                 -C_BEATATTACHMODE : char * : char * to one char of beat attached mode, -1=def, 0=time, 1=allbeats, 2=beatsposonly
-                 -F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0.0=smallest allowed, 1=max allowed)
-                 -F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=min allow, 1=max)
+                 -C_MAINSEND_OFFS : char * : channel offset of track send to parent
+                 -B_FREEMODE : bool * : track free item positioning enabled (call UpdateTimeline() after changing)
+                 -C_BEATATTACHMODE : char * : track timebase, -1=project default, 0=time, 1=beats (position, length, rate), 2=beats (position only)
+                 -F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0=minimum allowed, 1=maximum allowed)
+                 -F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
+                 -F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=minimum allowed, 1=maximum allowed)
+                 -F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)
+                 -I_PLAY_OFFSET_FLAG : int * : track playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
+                 -D_PLAY_OFFSET : double * : track playback offset, units depend on I_PLAY_OFFSET_FLAG
             setNewValue - the new value. See the description of parmname above for more details
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -40384,7 +40408,7 @@ Mespotine
         </chapter_context>
         <tags>cpp, lice, simple, fill</tags>
     </US_DocBloc>        
-                                
+ 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PCM_Source_CreateFromSimple</slug>
         <title>PCM_Source_CreateFromSimple</title>

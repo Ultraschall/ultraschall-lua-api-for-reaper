@@ -1479,5 +1479,72 @@ end
 --ultraschall.OpenUltraschallFunctionDoc("RenderProject")
 
 
+function ultraschall.ApplyActionToMediaItemTake(MediaItemTake, actioncommandid, repeat_action)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ApplyActionToMediaItemTake</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=5.77
+    JS=0.962
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ApplyActionToMediaItemTake(MediaItem MediaItem, integer takeid, string actioncommandid, integer repeat_action)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Applies an action to a MediaItemTake, in the main section-context.
+    The action given must support applying itself to selected item-takes, other actions might do weird things.    
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if running the action was successful; false, if not or an error occured
+  </retvals>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, that holds the take
+    integer takeid - the id of the take, at which the actions shall be applied to; 1-based; 0, use currently active take
+    string actioncommandid - the commandid-number or ActionCommandID, that shall be run.
+    integer repeat_action - the number of times this action shall be applied to each take; minimum value is 1
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitemmanagement, run, action, main, item, mediaitem, take, mediaitemtake</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  if reaper.ValidatePtr2(0, MediaItemTake, "MediaItemTake*")==false then ultraschall.AddErrorMessage("ApplyActionToMediaItemTake","MediaItem", "Must be a MediaItemTake!", -1) return false end
+  if ultraschall.CheckActionCommandIDFormat2(actioncommandid)==false then ultraschall.AddErrorMessage("ApplyActionToMediaItemTake","actioncommandid", "No such action registered!", -3) return false end
+  if math.type(repeat_action)~="integer" then ultraschall.AddErrorMessage("ApplyActionToMediaItemTake","repeat_action", "Must be an integer!", -5) return false end
+  if repeat_action<1 then ultraschall.AddErrorMessage("ApplyActionToMediaItemTake","repeat_action", "Must be bigger than 0!", -6) return false end
+  --  if type(midi)~="boolean" then ultraschall.AddErrorMessage("ApplyActionToMediaItemTake","midi", "Must be boolean!", -4) return false end
+  --  if midi==true and ultraschall.IsValidHWND(MIDI_hwnd)==false then ultraschall.AddErrorMessage("ApplyActionToMediaItemTake","MIDI_hwnd", "must be a valid hwnd of a Midi-Editor", -7) return false end
+  midi=false
+
+  -- get current active take of MediaItem in question, so we can reset the active take, if needed
+  local MediaItem=reaper.GetMediaItemTake_Item(MediaItemTake)
+  local TakeOld=reaper.GetMediaItemTake(MediaItem, -1)
+  local CompareTakes=Take==TakeOld
+  
+  reaper.PreventUIRefresh(1)
+  reaper.SetActiveTake(MediaItemTake)
+  for i=1, repeat_action do
+    if midi==true then 
+      -- is this necessary? Is there take-access in the midi-editor possible?
+      reaper.MIDIEditor_OnCommand(MIDI_hwnd, actioncommandid)
+    else
+      reaper.Main_OnCommand(actioncommandid, 0)
+    end
+  end
+  if CompareTakes==false then
+    reaper.SetActiveTake(TakeOld)
+  end
+  reaper.PreventUIRefresh(-1)
+  reaper.UpdateArrange()
+  return true
+end
+
 
 ultraschall.ShowLastErrorMessage()

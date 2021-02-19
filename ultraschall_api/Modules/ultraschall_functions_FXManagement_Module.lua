@@ -4419,16 +4419,16 @@ function ultraschall.GetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx)
 end
 
 
-function ultraschall.InputFX_AddByName(fxname, always_new_instance)
+function ultraschall.InputFX_AddByName(fxname, always_new_instance, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_AddByName</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.InputFX_AddByName(string fxname, boolean always_new_instance)</functioncall>
+  <functioncall>integer retval = ultraschall.InputFX_AddByName(string fxname, boolean always_new_instance, optional integer tracknumber)</functioncall>
   <description>
     Adds an FX as monitoring FX.
     
@@ -4440,6 +4440,7 @@ function ultraschall.InputFX_AddByName(fxname, always_new_instance)
   <parameters>
     string fxname - the name of the fx to be inserted
     boolean always_new_instance - true, always add a new instance of the fx; false, only add if there's none yet
+    optional integer tracknumber - the tracknumber, to whose inputFX the fx shall be added; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -4452,26 +4453,28 @@ function ultraschall.InputFX_AddByName(fxname, always_new_instance)
 ]]
   if type(fxname)~="string" then ultraschall.AddErrorMessage("InputFX_AddByName", "fxname", "must be a string", -1) return -1 end
   if type(always_new_instance)~="boolean" then ultraschall.AddErrorMessage("InputFX_AddByName", "always_new_instance", "must be a boolean", -2) return -1 end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_AddByName", "tracknumber", "no such track; must be an integer", -3) return -1 end
+  if tracknumber==nil or tracknumber==0 then tracknumber=reaper.GetMasterTrack() else tracknumber=reaper.GetTrack(0,tracknumber-1) end
   if indexposition==nil then indexposition=0 end
   if always_new_instance==true then instantiate=-1 else instantiate=1 end
   
-  local retval = reaper.TrackFX_AddByName(reaper.GetMasterTrack(), fxname, true, instantiate)+1
+  local retval = reaper.TrackFX_AddByName(tracknumber, fxname, true, instantiate)+1
   if retval==0 then return -1 else return retval end
 end
 
 
 --A=ultraschall.InputFX_AddByName("ReaCast", false)
 
-function ultraschall.InputFX_QueryFirstFXIndex(fxname)
+function ultraschall.InputFX_QueryFirstFXIndex(fxname, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_QueryFirstFXIndex</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>integer fxindex = ultraschall.InputFX_QueryFirstFXIndex(string fxname)</functioncall>
+  <functioncall>integer fxindex = ultraschall.InputFX_QueryFirstFXIndex(string fxname, optional integer tracknumber)</functioncall>
   <description>
     Queries the fx-index of the first inputfx with fxname
     
@@ -4482,6 +4485,7 @@ function ultraschall.InputFX_QueryFirstFXIndex(fxname)
   </retvals>
   <parameters>
     string fxname - the name of the fx to be queried
+    optional integer tracknumber - the tracknumber, to whose inputFX the fx shall be added; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -4493,7 +4497,10 @@ function ultraschall.InputFX_QueryFirstFXIndex(fxname)
 </US_DocBloc>
 ]]
   if type(fxname)~="string" then ultraschall.AddErrorMessage("InputFX_QueryFirstFXIndex", "fxname", "must be a string", -1) return -1 end
-  local retval=reaper.TrackFX_AddByName(reaper.GetMasterTrack(), fxname, true, 0)+1
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_QueryFirstFXIndex", "tracknumber", "no such track; must be an integer", -3) return -1 end
+  if tracknumber==nil or tracknumber==0 then tracknumber=reaper.GetMasterTrack() else tracknumber=reaper.GetTrack(0,tracknumber-1) end
+
+  local retval=reaper.TrackFX_AddByName(tracknumber, fxname, true, 0)+1
   if retval==0 then return -1 else return retval end
 end
 

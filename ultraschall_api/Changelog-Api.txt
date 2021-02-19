@@ -109,8 +109,6 @@ Have fun!"
 
     GetProjectLength - should return the last envelope-point-position as well(how to do that for pooled items?)
     
-    SetMediaItemTake_Reverse - sets a MediaItemTake reversed/normal -> not existing in normal Reaper-API
-    
     OpenURL muss noch url umwandeln auf Ansi Codepage 1252 auf Windows?. Also mit Bat-Datei arbeiten.
     
     RenderPresets: Presetnames with spaces are buggy in GetRenderPreset_Names and deleting-functions
@@ -177,7 +175,6 @@ Have fun!"
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
                       MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
-    - TODO!! Monitor the rendering to file-dialog for queue-renders, to get the rendered filenames, using a background script, if possible at all
       TODO!! Default-Color-Theme-Colortables and loading ColorTable from Theme-functions
               Originally Posted by mespotine  View Post
               A second action focusing on only random-strong colors would be useful, I think. Should be scriptable as well though.
@@ -265,6 +262,28 @@ TODO:
 
 
 ## Ultraschall Framework - Changelog
+
+### 4.2.004 - "" - 6th of February 2021
+
+Has now 1385 functions, with 26 new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  bla
+  
+  
+#### New features in 4.2.004  
+  - MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes
+       
+#### Changes from 4.2.003 to 4.2.004  
+  - Docs: Filetype Descriptions - added missing descriptions and mouse modifiers for reaper-mouse.ini
+  - Docs: Reaper Internals - updated to Reaper 6.24  
+  - FXManagement: InputFX\_AddByName - supports now inputFX of individual tracks as well(thanks to X-Raym)
+  - FXManagement: InputFX\_QueryFirstFXIndex - supports now inputFX of individual tracks as well(thanks to X-Raym)
+  
+  
+---
 
 ### 4.2.003 - "Georg Friedrich Händel - Sarabande" - 6th of February 2021
 
