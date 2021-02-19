@@ -7944,12 +7944,13 @@
             P_MCP_LAYOUT : const char * : layout name
             P_RAZOREDITS : const char * : list of razor edit areas, as space-separated triples of start time, end time, and envelope GUID string.
                 Example: "0.00 1.00 \"\" 0.00 1.00 "{xyz-...}"
+                Set stringNeedBig="" and setnewvalue=false to query the currently set razor-edits on this track.
             P_TCP_LAYOUT : const char * : layout name
             P_EXT:xyz : char * : extension-specific persistent data
             GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
         </description>
         <retvals>
-            boolean  retval - 
+            boolean retval - 
             string stringNeedBig - 
         </retvals>
         <parameters>
