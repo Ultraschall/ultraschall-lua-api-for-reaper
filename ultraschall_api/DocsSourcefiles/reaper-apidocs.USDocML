@@ -6755,7 +6755,7 @@
         <title>GetOS</title>
         <functioncall prog_lang="cpp">const char* GetOS()</functioncall>
         <functioncall prog_lang="eel">bool GetOS(#retval)</functioncall>
-        <functioncall prog_lang="lua">string os = reaper.GetOS()</functioncall>
+        <functioncall prog_lang="lua">string operating_system = reaper.GetOS()</functioncall>
         <functioncall prog_lang="python">String RPR_GetOS()</functioncall>
         <requires>
             Reaper=6.18
@@ -6764,7 +6764,7 @@
             Returns the current operating-system. Good for determining, e.g. the correct filesystem-separators.
         </description>
         <retvals>
-            string os - "Win32", "Win64", "OSX32", "OSX64", "macOS-arm64" or "Other"
+            string operating_system - "Win32", "Win64", "OSX32", "OSX64", "macOS-arm64" or "Other"
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -8504,7 +8504,7 @@
         <title>GetTakeName</title>
         <functioncall prog_lang="cpp">const char* GetTakeName(MediaItem_Take* take)</functioncall>
         <functioncall prog_lang="eel">bool GetTakeName(#retval, MediaItem_Take take)</functioncall>
-        <functioncall prog_lang="lua">string = reaper.GetTakeName(MediaItem_Take take)</functioncall>
+        <functioncall prog_lang="lua">takename = reaper.GetTakeName(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">String RPR_GetTakeName(MediaItem_Take take)</functioncall>
         <requires>
             Reaper=5.62
@@ -8513,7 +8513,7 @@
             Retruns the filename of the mediafile in a take. returns NULL if the take is not valid
         </description>
         <retvals>
-            string - the filename of the mediafile in the take
+            string takename - the filename of the mediafile in the take
         </retvals>
         <parameters>
             MediaItem_Take take - the MediaItem_Take, whose mediafilename you want to have
@@ -9156,7 +9156,7 @@
         <title>GetTrackMIDINoteName</title>
         <functioncall prog_lang="cpp">const char* GetTrackMIDINoteName(int track, int pitch, int chan)</functioncall>
         <functioncall prog_lang="eel">bool GetTrackMIDINoteName(#retval, int track, int pitch, int chan)</functioncall>
-        <functioncall prog_lang="lua">string = reaper.GetTrackMIDINoteName(integer track, integer pitch, integer chan)</functioncall>
+        <functioncall prog_lang="lua">string notename = reaper.GetTrackMIDINoteName(integer track, integer pitch, integer chan)</functioncall>
         <functioncall prog_lang="python">String RPR_GetTrackMIDINoteName(Int track, Int pitch, Int chan)</functioncall>
         <requires>
             Reaper=5.62
@@ -9165,7 +9165,7 @@
             see [GetTrackMIDINoteNameEx](#GetTrackMIDINoteNameEx)
         </description>
         <retvals>
-            string - 
+            string notename - 
         </retvals>
         <parameters>
             integer track - 
@@ -22507,7 +22507,7 @@ Mespotine
         <title>BR_Win32_GetPrivateProfileString(SWS)</title>
         <functioncall prog_lang="cpp">int BR_Win32_GetPrivateProfileString(const char* sectionName, const char* keyName, const char* defaultString, const char* filePath, char* stringOut, int stringOut_sz)</functioncall>
         <functioncall prog_lang="eel">int extension_api("BR_Win32_GetPrivateProfileString", "sectionName", "keyName", "defaultString", "filePath", #string)</functioncall>
-        <functioncall prog_lang="lua">integer retval, string string = reaper.BR_Win32_GetPrivateProfileString(string sectionName, string keyName, string defaultString, string filePath)</functioncall>
+        <functioncall prog_lang="lua">integer retval, string value = reaper.BR_Win32_GetPrivateProfileString(string sectionName, string keyName, string defaultString, string filePath)</functioncall>
         <functioncall prog_lang="python">(Int retval, String sectionName, String keyName, String defaultString, String filePath, String stringOut, Int stringOut_sz) = BR_Win32_GetPrivateProfileString(sectionName, keyName, defaultString, filePath, stringOut, stringOut_sz)</functioncall>
         <requires>
             Reaper=5.62
@@ -22521,14 +22521,14 @@ Mespotine
             You can get the paths using [GetExePath](#GetExePath) for the Reaper-application-folder, [GetResourcePath](#GetResourcePath) for the ressources-folder or get\_ini\_file for the path+filename of the Reaper.ini-file.
         </description>
         <retvals>
-            retval - number of characters of the value
-            string - the value of that key
+            integer retval - number of characters of the value
+            string value - the value of that key
         </retvals>
         <parameters>
-            sectionName - the [section] in which the key is stored, you'd like to get
-            keyName - the key from the [section], whose value you'd like to get
-            defaultString - a default value that will be returned, if the [section] and/or key does not exist in the ini-file yet.
-            filePath - the path+filename, where the [section] and key are stored
+            string sectionName - the [section] in which the key is stored, you'd like to get
+            string keyName - the key from the [section], whose value you'd like to get
+            string defaultString - a default value that will be returned, if the [section] and/or key does not exist in the ini-file yet.
+            string filePath - the path+filename, where the [section] and key are stored
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22589,7 +22589,7 @@ Mespotine
             You can get the paths using [GetExePath](#GetExePath) for the Reaper-application-folder, [GetResourcePath](#GetResourcePath) for the ressources-folder or [get\_ini\_file](#get_ini_file) for the path+filename of the Reaper.ini-file.
         </description>
         <retvals>
-            boolean - true, if it worked
+            boolean - true, if it worked; false, if not
         </retvals>
         <parameters>
             sectionName - the [section] in which the key is stored, you'd like to set
@@ -30831,7 +30831,7 @@ Mespotine
         <title>BR_Win32_HwndToString(SWS)</title>
         <functioncall prog_lang="cpp">void BR_Win32_HwndToString(void* hwnd, char* stringOut, int stringOut_sz)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_Win32_HwndToString", void* hwnd, #string)</functioncall>
-        <functioncall prog_lang="lua">string string = reaper.BR_Win32_HwndToString(identifier hwnd)</functioncall>
+        <functioncall prog_lang="lua">string hwndstring = reaper.BR_Win32_HwndToString(identifier hwnd)</functioncall>
         <functioncall prog_lang="python">(void hwnd, String stringOut, Int stringOut_sz) = BR_Win32_HwndToString(hwnd, stringOut, stringOut_sz)</functioncall>
         <requires>
             Reaper=5.965
@@ -30842,7 +30842,7 @@ Mespotine
 
         </description>
         <retvals>
-            string string - 
+            string hwndstring - 
         </retvals>
         <parameters>
             identifier hwnd - 

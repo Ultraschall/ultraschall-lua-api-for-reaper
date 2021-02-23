@@ -4209,7 +4209,7 @@ function ultraschall.CountParmModFromFXStateChunk(FXStateChunk, fxindex)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>CountParmModFromFXStateChunk</slug>
     <requires>
-      Ultraschall=4.1
+      Ultraschall=4.2
       Reaper=6.10
       Lua=5.3
     </requires>
@@ -4236,12 +4236,12 @@ function ultraschall.CountParmModFromFXStateChunk(FXStateChunk, fxindex)
   </US_DocBloc>
   --]] 
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return -1 end
-  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "fxindex", "must be an integer", -2) return end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "fxindex", "must be an integer", -2) return -1 end
   
   local index=0
 
   local FX,StartOFS,EndOFS=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxindex)
-  if FX==nil then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "fxindex", "no such fx", -3) return end
+  if FX==nil then ultraschall.AddErrorMessage("CountParmModFromFXStateChunk", "fxindex", "no such fx", -3) return -1 end
   for k,v in string.gmatch(FX, "()  <PROGRAMENV.-\n%s->()\n") do
     index=index+1
   end
@@ -4264,7 +4264,7 @@ function ultraschall.GetAllParmAliasNames_FXStateChunk(FXStateChunk, fxindex)
   <description>
     Returns all aliasnames of a specific fx within an FXStateChunk
     
-    returns false in case of an error
+    returns -1 in case of an error
   </description>
   <retvals>
     integer count_aliasnames - the number of parameter-aliases found for this fx
@@ -4541,9 +4541,9 @@ function ultraschall.InputFX_MoveFX(old_fxindex, new_fxindex, tracknumber_source
   if math.type(old_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFX", "old_fxindex", "must be an integer", -1) return false end
   if math.type(new_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFX", "new_fxindex", "must be an integer", -2) return false end
   
-  if tracknumber_source~=nil and (math.type(tracknumber_source)~="integer" or (tracknumber_source<0 or tracknumber_source>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_MoveFX", "tracknumber_source", "no such track; must be an integer", -5) return -1 end
+  if tracknumber_source~=nil and (math.type(tracknumber_source)~="integer" or (tracknumber_source<0 or tracknumber_source>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_MoveFX", "tracknumber_source", "no such track; must be an integer", -5) return false end
   if tracknumber_source==nil or tracknumber_source==0 then tracknumber_source=reaper.GetMasterTrack() else tracknumber_source=reaper.GetTrack(0,tracknumber_source-1) end
-  if tracknumber_target~=nil and (math.type(tracknumber_target)~="integer" or (tracknumber_target<0 or tracknumber_target>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_MoveFX", "tracknumber_target", "no such track; must be an integer", -6) return -1 end
+  if tracknumber_target~=nil and (math.type(tracknumber_target)~="integer" or (tracknumber_target<0 or tracknumber_target>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_MoveFX", "tracknumber_target", "no such track; must be an integer", -6) return false end
   if tracknumber_target==nil or tracknumber_target==0 then tracknumber_target=reaper.GetMasterTrack() else tracknumber_target=reaper.GetTrack(0,tracknumber_target-1) end
   if old_fxindex<1 or old_fxindex>ultraschall.InputFX_GetCount(tracknumber) then ultraschall.AddErrorMessage("InputFX_MoveFX", "old_fxindex", "no such inputFX", -3) return false end
   if new_fxindex<1 or new_fxindex>ultraschall.InputFX_GetCount(tracknumber) then ultraschall.AddErrorMessage("InputFX_MoveFX", "new_fxindex", "no such inputFX", -4) return false end
@@ -4591,9 +4591,9 @@ function ultraschall.InputFX_CopyFX(old_fxindex, new_fxindex, tracknumber_source
   if math.type(old_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFX", "old_fxindex", "must be an integer", -1) return false end
   if math.type(new_fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_CopyFX", "new_fxindex", "must be an integer", -2) return false end
   
-  if tracknumber_source~=nil and (math.type(tracknumber_source)~="integer" or (tracknumber_source<0 or tracknumber_source>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_CopyFX", "tracknumber_source", "no such track; must be an integer", -5) return -1 end
+  if tracknumber_source~=nil and (math.type(tracknumber_source)~="integer" or (tracknumber_source<0 or tracknumber_source>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_CopyFX", "tracknumber_source", "no such track; must be an integer", -5) return false end
   if tracknumber_source==nil or tracknumber_source==0 then tracknumber_source=reaper.GetMasterTrack() else tracknumber_source=reaper.GetTrack(0,tracknumber_source-1) end
-  if tracknumber_target~=nil and (math.type(tracknumber_target)~="integer" or (tracknumber_target<0 or tracknumber_target>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_CopyFX", "tracknumber_target", "no such track; must be an integer", -6) return -1 end
+  if tracknumber_target~=nil and (math.type(tracknumber_target)~="integer" or (tracknumber_target<0 or tracknumber_target>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_CopyFX", "tracknumber_target", "no such track; must be an integer", -6) return false end
   if tracknumber_target==nil or tracknumber_target==0 then tracknumber_target=reaper.GetMasterTrack() else tracknumber_target=reaper.GetTrack(0,tracknumber_target-1) end
   if old_fxindex<1 or old_fxindex>ultraschall.InputFX_GetCount(tracknumber) then ultraschall.AddErrorMessage("InputFX_CopyFX", "old_fxindex", "no such inputFX", -3) return false end
   if new_fxindex<1 then ultraschall.AddErrorMessage("InputFX_CopyFX", "new_fxindex", "no such inputFX", -4) return false end
@@ -4841,7 +4841,7 @@ function ultraschall.InputFX_Delete(fxindex, tracknumber)
 ]]
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_Delete", "fxindex", "must be an integer", -1) return false end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_Delete", "fxindex", "must 1 or higher", -2) return false end
-  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_Delete", "tracknumber", "no such track; must be an integer", -3) return -1 end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_Delete", "tracknumber", "no such track; must be an integer", -3) return false end
   if tracknumber==nil or tracknumber==0 then tracknumber=reaper.GetMasterTrack() else tracknumber=reaper.GetTrack(0,tracknumber-1) end
   return reaper.TrackFX_Delete(tracknumber, 0x1000000+fxindex-1)
 end
@@ -4881,9 +4881,9 @@ function ultraschall.InputFX_EndParamEdit(fxindex, paramindex, tracknumber)
   <tags>fxmanagement, end, param edit, parameters, inputfx</tags>
 </US_DocBloc>
 ]]
-  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_EndParamEdit", "fxindex", "must be an integer", -2) return -1 end
-  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_EndParamEdit", "paramindex", "must be an integer", -3) return -1 end
-  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_EndParamEdit", "tracknumber", "no such track; must be an integer", -4) return -1 end
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_EndParamEdit", "fxindex", "must be an integer", -2) return false end
+  if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_EndParamEdit", "paramindex", "must be an integer", -3) return false end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_EndParamEdit", "tracknumber", "no such track; must be an integer", -4) return false end
   if tracknumber==nil or tracknumber==0 then tracknumber=reaper.GetMasterTrack() else tracknumber=reaper.GetTrack(0,tracknumber-1) end
   return reaper.TrackFX_EndParamEdit(tracknumber, 0x1000000+fxindex-1, paramindex-1)
 end
@@ -4904,6 +4904,8 @@ function ultraschall.InputFX_GetCount(tracknumber)
   <functioncall>integer monitoring_fx_count = ultraschall.InputFX_GetCount(optional integer tracknumber)</functioncall>
   <description>
     counts the available monitoring-fx
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     integer monitoring_fx_count - the number of available monitoring-fx    
@@ -4939,6 +4941,8 @@ function ultraschall.InputFX_GetChainVisible(tracknumber)
   <functioncall>boolean inputfx_chain_visible, integer visible_inputfx = ultraschall.InputFX_GetChainVisible(optional integer tracknumber)</functioncall>
   <description>
     returns if the monitoring-fx-chain is visible and index of the currently visible monitoring-fx
+    
+    returns nil in case of an error
   </description>
   <retvals>
     boolean inputfx_chain_visible - true, fxchain is visible; false, fxchain is not visible
@@ -4959,7 +4963,7 @@ function ultraschall.InputFX_GetChainVisible(tracknumber)
   -- returns:
   -- is inputfx-chain opened?
   -- which fx is currently visible?
-  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetChainVisible", "tracknumber", "no such track; must be an integer", -1) return -1 end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetChainVisible", "tracknumber", "no such track; must be an integer", -1) return nil end
   if tracknumber==nil or tracknumber==0 then tracknumber=reaper.GetMasterTrack() else tracknumber=reaper.GetTrack(0,tracknumber-1) end
   
   local A,B=reaper.TrackFX_GetRecChainVisible(tracknumber)~=-1, reaper.TrackFX_GetRecChainVisible(reaper.GetMasterTrack(0))+1
@@ -4970,16 +4974,16 @@ end
 --A, B=ultraschall.InputFX_GetChainVisible()
 
 
-function ultraschall.InputFX_GetEnabled(fxindex)
+function ultraschall.InputFX_GetEnabled(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetEnabled</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>boolean inputfx_enabled = ultraschall.InputFX_GetEnabled(integer fxindex)</functioncall>
+  <functioncall>boolean inputfx_enabled = ultraschall.InputFX_GetEnabled(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns if a certain monitoring-fx is enabled
     
@@ -4990,6 +4994,7 @@ function ultraschall.InputFX_GetEnabled(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose enabled state you want to query; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-enabledness you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5000,23 +5005,27 @@ function ultraschall.InputFX_GetEnabled(fxindex)
   <tags>fxmanagement, is enabled, inputfx</tags>
 </US_DocBloc>
 ]]
-  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEnabled", "fxindex", "must be an integer", -1) return nil end
-  if fxindex<1 or fxindex>ultraschall.InputFX_GetCount() then ultraschall.AddErrorMessage("InputFX_GetEnabled", "fxindex", "no such input fx", -2) return nil end
-  return reaper.TrackFX_GetEnabled(reaper.GetMasterTrack(0), 0x1000000+fxindex-1)
+  local tracknumber2
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetEnabled", "fxindex", "must be an integer", -1) return nil end  
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetEnabled", "tracknumber", "no such track; must be an integer", -3) return nil end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
+  if fxindex<1 or fxindex>ultraschall.InputFX_GetCount(tracknumber) then ultraschall.AddErrorMessage("InputFX_GetEnabled", "fxindex", "no such input fx", -2) return nil end
+
+  return reaper.TrackFX_GetEnabled(tracknumber2, 0x1000000+fxindex-1)
 end
 
 --A=ultraschall.InputFX_GetEnabled(1)
 
-function ultraschall.InputFX_GetFloatingWindow(fxindex)
+function ultraschall.InputFX_GetFloatingWindow(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetFloatingWindow</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>HWND inputfx_floating_hwnd = ultraschall.InputFX_GetFloatingWindow(integer fxindex)</functioncall>
+  <functioncall>HWND inputfx_floating_hwnd = ultraschall.InputFX_GetFloatingWindow(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns the hwnd of a floating monitoring-fx-window
     
@@ -5027,6 +5036,7 @@ function ultraschall.InputFX_GetFloatingWindow(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose floating-monitoring-fx-hwnd you want to get; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-floating-window-hwnd you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5037,9 +5047,13 @@ function ultraschall.InputFX_GetFloatingWindow(fxindex)
   <tags>fxmanagement, get, hwnd, floating, inputfx</tags>
 </US_DocBloc>
 ]]
-  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFloatingWindow", "fxindex", "must be an integer", -1) return nil end
-  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_GetFloatingWindow", "fxindex", "no such fx", -2) return nil end
-  return reaper.TrackFX_GetFloatingWindow(reaper.GetMasterTrack(0), 0x1000000+fxindex-1)
+  local tracknumber2
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFloatingWindow", "fxindex", "must be an integer", -1) return nil end  
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetFloatingWindow", "tracknumber", "no such track; must be an integer", -3) return nil end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
+  if fxindex<1 or ultraschall.InputFX_GetCount(tracknumber)<fxindex then ultraschall.AddErrorMessage("InputFX_GetFloatingWindow", "fxindex", "no such fx", -2) return nil end
+  
+  return reaper.TrackFX_GetFloatingWindow(tracknumber2, 0x1000000+fxindex-1)
 end
 
 --A,B,C,D,E=ultraschall.InputFX_GetFloatingWindow(1)
@@ -5047,16 +5061,16 @@ end
 --A=reaper.TrackFX_GetFloatingWindow(reaper.GetMasterTrack(0), 0)
 
 
-function ultraschall.InputFX_GetFXGUID(fxindex)
+function ultraschall.InputFX_GetFXGUID(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetFXGUID</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>string fxguid = ultraschall.InputFX_GetFXGUID(integer fxindex)</functioncall>
+  <functioncall>string fxguid = ultraschall.InputFX_GetFXGUID(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns the guid of a monitoring-fx
     
@@ -5067,6 +5081,7 @@ function ultraschall.InputFX_GetFXGUID(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose guid you want to query; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-fx-guid you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5077,24 +5092,28 @@ function ultraschall.InputFX_GetFXGUID(fxindex)
   <tags>fxmanagement, get, guid, inputfx</tags>
 </US_DocBloc>
 ]]
-  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFXGUID", "fxindex", "must be an integer", -1) return nil end
-  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_GetFXGUID", "fxindex", "no such fx", -2) return nil end
-  return reaper.TrackFX_GetFXGUID(reaper.GetMasterTrack(0), 0x1000000+fxindex-1)
+  local tracknumber2
+  if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFXGUID", "fxindex", "must be an integer", -1) return nil end  
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetFXGUID", "tracknumber", "no such track; must be an integer", -3) return end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
+  if fxindex<1 or ultraschall.InputFX_GetCount(tracknumber)<fxindex then ultraschall.AddErrorMessage("InputFX_GetFXGUID", "fxindex", "no such fx", -2) return nil end
+  
+  return reaper.TrackFX_GetFXGUID(tracknumber2, 0x1000000+fxindex-1)
 end
 
 --A=ultraschall.InputFX_GetFXGUID(2)
 
 
-function ultraschall.InputFX_GetFXName(fxindex)
+function ultraschall.InputFX_GetFXName(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetFXName</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string fxname = ultraschall.InputFX_GetFXName(integer fxindex)</functioncall>
+  <functioncall>boolean retval, string fxname = ultraschall.InputFX_GetFXName(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns the name of a monitoring-fx
     
@@ -5106,6 +5125,7 @@ function ultraschall.InputFX_GetFXName(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose name you want to query; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-fxname you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5116,23 +5136,26 @@ function ultraschall.InputFX_GetFXName(fxindex)
   <tags>fxmanagement, get, name, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFXName", "fxindex", "must be an integer", -1) return false, "" end
-  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_GetFXName", "fxindex", "no such fx", -2) return false, "" end
-  return reaper.TrackFX_GetFXName(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, "")
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetFXName", "tracknumber", "no such track; must be an integer", -3) return false, "" end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
+  if fxindex<1 or ultraschall.InputFX_GetCount(tracknumber)<fxindex then ultraschall.AddErrorMessage("InputFX_GetFXName", "fxindex", "no such fx", -2) return false, "" end
+  return reaper.TrackFX_GetFXName(tracknumber2, 0x1000000+fxindex-1, "")
 end
 
 --A,B,C=ultraschall.InputFX_GetFXName(1)
 
-function ultraschall.InputFX_GetNumParams(fxindex)
+function ultraschall.InputFX_GetNumParams(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetNumParams</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>integer count_params = ultraschall.InputFX_GetNumParams(integer fxindex)</functioncall>
+  <functioncall>integer count_params = ultraschall.InputFX_GetNumParams(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns the number of parameters of a monitoring-fx
     
@@ -5143,6 +5166,7 @@ function ultraschall.InputFX_GetNumParams(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose number of parameters you want to query; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-fxname you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5153,19 +5177,22 @@ function ultraschall.InputFX_GetNumParams(fxindex)
   <tags>fxmanagement, count, parameters, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetNumParams", "fxindex", "must be an integer", -1) return -1 end
-  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_GetNumParams", "fxindex", "no such fx", -2) return false end
-  return reaper.TrackFX_GetNumParams(reaper.GetMasterTrack(0), 0x1000000+fxindex-1)
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetNumParams", "tracknumber", "no such track; must be an integer", -3) return -1 end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end  
+  if fxindex<1 or ultraschall.InputFX_GetCount(tracknumber)<fxindex then ultraschall.AddErrorMessage("InputFX_GetNumParams", "fxindex", "no such fx", -2) return -1 end
+  return reaper.TrackFX_GetNumParams(tracknumber2, 0x1000000+fxindex-1)
 end
 
 --A=ultraschall.InputFX_GetNumParams(1)
 
-function ultraschall.InputFX_GetOffline(fxindex)
+function ultraschall.InputFX_GetOffline(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetOffline</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
@@ -5180,6 +5207,7 @@ function ultraschall.InputFX_GetOffline(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose offline-state you want to query; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-offline-state you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5190,24 +5218,27 @@ function ultraschall.InputFX_GetOffline(fxindex)
   <tags>fxmanagement, get, offline, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetOffline", "fxindex", "must be an integer", -1) return false end
-  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_GetOffline", "fxindex", "no such fx", -2) return false end
-  return reaper.TrackFX_GetOffline(reaper.GetMasterTrack(0), 0x1000000+fxindex-1)
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetOffline", "tracknumber", "no such track; must be an integer", -3) return false end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end  
+  if fxindex<1 or ultraschall.InputFX_GetCount(tracknumber)<fxindex then ultraschall.AddErrorMessage("InputFX_GetOffline", "fxindex", "no such fx", -2) return false end
+  return reaper.TrackFX_GetOffline(tracknumber2, 0x1000000+fxindex-1)
 end
 
 --A=ultraschall.InputFX_GetOffline(1)
 
 
-function ultraschall.InputFX_GetOpen(fxindex)
+function ultraschall.InputFX_GetOpen(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetOpen</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>boolean is_open = ultraschall.InputFX_GetOpen(integer fxindex)</functioncall>
+  <functioncall>boolean is_open = ultraschall.InputFX_GetOpen(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns if a monitoring-fx is open(currently visible)
     
@@ -5218,6 +5249,7 @@ function ultraschall.InputFX_GetOpen(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose visibility-state you want to query; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-visibility-state you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5228,24 +5260,27 @@ function ultraschall.InputFX_GetOpen(fxindex)
   <tags>fxmanagement, get, visible, open, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetOpen", "fxindex", "must be an integer", -1) return false end
-  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_GetOpen", "fxindex", "no such fx", -2) return false end
-  return reaper.TrackFX_GetOpen(reaper.GetMasterTrack(0), 0x1000000+fxindex-1)
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetOpen", "tracknumber", "no such track; must be an integer", -3) return false end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end  
+  if fxindex<1 or ultraschall.InputFX_GetCount(tracknumber)<fxindex then ultraschall.AddErrorMessage("InputFX_GetOpen", "fxindex", "no such fx", -2) return false end
+  return reaper.TrackFX_GetOpen(tracknumber2, 0x1000000+fxindex-1)
 end
 
---A=ultraschall.InputFX_GetOpen(2)
+--A=ultraschall.InputFX_GetOpen(2) 
 
 
-function ultraschall.InputFX_GetPreset(fxindex)
+function ultraschall.InputFX_GetPreset(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetPreset</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string preset = ultraschall.InputFX_GetPreset(integer fxindex)</functioncall>
+  <functioncall>boolean retval, string preset = ultraschall.InputFX_GetPreset(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns the currently selected preset of a monitoring-fx
     
@@ -5257,6 +5292,7 @@ function ultraschall.InputFX_GetPreset(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose currently selected presetname-state you want to query; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-preset you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5267,23 +5303,26 @@ function ultraschall.InputFX_GetPreset(fxindex)
   <tags>fxmanagement, get, presetname, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetPreset", "fxindex", "must be an integer", -1) return false end
-  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_GetPreset", "fxindex", "no such fx", -2) return false end
-  return reaper.TrackFX_GetPreset(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, "")
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetPreset", "tracknumber", "no such track; must be an integer", -3) return false end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end    
+  if fxindex<1 or ultraschall.InputFX_GetCount(tracknumber)<fxindex then ultraschall.AddErrorMessage("InputFX_GetPreset", "fxindex", "no such fx", -2) return false end
+  return reaper.TrackFX_GetPreset(tracknumber2, 0x1000000+fxindex-1, "")
 end
 
 --A={ultraschall.InputFX_GetPreset(1)}
 
-function ultraschall.InputFX_GetPresetIndex(fxindex)
+function ultraschall.InputFX_GetPresetIndex(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetPresetIndex</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>integer selected_preset, integer number_of_presets = ultraschall.InputFX_GetPresetIndex(integer fxindex)</functioncall>
+  <functioncall>integer selected_preset, integer number_of_presets = ultraschall.InputFX_GetPresetIndex(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns the index of the currently selected preset of a monitoring-fx as well as the number of available presets
     
@@ -5291,10 +5330,11 @@ function ultraschall.InputFX_GetPresetIndex(fxindex)
   </description>
   <retvals>
     integer selected_preset - the index of the currently selected preset; 0, if no preset is selected
-    integer number_of_presets - the number of presets available
+    integer number_of_presets - the number of presets available    
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose currently selected preset-index you want to query; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-preset you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5305,9 +5345,12 @@ function ultraschall.InputFX_GetPresetIndex(fxindex)
   <tags>fxmanagement, get, presetname, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetPresetIndex", "fxindex", "must be an integer", -1) return -1 end
-  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_GetPresetIndex", "fxindex", "no such fx", -2) return -1 end
-  local presetindex, countpresets = reaper.TrackFX_GetPresetIndex(reaper.GetMasterTrack(0), 0x1000000+fxindex-1)
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetPresetIndex", "tracknumber", "no such track; must be an integer", -3) return false end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end    
+  if fxindex<1 or ultraschall.InputFX_GetCount(tracknumber)<fxindex then ultraschall.AddErrorMessage("InputFX_GetPresetIndex", "fxindex", "no such fx", -2) return -1 end
+  local presetindex, countpresets = reaper.TrackFX_GetPresetIndex(tracknumber2, 0x1000000+fxindex-1)
   if presetindex==countpresets then presetindex=-1 end
   return presetindex+1, countpresets
 end
@@ -5315,16 +5358,16 @@ end
 --A1={ultraschall.InputFX_GetPresetIndex(1)}
 
 
-function ultraschall.InputFX_GetUserPresetFilename(fxindex)
+function ultraschall.InputFX_GetUserPresetFilename(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetUserPresetFilename</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>string preset_filename = ultraschall.InputFX_GetUserPresetFilename(integer fxindex)</functioncall>
+  <functioncall>string preset_filename = ultraschall.InputFX_GetUserPresetFilename(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns the filename of the presetfile, into which the preset's-settings are stored
     
@@ -5335,6 +5378,7 @@ function ultraschall.InputFX_GetUserPresetFilename(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the monitoring-fx, whose preset's-filename you want to query; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-preset you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5345,9 +5389,12 @@ function ultraschall.InputFX_GetUserPresetFilename(fxindex)
   <tags>fxmanagement, get, preset filename, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetUserPresetFilename", "fxindex", "must be an integer", -1) return nil end
-  if fxindex<1 or ultraschall.InputFX_GetCount()<fxindex then ultraschall.AddErrorMessage("InputFX_GetUserPresetFilename", "fxindex", "no such fx", -2) return nil end
-  return reaper.TrackFX_GetUserPresetFilename(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, "")
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetUserPresetFilename", "tracknumber", "no such track; must be an integer", -3) return nil end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end    
+  if fxindex<1 or ultraschall.InputFX_GetCount(tracknumber)<fxindex then ultraschall.AddErrorMessage("InputFX_GetUserPresetFilename", "fxindex", "no such fx", -2) return nil end
+  return reaper.TrackFX_GetUserPresetFilename(tracknumber2, 0x1000000+fxindex-1, "")
 end  
 
 --A=ultraschall.InputFX_GetUserPresetFilename(1)

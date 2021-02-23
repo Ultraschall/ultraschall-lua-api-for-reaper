@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43550.00" author="Meo Mespotine">
+      <version name="43553.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Changelog-Api.txt</source>
@@ -606,6 +606,22 @@ Changes from 4.2.003 to 4.2.004
     individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_GetChainVisible - supports now inputFX of
     individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetEnabled - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetFloatingWindow - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetFXGUID - supports now inputFX of individual
+    tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetFXName - supports now inputFX of individual
+    tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetOffline - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetOpen - supports now inputFX of individual
+    tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetPreset - supports now inputFX of individual
+    tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetUserPresetFilename - supports now inputFX
+    of individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_MoveFX - supports now inputFX of individual
     tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_MoveFXFromTrackFX - supports now inputFX of
@@ -616,6 +632,8 @@ Changes from 4.2.003 to 4.2.004
     individual tracks as well(thanks to X-Raym)
 -   Helper functions: IsOS_Mac - didn’t work on arm-macs due stupid typo
     -> fixed(thanks to rstockm)
+-   Parameter-Modulation: CountParmModFromFXStateChunk - didn’t return
+    correct error-retvals -> fixed
 
 ------------------------------------------------------------------------
 
@@ -7811,7 +7829,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1396 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43550 from 23.02.2021 01:31:40).}
+a 1396 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43553 from 24.02.2021 00:49:05).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7949,7 +7967,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1396 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43550 from 23.02.2021 01:31:40).}
+a 1396 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43553 from 24.02.2021 00:49:05).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
