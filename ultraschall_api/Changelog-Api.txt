@@ -276,11 +276,24 @@ Has now 1385 functions, with 26 new ones
 #### New features in 4.2.004  
   - MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes
        
-#### Changes from 4.2.003 to 4.2.004  
+#### Changes from 4.2.003 to 4.2.004    
+  - API-HelperFunctions: SFEM - parameters didn't work as I..ehrm....forgot to add them.... -> fixed
   - Docs: Filetype Descriptions - added missing descriptions and mouse modifiers for reaper-mouse.ini
   - Docs: Reaper Internals - updated to Reaper 6.24  
   - FXManagement: InputFX\_AddByName - supports now inputFX of individual tracks as well(thanks to X-Raym)
-  - FXManagement: InputFX\_QueryFirstFXIndex - supports now inputFX of individual tracks as well(thanks to X-Raym)
+  - FXManagement: InputFX\_CopyFX - couldn't copy fx to the end of the fx-chain -> fixed; supports now inputFX of individual tracks as well(thanks to X-Raym)
+  - FXManagement: InputFX\_CopyFXFromTrackFX - supports now inputFX of individual tracks as well(thanks to X-Raym)  
+  - FXManagement: InputFX\_CopyFXToTrackFX - supports now inputFX of individual tracks as well(thanks to X-Raym)  
+  - FXManagement: InputFX\_GetCount - supports now inputFX of individual tracks as well(thanks to X-Raym)  
+  - FXManagement: InputFX\_Delete - supports now inputFX of individual tracks as well(thanks to X-Raym)  
+  - FXManagement: InputFX\_EndParamEdit - supports now inputFX of individual tracks as well(thanks to X-Raym)  
+  - FXManagement: InputFX\_GetChainVisible - supports now inputFX of individual tracks as well(thanks to X-Raym)  
+  - FXManagement: InputFX\_MoveFX - supports now inputFX of individual tracks as well(thanks to X-Raym)  
+  - FXManagement: InputFX\_MoveFXFromTrackFX - supports now inputFX of individual tracks as well(thanks to X-Raym)  
+  - FXManagement: InputFX\_MoveFXToTrackFX - supports now inputFX of individual tracks as well(thanks to X-Raym)  
+  - FXManagement: InputFX\_QueryFirstFXIndex - supports now inputFX of individual tracks as well(thanks to X-Raym)    
+  - Helper functions: IsOS\_Mac - didn't work on arm-macs due stupid typo -> fixed(thanks to rstockm)
+  
   
   
 ---

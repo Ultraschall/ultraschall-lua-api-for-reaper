@@ -4852,10 +4852,10 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetEnvelopeInfo_Value</slug>
         <title>GetEnvelopeInfo_Value</title>
-        <functioncall prog_lang="cpp">double GetEnvelopeInfo_Value(TrackEnvelope* tr, const char* parmname)</functioncall>
-        <functioncall prog_lang="eel">double GetEnvelopeInfo_Value(TrackEnvelope tr, "parmname")</functioncall>
-        <functioncall prog_lang="lua">number retval = reaper.GetEnvelopeInfo_Value(TrackEnvelope tr, string parmname)</functioncall>
-        <functioncall prog_lang="python">Float RPR_GetEnvelopeInfo_Value(TrackEnvelope tr, String parmname)</functioncall>
+        <functioncall prog_lang="cpp">double GetEnvelopeInfo_Value(TrackEnvelope* env, const char* parmname)</functioncall>
+        <functioncall prog_lang="eel">double GetEnvelopeInfo_Value(TrackEnvelope env, "parmname")</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.GetEnvelopeInfo_Value(TrackEnvelope env, string parmname)</functioncall>
+        <functioncall prog_lang="python">Float RPR_GetEnvelopeInfo_Value(TrackEnvelope env, String parmname)</functioncall>
         <requires>
             Reaper=5.982
         </requires>
@@ -4873,7 +4873,7 @@
             number retval - the returned value of the attribute
         </retvals>
         <parameters>
-            TrackEnvelope tr - the TrackEnvelope, of which you want to retrieve the attribute-value
+            TrackEnvelope env - the TrackEnvelope, of which you want to retrieve the attribute-value
             string parmname - the attribute, whose value you want; 
                             - can be I_TCPY, I_TCPH, I_TCPY_USED, I_TCPH_USED, P_TRACK, P_ITEM, P_TAKE
                             - see description for more details
@@ -20176,7 +20176,7 @@ Mespotine
         </description>
         <parameters>
             descchange - a string that describes the changes of the undo-block
-            extraflags - -1, all undo states
+            extraflags - set to -1, include all undo states
                        - 1, track/master vol/pan/routing, routing/hwout envelopes too
                        - 2, track/master fx
                        - 4, track items
@@ -20211,7 +20211,7 @@ Mespotine
         <parameters markup_type="markdown" markup_version="1.0.1">
             proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
             descchange - a string that describes the changes of the undo-block
-            extraflags - -1, all undo states
+            extraflags - set to -1, include all undo states
                        - 1, track/master vol/pan/routing, routing/hwout envelopes too
                        - 2, track/master fx
                        - 4, track items

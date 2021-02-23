@@ -5464,16 +5464,16 @@
           LV2-plugin names-checkbox, as set in Preferences -> LV2  
           It is an integer  
            
-           >&1=0, Append (Mono) - unchecked
-           >&1=1, Append (Mono) - checked
+           >&1=0, Append (Mono) for plug-ins with single input/output - unchecked
+           >&1=1, Append (Mono) for plug-ins with single input/output - checked
            
-           >&2=0, Append (Xch) - unchecked
-           >&2=1, Append (Xch) - checked
+           >&2=0, Append (Xch) for plug-ins with non-stereo I/O - unchecked
+           >&2=1, Append (Xch) for plug-ins with non-stereo I/O - checked
            
            >&4=0, Append (Maintainer name) - unchecked
            >&4=1, Append (Maintainer name) - checked
            
-           >&8=0, Append (MIDI) - unchecked
+           >&8=0, Append (MIDI) for plug-ins with no audio I/O - unchecked
            >&8=1, Append (MIDI) - checked           
                     
           Stored in reaper.ini under the same name in the section REAPER.  
