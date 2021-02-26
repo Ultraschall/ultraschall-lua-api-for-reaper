@@ -17337,6 +17337,8 @@ Mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Activate a preset with the name shown in the REAPER dropdown. Full paths to .vstpreset files are also supported for VST3 plug-ins. See [TakeFX\_GetPreset](#TakeFX_GetPreset).
+            
+            presetname is case-sensitive.
         </description>
         <retvals>
             boolean - 
@@ -19881,6 +19883,8 @@ Mespotine
             
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            presetname is case-sensitive.
         </description>
         <retvals>
             boolean - 
@@ -19947,9 +19951,9 @@ Mespotine
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <parameters>
-            track - the MediaTrack, whose TrackFX you want to show
-            fx - the id of the track within the fxchain
-            showFlag - how to show the FX-window
+            MediaTrack track - the MediaTrack, whose TrackFX you want to show
+            integer fx - the id of the track within the fxchain
+            integer showFlag - how to show the FX-window
                     -0, for hidechain
                     -1, for show chain(index valid)
                     -2, for hide floating window(index valid)
@@ -19977,7 +19981,7 @@ Mespotine
             Updates the TCP and optionally the MCP. Helpful, when setting a new trackheight using I\_HEIGHTOVERRIDE in [SetMediaTrackInfo\_Value](#SetMediaTrackInfo_Value).
         </description>
         <parameters>
-            isMinor - false, updates only TCP; true, updates TCP and MCP
+            boolean isMinor - false, updates only TCP; true, updates TCP and MCP
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
