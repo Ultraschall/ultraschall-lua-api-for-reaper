@@ -274,12 +274,15 @@ Has now 1385 functions, with 26 new ones
   
   
 #### New features in 4.2.004  
+  - GMem: GMem\_Read\_ValueRange - returns a value-range from gmem-values as a handy table
+  - GMem: GMem\_GetValues\_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets
   - MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes
        
 #### Changes from 4.2.003 to 4.2.004    
   - API-HelperFunctions: SFEM - parameters didn't work as I..ehrm....forgot to add them.... -> fixed
   - Docs: Filetype Descriptions - added missing descriptions and mouse modifiers for reaper-mouse.ini
   - Docs: Reaper Internals - updated to Reaper 6.24  
+  - File-Management: BatchConvertFiles - added, as I had forgotten to add it in the last release -> fixed
   - FXManagement: InputFX\_AddByName - supports now inputFX of individual tracks as well(thanks to X-Raym)
   - FXManagement: InputFX\_CopyFX - couldn't copy fx to the end of the fx-chain -> fixed; supports now inputFX of individual tracks as well(thanks to X-Raym)
   - FXManagement: InputFX\_CopyFXFromTrackFX - supports now inputFX of individual tracks as well(thanks to X-Raym)
@@ -383,24 +386,24 @@ Has now 1385 functions, with 26 new ones
        
 #### Changes from 4.2.002 to 4.2.003  
   - Automation Items: AutomationItem\_Delete - didn't work due stupid bug, completely rewritten -> fixed(thanks to XRaym)  
-  - Configuration-files: CountKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: CountKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: CountKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: DeleteKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: DeleteKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: DeleteKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: GetActionCommandIDByFilename - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: GetKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: GetKBIniActionsID\_ByActionCommandID - setting filename_with_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -> fixed(thanks to Aaron Cendan)
-  - Configuration-files: GetKBIniFilepath - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: GetKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: GetKBIniKeys\_ByActionCommandID - setting filename_with_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -> fixed(thanks to Aaron Cendan)
-  - Configuration-files: GetKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: GetKBIniScripts\_ByActionCommandID - setting filename_with_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -> fixed(thanks to Aaron Cendan)
-  - Configuration-files: QueryKeyboardShortcutByKeyID - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: SetKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: SetKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini
-  - Configuration-files: SetKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini
+  - Configuration-files: CountKBIniActions - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: CountKBIniKeys - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: CountKBIniScripts - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: DeleteKBIniActions - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: DeleteKBIniKeys - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: DeleteKBIniScripts - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetActionCommandIDByFilename - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniActions - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniActionsID\_ByActionCommandID - setting filename\_with\_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -> fixed(thanks to Aaron Cendan)
+  - Configuration-files: GetKBIniFilepath - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniKeys - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniKeys\_ByActionCommandID - setting filename\_with\_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -> fixed(thanks to Aaron Cendan)
+  - Configuration-files: GetKBIniScripts - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: GetKBIniScripts\_ByActionCommandID - setting filename\_with\_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -> fixed(thanks to Aaron Cendan)
+  - Configuration-files: QueryKeyboardShortcutByKeyID - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: SetKBIniActions - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: SetKBIniKeys - setting filename\_with\_path=nil uses default reaper-kb.ini
+  - Configuration-files: SetKBIniScripts - setting filename\_with\_path=nil uses default reaper-kb.ini
   - Developer Tools: ultraschall\_functions\_ProjectManagement\_ProjectFiles\_Module.lua - uses now the project active at script-start.
   - Developer Tools: ultraschall\_ShowProjectDiffs.lua - doesn't need to save the project anymore to show changes in the projectfile
   - Docs: Reaper Internals - update to Reaper 6.20, SWS 2.12.1.3; added missing retvals and params, removed duplicated ones    
@@ -794,10 +797,10 @@ Has now 1240 functions, with 25 new ones
     ultraschall.ShowLastErrorMessage() shall output their error-messages.  
     More to follow.  
 
-  - **Launchpad\_functions**
+  - **Launchpad\_functions**  
     I wrote some launchpad 1st generation-functions, which you can find in the misc-folder. So if you want to be able to program its button's lights, you can do it.  
     
-  - **Gmem functions**
+  - **Gmem functions**  
     For those of you, who want to use different gmem-names in your functions, you sometimes run into trouble, that you can't restore the old gmem-attachement again, as you can't get its old name.  
     Now you can. Gmem\_GetCurrentAttachedName returns the last used gmem-attachname. Keep it to later attach the old gmem back.  
     This works best, if you add the dofile-line to activate Ultraschall-API as first code-line in your script.  
@@ -806,7 +809,7 @@ Has now 1240 functions, with 25 new ones
     To showcase the background-copying-functions, I wrote a small filemanager demo, which is now available in the example-scripts.  
     It shows you, how you can copy even large files in the background and still manage to run the UI of a script without having to code complex background-copying-routines.      
 
-  - **MB works again on Windows and Linux**
+  - **MB works again on Windows and Linux**  
     Broke in Reaper 6 but I could fix it so replacing the button-texts is possible again. Mac-users are out of luck, as the button-texts can't be replaced there in the first place. Sorry.  
     
   - **GetUserInputs on Mac**  

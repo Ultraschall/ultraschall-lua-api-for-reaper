@@ -36873,7 +36873,7 @@ Mespotine
             number retval - the stored number-value stored in gmem-variable with index
         </retvals>
         <parameters>
-            integer index - the index of the memory-variable to read from
+            integer index - the index of the memory-variable to read from; index must be 0 and higher
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36897,7 +36897,7 @@ Mespotine
             Before you can write into a currently unused variable with index "index", you must call [gmem\_attach](#lua_gmem_attach) first!
         </description>
         <parameters>
-            integer index - the index of the memory-variable to write to
+            integer index - the index of the memory-variable to write to; index must be 0 and higher
             number value - a number, either integer or float
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>

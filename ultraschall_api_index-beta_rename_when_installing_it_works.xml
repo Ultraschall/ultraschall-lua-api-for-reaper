@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43554.00" author="Meo Mespotine">
+      <version name="43556.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Changelog-Api.txt</source>
@@ -579,6 +579,11 @@ new in this release:
 
 New features in 4.2.004
 
+-   GMem: GMem_Read_ValueRange - returns a value-range from gmem-values
+    as a handy table
+-   GMem: GMem_GetValues_VideoSamplePeeker - returns the samples as
+    provided by the jsfx “video sample peeker”, whose values are used by
+    certain video processor presets
 -   MediaItem-Management: ApplyActionToMediaItemTake - allows applying
     actions to MediaItemTakes
 
@@ -589,6 +594,8 @@ Changes from 4.2.003 to 4.2.004
 -   Docs: Filetype Descriptions - added missing descriptions and mouse
     modifiers for reaper-mouse.ini
 -   Docs: Reaper Internals - updated to Reaper 6.24
+-   File-Management: BatchConvertFiles - added, as I had forgotten to
+    add it in the last release -> fixed
 -   FXManagement: InputFX_AddByName - supports now inputFX of individual
     tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_CopyFX - couldn’t copy fx to the end of the
@@ -1490,14 +1497,15 @@ new in this release:
     error-messages.
     More to follow.
 
--   Launchpad_functions I wrote some launchpad 1st generation-functions,
-    which you can find in the misc-folder. So if you want to be able to
-    program its button’s lights, you can do it.
+-   Launchpad_functions
+    I wrote some launchpad 1st generation-functions, which you can find
+    in the misc-folder. So if you want to be able to program its
+    button’s lights, you can do it.
 
--   Gmem functions For those of you, who want to use different
-    gmem-names in your functions, you sometimes run into trouble, that
-    you can’t restore the old gmem-attachement again, as you can’t get
-    its old name.
+-   Gmem functions
+    For those of you, who want to use different gmem-names in your
+    functions, you sometimes run into trouble, that you can’t restore
+    the old gmem-attachement again, as you can’t get its old name.
     Now you can. Gmem_GetCurrentAttachedName returns the last used
     gmem-attachname. Keep it to later attach the old gmem back.
     This works best, if you add the dofile-line to activate
@@ -1510,10 +1518,10 @@ new in this release:
     and still manage to run the UI of a script without having to code
     complex background-copying-routines.
 
--   MB works again on Windows and Linux Broke in Reaper 6 but I could
-    fix it so replacing the button-texts is possible again. Mac-users
-    are out of luck, as the button-texts can’t be replaced there in the
-    first place. Sorry.
+-   MB works again on Windows and Linux
+    Broke in Reaper 6 but I could fix it so replacing the button-texts
+    is possible again. Mac-users are out of luck, as the button-texts
+    can’t be replaced there in the first place. Sorry.
 
 -   GetUserInputs on Mac
     Also broke with Reaper 6 due some internal changes of Reaper. I
@@ -7835,7 +7843,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1397 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43554 from 25.02.2021 02:14:43).}
+a 1399 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43556 from 26.02.2021 16:56:48).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7849,7 +7857,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1397 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1399 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -7973,7 +7981,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1397 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43554 from 25.02.2021 02:14:43).}
+a 1399 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43556 from 26.02.2021 16:56:48).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7987,7 +7995,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1397 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1399 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

@@ -49,6 +49,8 @@ bla</li>
 </ul>
 <h4>New features in 4.2.004</h4>
 <ul>
+<li>GMem: GMem_Read_ValueRange - returns a value-range from gmem-values as a handy table</li>
+<li>GMem: GMem_GetValues_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets</li>
 <li>MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes</li>
 </ul>
 <h4>Changes from 4.2.003 to 4.2.004</h4>
@@ -57,6 +59,7 @@ bla</li>
 <li>Docs: Filetype Descriptions - added missing descriptions and mouse modifiers for reaper-mouse.ini</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.24<br />
 </li>
+<li>File-Management: BatchConvertFiles - added, as I had forgotten to add it in the last release -&gt; fixed</li>
 <li>FXManagement: InputFX_AddByName - supports now inputFX of individual tracks as well(thanks to X-Raym)</li>
 <li>FXManagement: InputFX_CopyFX - couldn't copy fx to the end of the fx-chain -&gt; fixed; supports now inputFX of individual tracks as well(thanks to X-Raym)</li>
 <li>FXManagement: InputFX_CopyFXFromTrackFX - supports now inputFX of individual tracks as well(thanks to X-Raym)</li>
@@ -154,24 +157,24 @@ The usual cleanup of old functions that usually eliminate bugs and slow code.</p
 <ul>
 <li>Automation Items: AutomationItem_Delete - didn't work due stupid bug, completely rewritten -&gt; fixed(thanks to XRaym)<br />
 </li>
-<li>Configuration-files: CountKBIniActions - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: CountKBIniKeys - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: CountKBIniScripts - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: DeleteKBIniActions - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: DeleteKBIniKeys - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: DeleteKBIniScripts - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: GetActionCommandIDByFilename - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: GetKBIniActions - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: GetKBIniActionsID_ByActionCommandID - setting filename<em>with</em>path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -&gt; fixed(thanks to Aaron Cendan)</li>
-<li>Configuration-files: GetKBIniFilepath - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: GetKBIniKeys - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: GetKBIniKeys_ByActionCommandID - setting filename<em>with</em>path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -&gt; fixed(thanks to Aaron Cendan)</li>
-<li>Configuration-files: GetKBIniScripts - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: GetKBIniScripts_ByActionCommandID - setting filename<em>with</em>path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -&gt; fixed(thanks to Aaron Cendan)</li>
-<li>Configuration-files: QueryKeyboardShortcutByKeyID - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: SetKBIniActions - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: SetKBIniKeys - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
-<li>Configuration-files: SetKBIniScripts - setting filename<em>with</em>path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: CountKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: CountKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: CountKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: DeleteKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: DeleteKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: DeleteKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetActionCommandIDByFilename - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniActionsID_ByActionCommandID - setting filename_with_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -&gt; fixed(thanks to Aaron Cendan)</li>
+<li>Configuration-files: GetKBIniFilepath - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniKeys_ByActionCommandID - setting filename_with_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -&gt; fixed(thanks to Aaron Cendan)</li>
+<li>Configuration-files: GetKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: GetKBIniScripts_ByActionCommandID - setting filename_with_path=nil uses default reaper-kb.ini; rewritten and sped up by magnitudes; returns found indices as table now; didn't work with command-id-numbers -&gt; fixed(thanks to Aaron Cendan)</li>
+<li>Configuration-files: QueryKeyboardShortcutByKeyID - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: SetKBIniActions - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: SetKBIniKeys - setting filename_with_path=nil uses default reaper-kb.ini</li>
+<li>Configuration-files: SetKBIniScripts - setting filename_with_path=nil uses default reaper-kb.ini</li>
 <li>Developer Tools: ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua - uses now the project active at script-start.</li>
 <li>Developer Tools: ultraschall_ShowProjectDiffs.lua - doesn't need to save the project anymore to show changes in the projectfile</li>
 <li>Docs: Reaper Internals - update to Reaper 6.20, SWS 2.12.1.3; added missing retvals and params, removed duplicated ones<br />
@@ -538,14 +541,17 @@ Now included is the Lua 5.3 reference-manual, so it's always at your hand when n
 <li><p><strong>Ultraschall-API settings dialog</strong><br />
 There's now an Ultraschall-API settings dialog. Not much in there yet, but you can already set, where SLEM() or ultraschall.ShowLastErrorMessage() shall output their error-messages.<br />
 More to follow.</p></li>
-<li><p><strong>Launchpad_functions</strong> I wrote some launchpad 1st generation-functions, which you can find in the misc-folder. So if you want to be able to program its button's lights, you can do it.</p></li>
-<li><p><strong>Gmem functions</strong> For those of you, who want to use different gmem-names in your functions, you sometimes run into trouble, that you can't restore the old gmem-attachement again, as you can't get its old name.<br />
+<li><p><strong>Launchpad_functions</strong><br />
+I wrote some launchpad 1st generation-functions, which you can find in the misc-folder. So if you want to be able to program its button's lights, you can do it.</p></li>
+<li><p><strong>Gmem functions</strong><br />
+For those of you, who want to use different gmem-names in your functions, you sometimes run into trouble, that you can't restore the old gmem-attachement again, as you can't get its old name.<br />
 Now you can. Gmem_GetCurrentAttachedName returns the last used gmem-attachname. Keep it to later attach the old gmem back.<br />
 This works best, if you add the dofile-line to activate Ultraschall-API as first code-line in your script.</p></li>
 <li><p><strong>Filemanager demo</strong><br />
 To showcase the background-copying-functions, I wrote a small filemanager demo, which is now available in the example-scripts.<br />
 It shows you, how you can copy even large files in the background and still manage to run the UI of a script without having to code complex background-copying-routines.</p></li>
-<li><p><strong>MB works again on Windows and Linux</strong> Broke in Reaper 6 but I could fix it so replacing the button-texts is possible again. Mac-users are out of luck, as the button-texts can't be replaced there in the first place. Sorry.</p></li>
+<li><p><strong>MB works again on Windows and Linux</strong><br />
+Broke in Reaper 6 but I could fix it so replacing the button-texts is possible again. Mac-users are out of luck, as the button-texts can't be replaced there in the first place. Sorry.</p></li>
 <li><p><strong>GetUserInputs on Mac</strong><br />
 Also broke with Reaper 6 due some internal changes of Reaper. I finally managed to make it work again.<br />
 So you can get and set the captions and retvals again of the GetUserInputs-dialog.<br />
