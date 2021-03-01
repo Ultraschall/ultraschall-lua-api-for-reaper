@@ -58,14 +58,14 @@ function ultraschall.IsValidFXStateChunk(StateChunk)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsValidFXStateChunk</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.975
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsValidFXStateChunk(string StateChunk)</functioncall>
   <description>
     Returns, if a StateChunk is a valid FXStateChunk.
-    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem or inputFX.
     
     Returns false in case of an error
   </description>
@@ -5827,16 +5827,16 @@ end
 
 --ultraschall.InputFX_CopyFXFromTakeFX(reaper.GetMediaItemTake(reaper.GetMediaItem(0,0),0), 1, 1)
 
-function ultraschall.InputFX_MoveFXFromTakeFX(src_take, src_fx, dest_fx)
+function ultraschall.InputFX_MoveFXFromTakeFX(src_take, src_fx, dest_fx, dest_tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_MoveFXFromTakeFX</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>integer dest_fx = ultraschall.InputFX_MoveFXFromTakeFX(MediaItem_Take take, integer src_fx, integer dest_fx)</functioncall>
+  <functioncall>integer dest_fx = ultraschall.InputFX_MoveFXFromTakeFX(MediaItem_Take take, integer src_fx, integer dest_fx, optional integer dest_tracknumber)</functioncall>
   <description>
     moves a takeFX to monitoringFX
     
@@ -5849,6 +5849,7 @@ function ultraschall.InputFX_MoveFXFromTakeFX(src_take, src_fx, dest_fx)
     MediaItem_Take take - the take, from which you want to move the takeFX
     integer src_fx - the index takeFX that shall be movd; 1-based
     integer dest_fx - the index, at which you want to insert the fx into the monitoring FXChain; 1-based
+    optional integer dest_tracknumber - the tracknumber, to which you want to move a new inputFX; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5859,24 +5860,29 @@ function ultraschall.InputFX_MoveFXFromTakeFX(src_take, src_fx, dest_fx)
   <tags>fxmanagement, move, fx, takefx, inputfx</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.type(src_take)~="MediaItem_Take" then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "src_take", "must be a MediaItem_Take", -4) return -1 end
+  local dest_tracknumber2
+  if ultraschall.type(src_take)~="MediaItem_Take" then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "src_take", "must be a MediaItem_Take", -4) return -1 end  
   if math.type(src_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "src_fx", "must be an integer", -1) return -1 end
   if src_fx<1 or reaper.TakeFX_GetCount(src_take)<src_fx then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "src_fx", "no such fx", -2) return -1 end
   if math.type(dest_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "dest_fx", "must be an integer", -3) return -1 end  
   if dest_fx<1 then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "dest_fx", "must be bigger or equal 1", -5) return -1 end  
+  
+  if dest_tracknumber~=nil and (math.type(dest_tracknumber)~="integer" or (dest_tracknumber<0 or dest_tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_MoveFXFromTakeFX", "tracknumber", "no such track; must be an integer", -6) return false end
+  if dest_tracknumber==nil or dest_tracknumber==0 then dest_tracknumber2=reaper.GetMasterTrack() else dest_tracknumber2=reaper.GetTrack(0,dest_tracknumber-1) end
+  
   local FinFX
-  if dest_fx>ultraschall.InputFX_GetCount() then FinFX=ultraschall.InputFX_GetCount()+1 else FinFX=dest_fx end
-
-  reaper.TakeFX_CopyToTrack(src_take, src_fx-1, reaper.GetMasterTrack(0), 0x1000000+dest_fx-1, true)
+  if dest_fx>ultraschall.InputFX_GetCount(dest_tracknumber) then FinFX=ultraschall.InputFX_GetCount(dest_tracknumber)+1 else FinFX=dest_fx end
+  
+  reaper.TakeFX_CopyToTrack(src_take, src_fx-1, dest_tracknumber2, 0x1000000+dest_fx-1, true)
   return FinFX
 end
 
-function ultraschall.InputFX_MoveFXToTakeFX(src_fx, dest_take, dest_fx)
+function ultraschall.InputFX_MoveFXToTakeFX(src_fx, dest_take, dest_fx, src_tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_MoveFXToTakeFX</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
@@ -5893,6 +5899,7 @@ function ultraschall.InputFX_MoveFXToTakeFX(src_fx, dest_take, dest_fx)
     integer src_fx - the index inputFX that shall be moved; 1-based
     MediaItem_Take take - the take, into which you want to insert the fx as takeFX
     integer dest_fx - the index, at which you want to insert the fx; 1-based
+    optional integer src_tracknumber - the tracknumber, whose inputFX you want to move; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5903,37 +5910,48 @@ function ultraschall.InputFX_MoveFXToTakeFX(src_fx, dest_take, dest_fx)
   <tags>fxmanagement, move, fx, takefx, inputfx</tags>
 </US_DocBloc>
 ]]
-  if math.type(src_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "src_fx", "must be an integer", -1) return -1 end
-  if src_fx<1 or ultraschall.InputFX_GetCount()<src_fx then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "src_fx", "no such fx", -2) return -1 end
+  local src_tracknumber2
+  if math.type(src_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "src_fx", "must be an integer", -1) return -1 end  
   if math.type(dest_fx)~="integer" then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "dest_fx", "must be an integer", -3) return -1 end  
   if ultraschall.type(dest_take)~="MediaItem_Take" then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "dest_take", "must be a MediaItem_Take", -4) return -1 end  
+  if src_tracknumber~=nil and (math.type(src_tracknumber)~="integer" or (src_tracknumber<0 or src_tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "tracknumber", "no such track; must be an integer", -5) return -1 end
+  if src_tracknumber==nil or src_tracknumber==0 then src_tracknumber2=reaper.GetMasterTrack() else src_tracknumber2=reaper.GetTrack(0,src_tracknumber-1) end
+  if src_fx<1 or ultraschall.InputFX_GetCount(src_tracknumber)<src_fx then ultraschall.AddErrorMessage("InputFX_MoveFXToTakeFX", "src_fx", "no such fx", -2) return -1 end
   local FinFX
   if dest_fx>reaper.TakeFX_GetCount(dest_take) then FinFX=reaper.TakeFX_GetCount(dest_take)+1 else FinFX=dest_fx end
   src_fx=src_fx-1
   dest_fx=dest_fx-1 
   
-  reaper.TrackFX_CopyToTake(reaper.GetMasterTrack(0), src_fx+0x1000000, dest_take, dest_fx, true)
+  reaper.TrackFX_CopyToTake(src_tracknumber2, src_fx+0x1000000, dest_take, dest_fx, true)
   return FinFX
 end
 
-function ultraschall.InputFX_GetFXChain(trackfx_or_takefx)
+
+
+function ultraschall.InputFX_GetFXChain(fxstatechunk_type, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetFXChain</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string FXStateChunk = ultraschall.InputFX_GetFXChain(integer trackfx_or_takefx)</functioncall>
+  <functioncall>string FXStateChunk = ultraschall.InputFX_GetFXChain(integer fxstatechunk_type, optional integer tracknumber)</functioncall>
   <description>
     Loads the FXStateChunk from the monitoring-fx-chain.
+    
+    Returns 
   </description>
   <retvals>
     string FXStateChunk - the loaded FXStateChunk; nil, in case of an error
   </retvals>
   <parameters>
-    integer trackfx_or_takefx - 0, return the FXStateChunk as Track-FXStateChunk; 1, return the FXStateChunk as Take-FXStateChunk
+    integer fxstatechunk_type - 0, return the FXStateChunk as Track-FXStateChunk
+                              - 1, return the FXStateChunk as Take-FXStateChunk
+                              - 2, return the FXStateChunk as Track-InputFX-FXStateChunk
+    optional integer tracknumber - the tracknumber of the track, whose fxinput-chain you want to get
+                                 - nil or 0, global monitoring-fx; 1 and higher, the inputFX-chain from track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -5944,29 +5962,46 @@ function ultraschall.InputFX_GetFXChain(trackfx_or_takefx)
   <tags>fx management, load, fxstatechunk, monitoringfx, inputfx</tags>
 </US_DocBloc>
 ]]
-  if math.type(trackfx_or_takefx)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFXChain", "trackfx_or_takefx", "must be an integer", -1) return nil end
-  if trackfx_or_takefx~=0 and trackfx_or_takefx~=1 then ultraschall.AddErrorMessage("InputFX_GetFXChain", "trackfx_or_takefx", "must be an integer", -2) return nil end
-  local FXStateChunk = ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-hwoutfx.ini")
-  FXStateChunk = FXStateChunk:match(".-(BYPASS.*)")
-  FXStateChunk = string.gsub(FXStateChunk, "FLOATPOS .-\n", "")
-  FXStateChunk = string.gsub(FXStateChunk, "FXID .-\n", "")
-  FXStateChunk = string.gsub(FXStateChunk, "(BYPASS %d- %d-) %d-\n", "%1\n")
-  
-  if trackfx_or_takefx==0 then FXChain="<FXCHAIN\n" else FXChain="<TAKEFX\n" end
-  
-  return ultraschall.StateChunkLayouter(FXChain.."  "..string.gsub(FXStateChunk, "\n", "\n  ").."\n>")
+  if math.type(fxstatechunk_type)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFXChain", "fxstatechunk_type", "must be an integer", -1) return nil end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_SetOpen", "tracknumber", "no such track; must be an integer", -4) return false end
+  if fxstatechunk_type<0 or fxstatechunk_type>2 then ultraschall.AddErrorMessage("InputFX_GetFXChain", "fxstatechunk_type", "must be between 0 and 2", -3) return nil end
+  local FXStateChunk  
+  if tracknumber==nil or tracknumber==0 then
+    -- return master-inputfx, as read from ResourcePath/reaper-hwoutfx.ini
+    FXStateChunk = ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-hwoutfx.ini")
+    FXStateChunk = string.gsub(FXStateChunk, "(BYPASS %d- %d-) %d-\n", "%1\n")
+    
+    local FXChain
+    if fxstatechunk_type==0 then FXChain="<FXCHAIN\n" 
+    elseif fxstatechunk_type==1 then FXChain="<TAKEFX\n" 
+    elseif fxstatechunk_type==2 then FXChain="<FXCHAIN_REC\n"
+    end
+    
+    return ultraschall.StateChunkLayouter(FXChain.."  "..string.gsub(FXStateChunk, "\n", "\n  ").."\n>")
+  else
+    -- return InputFX from a specific track, that is not master-track
+    local retval, TSC=ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)
+    TSC = ultraschall.StateChunkLayouter(TSC)
+    FXStateChunk=TSC:match("\n  (<FXCHAIN_REC.-\n  >)")
+    if FXStateChunk==nil then ultraschall.AddErrorMessage("InputFX_GetFXChain", "tracknumber", "track has no inputFX", -4) return nil end
+    FXStateChunk=string.gsub(FXStateChunk, "\n  ", "\n")
+    if fxstatechunk_type==0 then FXStateChunk=string.gsub(FXStateChunk, "<FXCHAIN_REC", "<FXCHAIN")
+    elseif fxstatechunk_type==1 then FXStateChunk=string.gsub(FXStateChunk, "<FXCHAIN_REC", "<TAKEFX")
+    end
+    return FXStateChunk
+  end
 end
 
-function ultraschall.InputFX_SetFXChain(FXStateChunk, replacefx)
+function ultraschall.InputFX_SetFXChain(FXStateChunk, replacefx, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_SetFXChain</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.InputFX_SetFXChain(string FXStateChunk, boolean replacefx)</functioncall>
+  <functioncall>boolean retval = ultraschall.InputFX_SetFXChain(string FXStateChunk, boolean replacefx, optional integer tracknumber)</functioncall>
   <description>
     Inserts an FXStateChunk into the monitoring-fx-chain. Allows replacing it as well.
     
@@ -5979,7 +6014,8 @@ function ultraschall.InputFX_SetFXChain(FXStateChunk, replacefx)
   </retvals>
   <parameters>
     string FXStateChunk - the FXStateChunk that shall be set as monitoring fx-chain
-    boolean replacefx - true, replace the current monitoring-fx-chain with the new one; false, only insert the new fx
+    boolean replacefx - true, replace the current monitoring-fx-chain with the new one; false, only insert the new fx at the end of the FXChain
+    optional integer tracknumber - the track, whose inputFX-chain you want to set; 0 or nil, global monitoring fx
   </parameters>
   <chapter_context>
     FX-Management
@@ -5992,9 +6028,13 @@ function ultraschall.InputFX_SetFXChain(FXStateChunk, replacefx)
 ]]
   if type(replacefx)~="boolean" then ultraschall.AddErrorMessage("InputFX_SetFXChain", "replacefx", "must be a boolean", -1) return false end
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("InputFX_SetFXChain", "FXStateChunk", "not a valid FXStateChunk", -2) return false end
-  reaper.PreventUIRefresh(1)
-  FXStateChunk=string.gsub(FXStateChunk, "<TAKEFX", "<FXCHAIN")
-  local TSC=
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("InputFX_SetFXChain", "tracknumber", "must be an integer", -3) return false end
+  if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("InputFX_SetFXChain", "tracknumber", "no such track", -4) return false end
+  
+  if tracknumber==0 or tracknumber==nil then
+    reaper.PreventUIRefresh(1)
+    FXStateChunk=string.gsub(FXStateChunk, "<TAKEFX", "<FXCHAIN")
+    local TSC=
 [[<TRACK
   NAME ""
   PEAKCOL 33530462
@@ -6020,24 +6060,54 @@ function ultraschall.InputFX_SetFXChain(FXStateChunk, replacefx)
 "\n  "..string.gsub(FXStateChunk, "\n", "\n  ").."\n"
 ..[[>
 ]]
-  reaper.Undo_BeginBlock()
-  local retval, MediaTrack = ultraschall.InsertTrack_TrackStateChunk(TSC)
-  local count=ultraschall.InputFX_GetCount()
-  if replacefx==true then
-    count=0
-    for i=1, ultraschall.InputFX_GetCount() do
-      ultraschall.InputFX_Delete(1)
+    reaper.Undo_BeginBlock()
+    local retval, MediaTrack = ultraschall.InsertTrack_TrackStateChunk(TSC)
+    local count=ultraschall.InputFX_GetCount()
+    if replacefx==true then
+      count=0
+      for i=1, ultraschall.InputFX_GetCount() do
+        ultraschall.InputFX_Delete(1)
+      end
     end
-  end
   
-  for i=1, reaper.TrackFX_GetCount(MediaTrack) do
-    --print2(i)
-    ultraschall.InputFX_MoveFXFromTrackFX(MediaTrack, 1, i)
+    for i=1, reaper.TrackFX_GetCount(MediaTrack) do
+      --print2(i)
+      ultraschall.InputFX_MoveFXFromTrackFX(MediaTrack, 1, i)
+    end
+    reaper.DeleteTrack(MediaTrack)
+    reaper.PreventUIRefresh(-1)
+    reaper.Undo_EndBlock("Changed InputFX", -1)
+    return true
+  else
+    
+    FXStateChunk=string.gsub(FXStateChunk, "<TAKEFX\n", "<FXCHAIN_REC\n")
+    FXStateChunk=string.gsub(FXStateChunk, "<FXCHAIN\n", "<FXCHAIN_REC\n")
+    
+    local retval, TSC = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)    
+    TSC = ultraschall.StateChunkLayouter(TSC)
+    
+    -- get currently existing FXChain(if existing)
+    local offset1, FXStateChunk_old, offset2=TSC:match("\n  ()(<FXCHAIN_REC.-\n  >)()")    
+    if FXStateChunk_old==nil then 
+      FXStateChunk_old="" 
+      offset1, offset2 = TSC:match("MAINSEND.-\n()()")
+    end
+    
+    if replacefx==false then
+      -- if fx shall be replaced, prepare FXStateChunks for this
+      FXStateChunk_old=string.gsub(FXStateChunk_old, "\n    ", "\n  ")
+      FXStateChunk_old=FXStateChunk_old:sub(1,-2)
+      FXStateChunk=FXStateChunk:match("(BYPASS.*)")     
+    else
+      -- if fx shall be replaced, make old FXStateChunk="" and layout the new statechunk
+      FXStateChunk_old="    "      
+      FXStateChunk="  "..ultraschall.StateChunkLayouter(FXStateChunk):sub(1,-3).."  >"
+    end
+    
+    
+    TSC=TSC:sub(1, offset1-1)..FXStateChunk_old.."\n"..FXStateChunk.."\n"..TSC:sub(offset2, -1)
+    ultraschall.SetTrackStateChunk_Tracknumber(tracknumber, TSC)
   end
-  reaper.DeleteTrack(MediaTrack)
-  reaper.PreventUIRefresh(-1)
-  reaper.Undo_EndBlock("Changed InputFX", -1)
-  return true
 end
 
 function ultraschall.InputFX_FormatParamValue(fxindex, paramindex, value)

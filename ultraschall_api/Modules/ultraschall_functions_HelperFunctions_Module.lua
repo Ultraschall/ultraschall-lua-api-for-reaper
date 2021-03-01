@@ -3824,16 +3824,16 @@ function ultraschall.StateChunkLayouter(statechunk)
 </US_DocBloc>
 ]]
 
-  if type(statechunk)~="string" then ultraschall.AddErrorMessage("StateChunkLayouter","statechunk", "must be a string", -1) return nil end  
+  if type(statechunk)~="string" then ultraschall.AddErrorMessage("StateChunkLayouter","statechunk", "must be a string", -1) return nil end    
   local num_tabs=0
   local newsc=""
-  for k in string.gmatch(statechunk, "(.-\n)") do
+  for k in string.gmatch(statechunk.."\n", "(.-\n)") do
     if k:sub(1,1)==">" then num_tabs=num_tabs-1 end
     for i=0, num_tabs-1 do
-      newsc=newsc.."  "
+      newsc=newsc.."  "      
     end
     if k:sub(1,1)=="<" then num_tabs=num_tabs+1 end
-    newsc=newsc..k
+    newsc=newsc..k    
   end
   return newsc
 end
