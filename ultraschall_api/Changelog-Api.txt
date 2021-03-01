@@ -280,6 +280,7 @@ Has now 1385 functions, with 26 new ones
        
 #### Changes from 4.2.003 to 4.2.004    
   - API-HelperFunctions: SFEM - parameters didn't work as I..ehrm....forgot to add them.... -> fixed
+  - ConfigurationManagement: KB-ini-functions - parameter/retval-descriptions were missing information -> fixed
   - Docs: Filetype Descriptions - added missing descriptions and mouse modifiers for reaper-mouse.ini
   - Docs: Reaper Internals - updated to Reaper 6.24  
   - File-Management: BatchConvertFiles - added, as I had forgotten to add it in the last release -> fixed
