@@ -6054,6 +6054,7 @@
         </requires>
         <description prog_lang="*">
             Gets block of peak samples to buf. Note that the peak samples are interleaved, but in two or three blocks (maximums, then minimums, then extra). Return value has 20 bits of returned sample count, then 4 bits of output_mode (0xf00000), then a bit to signify whether extra_type was available (0x1000000). extra_type can be 115 ('s') for spectral information, which will return peak samples as integers with the low 15 bits frequency, next 14 bits tonality.
+            peakrate is number of pixels in seconds.
         </description>
         <retvals>
             integer peaks - 

@@ -7505,7 +7505,7 @@ function ultraschall.GetFXWak_FXStateChunk(FXStateChunk, fx_id)
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer keyboard_input_2_plugin, integer unknown = ultraschall.GetFXWak_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <functioncall>integer keyboard_input_2_plugin, integer fx_embed_state = ultraschall.GetFXWak_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
   <description>
     returns the WAK-entryvalues of a specific fx from an FXStateChunk, as set by the +-button->Send all keyboard input to plugin-menuentry in the FX-window of the visible plugin.
     
@@ -7513,7 +7513,7 @@ function ultraschall.GetFXWak_FXStateChunk(FXStateChunk, fx_id)
   </description>
   <retvals>
     integer keyboard_input_2_plugin - 0, don't send all the keyboard-input to plugin; 1, send all keyboard-input to plugin
-    integer unknown - unknown, usually 0
+    integer fx_embed_state - set embedding of the fx; &amp;1=TCP, &amp;2=MCP
   </retvals>
   <parameters>
     string FXStateChunk - the FXStateChunk, from whose fx you want to return the WAK-entry
