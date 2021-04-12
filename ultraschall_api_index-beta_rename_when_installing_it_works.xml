@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43581.00" author="Meo Mespotine">
+      <version name="43591.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Changelog-Api.txt</source>
@@ -19,6 +19,7 @@
 	<source file="/ultraschall_api/ultraschall_gui_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/ultraschall_gui_engine_beta.lua</source>
 	<source file="/ultraschall_api/ultraschall_gui_engine_server.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/ultraschall_gui_engine_server.lua</source>
 	<source file="/ultraschall_api/ultraschall_ModulatorLoad3000.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/ultraschall_ModulatorLoad3000.lua</source>
+	<source file="/ultraschall_api/ultraschall_ModulatorLoad3000.zip" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/ultraschall_ModulatorLoad3000.zip</source>
 	<source file="/ultraschall_api/ultraschall_network_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/ultraschall_network_engine.lua</source>
 	<source file="/ultraschall_api/ultraschall_network_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/ultraschall_network_engine_beta.lua</source>
 	<source file="/ultraschall_api/ultraschall_sound_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/ultraschall_sound_engine.lua</source>
@@ -363,6 +364,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-ConfigFile-Entries.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-ConfigFile-Entries.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Env_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Env_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_findConfigVarsToggledByActions.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_findConfigVarsToggledByActions.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Find_Duplicated_Lines_In_Clipboard.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Find_Duplicated_Lines_In_Clipboard.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_GetPitchShiftModes.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_GetPitchShiftModes.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_gfx_deltablit_displayer.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua</source>
@@ -568,7 +570,7 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.2.004 - "" - 6th of February 2021
+4.2.004 - “Grandma - kl” - 30th of April 2021
 
 Has now 1385 functions, with 26 new ones
 
@@ -579,6 +581,9 @@ new in this release:
 
 New features in 4.2.004
 
+-   Developer Tools:
+    ultraschall_developertool_Find_Duplicated_Lines_In_Clipboard.lua -
+    shows duplicated lines in the string in the clipboard
 -   Docs: Reaper API-docs - added ReaImGui 0.1.1, OSARA 2021
 -   GMem: GMem_Read_ValueRange - returns a value-range from gmem-values
     as a handy table
@@ -594,6 +599,9 @@ New features in 4.2.004
 
 Changes from 4.2.003 to 4.2.004
 
+-   API: Modulator3000 - reverted binary-chunk back to source-code, due
+    Reaper-path-encoding problems with Umlauts in resourcepath(thanks to
+    rstockm)
 -   API-HelperFunctions: SFEM - parameters didn’t work as
     I..ehrm….forgot to add them…. -> fixed
 -   ConfigurationManagement: KB-ini-functions -
@@ -7877,7 +7885,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1401 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43581 from 27.03.2021 12:04:46).}
+a 1401 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43591 from 12.04.2021 15:43:20).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -8015,7 +8023,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1401 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43581 from 27.03.2021 12:04:46).}
+a 1401 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43591 from 12.04.2021 15:43:20).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

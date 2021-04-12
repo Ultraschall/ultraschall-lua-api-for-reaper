@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 6.25
+            ## ReaScript API as of Reaper 6.26
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -15332,352 +15332,352 @@ Mespotine
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Temporarily updates the theme color to the color specified (or the theme default color if -1 is specified). Returns -1 on failure, otherwise returns the color (or transformed-color). Note that the UI is not updated by this, the caller should call [UpdateArrange()](#UpdateArrange) etc as necessary. If the low bit of flags is set, any color transformations are bypassed. To read a value see [GetThemeColor](#GetThemeColor).
 
-             * col_main_bg2 : Main window/transport background 
-             * col_main_text2 : Main window/transport text 
-             * col_main_textshadow : Main window text shadow (ignored if too close to text color) 
-             * col_main_3dhl : Main window 3D highlight 
-             * col_main_3dsh : Main window 3D shadow 
-             * col_main_resize2 : Main window pane resize mouseover 
-             * col_main_text : Window text 
-             * col_main_bg : Window background 
-             * col_main_editbk : Window edit background 
-             * col_transport_editbk : Transport edit background 
-             * col_toolbar_text : Toolbar button text 
-             * col_toolbar_text_on : Toolbar button enabled text 
-             * col_toolbar_frame : Toolbar frame when floating or docked 
-             * toolbararmed_color : Toolbar button armed color 
-             * toolbararmed_drawmode : Toolbar button armed fill mode 
-             * io_text : I/O window text 
-             * io_3dhl : I/O window 3D highlight 
-             * io_3dsh : I/O window 3D shadow 
-             * genlist_bg : Window list background 
-             * genlist_fg : Window list text 
-             * genlist_grid : Window list grid lines 
-             * genlist_selbg : Window list selected row 
-             * genlist_selfg : Window list selected text 
-             * genlist_seliabg : Window list selected row (inactive) 
-             * genlist_seliafg : Window list selected text (inactive) 
-             * genlist_hilite : Window list highlighted text 
-             * genlist_hilite_sel : Window list highlighted selected text 
-             * col_buttonbg : Button background 
-             * col_tcp_text : Track panel text 
-             * col_tcp_textsel : Track panel (selected) text 
-             * col_seltrack : Selected track control panel background 
-             * col_seltrack2 : Unselected track control panel background (enabled with a checkbox above) 
-             * tcplocked_color : Locked track control panel overlay color 
-             * tcplocked_drawmode : Locked track control panel fill mode 
-             * col_tracklistbg : Empty track list area 
-             * col_mixerbg : Empty mixer list area 
-             * col_arrangebg : Empty arrange view area 
-             * arrange_vgrid : Empty arrange view area vertical grid shading 
-             * col_fadearm : Fader background when automation recording 
-             * col_fadearm2 : Fader background when automation playing 
-             * col_fadearm3 : Fader background when in inactive touch/latch 
-             * col_tl_fg : Timeline foreground 
-             * col_tl_fg2 : Timeline foreground (secondary markings) 
-             * col_tl_bg : Timeline background 
-             * col_tl_bgsel : Time selection color 
-             * timesel_drawmode : Time selection fill mode 
-             * col_tl_bgsel2 : Timeline background (in loop points) 
-             * col_trans_bg : Transport status background 
-             * col_trans_fg : Transport status text 
-             * playrate_edited : Project play rate control when not 1.0 
-             * col_mi_label : Media item label 
-             * col_mi_label_sel : Media item label (selected) 
-             * col_mi_label_float : Floating media item label 
-             * col_mi_label_float_sel : Floating media item label (selected) 
-             * col_mi_bg : Media item background (odd tracks) 
-             * col_mi_bg2 : Media item background (even tracks) 
-             * col_tr1_itembgsel : Media item background selected (odd tracks) 
-             * col_tr2_itembgsel : Media item background selected (even tracks) 
-             * itembg_drawmode : Media item background fill mode 
-             * col_tr1_peaks : Media item peaks (odd tracks) 
-             * col_tr2_peaks : Media item peaks (even tracks) 
-             * col_tr1_ps2 : Media item peaks when selected (odd tracks) 
-             * col_tr2_ps2 : Media item peaks when selected (even tracks) 
-             * col_peaksedge : Media item peaks edge highlight (odd tracks) 
-             * col_peaksedge2 : Media item peaks edge highlight (even tracks) 
-             * col_peaksedgesel : Media item peaks edge highlight when selected (odd tracks) 
-             * col_peaksedgesel2 : Media item peaks edge highlight when selected (even tracks) 
-             * cc_chase_drawmode : Media item MIDI CC peaks fill mode 
-             * col_peaksfade : Media item peaks when active in crossfade editor (fade-out) 
-             * col_peaksfade2 : Media item peaks when active in crossfade editor (fade-in) 
-             * col_mi_fades : Media item fade/volume controls 
-             * fadezone_color : Media item fade quiet zone fill color 
-             * fadezone_drawmode : Media item fade quiet zone fill mode 
-             * fadearea_color : Media item fade full area fill color 
-             * fadearea_drawmode : Media item fade full area fill mode 
-             * col_mi_fade2 : Media item edges of controls 
-             * col_mi_fade2_drawmode : Media item edges of controls blend mode 
-             * item_grouphl : Media item edge when selected via grouping 
-             * col_offlinetext : Media item "offline" text 
-             * col_stretchmarker : Media item stretch marker line 
-             * col_stretchmarker_h0 : Media item stretch marker handle (1x) 
-             * col_stretchmarker_h1 : Media item stretch marker handle (&gt;1x) 
-             * col_stretchmarker_h2 : Media item stretch marker handle (&lt;1x) 
-             * col_stretchmarker_b : Media item stretch marker handle edge 
-             * col_stretchmarkerm : Media item stretch marker blend mode 
-             * col_stretchmarker_text : Media item stretch marker text 
-             * col_stretchmarker_tm : Media item transient guide handle 
-             * take_marker : Media item take marker 
-             * selitem_tag : Selected media item bar color 
-             * activetake_tag : Active media item take bar color 
-             * col_tr1_bg : Track background (odd tracks) 
-             * col_tr2_bg : Track background (even tracks) 
-             * selcol_tr1_bg : Selected track background (odd tracks) 
-             * selcol_tr2_bg : Selected track background (even tracks) 
-             * col_tr1_divline : Track divider line (odd tracks) 
-             * col_tr2_divline : Track divider line (even tracks) 
-             * col_envlane1_divline : Envelope lane divider line (odd tracks) 
-             * col_envlane2_divline : Envelope lane divider line (even tracks) 
-             * marquee_fill : Marquee fill 
-             * marquee_drawmode : Marquee fill mode 
-             * marquee_outline : Marquee outline 
-             * marqueezoom_fill : Marquee zoom fill 
-             * marqueezoom_drawmode : Marquee zoom fill mode 
-             * marqueezoom_outline : Marquee zoom outline 
-             * areasel_fill : Razor edit area fill 
-             * areasel_drawmode : Razor edit area fill mode 
-             * areasel_outline : Razor edit area outline 
-             * areasel_outlinemode : Razor edit area outline mode 
-             * col_cursor : Edit cursor 
-             * col_cursor2 : Edit cursor (alternate) 
-             * playcursor_color : Play cursor 
-             * playcursor_drawmode : Play cursor fill mode 
-             * col_gridlines2 : Grid lines (start of measure) 
-             * col_gridlines2dm : Grid lines (start of measure) - draw mode 
-             * col_gridlines3 : Grid lines (start of beats) 
-             * col_gridlines3dm : Grid lines (start of beats) - draw mode 
-             * col_gridlines : Grid lines (in between beats) 
-             * col_gridlines1dm : Grid lines (in between beats) - draw mode 
-             * guideline_color : Editing guide line color 
-             * guideline_drawmode : Editing guide fill mode 
+             * col\_main\_bg2 : Main window/transport background 
+             * col\_main\_text2 : Main window/transport text 
+             * col\_main\_textshadow : Main window text shadow (ignored if too close to text color) 
+             * col\_main\_3dhl : Main window 3D highlight 
+             * col\_main\_3dsh : Main window 3D shadow 
+             * col\_main\_resize2 : Main window pane resize mouseover 
+             * col\_main\_text : Window text 
+             * col\_main\_bg : Window background 
+             * col\_main\_editbk : Window edit background 
+             * col\_transport\_editbk : Transport edit background 
+             * col\_toolbar\_text : Toolbar button text 
+             * col\_toolbar\_text\_on : Toolbar button enabled text 
+             * col\_toolbar\_frame : Toolbar frame when floating or docked 
+             * toolbararmed\_color : Toolbar button armed color 
+             * toolbararmed\_drawmode : Toolbar button armed fill mode 
+             * io\_text : I/O window text 
+             * io\_3dhl : I/O window 3D highlight 
+             * io\_3dsh : I/O window 3D shadow 
+             * genlist\_bg : Window list background 
+             * genlist\_fg : Window list text 
+             * genlist\_grid : Window list grid lines 
+             * genlist\_selbg : Window list selected row 
+             * genlist\_selfg : Window list selected text 
+             * genlist\_seliabg : Window list selected row (inactive) 
+             * genlist\_seliafg : Window list selected text (inactive) 
+             * genlist\_hilite : Window list highlighted text 
+             * genlist\_hilite\_sel : Window list highlighted selected text 
+             * col\_buttonbg : Button background 
+             * col\_tcp\_text : Track panel text 
+             * col\_tcp\_textsel : Track panel (selected) text 
+             * col\_seltrack : Selected track control panel background 
+             * col\_seltrack2 : Unselected track control panel background (enabled with a checkbox above) 
+             * tcplocked\_color : Locked track control panel overlay color 
+             * tcplocked\_drawmode : Locked track control panel fill mode 
+             * col\_tracklistbg : Empty track list area 
+             * col\_mixerbg : Empty mixer list area 
+             * col\_arrangebg : Empty arrange view area 
+             * arrange\_vgrid : Empty arrange view area vertical grid shading 
+             * col\_fadearm : Fader background when automation recording 
+             * col\_fadearm2 : Fader background when automation playing 
+             * col\_fadearm3 : Fader background when in inactive touch/latch 
+             * col\_tl\_fg : Timeline foreground 
+             * col\_tl\_fg2 : Timeline foreground (secondary markings) 
+             * col\_tl\_bg : Timeline background 
+             * col\_tl\_bgsel : Time selection color 
+             * timesel\_drawmode : Time selection fill mode 
+             * col\_tl\_bgsel2 : Timeline background (in loop points) 
+             * col\_trans\_bg : Transport status background 
+             * col\_trans\_fg : Transport status text 
+             * playrate\_edited : Project play rate control when not 1.0 
+             * col\_mi\_label : Media item label 
+             * col\_mi\_label\_sel : Media item label (selected) 
+             * col\_mi\_label\_float : Floating media item label 
+             * col\_mi\_label\_float\_sel : Floating media item label (selected) 
+             * col\_mi\_bg : Media item background (odd tracks) 
+             * col\_mi\_bg2 : Media item background (even tracks) 
+             * col\_tr1\_itembgsel : Media item background selected (odd tracks) 
+             * col\_tr2\_itembgsel : Media item background selected (even tracks) 
+             * itembg\_drawmode : Media item background fill mode 
+             * col\_tr1\_peaks : Media item peaks (odd tracks) 
+             * col\_tr2\_peaks : Media item peaks (even tracks) 
+             * col\_tr1\_ps2 : Media item peaks when selected (odd tracks) 
+             * col\_tr2\_ps2 : Media item peaks when selected (even tracks) 
+             * col\_peaksedge : Media item peaks edge highlight (odd tracks) 
+             * col\_peaksedge2 : Media item peaks edge highlight (even tracks) 
+             * col\_peaksedgesel : Media item peaks edge highlight when selected (odd tracks) 
+             * col\_peaksedgesel2 : Media item peaks edge highlight when selected (even tracks) 
+             * cc\_chase\_drawmode : Media item MIDI CC peaks fill mode 
+             * col\_peaksfade : Media item peaks when active in crossfade editor (fade-out) 
+             * col\_peaksfade2 : Media item peaks when active in crossfade editor (fade-in) 
+             * col\_mi\_fades : Media item fade/volume controls 
+             * fadezone\_color : Media item fade quiet zone fill color 
+             * fadezone\_drawmode : Media item fade quiet zone fill mode 
+             * fadearea\_color : Media item fade full area fill color 
+             * fadearea\_drawmode : Media item fade full area fill mode 
+             * col\_mi\_fade2 : Media item edges of controls 
+             * col\_mi\_fade2\_drawmode : Media item edges of controls blend mode 
+             * item\_grouphl : Media item edge when selected via grouping 
+             * col\_offlinetext : Media item "offline" text 
+             * col\_stretchmarker : Media item stretch marker line 
+             * col\_stretchmarker\_h0 : Media item stretch marker handle (1x) 
+             * col\_stretchmarker\_h1 : Media item stretch marker handle (&gt;1x) 
+             * col\_stretchmarker\_h2 : Media item stretch marker handle (&lt;1x) 
+             * col\_stretchmarker\_b : Media item stretch marker handle edge 
+             * col\_stretchmarkerm : Media item stretch marker blend mode 
+             * col\_stretchmarker\_text : Media item stretch marker text 
+             * col\_stretchmarker\_tm : Media item transient guide handle 
+             * take\_marker : Media item take marker 
+             * selitem\_tag : Selected media item bar color 
+             * activetake\_tag : Active media item take bar color 
+             * col\_tr1\_bg : Track background (odd tracks) 
+             * col\_tr2\_bg : Track background (even tracks) 
+             * selcol\_tr1\_bg : Selected track background (odd tracks) 
+             * selcol\_tr2\_bg : Selected track background (even tracks) 
+             * col\_tr1\_divline : Track divider line (odd tracks) 
+             * col\_tr2\_divline : Track divider line (even tracks) 
+             * col\_envlane1\_divline : Envelope lane divider line (odd tracks) 
+             * col\_envlane2\_divline : Envelope lane divider line (even tracks) 
+             * marquee\_fill : Marquee fill 
+             * marquee\_drawmode : Marquee fill mode 
+             * marquee\_outline : Marquee outline 
+             * marqueezoom\_fill : Marquee zoom fill 
+             * marqueezoom\_drawmode : Marquee zoom fill mode 
+             * marqueezoom\_outline : Marquee zoom outline 
+             * areasel\_fill : Razor edit area fill 
+             * areasel\_drawmode : Razor edit area fill mode 
+             * areasel\_outline : Razor edit area outline 
+             * areasel\_outlinemode : Razor edit area outline mode 
+             * col\_cursor : Edit cursor 
+             * col\_cursor2 : Edit cursor (alternate) 
+             * playcursor\_color : Play cursor 
+             * playcursor\_drawmode : Play cursor fill mode 
+             * col\_gridlines2 : Grid lines (start of measure) 
+             * col\_gridlines2dm : Grid lines (start of measure) - draw mode 
+             * col\_gridlines3 : Grid lines (start of beats) 
+             * col\_gridlines3dm : Grid lines (start of beats) - draw mode 
+             * col\_gridlines : Grid lines (in between beats) 
+             * col\_gridlines1dm : Grid lines (in between beats) - draw mode 
+             * guideline\_color : Editing guide line color 
+             * guideline\_drawmode : Editing guide fill mode 
              * region : Regions 
-             * region_lane_bg : Region lane background 
-             * region_lane_text : Region lane text 
+             * region\_lane\_bg : Region lane background 
+             * region\_lane\_text : Region lane text 
              * marker : Markers 
-             * marker_lane_bg : Marker lane background 
-             * marker_lane_text : Marker lane text 
-             * col_tsigmark : Time signature change marker 
-             * ts_lane_bg : Time signature lane background 
-             * ts_lane_text : Time signature lane text 
-             * timesig_sel_bg : Time signature marker selected background 
-             * col_routinghl1 : Routing matrix row highlight 
-             * col_routinghl2 : Routing matrix column highlight 
-             * col_vudoint : Theme has interlaced VU meters 
-             * col_vuclip : VU meter clip indicator 
-             * col_vutop : VU meter top 
-             * col_vumid : VU meter middle 
-             * col_vubot : VU meter bottom 
-             * col_vuintcol : VU meter interlace/edge color 
-             * col_vumidi : VU meter midi activity 
-             * col_vuind1 : VU (indicator) - no signal 
-             * col_vuind2 : VU (indicator) - low signal 
-             * col_vuind3 : VU (indicator) - med signal 
-             * col_vuind4 : VU (indicator) - hot signal 
-             * mcp_sends_normal : Sends text: normal 
-             * mcp_sends_muted : Sends text: muted 
-             * mcp_send_midihw : Sends text: MIDI hardware 
-             * mcp_sends_levels : Sends level 
-             * mcp_fx_normal : FX insert text: normal 
-             * mcp_fx_bypassed : FX insert text: bypassed 
-             * mcp_fx_offlined : FX insert text: offline 
-             * mcp_fxparm_normal : FX parameter text: normal 
-             * mcp_fxparm_bypassed : FX parameter text: bypassed 
-             * mcp_fxparm_offlined : FX parameter text: offline 
-             * tcp_list_scrollbar : List scrollbar (track panel) 
-             * tcp_list_scrollbar_mode : List scrollbar (track panel) - draw mode 
-             * tcp_list_scrollbar_mouseover : List scrollbar mouseover (track panel) 
-             * tcp_list_scrollbar_mouseover_mode : List scrollbar mouseover (track panel) - draw mode 
-             * mcp_list_scrollbar : List scrollbar (mixer panel) 
-             * mcp_list_scrollbar_mode : List scrollbar (mixer panel) - draw mode 
-             * mcp_list_scrollbar_mouseover : List scrollbar mouseover (mixer panel) 
-             * mcp_list_scrollbar_mouseover_mode : List scrollbar mouseover (mixer panel) - draw mode 
-             * midi_rulerbg : MIDI editor ruler background 
-             * midi_rulerfg : MIDI editor ruler text 
-             * midi_grid2 : MIDI editor grid line (start of measure) 
-             * midi_griddm2 : MIDI editor grid line (start of measure) - draw mode 
-             * midi_grid3 : MIDI editor grid line (start of beats) 
-             * midi_griddm3 : MIDI editor grid line (start of beats) - draw mode 
-             * midi_grid1 : MIDI editor grid line (between beats) 
-             * midi_griddm1 : MIDI editor grid line (between beats) - draw mode 
-             * midi_trackbg1 : MIDI editor background color (naturals) 
-             * midi_trackbg2 : MIDI editor background color (sharps/flats) 
-             * midi_trackbg_outer1 : MIDI editor background color, out of bounds (naturals) 
-             * midi_trackbg_outer2 : MIDI editor background color, out of bounds (sharps/flats) 
-             * midi_selpitch1 : MIDI editor background color, selected pitch (naturals) 
-             * midi_selpitch2 : MIDI editor background color, selected pitch (sharps/flats) 
-             * midi_selbg : MIDI editor time selection color 
-             * midi_selbg_drawmode : MIDI editor time selection fill mode 
-             * midi_gridhc : MIDI editor CC horizontal center line 
-             * midi_gridhcdm : MIDI editor CC horizontal center line - draw mode 
-             * midi_gridh : MIDI editor CC horizontal line 
-             * midi_gridhdm : MIDI editor CC horizontal line - draw mode 
-             * midi_ccbut : MIDI editor CC lane add/remove buttons 
-             * midi_ccbut_text : MIDI editor CC lane button text 
-             * midi_ccbut_arrow : MIDI editor CC lane button arrow 
+             * marker\_lane\_bg : Marker lane background 
+             * marker\_lane\_text : Marker lane text 
+             * col\_tsigmark : Time signature change marker 
+             * ts\_lane\_bg : Time signature lane background 
+             * ts\_lane\_text : Time signature lane text 
+             * timesig\_sel\_bg : Time signature marker selected background 
+             * col\_routinghl1 : Routing matrix row highlight 
+             * col\_routinghl2 : Routing matrix column highlight 
+             * col\_vudoint : Theme has interlaced VU meters 
+             * col\_vuclip : VU meter clip indicator 
+             * col\_vutop : VU meter top 
+             * col\_vumid : VU meter middle 
+             * col\_vubot : VU meter bottom 
+             * col\_vuintcol : VU meter interlace/edge color 
+             * col\_vumidi : VU meter midi activity 
+             * col\_vuind1 : VU (indicator) - no signal 
+             * col\_vuind2 : VU (indicator) - low signal 
+             * col\_vuind3 : VU (indicator) - med signal 
+             * col\_vuind4 : VU (indicator) - hot signal 
+             * mcp\_sends\_normal : Sends text: normal 
+             * mcp\_sends\_muted : Sends text: muted 
+             * mcp\_send\_midihw : Sends text: MIDI hardware 
+             * mcp\_sends\_levels : Sends level 
+             * mcp\_fx\_normal : FX insert text: normal 
+             * mcp\_fx\_bypassed : FX insert text: bypassed 
+             * mcp\_fx\_offlined : FX insert text: offline 
+             * mcp\_fxparm\_normal : FX parameter text: normal 
+             * mcp\_fxparm\_bypassed : FX parameter text: bypassed 
+             * mcp\_fxparm\_offlined : FX parameter text: offline 
+             * tcp\_list\_scrollbar : List scrollbar (track panel) 
+             * tcp\_list\_scrollbar\_mode : List scrollbar (track panel) - draw mode 
+             * tcp\_list\_scrollbar\_mouseover : List scrollbar mouseover (track panel) 
+             * tcp\_list\_scrollbar\_mouseover\_mode : List scrollbar mouseover (track panel) - draw mode 
+             * mcp\_list\_scrollbar : List scrollbar (mixer panel) 
+             * mcp\_list\_scrollbar\_mode : List scrollbar (mixer panel) - draw mode 
+             * mcp\_list\_scrollbar\_mouseover : List scrollbar mouseover (mixer panel) 
+             * mcp\_list\_scrollbar\_mouseover\_mode : List scrollbar mouseover (mixer panel) - draw mode 
+             * midi\_rulerbg : MIDI editor ruler background 
+             * midi\_rulerfg : MIDI editor ruler text 
+             * midi\_grid2 : MIDI editor grid line (start of measure) 
+             * midi\_griddm2 : MIDI editor grid line (start of measure) - draw mode 
+             * midi\_grid3 : MIDI editor grid line (start of beats) 
+             * midi\_griddm3 : MIDI editor grid line (start of beats) - draw mode 
+             * midi\_grid1 : MIDI editor grid line (between beats) 
+             * midi\_griddm1 : MIDI editor grid line (between beats) - draw mode 
+             * midi\_trackbg1 : MIDI editor background color (naturals) 
+             * midi\_trackbg2 : MIDI editor background color (sharps/flats) 
+             * midi\_trackbg\_outer1 : MIDI editor background color, out of bounds (naturals) 
+             * midi\_trackbg\_outer2 : MIDI editor background color, out of bounds (sharps/flats) 
+             * midi\_selpitch1 : MIDI editor background color, selected pitch (naturals) 
+             * midi\_selpitch2 : MIDI editor background color, selected pitch (sharps/flats) 
+             * midi\_selbg : MIDI editor time selection color 
+             * midi\_selbg\_drawmode : MIDI editor time selection fill mode 
+             * midi\_gridhc : MIDI editor CC horizontal center line 
+             * midi\_gridhcdm : MIDI editor CC horizontal center line - draw mode 
+             * midi\_gridh : MIDI editor CC horizontal line 
+             * midi\_gridhdm : MIDI editor CC horizontal line - draw mode 
+             * midi\_ccbut : MIDI editor CC lane add/remove buttons 
+             * midi\_ccbut\_text : MIDI editor CC lane button text 
+             * midi\_ccbut\_arrow : MIDI editor CC lane button arrow 
              * midioct : MIDI editor octave line color 
-             * midi_inline_trackbg1 : MIDI inline background color (naturals) 
-             * midi_inline_trackbg2 : MIDI inline background color (sharps/flats) 
-             * midioct_inline : MIDI inline octave line color 
-             * midi_endpt : MIDI editor end marker 
-             * midi_notebg : MIDI editor note, unselected (midi_note_colormap overrides) 
-             * midi_notefg : MIDI editor note, selected (midi_note_colormap overrides) 
-             * midi_notemute : MIDI editor note, muted, unselected (midi_note_colormap overrides) 
-             * midi_notemute_sel : MIDI editor note, muted, selected (midi_note_colormap overrides) 
-             * midi_itemctl : MIDI editor note controls 
-             * midi_ofsn : MIDI editor note (offscreen) 
-             * midi_ofsnsel : MIDI editor note (offscreen, selected) 
-             * midi_editcurs : MIDI editor cursor 
-             * midi_pkey1 : MIDI piano key color (naturals background, sharps/flats text) 
-             * midi_pkey2 : MIDI piano key color (sharps/flats background, naturals text) 
-             * midi_pkey3 : MIDI piano key color (selected) 
-             * midi_noteon_flash : MIDI piano key note-on flash 
-             * midi_leftbg : MIDI piano pane background 
-             * midifont_col_light_unsel : MIDI editor note text and control color, unselected (light) 
-             * midifont_col_dark_unsel : MIDI editor note text and control color, unselected (dark) 
-             * midifont_mode_unsel : MIDI editor note text and control mode, unselected 
-             * midifont_col_light : MIDI editor note text and control color (light) 
-             * midifont_col_dark : MIDI editor note text and control color (dark) 
-             * midifont_mode : MIDI editor note text and control mode 
-             * score_bg : MIDI notation editor background 
-             * score_fg : MIDI notation editor staff/notation/text 
-             * score_sel : MIDI notation editor selected staff/notation/text 
-             * score_timesel : MIDI notation editor time selection 
-             * score_loop : MIDI notation editor loop points, selected pitch 
-             * midieditorlist_bg : MIDI list editor background 
-             * midieditorlist_fg : MIDI list editor text 
-             * midieditorlist_grid : MIDI list editor grid lines 
-             * midieditorlist_selbg : MIDI list editor selected row 
-             * midieditorlist_selfg : MIDI list editor selected text 
-             * midieditorlist_seliabg : MIDI list editor selected row (inactive) 
-             * midieditorlist_seliafg : MIDI list editor selected text (inactive) 
-             * midieditorlist_bg2 : MIDI list editor background (secondary) 
-             * midieditorlist_fg2 : MIDI list editor text (secondary) 
-             * midieditorlist_selbg2 : MIDI list editor selected row (secondary) 
-             * midieditorlist_selfg2 : MIDI list editor selected text (secondary) 
-             * col_explorer_sel : Media explorer selection 
-             * col_explorer_seldm : Media explorer selection mode 
-             * col_explorer_seledge : Media explorer selection edge 
-             * docker_shadow : Tab control shadow 
-             * docker_selface : Tab control selected tab 
-             * docker_unselface : Tab control unselected tab 
-             * docker_text : Tab control text 
-             * docker_text_sel : Tab control text selected tab 
-             * docker_bg : Tab control background 
-             * windowtab_bg : Tab control background in windows 
-             * auto_item_unsel : Envelope: Unselected automation item 
-             * col_env1 : Envelope: Volume (pre-FX) 
-             * col_env2 : Envelope: Volume 
-             * env_trim_vol : Envelope: Trim Volume 
-             * col_env3 : Envelope: Pan (pre-FX) 
-             * col_env4 : Envelope: Pan 
-             * env_track_mute : Envelope: Mute 
-             * col_env5 : Envelope: Master playrate 
-             * col_env6 : Envelope: Master tempo 
-             * col_env7 : Envelope: Send volume 
-             * col_env8 : Envelope: Send pan 
-             * col_env9 : Envelope: Send volume 2 
-             * col_env10 : Envelope: Send pan 2 
-             * env_sends_mute : Envelope: Send mute 
-             * col_env11 : Envelope: Audio hardware output volume 
-             * col_env12 : Envelope: Audio hardware output pan 
-             * col_env13 : Envelope: FX parameter 1 
-             * col_env14 : Envelope: FX parameter 2 
-             * col_env15 : Envelope: FX parameter 3 
-             * col_env16 : Envelope: FX parameter 4 
-             * env_item_vol : Envelope: Item take volume 
-             * env_item_pan : Envelope: Item take pan 
-             * env_item_mute : Envelope: Item take mute 
-             * env_item_pitch : Envelope: Item take pitch 
-             * wiring_grid2 : Wiring: Background 
-             * wiring_grid : Wiring: Background grid lines 
-             * wiring_border : Wiring: Box border 
-             * wiring_tbg : Wiring: Box background 
-             * wiring_ticon : Wiring: Box foreground 
-             * wiring_recbg : Wiring: Record section background 
-             * wiring_recitem : Wiring: Record section foreground 
-             * wiring_media : Wiring: Media 
-             * wiring_recv : Wiring: Receives 
-             * wiring_send : Wiring: Sends 
-             * wiring_fader : Wiring: Fader 
-             * wiring_parent : Wiring: Master/Parent 
-             * wiring_parentwire_border : Wiring: Master/Parent wire border 
-             * wiring_parentwire_master : Wiring: Master/Parent to master wire 
-             * wiring_parentwire_folder : Wiring: Master/Parent to parent folder wire 
-             * wiring_pin_normal : Wiring: Pins normal 
-             * wiring_pin_connected : Wiring: Pins connected 
-             * wiring_pin_disconnected : Wiring: Pins disconnected 
-             * wiring_horz_col : Wiring: Horizontal pin connections 
-             * wiring_sendwire : Wiring: Send hanging wire 
-             * wiring_hwoutwire : Wiring: Hardware output wire 
-             * wiring_recinputwire : Wiring: Record input wire 
-             * wiring_hwout : Wiring: System hardware outputs 
-             * wiring_recinput : Wiring: System record inputs 
-             * group_0 : Group #1 
-             * group_1 : Group #2 
-             * group_2 : Group #3 
-             * group_3 : Group #4 
-             * group_4 : Group #5 
-             * group_5 : Group #6 
-             * group_6 : Group #7 
-             * group_7 : Group #8 
-             * group_8 : Group #9 
-             * group_9 : Group #10 
-             * group_10 : Group #11 
-             * group_11 : Group #12 
-             * group_12 : Group #13 
-             * group_13 : Group #14 
-             * group_14 : Group #15 
-             * group_15 : Group #16 
-             * group_16 : Group #17 
-             * group_17 : Group #18 
-             * group_18 : Group #19 
-             * group_19 : Group #20 
-             * group_20 : Group #21 
-             * group_21 : Group #22 
-             * group_22 : Group #23 
-             * group_23 : Group #24 
-             * group_24 : Group #25 
-             * group_25 : Group #26 
-             * group_26 : Group #27 
-             * group_27 : Group #28 
-             * group_28 : Group #29 
-             * group_29 : Group #30 
-             * group_30 : Group #31 
-             * group_31 : Group #32 
-             * group_32 : Group #33 
-             * group_33 : Group #34 
-             * group_34 : Group #35 
-             * group_35 : Group #36 
-             * group_36 : Group #37 
-             * group_37 : Group #38 
-             * group_38 : Group #39 
-             * group_39 : Group #40 
-             * group_40 : Group #41 
-             * group_41 : Group #42 
-             * group_42 : Group #43 
-             * group_43 : Group #44 
-             * group_44 : Group #45 
-             * group_45 : Group #46 
-             * group_46 : Group #47 
-             * group_47 : Group #48 
-             * group_48 : Group #49 
-             * group_49 : Group #50 
-             * group_50 : Group #51 
-             * group_51 : Group #52 
-             * group_52 : Group #53 
-             * group_53 : Group #54 
-             * group_54 : Group #55 
-             * group_55 : Group #56 
-             * group_56 : Group #57 
-             * group_57 : Group #58 
-             * group_58 : Group #59 
-             * group_59 : Group #60 
-             * group_60 : Group #61 
-             * group_61 : Group #62 
-             * group_62 : Group #63 
-             * group_63 : Group #64 
+             * midi\_inline\_trackbg1 : MIDI inline background color (naturals) 
+             * midi\_inline\_trackbg2 : MIDI inline background color (sharps/flats) 
+             * midioct\_inline : MIDI inline octave line color 
+             * midi\_endpt : MIDI editor end marker 
+             * midi\_notebg : MIDI editor note, unselected (midi\_note\_colormap overrides) 
+             * midi\_notefg : MIDI editor note, selected (midi\_note\_colormap overrides) 
+             * midi\_notemute : MIDI editor note, muted, unselected (midi\_note\_colormap overrides) 
+             * midi\_notemute\_sel : MIDI editor note, muted, selected (midi\_note\_colormap overrides) 
+             * midi\_itemctl : MIDI editor note controls 
+             * midi\_ofsn : MIDI editor note (offscreen) 
+             * midi\_ofsnsel : MIDI editor note (offscreen, selected) 
+             * midi\_editcurs : MIDI editor cursor 
+             * midi\_pkey1 : MIDI piano key color (naturals background, sharps/flats text) 
+             * midi\_pkey2 : MIDI piano key color (sharps/flats background, naturals text) 
+             * midi\_pkey3 : MIDI piano key color (selected) 
+             * midi\_noteon\_flash : MIDI piano key note-on flash 
+             * midi\_leftbg : MIDI piano pane background 
+             * midifont\_col\_light\_unsel : MIDI editor note text and control color, unselected (light) 
+             * midifont\_col\_dark\_unsel : MIDI editor note text and control color, unselected (dark) 
+             * midifont\_mode\_unsel : MIDI editor note text and control mode, unselected 
+             * midifont\_col\_light : MIDI editor note text and control color (light) 
+             * midifont\_col\_dark : MIDI editor note text and control color (dark) 
+             * midifont\_mode : MIDI editor note text and control mode 
+             * score\_bg : MIDI notation editor background 
+             * score\_fg : MIDI notation editor staff/notation/text 
+             * score\_sel : MIDI notation editor selected staff/notation/text 
+             * score\_timesel : MIDI notation editor time selection 
+             * score\_loop : MIDI notation editor loop points, selected pitch 
+             * midieditorlist\_bg : MIDI list editor background 
+             * midieditorlist\_fg : MIDI list editor text 
+             * midieditorlist\_grid : MIDI list editor grid lines 
+             * midieditorlist\_selbg : MIDI list editor selected row 
+             * midieditorlist\_selfg : MIDI list editor selected text 
+             * midieditorlist\_seliabg : MIDI list editor selected row (inactive) 
+             * midieditorlist\_seliafg : MIDI list editor selected text (inactive) 
+             * midieditorlist\_bg2 : MIDI list editor background (secondary) 
+             * midieditorlist\_fg2 : MIDI list editor text (secondary) 
+             * midieditorlist\_selbg2 : MIDI list editor selected row (secondary) 
+             * midieditorlist\_selfg2 : MIDI list editor selected text (secondary) 
+             * col\_explorer\_sel : Media explorer selection 
+             * col\_explorer\_seldm : Media explorer selection mode 
+             * col\_explorer\_seledge : Media explorer selection edge 
+             * docker\_shadow : Tab control shadow 
+             * docker\_selface : Tab control selected tab 
+             * docker\_unselface : Tab control unselected tab 
+             * docker\_text : Tab control text 
+             * docker\_text\_sel : Tab control text selected tab 
+             * docker\_bg : Tab control background 
+             * windowtab\_bg : Tab control background in windows 
+             * auto\_item\_unsel : Envelope: Unselected automation item 
+             * col\_env1 : Envelope: Volume (pre-FX) 
+             * col\_env2 : Envelope: Volume 
+             * env\_trim\_vol : Envelope: Trim Volume 
+             * col\_env3 : Envelope: Pan (pre-FX) 
+             * col\_env4 : Envelope: Pan 
+             * env\_track\_mute : Envelope: Mute 
+             * col\_env5 : Envelope: Master playrate 
+             * col\_env6 : Envelope: Master tempo 
+             * col\_env7 : Envelope: Send volume 
+             * col\_env8 : Envelope: Send pan 
+             * col\_env9 : Envelope: Send volume 2 
+             * col\_env10 : Envelope: Send pan 2 
+             * env\_sends\_mute : Envelope: Send mute 
+             * col\_env11 : Envelope: Audio hardware output volume 
+             * col\_env12 : Envelope: Audio hardware output pan 
+             * col\_env13 : Envelope: FX parameter 1 
+             * col\_env14 : Envelope: FX parameter 2 
+             * col\_env15 : Envelope: FX parameter 3 
+             * col\_env16 : Envelope: FX parameter 4 
+             * env\_item\_vol : Envelope: Item take volume 
+             * env\_item\_pan : Envelope: Item take pan 
+             * env\_item\_mute : Envelope: Item take mute 
+             * env\_item\_pitch : Envelope: Item take pitch 
+             * wiring\_grid2 : Wiring: Background 
+             * wiring\_grid : Wiring: Background grid lines 
+             * wiring\_border : Wiring: Box border 
+             * wiring\_tbg : Wiring: Box background 
+             * wiring\_ticon : Wiring: Box foreground 
+             * wiring\_recbg : Wiring: Record section background 
+             * wiring\_recitem : Wiring: Record section foreground 
+             * wiring\_media : Wiring: Media 
+             * wiring\_recv : Wiring: Receives 
+             * wiring\_send : Wiring: Sends 
+             * wiring\_fader : Wiring: Fader 
+             * wiring\_parent : Wiring: Master/Parent 
+             * wiring\_parentwire\_border : Wiring: Master/Parent wire border 
+             * wiring\_parentwire\_master : Wiring: Master/Parent to master wire 
+             * wiring\_parentwire\_folder : Wiring: Master/Parent to parent folder wire 
+             * wiring\_pin\_normal : Wiring: Pins normal 
+             * wiring\_pin\_connected : Wiring: Pins connected 
+             * wiring\_pin\_disconnected : Wiring: Pins disconnected 
+             * wiring\_horz\_col : Wiring: Horizontal pin connections 
+             * wiring\_sendwire : Wiring: Send hanging wire 
+             * wiring\_hwoutwire : Wiring: Hardware output wire 
+             * wiring\_recinputwire : Wiring: Record input wire 
+             * wiring\_hwout : Wiring: System hardware outputs 
+             * wiring\_recinput : Wiring: System record inputs 
+             * group\_0 : Group #1 
+             * group\_1 : Group #2 
+             * group\_2 : Group #3 
+             * group\_3 : Group #4 
+             * group\_4 : Group #5 
+             * group\_5 : Group #6 
+             * group\_6 : Group #7 
+             * group\_7 : Group #8 
+             * group\_8 : Group #9 
+             * group\_9 : Group #10 
+             * group\_10 : Group #11 
+             * group\_11 : Group #12 
+             * group\_12 : Group #13 
+             * group\_13 : Group #14 
+             * group\_14 : Group #15 
+             * group\_15 : Group #16 
+             * group\_16 : Group #17 
+             * group\_17 : Group #18 
+             * group\_18 : Group #19 
+             * group\_19 : Group #20 
+             * group\_20 : Group #21 
+             * group\_21 : Group #22 
+             * group\_22 : Group #23 
+             * group\_23 : Group #24 
+             * group\_24 : Group #25 
+             * group\_25 : Group #26 
+             * group\_26 : Group #27 
+             * group\_27 : Group #28 
+             * group\_28 : Group #29 
+             * group\_29 : Group #30 
+             * group\_30 : Group #31 
+             * group\_31 : Group #32 
+             * group\_32 : Group #33 
+             * group\_33 : Group #34 
+             * group\_34 : Group #35 
+             * group\_35 : Group #36 
+             * group\_36 : Group #37 
+             * group\_37 : Group #38 
+             * group\_38 : Group #39 
+             * group\_39 : Group #40 
+             * group\_40 : Group #41 
+             * group\_41 : Group #42 
+             * group\_42 : Group #43 
+             * group\_43 : Group #44 
+             * group\_44 : Group #45 
+             * group\_45 : Group #46 
+             * group\_46 : Group #47 
+             * group\_47 : Group #48 
+             * group\_48 : Group #49 
+             * group\_49 : Group #50 
+             * group\_50 : Group #51 
+             * group\_51 : Group #52 
+             * group\_52 : Group #53 
+             * group\_53 : Group #54 
+             * group\_54 : Group #55 
+             * group\_55 : Group #56 
+             * group\_56 : Group #57 
+             * group\_57 : Group #58 
+             * group\_58 : Group #59 
+             * group\_59 : Group #60 
+             * group\_60 : Group #61 
+             * group\_61 : Group #62 
+             * group\_62 : Group #63 
+             * group\_63 : Group #64 
         </description>
         <retvals>
             integer retval - 
@@ -18126,21 +18126,21 @@ Mespotine
         <title>Track_GetPeakHoldDB</title>
         <functioncall prog_lang="cpp">double Track_GetPeakHoldDB(MediaTrack* track, int channel, bool clear)</functioncall>
         <functioncall prog_lang="eel">double Track_GetPeakHoldDB(MediaTrack track, int channel, bool clear)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.Track_GetPeakHoldDB(MediaTrack track, integer channel, boolean clear)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.Track_GetPeakHoldDB(MediaTrack track, integer channel, boolean clear)</functioncall>
         <functioncall prog_lang="python">Float RPR_Track_GetPeakHoldDB(MediaTrack track, Int channel, Boolean clear)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.26
         </requires>
         <description prog_lang="*">
-            
+            Returns meter hold state, in dB*0.01 (0 = +0dB, -0.01 = -1dB, 0.02 = +2dB, etc). If clear is set, clears the meter hold. If master track and channel==1024 or channel==1025, returns/clears RMS maximum state.
         </description>
         <retvals>
-            number - 
+            number retval - 
         </retvals>
         <parameters>
-            track - 
-            channel - 
-            clear - 
+            MediaTrack track - 
+            integer channel - 
+            boolean clear - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -18155,20 +18155,20 @@ Mespotine
         <title>Track_GetPeakInfo</title>
         <functioncall prog_lang="cpp">double Track_GetPeakInfo(MediaTrack* track, int channel)</functioncall>
         <functioncall prog_lang="eel">double Track_GetPeakInfo(MediaTrack track, int channel)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.Track_GetPeakInfo(MediaTrack track, integer channel)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.Track_GetPeakInfo(MediaTrack track, integer channel)</functioncall>
         <functioncall prog_lang="python">Float RPR_Track_GetPeakInfo(MediaTrack track, Int channel)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.26
         </requires>
         <description prog_lang="*">
-            
+            Returns peak meter value (1.0=+0dB, 0.0=-inf) for channel. If master track and channel==1024 or channel==1025, returns RMS meter value. if master track and channel==2048 or channel=2049, returns RMS meter hold value.
         </description>
         <retvals>
-            number - 
+            number retval - 
         </retvals>
         <parameters>
-            track - 
-            channel - 
+            MediaTrack track - 
+            integer channel - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
