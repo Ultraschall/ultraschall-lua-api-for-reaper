@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43591.00" author="Meo Mespotine">
+      <version name="43597.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Changelog-Api.txt</source>
@@ -584,7 +584,7 @@ New features in 4.2.004
 -   Developer Tools:
     ultraschall_developertool_Find_Duplicated_Lines_In_Clipboard.lua -
     shows duplicated lines in the string in the clipboard
--   Docs: Reaper API-docs - added ReaImGui 0.1.1, OSARA 2021
+-   Docs: Reaper API-docs - added ReaImGui 0.2, OSARA 2021
 -   GMem: GMem_Read_ValueRange - returns a value-range from gmem-values
     as a handy table
 -   GMem: GMem_GetValues_VideoSamplePeeker - returns the samples as
@@ -608,7 +608,7 @@ Changes from 4.2.003 to 4.2.004
     parameter/retval-descriptions were missing information -> fixed
 -   Docs: Filetype Descriptions - added missing descriptions and mouse
     modifiers for reaper-mouse.ini
--   Docs: Reaper Internals - updated to Reaper 6.25
+-   Docs: Reaper Internals - updated to Reaper 6.27
 -   File-Management: BatchConvertFiles - added, as I had forgotten to
     add it in the last release -> fixed
 -   FXManagement: InputFX_AddByName - supports now inputFX of individual
@@ -7885,7 +7885,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1401 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43591 from 12.04.2021 15:43:20).}
+a 1401 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43597 from 12.04.2021 18:00:58).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -8023,7 +8023,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1401 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43591 from 12.04.2021 15:43:20).}
+a 1401 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43597 from 12.04.2021 18:00:58).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

@@ -282,7 +282,7 @@ Has now 1385 functions, with 26 new ones
   
 #### New features in 4.2.004  
   - Developer Tools: ultraschall\_developertool\_Find\_Duplicated\_Lines\_In\_Clipboard.lua - shows duplicated lines in the string in the clipboard
-  - Docs: Reaper API-docs - added ReaImGui 0.1.1, OSARA 2021
+  - Docs: Reaper API-docs - added ReaImGui 0.2, OSARA 2021
   - GMem: GMem\_Read\_ValueRange - returns a value-range from gmem-values as a handy table
   - GMem: GMem\_GetValues\_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets
   - MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes
@@ -294,7 +294,7 @@ Has now 1385 functions, with 26 new ones
   - API-HelperFunctions: SFEM - parameters didn't work as I..ehrm....forgot to add them.... -> fixed
   - ConfigurationManagement: KB-ini-functions - parameter/retval-descriptions were missing information -> fixed
   - Docs: Filetype Descriptions - added missing descriptions and mouse modifiers for reaper-mouse.ini
-  - Docs: Reaper Internals - updated to Reaper 6.25 
+  - Docs: Reaper Internals - updated to Reaper 6.27
   - File-Management: BatchConvertFiles - added, as I had forgotten to add it in the last release -> fixed
   - FXManagement: InputFX\_AddByName - supports now inputFX of individual tracks as well(thanks to X-Raym)
   - FXManagement: InputFX\_CopyFX - couldn't copy fx to the end of the fx-chain -> fixed; supports now inputFX of individual tracks as well(thanks to X-Raym)
