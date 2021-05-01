@@ -1,4 +1,6 @@
 <TODO>
+    -- SPectral Edit: supports takes, but do the functions support takes too?
+
     -- later releases
         - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
         - BatchConvertFiles - maybe finishing it up?
@@ -265,6 +267,66 @@ function DoesItemExist(Item)
   return pcall (reaper.IsMediaItemSelected, Item)
 end
 
+- Did any item change?
+--dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+
+
+function AreThereAlteredItems()
+  if Items==nil then 
+    Items={} -- this stores all the item's statechunks, who hold all states of a 
+  end
+  if ItemsTracks==nil then
+    ItemsTracks={}
+  end
+
+  local Count=reaper.GetProjectStateChangeCount(0) -- get current count of changes in project
+  local ItemCount=reaper.CountMediaItems(0)        -- get current count of MediaItems to get item additions/deletions
+  local retval=false
+  local retval2
+  
+  if Count~=Items["OldCount"] then
+    -- if the change-count is different from the old one, check all items for changes
+    for i=0, reaper.CountMediaItems(0) do -- go through all items
+      local item=reaper.GetMediaItem(0,i) -- get the mediaitem
+      if item~=nil then             -- if at least an item exists, check for item's contents
+        -- check, if an item has moved from one track to another
+        if ItemsTracks[item]~=reaper.GetMediaItem_Track(item) then
+          ItemsTracks[item]=reaper.GetMediaItem_Track(item)
+          retval=true
+        end
+        
+        -- check, if states have changed.
+        local Aretval, statechunk = reaper.GetItemStateChunk(item, "", false) -- get the statechunk(who hold all item-states)
+        -- if the table Items holds this item, check, if the stored ItemStateChunk has changed(altered item) or not(no altered item)
+        if Items[item]~=statechunk then
+          retval=true
+          -- put the statechunk into the table, when it changed
+          Items[item]=statechunk
+        end
+      end
+    end
+    Items["OldCount"]=Count
+  end
+  -- check, if the number of items changed due deletion or addition of items
+  if ItemCount~=Items["OldItemCount"] then 
+    retval=true
+  end
+  Items["OldItemCount"]=ItemCount
+  return retval
+end
+
+function main()
+  retvals, item = AreThereAlteredItems()
+  if retvals==true then
+    reaper.ShowConsoleMsg("An Item has changed at: "..os.date().."\n")
+  end
+  reaper.defer(main)
+end
+
+main()
+
+No idea, whether this is a good idea.
+
 </TODO>
 
 
@@ -281,7 +343,13 @@ Has now 1385 functions, with 26 new ones
   
   
 #### New features in 4.2.004  
-  - Developer Tools: ultraschall\_developertool\_Find\_Duplicated\_Lines\_In\_Clipboard.lua - shows duplicated lines in the string in the clipboard
+  - Developer Tools: EnvelopeStateChunk\_to\_Clipboard\_envelope\_under\_mouse - puts statechunk of envelope under the mouse into clipboard
+  - Developer Tools: EnvelopeStateChunk\_to\_Clipboard\_selected\_envelope - puts statechunk of selected envelope into clipboard
+  - Developer Tools: Find\_Duplicated\_Lines\_In\_Clipboard - shows duplicated lines in the string in the clipboard
+  - Developer Tools: ItemStateChunk\_to\_Clipboard\_first\_selected\_item - puts statechunk of first selected item into clipboard
+  - Developer Tools: ItemStateChunk\_to\_Clipboard\_item\_under\_mouse - puts statechunk of item under the mouse into clipboard
+  - Developer Tools: TrackStateChunk\_to\_Clipboard\_first\_selected\_track - puts statechunk of first selected track into clipboard
+  - Developer Tools: TrackStateChunk\_to\_Clipboard\_track\_under\_mouse - puts statechunk of track under the mouse into clipboard   
   - Docs: Reaper API-docs - added ReaImGui 0.2, OSARA 2021
   - GMem: GMem\_Read\_ValueRange - returns a value-range from gmem-values as a handy table
   - GMem: GMem\_GetValues\_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets
@@ -293,6 +361,7 @@ Has now 1385 functions, with 26 new ones
   - API: Modulator3000 - reverted binary-chunk back to source-code, due Reaper-path-encoding problems with Umlauts in resourcepath(thanks to rstockm)
   - API-HelperFunctions: SFEM - parameters didn't work as I..ehrm....forgot to add them.... -> fixed
   - ConfigurationManagement: KB-ini-functions - parameter/retval-descriptions were missing information -> fixed
+  - Developer Tools: State Inspector - the show item/track/envelope-statechunk modes allow now copy'n'pasting of statechunks from/to clipboard
   - Docs: Filetype Descriptions - added missing descriptions and mouse modifiers for reaper-mouse.ini
   - Docs: Reaper Internals - updated to Reaper 6.27
   - File-Management: BatchConvertFiles - added, as I had forgotten to add it in the last release -> fixed

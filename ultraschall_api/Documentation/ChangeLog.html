@@ -49,8 +49,15 @@ bla</li>
 </ul>
 <h4>New features in 4.2.004</h4>
 <ul>
-<li>Developer Tools: ultraschall_developertool_Find_Duplicated_Lines_In_Clipboard.lua - shows duplicated lines in the string in the clipboard</li>
-<li>Docs: Reaper API-docs - added ReaImGui 0.1.1, OSARA 2021</li>
+<li>Developer Tools: EnvelopeStateChunk_to_Clipboard_envelope_under_mouse - puts statechunk of envelope under the mouse into clipboard</li>
+<li>Developer Tools: EnvelopeStateChunk_to_Clipboard_selected_envelope - puts statechunk of selected envelope into clipboard</li>
+<li>Developer Tools: Find_Duplicated_Lines_In_Clipboard - shows duplicated lines in the string in the clipboard</li>
+<li>Developer Tools: ItemStateChunk_to_Clipboard_first_selected_item - puts statechunk of first selected item into clipboard</li>
+<li>Developer Tools: ItemStateChunk_to_Clipboard_item_under_mouse - puts statechunk of item under the mouse into clipboard</li>
+<li>Developer Tools: TrackStateChunk_to_Clipboard_first_selected_track - puts statechunk of first selected track into clipboard</li>
+<li>Developer Tools: TrackStateChunk_to_Clipboard_track_under_mouse - puts statechunk of track under the mouse into clipboard<br />
+</li>
+<li>Docs: Reaper API-docs - added ReaImGui 0.2, OSARA 2021</li>
 <li>GMem: GMem_Read_ValueRange - returns a value-range from gmem-values as a handy table</li>
 <li>GMem: GMem_GetValues_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets</li>
 <li>MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes</li>
@@ -62,8 +69,9 @@ bla</li>
 <li>API: Modulator3000 - reverted binary-chunk back to source-code, due Reaper-path-encoding problems with Umlauts in resourcepath(thanks to rstockm)</li>
 <li>API-HelperFunctions: SFEM - parameters didn't work as I..ehrm....forgot to add them.... -&gt; fixed</li>
 <li>ConfigurationManagement: KB-ini-functions - parameter/retval-descriptions were missing information -&gt; fixed</li>
+<li>Developer Tools: State Inspector - the show item/track/envelope-statechunk modes allow now copy'n'pasting of statechunks from/to clipboard</li>
 <li>Docs: Filetype Descriptions - added missing descriptions and mouse modifiers for reaper-mouse.ini</li>
-<li>Docs: Reaper Internals - updated to Reaper 6.27, added missing ReaImGui-functions</li>
+<li>Docs: Reaper Internals - updated to Reaper 6.27</li>
 <li>File-Management: BatchConvertFiles - added, as I had forgotten to add it in the last release -&gt; fixed</li>
 <li>FXManagement: InputFX_AddByName - supports now inputFX of individual tracks as well(thanks to X-Raym)</li>
 <li>FXManagement: InputFX_CopyFX - couldn't copy fx to the end of the fx-chain -&gt; fixed; supports now inputFX of individual tracks as well(thanks to X-Raym)</li>
