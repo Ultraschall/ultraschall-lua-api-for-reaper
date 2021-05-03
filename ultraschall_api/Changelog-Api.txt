@@ -354,6 +354,8 @@ Has now 1385 functions, with 26 new ones
   - GMem: GMem\_Read\_ValueRange - returns a value-range from gmem-values as a handy table
   - GMem: GMem\_GetValues\_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets
   - MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes
+  - MediaItem-Management: CountMediaItemTake\_StateChunk - counts all takes in a MediaItemStateChunk
+  - MediaItem-Management: GetMediaItemTake\_StateChunk - gets a TakeStateChunk from a MediaItemStateChunk  
   - Razor Edit: RazorEdit\_GetAllRazorEdits - returns a table with all razor-edits available in the current project
   - Razor Edit: RazorEdit\_ProjectHasRazorEdit - returns, if the currently opened project contains any Razor Edits
   

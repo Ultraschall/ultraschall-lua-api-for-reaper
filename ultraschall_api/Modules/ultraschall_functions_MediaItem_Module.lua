@@ -3352,7 +3352,7 @@ function ultraschall.GetItemSourceFile_Take(MediaItem, take_nr)
   </retvals>
   <chapter_context>
     MediaItem Management
-    Get MediaItem-Takes
+    MediaItem-Takes
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
@@ -4319,7 +4319,7 @@ function ultraschall.GetMediaItemTake(MediaItem, TakeNr)
   </parameters>
   <chapter_context>
     MediaItem Management
-    Get MediaItem-Takes
+    MediaItem-Takes
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
@@ -5457,7 +5457,7 @@ function ultraschall.GetTake_ReverseState(MediaItem, takenumber)
   </parameters>
   <chapter_context>
     MediaItem Management
-    Get MediaItem-Takes
+    MediaItem-Takes
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>

@@ -1707,7 +1707,7 @@ function ultraschall.RazorEdit_ProjectHasRazorEdit()
     Razor Edit
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
   <tags>razor edit, is, any</tags>
 </US_DocBloc>
 ]]
@@ -1757,7 +1757,7 @@ function ultraschall.RazorEdit_GetAllRazorEdits()
     Razor Edit
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
   <tags>razor edit, get, all, attributes</tags>
 </US_DocBloc>
 ]]
@@ -1790,6 +1790,121 @@ function ultraschall.RazorEdit_GetAllRazorEdits()
   end
   
   return RazorEdit_count, RazorEdit
+end
+
+function ultraschall.CountMediaItemTake_StateChunk(MediaItemStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountMediaItemTake_StateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_takes = ultraschall.CountMediaItemTake_StateChunk(string MediaItemStateChunk)</functioncall>
+  <description>
+    Counts the number of available takes in a MediaItemStateChunk.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer number_of_takes - the number of takes in this MediaItemStateChunk    
+  </retvals>
+  <parameters>
+    string MediaItemStateChunk - the statechunk of the mediaitem, whose takes you want to count
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    MediaItem-Takes
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitem, take, count, mediaitemstatechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidMediaItemStateChunk(MediaItemStateChunk)==false then ultraschall.AddErrorMessage("CountMediaItemTake_StateChunk", "MediaItemStateChunk", "must be a valid MediaItemStateChunk", -1) return -1 end
+  local count=0
+  if MediaItemStateChunk:match("\n  NAME")==nil then return 0 end
+  MediaItemStateChunk="TAKE\n"..MediaItemStateChunk:sub(6,-4).."\nTAKE\n"
+  for k in string.gmatch(MediaItemStateChunk, "(\nTAKE[%s%c])") do
+    count=count+1
+  end
+  return count 
+end
+
+function ultraschall.GetMediaItemTake_StateChunk(MediaItemStateChunk, takeid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMediaItemTake_StateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>string TakeStateChunk = ultraschall.GetMediaItemTake_StateChunk(string MediaItemStateChunk, integer takeid)</functioncall>
+  <description>
+    Returns the statechunk-entries of takes from a MediaItemStateChunk.
+    
+    Note: takeid>0 will never return statechunk-entries as selected, even if they are.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string TakeStateChunk - the statechunk-entries of the requested take
+  </retvals>
+  <parameters>
+    string MediaItemStateChunk - the statechunk of the mediaitem, whose take you want to get
+    integer takeid - the number of the take, whose statechunk-entries you want; 0, get selected take
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    MediaItem-Takes
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitem, take, get, takestatechunk, mediaitemstatechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidMediaItemStateChunk(MediaItemStateChunk)==false then ultraschall.AddErrorMessage("GetMediaItemTake_StateChunk", "MediaItemStateChunk", "must be a valid MediaItemStateChunk", -1) return end
+  if math.type(takeid)~="integer" then ultraschall.AddErrorMessage("GetMediaItemTake_StateChunk", "MediaItemStateChunk", "must be an integer", -2) return end
+  if takeid<0 then ultraschall.AddErrorMessage("GetMediaItemTake_StateChunk", "takeid", "must be bigger than 0", -3) return end
+  local count=0
+  -- layout statechunk, if needed
+  if MediaItemStateChunk:sub(1,8)~="<ITEM\n  " then
+    MediaItemStateChunk=ultraschall.StateChunkLayouter(MediaItemStateChunk)
+  end
+  -- set first take as selected, if no other take is selected
+  if MediaItemStateChunk:match("  TAKE SEL\n")==nil then
+    TakeSel="\n  TAKE SEL"
+  else
+    TakeSel="\n  TAKE"
+  end
+  if MediaItemStateChunk:match("\n  NAME")==nil then ultraschall.AddErrorMessage("GetMediaItemTake_StateChunk", "takeid", "no take available", -5) return end
+  -- prepare statechunk to be easily parseable
+  MediaItemStateChunk=TakeSel..MediaItemStateChunk:match("(\n  NAME.*)>").."\n  TAKE\n"
+  
+  -- return selected take, if takeid==0
+  if takeid==0 then
+    return MediaItemStateChunk:match("\n(  TAKE SEL\n.-)\n  TAKE\n")
+  end
+  
+  -- return take with takeid
+  
+  -- first, set all takes unselected, 
+  local MISC=string.gsub(MediaItemStateChunk, "  TAKE SEL\n", "  TAKE\n")
+  local k=""
+  local offset
+  
+  -- second, go through all takes, until we found the right one and return it
+  -- otherwise leave loop and return nil
+  while k~=nil do
+    k, offset=MISC:match("(  TAKE\n.-)\n()  TAKE\n")
+    if k==nil then break end
+    count=count+1
+    if count==takeid then return k end
+    MISC=MISC:sub(offset, -1)
+  end
+  ultraschall.AddErrorMessage("GetMediaItemTake_StateChunk", "takeid", "no such take", -4)
 end
 
 ultraschall.ShowLastErrorMessage()
