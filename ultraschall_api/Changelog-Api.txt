@@ -358,6 +358,10 @@ Has now 1385 functions, with 26 new ones
   - MediaItem-Management: GetMediaItemTake\_StateChunk - gets a TakeStateChunk from a MediaItemStateChunk  
   - Razor Edit: RazorEdit\_GetAllRazorEdits - returns a table with all razor-edits available in the current project
   - Razor Edit: RazorEdit\_ProjectHasRazorEdit - returns, if the currently opened project contains any Razor Edits
+  - Spectral Edit: CountItemSpectralEdit2 - counts all spectral-edits within a take(requested by Fabian)
+  - Spectral Edit: GetItemSpectralConfig2 - gets the spectral-config of a take(requested by Fabian)
+  - Spectral Edit: GetItemSpectralEdit2 - gets all spectral-edit-states of a take(requested by Fabian)
+  
   
 #### Changes from 4.2.003 to 4.2.004    
   - API: Modulator3000 - reverted binary-chunk back to source-code, due Reaper-path-encoding problems with Umlauts in resourcepath(thanks to rstockm)
