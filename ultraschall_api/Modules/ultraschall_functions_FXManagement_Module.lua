@@ -4813,7 +4813,7 @@ function ultraschall.InputFX_Delete(fxindex, tracknumber)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_Delete</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.05
     Lua=5.3
   </requires>
@@ -6110,16 +6110,16 @@ function ultraschall.InputFX_SetFXChain(FXStateChunk, replacefx, tracknumber)
   end
 end
 
-function ultraschall.InputFX_FormatParamValue(fxindex, paramindex, value)
+function ultraschall.InputFX_FormatParamValue(fxindex, paramindex, value, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_FormatParamValue</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string formatted_value = ultraschall.InputFX_FormatParamValue(integer fxindex, integer paramindex, number value)</functioncall>
+  <functioncall>boolean retval, string formatted_value = ultraschall.InputFX_FormatParamValue(integer fxindex, integer paramindex, number value, optional integer tracknumber)</functioncall>
   <description>
     You can take a value and format it in the style of the used format of a specific parameter, like the frequency(to Hz), gain(to dB) with ReaEQ or bypass(normal, bypasses), wet with ReaTune, etc.
     
@@ -6135,6 +6135,7 @@ function ultraschall.InputFX_FormatParamValue(fxindex, paramindex, value)
     integer fxindex - the index of the fx; 1-based
     integer paramindex - the parameter, whose formatting-style you want to applied to value; 1-based
     number value - the value you want to have formatted in the style of the parameter
+    optional integer tracknumber - the tracknumber, whose inputFX-parameter you want to format; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -6145,27 +6146,31 @@ function ultraschall.InputFX_FormatParamValue(fxindex, paramindex, value)
   <tags>fx management, format, value, monitoringfx, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "fxindex", "must be an integer", -1) return false end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "tracknumber", "no such track; must be an integer", -6) return false end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
+  
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "fxindex", "must 1 or higher", -2) return false end  
   if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "paramindex", "must be an integer", -3) return false end
   if paramindex<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "paramindex", "must 1 or higher", -4) return false end  
   if type(value)~="number" then ultraschall.AddErrorMessage("InputFX_FormatParamValue", "value", "must be a number", -5) return false end 
 
-  return reaper.TrackFX_FormatParamValue(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1, value, "")
+  return reaper.TrackFX_FormatParamValue(tracknumber2, 0x1000000+fxindex-1, paramindex-1, value, "")
 end
 
 --A,B,C=ultraschall.InputFX_FormatParamValue(2, 1, 0)
 
-function ultraschall.InputFX_FormatParamValueNormalized(fxindex, paramindex, value)
+function ultraschall.InputFX_FormatParamValueNormalized(fxindex, paramindex, value, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_FormatParamValueNormalized</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string formatted_value = ultraschall.InputFX_FormatParamValueNormalized(integer fxindex, integer paramindex, number value)</functioncall>
+  <functioncall>boolean retval, string formatted_value = ultraschall.InputFX_FormatParamValueNormalized(integer fxindex, integer paramindex, number value, optional integer tracknumber)</functioncall>
   <description>
     You can take a value and format it in the style of the used format of a specific parameter, like the frequency(to Hz), gain(to dB) with ReaEQ or bypass(normal, bypasses), wet with ReaTune, etc.
     The value will be normalized.
@@ -6182,6 +6187,7 @@ function ultraschall.InputFX_FormatParamValueNormalized(fxindex, paramindex, val
     integer fxindex - the index of the fx; 1-based
     integer paramindex - the parameter, whose formatting-style you want to applied to value; 1-based
     number value - the value you want to have formatted in the style of the parameter
+    optional integer tracknumber - the tracknumber, whose inputFX-parameter you want to get formatted and normalized; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -6192,28 +6198,31 @@ function ultraschall.InputFX_FormatParamValueNormalized(fxindex, paramindex, val
   <tags>fx management, format, value, normalized, monitoringfx, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "fxindex", "must be an integer", -1) return false end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "tracknumber", "no such track; must be an integer", -6) return false end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "fxindex", "must 1 or higher", -2) return false end  
   if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "paramindex", "must be an integer", -3) return false end
   if paramindex<1 then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "paramindex", "must 1 or higher", -4) return false end  
   if type(value)~="number" then ultraschall.AddErrorMessage("InputFX_FormatParamValueNormalized", "value", "must be a number", -5) return false end
 
-  return reaper.TrackFX_FormatParamValueNormalized(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1, value, "")
+  return reaper.TrackFX_FormatParamValueNormalized(tracknumber2, 0x1000000+fxindex-1, paramindex-1, value, "")
 end
 
 --A,B,C=ultraschall.InputFX_FormatParamValueNormalized(1, 2, -1)
 
 
-function ultraschall.InputFX_GetEQ(instantiate)
+function ultraschall.InputFX_GetEQ(instantiate, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetEQ</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer index = ultraschall.InputFX_GetEQ(boolean instantiate)</functioncall>
+  <functioncall>integer index = ultraschall.InputFX_GetEQ(boolean instantiate, optional integer tracknumber)</functioncall>
   <description>
     Get the index of the first ReaEQ-instance in the monitoringFX, if available.
     
@@ -6226,6 +6235,7 @@ function ultraschall.InputFX_GetEQ(instantiate)
   </retvals>
   <parameters>
     boolean instantiate - true, add ReaEQ into monitoring-fx if not existing yet; false, don't add a ReaEQ-instance if not existing in monitoring-FXChain yet
+    optional integer tracknumber - the tracknumber, whose inputFX-eq-position you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -6236,25 +6246,28 @@ function ultraschall.InputFX_GetEQ(instantiate)
   <tags>fx management, get, eq instance, monitoringfx, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if type(instantiate)~="boolean" then ultraschall.AddErrorMessage("InputFX_GetEQ", "instantiate", "must be a boolean", -1) return -1 end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetEQ", "tracknumber", "no such track; must be an integer", -2) return -1 end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
   if instantiate==true then instantiate=1 else instantiate=0 end
-  return reaper.TrackFX_AddByName(reaper.GetMasterTrack(), "ReaEQ", true, instantiate)+1
+  return reaper.TrackFX_AddByName(tracknumber2, "ReaEQ", true, instantiate)+1
 end
 
 --A1,B1=ultraschall.InputFX_GetEQ(true)
 
 
 
-function ultraschall.InputFX_GetFormattedParamValue(fxindex, paramindex)
+function ultraschall.InputFX_GetFormattedParamValue(fxindex, paramindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetFormattedParamValue</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string formatted_value = ultraschall.InputFX_GetFormattedParamValue(integer fxindex, integer paramindex)</functioncall>
+  <functioncall>boolean retval, string formatted_value = ultraschall.InputFX_GetFormattedParamValue(integer fxindex, integer paramindex, optional integer tracknumber)</functioncall>
   <description>
     Returns the current value of the monitoring-fx's parameter in its formatted style.
     
@@ -6267,6 +6280,7 @@ function ultraschall.InputFX_GetFormattedParamValue(fxindex, paramindex)
   <parameters>
     integer fxindex - the index of the fx; 1-based
     integer paramindex - the parameter, whose formatted value you want to get; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-parameter-value you want to get as formatted; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -6277,26 +6291,29 @@ function ultraschall.InputFX_GetFormattedParamValue(fxindex, paramindex)
   <tags>fx management, get, format, value, monitoringfx, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFormattedParamValue", "fxindex", "must be an integer", -1) return false end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetFormattedParamValue", "tracknumber", "no such track; must be an integer", -5) return false end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetFormattedParamValue", "fxindex", "must 1 or higher", -2) return false end  
   if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetFormattedParamValue", "paramindex", "must be an integer", -3) return false end
   if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetFormattedParamValue", "paramindex", "must 1 or higher", -4) return false end  
   
-  return reaper.TrackFX_GetFormattedParamValue(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1, "")
+  return reaper.TrackFX_GetFormattedParamValue(tracknumber2, 0x1000000+fxindex-1, paramindex-1, "")
 end
 
 --A={ultraschall.InputFX_GetFormattedParamValue(2, 1)}
 
-function ultraschall.InputFX_GetIOSize(fxindex)
+function ultraschall.InputFX_GetIOSize(fxindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetIOSize</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer retval, optional number inputPins, optional number outputPins = ultraschall.InputFX_GetIOSize(integer fxindex)</functioncall>
+  <functioncall>integer retval, optional number inputPins, optional number outputPins = ultraschall.InputFX_GetIOSize(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     Returns the plugin-type and the input/output-pins available for an inputFX
     
@@ -6315,6 +6332,7 @@ function ultraschall.InputFX_GetIOSize(fxindex)
   </retvals>
   <parameters>
     integer fxindex - the index of the fx; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-plugintype/in-out-pins you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -6325,23 +6343,26 @@ function ultraschall.InputFX_GetIOSize(fxindex)
   <tags>fx management, get, plugin type, input pins, output pins, pins, monitoringfx, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetIOSize", "fxindex", "must be an integer", -1) return -1 end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetIOSize", "tracknumber", "no such track; must be an integer", -2) return -1 end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetIOSize", "fxindex", "must 1 or higher", -2) return -1 end  
-  return reaper.TrackFX_GetIOSize(reaper.GetMasterTrack(0), 0x1000000+fxindex-1)
+  return reaper.TrackFX_GetIOSize(tracknumber2, 0x1000000+fxindex-1)
 end
 
 --A={ultraschall.InputFX_GetIOSize(1)}
 
-function ultraschall.InputFX_GetNamedConfigParm(fxindex, parmname)
+function ultraschall.InputFX_GetNamedConfigParm(fxindex, parmname, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetNamedConfigParm</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string config_parm_name = ultraschall.InputFX_GetNamedConfigParm(integer fxindex, string parmname)</functioncall>
+  <functioncall>boolean retval, string config_parm_name = ultraschall.InputFX_GetNamedConfigParm(integer fxindex, string parmname, optional integer tracknumber)</functioncall>
   <description>
     gets plug-in specific named configuration value (returns true on success) of a monitoring-fx. 
     
@@ -6359,6 +6380,7 @@ function ultraschall.InputFX_GetNamedConfigParm(fxindex, parmname)
   <parameters>
     integer fxindex - the index of the fx; 1-based
     string parmname - the value of the named config parm you want to get
+    optional integer tracknumber - the tracknumber, whose inputFX-named-config-parameter-state you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -6369,26 +6391,29 @@ function ultraschall.InputFX_GetNamedConfigParm(fxindex, parmname)
   <tags>fx management, get, named configuration value, monitoringfx, inputfx</tags>
 </US_DocBloc>
 ]]
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetNamedConfigParm", "fxindex", "must be an integer", -1) return false end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetNamedConfigParm", "tracknumber", "no such track; must be an integer", -4) return false end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetNamedConfigParm", "fxindex", "must 1 or higher", -2) return false end  
   if type(parmname)~="string" then ultraschall.AddErrorMessage("InputFX_GetNamedConfigParm", "parmname", "must be a string", -3) return false end
 
-  return reaper.TrackFX_GetNamedConfigParm(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, parmname)
+  return reaper.TrackFX_GetNamedConfigParm(tracknumber2, 0x1000000+fxindex-1, parmname)
 end
 
 --A3={ultraschall.InputFX_GetNamedConfigParm(2, "")}
 
-function ultraschall.InputFX_GetParam(fxindex, paramindex)
+function ultraschall.InputFX_GetParam(fxindex, paramindex, tracknumber)
   -- returns nil in case of an error
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetParam</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>number curval, number minval, number maxval = ultraschall.InputFX_GetParam(integer fxindex, integer paramindex)</functioncall>
+  <functioncall>number curval, number minval, number maxval = ultraschall.InputFX_GetParam(integer fxindex, integer paramindex, optional integer tracknumber)</functioncall>
   <description>
     returns the current, maximum and minimum value of a parameter of a monitoring-fx.
     
@@ -6402,6 +6427,7 @@ function ultraschall.InputFX_GetParam(fxindex, paramindex)
   <parameters>
     integer fxindex - the index of the monitoring-fx; 1-based
     integer paramindex - the parameter, whose value you want to retrieve; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-parameter-states you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -6412,31 +6438,36 @@ function ultraschall.InputFX_GetParam(fxindex, paramindex)
   <tags>fx management, get, value, parameter, minimum, maximum, monitoringfx, inputfx</tags>
 </US_DocBloc>
 ]]  
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParam", "fxindex", "must be an integer", -1) return end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_SetOpen", "tracknumber", "no such track; must be an integer", -5) return end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetParam", "fxindex", "must 1 or higher", -2) return end  
   if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParam", "paramindex", "must be an integer", -3) return end
   if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetParam", "paramindex", "must 1 or higher", -4) return end  
   
-  return reaper.TrackFX_GetParam(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1)
+  return reaper.TrackFX_GetParam(tracknumber2, 0x1000000+fxindex-1, paramindex-1)
 end
 
 --A={ultraschall.InputFX_GetParam(1, 4)}
 
 
-function ultraschall.InputFX_GetParameterStepSizes(fxindex, paramindex)
+function ultraschall.InputFX_GetParameterStepSizes(fxindex, paramindex, tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetParameterStepSizes</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, number step, number smallstep, number largestep, boolean istoggle = ultraschall.InputFX_GetParameterStepSizes(integer fxindex, integer paramindex)</functioncall>
+  <functioncall>boolean retval, number step, number smallstep, number largestep, boolean istoggle = ultraschall.InputFX_GetParameterStepSizes(integer fxindex, integer paramindex, optional integer tracknumber)</functioncall>
   <description>
     returns the stepsizes of a parameter of a monitoring-fx.
     
-    returns nil in case of an error
+    Commonly used for JSFX and VideoProcessor.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, stepsize is available; false; stepsize is not available; nil, in case of an error
@@ -6448,6 +6479,7 @@ function ultraschall.InputFX_GetParameterStepSizes(fxindex, paramindex)
   <parameters>
     integer fxindex - the index of the monitoring-fx; 1-based
     integer paramindex - the parameter, whose values you want to retrieve; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-parameter-stepsizes you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -6458,27 +6490,30 @@ function ultraschall.InputFX_GetParameterStepSizes(fxindex, paramindex)
   <tags>fx management, get, stepsize, parameter, monitoring fx, inputfx</tags>
 </US_DocBloc>
 ]]  
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParameterStepSizes", "fxindex", "must be an integer", -1) return false end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_GetParameterStepSizes", "tracknumber", "no such track; must be an integer", -5) return false end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetParameterStepSizes", "fxindex", "must 1 or higher", -2) return false end  
   if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParameterStepSizes", "paramindex", "must be an integer", -3) return false end
   if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetParameterStepSizes", "paramindex", "must 1 or higher", -4) return false end  
 
-  return reaper.TrackFX_GetParameterStepSizes(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1)
+  return reaper.TrackFX_GetParameterStepSizes(tracknumber2, 0x1000000+fxindex-1, paramindex-1)
 end
 
 --A={ultraschall.InputFX_GetParameterStepSizes(4, 2)}
 
-function ultraschall.InputFX_GetParamEx(fxindex, paramindex)
+function ultraschall.InputFX_GetParamEx(fxindex, paramindex, tracknumber)
   -- returns nil in case of an error
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InputFX_GetParamEx</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.2
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>number curval, number minval, number maxval, number midval = ultraschall.InputFX_GetParamEx(integer fxindex, integer paramindex)</functioncall>
+  <functioncall>number curval, number minval, number maxval, number midval = ultraschall.InputFX_GetParamEx(integer fxindex, integer paramindex, optional integer tracknumber)</functioncall>
   <description>
     returns the current, maximum, minimum and mid-value of a parameter of a monitoring-fx.
     
@@ -6493,6 +6528,7 @@ function ultraschall.InputFX_GetParamEx(fxindex, paramindex)
   <parameters>
     integer fxindex - the index of the monitoring-fx; 1-based
     integer paramindex - the parameter, whose value you want to retrieve; 1-based
+    optional integer tracknumber - the tracknumber, whose inputFX-param-states you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
   <chapter_context>
     FX-Management
@@ -6503,12 +6539,15 @@ function ultraschall.InputFX_GetParamEx(fxindex, paramindex)
   <tags>fx management, get, value, parameter, minimum, maximum, midvalue, monitoringfx, inputfx</tags>
 </US_DocBloc>
 ]]  
+  local tracknumber2
   if math.type(fxindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParamEx", "fxindex", "must be an integer", -1) return end
+  if tracknumber~=nil and (math.type(tracknumber)~="integer" or (tracknumber<0 or tracknumber>reaper.CountTracks())) then ultraschall.AddErrorMessage("InputFX_SetOpen", "tracknumber", "no such track; must be an integer", -6) return end
+  if tracknumber==nil or tracknumber==0 then tracknumber2=reaper.GetMasterTrack() else tracknumber2=reaper.GetTrack(0,tracknumber-1) end
   if fxindex<1 then ultraschall.AddErrorMessage("InputFX_GetParamEx", "fxindex", "must 1 or higher", -2) return end  
   if math.type(paramindex)~="integer" then ultraschall.AddErrorMessage("InputFX_GetParamEx", "paramindex", "must be an integer", -3) return end
   if paramindex<1 then ultraschall.AddErrorMessage("InputFX_GetParamEx", "paramindex", "must 1 or higher", -4) return end  
   
-  return reaper.TrackFX_GetParamEx(reaper.GetMasterTrack(0), 0x1000000+fxindex-1, paramindex-1)
+  return reaper.TrackFX_GetParamEx(tracknumber2, 0x1000000+fxindex-1, paramindex-1)
 end
 
 --A={ultraschall.InputFX_GetParamEx(1, 3)}
