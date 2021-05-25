@@ -327,6 +327,25 @@ main()
 
 No idea, whether this is a good idea.
 
+
+Automation Items-stuff:
+    GetAutomationItemByTime(Envelope, time)
+        Look through the automationitems and check, whether start/endtime is within time.
+        
+    SplitAutomationItem
+        https://mespotin.uber.space/Ultrasch...mationItemInfo
+
+        You get position and length and check, whether the projectposition of the mouse is within position and position+length of the automation item.
+        If it is, you found the index of the automation item. If not, check index+1 and so on.
+
+        No idea though, how to split it.
+        You could try shortening it and use InsertAutomationItem to insert it again but move the offset of the newly inserted one.
+        It's fiddly, though...
+
+        https://mespotin.uber.space/Ultrasch...AutomationItem
+
+        Edit: I'm tempted to add both (find automation item and split automation item) into my Ultraschall-Api, as this could be actually helpful for others too...
+
 </TODO>
 
 
@@ -343,6 +362,8 @@ Has now 1385 functions, with 26 new ones
   
   
 #### New features in 4.2.004  
+  - Automation Items: AutomationItems\_GetByTime - gets all automation-items from an envelope at position(requested by AZpercussion)
+  - Automation Items: AutomationItem\_Split - splits a specific automation-item from an envelope at position(requested by AZpercussion)
   - Developer Tools: EnvelopeStateChunk\_to\_Clipboard\_envelope\_under\_mouse - puts statechunk of envelope under the mouse into clipboard
   - Developer Tools: EnvelopeStateChunk\_to\_Clipboard\_selected\_envelope - puts statechunk of selected envelope into clipboard
   - Developer Tools: Find\_Duplicated\_Lines\_In\_Clipboard - shows duplicated lines in the string in the clipboard
