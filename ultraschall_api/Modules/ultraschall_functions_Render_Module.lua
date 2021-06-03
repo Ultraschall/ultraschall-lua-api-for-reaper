@@ -2436,8 +2436,8 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
   <retvals>
     string outputformat - the outputformat, set in the render-cfg-string
     - The following are valid: 
-    - WAV, AIFF, AUDIOCD-IMAGE, DDP, FLAC, MP3, OGG, Opus, Video, Video (Mac), Video GIF, Video LCF, WAVPACK
-    string renderstring - the renderstringm which is either the renderstring you've passed or the one from the ReaProject you passed as second parameter
+    - "WAV", "AIFF", "AUDIOCD-IMAGE", "DDP", "FLAC", "MP3", "OGG", "Opus", "Video", "Video (Mac)", "Video GIF", "Video LCF", "WAVPACK", "Unknown"
+    string renderstring - the renderstring, which is either the renderstring you've passed or the one from the ReaProject you passed as second parameter
   </retvals>
   <parameters>
     string Renderstring - the render-cfg-string from a rpp-projectfile or the reaper-render.ini

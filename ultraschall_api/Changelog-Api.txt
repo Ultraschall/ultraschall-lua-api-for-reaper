@@ -328,23 +328,73 @@ main()
 No idea, whether this is a good idea.
 
 
-Automation Items-stuff:
-    GetAutomationItemByTime(Envelope, time)
-        Look through the automationitems and check, whether start/endtime is within time.
-        
-    SplitAutomationItem
-        https://mespotin.uber.space/Ultrasch...mationItemInfo
+BGCopy: Adapt buffer-size automatically(prototyped for XRaym, but this could do the trick in the actual US-API as well:
 
-        You get position and length and check, whether the projectposition of the mouse is within position and position+length of the automation item.
-        If it is, you found the index of the automation item. If not, check index+1 and so on.
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
-        No idea though, how to split it.
-        You could try shortening it and use InsertAutomationItem to insert it again but move the offset of the newly inserted one.
-        It's fiddly, though...
+ultraschall["CopyFiles_XRaym_Buffersize-MaxBuffer"]=16777216 -- set to maximum-buffer size of 16MB
 
-        https://mespotin.uber.space/Ultrasch...AutomationItem
+function XRayms_Buffer_Size_Manipulator3000()
+  if ultraschall["CopyFiles_XRaym_Buffersize-OldTime"]==nil then
+    ultraschall["CopyFiles_XRaym_Buffersize-OldTime"]=reaper.time_precise()
+  end
+  if ultraschall["CopyFiles_XRaym_Buffersize-NewTime"]==nil then
+    ultraschall["CopyFiles_XRaym_Buffersize-NewTime"]=reaper.time_precise()
+  end
+  if ultraschall["CopyFiles_XRaym_Buffersize-Counter"]==nil then
+    ultraschall["CopyFiles_XRaym_Buffersize-Counter"]=0
+  end
+  if ultraschall["CopyFiles_XRaym_Buffersize-MaxBuffer"]==nil then
+    ultraschall["CopyFiles_XRaym_Buffersize-MaxBuffer"]=16777216
+  end
+  
+  local Counter=ultraschall["CopyFiles_XRaym_Buffersize-Counter"]
+  local NewTime=ultraschall["CopyFiles_XRaym_Buffersize-NewTime"]
+  local OldTime=ultraschall["CopyFiles_XRaym_Buffersize-OldTime"]
+  local MaxBuffer=ultraschall["CopyFiles_XRaym_Buffersize-MaxBuffer"]
+  
+  local NewTime=reaper.time_precise()
+  Counter=Counter+1
+  
+  if OldTime+1<=NewTime then
+    -- A=Counter -- debug
+    OldTime=NewTime
+    
+    if Counter>=33 then
+      -- if the defer-loops perform nicely, add to the buffer size til maximum-buffer size by a factor of 2.2
+      local buffer_size = ultraschall.CopyFile_GetBufferSize()
+      -- B=buffer_size -- debug
+      if buffer_size<100 then buffer_size=100 end
+      if buffer_size>=MaxBuffer then 
+        buffer_size=MaxBuffer -- maximum buffer-size set to 16MB/defer-loop
+      else 
+        buffer_size=math.floor(buffer_size*2.2) 
+      end
+      ultraschall.CopyFile_SetBufferSize(buffer_size)
+    else
+      -- if the defer-loops lag, subtract from buffer size by a factor that depends on how few
+      -- defer-loops/second are done.
+      -- Minimum buffer is 100.
+      local buffer_size = ultraschall.CopyFile_GetBufferSize()
+      -- C=buffer_size -- debug
+      if buffer_size<100 then buffer_size=100 end
+      local factor=100/30*Counter/100
+      ultraschall.CopyFile_SetBufferSize(math.floor(buffer_size*factor))
+    end
+    Counter=0
+  end
+  
+  ultraschall["CopyFiles_XRaym_Buffersize-Counter"]=Counter
+  ultraschall["CopyFiles_XRaym_Buffersize-NewTime"]=NewTime
+  ultraschall["CopyFiles_XRaym_Buffersize-OldTime"]=OldTime
+end
+  
+function main()  
+  XRayms_Buffer_Size_Manipulator3000()
+  reaper.defer(main)
+end
 
-        Edit: I'm tempted to add both (find automation item and split automation item) into my Ultraschall-Api, as this could be actually helpful for others too...
+main()
 
 </TODO>
 

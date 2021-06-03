@@ -45,6 +45,14 @@ Outfile=ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation.html"
 
 local FunctionList2=""
 
+
+versionnumbering=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
+tagline=reaper.GetExtState("ultraschall_api", "Tagline")
+
+--print2(versionnumbering, tagline)
+
+--if LOL==nil then return end
+
 function ultraschall.SplitUSDocBlocs(String)
   local Table={}
   local Counter=0
@@ -567,7 +575,10 @@ function header()
 end
 
 function contentindex()
-  FunctionList=FunctionList.."<h2><img src=\"gfx/reaper.png\"><br>Reaper Reascript-Api-Documentation 6.27<br>\"Do not trust people. They are capable of greatness.\"</h2><h3>The Functions Reference</h3><table style=\"font-size:10pt;\" width=\"100%\">"
+  FunctionList=FunctionList.."<h2><img src=\"gfx/reaper.png\"><br>Reaper Reascript-Api-Documentation "..versionnumbering.."<br>\""..tagline.."\"</h2><h3>The Functions Reference</h3><table style=\"font-size:10pt;\" width=\"100%\">"
+  --print3(FunctionList)
+  
+  --if LOLOLOLOL==nil then return end 
   reaper.ClearConsole()
   reaper.ShowConsoleMsg("Create Index\n")
   HeaderList={}
