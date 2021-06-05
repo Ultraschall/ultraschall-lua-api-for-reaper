@@ -2166,7 +2166,7 @@ function ultraschall.GetRenderTable_Project()
     Returns all stored render-settings for the current project, as a handy table.
             
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
-            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32 and 64); 5, Selected regions; 6, Razor Edit Areas(in combination with Source 4096 and 4224)
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
             RenderTable["CloseAfterRender"] - true, closes rendering to file-dialog after render; false, doesn't close it
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping stems
@@ -2191,7 +2191,7 @@ function ultraschall.GetRenderTable_Project()
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master; 4096, Razor Edit Areas; 4224, Razor Edit Ares via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
@@ -2299,7 +2299,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
     Returns all stored render-settings in a projectfile, as a handy table.
             
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
-            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32 and 64); 5, Selected regions; 6, Razor Edit Areas(in combination with Source 4096 and 4224)
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
             RenderTable["CloseAfterRender"] - close rendering to file-dialog after render; always true, as this isn't stored in projectfiles
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping stems
@@ -2324,7 +2324,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always true(checked), as this isn't stored in projectfiles
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master; 4096, Razor Edit Areas; 4224, Razor Edit Ares via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
@@ -2940,7 +2940,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             
     Expected table is of the following structure:
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
-            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32 and 64); 5, Selected regions; 6, Razor Edit Areas(in combination with Source 4096 and 4224)
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
             RenderTable["CloseAfterRender"] - true, close rendering to file-dialog after render; false, don't close it
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping stems
@@ -2965,7 +2965,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master; 4096, Razor Edit Areas; 4224, Razor Edit Ares via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
@@ -3114,7 +3114,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             
     Expected table is of the following structure:
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
-            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32 and 64); 5, Selected regions; 6, Razor Edit Areas(in combination with Source 4096 and 4224)
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
             RenderTable["CloseAfterRender"] - close rendering to file-dialog after render; ignored, as this can't be set in projectfiles
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping stems
@@ -3139,7 +3139,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; ignored, as this can't be stored in projectfiles
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; ignored, as this can't be stored in projectfiles
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master; 4096, Razor Edit Areas; 4224, Razor Edit Ares via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
@@ -3339,14 +3339,16 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender)
                    - 3, Stems (selected tracks)
                    - 8, Region render matrix
                    - 32, Selected media items
-                   - 256, Embed stretch markers/transient guides-checkbox=on; optional, as parameter EmbedStretchMarkers is meant for that
+                   - 4096, Razor Edit Areas
+                   - 4224, Razor Edit Ares via master
     optional integer Bounds - The Bounds-dropdownlist
                    - 0, Custom time range
                    - 1, Entire project(default)
                    - 2, Time selection
                    - 3, Project regions
-                   - 4, Selected Media Items(in combination with Source 32)
+                   - 4, Selected Media Items(in combination with Source 32 and 64)
                    - 5, Selected regions
+                   - 6, Razor Edit Areas(in combination with Source 4096 and 4224)
     optional number Startposition - the startposition of the render-section in seconds; only used when Bounds=0(Custom time range); default=0
     optional number Endposition - the endposition of the render-section in seconds; only used when Bounds=0(Custom time range); default=0
     optional integer TailFlag - in which bounds is the Tail-checkbox checked? (default=18)
@@ -4005,7 +4007,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
      returned table if of the following format:
      
      RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; always false, as this isn't stored in render-presets
-     RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+     RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32 and 64); 5, Selected regions; 6, Razor Edit Areas(in combination with Source 4096 and 4224)
      RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
      RenderTable["CloseAfterRender"] - close rendering to file-dialog after rendering; always true, as this isn't stored in render-presets
      RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping stems
@@ -4030,7 +4032,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
      RenderTable["SampleRate"] - the samplerate of the rendered file(s)
      RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always false, as this isn't stored in render-presets
      RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always true, as this isn't stored in Presets
-     RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master
+     RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master; 4096, Razor Edit Areas; 4224, Razor Edit Ares via master
      RenderTable["Startposition"] - the startposition of the rendering selection in seconds
      RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
      RenderTable["TailMS"] - the amount of milliseconds of the tail; always 0, as this isn't stored in render-presets
@@ -4313,8 +4315,9 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       1, Entire project 
                                       2, Time selection 
                                       3, Project regions
-                                      4, Selected Media Items(in combination with Source 32)
+                                      4, Selected Media Items(in combination with Source 32 and 64)
                                       5, Selected regions 
+                                      6, Razor Edit Areas(in combination with Source 4096 and 4224)
               RenderTable["Startposition"] - the startposition of the render
               RenderTable["Endposition"] - the endposition of the render
               RenderTable["Source"] - the source dropdownlist, includes 
@@ -4325,6 +4328,8 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       32, Selected media items
                                       64, selected media items via master
                                       128, selected tracks via master
+                                      4096, Razor Edit Areas
+                                      4224, Razor Edit Ares via master
               "0"    - unknown, default setting is 0
               RenderTable["RenderPattern"] - the renderpattern, which hold also the wildcards
               RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
@@ -4493,8 +4498,9 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       1, Entire project 
                                       2, Time selection 
                                       3, Project regions
-                                      4, Selected Media Items(in combination with Source 32)
+                                      4, Selected Media Items(in combination with Source 32 and 64)
                                       5, Selected regions 
+                                      6, Razor Edit Areas(in combination with Source 4096 and 4224)
               RenderTable["Startposition"] - the startposition of the render
               RenderTable["Endposition"] - the endposition of the render
               RenderTable["Source"]+RenderTable["MultiChannelFiles"]+RenderTable["OnlyMonoMedia"] - the source dropdownlist, includes 
@@ -4507,6 +4513,8 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       32, Selected media items
                                       64, selected media items via master
                                       128, selected tracks via master
+                                      4096, Razor Edit Areas
+                                      4224, Razor Edit Ares via master
               "0"    - unknown, default setting is 0
               RenderTable["RenderPattern"] - the renderpattern, which hold also the wildcards
               RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
@@ -4671,7 +4679,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
             
     Expected RenderTable is of the following structure:
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
-            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32 and 64); 5, Selected regions; 6, Razor Edit Areas(in combination with Source 4096 and 4224)
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
             RenderTable["CloseAfterRender"] - true, close rendering to file-dialog after render; false, don't close it
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping stems
@@ -4694,7 +4702,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items; 64, selected media items via master; 128, selected tracks via master; 4096, Razor Edit Areas; 4224, Razor Edit Ares via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail

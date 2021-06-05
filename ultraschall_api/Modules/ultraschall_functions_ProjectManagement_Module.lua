@@ -335,7 +335,9 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
       
   -- if Projectlength=0 or CountofTracks==0, set render-settings for empty projects(workaround for that edgecase)
   -- old settings will be restored later
-  if reaper.CountTracks()==0 or reaper.GetProjectLength()==0 then
+  local oldsource2   = reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", 1, false)  
+  local oldsource
+  if reaper.CountTracks()==0 or reaper.GetProjectLength()==0 or oldsource2&4096~=0 then
   --  print2("Tudel")
     -- get old settings
     oldbounds   =reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, false)
@@ -345,6 +347,7 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
        
     -- set useful defaults that'll make adding the project to the render-queue possible always
     if oldsource&4096~=0 then
+      
       reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", 0, true)
     end
     reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, true)

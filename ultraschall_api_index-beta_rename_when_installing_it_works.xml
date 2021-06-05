@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43619.00" author="Meo Mespotine">
+      <version name="43621.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Changelog-Api.txt</source>
@@ -681,6 +681,10 @@ Changes from 4.2.003 to 4.2.004
     individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_GetEQ - supports now inputFX of individual
     tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetEQBandEnabled - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetEQParam - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_GetFloatingWindow - supports now inputFX of
     individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_GetFormattedParamValue - supports now inputFX
@@ -706,6 +710,12 @@ Changes from 4.2.003 to 4.2.004
     of individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_GetParamEx - supports now inputFX of
     individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetParamName - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetParamNormalized - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_GetPinMappings - didn’t work due bug -> fixed,
+    supports now inputFX of individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_GetPreset - supports now inputFX of individual
     tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_GetUserPresetFilename - supports now inputFX
@@ -726,12 +736,22 @@ Changes from 4.2.003 to 4.2.004
     individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_SetEnabled - supports now inputFX of
     individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_SetEQBandEnabled - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_SetEQParam - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_SetFXChain - supports now inputFX of
     individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_SetOffline - supports now inputFX of
     individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_SetOpen - supports now inputFX of individual
     tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_SetParam - supports now inputFX of individual
+    tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_SetParamNormalized - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
+-   FXManagement: InputFX_SetPinMappings - supports now inputFX of
+    individual tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_SetPreset - supports now inputFX of individual
     tracks as well(thanks to X-Raym)
 -   FXManagement: InputFX_SetPresetByIndex - supports now inputFX of
@@ -748,6 +768,7 @@ Changes from 4.2.003 to 4.2.004
     correct error-retvals -> fixed
 -   ProjectManagement: GetProjectStateChunk - had trouble with
     Razor-Edit-render-options activated in Reaper 6.26 -> fixed
+-   Rendering: all functions - support now Razor Area rendering
 -   TrackManagement: GetTrackGroupFlagsState - returns now the table
     with all 23-entries, even if some checkboxes aren’t set in any group
 -   TrackManagement: GetTrackGroupFlags_HighState - returns now the
@@ -7949,7 +7970,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1408 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43619 from 03.06.2021 17:10:38).}
+a 1408 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43621 from 05.06.2021 21:39:03).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -8087,7 +8108,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1408 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43619 from 03.06.2021 17:10:38).}
+a 1408 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43621 from 05.06.2021 21:39:03).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
