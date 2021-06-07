@@ -396,6 +396,9 @@ end
 
 main()
 
+**Is Reaper Quitting??
+Ok, I'll add the EnumProjects-approach as "IsReaperQuitting()"-function to my API. I think it would be practical.
+
 </TODO>
 
 
@@ -427,6 +430,8 @@ Has now 1385 functions, with 26 new ones
   - MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes
   - MediaItem-Management: CountMediaItemTake\_StateChunk - counts all takes in a MediaItemStateChunk
   - MediaItem-Management: GetMediaItemTake\_StateChunk - gets a TakeStateChunk from a MediaItemStateChunk  
+  - Metadata-Management: Metadata\_GetAllPresetNames - returns all metadata-presetnames
+  - Metadata-Management: Metadata\_GetMetaDataTable\_Presets - returns all metadata-presetnames
   - Razor Edit: RazorEdit\_GetAllRazorEdits - returns a table with all razor-edits available in the current project
   - Razor Edit: RazorEdit\_ProjectHasRazorEdit - returns, if the currently opened project contains any Razor Edits
   - Spectral Edit: CountItemSpectralEdit2 - counts all spectral-edits within a take(requested by Fabian)
