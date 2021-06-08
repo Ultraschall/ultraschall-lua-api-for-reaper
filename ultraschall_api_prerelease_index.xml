@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43625.00" author="Meo Mespotine">
+      <version name="43626.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Changelog-Api.txt</source>
@@ -612,7 +612,8 @@ New features in 4.2.004
     puts statechunk of first selected track into clipboard
 -   Developer Tools: TrackStateChunk_to_Clipboard_track_under_mouse -
     puts statechunk of track under the mouse into clipboard
--   Docs: Reaper API-docs - added ReaImGui 0.2, OSARA 2021
+-   Docs: Reaper API-docs - added ReaImGui 0.2, OSARA 2021, ReaBlink
+    0.3.3
 -   GMem: GMem_Read_ValueRange - returns a value-range from gmem-values
     as a handy table
 -   GMem: GMem_GetValues_VideoSamplePeeker - returns the samples as
@@ -653,7 +654,7 @@ Changes from 4.2.003 to 4.2.004
     statechunks from/to clipboard
 -   Docs: Filetype Descriptions - added missing descriptions and mouse
     modifiers for reaper-mouse.ini
--   Docs: Reaper Internals - updated to Reaper 6.27
+-   Docs: Reaper Internals - updated to Reaper 6.29
 -   File-Management: BatchConvertFiles - added, as I had forgotten to
     add it in the last release -> fixed
 -   FXManagement: InputFX_AddByName - supports now inputFX of individual
@@ -773,9 +774,9 @@ Changes from 4.2.003 to 4.2.004
 -   ProjectManagement: GetProjectStateChunk - had trouble with
     Razor-Edit-render-options activated in Reaper 6.26 -> fixed
 -   Rendering: all functions - support now Razor Area rendering
--   Rendering: ApplyRenderTable_Project - changed a values of the
+-   Rendering: ApplyRenderTable_Project - changed a value of the
     provided RenderTable, which shouldn’t happen -> fixed
--   Rendering: ApplyRenderTable_ProjectFile - changed a values of the
+-   Rendering: ApplyRenderTable_ProjectFile - changed a value of the
     provided RenderTable, which shouldn’t happen -> fixed
 -   TrackManagement: GetTrackGroupFlagsState - returns now the table
     with all 23-entries, even if some checkboxes aren’t set in any group
@@ -7978,7 +7979,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1410 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43625 from 08.06.2021 20:03:47).}
+a 1410 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43626 from 08.06.2021 20:07:37).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -8116,7 +8117,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1410 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43625 from 08.06.2021 20:03:47).}
+a 1410 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43626 from 08.06.2021 20:07:37).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
