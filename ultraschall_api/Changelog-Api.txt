@@ -505,6 +505,8 @@ Has now 1385 functions, with 26 new ones
   - Parameter-Modulation: CountParmModFromFXStateChunk - didn't return correct error-retvals -> fixed
   - ProjectManagement: GetProjectStateChunk - had trouble with Razor-Edit-render-options activated in Reaper 6.26 -> fixed
   - Rendering: all functions - support now Razor Area rendering
+  - Rendering: ApplyRenderTable\_Project - changed a values of the provided RenderTable, which shouldn't happen -> fixed
+  - Rendering: ApplyRenderTable\_ProjectFile - changed a values of the provided RenderTable, which shouldn't happen -> fixed
   - TrackManagement: GetTrackGroupFlagsState - returns now the table with all 23-entries, even if some checkboxes aren't set in any group
   - TrackManagement: GetTrackGroupFlags\_HighState  - returns now the table with all 23-entries, even if some checkboxes aren't set in any group
   
