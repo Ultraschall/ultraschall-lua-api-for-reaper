@@ -40,8 +40,8 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.2.004 - "Grandma - kl" - 30th of April 2021</h3>
-<p>Has now 1385 functions, with 26 new ones</p>
+<h3>4.2.004 - "Grandma - kl" - 12th of June 2021</h3>
+<p>Has now 1400 functions, with 15 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><strong>Bla</strong><br />
@@ -59,7 +59,7 @@ bla</li>
 <li>Developer Tools: TrackStateChunk_to_Clipboard_first_selected_track - puts statechunk of first selected track into clipboard</li>
 <li>Developer Tools: TrackStateChunk_to_Clipboard_track_under_mouse - puts statechunk of track under the mouse into clipboard<br />
 </li>
-<li>Docs: Reaper API-docs - added ReaImGui 0.2, OSARA 2021, ReaBlink 0.3.3</li>
+<li>Docs: Reaper API-docs - added ReaImGui 0.4.1, OSARA 2021, ReaBlink 0.4.0</li>
 <li>GMem: GMem_Read_ValueRange - returns a value-range from gmem-values as a handy table</li>
 <li>GMem: GMem_GetValues_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets</li>
 <li>MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes</li>
@@ -70,6 +70,7 @@ bla</li>
 <li>Metadata-Management: Metadata_GetMetaDataTable_Presets - returns all metadata-presetnames</li>
 <li>Razor Edit: RazorEdit_GetAllRazorEdits - returns a table with all razor-edits available in the current project</li>
 <li>Razor Edit: RazorEdit_ProjectHasRazorEdit - returns, if the currently opened project contains any Razor Edits</li>
+<li>Rendering: AreRenderTablesEqual - compares, if two RenderTables are equal</li>
 <li>Spectral Edit: CountItemSpectralEdit2 - counts all spectral-edits within a take(requested by Fabian)</li>
 <li>Spectral Edit: GetItemSpectralConfig2 - gets the spectral-config of a take(requested by Fabian)</li>
 <li>Spectral Edit: GetItemSpectralEdit2 - gets all spectral-edit-states of a take(requested by Fabian)</li>
@@ -151,7 +152,7 @@ bla</li>
 <li>Parameter-Modulation: CountParmModFromFXStateChunk - didn't return correct error-retvals -&gt; fixed</li>
 <li>ProjectManagement: GetProjectStateChunk - had trouble with Razor-Edit-render-options activated in Reaper 6.26 -&gt; fixed</li>
 <li>Rendering: all functions - support now Razor Area rendering</li>
-<li>Rendering: ApplyRenderTable_Project - changed a value of the provided RenderTable, which shouldn't happen -&gt; fixed</li>
+<li>Rendering: ApplyRenderTable_Project - allows now setting project to dirty, if RenderTable is different from the current project's render settings; changed a value of the provided RenderTable, which shouldn't happen -&gt; fixed</li>
 <li>Rendering: ApplyRenderTable_ProjectFile - changed a value of the provided RenderTable, which shouldn't happen -&gt; fixed</li>
 <li>TrackManagement: GetTrackGroupFlagsState - returns now the table with all 23-entries, even if some checkboxes aren't set in any group</li>
 <li>TrackManagement: GetTrackGroupFlags_HighState - returns now the table with all 23-entries, even if some checkboxes aren't set in any group</li>

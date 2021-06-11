@@ -2921,7 +2921,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
   return true
 end
 
-function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_string)
+function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_string, dirtyness)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderTable_Project</slug>
@@ -2932,7 +2932,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
     JS=0.972
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ApplyRenderTable_Project(RenderTable RenderTable, optional boolean apply_rendercfg_string)</functioncall>
+  <functioncall>boolean retval, boolean dirty = ultraschall.ApplyRenderTable_Project(RenderTable RenderTable, optional boolean apply_rendercfg_string, optional boolean dirtyness)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets all stored render-settings from a RenderTable as the current project-settings.
 
@@ -2974,10 +2974,12 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   </description>
   <retvals>
     boolean retval - true, setting the render-settings was successful; false, it wasn't successful
+    boolean dirty - true, settings have been altered(project is dirty); false, settings haven't been altered(undirty)
   </retvals>
   <parameters>
     RenderTable RenderTable - a RenderTable, that contains all render-dialog-settings
     optional boolean apply_rendercfg_string - true or nil, apply it as well; false, don't apply it
+    optional boolean dirtyness - true, function set the project to dirty, if any project setting has been altered by RenderTable(only if dirty==true); false and nil, don't set to dirty, if anything changed
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -2988,8 +2990,12 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   <tags>projectfiles, set, project, rendertable</tags>
 </US_DocBloc>
 ]]
-	
-  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderTable_Project", "RenderTable", "not a valid RenderTable", -1) return false end
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderTable_Project", "RenderTable", "not a valid RenderTable", -1) return false end  
+  if dirtyness==true then
+    local RenderTable2=ultraschall.GetRenderTable_Project()
+    if ultraschall.AreRenderTablesEqual(RenderTable, RenderTable2)==true then return true, false end
+  end
+  
   if apply_rendercfg_string~=nil and type(apply_rendercfg_string)~="boolean" then ultraschall.AddErrorMessage("ApplyRenderTable_Project", "apply_rendercfg_string", "must be boolean", -2) return false end
   local _temp, retval, hwnd, AddToProj, ProjectSampleRateFXProcessing, ReaProject, SaveCopyOfProject, retval
   if ReaProject==nil then ReaProject=0 end
@@ -3087,7 +3093,11 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
     local temp = reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)-1
     reaper.SNM_SetIntConfigVar("renderclosewhendone", temp)
   end
-  return true
+  if dirtyness==true then
+    reaper.MarkProjectDirty(0)
+    return true, true
+  end
+  return true, false
 end
 
 --A=ultraschall.GetRenderTable_Project(0)

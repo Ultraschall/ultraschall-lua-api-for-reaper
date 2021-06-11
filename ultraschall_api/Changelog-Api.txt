@@ -398,15 +398,16 @@ main()
 
 **Is Reaper Quitting??
 Ok, I'll add the EnumProjects-approach as "IsReaperQuitting()"-function to my API. I think it would be practical.
+Doesn't work on Windows 7???
 
 </TODO>
 
 
 ## Ultraschall Framework - Changelog
 
-### 4.2.004 - "Grandma - kl" - 30th of April 2021
+### 4.2.004 - "Grandma - kl" - 12th of June 2021
 
-Has now 1385 functions, with 26 new ones
+Has now 1400 functions, with 15 new ones
 
 **new in this release:**  
 
@@ -424,7 +425,7 @@ Has now 1385 functions, with 26 new ones
   - Developer Tools: ItemStateChunk\_to\_Clipboard\_item\_under\_mouse - puts statechunk of item under the mouse into clipboard
   - Developer Tools: TrackStateChunk\_to\_Clipboard\_first\_selected\_track - puts statechunk of first selected track into clipboard
   - Developer Tools: TrackStateChunk\_to\_Clipboard\_track\_under\_mouse - puts statechunk of track under the mouse into clipboard   
-  - Docs: Reaper API-docs - added ReaImGui 0.2, OSARA 2021, ReaBlink 0.3.3
+  - Docs: Reaper API-docs - added ReaImGui 0.4.1, OSARA 2021, ReaBlink 0.4.0
   - GMem: GMem\_Read\_ValueRange - returns a value-range from gmem-values as a handy table
   - GMem: GMem\_GetValues\_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets
   - MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes
@@ -434,6 +435,7 @@ Has now 1385 functions, with 26 new ones
   - Metadata-Management: Metadata\_GetMetaDataTable\_Presets - returns all metadata-presetnames
   - Razor Edit: RazorEdit\_GetAllRazorEdits - returns a table with all razor-edits available in the current project
   - Razor Edit: RazorEdit\_ProjectHasRazorEdit - returns, if the currently opened project contains any Razor Edits
+  - Rendering: AreRenderTablesEqual - compares, if two RenderTables are equal
   - Spectral Edit: CountItemSpectralEdit2 - counts all spectral-edits within a take(requested by Fabian)
   - Spectral Edit: GetItemSpectralConfig2 - gets the spectral-config of a take(requested by Fabian)
   - Spectral Edit: GetItemSpectralEdit2 - gets all spectral-edit-states of a take(requested by Fabian)
@@ -505,7 +507,7 @@ Has now 1385 functions, with 26 new ones
   - Parameter-Modulation: CountParmModFromFXStateChunk - didn't return correct error-retvals -> fixed
   - ProjectManagement: GetProjectStateChunk - had trouble with Razor-Edit-render-options activated in Reaper 6.26 -> fixed
   - Rendering: all functions - support now Razor Area rendering
-  - Rendering: ApplyRenderTable\_Project - changed a value of the provided RenderTable, which shouldn't happen -> fixed
+  - Rendering: ApplyRenderTable\_Project - allows now setting project to dirty, if RenderTable is different from the current project's render settings; changed a value of the provided RenderTable, which shouldn't happen -> fixed
   - Rendering: ApplyRenderTable\_ProjectFile - changed a value of the provided RenderTable, which shouldn't happen -> fixed
   - TrackManagement: GetTrackGroupFlagsState - returns now the table with all 23-entries, even if some checkboxes aren't set in any group
   - TrackManagement: GetTrackGroupFlags\_HighState  - returns now the table with all 23-entries, even if some checkboxes aren't set in any group

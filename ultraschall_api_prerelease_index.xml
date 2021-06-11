@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43626.00" author="Meo Mespotine">
+      <version name="43629.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Changelog-Api.txt</source>
@@ -580,9 +580,9 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.2.004 - “Grandma - kl” - 30th of April 2021
+4.2.004 - “Grandma - kl” - 12th of June 2021
 
-Has now 1385 functions, with 26 new ones
+Has now 1400 functions, with 15 new ones
 
 new in this release:
 
@@ -612,8 +612,8 @@ New features in 4.2.004
     puts statechunk of first selected track into clipboard
 -   Developer Tools: TrackStateChunk_to_Clipboard_track_under_mouse -
     puts statechunk of track under the mouse into clipboard
--   Docs: Reaper API-docs - added ReaImGui 0.2, OSARA 2021, ReaBlink
-    0.3.3
+-   Docs: Reaper API-docs - added ReaImGui 0.4.1, OSARA 2021, ReaBlink
+    0.4.0
 -   GMem: GMem_Read_ValueRange - returns a value-range from gmem-values
     as a handy table
 -   GMem: GMem_GetValues_VideoSamplePeeker - returns the samples as
@@ -633,6 +633,8 @@ New features in 4.2.004
     razor-edits available in the current project
 -   Razor Edit: RazorEdit_ProjectHasRazorEdit - returns, if the
     currently opened project contains any Razor Edits
+-   Rendering: AreRenderTablesEqual - compares, if two RenderTables are
+    equal
 -   Spectral Edit: CountItemSpectralEdit2 - counts all spectral-edits
     within a take(requested by Fabian)
 -   Spectral Edit: GetItemSpectralConfig2 - gets the spectral-config of
@@ -774,8 +776,10 @@ Changes from 4.2.003 to 4.2.004
 -   ProjectManagement: GetProjectStateChunk - had trouble with
     Razor-Edit-render-options activated in Reaper 6.26 -> fixed
 -   Rendering: all functions - support now Razor Area rendering
--   Rendering: ApplyRenderTable_Project - changed a value of the
-    provided RenderTable, which shouldn’t happen -> fixed
+-   Rendering: ApplyRenderTable_Project - allows now setting project to
+    dirty, if RenderTable is different from the current project’s render
+    settings; changed a value of the provided RenderTable, which
+    shouldn’t happen -> fixed
 -   Rendering: ApplyRenderTable_ProjectFile - changed a value of the
     provided RenderTable, which shouldn’t happen -> fixed
 -   TrackManagement: GetTrackGroupFlagsState - returns now the table
@@ -7979,7 +7983,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1410 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43626 from 08.06.2021 20:07:37).}
+a 1411 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43629 from 11.06.2021 20:04:27).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7993,7 +7997,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1410 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1411 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -8117,7 +8121,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1410 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43626 from 08.06.2021 20:07:37).}
+a 1411 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43629 from 11.06.2021 20:04:27).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -8131,7 +8135,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1410 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1411 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

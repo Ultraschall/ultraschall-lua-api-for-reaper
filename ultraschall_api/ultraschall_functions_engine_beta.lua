@@ -2230,6 +2230,69 @@ function ultraschall.AutomationItem_Split(Env, position, index, selected)
   return true
 end
 
+function ultraschall.AreRenderTablesEqual(RenderTable1, RenderTable2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AreRenderTablesEqual</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional integer count_differentEntries1, optional table differentEntries1, optional integer count_differentEntries2, optional table differentEntries2 = ultraschall.AreRenderTablesEqual(RenderTable RenderTable1, RenderTable RenderTable2)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    compares two RenderTables and returns true, if they are equal.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, RenderTables are equal; false, RenderTables aren't equal
+    optional integer count_differentEntries1 - the number of different table-entries in RenderTable1
+    optional table differentEntries1 - the table-entry-names, that are different in RenderTable1
+    optional integer count_differentEntries2 - the number of different table-entries in RenderTable2
+    optional table differentEntries2 - the table-entry-names, that are different in RenderTable2
+  </retvals>
+  <parameters>
+    RenderTable RenderTable1 - the first RenderTable, that you want to compare
+    RenderTable RenderTable2 - the second RenderTable, that you want to compare
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>projectfiles, compare, rendertable</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidRenderTable(RenderTable1)==false then ultraschall.AddErrorMessage("AreRenderTablesEqual", "RenderTable1", "must be a valid RenderTable", -1) return false end
+  if ultraschall.IsValidRenderTable(RenderTable2)==false then ultraschall.AddErrorMessage("AreRenderTablesEqual", "RenderTable2", "must be a valid RenderTable", -2) return false end
+  local equal=true
+  local entries={}
+  local entries_count=0
+  local entries2={}
+  local entries_count2=0
+  for k, v in pairs(RenderTable1) do
+    --print_alt(k,v,RenderTable2[k])
+    if RenderTable2[k]~=v then
+      entries_count=entries_count+1
+      entries[entries_count]=k
+      equal=false
+    end
+  end
+  for k, v in pairs(RenderTable2) do
+    --print_alt(k,v,RenderTable2[k])
+    if RenderTable1[k]~=v then
+      entries_count2=entries_count2+1
+      entries2[entries_count2]=k
+      equal=false
+    end
+  end
+  return equal, entries_count, entries, entries_count2, entries2
+end
+
+
+--A={ultraschall.AreRenderTablesEqual(B,C)}
 
 function ultraschall.Metadata_GetMetaDataTable_Presets(name)
 --[[
