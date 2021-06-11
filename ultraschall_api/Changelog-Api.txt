@@ -550,7 +550,7 @@ Has now 1400 functions, with 15 new ones
   
 ---
 
-### 4.2.003 - "Georg Friedrich Händel - Sarabande" - 6th of February 2021
+### 4.2.003 - "Georg Friedrich Handel - Sarabande" - 6th of February 2021
 
 Has now 1385 functions, with 26 new ones
 
