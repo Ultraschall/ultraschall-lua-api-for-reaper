@@ -44,22 +44,46 @@ Ultraschall API Changelog
 <p>Has now 1400 functions, with 15 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><strong>Bla</strong><br />
-bla</li>
+<li><strong>Automation Items</strong><br />
+You can get now the automation items by time and you can split them.</li>
 </ul>
+<p>-<strong>State Inspector</strong><br />
+Allows now using Ctrl+C and Ctrl+V to copy n paste statechunks from the statechunk-views. That way, you can easily get and set statechunks for easier debugging.</p>
+<p>-<strong>Rendering</strong><br />
+Razor Edits-rendering is now supported.</p>
+<p>-<strong>InputFX</strong><br />
+All inputFX-functions allow now adressing inputfx of specific tracks.</p>
+<p>-<strong>GMEM</strong><br />
+You can get now all gmems from a specific gmem-name. You can also get all values from the Video-Sample-Peeker-JSFX to do something with it, like visualizing.</p>
+<p>-<strong>Razor Edit</strong><br />
+You can get all razor-edits from the current project as well as checking, whether there's any razor-edit at all.</p>
+<p>-<strong>MetaData Presets</strong><br />
+You can get now all metadata-entries from the metadata-presets. Will be enhanced in the future with additional functions.</p>
+<p>-<strong>Developer Tools</strong><br />
+Get now the statechunk of items/envelopes/tracks underneath the mouse directly into the clipboard and put the statechunks from clipboard back into it.</p>
+<p><strong>BatchConverter</strong><br />
+Works now, now that I fixed this stupid bug..cough...cough...</p>
+<p>-<strong>Docs updates</strong><br />
+Updated Docs to Reaper 6.29 and added ReaImGui, ReaBlink.</p>
+<p>-<strong>Tons of bugfixes and stuff</strong></p>
 <h4>New features in 4.2.004</h4>
 <ul>
 <li>Automation Items: AutomationItems_GetByTime - gets all automation-items from an envelope at position(requested by AZpercussion)</li>
 <li>Automation Items: AutomationItem_Split - splits a specific automation-item from an envelope at position(requested by AZpercussion)</li>
-<li>Developer Tools: EnvelopeStateChunk_to_Clipboard_envelope_under_mouse - puts statechunk of envelope under the mouse into clipboard</li>
+<li>Developer Tools: EnvelopeStateChunk_from_Clipboard_envelope_to_under_mouse.lua - gets envelopestatechunk from clipboard to envelope under the mouse</li>
+<li>Developer Tools: EnvelopeStateChunk_from_Clipboard_to_selected_envelope.lua - gets envelope statechunk from clipboard to selected envelope</li>
 <li>Developer Tools: EnvelopeStateChunk_to_Clipboard_selected_envelope - puts statechunk of selected envelope into clipboard</li>
 <li>Developer Tools: Find_Duplicated_Lines_In_Clipboard - shows duplicated lines in the string in the clipboard</li>
+<li>Developer Tools: ItemStateChunk_from_Clipboard_to_first_selected_item.lua - gets trackstatechunk from clipboard to first selected track</li>
+<li>Developer Tools: ItemStateChunk_from_Clipboard_to_item_mouse.lua - gets itemstatechunk from clipboard to item under the mouse</li>
 <li>Developer Tools: ItemStateChunk_to_Clipboard_first_selected_item - puts statechunk of first selected item into clipboard</li>
 <li>Developer Tools: ItemStateChunk_to_Clipboard_item_under_mouse - puts statechunk of item under the mouse into clipboard</li>
 <li>Developer Tools: TrackStateChunk_to_Clipboard_first_selected_track - puts statechunk of first selected track into clipboard</li>
 <li>Developer Tools: TrackStateChunk_to_Clipboard_track_under_mouse - puts statechunk of track under the mouse into clipboard<br />
 </li>
+<li>Developer Tools: EnvelopeStateChunk_to_Clipboard_envelope_under_mouse - puts statechunk of envelope under the mouse into clipboard</li>
 <li>Docs: Reaper API-docs - added ReaImGui 0.4.1, OSARA 2021, ReaBlink 0.4.0</li>
+<li>Examplescript: US_Api_Examples_Visualize_VideoSamplePeekerJSFX.lua - displays the Video Sample Peeker-JSFX-values in a gfx-window</li>
 <li>GMem: GMem_Read_ValueRange - returns a value-range from gmem-values as a handy table</li>
 <li>GMem: GMem_GetValues_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets</li>
 <li>MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes</li>

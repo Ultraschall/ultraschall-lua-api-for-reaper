@@ -411,21 +411,55 @@ Has now 1400 functions, with 15 new ones
 
 **new in this release:**  
 
-  - **Bla**  
-  bla
+  - **Automation Items**  
+  You can get now the automation items by time and you can split them.  
   
+  - **State Inspector**  
+  Allows now using Ctrl+C and Ctrl+V to copy n paste statechunks from the statechunk-views. That way, you can easily get
+  and set statechunks for easier debugging.  
+  
+  - **Rendering**  
+  Razor Edits-rendering is now supported.  
+  
+  - **InputFX**  
+  All inputFX-functions allow now adressing inputfx of specific tracks.  
+  
+  - **GMEM**  
+  You can get now all gmems from a specific gmem-name. You can also get all values from the Video-Sample-Peeker-JSFX to do something with it, like visualizing.
+ 
+  - **Razor Edit**  
+  You can get all razor-edits from the current project as well as checking, whether there's any razor-edit at all.
+  
+  - **MetaData Presets**  
+  You can get now all metadata-entries from the metadata-presets. Will be enhanced in the future with additional functions.  
+  
+  - **Developer Tools**  
+  Get now the statechunk of items/envelopes/tracks underneath the mouse directly into the clipboard and put the statechunks from clipboard back into it.  
+  
+  - **BatchConverter**  
+  Works now, now that I fixed this stupid bug..cough...cough...
+  
+  - **Docs updates**  
+  Updated Docs to Reaper 6.29 and added ReaImGui, ReaBlink.
+  
+  - **Tons of bugfixes and stuff**  
   
 #### New features in 4.2.004  
   - Automation Items: AutomationItems\_GetByTime - gets all automation-items from an envelope at position(requested by AZpercussion)
   - Automation Items: AutomationItem\_Split - splits a specific automation-item from an envelope at position(requested by AZpercussion)
-  - Developer Tools: EnvelopeStateChunk\_to\_Clipboard\_envelope\_under\_mouse - puts statechunk of envelope under the mouse into clipboard
+  - Developer Tools: EnvelopeStateChunk\_from\_Clipboard\_envelope\_to\_under\_mouse.lua - gets envelopestatechunk from clipboard to envelope under the mouse
+  - Developer Tools: EnvelopeStateChunk\_from\_Clipboard\_to\_selected\_envelope.lua - gets envelope statechunk from clipboard to selected envelope
   - Developer Tools: EnvelopeStateChunk\_to\_Clipboard\_selected\_envelope - puts statechunk of selected envelope into clipboard
   - Developer Tools: Find\_Duplicated\_Lines\_In\_Clipboard - shows duplicated lines in the string in the clipboard
+  - Developer Tools: ItemStateChunk\_from\_Clipboard\_to\_first\_selected\_item.lua - gets trackstatechunk from clipboard to first selected track
+  - Developer Tools: ItemStateChunk\_from\_Clipboard\_to\_item\_mouse.lua - gets itemstatechunk from clipboard to item under the mouse
   - Developer Tools: ItemStateChunk\_to\_Clipboard\_first\_selected\_item - puts statechunk of first selected item into clipboard
   - Developer Tools: ItemStateChunk\_to\_Clipboard\_item\_under\_mouse - puts statechunk of item under the mouse into clipboard
   - Developer Tools: TrackStateChunk\_to\_Clipboard\_first\_selected\_track - puts statechunk of first selected track into clipboard
   - Developer Tools: TrackStateChunk\_to\_Clipboard\_track\_under\_mouse - puts statechunk of track under the mouse into clipboard   
+  - Developer Tools: EnvelopeStateChunk\_to\_Clipboard\_envelope\_under\_mouse - puts statechunk of envelope under the mouse into clipboard
   - Docs: Reaper API-docs - added ReaImGui 0.4.1, OSARA 2021, ReaBlink 0.4.0
+  - Examplescript: US\_Api\_Examples\_Visualize\_VideoSamplePeekerJSFX.lua - displays the Video Sample Peeker-JSFX-values in a gfx-window
   - GMem: GMem\_Read\_ValueRange - returns a value-range from gmem-values as a handy table
   - GMem: GMem\_GetValues\_VideoSamplePeeker - returns the samples as provided by the jsfx "video sample peeker", whose values are used by certain video processor presets
   - MediaItem-Management: ApplyActionToMediaItemTake - allows applying actions to MediaItemTakes

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43629.00" author="Meo Mespotine">
+      <version name="43633.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Changelog-Api.txt</source>
@@ -102,6 +102,7 @@
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Navigation_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Modules/ultraschall_functions_Navigation_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_ProjectManagement_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Modules/ultraschall_functions_ProjectManagement_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source>
+	<source file="/ultraschall_api/Modules/ultraschall_functions_RazorEdit_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Modules/ultraschall_functions_RazorEdit_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_ReaMote_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Modules/ultraschall_functions_ReaMote_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_ReaperUserInterface_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Render_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Modules/ultraschall_functions_Render_Module.lua</source>
@@ -150,6 +151,7 @@
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Render_Region_of_current_Project.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts_Examples/US_Api_Examples_Render_Region_of_current_Project.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_SetAliasNamesOfFX-Plugins.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts_Examples/US_Api_Examples_SetAliasNamesOfFX-Plugins.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Visualize_VideoSamplePeekerJSFX.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts_Examples/US_Api_Examples_Visualize_VideoSamplePeekerJSFX.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt</source>
@@ -366,6 +368,8 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Compare_LangPacks.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Compare_LangPacks.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-Config-Vars.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-Config-Vars.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-ConfigFile-Entries.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-ConfigFile-Entries.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_from_Clipboard_envelope_to_under_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_from_Clipboard_envelope_to_under_mouse.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_from_Clipboard_to_selected_envelope.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_from_Clipboard_to_selected_envelope.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_envelope_under_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_envelope_under_mouse.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_selected_envelope.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_selected_envelope.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Env_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Env_State_Diffs_Monitor.lua</source>
@@ -374,6 +378,8 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_GetPitchShiftModes.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_GetPitchShiftModes.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_gfx_deltablit_displayer.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_first_selected_item.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_first_selected_item.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_item_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_item_mouse.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_to_Clipboard_first_selected_item.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_to_Clipboard_first_selected_item.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_to_Clipboard_item_under_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_to_Clipboard_item_under_mouse.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Item_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Item_State_Diffs_Monitor.lua</source>
@@ -383,6 +389,8 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_SortLinesInClipboardText.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_SortLinesInClipboardText.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_StateInspector.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_StateInspector.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Theme_Parameter_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Theme_Parameter_Monitor.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_from_Clipboard_to_first_selected_track.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_from_Clipboard_to_first_selected_track.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_from_Clipboard_to_track_under_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_from_Clipboard_to_track_under_mouse.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_first_selected_track.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_first_selected_track.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Track_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.004/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Track_State_Diffs_Monitor.lua</source>
@@ -586,8 +594,46 @@ Has now 1400 functions, with 15 new ones
 
 new in this release:
 
--   Bla
-    bla
+-   Automation Items
+    You can get now the automation items by time and you can split them.
+
+-   State Inspector
+    Allows now using Ctrl+C and Ctrl+V to copy n paste statechunks from
+    the statechunk-views. That way, you can easily get and set
+    statechunks for easier debugging.
+
+-   Rendering
+    Razor Edits-rendering is now supported.
+
+-   InputFX
+    All inputFX-functions allow now adressing inputfx of specific
+    tracks.
+
+-   GMEM
+    You can get now all gmems from a specific gmem-name. You can also
+    get all values from the Video-Sample-Peeker-JSFX to do something
+    with it, like visualizing.
+
+-   Razor Edit
+    You can get all razor-edits from the current project as well as
+    checking, whether there’s any razor-edit at all.
+
+-   MetaData Presets
+    You can get now all metadata-entries from the metadata-presets. Will
+    be enhanced in the future with additional functions.
+
+-   Developer Tools
+    Get now the statechunk of items/envelopes/tracks underneath the
+    mouse directly into the clipboard and put the statechunks from
+    clipboard back into it.
+
+-   BatchConverter
+    Works now, now that I fixed this stupid bug..cough…cough…
+
+-   Docs updates
+    Updated Docs to Reaper 6.29 and added ReaImGui, ReaBlink.
+
+-   Tons of bugfixes and stuff
 
 New features in 4.2.004
 
@@ -598,12 +644,20 @@ New features in 4.2.004
     automation-item from an envelope at position(requested by
     AZpercussion)
 -   Developer Tools:
-    EnvelopeStateChunk_to_Clipboard_envelope_under_mouse - puts
-    statechunk of envelope under the mouse into clipboard
+    EnvelopeStateChunk_from_Clipboard_envelope_to_under_mouse.lua - gets
+    envelopestatechunk from clipboard to envelope under the mouse
+-   Developer Tools:
+    EnvelopeStateChunk_from_Clipboard_to_selected_envelope.lua - gets
+    envelope statechunk from clipboard to selected envelope
 -   Developer Tools: EnvelopeStateChunk_to_Clipboard_selected_envelope -
     puts statechunk of selected envelope into clipboard
 -   Developer Tools: Find_Duplicated_Lines_In_Clipboard - shows
     duplicated lines in the string in the clipboard
+-   Developer Tools:
+    ItemStateChunk_from_Clipboard_to_first_selected_item.lua - gets
+    trackstatechunk from clipboard to first selected track
+-   Developer Tools: ItemStateChunk_from_Clipboard_to_item_mouse.lua -
+    gets itemstatechunk from clipboard to item under the mouse
 -   Developer Tools: ItemStateChunk_to_Clipboard_first_selected_item -
     puts statechunk of first selected item into clipboard
 -   Developer Tools: ItemStateChunk_to_Clipboard_item_under_mouse - puts
@@ -612,8 +666,13 @@ New features in 4.2.004
     puts statechunk of first selected track into clipboard
 -   Developer Tools: TrackStateChunk_to_Clipboard_track_under_mouse -
     puts statechunk of track under the mouse into clipboard
+-   Developer Tools:
+    EnvelopeStateChunk_to_Clipboard_envelope_under_mouse - puts
+    statechunk of envelope under the mouse into clipboard
 -   Docs: Reaper API-docs - added ReaImGui 0.4.1, OSARA 2021, ReaBlink
     0.4.0
+-   Examplescript: US_Api_Examples_Visualize_VideoSamplePeekerJSFX.lua -
+    displays the Video Sample Peeker-JSFX-values in a gfx-window
 -   GMem: GMem_Read_ValueRange - returns a value-range from gmem-values
     as a handy table
 -   GMem: GMem_GetValues_VideoSamplePeeker - returns the samples as
@@ -7983,7 +8042,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1411 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43629 from 11.06.2021 20:04:27).}
+a 1400 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -7997,7 +8056,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1411 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1400 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -8121,7 +8180,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1411 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43629 from 11.06.2021 20:04:27).}
+a 1400 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -8135,7 +8194,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1411 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1400 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
