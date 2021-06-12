@@ -405,6 +405,24 @@ Doesn't work on Windows 7???
 
 ## Ultraschall Framework - Changelog
 
+### 4.2.005 - "" - XXth of XXXX 2021
+
+Has now 1400 functions, with 15 new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  BlaBla  
+  
+  
+#### New features in 4.2.004  
+  
+  
+#### Changes from 4.2.003 to 4.2.004    
+
+
+---
+
 ### 4.2.004 - "Grandma - kl" - 12th of June 2021
 
 Has now 1400 functions, with 15 new ones
@@ -545,8 +563,7 @@ Has now 1400 functions, with 15 new ones
   - Rendering: ApplyRenderTable\_ProjectFile - changed a value of the provided RenderTable, which shouldn't happen -> fixed
   - TrackManagement: GetTrackGroupFlagsState - returns now the table with all 23-entries, even if some checkboxes aren't set in any group
   - TrackManagement: GetTrackGroupFlags\_HighState  - returns now the table with all 23-entries, even if some checkboxes aren't set in any group
-  
-  
+    
   
 ---
 
