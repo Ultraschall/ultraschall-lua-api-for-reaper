@@ -1481,4 +1481,68 @@ end
 
 
 
+function ultraschall.CalculateLoudness(mode, timeselection)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CalculateLoudness</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.30
+    Lua=5.3
+  </requires>
+  <functioncall>string filename, string peak, string clip, string rms, string lrange, string lufs_i = ultraschall.CalculateLoudness(integer mode, boolean timeselection)</functioncall>
+  <description>
+    Calculates the loudness of items and tracks or returns the loundness of last render/dry-render.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string filename - the filename, that would be rendered
+    string peak - the peak of the rendered element
+    string clip - the clipping of the rendered element
+    string rms - the rms of the rendered element
+    string lrange - the lrange of the rendered element
+    string lufs_i - the lufs-i of the rendered element
+  </retvals>
+  <parameters>
+    integer mode - -1, return loundness-stats of the last render/dry render
+                 - 0, calculate loundness-stats of selected media items
+                 - 1, calculate loundness-stats of master track
+                 - 2, calculate loundness-stats of selected tracks
+    boolean timeselection - shall loundness calculation only be within time-selection?
+                          - only with mode 1 and 2; if no time-selection is given, use entire track
+                          - false, calculate loundness within the entire tracks;
+                          - true, calculate loudness-stats within time-selection
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Loudness Calculation
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>projectfiles, compare, rendertable</tags>
+</US_DocBloc>
+]]
+  -- FILE-management can be improved for dry-rendering, probably...
+  if math.type(mode)~="integer" then ultraschall.AddErrorMessage("CalculateLoudness", "mode", "must be an integer", -1) return end
+  if type(timeselection)~="boolean" then ultraschall.AddErrorMessage("CalculateLoudness", "timeselection", "must be a boolean", -2) return end
+  
+  if     mode==-1 then mode=""
+  elseif mode==0 then mode=42437
+  elseif mode==1 and timeselection==false then mode=42440
+  elseif mode==1 and timeselection==true  then mode=42441
+  elseif mode==2 and timeselection==false then mode=42438
+  elseif mode==2 and timeselection==true  then mode=42439
+  end
+  local retval, RenderStats=reaper.GetSetProjectInfo_String(0, "RENDER_STATS", mode, false)
+  RenderStats=RenderStats..";"
+  local A={RenderStats:match("FILE:(.-);PEAK:(.-);CLIP:(.-);RMSI:(.-);LRA:(.-);LUFSI:(.-);")}  
+  if A[1]==nil then
+    return RenderStats:sub(6,-1), "-inf", 0, "-inf", 0.0, "-inf"
+  else
+    return table.unpack(A)
+  end
+end
 
+
+--A={ultraschall.CalculateLoudness(0, true)}

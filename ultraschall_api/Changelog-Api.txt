@@ -415,10 +415,10 @@ Has now 1400 functions, with 15 new ones
   BlaBla  
   
   
-#### New features in 4.2.004  
+#### New features in 4.2.005  
+  - Rendering: CalculateLoudness - calculates loundness of tracks/items and returns its stats
   
-  
-#### Changes from 4.2.003 to 4.2.004    
+#### Changes from 4.2.004 to 4.2.005  
 
 
 ---
