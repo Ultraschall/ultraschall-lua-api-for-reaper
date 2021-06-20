@@ -1535,13 +1535,28 @@ function ultraschall.CalculateLoudness(mode, timeselection)
   elseif mode==2 and timeselection==true  then mode=42439
   end
   local retval, RenderStats=reaper.GetSetProjectInfo_String(0, "RENDER_STATS", mode, false)
-  RenderStats=RenderStats..";"
-  local A={RenderStats:match("FILE:(.-);PEAK:(.-);CLIP:(.-);RMSI:(.-);LRA:(.-);LUFSI:(.-);")}  
-  if A[1]==nil then
-    return RenderStats:sub(6,-1), "-inf", 0, "-inf", 0.0, "-inf"
-  else
-    return table.unpack(A)
-  end
+  local RenderStats=RenderStats..";"
+  --[[FILE:D:\Users\Meo-Ada Mespotine\Documents\REAPER Media\untitled.wav;
+  PEAK:-8.430650;
+  RMSI:-32.697797;
+  LRA:0.000000;
+  LUFSI:-18.199355;
+  --]]
+  --A={RenderStats:match("FILE:(.-);PEAK:(.-);RMSI:(.-);LRA:(.-);LUFSI:(.-);")}  
+  local FILE, PEAK, CLIP, RMSI, LRA, LUFSI
+  FILE=RenderStats:match("FILE:(.-);")
+  PEAK=RenderStats:match("PEAK:(.-);")
+  if PEAK==nil then PEAK="-inf" end
+  CLIP=RenderStats:match("CLIP:(.-);")
+  if CLIP==nil then CLIP="0" end
+  RMSI=RenderStats:match("RMSI:(.-);")
+  if RMSI==nil then RMSI="-inf" end
+  LRA=RenderStats:match("LRA:(.-);")
+  if LRA==nil then LRA="-inf" end
+  LUFSI=RenderStats:match("LUFSI:(.-);")
+  if LUFSI==nil then LUFSI="-inf" end
+
+  return FILE, PEAK, CLIP, RMSI, LRA, LUFSI
 end
 
 
