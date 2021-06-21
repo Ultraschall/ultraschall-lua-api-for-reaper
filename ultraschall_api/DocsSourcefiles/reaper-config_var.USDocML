@@ -3,7 +3,7 @@
       <slug>Introduction</slug>  
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.24 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 6.30 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -8569,6 +8569,59 @@
            >everything else, the render-samplerate in Hz  
             
             
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projrendernorm</slug>  
+      <title>projrendernorm</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The Rendering-Normalize checkbox and normalize-mode, as set in the Normalize-button of the Render to File-dialog  
+          Can only be set, when the Render to File-dialog isn't open.
+          It is an integer-bitfield  
+          
+           >&1=0, Nomalize to-checkbox - unchecked  
+           >&1=1, Nomalize to-checkbox - checked  
+            
+           >&2 &4 &8, the normalize to-dropdownlist
+           
+           >> 0 0 0, LUFS-I  
+           >> 1 0 0, RMS-I  
+           >> 0 1 0, Peak  
+           >> 1 1 0, True Peak  
+           >> 0 0 1, LUFS-M max  
+           >> 1 0 1, LUFS-S max  
+            
+           >&32=0, Nomalize stems to master target-checkbox(only available with source -> Master mix + stems) - unchecked  
+           >&32=1, Nomalize stems to master target-checkbox(only available with source -> Master mix + stems) - checked  
+           
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projrendernormtgt</slug>  
+      <title>projrendernormtgt</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The Rendering-Normalize target, as set in the Normalize-button of the Render to File-dialog  
+          The value must be converted from MK 2 Volume-value. Refer to Ultraschall-API's convert-function MKVOL2DB and DB2MKVOL to convert it to/from DB.  
+          Can only be set, when the Render to File-dialog isn't open.
+          It is a double-float  
+          
+          >3.1622776601684e-008(-150dB) to 1.7968010801735e+308(+6165.09dB); 1.0(0dB), 3.981071705535(+12dB)
+          >higher values go to infinite, lower values seem to revert to -44
+           
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  

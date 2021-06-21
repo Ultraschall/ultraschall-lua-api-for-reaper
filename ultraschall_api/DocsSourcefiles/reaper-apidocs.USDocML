@@ -4865,17 +4865,21 @@
         <functioncall prog_lang="lua">number retval = reaper.GetEnvelopeInfo_Value(TrackEnvelope env, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetEnvelopeInfo_Value(TrackEnvelope env, String parmname)</functioncall>
         <requires>
-            Reaper=5.982
+            Reaper=6.30
         </requires>
         <description prog_lang="*">
             Gets an envelope numerical-value attribute:
-                I_TCPY : int *, Y offset of envelope relative to parent track (may be separate lane or overlap with track contents)
-                I_TCPH : int *, visible height of envelope
-                I_TCPY_USED : int *, Y offset of envelope relative to parent track, exclusive of padding
-                I_TCPH_USED : int *, visible height of envelope, exclusive of padding
-                P_TRACK : MediaTrack *, parent track pointer (if any)
-                P_ITEM : MediaItem *, parent item pointer (if any)
-                P_TAKE : MediaItem_Take *, parent take pointer (if any)
+                I_TCPY : int : Y offset of envelope relative to parent track (may be separate lane or overlap with track contents)
+                I_TCPH : int : visible height of envelope
+                I_TCPY_USED : int : Y offset of envelope relative to parent track, exclusive of padding
+                I_TCPH_USED : int : visible height of envelope, exclusive of padding
+                P_TRACK : MediaTrack * : parent track pointer (if any)
+                P_DESTTRACK : MediaTrack * : destination track pointer, if on a send
+                P_ITEM : MediaItem * : parent item pointer (if any)
+                P_TAKE : MediaItem_Take * : parent take pointer (if any)
+                I_SEND_IDX : int : 1-based index of send in P_TRACK, or 0 if not a send
+                I_HWOUT_IDX : int : 1-based index of hardware output in P_TRACK or 0 if not a hardware output
+                I_RECV_IDX : int : 1-based index of receive in P_DESTTRACK or 0 if not a send/receive
         </description>
         <retvals>
             number retval - the returned value of the attribute
@@ -4883,8 +4887,7 @@
         <parameters>
             TrackEnvelope env - the TrackEnvelope, of which you want to retrieve the attribute-value
             string parmname - the attribute, whose value you want; 
-                            - can be I_TCPY, I_TCPH, I_TCPY_USED, I_TCPH_USED, P_TRACK, P_ITEM, P_TAKE
-                            - see description for more details
+                            - see description for the attributes you can use for more details
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -5913,45 +5916,47 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaItemInfo_Value(MediaItem item, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaItemInfo_Value(MediaItem item, String parmname)</functioncall>
         <requires>
-            Reaper=6.01
+            Reaper=6.30
         </requires>
         <description prog_lang="*">
             Get media item numerical-value attributes.
+                B_MUTE : bool * : muted (item solo overrides). setting this value will clear C_MUTE_SOLO.
+                B_MUTE_ACTUAL : bool * : muted (ignores solo). setting this value will not affect C_MUTE_SOLO.
+                C_MUTE_SOLO : char * : solo override (-1=soloed, 0=no override, 1=unsoloed). note that this API does not automatically unsolo other items when soloing (nor clear the unsolos when clearing the last soloed item), it must be done by the caller via action or via this API.
+                B_LOOPSRC : bool * : loop source
+                B_ALLTAKESPLAY : bool * : all takes play
+                B_UISEL : bool * : selected in arrange view
+                C_BEATATTACHMODE : char * : item timebase, -1=track or project default, 1=beats (position, length, rate), 2=beats (position only). for auto-stretch timebase: C_BEATATTACHMODE=1, C_AUTOSTRETCH=1
+                C_AUTOSTRETCH: : char * : auto-stretch at project tempo changes, 1=enabled, requires C_BEATATTACHMODE=1
+                C_LOCK : char * : locked, &amp;1=locked, &amp;2=lock to active take
+                D_VOL : double * : item volume, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
+                D_POSITION : double * : item position in seconds
+                D_LENGTH : double * : item length in seconds
+                D_SNAPOFFSET : double * : item snap offset in seconds
+                D_FADEINLEN : double * : item manual fadein length in seconds
+                D_FADEOUTLEN : double * : item manual fadeout length in seconds
+                D_FADEINDIR : double * : item fadein curvature, -1..1
+                D_FADEOUTDIR : double * : item fadeout curvature, -1..1
+                D_FADEINLEN_AUTO : double * : item auto-fadein length in seconds, -1=no auto-fadein
+                D_FADEOUTLEN_AUTO : double * : item auto-fadeout length in seconds, -1=no auto-fadeout
+                C_FADEINSHAPE : int * : fadein shape, 0..6, 0=linear
+                C_FADEOUTSHAPE : int * : fadeout shape, 0..6, 0=linear
+                I_GROUPID : int * : group ID, 0=no group
+                I_LASTY : int * : Y-position of track in pixels (read-only)
+                I_LASTH : int * : height in track in pixels (read-only)
+                I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color
+                I_CURTAKE : int * : active take number
+                IP_ITEMNUMBER : int : item number on this track (read-only, returns the item number directly)
+                F_FREEMODE_Y : float * : free item positioning Y-position, 0=top of track, 1=bottom of track (will never be 1)
+                F_FREEMODE_H : float * : free item positioning height, 0=no height, 1=full height of track (will never be 0)
+                P_TRACK : MediaTrack * : (read-only)
         </description>
         <retvals>
             number retval - the value you requested
         </retvals>
         <parameters>
             MediaItem item - the MediaItem, whose value you want to have
-            string parmname - the parametername, whose value you want to have:
-                            - B_MUTE : bool * : muted
-                            - B_LOOPSRC : bool * : loop source
-                            - B_ALLTAKESPLAY : bool * : all takes play
-                            - B_UISEL : bool * : selected in arrange view
-                            - C_BEATATTACHMODE : char * : item timebase, -1=track or project default, 1=beats (position, length, rate), 2=beats (position only). for auto-stretch timebase: C_BEATATTACHMODE=1, C_AUTOSTRETCH=1
-                            - C_AUTOSTRETCH: : char * : auto-stretch at project tempo changes, 1=enabled, requires C_BEATATTACHMODE=1
-                            - C_LOCK : char * : locked, &1=locked, &2=lock to active take
-                            - D_VOL : double * : item volume, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
-                            - D_POSITION : double * : item position in seconds
-                            - D_LENGTH : double * : item length in seconds
-                            - D_SNAPOFFSET : double * : item snap offset in seconds
-                            - D_FADEINLEN : double * : item manual fadein length in seconds
-                            - D_FADEOUTLEN : double * : item manual fadeout length in seconds
-                            - D_FADEINDIR : double * : item fadein curvature, -1..1
-                            - D_FADEOUTDIR : double * : item fadeout curvature, -1..1
-                            - D_FADEINLEN_AUTO : double * : item auto-fadein length in seconds, -1=no auto-fadein
-                            - D_FADEOUTLEN_AUTO : double * : item auto-fadeout length in seconds, -1=no auto-fadeout
-                            - C_FADEINSHAPE : int * : fadein shape, 0..6, 0=linear
-                            - C_FADEOUTSHAPE : int * : fadeout shape, 0..6, 0=linear
-                            - I_GROUPID : int * : group ID, 0=no group
-                            - I_LASTY : int * : Y-position of track in pixels (read-only)
-                            - I_LASTH : int * : height in track in pixels (read-only)
-                            - I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.
-                            - I_CURTAKE : int * : active take number
-                            - IP_ITEMNUMBER : int, item number on this track (read-only, returns the item number directly)
-                            - F_FREEMODE_Y : float * : free item positioning Y-position, 0=top of track, 1=bottom of track (will never be 1)
-                            - F_FREEMODE_H : float * : free item positioning height, 0=no height, 1=full height of track (will never be 0)
-                            - P_TRACK : MediaTrack * (read-only)
+            string parmname - the parametername, whose value you want to have; refer description for more details
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -6401,7 +6406,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
-            Reaper=6.24
+            Reaper=6.30
         </requires>
         <description prog_lang="*">
             Get track numerical-value attributes.
@@ -6410,12 +6415,14 @@
             B_RECMON_IN_EFFECT : bool * : record monitoring in effect (current audio-thread playback state, read-only)
             IP_TRACKNUMBER : int : track number 1-based, 0=not found, -1=master track (read-only, returns the int directly)
             I_SOLO : int * : soloed, 0=not soloed, 1=soloed, 2=soloed in place, 5=safe soloed, 6=safe soloed in place
+            B_SOLO_DEFEAT : bool * : when set, if anything else is soloed and this track is not muted, this track acts soloed
             I_FXEN : int * : fx enabled, 0=bypassed, !0=fx active
             I_RECARM : int * : record armed, 0=not record armed, 1=record armed
             I_RECINPUT : int * : record input, &lt;0=no input. if 4096 set, input is MIDI and low 5 bits represent channel (0=all, 1-16=only chan), next 6 bits represent physical input (63=all, 62=VKB). If 4096 is not set, low 10 bits (0..1023) are input start channel (ReaRoute/Loopback start at 512). If 2048 is set, input is multichannel input (using track channel count), or if 1024 is set, input is stereo input, otherwise input is mono.
             I_RECMODE : int * : record mode, 0=input, 1=stereo out, 2=none, 3=stereo out w/latency compensation, 4=midi output, 5=mono out, 6=mono out w/ latency compensation, 7=midi overdub, 8=midi replace
             I_RECMON : int * : record monitoring, 0=off, 1=normal, 2=not when playing (tape style)
             I_RECMONITEMS : int * : monitor items while recording, 0=off, 1=on
+            B_AUTO_RECARM : bool * : automatically set record arm when selected (does not immediately affect recarm state, script should set directly if desired)
             I_AUTOMODE : int * : track automation mode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch
             I_NCHAN : int * : number of track channels, 2-64, even numbers only
             I_SELECTED : int * : track selected, 0=unselected, 1=selected
@@ -6429,7 +6436,7 @@
             I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children
             I_MIDIHWOUT : int * : track midi hardware output index, &lt;0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
-            I_PERFFLAGS : int * : track performance flags, &1=no media buffering, &2=no anticipative FX
+            I_PERFFLAGS : int * : track performance flags, &amp;1=no media buffering, &amp;2=no anticipative FX
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.
             I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
             B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
@@ -6440,7 +6447,7 @@
             D_DUALPANR : double * : dualpan position 2, -1..1, only if I_PANMODE==6
             I_PANMODE : int * : pan mode, 0=classic 3.x, 3=new balance, 5=stereo pan, 6=dual pan
             D_PANLAW : double * : pan law of track, &lt;0=project default, 1=+0dB, etc
-            P_ENV:&lt;envchunkname or P_ENV:{GUID... : TrackEnvelope*, read only. chunkname can be &lt;VOLENV, &lt;PANENV, etc; GUID is the stringified envelope GUID.
+            P_ENV:&amp;envchunkname or P_ENV:{GUID... : TrackEnvelope * : (read-only) chunkname can be &amp;VOLENV, &amp;PANENV, etc; GUID is the stringified envelope GUID
             B_SHOWINMIXER : bool * : track control panel visible in mixer (do not use on master track)
             B_SHOWINTCP : bool * : track control panel visible in arrange view (do not use on master track)
             B_MAINSEND : bool * : track sends audio to parent
@@ -7688,13 +7695,13 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetAutomationItemInfo_String(TrackEnvelope env, integer autoitem_idx, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope env, Int autoitem_idx, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetAutomationItemInfo_String(env, autoitem_idx, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=6.30
         </requires>
         <description prog_lang="*">
             Get or set automation item information. autoitem_idx=0 for the first automation item on an envelope, 1 for the second item, etc. returns true on success. desc can be any of the following:
             
-            P_POOL_NAME : char *, name of the underlying automation item pool
-            P_POOL_EXT:xyz : char *, extension-specific persistent data
+            P_POOL_NAME : char * : name of the underlying automation item pool
+            P_POOL_EXT:xyz : char * : extension-specific persistent data
         </description>
         <retvals>
             boolean retval - true, getting/setting the value was successful; falsem getting/setting the value was unsuccessful
@@ -8045,24 +8052,26 @@
         <functioncall prog_lang="lua">number value = reaper.GetSetProjectInfo(ReaProject project, string desc, number value, boolean is_set)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetSetProjectInfo(ReaProject project, String desc, Float value, Boolean is_set)</functioncall>
         <requires>
-            Reaper=6.20
+            Reaper=6.30
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get or set project information.
  
-            RENDER\_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp; 128=Selected tracks via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;512=Embed Metadata, if format supports is, &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master); &amp;2048=2nd pass render
-            OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using [GetSetProjectInfo\_String](#GetSetProjectInfo_String).
-            RENDER\_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions
-            RENDER\_CHANNELS : number of channels in rendered file
-            RENDER\_SRATE : sample rate of rendered file (or 0 for project sample rate)
-            RENDER\_STARTPOS : render start time when RENDER\_BOUNDSFLAG=0
-            RENDER\_ENDPOS : render end time when RENDER\_BOUNDSFLAG=0
-            RENDER\_TAILFLAG : apply render tail setting when rendering: &amp;1=custom time bounds, &amp;2=entire project, &amp;4=time selection, &amp;8=all project regions, &amp;16=selected media items, &amp;32=selected project regions
-            RENDER\_TAILMS : tail length in ms to render (only used if RENDER\_BOUNDSFLAG and RENDER\_TAILFLAG are set)
-            RENDER\_ADDTOPROJ : &amp;1=add rendered files to project, &amp;2=Do not render files that are likely silent
-            RENDER\_DITHER : &amp;1=dither, &amp;2=noise shaping, &amp;4=dither stems, &amp;8=noise shaping on stems
-            PROJECT\_SRATE : samplerate (ignored unless PROJECT\_SRATE\_USE set)
-            PROJECT\_SRATE\_USE : set to 1 if project samplerate is used
+            RENDER\_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp; 128=Selected tracks via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;512=Embed Metadata, if format supports is, &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master); &amp;2048=2nd pass render  
+            OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using [GetSetProjectInfo\_String](#GetSetProjectInfo_String).  
+            RENDER\_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions  
+            RENDER\_CHANNELS : number of channels in rendered file  
+            RENDER\_SRATE : sample rate of rendered file (or 0 for project sample rate)  
+            RENDER\_STARTPOS : render start time when RENDER\_BOUNDSFLAG=0  
+            RENDER\_ENDPOS : render end time when RENDER\_BOUNDSFLAG=0  
+            RENDER\_TAILFLAG : apply render tail setting when rendering: &amp;1=custom time bounds, &amp;2=entire project, &amp;4=time selection, &amp;8=all project regions, &amp;16=selected media items, &amp;32=selected project regions  
+            RENDER\_TAILMS : tail length in ms to render (only used if RENDER\_BOUNDSFLAG and RENDER\_TAILFLAG are set)  
+            RENDER\_ADDTOPROJ : &amp;1=add rendered files to project, &amp;2=Do not render files that are likely silent  
+            RENDER\_DITHER : &amp;1=dither, &amp;2=noise shaping, &amp;4=dither stems, &amp;8=noise shaping on stems  
+            RENDER\_NORMALIZE: &amp;1=enable, (&amp;6==0)=LUFS, (&amp;6==2)=RMS, (&amp;6==4)=peak, (&amp;6==6)=true peak  
+            RENDER\_NORMALIZE\_TARGET: render normalization target as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc  
+            PROJECT\_SRATE : samplerate (ignored unless PROJECT\_SRATE\_USE set)  
+            PROJECT\_SRATE\_USE : set to 1 if project samplerate is used  
         </description>
         <retvals>
             number value - the new/current value set with this attribute
@@ -8089,7 +8098,7 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetProjectInfo_String(ReaProject project, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject project, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetProjectInfo_String(project, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=6.29
+            Reaper=6.30
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get or set project information.
@@ -8099,7 +8108,9 @@
             RECORD\_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)
             RENDER\_FILE: render directory
             RENDER\_PATTERN: render file name (may contain wildcards)
+            RENDER\_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is_set=false to get a semicolon-separated list of defined project metadata identifiers.
 			RENDER\_TARGETS: semicolon separated list of files that would be written if the project is rendered using the most recent render settings
+            RENDER\_STATS : (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.
             RENDER\_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.
             RENDER\_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.
             see [render-code-documentation](render-codes-decoded-base64-strings.txt) for how the unencoded RENDER\_FORMAT-string is structured.
@@ -9432,7 +9443,7 @@
         <functioncall prog_lang="lua">number = reaper.GetTrackSendInfo_Value(MediaTrack tr, integer category, integer sendidx, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetTrackSendInfo_Value(MediaTrack tr, Int category, Int sendidx, String parmname)</functioncall>
         <requires>
-            Reaper=5.974
+            Reaper=6.30
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get send/receive/hardware output numerical-value attributes.
@@ -9440,18 +9451,19 @@
             parameter names:
             
                 B\_MUTE : bool \*
-                B\_PHASE : bool \*, true to flip phase
+                B\_PHASE : bool \* : true to flip phase
                 B\_MONO : bool \*
-                D\_VOL : double \*, 1.0 = +0dB etc
-                D\_PAN : double \*, -1..+1
-                D\_PANLAW : double \*,1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
-                I\_SENDMODE : int \*, 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
+                D\_VOL : double \* : 1.0 = +0dB etc
+                D\_PAN : double \* : -1..+1
+                D\_PANLAW : double \* : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
+                I\_SENDMODE : int \* : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
                 I\_AUTOMODE : int \* : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-                I\_SRCCHAN : int \*, index,&amp;1024=mono, -1 for none
-                I\_DSTCHAN : int \*, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
-                I\_MIDIFLAGS : int \*, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanP_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
-                P\_SRCTRACK : read only, returns MediaTrack *, source track, only applies for sends/recvs
-                P\_ENV:&lt;envchunkname : read only, returns TrackEnvelope *. To get a specific TrackEnvelope, call with :&lt;VOLENV, :&lt;PANENV, etc appended.
+                I\_SRCCHAN : int \* : index,&amp;1024=mono, -1 for none
+                I\_DSTCHAN : int \* : index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
+                I\_MIDIFLAGS : int \* : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanP_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
+                P\_DESTTRACK : MediaTrack * : destination track, only applies for sends/recvs (read-only)
+                P\_SRCTRACK : MediaTrack * : source track, only applies for sends/recvs (read-only)
+                P\_ENV:&amp;envchunkname : TrackEnvelope * : call with :&amp;VOLENV, :&amp;PANENV, etc appended (read-only)
         
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         
@@ -14523,7 +14535,7 @@
             B_UISEL : bool * : selected in arrange view
             C_BEATATTACHMODE : char * : item timebase, -1=track or project default, 1=beats (position, length, rate), 2=beats (position only). for auto-stretch timebase: C_BEATATTACHMODE=1, C_AUTOSTRETCH=1
             C_AUTOSTRETCH: : char * : auto-stretch at project tempo changes, 1=enabled, requires C_BEATATTACHMODE=1
-            C_LOCK : char * : locked, &1=locked, &2=lock to active take
+            C_LOCK : char * : locked, &amp;1=locked, &amp;2=lock to active take
             D_VOL : double * : item volume, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
             D_POSITION : double * : item position in seconds
             D_LENGTH : double * : item length in seconds
@@ -14541,7 +14553,7 @@
             I_LASTH : int * : height in track in pixels (read-only)
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.
             I_CURTAKE : int * : active take number
-            IP_ITEMNUMBER : int, item number on this track (read-only, returns the item number directly)
+            IP_ITEMNUMBER : int : item number on this track (read-only, returns the item number directly)
             F_FREEMODE_Y : float * : free item positioning Y-position, 0=top of track, 1=bottom of track (will never be 1)
             F_FREEMODE_H : float * : free item positioning height, 0=no height, 1=full height of track (will never be 0)
         </description>
@@ -14722,7 +14734,7 @@
         <functioncall prog_lang="lua">boolean = reaper.SetMediaTrackInfo_Value(MediaTrack tr, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaTrackInfo_Value(MediaTrack tr, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=6.24
+            Reaper=6.30
         </requires>
         <description>
             Set track numerical-value attributes.
@@ -14731,12 +14743,14 @@
             B_RECMON_IN_EFFECT : bool * : record monitoring in effect (current audio-thread playback state, read-only)
             IP_TRACKNUMBER : int : track number 1-based, 0=not found, -1=master track (read-only, returns the int directly)
             I_SOLO : int * : soloed, 0=not soloed, 1=soloed, 2=soloed in place, 5=safe soloed, 6=safe soloed in place
+            B_SOLO_DEFEAT : bool * : when set, if anything else is soloed and this track is not muted, this track acts soloed
             I_FXEN : int * : fx enabled, 0=bypassed, !0=fx active
             I_RECARM : int * : record armed, 0=not record armed, 1=record armed
             I_RECINPUT : int * : record input, &lt;0=no input. if 4096 set, input is MIDI and low 5 bits represent channel (0=all, 1-16=only chan), next 6 bits represent physical input (63=all, 62=VKB). If 4096 is not set, low 10 bits (0..1023) are input start channel (ReaRoute/Loopback start at 512). If 2048 is set, input is multichannel input (using track channel count), or if 1024 is set, input is stereo input, otherwise input is mono.
             I_RECMODE : int * : record mode, 0=input, 1=stereo out, 2=none, 3=stereo out w/latency compensation, 4=midi output, 5=mono out, 6=mono out w/ latency compensation, 7=midi overdub, 8=midi replace
             I_RECMON : int * : record monitoring, 0=off, 1=normal, 2=not when playing (tape style)
             I_RECMONITEMS : int * : monitor items while recording, 0=off, 1=on
+            B_AUTO_RECARM : bool * : automatically set record arm when selected (does not immediately affect recarm state, script should set directly if desired)
             I_AUTOMODE : int * : track automation mode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch
             I_NCHAN : int * : number of track channels, 2-64, even numbers only
             I_SELECTED : int * : track selected, 0=unselected, 1=selected
@@ -14750,7 +14764,7 @@
             I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children
             I_MIDIHWOUT : int * : track midi hardware output index, &lt;0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
-            I_PERFFLAGS : int * : track performance flags, &1=no media buffering, &2=no anticipative FX
+            I_PERFFLAGS : int * : track performance flags, &amp;1=no media buffering, &amp;2=no anticipative FX
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color
             I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
             B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
@@ -14761,7 +14775,7 @@
             D_DUALPANR : double * : dualpan position 2, -1..1, only if I_PANMODE==6
             I_PANMODE : int * : pan mode, 0=classic 3.x, 3=new balance, 5=stereo pan, 6=dual pan
             D_PANLAW : double * : pan law of track, &lt;0=project default, 1=+0dB, etc
-            P_ENV:&lt;envchunkname or P_ENV:{GUID... : TrackEnvelope*, read only. chunkname can be &lt;VOLENV, &lt;PANENV, etc; GUID is the stringified envelope GUID.
+            P_ENV:&lt;envchunkname or P_ENV:{GUID... : TrackEnvelope* : read only. Chunkname can be &lt;VOLENV, &lt;PANENV, etc; GUID is the stringified envelope GUID.
             B_SHOWINMIXER : bool * : track control panel visible in mixer (do not use on master track)
             B_SHOWINTCP : bool * : track control panel visible in arrange view (do not use on master track)
             B_MAINSEND : bool * : track sends audio to parent
@@ -14772,16 +14786,16 @@
             F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
             F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=minimum allowed, 1=maximum allowed)
             F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)
-            I_PLAY_OFFSET_FLAG : int * : track playback offset state, &1=bypassed, &2=offset value is measured in samples (otherwise measured in seconds)
+            I_PLAY_OFFSET_FLAG : int * : track playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
             D_PLAY_OFFSET : double * : track playback offset, units depend on I_PLAY_OFFSET_FLAG
         </description>
         <retvals>
             boolean - 
         </retvals>
         <parameters>
-            tr - 
-            parmname - 
-            newvalue - 
+            MediaTrack tr - the track, whose parameter you want to set
+            string parmname - the parameter, that you want to set; refer description for possible attributes
+            number newvalue - the new value, that you want to set
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -15925,16 +15939,16 @@
             parameter names:
 
                 B\_MUTE : bool \*
-                B\_PHASE : bool \*, true to flip phase
+                B\_PHASE : bool \* : true to flip phase
                 B\_MONO : bool \*
-                D\_VOL : double \*, 1.0 = +0dB etc
-                D\_PAN : double \*, -1..+1
-                D\_PANLAW : double \*,1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
-                I\_SENDMODE : int \*, 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
+                D\_VOL : double \* : 1.0 = +0dB etc
+                D\_PAN : double \* : -1..+1
+                D\_PANLAW : double \* : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
+                I\_SENDMODE : int \* : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
                 I\_AUTOMODE : int \* : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-                I\_SRCCHAN : int \*, index,&amp;1024=mono, -1 for none
-                I\_DSTCHAN : int \*, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
-                I\_MIDIFLAGS : int \*, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanSee [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
+                I\_SRCCHAN : int \* : index,&amp;1024=mono, -1 for none
+                I\_DSTCHAN : int \* : index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
+                I\_MIDIFLAGS : int \* : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanSee [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
 
 
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
@@ -15942,14 +15956,14 @@
             See [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
         </description>
         <retvals>
-            boolean - 
+            boolean - true, setting value was successful; false, setting value was unsuccessful
         </retvals>
         <parameters>
-            tr - 
-            category - 
-            sendidx - 
-            parmname - 
-            newvalue - 
+            MediaTrack tr - the track, whose routing-attribute you want to set
+            integer category - the category of the routing to set; &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
+            integer sendidx - the index of the routing-entry that you want to set
+            string parmname - the name of the parameter, that you want to set
+            number newvalue - the new value to set
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -19584,14 +19598,14 @@
             Reaper=5.95
         </requires>
         <description prog_lang="*">
-            Copies (or moves) FX from src_take to dest_take. Can be used with src_track=dest_track to reorder. 
+            Copies (or moves) FX from src_take to dest_take. Can be used with src_take=dest_take to reorder. 
         </description>
         <parameters>
-            MediaItem_Take src_take - 
-            integer src_fx - 
-            MediaItem_Take dest_take - 
-            integer dest_fx - 
-            boolean is_move -
+            MediaItem_Take src_take - the source-take, from which you want to copy an fx
+            integer src_fx - the index of the source-fx
+            MediaItem_Take dest_take - the destination-take, to which you want to copy an fx 
+            integer dest_fx - the index of the target-fx
+            boolean is_move - true, move fx from source to destination-take; false, just copy fx from source to destination-take
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>

@@ -1481,7 +1481,12 @@ end
 
 
 
-function ultraschall.CalculateLoudness(mode, timeselection)
+function ultraschall.CalculateLoudness(mode, timeselection, trackstring)
+-- TODO!!
+-- multiple tracks, items can be returned by GetSetProjectInfo_String, when items/tracks are selected
+-- function currently only supports one, the first one. Please boost it up a little....
+--
+-- Check trackstring-management.
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CalculateLoudness</slug>
@@ -1533,16 +1538,16 @@ function ultraschall.CalculateLoudness(mode, timeselection)
   elseif mode==1 and timeselection==true  then mode=42441
   elseif mode==2 and timeselection==false then mode=42438
   elseif mode==2 and timeselection==true  then mode=42439
+  end  
+  
+  local oldtrackstring  
+  if mode==2 then
+    oldtrackstring = ultraschall.CreateTrackString_SelectedTracks()
+    ultraschall.SetTracksSelected(trackstring, true)
   end
   local retval, RenderStats=reaper.GetSetProjectInfo_String(0, "RENDER_STATS", mode, false)
-  local RenderStats=RenderStats..";"
-  --[[FILE:D:\Users\Meo-Ada Mespotine\Documents\REAPER Media\untitled.wav;
-  PEAK:-8.430650;
-  RMSI:-32.697797;
-  LRA:0.000000;
-  LUFSI:-18.199355;
-  --]]
-  --A={RenderStats:match("FILE:(.-);PEAK:(.-);RMSI:(.-);LRA:(.-);LUFSI:(.-);")}  
+  RenderStats=RenderStats..";"
+
   local FILE, PEAK, CLIP, RMSI, LRA, LUFSI
   FILE=RenderStats:match("FILE:(.-);")
   PEAK=RenderStats:match("PEAK:(.-);")
@@ -1555,6 +1560,10 @@ function ultraschall.CalculateLoudness(mode, timeselection)
   if LRA==nil then LRA="-inf" end
   LUFSI=RenderStats:match("LUFSI:(.-);")
   if LUFSI==nil then LUFSI="-inf" end
+
+  if mode==2 then
+    ultraschall.SetTracksSelected(oldtrackstring, true)
+  end
 
   return FILE, PEAK, CLIP, RMSI, LRA, LUFSI
 end
