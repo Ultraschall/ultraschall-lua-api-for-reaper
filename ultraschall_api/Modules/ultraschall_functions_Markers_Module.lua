@@ -3459,7 +3459,7 @@ function ultraschall.MoveMarkersBy(startposition, endposition, moveby, cut_at_bo
       local sretval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
       if pos>=startposition and pos<=endposition then
         if (pos+moveby>endposition or pos+moveby<startposition) then
-          --boolean=reaper.DeleteProjectMarkerByIndex(0, i)
+          boolean=reaper.DeleteProjectMarkerByIndex(0, i)
         end
       end
     end
@@ -3470,7 +3470,7 @@ function ultraschall.MoveMarkersBy(startposition, endposition, moveby, cut_at_bo
   for i=start, stop, step do
     local sretval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
 
-    if pos>=startposition and pos<=endposition then
+    if pos>=startposition and pos<=endposition and isrgn==false then
         MarkerGuids_count=MarkerGuids_count+1
         MarkerGuids[MarkerGuids_count]=ultraschall.GetGuidFromMarkerID(sretval)
     end
