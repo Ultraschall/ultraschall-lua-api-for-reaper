@@ -420,7 +420,8 @@ Has now 1400 functions, with 15 new ones
   
 #### Changes from 4.2.004 to 4.2.005  
   - Developer Tools: ultraschall\_developertool\_Display-Altered-Config-Vars.lua - fixed a bug, that omitted some config-vars  
-  - Docs: Reaper Internals - updatd to Reaper 6.30  
+  - Docs: Reaper Internals - updated to Reaper 6.30  
+  - DocsManagement: Docs\_GetUSDocBloc\_ChapterContext - didn't return all chapter-context-entries -> fixed
   - Markers: MoveMarkersBy - didn't work on markers with 0 in their index number -> fixed(thanks to GNetzer)
   
 ---
