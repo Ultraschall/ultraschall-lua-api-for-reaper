@@ -1570,3 +1570,15 @@ end
 
 
 --A={ultraschall.CalculateLoudness(0, true)}
+
+function ultraschall.BubbleSortDocBlocTable_Slug(Table)
+  local count=1
+  while Table[count]~=nil and Table[count+1]~=nil do
+    if Table[count][1]>Table[count+1][1] then
+      temp=Table[count]
+      Table[count]=Table[count+1]
+      Table[count+1]=temp
+    end
+    count=count+1
+  end
+end

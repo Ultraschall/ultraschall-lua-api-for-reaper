@@ -48,6 +48,8 @@ Outfile=ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation-test.html
 versionnumbering=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
 tagline=reaper.GetExtState("ultraschall_api", "Tagline")
 
+Index=3
+
 -- Let's create the Header
 FunctionList=[[
 <html>

@@ -3427,7 +3427,7 @@
       <title>disk_wrblks</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
           Write buffers, as set in Preferences -> Buffering -> Advanced Disk I/O options...  
-          Influences disk_wrblks2 to size of [disk\_wrblks](#disk_wrblks), when disk_wrblks>=[disk\_wrblks2](#disk_wrblks2)  
+          Influences disk\_wrblks2 to size of [disk\_wrblks](#disk_wrblks), when disk\_wrblks>=[disk\_wrblks2](#disk_wrblks2)  
           It is an integer  
           
            >2 to 2147483647; number of buffers; default is 16  
@@ -8373,9 +8373,9 @@
           This is probably the slider-value, not db.  
           It is a double-float.  
           
-           >5e-051 to 1.9905358527675; 0.5 for 0dB  
+           > 5e-051 to 1.9905358527675; 0.5 for 0dB  
            
-         Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>
          Config Variables  
@@ -8816,7 +8816,7 @@
            >&4096=0, Item stretch markers(off) - unchecked  
            >&4096=1, Item stretch markers(on) - checked  
            
-         Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>
          Config Variables  
@@ -9260,7 +9260,7 @@
            >5, Hours:Minutes:Seconds:Frames  
            >8, Absolute Frames  
            
-         Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>
          Config Variables  
@@ -10294,7 +10294,7 @@
            >&16=0, unknown  
            >&16=1, unknown  
            
-         Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>
          Config Variables  
@@ -13481,7 +13481,7 @@
            
           For the current vertical zoom-factor, see [vzoom2](#vzoom2)  
            
-         Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.
       </description>  
       <chapter_context>
          Config Variables  

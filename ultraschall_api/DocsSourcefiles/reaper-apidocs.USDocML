@@ -220,7 +220,7 @@
                 MediaItem - a Reaper-MediaItem like audio,video, Midi, etc as object  
                 MediaItem\_Take - a take within a MediaItem as object  
                 TrackEnvelope - an envelope of a track as object  
-                WDL\_FastString\(S&M\) - a different kind of a string, made into a Reaper-object  
+                WDL\_FastString\(S&amp;M\) - a different kind of a string, made into a Reaper-object  
                 
                 deviceHDC - get it using function [JS\_GDI_GetWindowDC](#JS_GDI_GetWindowDC)
         </description>
@@ -560,8 +560,8 @@
         <parameters>
             ReaProject project - the project, in which to nudge; 0 for the current project
             integer nudgeflag - the way to nudge
-                - &1, set to value(otherwise nudge by values)
-                - &2, snap
+                - &amp;1, set to value(otherwise nudge by values)
+                - &amp;2, snap
             integer nudgewhat - what to nudge
                 - 0, position
                 - 1, left trim
@@ -4437,9 +4437,9 @@
         </description>
         <retvals>
             integer - the bitwise play-state of alle projects
-                    -&1, at least one project is playing
-                    -&2, at least one project is paused
-                    -&4, at least one project is recording
+                    -&amp;1, at least one project is playing
+                    -&amp;2, at least one project is paused
+                    -&amp;4, at least one project is recording
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
             ReaProject ignoreProject - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
@@ -5715,8 +5715,8 @@
         </description>
         <retvals>
             integer master_visibility - state of visibility of the master-track
-                                      - &1 - 1, master track visible in tcp; 0, master track invisible in mixer
-                                      - &2 - 2, master track invisible in mixer; 0, master track visible in mixer
+                                      - &amp;1 - 1, master track visible in tcp; 0, master track invisible in mixer
+                                      - &amp;2 - 2, master track invisible in mixer; 0, master track visible in mixer
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -6458,7 +6458,7 @@
             F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
             F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=minimum allowed, 1=maximum allowed)
             F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)
-            I_PLAY_OFFSET_FLAG : int * : track playback offset state, &1=bypassed, &2=offset value is measured in samples (otherwise measured in seconds)
+            I_PLAY_OFFSET_FLAG : int * : track playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
             D_PLAY_OFFSET : double * : track playback offset, units depend on I_PLAY_OFFSET_FLAG
             P_PARTRACK : MediaTrack * : parent track (read-only)
             P_PROJECT : ReaProject * : parent project (read-only)
@@ -8780,9 +8780,9 @@
         <retvals>
             integer - toggle-state 
                     -0, off
-                    -&1, on/checked in menus
-                    -&2, on/grayed out in menus
-                    -&16, on/bullet in front of the entry in menus
+                    -&amp;1, on/checked in menus
+                    -&amp;2, on/grayed out in menus
+                    -&amp;16, on/bullet in front of the entry in menus
                     --1, NA because the action does not have on/off states.
         </retvals>
         <parameters>
@@ -8814,9 +8814,9 @@
         <retvals>
             integer - toggle-state 
                     -0, off
-                    -&1, on/checked in menus
-                    -&2, on/grayed out in menus
-                    -&16, on/bullet in front of the entry in menus
+                    -&amp;1, on/checked in menus
+                    -&amp;2, on/grayed out in menus
+                    -&amp;16, on/bullet in front of the entry in menus
                     --1, NA because the action does not have on/off states.
         </retvals>
         <parameters>
@@ -11479,10 +11479,10 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get all MIDI data. MIDI buffer is returned as a list of { int offset, char flag, int msglen, unsigned char msg[] }.
 
-                offset: MIDI ticks from previous event
-                flag: &1=selected &2=muted
-                flag high 4 bits for CC shape: &16=linear, &32=slow start/end, &16|32=fast start, &64=fast end, &64|16=bezier
-                msg: the MIDI message.
+               offset: MIDI ticks from previous event
+               flag: &amp;1=selected &amp;2=muted
+               flag high 4 bits for CC shape: &amp;16=linear, &amp;32=slow start/end, &amp;16|32=fast start, &amp;64=fast end, &amp;64|16=bezier
+               msg: the MIDI message.
 
             A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float.
             For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.
@@ -12162,10 +12162,10 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Set all MIDI data. MIDI buffer is passed in as a list of { int offset, char flag, int msglen, unsigned char msg[] }.
             
-                offset: MIDI ticks from previous event
-                flag: &1=selected &2=muted
-                flag high 4 bits for CC shape: &16=linear, &32=slow start/end, &16|32=fast start, &64=fast end, &64|16=bezier
-                msg: the MIDI message.
+               offset: MIDI ticks from previous event
+               flag: &amp;1=selected &amp;2=muted
+               flag high 4 bits for CC shape: &amp;16=linear, &amp;32=slow start/end, &amp;16|32=fast start, &amp;64=fast end, &amp;64|16=bezier
+               msg: the MIDI message.
                 
             A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float.
             For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.
@@ -13728,8 +13728,8 @@
         </retvals>
         <parameters>
             integer flags - influences, how the garbage collection shall be
-                          - &1, incrementally
-                          - &2, aggressively(files need to be reopened after that, if needed)
+                          - &amp;1, incrementally
+                          - &amp;2, aggressively(files need to be reopened after that, if needed)
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -15070,7 +15070,7 @@
             rgnend - the end of a region, if isrgn is true
             name - shown name of the marker
             color - the new color-value as native color-value
-            flags - &1 to clear name
+            flags - &amp;1 to clear name
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -15739,9 +15739,9 @@
             integer command_id - the command-id of the action whose toggle command state you want to query
             integer state - toggle-state 
                     -0, off
-                    -&1, on/checked in menus
-                    -&2, on/grayed out in menus
-                    -&16, on/bullet in front of the entry in menus
+                    -&amp;1, on/checked in menus
+                    -&amp;2, on/grayed out in menus
+                    -&amp;16, on/bullet in front of the entry in menus
                     --1, NA because the action does not have on/off states.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -25563,10 +25563,10 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns a device context for the entire screen.
+
            
            
-           
-           WARNING: Only available on Windows, not Linux or MacOS.
+            WARNING: Only available on Windows, not Linux or MacOS.
 
         </description>
         <retvals>
@@ -26180,14 +26180,12 @@
             JS=0.951
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
+           LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
            
-           
-           
+
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
 
         </description>
-
         <parameters>
            identifier bitmap - 
            number cx - 
@@ -26423,10 +26421,9 @@
            
            
            
-           LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
+            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
 
         </description>
-
         <parameters>
            identifier bitmap - 
            number cx - 
@@ -26496,10 +26493,8 @@
            
            
            
-           LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-
+            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
         </description>
-
         <parameters>
            identifier bitmap - 
            integer x - 
@@ -26534,10 +26529,8 @@
            
            
            
-           LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-
+            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
         </description>
-
         <parameters>
            identifier bitmap - 
            integer x1 - 
@@ -26760,10 +26753,8 @@
            
            
            
-           LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-
+            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
         </description>
-
         <parameters>
            identifier bitmap - 
            number x1 - 
@@ -26955,12 +26946,8 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
            
-           
-           
-           LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-
+            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
         </description>
-
         <parameters>
            identifier bitmap - 
            integer x - 
@@ -27059,12 +27046,9 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
            
-           
-           
-           LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
+            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
 
         </description>
-
         <parameters>
            identifier bitmap - 
            number x - 
@@ -27162,7 +27146,6 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             
         </description>
-
         <parameters>
            identifier LICEFont - 
            integer color - 
@@ -27216,10 +27199,9 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Converts a GDI font into a LICE font.
            
-           The font can be modified by the following flags, in a comma-separated list:
+            The font can be modified by the following flags, in a comma-separated list:
            
-           "VERTICAL", "BOTTOMUP", "NATIVE", "BLUR", "INVERT", "MONO", "SHADOW" or "OUTLINE".
-
+            "VERTICAL", "BOTTOMUP", "NATIVE", "BLUR", "INVERT", "MONO", "SHADOW" or "OUTLINE".
         </description>
         <parameters>
            identifier LICEFont - 
@@ -27554,12 +27536,9 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Retrieves the states of mouse buttons and modifiers keys.
            
+            Parameters:
            
-           
-           Parameters:
-           
-            \* flags, state: The parameter and the return value both use the same format as gfx.mouse_cap. I.e., to get the states of the left mouse button and the ctrl key, use flags = 0b00000101.
-            
+            \* flags, state: The parameter and the return value both use the same format as gfx.mouse_cap. I.e., to get the states of the left mouse button and the ctrl key, use flags = 0b00000101.            
             use -1 as flags to retrieve the states of all mouse-buttons and modifier
         </description>
         <retvals>
@@ -28999,10 +28978,9 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Retrieves the coordinates of the client area rectangle of the specified window. The dimensions are given in screen coordinates relative to the upper-left corner of the screen.
            
-           NOTE 1: Unlike the C++ function GetClientRect, this function returns the actual coordinates, not the width and height.
+            NOTE 1: Unlike the C++ function GetClientRect, this function returns the actual coordinates, not the width and height.
            
-           NOTE 2: The pixel at (right, bottom) lies immediately outside the rectangle.
-
+            NOTE 2: The pixel at (right, bottom) lies immediately outside the rectangle.
         </description>
         <retvals>
            boolean retval - 
@@ -29189,8 +29167,7 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Retrieves a HWND to the specified window's parent or owner.
            
-           Returns NULL if the window is unowned or if the function otherwise fails.
-
+            Returns NULL if the window is unowned or if the function otherwise fails.
         </description>
         <retvals>
            identifier  - 
@@ -29220,8 +29197,7 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Retrieves the coordinates of the bounding rectangle of the specified window. The dimensions are given in screen coordinates relative to the upper-left corner of the screen.
            
-           NOTE: The pixel at (right, bottom) lies immediately outside the rectangle.
-
+            NOTE: The pixel at (right, bottom) lies immediately outside the rectangle.
         </description>
         <retvals>
            boolean retval - 
@@ -29255,10 +29231,9 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.
            
-           relation: "LAST", "NEXT", "PREV", "OWNER" or "CHILD".
+            relation: "LAST", "NEXT", "PREV", "OWNER" or "CHILD".
            
-           (Refer to documentation for Win32 C++ function GetWindow.)
-
+            (Refer to documentation for Win32 C++ function GetWindow.)
         </description>
         <retvals>
            identifier  - 
@@ -29288,17 +29263,11 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Retrieves the scroll information of a window.
-           
-           
-           
-           Parameters:
-           
+
+            Parameters:           
             \* scrollbar: "v" (or "SB\_VERT", or "VERT") for vertical scroll, "h" (or "SB\_HORZ" or "HORZ") for horizontal.
-           
-           
-           
-           Returns:
-           
+
+            Returns:           
             \* Leftmost or topmost visible pixel position, as well as the visible page size, the range minimum and maximum, and scroll box tracking position.
 
         </description>
@@ -36791,7 +36760,7 @@
             - 13 for Enter  
             - ' ' for space  
             -   
-            - use 65536 as parameter charactercode to query special flags, returns: &1 (supported in this script), &2=window has focus, &4=window is visible  
+            - use 65536 as parameter charactercode to query special flags, returns: &amp;1 (supported in this script), &amp;2=window has focus, &amp;4=window is visible  
             
             Some multibyte-characters, like home, up, down, left, right, f1 .. f12, pgup, pgdn, ins, del are returned as values above 255, but some other characters, like €,  
             are "real"-multibyte-characters, stored as multiple 8-bit-values after each other.
@@ -36814,7 +36783,7 @@
         </retvals>
         <parameters>
             optional integer character - the character to check for; use 65536 to check window-state(visible, focus)
-                                       -    &1 (supported in this script), &2=window has focus, &4=window is visible
+                                       -    &amp;1 (supported in this script), &amp;2=window has focus, &amp;4=window is visible
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36991,7 +36960,7 @@
             string name - the name of the window, which will be shown in the title of the window
             optional integer width - the width of the window; minmum is 50
             optional integer height - the height of the window; minimum is 16
-            optional integer dockstate - &1=0, undocked; &1=1, docked
+            optional integer dockstate - &amp;1=0, undocked; &amp;1=1, docked
             optional integer xpos - x-position of the window in pixels; minimum is -80
             optional integer ypos - y-position of the window in pixels; minimum is -15
         </parameters>
@@ -41252,7 +41221,7 @@
             Reaper=5.62
         </requires>
         <description indent="default">
-            Peakbuild create-ex. flags&1 for FP support
+            Peakbuild create-ex. flags&amp;1 for FP support
         </description>
         <retvals>
             REAPER_PeakBuild_Interface* -
@@ -41984,7 +41953,7 @@
                 -B_ALLTAKESPLAY : bool * to all takes play
                 -B_UISEL : bool * to ui selected
                 -C_BEATATTACHMODE : char * to one char of beat attached mode, -1=def, 0=time, 1=allbeats, 2=beatsosonly
-                -C_LOCK : char * to one char of lock flags (&1 is locked, currently)
+                -C_LOCK : char * to one char of lock flags (&amp;1 is locked, currently)
                 -D_VOL : double *, take volume (negative if take polarity is flipped)
                 -D_POSITION : double * of item position (seconds)
                 -D_LENGTH : double * of item length (seconds)
@@ -42065,13 +42034,13 @@
         <parameters>
             track - track index, -1=master, 0..n, or cast a MediaTrack* to int 
             flags - if flags is non-NULL, will be set to:
-                -&1, folder
-                -&2, selected
-                -&4, has fx enabled
-                -&8, muted
-                -&16, soloed
-                -&32, SIP'd (with &16)
-                -&64, rec armed
+                -&amp;1, folder
+                -&amp;2, selected
+                -&amp;4, has fx enabled
+                -&amp;8, muted
+                -&amp;16, soloed
+                -&amp;32, SIP'd (with &amp;16)
+                -&amp;64, rec armed
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42570,17 +42539,17 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Enumerate the files owned by the given package. Returns false when there is no more data.
 
-                sections: 0=not in action list, &1=main, &2=midi editor, &4=midi inline editor
-                type: see [ReaPack\_GetEntryInfo](#ReaPack_GetEntryInfo).
+               sections: 0=not in action list, &amp;1=main, &amp;2=midi editor, &amp;4=midi inline editor
+               type: see [ReaPack\_GetEntryInfo](#ReaPack_GetEntryInfo).
         </description>
         <retvals>
             boolean retval - true, if more files exist; false, if this is the last/only file
             string path - the path and filename of the installed file
             number sections - the section(s), in which this file is installed; it is an integer bitfield
                             -   0=not in action list
-                            -   &1=main
-                            -   &2=midi editor
-                            -   &4=midi inline editor
+                            -   &amp;1=main
+                            -   &amp;2=midi editor
+                            -   &amp;4=midi inline editor
             number type - the type of the extension, in which this file exists
                         -   1, script 
                         -   2, extension

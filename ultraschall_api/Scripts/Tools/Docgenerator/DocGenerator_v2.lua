@@ -23,140 +23,13 @@
   # 
   ################################################################################
   --]]
---[[
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-StartTime=reaper.time_precise()
--- increment build-version-numbering
-local retval, string3 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Docs-ReaperApi", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-local retval, string2 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-string2=tonumber(string2)
-string2=string2+1
-string3=tonumber(string3)
-string3=string3+1
-  
-reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Docs-ReaperApi", string3, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")    
-reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
 
--- init variables
-Tempfile=ultraschall.Api_Path.."/temp/"
+-- some variables that can be set in the source-script to control stuff:
 
---Infilename=ultraschall.Api_Path.."/DocsSourcefiles/reaper-apidocs-test.USDocML"
-Infilename=ultraschall.Api_Path.."/DocsSourcefiles/reaper-apidocs.USDocML"
-Outfile=ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation-test.html"
-
--- Reaper-version and tagline from extstate
-versionnumbering=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
-tagline=reaper.GetExtState("ultraschall_api", "Tagline")
-
--- Let's create the Header
-FunctionList=[[
-<html>
-  <head>
-    <title>
-      REAPER API functions
-    </title>
-
-    <link href="style.css" rel="stylesheet">
-    <script type="text/javascript">
-      function set_class_style(c,s) { 
-        var list = document.getElementsByClassName(c);
-        for (i=0;i<list.length;i++) {
-          list[i].style.display = s; 
-        }
-      }
-      function set_class_innerHTML(c,s) { 
-        var list = document.getElementsByClassName(c);
-        for (i=0;i<list.length;i++) {
-          list[i].innerHTML = s; 
-        }
-      }
-      function setdocview(v) {
-        var list = new Array('c_doc', 'c_func', 'c_funcs',
-                             'l_doc', 'l_func', 'l_funcs',
-                             'e_doc', 'e_func', 'e_funcs',
-                             'p_doc', 'p_func', 'p_funcs');
-        var i;
-        set_class_style('all_view', v == '' ? 'inline' : 'none');
-        for (i=0;i<list.length;i++) {
-          set_class_style(list[i], (v == '' || list[i].slice(0,1) == v) ? 'block' : 'none'); 
-        }
-        set_class_innerHTML('aclick', v=='' ? 'all' : "<a href=\"#\" onClick=\"setdocview('')\">all</a>");
-        set_class_innerHTML('cclick', v=='c' ? 'C/C++' : "<a href=\"#c\" onClick=\"setdocview('c')\">C/C++</a>");
-        set_class_innerHTML('eclick', v=='e' ? 'EEL2' : "<a href=\"#e\" onClick=\"setdocview('e')\">EEL2</a>");
-        set_class_innerHTML('lclick', v=='l' ? 'Lua' : "<a href=\"#l\" onClick=\"setdocview('l')\">Lua</a>");
-        set_class_innerHTML('pclick', v=='p' ? 'Python' : "<a href=\"#p\" onClick=\"setdocview('p')\">Python</a>");
-      }
-      function onLoad() {
-        if (window.location.hash == '#c') setdocview('c');
-        else if (window.location.hash == '#e') setdocview('e');
-        else if (window.location.hash == '#l') setdocview('l');
-        else if (window.location.hash == '#p') setdocview('p');
-      }
-    </script>
-  </head>
-    <body>
-        <div style="position: sticky; top:0; padding-left:4%; z-index:100;">
-            <div style="background-color:#282828; width:95%; font-family:tahoma; font-size:16;">
-                <a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button_Un.png" alt="Ultraschall Internals Documentation"></a>  
-                <a href="Reaper_Api_Documentation.html"><img style="position: absolute; left:15.2%; width:8.7%;" src="gfx/Reaper_Button.png" alt="Reaper Internals Documentation"></a>
-                <img alt="" style="width:6.9%; position: absolute; left:23.9%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:30.8%;" src="gfx/linedance.png">
-                <img alt="" style="width:6.9%; position: absolute; left:36.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:42.8%;" src="gfx/linedance.png">
-                <img alt="" style="width:6.9%; position: absolute; left:48.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:54.8%;" src="gfx/linedance.png">
-                <img alt="" style="width:6.9%; position: absolute; left:60.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:66.8%;" src="gfx/linedance.png">
-                <img alt="" style="width:6.9%; position: absolute; left:68.8%;" src="gfx/linedance.png">
-                <a href="Downloads.html"><img style="position:absolute; left:74.4%; width:6.9%;" src="gfx/Downloads_Un.png" alt="Downloads"></a>
-                <a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
-                <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
-                <div style="padding-top:2.5%">                    
-                    <table border="0" style="color:#aaaaaa; width:100%;">
-                        <tr>
-                            <td style="width:27.2%; padding-top:2; ">
-                                <a href="http://www.reaper.fm"><img style="width:118%;" src="gfx/Reaper_Internals.png" alt="Reaper internals logo"></a>
-                            </td>
-                            <td style="position: absolute; padding-top:5; width:14%;"><u>Documentation:</u></td>
-                            <td style="width:12.7%;"><u> </u></td>
-                            <td style="width:12.7%;"><u> </u></td>
-                            <td style="width:12%;"><u> </u></td>
-                            <td style="width:12%;"><u> </u></td>
-                            <td style="width:12%;"><u> </u></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper-Filetype-Descriptions.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;Filetype Descriptions&nbsp;</a></td>
-                            <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_Config_Variables.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;Config Variables&nbsp;</a></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_Api_Documentation.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;ReaScript-Api-Docs&nbsp;</a></td>
-                            <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_API_Video_Documentation.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;Video-Api-Docs&nbsp;</a></td>
-                            <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_API_Web_Documentation.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;WebRC-Api-Docs&nbsp;</a></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        <tr>
-                    </table><hr color="#444444">
-                </div>
-            </div>            
-        </div>
-<!---
-End of Header
---->    <div class="chapterpad"><p></p>
-]]
-
---]]
+-- DontSort=true -- if DontSort==true, then the index and the functions/entries will not be sorted
+-- Index=4 -- set the number of columns of the index (1-4)
 
 -- some functions needed
-function ultraschall.BubbleSortDocBlocTable_Slug(Table)
-  local count=1
-  while Table[count]~=nil and Table[count+1]~=nil do
-    if Table[count][1]>Table[count+1][1] then
-      temp=Table[count]
-      Table[count]=Table[count+1]
-      Table[count+1]=temp
-    end
-    count=count+1
-  end
-end
 
 function ultraschall.SplitUSDocBlocs(String)
   local Table={}
@@ -174,20 +47,6 @@ function ultraschall.SplitUSDocBlocs(String)
   
   return USDocBlockCounter, Table
 end
-
-String=ultraschall.ReadFullFile(Infilename, false)
-ultraschall.ShowLastErrorMessage()
-Ccount, AllUSDocBloc_Header=ultraschall.SplitUSDocBlocs(String)
-
-
-
-usD,usversion,usdate,usbeta,usTagline,usF,usG=ultraschall.GetApiVersion()
-
-
--- Step 1: create the index
-index=1
-b=0
-
 
 function ultraschall.ParseChapterContext(String)
   local Chapter={}
@@ -213,43 +72,6 @@ function ultraschall.ParseChapterContext(String)
   return counter, Chapter, chapterstring:sub(1,-3)
 end
 
-function convertMarkdown()
-  print_update("Converting Markdown")
-  FunctionConverter={}
-  FunctionConverter_count=0
-  
-  for i=1, Ccount do
-    Description, AllUSDocBloc_Header[i]["markup_type"], markup_version, indent, language, prog_lang = ultraschall.Docs_GetUSDocBloc_Description(AllUSDocBloc_Header[i][2], true, 1)
-
-    if AllUSDocBloc_Header[i]["markup_type"]=="plaintext" then
-      AllUSDocBloc_Header[i][6]=ultraschall.Docs_ConvertPlainTextToHTML(Description)
-    else
-      ultraschall.WriteValueToFile(Tempfile..i..".md", Description)
-      FunctionConverter_count=FunctionConverter_count+1
-      FunctionConverter[FunctionConverter_count]=i
-    end
-    --]]
-  end 
-
-  Batch=""
-  for i=1, FunctionConverter_count do
-    Batch=Batch.."\"c:\\Program Files\\Pandoc\\pandoc.exe\" -f markdown_strict -t html \""..ultraschall.Api_Path.."/temp/"..FunctionConverter[i]..".md\" -o \""..ultraschall.Api_Path.."/temp/"..FunctionConverter[i]..".html\"\n"
-  end
-  
-  ultraschall.WriteValueToFile(Tempfile.."/Batch.bat", Batch)
-  reaper.ExecProcess(Tempfile.."/Batch.bat", 0)  
-  os.remove(Tempfile.."/Batch.bat")
-  
-  for i=1, FunctionConverter_count do
-    AllUSDocBloc_Header[FunctionConverter[i]][6]=ultraschall.ReadFullFile(Tempfile..FunctionConverter[i]..".html")
-    os.remove(Tempfile..FunctionConverter[i]..".html")
-    os.remove(Tempfile..FunctionConverter[i]..".md")
-  end
-  
-  for i=1, Ccount do
-    AllUSDocBloc_Header[i][6]="\t\t\t\t"..string.gsub(AllUSDocBloc_Header[i][6], "\n", "\n\t\t\t\t")
-  end
-end
 
 function ColorateFunctionnames(String)
   String=" "..String
@@ -348,11 +170,38 @@ function ultraschall.ColorateDatatypes(String)
   String=string.gsub(String, " function ", " <i class=\"dtype\">function</i> ")  
   String=string.gsub(String, " ReaperArray ", " <i class=\"dtype\">ReaperArray</i> ")  
   String=string.gsub(String, " optional ", " <i class=\"dtype\">optional</i> ")  
+  String=string.gsub(String, " table ", " <i class=\"dtype\">table</i> ")  
+  String=string.gsub(String, " array ", " <i class=\"dtype\">array</i> ")  
   
   String=string.gsub(String, "%( ", "(")
   String=string.gsub(String, "%[ ", "[")
   return String:sub(2,-2)
 end
+
+
+
+-- Let's begin:
+
+-- Step 1: read the docs-source-file(s)
+String=""
+if type(Infilename)=="table" then
+  for i=1, #Infilename do
+    String=String..ultraschall.ReadFullFile(Infilename[i], false)
+  end
+else
+    String=ultraschall.ReadFullFile(Infilename, false)
+end
+
+-- split into individual USDocBlocs
+Ccount, AllUSDocBloc_Header=ultraschall.SplitUSDocBlocs(String)
+
+-- get some API-version-information
+usD,usversion,usdate,usbeta,usTagline,usF,usG=ultraschall.GetApiVersion()
+
+
+-- Step 2: create the index
+index=1
+b=0
 
 function contentindex()
   reaper.ClearConsole()
@@ -378,7 +227,9 @@ function contentindex()
     count=count+1
   end
   
-  table.sort(HeaderList)
+  if DontSort==nil then
+    table.sort(HeaderList)
+  end
   
   -- add to the chapter-contexts the accompanying slugs, using newlines
   -- "chaptercontext1, chaptercontext2,\nslug1\nslug2\nslug3\n" etc
@@ -397,14 +248,18 @@ function contentindex()
     count=count+1
   end
   
-  table.sort(HeaderList)
+  if DontSort==nil then
+    table.sort(HeaderList)
+  end
   
   -- now we sort the slugs
   for i=1, count2 do
     chapter=HeaderList[i]:match("(.-\n)")
     slugs=HeaderList[i]:match("\n(.*)\n")
     A2, AA2, AAA2 = ultraschall.SplitStringAtLineFeedToArray(slugs)
-    table.sort(AA2)
+    if DontSort==nil then
+      table.sort(AA2)
+    end
     slugs=""
     for i=1, A2 do
       slugs=slugs..AA2[i].."\n"
@@ -436,20 +291,21 @@ function contentindex()
     if Third==nil then Third="" else Third=Third.."\n" end
     if i>1 and Third:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Third="" end
   
-    
+    if Index==nil then Index=4 end
     linebreaker=1
     for a=1, Counts do
       if linebreaker==1 then slugs=slugs.."<tr>" end
-      if linebreaker==5 then slugs=slugs.."</tr>" linebreaker=1 end
+      --if linebreaker==5 then slugs=slugs.."</tr>" linebreaker=1 end
+      if linebreaker==Index+1 then slugs=slugs.."</tr>" linebreaker=1 end
       slugs=slugs.."<td style=\"width:25%; font-size:small;\"><a class=\"smallfontTD\" href=\"#"..Slugs[a].."\">"..Slugs[a].."</a></td>"
       FunctionsLister_Count=FunctionsLister_Count+1
       FunctionsLister[FunctionsLister_Count]=Slugs[a]
       linebreaker=linebreaker+1
     end
     if linebreaker==1 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
-    if linebreaker==2 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
-    if linebreaker==3 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
-    if linebreaker==4 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
+    if linebreaker==2 and Index>1 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
+    if linebreaker==3 and Index>2 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
+    if linebreaker==4 and Index>3 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
     slugs=slugs.."</tr>"
     
     FunctionList=FunctionList.."<table class=\"indexpad\" style=\"width:100%;\" border=\"0\"><tr><td>"..Top..Second..Third.."</td></tr>"..slugs.."</table>"
@@ -468,8 +324,55 @@ function contentindex()
     end
 end
 
-function entries()
-  for EntryCount=1, FunctionsLister_Count do
+-- Step 3: convert Markdown to HTML
+function convertMarkdown(start, stop)
+  if start==nil then start=1 end
+  if stop==nil then stop=Ccount end
+  
+  print_update("Converting Markdown")
+  FunctionConverter={}
+  FunctionConverter_count=0
+  
+  for i=start, stop do
+    Description, AllUSDocBloc_Header[i]["markup_type"], markup_version, indent, language, prog_lang = ultraschall.Docs_GetUSDocBloc_Description(AllUSDocBloc_Header[i][2], true, 1)
+
+    if AllUSDocBloc_Header[i]["markup_type"]=="plaintext" then
+      AllUSDocBloc_Header[i][6]=ultraschall.Docs_ConvertPlainTextToHTML(Description)
+    else
+      ultraschall.WriteValueToFile(Tempfile..i..".md", Description)
+      FunctionConverter_count=FunctionConverter_count+1
+      FunctionConverter[FunctionConverter_count]=i
+    end
+    --]]
+  end 
+
+  Batch=""
+  for i=1, FunctionConverter_count do
+    Batch=Batch.."\"c:\\Program Files\\Pandoc\\pandoc.exe\" -f markdown_strict -t html \""..ultraschall.Api_Path.."/temp/"..FunctionConverter[i]..".md\" -o \""..ultraschall.Api_Path.."/temp/"..FunctionConverter[i]..".html\"\n"
+  end
+  
+  ultraschall.WriteValueToFile(Tempfile.."/Batch.bat", Batch)
+  reaper.ExecProcess(Tempfile.."/Batch.bat", 0)  
+  os.remove(Tempfile.."/Batch.bat")
+  
+  for i=1, FunctionConverter_count do
+    AllUSDocBloc_Header[FunctionConverter[i]][6]=ultraschall.ReadFullFile(Tempfile..FunctionConverter[i]..".html")
+    os.remove(Tempfile..FunctionConverter[i]..".html")
+    os.remove(Tempfile..FunctionConverter[i]..".md")
+  end
+  
+  
+  -- add spaces into the beginning (buggy with <pre><code>-tags, so it's deactivated)
+  --for i=1, Ccount do
+    --AllUSDocBloc_Header[i][6]="\t\t\t\t"..string.gsub(AllUSDocBloc_Header[i][6], "\n", "\n\t\t\t\t")
+  --end
+end
+
+-- Step 4: create the entries
+function entries(start, stop)
+  if start==nil then start=1 end
+  if stop==nil then stop=FunctionsLister_Count end
+  for EntryCount=start, stop do
     if type(FunctionsLister[EntryCount])=="string" then
       -- Insert a header for the next functions-category inside the functions
       -- still ugly. Uncomment it to see it for yourself...
@@ -484,7 +387,8 @@ function entries()
       -- get the functioncalls
       functioncall={}
       f1, f2= ultraschall.Docs_GetUSDocBloc_Functioncall(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], 1)
-      if f2~=nil then
+      if f1~=nil and f2==nil then f2="lua" end
+      if f2~=nil and f1~=nil then
         functioncall[f2]=f1
         f1, f2= ultraschall.Docs_GetUSDocBloc_Functioncall(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], 2)
         if f2~=nil then functioncall[f2]=f1 end
@@ -493,6 +397,7 @@ function entries()
         f1, f2= ultraschall.Docs_GetUSDocBloc_Functioncall(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], 4)
         if f2~=nil then functioncall[f2]=f1 end
       end
+      
       
       -- get the parameters
       Parmcount, Params, markuptype, markupversion, prog_lang, spok_lang, indent = ultraschall.Docs_GetUSDocBloc_Params(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], true, 1)
@@ -515,7 +420,7 @@ function entries()
         FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/sws"..requires_alt["SWS"]..".png\" alt=\"SWS version "..requires_alt["SWS"].."\">"
       end
       if requires_alt["JS"]~=nil then
-        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/js"..requires_alt["JS"]..".png\" alt=\"JS version "..requires_alt["JS"].."\">"
+        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/js_"..requires_alt["JS"]..".png\" alt=\"JS version "..requires_alt["JS"].."\">"
       end
       if requires_alt["Osara"]~=nil then
         FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/Osara"..requires_alt["Osara"]..".png\" alt=\"Osara version "..requires_alt["Osara"].."\">"
@@ -526,11 +431,17 @@ function entries()
       if requires_alt["ReaBlink"]~=nil then
         FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/reablink"..requires_alt["ReaBlink"]..".png\" alt=\"ReaBlink version "..requires_alt["ReaBlink"].."\">"
       end
-  
+      if requires_alt["Ultraschall"]~=nil then
+        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/ultraschall"..requires_alt["Ultraschall"]..".png\" alt=\"Ultraschall version "..requires_alt["Ultraschall"].."\">"
+      end
       
       -- Title
+      --if title==nil then print3(AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]) end
+      if title==nil then title=AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]end
       FunctionList=FunctionList.."<u><b>"..title.."</b></u><br><br>"
-    
+      if AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]==nil then AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]="PUDELDUDEL" end
+      
+      
       -- Functioncalls
       if functioncall["cpp"]~=nil or 
          functioncall["lua"]~=nil or 
@@ -637,6 +548,7 @@ contentindex()
 convertMarkdown()
 entries()
 
+-- Step 5: Write the outputfile
 ultraschall.WriteValueToFile(Outfile, FunctionList)
 
 --ultraschall.WriteValueToFile(ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation.html", FunctionList)
