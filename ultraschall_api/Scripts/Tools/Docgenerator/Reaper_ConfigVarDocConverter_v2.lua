@@ -58,6 +58,7 @@ FunctionList=[[
     <link href="style.css" rel="stylesheet">
   </head>
     <body>
+        <a class="anchor" id="This-is-the-TopOfTheWorld"></a>
         <div style="position: sticky; top:0; padding-left:4%; z-index:100;">
             <div style="background-color:#282828; width:95%; font-family:tahoma; font-size:16;">
                 <a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button_Un.png" alt="Ultraschall Internals Documentation"></a>  
@@ -96,8 +97,9 @@ FunctionList=[[
                         </tr>
                         <tr>
                             <td></td>
-                        <tr>
+                        </tr>
                     </table><hr color="#444444">
+                    <div style="position:absolute; right:6%; top:80%;"><a style="color:#CCCCCC;" href="#This-is-the-TopOfTheWorld">Jump to Index</a></div>
                 </div>
             </div>            
         </div>

@@ -29,13 +29,21 @@
 -- DontSort=true -- if DontSort==true, then the index and the functions/entries will not be sorted
 -- Index=4 -- set the number of columns of the index (1-4)
 
+
+local FunctionList=FunctionList
+
 -- some functions needed
+
+PanDoc=reaper.GetExtState("Ultraschall", "PanDoc_Path", "\"c:\\Program Files\\Pandoc\\pandoc.exe\"")
+if PanDoc=="" then PanDoc="\"c:\\Program Files\\Pandoc\\pandoc.exe\"" end
+
+if CurrentDocs==nil then CurrentDocs="" end
 
 function ultraschall.SplitUSDocBlocs(String)
   local Table={}
   local Counter=0
 
-  USDocBlockCounter, USDocBlocTable = ultraschall.Docs_GetAllUSDocBlocsFromString(String)
+  local USDocBlockCounter, USDocBlocTable = ultraschall.Docs_GetAllUSDocBlocsFromString(String)
   for i=1, USDocBlockCounter do
     Table[i]={}
     Table[i][2]=USDocBlocTable[i]
@@ -52,6 +60,7 @@ function ultraschall.ParseChapterContext(String)
   local Chapter={}
   local counter=0
   local chapterstring=""
+  local temp
 --  reaper.MB(String,"",0)
   String=String:match("<chapter_context>\n*(.*)\n*</chapter_context>")
   if String==nil then String="" end
@@ -74,6 +83,7 @@ end
 
 
 function ColorateFunctionnames(String)
+  local offset1, offset2
   String=" "..String
   if String:match("extension_api") and String:match("\"")~=nil then
     offset1, offset2 = String:match("%(\"().-()\"")
@@ -193,10 +203,10 @@ else
 end
 
 -- split into individual USDocBlocs
-Ccount, AllUSDocBloc_Header=ultraschall.SplitUSDocBlocs(String)
+local Ccount, AllUSDocBloc_Header=ultraschall.SplitUSDocBlocs(String)
 
 -- get some API-version-information
-usD,usversion,usdate,usbeta,usTagline,usF,usG=ultraschall.GetApiVersion()
+local usD,usversion,usdate,usbeta,usTagline,usF,usG=ultraschall.GetApiVersion()
 
 
 -- Step 2: create the index
@@ -204,16 +214,15 @@ index=1
 b=0
 
 function contentindex()
-  reaper.ClearConsole()
-  reaper.ShowConsoleMsg("Create Index\n")
+  print_update(CurrentDocs..": Create Index\n")
   HeaderList={}
-  count=1
-  count2=0
+  local count=1
+  local count2=0
   
   -- get the chapter-contexts
   -- every entry in HeaderList is "chaptercontext1, chaptercontext2,"
   while AllUSDocBloc_Header[count]~=nil do
-    A, AA, AAA = ultraschall.ParseChapterContext(AllUSDocBloc_Header[count][2])        
+    local A, AA, AAA = ultraschall.ParseChapterContext(AllUSDocBloc_Header[count][2])        
       temp=AAA.."\n"
       for i=1, count2 do
         if HeaderList[i]==temp then found=true end
@@ -235,9 +244,9 @@ function contentindex()
   -- "chaptercontext1, chaptercontext2,\nslug1\nslug2\nslug3\n" etc
   count=1
   while AllUSDocBloc_Header[count]~=nil do    
-    A1, AA1, AAA1 = ultraschall.ParseChapterContext(AllUSDocBloc_Header[count][2])
-    Slug=AllUSDocBloc_Header[count][1]
-    temp=AAA1.."\n"
+    local A1, AA1, AAA1 = ultraschall.ParseChapterContext(AllUSDocBloc_Header[count][2])
+    local Slug=AllUSDocBloc_Header[count][1]
+    local temp=AAA1.."\n"
        
     for i=1, count2 do
       if HeaderList[i]:match("(.-\n)")==temp then 
@@ -254,9 +263,9 @@ function contentindex()
   
   -- now we sort the slugs
   for i=1, count2 do
-    chapter=HeaderList[i]:match("(.-\n)")
-    slugs=HeaderList[i]:match("\n(.*)\n")
-    A2, AA2, AAA2 = ultraschall.SplitStringAtLineFeedToArray(slugs)
+    local chapter=HeaderList[i]:match("(.-\n)")
+    local slugs=HeaderList[i]:match("\n(.*)\n")
+    local A2, AA2, AAA2 = ultraschall.SplitStringAtLineFeedToArray(slugs)
     if DontSort==nil then
       table.sort(AA2)
     end
@@ -274,10 +283,10 @@ function contentindex()
   FunctionsLister_Count=0
   
   for i=1, count2 do
-    Top=HeaderList[i]:match("(.-),")
-    Second=HeaderList[i]:match(".-,(.-),")
-    Third=HeaderList[i]:match(".-,.-,(.-),")
-    Counts, Slugs=ultraschall.SplitStringAtLineFeedToArray(HeaderList[i]:match(".-\n(.*)\n"))
+    local Top=HeaderList[i]:match("(.-),")
+    local Second=HeaderList[i]:match(".-,(.-),")
+    local Third=HeaderList[i]:match(".-,.-,(.-),")
+    local Counts, Slugs=ultraschall.SplitStringAtLineFeedToArray(HeaderList[i]:match(".-\n(.*)\n"))
     slugs=""
     if Top==nil then One="" else One=Top end
     if Second==nil then Two="" else Two=Second end
@@ -329,12 +338,13 @@ function convertMarkdown(start, stop)
   if start==nil then start=1 end
   if stop==nil then stop=Ccount end
   
-  print_update("Converting Markdown")
+  print_update(CurrentDocs..": Converting Markdown")
   FunctionConverter={}
   FunctionConverter_count=0
   
   for i=start, stop do
-    Description, AllUSDocBloc_Header[i]["markup_type"], markup_version, indent, language, prog_lang = ultraschall.Docs_GetUSDocBloc_Description(AllUSDocBloc_Header[i][2], true, 1)
+    local Description
+    Description, AllUSDocBloc_Header[i]["markup_type"] = ultraschall.Docs_GetUSDocBloc_Description(AllUSDocBloc_Header[i][2], true, 1)
 
     if AllUSDocBloc_Header[i]["markup_type"]=="plaintext" then
       AllUSDocBloc_Header[i][6]=ultraschall.Docs_ConvertPlainTextToHTML(Description)
@@ -348,7 +358,7 @@ function convertMarkdown(start, stop)
 
   Batch=""
   for i=1, FunctionConverter_count do
-    Batch=Batch.."\"c:\\Program Files\\Pandoc\\pandoc.exe\" -f markdown_strict -t html \""..ultraschall.Api_Path.."/temp/"..FunctionConverter[i]..".md\" -o \""..ultraschall.Api_Path.."/temp/"..FunctionConverter[i]..".html\"\n"
+    Batch=Batch..PanDoc.." -f markdown_strict -t html \""..ultraschall.Api_Path.."/temp/"..FunctionConverter[i]..".md\" -o \""..ultraschall.Api_Path.."/temp/"..FunctionConverter[i]..".html\"\n"
   end
   
   ultraschall.WriteValueToFile(Tempfile.."/Batch.bat", Batch)
@@ -368,6 +378,8 @@ function convertMarkdown(start, stop)
   --end
 end
 
+
+
 -- Step 4: create the entries
 function entries(start, stop)
   if start==nil then start=1 end
@@ -379,14 +391,14 @@ function entries(start, stop)
       --FunctionList=FunctionList.."<div class=\"chapterpad\"><hr><h3><a id=\"Functions:"..FunctionsLister[EntryCount]:sub(8,-1).."\"></a><a href=\"#"..FunctionsLister[EntryCount]:sub(8,-1).."\">^</a>"..FunctionsLister[EntryCount]:sub(8,-1).."-functions</h3>"
     else
       --print_update(i)
-      title=ultraschall.Docs_GetUSDocBloc_Title(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], 1)
+      local title=ultraschall.Docs_GetUSDocBloc_Title(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], 1)
   
       -- get the requires
-      req_count, requires, requires_alt = ultraschall.Docs_GetUSDocBloc_Requires(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2])
+      local req_count, requires, requires_alt = ultraschall.Docs_GetUSDocBloc_Requires(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2])
   
       -- get the functioncalls
-      functioncall={}
-      f1, f2= ultraschall.Docs_GetUSDocBloc_Functioncall(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], 1)
+      local functioncall={}
+      local f1, f2= ultraschall.Docs_GetUSDocBloc_Functioncall(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], 1)
       if f1~=nil and f2==nil then f2="lua" end
       if f2~=nil and f1~=nil then
         functioncall[f2]=f1
@@ -400,10 +412,10 @@ function entries(start, stop)
       
       
       -- get the parameters
-      Parmcount, Params, markuptype, markupversion, prog_lang, spok_lang, indent = ultraschall.Docs_GetUSDocBloc_Params(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], true, 1)
+      local Parmcount, Params, markuptype, markupversion, prog_lang, spok_lang, indent = ultraschall.Docs_GetUSDocBloc_Params(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], true, 1)
   
       -- get the return values
-      Retvalscount, Retvals, markuptype, markupversion, prog_lang, spok_lang, indent = ultraschall.Docs_GetUSDocBloc_Retvals(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], true, 1)
+      local Retvalscount, Retvals, markuptype, markupversion, prog_lang, spok_lang, indent = ultraschall.Docs_GetUSDocBloc_Retvals(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], true, 1)
       -- slug and anchor
       FunctionList=FunctionList..[[
       
@@ -528,7 +540,9 @@ function entries(start, stop)
             <br>
         </div>
     ]]
-    print_update(EntryCount.."/"..Ccount, reaper.time_precise())
+    ultraschall.WriteValueToFile(Outfile, FunctionList, nil, true)
+    FunctionList=""
+    print_update(CurrentDocs..": "..EntryCount.."/"..Ccount, reaper.time_precise())
   end
   
   FunctionList=FunctionList..[[
@@ -546,10 +560,12 @@ end
 
 contentindex()
 convertMarkdown()
+ultraschall.WriteValueToFile(Outfile, FunctionList)
+FunctionList=""
 entries()
 
 -- Step 5: Write the outputfile
-ultraschall.WriteValueToFile(Outfile, FunctionList)
+ultraschall.WriteValueToFile(Outfile, FunctionList, nil, true)
 
 --ultraschall.WriteValueToFile(ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation.html", FunctionList)
 
