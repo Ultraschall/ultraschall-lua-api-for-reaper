@@ -120,7 +120,6 @@ function ultraschall.ColorateDatatypes(String)
   String=string.gsub(String, " char ", " <i class=\"dtype\">char</i> ")
   String=string.gsub(String, " char%* ", " <i class=\"dtype\">char*</i> ")
   String=string.gsub(String, " string ", " <i class=\"dtype\">string</i> ")
-  String=string.gsub(String, " String ", " <i class=\"dtype\">String</i> ")
   String=string.gsub(String, " number ", " <i class=\"dtype\">number</i> ")
   String=string.gsub(String, " double ", " <i class=\"dtype\">double</i> ")
   String=string.gsub(String, " double%* ", " <i class=\"dtype\">double*</i> ")
@@ -140,6 +139,7 @@ function ultraschall.ColorateDatatypes(String)
   String=string.gsub(String, " ImGui_Context ", " <i class=\"dtype\">ImGui_Context</i> ")
   String=string.gsub(String, " ImGui_DrawList ", " <i class=\"dtype\">ImGui_DrawList</i> ")
   String=string.gsub(String, " identifier ", " <i class=\"dtype\">identifier</i> ")
+  String=string.gsub(String, " reaper.array ", " <i class=\"dtype\">reaper.array</i> ")
   String=string.gsub(String, " PackageEntry ", " <i class=\"dtype\">PackageEntry</i> ")  
   String=string.gsub(String, " IReaperControlSurface ", " <i class=\"dtype\">IReaperControlSurface</i> ")
   
@@ -245,7 +245,8 @@ function contentindex()
   count=1
   while AllUSDocBloc_Header[count]~=nil do    
     local A1, AA1, AAA1 = ultraschall.ParseChapterContext(AllUSDocBloc_Header[count][2])
-    local Slug=AllUSDocBloc_Header[count][1]
+    local Slug=ultraschall.Docs_GetUSDocBloc_Title(AllUSDocBloc_Header[count][2], 1)
+    if Slug==nil then Slug=AllUSDocBloc_Header[count][1] end
     local temp=AAA1.."\n"
        
     for i=1, count2 do
