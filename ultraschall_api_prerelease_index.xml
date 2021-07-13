@@ -2,9 +2,10 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="44951.00" author="Meo Mespotine">
+      <version name="44973.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005//ultraschall_api_readme.txt</source>
+	<source file="/ultraschall_api/beta.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/beta.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Changelog-Api.txt</source>
 	<source file="/ultraschall_api/Readme-First.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Readme-First.txt</source>
 	<source file="/ultraschall_api/ultraschall_datastructures_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/ultraschall_datastructures_engine.lua</source>
@@ -400,6 +401,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Track_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Track_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts_InDevelopment/Ultraschall_StateInspectorV3.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/DeveloperScripts_InDevelopment/Ultraschall_StateInspectorV3.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/DocGenerator_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/DocGenerator_v2.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Doc_CreationPipeLine_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Doc_CreationPipeLine_v2.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ConfigVarDocConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ConfigVarDocConverter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ConfigVarDocConverter_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ConfigVarDocConverter_v2.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ReaScriptConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ReaScriptConverter.lua</source>
@@ -420,7 +422,6 @@
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ConceptsDocConverter_VID.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ConceptsDocConverter_VID.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ConceptsDocConverter_VID_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ConceptsDocConverter_VID_v2.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_AUD_Converter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_AUD_Converter.lua</source>
-	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_CreationPipeLine_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_CreationPipeLine_v2.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_DOC_Converter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_DOC_Converter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_DOC_Converter_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_DOC_Converter_v2.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_Func_Converter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_Doc_Func_Converter.lua</source>
@@ -605,7 +606,7 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.2.005 - "" - XXth of XXXX 2021
+4.2.005 - “Anne Clarke - Our Darkness” - XXth of XXXX 2021
 
 Has now 1400 functions, with 15 new ones
 
@@ -621,12 +622,16 @@ New features in 4.2.005
 
 Changes from 4.2.004 to 4.2.005
 
+-   API: Settings - Beta-functions can now be activated via
+    Ultraschall-API-Settings
 -   Developer Tools:
     ultraschall_developertool_Display-Altered-Config-Vars.lua - fixed a
     bug, that omitted some config-vars
 -   Docs: Reaper Internals - updated to Reaper 6.30
 -   DocsManagement: Docs_GetUSDocBloc_ChapterContext - didn’t return all
     chapter-context-entries -> fixed
+-   GuiLib: Lokasenna_LoadGuiLib_v2 - didn’t load due stupid typo ->
+    fixed
 -   Markers: MoveMarkersBy - didn’t work on markers with 0 in their
     index number -> fixed(thanks to GNetzer)
 
@@ -8086,7 +8091,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1412 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 44951 from 13.07.2021 15:19:39).}
+a 1412 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 44973 from 13.07.2021 15:42:03).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -8224,7 +8229,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1412 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 44951 from 13.07.2021 15:19:39).}
+a 1412 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 44973 from 13.07.2021 15:42:03).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
