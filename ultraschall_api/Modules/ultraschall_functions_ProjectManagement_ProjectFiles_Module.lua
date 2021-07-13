@@ -1435,6 +1435,7 @@ function ultraschall.GetProject_RenderPattern(projectfilename_with_path, Project
         Computer Information:
         $user    user name
         $computer  computer name
+        
         (this description has been taken from the Render Wildcard Help within the Render-Dialog of Reaper)
     
     Returns nil in case of error.
@@ -10904,76 +10905,88 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
   <description>
     Sets the render-filename in an rpp-projectfile or a ProjectStateChunk. Set it to "", if you want to set the render-filename with <a href="#SetProject_RenderFilename">SetProject_RenderFilename</a>.
     
+    Capitalizing the first character of the wildcard will capitalize the first letter of the substitution. 
+        Capitalizing the first two characters of the wildcard will capitalize all letters.
+        
+        Directories will be created if necessary. For example if the render target 
+        is "$project/track", the directory "$project" will be created.
+        
+        Immediately following a wildcard, character replacement statements may be specified:
+          <X>  -- single character which is to be removed from the substitution. 
+                      For example: $track< > removes all spaces from the track name, 
+                                   $track</><\> removes all slashes.
+                                   
+          <abcdeX> -- multiple characters, abcde are all replaced with X. 
+                      
+                      For example: <_.> replaces all underscores with periods, 
+                                   </\_> replaces all slashes with underscores. 
+                      
+                      If > is specified as a source character, it must be listed first in the list.
+        
+        $item    media item take name, if the input is a media item
+        $itemnumber  1 for the first media item on a track, 2 for the second...
+        $track    track name
+        $tracknumber  1 for the first track, 2 for the second...
+        $parenttrack  parent track name
+        $region    region name
+        $regionnumber  1 for the first region, 2 for the second...
+        $project    project name
+        $tempo    project tempo at the start of the render region
+        $timesignature  project time signature at the start of the render region, formatted as 4-4
+        $filenumber  blank (optionally 1) for the first file rendered, 1 (optionally 2) for the second...
+        $filenumber[N]  N for the first file rendered, N+1 for the second...
+        $note    C0 for the first file rendered,C#0 for the second...
+        $note[X]    X (example: B2) for the first file rendered, X+1 (example: C3) for the second...
+        $natural    C0 for the first file rendered, D0 for the second...
+        $natural[X]  X (example: F2) for the first file rendered, X+1 (example: G2) for the second...
+        $namecount  1 for the first item or region of the same name, 2 for the second...
+        $timelineorder  1 for the first item or region on the timeline, 2 for the second...
+        
+        Position/Length:
+        $start    start time of the media item, render region, or time selection, in M-SS.TTT
+        $end    end time of the media item, render region, or time selection, in M-SS.TTT
+        $length    length of the media item, render region, or time selection, in M-SS.TTT
+        $startbeats  start time in measures.beats of the media item, render region, or time selection
+        $endbeats  end time in measures.beats of the media item, render region, or time selection
+        $lengthbeats    length in measures.beats of the media item, render region, or time selection
+        $starttimecode  start time in H-MM-SS-FF format of the media item, render region, or time selection
+        $endtimecode  end time in H-MM-SS-FF format of the media item, render region, or time selection
+        $startframes  start time in absolute frames of the media item, render region, or time selection
+        $endframes  end time in absolute frames of the media item, render region, or time selection
+        $lengthframes  length in absolute frames of the media item, render region, or time selection
+        $startseconds  start time in whole seconds of the media item, render region, or time selection
+        $endseconds  end time in whole seconds of the media item, render region, or time selection
+        $lengthseconds  length in whole seconds of the media item, render region, or time selection
+        
+        Output Format:
+        $format    render format (example: wav)
+        $samplerate  sample rate (example: 44100)
+        $sampleratek  sample rate (example: 44.1)
+        $bitdepth  bit depth, if available (example: 24 or 32FP)
+        
+        Current Date/Time:
+        $year    year, currently 2019
+        $year2    last 2 digits of the year,currently 19
+        $month    month number,currently 04
+        $monthname  month name,currently apr
+        $day    day of the month, currently 28
+        $hour    hour of the day in 24-hour format,currently 23
+        $hour12    hour of the day in 12-hour format,currently 11
+        $ampm    am if before noon,pm if after noon,currently pm
+        $minute    minute of the hour,currently 30
+        $second    second of the minute,currently 27
+        
+        Computer Information:
+        $user    user name
+        $computer  computer name
+        
+        (this description has been taken from the Render Wildcard Help within the Render-Dialog of Reaper)
+    
     Returns -1 in case of error.
   </description>
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     string render_pattern - the pattern, with which the rendering-filename will be automatically created. Check also <a href="#GetProject_RenderFilename">GetProject_RenderFilename</a>
-  - Capitalizing the first character of the wildcard will capitalize the first letter of the substitution. Capitalizing the first two characters of the wildcard will capitalize all letters.
-  - 
-  - Directories will be created if necessary. For example if the render target is "$project/track", the directory "$project" will be created.
-  - 
-  - Immediately following a wildcard, character replacement statements may be specified:
-  -   <X>  -- single character which is to be removed from the substituion. For example: $track< > removes all spaces from the track name, $track</><\> removes all slashes.
-  -   <abcdeX> -- multiple characters, abcde are all replaced with X. For example: <_.> replaces all underscores with periods, </\_> replaces all slashes with underscores. If > is specified as a source character, it must be listed first in the list.
-  - 
-  - $item    media item take name, if the input is a media item
-  - $itemnumber  1 for the first media item on a track, 2 for the second...
-  - $track    track name
-  - $tracknumber  1 for the first track, 2 for the second...
-  - $parenttrack  parent track name
-  - $region    region name
-  - $regionnumber  1 for the first region, 2 for the second...
-  - $project    project name
-  - $tempo    project tempo at the start of the render region
-  - $timesignature  project time signature at the start of the render region, formatted as 4-4
-  - $filenumber  blank (optionally 1) for the first file rendered, 1 (optionally 2) for the second...
-  - $filenumber[N]  N for the first file rendered, N+1 for the second...
-  - $note    C0 for the first file rendered,C#0 for the second...
-  - $note[X]    X (example: B2) for the first file rendered, X+1 (example: C3) for the second...
-  - $natural    C0 for the first file rendered, D0 for the second...
-  - $natural[X]  X (example: F2) for the first file rendered, X+1 (example: G2) for the second...
-  - $namecount  1 for the first item or region of the same name, 2 for the second...
-  - $timelineorder  1 for the first item or region on the timeline, 2 for the second...
-  - 
-  - Position/Length:
-  - $start    start time of the media item, render region, or time selection, in M-SS.TTT
-  - $end    end time of the media item, render region, or time selection, in M-SS.TTT
-  - $length    length of the media item, render region, or time selection, in M-SS.TTT
-  - $startbeats  start time in measures.beats of the media item, render region, or time selection
-  - $endbeats  end time in measures.beats of the media item, render region, or time selection
-  - $lengthbeats    length in measures.beats of the media item, render region, or time selection
-  - $starttimecode  start time in H-MM-SS-FF format of the media item, render region, or time selection
-  - $endtimecode  end time in H-MM-SS-FF format of the media item, render region, or time selection
-  - $startframes  start time in absolute frames of the media item, render region, or time selection
-  - $endframes  end time in absolute frames of the media item, render region, or time selection
-  - $lengthframes  length in absolute frames of the media item, render region, or time selection
-  - $startseconds  start time in whole seconds of the media item, render region, or time selection
-  - $endseconds  end time in whole seconds of the media item, render region, or time selection
-  - $lengthseconds  length in whole seconds of the media item, render region, or time selection
-  - 
-  - Output Format:
-  - $format    render format (example: wav)
-  - $samplerate  sample rate (example: 44100)
-  - $sampleratek  sample rate (example: 44.1)
-  - $bitdepth  bit depth, if available (example: 24 or 32FP)
-  - 
-  - Current Date/Time:
-  - $year    year, currently 2019
-  - $year2    last 2 digits of the year,currently 19
-  - $month    month number,currently 04
-  - $monthname  month name,currently apr
-  - $day    day of the month, currently 28
-  - $hour    hour of the day in 24-hour format,currently 23
-  - $hour12    hour of the day in 12-hour format,currently 11
-  - $ampm    am if before noon,pm if after noon,currently pm
-  - $minute    minute of the hour,currently 30
-  - $second    second of the minute,currently 27
-  - 
-  - Computer Information:
-  - $user    user name
-  - $computer  computer name
-    -(this description has been taken from the Render Wildcard Help within the Render-Dialog of Reaper)
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>

@@ -334,6 +334,65 @@ function contentindex()
 end
 
 -- Step 3: convert Markdown to HTML
+-- Step 3: convert Markdown to HTML
+function convertMarkdown(start, stop)
+  if start==nil then start=1 end
+  if stop==nil then stop=Ccount end
+  
+  print_update(CurrentDocs..": Converting Markdown")
+  FunctionConverter={}
+  FunctionConverter_count=0
+  ultraschall.WriteValueToFile(Tempfile.."1.md", "")  
+  for i=start, stop do
+    local Description
+    Description, AllUSDocBloc_Header[i]["markup_type"] = ultraschall.Docs_GetUSDocBloc_Description(AllUSDocBloc_Header[i][2], true, 1)
+    
+    -- uncomment, to check, if an entry contains no link though being markdowned, which is a
+    -- hint, that the markdown was added by accident
+    --if AllUSDocBloc_Header[i]["markup_type"]=="markdown" and Description:match("%]%(")==nil then
+    --  print2(AllUSDocBloc_Header[i][2])
+    --end
+
+    if AllUSDocBloc_Header[i]["markup_type"]=="plaintext" then
+      AllUSDocBloc_Header[i][6]=ultraschall.Docs_ConvertPlainTextToHTML(Description)
+    else
+      ultraschall.WriteValueToFile(Tempfile.."1.md", "\n\n    TUDELU "..i.." "..AllUSDocBloc_Header[i][1].."\n\n"..Description.."\n\n---\n\n    TUDELUS \n\n---\n\n", nil, true)
+
+      --ultraschall.WriteValueToFile(Tempfile.."-FullIn.md", Description,nil,true)
+      FunctionConverter_count=FunctionConverter_count+1
+      FunctionConverter[FunctionConverter_count]=i
+    end
+    --]]
+  end 
+
+  ultraschall.WriteValueToFile(Tempfile.."1.md", "\n\n    TUDELU2\n\n", nil, true)
+
+
+  Batch=""
+  Batch=Batch..PanDoc.." -f markdown_strict -t html \""..ultraschall.Api_Path.."/temp/1.md\" -o \""..ultraschall.Api_Path.."/temp/1.html\"\n"
+  
+  ultraschall.WriteValueToFile(Tempfile.."/Batch.bat", Batch)
+
+  reaper.ExecProcess(Tempfile.."/Batch.bat", 0)  
+
+  ConvertedEntries=ultraschall.ReadFullFile(Tempfile.."1.html")
+  
+  k=0
+  
+  for i, f, e in string.gmatch(ConvertedEntries, "<code>TUDELU (.-) (.-)</code></pre>(.-)<hr />.-<pre><code>TUDELUS ") do
+    -- Uncomment to check for markdown in descriptions with no content
+    -- if i:match("TUDELUS")~=nil then print2(i) end
+    if tonumber(i)==nil then print2(i, f) end    
+    if e:match("TUDELUS") then print2(i, f) end
+    AllUSDocBloc_Header[tonumber(i)][6]=e
+  end
+
+  --os.remove(Tempfile.."/Batch.bat")
+  --os.remove(Tempfile.."/1.md")
+  --os.remove(Tempfile.."/1.html")
+end
+
+--[[
 function convertMarkdown(start, stop)
   if start==nil then start=1 end
   if stop==nil then stop=Ccount end
@@ -350,10 +409,12 @@ function convertMarkdown(start, stop)
       AllUSDocBloc_Header[i][6]=ultraschall.Docs_ConvertPlainTextToHTML(Description)
     else
       ultraschall.WriteValueToFile(Tempfile..i..".md", Description)
+      --ultraschall.WriteValueToFile(Tempfile.."-FullIn.md", Description,nil,true)
       FunctionConverter_count=FunctionConverter_count+1
       FunctionConverter[FunctionConverter_count]=i
     end
     --]]
+--[[
   end 
 
   Batch=""
@@ -364,19 +425,19 @@ function convertMarkdown(start, stop)
   ultraschall.WriteValueToFile(Tempfile.."/Batch.bat", Batch)
   reaper.ExecProcess(Tempfile.."/Batch.bat", 0)  
   os.remove(Tempfile.."/Batch.bat")
-  
-  for i=1, FunctionConverter_count do
-    AllUSDocBloc_Header[FunctionConverter[i]][6]=ultraschall.ReadFullFile(Tempfile..FunctionConverter[i]..".html")
-    os.remove(Tempfile..FunctionConverter[i]..".html")
-    os.remove(Tempfile..FunctionConverter[i]..".md")
-  end
+  --]]
+  --for i=1, FunctionConverter_count do
+--    AllUSDocBloc_Header[FunctionConverter[i]][6]=ultraschall.ReadFullFile(Tempfile..FunctionConverter[i]..".html")
+    --os.remove(Tempfile..FunctionConverter[i]..".html")
+    --os.remove(Tempfile..FunctionConverter[i]..".md")
+  --end
   
   
   -- add spaces into the beginning (buggy with <pre><code>-tags, so it's deactivated)
   --for i=1, Ccount do
     --AllUSDocBloc_Header[i][6]="\t\t\t\t"..string.gsub(AllUSDocBloc_Header[i][6], "\n", "\n\t\t\t\t")
   --end
-end
+--end
 
 
 
@@ -467,16 +528,16 @@ function entries(start, stop)
             <div class="chapterpad" style="font-size:104%; color:DDDDDD;">
         ]]
         if functioncall["cpp"]~=nil then
-          FunctionList=FunctionList.."\t\t<div class=\"c_func\"><span class='all_view'>C: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["cpp"])).."</code><br></div>\n"
+          FunctionList=FunctionList.."\t\t<div class=\"c_func\"><span class='all_view'>C: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["cpp"])).."</code></div>\n"
         end
         if functioncall["eel"]~=nil then
-          FunctionList=FunctionList.."\t\t\t\t<div class=\"e_func\"><span class='all_view'>EEL2: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["eel"])).."</code><br></div>\n"
+          FunctionList=FunctionList.."\t\t\t\t<div class=\"e_func\"><span class='all_view'>EEL2: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["eel"])).."</code></div>\n"
         end
         if functioncall["lua"]~=nil then
-          FunctionList=FunctionList.."\t\t\t\t<div class=\"l_func\"><span class='all_view'>Lua: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["lua"])).."</code><br></div>\n"
+          FunctionList=FunctionList.."\t\t\t\t<div class=\"l_func\"><span class='all_view'>Lua: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["lua"])).."</code></div>\n"
         end
         if functioncall["python"]~=nil then
-          FunctionList=FunctionList.."\t\t\t\t<div class=\"p_func\"><span class='all_view'>Python: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["python"])).."</code><br></div>\n"
+          FunctionList=FunctionList.."\t\t\t\t<div class=\"p_func\"><span class='all_view'>Python: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["python"])).."</code></div>\n"
         end
         FunctionList=FunctionList.."\t\t\t</div><p>\n"
       end    

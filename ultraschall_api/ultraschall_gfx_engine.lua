@@ -624,7 +624,7 @@ function ultraschall.GFX_GetWindowHWND()
     it will contain the message "Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window."
   </description>
   <retvals>
-     HWND hwnd - the window-handler of the opened gfx-window; will contain a helpermessage, if you didn't use [ultraschall.GFX_Init()](#GFX_Init) for window creation.
+     HWND hwnd - the window-handler of the opened gfx-window; will contain a helpermessage, if you didn't use ultraschall.GFX_Init() for window creation.
   </retvals>
   <chapter_context>
     Window Handling

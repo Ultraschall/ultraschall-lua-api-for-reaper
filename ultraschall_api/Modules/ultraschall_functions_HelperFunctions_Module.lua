@@ -3830,7 +3830,7 @@ function ultraschall.StateChunkLayouter(statechunk)
     ..CHANMODE 0
     ..GUID {79F087CE-49E8-4212-91F5-8487FBCF10B1}
     ..&lt;SOURCE FLAC
-    ....FILE "C:\Users\meo\Desktop\X_Karo_Lynn-Interview.flac"
+    ....FILE "C:\Users\IncredibleSupergirl\Desktop\X_audiofile.flac"
     ..&gt;
     &gt;
     </code></pre>
@@ -4597,7 +4597,7 @@ function ultraschall.SetScriptIdentifier_Title(title)
       its own script-identifier, so you can be sure, that you communicate with the right instance.
       
       With this function, you can set its title, that is less cryptic than the ScriptIdentifier itself.
-      No \n-newlines, \r-carriag returns or \0-nullbytes are allowed and will be removed
+      No \n-newlines, \r-carriage returns or \0-nullbytes are allowed and will be removed
       
       You can get it using [GetScriptIdentifier_Title](#GetScriptIdentifier_Title).
       
