@@ -27,6 +27,7 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 
 FileA={}
+FileA[#FileA+1]="Reaper_WebRCDocConverter_v2.lua"
 FileA[#FileA+1]="Ultraschall_Doc_VID_Converter_v2.lua"
 FileA[#FileA+1]="Ultraschall_ConceptsDocConverter_VID_v2.lua"
 FileA[#FileA+1]="Ultraschall_Doc_DOC_Converter_v2.lua"
@@ -42,7 +43,7 @@ FileA[#FileA+1]="Reaper_ConfigVarDocConverter_v2.lua"
 
 Starterkit=reaper.time_precise()
 
-for i=1, #FileA do
+for i=1, 1 do--#FileA do
   CurrentDocs=FileA[i].."\n"
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/Docgenerator/"..FileA[i])
 end

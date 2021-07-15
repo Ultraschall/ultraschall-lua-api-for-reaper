@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<USDocBloc>
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Introduction</slug>
+        <title>Introduction</title>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">  
+            Reaper can be controlled via a web browser interface:
+            Options->Preferences->Control/OSC/Web->Add->Web Browser Interface
+
+            where you can choose between several interfaces, included with reaper(basic, click, index, lyrics).
+            The Webinterface can be accessed i.e. via the local internet-adress localhost:8080 or localhost:8080/(interfacename(like click)).html
+
+            It can also be accessed via Wireless Lan as well as using rc.reaper.fm(for i.e. cough-buttons with long distance Skype/Studiolink-interview partners).
+
+            The Web-Interface-HTML-files can be found, altered or put to the folder Reaper/Plugins/reaper\_www\_root/
+            The folder Plugins/reaper\_www\_root in the application folder is for the standard "built in"-Reaper-WebAPI-files. If you want to place your own files, you should use the reaper\_www\_root-folder in the ressources folder or in the application-folder(the latter, if you have a portable installation of Reaper).
+
+            You can place the files into the application-folder Plugins/reaper\_www\_root as well, but if you want to export them with the export-function within Reaper, they will simply be ignored.
+        </description>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <tags>web remote control, introduction</tags>
+    </US_DocBloc>
+
+    <US_DocBloc>
+        <slug>FunctionsIntro</slug>
+        <title>How it works - basics</title>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">  
+            The Web-Interface is programmed in JavaScript. You need to include main.js first, then call wwr\_start(), which tells the Reaper-Server to accept requests.
+            You can now give Reaper requests, using commands like i.e. wwr\_req(ActionCommandID) for one time requests. The ActionCommandID tells Reaper, what you want to call, i.e. the ActionCommandID 1007 starts play in Reaper.
+            You can find a full Action Command ID-list in the Action-Dialog in the menu Actions -> Show Action List.
+            Example Code that presses the Play-Button:
+
+                                        
+                    <script src="main.js">
+                        /*includes the main.js, which contains a lot of helper functions*/
+                    </script>
+                    <script type="text/javascript">
+                        wwr_start();   /*tells Reaper to accept requests*/
+                        wwr_req(1007); /*presses the Play-Button*/
+                    </script>
+                                        
+                                    
+            You can also start Reascripts or custom actions. You just need to go to Actions->Show Actions List, then you search for the script or action you want to use.
+            Click on it with right-mouse-click and choose "Copy Selected Action Command ID".
+            Paste it into the following example-code:
+                                        
+                    <script src="main.js">
+                        /*includes the main.js, which contains a lot of helper functions*/
+                    </script>
+                    <script type="text/javascript">
+                        wwr_start();   /*tells Reaper to accept requests*/
+                        wwr_req("_ActionCommandCode"); /*replace "_Action Command Code", by pasting 
+                                                        the action-command-code you copied from Reaper
+                                                        It could look something like this: 
+                                                                _RS52af5bc23917ea88f42d82f06b1e1683e64c85a8
+                                                        Please note: the Action-Command-Code MUST be in quotes " " and 
+                                                                     start with an underscore _ */
+                    </script>
+
+        </description>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <tags>web remote control, coding introduction</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>DataExchange</slug>
+        <title>How to exchange data and get states from Reaper?</title>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">              
+            ####Sending data to Reaper
+            
+            Sending messages to Reaper, using requests, is easy, as it is only a normal request, where you exchange the parameters with your own.
+            The parameters can be written inside of the request or exchanged by variables.
+            For instance, if you want to set a persistent external state, you could use the request SET/EXTSTATEPERSIST/section/key/value and it would look like the following example:
+
+            Example1
+
+                    <html>
+                        <head>
+                            <script src="main.js"></script>
+                            <script type="text/javascript">
+                                var section="IamASection";
+                                var key="IamAKey";
+                                var value="IamTheValue";
+
+                                wwr_start();
+                                wwr_req("SET/EXTSTATEPERSIST/"+section+"/"+key+"/"+value);
+                            </script>
+                        </head>
+                        <body>
+                        </body>
+                    </html>
+
+            ####Receiving data from Reaper
+            
+            When you call a request, that returns data/values/states, like (TRANSPORT, MARKER or GET/EXTSTATE/section/key), the main.js automatically calls a function called wwr\_onreply(results). This function isn't there by default but must be rather defined by you in your script.
+            In that function, the variable "result" contains the response from Reaper, which can either be a one-liner(like with TRANSPORT) or multiliner(like when getting the data for all markers in your project with MARKER).
+            Multiliners are separated by a newline "\n", the individual entries in each line are separated with tabs "\t". So if you want to get the individual values, newline and tab will make you very happy.
+            Every line in the response starts with the exact request you've sent(a "TRANSPORT"-request returns a line, that begins with "TRANSPORT"), so you know exactly, from what request the response came-from. You can also differentiate between different kinds of requests that way, as different requests return different ways of data, states, etc.
+            There are exceptions to this rule though(e.g. "MARKER", which starts with "MARKER\_LIST"), so, if in doubt, just check the "results"-variable using an alert-message and look for yourself, how the response starts. But relax, they keep the same, means: "MARKER" will always return "MARKER\_LIST" and not Jamboreepop out of a sudden or something like that.
+            The second example in this chapter will show you how to do it.
+
+            Example1
+            This is a simple example, that shows how to get data from Reaper using the wwr-request "TRANSPORT" and display it with the Javascript-alert-function. Feel free to modify and experiment in the wwr\_req()-line, by exchanging "TRANSPORT" with another request(more requests later in this documentation).
+            This example uses code from the lyrics.html page, as included with Reaper.
+            Always include the main.js!
+
+                <html>
+                    <head>
+                        <script src="main.js"></script>
+
+                        <script type="text/javascript">
+
+                            function wwr_onreply(results) {
+                              //main.js calls wwr_onreply with the response, as sent from Reaper, when
+                              //wwr_req("TRANSPORT") is called.
+
+                              alert("Reaper returned: "+results); //shows a messagebox with "results", as returned by Reaper
+                            }
+                            
+                            wwr_start();//Starts the Server
+                            wwr_req("TRANSPORT");//Calls TRANSPORT, which returns the Transport-state, playstate, time, etc into the wwr_onreply()-function.
+                            
+                        </script>
+                    </head>
+                    <body>
+                        Reaper Transport-State Response-Demo1<p>
+                        Show the Transport-State-Response, when this page is (re-)loaded.
+                    </body>
+                </html>
+
+            Example2
+            The next example shows you, what to do with the returned data, how to handle it, separate it(also multiline-requests) and putting it into global variables to be used later. It also displays you the content of the variables with an alert()-message.
+            Press the button to execute the request again.
+            Again, this example works with the "TRANSPORT"-request, but covers briefly the request "MARKER" as well. Feel free to experiment with other requests as well to get an idea.
+            This example uses code from the lyrics.html page, as included with Reaper.
+            Always include the main.js!
+
+                <html>
+                    <head>
+                        <script src="main.js"></script>
+
+                        <script type="text/javascript">
+
+                        // Setup the global variables, that will contain the Transport-States
+                            var playstate="";
+                            var playpos="099";
+                            var isRepeat="";
+                            var position_string="";
+                            var position_string_beats="";
+
+                        function wwr_onreply(results) {
+                          // main.js calls wwr_onreply with the response, as sent from Reaper, when
+                          // wwr_req("TRANSPORT") is called. Response can be found in the variable "results".
+
+                          alert("Reaper returned: "+results);       // shows a messagebox with "results", as responded from Reaper
+                          var ar=results.split("\n");               // split results into an array, if result has multiple 
+                                                                    // lines(e.g. when you call wwr_req("MARKER") )
+
+                            for (var i=0; i < ar.length; ++i) {     // count through the individual array-fields of "ar"; every one of them containing one 
+                                                                    // responded line, if results was a multiline-response.
+                                var tok=ar[i].split("\t");          // split a responded line into its individual fields into the array "tok"
+                                if (tok &amp;&amp; tok.length > 0) {
+                                    switch (tok[0]) {
+                                        case "TRANSPORT":           // if response was from wwr_req("TRANSPORT") then 
+                                                                    // set the individual tok-entries to these global variables
+                                              playstate=tok[1]; 
+                                              playpos=tok[2];
+                                              isRepeat=tok[3];
+                                              position_string=tok[4];
+                                              position_string_beats=tok[5];
+                                        break;
+                                        
+                                        case "MARKER_LIST":         // if response was from wwr_req("MARKER") then display the first three 
+                                                                    // markers from the current Reaper-project. 
+                                                                    // If you do wwr_req("MARKER"), the markerlist starts with "MARKER_LIST"!
+                                            alert(ar[1]);
+                                            alert(ar[2]);
+                                            alert(ar[3]);
+                                        break;
+                                    }
+                                }
+                            }
+                            showVariables();                        //show the variables, after they've been set
+                        }
+
+                        function showVariables()
+                        { 
+                            // show the variables, set after wwr_req("TRANSPORT") has been called
+                            alert("playstate: "+playstate); //Playstate
+                            alert("playpos: "+playpos);     //Position in seconds
+                            alert("isRepeat: "+isRepeat);   //is Repeat-Button on?
+                            alert("position_string: "+position_string); //Position-time as a string
+                            alert("position_string_beats: "+position_string_beats); //Position.beats as a string
+                        }
+
+                            wwr_start();//Starts the Server
+                            wwr_req("TRANSPORT");//Calls TRANSPORT, which returns the Transport-state, playstate, time, etc into the wwr_onreply()-function.
+                            //wwr_req_recur("TRANSPORT",1000);//Does the same as wwr_req("TRANSPORT"), but repeats it over and over until
+                            //wr_req_recur_cancel("TRANSPORT");//stops requests, that were started by wwr_req_recur("TRANSPORT")
+                            
+                        </script>
+                    </head>
+                    <body>
+                        Reaper Transport-State Response-Demo<p>
+                        <form name="test">
+                            <input name="test2" style="font-size:50;" type="submit" value="Show Variables" onclick="start()" onsubmit="start()">
+                        </form>
+                    </body>
+                </html>
+            
+        </description>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <tags>web remote control, coding introduction</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FunctionsandVariables</slug>
+        <title>Functions and Variables</title>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description>
+            The main.js-file, which manages the exchange of requests and data, includes some little helpers with it, that you can use.
+            
+            Note: If you create your own functions and variables, avoid names with a wwr or mk in it, as the Webinterface-functions and variables are named with them. That way, you can avoid name-conflicts with future versions of the Reaper-Webinterface.
+        </description>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <tags>web remote control, introduction</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>g_wwr_timer_freq</slug>
+        <title>g_wwr_timer_freq</title>
+        <functioncall prog_lang="javascript">g_wwr_timer_freq</functioncall>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description prog_lang="*">
+            A global variable, that stores the timer-frequency for requests. Default is 100 for 100ms, but can be changed to any other value in milliseconds, before calling wwr_start(). Don't choose a too low value, as this could cause Reaper becoming stuck and unresponsive!
+        </description>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            2. Special Variables
+        </chapter_context>
+        <tags>web remote control, variable, timer, frequency</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>wwr_start</slug>
+        <title>wwr_start</title>
+        <functioncall prog_lang="javascript">wwr_start()</functioncall>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description prog_lang="*">
+            Starts the server. After that, requests can be send to Reaper.
+        </description>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Functions
+        </chapter_context>
+        <tags>web remote control, start, server</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>wwr_req</slug>
+        <title>wwr_req</title>
+        <functioncall prog_lang="javascript">wwr_req(string request)</functioncall>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">
+            Sends a one-time request to Reaper. Can be a commandID-number, an "\_ActionID" or one of the requests listed in the "Readme"-chapter later below.
+
+            If a request returns values, they can be accessed in the function [wwr\_onreply](#wwr_onreply). Refer the [Receiving data from Reaper](#DataExchange) earlier in this document.
+        </description>
+        <parameters>
+            string request - The request to be sent to Reaper. Can be a commandID-number, an "_ActionID" or one of the requests listed in the "Readme"-chapter.
+        </parameters>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Functions
+        </chapter_context>
+        <tags>web remote control, send, request, action command id</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>wwr_req_recur</slug>
+        <title>wwr_req_recur</title>
+        <functioncall prog_lang="javascript">wwr_req_recur(string request, float timer_frequency)</functioncall>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">
+            Just like [wwr\_req()](#wwr_req), but resends the request automatically with a frequency set in timer_frequency. Must be stopped with [wwr\_req\_recur\_cancel()](#wwr_req_recur_cancel)
+        </description>
+        <parameters>
+            string request - The request to be sent to Reaper. Can be a commandID-number, an "_ActionID" or one of the requests listed in the "Readme"-chapter.
+            float timer_frequency - the timer frequency in milliseconds, that decides, how often this request shall be repeated. Don't choose to low, or Reaper might get stuck and unresponsive!
+        </parameters>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Functions
+        </chapter_context>
+        <tags>web remote control, send, recurring, request, action command id</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>wwr_req_recur_cancel</slug>
+        <title>wwr_req_recur_cancel</title>
+        <functioncall prog_lang="javascript">wwr_req_recur_cancel(string request)</functioncall>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">
+            Stops a recurring request, that has been started with [wwr\_req\_recur](#wwr_req_recur). Can be a commandID-number, an "\_ActionID" or one of the requests listed in the "Readme"-chapter later below.
+        </description>
+        <parameters>
+            string request - The request to be stopped from being sent to Reaper. Can be a commandID-number, an "_ActionID" or one of the requests listed in the "Readme"-chapter.
+        </parameters>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Functions
+        </chapter_context>
+        <tags>web remote control, stop, send, recurring, request, action command id</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>mkvolstr</slug>
+        <title>mkvolstr</title>
+        <functioncall prog_lang="javascript">string db_value = mkvolstr(float vol)</functioncall>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">
+            converts a volume-value(as returned by e.g. the request TRANSPORT") into a db-value and returns it. The string could be like "123.45 db" or "-inf db"(if the vol-value is too low).
+        </description>
+        <parameters>
+            float vol - a volume-number as returned from a request like e.g. TRANSPORT. Only positive values are allowed. Minimum 0.00000002980232. Lower returns -inf.
+        </parameters>
+        <retvals>
+            string db_value - the converted value as dB
+        </retvals>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Functions
+        </chapter_context>
+        <tags>web remote control, convert, volume, db</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>mkpanstr</slug>
+        <title>mkpanstr</title>
+        <functioncall prog_lang="javascript">string pan_percentage_value = mkpanstr(float pan)</functioncall>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">
+            returns the pan value converted into percentage. The returned value could look like "10%L" or "25%R" or "center". The function allows values that produce more than 100% left or right, i.e. "1234%L". Keep that in mind!
+        </description>
+        <parameters>
+            float pan - a pan-number as returned from a request like e.g. TRANSPORT. Negative values=left, positive values=right. -1=100%left, 1-100%right, 0.001 to -0.001=center.
+        </parameters>
+        <retvals>
+            string pan_percentage_value - the converted pan-value as percentage
+        </retvals>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Functions
+        </chapter_context>
+        <tags>web remote control, convert, percentage, pan</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>simple_unescape</slug>
+        <title>simple_unescape</title>
+        <functioncall prog_lang="javascript">string unescaped_values = simple_unescape(string v)</functioncall>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description>
+            unescapes \\n to \n and \\t to \t and \\ to \ within a string. Important, as some responses from requests escape tabs, newline and backslashes that way.
+        </description>
+        <parameters>
+            string v - a string, that contains not-yet-unescaped newlines, tabs and backslashes    
+        </parameters>
+        <retvals>
+            string unescaped_values - the string where all newlines, tabs and backslashes are unescaped
+        </retvals>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Functions
+        </chapter_context>
+        <tags>web remote control, unescape, newlines, backslash, tabs</tags>
+    </US_DocBloc>
+</USDocBloc>

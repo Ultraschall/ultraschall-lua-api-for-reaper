@@ -203,7 +203,12 @@ else
 end
 
 -- split into individual USDocBlocs
-local Ccount, AllUSDocBloc_Header=ultraschall.SplitUSDocBlocs(String)
+Ccount, AllUSDocBloc_Header=ultraschall.SplitUSDocBlocs(String)
+AllUSDocBloc_Header_Slugs={}
+
+for i=1, Ccount do
+  AllUSDocBloc_Header_Slugs[AllUSDocBloc_Header[i][1]]=AllUSDocBloc_Header[i]
+end
 
 -- get some API-version-information
 local usD,usversion,usdate,usbeta,usTagline,usF,usG=ultraschall.GetApiVersion()
@@ -245,8 +250,7 @@ function contentindex()
   count=1
   while AllUSDocBloc_Header[count]~=nil do    
     local A1, AA1, AAA1 = ultraschall.ParseChapterContext(AllUSDocBloc_Header[count][2])
-    local Slug=ultraschall.Docs_GetUSDocBloc_Title(AllUSDocBloc_Header[count][2], 1)
-    if Slug==nil then Slug=AllUSDocBloc_Header[count][1] end
+    local Slug=AllUSDocBloc_Header[count][1]
     local temp=AAA1.."\n"
        
     for i=1, count2 do
@@ -266,6 +270,7 @@ function contentindex()
   for i=1, count2 do
     local chapter=HeaderList[i]:match("(.-\n)")
     local slugs=HeaderList[i]:match("\n(.*)\n")
+
     local A2, AA2, AAA2 = ultraschall.SplitStringAtLineFeedToArray(slugs)
     if DontSort==nil then
       table.sort(AA2)
@@ -284,9 +289,11 @@ function contentindex()
   FunctionsLister_Count=0
   
   for i=1, count2 do
+    -- Header for each category
     local Top=HeaderList[i]:match("(.-),")
     local Second=HeaderList[i]:match(".-,(.-),")
     local Third=HeaderList[i]:match(".-,.-,(.-),")
+    
     local Counts, Slugs=ultraschall.SplitStringAtLineFeedToArray(HeaderList[i]:match(".-\n(.*)\n"))
     slugs=""
     if Top==nil then One="" else One=Top end
@@ -294,6 +301,7 @@ function contentindex()
     if Third==nil then Three="" else Three=Third end
     FunctionsLister_Count=FunctionsLister_Count+1
     FunctionsLister[FunctionsLister_Count]="HEADER:"..tostring(One).." "..tostring(Two).." "..tostring(Three).."\n"
+    
     if Top==nil then Top="" else Top="<br><a style=\"margin-left:-14\" id=\""..Top.."\"><a href=\"#"..Top.."\">^</a></a><strong> <u>"..Top.."</u></strong><br><br>\n" end
     if i>1 and Top:match("u%>(.-)%</u")==HeaderList[i-1]:match("(.-),") then Top="" end
     if Second==nil then Second="" else Second="<b style=\"font-size:small;\"><br><a style=\"margin-left:-14\" id=\""..Second.."\"><a href=\"#"..Second.."\">^</a></a> "..Second.."</b>\n" end
@@ -301,13 +309,17 @@ function contentindex()
     if Third==nil then Third="" else Third=Third.."\n" end
     if i>1 and Third:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Third="" end
   
+    -- Chapters for each category
     if Index==nil then Index=4 end
     linebreaker=1
     for a=1, Counts do
       if linebreaker==1 then slugs=slugs.."<tr>" end
       --if linebreaker==5 then slugs=slugs.."</tr>" linebreaker=1 end
       if linebreaker==Index+1 then slugs=slugs.."</tr>" linebreaker=1 end
-      slugs=slugs.."<td style=\"width:25%; font-size:small;\"><a class=\"smallfontTD\" href=\"#"..Slugs[a].."\">"..Slugs[a].."</a></td>"
+      Title=ultraschall.Docs_GetUSDocBloc_Title(AllUSDocBloc_Header_Slugs[Slugs[a]][2], 1)
+      --Title=Slugs[a]
+      if Title==nil then Title="Nope" end
+      slugs=slugs.."<td style=\"width:25%; font-size:small;\"><a class=\"smallfontTD\" href=\"#"..Slugs[a].."\">"..Title.."</a></td>"      
       FunctionsLister_Count=FunctionsLister_Count+1
       FunctionsLister[FunctionsLister_Count]=Slugs[a]
       linebreaker=linebreaker+1
@@ -334,7 +346,7 @@ function contentindex()
     end
 end
 
--- Step 3: convert Markdown to HTML
+
 -- Step 3: convert Markdown to HTML
 function convertMarkdown(start, stop)
   if start==nil then start=1 end
@@ -388,9 +400,9 @@ function convertMarkdown(start, stop)
     AllUSDocBloc_Header[tonumber(i)][6]=e
   end
 
-  --os.remove(Tempfile.."/Batch.bat")
-  --os.remove(Tempfile.."/1.md")
-  --os.remove(Tempfile.."/1.html")
+  os.remove(Tempfile.."/Batch.bat")
+  os.remove(Tempfile.."/1.md")
+  os.remove(Tempfile.."/1.html")
 end
 
 --[[
@@ -520,7 +532,8 @@ function entries(start, stop)
       if functioncall["cpp"]~=nil or 
          functioncall["lua"]~=nil or 
          functioncall["python"]~=nil or 
-         functioncall["eel"]~=nil 
+         functioncall["eel"]~=nil or
+         functioncall["javascript"]~=nil 
       then
         AllUSDocBloc_Header[FunctionsLister[EntryCount]]["Tohoo"]=true
         FunctionList=FunctionList..[[
@@ -539,6 +552,9 @@ function entries(start, stop)
         end
         if functioncall["python"]~=nil then
           FunctionList=FunctionList.."\t\t\t\t<div class=\"p_func\"><span class='all_view'>Python: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["python"])).."</code></div>\n"
+        end
+        if functioncall["javascript"]~=nil then
+          FunctionList=FunctionList.."\t\t\t\t<div class=\"j_func\"><span class='all_view'>Javascript: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["javascript"])).."</code></div>\n"
         end
         FunctionList=FunctionList.."\t\t\t</div><p>\n"
       end    
