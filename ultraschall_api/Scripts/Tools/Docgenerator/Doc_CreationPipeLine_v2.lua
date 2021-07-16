@@ -25,6 +25,8 @@
   --]]
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
+ultraschall.BringReaScriptConsoleToFront()
+
 ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
 ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
 --retval, String=reaper.GetUserInputs("Reaper Tagline", 2, "Version,Tagline", ReaperVersion..","..ReaperTagline)
