@@ -1118,10 +1118,6 @@ function progresscounter(state)
   local A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_doc_engine.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gfx_engine.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine_server.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_network_engine.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_sound_engine.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_video_engine.lua")
   
   local filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Modules/")
@@ -1132,9 +1128,6 @@ function progresscounter(state)
 if ultraschall.US_BetaFunctions==true then
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gfx_engine_beta.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine_beta.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_network_engine_beta.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_sound_engine_beta.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_video_engine_beta.lua")
 end
   A=A.."function ultraschall."
