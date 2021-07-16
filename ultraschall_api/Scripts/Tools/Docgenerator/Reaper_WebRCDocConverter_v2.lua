@@ -42,7 +42,7 @@ Tempfile=ultraschall.Api_Path.."/temp/"
 
 Infilename=ultraschall.Api_Path.."/DocsSourcefiles/reaper-webRC-docs.USDocML"
 --Infilename=ultraschall.Api_Path.."/DocsSourcefiles/reaper-videoprocessor-docs.USDocML"
-Outfile=ultraschall.Api_Path.."/Documentation/Reaper_API_Web_Documentation-test.html"
+Outfile=ultraschall.Api_Path.."/Documentation/Reaper_API_Web_Documentation.html"
 
 -- Reaper-version and tagline from extstate
 versionnumbering=reaper.GetExtState("ultraschall_api", "ReaperVerNr")

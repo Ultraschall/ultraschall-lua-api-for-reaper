@@ -318,7 +318,7 @@ function contentindex()
       if linebreaker==Index+1 then slugs=slugs.."</tr>" linebreaker=1 end
       Title=ultraschall.Docs_GetUSDocBloc_Title(AllUSDocBloc_Header_Slugs[Slugs[a]][2], 1)
       --Title=Slugs[a]
-      if Title==nil then Title="Nope" end
+      if Title==nil then Title=Slugs[a] end --Title="Nope" end
       slugs=slugs.."<td style=\"width:25%; font-size:small;\"><a class=\"smallfontTD\" href=\"#"..Slugs[a].."\">"..Title.."</a></td>"      
       FunctionsLister_Count=FunctionsLister_Count+1
       FunctionsLister[FunctionsLister_Count]=Slugs[a]
