@@ -49,10 +49,10 @@ FileA[#FileA+1]="Ultraschall_Doc_GFX_Converter_v2.lua"
 FileA[#FileA+1]="Ultraschall_ConceptsDocConverter_GFX_v2.lua"
 FileA[#FileA+1]="Ultraschall_ConceptsDocConverter_DOC_v2.lua"
 FileA[#FileA+1]="Ultraschall_ApiDownloads_Generator.lua"
-FileA[#FileA+1]="Ultraschall_Doc_Func_Converter_v2.lua"
 FileA[#FileA+1]="Ultraschall_ConceptsDocConverter_v2.lua"
 FileA[#FileA+1]="Reaper_VideoProcessorDocConverter_v2.lua"
 FileA[#FileA+1]="Reaper_ReaScriptConverter_v2.lua"
+FileA[#FileA+1]="Ultraschall_Doc_Func_Converter_v2.lua"
 --FileA[#FileA+1]="Reaper_FileTypeDocConverter_v2.lua"
 
 Starterkit=reaper.time_precise()

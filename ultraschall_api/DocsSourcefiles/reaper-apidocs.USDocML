@@ -114,37 +114,37 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="python">
         <slug>2.3.python_desc</slug>
         <title>2.3 Python Api-Description</title>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             ### ReaScript/Python API            
 
             ReaScript/Python requires a recent version of Python installed on this machine. Python is available from multiple sources [as a free download](http://www.python.org/download). After installing Python, REAPER may detect the Python dynamic library automatically. If not, you can enter the path in the ReaScript preferences page, at Options/Preferences/Plug-Ins/ReaScript.
 
-            ReaScript/Python scripts can call API functions using RPR\_functionname().
+            ReaScript/Python scripts can call API functions using RPR_functionname().
 
             All parameters are passed by value, not reference. API functions that cannot return information in the parameter list will return a single value. API functions that can return any information in the parameter list will return a list of values; The first value in the list will be the function return value (unless the function is declared to return void).
 
             Examples:
             
-                # function returning a single (scalar) value:
-                sec = RPR_parse_timestr("1:12")
+            # function returning a single (scalar) value:  
+            sec = RPR_parse_timestr("1:12")  
 
-                # function returning information in the first parameter (function returns void):
-                (str) = RPR_GetProjectPath("", 512)
+            # function returning information in the first parameter (function returns void):  
+            (str) = RPR_GetProjectPath("", 512)  
 
-                # lower volume of track 3 by half (RPR_GetTrackUIVolPan returns Bool):
-                tr = RPR_GetTrack(0, 2)
-                (ok, tr, vol, pan) = RPR_GetTrackUIVolPan(tr, 0, 0)
-                # this also works, if you only care about one of the returned values:
-                vol = RPR_GetTrackUIVolPan(tr, 0, 0)[2]
-                RPR_SetMediaTrackInfo_Value(tr, "D_VOL", vol*0.5)
+            # lower volume of track 3 by half (RPR_GetTrackUIVolPan returns Bool):  
+            tr = RPR_GetTrack(0, 2)  
+            (ok, tr, vol, pan) = RPR_GetTrackUIVolPan(tr, 0, 0)  
+            # this also works, if you only care about one of the returned values:  
+            vol = RPR_GetTrackUIVolPan(tr, 0, 0)[2]  
+            RPR_SetMediaTrackInfo_Value(tr, "D_VOL", vol*0.5)  
 
-            You can create and save modules of useful functions that you can import into other ReaScripts. For example, if you create a file called reascript\_utility.py that contains the function helpful\_function(), you can import that file into any Python ReaScript with the line:
-            import reascript\_utility
+            You can create and save modules of useful functions that you can import into other ReaScripts. For example, if you create a file called reascript_utility.py that contains the function helpful_function(), you can import that file into any Python ReaScript with the line:
+            import reascript_utility
             and call the function by using:
-            reascript\_utility.helpful\_function()
+            reascript_utility.helpful_function()
 
             Note that ReaScripts must explicitly import the REAPER python module, even if the script is imported into another ReaScript:
-            from reaper\_python import *
+            from reaper_python import *
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33651,29 +33651,29 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1">
             Formats a string and writes it to file fp. For more information on format specifiers, see [sprintf()](#eel_sprintf). Returns bytes written to file.
 
-                * %% = %
-                * %s = string from parameter
-                * %d = parameter as integer
-                * %i = parameter as integer
-                * %u = parameter as unsigned integer
-                * %x = parameter as hex (lowercase) integer
-                * %X = parameter as hex (uppercase) integer
-                * %c = parameter as character
-                * %f = parameter as floating point
-                * %e = parameter as floating point (scientific notation, lowercase)
-                * %E = parameter as floating point (scientific notation, uppercase)
-                * %g = parameter as floating point (shortest representation, lowercase)
-                * %G = parameter as floating point (shortest representation, uppercase)
+              * %% = %  
+              * %s = string from parameter  
+              * %d = parameter as integer  
+              * %i = parameter as integer  
+              * %u = parameter as unsigned integer  
+              * %x = parameter as hex (lowercase) integer  
+              * %X = parameter as hex (uppercase) integer  
+              * %c = parameter as character  
+              * %f = parameter as floating point  
+              * %e = parameter as floating point (scientific notation, lowercase)  
+              * %E = parameter as floating point (scientific notation, uppercase)  
+              * %g = parameter as floating point (shortest representation, lowercase)  
+              * %G = parameter as floating point (shortest representation, uppercase)  
 
             Many standard C printf() modifiers can be used, including:
 
-                * %.10s = string, but only print up to 10 characters
-                * %-10s = string, left justified to 10 characters
-                * %10s = string, right justified to 10 characters
-                * %+f = floating point, always show sign
-                * %.4f = floating point, minimum of 4 digits after decimal point
-                * %10d = integer, minimum of 10 digits (space padded)
-                * %010f = integer, minimum of 10 digits (zero padded)
+              * %.10s = string, but only print up to 10 characters  
+              * %-10s = string, left justified to 10 characters  
+              * %10s = string, right justified to 10 characters  
+              * %+f = floating point, always show sign  
+              * %.4f = floating point, minimum of 4 digits after decimal point  
+              * %10d = integer, minimum of 10 digits (space padded)  
+              * %010f = integer, minimum of 10 digits (zero padded)  
 
             Values for format specifiers can be specified as additional parameters to fprintf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>
@@ -34526,29 +34526,29 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Formats and draws a string at gfx\_x, gfx\_y, and updates gfx\_x/gfx\_y accordingly (the latter only if the formatted string contains newline). For more information on format strings, see [sprintf()](#eel_sprintf)
             
-                * %% = %
-                * %s = string from parameter
-                * %d = parameter as integer
-                * %i = parameter as integer
-                * %u = parameter as unsigned integer
-                * %x = parameter as hex (lowercase) integer
-                * %X = parameter as hex (uppercase) integer
-                * %c = parameter as character
-                * %f = parameter as floating point
-                * %e = parameter as floating point (scientific notation, lowercase)
-                * %E = parameter as floating point (scientific notation, uppercase)
-                * %g = parameter as floating point (shortest representation, lowercase)
-                * %G = parameter as floating point (shortest representation, uppercase)
+              * %% = %  
+              * %s = string from parameter  
+              * %d = parameter as integer  
+              * %i = parameter as integer  
+              * %u = parameter as unsigned integer  
+              * %x = parameter as hex (lowercase) integer  
+              * %X = parameter as hex (uppercase) integer  
+              * %c = parameter as character  
+              * %f = parameter as floating point  
+              * %e = parameter as floating point (scientific notation, lowercase)  
+              * %E = parameter as floating point (scientific notation, uppercase)  
+              * %g = parameter as floating point (shortest representation, lowercase)  
+              * %G = parameter as floating point (shortest representation, uppercase)  
 
             Many standard C printf() modifiers can be used, including:
 
-                * %.10s = string, but only print up to 10 characters
-                * %-10s = string, left justified to 10 characters
-                * %10s = string, right justified to 10 characters
-                * %+f = floating point, always show sign
-                * %.4f = floating point, minimum of 4 digits after decimal point
-                * %10d = integer, minimum of 10 digits (space padded)
-                * %010f = integer, minimum of 10 digits (zero padded)
+              * %.10s = string, but only print up to 10 characters  
+              * %-10s = string, left justified to 10 characters  
+              * %10s = string, right justified to 10 characters  
+              * %+f = floating point, always show sign  
+              * %.4f = floating point, minimum of 4 digits after decimal point  
+              * %10d = integer, minimum of 10 digits (space padded)  
+              * %010f = integer, minimum of 10 digits (zero padded)  
 
             Values for format specifiers can be specified as additional parameters to gfx_printf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>
@@ -35288,29 +35288,29 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Output formatted string to system-specific destination, see [sprintf\(\)](#eel_sprintf) for more information
             
-                * %% = %
-                * %s = string from parameter
-                * %d = parameter as integer
-                * %i = parameter as integer
-                * %u = parameter as unsigned integer
-                * %x = parameter as hex (lowercase) integer
-                * %X = parameter as hex (uppercase) integer
-                * %c = parameter as character
-                * %f = parameter as floating point
-                * %e = parameter as floating point (scientific notation, lowercase)
-                * %E = parameter as floating point (scientific notation, uppercase)
-                * %g = parameter as floating point (shortest representation, lowercase)
-                * %G = parameter as floating point (shortest representation, uppercase)
+              * %% = %  
+              * %s = string from parameter  
+              * %d = parameter as integer  
+              * %i = parameter as integer  
+              * %u = parameter as unsigned integer  
+              * %x = parameter as hex (lowercase) integer  
+              * %X = parameter as hex (uppercase) integer  
+              * %c = parameter as character  
+              * %f = parameter as floating point  
+              * %e = parameter as floating point (scientific notation, lowercase)  
+              * %E = parameter as floating point (scientific notation, uppercase)  
+              * %g = parameter as floating point (shortest representation, lowercase)  
+              * %G = parameter as floating point (shortest representation, uppercase)  
 
             Many standard C printf() modifiers can be used, including:
 
-                * %.10s = string, but only print up to 10 characters
-                * %-10s = string, left justified to 10 characters
-                * %10s = string, right justified to 10 characters
-                * %+f = floating point, always show sign
-                * %.4f = floating point, minimum of 4 digits after decimal point
-                * %10d = integer, minimum of 10 digits (space padded)
-                * %010f = integer, minimum of 10 digits (zero padded)
+              * %.10s = string, but only print up to 10 characters  
+              * %-10s = string, left justified to 10 characters  
+              * %10s = string, right justified to 10 characters  
+              * %+f = floating point, always show sign  
+              * %.4f = floating point, minimum of 4 digits after decimal point  
+              * %10d = integer, minimum of 10 digits (space padded)  
+              * %010f = integer, minimum of 10 digits (zero padded)  
 
             Values for format specifiers can be specified as additional parameters to printf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>

@@ -567,9 +567,25 @@ function entries(start, stop)
         </div>
     ]]
     end
-        
-
-    ultraschall.WriteValueToFile(Outfile, FunctionList, nil, true)
+    
+    NewDone=""
+    mode=2
+    for k in string.gmatch(FunctionList, "(.-\n)") do
+      if k:match("<pre><code>")~=nil then mode=1 end      
+      
+      if mode==1 then 
+        NewDone=NewDone..k
+      elseif mode==2 then
+        NewDone=NewDone..k:match("%s*(.*)")
+      end
+      if k:match("</code></pre>")~=nil then mode=2 end
+    end
+    
+   
+    ultraschall.WriteValueToFile(Outfile, NewDone, nil, true)
+    SLEM()
+   
+    
     FunctionList=""
     print_update(CurrentDocs..": "..EntryCount.."/"..Ccount, reaper.time_precise())
   end
@@ -593,11 +609,12 @@ function entries(start, stop)
   ]]
 end
 
-
+mode=2
 FunctionList=FunctionList.."<div class=\"chpad\"><p></p>"
 contentindex()
 convertMarkdown()
-ultraschall.WriteValueToFile(Outfile, FunctionList)
+ultraschall.WriteValueToFile(Outfile, string.gsub(FunctionList, "\n%s*", "\n"))
+--ultraschall.WriteValueToFile(Outfile, FunctionList)
 FunctionList=""
 entries()
 

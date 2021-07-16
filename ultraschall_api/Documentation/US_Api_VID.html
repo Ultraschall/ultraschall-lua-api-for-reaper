@@ -1,294 +1,275 @@
 <html><head><title>
 Ultraschall API Video-Functions
 </title>
-
 <link href="style.css" rel="stylesheet">
-
-  </head>
-    <body>    
-        <a class="anchor" id="This-is-the-TopOfTheWorld"></a>
-        <div style="position: sticky; top:0; padding-left:4%; z-index:100;">
-            <div style="background-color:#282828; width:95%; font-family:tahoma; font-size:16;">
-                <a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button.png" alt="Ultraschall Internals Documentation"></a>  
-                <a href="Reaper_Api_Documentation.html"><img style="position: absolute; left:15.2%; width:8.7%;" src="gfx/Reaper_Button_Un.png" alt="Reaper Internals Documentation"></a>
-                <img alt="" style="width:6.9%; position: absolute; left:23.9%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:30.8%;" src="gfx/linedance.png">
-                <img alt="" style="width:6.9%; position: absolute; left:36.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:42.8%;" src="gfx/linedance.png">
-                <img alt="" style="width:6.9%; position: absolute; left:48.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:54.8%;" src="gfx/linedance.png">
-                <img alt="" style="width:6.9%; position: absolute; left:60.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:66.8%;" src="gfx/linedance.png">
-                <img alt="" style="width:6.9%; position: absolute; left:68.8%;" src="gfx/linedance.png">
-                <a href="Downloads.html"><img style="position:absolute; left:74.4%; width:6.9%;" src="gfx/Downloads_Un.png" alt="Downloads"></a>
-                <a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
-                <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
-                <div style="padding-top:2.5%">
-                    <table border="0" style="color:#aaaaaa; width:101%;">
-                        <tr>
-                             <td style="width:27.2%; padding-top:2; ">
-                                 <a href="http://www.ultraschall.fm"><img style="width:118%;" src="gfx/US-header.png" alt="Ultraschall-logo"></a>
-                             </td>
-                             <td style="position: absolute; padding-top:5; width:10%;"><u>Functions Engine</u></td>
-                             <td style="padding-top:5; width:10%;"><u>GFX Engine</u></td>
-                             <td style="padding-top:5; width:10%;"><u>Doc Engine</u></td>
-                             <td style="padding-top:5; width:10%;"><u>Video Engine</u></td>
-                             <td width="10%;">&nbsp;<u></u></td>
-                             <td width="10%;">&nbsp;<u></u></td>
-                             <td width="10%;">&nbsp;<u></u></td>
-                         </tr>
-                         <tr>
-                             <td></td>
-                             <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Introduction_and_Concepts.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;Introduction/Concepts&nbsp;&nbsp;</a></td>
-                             <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_GFX.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
-                             <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_DOC.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
-                             <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_VID.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
-                         </tr>
-                         <tr>
-                             <td></td>
-                             <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Functions.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions</a></td>
-                             <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_GFX.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
-                             <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_DOC.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
-                             <td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_VID.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                    </table><hr color="#444444">
-                    <div style="position:absolute; right:6%; top:80%;"><a style="color:#CCCCCC;" href="#This-is-the-TopOfTheWorld">Jump to Index</a></div>
-                </div>
-            </div>
-        </div>
-      
-
+</head>
+<body>    
+<a class="anchor" id="This-is-the-TopOfTheWorld"></a>
+<div style="position: sticky; top:0; padding-left:4%; z-index:100;">
+<div style="background-color:#282828; width:95%; font-family:tahoma; font-size:16;">
+<a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button.png" alt="Ultraschall Internals Documentation"></a>  
+<a href="Reaper_Api_Documentation.html"><img style="position: absolute; left:15.2%; width:8.7%;" src="gfx/Reaper_Button_Un.png" alt="Reaper Internals Documentation"></a>
+<img alt="" style="width:6.9%; position: absolute; left:23.9%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:30.8%;" src="gfx/linedance.png">
+<img alt="" style="width:6.9%; position: absolute; left:36.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:42.8%;" src="gfx/linedance.png">
+<img alt="" style="width:6.9%; position: absolute; left:48.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:54.8%;" src="gfx/linedance.png">
+<img alt="" style="width:6.9%; position: absolute; left:60.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:66.8%;" src="gfx/linedance.png">
+<img alt="" style="width:6.9%; position: absolute; left:68.8%;" src="gfx/linedance.png">
+<a href="Downloads.html"><img style="position:absolute; left:74.4%; width:6.9%;" src="gfx/Downloads_Un.png" alt="Downloads"></a>
+<a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
+<a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
+<div style="padding-top:2.5%">
+<table border="0" style="color:#aaaaaa; width:101%;">
+<tr>
+<td style="width:27.2%; padding-top:2; ">
+<a href="http://www.ultraschall.fm"><img style="width:118%;" src="gfx/US-header.png" alt="Ultraschall-logo"></a>
+</td>
+<td style="position: absolute; padding-top:5; width:10%;"><u>Functions Engine</u></td>
+<td style="padding-top:5; width:10%;"><u>GFX Engine</u></td>
+<td style="padding-top:5; width:10%;"><u>Doc Engine</u></td>
+<td style="padding-top:5; width:10%;"><u>Video Engine</u></td>
+<td width="10%;">&nbsp;<u></u></td>
+<td width="10%;">&nbsp;<u></u></td>
+<td width="10%;">&nbsp;<u></u></td>
+</tr>
+<tr>
+<td></td>
+<td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Introduction_and_Concepts.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;Introduction/Concepts&nbsp;&nbsp;</a></td>
+<td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_GFX.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+<td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_DOC.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+<td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_VID.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+</tr>
+<tr>
+<td></td>
+<td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Functions.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions</a></td>
+<td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_GFX.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+<td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_DOC.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+<td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_VID.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table><hr color="#444444">
+<div style="position:absolute; right:6%; top:80%;"><a style="color:#CCCCCC;" href="#This-is-the-TopOfTheWorld">Jump to Index</a></div>
+</div>
+</div>
+</div>
 <div class="chpad"><p></p><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Project Settings"><a href="#Project Settings">^</a></a><strong> <u>Project Settings</u></strong><br><br>
 </td></tr><tr><td class="smallfontTD"><a class="smallfontTD" href="#ProjectSettings_GetVideoFramerate">ProjectSettings_GetVideoFramerate</a></td><td class="smallfontTD"><a class="smallfontTD" href="#ProjectSettings_SetVideoFramerate">ProjectSettings_SetVideoFramerate</a></td><td style="width:25%;">&nbsp;</td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="User Interface"><a href="#User Interface">^</a></a><strong> <u>User Interface</u></strong><br><br>
 <b style="font-size:small;"><br><a class="inpad" id=" Coordinates"><a href="# Coordinates">^</a></a>  Coordinates</b>
 </td></tr><tr><td class="smallfontTD"><a class="smallfontTD" href="#VID_Pixels2VideoUIStateCoords">VID_Pixels2VideoUIStateCoords</a></td><td class="smallfontTD"><a class="smallfontTD" href="#VID_VideoUIStateCoords2Pixels">VID_VideoUIStateCoords2Pixels</a></td><td style="width:25%;">&nbsp;</td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id=" Window Management"><a href="# Window Management">^</a></a>  Window Management</b>
-</td></tr><tr><td class="smallfontTD"><a class="smallfontTD" href="#GetVideoHWND">GetVideoHWND</a></td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td></tr></table><br></div>      
-        <div class="chpad">
-          <hr>
-          <a class="anch" id="ProjectSettings_GetVideoFramerate"></a>
-          <a href="#ProjectSettings_GetVideoFramerate"> ^</a> 
-          <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-          <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-          <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ProjectSettings_GetVideoFramerate</b></u><br>			<p>
-  
-          <u>Functioncall:</u>
-          <div class="chpad">
-            <div class="l_func"><span class='all_view'>Lua: </span><code> <i>integer</i> framerate, <i>string</i> addnotes = <em>ultraschall.ProjectSettings_GetVideoFramerate</em>()</code></div>
-		  </div><p>
-          <div class="chpad">
-  returns the video-framerate of the current project              
-          </div><br>      
-          <u>Returnvalues:</u>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> framerate</td>
-              <td>the framerate in fps from 1 to 999999999</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>string</i> addnotes</td>
-              <td>either "DF", "ND" or ""</td>
-            </tr>
-          </table>
-          <br>
-
-        </div>
-          
-        <div class="chpad">
-          <hr>
-          <a class="anch" id="ProjectSettings_SetVideoFramerate"></a>
-          <a href="#ProjectSettings_SetVideoFramerate"> ^</a> 
-          <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-          <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-          <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ProjectSettings_SetVideoFramerate</b></u><br>			<p>
-  
-          <u>Functioncall:</u>
-          <div class="chpad">
-            <div class="l_func"><span class='all_view'>Lua: </span><code> <i>boolean</i> retval = <em>ultraschall.ProjectSettings_SetVideoFramerate</em>(<i>integer</i> framerate, <i>boolean</i> persist)</code></div>
-		  </div><p>
-          <div class="chpad">
-  sets the video-framerate of the current project and optionally the default video-framerate for new projects<br/>
+</td></tr><tr><td class="smallfontTD"><a class="smallfontTD" href="#GetVideoHWND">GetVideoHWND</a></td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td></tr></table><br></div><div class="chpad">
+<hr>
+<a class="anch" id="ProjectSettings_GetVideoFramerate"></a>
+<a href="#ProjectSettings_GetVideoFramerate"> ^</a> 
+<img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
+<img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
+<img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ProjectSettings_GetVideoFramerate</b></u><br>			<p>
+<u>Functioncall:</u>
+<div class="chpad">
+<div class="l_func"><span class='all_view'>Lua: </span><code> <i>integer</i> framerate, <i>string</i> addnotes = <em>ultraschall.ProjectSettings_GetVideoFramerate</em>()</code></div>
+</div><p>
+<div class="chpad">
+returns the video-framerate of the current project              
+</div><br>      
+<u>Returnvalues:</u>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> framerate</td>
+<td>the framerate in fps from 1 to 999999999</td>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>string</i> addnotes</td>
+<td>either "DF", "ND" or ""</td>
+</tr>
+</table>
+<br>
+</div>
+<div class="chpad">
+<hr>
+<a class="anch" id="ProjectSettings_SetVideoFramerate"></a>
+<a href="#ProjectSettings_SetVideoFramerate"> ^</a> 
+<img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
+<img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
+<img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ProjectSettings_SetVideoFramerate</b></u><br>			<p>
+<u>Functioncall:</u>
+<div class="chpad">
+<div class="l_func"><span class='all_view'>Lua: </span><code> <i>boolean</i> retval = <em>ultraschall.ProjectSettings_SetVideoFramerate</em>(<i>integer</i> framerate, <i>boolean</i> persist)</code></div>
+</div><p>
+<div class="chpad">
+sets the video-framerate of the current project and optionally the default video-framerate for new projects<br/>
 <br/>
 returns false in case of an error              
-          </div><br>      
-          <u>Returnvalues:</u>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>boolean</i> retval</td>
-              <td>true, setting was successful; false, setting was unsuccessful</td>
-            </tr>
-          </table>
-          <br>
-          <u>Parameters:</u>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> framerate</td>
-              <td>the framerate in fps from 1 to 999999999;
+</div><br>      
+<u>Returnvalues:</u>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>boolean</i> retval</td>
+<td>true, setting was successful; false, setting was unsuccessful</td>
+</tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> framerate</td>
+<td>the framerate in fps from 1 to 999999999;
 0, 29.97 fps DF
 -1, 23.976 fp
 -2, 29.97 fps ND</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>boolean</i> persist</td>
-              <td>true, set these values as default for new projects; false, don't set these values as defaults for </td>
-            </tr>
-          </table>
-          <br>
-
-        </div>
-          
-        <div class="chpad">
-          <hr>
-          <a class="anch" id="VID_Pixels2VideoUIStateCoords"></a>
-          <a href="#VID_Pixels2VideoUIStateCoords"> ^</a> 
-          <img width="3%" src="gfx/reaper5.97.png" alt="Reaper version 5.97">
-          <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>VID_Pixels2VideoUIStateCoords</b></u><br>			<p>
-  
-          <u>Functioncall:</u>
-          <div class="chpad">
-            <div class="l_func"><span class='all_view'>Lua: </span><code> <i>number</i> uistate_x, <i>number</i> uistate_y = <em>ultraschall.VID_Pixels2VideoUIStateCoords</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> videowindow_width, <i>integer</i> videowindow_height)</code></div>
-		  </div><p>
-          <div class="chpad">
-  converts the ui_state-coordinates of the Video-Processor into pixel-coordinates within the Video Window<br/>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>boolean</i> persist</td>
+<td>true, set these values as default for new projects; false, don't set these values as defaults for </td>
+</tr>
+</table>
+<br>
+</div>
+<div class="chpad">
+<hr>
+<a class="anch" id="VID_Pixels2VideoUIStateCoords"></a>
+<a href="#VID_Pixels2VideoUIStateCoords"> ^</a> 
+<img width="3%" src="gfx/reaper5.97.png" alt="Reaper version 5.97">
+<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>VID_Pixels2VideoUIStateCoords</b></u><br>			<p>
+<u>Functioncall:</u>
+<div class="chpad">
+<div class="l_func"><span class='all_view'>Lua: </span><code> <i>number</i> uistate_x, <i>number</i> uistate_y = <em>ultraschall.VID_Pixels2VideoUIStateCoords</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> videowindow_width, <i>integer</i> videowindow_height)</code></div>
+</div><p>
+<div class="chpad">
+converts the ui_state-coordinates of the Video-Processor into pixel-coordinates within the Video Window<br/>
 <br/>
 You should add x and y-position of the Video-Processor-window, to get the actual screen-coordinates.<br/>
 <br/>
 returns nil in case of an error              
-          </div><br>      
-          <u>Returnvalues:</u>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>number</i> x_coordinate</td>
-              <td>the converted x-coordinate, that reflects the values within the video-processor function ui_get_state</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>number</i> y_coordinate</td>
-              <td>the converted y-coordinate, that reflects the values within the video-processor function ui_get_state</td>
-            </tr>
-          </table>
-          <br>
-          <u>Parameters:</u>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> x</td>
-              <td>the x-coordinate within the Video-Window</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> y</td>
-              <td>the y-coordinate within the Video-Window</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> videowindow_width</td>
-              <td>the current width of the Video Window</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> videowindow_height</td>
-              <td>the current height of the Video Window</td>
-            </tr>
-          </table>
-          <br>
-
-        </div>
-          
-        <div class="chpad">
-          <hr>
-          <a class="anch" id="VID_VideoUIStateCoords2Pixels"></a>
-          <a href="#VID_VideoUIStateCoords2Pixels"> ^</a> 
-          <img width="3%" src="gfx/reaper5.97.png" alt="Reaper version 5.97">
-          <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>VID_VideoUIStateCoords2Pixels</b></u><br>			<p>
-  
-          <u>Functioncall:</u>
-          <div class="chpad">
-            <div class="l_func"><span class='all_view'>Lua: </span><code> <i>integer</i> x_coordinate, <i>integer</i> y_coordinate = <em>ultraschall.VID_VideoUIStateCoords2Pixels</em>(<i>number</i> uistate_x, <i>number</i> uistate_y, <i>integer</i> videowindow_width, <i>integer</i> videowindow_height)</code></div>
-		  </div><p>
-          <div class="chpad">
-  converts the ui_state-coordinates of the Video-Processor into pixel-coordinates within the Video Window<br/>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>number</i> x_coordinate</td>
+<td>the converted x-coordinate, that reflects the values within the video-processor function ui_get_state</td>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>number</i> y_coordinate</td>
+<td>the converted y-coordinate, that reflects the values within the video-processor function ui_get_state</td>
+</tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> x</td>
+<td>the x-coordinate within the Video-Window</td>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> y</td>
+<td>the y-coordinate within the Video-Window</td>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> videowindow_width</td>
+<td>the current width of the Video Window</td>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> videowindow_height</td>
+<td>the current height of the Video Window</td>
+</tr>
+</table>
+<br>
+</div>
+<div class="chpad">
+<hr>
+<a class="anch" id="VID_VideoUIStateCoords2Pixels"></a>
+<a href="#VID_VideoUIStateCoords2Pixels"> ^</a> 
+<img width="3%" src="gfx/reaper5.97.png" alt="Reaper version 5.97">
+<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>VID_VideoUIStateCoords2Pixels</b></u><br>			<p>
+<u>Functioncall:</u>
+<div class="chpad">
+<div class="l_func"><span class='all_view'>Lua: </span><code> <i>integer</i> x_coordinate, <i>integer</i> y_coordinate = <em>ultraschall.VID_VideoUIStateCoords2Pixels</em>(<i>number</i> uistate_x, <i>number</i> uistate_y, <i>integer</i> videowindow_width, <i>integer</i> videowindow_height)</code></div>
+</div><p>
+<div class="chpad">
+converts the ui_state-coordinates of the Video-Processor into pixel-coordinates within the Video Window<br/>
 <br/>
 You should add x and y-position of the Video-Processor-window, to get the actual screen-coordinates.<br/>
 <br/>
 returns nil in case of an error              
-          </div><br>      
-          <u>Returnvalues:</u>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> x_coordinate</td>
-              <td>the converted x-coordinate</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> y_coordinate</td>
-              <td>the converted y-coordinate</td>
-            </tr>
-          </table>
-          <br>
-          <u>Parameters:</u>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>number</i> uistate_x</td>
-              <td>the x-coordinate, that the function ui_get_state within the videoprocessor returns</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>number</i> uistate_y</td>
-              <td>the y-coordinate, that the function ui_get_state within the videoprocessor returns</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> videowindow_width</td>
-              <td>the current width of the Video Window</td>
-            </tr>
-          </table>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>integer</i> videowindow_height</td>
-              <td>the current height of the Video Window</td>
-            </tr>
-          </table>
-          <br>
-
-        </div>
-          
-        <div class="chpad">
-          <hr>
-          <a class="anch" id="GetVideoHWND"></a>
-          <a href="#GetVideoHWND"> ^</a> 
-          <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
-          <img width="3%" src="gfx/js_0.963.png" alt="JS version 0.963">
-          <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetVideoHWND</b></u><br>			<p>
-  
-          <u>Functioncall:</u>
-          <div class="chpad">
-            <div class="l_func"><span class='all_view'>Lua: </span><code> <i>HWND</i> hwnd = <em>ultraschall.GetVideoHWND</em>()</code></div>
-		  </div><p>
-          <div class="chpad">
-  returns the HWND of the Video window, if the window is opened.<br/>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> x_coordinate</td>
+<td>the converted x-coordinate</td>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> y_coordinate</td>
+<td>the converted y-coordinate</td>
+</tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>number</i> uistate_x</td>
+<td>the x-coordinate, that the function ui_get_state within the videoprocessor returns</td>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>number</i> uistate_y</td>
+<td>the y-coordinate, that the function ui_get_state within the videoprocessor returns</td>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> videowindow_width</td>
+<td>the current width of the Video Window</td>
+</tr>
+</table>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>integer</i> videowindow_height</td>
+<td>the current height of the Video Window</td>
+</tr>
+</table>
+<br>
+</div>
+<div class="chpad">
+<hr>
+<a class="anch" id="GetVideoHWND"></a>
+<a href="#GetVideoHWND"> ^</a> 
+<img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
+<img width="3%" src="gfx/js_0.963.png" alt="JS version 0.963">
+<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetVideoHWND</b></u><br>			<p>
+<u>Functioncall:</u>
+<div class="chpad">
+<div class="l_func"><span class='all_view'>Lua: </span><code> <i>HWND</i> hwnd = <em>ultraschall.GetVideoHWND</em>()</code></div>
+</div><p>
+<div class="chpad">
+returns the HWND of the Video window, if the window is opened.<br/>
 <br/>
 returns nil if the Video Window is closed              
-          </div><br>      
-          <u>Returnvalues:</u>
-          <table class="chpad">
-            <tr>
-              <td class="parmret"><i>HWND</i> hwnd</td>
-              <td>the window-handler of the Video Window</td>
-            </tr>
-          </table>
-          <br>
-
-        </div>
-          <div class="chpad">
+</div><br>      
+<u>Returnvalues:</u>
+<table class="chpad">
+<tr>
+<td class="parmret"><i>HWND</i> hwnd</td>
+<td>the window-handler of the Video Window</td>
+</tr>
+</table>
+<br>
+</div>
+      <div class="chpad">
         <hr>
                      
           <table><td class="td2"> &#160;</td><td>&#160;</td><td class=\"td3\">Automatically generated by Ultraschall-API 4.2 005 - 5 elements available <br></td></table>
