@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<USDocBloc>
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Introduction</slug>
+        <title>Introduction</title>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">  
+            Reaper does manage and include a lot of human-readable files, that give you the chance to change Reaper even further. With many of them being changeable, you have more chances to customize(or even debug your configuration of) Reaper to your liking, beyond the menus and APIs that Reaper provides.
+            Most of them are stored as .ini-files, so they should be easily spotted. Others aren't as easily identified as customizeable and need more knowledge in how to dig into them.
+            They are covered in this section.
+
+            ###CAUTION!
+            Create a backup of a file, before you change it, as some changes in the files themselves can destroy the configuration of Reaper or your projects.
+            Be aware, that a lot of information is probably still missing in this documentation. Keep that in mind!
+        </description>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <tags>filetype descriptions, introduction</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MetadataCache</slug>
+        <title>MetadataCache</title>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">  
+            Stored in the folder MetadataCaches in the Ressources-folder or the Reaper-application-folder(in portable installations).
+            String.MetadataCache is basically a variation of [ReaperFileList](#ReaperFileList), with fewer entries, one additional entry.
+
+            The MetadataCache files contain only a handful of media-files from one folder only. That said, there are many MetadataCache-files in the MetadataCaches-folder, each having all media-file-entries for each folder that was scanned.
+
+            They are created, during the scanning-process when creating a new Media-Explorer-database.
+
+            Each file begins with C10010, followed by the F and D entries. The F is equivalent to FILE-entries and D is equivalent to DATA-entries from the ReaperFileList-files(refer [ReaperFileList](#ReaperFileList) for more details).
+        </description>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <tags>filetype descriptions, reaperfilelist, metadatacache</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>RfxChain</slug>
+        <title>RfxChain</title>
+        <requires>
+            Reaper=6.13
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1">  
+            You can place it anywhere. Standard folder is FXChains/ in the Reaper-ressources-folder or in the Reaper-application-folder(the latter in portable installations).  
+            **This documentation is missing information, especially about MIDI and OSC linkings and LEARN! It's also missing information about DirectX as well as Apple-AU-plugins!**
+
+            Default\_Track\_Chain.RfxChain in the FXChains-folder is default FXChains for all new tracks you create in your project. Only the Master-Track doesn't include them!  
+
+            **Filestructure**  
+            Some sections begin with < and end with > while others are written in one line.  
+            **First entries**  
+            
+            _REQUIRED\_CHANNELS_ val  
+            >_integer_ **val** - number of required channels for all(?) plugins in this FXChain  
+            Every individual plugin-entry begins with BYPASS and ends with WAK.  
+
+            _BYPASS_ a b  
+            decides if this plugin is set to bypass/offline or not  
+            >_integer_ a - FX Bypass, 0-no bypass, 1-bypass  
+            >_integer_ b - FX Offline, 0-FX online 1-offline  
+            
+            Next there are the entry-sections for the effect themselves. Only one of them (either one of VST, JS, DX or AU)comes after the BYPASS-entry and before the WAK entry.  
+            The second plugin will come after the next BYPASS, the third plugin after the third BYPASS, etc, etc.  
+            
+            **If it's a VST-plugin:**  
+            
+            _<VST_ "Name" VST-Plugin-filename a "name2" Plugin-Identification-number
+            
+            >_string_ "Name" - Name can be freely chosen, Reaper starts VST: for VstFX, VSTi: for instruments, VST3: for vst3-effects; VST3i: for vst3-instruments  
+            >_string_ VST-Plugin-filename - the VST-Plugin-filename, like reacomp.dll  
+            >_integer_ a - unknown  
+            >_string_ "name2" - overwrites the "Name" entry within Reaper. Aliasname.  
+            >_integer_ Plugin-identification-number - the number that helps Reaper to identify the plugin  
+
+
+            >_string_ VST-settings - Long string of letters, numbers and signs that contains the settings of the plugin as BASE64-encoded string. This value is not "standardized" but rather different from plugin to plugin, so altering it is not possible. Aka: Dont' change!  
+            \>
+
+            **If it's a Video-processor-effect:**  
+            _<VIDEO\_EFFECT_ "Video processor" "Name"  
+            
+            >_string_ "Name" - Name can be freely chosen and will be displayed in the FX-chain, instead of Video processor.  
+
+            _<CODE_  
+            Tudelu;  
+            \>  
+            The code of the video-processor-plugin, written between &lt;CODE and the closing tag &gt;. Every line must begin with a |  
+            
+            _CODEPARM_ parm1 parm2 parm3 parm4 parm5 parm6 parm7 parm8 parm9 parm10 parm11 parm12 parm13 parm14 parm15 parm16  
+            
+            The settings for each of the possible 16 knobs within this video-effect, as float values.  
+
+            &gt;
+            
+            **If it's a JS-plugin:**  
+            _<JS_ [path/]Pluginfilename "name"  
+            
+            >_string_ [path/]Pluginfilename - Pluginfile from within ressources-folder/Effects/. WindowsUsers: the path is written with / not with \ !!  
+            >_string_ "name" - a name, that will be shown instead of the standard JS-Pluginname. Leave empty, if you want to use the standard name.  
+
+            the next line is the parameter-slider-settings  
+            _val1 val2 val3 ... val64 [presetname]_  
+            >_float_ val - The settings for the JS-Plugin-faders. Valueranges depend on the valueranges, given to the faders by the programmers of the given plugin. Settings for non existing faders are given with a - . It must have 64 entries, though it seems to work without the - given for nonexisting faders at the end of the preset. Non existing faders (-) can also occur between values!
+            >_string_ [presetname] name of the preset you want to use. If there's no such preset, Reaper will use "no preset" instead.
+
+            &gt;
+            _<JS\_SER_
+
+            additional JS settings some JS-Plugins need - long base64-encoded string of letters, numbers and signs. Don't change!
+
+            &gt;
+
+            **If it's a DirectX-plugin:**  
+            _<DX_ "DX: DirectX-Pluginname" "b"
+
+            >_string "DX: DirectX-Pluginname" - the name of the DirectX Plugin  
+            >_string_ "b" - unknown. Leave it as ""  
+
+            >_string_ Pluginsettings - Long string of letters, numbers and signs that contains the settings of the plugin as BASE64-encoded string. This value is not "standardized" but rather different from plugin to plugin, so altering it is not possible. Aka: Dont' change!  
+            &gt;
+
+            **If it's an AppleAU-plugin:**  
+            _<AU_ "AUType: Pluginname" "Pluginname" "AliasName" d e g  
+            
+            >_string_ "AUType: name of the au-plugin" - the name of the AU-Plugin; AUType is either AU:(fx) or AUi:(instruments)   
+            >_string_ "Pluginname" - a second name of the plugin-name; unknown what it's purpose  
+            >_string_ "AliasName" - An alternative name, which you can set for the plugin; default is ""  
+            >d - unknown  
+            >e - unknown  
+            >f - unknown  
+
+            **After the VST/JS/DX/AU-section**  
+            After the VST/JS/DX/AU-section, there are some additional entries that may occur, giving control to envelopes, MIDI/OSC-bindings, and others. Most of them are controllable through the FX-dialogue-window, mostly by clicking on the + or the param button.  
+            The following entries seem to work only for VST and JS plugins, not DX(AU?)Plugins!  
+
+            _WET_ value  
+            
+            >_integer_ value - the wet value. Range 0-1. a wet-value of 0.31 is 31% wet.  
+            
+            _MIDIPRESET ID_  
+            
+            _ID_ - the Channel number for the button +->"Link to Midi program Change"  
+            
+            _PRESETNAME_ "name"  
+            
+            >_string_ name is the name of the preset. Has no effect, whatsoever, as the selected preset seems to be taken from the VST-Settings-string. So an empty name is also valid.  
+            
+            _PARMALIAS_ a newname - give a parameter a new name, shown within Reaper. Button param->FX parameter list->Alias parameter  
+            
+            >_integer_ a - ID of parameter, value-range 0-, 0-top entry in the alias-parameter-menu, x-bottom entry in the alias-parameter-menu  
+            >_string_ newname - the new name that will be shown instead of the normal parametername.  
+
+            **Parameter modulation/MIDI-Link**  
+            
+#MESPOTINE 
+            
+            The following entries are for the Param->FX Parameter list->"Parameter modulation/MIDI-link"-settings
+            <PROGRAMENV a[:name] b
+            a - Parameter-entry in the "Parameter modulation"-menu-list (0 to max)
+            [:name] - name of the parameter;
+            b - "Enable parameter modulation, baseline value" 1=Off, 0=On
+
+            PARAMBASE val
+            val - "Enable parameter modulation, baseline value" value range 0-2, 1=middle
+            LFO val
+            val - 0 for LFO off, 1 for LFO on
+            LFOWT a b
+            a - Strength(LFO) value range 0(0%) to 1(100%)
+            b - "Direction"(LFO) -1(Negative) 0(Centered) 1(Positive)
+            AUDIOCTL val
+            val - "Audio Control Signal (sidechain)", 0=Off, 1=On
+            AUDIOCTLWT a b
+            a - unknown,
+            b - "Direction"(AudioControlSignal) -1(Negative) 0(Centered) 1(Positive)
+            PLINK a b c d
+            a - Scale(Link from Midi or FX parameter) valuerange -1(-100%) 1(100%), 0=default
+            b - unknown
+            c - unknown but has an effect d - Offset(Link from Midi or FX parameter) valuerange -1(-100%) 1(100%), 0=default
+            MIDIPLINK a b c d
+            a - unknown
+            b - unknown
+            c - unknown Link-Button(Link from Midi or FX parameter)
+            d - unknown Link-Button(Link from Midi or FX parameter)
+            LFOSHAPE val
+            val - Shape(LFO) 0=sine, 1=square, 2=saw L, 3=saw R, 4=triangle, 5=random
+            LFOSYNC a b c
+            a - Tempo sync(LFO) 0=Off, 1=On
+            b - unknown,
+            c - Phase reset 0=On sync/loop, 1=free running
+            LFOSPEED a b
+            a - Speed(LFO) value range 0.124573(0.0039Hz) to 1(8Hz) 0.124573(1Hz, default)
+            b - Phase(LFO) valuerange 0(0.00) to 1(1.00), 0.5(default)
+            CHAN val
+            val - Track-Channel(AudioControlSignal) -1=Channel 1, 1=Channel 2, 0=Channel 1 and 2
+            STEREO val
+            val - unknown
+            RMS a b
+            a - Attack(AudioControlSignal) valuerange 0 1000
+            b - release(AudioControlSignal) valuerange 0 1000
+            DBLO a
+            a - Min volume(AudioControlSignal) valuerange -60(-60db) +11.9(+11.9db) BUT it must always be smaller than Max volume! They depend on each other!
+            DBHI b
+            b - Max volume(AudioControlSignal) valuerange -59.9(-59.9db) +12(+12db) BUT it must always be bigger than Min volume! They depend on each other!
+            X2 val - "Audio control signal shaping"(AudiocontrolSignal)
+            val - x-position, valuerange 0(left) to 1(right); 0.5(center) is default
+            Y2 val - "Audio control signal shaping"(AudiocontrolSignal)
+            val - y position, valuerange 0(bottom) to 1(top); 0.5(center) is default
+            >
+            Show parameters in track control
+            The following entry manages the Show in track controls-settings
+            PARM_TCP ID1 [ID2] [ID3] [IDX] - Param->FX Parameter list->Show in track controls->entries
+
+            [IDx] - ID is the number of the entry in "Show in trackcontrols"-menu(0-maxID). Write the IDs you want to have one after the other.
+            Other entries
+            The following entry might follow now. It might happen for every kind of plugin, VST,JS,DX,AU.
+            <COMMENT - entry for Comment
+
+            Commentdata - a comment, but encoded. You can write the VST-comment only from within Reaper!
+
+            >
+
+            The following entry ends the entries for this plugin. After it, the next block of entries can begin(with another BYPASS-entry)
+            WAK val1 val2 - additional settings.
+
+            val - Send all keyboard-input to plug-in; 0, don't send; 1, send val2 - unknown, 0 or 1 seem to be valid values, higher values will be changed to 1 whenever the RfxChain-file will be rewritten by Reaper.
+        </description>
+        <target_document>ReaperVideoProcessorApiReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <tags>filetype descriptions, reaperfilelist, metadatacache</tags>
+    </US_DocBloc>
+</USDocBloc>

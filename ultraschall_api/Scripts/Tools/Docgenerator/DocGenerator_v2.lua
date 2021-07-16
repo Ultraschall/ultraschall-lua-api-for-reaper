@@ -476,7 +476,7 @@ function entries(start, stop)
       -- Title
       --if title==nil then print3(AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]) end
       if title==nil then title=AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]end
-      FunctionList=FunctionList.."<u><b>"..title.."</b></u><br><br>"
+      FunctionList=FunctionList.."<u><b>"..title.."</b></u><br>"
       if AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]==nil then AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]="PUDELDUDEL" end
       
       
@@ -488,10 +488,11 @@ function entries(start, stop)
          functioncall["javascript"]~=nil 
       then
         AllUSDocBloc_Header[FunctionsLister[EntryCount]]["Tohoo"]=true
+        FunctionList=FunctionList.."\t\t\t<p>\n"
         FunctionList=FunctionList..[[
   
             <u>Functioncall:</u>
-            <div class="chapterpad" style="font-size:104%; color:DDDDDD;">
+            <div class="chapterpad">
         ]]
         if functioncall["cpp"]~=nil then
           FunctionList=FunctionList.."\t\t<div class=\"c_func\"><span class='all_view'>C: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["cpp"])).."</code></div>\n"
@@ -509,17 +510,39 @@ function entries(start, stop)
           FunctionList=FunctionList.."\t\t\t\t<div class=\"j_func\"><span class='all_view'>Javascript: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["javascript"])).."</code></div>\n"
         end
         FunctionList=FunctionList.."\t\t\t</div><p>\n"
+      else
+        FunctionList=FunctionList.."\t\t\t<p>\n"
       end    
       --Description
       FunctionList=FunctionList..[[
-              <u>Description:</u><br>
-              <div class="chapterpad">
+              <div class="chapterpad" style="color: #EEEEEE;">
   ]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]
-                ..[[
-              
+                ..[[              
               </div>
               <br>]]
-  
+
+      -- Retvals
+      if Retvalscount>0 then
+        FunctionList=FunctionList..[[
+      
+               <u>Returnvalues:</u>
+      ]]
+      
+        for i=1, Retvalscount do
+          Retvals[i][1]=ultraschall.ColorateDatatypes(Retvals[i][1])
+          FunctionList=FunctionList..[[
+                 <table class="chapterpad">
+                   <tr>
+                     <td class="parmret"><i>]]..Retvals[i][1]..[[</i></td>
+                     <td>]]..Retvals[i][2]..[[</td>
+                   </tr>
+                  </table
+                <br>
+          ]]
+        end 
+        FunctionList=FunctionList.."<br>"
+      end
+      
       -- Parameters
       if Parmcount>0 then
         FunctionList=FunctionList..[[
@@ -542,27 +565,6 @@ function entries(start, stop)
         FunctionList=FunctionList.."<br>"
       end
       
-      -- Retvals
-      if Retvalscount>0 then
-        FunctionList=FunctionList..[[
-      
-               <u>Returnvalues:</u>
-      ]]
-      
-        for i=1, Retvalscount do
-          Retvals[i][1]=ultraschall.ColorateDatatypes(Retvals[i][1])
-          FunctionList=FunctionList..[[
-                 <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i>]]..Retvals[i][1]..[[</i></td>
-                     <td>]]..Retvals[i][2]..[[</td>
-                   </tr>
-                  </table
-                <br>
-          ]]
-        end 
-        FunctionList=FunctionList.."<br>"
-      end
     end
         
     -- Closing Tags

@@ -57,109 +57,95 @@ Ultraschall API Video-Functions
         </div>
       
           <div class="chapterpad"><p></p>
-<table class="indexpad" style="width:100%;" border="0"><tr><td><br><a style="margin-left:-14" id="User Interface"><a href="#User Interface">^</a></a><strong> <u>User Interface</u></strong><br><br>
-<b style="font-size:small;"><br><a style="margin-left:-14" id=" Window Management"><a href="# Window Management">^</a></a>  Window Management</b>
-</td></tr><tr><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#GetVideoHWND">GetVideoHWND</a></td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><b style="font-size:small;"><br><a style="margin-left:-14" id=" Coordinates"><a href="# Coordinates">^</a></a>  Coordinates</b>
-</td></tr><tr><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#VID_VideoUIStateCoords2Pixels">VID_VideoUIStateCoords2Pixels</a></td><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#VID_Pixels2VideoUIStateCoords">VID_Pixels2VideoUIStateCoords</a></td><td style="width:25%;">&nbsp;</td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a style="margin-left:-14" id="Project Settings"><a href="#Project Settings">^</a></a><strong> <u>Project Settings</u></strong><br><br>
-</td></tr><tr><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#ProjectSettings_GetVideoFramerate">ProjectSettings_GetVideoFramerate</a></td><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#ProjectSettings_SetVideoFramerate">ProjectSettings_SetVideoFramerate</a></td><td style="width:25%;">&nbsp;</td></tr></table><br></div>            <br>
+<table class="indexpad" style="width:100%;" border="0"><tr><td><br><a style="margin-left:-14" id="Project Settings"><a href="#Project Settings">^</a></a><strong> <u>Project Settings</u></strong><br><br>
+</td></tr><tr><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#ProjectSettings_GetVideoFramerate">ProjectSettings_GetVideoFramerate</a></td><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#ProjectSettings_SetVideoFramerate">ProjectSettings_SetVideoFramerate</a></td><td style="width:25%;">&nbsp;</td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a style="margin-left:-14" id="User Interface"><a href="#User Interface">^</a></a><strong> <u>User Interface</u></strong><br><br>
+<b style="font-size:small;"><br><a style="margin-left:-14" id=" Coordinates"><a href="# Coordinates">^</a></a>  Coordinates</b>
+</td></tr><tr><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#VID_Pixels2VideoUIStateCoords">VID_Pixels2VideoUIStateCoords</a></td><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#VID_VideoUIStateCoords2Pixels">VID_VideoUIStateCoords2Pixels</a></td><td style="width:25%;">&nbsp;</td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><b style="font-size:small;"><br><a style="margin-left:-14" id=" Window Management"><a href="# Window Management">^</a></a>  Window Management</b>
+</td></tr><tr><td style="width:25%; font-size:small;"><a class="smallfontTD" href="#GetVideoHWND">GetVideoHWND</a></td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td></tr></table><br></div>            <br>
         </div>
           
             <div class="chapterpad">
               <hr>
-              <a class="anchor" id="GetVideoHWND"></a>
-              <a href="#GetVideoHWND"> ^</a> 
-            <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
-            <img width="3%" src="gfx/js_0.963.png" alt="JS version 0.963">
-            <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetVideoHWND</b></u><br><br>  
+              <a class="anchor" id="ProjectSettings_GetVideoFramerate"></a>
+              <a href="#ProjectSettings_GetVideoFramerate"> ^</a> 
+            <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
+            <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
+            <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ProjectSettings_GetVideoFramerate</b></u><br>			<p>
+  
             <u>Functioncall:</u>
-            <div class="chapterpad" style="font-size:104%; color:DDDDDD;">
-        				<div class="l_func"><span class='all_view'>Lua: </span><code> <i class="dtype">HWND</i> hwnd = <em>ultraschall.GetVideoHWND</em>()</code></div>
+            <div class="chapterpad">
+        				<div class="l_func"><span class='all_view'>Lua: </span><code> <i class="dtype">integer</i> framerate, <i class="dtype">string</i> addnotes = <em>ultraschall.ProjectSettings_GetVideoFramerate</em>()</code></div>
 			</div><p>
-              <u>Description:</u><br>
-              <div class="chapterpad">
-  returns the HWND of the Video window, if the window is opened.<br/>
-<br/>
-returns nil if the Video Window is closed              
+              <div class="chapterpad" style="color: #EEEEEE;">
+  returns the video-framerate of the current project              
               </div>
               <br>      
                <u>Returnvalues:</u>
                        <table class="chapterpad">
                    <tr>
-                     <td class="parmret"><i><i class="dtype">HWND</i> hwnd</i></td>
-                     <td>the window-handler of the Video Window</td>
+                     <td class="parmret"><i><i class="dtype">integer</i> framerate</i></td>
+                     <td>the framerate in fps from 1 to 999999999</td>
+                   </tr>
+                  </table
+                <br>
+                           <table class="chapterpad">
+                   <tr>
+                     <td class="parmret"><i><i class="dtype">string</i> addnotes</i></td>
+                     <td>either "DF", "ND" or ""</td>
                    </tr>
                   </table
                 <br>
           <br>            <br>
         </div>
-                <br>
-        </div>
           
             <div class="chapterpad">
               <hr>
-              <a class="anchor" id="VID_VideoUIStateCoords2Pixels"></a>
-              <a href="#VID_VideoUIStateCoords2Pixels"> ^</a> 
-            <img width="3%" src="gfx/reaper5.97.png" alt="Reaper version 5.97">
-            <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>VID_VideoUIStateCoords2Pixels</b></u><br><br>  
+              <a class="anchor" id="ProjectSettings_SetVideoFramerate"></a>
+              <a href="#ProjectSettings_SetVideoFramerate"> ^</a> 
+            <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
+            <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
+            <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ProjectSettings_SetVideoFramerate</b></u><br>			<p>
+  
             <u>Functioncall:</u>
-            <div class="chapterpad" style="font-size:104%; color:DDDDDD;">
-        				<div class="l_func"><span class='all_view'>Lua: </span><code> <i class="dtype">integer</i> x_coordinate, <i class="dtype">integer</i> y_coordinate = <em>ultraschall.VID_VideoUIStateCoords2Pixels</em>(<i class="dtype">number</i> uistate_x, <i class="dtype">number</i> uistate_y, <i class="dtype">integer</i> videowindow_width, <i class="dtype">integer</i> videowindow_height)</code></div>
+            <div class="chapterpad">
+        				<div class="l_func"><span class='all_view'>Lua: </span><code> <i class="dtype">boolean</i> retval = <em>ultraschall.ProjectSettings_SetVideoFramerate</em>(<i class="dtype">integer</i> framerate, <i class="dtype">boolean</i> persist)</code></div>
 			</div><p>
-              <u>Description:</u><br>
-              <div class="chapterpad">
-  converts the ui_state-coordinates of the Video-Processor into pixel-coordinates within the Video Window<br/>
+              <div class="chapterpad" style="color: #EEEEEE;">
+  sets the video-framerate of the current project and optionally the default video-framerate for new projects<br/>
 <br/>
-You should add x and y-position of the Video-Processor-window, to get the actual screen-coordinates.<br/>
-<br/>
-returns nil in case of an error              
+returns false in case of an error              
               </div>
               <br>      
-               <u>Parameters:</u>
+               <u>Returnvalues:</u>
                        <table class="chapterpad">
                    <tr>
-                     <td class="parmret"><i><i class="dtype">number</i> uistate_x</i></td>
-                     <td>the x-coordinate, that the function ui_get_state within the videoprocessor returns</td>
-                   </tr>
-                  </table
-                <br>
-                           <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i><i class="dtype">number</i> uistate_y</i></td>
-                     <td>the y-coordinate, that the function ui_get_state within the videoprocessor returns</td>
-                   </tr>
-                  </table
-                <br>
-                           <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i><i class="dtype">integer</i> videowindow_width</i></td>
-                     <td>the current width of the Video Window</td>
-                   </tr>
-                  </table
-                <br>
-                           <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i><i class="dtype">integer</i> videowindow_height</i></td>
-                     <td>the current height of the Video Window</td>
+                     <td class="parmret"><i><i class="dtype">boolean</i> retval</i></td>
+                     <td>true, setting was successful; false, setting was unsuccessful</td>
                    </tr>
                   </table
                 <br>
           <br>      
-               <u>Returnvalues:</u>
+               <u>Parameters:</u>
                        <table class="chapterpad">
                    <tr>
-                     <td class="parmret"><i><i class="dtype">integer</i> x_coordinate</i></td>
-                     <td>the converted x-coordinate</td>
+                     <td class="parmret"><i><i class="dtype">integer</i> framerate</i></td>
+                     <td>the framerate in fps from 1 to 999999999;
+0, 29.97 fps DF
+-1, 23.976 fp
+-2, 29.97 fps ND</td>
                    </tr>
                   </table
                 <br>
                            <table class="chapterpad">
                    <tr>
-                     <td class="parmret"><i><i class="dtype">integer</i> y_coordinate</i></td>
-                     <td>the converted y-coordinate</td>
+                     <td class="parmret"><i><i class="dtype">boolean</i> persist</i></td>
+                     <td>true, set these values as default for new projects; false, don't set these values as defaults for </td>
                    </tr>
                   </table
                 <br>
           <br>            <br>
+        </div>
+                <br>
         </div>
           
             <div class="chapterpad">
@@ -167,13 +153,13 @@ returns nil in case of an error
               <a class="anchor" id="VID_Pixels2VideoUIStateCoords"></a>
               <a href="#VID_Pixels2VideoUIStateCoords"> ^</a> 
             <img width="3%" src="gfx/reaper5.97.png" alt="Reaper version 5.97">
-            <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>VID_Pixels2VideoUIStateCoords</b></u><br><br>  
+            <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>VID_Pixels2VideoUIStateCoords</b></u><br>			<p>
+  
             <u>Functioncall:</u>
-            <div class="chapterpad" style="font-size:104%; color:DDDDDD;">
+            <div class="chapterpad">
         				<div class="l_func"><span class='all_view'>Lua: </span><code> <i class="dtype">number</i> uistate_x, <i class="dtype">number</i> uistate_y = <em>ultraschall.VID_Pixels2VideoUIStateCoords</em>(<i class="dtype">integer</i> x, <i class="dtype">integer</i> y, <i class="dtype">integer</i> videowindow_width, <i class="dtype">integer</i> videowindow_height)</code></div>
 			</div><p>
-              <u>Description:</u><br>
-              <div class="chapterpad">
+              <div class="chapterpad" style="color: #EEEEEE;">
   converts the ui_state-coordinates of the Video-Processor into pixel-coordinates within the Video Window<br/>
 <br/>
 You should add x and y-position of the Video-Processor-window, to get the actual screen-coordinates.<br/>
@@ -181,6 +167,22 @@ You should add x and y-position of the Video-Processor-window, to get the actual
 returns nil in case of an error              
               </div>
               <br>      
+               <u>Returnvalues:</u>
+                       <table class="chapterpad">
+                   <tr>
+                     <td class="parmret"><i><i class="dtype">number</i> x_coordinate</i></td>
+                     <td>the converted x-coordinate, that reflects the values within the video-processor function ui_get_state</td>
+                   </tr>
+                  </table
+                <br>
+                           <table class="chapterpad">
+                   <tr>
+                     <td class="parmret"><i><i class="dtype">number</i> y_coordinate</i></td>
+                     <td>the converted y-coordinate, that reflects the values within the video-processor function ui_get_state</td>
+                   </tr>
+                  </table
+                <br>
+          <br>      
                <u>Parameters:</u>
                        <table class="chapterpad">
                    <tr>
@@ -210,103 +212,101 @@ returns nil in case of an error
                    </tr>
                   </table
                 <br>
-          <br>      
-               <u>Returnvalues:</u>
-                       <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i><i class="dtype">number</i> x_coordinate</i></td>
-                     <td>the converted x-coordinate, that reflects the values within the video-processor function ui_get_state</td>
-                   </tr>
-                  </table
-                <br>
-                           <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i><i class="dtype">number</i> y_coordinate</i></td>
-                     <td>the converted y-coordinate, that reflects the values within the video-processor function ui_get_state</td>
-                   </tr>
-                  </table
-                <br>
-          <br>            <br>
-        </div>
-                <br>
-        </div>
-          
-            <div class="chapterpad">
-              <hr>
-              <a class="anchor" id="ProjectSettings_GetVideoFramerate"></a>
-              <a href="#ProjectSettings_GetVideoFramerate"> ^</a> 
-            <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-            <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-            <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ProjectSettings_GetVideoFramerate</b></u><br><br>  
-            <u>Functioncall:</u>
-            <div class="chapterpad" style="font-size:104%; color:DDDDDD;">
-        				<div class="l_func"><span class='all_view'>Lua: </span><code> <i class="dtype">integer</i> framerate, <i class="dtype">string</i> addnotes = <em>ultraschall.ProjectSettings_GetVideoFramerate</em>()</code></div>
-			</div><p>
-              <u>Description:</u><br>
-              <div class="chapterpad">
-  returns the video-framerate of the current project              
-              </div>
-              <br>      
-               <u>Returnvalues:</u>
-                       <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i><i class="dtype">integer</i> framerate</i></td>
-                     <td>the framerate in fps from 1 to 999999999</td>
-                   </tr>
-                  </table
-                <br>
-                           <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i><i class="dtype">string</i> addnotes</i></td>
-                     <td>either "DF", "ND" or ""</td>
-                   </tr>
-                  </table
-                <br>
           <br>            <br>
         </div>
           
             <div class="chapterpad">
               <hr>
-              <a class="anchor" id="ProjectSettings_SetVideoFramerate"></a>
-              <a href="#ProjectSettings_SetVideoFramerate"> ^</a> 
-            <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-            <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-            <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ProjectSettings_SetVideoFramerate</b></u><br><br>  
+              <a class="anchor" id="VID_VideoUIStateCoords2Pixels"></a>
+              <a href="#VID_VideoUIStateCoords2Pixels"> ^</a> 
+            <img width="3%" src="gfx/reaper5.97.png" alt="Reaper version 5.97">
+            <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>VID_VideoUIStateCoords2Pixels</b></u><br>			<p>
+  
             <u>Functioncall:</u>
-            <div class="chapterpad" style="font-size:104%; color:DDDDDD;">
-        				<div class="l_func"><span class='all_view'>Lua: </span><code> <i class="dtype">boolean</i> retval = <em>ultraschall.ProjectSettings_SetVideoFramerate</em>(<i class="dtype">integer</i> framerate, <i class="dtype">boolean</i> persist)</code></div>
+            <div class="chapterpad">
+        				<div class="l_func"><span class='all_view'>Lua: </span><code> <i class="dtype">integer</i> x_coordinate, <i class="dtype">integer</i> y_coordinate = <em>ultraschall.VID_VideoUIStateCoords2Pixels</em>(<i class="dtype">number</i> uistate_x, <i class="dtype">number</i> uistate_y, <i class="dtype">integer</i> videowindow_width, <i class="dtype">integer</i> videowindow_height)</code></div>
 			</div><p>
-              <u>Description:</u><br>
-              <div class="chapterpad">
-  sets the video-framerate of the current project and optionally the default video-framerate for new projects<br/>
+              <div class="chapterpad" style="color: #EEEEEE;">
+  converts the ui_state-coordinates of the Video-Processor into pixel-coordinates within the Video Window<br/>
 <br/>
-returns false in case of an error              
+You should add x and y-position of the Video-Processor-window, to get the actual screen-coordinates.<br/>
+<br/>
+returns nil in case of an error              
               </div>
               <br>      
+               <u>Returnvalues:</u>
+                       <table class="chapterpad">
+                   <tr>
+                     <td class="parmret"><i><i class="dtype">integer</i> x_coordinate</i></td>
+                     <td>the converted x-coordinate</td>
+                   </tr>
+                  </table
+                <br>
+                           <table class="chapterpad">
+                   <tr>
+                     <td class="parmret"><i><i class="dtype">integer</i> y_coordinate</i></td>
+                     <td>the converted y-coordinate</td>
+                   </tr>
+                  </table
+                <br>
+          <br>      
                <u>Parameters:</u>
                        <table class="chapterpad">
                    <tr>
-                     <td class="parmret"><i><i class="dtype">integer</i> framerate</i></td>
-                     <td>the framerate in fps from 1 to 999999999;
-0, 29.97 fps DF
--1, 23.976 fp
--2, 29.97 fps ND</td>
+                     <td class="parmret"><i><i class="dtype">number</i> uistate_x</i></td>
+                     <td>the x-coordinate, that the function ui_get_state within the videoprocessor returns</td>
                    </tr>
                   </table
                 <br>
                            <table class="chapterpad">
                    <tr>
-                     <td class="parmret"><i><i class="dtype">boolean</i> persist</i></td>
-                     <td>true, set these values as default for new projects; false, don't set these values as defaults for </td>
+                     <td class="parmret"><i><i class="dtype">number</i> uistate_y</i></td>
+                     <td>the y-coordinate, that the function ui_get_state within the videoprocessor returns</td>
                    </tr>
                   </table
                 <br>
-          <br>      
+                           <table class="chapterpad">
+                   <tr>
+                     <td class="parmret"><i><i class="dtype">integer</i> videowindow_width</i></td>
+                     <td>the current width of the Video Window</td>
+                   </tr>
+                  </table
+                <br>
+                           <table class="chapterpad">
+                   <tr>
+                     <td class="parmret"><i><i class="dtype">integer</i> videowindow_height</i></td>
+                     <td>the current height of the Video Window</td>
+                   </tr>
+                  </table
+                <br>
+          <br>            <br>
+        </div>
+                <br>
+        </div>
+          
+            <div class="chapterpad">
+              <hr>
+              <a class="anchor" id="GetVideoHWND"></a>
+              <a href="#GetVideoHWND"> ^</a> 
+            <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
+            <img width="3%" src="gfx/js_0.963.png" alt="JS version 0.963">
+            <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetVideoHWND</b></u><br>			<p>
+  
+            <u>Functioncall:</u>
+            <div class="chapterpad">
+        				<div class="l_func"><span class='all_view'>Lua: </span><code> <i class="dtype">HWND</i> hwnd = <em>ultraschall.GetVideoHWND</em>()</code></div>
+			</div><p>
+              <div class="chapterpad" style="color: #EEEEEE;">
+  returns the HWND of the Video window, if the window is opened.<br/>
+<br/>
+returns nil if the Video Window is closed              
+              </div>
+              <br>      
                <u>Returnvalues:</u>
                        <table class="chapterpad">
                    <tr>
-                     <td class="parmret"><i><i class="dtype">boolean</i> retval</i></td>
-                     <td>true, setting was successful; false, setting was unsuccessful</td>
+                     <td class="parmret"><i><i class="dtype">HWND</i> hwnd</i></td>
+                     <td>the window-handler of the Video Window</td>
                    </tr>
                   </table
                 <br>
