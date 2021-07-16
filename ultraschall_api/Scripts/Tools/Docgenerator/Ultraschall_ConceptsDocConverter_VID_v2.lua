@@ -114,7 +114,6 @@ Ultraschall API Video-Concepts
             </div>
         </div>
       
-          <div class="chapterpad"><p></p>
 ]]
 
 dofile(ultraschall.Api_Path.."/Scripts/Tools/DocGenerator/DocGenerator_v2.lua")

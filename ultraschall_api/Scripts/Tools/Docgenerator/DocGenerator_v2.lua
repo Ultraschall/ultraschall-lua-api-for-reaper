@@ -32,6 +32,7 @@
 
 local FunctionList=FunctionList
 
+
 -- some functions needed
 
 PanDoc=reaper.GetExtState("Ultraschall", "PanDoc_Path", "\"c:\\Program Files\\Pandoc\\pandoc.exe\"")
@@ -105,83 +106,83 @@ function ultraschall.ColorateDatatypes(String)
   String=" "..String.." "
   String=string.gsub(String, "%(", "( ")
   String=string.gsub(String, "%[", "[ ")
-  String=string.gsub(String, " boolean ", " <i class=\"dtype\">boolean</i> ")
-  String=string.gsub(String, " Boolean ", " <i class=\"dtype\">Boolean</i> ")
-  String=string.gsub(String, " bool ", " <i class=\"dtype\">bool</i> ")
-  String=string.gsub(String, " bool%* ", " <i class=\"dtype\">bool*</i> ")
+  String=string.gsub(String, " boolean ", " <i>boolean</i> ")
+  String=string.gsub(String, " Boolean ", " <i>Boolean</i> ")
+  String=string.gsub(String, " bool ", " <i>bool</i> ")
+  String=string.gsub(String, " bool%* ", " <i>bool*</i> ")
 --reaper.MB("LULA:"..String,"",0)
-  String=string.gsub(String, " void ", " <i class=\"dtype\">void</i> ")
-  String=string.gsub(String, " void%* ", " <i class=\"dtype\">void*</i> ")
-  String=string.gsub(String, " integer ", " <i class=\"dtype\">integer</i> ")
-  String=string.gsub(String, " int ", " <i class=\"dtype\">int</i> ")
-  String=string.gsub(String, " int%* ", " <i class=\"dtype\">int*</i> ")
-  String=string.gsub(String, " Int ", " <i class=\"dtype\">Int</i> ")
-  String=string.gsub(String, " const ", " <i class=\"dtype\">const</i> ")
-  String=string.gsub(String, " char ", " <i class=\"dtype\">char</i> ")
-  String=string.gsub(String, " char%* ", " <i class=\"dtype\">char*</i> ")
-  String=string.gsub(String, " string ", " <i class=\"dtype\">string</i> ")
-  String=string.gsub(String, " number ", " <i class=\"dtype\">number</i> ")
-  String=string.gsub(String, " double ", " <i class=\"dtype\">double</i> ")
-  String=string.gsub(String, " double%* ", " <i class=\"dtype\">double*</i> ")
-  String=string.gsub(String, " float ", " <i class=\"dtype\">float</i> ")
-  String=string.gsub(String, " float%* ", " <i class=\"dtype\">float*</i> ")
-  String=string.gsub(String, " Float ", " <i class=\"dtype\">Float</i> ")
-  String=string.gsub(String, " ReaProject%* ", " <i class=\"dtype\">ReaProject*</i> ")
-  String=string.gsub(String, " ReaProject ", " <i class=\"dtype\">ReaProject</i> ")
-  String=string.gsub(String, " MediaItem%*", " <i class=\"dtype\">MediaItem*</i> ")
-  String=string.gsub(String, " MediaItem ", " <i class=\"dtype\">MediaItem</i> ")
-  String=string.gsub(String, " MediaTrack ", " <i class=\"dtype\">MediaTrack</i> ")
-  String=string.gsub(String, " MediaTrack%*", " <i class=\"dtype\">MediaTrack*</i> ")
-  String=string.gsub(String, " AudioAccessor ", " <i class=\"dtype\">AudioAccessor</i> ")
-  String=string.gsub(String, " AudioAccessor%* ", " <i class=\"dtype\">AudioAccessor*</i> ")
-  String=string.gsub(String, " BR_Envelope ", " <i class=\"dtype\">BR_Envelope</i> ")
-  String=string.gsub(String, " HWND ", " <i class=\"dtype\">HWND</i> ")
-  String=string.gsub(String, " ImGui_Context ", " <i class=\"dtype\">ImGui_Context</i> ")
-  String=string.gsub(String, " ImGui_DrawList ", " <i class=\"dtype\">ImGui_DrawList</i> ")
-  String=string.gsub(String, " identifier ", " <i class=\"dtype\">identifier</i> ")
-  String=string.gsub(String, " reaper.array ", " <i class=\"dtype\">reaper.array</i> ")
-  String=string.gsub(String, " PackageEntry ", " <i class=\"dtype\">PackageEntry</i> ")  
-  String=string.gsub(String, " IReaperControlSurface ", " <i class=\"dtype\">IReaperControlSurface</i> ")
+  String=string.gsub(String, " void ", " <i>void</i> ")
+  String=string.gsub(String, " void%* ", " <i>void*</i> ")
+  String=string.gsub(String, " integer ", " <i>integer</i> ")
+  String=string.gsub(String, " int ", " <i>int</i> ")
+  String=string.gsub(String, " int%* ", " <i>int*</i> ")
+  String=string.gsub(String, " Int ", " <i>Int</i> ")
+  String=string.gsub(String, " const ", " <i>const</i> ")
+  String=string.gsub(String, " char ", " <i>char</i> ")
+  String=string.gsub(String, " char%* ", " <i>char*</i> ")
+  String=string.gsub(String, " string ", " <i>string</i> ")
+  String=string.gsub(String, " number ", " <i>number</i> ")
+  String=string.gsub(String, " double ", " <i>double</i> ")
+  String=string.gsub(String, " double%* ", " <i>double*</i> ")
+  String=string.gsub(String, " float ", " <i>float</i> ")
+  String=string.gsub(String, " float%* ", " <i>float*</i> ")
+  String=string.gsub(String, " Float ", " <i>Float</i> ")
+  String=string.gsub(String, " ReaProject%* ", " <i>ReaProject*</i> ")
+  String=string.gsub(String, " ReaProject ", " <i>ReaProject</i> ")
+  String=string.gsub(String, " MediaItem%*", " <i>MediaItem*</i> ")
+  String=string.gsub(String, " MediaItem ", " <i>MediaItem</i> ")
+  String=string.gsub(String, " MediaTrack ", " <i>MediaTrack</i> ")
+  String=string.gsub(String, " MediaTrack%*", " <i>MediaTrack*</i> ")
+  String=string.gsub(String, " AudioAccessor ", " <i>AudioAccessor</i> ")
+  String=string.gsub(String, " AudioAccessor%* ", " <i>AudioAccessor*</i> ")
+  String=string.gsub(String, " BR_Envelope ", " <i>BR_Envelope</i> ")
+  String=string.gsub(String, " HWND ", " <i>HWND</i> ")
+  String=string.gsub(String, " ImGui_Context ", " <i>ImGui_Context</i> ")
+  String=string.gsub(String, " ImGui_DrawList ", " <i>ImGui_DrawList</i> ")
+  String=string.gsub(String, " identifier ", " <i>identifier</i> ")
+  String=string.gsub(String, " reaper.array ", " <i>reaper.array</i> ")
+  String=string.gsub(String, " PackageEntry ", " <i>PackageEntry</i> ")  
+  String=string.gsub(String, " IReaperControlSurface ", " <i>IReaperControlSurface</i> ")
   
-  String=string.gsub(String, " joystick_device ", " <i class=\"dtype\">joystick_device</i> ")
-  String=string.gsub(String, " KbdSectionInfo ", " <i class=\"dtype\">KbdSectionInfo</i> ")
-  String=string.gsub(String, " KbdSectionInfo%* ", " <i class=\"dtype\">KbdSectionInfo*</i> ")
-  String=string.gsub(String, " PCM_source ", " <i class=\"dtype\">PCM_source</i> ")
-  String=string.gsub(String, " PCM_source%* ", " <i class=\"dtype\">PCM_source*</i> ")
-  String=string.gsub(String, " RprMidiTake ", " <i class=\"dtype\">RprMidiTake</i> ")
-  String=string.gsub(String, " MediaItem_Take ", " <i class=\"dtype\">MediaItem_Take</i> ")
-  String=string.gsub(String, " MediaItem_Take%* ", " <i class=\"dtype\">MediaItem_Take*</i> ")
-  String=string.gsub(String, " TrackEnvelope%* ", " <i class=\"dtype\">TrackEnvelope*</i> ")
-  String=string.gsub(String, " TrackEnvelope ", " <i class=\"dtype\">TrackEnvelope</i> ")
-  String=string.gsub(String, " WDL_FastString ", " <i class=\"dtype\">WDL_FastString</i> ")
+  String=string.gsub(String, " joystick_device ", " <i>joystick_device</i> ")
+  String=string.gsub(String, " KbdSectionInfo ", " <i>KbdSectionInfo</i> ")
+  String=string.gsub(String, " KbdSectionInfo%* ", " <i>KbdSectionInfo*</i> ")
+  String=string.gsub(String, " PCM_source ", " <i>PCM_source</i> ")
+  String=string.gsub(String, " PCM_source%* ", " <i>PCM_source*</i> ")
+  String=string.gsub(String, " RprMidiTake ", " <i>RprMidiTake</i> ")
+  String=string.gsub(String, " MediaItem_Take ", " <i>MediaItem_Take</i> ")
+  String=string.gsub(String, " MediaItem_Take%* ", " <i>MediaItem_Take*</i> ")
+  String=string.gsub(String, " TrackEnvelope%* ", " <i>TrackEnvelope*</i> ")
+  String=string.gsub(String, " TrackEnvelope ", " <i>TrackEnvelope</i> ")
+  String=string.gsub(String, " WDL_FastString ", " <i>WDL_FastString</i> ")
   
-  String=string.gsub(String, " LICE_IBitmap%* ", " <i class=\"dtype\">LICE_IBitmap*</i> ")  
-  String=string.gsub(String, " WDL_VirtualWnd_BGCfg%* ", " <i class=\"dtype\">WDL_VirtualWnd_BGCfg*</i> ")  
-  String=string.gsub(String, " preview_register_t%* ", " <i class=\"dtype\">preview_register_t*</i> ")  
-  String=string.gsub(String, " screensetNewCallbackFunc ", " <i class=\"dtype\">screensetNewCallbackFunc</i> ")  
-  String=string.gsub(String, " ISimpleMediaDecoder%* ", " <i class=\"dtype\">ISimpleMediaDecoder*</i> ")  
-  String=string.gsub(String, " LICE_pixel ", " <i class=\"dtype\">LICE_pixel</i> ")  
-  String=string.gsub(String, " HINSTANCE ", " <i class=\"dtype\">HINSTANCE</i> ")  
-  String=string.gsub(String, " LICE_IFont%* ", " <i class=\"dtype\">LICE_IFont*</i> ")  
-  String=string.gsub(String, " HFONT ", " <i class=\"dtype\">HFONT</i> ")  
-  String=string.gsub(String, " RECT%* ", " <i class=\"dtype\">RECT*</i> ")  
-  String=string.gsub(String, " UINT ", " <i class=\"dtype\">UINT</i> ")  
-  String=string.gsub(String, " unsigned ", " <i class=\"dtype\">unsigned</i> ")  
-  String=string.gsub(String, " MSG%* ", " <i class=\"dtype\">MSG*</i> ")  
-  String=string.gsub(String, " HMENU ", " <i class=\"dtype\">HMENU</i> ")  
-  String=string.gsub(String, " MIDI_event_t%* ", " <i class=\"dtype\">MIDI_event_t*</i> ")  
-  String=string.gsub(String, " MIDI_eventlist%* ", " <i class=\"dtype\">MIDI_eventlist*</i> ")  
-  String=string.gsub(String, " DWORD ", " <i class=\"dtype\">DWORD</i> ")  
-  String=string.gsub(String, " ACCEL%* ", " <i class=\"dtype\">ACCEL*</i> ")  
-  String=string.gsub(String, " PCM_source_peaktransfer_t%* ", " <i class=\"dtype\">PCM_source_peaktransfer_t*</i> ")  
-  String=string.gsub(String, " PCM_source_transfer_t%* ", " <i class=\"dtype\">PCM_source_transfer_t*</i> ")  
-  String=string.gsub(String, " audio_hook_register_t%* ", " <i class=\"dtype\">audio_hook_register_t*</i> ")  
-  String=string.gsub(String, " size_t ", " <i class=\"dtype\">size_t</i> ")  
-  String=string.gsub(String, " function ", " <i class=\"dtype\">function</i> ")  
-  String=string.gsub(String, " ReaperArray ", " <i class=\"dtype\">ReaperArray</i> ")  
-  String=string.gsub(String, " optional ", " <i class=\"dtype\">optional</i> ")  
-  String=string.gsub(String, " table ", " <i class=\"dtype\">table</i> ")  
-  String=string.gsub(String, " array ", " <i class=\"dtype\">array</i> ")  
+  String=string.gsub(String, " LICE_IBitmap%* ", " <i>LICE_IBitmap*</i> ")  
+  String=string.gsub(String, " WDL_VirtualWnd_BGCfg%* ", " <i>WDL_VirtualWnd_BGCfg*</i> ")  
+  String=string.gsub(String, " preview_register_t%* ", " <i>preview_register_t*</i> ")  
+  String=string.gsub(String, " screensetNewCallbackFunc ", " <i>screensetNewCallbackFunc</i> ")  
+  String=string.gsub(String, " ISimpleMediaDecoder%* ", " <i>ISimpleMediaDecoder*</i> ")  
+  String=string.gsub(String, " LICE_pixel ", " <i>LICE_pixel</i> ")  
+  String=string.gsub(String, " HINSTANCE ", " <i>HINSTANCE</i> ")  
+  String=string.gsub(String, " LICE_IFont%* ", " <i>LICE_IFont*</i> ")  
+  String=string.gsub(String, " HFONT ", " <i>HFONT</i> ")  
+  String=string.gsub(String, " RECT%* ", " <i>RECT*</i> ")  
+  String=string.gsub(String, " UINT ", " <i>UINT</i> ")  
+  String=string.gsub(String, " unsigned ", " <i>unsigned</i> ")  
+  String=string.gsub(String, " MSG%* ", " <i>MSG*</i> ")  
+  String=string.gsub(String, " HMENU ", " <i>HMENU</i> ")  
+  String=string.gsub(String, " MIDI_event_t%* ", " <i>MIDI_event_t*</i> ")  
+  String=string.gsub(String, " MIDI_eventlist%* ", " <i>MIDI_eventlist*</i> ")  
+  String=string.gsub(String, " DWORD ", " <i>DWORD</i> ")  
+  String=string.gsub(String, " ACCEL%* ", " <i>ACCEL*</i> ")  
+  String=string.gsub(String, " PCM_source_peaktransfer_t%* ", " <i>PCM_source_peaktransfer_t*</i> ")  
+  String=string.gsub(String, " PCM_source_transfer_t%* ", " <i>PCM_source_transfer_t*</i> ")  
+  String=string.gsub(String, " audio_hook_register_t%* ", " <i>audio_hook_register_t*</i> ")  
+  String=string.gsub(String, " size_t ", " <i>size_t</i> ")  
+  String=string.gsub(String, " function ", " <i>function</i> ")  
+  String=string.gsub(String, " ReaperArray ", " <i>ReaperArray</i> ")  
+  String=string.gsub(String, " optional ", " <i>optional</i> ")  
+  String=string.gsub(String, " table ", " <i>table</i> ")  
+  String=string.gsub(String, " array ", " <i>array</i> ")  
   
   String=string.gsub(String, "%( ", "(")
   String=string.gsub(String, "%[ ", "[")
@@ -302,9 +303,9 @@ function contentindex()
     FunctionsLister_Count=FunctionsLister_Count+1
     FunctionsLister[FunctionsLister_Count]="HEADER:"..tostring(One).." "..tostring(Two).." "..tostring(Three).."\n"
     
-    if Top==nil then Top="" else Top="<br><a style=\"margin-left:-14\" id=\""..Top.."\"><a href=\"#"..Top.."\">^</a></a><strong> <u>"..Top.."</u></strong><br><br>\n" end
+    if Top==nil then Top="" else Top="<br><a class=\"inpad\" id=\""..Top.."\"><a href=\"#"..Top.."\">^</a></a><strong> <u>"..Top.."</u></strong><br><br>\n" end
     if i>1 and Top:match("u%>(.-)%</u")==HeaderList[i-1]:match("(.-),") then Top="" end
-    if Second==nil then Second="" else Second="<b style=\"font-size:small;\"><br><a style=\"margin-left:-14\" id=\""..Second.."\"><a href=\"#"..Second.."\">^</a></a> "..Second.."</b>\n" end
+    if Second==nil then Second="" else Second="<b style=\"font-size:small;\"><br><a class=\"inpad\" id=\""..Second.."\"><a href=\"#"..Second.."\">^</a></a> "..Second.."</b>\n" end
     if i>1 and Second:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Second="" end
     if Third==nil then Third="" else Third=Third.."\n" end
     if i>1 and Third:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Third="" end
@@ -319,7 +320,7 @@ function contentindex()
       Title=ultraschall.Docs_GetUSDocBloc_Title(AllUSDocBloc_Header_Slugs[Slugs[a]][2], 1)
       --Title=Slugs[a]
       if Title==nil then Title=Slugs[a] end --Title="Nope" end
-      slugs=slugs.."<td style=\"width:25%; font-size:small;\"><a class=\"smallfontTD\" href=\"#"..Slugs[a].."\">"..Title.."</a></td>"      
+      slugs=slugs.."<td class=\"smallfontTD\"><a class=\"smallfontTD\" href=\"#"..Slugs[a].."\">"..Title.."</a></td>"      
       FunctionsLister_Count=FunctionsLister_Count+1
       FunctionsLister[FunctionsLister_Count]=Slugs[a]
       linebreaker=linebreaker+1
@@ -445,9 +446,9 @@ function entries(start, stop)
       -- slug and anchor
       FunctionList=FunctionList..[[
       
-        <div class="chapterpad">
+        <div class="chpad">
           <hr>
-          <a class="anchor" id="]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]..[["></a>
+          <a class="anch" id="]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]..[["></a>
           <a href="#]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]..[["> ^</a> ]]
       
       -- requires
@@ -492,7 +493,7 @@ function entries(start, stop)
         FunctionList=FunctionList..[[
   
           <u>Functioncall:</u>
-          <div class="chapterpad">
+          <div class="chpad">
 ]]
         if functioncall["cpp"]~=nil then
           FunctionList=FunctionList.."  <div class=\"c_func\"><span class='all_view'>C: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["cpp"])).."</code></div>\n"
@@ -516,7 +517,7 @@ function entries(start, stop)
       
       --Description
       FunctionList=FunctionList..[[
-          <div class="chapterpad" style="color: #E;">
+          <div class="chpad">
   ]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]
                 ..[[              
           </div><br>]]
@@ -531,9 +532,9 @@ function entries(start, stop)
         for i=1, Retvalscount do
           Retvals[i][1]=ultraschall.ColorateDatatypes(Retvals[i][1])
           FunctionList=FunctionList..[[
-          <table class="chapterpad">
+          <table class="chpad">
             <tr>
-              <td class="parmret"><i>]]..Retvals[i][1]..[[</i></td>
+              <td class="parmret">]]..Retvals[i][1]..[[</td>
               <td>]]..Retvals[i][2]..[[</td>
             </tr>
           </table>
@@ -550,9 +551,9 @@ function entries(start, stop)
         for i=1, Parmcount do
           Params[i][1]=ultraschall.ColorateDatatypes(Params[i][1])
           FunctionList=FunctionList..[[
-          <table class="chapterpad">
+          <table class="chpad">
             <tr>
-              <td class="parmret"><i>]]..Params[i][1]..[[</i></td>
+              <td class="parmret">]]..Params[i][1]..[[</td>
               <td>]]..Params[i][2]..[[</td>
             </tr>
           </table>
@@ -574,15 +575,16 @@ function entries(start, stop)
   end
   
   FunctionList=FunctionList..[[
-      <div class="chapterpad">
+      <div class="chpad">
         <hr>
-          <table><td style="width:49%"> ]]
+                     
+          <table><td class="td2"> ]]
           
           if programming_language_selector==true then 
             FunctionList=FunctionList.."View: [<span class='aclick'>all</span>] [<span class='cclick'><a href=\"#c\" onClick=\"setdocview('c')\">C/C++</a></span>] [<span class='eclick'><a href=\"#e\" onClick=\"setdocview('e')\">EEL2</a></span>] [<span class='lclick'><a href=\"#l\" onClick=\"setdocview('l')\">Lua</a></span>] [<span class='pclick'><a href=\"#p\" onClick=\"setdocview('p')\">Python</a></span>]" 
           end
           
-   FunctionList=FunctionList..[[&#160;</td><td>&#160;</td><td style=\"padding-left:20.5%;\">Automatically generated by Ultraschall-API ]]..usversion..[[ ]]..usbeta..[[ - ]]..Ccount..[[ elements available <br></td></table>
+   FunctionList=FunctionList..[[&#160;</td><td>&#160;</td><td class=\"td3\">Automatically generated by Ultraschall-API ]]..usversion..[[ ]]..usbeta..[[ - ]]..Ccount..[[ elements available <br></td></table>
         <hr>
       </div>
       <br>
@@ -592,6 +594,7 @@ function entries(start, stop)
 end
 
 
+FunctionList=FunctionList.."<div class=\"chpad\"><p></p>"
 contentindex()
 convertMarkdown()
 ultraschall.WriteValueToFile(Outfile, FunctionList)

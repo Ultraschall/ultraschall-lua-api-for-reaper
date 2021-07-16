@@ -161,7 +161,7 @@ FunctionList=[[
         </div>
 <!---
 End of Header
---->    <div class="chapterpad"><p></p>
+--->
 ]]
 
 --[[
@@ -179,7 +179,7 @@ FunctionList=FunctionList..[[
     </table>
     <hr>]]
 --]]
-
-FunctionList=FunctionList.."<h2>Reaper Reascript-Api-Documentation "..versionnumbering.."<br>\""..tagline.."\"</h2><h3>The Functions Reference</h3>"
+FunctionList=FunctionList.."<div class=\"chpad\"><p></p>\n"
+FunctionList=FunctionList.."<h2>Reaper Reascript-Api-Documentation "..versionnumbering.."<br>\""..tagline.."\"</h2><h3>The Functions Reference</h3></div>"
 
 dofile(ultraschall.Api_Path.."/Scripts/Tools/DocGenerator/DocGenerator_v2.lua")

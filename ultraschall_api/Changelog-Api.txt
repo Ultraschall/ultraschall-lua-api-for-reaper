@@ -405,7 +405,7 @@ Doesn't work on Windows 7???
 
 ## Ultraschall Framework - Changelog
 
-### 4.2.005 - "Anne Clarke - Our Darkness" - XXth of XXXX 2021
+### 4.2.005 - "Ann Clarke - Our Darkness" - XXth of XXXX 2021
 
 Has now 1400 functions, with 15 new ones
 
