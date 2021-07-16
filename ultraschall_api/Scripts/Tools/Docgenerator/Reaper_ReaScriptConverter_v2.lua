@@ -42,6 +42,7 @@ Tempfile=ultraschall.Api_Path.."/temp/"
 
 --Infilename=ultraschall.Api_Path.."/DocsSourcefiles/reaper-apidocs-test.USDocML"
 Infilename=ultraschall.Api_Path.."/DocsSourcefiles/reaper-apidocs.USDocML"
+--Infilename=ultraschall.Api_Path.."/DocsSourcefiles/reaper-webRC-docs.USDocML"
 Outfile=ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation.html"
 
 -- Reaper-version and tagline from extstate
@@ -50,8 +51,13 @@ tagline=reaper.GetExtState("ultraschall_api", "Tagline")
 
 Index=3
 
+programming_language_selector=true
 
 usD,usversion,usdate,usbeta,usTagline,usF,usG=ultraschall.GetApiVersion()
+
+ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
+ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
+
 -- Let's create the Header
 FunctionList=[[
 <html>
@@ -84,7 +90,7 @@ FunctionList=[[
         for (i=0;i<list.length;i++) {
           set_class_style(list[i], (v == '' || list[i].slice(0,1) == v) ? 'block' : 'none'); 
         }
-        set_class_innerHTML('aclick', v=='' ? 'all' : "<a href=\"#\" onClick=\"setdocview('')\">all</a>");
+        set_class_innerHTML('aclick', v=='' ? 'all' : "<a href=\"\" onClick=\"setdocview('')\">all</a>");
         set_class_innerHTML('cclick', v=='c' ? 'C/C++' : "<a href=\"#c\" onClick=\"setdocview('c')\">C/C++</a>");
         set_class_innerHTML('eclick', v=='e' ? 'EEL2' : "<a href=\"#e\" onClick=\"setdocview('e')\">EEL2</a>");
         set_class_innerHTML('lclick', v=='l' ? 'Lua' : "<a href=\"#l\" onClick=\"setdocview('l')\">Lua</a>");
@@ -140,7 +146,16 @@ FunctionList=[[
                             <td></td>
                         </tr>
                     </table><hr color="#444444">
-                    <div style="position:absolute; right:6%; top:80%;"><a style="color:#CCCCCC;" href="#This-is-the-TopOfTheWorld">Jump to Index</a></div>
+                    <div style="position:absolute; right:4.9%; height:22; top:100%; background-color:#282828; border-top:solid 0.1em; border-bottom:solid 0.1em;">
+                        View: [<span class='aclick'>all</span>] 
+                              [<span class='cclick'><a href="#c" onClick="setdocview('c')">C/C++</a></span>]
+                              [<span class='eclick'><a href="#e" onClick="setdocview('e')">EEL2</a></span>] 
+                              [<span class='lclick'><a href="#l" onClick="setdocview('l')">Lua</a></span>] 
+                              [<span class='pclick'><a href="#p" onClick="setdocview('p')">Python</a></span>]
+                    </div>
+                    <div style="position:absolute; right:6%; top:80%;">
+                        <a style="color:#CCCCCC;" href="#This-is-the-TopOfTheWorld">Jump to Index</a>
+                    </div>
                 </div>
             </div>            
         </div>
@@ -149,6 +164,7 @@ End of Header
 --->    <div class="chapterpad"><p></p>
 ]]
 
+--[[
 FunctionList=FunctionList..[[
     <hr>
     <table width="100%">
@@ -162,6 +178,7 @@ FunctionList=FunctionList..[[
         </td>
     </table>
     <hr>]]
+--]]
 
 FunctionList=FunctionList.."<h2>Reaper Reascript-Api-Documentation "..versionnumbering.."<br>\""..tagline.."\"</h2><h3>The Functions Reference</h3>"
 

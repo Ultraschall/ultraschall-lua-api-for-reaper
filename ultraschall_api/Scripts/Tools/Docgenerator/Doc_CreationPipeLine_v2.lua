@@ -25,6 +25,17 @@
   --]]
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
+ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
+ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
+retval, String=reaper.GetUserInputs("Reaper Tagline", 2, "Version,Tagline", ReaperVersion..","..ReaperTagline)
+if retval==true then
+  A=reaper.SetExtState("ultraschall_api", "ReaperVerNr", String:match("(.-),"), true)
+  B=reaper.SetExtState("ultraschall_api", "Tagline", String:match(",(.*)"), true)
+end
+
+--if tudelu==nil then return end
+--ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
+--ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
 
 FileA={}
 FileA[#FileA+1]="Reaper_WebRCDocConverter_v2.lua"
@@ -37,13 +48,13 @@ FileA[#FileA+1]="Ultraschall_ConceptsDocConverter_DOC_v2.lua"
 FileA[#FileA+1]="Ultraschall_ApiDownloads_Generator.lua"
 FileA[#FileA+1]="Ultraschall_Doc_Func_Converter_v2.lua"
 FileA[#FileA+1]="Ultraschall_ConceptsDocConverter_v2.lua"
-FileA[#FileA+1]="Reaper_ReaScriptConverter_v2.lua"
 FileA[#FileA+1]="Reaper_VideoProcessorDocConverter_v2.lua"
 FileA[#FileA+1]="Reaper_ConfigVarDocConverter_v2.lua"
+FileA[#FileA+1]="Reaper_ReaScriptConverter_v2.lua"
 
 Starterkit=reaper.time_precise()
 
-for i=1, #FileA do
+for i=#FileA, #FileA do
   CurrentDocs=FileA[i].."\n"
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/Docgenerator/"..FileA[i])
 end
