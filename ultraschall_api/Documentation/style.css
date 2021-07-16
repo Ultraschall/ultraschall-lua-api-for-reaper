@@ -1,3 +1,13 @@
+.l code:hover, .e code:hover, .p code:hover, .c code:hover, .j code:hover, .l_func code:hover, .ch code:hover{
+    cursor: copy;
+    background-color: black;
+}
+
+.l_func{
+    margin-bottom: 4;
+    color:#FFFFFF;
+}
+
 .c{
     margin-bottom: 4;
     color:#FFFFFF;
@@ -19,7 +29,8 @@
     color:#FFFFFF;
 }
 .anch{
-    padding-top: 14%;
+  width:90.5%;  
+  padding-top: 14%;
 }
 
 i{
@@ -27,6 +38,7 @@ i{
 }
 
 .pr{
+    color:#FFFFFF;
     width: 35%;
 }
 
@@ -34,7 +46,10 @@ i{
   padding-left:4.4%;
   width:90.5%;
 }
-
+.cc{
+  padding-left:4.4%;
+  width:90.5%;
+}
 .tdsm{
     width:25%;
     font-size:x-small;
@@ -54,7 +69,7 @@ i{
     width:49%;
 }
 .td3{
-    padding-left:20.5%;
+    padding-right:0;
 }
 .inpad{
     margin-left:-14;

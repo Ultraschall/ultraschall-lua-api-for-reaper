@@ -54,7 +54,12 @@ Web Remote Control Documentation
 <!---
 End of Header
 --->
-<div class="ch"><p></p><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Introduction"><a href="#Introduction">^</a></a><strong> <u>Introduction</u></strong><br><br>
+<div class="ch"><p></p>
+<!-- Clipboard Button -->
+<script src="./scripts/clipboard.min.js.Download"></script>
+<!-- External Script -->
+<script src="./scripts/scripts.js.Download"></script>
+<table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Introduction"><a href="#Introduction">^</a></a><strong> <u>Introduction</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#Introduction">Introduction</a></td></tr><td class="tdsm"><a href="#FunctionsIntro">How it works - basics</a></td></tr><td class="tdsm"><a href="#DataExchange">How to exchange data and get states from Reaper?</a></td></tr><td class="tdsm"><a href="#FunctionsandVariables">Functions and Variables</a></td></tr><td class="tdsm"><a href="#SecurityAspects">Security Aspects</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Special Variables"><a href="#Special Variables">^</a></a><strong> <u>Special Variables</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#g_wwr_timer_freq">g_wwr_timer_freq</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Functions"><a href="#Functions">^</a></a><strong> <u>Functions</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#wwr_start">wwr_start</a></td></tr><td class="tdsm"><a href="#wwr_req">wwr_req</a></td></tr><td class="tdsm"><a href="#wwr_req_recur">wwr_req_recur</a></td></tr><td class="tdsm"><a href="#wwr_req_recur_cancel">wwr_req_recur_cancel</a></td></tr><td class="tdsm"><a href="#mkvolstr">mkvolstr</a></td></tr><td class="tdsm"><a href="#mkpanstr">mkpanstr</a></td></tr><td class="tdsm"><a href="#simple_unescape">simple_unescape</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="ReadMe"><a href="#ReadMe">^</a></a><strong> <u>ReadMe</u></strong><br><br>
@@ -257,7 +262,7 @@ If the Web-Interface-API has any kind of https-support needs to be researched.
 <a href="#g_wwr_timer_freq"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>g_wwr_timer_freq</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="j"><span class='all_view'>Javascript: </span><code><em> g_wwr_timer_freq</em></code></div>
 </div><p>
 <div class="ch">
@@ -270,7 +275,7 @@ A global variable, that stores the timer-frequency for requests. Default is 100 
 <a href="#wwr_start"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>wwr_start</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="j"><span class='all_view'>Javascript: </span><code> <em>wwr_start</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -283,7 +288,7 @@ Starts the server. After that, requests can be send to Reaper.
 <a href="#wwr_req"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>wwr_req</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="j"><span class='all_view'>Javascript: </span><code> <em>wwr_req</em>(<i>string</i> request)</code></div>
 </div><p>
 <div class="ch">
@@ -304,7 +309,7 @@ Starts the server. After that, requests can be send to Reaper.
 <a href="#wwr_req_recur"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>wwr_req_recur</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="j"><span class='all_view'>Javascript: </span><code> <em>wwr_req_recur</em>(<i>string</i> request, <i>float</i> timer_frequency)</code></div>
 </div><p>
 <div class="ch">
@@ -330,7 +335,7 @@ Starts the server. After that, requests can be send to Reaper.
 <a href="#wwr_req_recur_cancel"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>wwr_req_recur_cancel</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="j"><span class='all_view'>Javascript: </span><code> <em>wwr_req_recur_cancel</em>(<i>string</i> request)</code></div>
 </div><p>
 <div class="ch">
@@ -350,7 +355,7 @@ Starts the server. After that, requests can be send to Reaper.
 <a href="#mkvolstr"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>mkvolstr</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="j"><span class='all_view'>Javascript: </span><code> <i>string</i> db_value = <em>mkvolstr</em>(<i>float</i> vol)</code></div>
 </div><p>
 <div class="ch">
@@ -379,7 +384,7 @@ Starts the server. After that, requests can be send to Reaper.
 <a href="#mkpanstr"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>mkpanstr</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="j"><span class='all_view'>Javascript: </span><code> <i>string</i> pan_percentage_value = <em>mkpanstr</em>(<i>float</i> pan)</code></div>
 </div><p>
 <div class="ch">
@@ -408,7 +413,7 @@ Starts the server. After that, requests can be send to Reaper.
 <a href="#simple_unescape"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>simple_unescape</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="j"><span class='all_view'>Javascript: </span><code> <i>string</i> unescaped_values = <em>simple_unescape</em>(<i>string</i> v)</code></div>
 </div><p>
 <div class="ch">
@@ -912,7 +917,7 @@ REGION_LIST_END
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> &#160;</td><td>&#160;</td><td class=\"td3\">Automatically generated by Ultraschall-API 4.2 005 - 55 elements available <br></td></table>
+          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.2 005 - 55 elements available <br></td></table>
         <hr>
       </div>
       <br>

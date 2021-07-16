@@ -53,7 +53,12 @@ Ultraschall API GFX-Functions
 </div>
 </div>
 </div>
-<div class="ch"><p></p><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Basic Shapes"><a href="#Basic Shapes">^</a></a><strong> <u>Basic Shapes</u></strong><br><br>
+<div class="ch"><p></p>
+<!-- Clipboard Button -->
+<script src="./scripts/clipboard.min.js.Download"></script>
+<!-- External Script -->
+<script src="./scripts/scripts.js.Download"></script>
+<table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Basic Shapes"><a href="#Basic Shapes">^</a></a><strong> <u>Basic Shapes</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#GFX_DrawThickRoundRect">GFX_DrawThickRoundRect</a></td><td class="tdsm"><a href="#GFX_DrawEmbossedSquare">GFX_DrawEmbossedSquare</a></td><td style="width:25%;">&nbsp;</td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Blitting"><a href="#Blitting">^</a></a><strong> <u>Blitting</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#GFX_BlitFramebuffer">GFX_BlitFramebuffer</a></td><td class="tdsm"><a href="#GFX_BlitImageCentered">GFX_BlitImageCentered</a></td><td style="width:25%;">&nbsp;</td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Window Handling"><a href="#Window Handling">^</a></a><strong> <u>Window Handling</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#GFX_Init">GFX_Init</a></td><td class="tdsm"><a href="#GFX_GetWindowHWND">GFX_GetWindowHWND</a></td><td class="tdsm"><a href="#GFX_GetDropFile">GFX_GetDropFile</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Mouse Handling"><a href="#Mouse Handling">^</a></a><strong> <u>Mouse Handling</u></strong><br><br>
@@ -67,7 +72,7 @@ Ultraschall API GFX-Functions
 <img width="3%" src="gfx/reaper5.95.png" alt="Reaper version 5.95">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GFX_DrawThickRoundRect</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>boolean</i> retval = <em>ultraschall.GFX_DrawThickRoundRect</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>number</i> thickness, <i>number</i> roundness, <i>boolean</i> antialias)</code></div>
 </div><p>
 <div class="ch">
@@ -137,7 +142,7 @@ returns false in case of an error
 <img width="3%" src="gfx/reaper5.95.png" alt="Reaper version 5.95">
 <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>GFX_DrawEmbossedSquare</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>boolean</i> retval = <em>ultraschall.GFX_DrawEmbossedSquare</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>optional</i> <i>integer</i> rgb, <i>optional</i> <i>integer</i> gbg, <i>optional</i> <i>integer</i> bbg, <i>optional</i> <i>integer</i> r, <i>optional</i> <i>integer</i> g, <i>optional</i> <i>integer</i> b)</code></div>
 </div><p>
 <div class="ch">
@@ -223,7 +228,7 @@ returns false in case of an error
 <img width="3%" src="gfx/reaper5.95.png" alt="Reaper version 5.95">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GFX_BlitFramebuffer</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>boolean</i> retval = <em>ultraschall.GFX_BlitFramebuffer</em>(<i>integer</i> framebufferidx, <i>optional</i> <i>boolean</i> showidx)</code></div>
 </div><p>
 <div class="ch">
@@ -263,7 +268,7 @@ returns false in case of an error
 <img width="3%" src="gfx/reaper5.99.png" alt="Reaper version 5.99">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GFX_BlitImageCentered</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>boolean</i> retval = <em>ultraschall.GFX_BlitImageCentered</em>(<i>integer</i> image, <i>integer</i> x, <i>integer</i> y, <i>number</i> scale, <i>number</i> rotate, <i>optional</i> <i>number</i> srcx, <i>optional</i> <i>number</i> srcy, <i>optional</i> <i>number</i> srcw, <i>optional</i> <i>number</i> srch, <i>optional</i> <i>integer</i> destx, <i>optional</i> <i>integer</i> desty, <i>optional</i> <i>integer</i> destw, <i>optional</i> <i>integer</i> desth, <i>optional</i> <i>integer</i> rotxoffs, <i>optional</i> <i>integer</i> rotyoffs)</code></div>
 </div><p>
 <div class="ch">
@@ -383,7 +388,7 @@ has no effect, when destx, desty, destw, desth are given</td>
 <img width="3%" src="gfx/js_0.964.png" alt="JS version 0.964">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GFX_Init</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>integer</i> retval, <i>HWND</i> hwnd = <em>ultraschall.GFX_Init</em>(<i>string</i> "name", <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> dockstate, <i>optional</i> <i>integer</i> xpos, <i>optional</i> <i>integer</i> ypos)</code></div>
 </div><p>
 <div class="ch">
@@ -449,7 +454,7 @@ Opens a new graphics window and returns its HWND-windowhandler object.
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GFX_GetWindowHWND</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>HWND</i> hwnd = <em>ultraschall.GFX_GetWindowHWND</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -471,7 +476,7 @@ Opens a new graphics window and returns its HWND-windowhandler object.
 <img width="3%" src="gfx/reaper6.05.png" alt="Reaper version 6.05">
 <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>GFX_GetDropFile</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>boolean</i> changed, <i>integer</i> num_dropped_files, <i>array</i> dropped_files, <i>integer</i> drop_mouseposition_x, <i>integer</i> drop_mouseposition_y = <em>ultraschall.GFX_GetDropFile</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -520,7 +525,7 @@ Opens a new graphics window and returns its HWND-windowhandler object.
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GFX_GetMouseCap</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> clickstate, <i>string</i> specific_clickstate, <i>integer</i> mouse_cap, <i>integer</i> click_x, <i>integer</i> click_y, <i>integer</i> drag_x, <i>integer</i> drag_y, <i>integer</i> mouse_wheel, <i>integer</i> mouse_hwheel = <em>ultraschall.GFX_GetMouseCap</em>(<i>optional</i> <i>integer</i> doubleclick_wait, <i>optional</i> <i>integer</i> drag_wait)</code></div>
 </div><p>
 <div class="ch">
@@ -617,7 +622,7 @@ Note: After doubleclicked, this will not return mouse-clicked-states, until the 
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GFX_SetFont</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <em>ultraschall.GFX_SetFont</em>(<i>integer</i> fontindex, <i>string</i> font, <i>integer</i> size, <i>string</i> flagStr)</code></div>
 </div><p>
 <div class="ch">
@@ -668,7 +673,7 @@ v - inverse</td>
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
 <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>Lokasenna_LoadGuiLib_v2</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <em>ultraschall.Lokasenna_LoadGuiLib_v2</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -686,7 +691,7 @@ You can find the documentation for it <a href="../3rd_party_modules/Lokasenna_GU
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> &#160;</td><td>&#160;</td><td class=\"td3\">Automatically generated by Ultraschall-API 4.2 005 - 10 elements available <br></td></table>
+          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.2 005 - 10 elements available <br></td></table>
         <hr>
       </div>
       <br>

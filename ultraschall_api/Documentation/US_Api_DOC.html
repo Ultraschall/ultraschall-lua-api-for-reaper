@@ -54,7 +54,12 @@ Ultraschall API Docs-Functions
 </div>
 </div>
 <div class="chapterpad"><p></p>
-<div class="ch"><p></p><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Helper functions"><a href="#Helper functions">^</a></a><strong> <u>Helper functions</u></strong><br><br>
+<div class="ch"><p></p>
+<!-- Clipboard Button -->
+<script src="./scripts/clipboard.min.js.Download"></script>
+<!-- External Script -->
+<script src="./scripts/scripts.js.Download"></script>
+<table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Helper functions"><a href="#Helper functions">^</a></a><strong> <u>Helper functions</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#Docs_ConvertPlainTextToHTML">Docs_ConvertPlainTextToHTML</a></td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Ultraschall DocML"><a href="#Ultraschall DocML">^</a></a><strong> <u>Ultraschall DocML</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#Docs_RemoveIndent">Docs_RemoveIndent</a></td><td class="tdsm"><a href="#Docs_GetAllUSDocBlocsFromString">Docs_GetAllUSDocBlocsFromString</a></td><td class="tdsm"><a href="#Docs_GetUSDocBloc_Slug">Docs_GetUSDocBloc_Slug</a></td></tr><td class="tdsm"><a href="#Docs_GetUSDocBloc_Title">Docs_GetUSDocBloc_Title</a></td><td class="tdsm"><a href="#Docs_GetUSDocBloc_Description">Docs_GetUSDocBloc_Description</a></td><td class="tdsm"><a href="#Docs_GetUSDocBloc_TargetDocument">Docs_GetUSDocBloc_TargetDocument</a></td></tr><td class="tdsm"><a href="#Docs_GetUSDocBloc_SourceDocument">Docs_GetUSDocBloc_SourceDocument</a></td><td class="tdsm"><a href="#Docs_GetUSDocBloc_ChapterContext">Docs_GetUSDocBloc_ChapterContext</a></td><td class="tdsm"><a href="#Docs_GetUSDocBloc_Tags">Docs_GetUSDocBloc_Tags</a></td></tr><td class="tdsm"><a href="#Docs_GetUSDocBloc_Params">Docs_GetUSDocBloc_Params</a></td><td class="tdsm"><a href="#Docs_GetUSDocBloc_Retvals">Docs_GetUSDocBloc_Retvals</a></td><td class="tdsm"><a href="#Docs_GetUSDocBloc_Functioncall">Docs_GetUSDocBloc_Functioncall</a></td></tr><td class="tdsm"><a href="#Docs_GetUSDocBloc_Requires">Docs_GetUSDocBloc_Requires</a></td><td class="tdsm"><a href="#Docs_GetUSDocBloc_PreviousChapter">Docs_GetUSDocBloc_PreviousChapter</a></td><td class="tdsm"><a href="#Docs_GetUSDocBloc_NextChapter">Docs_GetUSDocBloc_NextChapter</a></td></tr></table><br></div><div class="ch">
 <hr>
@@ -63,7 +68,7 @@ Ultraschall API Docs-Functions
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_ConvertPlainTextToHTML</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> html_text = <em>ultraschall.Docs_ConvertPlainTextToHTML</em>(<i>string</i> String)</code></div>
 </div><p>
 <div class="ch">
@@ -96,7 +101,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_RemoveIndent</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> unindented_text = <em>ultraschall.Docs_RemoveIndent</em>(<i>string</i> String, <i>string</i> indenttype)</code></div>
 </div><p>
 <div class="ch">
@@ -146,7 +151,7 @@ That means, indentation relative to the first line is kept.</td>
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetAllUSDocBlocsFromString</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>integer</i> found_usdocblocs, <i>array</i> all_found_usdocblocs = <em>ultraschall.Docs_GetAllUSDocBlocsFromString</em>(<i>string</i> String)</code></div>
 </div><p>
 <div class="ch">
@@ -184,7 +189,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_Slug</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> slug = <em>ultraschall.Docs_GetUSDocBloc_Slug</em>(<i>string</i> String)</code></div>
 </div><p>
 <div class="ch">
@@ -216,7 +221,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_Title</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> title, <i>string</i> spok_lang = <em>ultraschall.Docs_GetUSDocBloc_Title</em>(<i>string</i> String, <i>integer</i> index)</code></div>
 </div><p>
 <div class="ch">
@@ -261,7 +266,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_Description</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> description, <i>string</i> markup_type, <i>string</i> markup_version, <i>string</i> indent, <i>optional</i> <i>string</i> language, <i>optional</i> <i>string</i> prog_lang = <em>ultraschall.Docs_GetUSDocBloc_Description</em>(<i>string</i> String, <i>boolean</i> unindent_description, <i>integer</i> index)</code></div>
 </div><p>
 <div class="ch">
@@ -343,7 +348,7 @@ default - will take the indentation of the first line and apply it to each of th
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_TargetDocument</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> target_document = <em>ultraschall.Docs_GetUSDocBloc_TargetDocument</em>(<i>string</i> String)</code></div>
 </div><p>
 <div class="ch">
@@ -376,7 +381,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_SourceDocument</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> source_document = <em>ultraschall.Docs_GetUSDocBloc_SourceDocument</em>(<i>string</i> String)</code></div>
 </div><p>
 <div class="ch">
@@ -409,7 +414,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>Docs_GetUSDocBloc_ChapterContext</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>integer</i> count, <i>array</i> chapters, <i>string</i> spok_lang = <em>ultraschall.Docs_GetUSDocBloc_ChapterContext</em>(<i>string</i> String, <i>integer</i> index)</code></div>
 </div><p>
 <div class="ch">
@@ -460,7 +465,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_Tags</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>integer</i> count, <i>array</i> tags, <i>string</i> spok_lang = <em>ultraschall.Docs_GetUSDocBloc_Tags</em>(<i>string</i> String, <i>integer</i> index)</code></div>
 </div><p>
 <div class="ch">
@@ -511,7 +516,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_Params</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>integer</i> parmcount, <i>table</i> Params, <i>string</i> markuptype, <i>string</i> markupversion, <i>string</i> prog_lang, <i>string</i> spok_lang, <i>string</i> indent = <em>ultraschall.Docs_GetUSDocBloc_Params</em>(<i>string</i> String, <i>boolean</i> unindent_description, <i>integer</i> index)</code></div>
 </div><p>
 <div class="ch">
@@ -599,7 +604,7 @@ That means, indentation relative to the first line is kept.</td>
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_Retvals</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>integer</i> retvalscount, <i>table</i> retvals, <i>string</i> markuptype, <i>string</i> markupversion, <i>string</i> prog_lang, <i>string</i> spok_lang, <i>string</i> indent = <em>ultraschall.Docs_GetUSDocBloc_Retvals</em>(<i>string</i> String, <i>boolean</i> unindent_description, <i>integer</i> index)</code></div>
 </div><p>
 <div class="ch">
@@ -687,7 +692,7 @@ That means, indentation relative to the first line is kept.</td>
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_Functioncall</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> functioncall, <i>string</i> prog_lang = <em>ultraschall.Docs_GetUSDocBloc_Functioncall</em>(<i>string</i> String, <i>integer</i> index)</code></div>
 </div><p>
 <div class="ch">
@@ -733,7 +738,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_Requires</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>integer</i> count, <i>array</i> requires, <i>array</i> requires_alt = <em>ultraschall.Docs_GetUSDocBloc_Requires</em>(<i>string</i> String)</code></div>
 </div><p>
 <div class="ch">
@@ -777,7 +782,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_PreviousChapter</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> previous_chapter = <em>ultraschall.Docs_GetUSDocBloc_PreviousChapter</em>(<i>string</i> String)</code></div>
 </div><p>
 <div class="ch">
@@ -809,7 +814,7 @@ returns nil in case of an error
 <img width="3%" src="gfx/reaper5.978.png" alt="Reaper version 5.978">
 <img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>Docs_GetUSDocBloc_NextChapter</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code> <i>string</i> next_chapter = <em>ultraschall.Docs_GetUSDocBloc_NextChapter</em>(<i>string</i> String)</code></div>
 </div><p>
 <div class="ch">
@@ -837,7 +842,7 @@ returns nil in case of an error
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> &#160;</td><td>&#160;</td><td class=\"td3\">Automatically generated by Ultraschall-API 4.2 005 - 16 elements available <br></td></table>
+          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.2 005 - 16 elements available <br></td></table>
         <hr>
       </div>
       <br>

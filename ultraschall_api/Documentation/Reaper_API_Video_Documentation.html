@@ -54,7 +54,12 @@ Video Processor Documentation
 <!---
 End of Header
 --->    
-<div class="ch"><p></p><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="1. Introduction"><a href="#1. Introduction">^</a></a><strong> <u>1. Introduction</u></strong><br><br>
+<div class="ch"><p></p>
+<!-- Clipboard Button -->
+<script src="./scripts/clipboard.min.js.Download"></script>
+<!-- External Script -->
+<script src="./scripts/scripts.js.Download"></script>
+<table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="1. Introduction"><a href="#1. Introduction">^</a></a><strong> <u>1. Introduction</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#Introduction">Introduction</a></td></tr><td class="tdsm"><a href="#Coding Introduction">Coding Introduction</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="2. Special Variables"><a href="#2. Special Variables">^</a></a><strong> <u>2. Special Variables</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#project_time">project_time</a></td></tr><td class="tdsm"><a href="#project_tempo">project_tempo</a></td></tr><td class="tdsm"><a href="#project_ts_num">project_ts_num</a></td></tr><td class="tdsm"><a href="#project_ts_denom">project_ts_denom</a></td></tr><td class="tdsm"><a href="#project_time_qn">project_time_qn</a></td></tr><td class="tdsm"><a href="#time">time</a></td></tr><td class="tdsm"><a href="#framerate">framerate</a></td></tr><td class="tdsm"><a href="#project_w">project_w</a></td></tr><td class="tdsm"><a href="#project_h">project_h</a></td></tr><td class="tdsm"><a href="#project_wh_valid">project_wh_valid</a></td></tr><td class="tdsm"><a href="#colorspace">colorspace</a></td></tr><td class="tdsm"><a href="#param_wet">param_wet</a></td></tr><td class="tdsm"><a href="#param1..param24">param1..param24</a></td></tr><td class="tdsm"><a href="#gfx_r">gfx_r</a></td></tr><td class="tdsm"><a href="#gfx_g">gfx_g</a></td></tr><td class="tdsm"><a href="#gfx_b">gfx_b</a></td></tr><td class="tdsm"><a href="#gfx_a">gfx_a</a></td></tr><td class="tdsm"><a href="#gfx_a2">gfx_a2</a></td></tr><td class="tdsm"><a href="#gfx_mode">gfx_mode</a></td></tr><td class="tdsm"><a href="#gfx_dest">gfx_dest</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="3. Specific Functions"><a href="#3. Specific Functions">^</a></a><strong> <u>3. Specific Functions</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#input_count">input_count</a></td></tr><td class="tdsm"><a href="#input_track_count">input_track_count</a></td></tr><td class="tdsm"><a href="#input_track">input_track</a></td></tr><td class="tdsm"><a href="#input_track_exact_count">input_track_exact_count</a></td></tr><td class="tdsm"><a href="#input_track_exact">input_track_exact</a></td></tr><td class="tdsm"><a href="#input_next_item">input_next_item</a></td></tr><td class="tdsm"><a href="#input_next_track">input_next_track</a></td></tr><td class="tdsm"><a href="#input_ismaster">input_ismaster</a></td></tr><td class="tdsm"><a href="#input_info">input_info</a></td></tr><td class="tdsm"><a href="#input_get_name">input_get_name</a></td></tr><td class="tdsm"><a href="#gfx_img_alloc">gfx_img_alloc</a></td></tr><td class="tdsm"><a href="#gfx_img_resize">gfx_img_resize</a></td></tr><td class="tdsm"><a href="#gfx_img_hold">gfx_img_hold</a></td></tr><td class="tdsm"><a href="#gfx_img_getptr">gfx_img_getptr</a></td></tr><td class="tdsm"><a href="#gfx_img_free">gfx_img_free</a></td></tr><td class="tdsm"><a href="#gfx_img_info">gfx_img_info</a></td></tr><td class="tdsm"><a href="#gfx_set">gfx_set</a></td></tr><td class="tdsm"><a href="#gfx_blit">gfx_blit</a></td></tr><td class="tdsm"><a href="#gfx_fillrect">gfx_fillrect</a></td></tr><td class="tdsm"><a href="#gfx_procrect">gfx_procrect</a></td></tr><td class="tdsm"><a href="#gfx_evalrect">gfx_evalrect</a></td></tr><td class="tdsm"><a href="#gfx_gradrect">gfx_gradrect</a></td></tr><td class="tdsm"><a href="#gfx_rotoblit">gfx_rotoblit</a></td></tr><td class="tdsm"><a href="#gfx_deltablit">gfx_deltablit</a></td></tr><td class="tdsm"><a href="#gfx_xformblit">gfx_xformblit</a></td></tr><td class="tdsm"><a href="#gfx_keyedblit">gfx_keyedblit</a></td></tr><td class="tdsm"><a href="#gfx_destkeyedblit">gfx_destkeyedblit</a></td></tr><td class="tdsm"><a href="#gfx_setfont">gfx_setfont</a></td></tr><td class="tdsm"><a href="#gfx_str_measure">gfx_str_measure</a></td></tr><td class="tdsm"><a href="#gfx_str_draw">gfx_str_draw</a></td></tr><td class="tdsm"><a href="#gfx_getpixel">gfx_getpixel</a></td></tr><td class="tdsm"><a href="#rgb2yuv">rgb2yuv</a></td></tr><td class="tdsm"><a href="#yuv2rgb">yuv2rgb</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="4. Advanced Functions"><a href="#4. Advanced Functions">^</a></a><strong> <u>4. Advanced Functions</u></strong><br><br>
@@ -133,7 +138,7 @@ gfx_blit(frame,            // the current video-frame
 <a href="#project_time"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>project_time</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> project_time</em></code></div>
 </div><p>
 <div class="ch">
@@ -146,7 +151,7 @@ project time in seconds
 <a href="#project_tempo"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>project_tempo</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> project_tempo</em></code></div>
 </div><p>
 <div class="ch">
@@ -159,7 +164,7 @@ current tempo in BPM
 <a href="#project_ts_num"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>project_ts_num</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> project_ts_num</em></code></div>
 </div><p>
 <div class="ch">
@@ -172,7 +177,7 @@ current time signature numerator
 <a href="#project_ts_denom"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>project_ts_denom</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> project_ts_denom</em></code></div>
 </div><p>
 <div class="ch">
@@ -185,7 +190,7 @@ current time signature denominator
 <a href="#project_time_qn"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>project_time_qn</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> project_time_qn</em></code></div>
 </div><p>
 <div class="ch">
@@ -198,7 +203,7 @@ current project position in QN
 <a href="#time"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>time</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> time</em></code></div>
 </div><p>
 <div class="ch">
@@ -211,7 +216,7 @@ item time in seconds (if in item)
 <a href="#framerate"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>framerate</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> framerate</em></code></div>
 </div><p>
 <div class="ch">
@@ -224,7 +229,7 @@ project FPS (30.0, 29.97, etc)
 <a href="#project_w"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>project_w</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> project_w</em></code></div>
 </div><p>
 <div class="ch">
@@ -237,7 +242,7 @@ project preferred video width (code can override this before drawing)
 <a href="#project_h"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>project_h</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> project_h</em></code></div>
 </div><p>
 <div class="ch">
@@ -250,7 +255,7 @@ project preferred video height (code can override this before drawing)
 <a href="#project_wh_valid"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>project_wh_valid</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> project_wh_valid</em></code></div>
 </div><p>
 <div class="ch">
@@ -263,7 +268,7 @@ set nonzero if project_w/project_h reflect actual project setting (otherwise cou
 <a href="#colorspace"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>colorspace</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> colorspace</em></code></div>
 </div><p>
 <div class="ch">
@@ -280,7 +285,7 @@ It will be automatically changed if 0 and a drawing operation occurs or an input
 <a href="#param_wet"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>param_wet</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> param_wet</em></code></div>
 </div><p>
 <div class="ch">
@@ -293,7 +298,7 @@ if in FX form, wet/dry mix of effect.
 <a href="#param1..param24"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>param1..param24</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> param1..param24</em></code></div>
 </div><p>
 <div class="ch">
@@ -360,7 +365,7 @@ used as:<br/>
 <a href="#gfx_r"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_r</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> gfx_r</em></code></div>
 </div><p>
 <div class="ch">
@@ -373,7 +378,7 @@ current drawing color (red 0..1)
 <a href="#gfx_g"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_g</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> gfx_g</em></code></div>
 </div><p>
 <div class="ch">
@@ -386,7 +391,7 @@ current drawing color (green 0..1)
 <a href="#gfx_b"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_b</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> gfx_b</em></code></div>
 </div><p>
 <div class="ch">
@@ -399,7 +404,7 @@ current drawing color (blue 0..1)
 <a href="#gfx_a"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_a</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> gfx_a</em></code></div>
 </div><p>
 <div class="ch">
@@ -412,7 +417,7 @@ current drawing color (alpha 0..1)
 <a href="#gfx_a2"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_a2</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> gfx_a2</em></code></div>
 </div><p>
 <div class="ch">
@@ -425,7 +430,7 @@ current drawing color alpha channel value (RGB-only, 0..1, defaults to 1)
 <a href="#gfx_mode"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_mode</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> gfx_mode</em></code></div>
 </div><p>
 <div class="ch">
@@ -449,7 +454,7 @@ drawing mode<br/>
 <a href="#gfx_dest"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_dest</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> gfx_dest</em></code></div>
 </div><p>
 <div class="ch">
@@ -462,7 +467,7 @@ destination image handle, or -1 for main framebuffer
 <a href="#input_count"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_count</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> count_inputs = <em>input_count</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -483,7 +488,7 @@ Returns number of inputs available (total), range [0..n)
 <a href="#input_track_count"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_track_count</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> count_tracks = <em>input_track_count</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -504,7 +509,7 @@ Returns the number of available inputs on discrete tracks
 <a href="#input_track"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_track</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> input = <em>input_track</em>(<i>integer</i> track)</code></div>
 </div><p>
 <div class="ch">
@@ -533,7 +538,7 @@ Returns input for bottommost item or FX on discrete-track track (0 is first trac
 <a href="#input_track_exact_count"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_track_exact_count</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> nteger num_tracks = <em>input_track_exact_count</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -554,7 +559,7 @@ Returns the number of tracks above the current track that could possibly contain
 <a href="#input_track_exact"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_track_exact</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> inputs = <em>input_track_exact</em>(<i>integer</i> track)</code></div>
 </div><p>
 <div class="ch">
@@ -585,7 +590,7 @@ Returns -1000 if track does not contain any video items at the current time, or 
 <a href="#input_next_item"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_next_item</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> next_input = <em>input_next_item</em>(<i>integer</i> input)</code></div>
 </div><p>
 <div class="ch">
@@ -614,7 +619,7 @@ Returns the next_input after input which is on a different item or track
 <a href="#input_next_track"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_next_track</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> next_input = <em>input_next_track</em>(<i>integer</i> input)</code></div>
 </div><p>
 <div class="ch">
@@ -643,7 +648,7 @@ Returns the next_input after input which is on a different track.
 <a href="#input_ismaster"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_ismaster</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>float</i> fx_position = <em>input_ismaster</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -664,7 +669,7 @@ Returns 1.0 if current FX is on master chain, 2.0 if on monitoring FX chain
 <a href="#input_info"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_info</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>input_info</em>(<i>integer</i> input, <i>integer</i> w, <i>integer</i> h[, <i>double</i> srctime, <i>double</i> wet, <i>double</i> parm1, ...])</code></div>
 </div><p>
 <div class="ch">
@@ -727,7 +732,7 @@ If input is a video processor in effect form, automated parameters can be querie
 <a href="#input_get_name"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>input_get_name</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>input_get_name</em>(<i>integer</i> input, <i>string</i> #str)</code></div>
 </div><p>
 <div class="ch">
@@ -762,7 +767,7 @@ Gets the input take name or track name. returns >0 on success
 <a href="#gfx_img_alloc"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_img_alloc</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> image_index = <em>gfx_img_alloc</em>([<i>optional</i> <i>integer</i> w, <i>optional</i> <i>integer</i> h, <i>optional</i> <i>integer</i> clear])</code></div>
 </div><p>
 <div class="ch">
@@ -803,7 +808,7 @@ Returns an image index for drawing (can create up to 32 images). Contents of ima
 <a href="#gfx_img_resize"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_img_resize</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> image_handle = <em>gfx_img_resize</em>(<i>integer</i> handle, <i>integer</i> w, <i>integer</i> h[, <i>optional</i> <i>integer</i> clear])</code></div>
 </div><p>
 <div class="ch">
@@ -856,7 +861,7 @@ Returns the image handle (if handle is invalid, returns a newly-allocated image 
 <a href="#gfx_img_hold"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_img_hold</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <em>gfx_img_hold</em>(<i>integer</i> handle)</code></div>
 </div><p>
 <div class="ch">
@@ -877,7 +882,7 @@ Returns the image handle (if handle is invalid, returns a newly-allocated image 
 <a href="#gfx_img_getptr"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_img_getptr</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> unique_identifier = <em>gfx_img_getptr</em>(<i>integer</i> handle)</code></div>
 </div><p>
 <div class="ch">
@@ -907,7 +912,7 @@ Returns the image handle (if handle is invalid, returns a newly-allocated image 
 <a href="#gfx_img_free"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_img_free</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <em>gfx_img_free</em>(<i>integer</i> handle)</code></div>
 </div><p>
 <div class="ch">
@@ -927,7 +932,7 @@ Releases an earlier allocated image index.
 <a href="#gfx_img_info"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_img_info</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_img_info</em>(<i>integer</i> handle, <i>integer</i> #w, <i>integer</i> #h)</code></div>
 </div><p>
 <div class="ch">
@@ -968,7 +973,7 @@ Gets dimensions of image, returns 1 if valid (resize it if it's inexplicably inv
 <a href="#gfx_set"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_set</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <em>gfx_set</em>(<i>float</i> r,[<i>optional</i> <i>float</i> g, <i>optional</i> <i>float</i> b, <i>optional</i> <i>float</i> a=1, <i>integer</i> mode=0, <i>optional</i> <i>integer</i> dest, <i>optional</i> <i>float</i> a2=1])</code></div>
 </div><p>
 <div class="ch">
@@ -1024,7 +1029,7 @@ Updates r/g/b/a/mode to values specified, dest is only updated if parameter spec
 <a href="#gfx_blit"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_blit</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_blit</em>(<i>integer</i> input[, <i>optional</i> <i>integer</i> preserve_aspect=0, <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>optional</i> <i>integer</i> w, <i>optional</i> <i>integer</i> h, <i>optional</i> <i>integer</i> srcx, <i>optional</i> <i>integer</i> srcy, <i>optional</i> <i>integer</i> srcw, <i>optional</i> <i>integer</i> srch])</code></div>
 </div><p>
 <div class="ch">
@@ -1107,7 +1112,7 @@ Draws input to framebuffer. preserve_aspect=-1 for no fill in pad areas
 <a href="#gfx_fillrect"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_fillrect</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_fillrect</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h)</code></div>
 </div><p>
 <div class="ch">
@@ -1154,7 +1159,7 @@ Draws input to framebuffer. preserve_aspect=-1 for no fill in pad areas
 <a href="#gfx_procrect"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_procrect</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_procrect</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>table</i> channel_tab[, <i>optional</i> <i>integer</i> mode])</code></div>
 </div><p>
 <div class="ch">
@@ -1215,7 +1220,7 @@ Specify mode=1 to use Y value for U/V source channels (colorization mode).
 <a href="#gfx_evalrect"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_evalrect</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_evalrect</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>string</i> code_string[, <i>optional</i> <i>integer</i> flags, <i>optional</i> <i>integer</i> src, <i>optional</i> <i>string</i> init_code_string, <i>optional</i> <i>string</i> src2])</code></div>
 </div><p>
 <div class="ch">
@@ -1313,7 +1318,7 @@ Additional options:<br/>
 <a href="#gfx_gradrect"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_gradrect</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_gradrect</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>float</i> r, <i>float</i> g, <i>float</i> b, <i>float</i> a [, <i>optional</i> <i>float</i> drdx, <i>optional</i> <i>float</i> dgdx, <i>optional</i> <i>float</i> dbdx, <i>optional</i> <i>float</i> dadx, <i>optional</i> <i>float</i> drdy, <i>optional</i> <i>float</i> dgdy, <i>optional</i> <i>float</i> dbdy, <i>optional</i> <i>float</i> dady])</code></div>
 </div><p>
 <div class="ch">
@@ -1432,7 +1437,7 @@ Fills rectangle. r/g/b/a supply color at top left corner, drdx (if specified) is
 <a href="#gfx_rotoblit"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_rotoblit</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_rotoblit</em>(<i>integer</i> srcidx, <i>float</i> angle [, <i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>optional</i> <i>integer</i> w, <i>optional</i> <i>integer</i> h, <i>optional</i> <i>integer</i> srcx, <i>optional</i> <i>integer</i> srcy, <i>optional</i> <i>integer</i> w, <i>optional</i> <i>integer</i> h, <i>optional</i> <i>integer</i> cliptosrcrect, <i>optional</i> <i>integer</i> centxoffs, <i>optional</i> <i>integer</i> centyoffs])</code></div>
 </div><p>
 <div class="ch">
@@ -1533,7 +1538,7 @@ Fills rectangle. r/g/b/a supply color at top left corner, drdx (if specified) is
 <a href="#gfx_deltablit"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_deltablit</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_deltablit</em>(<i>integer</i> srcidx, <i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>integer</i> srcx, <i>integer</i> srcy, <i>integer</i> dsdx, <i>integer</i> dtdx, <i>integer</i> dsdy, <i>integer</i> dtdy, <i>integer</i> dsdxdy, <i>integer</i> dtdxdy[, <i>optional</i> <i>integer</i> dadx, <i>optional</i> <i>integer</i> dady, <i>optional</i> <i>integer</i> dadxdy])</code></div>
 </div><p>
 <div class="ch">
@@ -1658,7 +1663,7 @@ All of the S, T and A parameters accept negative values as well.
 <a href="#gfx_xformblit"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_xformblit</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_xformblit</em>(<i>integer</i> srcidx, <i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h,  <i>integer</i> wdiv, <i>integer</i> hdiv, <i>table</i> tab[, <i>optional</i> <i>integer</i> wantalpha])</code></div>
 </div><p>
 <div class="ch">
@@ -1738,7 +1743,7 @@ If wantalpha=1, tab is wdiv*hdiv*3 table of src points including alpha for each 
 <a href="#gfx_keyedblit"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_keyedblit</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_keyedblit</em>(<i>integer</i> input[, <i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>optional</i> <i>integer</i> w, <i>optional</i> <i>integer</i> h, <i>optional</i> <i>integer</i> srcx, <i>optional</i> <i>integer</i> srcy, <i>optional</i> <i>float</i> kv1, <i>optional</i> <i>float</i> kv2, <i>optional</i> <i>float</i> kv3, <i>optional</i> <i>float</i> kv4])</code></div>
 </div><p>
 <div class="ch">
@@ -1837,7 +1842,7 @@ Chroma-key blits, using the source color as key. kv1-kv4 meaning depends on colo
 <a href="#gfx_destkeyedblit"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_destkeyedblit</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_destkeyedblit</em>(input input[, <i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>optional</i> <i>integer</i> w, <i>optional</i> <i>integer</i> h, <i>optional</i> <i>integer</i> srcx, <i>optional</i> <i>integer</i> srcy, <i>optional</i> <i>float</i> kv1, <i>optional</i> <i>float</i> kv2, <i>optional</i> <i>float</i> kv3, <i>optional</i> <i>float</i> kv4])</code></div>
 </div><p>
 <div class="ch">
@@ -1927,7 +1932,7 @@ Chroma-key blits, using the source color as key. kv1-kv4 meaning depends on colo
 <a href="#gfx_setfont"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_setfont</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_setfont</em>(<i>integer</i> pxsize[, <i>optional</i> <i>string</i> #fontname, <i>optional</i> <i>integer</i> flags)</code></div>
 </div><p>
 <div class="ch">
@@ -1983,7 +1988,7 @@ example: 'BI'</td>
 <a href="#gfx_str_measure"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_str_measure</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> string_length = <em>gfx_str_measure</em>(<i>string</i> #string[, <i>optional</i> <i>integer</i> #w, <i>optional</i> <i>integer</i> #h])</code></div>
 </div><p>
 <div class="ch">
@@ -2024,7 +2029,7 @@ Measures the size of #string, returns width
 <a href="#gfx_str_draw"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_str_draw</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_str_draw</em>(<i>string</i> #string[, <i>optional</i> <i>integer</i> x, <i>optional</i> <i>integer</i> y, <i>optional</i> <i>float</i> fxc_r, <i>optional</i> <i>float</i> fxc_g, <i>optional</i> <i>float</i> fxc_b])</code></div>
 </div><p>
 <div class="ch">
@@ -2083,7 +2088,7 @@ Draw string, fxc_r/g/b are the FX color if Shadow/Outline are set in the font
 <a href="#gfx_getpixel"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gfx_getpixel</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>gfx_getpixel</em>(<i>integer</i> input, <i>integer</i> x, <i>integer</i> y, <i>integer</i> #v1, <i>integer</i> #v2, <i>integer</i> #v3[, <i>optional</i> <i>integer</i> #v4])</code></div>
 </div><p>
 <div class="ch">
@@ -2150,7 +2155,7 @@ v1/v2/v3 will be YUV or RGB (v4 can be used to get Alphavalue), returns 1 on suc
 <a href="#rgb2yuv"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>rgb2yuv</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>rgb2yuv</em>(<i>float</i> #r, <i>float</i> #g, <i>float</i> #b)</code></div>
 </div><p>
 <div class="ch">
@@ -2191,7 +2196,7 @@ Converts r,g,b to YUV, does not clamp [0..1]
 <a href="#yuv2rgb"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>yuv2rgb</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>yuv2rgb</em>(<i>float</i> #r, <i>float</i> #g, <i>float</i> #b)</code></div>
 </div><p>
 <div class="ch">
@@ -2232,7 +2237,7 @@ Converts YUV to r,g,b, not clamping [0..1]
 <a href="#fft"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>fft</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>fft</em>(<i>table</i> buffer, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
@@ -2273,7 +2278,7 @@ Notes:<br/>
 <a href="#ifft"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>ifft</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>ifft</em>(<i>table</i> buffer, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
@@ -2308,7 +2313,7 @@ Performs an inverse FFT. For more information see fft().
 <a href="#fft_real"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>fft_real</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>fft_real</em>(<i>table</i> buffer, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
@@ -2344,7 +2349,7 @@ Inputs/outputs will need to be scaled by 0.5/size. The first output complex pair
 <a href="#ifft_real"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>ifft_real</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>ifft_real</em>(<i>table</i> buffer, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
@@ -2380,7 +2385,7 @@ Usually used along with fft_ipermute(size/2).
 <a href="#fft_permute"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>fft_permute</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>fft_permute</em>(<i>table</i> buffer, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
@@ -2415,7 +2420,7 @@ Permutes the output of fft() to have bands in-order.
 <a href="#fft_ipermute"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>fft_ipermute</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>fft_ipermute</em>(buffer,size)</code></div>
 </div><p>
 <div class="ch">
@@ -2450,7 +2455,7 @@ Permutes the input for ifft(), taking bands from in-order to the order ifft() re
 <a href="#convolve_c"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>convolve_c</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>convolve_c</em>(<i>table</i> dest, <i>table</i> src, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
@@ -2491,7 +2496,7 @@ Multiplies each of size complex pairs in dest by the complex pairs in src. Often
 <a href="#gmem"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>gmem</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> gmem</em></code></div>
 </div><p>
 <div class="ch">
@@ -2518,7 +2523,7 @@ Note: you can have only one gmem-buffername attached per video-processor-script.
 <a href="#ui_get_state"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>ui_get_state</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> click_modifier_state = <em>ui_get_state</em>(<i>integer</i> #ctx[, <i>optional</i> <i>integer</i> #mouse_x, <i>optional</i> <i>integer</i> #mouse_y, <i>optional</i> <i>integer</i> force_frame_in, <i>optional</i> <i>integer</i> #mouse_wheel_state, <i>optional</i> <i>integer</i> #mouse_hwheel_state])</code></div>
 </div><p>
 <div class="ch">
@@ -2587,7 +2592,7 @@ If force_frame_in is specified and is positive, then the processor will be re-ex
 <a href="#time_precise"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>time_precise</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <i>integer</i> retval = <em>time_precise</em>([<i>optional</i> <i>float</i> #val])</code></div>
 </div><p>
 <div class="ch">
@@ -2618,7 +2623,7 @@ The granularity of the value returned is system defined (but generally significa
 <a href="#on_parameter_change"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>on_parameter_change</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="ch">
+<div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code> <em>on_parameter_change</em>(<i>float</i> pvar[, <i>optional</i> <i>integer</i> isdone])</code></div>
 </div><p>
 <div class="ch">
@@ -2643,7 +2648,7 @@ Specify isdone=1 when done modifying parameter (e.g. releasing touch)
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> &#160;</td><td>&#160;</td><td class=\"td3\">Automatically generated by Ultraschall-API 4.2 005 - 66 elements available <br></td></table>
+          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.2 005 - 66 elements available <br></td></table>
         <hr>
       </div>
       <br>
