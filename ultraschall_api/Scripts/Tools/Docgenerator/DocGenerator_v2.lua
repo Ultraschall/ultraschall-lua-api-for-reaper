@@ -445,32 +445,32 @@ function entries(start, stop)
       -- slug and anchor
       FunctionList=FunctionList..[[
       
-            <div class="chapterpad">
-              <hr>
-              <a class="anchor" id="]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]..[["></a>
-              <a href="#]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]..[["> ^</a> ]]
+        <div class="chapterpad">
+          <hr>
+          <a class="anchor" id="]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]..[["></a>
+          <a href="#]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]..[["> ^</a> ]]
       
       -- requires
       if requires_alt["Reaper"]~=nil then
-        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/reaper"..requires_alt["Reaper"]..".png\" alt=\"Reaper version "..requires_alt["Reaper"].."\">"
+        FunctionList=FunctionList.."\n          <img width=\"3%\" src=\"gfx/reaper"..requires_alt["Reaper"]..".png\" alt=\"Reaper version "..requires_alt["Reaper"].."\">"
       end
       if requires_alt["SWS"]~=nil then
-        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/sws"..requires_alt["SWS"]..".png\" alt=\"SWS version "..requires_alt["SWS"].."\">"
+        FunctionList=FunctionList.."\n          <img width=\"3%\" src=\"gfx/sws"..requires_alt["SWS"]..".png\" alt=\"SWS version "..requires_alt["SWS"].."\">"
       end
       if requires_alt["JS"]~=nil then
-        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/js_"..requires_alt["JS"]..".png\" alt=\"JS version "..requires_alt["JS"].."\">"
+        FunctionList=FunctionList.."\n          <img width=\"3%\" src=\"gfx/js_"..requires_alt["JS"]..".png\" alt=\"JS version "..requires_alt["JS"].."\">"
       end
       if requires_alt["Osara"]~=nil then
-        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/Osara"..requires_alt["Osara"]..".png\" alt=\"Osara version "..requires_alt["Osara"].."\">"
+        FunctionList=FunctionList.."\n          <img width=\"3%\" src=\"gfx/Osara"..requires_alt["Osara"]..".png\" alt=\"Osara version "..requires_alt["Osara"].."\">"
       end
       if requires_alt["ReaImGui"]~=nil then
-        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/reaimgui"..requires_alt["ReaImGui"]..".png\" alt=\"ReaImGui version "..requires_alt["ReaImGui"].."\">"
+        FunctionList=FunctionList.."\n          <img width=\"3%\" src=\"gfx/reaimgui"..requires_alt["ReaImGui"]..".png\" alt=\"ReaImGui version "..requires_alt["ReaImGui"].."\">"
       end
       if requires_alt["ReaBlink"]~=nil then
-        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/reablink"..requires_alt["ReaBlink"]..".png\" alt=\"ReaBlink version "..requires_alt["ReaBlink"].."\">"
+        FunctionList=FunctionList.."\n          <img width=\"3%\" src=\"gfx/reablink"..requires_alt["ReaBlink"]..".png\" alt=\"ReaBlink version "..requires_alt["ReaBlink"].."\">"
       end
       if requires_alt["Ultraschall"]~=nil then
-        FunctionList=FunctionList.."\n            <img width=\"3%\" src=\"gfx/ultraschall"..requires_alt["Ultraschall"]..".png\" alt=\"Ultraschall version "..requires_alt["Ultraschall"].."\">"
+        FunctionList=FunctionList.."\n          <img width=\"3%\" src=\"gfx/ultraschall"..requires_alt["Ultraschall"]..".png\" alt=\"Ultraschall version "..requires_alt["Ultraschall"].."\">"
       end
       
       -- Title
@@ -491,87 +491,83 @@ function entries(start, stop)
         FunctionList=FunctionList.."\t\t\t<p>\n"
         FunctionList=FunctionList..[[
   
-            <u>Functioncall:</u>
-            <div class="chapterpad">
-        ]]
+          <u>Functioncall:</u>
+          <div class="chapterpad">
+]]
         if functioncall["cpp"]~=nil then
-          FunctionList=FunctionList.."\t\t<div class=\"c_func\"><span class='all_view'>C: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["cpp"])).."</code></div>\n"
+          FunctionList=FunctionList.."  <div class=\"c_func\"><span class='all_view'>C: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["cpp"])).."</code></div>\n"
         end
         if functioncall["eel"]~=nil then
-          FunctionList=FunctionList.."\t\t\t\t<div class=\"e_func\"><span class='all_view'>EEL2: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["eel"])).."</code></div>\n"
+          FunctionList=FunctionList.."  <div class=\"e_func\"><span class='all_view'>EEL2: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["eel"])).."</code></div>\n"
         end
         if functioncall["lua"]~=nil then
-          FunctionList=FunctionList.."\t\t\t\t<div class=\"l_func\"><span class='all_view'>Lua: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["lua"])).."</code></div>\n"
+          FunctionList=FunctionList.."            <div class=\"l_func\"><span class='all_view'>Lua: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["lua"])).."</code></div>\n"
         end
         if functioncall["python"]~=nil then
-          FunctionList=FunctionList.."\t\t\t\t<div class=\"p_func\"><span class='all_view'>Python: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["python"])).."</code></div>\n"
+          FunctionList=FunctionList.."<div class=\"p_func\"><span class='all_view'>Python: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["python"])).."</code></div>\n"
         end
         if functioncall["javascript"]~=nil then
-          FunctionList=FunctionList.."\t\t\t\t<div class=\"j_func\"><span class='all_view'>Javascript: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["javascript"])).."</code></div>\n"
+          FunctionList=FunctionList.."<div class=\"j_func\"><span class='all_view'>Javascript: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["javascript"])).."</code></div>\n"
         end
-        FunctionList=FunctionList.."\t\t\t</div><p>\n"
+        FunctionList=FunctionList.."\t\t  </div><p>\n"
       else
         FunctionList=FunctionList.."\t\t\t<p>\n"
       end    
+      
       --Description
       FunctionList=FunctionList..[[
-              <div class="chapterpad" style="color: #EEEEEE;">
+          <div class="chapterpad" style="color: #E;">
   ]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]
                 ..[[              
-              </div>
-              <br>]]
+          </div><br>]]
 
       -- Retvals
       if Retvalscount>0 then
         FunctionList=FunctionList..[[
       
-               <u>Returnvalues:</u>
-      ]]
+          <u>Returnvalues:</u>
+]]
       
         for i=1, Retvalscount do
           Retvals[i][1]=ultraschall.ColorateDatatypes(Retvals[i][1])
           FunctionList=FunctionList..[[
-                 <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i>]]..Retvals[i][1]..[[</i></td>
-                     <td>]]..Retvals[i][2]..[[</td>
-                   </tr>
-                  </table
-                <br>
-          ]]
+          <table class="chapterpad">
+            <tr>
+              <td class="parmret"><i>]]..Retvals[i][1]..[[</i></td>
+              <td>]]..Retvals[i][2]..[[</td>
+            </tr>
+          </table>
+]]
         end 
-        FunctionList=FunctionList.."<br>"
+        FunctionList=FunctionList.."          <br>\n"
       end
       
       -- Parameters
       if Parmcount>0 then
         FunctionList=FunctionList..[[
-      
-               <u>Parameters:</u>
-      ]]
-      
+          <u>Parameters:</u>
+]]
         for i=1, Parmcount do
           Params[i][1]=ultraschall.ColorateDatatypes(Params[i][1])
           FunctionList=FunctionList..[[
-                 <table class="chapterpad">
-                   <tr>
-                     <td class="parmret"><i>]]..Params[i][1]..[[</i></td>
-                     <td>]]..Params[i][2]..[[</td>
-                   </tr>
-                  </table
-                <br>
-          ]]
+          <table class="chapterpad">
+            <tr>
+              <td class="parmret"><i>]]..Params[i][1]..[[</i></td>
+              <td>]]..Params[i][2]..[[</td>
+            </tr>
+          </table>
+]]
         end 
-        FunctionList=FunctionList.."<br>"
+        FunctionList=FunctionList.."          <br>\n"
       end
-      
-    end
-        
-    -- Closing Tags
+          -- Closing Tags
         FunctionList=FunctionList..[[
-            <br>
+
         </div>
     ]]
+    end
+        
+
     ultraschall.WriteValueToFile(Outfile, FunctionList, nil, true)
     FunctionList=""
     print_update(CurrentDocs..": "..EntryCount.."/"..Ccount, reaper.time_precise())
