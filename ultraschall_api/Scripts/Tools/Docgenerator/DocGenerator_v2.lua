@@ -320,7 +320,7 @@ function contentindex()
       Title=ultraschall.Docs_GetUSDocBloc_Title(AllUSDocBloc_Header_Slugs[Slugs[a]][2], 1)
       --Title=Slugs[a]
       if Title==nil then Title=Slugs[a] end --Title="Nope" end
-      slugs=slugs.."<td class=\"smallfontTD\"><a class=\"smallfontTD\" href=\"#"..Slugs[a].."\">"..Title.."</a></td>"      
+      slugs=slugs.."<td class=\"tdsm\"><a href=\"#"..Slugs[a].."\">"..Title.."</a></td>"      
       FunctionsLister_Count=FunctionsLister_Count+1
       FunctionsLister[FunctionsLister_Count]=Slugs[a]
       linebreaker=linebreaker+1
@@ -446,7 +446,7 @@ function entries(start, stop)
       -- slug and anchor
       FunctionList=FunctionList..[[
       
-        <div class="chpad">
+        <div class="ch">
           <hr>
           <a class="anch" id="]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]..[["></a>
           <a href="#]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]..[["> ^</a> ]]
@@ -493,22 +493,22 @@ function entries(start, stop)
         FunctionList=FunctionList..[[
   
           <u>Functioncall:</u>
-          <div class="chpad">
+          <div class="ch">
 ]]
         if functioncall["cpp"]~=nil then
-          FunctionList=FunctionList.."  <div class=\"c_func\"><span class='all_view'>C: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["cpp"])).."</code></div>\n"
+          FunctionList=FunctionList.."            <div class=\"c\"><span class='all_view'>C: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["cpp"])).."</code></div>\n"
         end
         if functioncall["eel"]~=nil then
-          FunctionList=FunctionList.."  <div class=\"e_func\"><span class='all_view'>EEL2: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["eel"])).."</code></div>\n"
+          FunctionList=FunctionList.."            <div class=\"e\"><span class='all_view'>EEL2: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["eel"])).."</code></div>\n"
         end
         if functioncall["lua"]~=nil then
-          FunctionList=FunctionList.."            <div class=\"l_func\"><span class='all_view'>Lua: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["lua"])).."</code></div>\n"
+          FunctionList=FunctionList.."            <div class=\"l\"><span class='all_view'>Lua: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["lua"])).."</code></div>\n"
         end
         if functioncall["python"]~=nil then
-          FunctionList=FunctionList.."<div class=\"p_func\"><span class='all_view'>Python: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["python"])).."</code></div>\n"
+          FunctionList=FunctionList.."            <div class=\"p\"><span class='all_view'>Python: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["python"])).."</code></div>\n"
         end
         if functioncall["javascript"]~=nil then
-          FunctionList=FunctionList.."<div class=\"j_func\"><span class='all_view'>Javascript: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["javascript"])).."</code></div>\n"
+          FunctionList=FunctionList.."            <div class=\"j\"><span class='all_view'>Javascript: </span><code>"..ColorateFunctionnames(ultraschall.ColorateDatatypes(functioncall["javascript"])).."</code></div>\n"
         end
         FunctionList=FunctionList.."\t\t  </div><p>\n"
       else
@@ -517,7 +517,7 @@ function entries(start, stop)
       
       --Description
       FunctionList=FunctionList..[[
-          <div class="chpad">
+          <div class="ch">
   ]]..AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]
                 ..[[              
           </div><br>]]
@@ -532,9 +532,9 @@ function entries(start, stop)
         for i=1, Retvalscount do
           Retvals[i][1]=ultraschall.ColorateDatatypes(Retvals[i][1])
           FunctionList=FunctionList..[[
-          <table class="chpad">
+          <table class="ch">
             <tr>
-              <td class="parmret">]]..Retvals[i][1]..[[</td>
+              <td class="pr">]]..Retvals[i][1]..[[</td>
               <td>]]..Retvals[i][2]..[[</td>
             </tr>
           </table>
@@ -551,9 +551,9 @@ function entries(start, stop)
         for i=1, Parmcount do
           Params[i][1]=ultraschall.ColorateDatatypes(Params[i][1])
           FunctionList=FunctionList..[[
-          <table class="chpad">
+          <table class="ch">
             <tr>
-              <td class="parmret">]]..Params[i][1]..[[</td>
+              <td class="pr">]]..Params[i][1]..[[</td>
               <td>]]..Params[i][2]..[[</td>
             </tr>
           </table>
@@ -591,7 +591,7 @@ function entries(start, stop)
   end
   
   FunctionList=FunctionList..[[
-      <div class="chpad">
+      <div class="ch">
         <hr>
                      
           <table><td class="td2"> ]]
@@ -610,7 +610,7 @@ function entries(start, stop)
 end
 
 mode=2
-FunctionList=FunctionList.."<div class=\"chpad\"><p></p>"
+FunctionList=FunctionList.."<div class=\"ch\"><p></p>"
 contentindex()
 convertMarkdown()
 ultraschall.WriteValueToFile(Outfile, string.gsub(FunctionList, "\n%s*", "\n"))

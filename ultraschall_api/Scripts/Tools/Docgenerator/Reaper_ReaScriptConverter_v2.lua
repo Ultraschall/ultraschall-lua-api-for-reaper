@@ -81,10 +81,10 @@ FunctionList=[[
         }
       }
       function setdocview(v) {
-        var list = new Array('c_doc', 'c_func', 'c_funcs',
-                             'l_doc', 'l_func', 'l_funcs',
-                             'e_doc', 'e_func', 'e_funcs',
-                             'p_doc', 'p_func', 'p_funcs');
+        var list = new Array('c_doc', 'c', 'c_funcs',
+                             'l_doc', 'l', 'l_funcs',
+                             'e_doc', 'e', 'e_funcs',
+                             'p_doc', 'p', 'p_funcs');
         var i;
         set_class_style('all_view', v == '' ? 'inline' : 'none');
         for (i=0;i<list.length;i++) {
@@ -179,7 +179,7 @@ FunctionList=FunctionList..[[
     </table>
     <hr>]]
 --]]
-FunctionList=FunctionList.."<div class=\"chpad\"><p></p>\n"
+FunctionList=FunctionList.."<div class=\"ch\"><p></p>\n"
 FunctionList=FunctionList.."<h2>Reaper Reascript-Api-Documentation "..versionnumbering.."<br>\""..tagline.."\"</h2><h3>The Functions Reference</h3></div>"
 
 dofile(ultraschall.Api_Path.."/Scripts/Tools/DocGenerator/DocGenerator_v2.lua")

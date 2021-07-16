@@ -54,17 +54,17 @@ Web Remote Control Documentation
 <!---
 End of Header
 --->
-<div class="chpad"><p></p><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Introduction"><a href="#Introduction">^</a></a><strong> <u>Introduction</u></strong><br><br>
-</td></tr><tr><td class="smallfontTD"><a class="smallfontTD" href="#Introduction">Introduction</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#FunctionsIntro">How it works - basics</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#DataExchange">How to exchange data and get states from Reaper?</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#FunctionsandVariables">Functions and Variables</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SecurityAspects">Security Aspects</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Special Variables"><a href="#Special Variables">^</a></a><strong> <u>Special Variables</u></strong><br><br>
-</td></tr><tr><td class="smallfontTD"><a class="smallfontTD" href="#g_wwr_timer_freq">g_wwr_timer_freq</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Functions"><a href="#Functions">^</a></a><strong> <u>Functions</u></strong><br><br>
-</td></tr><tr><td class="smallfontTD"><a class="smallfontTD" href="#wwr_start">wwr_start</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#wwr_req">wwr_req</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#wwr_req_recur">wwr_req_recur</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#wwr_req_recur_cancel">wwr_req_recur_cancel</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#mkvolstr">mkvolstr</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#mkpanstr">mkpanstr</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#simple_unescape">simple_unescape</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="ReadMe"><a href="#ReadMe">^</a></a><strong> <u>ReadMe</u></strong><br><br>
-</td></tr><tr><td class="smallfontTD"><a class="smallfontTD" href="#Readme">Readme from Reaper\plugins\reaper_www_root\main.js</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#Reference">Reference</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Valid Commands for wwr_req"><a href="#Valid Commands for wwr_req">^</a></a><strong> <u>Valid Commands for wwr_req</u></strong><br><br>
-</td></tr><tr><td class="smallfontTD"><a class="smallfontTD" href="#ValidCommands">Valid commands</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#numeric values 0-65535">numeric values 0-65535</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#TRANSPORT">TRANSPORT</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#BEATPOS">BEATPOS</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#NTRACK">NTRACK</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#TRACK or TRACK/index or TRACK/start-end">TRACK or TRACK/index or TRACK/start-end</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#GET/TRACK/x/SEND/y">GET/TRACK/x/SEND/y</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#GET/TRACK/index/xxxxxx">GET/TRACK/index/xxxxxx</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#GET/TRACK/1/I_RECINPUT">GET/TRACK/1/I_RECINPUT</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/xxxxx/value">SET/TRACK/index/xxxxx/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/VOL/value">SET/TRACK/index/VOL/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/PAN/value">SET/TRACK/index/PAN/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/WIDTH/value">SET/TRACK/index/WIDTH/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/MUTE/value">SET/TRACK/index/MUTE/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/SOLO/value">SET/TRACK/index/SOLO/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/FX/value">SET/TRACK/index/FX/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/RECARM/value">SET/TRACK/index/RECARM/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/RECMON/value">SET/TRACK/index/RECMON/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/index/SEL/value">SET/TRACK/index/SEL/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/UNDO/message">SET/UNDO/message</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/UNDO_BEGIN">SET/UNDO_BEGIN</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/UNDO_END/message">SET/UNDO_END/message</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/REPEAT/val">SET/REPEAT/val</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#GET/REPEAT">GET/REPEAT</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#GET/REPEAT \t val">GET/REPEAT \t val</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/x/SEND/y/MUTE/value">SET/TRACK/x/SEND/y/MUTE/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/x/SEND/y/VOL/value">SET/TRACK/x/SEND/y/VOL/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/TRACK/x/SEND/y/PAN/value">SET/TRACK/x/SEND/y/PAN/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/POS/value_in_seconds">SET/POS/value_in_seconds</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/POS_STR/value_string">SET/POS_STR/value_string</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#LYRICS/trackindex">LYRICS/trackindex</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/PROJEXTSTATE/section/key/value">SET/PROJEXTSTATE/section/key/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#GET/PROJEXTSTATE/section/key">GET/PROJEXTSTATE/section/key</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#GET/EXTSTATE/section/key">GET/EXTSTATE/section/key</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/EXTSTATE/section/key/value">SET/EXTSTATE/section/key/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#SET/EXTSTATEPERSIST/section/key/value">SET/EXTSTATEPERSIST/section/key/value</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#GET/command_id">GET/command_id</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#OSC/oscstring[:value]">OSC/oscstring[:value]</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#MARKER">MARKER</a></td></tr><td class="smallfontTD"><a class="smallfontTD" href="#REGION">REGION</a></td></tr></table><br></div><div class="chpad">
+<div class="ch"><p></p><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Introduction"><a href="#Introduction">^</a></a><strong> <u>Introduction</u></strong><br><br>
+</td></tr><tr><td class="tdsm"><a href="#Introduction">Introduction</a></td></tr><td class="tdsm"><a href="#FunctionsIntro">How it works - basics</a></td></tr><td class="tdsm"><a href="#DataExchange">How to exchange data and get states from Reaper?</a></td></tr><td class="tdsm"><a href="#FunctionsandVariables">Functions and Variables</a></td></tr><td class="tdsm"><a href="#SecurityAspects">Security Aspects</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Special Variables"><a href="#Special Variables">^</a></a><strong> <u>Special Variables</u></strong><br><br>
+</td></tr><tr><td class="tdsm"><a href="#g_wwr_timer_freq">g_wwr_timer_freq</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Functions"><a href="#Functions">^</a></a><strong> <u>Functions</u></strong><br><br>
+</td></tr><tr><td class="tdsm"><a href="#wwr_start">wwr_start</a></td></tr><td class="tdsm"><a href="#wwr_req">wwr_req</a></td></tr><td class="tdsm"><a href="#wwr_req_recur">wwr_req_recur</a></td></tr><td class="tdsm"><a href="#wwr_req_recur_cancel">wwr_req_recur_cancel</a></td></tr><td class="tdsm"><a href="#mkvolstr">mkvolstr</a></td></tr><td class="tdsm"><a href="#mkpanstr">mkpanstr</a></td></tr><td class="tdsm"><a href="#simple_unescape">simple_unescape</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="ReadMe"><a href="#ReadMe">^</a></a><strong> <u>ReadMe</u></strong><br><br>
+</td></tr><tr><td class="tdsm"><a href="#Readme">Readme from Reaper\plugins\reaper_www_root\main.js</a></td></tr><td class="tdsm"><a href="#Reference">Reference</a></td></tr></table><table class="indexpad" style="width:100%;" border="0"><tr><td><br><a class="inpad" id="Valid Commands for wwr_req"><a href="#Valid Commands for wwr_req">^</a></a><strong> <u>Valid Commands for wwr_req</u></strong><br><br>
+</td></tr><tr><td class="tdsm"><a href="#ValidCommands">Valid commands</a></td></tr><td class="tdsm"><a href="#numeric values 0-65535">numeric values 0-65535</a></td></tr><td class="tdsm"><a href="#TRANSPORT">TRANSPORT</a></td></tr><td class="tdsm"><a href="#BEATPOS">BEATPOS</a></td></tr><td class="tdsm"><a href="#NTRACK">NTRACK</a></td></tr><td class="tdsm"><a href="#TRACK or TRACK/index or TRACK/start-end">TRACK or TRACK/index or TRACK/start-end</a></td></tr><td class="tdsm"><a href="#GET/TRACK/x/SEND/y">GET/TRACK/x/SEND/y</a></td></tr><td class="tdsm"><a href="#GET/TRACK/index/xxxxxx">GET/TRACK/index/xxxxxx</a></td></tr><td class="tdsm"><a href="#GET/TRACK/1/I_RECINPUT">GET/TRACK/1/I_RECINPUT</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/xxxxx/value">SET/TRACK/index/xxxxx/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/VOL/value">SET/TRACK/index/VOL/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/PAN/value">SET/TRACK/index/PAN/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/WIDTH/value">SET/TRACK/index/WIDTH/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/MUTE/value">SET/TRACK/index/MUTE/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/SOLO/value">SET/TRACK/index/SOLO/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/FX/value">SET/TRACK/index/FX/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/RECARM/value">SET/TRACK/index/RECARM/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/RECMON/value">SET/TRACK/index/RECMON/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/index/SEL/value">SET/TRACK/index/SEL/value</a></td></tr><td class="tdsm"><a href="#SET/UNDO/message">SET/UNDO/message</a></td></tr><td class="tdsm"><a href="#SET/UNDO_BEGIN">SET/UNDO_BEGIN</a></td></tr><td class="tdsm"><a href="#SET/UNDO_END/message">SET/UNDO_END/message</a></td></tr><td class="tdsm"><a href="#SET/REPEAT/val">SET/REPEAT/val</a></td></tr><td class="tdsm"><a href="#GET/REPEAT">GET/REPEAT</a></td></tr><td class="tdsm"><a href="#GET/REPEAT \t val">GET/REPEAT \t val</a></td></tr><td class="tdsm"><a href="#SET/TRACK/x/SEND/y/MUTE/value">SET/TRACK/x/SEND/y/MUTE/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/x/SEND/y/VOL/value">SET/TRACK/x/SEND/y/VOL/value</a></td></tr><td class="tdsm"><a href="#SET/TRACK/x/SEND/y/PAN/value">SET/TRACK/x/SEND/y/PAN/value</a></td></tr><td class="tdsm"><a href="#SET/POS/value_in_seconds">SET/POS/value_in_seconds</a></td></tr><td class="tdsm"><a href="#SET/POS_STR/value_string">SET/POS_STR/value_string</a></td></tr><td class="tdsm"><a href="#LYRICS/trackindex">LYRICS/trackindex</a></td></tr><td class="tdsm"><a href="#SET/PROJEXTSTATE/section/key/value">SET/PROJEXTSTATE/section/key/value</a></td></tr><td class="tdsm"><a href="#GET/PROJEXTSTATE/section/key">GET/PROJEXTSTATE/section/key</a></td></tr><td class="tdsm"><a href="#GET/EXTSTATE/section/key">GET/EXTSTATE/section/key</a></td></tr><td class="tdsm"><a href="#SET/EXTSTATE/section/key/value">SET/EXTSTATE/section/key/value</a></td></tr><td class="tdsm"><a href="#SET/EXTSTATEPERSIST/section/key/value">SET/EXTSTATEPERSIST/section/key/value</a></td></tr><td class="tdsm"><a href="#GET/command_id">GET/command_id</a></td></tr><td class="tdsm"><a href="#OSC/oscstring[:value]">OSC/oscstring[:value]</a></td></tr><td class="tdsm"><a href="#MARKER">MARKER</a></td></tr><td class="tdsm"><a href="#REGION">REGION</a></td></tr></table><br></div><div class="ch">
 <hr>
 <a class="anch" id="Introduction"></a>
 <a href="#Introduction"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>Introduction</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 <p>Reaper can be controlled via a web browser interface: Options-&gt;Preferences-&gt;Control/OSC/Web-&gt;Add-&gt;Web Browser Interface</p>
 <p>where you can choose between several interfaces, included with reaper(basic, click, index, lyrics). The Webinterface can be accessed i.e. via the local internet-adress localhost:8080 or localhost:8080/(interfacename(like click)).html</p>
 <p>It can also be accessed via Wireless Lan as well as using rc.reaper.fm(for i.e. cough-buttons with long distance Skype/Studiolink-interview partners).</p>
@@ -72,12 +72,12 @@ End of Header
 <p>You can place the files into the application-folder Plugins/reaper_www_root as well, but if you want to export them with the export-function within Reaper, they will simply be ignored.</p>
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="FunctionsIntro"></a>
 <a href="#FunctionsIntro"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>How it works - basics</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 <p>The Web-Interface is programmed in JavaScript. You need to include main.js first, then call wwr_start(), which tells the Reaper-Server to accept requests. You can now give Reaper requests, using commands like i.e. wwr_req(ActionCommandID) for one time requests. The ActionCommandID tells Reaper, what you want to call, i.e. the ActionCommandID 1007 starts play in Reaper. You can find a full Action Command ID-list in the Action-Dialog in the menu Actions -&gt; Show Action List. Example Code that presses the Play-Button:</p>
 <pre><code>    &lt;script src=&quot;main.js&quot;&gt;
         /*includes the main.js, which contains a lot of helper functions*/
@@ -103,12 +103,12 @@ End of Header
     &lt;/script&gt;</code></pre>
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="DataExchange"></a>
 <a href="#DataExchange"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>How to exchange data and get states from Reaper?</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 <h4>Sending data to Reaper</h4>
 <p>Sending messages to Reaper, using requests, is easy, as it is only a normal request, where you exchange the parameters with your own. The parameters can be written inside of the request or exchanged by variables. For instance, if you want to set a persistent external state, you could use the request SET/EXTSTATEPERSIST/section/key/value and it would look like the following example:</p>
 <p>Example1</p>
@@ -228,215 +228,215 @@ End of Header
 &lt;/html&gt;</code></pre>
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="FunctionsandVariables"></a>
 <a href="#FunctionsandVariables"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>Functions and Variables</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 The main.js-file, which manages the exchange of requests and data, includes some little helpers with it, that you can use.<br/>
 <br/>
 Note: If you create your own functions and variables, avoid names with a wwr or mk in it, as the Webinterface-functions and variables are named with them. That way, you can avoid name-conflicts with future versions of the Reaper-Webinterface.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SecurityAspects"></a>
 <a href="#SecurityAspects"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>Security Aspects</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 The internal server in Reaper can be killed with a Denial of Service-Attack. It seems, as it can process 1000 requests in a short time without a problem. More requests than 1000 can lead Reaper to simply ignore them. An even higher amount of requests(i.e. 10.000 and more) could cause Reaper to hang for a few seconds(maybe even longer?). What effects this has during recording or playback, needs to be researched more.<br/>
 Setting a username and password in the Reaper-preferences for the Web-Interface is definately a good idea.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 If the Web-Interface-API has any kind of https-support needs to be researched.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="g_wwr_timer_freq"></a>
 <a href="#g_wwr_timer_freq"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>g_wwr_timer_freq</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="chpad">
-<div class="j_func"><span class='all_view'>Javascript: </span><code><em> g_wwr_timer_freq</em></code></div>
+<div class="ch">
+<div class="j"><span class='all_view'>Javascript: </span><code><em> g_wwr_timer_freq</em></code></div>
 </div><p>
-<div class="chpad">
+<div class="ch">
 A global variable, that stores the timer-frequency for requests. Default is 100 for 100ms, but can be changed to any other value in milliseconds, before calling wwr_start(). Don't choose a too low value, as this could cause Reaper becoming stuck and unresponsive!              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="wwr_start"></a>
 <a href="#wwr_start"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>wwr_start</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="chpad">
-<div class="j_func"><span class='all_view'>Javascript: </span><code> <em>wwr_start</em>()</code></div>
+<div class="ch">
+<div class="j"><span class='all_view'>Javascript: </span><code> <em>wwr_start</em>()</code></div>
 </div><p>
-<div class="chpad">
+<div class="ch">
 Starts the server. After that, requests can be send to Reaper.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="wwr_req"></a>
 <a href="#wwr_req"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>wwr_req</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="chpad">
-<div class="j_func"><span class='all_view'>Javascript: </span><code> <em>wwr_req</em>(<i>string</i> request)</code></div>
+<div class="ch">
+<div class="j"><span class='all_view'>Javascript: </span><code> <em>wwr_req</em>(<i>string</i> request)</code></div>
 </div><p>
-<div class="chpad">
+<div class="ch">
 <p>Sends a one-time request to Reaper. Can be a commandID-number, an "_ActionID" or one of the requests listed in the "Readme"-chapter later below.</p>
 <p>If a request returns values, they can be accessed in the function <a href="#wwr_onreply">wwr_onreply</a>. Refer the <a href="#DataExchange">Receiving data from Reaper</a> earlier in this document.</p>
 </div><br>          <u>Parameters:</u>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>string</i> request</td>
+<td class="pr"><i>string</i> request</td>
 <td>The request to be sent to Reaper. Can be a commandID-number, an "_ActionID" or one of the requests listed in the "Readme"-chapter.</td>
 </tr>
 </table>
 <br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="wwr_req_recur"></a>
 <a href="#wwr_req_recur"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>wwr_req_recur</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="chpad">
-<div class="j_func"><span class='all_view'>Javascript: </span><code> <em>wwr_req_recur</em>(<i>string</i> request, <i>float</i> timer_frequency)</code></div>
+<div class="ch">
+<div class="j"><span class='all_view'>Javascript: </span><code> <em>wwr_req_recur</em>(<i>string</i> request, <i>float</i> timer_frequency)</code></div>
 </div><p>
-<div class="chpad">
+<div class="ch">
 <p>Just like <a href="#wwr_req">wwr_req()</a>, but resends the request automatically with a frequency set in timer_frequency. Must be stopped with <a href="#wwr_req_recur_cancel">wwr_req_recur_cancel()</a></p>
 </div><br>          <u>Parameters:</u>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>string</i> request</td>
+<td class="pr"><i>string</i> request</td>
 <td>The request to be sent to Reaper. Can be a commandID-number, an "_ActionID" or one of the requests listed in the "Readme"-chapter.</td>
 </tr>
 </table>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>float</i> timer_frequency</td>
+<td class="pr"><i>float</i> timer_frequency</td>
 <td>the timer frequency in milliseconds, that decides, how often this request shall be repeated. Don't choose to low, or Reaper might get stuck and unresponsive!</td>
 </tr>
 </table>
 <br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="wwr_req_recur_cancel"></a>
 <a href="#wwr_req_recur_cancel"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>wwr_req_recur_cancel</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="chpad">
-<div class="j_func"><span class='all_view'>Javascript: </span><code> <em>wwr_req_recur_cancel</em>(<i>string</i> request)</code></div>
+<div class="ch">
+<div class="j"><span class='all_view'>Javascript: </span><code> <em>wwr_req_recur_cancel</em>(<i>string</i> request)</code></div>
 </div><p>
-<div class="chpad">
+<div class="ch">
 <p>Stops a recurring request, that has been started with <a href="#wwr_req_recur">wwr_req_recur</a>. Can be a commandID-number, an "_ActionID" or one of the requests listed in the "Readme"-chapter later below.</p>
 </div><br>          <u>Parameters:</u>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>string</i> request</td>
+<td class="pr"><i>string</i> request</td>
 <td>The request to be stopped from being sent to Reaper. Can be a commandID-number, an "_ActionID" or one of the requests listed in the "Readme"-chapter.</td>
 </tr>
 </table>
 <br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="mkvolstr"></a>
 <a href="#mkvolstr"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>mkvolstr</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="chpad">
-<div class="j_func"><span class='all_view'>Javascript: </span><code> <i>string</i> db_value = <em>mkvolstr</em>(<i>float</i> vol)</code></div>
+<div class="ch">
+<div class="j"><span class='all_view'>Javascript: </span><code> <i>string</i> db_value = <em>mkvolstr</em>(<i>float</i> vol)</code></div>
 </div><p>
-<div class="chpad">
+<div class="ch">
 <p>converts a volume-value(as returned by e.g. the request TRANSPORT") into a db-value and returns it. The string could be like "123.45 db" or "-inf db"(if the vol-value is too low).</p>
 </div><br>      
 <u>Returnvalues:</u>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>string</i> db_value</td>
+<td class="pr"><i>string</i> db_value</td>
 <td>the converted value as dB</td>
 </tr>
 </table>
 <br>
 <u>Parameters:</u>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>float</i> vol</td>
+<td class="pr"><i>float</i> vol</td>
 <td>a volume-number as returned from a request like e.g. TRANSPORT. Only positive values are allowed. Minimum 0.00000002980232. Lower returns -inf.</td>
 </tr>
 </table>
 <br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="mkpanstr"></a>
 <a href="#mkpanstr"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>mkpanstr</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="chpad">
-<div class="j_func"><span class='all_view'>Javascript: </span><code> <i>string</i> pan_percentage_value = <em>mkpanstr</em>(<i>float</i> pan)</code></div>
+<div class="ch">
+<div class="j"><span class='all_view'>Javascript: </span><code> <i>string</i> pan_percentage_value = <em>mkpanstr</em>(<i>float</i> pan)</code></div>
 </div><p>
-<div class="chpad">
+<div class="ch">
 <p>returns the pan value converted into percentage. The returned value could look like "10%L" or "25%R" or "center". The function allows values that produce more than 100% left or right, i.e. "1234%L". Keep that in mind!</p>
 </div><br>      
 <u>Returnvalues:</u>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>string</i> pan_percentage_value</td>
+<td class="pr"><i>string</i> pan_percentage_value</td>
 <td>the converted pan-value as percentage</td>
 </tr>
 </table>
 <br>
 <u>Parameters:</u>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>float</i> pan</td>
+<td class="pr"><i>float</i> pan</td>
 <td>a pan-number as returned from a request like e.g. TRANSPORT. Negative values=left, positive values=right. -1=100%left, 1-100%right, 0.001 to -0.001=center.</td>
 </tr>
 </table>
 <br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="simple_unescape"></a>
 <a href="#simple_unescape"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>simple_unescape</b></u><br>			<p>
 <u>Functioncall:</u>
-<div class="chpad">
-<div class="j_func"><span class='all_view'>Javascript: </span><code> <i>string</i> unescaped_values = <em>simple_unescape</em>(<i>string</i> v)</code></div>
+<div class="ch">
+<div class="j"><span class='all_view'>Javascript: </span><code> <i>string</i> unescaped_values = <em>simple_unescape</em>(<i>string</i> v)</code></div>
 </div><p>
-<div class="chpad">
+<div class="ch">
 unescapes \\n to \n and \\t to \t and \\ to \ within a string. Important, as some responses from requests escape tabs, newline and backslashes that way.              
 </div><br>      
 <u>Returnvalues:</u>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>string</i> unescaped_values</td>
+<td class="pr"><i>string</i> unescaped_values</td>
 <td>the string where all newlines, tabs and backslashes are unescaped</td>
 </tr>
 </table>
 <br>
 <u>Parameters:</u>
-<table class="chpad">
+<table class="ch">
 <tr>
-<td class="parmret"><i>string</i> v</td>
+<td class="pr"><i>string</i> v</td>
 <td>a string, that contains not-yet-unescaped newlines, tabs and backslashes    </td>
 </tr>
 </table>
 <br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="Readme"></a>
 <a href="#Readme"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>Readme from Reaper\plugins\reaper_www_root\main.js</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 1) call wwr_start() to begin requests to the server<br/>
 2) you can call wwr_req_recur("REQUEST", interval) to set recurring requests (such as status updates). Interval is in milliseconds.<br/>
 3) you can call wwr_req_recur_cancel("REQUEST") to remove a recurring request that was previously set.<br/>
@@ -459,12 +459,12 @@ You should define a function named wwr_onreply:<br/>
 See index.html for an example.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="Reference"></a>
 <a href="#Reference"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>Reference</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 All interaction with the server is done via<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;wwr_req("command;command;command")<br/>
 or<br/>
@@ -474,32 +474,32 @@ There can be any reasonable number of commands, separated by semicolons. They wi
 The format of the response is a list of lines (separated by \n), and each line has tokens separated by \t.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="ValidCommands"></a>
 <a href="#ValidCommands"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>Valid commands</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 There's a variety of commands available, that can be send to Reaper as request.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="numeric values 0-65535"></a>
 <a href="#numeric values 0-65535"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>numeric values 0-65535</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 REAPER command IDs. (todo: support for registered names, too). These typically do not have any response.<br/>
 _123456789abcdef...<br/>
 REAPER plug-in registered command IDs (also used by ReaScripts and custom actions)              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="TRANSPORT"></a>
 <a href="#TRANSPORT"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>TRANSPORT</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Returns a line including (note that the spaces are here for readability, there is actually only tabs between fields):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;TRANSPORT \t playstate \t position_seconds \t isRepeatOn \t position_string \t position_string_beats<br/>
@@ -509,23 +509,23 @@ Returns a line including (note that the spaces are here for readability, there i
 - position_string is always in the project timeline format (time, beats, etc), position_string_beats is always in measures.beats.hundredths format.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="BEATPOS"></a>
 <a href="#BEATPOS"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>BEATPOS</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Returns a line:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;BEATPOS \t playstate \t position_seconds \t full_beat_position \t measure_cnt \t beats_in_measure \t ts_numerator \t ts_denominator              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="NTRACK"></a>
 <a href="#NTRACK"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>NTRACK</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Requests track count. Returns a line:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;NTRACK \t value<br/>
@@ -533,12 +533,12 @@ Requests track count. Returns a line:<br/>
 value is 0 (no tracks, just master track) or greater.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="TRACK or TRACK/index or TRACK/start-end"></a>
 <a href="#TRACK or TRACK/index or TRACK/start-end"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>TRACK or TRACK/index or TRACK/start-end</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Requests information about all tracks, a single track, or a range of tracks. Note that the indices used are 0 for master, 1 for first user track, etc.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 Returns any number of track lines:<br/>
@@ -562,12 +562,12 @@ last_meter_peak and last_meter_pos are integers that are dB*10, so -100 would be
 color is in the form of 0xaarrggbb, nonzero if a custom color set              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="GET/TRACK/x/SEND/y"></a>
 <a href="#GET/TRACK/x/SEND/y"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/TRACK/x/SEND/y</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Gets state for track x hardware output/send y. Returns a line:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;SEND \t x \t y \t flags \t volume \t pan \t other_track_index<br/>
@@ -577,21 +577,21 @@ other_track_index is -1 if hardware output<br/>
 flags & 8 is true if send/output muted              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="GET/TRACK/index/xxxxxx"></a>
 <a href="#GET/TRACK/index/xxxxxx"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/TRACK/index/xxxxxx</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Requests information for track "index", via GetSetMediaTrackInfo(). See the REAPER API documentation for which strings are acceptable, but for example you can query the track record input index for the first track via:              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="GET/TRACK/1/I_RECINPUT"></a>
 <a href="#GET/TRACK/1/I_RECINPUT"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/TRACK/1/I_RECINPUT</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 The returned string will be:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;GET/TRACK/1/I_RECINPUT\t <index><br/>
@@ -600,268 +600,268 @@ The returned string will be:<br/>
 String will have newlines/tabs/backslashes encoded as \\n, \\t and \\.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/xxxxx/value"></a>
 <a href="#SET/TRACK/index/xxxxx/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/xxxxx/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Similar to GET/TRACK/index/xxxxx, but sets the value of this item. You probably will want to follow this with a SET/UNDO command, below. This will not give any response.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/VOL/value"></a>
 <a href="#SET/TRACK/index/VOL/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/VOL/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Special case of SET/TRACK/index/xxxx, sets volume for a track via control surface API (meaning it respects automation modes etc). If value starts with + or -, then adjustment is relative (in dB), otherwise adjustment is absolute (1=0dB, etc). If value ends in "g", then ganging is ignored. Does not need SET/UNDO.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/PAN/value"></a>
 <a href="#SET/TRACK/index/PAN/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/PAN/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Special case of SET/TRACK/index/xxxx, sets pan for a track via control surface API. If value starts with + or -, adjustment is relative. Range is always -1..1. If value ends in "g", then ganging is ignored. Does not need SET/UNDO.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/WIDTH/value"></a>
 <a href="#SET/TRACK/index/WIDTH/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/WIDTH/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Special case of SET/TRACK/index/xxxx, sets width for a track via control surface API. If value starts with + or -, adjustment is relative. Range is always -1..1. If value ends in "g", then ganging is ignored. Does not need SET/UNDO.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/MUTE/value"></a>
 <a href="#SET/TRACK/index/MUTE/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/MUTE/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Special case of SET/TRACK/index/xxxx, sets mute for track. if value is <0, mute is toggled. Does not need SET/UNDO.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/SOLO/value"></a>
 <a href="#SET/TRACK/index/SOLO/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/SOLO/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Special case of SET/TRACK/index/xxxx, sets solo for track. if value is <0, solo is toggled. Does not need SET/UNDO.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/FX/value"></a>
 <a href="#SET/TRACK/index/FX/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/FX/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Special case of SET/TRACK/index/xxxx, sets fx enabled for track. if value is <0, fx enabled is toggled. Does not need SET/UNDO.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/RECARM/value"></a>
 <a href="#SET/TRACK/index/RECARM/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/RECARM/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Special case of SET/TRACK/index/xxxx, sets record arm enabled for track. if value is <0, record arm enabled is toggled. Does not need SET/UNDO.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/RECMON/value"></a>
 <a href="#SET/TRACK/index/RECMON/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/RECMON/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Special case of SET/TRACK/index/xxxx, sets record monitoring for track. if value is <0, record monitoring is cycled, otherwise 1=on, 2=auto. Does not need SET/UNDO.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/index/SEL/value"></a>
 <a href="#SET/TRACK/index/SEL/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/SEL/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Special case of SET/TRACK/index/xxxx, sets selection for track. if value is <0, selection is toggled. Does not need SET/UNDO.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/UNDO/message"></a>
 <a href="#SET/UNDO/message"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/UNDO/message</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Adds an undo point, useful if you have modified anything that needs it.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/UNDO_BEGIN"></a>
 <a href="#SET/UNDO_BEGIN"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/UNDO_BEGIN</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Begins an undo block (should always be matched with SET/UNDO_END!)              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/UNDO_END/message"></a>
 <a href="#SET/UNDO_END/message"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/UNDO_END/message</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Ends an undo block              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/REPEAT/val"></a>
 <a href="#SET/REPEAT/val"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/REPEAT/val</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 If val is -1, toggles repeat, 0 disables repeat, 1 enables repeat.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="GET/REPEAT"></a>
 <a href="#GET/REPEAT"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/REPEAT</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Returns:              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="GET/REPEAT \t val"></a>
 <a href="#GET/REPEAT \t val"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/REPEAT \t val</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 where val is 0 or 1.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/x/SEND/y/MUTE/value"></a>
 <a href="#SET/TRACK/x/SEND/y/MUTE/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/x/SEND/y/MUTE/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Sets hardware output/send mute for track x, send y. value can be -1 to toggle.<br/>
 Use y=-1 for first receive, -2 for second, etc.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/x/SEND/y/VOL/value"></a>
 <a href="#SET/TRACK/x/SEND/y/VOL/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/x/SEND/y/VOL/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Sets hardware output/send volume (1.0 = +0dB) for track x, send y. append e to value to treat as "end" (capture), or "E" to treat as an instant edit.<br/>
 Use y=-1 for first receive, -2 for second, etc.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/TRACK/x/SEND/y/PAN/value"></a>
 <a href="#SET/TRACK/x/SEND/y/PAN/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/x/SEND/y/PAN/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Sets hardware output/send pan (0=center, -1=left) for track x, send y. append e to value to treat as "end" (capture), or "E" to treat as an instant edit.<br/>
 Use y=-1 for first receive, -2 for second, etc.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/POS/value_in_seconds"></a>
 <a href="#SET/POS/value_in_seconds"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/POS/value_in_seconds</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Sets edit cursor position (seeking playback) to value_in_seconds              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/POS_STR/value_string"></a>
 <a href="#SET/POS_STR/value_string"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/POS_STR/value_string</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Sets edit cursor position (seeking playback) to value_string (format auto-detected)<br/>
 r1 goes to region ID 1, m1 to marker 1, R1 to first timeline region, M1 to first timeline marker              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="LYRICS/trackindex"></a>
 <a href="#LYRICS/trackindex"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>LYRICS/trackindex</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Returns:<br/>
 LYRICS \t trackindex \t beat_position \t lyric \t ...<br/>
 Retrieves MIDI lyrics for trackindex.<br/>
 String will have newlines/tabs/backslashes encoded as \\n, \\t and \\. Length is limited to around 16k.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/PROJEXTSTATE/section/key/value"></a>
 <a href="#SET/PROJEXTSTATE/section/key/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/PROJEXTSTATE/section/key/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 See SetProjExtState() API -- section, key, value should be urlencoded              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="GET/PROJEXTSTATE/section/key"></a>
 <a href="#GET/PROJEXTSTATE/section/key"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/PROJEXTSTATE/section/key</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Returns:<br/>
 PROJEXTSTATE \t section \t key \t string<br/>
 See: GetProjExtState() API<br/>
 String will have newlines/tabs/backslashes encoded as \\n, \\t and \\. Length is limited to around 16k.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="GET/EXTSTATE/section/key"></a>
 <a href="#GET/EXTSTATE/section/key"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/EXTSTATE/section/key</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Returns:<br/>
 EXTSTATE \t section \t key \t string<br/>
 See GetExtState() API<br/>
 String will have newlines/tabs/backslashes encoded as \\n, \\t and \\              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/EXTSTATE/section/key/value"></a>
 <a href="#SET/EXTSTATE/section/key/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/EXTSTATE/section/key/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 See SetExtState() API (persist=false) section, key, value should be urlencoded              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="SET/EXTSTATEPERSIST/section/key/value"></a>
 <a href="#SET/EXTSTATEPERSIST/section/key/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/EXTSTATEPERSIST/section/key/value</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 See SetExtState() API (persist=true) section, key, value should be urlencoded              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="GET/command_id"></a>
 <a href="#GET/command_id"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/command_id</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 command_id can be numeric or _123456789abcdef... registered ID.<br/>
 Returns:<br/>
 CMDSTATE \t command_id \t state<br/>
@@ -869,21 +869,21 @@ CMDSTATE \t command_id \t state<br/>
 state>0 for on, 0=off, -1=no state              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="OSC/oscstring[:value]"></a>
 <a href="#OSC/oscstring[:value]"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>OSC/oscstring[:value]</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Sends an OSC message through the default processing (Default.ReaperOSC) and MIDI-learn/action mappings. oscstring:value will be urldecoded.              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="MARKER"></a>
 <a href="#MARKER"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>MARKER</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Returns a list of all markers, in the format of:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 MARKER_LIST<br/>
@@ -894,12 +894,12 @@ MARKER_LIST_END<br/>
 color is in the form of 0xaarrggbb, nonzero if a custom color set              
 </div><br>
 </div>
-<div class="chpad">
+<div class="ch">
 <hr>
 <a class="anch" id="REGION"></a>
 <a href="#REGION"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>REGION</b></u><br>			<p>
-<div class="chpad">
+<div class="ch">
 Returns a list of all markers or regions, in the format of:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
@@ -909,7 +909,7 @@ REGION \t name \t ID \t start-position \t end-position [\t color]<br/>
 REGION_LIST_END              
 </div><br>
 </div>
-      <div class="chpad">
+      <div class="ch">
         <hr>
                      
           <table><td class="td2"> &#160;</td><td>&#160;</td><td class=\"td3\">Automatically generated by Ultraschall-API 4.2 005 - 55 elements available <br></td></table>

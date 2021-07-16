@@ -1,20 +1,20 @@
-.c_func{
+.c{
     margin-bottom: 4;
     color:#FFFFFF;
 } 
-.p_func {
+.p {
     margin-bottom: 4;
     color:#FFFFFF;
 }
-.e_func {
+.e {
     margin-bottom: 4;
     color:#FFFFFF;
 }
-.l_func{
+.l{
     margin-bottom: 4;
     color:#FFFFFF;
 }
-.j_func{
+.j{
     margin-bottom: 4;
     color:#FFFFFF;
 }
@@ -26,16 +26,16 @@ i{
   color:#00aaff;
 }
 
-.parmret{
+.pr{
     width: 35%;
 }
 
-.chpad{
+.ch{
   padding-left:4.4%;
   width:90.5%;
 }
 
-.smallfontTD{
+.tdsm{
     width:25%;
     font-size:x-small;
 }
