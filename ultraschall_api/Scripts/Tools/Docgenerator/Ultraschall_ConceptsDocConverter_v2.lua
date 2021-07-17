@@ -54,6 +54,7 @@ tagline=reaper.GetExtState("ultraschall_api", "Tagline")
 
 Index=1
 DontSort=true
+USDocMLLink="US_Api_Functions.html#"
 
 -- Let's create the Header
 FunctionList=[[

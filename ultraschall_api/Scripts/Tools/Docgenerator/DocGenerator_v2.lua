@@ -28,7 +28,7 @@
 
 -- DontSort=true -- if DontSort==true, then the index and the functions/entries will not be sorted
 -- Index=4 -- set the number of columns of the index (1-4)
-
+-- USDocMLLink="" -- which document to replace usdocml:// with?
 
 local FunctionList=FunctionList
 
@@ -324,7 +324,7 @@ function contentindex()
       FunctionsLister_Count=FunctionsLister_Count+1
       FunctionsLister[FunctionsLister_Count]=Slugs[a]
       linebreaker=linebreaker+1
-    end
+    end 
     if linebreaker==1 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
     if linebreaker==2 and Index>1 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
     if linebreaker==3 and Index>2 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
@@ -478,7 +478,7 @@ function entries(start, stop)
       --if title==nil then print3(AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]) end
       if title==nil then title=AllUSDocBloc_Header[FunctionsLister[EntryCount]][1]end
       FunctionList=FunctionList.."<u><b>"..title.."</b></u><br>"
-      if AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]==nil then AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]="PUDELDUDEL" end
+      if AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]==nil then AllUSDocBloc_Header[FunctionsLister[EntryCount]][6]="Error #1 in docs, please report this entry to the developer!!!" end
       
       
       -- Functioncalls
@@ -492,7 +492,6 @@ function entries(start, stop)
         FunctionList=FunctionList.."\t\t\t<p>\n"
         FunctionList=FunctionList..[[
   
-          <u>Functioncall:</u>
           <div class="cc">
 ]]
         if functioncall["cpp"]~=nil then
@@ -581,7 +580,9 @@ function entries(start, stop)
       if k:match("</code></pre>")~=nil then mode=2 end
     end
     
-   
+    if USDocMLLink~=nil then 
+      NewDone=string.gsub(NewDone, "usdocml://", USDocMLLink)
+    end
     ultraschall.WriteValueToFile(Outfile, NewDone, nil, true)
     SLEM()
    
@@ -628,5 +629,8 @@ entries()
 -- Step 5: Write the outputfile
 ultraschall.WriteValueToFile(Outfile, FunctionList, nil, true)
 
---ultraschall.WriteValueToFile(ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation.html", FunctionList)
+USDocMLLink=nil
+DontSort=nil
+Index=nil
+
 
