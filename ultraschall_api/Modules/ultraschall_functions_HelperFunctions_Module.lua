@@ -1692,7 +1692,7 @@ function ultraschall.SetGuidExtState(guid, key, value, savelocation, overwrite, 
   </retvals>
   <chapter_context>
     Metadata Management
-    Extension States(Guid)
+    Extension States Guid
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
