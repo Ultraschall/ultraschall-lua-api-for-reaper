@@ -29,15 +29,17 @@ ultraschall.BringReaScriptConsoleToFront()
 
 ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
 ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
---retval, String=reaper.GetUserInputs("Reaper Tagline", 2, "Version,Tagline", ReaperVersion..","..ReaperTagline)
+retval, String=reaper.GetUserInputs("Reaper Tagline", 2, "Version,Tagline,extrawidth=200,separator=\n", ReaperVersion.."\n"..ReaperTagline)
 if retval==true then
-  A=reaper.SetExtState("ultraschall_api", "ReaperVerNr", String:match("(.-),"), true)
-  B=reaper.SetExtState("ultraschall_api", "Tagline", String:match(",(.*)"), true)
+  A=reaper.SetExtState("ultraschall_api", "ReaperVerNr", String:match("(.-)\n"), true)
+  B=reaper.SetExtState("ultraschall_api", "Tagline", String:match("\n(.*)"), true)
+else
+  return
 end
 
 --if tudelu==nil then return end
---ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
---ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
+ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
+ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
 
 FileA={}
 FileA[#FileA+1]="Ultraschall_Doc_VID_Converter_v2.lua"
