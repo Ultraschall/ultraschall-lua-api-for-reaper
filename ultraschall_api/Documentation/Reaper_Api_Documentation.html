@@ -9440,7 +9440,7 @@ Updates the graphics display, if opened.
 <hr>
 <a class="anch" id="eel_gfx_variables"></a>
 <a href="#eel_gfx_variables"> ^</a> 
-<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20"><u><b>gfx_variables</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.30.png" alt="Reaper version 6.30"><u><b>gfx_variables</b></u><br>			<p>
 <div class="cc">
 <div class="e"><span class='all_view'>EEL2: </span><code><em> gfx VARIABLES</em></code></div>
 </div><p>
@@ -9461,6 +9461,7 @@ The following global variables are special and will be used by the graphics syst
 &nbsp;&nbsp; * gfx_dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).<br/>
 &nbsp;&nbsp; * gfx_texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.<br/>
 &nbsp;&nbsp; * gfx_ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx_w/gfx_h/etc will be doubled.<br/>
+&nbsp;&nbsp; * gfx_ext_flags - &amp;1 if context is JSFX embedded in TCP or MCP.<br/>
 &nbsp;&nbsp; * mouse_x - current X coordinate of the mouse relative to the graphics window.<br/>
 &nbsp;&nbsp; * mouse_y - current Y coordinate of the mouse relative to the graphics window.<br/>
 &nbsp;&nbsp; * mouse_wheel - wheel position, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.<br/>
@@ -12985,32 +12986,33 @@ Updates the graphics display, if opened
 <hr>
 <a class="anch" id="lua_gfx_variables"></a>
 <a href="#lua_gfx_variables"> ^</a> 
-<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20"><u><b>gfx_variables</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.30.png" alt="Reaper version 6.30"><u><b>gfx_variables</b></u><br>			<p>
 <div class="cc">
 <div class="l"><span class='all_view'>Lua: </span><code><em> gfx VARIABLES</em></code></div>
 </div><p>
 <div class="ch">
 The following global variables are special and will be used by the graphics system:<br/>
 <br/>
-&nbsp;&nbsp; * gfx.r - current red component (0..1) used by drawing operations.<br/>
-&nbsp;&nbsp; * gfx.g - current green component (0..1) used by drawing operations.<br/>
-&nbsp;&nbsp; * gfx.b - current blue component (0..1) used by drawing operations.<br/>
-&nbsp;&nbsp; * gfx.a2 - current alpha component (0..1) used by drawing operations when writing solid colors (normally ignored but useful when creating transparent images).<br/>
-&nbsp;&nbsp; * gfx.a - alpha for drawing (1=normal).<br/>
-&nbsp;&nbsp; * gfx.mode - blend mode for drawing. Set mode to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). Add 2.0 to disable source alpha for gfx.blit(). Add 4.0 to disable filtering for gfx.blit().<br/>
-&nbsp;&nbsp; * gfx.w - width of the UI framebuffer.<br/>
-&nbsp;&nbsp; * gfx.h - height of the UI framebuffer.<br/>
-&nbsp;&nbsp; * gfx.x - current graphics position X. Some drawing functions use as start position and update.<br/>
-&nbsp;&nbsp; * gfx.y - current graphics position Y. Some drawing functions use as start position and update.<br/>
-&nbsp;&nbsp; * gfx.clear - if greater than -1.0, framebuffer will be cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black).<br/>
-&nbsp;&nbsp; * gfx.dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).<br/>
-&nbsp;&nbsp; * gfx.texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.<br/>
-&nbsp;&nbsp; * gfx.ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.<br/>
-&nbsp;&nbsp; * gfx.mouse_x - current X coordinate of the mouse relative to the graphics window.<br/>
-&nbsp;&nbsp; * gfx.mouse_y - current Y coordinate of the mouse relative to the graphics window.<br/>
-&nbsp;&nbsp; * gfx.mouse_wheel - wheel position, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.<br/>
-&nbsp;&nbsp; * gfx.mouse_hwheel - horizontal wheel positions, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.<br/>
-&nbsp;&nbsp; * gfx.mouse_cap - a bitfield of mouse and keyboard modifier state:<br/>
+&nbsp;&nbsp;* gfx.r - current red component (0..1) used by drawing operations.<br/>
+&nbsp;&nbsp;* gfx.g - current green component (0..1) used by drawing operations.<br/>
+&nbsp;&nbsp;* gfx.b - current blue component (0..1) used by drawing operations.<br/>
+&nbsp;&nbsp;* gfx.a2 - current alpha component (0..1) used by drawing operations when writing solid colors (normally ignored but useful when creating transparent images).<br/>
+&nbsp;&nbsp;* gfx.a - alpha for drawing (1=normal).<br/>
+&nbsp;&nbsp;* gfx.mode - blend mode for drawing. Set mode to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). Add 2.0 to disable source alpha for gfx.blit(). Add 4.0 to disable filtering for gfx.blit().<br/>
+&nbsp;&nbsp;* gfx.w - width of the UI framebuffer.<br/>
+&nbsp;&nbsp;* gfx.h - height of the UI framebuffer.<br/>
+&nbsp;&nbsp;* gfx.x - current graphics position X. Some drawing functions use as start position and update.<br/>
+&nbsp;&nbsp;* gfx.y - current graphics position Y. Some drawing functions use as start position and update.<br/>
+&nbsp;&nbsp;* gfx.clear - if greater than -1.0, framebuffer will be cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black).<br/>
+&nbsp;&nbsp;* gfx.dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).<br/>
+&nbsp;&nbsp;* gfx.texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.<br/>
+&nbsp;&nbsp;* gfx.ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.<br/>
+&nbsp;&nbsp;* gfx.ext_flags - &amp;1 if context is JSFX embedded in TCP or MCP.<br/>
+&nbsp;&nbsp;* gfx.mouse_x - current X coordinate of the mouse relative to the graphics window.<br/>
+&nbsp;&nbsp;* gfx.mouse_y - current Y coordinate of the mouse relative to the graphics window.<br/>
+&nbsp;&nbsp;* gfx.mouse_wheel - wheel position, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.<br/>
+&nbsp;&nbsp;* gfx.mouse_hwheel - horizontal wheel positions, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.<br/>
+&nbsp;&nbsp;* gfx.mouse_cap - a bitfield of mouse and keyboard modifier state:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1: left mouse button<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2: right mouse button<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4: Control key<br/>
@@ -13018,7 +13020,8 @@ The following global variables are special and will be used by the graphics syst
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16: Alt key<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;32: Windows key<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;64: middle mouse button<br/>
-Note: Mousebuttons will be returned after gfx.init(), the other keyboard-modifier only when using gfx.getchar()!              
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+Note: Mousebuttons will be returned after gfx_init(), the other keyboard-modifier only when using gfx_getchar()!              
 </div><br>
 </div>
 <div class="ch">

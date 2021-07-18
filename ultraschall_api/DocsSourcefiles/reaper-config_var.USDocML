@@ -1,6 +1,6 @@
 <USDocML>  
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
-      <slug>Introduction</slug>  
+      <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
          List of all Config Variables as of Reaper 6.30 and probably are missing some, but should be fairly complete anyway.  
@@ -10189,6 +10189,24 @@
            >&65537=0, Save copy of project to outfile.wav.RPP - unchecked  
            >&65537=1, Save copy of project to outfile.wav.RPP - checked  
             
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+  
+  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>rendermastertracksub</slug>  
+      <title>rendermastertracksub</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          Unknown
+          It is a string  
+          
+          >Default "Master"
       </description>  
       <chapter_context>
          Config Variables  
