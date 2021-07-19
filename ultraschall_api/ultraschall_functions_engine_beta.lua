@@ -1582,3 +1582,128 @@ function ultraschall.BubbleSortDocBlocTable_Slug(Table)
     count=count+1
   end
 end
+
+-- Need to be documented, but are finished
+
+function ultraschall.AddParmLearn_FXStateChunk2(FXStateChunk, fxid, parmidx, parmname, input_mode, channel, cc_note, ccmode, checkboxflags, osc_message)
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "fxid", "must be an integer", -2) return false end
+
+  if osc_message~=nil and type(osc_message)~="string" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "osc_message", "must be either nil or a string", -3) return false end
+  if math.type(checkboxflags)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "checkboxflags", "must be an integer", -4) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "parmidx", "must be an integer", -5) return false end
+  if type(parmname)~="string" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "parmname", "must be a string, either \"\" or byp or wet", -6) return false 
+  elseif parmname~="" then parmname=":"..parmname
+  end
+  if math.type(input_mode)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "input_mode", "must be an integer", -7) return false end  
+  if math.type(channel)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "channel", "must be an integer", -8) return false end  
+  if math.type(cc_note)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "cc_note", "must be an integer", -9) return false end  
+  if math.type(ccmode)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "ccmode", "must be an integer", -10) return false end  
+  if input_mode<0 or input_mode>4 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "input_mode", "must be between 0 and 4", -11) return false end  
+  if channel<0 or channel>15 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "channel", "must be between 1 and 16", -12) return false end  
+  if cc_note<0 or cc_note>127 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "cc_note", "must be between 0 and 127", -13) return false end  
+  if ccmode<0 or ccmode>4 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "ccmode", "must be between 1 and 4", -14) return false end  
+  channel=channel-1
+  if input_mode==0 then -- osc
+    channel=0 
+    cc_note=0 
+  elseif input_mode==1 then 
+    input_mode=144 -- midi note
+  elseif input_mode==2 then
+    input_mode=176 -- midi cc
+  elseif input_mode==3 then
+    input_mode=192 -- midi pc
+  elseif input_mode==4 then
+    input_mode=224 -- midi pitch
+  else
+  end
+  if ccmode==1 then ccmode=65536
+  elseif ccmode==2 then ccmode=131072
+  elseif ccmode==3 then ccmode=65536+131072
+  elseif ccmode==4 then ccmode=262144
+  end
+  input_mode=input_mode+channel
+  input_mode=ultraschall.CombineBytesToInteger(0, input_mode, cc_note)
+  local errorcounter_old = ultraschall.CountErrorMessages()
+  local A={ultraschall.AddParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parmname, input_mode, checkboxflags, osc_message)}
+  if errorcounter_old ~= ultraschall.CountErrorMessages() then
+    local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
+    ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", parmname, errormessage, errcode-100)
+    return false
+  end
+    
+  return table.unpack(A)
+end
+
+function ultraschall.SetParmLearn_FXStateChunk2(FXStateChunk, fxid, parmidx, parmname, input_mode, channel, cc_note, ccmode, checkboxflags, osc_message)
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "fxid", "must be an integer", -2) return false end
+
+  if osc_message~=nil and type(osc_message)~="string" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "osc_message", "must be either nil or a string", -3) return false end
+  if math.type(checkboxflags)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "checkboxflags", "must be an integer", -4) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "parmidx", "must be an integer", -5) return false end
+  if type(parmname)~="string" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "parmname", "must be a string, either \"\" or byp or wet", -6) return false 
+  elseif parmname~="" then parmname=":"..parmname
+  end
+  if math.type(input_mode)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "input_mode", "must be an integer", -7) return false end  
+  if math.type(channel)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "channel", "must be an integer", -8) return false end  
+  if math.type(cc_note)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "cc_note", "must be an integer", -9) return false end  
+  if math.type(ccmode)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "ccmode", "must be an integer", -10) return false end  
+  if input_mode<0 or input_mode>4 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "input_mode", "must be between 0 and 4", -11) return false end  
+  if channel<1 or channel>16 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "channel", "must be between 1 and 16", -12) return false end  
+  if cc_note<0 or cc_note>127 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "cc_note", "must be between 0 and 127", -13) return false end  
+  if ccmode<0 or ccmode>4 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "ccmode", "must be between 1 and 4", -14) return false end  
+  if osc_message~=nil and input_mode~=0 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "input_mode", "must be set to 0, when using parameter osc_message", -15) return false end
+  if osc_message==nil and input_mode==0 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "osc_message", "osc-message missing", -16) return false end
+  channel=channel-1
+  if input_mode==0 then -- osc
+    channel=0 
+    cc_note=0 
+  elseif input_mode==1 then 
+    input_mode=144 -- midi note
+  elseif input_mode==2 then
+    input_mode=176 -- midi cc
+  elseif input_mode==3 then
+    input_mode=192 -- midi pc
+  elseif input_mode==4 then
+    input_mode=224 -- midi pitch
+  else
+
+  end
+  if ccmode==1 then ccmode=65536
+  elseif ccmode==2 then ccmode=131072
+  elseif ccmode==3 then ccmode=65536+131072
+  elseif ccmode==4 then ccmode=262144
+  end
+  input_mode=input_mode+channel
+  input_mode=ultraschall.CombineBytesToInteger(0, input_mode, cc_note)
+  local errorcounter_old = ultraschall.CountErrorMessages()
+  local A={ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, input_mode, checkboxflags, osc_message )}
+  if errorcounter_old ~= ultraschall.CountErrorMessages() then
+    local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
+    ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", parmname, errormessage, errcode-100)
+    return false
+  end
+    
+  return table.unpack(A)
+end
+
+function ultraschall.GetParmLearn_FXStateChunk2(FXStateChunk, fxid, id)
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk2", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk2", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk2", "fxid", "must be an integer", -3) return nil end
+    
+  local channel, input_mode
+  local parm_idx, parmname, midi_note, checkboxflags, osc_message = ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, fxid, id)
+  local Byte1, cc_note = ultraschall.SplitIntegerIntoBytes(midi_note)
+  if Byte1>=224 then input_mode=4 channel=Byte1-224
+  elseif Byte1>=192 then input_mode=3 channel=Byte1-192
+  elseif Byte1>=176 then input_mode=2 channel=Byte1-176
+  elseif Byte1>=144 then input_mode=1 channel=Byte1-144
+  else 
+    input_mode=0 
+    channel=-1
+  end
+  channel=channel+1
+  return parm_idx, parmname, input_mode, channel, cc_note, checkboxflags, osc_message
+end

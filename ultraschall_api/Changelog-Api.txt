@@ -424,8 +424,9 @@ Has now 1400 functions, with 15 new ones
   - Docs: Reaper Internals - updated to Reaper 6.30  
   - DocsManagement: Docs\_GetUSDocBloc\_ChapterContext - didn't return all chapter-context-entries -> fixed
   - GuiLib: Lokasenna\_LoadGuiLib\_v2 - didn't load due stupid typo -> fixed
+  - Helper functions: StateChunkLayouter - did add unnecessary newline at the end, which faulted IsValidTrackStateChunk -> fixed
   - Markers: MoveMarkersBy - didn't work on markers with 0 in their index number -> fixed(thanks to GNetzer)  
-  
+  - Parameter/Learn/Mapping: SetParmLearn\_FXStateChunk - added error-message, when no such parm-alias exists
 ---
 
 ### 4.2.004 - "Grandma - kl" - 12th of June 2021

@@ -1432,6 +1432,7 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note
   if math.type(checkboxflags)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "checkboxflags", "must be an integer", -6) return false end
   
   if osc_message~=nil and midi_note~=0 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "midi_note", "must be set to 0, when using parameter osc_message", -7) return false end
+  if osc_message==nil and input_mode==0 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "osc_message", "osc-message missing, when setting midi_note=0", -9) return false end
   if osc_message==nil then osc_message="" end
   
   if checkboxflags&8==8 then checkboxflags=checkboxflags-8 end
@@ -1460,6 +1461,7 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note
     start,stop=string.find(FXStateChunk, UseFX, 0, true)  
     return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
   else
+    ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "id", "no such parmlearn existing", -8)
     return false
   end
 end
@@ -1538,7 +1540,7 @@ function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias
   end
 end
 
-function ultraschall.SetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx, parmalias)
+function ultraschall.SetParmAlias2_FXStateChunk(FXStateChunk, fxid, id, parmalias)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetParmAlias2_FXStateChunk</slug>
@@ -1547,11 +1549,11 @@ function ultraschall.SetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx, par
     Reaper=5.979
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.SetParmAlias2_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx, string parmalias)</functioncall>
+  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.SetParmAlias2_FXStateChunk(string FXStateChunk, integer fxid, integer id, string parmalias)</functioncall>
   <description>
     Sets an already existing Parm-Learn-entry of an FX-plugin from an FXStateChunk.
     
-    Unlike SetParmAlias_FXStateChunk, the parameter parmidx counts by parameter-order, not existing aliasnames. If a parameter has no aliasname yet, it will return false.
+    Unlike SetParmAlias_FXStateChunk, the parameter id counts by parameter-order, not existing aliasnames. If a parameter has no aliasname yet, it will return false.
     
     It's the PARMALIAS-entry
     
@@ -1566,7 +1568,7 @@ function ultraschall.SetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx, par
   <parameters>
     string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Alias-entry
     integer fxid - the id of the fx, which holds the to-set-Parm-Alias-entry; beginning with 1
-    integer parmidx - the index of the parameter, whose Parm-Alias-entry you want to to set; beginning with 1
+    integer id - the index of the parameter, whose Parm-Alias-entry you want to to set; beginning with 1
     string parmalias - the new aliasname of the parameter
   </parameters>
   <chapter_context>
@@ -1580,7 +1582,7 @@ function ultraschall.SetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx, par
 ]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmAlias2_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
   if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("SetParmAlias2_FXStateChunk", "fxid", "must be an integer", -2) return false end
-  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("SetParmAlias2_FXStateChunk", "parmidx", "must be an integer", -3) return false end    
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("SetParmAlias2_FXStateChunk", "id", "must be an integer", -3) return false end    
 
   if type(parmalias)~="string" then ultraschall.AddErrorMessage("SetParmLearn2_FXStateChunk", "parmalias", "must be a string", -4) return false end
   
@@ -1595,7 +1597,7 @@ function ultraschall.SetParmAlias2_FXStateChunk(FXStateChunk, fxid, parmidx, par
   
   count=0
   if UseFX~=nil then
-    UseFX2=string.gsub(UseFX, "\n%s-PARMALIAS "..(parmidx-1).." .-\n", "\n    PARMALIAS "..(parmidx-1).." "..parmalias.."\n")
+    UseFX2=string.gsub(UseFX, "\n%s-PARMALIAS "..(id-1).." .-\n", "\n    PARMALIAS "..(id-1).." "..parmalias.."\n")
     if UseFX2==UseFX then UseFX2=nil end
   end  
   

@@ -440,9 +440,14 @@ function entries(start, stop)
       
       -- get the parameters
       local Parmcount, Params, markuptype, markupversion, prog_lang, spok_lang, indent = ultraschall.Docs_GetUSDocBloc_Params(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], true, 1)
-  
+      for i=1, Parmcount do
+        Params[i][2]=ultraschall.Docs_ConvertPlainTextToHTML(Params[i][2])
+      end
       -- get the return values
       local Retvalscount, Retvals, markuptype, markupversion, prog_lang, spok_lang, indent = ultraschall.Docs_GetUSDocBloc_Retvals(AllUSDocBloc_Header[FunctionsLister[EntryCount]][2], true, 1)
+      for i=1, Retvalscount do
+        Retvals[i][2]=ultraschall.Docs_ConvertPlainTextToHTML(Retvals[i][2])
+      end
       -- slug and anchor
       FunctionList=FunctionList..[[
       

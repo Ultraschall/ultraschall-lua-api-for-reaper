@@ -3866,7 +3866,7 @@ function ultraschall.StateChunkLayouter(statechunk)
     if k:sub(1,1)=="<" then num_tabs=num_tabs+1 end
     newsc=newsc..k    
   end
-  return newsc
+  return newsc:sub(1,-2)
 end
 
 
