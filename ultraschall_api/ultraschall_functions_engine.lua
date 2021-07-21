@@ -1338,7 +1338,7 @@ end
 
 -- HoHoHo
 function ultraschall.OperationHoHoHo()  
-  if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
+--[[  if ultraschall.tempfilename:match("")~=nil and 
       (ultraschall.snowtodaysdate=="24.12" or 
        ultraschall.snowtodaysdate=="25.12" or 
        ultraschall.snowtodaysdate=="26.12") then
@@ -1349,6 +1349,7 @@ function ultraschall.OperationHoHoHo()
       ultraschall.snowoldgfx()
     end      
   end
+  --]]
 end
 --if GUI==nil then GUI={} end
 

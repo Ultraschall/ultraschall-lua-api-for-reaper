@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="48712.00" author="Meo Mespotine">
+      <version name="48725.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Changelog-Api.txt</source>
@@ -478,7 +478,7 @@ new in this release:
     with them.
 
 -   Bugfixes
-    Bugfixes, Bugfixes…
+    Bugfixes, Bugfixes, Bugfixes…
 
 New features in 4.2.005
 
@@ -522,6 +522,9 @@ Changes from 4.2.004 to 4.2.005
     at the end, which faulted IsValidTrackStateChunk -> fixed
 -   Markers: MoveMarkersBy - didn’t work on markers with 0 in their
     index number -> fixed(thanks to GNetzer)
+-   MediaItem-Management: InsertMediaItemFromFile - didn’t insert media
+    into the right track due Reaper API-limitations -> fixed(thanks to
+    ??)
 -   Parameter/Learn/Mapping: SetParmLearn_FXStateChunk - added
     error-message, when no such parm-alias exists
 -   RenderManagement: AddRenderPreset - supports now
