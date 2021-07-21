@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="48608.00" author="Meo Mespotine">
+      <version name="48777.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Changelog-Api.txt</source>
@@ -145,8 +145,8 @@
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt</source>
-	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library v2-developer tools.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Lokasenna_GUI%20library%20v2-developer%20tools.lua</source>
-	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Lokasenna_GUI%20library%20v2.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library_v2-developer tools.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Lokasenna_GUI%20library_v2-developer%20tools.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Lokasenna_GUI library_v2.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Lokasenna_GUI%20library_v2.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/README.md" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/README.md</source>
 	<source file="/ultraschall_api/Documentation/gfx/Changelog.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/Changelog.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Changelog_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/Changelog_Un.png</source>
@@ -168,6 +168,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.990.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/JS_0.990.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.991.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/JS_0.991.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.992.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/JS_0.992.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/js_0.993.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/js_0.993.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.995.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/JS_0.995.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.997.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/JS_0.997.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.998.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/JS_0.998.png</source>
@@ -183,13 +184,15 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_1_002.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/JS_Logo_1_002.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/linedance.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/linedance.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/lua5.3.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/lua5.3.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/Osara2021.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/Osara2021.pfi</source>
+	<source file="/ultraschall_api/Documentation/gfx/Osara2021.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/Osara2021.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ParmModTable.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/ParmModTable.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/ParmModTable.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/ParmModTable.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ReaBlink.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/ReaBlink.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/reablink0.4.0.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reablink0.4.0.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ReaImgGui.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/ReaImgGui.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/ReaImGui.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/ReaImGui.pfi</source>
-	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.5.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaimgui0.5.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.5.2.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaimgui0.5.2.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.40.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper5.40.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.50.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper5.50.png</source>
@@ -238,6 +241,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.18.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.18.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.19.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.19.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.20.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.20.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.22.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.22.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.23.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.23.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.24.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.24.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.25.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.25.png</source>
@@ -246,6 +250,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.29.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.29.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.30.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.30.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.30.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.30.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.32.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.32.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.965.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/reaper6.965.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
@@ -256,6 +261,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/Routing_004_RoutingMassManipulation_RoutingMatrix_before.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/Routing_004_RoutingMassManipulation_RoutingMatrix_before.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/Routing_004_RoutingMassManipulation_RoutingMatrix_before.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/Routing_004_RoutingMassManipulation_RoutingMatrix_before.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.10.0.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/sws2.10.0.1.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/sws2.10.1.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/sws2.10.1.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.11.0.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/sws2.11.0.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.12.0.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/sws2.12.0.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.12.1.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/sws2.12.1.1.png</source>
@@ -263,6 +269,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/sws2.8.8.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/sws2.8.8.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.9.6.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/sws2.9.6.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.9.7.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/sws2.9.7.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/sws2.9.8.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/sws2.9.8.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/SWS_Logo_2_10_0.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/SWS_Logo_2_10_0.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall4.00.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/ultraschall4.00.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall4.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.005/ultraschall_api/Documentation/gfx/ultraschall4.1.png</source>
@@ -471,7 +478,7 @@ new in this release:
     with them.
 
 -   Bugfixes
-    Bugfixes, Bugfixes…
+    Bugfixes, Bugfixes, Bugfixes…
 
 New features in 4.2.005
 
@@ -515,6 +522,9 @@ Changes from 4.2.004 to 4.2.005
     at the end, which faulted IsValidTrackStateChunk -> fixed
 -   Markers: MoveMarkersBy - didn’t work on markers with 0 in their
     index number -> fixed(thanks to GNetzer)
+-   MediaItem-Management: InsertMediaItemFromFile - didn’t insert media
+    into the right track due Reaper API-limitations -> fixed(thanks to
+    ??)
 -   Parameter/Learn/Mapping: SetParmLearn_FXStateChunk - added
     error-message, when no such parm-alias exists
 -   RenderManagement: AddRenderPreset - supports now
