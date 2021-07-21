@@ -82,7 +82,7 @@ Ultraschall API Changelog
             </div>
         </div>
       
-          <div class="chapterpad"><p></p>
+          <div class="ch"><p></p>
 ]]
 
 reaper.ShowConsoleMsg("Creating ChangeLog\n")

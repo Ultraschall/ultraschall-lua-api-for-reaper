@@ -27,19 +27,6 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 ultraschall.BringReaScriptConsoleToFront()
 
-ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
-ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
-retval, String=reaper.GetUserInputs("Reaper Tagline", 2, "Version,Tagline,extrawidth=200,separator=\n", ReaperVersion.."\n"..ReaperTagline)
-if retval==true then
-  A=reaper.SetExtState("ultraschall_api", "ReaperVerNr", String:match("(.-)\n"), true)
-  B=reaper.SetExtState("ultraschall_api", "Tagline", String:match("\n(.*)"), true)
-else
-  return
-end
-
---if tudelu==nil then return end
-ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
-ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
 
 FileA={}
 FileA[#FileA+1]="Ultraschall_Doc_VID_Converter_v2.lua"
@@ -59,10 +46,27 @@ FileA[#FileA+1]="Ultraschall_Doc_Func_Converter_v2.lua"
 
 Starterkit=reaper.time_precise()
 
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ChangelogConverterDoc.lua")
+
+ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
+ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
+retval, String=reaper.GetUserInputs("Reaper Tagline", 2, "Version,Tagline,extrawidth=200,separator=\n", ReaperVersion.."\n"..ReaperTagline)
+if retval==true then
+  A=reaper.SetExtState("ultraschall_api", "ReaperVerNr", String:match("(.-)\n"), true)
+  B=reaper.SetExtState("ultraschall_api", "Tagline", String:match("\n(.*)"), true)
+else
+  return
+end
+
+--if tudelu==nil then return end
+ReaperVersion=reaper.GetExtState("ultraschall_api", "ReaperVerNr")
+ReaperTagline=reaper.GetExtState("ultraschall_api", "Tagline")
+
 for i=1, #FileA do
   CurrentDocs=FileA[i].."\n"
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/Docgenerator/"..FileA[i])
 end
+
 
 function main()
   COUNTERRRR=COUNTERRRR+1
@@ -76,4 +80,4 @@ COUNTERRRR=0
 --main()
 
 
---print2(reaper.format_timestr(reaper.time_precise()-Starterkit, ""))
+print2(reaper.format_timestr(reaper.time_precise()-Starterkit, ""))

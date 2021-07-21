@@ -9409,11 +9409,11 @@ function ultraschall.GetProject_MasterTrackView(projectfilename_with_path, Proje
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_MasterTrackView</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.95
+    Ultraschall=4.2
+    Reaper=6.32
     Lua=5.3
   </requires>
-  <functioncall>integer tcp_visibility, number state2, number state3, number state4, integer state5, integer state6, integer state7, integer state8, integer state9, integer state10 = ultraschall.GetProject_MasterTrackView(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer tcp_visibility, number state2, number state3, number state4, integer state5, integer state6, integer state7, integer state8, integer state9, integer state10, integer state11, integer state12, number state13 = ultraschall.GetProject_MasterTrackView(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the master-view-state of the master-track of the project or a ProjectStateChunk.
     
@@ -9436,6 +9436,9 @@ function ultraschall.GetProject_MasterTrackView(projectfilename_with_path, Proje
     integer state8 - unknown
     integer state9 - unknown
     integer state10 - unknown
+    integer state11 - unknown
+    integer state12 - unknown
+    integer state13 - unknown
   </retvals>
   <chapter_context>
     Project-Management
@@ -11720,7 +11723,7 @@ function ultraschall.SetProject_MasterTrackColor(projectfilename_with_path, colo
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_MasterTrackColor(string projectfilename_with_path, integer color, integer peak_metering, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval = ultraschall.SetProject_MasterTrackColor(string projectfilename_with_path, integer color, optional string ProjectStateChunk)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets the color for the master-track of an rpp-projectfile or a ProjectStateChunk.
     
@@ -11775,7 +11778,7 @@ function ultraschall.SetProject_MasterPanMode(projectfilename_with_path, panmode
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_MasterPanMode(string projectfilename_with_path, integer panmode, integer peak_metering, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval = ultraschall.SetProject_MasterPanMode(string projectfilename_with_path, integer panmode, optional string ProjectStateChunk)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets the panmode for the master-track of an rpp-projectfile or a ProjectStateChunk.
     
@@ -11830,16 +11833,16 @@ function ultraschall.SetProject_MasterPanMode(projectfilename_with_path, panmode
 end
 
 
-function ultraschall.SetProject_MasterTrackView(projectfilename_with_path, tcp_visibility, state2, state3, state4, state5, state6, state7, ProjectStateChunk)
+function ultraschall.SetProject_MasterTrackView(projectfilename_with_path, tcp_visibility, state2, state3, state4, state5, state6, state7, state8, state9, state10, state11, state12, state13, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_MasterTrackView</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=6.02
+    Ultraschall=4.2
+    Reaper=6.32
     Lua=5.3
   </requires>
-  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_MasterTrackView(string projectfilename_with_path, integer tcp_visibility, number state2, number state3, number state4, integer state5, integer state6, integer state7, optional string ProjectStatechunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_MasterTrackView(string projectfilename_with_path, integer tcp_visibility, number state2, number state3, number state4, integer state5, integer state6, integer state7, integer state8, integer state9, integer state10, integer state11, integer state12, number state13, optional string ProjectStatechunk)</functioncall>
   <description>
     Sets the master-view-state of the master-track of the project or a ProjectStateChunk.
     
@@ -11859,6 +11862,9 @@ function ultraschall.SetProject_MasterTrackView(projectfilename_with_path, tcp_v
     integer state8 - unknown
     integer state9 - unknown
     integer state10 - unknown
+    integer state11 - unknown
+    integer state12 - unknown
+    number state13 - unknown    
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -11874,22 +11880,156 @@ function ultraschall.SetProject_MasterTrackView(projectfilename_with_path, tcp_v
   <tags>projectfiles, rpp, state, set, ripple, all, one</tags>
 </US_DocBloc>
 ]]
-  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
-  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "projectfilename_with_path", "File does not exist", -2) return -1 end
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
-  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   
-  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 --tcp_visibility, state2, state3, state4, state5, state6, state7
-  if math.type(tcp_visibility)~="integer" then ultraschall.AddErrorMessage("SetProject_RippleState", "tcp_visibility", "Must be an integer", -4) return -1 end
+  if math.type(tcp_visibility)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "tcp_visibility", "Must be an integer", -4) return -1 end
+  if type(state2)~="number" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state2", "Must be a number", -5) return -1 end
+  if type(state3)~="number" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state3", "Must be a number", -6) return -1 end
+  if type(state4)~="number" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state4", "Must be a number", -7) return -1 end
+  if math.type(state5)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state5", "Must be an integer", -8) return -1 end
+  if math.type(state6)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state6", "Must be an integer", -9) return -1 end
+  if math.type(state7)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state7", "Must be an integer", -10) return -1 end
+  if math.type(state8)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state8", "Must be an integer", -11) return -1 end
+  if math.type(state9)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state9", "Must be an integer", -12) return -1 end
+  if math.type(state10)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state10", "Must be an integer", -13) return -1 end
+  if math.type(state11)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state11", "Must be an integer", -14) return -1 end
+  if math.type(state12)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state12", "Must be an integer", -15) return -1 end
+  if type(state13)~="number" then ultraschall.AddErrorMessage("SetProject_MasterTrackView", "state13", "Must be a number", -16) return -1 end
   
+  local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-MASTERTRACKVIEW%s).-%c")
+  local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-MASTERTRACKVIEW%s.-%c(.*)")
   
-  local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RIPPLE%s).-%c.-<RECORD_CFG.*")
-  local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RIPPLE%s.-%c(.-<RECORD_CFG.*)")
-  
-  ProjectStateChunk=FileStart..ripple_state.."\n"..FileEnd
+  ProjectStateChunk=FileStart..tcp_visibility.." "..state2.." "..state3.." "..state4.." "..state5.." "
+                    ..state6.." "..state7.." "..state8.." "..state9.." "
+                    ..state10.." "..state11.." "
+                    ..state12.." "
+                    ..state13.."\n"
+                    ..FileEnd  
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
   else return 1, ProjectStateChunk
   end
 end
 
+function ultraschall.GetProject_Render_Normalize(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_Render_Normalize</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.32
+    Lua=5.3
+  </requires>
+  <functioncall>integer render_normalize_mode, number normalize_target = ultraschall.GetProject_Render_Normalize(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the master-view-state of the master-track of the project or a ProjectStateChunk.
+    
+    It's the entry RENDER_NORMALIZE
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the trackview-states; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    integer render_normalize_method - the normalize-method
+                                    - &1, Enable normalizing
+                                    -     0, unchecked(off)
+                                    -     1, checked(on)
+                                    - 0, LUFS-I
+                                    - 2 , RMS-I
+                                    - 4, Peak
+                                    - 6, True Peak
+                                    - 8, LUFS-M max
+                                    - 10, LUFS-S max
+                                    - &32, Normalize stems to master target-checkbox
+                                    -     0, unchecked(off)
+                                    -     1, checked(on)
+    number normalize_target - the normalize-target as amp-volume. Use ultraschall.MKVOL2DB to convert it to dB.
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
+  <tags>projectmanagement, get, view, projectstatechunk</tags>
+</US_DocBloc>
+]]
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_NORMALIZE", ProjectStateChunk, "GetProject_Render_Normalize")
+end
+
+function ultraschall.SetProject_Render_Normalize(projectfilename_with_path, render_normalize_method, normalize_target, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_Render_Normalize</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.32
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetProject_Render_Normalize(string projectfilename_with_path, integer render_normalize_method, number normalize_target, optional string ProjectStateChunk)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the panmode for the master-track of an rpp-projectfile or a ProjectStateChunk.
+    
+    It's the entry RENDER_NORMALIZE 
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    integer render_normalize_method - the normalize-method
+                                    - &1, Enable normalizing
+                                    -     0, unchecked(off)
+                                    -     1, checked(on)
+                                    - 0, LUFS-I
+                                    - 2 , RMS-I
+                                    - 4, Peak
+                                    - 6, True Peak
+                                    - 8, LUFS-M max
+                                    - 10, LUFS-S max
+                                    - &32, Normalize stems to master target-checkbox
+                                    -     0, unchecked(off)
+                                    -     1, checked(on)
+    number normalize_target - the normalize-target as amp-volume. Use ultraschall.DB2MKVOL to convert it from dB.
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
+  <tags>projectfiles, rpp, state, set, master track, panmode</tags>
+</US_DocBloc>
+]]  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if math.type(render_normalize_method)~="integer" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "render_normalize_method", "Must be an integer", -4) return -1 end
+  if type(normalize_target)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "normalize_target", "Must be a number", -5) return -1 end
+
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
+  
+  local ProjectEntry=""
+  ProjectEntry="  RENDER_NORMALIZE "..render_normalize_method.." "..normalize_target.."\n" 
+  
+  if ProjectStateChunk:match("RENDER_NORMALIZE")~=nil then
+    ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  RENDER_NORMALIZE .-%c", "\n"..ProjectEntry)
+  else
+    ProjectStateChunk=ProjectStateChunk:match("(.*)  TIMELOCKMODE")..ProjectEntry..ProjectStateChunk:match("(  TIMELOCKMODE.*)")
+  end
+
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end  
+end
