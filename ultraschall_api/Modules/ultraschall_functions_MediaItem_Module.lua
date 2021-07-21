@@ -4744,6 +4744,7 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, length, 
     reaper.InsertTrackAtIndex(0,false)
   end
 
+  reaper.PreventUIRefresh(1)
   reaper.SetEditCurPos(position+offset, false, false) -- change editcursorposition to where we want to insert the item
   
   -- insert media as new item and find out, what the item is
@@ -4774,6 +4775,7 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, length, 
   end
    
   reaper.BR_SetArrangeView(0, startTime, endTime) -- reset to old arrange-view-range
+  reaper.PreventUIRefresh(-1)
   return 0, item, Length, Numchannels, Samplerate, Filetype, editcursor, reaper.GetMediaItem_Track(Item)
 end
 
