@@ -30,12 +30,12 @@
 
 if type(ultraschall)~="table" then 
   -- update buildnumber and add ultraschall as a table, when programming within this file
-  local retval, string = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "Functions-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  local retval, String = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "Functions-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
   local retval, string2 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  if string=="" then string=10000 
+  if String=="" then string=10000 
   else 
-    string=tonumber(string) 
-    string=string+1
+    String=tonumber(String) 
+    String=String+1
   end
   if string2=="" then string2=10000 
   else 
@@ -204,6 +204,7 @@ function ultraschall.GetApiVersion()
   </retvals>
   <chapter_context>
     API-Helper functions
+    Various
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -211,7 +212,7 @@ function ultraschall.GetApiVersion()
 </US_DocBloc>
 --]]
   local retval, BuildNumber = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  return 420.004, "4.2","12th of June 2021", "004",  "\"Grandma - kl\"", ultraschall.hotfixdate, BuildNumber
+  return 420.005, "4.2","14th of July 2021", "005",  "\"Anne Clark - Our Darkness\"", ultraschall.hotfixdate, BuildNumber
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -1117,10 +1118,6 @@ function progresscounter(state)
   local A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_doc_engine.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gfx_engine.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine_server.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_network_engine.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_sound_engine.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_video_engine.lua")
   
   local filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Modules/")
@@ -1131,9 +1128,6 @@ function progresscounter(state)
 if ultraschall.US_BetaFunctions==true then
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gfx_engine_beta.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine_beta.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_network_engine_beta.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_sound_engine_beta.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_video_engine_beta.lua")
 end
   A=A.."function ultraschall."
@@ -1344,10 +1338,11 @@ end
 
 -- HoHoHo
 function ultraschall.OperationHoHoHo()  
-  if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
-      (ultraschall.snowtodaysdate=="24.12" or 
-       ultraschall.snowtodaysdate=="25.12" or 
-       ultraschall.snowtodaysdate=="26.12") then
+--[[
+    if ultraschall.tempfilename:match("")==nil and 
+      (ultraschall.snowtodaysdate~="24.12" or 
+       ultraschall.snowtodaysdate~="25.12" or 
+       ultraschall.snowtodaysdate~="26.12") then
     if ultraschall.snowheight==nil then ultraschall.SnowInit() end
     ultraschall.snowoldgfx=gfx.update
     function gfx.update()
@@ -1355,11 +1350,12 @@ function ultraschall.OperationHoHoHo()
       ultraschall.snowoldgfx()
     end      
   end
+  --]]
 end
 --if GUI==nil then GUI={} end
 
 function ultraschall.SnowInit()
-  --gfx.init()
+  gfx.init()
   
   -- initial values
   ultraschall.snowspeed=1.3       -- the falling speed of the snowflakes
@@ -1524,6 +1520,7 @@ function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes
   else
     gfx.update=ultraschall.snowoldgfx
   end
+ 
   return 1
 end
 
@@ -1565,6 +1562,7 @@ function PingMe(message, outputtarget)
   </parameters>
   <chapter_context>
     API-Helper functions
+    Debug
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1622,6 +1620,7 @@ function print2(...)
   </parameters>
   <chapter_context>
     API-Helper functions
+    String Output
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1663,6 +1662,7 @@ function print_alt(...)
   </parameters>
   <chapter_context>
     API-Helper functions
+    String Output
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1707,6 +1707,7 @@ function print(...)
   </parameters>
   <chapter_context>
     API-Helper functions
+    String Output
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1757,6 +1758,7 @@ function toboolean(value)
   </retvals>
   <chapter_context>
     API-Helper functions
+    Datatype-related
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1800,6 +1802,7 @@ function print3(...)
   </parameters>
   <chapter_context>
     API-Helper functions
+    String Output
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1842,6 +1845,7 @@ function print_update(...)
   </parameters>
   <chapter_context>
     API-Helper functions
+    String Output
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1870,7 +1874,7 @@ function ultraschall.CheckActionCommandIDFormat(aid)
     
     Does not check, whether this action_command_id is a useable one, only if it's "syntax" is correct!
     
-    returns falsein case of an error
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, valid action_command_id; false, not a valid action_command_id
@@ -1880,6 +1884,7 @@ function ultraschall.CheckActionCommandIDFormat(aid)
   </parameters>
   <chapter_context>
     API-Helper functions
+    Action Related Functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1919,6 +1924,7 @@ function ultraschall.RunCommand(actioncommand_id)
   </parameters>
   <chapter_context>
     API-Helper functions
+    Action Related Functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2069,6 +2075,7 @@ function ultraschall.deprecated(functionname)
     </parameter>
     <chapter_context>
       API-Helper functions
+      Debug
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2116,6 +2123,7 @@ function ultraschall.FloatCompare(a,b,precision)
   </retvals>
   <chapter_context>
     API-Helper functions
+    Datatype-related
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2148,7 +2156,7 @@ function ToClip(toclipstring)
     string toclipstring - the string, which you want to put into the clipboard
   </parameters>
   <chapter_context>
-    API-Helper functions
+    Clipboard Functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2176,7 +2184,7 @@ function FromClip()
     string clipboard_string - the string-content from the clipboard
   </retvals>
   <chapter_context>
-    API-Helper functions
+    Clipboard Functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2263,6 +2271,7 @@ function ultraschall.ActionsList_GetSelectedActions()
   </retvals>
   <chapter_context>
     API-Helper functions
+    Action Related Functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2347,6 +2356,7 @@ function ultraschall.Gmem_GetCurrentAttachedName()
   </retvals>
   <chapter_context>
     API-Helper functions
+    Gmem/Shared Memory
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
@@ -2388,6 +2398,7 @@ function ultraschall.ActionsList_GetAllActions()
   </retvals>
   <chapter_context>
     API-Helper functions
+    Action Related Functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2461,6 +2472,7 @@ function ultraschall.BringReaScriptConsoleToFront()
   </description>
   <chapter_context>
     API-Helper functions
+    ReaScript Console
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
