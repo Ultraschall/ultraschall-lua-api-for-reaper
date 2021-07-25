@@ -5905,8 +5905,10 @@ function ultraschall.Benchmark_MeasureTime(timeformat, reset, slot)
 							   - 5=h:m:s:f
 	optional boolean reset - true, resets the starttime(for new measuring); false, keeps current measure-starttime(for continuing measuring)
 	optional integer slot - if you want to have multiple benchmark-measures at the same time, you can store them in different slots.
-						  - means, you can measure in slot 1 and slot 2, where you can occasionally reset slot 1 while having continuous measuring in slot 2.
-						  - this allows you to measure the execution time of the whole script(slot 2) and certain parts of the script on individual basis(slot 1).
+						  - means, you can measure in slot 1 and slot 2, where you can occasionally reset slot 1 while 
+                          - having continuous measuring in slot 2.
+						  - this allows you to measure the execution time of the whole script(slot 2) and certain parts of the script 
+                          - on individual basis(slot 1).
 						  - you can use as many slots, as you want.
 	                      - nil, default slot is 0
   </parameters>

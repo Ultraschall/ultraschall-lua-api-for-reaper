@@ -46,10 +46,18 @@ i{
   padding-left:4.4%;
   width:90.5%;
 }
+
+.ch2{
+  padding-left:6.4%;
+  width:90.5%;
+}
+
 .cc{
   padding-left:4.4%;
   width:90.5%;
 }
+
+
 .tdsm{
     width:25%;
     font-size:x-small;
@@ -57,9 +65,11 @@ i{
 
 .indexpad{
   padding-left:4.5;
-  width:90.5%;
+  width:100%;
 }
-
+.inds{
+  width:25%;
+}
 .desc{
     border-collapse: 
     separate;
