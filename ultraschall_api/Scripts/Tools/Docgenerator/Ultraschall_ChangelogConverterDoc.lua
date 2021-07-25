@@ -50,11 +50,14 @@ Pandoc="c:\\Program Files\\pandoc\\pandoc -f markdown_strict -t html \""..Tempfi
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
 
 T=[[
-<html><head><title>
-Ultraschall API Changelog
-</title>
+<html>
+  <head>
+    <title>
+      Ultraschall API Changelog
+    </title>
 
-<link href="style.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="custom.css" rel="stylesheet">
 
   </head>
     <body>    

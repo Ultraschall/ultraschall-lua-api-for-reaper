@@ -88,6 +88,9 @@ function ColorateFunctionnames(String)
   String=" "..String
   if String:match("extension_api") and String:match("\"")~=nil then
     offset1, offset2 = String:match("%(\"().-()\"")
+  elseif
+    String:match("%)%(")~=nil then
+    offset1, offset2 = String:match("()%(.-%)()%(")
   else
     offset1, offset2 = String:match(".* ().-()%(")
   end

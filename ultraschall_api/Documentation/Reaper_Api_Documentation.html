@@ -4,6 +4,7 @@
 REAPER API functions
 </title>
 <link href="style.css" rel="stylesheet">
+<link href="custom.css" rel="stylesheet">
 <script type="text/javascript">
 function set_class_style(c,s) { 
 var list = document.getElementsByClassName(c);
@@ -301,7 +302,7 @@ WDL_FastString(S&amp;M) - a different kind of a string, made into a Reaper-objec
 <a href="#AddCustomizableMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>AddCustomizableMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*AddCustomizableMenu)(<i>const</i> <i>char*</i> menuidstr, <i>const</i> <i>char*</i> menuname, <i>const</i> <i>char*</i> kbdsecname, <i>bool</i> addtomainmenu)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*AddCustomizableMenu)</em>(<i>const</i> <i>char*</i> menuidstr, <i>const</i> <i>char*</i> menuname, <i>const</i> <i>char*</i> kbdsecname, <i>bool</i> addtomainmenu)</code></div>
 </div><p>
 <div class="ch">
 Adds customizable menu.              
@@ -337,7 +338,7 @@ Adds customizable menu.
 <a href="#AddExtensionsMainMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>AddExtensionsMainMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*AddExtensionsMainMenu)()</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*AddExtensionsMainMenu)</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Add an Extensions main menu, which the extension can populate/modify with <a href="#plugin_register">plugin_register("hookcustommenu")</a></p>
@@ -355,7 +356,7 @@ Adds customizable menu.
 <a href="#Audio_RegHardwareHook"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>Audio_RegHardwareHook</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*Audio_RegHardwareHook)(<i>bool</i> isAdd, <i>audio_hook_register_t*</i> reg)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*Audio_RegHardwareHook)</em>(<i>bool</i> isAdd, <i>audio_hook_register_t*</i> reg)</code></div>
 </div><p>
 <div class="ch">
 Registers Audio Hardware-Hook.              
@@ -383,7 +384,7 @@ Registers Audio Hardware-Hook.
 <a href="#CSurf_OnOscControlMessage"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CSurf_OnOscControlMessage</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*CSurf_OnOscControlMessage)(<i>const</i> <i>char*</i> msg, <i>const</i> <i>float*</i> arg)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*CSurf_OnOscControlMessage)</em>(<i>const</i> <i>char*</i> msg, <i>const</i> <i>float*</i> arg)</code></div>
 </div><p>
 <div class="ch">
 On OSC Control Message.              
@@ -404,7 +405,7 @@ On OSC Control Message.
 <a href="#CalculatePeaks"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CalculatePeaks</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*CalculatePeaks)(<i>PCM_source_transfer_t*</i> srcBlock, <i>PCM_source_peaktransfer_t*</i> pksBlock)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*CalculatePeaks)</em>(<i>PCM_source_transfer_t*</i> srcBlock, <i>PCM_source_peaktransfer_t*</i> pksBlock)</code></div>
 </div><p>
 <div class="ch">
 Calculates Peaks.              
@@ -432,7 +433,7 @@ Calculates Peaks.
 <a href="#CalculatePeaksFloatSrcPtr"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CalculatePeaksFloatSrcPtr</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*CalculatePeaksFloatSrcPtr)(<i>PCM_source_transfer_t*</i> srcBlock, <i>PCM_source_peaktransfer_t*</i> pksBlock)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*CalculatePeaksFloatSrcPtr)</em>(<i>PCM_source_transfer_t*</i> srcBlock, <i>PCM_source_peaktransfer_t*</i> pksBlock)</code></div>
 </div><p>
 <div class="ch">
 Calculates Peaks.              
@@ -460,7 +461,7 @@ Calculates Peaks.
 <a href="#CountActionShortcuts"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CountActionShortcuts</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*CountActionShortcuts)(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*CountActionShortcuts)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID)</code></div>
 </div><p>
 <div class="ch">
 <p>Returns the number of shortcuts that exist for the given command ID. See <a href="#GetActionShortcutDesc">GetActionShortcutDesc</a>, <a href="#DeleteActionShortcut">DeleteActionShortcut</a>, <a href="#DoActionShortcutDialog">DoActionShortcutDialog</a>.</p>
@@ -495,7 +496,7 @@ Calculates Peaks.
 <a href="#CreateLocalOscHandler"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CreateLocalOscHandler</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*CreateLocalOscHandler)(<i>void*</i> obj, <i>void*</i> callback)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*CreateLocalOscHandler)</em>(<i>void*</i> obj, <i>void*</i> callback)</code></div>
 </div><p>
 <div class="ch">
 <p>callback is a function pointer: void (*callback)(void* obj, const char* msg, int msglen), which handles OSC messages sent from REAPER. The function return is a local osc handler. See <a href="#SendLocalOscMessage">SendLocalOscMessage</a>, <a href="#DestroyOscHandler">DestroyOscHandler</a>.</p>
@@ -523,7 +524,7 @@ Calculates Peaks.
 <a href="#CreateMIDIInput"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CreateMIDIInput</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> midi_Input* <em></em>(*CreateMIDIInput)(<i>int</i> dev)</code></div>
+<div class="c">C: <code> midi_Input* <em>(*CreateMIDIInput)</em>(<i>int</i> dev)</code></div>
 </div><p>
 <div class="ch">
 Can only reliably create midi access for devices not already opened in prefs/MIDI, suitable for control surfaces etc.              
@@ -547,7 +548,7 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <a href="#CreateMIDIOutput"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CreateMIDIOutput</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> midi_Output* <em></em>(*CreateMIDIOutput)(<i>int</i> dev, <i>bool</i> streamMode, <i>int*</i> msoffset100)</code></div>
+<div class="c">C: <code> midi_Output* <em>(*CreateMIDIOutput)</em>(<i>int</i> dev, <i>bool</i> streamMode, <i>int*</i> msoffset100)</code></div>
 </div><p>
 <div class="ch">
 Can only reliably create midi access for devices not already opened in prefs/MIDI, suitable for control surfaces etc.               
@@ -579,7 +580,7 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <a href="#DeleteActionShortcut"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>DeleteActionShortcut</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*DeleteActionShortcut)(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*DeleteActionShortcut)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
 </div><p>
 <div class="ch">
 <p>Delete the specific shortcut for the given command ID. See <a href="#CountActionShortcuts">CountActionShortcuts</a>, <a href="#GetActionShortcutDesc">GetActionShortcutDesc</a>, <a href="#DoActionShortcutDialog">DoActionShortcutDialog</a>.</p>
@@ -617,7 +618,7 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <a href="#DestroyLocalOscHandler"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>DestroyLocalOscHandler</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*DestroyLocalOscHandler)(<i>void*</i> local_osc_handler)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*DestroyLocalOscHandler)</em>(<i>void*</i> local_osc_handler)</code></div>
 </div><p>
 <div class="ch">
 <p>See <a href="#CreateLocalOscHandler">CreateLocalOscHandler</a>, <a href="#SendLocalOscMessage">SendLocalOscMessage</a>.</p>
@@ -634,7 +635,7 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <a href="#DoActionShortcutDialog"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>DoActionShortcutDialog</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*DoActionShortcutDialog)(<i>HWND</i> hwnd, <i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*DoActionShortcutDialog)</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
 </div><p>
 <div class="ch">
 <p>Open the action shortcut dialog to edit or add a shortcut for the given command ID. If (shortcutidx &gt;= 0 &amp;&amp; shortcutidx &lt; CountActionShortcuts()), that specific shortcut will be replaced, otherwise a new shortcut will be added. See <a href="#CountActionShortcuts">CountActionShortcuts</a>, <a href="#GetActionShortcutDesc">GetActionShortcutDesc</a>, <a href="#DeleteActionShortcut">DeleteActionShortcut</a>.</p>
@@ -666,7 +667,7 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <a href="#DuplicateCustomizableMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>DuplicateCustomizableMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*DuplicateCustomizableMenu)(<i>void*</i> srcmenu, <i>void*</i> destmenu)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*DuplicateCustomizableMenu)</em>(<i>void*</i> srcmenu, <i>void*</i> destmenu)</code></div>
 </div><p>
 <div class="ch">
 Populate destmenu with all the entries and submenus found in srcmenu.              
@@ -694,7 +695,7 @@ Populate destmenu with all the entries and submenus found in srcmenu.
 <a href="#FreeHeapPtr"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>FreeHeapPtr</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*FreeHeapPtr)(<i>void*</i> ptr)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*FreeHeapPtr)</em>(<i>void*</i> ptr)</code></div>
 </div><p>
 <div class="ch">
 free heap memory returned from a Reaper API function              
@@ -711,7 +712,7 @@ free heap memory returned from a Reaper API function
 <a href="#GetActionShortcutDesc"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetActionShortcutDesc</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*GetActionShortcutDesc)(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx, <i>char*</i> desc, <i>int</i> desclen)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*GetActionShortcutDesc)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx, <i>char*</i> desc, <i>int</i> desclen)</code></div>
 </div><p>
 <div class="ch">
 <p>Get the text description of a specific shortcut for the given command ID. See <a href="#CountActionShortcuts">CountActionShortcuts</a>,<a href="#DeleteActionShortcut">DeleteActionShortcut</a>,<a href="#DoActionShortcutDialog">DoActionShortcutDialog</a>.</p>
@@ -757,7 +758,7 @@ free heap memory returned from a Reaper API function
 <a href="#GetColorTheme"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetColorTheme</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> INT_PTR <em></em>(*GetColorTheme)(<i>int</i> idx, <i>int</i> defval)</code></div>
+<div class="c">C: <code> INT_PTR <em>(*GetColorTheme)</em>(<i>int</i> idx, <i>int</i> defval)</code></div>
 </div><p>
 <div class="ch">
 <p>Deprecated, see <a href="#GetColorThemeStruct">GetColorThemeStruct</a>.</p>
@@ -785,7 +786,7 @@ free heap memory returned from a Reaper API function
 <a href="#GetColorThemeStruct"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetColorThemeStruct</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*GetColorThemeStruct)(<i>int*</i> szOut)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*GetColorThemeStruct)</em>(<i>int*</i> szOut)</code></div>
 </div><p>
 <div class="ch">
 returns the whole color theme (icontheme.h) and the size              
@@ -809,7 +810,7 @@ returns the whole color theme (icontheme.h) and the size
 <a href="#GetContextMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetContextMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>HMENU</i> <em></em>(*GetContextMenu)(<i>int</i> idx)</code></div>
+<div class="c">C: <code> <i>HMENU</i> <em>(*GetContextMenu)</em>(<i>int</i> idx)</code></div>
 </div><p>
 <div class="ch">
 gets context menus. submenu 0:trackctl, 1:mediaitems, 2:ruler, 3:empty track area               
@@ -833,7 +834,7 @@ gets context menus. submenu 0:trackctl, 1:mediaitems, 2:ruler, 3:empty track are
 <a href="#GetIconThemePointer"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetIconThemePointer</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*GetIconThemePointer)(<i>const</i> <i>char*</i> name)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*GetIconThemePointer)</em>(<i>const</i> <i>char*</i> name)</code></div>
 </div><p>
 <div class="ch">
 returns a named icontheme entry              
@@ -857,7 +858,7 @@ returns a named icontheme entry
 <a href="#GetIconThemePointerForDPI"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02"><u><b>GetIconThemePointerForDPI</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*GetIconThemePointerForDPI)(<i>const</i> <i>char*</i> name, <i>int</i> dpisc);</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*GetIconThemePointerForDPI)</em>(<i>const</i> <i>char*</i> name, <i>int</i> dpisc);</code></div>
 </div><p>
 <div class="ch">
 returns a named icontheme entry for a given DPI-scaling (256=1:1). <br/>
@@ -888,7 +889,7 @@ Querying name=NULL returns the start of the structure
 <a href="#GetIconThemeStruct"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetIconThemeStruct</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*GetIconThemeStruct)(<i>int*</i> szOut)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*GetIconThemeStruct)</em>(<i>int*</i> szOut)</code></div>
 </div><p>
 <div class="ch">
 returns a pointer to the icon theme (icontheme.h) and the size of that struct.              
@@ -912,7 +913,7 @@ returns a pointer to the icon theme (icontheme.h) and the size of that struct.
 <a href="#GetPeaksBitmap"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetPeaksBitmap</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*GetPeaksBitmap)(<i>PCM_source_peaktransfer_t*</i> pks, <i>double</i> maxamp, <i>int</i> w, <i>int</i> h, <i>LICE_IBitmap*</i> bmp)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*GetPeaksBitmap)</em>(<i>PCM_source_peaktransfer_t*</i> pks, <i>double</i> maxamp, <i>int</i> w, <i>int</i> h, <i>LICE_IBitmap*</i> bmp)</code></div>
 </div><p>
 <div class="ch">
 See note in reaper_plugin.h about PCM_source_peaktransfer_t::samplerate              
@@ -952,7 +953,7 @@ See note in reaper_plugin.h about PCM_source_peaktransfer_t::samplerate
 <a href="#GetPreferredDiskReadMode"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetPreferredDiskReadMode</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*GetPreferredDiskReadMode)(<i>int*</i> mode, <i>int*</i> nb, <i>int*</i> bs)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*GetPreferredDiskReadMode)</em>(<i>int*</i> mode, <i>int*</i> nb, <i>int*</i> bs)</code></div>
 </div><p>
 <div class="ch">
 Gets user configured preferred disk read mode. mode/nb/bs are all parameters that should be passed to WDL_FileRead, see for more information.              
@@ -984,7 +985,7 @@ Gets user configured preferred disk read mode. mode/nb/bs are all parameters tha
 <a href="#GetPreferredDiskReadModePeak"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetPreferredDiskReadModePeak</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*GetPreferredDiskReadModePeak)(<i>int*</i> mode, <i>int*</i> nb, <i>int*</i> bs)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*GetPreferredDiskReadModePeak)</em>(<i>int*</i> mode, <i>int*</i> nb, <i>int*</i> bs)</code></div>
 </div><p>
 <div class="ch">
 Gets user configured preferred disk read mode for use when building peaks. mode/nb/bs are all parameters that should be passed to WDL_FileRead, see for more information.              
@@ -1016,7 +1017,7 @@ Gets user configured preferred disk read mode for use when building peaks. mode/
 <a href="#GetPreferredDiskWriteMode"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetPreferredDiskWriteMode</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*GetPreferredDiskWriteMode)(<i>int*</i> mode, <i>int*</i> nb, <i>int*</i> bs)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*GetPreferredDiskWriteMode)</em>(<i>int*</i> mode, <i>int*</i> nb, <i>int*</i> bs)</code></div>
 </div><p>
 <div class="ch">
 Gets user configured preferred disk write mode. nb will receive two values, the initial and maximum write buffer counts. mode/nb/bs are all parameters that should be passed to WDL_FileWrite, see for more information.              
@@ -1048,7 +1049,7 @@ Gets user configured preferred disk write mode. nb will receive two values, the 
 <a href="#GetSetMediaItemInfo"> ^</a> 
 <img width="3%" src="gfx/reaper5.976.png" alt="Reaper version 5.976"><u><b>GetSetMediaItemInfo</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*GetSetMediaItemInfo)(<i>MediaItem*</i>  item, <i>const</i> <i>char*</i> parmname, <i>void*</i> setNewValue)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*GetSetMediaItemInfo)</em>(<i>MediaItem*</i>  item, <i>const</i> <i>char*</i> parmname, <i>void*</i> setNewValue)</code></div>
 </div><p>
 <div class="ch">
 Get/Set Media Item Info              
@@ -1110,7 +1111,7 @@ P_NOTES : char * : item note text (do not write to returned pointer, use setNewV
 <a href="#GetSetMediaItemTakeInfo"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetSetMediaItemTakeInfo</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*GetSetMediaItemTakeInfo)(<i>MediaItem_Take*</i> tk, <i>const</i> <i>char*</i> parmname, <i>void*</i> setNewValue)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*GetSetMediaItemTakeInfo)</em>(<i>MediaItem_Take*</i> tk, <i>const</i> <i>char*</i> parmname, <i>void*</i> setNewValue)</code></div>
 </div><p>
 <div class="ch">
 Gets/Sets Media Item Take-parameters. Works like GetMediaItemTakeInfo_Value and SetMediaItemTakeInfo_Value but has more parameters.              
@@ -1158,7 +1159,7 @@ IP_TAKENUMBER : int, take number within the item (read-only, returns the take nu
 <a href="#GetSetMediaTrackInfo"> ^</a> 
 <img width="3%" src="gfx/reaper6.24.png" alt="Reaper version 6.24"><u><b>GetSetMediaTrackInfo</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*GetSetMediaTrackInfo)(<i>MediaTrack*</i>  tr, <i>const</i> <i>char*</i> parmname, <i>void*</i> setNewValue)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*GetSetMediaTrackInfo)</em>(<i>MediaTrack*</i>  tr, <i>const</i> <i>char*</i> parmname, <i>void*</i> setNewValue)</code></div>
 </div><p>
 <div class="ch">
 Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMediaTrackInfo_Value but has more parameters.<br/>
@@ -1249,7 +1250,7 @@ Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMedia
 <a href="#GetSetObjectState"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetSetObjectState</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>char*</i> <em></em>(*GetSetObjectState)(<i>void*</i> obj, <i>const</i> <i>char*</i> str)</code></div>
+<div class="c">C: <code> <i>char*</i> <em>(*GetSetObjectState)</em>(<i>void*</i> obj, <i>const</i> <i>char*</i> str)</code></div>
 </div><p>
 <div class="ch">
 <p>get or set the state of a {track,item,envelope} as an RPPXML chunk str="" to get the chunk string returned (must call <a href="#FreeHeapPtr">FreeHeapPtr</a> when done) supply str to set the state (returns zero)</p>
@@ -1277,7 +1278,7 @@ Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMedia
 <a href="#GetSetObjectState2"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetSetObjectState2</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>char*</i> <em></em>(*GetSetObjectState2)(<i>void*</i> obj, <i>const</i> <i>char*</i> str, <i>bool</i> isundo)</code></div>
+<div class="c">C: <code> <i>char*</i> <em>(*GetSetObjectState2)</em>(<i>void*</i> obj, <i>const</i> <i>char*</i> str, <i>bool</i> isundo)</code></div>
 </div><p>
 <div class="ch">
 get or set the state of a {track,item,envelope} as an RPPXML chunk              
@@ -1309,7 +1310,7 @@ get or set the state of a {track,item,envelope} as an RPPXML chunk
 <a href="#GetSetTrackMIDISupportFile"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02"><u><b>GetSetTrackMIDISupportFile</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em></em>(*GetSetTrackMIDISupportFile)(<i>ReaProject*</i> proj, <i>MediaTrack*</i>  track, <i>int</i> which, <i>const</i> <i>char*</i> filename)</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*GetSetTrackMIDISupportFile)</em>(<i>ReaProject*</i> proj, <i>MediaTrack*</i>  track, <i>int</i> which, <i>const</i> <i>char*</i> filename)</code></div>
 </div><p>
 <div class="ch">
 Get or set the filename for storage of the MIDI bank/program select file. <br/>
@@ -1352,7 +1353,7 @@ If fn != NULL, a new track MIDI storage file will be set; otherwise the existing
 <a href="#GetSetTrackSendInfo"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetSetTrackSendInfo</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*GetSetTrackSendInfo)(<i>MediaTrack*</i>  tr, <i>int</i> category, <i>int</i> sendidx, <i>const</i> <i>char*</i> parmname, <i>void*</i> setNewValue)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*GetSetTrackSendInfo)</em>(<i>MediaTrack*</i>  tr, <i>int</i> category, <i>int</i> sendidx, <i>const</i> <i>char*</i> parmname, <i>void*</i> setNewValue)</code></div>
 </div><p>
 <div class="ch">
 Get or set send/receive/hardware output attributes.<br/>
@@ -1408,7 +1409,7 @@ I_MIDIFLAGS : returns int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=
 <a href="#GetToggleCommandState2"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetToggleCommandState2</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*GetToggleCommandState2)(<i>KbdSectionInfo*</i> section, <i>int</i> command_id)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*GetToggleCommandState2)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> command_id)</code></div>
 </div><p>
 <div class="ch">
 Get Toggle Command State 2              
@@ -1442,7 +1443,7 @@ Get Toggle Command State 2
 <a href="#GetToggleCommandStateThroughHooks"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetToggleCommandStateThroughHooks</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*GetToggleCommandStateThroughHooks)(<i>KbdSectionInfo*</i> section, <i>int</i> command_id)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*GetToggleCommandStateThroughHooks)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> command_id)</code></div>
 </div><p>
 <div class="ch">
 Returns the state of an action via extension plugins' hooks.              
@@ -1476,7 +1477,7 @@ Returns the state of an action via extension plugins' hooks.
 <a href="#GetTrackInfo"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetTrackInfo</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em></em>(*GetTrackInfo)(INT_PTR track, <i>int*</i> flags)</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*GetTrackInfo)</em>(INT_PTR track, <i>int*</i> flags)</code></div>
 </div><p>
 <div class="ch">
 Gets track info (returns name).              
@@ -1511,7 +1512,7 @@ Gets track info (returns name).
 <a href="#HiresPeaksFromSource"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>HiresPeaksFromSource</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*HiresPeaksFromSource)(<i>PCM_source*</i> src, <i>PCM_source_peaktransfer_t*</i> block)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*HiresPeaksFromSource)</em>(<i>PCM_source*</i> src, <i>PCM_source_peaktransfer_t*</i> block)</code></div>
 </div><p>
 <div class="ch">
 Hires peaks from source.              
@@ -1539,7 +1540,7 @@ Hires peaks from source.
 <a href="#IsInRealTimeAudio"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>IsInRealTimeAudio</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*IsInRealTimeAudio)()</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*IsInRealTimeAudio)</em>()</code></div>
 </div><p>
 <div class="ch">
 Are we in a realtime audio thread (between OnAudioBuffer calls,not in some worker/anticipative FX thread)? threadsafe              
@@ -1557,7 +1558,7 @@ Are we in a realtime audio thread (between OnAudioBuffer calls,not in some worke
 <a href="#IsItemTakeActiveForPlayback"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>IsItemTakeActiveForPlayback</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*IsItemTakeActiveForPlayback)(<i>MediaItem*</i>  item, <i>MediaItem_Take*</i> take)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*IsItemTakeActiveForPlayback)</em>(<i>MediaItem*</i>  item, <i>MediaItem_Take*</i> take)</code></div>
 </div><p>
 <div class="ch">
 get whether a take will be played (active take, unmuted, etc)              
@@ -1585,7 +1586,7 @@ get whether a take will be played (active take, unmuted, etc)
 <a href="#IsREAPER"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>IsREAPER</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*IsREAPER)()</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*IsREAPER)</em>()</code></div>
 </div><p>
 <div class="ch">
 Returns true if dealing with REAPER, returns false for ReaMote, etc              
@@ -1603,7 +1604,7 @@ Returns true if dealing with REAPER, returns false for ReaMote, etc
 <a href="#KBD_OnMainActionEx"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>KBD_OnMainActionEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*KBD_OnMainActionEx)(<i>int</i> cmd, <i>int</i> val, <i>int</i> valhw, <i>int</i> relmode, <i>HWND</i> hwnd, <i>ReaProject*</i> proj)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*KBD_OnMainActionEx)</em>(<i>int</i> cmd, <i>int</i> val, <i>int</i> valhw, <i>int</i> relmode, <i>HWND</i> hwnd, <i>ReaProject*</i> proj)</code></div>
 </div><p>
 <div class="ch">
 val/valhw are used for midi stuff.              
@@ -1647,7 +1648,7 @@ val/valhw are used for midi stuff.
 <a href="#LICE_Arc"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_Arc</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_Arc)(<i>LICE_IBitmap*</i> dest, <i>float</i> cx, <i>float</i> cy, <i>float</i> r, <i>float</i> minAngle, <i>float</i> maxAngle, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_Arc)</em>(<i>LICE_IBitmap*</i> dest, <i>float</i> cx, <i>float</i> cy, <i>float</i> r, <i>float</i> minAngle, <i>float</i> maxAngle, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
 </div><p>
 <div class="ch">
 LICE arc              
@@ -1707,7 +1708,7 @@ LICE arc
 <a href="#LICE_Blit"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_Blit</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_Blit)(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> srcx, <i>int</i> srcy, <i>int</i> srcw, <i>int</i> srch, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_Blit)</em>(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> srcx, <i>int</i> srcy, <i>int</i> srcw, <i>int</i> srch, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE blit              
@@ -1767,7 +1768,7 @@ LICE blit
 <a href="#LICE_Blur"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_Blur</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_Blur)(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> srcx, <i>int</i> srcy, <i>int</i> srcw, <i>int</i> srch)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_Blur)</em>(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> srcx, <i>int</i> srcy, <i>int</i> srcw, <i>int</i> srch)</code></div>
 </div><p>
 <div class="ch">
 LICE blur              
@@ -1819,7 +1820,7 @@ LICE blur
 <a href="#LICE_BorderedRect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_BorderedRect</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_BorderedRect)(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>LICE_pixel</i> bgcolor, <i>LICE_pixel</i> fgcolor, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_BorderedRect)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>LICE_pixel</i> bgcolor, <i>LICE_pixel</i> fgcolor, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE bordered rect.              
@@ -1875,7 +1876,7 @@ LICE bordered rect.
 <a href="#LICE_Circle"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_Circle</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_Circle)(<i>LICE_IBitmap*</i> dest, <i>float</i> cx, <i>float</i> cy, <i>float</i> r, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_Circle)</em>(<i>LICE_IBitmap*</i> dest, <i>float</i> cx, <i>float</i> cy, <i>float</i> r, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
 </div><p>
 <div class="ch">
 LICE circle              
@@ -1927,7 +1928,7 @@ LICE circle
 <a href="#LICE_Clear"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_Clear</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_Clear)(<i>LICE_IBitmap*</i> dest, <i>LICE_pixel</i> color)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_Clear)</em>(<i>LICE_IBitmap*</i> dest, <i>LICE_pixel</i> color)</code></div>
 </div><p>
 <div class="ch">
 LICE clear              
@@ -1955,7 +1956,7 @@ LICE clear
 <a href="#LICE_ClearRect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_ClearRect</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_ClearRect)(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>LICE_pixel</i> mask, <i>LICE_pixel</i> orbits)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_ClearRect)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>LICE_pixel</i> mask, <i>LICE_pixel</i> orbits)</code></div>
 </div><p>
 <div class="ch">
 LICE clear rect              
@@ -2003,7 +2004,7 @@ LICE clear rect
 <a href="#LICE_Copy"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_Copy</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_Copy)(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_Copy)</em>(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src)</code></div>
 </div><p>
 <div class="ch">
 LICE copy              
@@ -2031,7 +2032,7 @@ LICE copy
 <a href="#LICE_CreateBitmap"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_CreateBitmap</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_IBitmap*</i> <em></em>(*LICE_CreateBitmap)(<i>int</i> mode, <i>int</i> w, <i>int</i> h)</code></div>
+<div class="c">C: <code> <i>LICE_IBitmap*</i> <em>(*LICE_CreateBitmap)</em>(<i>int</i> mode, <i>int</i> w, <i>int</i> h)</code></div>
 </div><p>
 <div class="ch">
 Create a new bitmap. this is like calling new LICE_MemBitmap (mode=0) or new LICE_SysBitmap (mode=1).              
@@ -2063,7 +2064,7 @@ Create a new bitmap. this is like calling new LICE_MemBitmap (mode=0) or new LIC
 <a href="#LICE_CreateFont"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_CreateFont</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_IFont*</i> <em></em>(*LICE_CreateFont)()</code></div>
+<div class="c">C: <code> <i>LICE_IFont*</i> <em>(*LICE_CreateFont)</em>()</code></div>
 </div><p>
 <div class="ch">
 LICE create font              
@@ -2081,7 +2082,7 @@ LICE create font
 <a href="#LICE_DrawCBezier"> ^</a> 
 <img width="3%" src="gfx/reaper5.80.png" alt="Reaper version 5.80"><u><b>LICE_DrawCBezier</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_DrawCBezier)(<i>LICE_IBitmap*</i> dest, <i>double</i> xstart, <i>double</i> ystart, <i>double</i> xctl1, <i>double</i> yctl1, <i>double</i> xctl2, <i>double</i> yctl2, <i>double</i> xend, <i>double</i> yend, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa, <i>double</i> tol)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_DrawCBezier)</em>(<i>LICE_IBitmap*</i> dest, <i>double</i> xstart, <i>double</i> ystart, <i>double</i> xctl1, <i>double</i> yctl1, <i>double</i> xctl2, <i>double</i> yctl2, <i>double</i> xend, <i>double</i> yend, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa, <i>double</i> tol)</code></div>
 </div><p>
 <div class="ch">
 LICE Draw C Bezier              
@@ -2157,7 +2158,7 @@ LICE Draw C Bezier
 <a href="#LICE_DrawChar"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_DrawChar</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_DrawChar)(<i>LICE_IBitmap*</i> bm, <i>int</i> x, <i>int</i> y, <i>char</i> c, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_DrawChar)</em>(<i>LICE_IBitmap*</i> bm, <i>int</i> x, <i>int</i> y, <i>char</i> c, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE draw char              
@@ -2197,7 +2198,7 @@ LICE draw char
 <a href="#LICE_DrawGlyph"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_DrawGlyph</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_DrawGlyph)(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>LICE_pixel</i> color, LICE_pixel_chan* alphas, <i>int</i> glyph_w, <i>int</i> glyph_h, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_DrawGlyph)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>LICE_pixel</i> color, LICE_pixel_chan* alphas, <i>int</i> glyph_w, <i>int</i> glyph_h, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE draw glyph              
@@ -2253,7 +2254,7 @@ LICE draw glyph
 <a href="#LICE_DrawRect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_DrawRect</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_DrawRect)(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_DrawRect)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE draw rect              
@@ -2305,7 +2306,7 @@ LICE draw rect
 <a href="#LICE_DrawText"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_DrawText</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_DrawText)(<i>LICE_IBitmap*</i> bm, <i>int</i> x, <i>int</i> y, <i>const</i> <i>char*</i> string, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_DrawText)</em>(<i>LICE_IBitmap*</i> bm, <i>int</i> x, <i>int</i> y, <i>const</i> <i>char*</i> string, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE draw text              
@@ -2353,7 +2354,7 @@ LICE draw text
 <a href="#LICE_FillCBezier"> ^</a> 
 <img width="3%" src="gfx/reaper5.95.png" alt="Reaper version 5.95"><u><b>LICE_FillCBezier</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_FillCBezier)(<i>LICE_IBitmap*</i> dest, <i>double</i> xstart, <i>double</i> ystart, <i>double</i> xctl1, <i>double</i> yctl1, <i>double</i> xctl2, <i>double</i> yctl2, <i>double</i> xend, <i>double</i> yend, <i>int</i> yfill, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa, <i>double</i> tol);</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_FillCBezier)</em>(<i>LICE_IBitmap*</i> dest, <i>double</i> xstart, <i>double</i> ystart, <i>double</i> xctl1, <i>double</i> yctl1, <i>double</i> xctl2, <i>double</i> yctl2, <i>double</i> xend, <i>double</i> yend, <i>int</i> yfill, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa, <i>double</i> tol);</code></div>
 </div><p>
 <div class="ch">
 LICE Fill CBezier              
@@ -2433,7 +2434,7 @@ LICE Fill CBezier
 <a href="#LICE_FillCircle"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_FillCircle</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_FillCircle)(<i>LICE_IBitmap*</i> dest, <i>float</i> cx, <i>float</i> cy, <i>float</i> r, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_FillCircle)</em>(<i>LICE_IBitmap*</i> dest, <i>float</i> cx, <i>float</i> cy, <i>float</i> r, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
 </div><p>
 <div class="ch">
 LICE fill circle              
@@ -2485,7 +2486,7 @@ LICE fill circle
 <a href="#LICE_FillConvexPolygon"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_FillConvexPolygon</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_FillConvexPolygon)(<i>LICE_IBitmap*</i> dest, <i>int*</i> x, <i>int*</i> y, <i>int</i> npoints, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_FillConvexPolygon)</em>(<i>LICE_IBitmap*</i> dest, <i>int*</i> x, <i>int*</i> y, <i>int</i> npoints, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE fill convex polygon              
@@ -2533,7 +2534,7 @@ LICE fill convex polygon
 <a href="#LICE_FillRect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_FillRect</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_FillRect)(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_FillRect)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE fill rect              
@@ -2585,7 +2586,7 @@ LICE fill rect
 <a href="#LICE_FillTrapezoid"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_FillTrapezoid</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_FillTrapezoid)(<i>LICE_IBitmap*</i> dest, <i>int</i> x1a, <i>int</i> x1b, <i>int</i> y1, <i>int</i> x2a, <i>int</i> x2b, <i>int</i> y2, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_FillTrapezoid)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x1a, <i>int</i> x1b, <i>int</i> y1, <i>int</i> x2a, <i>int</i> x2b, <i>int</i> y2, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE fill trapezoid              
@@ -2645,7 +2646,7 @@ LICE fill trapezoid
 <a href="#LICE_FillTriangle"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_FillTriangle</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_FillTriangle)(<i>LICE_IBitmap*</i> dest, <i>int</i> x1, <i>int</i> y1, <i>int</i> x2, <i>int</i> y2, <i>int</i> x3, <i>int</i> y3, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_FillTriangle)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x1, <i>int</i> y1, <i>int</i> x2, <i>int</i> y2, <i>int</i> x3, <i>int</i> y3, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE fill triangle              
@@ -2705,7 +2706,7 @@ LICE fill triangle
 <a href="#LICE_GetPixel"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_GetPixel</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_pixel</i> <em></em>(*LICE_GetPixel)(<i>LICE_IBitmap*</i> bm, <i>int</i> x, <i>int</i> y)</code></div>
+<div class="c">C: <code> <i>LICE_pixel</i> <em>(*LICE_GetPixel)</em>(<i>LICE_IBitmap*</i> bm, <i>int</i> x, <i>int</i> y)</code></div>
 </div><p>
 <div class="ch">
 LICE get pixel              
@@ -2737,7 +2738,7 @@ LICE get pixel
 <a href="#LICE_GradRect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_GradRect</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_GradRect)(<i>LICE_IBitmap*</i> dest, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> dstw, <i>int</i> dsth, <i>float</i> ir, <i>float</i> ig, <i>float</i> ib, <i>float</i> ia, <i>float</i> drdx, <i>float</i> dgdx, <i>float</i> dbdx, <i>float</i> dadx, <i>float</i> drdy, <i>float</i> dgdy, <i>float</i> dbdy, <i>float</i> dady, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_GradRect)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> dstw, <i>int</i> dsth, <i>float</i> ir, <i>float</i> ig, <i>float</i> ib, <i>float</i> ia, <i>float</i> drdx, <i>float</i> dgdx, <i>float</i> dbdx, <i>float</i> dadx, <i>float</i> drdy, <i>float</i> dgdy, <i>float</i> dbdy, <i>float</i> dady, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE grad rect              
@@ -2829,7 +2830,7 @@ LICE grad rect
 <a href="#LICE_Line"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_Line</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_Line)(<i>LICE_IBitmap*</i> dest, <i>float</i> x1, <i>float</i> y1, <i>float</i> x2, <i>float</i> y2, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_Line)</em>(<i>LICE_IBitmap*</i> dest, <i>float</i> x1, <i>float</i> y1, <i>float</i> x2, <i>float</i> y2, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
 </div><p>
 <div class="ch">
 LICE line              
@@ -2885,7 +2886,7 @@ LICE line
 <a href="#LICE_LineInt"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_LineInt</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_LineInt)(<i>LICE_IBitmap*</i> dest, <i>int</i> x1, <i>int</i> y1, <i>int</i> x2, <i>int</i> y2, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_LineInt)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x1, <i>int</i> y1, <i>int</i> x2, <i>int</i> y2, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
 </div><p>
 <div class="ch">
 LICE line int              
@@ -2941,7 +2942,7 @@ LICE line int
 <a href="#LICE_LoadPNG"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_LoadPNG</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_IBitmap*</i> <em></em>(*LICE_LoadPNG)(<i>const</i> <i>char*</i> filename, <i>LICE_IBitmap*</i> bmp)</code></div>
+<div class="c">C: <code> <i>LICE_IBitmap*</i> <em>(*LICE_LoadPNG)</em>(<i>const</i> <i>char*</i> filename, <i>LICE_IBitmap*</i> bmp)</code></div>
 </div><p>
 <div class="ch">
 LICE load png              
@@ -2969,7 +2970,7 @@ LICE load png
 <a href="#LICE_LoadPNGFromResource"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_LoadPNGFromResource</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_IBitmap*</i> <em></em>(*LICE_LoadPNGFromResource)(<i>HINSTANCE</i> hInst, <i>int</i> resid, <i>LICE_IBitmap*</i> bmp)</code></div>
+<div class="c">C: <code> <i>LICE_IBitmap*</i> <em>(*LICE_LoadPNGFromResource)</em>(<i>HINSTANCE</i> hInst, <i>int</i> resid, <i>LICE_IBitmap*</i> bmp)</code></div>
 </div><p>
 <div class="ch">
 LICE load png from resource              
@@ -3001,7 +3002,7 @@ LICE load png from resource
 <a href="#LICE_MeasureText"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_MeasureText</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_MeasureText)(<i>const</i> <i>char*</i> string, <i>int*</i> w, <i>int*</i> h)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_MeasureText)</em>(<i>const</i> <i>char*</i> string, <i>int*</i> w, <i>int*</i> h)</code></div>
 </div><p>
 <div class="ch">
 LICE measure text              
@@ -3033,7 +3034,7 @@ LICE measure text
 <a href="#LICE_MultiplyAddRect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_MultiplyAddRect</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_MultiplyAddRect)(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>float</i> rsc, <i>float</i> gsc, <i>float</i> bsc, <i>float</i> asc, <i>float</i> radd, <i>float</i> gadd, <i>float</i> badd, <i>float</i> aadd)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_MultiplyAddRect)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>int</i> w, <i>int</i> h, <i>float</i> rsc, <i>float</i> gsc, <i>float</i> bsc, <i>float</i> asc, <i>float</i> radd, <i>float</i> gadd, <i>float</i> badd, <i>float</i> aadd)</code></div>
 </div><p>
 <div class="ch">
 LICE multiplay add rect              
@@ -3105,7 +3106,7 @@ LICE multiplay add rect
 <a href="#LICE_PutPixel"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_PutPixel</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_PutPixel)(<i>LICE_IBitmap*</i> bm, <i>int</i> x, <i>int</i> y, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_PutPixel)</em>(<i>LICE_IBitmap*</i> bm, <i>int</i> x, <i>int</i> y, <i>LICE_pixel</i> color, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE put pixel              
@@ -3149,7 +3150,7 @@ LICE put pixel
 <a href="#LICE_RotatedBlit"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_RotatedBlit</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_RotatedBlit)(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> dstw, <i>int</i> dsth, <i>float</i> srcx, <i>float</i> srcy, <i>float</i> srcw, <i>float</i> srch, <i>float</i> angle, <i>bool</i> cliptosourcerect, <i>float</i> alpha, <i>int</i> mode, <i>float</i> rotxcent, <i>float</i> rotycent)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_RotatedBlit)</em>(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> dstw, <i>int</i> dsth, <i>float</i> srcx, <i>float</i> srcy, <i>float</i> srcw, <i>float</i> srch, <i>float</i> angle, <i>bool</i> cliptosourcerect, <i>float</i> alpha, <i>int</i> mode, <i>float</i> rotxcent, <i>float</i> rotycent)</code></div>
 </div><p>
 <div class="ch">
 LICE rotate blit. These coordinates are offset from the center of the image,in source pixel coordinates.              
@@ -3233,7 +3234,7 @@ LICE rotate blit. These coordinates are offset from the center of the image,in s
 <a href="#LICE_RoundRect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_RoundRect</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_RoundRect)(<i>LICE_IBitmap*</i> drawbm, <i>float</i> xpos, <i>float</i> ypos, <i>float</i> w, <i>float</i> h, <i>int</i> cornerradius, <i>LICE_pixel</i> col, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_RoundRect)</em>(<i>LICE_IBitmap*</i> drawbm, <i>float</i> xpos, <i>float</i> ypos, <i>float</i> w, <i>float</i> h, <i>int</i> cornerradius, <i>LICE_pixel</i> col, <i>float</i> alpha, <i>int</i> mode, <i>bool</i> aa)</code></div>
 </div><p>
 <div class="ch">
 LICE round rect              
@@ -3293,7 +3294,7 @@ LICE round rect
 <a href="#LICE_ScaledBlit"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_ScaledBlit</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_ScaledBlit)(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> dstw, <i>int</i> dsth, <i>float</i> srcx, <i>float</i> srcy, <i>float</i> srcw, <i>float</i> srch, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_ScaledBlit)</em>(<i>LICE_IBitmap*</i> dest, <i>LICE_IBitmap*</i> src, <i>int</i> dstx, <i>int</i> dsty, <i>int</i> dstw, <i>int</i> dsth, <i>float</i> srcx, <i>float</i> srcy, <i>float</i> srcw, <i>float</i> srch, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 LICE scaled blit.              
@@ -3361,7 +3362,7 @@ LICE scaled blit.
 <a href="#LICE_SimpleFill"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_SimpleFill</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE_SimpleFill)(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>LICE_pixel</i> newcolor, <i>LICE_pixel</i> comparemask, <i>LICE_pixel</i> keepmask)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE_SimpleFill)</em>(<i>LICE_IBitmap*</i> dest, <i>int</i> x, <i>int</i> y, <i>LICE_pixel</i> newcolor, <i>LICE_pixel</i> comparemask, <i>LICE_pixel</i> keepmask)</code></div>
 </div><p>
 <div class="ch">
 LICE simple fill              
@@ -3405,7 +3406,7 @@ LICE simple fill
 <a href="#LICE__Destroy"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__Destroy</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE__Destroy)(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE__Destroy)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE destroy.              
@@ -3429,7 +3430,7 @@ LICE destroy.
 <a href="#LICE__DestroyFont"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__DestroyFont</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE__DestroyFont)(<i>LICE_IFont*</i> font);</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE__DestroyFont)</em>(<i>LICE_IFont*</i> font);</code></div>
 </div><p>
 <div class="ch">
 LICE destroy-font.              
@@ -3453,7 +3454,7 @@ LICE destroy-font.
 <a href="#LICE__DrawText"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__DrawText</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*LICE__DrawText)(<i>LICE_IFont*</i> font, <i>LICE_IBitmap*</i> bm, <i>const</i> <i>char*</i> str, <i>int</i> strcnt, <i>RECT*</i> rect, <i>UINT</i> dtFlags)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*LICE__DrawText)</em>(<i>LICE_IFont*</i> font, <i>LICE_IBitmap*</i> bm, <i>const</i> <i>char*</i> str, <i>int</i> strcnt, <i>RECT*</i> rect, <i>UINT</i> dtFlags)</code></div>
 </div><p>
 <div class="ch">
 LICE draw text.              
@@ -3497,7 +3498,7 @@ LICE draw text.
 <a href="#LICE__GetBits"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__GetBits</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*LICE__GetBits)(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*LICE__GetBits)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE get bits.              
@@ -3521,7 +3522,7 @@ LICE get bits.
 <a href="#LICE__GetDC"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__GetDC</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> HDC <em></em>(*LICE__GetDC)(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> HDC <em>(*LICE__GetDC)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 Translate mouse.              
@@ -3545,7 +3546,7 @@ Translate mouse.
 <a href="#LICE__GetHeight"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__GetHeight</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*LICE__GetHeight)(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*LICE__GetHeight)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE get height              
@@ -3569,7 +3570,7 @@ LICE get height
 <a href="#LICE__GetRowSpan"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__GetRowSpan</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*LICE__GetRowSpan)(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*LICE__GetRowSpan)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE get row span.              
@@ -3593,7 +3594,7 @@ LICE get row span.
 <a href="#LICE__GetWidth"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__GetWidth</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*LICE__GetWidth)(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*LICE__GetWidth)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE get width.              
@@ -3617,7 +3618,7 @@ LICE get width.
 <a href="#LICE__IsFlipped"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__IsFlipped</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*LICE__IsFlipped)(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*LICE__IsFlipped)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE is flipped              
@@ -3641,7 +3642,7 @@ LICE is flipped
 <a href="#LICE__SetBkColor"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__SetBkColor</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_pixel</i> <em></em>(*LICE__SetBkColor)(<i>LICE_IFont*</i> font, <i>LICE_pixel</i> color)</code></div>
+<div class="c">C: <code> <i>LICE_pixel</i> <em>(*LICE__SetBkColor)</em>(<i>LICE_IFont*</i> font, <i>LICE_pixel</i> color)</code></div>
 </div><p>
 <div class="ch">
 LICE set bk color              
@@ -3669,7 +3670,7 @@ LICE set bk color
 <a href="#LICE__SetFromHFont"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__SetFromHFont</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE__SetFromHFont)(<i>LICE_IFont*</i> font, <i>HFONT</i> hfont, <i>int</i> flags)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE__SetFromHFont)</em>(<i>LICE_IFont*</i> font, <i>HFONT</i> hfont, <i>int</i> flags)</code></div>
 </div><p>
 <div class="ch">
 LICE set from h-font              
@@ -3701,7 +3702,7 @@ LICE set from h-font
 <a href="#LICE__SetTextColor"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__SetTextColor</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_pixel</i> <em></em>(*LICE__SetTextColor)(<i>LICE_IFont*</i> font, <i>LICE_pixel</i> color)</code></div>
+<div class="c">C: <code> <i>LICE_pixel</i> <em>(*LICE__SetTextColor)</em>(<i>LICE_IFont*</i> font, <i>LICE_pixel</i> color)</code></div>
 </div><p>
 <div class="ch">
 LICE set text color              
@@ -3729,7 +3730,7 @@ LICE set text color
 <a href="#LICE__SetTextCombineMode"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__SetTextCombineMode</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*LICE__SetTextCombineMode)(<i>LICE_IFont*</i> ifont, <i>int</i> mode, <i>float</i> alpha)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*LICE__SetTextCombineMode)</em>(<i>LICE_IFont*</i> ifont, <i>int</i> mode, <i>float</i> alpha)</code></div>
 </div><p>
 <div class="ch">
 LICE set text combine mode              
@@ -3761,7 +3762,7 @@ LICE set text combine mode
 <a href="#LICE__resize"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__resize</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*LICE__resize)(<i>LICE_IBitmap*</i> bm, <i>int</i> w, <i>int</i> h)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*LICE__resize)</em>(<i>LICE_IBitmap*</i> bm, <i>int</i> w, <i>int</i> h)</code></div>
 </div><p>
 <div class="ch">
 LICE resize              
@@ -3793,7 +3794,7 @@ LICE resize
 <a href="#MIDI_eventlist_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>MIDI_eventlist_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>MIDI_eventlist*</i> <em></em>(*MIDI_eventlist_Create)()</code></div>
+<div class="c">C: <code> <i>MIDI_eventlist*</i> <em>(*MIDI_eventlist_Create)</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Create a MIDI_eventlist object. The returned object must be deleted with <a href="#MIDI_eventlist_destroy">MIDI_eventlist_destroy()</a>.</p>
@@ -3811,7 +3812,7 @@ LICE resize
 <a href="#MIDI_eventlist_Destroy"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>MIDI_eventlist_Destroy</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*MIDI_eventlist_Destroy)(<i>MIDI_eventlist*</i> evtlist)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*MIDI_eventlist_Destroy)</em>(<i>MIDI_eventlist*</i> evtlist)</code></div>
 </div><p>
 <div class="ch">
 <p>Destroy a MIDI_eventlist object that was created using <a href="#MIDI_eventlist_Create">MIDI_eventlist_Create()</a>.</p>
@@ -3835,7 +3836,7 @@ LICE resize
 <a href="#PCM_Sink_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Sink_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> PCM_sink* <em></em>(*PCM_Sink_Create)(<i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>int</i> nch, <i>int</i> srate, <i>bool</i> buildpeaks)</code></div>
+<div class="c">C: <code> PCM_sink* <em>(*PCM_Sink_Create)</em>(<i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>int</i> nch, <i>int</i> srate, <i>bool</i> buildpeaks)</code></div>
 </div><p>
 <div class="ch">
 PCM sink create              
@@ -3879,7 +3880,7 @@ PCM sink create
 <a href="#PCM_Sink_CreateEx"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Sink_CreateEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> PCM_sink* <em></em>(*PCM_Sink_CreateEx)(<i>ReaProject*</i> proj, <i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>int</i> nch, <i>int</i> srate, <i>bool</i> buildpeaks)</code></div>
+<div class="c">C: <code> PCM_sink* <em>(*PCM_Sink_CreateEx)</em>(<i>ReaProject*</i> proj, <i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>int</i> nch, <i>int</i> srate, <i>bool</i> buildpeaks)</code></div>
 </div><p>
 <div class="ch">
 PCM sink create ex.              
@@ -3927,7 +3928,7 @@ PCM sink create ex.
 <a href="#PCM_Sink_CreateMIDIFile"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Sink_CreateMIDIFile</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> PCM_sink* <em></em>(*PCM_Sink_CreateMIDIFile)(<i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>double</i> bpm, <i>int</i> div)</code></div>
+<div class="c">C: <code> PCM_sink* <em>(*PCM_Sink_CreateMIDIFile)</em>(<i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>double</i> bpm, <i>int</i> div)</code></div>
 </div><p>
 <div class="ch">
 PCM sink create MIDI file.              
@@ -3967,7 +3968,7 @@ PCM sink create MIDI file.
 <a href="#PCM_Sink_CreateMIDIFileEx"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Sink_CreateMIDIFileEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> PCM_sink* <em></em>(*PCM_Sink_CreateMIDIFileEx)(<i>ReaProject*</i> proj, <i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>double</i> bpm, <i>int</i> div)</code></div>
+<div class="c">C: <code> PCM_sink* <em>(*PCM_Sink_CreateMIDIFileEx)</em>(<i>ReaProject*</i> proj, <i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>double</i> bpm, <i>int</i> div)</code></div>
 </div><p>
 <div class="ch">
 PCM sink create MIDI file ex              
@@ -4011,7 +4012,7 @@ PCM sink create MIDI file ex
 <a href="#PCM_Source_CreateFromSimple"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Source_CreateFromSimple</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>PCM_source*</i> <em></em>(*PCM_Source_CreateFromSimple)(<i>ISimpleMediaDecoder*</i> dec, <i>const</i> <i>char*</i> fn)</code></div>
+<div class="c">C: <code> <i>PCM_source*</i> <em>(*PCM_Source_CreateFromSimple)</em>(<i>ISimpleMediaDecoder*</i> dec, <i>const</i> <i>char*</i> fn)</code></div>
 </div><p>
 <div class="ch">
 PCM_Source create from simple              
@@ -4039,7 +4040,7 @@ PCM_Source create from simple
 <a href="#PeakBuild_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PeakBuild_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> REAPER_PeakBuild_Interface* <em></em>(*PeakBuild_Create)(<i>PCM_source*</i> src, <i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch)</code></div>
+<div class="c">C: <code> REAPER_PeakBuild_Interface* <em>(*PeakBuild_Create)</em>(<i>PCM_source*</i> src, <i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch)</code></div>
 </div><p>
 <div class="ch">
 Peak build create              
@@ -4075,7 +4076,7 @@ Peak build create
 <a href="#PeakBuild_CreateEx"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PeakBuild_CreateEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> REAPER_PeakBuild_Interface* <em></em>(*PeakBuild_CreateEx)(<i>PCM_source*</i> src, <i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch, <i>int</i> flags)</code></div>
+<div class="c">C: <code> REAPER_PeakBuild_Interface* <em>(*PeakBuild_CreateEx)</em>(<i>PCM_source*</i> src, <i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch, <i>int</i> flags)</code></div>
 </div><p>
 <div class="ch">
 Peakbuild create-ex. flags&amp;1 for FP support              
@@ -4115,7 +4116,7 @@ Peakbuild create-ex. flags&amp;1 for FP support
 <a href="#PeakGet_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PeakGet_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> REAPER_PeakGet_Interface* <em></em>(*PeakGet_Create)(<i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch)</code></div>
+<div class="c">C: <code> REAPER_PeakGet_Interface* <em>(*PeakGet_Create)</em>(<i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch)</code></div>
 </div><p>
 <div class="ch">
 Peak get create.              
@@ -4147,7 +4148,7 @@ Peak get create.
 <a href="#PitchShiftSubModeMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PitchShiftSubModeMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*PitchShiftSubModeMenu)(<i>HWND</i> hwnd, <i>int</i> x, <i>int</i> y, <i>int</i> mode, <i>int</i> submode_sel)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*PitchShiftSubModeMenu)</em>(<i>HWND</i> hwnd, <i>int</i> x, <i>int</i> y, <i>int</i> mode, <i>int</i> submode_sel)</code></div>
 </div><p>
 <div class="ch">
 menu to select/modify pitch shifter submode, returns new value (or old value if no item selected)              
@@ -4187,7 +4188,7 @@ menu to select/modify pitch shifter submode, returns new value (or old value if 
 <a href="#PlayPreview"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PlayPreview</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*PlayPreview)(<i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*PlayPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Play preview. Return nonzero on success.              
@@ -4211,7 +4212,7 @@ Play preview. Return nonzero on success.
 <a href="#PlayPreviewEx"> ^</a> 
 <img width="3%" src="gfx/reaper6.19.png" alt="Reaper version 6.19"><u><b>PlayPreviewEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*PlayPreviewEx)(<i>preview_register_t*</i> preview, <i>int</i> bufflags, <i>double</i> measure_align)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*PlayPreviewEx)</em>(<i>preview_register_t*</i> preview, <i>int</i> bufflags, <i>double</i> measure_align)</code></div>
 </div><p>
 <div class="ch">
 return nonzero on success. <br/>
@@ -4249,7 +4250,7 @@ measure_align&lt;0=play immediately, &gt;0=align playback with measure start
 <a href="#PlayTrackPreview"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PlayTrackPreview</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*PlayTrackPreview)(<i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*PlayTrackPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Play track preview. Returns nonzero on success,in these,m_out_chan is a track index (0-n).              
@@ -4273,7 +4274,7 @@ Play track preview. Returns nonzero on success,in these,m_out_chan is a track in
 <a href="#PlayTrackPreview2"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PlayTrackPreview2</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*PlayTrackPreview2)(<i>ReaProject*</i> proj, <i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*PlayTrackPreview2)</em>(<i>ReaProject*</i> proj, <i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Play track preview. Return nonzero on success,in these,m_out_chan is a track index (0-n).              
@@ -4301,7 +4302,7 @@ Play track preview. Return nonzero on success,in these,m_out_chan is a track ind
 <a href="#PlayTrackPreview2Ex"> ^</a> 
 <img width="3%" src="gfx/reaper6.19.png" alt="Reaper version 6.19"><u><b>PlayTrackPreview2Ex</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*PlayTrackPreview2Ex)(<i>ReaProject*</i> proj, <i>preview_register_t*</i> preview, <i>int</i> flags, <i>double</i> measure_align)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*PlayTrackPreview2Ex)</em>(<i>ReaProject*</i> proj, <i>preview_register_t*</i> preview, <i>int</i> flags, <i>double</i> measure_align)</code></div>
 </div><p>
 <div class="ch">
 <p>return nonzero on success,in these,m<em>out</em>chan is a track index (0-n). for flags see <a href="#PlayPreviewEx">PlayPreviewEx</a> bufflags</p>
@@ -4337,7 +4338,7 @@ Play track preview. Return nonzero on success,in these,m_out_chan is a track ind
 <a href="#REAPERAPI_LoadAPI"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>REAPERAPI_LoadAPI</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> REAPERAPI_LoadAPI(<i>void</i> <em>*</em>(*getAPI)(<i>const</i> <i>char</i> *))</code></div>
+<div class="c">C: <code> <i>int</i> REAPERAPI_LoadAPI<em>(<i>void</i> *(*getAPI)</em>(<i>const</i> <i>char</i> *))</code></div>
 </div><p>
 <div class="ch">
 Checks, whether a certain Reaper-API-function exists.<br/>
@@ -4374,7 +4375,7 @@ loaded functions are verified using REAPERAPI_LoadAPI(), see note below).<br/>
 <a href="#ReaperGetPitchShiftAPI"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>ReaperGetPitchShiftAPI</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> IReaperPitchShift* <em></em>(*ReaperGetPitchShiftAPI)(<i>int</i> version)</code></div>
+<div class="c">C: <code> IReaperPitchShift* <em>(*ReaperGetPitchShiftAPI)</em>(<i>int</i> version)</code></div>
 </div><p>
 <div class="ch">
 version must be REAPER_PITCHSHIFT_API_VER              
@@ -4398,7 +4399,7 @@ version must be REAPER_PITCHSHIFT_API_VER
 <a href="#Resampler_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>Resampler_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> REAPER_Resample_Interface* <em></em>(*Resampler_Create)()</code></div>
+<div class="c">C: <code> REAPER_Resample_Interface* <em>(*Resampler_Create)</em>()</code></div>
 </div><p>
 <div class="ch">
 Resampler create              
@@ -4416,7 +4417,7 @@ Resampler create
 <a href="#ResolveRenderPattern"> ^</a> 
 <img width="3%" src="gfx/reaper6.26.png" alt="Reaper version 6.26"><u><b>ResolveRenderPattern</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*ResolveRenderPattern)(<i>ReaProject*</i> project, <i>const</i> <i>char*</i> path, <i>const</i> <i>char*</i> pattern, <i>char*</i> targets, <i>int</i> targets_sz)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*ResolveRenderPattern)</em>(<i>ReaProject*</i> project, <i>const</i> <i>char*</i> path, <i>const</i> <i>char*</i> pattern, <i>char*</i> targets, <i>int</i> targets_sz)</code></div>
 </div><p>
 <div class="ch">
 Resolve a wildcard pattern into a set of nul-separated, double-nul terminated render target filenames. Returns the length of the string buffer needed for the returned file list. Call with path=NULL to suppress filtering out illegal pathnames, call with targets=NULL to get just the string buffer length.              
@@ -4456,7 +4457,7 @@ Resolve a wildcard pattern into a set of nul-separated, double-nul terminated re
 <a href="#SectionFromUniqueID"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>SectionFromUniqueID</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>KbdSectionInfo*</i> <em></em>(*SectionFromUniqueID)(<i>int</i> uniqueID)</code></div>
+<div class="c">C: <code> <i>KbdSectionInfo*</i> <em>(*SectionFromUniqueID)</em>(<i>int</i> uniqueID)</code></div>
 </div><p>
 <div class="ch">
 Section from unique ID.              
@@ -4480,7 +4481,7 @@ Section from unique ID.
 <a href="#SendLocalOscMessage"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>SendLocalOscMessage</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*SendLocalOscMessage)(<i>void*</i> local_osc_handler, <i>const</i> <i>char*</i> msg, <i>int</i> msglen)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*SendLocalOscMessage)</em>(<i>void*</i> local_osc_handler, <i>const</i> <i>char*</i> msg, <i>int</i> msglen)</code></div>
 </div><p>
 <div class="ch">
 Send local Osc message.              
@@ -4512,7 +4513,7 @@ Send local Osc message.
 <a href="#SetRenderLastError"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>SetRenderLastError</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*SetRenderLastError)(<i>const</i> <i>char*</i> errorstr)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*SetRenderLastError)</em>(<i>const</i> <i>char*</i> errorstr)</code></div>
 </div><p>
 <div class="ch">
 Set render last error.              
@@ -4536,7 +4537,7 @@ Set render last error.
 <a href="#StopPreview"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>StopPreview</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*StopPreview)(<i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*StopPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Stop preview.              
@@ -4560,7 +4561,7 @@ Stop preview.
 <a href="#StopTrackPreview"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>StopTrackPreview</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*StopTrackPreview)(<i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*StopTrackPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Stop track preview. Return nonzero on success.              
@@ -4584,7 +4585,7 @@ Stop track preview. Return nonzero on success.
 <a href="#StopTrackPreview2"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>StopTrackPreview2</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*StopTrackPreview2)(<i>void*</i> proj, <i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*StopTrackPreview2)</em>(<i>void*</i> proj, <i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Stop track preview2.              
@@ -4612,7 +4613,7 @@ Stop track preview2.
 <a href="#WDL_VirtualWnd_ScaledBlitBG"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>WDL_VirtualWnd_ScaledBlitBG</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*WDL_VirtualWnd_ScaledBlitBG)(<i>LICE_IBitmap*</i> dest, <i>WDL_VirtualWnd_BGCfg*</i> src, <i>int</i> destx, <i>int</i> desty, <i>int</i> destw, <i>int</i> desth, <i>int</i> clipx, <i>int</i> clipy, <i>int</i> clipw, <i>int</i> cliph, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*WDL_VirtualWnd_ScaledBlitBG)</em>(<i>LICE_IBitmap*</i> dest, <i>WDL_VirtualWnd_BGCfg*</i> src, <i>int</i> destx, <i>int</i> desty, <i>int</i> destw, <i>int</i> desth, <i>int</i> clipx, <i>int</i> clipy, <i>int</i> clipw, <i>int</i> cliph, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 WDL virtualwnd scale blit bg.              
@@ -4680,7 +4681,7 @@ WDL virtualwnd scale blit bg.
 <a href="#__mergesort"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>__mergesort</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> (*__mergesort)(<i>void*</i> base, <i>size_t</i> nmemb, <i>size_t</i> size, <i>int</i> <em></em>(*cmpfunc)(<i>const</i> void*,const void*), <i>void*</i> tmpspace)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*__mergesort)</em>(<i>void*</i> base, <i>size_t</i> nmemb, <i>size_t</i> size, <i>int</i> (*cmpfunc)(<i>const</i> void*,const void*), <i>void*</i> tmpspace)</code></div>
 </div><p>
 <div class="ch">
 is a stable sorting function with an API similar to qsort().<br/>
@@ -4722,7 +4723,7 @@ or NULL and it will allocate and free space internally.
 <a href="#get_config_var"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>get_config_var</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*get_config_var)(<i>const</i> <i>char*</i> name, <i>int*</i> szOut)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*get_config_var)</em>(<i>const</i> <i>char*</i> name, <i>int*</i> szOut)</code></div>
 </div><p>
 <div class="ch">
 <p>gets config var</p>
@@ -4751,7 +4752,7 @@ or NULL and it will allocate and free space internally.
 <a href="#get_midi_config_var"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>get_midi_config_var</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*get_midi_config_var)(<i>const</i> <i>char*</i> name, <i>int*</i> szOut);</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*get_midi_config_var)</em>(<i>const</i> <i>char*</i> name, <i>int*</i> szOut);</code></div>
 </div><p>
 <div class="ch">
 Deprecated.              
@@ -4779,7 +4780,7 @@ Deprecated.
 <a href="#kbd_OnMidiEvent"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_OnMidiEvent</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*kbd_OnMidiEvent)(<i>MIDI_event_t*</i> evt, <i>int</i> dev_index)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*kbd_OnMidiEvent)</em>(<i>MIDI_event_t*</i> evt, <i>int</i> dev_index)</code></div>
 </div><p>
 <div class="ch">
 On Midi Event. Can be called from anywhere (threadsafe)              
@@ -4807,7 +4808,7 @@ On Midi Event. Can be called from anywhere (threadsafe)
 <a href="#kbd_OnMidiList"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_OnMidiList</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*kbd_OnMidiList)(<i>MIDI_eventlist*</i> list, <i>int</i> dev_index)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*kbd_OnMidiList)</em>(<i>MIDI_eventlist*</i> list, <i>int</i> dev_index)</code></div>
 </div><p>
 <div class="ch">
 On MIDI List. Can be called from anywhere (threadsafe)              
@@ -4835,7 +4836,7 @@ On MIDI List. Can be called from anywhere (threadsafe)
 <a href="#kbd_ProcessActionsMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_ProcessActionsMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*kbd_ProcessActionsMenu)(<i>HMENU</i> menu, <i>KbdSectionInfo*</i> section)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*kbd_ProcessActionsMenu)</em>(<i>HMENU</i> menu, <i>KbdSectionInfo*</i> section)</code></div>
 </div><p>
 <div class="ch">
 Process actions-menu.              
@@ -4869,7 +4870,7 @@ Process actions-menu.
 <a href="#kbd_RunCommandThroughHooks"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_RunCommandThroughHooks</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*kbd_RunCommandThroughHooks)(<i>KbdSectionInfo*</i> section, <i>int*</i> actionCommandID, <i>int*</i> val, <i>int*</i> valhw, <i>int*</i> relmode, <i>HWND</i> hwnd)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*kbd_RunCommandThroughHooks)</em>(<i>KbdSectionInfo*</i> section, <i>int*</i> actionCommandID, <i>int*</i> val, <i>int*</i> valhw, <i>int*</i> relmode, <i>HWND</i> hwnd)</code></div>
 </div><p>
 <div class="ch">
 Run command through hooks. actioncommandID may get modified.              
@@ -4919,7 +4920,7 @@ Run command through hooks. actioncommandID may get modified.
 <a href="#kbd_enumerateActions"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_enumerateActions</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*kbd_enumerateActions)(<i>KbdSectionInfo*</i> section, <i>int</i> idx, <i>const</i> char** nameOut)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*kbd_enumerateActions)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> idx, <i>const</i> char** nameOut)</code></div>
 </div><p>
 <div class="ch">
 Enumerates actions.              
@@ -4957,7 +4958,7 @@ Enumerates actions.
 <a href="#kbd_formatKeyName"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_formatKeyName</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*kbd_formatKeyName)(<i>ACCEL*</i> ac, <i>char*</i> s)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*kbd_formatKeyName)</em>(<i>ACCEL*</i> ac, <i>char*</i> s)</code></div>
 </div><p>
 <div class="ch">
 Format keyname              
@@ -4985,7 +4986,7 @@ Format keyname
 <a href="#kbd_getCommandName"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_getCommandName</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*kbd_getCommandName)(<i>int</i> cmd, <i>char*</i> s, <i>KbdSectionInfo*</i> section)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*kbd_getCommandName)</em>(<i>int</i> cmd, <i>char*</i> s, <i>KbdSectionInfo*</i> section)</code></div>
 </div><p>
 <div class="ch">
 <p>Get the string of a key assigned to command "cmd" in a section. This function is poorly named as it doesn't return the command's name, see <a href="#kbd_getTextFromCmd">kbd_getTextFromCmd</a>.</p>
@@ -5023,7 +5024,7 @@ Format keyname
 <a href="#kbd_getTextFromCmd"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_getTextFromCmd</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em></em>(*kbd_getTextFromCmd)(<i>DWORD</i> cmd, <i>KbdSectionInfo*</i> section)</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*kbd_getTextFromCmd)</em>(<i>DWORD</i> cmd, <i>KbdSectionInfo*</i> section)</code></div>
 </div><p>
 <div class="ch">
 Get text from Command              
@@ -5057,7 +5058,7 @@ Get text from Command
 <a href="#kbd_processMidiEventActionEx"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_processMidiEventActionEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*kbd_processMidiEventActionEx)(<i>MIDI_event_t*</i> evt, <i>KbdSectionInfo*</i> section, <i>HWND</i> hwndCtx)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*kbd_processMidiEventActionEx)</em>(<i>MIDI_event_t*</i> evt, <i>KbdSectionInfo*</i> section, <i>HWND</i> hwndCtx)</code></div>
 </div><p>
 <div class="ch">
 Process Midi Event Action              
@@ -5095,7 +5096,7 @@ Process Midi Event Action
 <a href="#kbd_reprocessMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_reprocessMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*kbd_reprocessMenu)(<i>HMENU</i> menu, <i>KbdSectionInfo*</i> section)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*kbd_reprocessMenu)</em>(<i>HMENU</i> menu, <i>KbdSectionInfo*</i> section)</code></div>
 </div><p>
 <div class="ch">
 Reprocess a menu recursively, setting key assignments to what their command IDs are mapped to.              
@@ -5129,7 +5130,7 @@ Reprocess a menu recursively, setting key assignments to what their command IDs 
 <a href="#kbd_translateAccelerator"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_translateAccelerator</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*kbd_translateAccelerator)(<i>HWND</i> hwnd, <i>MSG*</i> msg, <i>KbdSectionInfo*</i> section)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*kbd_translateAccelerator)</em>(<i>HWND</i> hwnd, <i>MSG*</i> msg, <i>KbdSectionInfo*</i> section)</code></div>
 </div><p>
 <div class="ch">
 Pass in the HWND to receive commands, a MSG of a key command,&nbsp;&nbsp;and a valid section,<br/>
@@ -5169,7 +5170,7 @@ Returns 1 if processed, 0 if no key binding found.
 <a href="#kbd_translateMouse"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_translateMouse</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*kbd_translateMouse)(<i>void*</i> winmsg, <i>unsigned</i> <i>char*</i> midimsg)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*kbd_translateMouse)</em>(<i>void*</i> winmsg, <i>unsigned</i> <i>char*</i> midimsg)</code></div>
 </div><p>
 <div class="ch">
 Translate mouse.              
@@ -5197,7 +5198,7 @@ Translate mouse.
 <a href="#plugin_getFilterList"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>plugin_getFilterList</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em></em>(*plugin_getFilterList)()</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*plugin_getFilterList)</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Plugin get filter list. Returns a double-NULL terminated list of importable media files, suitable for passing to <a href="#GetOpenFileName">GetOpenFileName()</a> etc. Includes <em>.</em> (All files).</p>
@@ -5215,7 +5216,7 @@ Translate mouse.
 <a href="#plugin_getImportableProjectFilterList"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>plugin_getImportableProjectFilterList</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em></em>(*plugin_getImportableProjectFilterList)()</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*plugin_getImportableProjectFilterList)</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Plugin get importable project filter list. Returns a double-NULL terminated list of importable project files, suitable for passing to <a href="#GetOpenFileName">GetOpenFileName()</a> etc. Includes <em>.</em> (All files).</p>
@@ -5233,7 +5234,7 @@ Translate mouse.
 <a href="#plugin_getapi"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>plugin_getapi</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*plugin_getapi)(<i>const</i> <i>char*</i> name)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*plugin_getapi)</em>(<i>const</i> <i>char*</i> name)</code></div>
 </div><p>
 <div class="ch">
 Plugin get api.              
@@ -5257,7 +5258,7 @@ Plugin get api.
 <a href="#plugin_register"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>plugin_register</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*plugin_register)(<i>const</i> <i>char*</i> name, <i>void*</i> infostruct)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*plugin_register)</em>(<i>const</i> <i>char*</i> name, <i>void*</i> infostruct)</code></div>
 </div><p>
 <div class="ch">
 like rec->Register<br/>
@@ -5327,7 +5328,7 @@ register("command_id_lookup", unique_string) will look up the integer ID of the 
 <a href="#projectconfig_var_addr"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>projectconfig_var_addr</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void*</i> <em></em>(*projectconfig_var_addr)(<i>ReaProject*</i> proj, <i>int</i> idx)</code></div>
+<div class="c">C: <code> <i>void*</i> <em>(*projectconfig_var_addr)</em>(<i>ReaProject*</i> proj, <i>int</i> idx)</code></div>
 </div><p>
 <div class="ch">
 <p>Project config var addr.</p>
@@ -5356,7 +5357,7 @@ register("command_id_lookup", unique_string) will look up the integer ID of the 
 <a href="#projectconfig_var_getoffs"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>projectconfig_var_getoffs</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em></em>(*projectconfig_var_getoffs)(<i>const</i> <i>char*</i> name, <i>int*</i> szOut)</code></div>
+<div class="c">C: <code> <i>int</i> <em>(*projectconfig_var_getoffs)</em>(<i>const</i> <i>char*</i> name, <i>int*</i> szOut)</code></div>
 </div><p>
 <div class="ch">
 <p>Returns offset to pass to projectconfig<em>var</em>addr() to get project-config var of name. szout gets size of object.</p>
@@ -5385,7 +5386,7 @@ register("command_id_lookup", unique_string) will look up the integer ID of the 
 <a href="#realloc_cmd_ptr"> ^</a> 
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965"><u><b>realloc_cmd_ptr</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em></em>(*realloc_cmd_ptr)(char** ptr, <i>int*</i> ptr_size, <i>int</i> new_size)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>(*realloc_cmd_ptr)</em>(char** ptr, <i>int*</i> ptr_size, <i>int</i> new_size)</code></div>
 </div><p>
 <div class="ch">
 special use for NeedBig script API functions - reallocates a NeedBig buffer and updates its size, returns false on error              
@@ -5413,7 +5414,7 @@ special use for NeedBig script API functions - reallocates a NeedBig buffer and 
 <a href="#screenset_register"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>screenset_register</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*screenset_register)(<i>char*</i> id, <i>void*</i> callbackFunc, <i>void*</i> param)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*screenset_register)</em>(<i>char*</i> id, <i>void*</i> callbackFunc, <i>void*</i> param)</code></div>
 </div><p>
 <div class="ch">
 Screenset register.              
@@ -5445,7 +5446,7 @@ Screenset register.
 <a href="#screenset_registerNew"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>screenset_registerNew</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*screenset_registerNew)(<i>char*</i> id, <i>screensetNewCallbackFunc</i> callbackFunc, <i>void*</i> param)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*screenset_registerNew)</em>(<i>char*</i> id, <i>screensetNewCallbackFunc</i> callbackFunc, <i>void*</i> param)</code></div>
 </div><p>
 <div class="ch">
 Screenset register new.              
@@ -5477,7 +5478,7 @@ Screenset register new.
 <a href="#screenset_unregister"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>screenset_unregister</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*screenset_unregister)(<i>char*</i> id)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*screenset_unregister)</em>(<i>char*</i> id)</code></div>
 </div><p>
 <div class="ch">
 Screenset unregister.              
@@ -5501,7 +5502,7 @@ Screenset unregister.
 <a href="#screenset_unregisterByParam"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>screenset_unregisterByParam</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*screenset_unregisterByParam)(<i>void*</i> param)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*screenset_unregisterByParam)</em>(<i>void*</i> param)</code></div>
 </div><p>
 <div class="ch">
 Screenset unregister by param              
@@ -5525,7 +5526,7 @@ Screenset unregister by param
 <a href="#screenset_updateLastFocus"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>screenset_updateLastFocus</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*screenset_updateLastFocus)(<i>HWND</i> prevWin)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*screenset_updateLastFocus)</em>(<i>HWND</i> prevWin)</code></div>
 </div><p>
 <div class="ch">
 LICE simple fill              
@@ -5549,7 +5550,7 @@ LICE simple fill
 <a href="#update_disk_counters"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>update_disk_counters</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em></em>(*update_disk_counters)(<i>int</i> readamt, <i>int</i> writeamt)</code></div>
+<div class="c">C: <code> <i>void</i> <em>(*update_disk_counters)</em>(<i>int</i> readamt, <i>int</i> writeamt)</code></div>
 </div><p>
 <div class="ch">
 Updates disk I/O statistics with bytes transferred since last call. <br/>

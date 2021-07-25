@@ -67,6 +67,8 @@ FunctionList=[[
     </title>
 
     <link href="style.css" rel="stylesheet">
+    <link href="custom.css" rel="stylesheet">
+    
     <script type="text/javascript">
       function set_class_style(c,s) { 
         var list = document.getElementsByClassName(c);

@@ -65,6 +65,7 @@ Ultraschall API GFX-Functions
 </title>
 
 <link href="style.css" rel="stylesheet">
+<link href="custom.css" rel="stylesheet">
 
   </head>
     <body>    
