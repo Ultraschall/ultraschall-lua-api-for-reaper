@@ -423,6 +423,11 @@ Has now 1406 functions, with 6 new ones
 
 #### Changes from 4.2.005 to 4.2.006  
   - Docs: Reaper-API-docs - All-View jumped to the top of the document -> fixed
+  - Docs: All docs - you can create now a custom.css file in the Documentation-folder to customize the style of the docs
+  - ParmLearn: AddParmLearn\_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -> fixed(thanks to TonE)
+  - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)
+  - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
+  - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)
 
 ---
 
