@@ -52,7 +52,7 @@ function SwitchBeta()
 end
 
 
-GUI.name = "Ultraschall API - settings"
+GUI.name = "Ultraschall API - Settings"
 GUI.x, GUI.y = 128, 128
 GUI.w, GUI.h = 384, 396
 
@@ -66,9 +66,9 @@ GUI.Val("ShowLastErrorMessage", slem_target)
 -- don't show messages in some developer-tools
 dontask=reaper.GetExtState("ultraschall_api", "dontask_developertools")
 if dontask=="false" then dontask=0 else dontask=1 end
-GUI.New("DontAsk",   "Radio",     6, 200,  26, 160, 95, "   Ask in Devtools?\n", "don't ask, ask", "v", 4)
+GUI.New("DontAsk",   "Radio", 6, 200,  26, 160, 95, "   Confirmdialogs\n   in Devtools?\n", "don't ask, ask", "v", 4)
 GUI.Val("DontAsk", dontask+1)
-GUI.New("Target2", "Button",  1, 280,  85, 64, 24, "Confirm", set_ask_val)
+GUI.New("Target2", "Button",  1, 280,  85,  64, 24, "Confirm", set_ask_val)
 
 -- Allow Beta functions?
 beta=reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/beta.txt")
