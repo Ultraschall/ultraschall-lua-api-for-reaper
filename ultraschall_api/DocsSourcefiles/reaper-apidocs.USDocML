@@ -42975,13 +42975,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_Begin</slug>
         <title>ImGui_Begin</title>
-        <functioncall prog_lang="cpp">bool ImGui_Begin(ImGui_Context* ctx, const char* name, bool* p_openOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_Begin(ImGui_Context* ctx, const char* name, bool* p_openInOut, int* flagsInOptional)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ImGui_Begin", ImGui_Context ctx, "name", bool &amp;p_open, optional int flagsIn)</functioncall>
         <functioncall prog_lang="lua">boolean retval, boolean p_open = reaper.ImGui_Begin(ImGui_Context ctx, string name, boolean p_open, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_Begin(ImGui_Context* ctx, const char* name, bool* p_openOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="python">bool ImGui_Begin(ImGui_Context* ctx, const char* name, bool* p_openInOut, int* flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.3
         </requires>
         <description>
             Push window to the stack and start appending to it. See <a href="#ImGui_End">ImGui_End</a>.
@@ -43419,13 +43419,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_BeginPopupModal</slug>
         <title>ImGui_BeginPopupModal</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginPopupModal(ImGui_Context* ctx, const char* name, bool* p_openOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_BeginPopupModal(ImGui_Context* ctx, const char* name, bool* p_openInOut, int* flagsInOptional)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ImGui_BeginPopupModal", ImGui_Context ctx, "name", bool &amp;p_open, optional int flagsIn)</functioncall>
         <functioncall prog_lang="lua">boolean retval, boolean p_open = reaper.ImGui_BeginPopupModal(ImGui_Context ctx, string name, boolean p_open, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginPopupModal(ImGui_Context* ctx, const char* name, bool* p_openOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="python">bool ImGui_BeginPopupModal(ImGui_Context* ctx, const char* name, bool* p_openInOut, int* flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.3
         </requires>
         <description>
             Block every interactions behind the window, cannot be closed by user, add a dimming background, has a title bar. Return true if the modal is open, and you can start outputting to it. See <a href="#ImGui_BeginPopup">ImGui_BeginPopup</a>.
@@ -43485,13 +43485,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_BeginTabItem</slug>
         <title>ImGui_BeginTabItem</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginTabItem(ImGui_Context* ctx, const char* label, bool* p_openOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_BeginTabItem(ImGui_Context* ctx, const char* label, bool* p_openInOut, int* flagsInOptional)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ImGui_BeginTabItem", ImGui_Context ctx, "label", bool &amp;p_open, optional int flagsIn)</functioncall>
         <functioncall prog_lang="lua">boolean retval, boolean p_open = reaper.ImGui_BeginTabItem(ImGui_Context ctx, string label, boolean p_open, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginTabItem(ImGui_Context* ctx, const char* label, bool* p_openOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="python">bool ImGui_BeginTabItem(ImGui_Context* ctx, const char* label, bool* p_openInOut, int* flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.3
         </requires>
         <description>
             Create a Tab. Returns true if the Tab is selected. Set 'p_open' to true to enable the close button.
@@ -45348,13 +45348,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_CollapsingHeader</slug>
         <title>ImGui_CollapsingHeader</title>
-        <functioncall prog_lang="cpp">bool ImGui_CollapsingHeader(ImGui_Context* ctx, const char* label, bool* p_visibleOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_CollapsingHeader(ImGui_Context* ctx, const char* label, bool* p_visibleInOut, int* flagsInOptional)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ImGui_CollapsingHeader", ImGui_Context ctx, "label", bool &amp;p_visible, optional int flagsIn)</functioncall>
         <functioncall prog_lang="lua">boolean retval, boolean p_visible = reaper.ImGui_CollapsingHeader(ImGui_Context ctx, string label, boolean p_visible, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_CollapsingHeader(ImGui_Context* ctx, const char* label, bool* p_visibleOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="python">bool ImGui_CollapsingHeader(ImGui_Context* ctx, const char* label, bool* p_visibleInOut, int* flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.3
         </requires>
         <description>
             Returns true when opened but do not indent nor push into the ID stack (because of the ImGui_TreeNodeFlags_NoTreePushOnOpen flag).
@@ -46810,14 +46810,14 @@
         <functioncall prog_lang="python">ImGui_Font* ImGui_CreateFont(const char* family_or_file, int size, int* flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.3
         </requires>
         <description>
             Load a font matching a font family name or from a font file. The font will remain valid while it's attached to a context. See <a href="#ImGui_AttachFont">ImGui_AttachFont</a>.
             
             The family name can be an installed font or one of the generic fonts: sans-serif, serif, monospace, cursive, fantasy.
             
-            If 'family_or_file' specifies a filename:
+            If 'family_or_file' specifies a path to a font file (contains a / or \\):
             - The first byte of 'flags' is used as the font index within the file
             - The font styles in 'flags' are simulated by the font renderer
             
@@ -53751,13 +53751,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_MenuItem</slug>
         <title>ImGui_MenuItem</title>
-        <functioncall prog_lang="cpp">bool ImGui_MenuItem(ImGui_Context* ctx, const char* label, const char* shortcutInOptional, bool* p_selectedOut, bool* enabledInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_MenuItem(ImGui_Context* ctx, const char* label, const char* shortcutInOptional, bool* p_selectedInOut, bool* enabledInOptional)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ImGui_MenuItem", ImGui_Context ctx, "label", optional "shortcutIn", bool &amp;p_selected, optional bool enabledIn)</functioncall>
         <functioncall prog_lang="lua">boolean retval, boolean p_selected = reaper.ImGui_MenuItem(ImGui_Context ctx, string label, optional string shortcutIn, boolean p_selected, optional boolean enabledIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_MenuItem(ImGui_Context* ctx, const char* label, const char* shortcutInOptional, bool* p_selectedOut, bool* enabledInOptional)</functioncall>
+        <functioncall prog_lang="python">bool ImGui_MenuItem(ImGui_Context* ctx, const char* label, const char* shortcutInOptional, bool* p_selectedInOut, bool* enabledInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.3
         </requires>
         <description>
             Return true when activated. Shortcuts are displayed for convenience but not processed by ImGui at the moment. Toggle state is written to 'selected' when provided.
@@ -55144,13 +55144,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_Selectable</slug>
         <title>ImGui_Selectable</title>
-        <functioncall prog_lang="cpp">bool ImGui_Selectable(ImGui_Context* ctx, const char* label, bool* p_selectedOut, int* flagsInOptional, double* size_wInOptional, double* size_hInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_Selectable(ImGui_Context* ctx, const char* label, bool* p_selectedInOut, int* flagsInOptional, double* size_wInOptional, double* size_hInOptional)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ImGui_Selectable", ImGui_Context ctx, "label", bool &amp;p_selected, optional int flagsIn, optional size_wIn, optional size_hIn)</functioncall>
         <functioncall prog_lang="lua">boolean retval, boolean p_selected = reaper.ImGui_Selectable(ImGui_Context ctx, string label, boolean p_selected, optional number flagsIn, optional number size_wIn, optional number size_hIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_Selectable(ImGui_Context* ctx, const char* label, bool* p_selectedOut, int* flagsInOptional, double* size_wInOptional, double* size_hInOptional)</functioncall>
+        <functioncall prog_lang="python">bool ImGui_Selectable(ImGui_Context* ctx, const char* label, bool* p_selectedInOut, int* flagsInOptional, double* size_wInOptional, double* size_hInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.3
         </requires>
         <description>
             A selectable highlights when hovered, and can display another color when selected.
@@ -56413,13 +56413,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_ShowMetricsWindow</slug>
         <title>ImGui_ShowMetricsWindow</title>
-        <functioncall prog_lang="cpp">void ImGui_ShowMetricsWindow(ImGui_Context* ctx, bool* p_openOut)</functioncall>
+        <functioncall prog_lang="cpp">void ImGui_ShowMetricsWindow(ImGui_Context* ctx, bool* p_openInOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("ImGui_ShowMetricsWindow", ImGui_Context ctx, bool &amp;p_open)</functioncall>
-        <functioncall prog_lang="lua">boolean p_open = reaper.ImGui_ShowMetricsWindow(ImGui_Context ctx)</functioncall>
-        <functioncall prog_lang="python">void ImGui_ShowMetricsWindow(ImGui_Context* ctx, bool* p_openOut)</functioncall>
+        <functioncall prog_lang="lua">boolean p_open = reaper.ImGui_ShowMetricsWindow(ImGui_Context ctx, boolean p_open)</functioncall>
+        <functioncall prog_lang="python">void ImGui_ShowMetricsWindow(ImGui_Context* ctx, bool* p_openInOut)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.3
         </requires>
         <description>
             Create Metrics/Debugger window. Display Dear ImGui internals: windows, draw commands, various internal state, etc. Set p_open to true to enable the close button.
@@ -61214,31 +61214,6 @@
         </requires>
         <description>
             Disable drawing background color (WindowBg, etc.) and outside border. Similar as using ImGui_SetNextWindowBgAlpha(0.0).
-        </description>        
-        <retvals>
-            integer -
-        </retvals>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_WindowFlags_NoBringToFrontOnFocus</slug>
-        <title>ImGui_WindowFlags_NoBringToFrontOnFocus</title>
-        <functioncall prog_lang="cpp">int ImGui_WindowFlags_NoBringToFrontOnFocus()</functioncall>
-        <functioncall prog_lang="eel">int extension_api("ImGui_WindowFlags_NoBringToFrontOnFocus")</functioncall>
-        <functioncall prog_lang="lua">integer reaper.ImGui_WindowFlags_NoBringToFrontOnFocus()</functioncall>
-        <functioncall prog_lang="python">int ImGui_WindowFlags_NoBringToFrontOnFocus()</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus).
         </description>        
         <retvals>
             integer -
