@@ -1235,7 +1235,7 @@ function ultraschall.Windows_Find(title, exact)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Windows_Find</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.965
     JS=0.963
     Lua=5.3
@@ -1273,6 +1273,7 @@ function ultraschall.Windows_Find(title, exact)
   local hwnd_list={}
   local hwnd_list2={}
   local count=0
+  local parenthwnd
   for i=1, retval do
     local temp,offset=list:match("(.-),()")
     local temphwnd=reaper.JS_Window_HandleFromAddress(temp)

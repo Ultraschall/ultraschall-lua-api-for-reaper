@@ -419,6 +419,7 @@ Has now 1406 functions, with 6 new ones
   
   
 #### New features in 4.2.006  
+  - Render Management: GetRenderTargetFiles - returns the render-target and filenames of all render-files, if they would be rendered right now
 
 
 #### Changes from 4.2.005 to 4.2.006  
@@ -430,7 +431,7 @@ Has now 1406 functions, with 6 new ones
   - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
   - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)
-
+  - User Interface: Windows\_Find - had inner variable exposed -> fixed
 ---
 
 ### 4.2.005 - "Anne Clark - Our Darkness" - 21st of July 2021

@@ -191,7 +191,7 @@ function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
   <description>
     convert a csv-string to an array of the individual values. If separator cannot be found, it'll return the original string
     
-    returns nil in case or error
+    returns nil in case of error
   </description>
   <retvals>
     integer count - the number of entries
