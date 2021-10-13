@@ -172,9 +172,9 @@ function ultraschall.ApiTest()
     ultraschall.ApiBetaDocTest()
     ultraschall.ApiBetaTagTest()
     
-ultraschall.network_works="off"    
+    ultraschall.network_works="off"    
     
-    reaper.MB("Functions-Engine="..ultraschall.functions_works.."\nData-Engine="..ultraschall.data_works.."\nGui-Engine="..ultraschall.gui_works.."\nSound-Engine="..ultraschall.sound_works.."\nVideo-Engine="..ultraschall.video_works.."\nDoc-Engine="..ultraschall.doc_works.."\nTag-Engine="..ultraschall.tag_works.."\nNetwork-Engine="..ultraschall.network_works.."\n\nBeta-Functions:\nFunctions-Beta-Engine="..ultraschall.functions_beta_works.."\nData-Beta-Engine="..ultraschall.data_beta_works.."\nGui-Beta-Engine="..ultraschall.gui_beta_works.."\nSound-Beta-Engine="..ultraschall.sound_beta_works.."\nVideo-Beta-Engine="..ultraschall.video_beta_works.."\nDoc-Beta-Engine="..ultraschall.doc_beta_works.."\nTag-Beta-Engine="..ultraschall.tag_beta_works.."\nNetwork-Beta-Engine="..ultraschall.network_beta_works,"Ultraschall API-TEST",0)
+    reaper.MB("Ultraschall-API works successfully","Ultraschall API-TEST",0)
 end
 
 

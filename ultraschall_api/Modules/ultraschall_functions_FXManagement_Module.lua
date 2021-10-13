@@ -188,7 +188,9 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, fxid, id)
   </description>
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
-    string parmname - the name of the parameter, though usually only wet or bypass
+    string parmname - the name of the parameter, though usually only "wet" or "byp" or ""
+                    - to get the actual displayed parametername, you need to 
+                    - use the reaper.TrackFX_GetParamName-function
     integer midi_note - the midinote, that is assigned to this; this is a multibyte value, with the first byte
                       -   being the MIDI-mode, and the second byte the MIDI/CC-note
                       -       0,   OSC is used
@@ -8637,7 +8639,9 @@ function ultraschall.GetParmLearn_FXStateChunk2(FXStateChunk, fxid, id)
   </description>
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
-    string parmname - the name of the parameter, though usually only wet or bypass
+    string parmname - the name of the parameter, though usually only "wet" or "byp" or ""
+                    - to get the actual displayed parametername, you need to 
+                    - use the reaper.TrackFX_GetParamName-function
     integer input_mode - the input mode of this ParmLearn-entry
                        - 0, OSC
                        - 1, MIDI Note
