@@ -5924,7 +5924,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaItemInfo_Value(MediaItem item, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaItemInfo_Value(MediaItem item, String parmname)</functioncall>
         <requires>
-            Reaper=6.30
+            Reaper=6.34
         </requires>
         <description prog_lang="*">
             Get media item numerical-value attributes.
@@ -5950,8 +5950,8 @@
                 C_FADEINSHAPE : int * : fadein shape, 0..6, 0=linear
                 C_FADEOUTSHAPE : int * : fadeout shape, 0..6, 0=linear
                 I_GROUPID : int * : group ID, 0=no group
-                I_LASTY : int * : Y-position of track in pixels (read-only)
-                I_LASTH : int * : height in track in pixels (read-only)
+                I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)
+                I_LASTH : int * : height in pixels (read-only)
                 I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color
                 I_CURTAKE : int * : active take number
                 IP_ITEMNUMBER : int : item number on this track (read-only, returns the item number directly)
@@ -6180,7 +6180,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaItemTakeInfo_Value(MediaItem_Take take, String parmname)</functioncall>
         <requires>
-            Reaper=6.01
+            Reaper=6.34
         </requires>
         <description prog_lang="*">
             Get media item take numerical-value attributes.
@@ -6191,6 +6191,8 @@
             D_PLAYRATE : double * : take playback rate, 0.5=half speed, 1=normal, 2=double speed, etc
             D_PITCH : double * : take pitch adjustment in semitones, -12=one octave down, 0=normal, +12=one octave up, etc
             B_PPITCH : bool * : preserve pitch when changing playback rate
+            I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)
+            I_LASTH : int * : height in pixels (read-only)
             I_CHANMODE : int * : channel mode, 0=normal, 1=reverse stereo, 2=downmix, 3=left, 4=right
             I_PITCHMODE : int * : pitch shifter mode, -1=projext default, otherwise high 2 bytes=shifter, low 2 bytes=parameter
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.
@@ -8592,11 +8594,15 @@
         <functioncall prog_lang="lua">integer retval, number pos, optional number srcpos = reaper.GetTakeStretchMarker(MediaItem_Take take, integer idx)</functioncall>
         <functioncall prog_lang="python">(Int retval, MediaItem_Take take, Int idx, Float posOut, Float srcposOutOptional) = RPR_GetTakeStretchMarker(take, idx, posOut, srcposOutOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.34
         </requires>
         <description prog_lang="*">
-            Gets information on a stretch marker, idx is 0..n. Returns false if stretch marker not valid. 
-            posOut will be set to position in item, srcposOutOptional will be set to source media position. 
+            Gets information on a stretch marker, idx is 0..n. 
+            Returns -1 if stretch marker not valid. 
+            
+            posOut will be set to position in item
+            srcposOutOptional will be set to source media position. 
+            
             Returns index. if input index is -1, next marker is found using position (or source position if position is -1). 
             If position/source position are used to find marker position, their values are not updated.
         </description>
@@ -14546,7 +14552,7 @@
         <functioncall prog_lang="lua">boolean = reaper.SetMediaItemInfo_Value(MediaItem item, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaItemInfo_Value(MediaItem item, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=6.12
+            Reaper=6.34
         </requires>
         <description prog_lang="*">
             Set media item numerical-value attributes.
@@ -14572,8 +14578,8 @@
             C_FADEINSHAPE : int * : fadein shape, 0..6, 0=linear
             C_FADEOUTSHAPE : int * : fadeout shape, 0..6, 0=linear
             I_GROUPID : int * : group ID, 0=no group
-            I_LASTY : int * : Y-position of track in pixels (read-only)
-            I_LASTH : int * : height in track in pixels (read-only)
+            I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)
+            I_LASTH : int * : height in pixels (read-only)
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.
             I_CURTAKE : int * : active take number
             IP_ITEMNUMBER : int : item number on this track (read-only, returns the item number directly)
@@ -14717,7 +14723,7 @@
         <functioncall prog_lang="lua">boolean = reaper.SetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaItemTakeInfo_Value(MediaItem_Take take, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=6.01
+            Reaper=6.34
         </requires>
         <description prog_lang="*">
             Set media item take numerical-value attributes.
@@ -14728,6 +14734,8 @@
             D_PLAYRATE : double * : take playback rate, 0.5=half speed, 1=normal, 2=double speed, etc
             D_PITCH : double * : take pitch adjustment in semitones, -12=one octave down, 0=normal, +12=one octave up, etc
             B_PPITCH : bool * : preserve pitch when changing playback rate
+            I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)
+            I_LASTH : int * : height in pixels (read-only)
             I_CHANMODE : int * : channel mode, 0=normal, 1=reverse stereo, 2=downmix, 3=left, 4=right
             I_PITCHMODE : int * : pitch shifter mode, -1=projext default, otherwise high 2 bytes=shifter, low 2 bytes=parameter
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.
@@ -38950,7 +38958,7 @@
         <title>GetSetMediaItemTakeInfo</title>
         <functioncall prog_lang="cpp">void* (*GetSetMediaItemTakeInfo)(MediaItem_Take* tk, const char* parmname, void* setNewValue)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.34
         </requires>
         <description indent="default">
             Gets/Sets Media Item Take-parameters. Works like GetMediaItemTakeInfo_Value and SetMediaItemTakeInfo_Value but has more parameters.
@@ -38973,6 +38981,8 @@
                          -D_PLAYRATE : double *, take playrate (1.0=normal, 2.0=doublespeed, etc)
                          -D_PITCH : double *, take pitch adjust (in semitones, 0.0=normal, +12 = one octave up, etc)
                          -B_PPITCH, bool *, preserve pitch when changing rate
+                         -I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)
+                         -I_LASTH : int * : height in pixels (read-only)
                          -I_CHANMODE, int *, channel mode (0=normal, 1=revstereo, 2=downmix, 3=l, 4=r)
                          -I_PITCHMODE, int *, pitch shifter mode, -1=proj default, otherwise high word=shifter low word = parameter
                          -I_CUSTOMCOLOR : int *, custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).
@@ -41931,7 +41941,7 @@
         <title>GetSetMediaItemInfo</title>
         <functioncall prog_lang="cpp">void* (*GetSetMediaItemInfo)(MediaItem* item, const char* parmname, void* setNewValue)</functioncall>
         <requires>
-            Reaper=5.976
+            Reaper=6.34
         </requires>
         <description indent="default">
             Get/Set Media Item Info
@@ -41964,6 +41974,8 @@
                 -C_FADEINSHAPE : int * to fadein shape, 0=linear, ...
                 -C_FADEOUTSHAPE : int * to fadeout shape
                 -I_GROUPID : int * to group ID (0 = no group)
+                -I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)
+                -I_LASTH : int * : height in pixels (read-only)
                 -I_LASTY : int * to last y position in track (readonly)
                 -I_LASTH : int * to last height in track (readonly)
                 -I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).
@@ -42975,13 +42987,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_Begin</slug>
         <title>ImGui_Begin</title>
-        <functioncall prog_lang="cpp">bool ImGui_Begin(ImGui_Context* ctx, const char* name, bool* p_openInOut, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_Begin", ImGui_Context ctx, "name", bool &amp;p_open, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, boolean p_open = reaper.ImGui_Begin(ImGui_Context ctx, string name, boolean p_open, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_Begin(ImGui_Context* ctx, const char* name, bool* p_openInOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_Begin(ImGui_Context* ctx, const char* name, bool* p_openInOutOptional, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("ImGui_Begin", ImGui_Context ctx, "name", optional bool &amp;p_open, optional int flagsIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, optional boolean p_open = reaper.ImGui_Begin(ImGui_Context ctx, string name, optional boolean p_open, optional number flagsIn)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, ImGui_Context ctx, String name, Boolean p_openInOutOptional, Int flagsInOptional) = ImGui_Begin(ctx, name, p_openInOutOptional, flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.3
+            ReaImGui=0.5.8
         </requires>
         <description>
             Push window to the stack and start appending to it. See <a href="#ImGui_End">ImGui_End</a>.
@@ -42991,7 +43003,7 @@
             - Begin() return false to indicate the window is collapsed or fully clipped, so you may early out and omit submitting anything to the window.
             - Note that the bottom of window stack always contains a window called "Debug".
             
-            Default values: flags = ImGui_WindowFlags_None
+            Default values: p_open = nil, flags = ImGui_WindowFlags_None
         </description>        
         <retvals>
             boolean retval - 
@@ -43020,12 +43032,12 @@
         <functioncall prog_lang="python">bool ImGui_BeginChild(ImGui_Context* ctx, const char* str_id, double* size_wInOptional, double* size_hInOptional, bool* borderInOptional, int* flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
             Use child windows to begin into a self-contained independent scrolling/clipping regions within a host window. Child windows can embed their own child.
             
-            - For each independent axis of 'size': ==0.0f: use remaining host window size / &gt;0.0f: fixed size / &lt;0.0f: use remaining window size minus abs(size) / Each axis can use a different mode, e.g. size = 0x400.
+            - For each independent axis of 'size': ==0.0: use remaining host window size / &gt;0.0: fixed size / &lt;0.0: use remaining window size minus abs(size) / Each axis can use a different mode, e.g. size = 0x400.
             - BeginChild() returns false to indicate the window is collapsed or fully clipped, so you may early out and omit submitting anything to the window.
             
             See <a href="#ImGui_EndChild">ImGui_EndChild</a>.
@@ -43109,6 +43121,36 @@
             string label - 
             string preview_value - 
             optional number flagsIn -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+ 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_BeginDisabled</slug>
+        <title>ImGui_BeginDisabled</title>
+        <functioncall prog_lang="cpp">void ImGui_BeginDisabled(ImGui_Context* ctx, bool* disabledInOptional)</functioncall>
+        <functioncall prog_lang="eel">extension_api("ImGui_BeginDisabled", ImGui_Context ctx, optional bool disabledIn)</functioncall>
+        <functioncall prog_lang="lua">reaper.ImGui_BeginDisabled(ImGui_Context ctx, optional boolean disabledIn)</functioncall>
+        <functioncall prog_lang="python">(ImGui_Context ctx, Boolean disabledInOptional) = ImGui_BeginDisabled(ctx, disabledInOptional)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+            Disable all user interactions and dim items visuals (applying ImGui_StyleVar_DisabledAlpha over current colors).
+
+            ImGui_BeginDisabled(false) essentially does nothing useful but is provided to facilitate use of boolean expressions. If you can avoid calling ImGui_BeginDisabled(false)/ImGui_EndDisabled() best to avoid it.
+
+            Default values: disabled = true
+        </description>        
+        <parameters>
+            ImGui_Context ctx - 
+            optional boolean disabledIn - 
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -43419,18 +43461,18 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_BeginPopupModal</slug>
         <title>ImGui_BeginPopupModal</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginPopupModal(ImGui_Context* ctx, const char* name, bool* p_openInOut, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginPopupModal", ImGui_Context ctx, "name", bool &amp;p_open, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, boolean p_open = reaper.ImGui_BeginPopupModal(ImGui_Context ctx, string name, boolean p_open, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginPopupModal(ImGui_Context* ctx, const char* name, bool* p_openInOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_BeginPopupModal(ImGui_Context* ctx, const char* name, bool* p_openInOutOptional, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginPopupModal", ImGui_Context ctx, "name", optional bool &amp;p_open, optional int flagsIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, optional boolean p_open = reaper.ImGui_BeginPopupModal(ImGui_Context ctx, string name, optional boolean p_open, optional number flagsIn)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, ImGui_Context ctx, String name, Boolean p_openInOutOptional, Int flagsInOptional) = ImGui_BeginPopupModal(ctx, name, p_openInOutOptional, flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.3
+            ReaImGui=0.5.8
         </requires>
         <description>
             Block every interactions behind the window, cannot be closed by user, add a dimming background, has a title bar. Return true if the modal is open, and you can start outputting to it. See <a href="#ImGui_BeginPopup">ImGui_BeginPopup</a>.
             
-            Default values: flags = ImGui_WindowFlags_None
+            Default values: p_open = nil, flags = ImGui_WindowFlags_None
         </description>        
         <retvals>
             boolean retval - 
@@ -43485,18 +43527,18 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_BeginTabItem</slug>
         <title>ImGui_BeginTabItem</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginTabItem(ImGui_Context* ctx, const char* label, bool* p_openInOut, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginTabItem", ImGui_Context ctx, "label", bool &amp;p_open, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, boolean p_open = reaper.ImGui_BeginTabItem(ImGui_Context ctx, string label, boolean p_open, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginTabItem(ImGui_Context* ctx, const char* label, bool* p_openInOut, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_BeginTabItem(ImGui_Context* ctx, const char* label, bool* p_openInOutOptional, int* flagsInOptional)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginTabItem", ImGui_Context ctx, "label", optional bool &amp;p_open, optional int flagsIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, optional boolean p_open = reaper.ImGui_BeginTabItem(ImGui_Context ctx, string label, optional boolean p_open, optional number flagsIn)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, ImGui_Context ctx, String label, Boolean p_openInOutOptional, Int flagsInOptional) = ImGui_BeginTabItem(ctx, label, p_openInOutOptional, flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.3
+            ReaImGui=0.5.8
         </requires>
         <description>
             Create a Tab. Returns true if the Tab is selected. Set 'p_open' to true to enable the close button.
             
-            Default values: flags = ImGui_TabItemFlags_None
+            Default values: p_open = nil, flags = ImGui_TabItemFlags_None
         </description>        
         <retvals>
             boolean retval - 
@@ -45749,10 +45791,10 @@
         <functioncall prog_lang="python">int ImGui_ColorEditFlags_Float()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0.0f..1.0f floats instead of 0..255 integers. No round-trip of value via integers.
+            ColorEdit, ColorPicker, ColorButton: _display_ values formatted as 0.0..1.0 floats instead of 0..255 integers. No round-trip of value via integers.
         </description>        
         <retvals>
             integer -
@@ -46163,32 +46205,7 @@
             ReaImGui
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_ColorEditFlags__OptionsDefault</slug>
-        <title>ImGui_ColorEditFlags__OptionsDefault</title>
-        <functioncall prog_lang="cpp">int ImGui_ColorEditFlags__OptionsDefault()</functioncall>
-        <functioncall prog_lang="eel">int extension_api("ImGui_ColorEditFlags__OptionsDefault")</functioncall>
-        <functioncall prog_lang="lua">integer reaper.ImGui_ColorEditFlags__OptionsDefault()</functioncall>
-        <functioncall prog_lang="python">int ImGui_ColorEditFlags__OptionsDefault()</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Defaults Options. You can set application defaults using ImGui_SetColorEditOptions. The intent is that you probably don't want to override them in most of your calls. Let the user choose via the option menu and/or call SetColorEditOptions() once during startup.
-        </description>        
-        <retvals>
-            integer -
-        </retvals>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-    </US_DocBloc>
+    </US_DocBloc>    
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_ColorPicker3</slug>
@@ -46891,6 +46908,36 @@
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_CreateTextFilter</slug>
+        <title>ImGui_CreateTextFilter</title>
+        <functioncall prog_lang="cpp">ImGui_TextFilter* ImGui_CreateTextFilter(const char* default_filterInOptional)</functioncall>
+        <functioncall prog_lang="eel">ImGui_TextFilter extension_api("ImGui_CreateTextFilter", optional "default_filterIn")</functioncall>
+        <functioncall prog_lang="lua">ImGui_TextFilter reaper.ImGui_CreateTextFilter(optional string default_filterIn)</functioncall>
+        <functioncall prog_lang="python">ImGui_TextFilter ImGui_CreateTextFilter(String default_filterInOptional)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Parse and apply text filters. In format "aaaaa[,bbbb][,ccccc]". Valid until unused.
+
+            Default values: default_filter = ""
+        </description>        
+        <retvals>
+            ImGui_TextFilter -
+        </retvals>        
+        <parameters>
+            optional string default_filterIn - 
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_DestroyContext</slug>
         <title>ImGui_DestroyContext</title>
         <functioncall prog_lang="cpp">void ImGui_DestroyContext(ImGui_Context* ctx)</functioncall>
@@ -46906,6 +46953,32 @@
         </description>        
         <parameters>
             ImGui_Context ctx -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_DetachFont</slug>
+        <title>ImGui_DetachFont</title>
+        <functioncall prog_lang="cpp">void ImGui_DetachFont(ImGui_Context* ctx, ImGui_Font* font)</functioncall>
+        <functioncall prog_lang="eel">extension_api("ImGui_DetachFont", ImGui_Context ctx, ImGui_Font font)</functioncall>
+        <functioncall prog_lang="lua">reaper.ImGui_DetachFont(ImGui_Context ctx, ImGui_Font font)</functioncall>
+        <functioncall prog_lang="python">ImGui_DetachFont(ImGui_Context ctx, ImGui_Font font)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+            Unload a font from the given context. The font will be destroyed if is not attached to any context.
+        </description>        
+        <parameters>
+            ImGui_Context ctx - 
+            ImGui_Font font - 
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -47553,13 +47626,13 @@
         <functioncall prog_lang="python">bool ImGui_DragInt(ImGui_Context* ctx, const char* label, int* vInOut, double* v_speedInOptional, int* v_minInOptional, int* v_maxInOptional, const char* formatInOptional, int* flagsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
             - CTRL+Click on any drag box to turn them into an input box. Manually input values aren't clamped and can go off-bounds.
             - Adjust format string to decorate the value with a prefix, a suffix, or adapt the editing and display precision e.g. "%.3f" -&gt; 1.234; "%5.2f secs" -&gt; 01.23 secs; "Biscuit: %.0f" -&gt; Biscuit: 1; etc.
             - Format string may also be set to NULL or use the default format ("%f" or "%d").
-            - Speed are per-pixel of mouse movement (v_speed=0.2f: mouse needs to move by 5 pixels to increase value by 1). For gamepad/keyboard navigation, minimum speed is Max(v_speed, minimum_step_at_given_precision).
+            - Speed are per-pixel of mouse movement (v_speed=0.2: mouse needs to move by 5 pixels to increase value by 1). For gamepad/keyboard navigation, minimum speed is Max(v_speed, minimum_step_at_given_precision).
             - Use v_min &lt; v_max to clamp edits to given limits. Note that CTRL+Click manual input can override those limits.
             - Use v_max = FLT_MAX / INT_MAX etc to avoid clamping to a maximum, same with v_min = -FLT_MAX / INT_MIN to avoid clamping to a minimum.
             - We use the same sets of flags for DragXXX() and SliderXXX() functions as the features are the same and it makes it easier to swap them.
@@ -47856,10 +47929,10 @@
         <functioncall prog_lang="python">int ImGui_DrawFlags_RoundCornersBottomLeft()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: enable rounding bottom-left corner only (when rounding &gt; 0.0f, we default to all corners).
+            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: enable rounding bottom-left corner only (when rounding &gt; 0.0, we default to all corners).
         </description>        
         <retvals>
             integer -
@@ -47881,10 +47954,10 @@
         <functioncall prog_lang="python">int ImGui_DrawFlags_RoundCornersBottomRight()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: enable rounding bottom-right corner only (when rounding &gt; 0.0f, we default to all corners).
+            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: enable rounding bottom-right corner only (when rounding &gt; 0.0, we default to all corners).
         </description>        
         <retvals>
             integer -
@@ -47931,10 +48004,10 @@
         <functioncall prog_lang="python">int ImGui_DrawFlags_RoundCornersNone()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: disable rounding on all corners (when rounding &gt; 0.0f). This is NOT zero, NOT an implicit flag!.
+            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: disable rounding on all corners (when rounding &gt; 0.0). This is NOT zero, NOT an implicit flag!.
         </description>        
         <retvals>
             integer -
@@ -48006,10 +48079,10 @@
         <functioncall prog_lang="python">int ImGui_DrawFlags_RoundCornersTopLeft()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: enable rounding top-left corner only (when rounding &gt; 0.0f, we default to all corners).
+            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: enable rounding top-left corner only (when rounding &gt; 0.0, we default to all corners).
         </description>        
         <retvals>
             integer -
@@ -48031,10 +48104,10 @@
         <functioncall prog_lang="python">int ImGui_DrawFlags_RoundCornersTopRight()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: enable rounding top-right corner only (when rounding &gt; 0.0f, we default to all corners).
+            ImGui_DrawList_AddRect, ImGui_DrawList_AddRectFilled, ImGui_DrawList_PathRect: enable rounding top-right corner only (when rounding &gt; 0.0, we default to all corners).
         </description>        
         <retvals>
             integer -
@@ -49103,7 +49176,32 @@
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
     </US_DocBloc>
-    
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_EndDisabled</slug>
+        <title>ImGui_EndDisabled</title>
+        <functioncall prog_lang="cpp">void ImGui_EndDisabled(ImGui_Context* ctx)</functioncall>
+        <functioncall prog_lang="eel">extension_api("ImGui_EndDisabled", ImGui_Context ctx)</functioncall>
+        <functioncall prog_lang="lua">reaper.ImGui_EndDisabled(ImGui_Context ctx)</functioncall>
+        <functioncall prog_lang="python">ImGui_EndDisabled(ImGui_Context ctx)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+            See <a href="#ImGui_BeginDisabled">ImGui_BeginDisabled</a>.
+        </description>        
+        <parameters>
+            ImGui_Context ctx -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+  
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_EndDragDropSource</slug>
         <title>ImGui_EndDragDropSource</title>
@@ -50311,10 +50409,10 @@
         <functioncall prog_lang="python">double ImGui_GetKeyDownDuration(ImGui_Context* ctx, int key_code)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Duration the keyboard key has been down (0.0f == just pressed)
+            Duration the keyboard key has been down (0.0 == just pressed)
         </description>        
         <retvals>
             number -
@@ -50519,10 +50617,10 @@
         <functioncall prog_lang="python">double ImGui_GetMouseDownDuration(ImGui_Context* ctx, int button)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Duration the mouse button has been down (0.0f == just clicked)
+            Duration the mouse button has been down (0.0 == just clicked)
         </description>        
         <retvals>
             number -
@@ -50548,10 +50646,10 @@
         <functioncall prog_lang="python">void ImGui_GetMouseDragDelta(ImGui_Context* ctx, double* xOut, double* yOut, int* buttonInOptional, double* lock_thresholdInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Return the delta from the initial clicking position while the mouse button is pressed or was just released. This is locked and return 0.0f until the mouse moves past a distance threshold at least once (if lock_threshold &lt; -1.0f, uses io.MouseDraggingThreshold).
+            Return the delta from the initial clicking position while the mouse button is pressed or was just released. This is locked and return 0.0 until the mouse moves past a distance threshold at least once (if lock_threshold &lt; -1.0, uses io.MouseDraggingThreshold).
             
             Default values: button = ImGui_MouseButton_Left, lock_threshold = -1.0
         </description>        
@@ -53509,11 +53607,11 @@
         <functioncall prog_lang="python">void ImGui_ListClipper_Begin(ImGui_ListClipper* clipper, int items_count, double* items_heightInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
             items_count: Use INT_MAX if you don't know how many items you have (in which case the cursor won't be advanced in the final step)
-            items_height: Use -1.0f to be calculated automatically on first step. Otherwise pass in the distance between your items, typically ImGui_GetTextLineHeightWithSpacing or ImGui_GetFrameHeightWithSpacing.
+            items_height: Use -1.0 to be calculated automatically on first step. Otherwise pass in the distance between your items, typically ImGui_GetTextLineHeightWithSpacing or ImGui_GetFrameHeightWithSpacing.
             
             Default values: items_height = -1.0
         </description>        
@@ -53751,13 +53849,13 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_MenuItem</slug>
         <title>ImGui_MenuItem</title>
-        <functioncall prog_lang="cpp">bool ImGui_MenuItem(ImGui_Context* ctx, const char* label, const char* shortcutInOptional, bool* p_selectedInOut, bool* enabledInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_MenuItem", ImGui_Context ctx, "label", optional "shortcutIn", bool &amp;p_selected, optional bool enabledIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, boolean p_selected = reaper.ImGui_MenuItem(ImGui_Context ctx, string label, optional string shortcutIn, boolean p_selected, optional boolean enabledIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_MenuItem(ImGui_Context* ctx, const char* label, const char* shortcutInOptional, bool* p_selectedInOut, bool* enabledInOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool ImGui_MenuItem(ImGui_Context* ctx, const char* label, const char* shortcutInOptional, bool* p_selectedInOutOptional, bool* enabledInOptional)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("ImGui_MenuItem", ImGui_Context ctx, "label", optional "shortcutIn", optional bool &amp;p_selected, optional bool enabledIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, optional boolean p_selected = reaper.ImGui_MenuItem(ImGui_Context ctx, string label, optional string shortcutIn, optional boolean p_selected, optional boolean enabledIn)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, ImGui_Context ctx, String label, String shortcutInOptional, Boolean p_selectedInOutOptional, Boolean enabledInOptional) = ImGui_MenuItem(ctx, label, shortcutInOptional, p_selectedInOutOptional, enabledInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.3
+            ReaImGui=0.5.8
         </requires>
         <description>
             Return true when activated. Shortcuts are displayed for convenience but not processed by ImGui at the moment. Toggle state is written to 'selected' when provided.
@@ -54922,10 +55020,10 @@
         <functioncall prog_lang="python">void ImGui_PushItemWidth(ImGui_Context* ctx, double item_width)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Push width of items for common large "item+label" widgets. &gt;0.0f: width in pixels, &lt;0.0f align xx pixels to the right of window (so -FLT_MIN always align width to the right side). 0.0f = default to ~2/3 of windows width,
+            Push width of items for common large "item+label" widgets. &gt;0.0: width in pixels, &lt;0.0 align xx pixels to the right of window (so -FLT_MIN always align width to the right side). 0.0 = default to ~2/3 of windows width,
         </description>        
         <parameters>
             ImGui_Context ctx - 
@@ -55005,10 +55103,10 @@
         <functioncall prog_lang="python">void ImGui_PushTextWrapPos(ImGui_Context* ctx, double* wrap_local_pos_xInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Push word-wrapping position for Text*() commands. &lt; 0.0f: no wrapping; 0.0f: wrap to end of window (or column); &gt; 0.0f: wrap at 'wrap_pos_x' position in window local space.
+            Push word-wrapping position for Text*() commands. &lt; 0.0: no wrapping; 0.0: wrap to end of window (or column); &gt; 0.0: wrap at 'wrap_pos_x' position in window local space.
             
             Default values: wrap_local_pos_x = 0.0
         </description>        
@@ -55714,10 +55812,10 @@
         <functioncall prog_lang="python">void ImGui_SetNextItemWidth(ImGui_Context* ctx, double item_width)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Set width of the _next_ common large "item+label" widget. &gt;0.0f: width in pixels, &lt;0.0f align xx pixels to the right of window (so -FLT_MIN always align width to the right side)
+            Set width of the _next_ common large "item+label" widget. &gt;0.0: width in pixels, &lt;0.0 align xx pixels to the right of window (so -FLT_MIN always align width to the right side)
         </description>        
         <parameters>
             ImGui_Context ctx - 
@@ -55795,10 +55893,10 @@
         <functioncall prog_lang="python">void ImGui_SetNextWindowContentSize(ImGui_Context* ctx, double size_w, double size_h)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Set next window content size (~ scrollable client area, which enforce the range of scrollbars). Not including window decorations (title bar, menu bar, etc.) nor ImGui_StyleVar_WindowPadding. set an axis to 0.0f to leave it automatic. Call before ImGui_Begin.
+            Set next window content size (~ scrollable client area, which enforce the range of scrollbars). Not including window decorations (title bar, menu bar, etc.) nor ImGui_StyleVar_WindowPadding. set an axis to 0.0 to leave it automatic. Call before ImGui_Begin.
         </description>        
         <parameters>
             ImGui_Context ctx - 
@@ -55910,10 +56008,10 @@
         <functioncall prog_lang="python">void ImGui_SetNextWindowSize(ImGui_Context* ctx, double size_w, double size_h, int* condInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Set next window size. set axis to 0.0f to force an auto-fit on this axis. Call before ImGui_Begin.
+            Set next window size. set axis to 0.0 to force an auto-fit on this axis. Call before ImGui_Begin.
             
             Default values: cond = ImGui_Cond_Always
         </description>        
@@ -56388,10 +56486,10 @@
         <functioncall prog_lang="python">void ImGui_SetWindowSizeEx(ImGui_Context* ctx, const char* name, double size_w, double size_h, int* condInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Set named window size. Set axis to 0.0f to force an auto-fit on this axis.
+            Set named window size. Set axis to 0.0 to force an auto-fit on this axis.
             
             Default values: cond = ImGui_Cond_Always
         </description>        
@@ -56411,18 +56509,48 @@
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_ShowMetricsWindow</slug>
-        <title>ImGui_ShowMetricsWindow</title>
-        <functioncall prog_lang="cpp">void ImGui_ShowMetricsWindow(ImGui_Context* ctx, bool* p_openInOut)</functioncall>
-        <functioncall prog_lang="eel">extension_api("ImGui_ShowMetricsWindow", ImGui_Context ctx, bool &amp;p_open)</functioncall>
-        <functioncall prog_lang="lua">boolean p_open = reaper.ImGui_ShowMetricsWindow(ImGui_Context ctx, boolean p_open)</functioncall>
-        <functioncall prog_lang="python">void ImGui_ShowMetricsWindow(ImGui_Context* ctx, bool* p_openInOut)</functioncall>
+        <slug>ImGui_ShowAboutWindow</slug>
+        <title>ImGui_ShowAboutWindow</title>
+        <functioncall prog_lang="cpp">void ImGui_ShowAboutWindow(ImGui_Context* ctx, bool* p_openInOutOptional)</functioncall>
+        <functioncall prog_lang="eel">extension_api("ImGui_ShowAboutWindow", ImGui_Context ctx, optional bool &amp;p_open)</functioncall>
+        <functioncall prog_lang="lua">optional boolean p_open = reaper.ImGui_ShowAboutWindow(ImGui_Context ctx, optional boolean p_open)</functioncall>
+        <functioncall prog_lang="python">(ImGui_Context ctx, Boolean p_openInOutOptional) = ImGui_ShowAboutWindow(ctx, p_openInOutOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.3
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+            Create About window. Display ReaImGui version, Dear ImGui version, credits and build/system information.
+
+            Default values: p_open = nil
+        </description>        
+        <parameters>
+            ImGui_Context ctx - 
+            optional boolean p_open - 
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_ShowMetricsWindow</slug>
+        <title>ImGui_ShowMetricsWindow</title>
+        <functioncall prog_lang="cpp">void ImGui_ShowMetricsWindow(ImGui_Context* ctx, bool* p_openInOutOptional)</functioncall>
+        <functioncall prog_lang="eel">extension_api("ImGui_ShowMetricsWindow", ImGui_Context ctx, optional bool &amp;p_open)</functioncall>
+        <functioncall prog_lang="lua">optional boolean p_open = reaper.ImGui_ShowMetricsWindow(ImGui_Context ctx, optional boolean p_open)</functioncall>
+        <functioncall prog_lang="python">(ImGui_Context ctx, Boolean p_openInOutOptional) = ImGui_ShowMetricsWindow(ctx, p_openInOutOptional)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
         </requires>
         <description>
             Create Metrics/Debugger window. Display Dear ImGui internals: windows, draw commands, various internal state, etc. Set p_open to true to enable the close button.
+
+            Default values: p_open = nil
         </description>        
         <retvals>
             boolean p_open - -
@@ -57098,10 +57226,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_ButtonTextAlign()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Alignment of button text when button is larger than text. Defaults to (0.5f, 0.5f) (centered).
+            Alignment of button text when button is larger than text. Defaults to (0.5, 0.5) (centered).
         </description>        
         <retvals>
             integer -
@@ -57148,10 +57276,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_ChildBorderSize()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Thickness of border around child windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).
+            Thickness of border around child windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).
         </description>        
         <retvals>
             integer -
@@ -57173,10 +57301,35 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_ChildRounding()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Radius of child window corners rounding. Set to 0.0f to have rectangular windows.
+            Radius of child window corners rounding. Set to 0.0 to have rectangular windows.
+        </description>        
+        <retvals>
+            integer -
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_StyleVar_DisabledAlpha</slug>
+        <title>ImGui_StyleVar_DisabledAlpha</title>
+        <functioncall prog_lang="cpp">int ImGui_StyleVar_DisabledAlpha()</functioncall>
+        <functioncall prog_lang="eel">int extension_api("ImGui_StyleVar_DisabledAlpha")</functioncall>
+        <functioncall prog_lang="lua">integer reaper.ImGui_StyleVar_DisabledAlpha()</functioncall>
+        <functioncall prog_lang="python">Int ImGui_StyleVar_DisabledAlpha()</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+            Additional alpha multiplier applied by ImGui_BeginDisabled. Multiply over current value of Alpha.
         </description>        
         <retvals>
             integer -
@@ -57198,10 +57351,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_FrameBorderSize()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Thickness of border around frames. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).
+            Thickness of border around frames. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).
         </description>        
         <retvals>
             integer -
@@ -57248,10 +57401,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_FrameRounding()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Radius of frame corners rounding. Set to 0.0f to have rectangular frame (used by most widgets).
+            Radius of frame corners rounding. Set to 0.0 to have rectangular frame (used by most widgets).
         </description>        
         <retvals>
             integer -
@@ -57298,10 +57451,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_GrabRounding()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Radius of grabs corners rounding. Set to 0.0f to have rectangular slider grabs.
+            Radius of grabs corners rounding. Set to 0.0 to have rectangular slider grabs.
         </description>        
         <retvals>
             integer -
@@ -57398,10 +57551,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_PopupBorderSize()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Thickness of border around popup/tooltip windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).
+            Thickness of border around popup/tooltip windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).
         </description>        
         <retvals>
             integer -
@@ -57498,10 +57651,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_SelectableTextAlign()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Alignment of selectable text. Defaults to (0.0f, 0.0f) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line.
+            Alignment of selectable text. Defaults to (0.0, 0.0) (top-left aligned). It's generally important to keep this left-aligned if you want to lay multiple items on a same line.
         </description>        
         <retvals>
             integer -
@@ -57523,10 +57676,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_TabRounding()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Radius of upper corners of a tab. Set to 0.0f to have rectangular tabs.
+            Radius of upper corners of a tab. Set to 0.0 to have rectangular tabs.
         </description>        
         <retvals>
             integer -
@@ -57548,10 +57701,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_WindowBorderSize()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Thickness of border around windows. Generally set to 0.0f or 1.0f. (Other values are not well tested and more CPU/GPU costly).
+            Thickness of border around windows. Generally set to 0.0 or 1.0. (Other values are not well tested and more CPU/GPU costly).
         </description>        
         <retvals>
             integer -
@@ -57623,10 +57776,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_WindowRounding()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Radius of window corners rounding. Set to 0.0f to have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended.
+            Radius of window corners rounding. Set to 0.0 to have rectangular windows. Large values tend to lead to variety of artifacts and are not recommended.
         </description>        
         <retvals>
             integer -
@@ -57648,10 +57801,10 @@
         <functioncall prog_lang="python">int ImGui_StyleVar_WindowTitleAlign()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Alignment for title bar text. Defaults to (0.0f,0.5f) for left-aligned,vertically centered.
+            Alignment for title bar text. Defaults to (0.0,0.5) for left-aligned,vertically centered.
         </description>        
         <retvals>
             integer -
@@ -58306,7 +58459,32 @@
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
     </US_DocBloc>
-    
+ 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_TableColumnFlags_DefaultSort</slug>
+        <title>ImGui_TableColumnFlags_DefaultSort</title>
+        <functioncall prog_lang="cpp">int ImGui_TableColumnFlags_DefaultSort()</functioncall>
+        <functioncall prog_lang="eel">int extension_api("ImGui_TableColumnFlags_DefaultSort")</functioncall>
+        <functioncall prog_lang="lua">integer reaper.ImGui_TableColumnFlags_DefaultSort()</functioncall>
+        <functioncall prog_lang="python">Int ImGui_TableColumnFlags_DefaultSort()</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+            Default as a sorting column.
+        </description>        
+        <retvals>
+            integer -
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+ 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_TableColumnFlags_IndentDisable</slug>
         <title>ImGui_TableColumnFlags_IndentDisable</title>
@@ -58481,7 +58659,32 @@
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
     </US_DocBloc>
-    
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_TableColumnFlags_NoHeaderLabel</slug>
+        <title>ImGui_TableColumnFlags_NoHeaderLabel</title>
+        <functioncall prog_lang="cpp">int ImGui_TableColumnFlags_NoHeaderLabel()</functioncall>
+        <functioncall prog_lang="eel">int extension_api("ImGui_TableColumnFlags_NoHeaderLabel")</functioncall>
+        <functioncall prog_lang="lua">integer reaper.ImGui_TableColumnFlags_NoHeaderLabel()</functioncall>
+        <functioncall prog_lang="python">Int ImGui_TableColumnFlags_NoHeaderLabel()</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+            ImGui_TableHeadersRow will not submit label for this column. Convenient for some small columns. Name will still appear in context menu.
+        </description>        
+        <retvals>
+            integer -
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+  
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_TableColumnFlags_NoHeaderWidth</slug>
         <title>ImGui_TableColumnFlags_NoHeaderWidth</title>
@@ -60045,10 +60248,14 @@
         <functioncall prog_lang="python">void ImGui_TableSetColumnEnabled(ImGui_Context* ctx, int column_n, bool v)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Change enabled/disabled state of a column, set to false to hide the column. Note that end-user can use the context menu to change this themselves (right-click in headers, or right-click in columns body with ImGui_TableFlags_ContextMenuInBody).
+            Change user-accessible enabled/disabled state of a column, set to false to hide the column. Note that end-user can use the context menu to change this themselves (right-click in headers, or right-click in columns body with ImGui_TableFlags_ContextMenuInBody).
+
+            - Require table to have the ImGui_TableFlags_Hideable flag because we are manipulating user accessible state.
+            - Request will be applied during next layout, which happens on the first call to ImGui_TableNextRow after Begin_Table.
+            - For the getter you can test (ImGui_TableGetColumnFlags() &amp; ImGui_TableColumnFlags_IsEnabled) != 0.
         </description>        
         <parameters>
             ImGui_Context ctx - 
@@ -60228,6 +60435,174 @@
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
     </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_TextFilter_Clear</slug>
+        <title>ImGui_TextFilter_Clear</title>
+        <functioncall prog_lang="cpp">void ImGui_TextFilter_Clear(ImGui_TextFilter* filter)</functioncall>
+        <functioncall prog_lang="eel">extension_api("ImGui_TextFilter_Clear", ImGui_TextFilter filter)</functioncall>
+        <functioncall prog_lang="lua">reaper.ImGui_TextFilter_Clear(ImGui_TextFilter filter)</functioncall>
+        <functioncall prog_lang="python">ImGui_TextFilter_Clear(ImGui_TextFilter filter)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+
+        </description>        
+        <parameters>
+            ImGui_TextFilter filter - 
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_TextFilter_Draw</slug>
+        <title>ImGui_TextFilter_Draw</title>
+        <functioncall prog_lang="cpp">bool ImGui_TextFilter_Draw(ImGui_TextFilter* filter, ImGui_Context* ctx, const char* labelInOptional, double* widthInOptional)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("ImGui_TextFilter_Draw", ImGui_TextFilter filter, ImGui_Context ctx, optional "labelIn", optional widthIn)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.ImGui_TextFilter_Draw(ImGui_TextFilter filter, ImGui_Context ctx, optional string labelIn, optional number widthIn)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, ImGui_TextFilter filter, ImGui_Context ctx, String labelInOptional, Float widthInOptional) = ImGui_TextFilter_Draw(filter, ctx, labelInOptional, widthInOptional)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+
+        </description>        
+        <retvals>
+            boolean - 
+        </retvals>
+        <parameters>
+            ImGui_TextFilter filter - 
+            ImGui_Context ctx - 
+            optional string labelIn - 
+            optional number widthIn
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>    
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_TextFilter_Get</slug>
+        <title>ImGui_TextFilter_Get</title>
+        <functioncall prog_lang="cpp">const char* ImGui_TextFilter_Get(ImGui_TextFilter* filter)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("ImGui_TextFilter_Get", #retval, ImGui_TextFilter filter)</functioncall>
+        <functioncall prog_lang="lua">string reaper.ImGui_TextFilter_Get(ImGui_TextFilter filter)</functioncall>
+        <functioncall prog_lang="python">String ImGui_TextFilter_Get(ImGui_TextFilter filter)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+
+        </description>        
+        <retvals>
+            string - 
+        </retvals>
+        <parameters>
+            ImGui_TextFilter filter - 
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>        
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_TextFilter_IsActive</slug>
+        <title>ImGui_TextFilter_IsActive</title>
+        <functioncall prog_lang="cpp">bool ImGui_TextFilter_IsActive(ImGui_TextFilter* filter)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("ImGui_TextFilter_IsActive", ImGui_TextFilter filter)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.ImGui_TextFilter_IsActive(ImGui_TextFilter filter)</functioncall>
+        <functioncall prog_lang="python">Boolean ImGui_TextFilter_IsActive(ImGui_TextFilter filter)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+
+        </description>        
+        <retvals>
+            boolean - 
+        </retvals>
+        <parameters>
+            ImGui_TextFilter filter - 
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>   
+
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_TextFilter_PassFilter</slug>
+        <title>ImGui_TextFilter_PassFilter</title>
+        <functioncall prog_lang="cpp">bool ImGui_TextFilter_PassFilter(ImGui_TextFilter* filter, const char* text)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("ImGui_TextFilter_PassFilter", ImGui_TextFilter filter, "text")</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.ImGui_TextFilter_PassFilter(ImGui_TextFilter filter, string text)</functioncall>
+        <functioncall prog_lang="python">Boolean ImGui_TextFilter_PassFilter(ImGui_TextFilter filter, String text)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+
+        </description>        
+        <retvals>
+            boolean - 
+        </retvals>
+        <parameters>
+            ImGui_TextFilter filter - 
+            string text - 
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_TextFilter_Set</slug>
+        <title>ImGui_TextFilter_Set</title>
+        <functioncall prog_lang="cpp">void ImGui_TextFilter_Set(ImGui_TextFilter* filter, const char* filter_text)</functioncall>
+        <functioncall prog_lang="eel">extension_api("ImGui_TextFilter_Set", ImGui_TextFilter filter, "filter_text")</functioncall>
+        <functioncall prog_lang="lua">reaper.ImGui_TextFilter_Set(ImGui_TextFilter filter, string filter_text)</functioncall>
+        <functioncall prog_lang="python">ImGui_TextFilter_Set(ImGui_TextFilter filter, String filter_text)</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+
+        </description>        
+        <parameters>
+            ImGui_TextFilter filter - 
+            string filter_text - 
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>  
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_TextWrapped</slug>
@@ -60857,10 +61232,10 @@
         <functioncall prog_lang="python">bool ImGui_ValidatePtr(void* pointer, const char* type)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Return whether the pointer of the specified type is valid. Supported types are ImGui_Context*, ImGui_DrawList*, ImGui_ListClipper* and ImGui_Viewport*.
+            Return whether the pointer of the specified type is valid. Supported types are ImGui_Context*, ImGui_DrawList*, ImGui_Font*, ImGui_ListClipper*, ImGui_TextFilter* and ImGui_Viewport*.
         </description>        
         <retvals>
             boolean -
@@ -61625,6 +62000,56 @@
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
     </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_WindowFlags_None</slug>
+        <title>ImGui_WindowFlags_None</title>
+        <functioncall prog_lang="cpp">int ImGui_WindowFlags_None()</functioncall>
+        <functioncall prog_lang="eel">int extension_api("ImGui_WindowFlags_None")</functioncall>
+        <functioncall prog_lang="lua">integer reaper.ImGui_WindowFlags_None()</functioncall>
+        <functioncall prog_lang="python">int ImGui_WindowFlags_None()</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.2
+        </requires>
+        <description>
+            Default flag. See <a href="#ImGui_Begin">ImGui_Begin</a>.
+        </description>        
+        <retvals>
+            integer -
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ImGui_WindowFlags_TopMost</slug>
+        <title>ImGui_WindowFlags_TopMost</title>
+        <functioncall prog_lang="cpp">int ImGui_WindowFlags_TopMost()</functioncall>
+        <functioncall prog_lang="eel">int extension_api("ImGui_WindowFlags_TopMost")</functioncall>
+        <functioncall prog_lang="lua">integer reaper.ImGui_WindowFlags_TopMost()</functioncall>
+        <functioncall prog_lang="python">Int ImGui_WindowFlags_TopMost()</functioncall>
+        <requires>
+            Reaper=6.23
+            ReaImGui=0.5.8
+        </requires>
+        <description>
+            Show the window above all non-topmost windows (ImGui_Begin only).
+        </description>        
+        <retvals>
+            integer -
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaImGui
+        </chapter_context>
+        <tags>reaimgui, gui, user interface</tags>
+    </US_DocBloc>    
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_WindowFlags_UnsavedDocument</slug>
@@ -61635,10 +62060,10 @@
         <functioncall prog_lang="python">int ImGui_WindowFlags_UnsavedDocument()</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.2
+            ReaImGui=0.5.8
         </requires>
         <description>
-            Append '*' to title without affecting the ID, as a convenience to avoid using the ### operator. When used in a tab/docking context, tab is selected on closure and closure is deferred by one frame to allow code to cancel the closure (with a confirmation popup, etc.) without flicker.
+            Display a dot next to the title. When used in a tab/docking context, tab is selected when clicking the X + closure is not assumed (will wait for user to stop submitting the tab). Otherwise closure is assumed when pressing the X, so if you keep submitting the tab may reappear at end of tab bar.
         </description>        
         <retvals>
             integer -
