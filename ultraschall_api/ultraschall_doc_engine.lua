@@ -168,7 +168,7 @@ function ultraschall.Docs_RemoveIndent(String, indenttype, i)
   if indenttype=="minus_starts_line" then return string.gsub("\n"..String, "\n.-%-", "\n"):sub(2,-1) end
   if indenttype=="preceding_spaces" then  return string.gsub("\n"..String, "\n%s*", "\n"):sub(2,-1) end
   if indenttype=="default" then 
-    Length=String:match("(%s*)")
+    local Length=String:match("(%s*)")
     if Length==nil then Length="" end
     return string.gsub("\n"..String, "\n"..Length, "\n"):sub(2,-1)
   end

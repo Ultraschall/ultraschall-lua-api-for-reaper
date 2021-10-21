@@ -143,6 +143,7 @@ function ultraschall.ColorateDatatypes(String)
   String=string.gsub(String, " HWND ", " <i>HWND</i> ")
   String=string.gsub(String, " ImGui_Context ", " <i>ImGui_Context</i> ")
   String=string.gsub(String, " ImGui_DrawList ", " <i>ImGui_DrawList</i> ")
+  
   String=string.gsub(String, " identifier ", " <i>identifier</i> ")
   String=string.gsub(String, " reaper.array ", " <i>reaper.array</i> ")
   String=string.gsub(String, " PackageEntry ", " <i>PackageEntry</i> ")  

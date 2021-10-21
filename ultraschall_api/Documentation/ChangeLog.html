@@ -48,6 +48,7 @@ Bla</li>
 </ul>
 <h4>Changes from 4.2.005 to 4.2.006</h4>
 <ul>
+<li>DocEngine: Docs_RemoveIndent - had inner variable exposed -&gt; fixed</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.35 and ReaImGui 0.5.8</li>
 <li>Docs: Reaper-API-docs - All-View jumped to the top of the document instead of just unhiding functioncalls -&gt; fixed</li>
 <li>Docs: All docs - you can create now a custom.css file in the Documentation-folder to customize the style of the docs</li>
@@ -57,8 +58,9 @@ Bla</li>
 <li>ParmLearn: GetParmLearn_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -&gt; fixed(thanks to TonE)</li>
 <li>ParmLearn: SetParmLearn_FXStateChunk2 - had massive errors in the docs -&gt; fixed(thanks to TonE)</li>
 <li>Rendering: RenderProject_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -&gt; fixed(thnx to aurelien)</li>
-<li><h2>User Interface: Windows_Find - had inner variable exposed -&gt; fixed</h2></li>
+<li>User Interface: Windows_Find - had inner variable exposed -&gt; fixed</li>
 </ul>
+<hr />
 <h3>4.2.005 - "Anne Clark - Our Darkness" - 21st of July 2021</h3>
 <p>Has now 1406 functions, with 6 new ones</p>
 <p><strong>new in this release:</strong></p>

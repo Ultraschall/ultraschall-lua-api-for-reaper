@@ -195,7 +195,6 @@ Have fun!"
                                                                                     funfact - -1:U entry is pan_law, go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
                                                                          AUXRECV_WITHOUT_PANLAW_BOOST - if existing after a AUXRECV, pan_law has the Gain compensation (boost pans)-checkbox set
                                                                                                         go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
-      TODO!! Rewrite Doccreation from scratch with proper css.
       TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
              produziert die API Fehler.
 
@@ -403,6 +402,13 @@ Doesn't work on Windows 7???
 
   - Rendering: CalculateLoudness - calculates loundness of tracks/items and returns its stats  
 
+  - Docs: GetMediaFileMetaData has the parameter "identifier" colored.
+     this is because, some functions return in the docs returnvalues with only the datatype, not a name like retval
+     so if I don't convert all "identifier" it might result into uncolored datatypes.
+     Solution: give all functions, who only return one retval a descriptive name for the retval.
+     Tedious, but the only proper way and the best way to deal within a descriptive docs anyway.
+ 
+
 </TODO>
 
 
@@ -422,6 +428,7 @@ Has now 1406 functions, with 6 new ones
   - Render Management: GetRenderTargetFiles - returns the render-target and filenames of all render-files, if they would be rendered right now
 
 #### Changes from 4.2.005 to 4.2.006  
+  - DocEngine: Docs\_RemoveIndent - had inner variable exposed -> fixed
   - Docs: Reaper Internals - updated to Reaper 6.35 and ReaImGui 0.5.8
   - Docs: Reaper-API-docs - All-View jumped to the top of the document instead of just unhiding functioncalls -> fixed
   - Docs: All docs - you can create now a custom.css file in the Documentation-folder to customize the style of the docs
@@ -432,6 +439,7 @@ Has now 1406 functions, with 6 new ones
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
   - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)
   - User Interface: Windows\_Find - had inner variable exposed -> fixed
+  
 ---
 
 ### 4.2.005 - "Anne Clark - Our Darkness" - 21st of July 2021
