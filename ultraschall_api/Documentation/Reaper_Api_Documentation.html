@@ -29735,7 +29735,7 @@ enumerates installed devices, returns GUID as a string
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>string</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -29745,7 +29745,7 @@ enumerates installed devices, returns GUID as a string
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">index</td></tr>
+<tr><td class="pr"><i>integer</i> index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29758,7 +29758,7 @@ enumerates installed devices, returns GUID as a string
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>joystick_getaxis</em>(joystick_device* dev, <i>int</i> axis)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>joystick_getaxis</em>(<i>joystick_device</i> dev, <i>int</i> axis)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.joystick_getaxis</em>(<i>joystick_device</i> dev, <i>integer</i> axis)</code></div>
+<div class="l">Lua: <code> <i>number</i> joystick_axis_value = <em>reaper.joystick_getaxis</em>(<i>joystick_device</i> dev, <i>integer</i> axis)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_joystick_getaxis</em>(<i>joystick_device</i> dev, <i>Int</i> axis)</code></div>
 </div><p>
 <div class="ch">
@@ -29766,17 +29766,17 @@ returns axis value (-1..1)
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> joystick_axis_value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dev</td></tr>
+<tr><td class="pr"><i>joystick_device</i> dev</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">axis</td></tr>
+<tr><td class="pr"><i>integer</i> axis</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29789,7 +29789,7 @@ returns axis value (-1..1)
 <div class="cc">
 <div class="c">C: <code> <i>unsigned</i> <i>int</i> <em>joystick_getbuttonmask</em>(joystick_device* dev)</code></div>
 <div class="e">EEL2: <code> uint <em>joystick_getbuttonmask</em>(<i>joystick_device</i> dev)</code></div>
-<div class="l">Lua: <code> <i>integer</i> = <em>reaper.joystick_getbuttonmask</em>(<i>joystick_device</i> dev)</code></div>
+<div class="l">Lua: <code> <i>integer</i> joystick_button_mask = <em>reaper.joystick_getbuttonmask</em>(<i>joystick_device</i> dev)</code></div>
 <div class="p">Python: <code> <i>Int</i> <em>RPR_joystick_getbuttonmask</em>(<i>joystick_device</i> dev)</code></div>
 </div><p>
 <div class="ch">
@@ -29797,13 +29797,13 @@ returns button pressed mask, 1=first button, 2=second...
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i></td></tr>
+<tr><td class="pr"><i>integer</i> joystick_button_mask</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dev</td></tr>
+<tr><td class="pr"><i>joystick_device</i> dev</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29824,21 +29824,21 @@ returns button count
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">axes</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> axes</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">povs</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> povs</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dev</td></tr>
+<tr><td class="pr"><i>joystick_device</i> dev</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29851,7 +29851,7 @@ returns button count
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>joystick_getpov</em>(joystick_device* dev, <i>int</i> pov)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>joystick_getpov</em>(<i>joystick_device</i> dev, <i>int</i> pov)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.joystick_getpov</em>(<i>joystick_device</i> dev, <i>integer</i> pov)</code></div>
+<div class="l">Lua: <code> <i>number</i> joystick_pov = <em>reaper.joystick_getpov</em>(<i>joystick_device</i> dev, <i>integer</i> pov)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_joystick_getpov</em>(<i>joystick_device</i> dev, <i>Int</i> pov)</code></div>
 </div><p>
 <div class="ch">
@@ -29859,17 +29859,17 @@ returns POV value (usually 0..655.35, or 655.35 on error)
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> joystick_pov</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dev</td></tr>
+<tr><td class="pr"><i>joystick_device</i> dev</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">pov</td></tr>
+<tr><td class="pr"><i>integer</i> pov</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29882,7 +29882,7 @@ returns POV value (usually 0..655.35, or 655.35 on error)
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>joystick_update</em>(joystick_device* dev)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>joystick_update</em>(<i>joystick_device</i> dev)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> = <em>reaper.joystick_update</em>(<i>joystick_device</i> dev)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> joystick_state = <em>reaper.joystick_update</em>(<i>joystick_device</i> dev)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_joystick_update</em>(<i>joystick_device</i> dev)</code></div>
 </div><p>
 <div class="ch">
@@ -29890,13 +29890,13 @@ Updates joystick state from hardware, returns true if successful (joystick_get* 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> joystick_state</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dev</td></tr>
+<tr><td class="pr"><i>joystick_device</i> dev</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30922,25 +30922,25 @@ Count the number of notes, CC events, and text/sysex events in a given MIDI item
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">notecnt</td></tr>
+<tr><td class="pr"><i>integer</i> notecnt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ccevtcnt</td></tr>
+<tr><td class="pr"><i>integer</i> ccevtcnt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">textsyxevtcnt</td></tr>
+<tr><td class="pr"><i>integer</i> textsyxevtcnt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30953,7 +30953,7 @@ Count the number of notes, CC events, and text/sysex events in a given MIDI item
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_DeleteCC</em>(<i>MediaItem_Take*</i> take, <i>int</i> ccidx)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_DeleteCC</em>(<i>MediaItem_Take</i> take, <i>int</i> ccidx)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> = <em>reaper.MIDI_DeleteCC</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_DeleteCC</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_MIDI_DeleteCC</em>(<i>MediaItem_Take</i> take, <i>Int</i> ccidx)</code></div>
 </div><p>
 <div class="ch">
@@ -30961,17 +30961,17 @@ Delete a MIDI CC event.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ccidx</td></tr>
+<tr><td class="pr"><i>integer</i> ccidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30984,7 +30984,7 @@ Delete a MIDI CC event.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_DeleteEvt</em>(<i>MediaItem_Take*</i> take, <i>int</i> evtidx)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_DeleteEvt</em>(<i>MediaItem_Take</i> take, <i>int</i> evtidx)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> = <em>reaper.MIDI_DeleteEvt</em>(<i>MediaItem_Take</i> take, <i>integer</i> evtidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_DeleteEvt</em>(<i>MediaItem_Take</i> take, <i>integer</i> evtidx)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_MIDI_DeleteEvt</em>(<i>MediaItem_Take</i> take, <i>Int</i> evtidx)</code></div>
 </div><p>
 <div class="ch">
@@ -30992,17 +30992,17 @@ Delete a MIDI event.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">evtidx</td></tr>
+<tr><td class="pr"><i>integer</i> evtidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31015,7 +31015,7 @@ Delete a MIDI event.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_DeleteNote</em>(<i>MediaItem_Take*</i> take, <i>int</i> noteidx)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_DeleteNote</em>(<i>MediaItem_Take</i> take, <i>int</i> noteidx)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> = <em>reaper.MIDI_DeleteNote</em>(<i>MediaItem_Take</i> take, <i>integer</i> noteidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_DeleteNote</em>(<i>MediaItem_Take</i> take, <i>integer</i> noteidx)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_MIDI_DeleteNote</em>(<i>MediaItem_Take</i> take, <i>Int</i> noteidx)</code></div>
 </div><p>
 <div class="ch">
@@ -31023,17 +31023,17 @@ Delete a MIDI note.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">noteidx</td></tr>
+<tr><td class="pr"><i>integer</i> noteidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31046,7 +31046,7 @@ Delete a MIDI note.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_DeleteTextSysexEvt</em>(<i>MediaItem_Take*</i> take, <i>int</i> textsyxevtidx)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_DeleteTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>int</i> textsyxevtidx)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> = <em>reaper.MIDI_DeleteTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>integer</i> textsyxevtidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_DeleteTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>integer</i> textsyxevtidx)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_MIDI_DeleteTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>Int</i> textsyxevtidx)</code></div>
 </div><p>
 <div class="ch">
@@ -31054,17 +31054,17 @@ Delete a MIDI text or sysex event.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">textsyxevtidx</td></tr>
+<tr><td class="pr"><i>integer</i> textsyxevtidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31097,7 +31097,7 @@ Disable sorting for all MIDI insert, delete, get and set functions, until MIDI_S
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MIDI_EnumSelCC</em>(<i>MediaItem_Take*</i> take, <i>int</i> ccidx)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>MIDI_EnumSelCC</em>(<i>MediaItem_Take</i> take, <i>int</i> ccidx)</code></div>
-<div class="l">Lua: <code> <i>integer</i> = <em>reaper.MIDI_EnumSelCC</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx)</code></div>
+<div class="l">Lua: <code> <i>integer</i> sel_midicc_index = <em>reaper.MIDI_EnumSelCC</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx)</code></div>
 <div class="p">Python: <code> <i>Int</i> <em>RPR_MIDI_EnumSelCC</em>(<i>MediaItem_Take</i> take, <i>Int</i> ccidx)</code></div>
 </div><p>
 <div class="ch">
@@ -31105,17 +31105,17 @@ Returns the index of the next selected MIDI CC event after ccidx (-1 if there ar
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i></td></tr>
+<tr><td class="pr"><i>integer</i> sel_midicc_index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ccidx</td></tr>
+<tr><td class="pr"><i>integer</i> ccidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31128,7 +31128,7 @@ Returns the index of the next selected MIDI CC event after ccidx (-1 if there ar
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MIDI_EnumSelEvts</em>(<i>MediaItem_Take*</i> take, <i>int</i> evtidx)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>MIDI_EnumSelEvts</em>(<i>MediaItem_Take</i> take, <i>int</i> evtidx)</code></div>
-<div class="l">Lua: <code> <i>integer</i> = <em>reaper.MIDI_EnumSelEvts</em>(<i>MediaItem_Take</i> take, <i>integer</i> evtidx)</code></div>
+<div class="l">Lua: <code> <i>integer</i> sel_midi_evt_index = <em>reaper.MIDI_EnumSelEvts</em>(<i>MediaItem_Take</i> take, <i>integer</i> evtidx)</code></div>
 <div class="p">Python: <code> <i>Int</i> <em>RPR_MIDI_EnumSelEvts</em>(<i>MediaItem_Take</i> take, <i>Int</i> evtidx)</code></div>
 </div><p>
 <div class="ch">
@@ -31136,17 +31136,17 @@ Returns the index of the next selected MIDI event after evtidx (-1 if there are 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i></td></tr>
+<tr><td class="pr"><i>integer</i> sel_midi_evt_index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">evtidx</td></tr>
+<tr><td class="pr"><i>integer</i> evtidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31159,7 +31159,7 @@ Returns the index of the next selected MIDI event after evtidx (-1 if there are 
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MIDI_EnumSelNotes</em>(<i>MediaItem_Take*</i> take, <i>int</i> noteidx)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>MIDI_EnumSelNotes</em>(<i>MediaItem_Take</i> take, <i>int</i> noteidx)</code></div>
-<div class="l">Lua: <code> <i>integer</i> = <em>reaper.MIDI_EnumSelNotes</em>(<i>MediaItem_Take</i> take, <i>integer</i> noteidx)</code></div>
+<div class="l">Lua: <code> <i>integer</i> sel_midi_note_index = <em>reaper.MIDI_EnumSelNotes</em>(<i>MediaItem_Take</i> take, <i>integer</i> noteidx)</code></div>
 <div class="p">Python: <code> <i>Int</i> <em>RPR_MIDI_EnumSelNotes</em>(<i>MediaItem_Take</i> take, <i>Int</i> noteidx)</code></div>
 </div><p>
 <div class="ch">
@@ -31167,17 +31167,17 @@ Returns the index of the next selected MIDI note after noteidx (-1 if there are 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i></td></tr>
+<tr><td class="pr"><i>integer</i> sel_midi_note_index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr">MediaItek_Take take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">noteidx</td></tr>
+<tr><td class="pr"><i>integer</i> noteidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31190,7 +31190,7 @@ Returns the index of the next selected MIDI note after noteidx (-1 if there are 
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MIDI_EnumSelTextSysexEvts</em>(<i>MediaItem_Take*</i> take, <i>int</i> textsyxidx)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>MIDI_EnumSelTextSysexEvts</em>(<i>MediaItem_Take</i> take, <i>int</i> textsyxidx)</code></div>
-<div class="l">Lua: <code> <i>integer</i> = <em>reaper.MIDI_EnumSelTextSysexEvts</em>(<i>MediaItem_Take</i> take, <i>integer</i> textsyxidx)</code></div>
+<div class="l">Lua: <code> <i>integer</i> sel_midi_sysex_index = <em>reaper.MIDI_EnumSelTextSysexEvts</em>(<i>MediaItem_Take</i> take, <i>integer</i> textsyxidx)</code></div>
 <div class="p">Python: <code> <i>Int</i> <em>RPR_MIDI_EnumSelTextSysexEvts</em>(<i>MediaItem_Take</i> take, <i>Int</i> textsyxidx)</code></div>
 </div><p>
 <div class="ch">
@@ -31198,17 +31198,17 @@ Returns the index of the next selected MIDI text/sysex event after textsyxidx (-
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i></td></tr>
+<tr><td class="pr"><i>integer</i> sel_midi_sysex_index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">textsyxidx</td></tr>
+<tr><td class="pr"><i>integer</i> textsyxidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31232,17 +31232,17 @@ Returns the index of the next selected MIDI text/sysex event after textsyxidx (-
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">buf</td></tr>
+<tr><td class="pr"><i>string</i> buf</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -31259,7 +31259,7 @@ Returns the index of the next selected MIDI text/sysex event after textsyxidx (-
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_GetCC</em>(<i>MediaItem_Take*</i> take, <i>int</i> ccidx, <i>bool*</i> selectedOut, <i>bool*</i> mutedOut, <i>double*</i> ppqposOut, <i>int*</i> chanmsgOut, <i>int*</i> chanOut, <i>int*</i> msg2Out, <i>int*</i> msg3Out)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_GetCC</em>(<i>MediaItem_Take</i> take, <i>int</i> ccidx, <i>bool</i> &amp;selected, <i>bool</i> &amp;muted, &amp;ppqpos, <i>int</i> &amp;chanmsg, <i>int</i> &amp;chan, <i>int</i> &amp;msg2, <i>int</i> &amp;msg3)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> selected, <i>boolean</i> muted, <i>number</i> ppqpos, <i>number</i> chanmsg, <i>number</i> chan, <i>number</i> msg2, <i>number</i> msg3 = <em>reaper.MIDI_GetCC</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> selected, <i>boolean</i> muted, <i>number</i> ppqpos, <i>integer</i> chanmsg, <i>integer</i> <i>number</i> chan, <i>integer</i> msg2, <i>integer</i> msg3 = <em>reaper.MIDI_GetCC</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> ccidx, <i>Boolean</i> selectedOut, <i>Boolean</i> mutedOut, <i>Float</i> ppqposOut, <i>Int</i> chanmsgOut, <i>Int</i> chanOut, <i>Int</i> msg2Out, <i>Int</i> msg3Out) = <em>RPR_MIDI_GetCC</em>(take, ccidx, selectedOut, mutedOut, ppqposOut, chanmsgOut, chanOut, msg2Out, msg3Out)</code></div>
 </div><p>
 <div class="ch">
@@ -31267,45 +31267,45 @@ Get MIDI CC event properties.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">selected</td></tr>
+<tr><td class="pr"><i>boolean</i> selected</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">muted</td></tr>
+<tr><td class="pr"><i>boolean</i> muted</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ppqpos</td></tr>
+<tr><td class="pr"><i>number</i> ppqpos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">chanmsg</td></tr>
+<tr><td class="pr"><i>integer</i> chanmsg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">chan</td></tr>
+<tr><td class="pr"><i>integer</i> chan</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">msg2</td></tr>
+<tr><td class="pr"><i>integer</i> msg2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">msg3</td></tr>
+<tr><td class="pr"><i>integer</i> msg3</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ccidx</td></tr>
+<tr><td class="pr"><i>integer</i> ccidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31318,7 +31318,7 @@ Get MIDI CC event properties.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_GetCCShape</em>(<i>MediaItem_Take*</i> take, <i>int</i> ccidx, <i>int*</i> shapeOut, <i>double*</i> beztensionOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_GetCCShape</em>(<i>MediaItem_Take</i> take, <i>int</i> ccidx, <i>int</i> &shape, &beztension)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> shape, <i>number</i> beztension = <em>reaper.MIDI_GetCCShape</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> shape, <i>number</i> beztension = <em>reaper.MIDI_GetCCShape</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> ccidx, <i>Int</i> shapeOut, <i>Float</i> beztensionOut) = <em>RPR_MIDI_GetCCShape</em>(take, ccidx, shapeOut, beztensionOut)</code></div>
 </div><p>
 <div class="ch">
@@ -31330,7 +31330,7 @@ Get MIDI CC event properties.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> shape</td></tr>
+<tr><td class="pr"><i>integer</i> shape</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -31428,21 +31428,21 @@ Returns the most recent MIDI editor grid size for this MIDI take, in QN. Swing i
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>number</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">swing</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> swing</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">noteLen</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> noteLen</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31494,7 +31494,7 @@ Returns the most recent MIDI editor grid size for this MIDI take, in QN. Swing i
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_GetNote</em>(<i>MediaItem_Take*</i> take, <i>int</i> noteidx, <i>bool*</i> selectedOut, <i>bool*</i> mutedOut, <i>double*</i> startppqposOut, <i>double*</i> endppqposOut, <i>int*</i> chanOut, <i>int*</i> pitchOut, <i>int*</i> velOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_GetNote</em>(<i>MediaItem_Take</i> take, <i>int</i> noteidx, <i>bool</i> &amp;selected, <i>bool</i> &amp;muted, &amp;startppqpos, &amp;endppqpos, <i>int</i> &amp;chan, <i>int</i> &amp;pitch, <i>int</i> &amp;vel)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> selected, <i>boolean</i> muted, <i>number</i> startppqpos, <i>number</i> endppqpos, <i>number</i> chan, <i>number</i> pitch, <i>number</i> vel = <em>reaper.MIDI_GetNote</em>(<i>MediaItem_Take</i> take, <i>integer</i> noteidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> selected, <i>boolean</i> muted, <i>number</i> startppqpos, <i>number</i> endppqpos, <i>integer</i> chan, <i>integer</i> pitch, <i>integer</i> vel = <em>reaper.MIDI_GetNote</em>(<i>MediaItem_Take</i> take, <i>integer</i> noteidx)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> noteidx, <i>Boolean</i> selectedOut, <i>Boolean</i> mutedOut, <i>Float</i> startppqposOut, <i>Float</i> endppqposOut, <i>Int</i> chanOut, <i>Int</i> pitchOut, <i>Int</i> velOut) = <em>RPR_MIDI_GetNote</em>(take, noteidx, selectedOut, mutedOut, startppqposOut, endppqposOut, chanOut, pitchOut, velOut)</code></div>
 </div><p>
 <div class="ch">
@@ -31502,45 +31502,45 @@ Get MIDI note properties.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">selected</td></tr>
+<tr><td class="pr"><i>boolean</i> selected</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">muted</td></tr>
+<tr><td class="pr"><i>boolean</i> muted</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">startppqpos</td></tr>
+<tr><td class="pr"><i>number</i> startppqpos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">endppqpos</td></tr>
+<tr><td class="pr"><i>number</i> endppqpos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">chan</td></tr>
+<tr><td class="pr"><i>integer</i> chan</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">pitch</td></tr>
+<tr><td class="pr"><i>integer</i> pitch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">vel</td></tr>
+<tr><td class="pr"><i>integer</i> vel</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">noteidx</td></tr>
+<tr><td class="pr"><i>integer</i> noteidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31553,7 +31553,7 @@ Get MIDI note properties.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>MIDI_GetPPQPosFromProjQN</em>(<i>MediaItem_Take*</i> take, <i>double</i> projqn)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>MIDI_GetPPQPosFromProjQN</em>(<i>MediaItem_Take</i> take, projqn)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.MIDI_GetPPQPosFromProjQN</em>(<i>MediaItem_Take</i> take, <i>number</i> projqn)</code></div>
+<div class="l">Lua: <code> <i>number</i> ppq_position = <em>reaper.MIDI_GetPPQPosFromProjQN</em>(<i>MediaItem_Take</i> take, <i>number</i> projqn)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_MIDI_GetPPQPosFromProjQN</em>(<i>MediaItem_Take</i> take, <i>Float</i> projqn)</code></div>
 </div><p>
 <div class="ch">
@@ -31561,17 +31561,17 @@ Returns the MIDI tick (ppq) position corresponding to a specific project time in
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> ppq_position</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">projqn</td></tr>
+<tr><td class="pr"><i>number</i> projqn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31584,7 +31584,7 @@ Returns the MIDI tick (ppq) position corresponding to a specific project time in
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>MIDI_GetPPQPosFromProjTime</em>(<i>MediaItem_Take*</i> take, <i>double</i> projtime)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>MIDI_GetPPQPosFromProjTime</em>(<i>MediaItem_Take</i> take, projtime)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.MIDI_GetPPQPosFromProjTime</em>(<i>MediaItem_Take</i> take, <i>number</i> projtime)</code></div>
+<div class="l">Lua: <code> <i>number</i> ppq_position = <em>reaper.MIDI_GetPPQPosFromProjTime</em>(<i>MediaItem_Take</i> take, <i>number</i> projtime)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_MIDI_GetPPQPosFromProjTime</em>(<i>MediaItem_Take</i> take, <i>Float</i> projtime)</code></div>
 </div><p>
 <div class="ch">
@@ -31592,17 +31592,17 @@ Returns the MIDI tick (ppq) position corresponding to a specific project time in
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> ppq_position</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">projtime</td></tr>
+<tr><td class="pr"><i>number</i> projtime</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31615,7 +31615,7 @@ Returns the MIDI tick (ppq) position corresponding to a specific project time in
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>MIDI_GetPPQPos_EndOfMeasure</em>(<i>MediaItem_Take*</i> take, <i>double</i> ppqpos)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>MIDI_GetPPQPos_EndOfMeasure</em>(<i>MediaItem_Take</i> take, ppqpos)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.MIDI_GetPPQPos_EndOfMeasure</em>(<i>MediaItem_Take</i> take, <i>number</i> ppqpos)</code></div>
+<div class="l">Lua: <code> <i>number</i> endposition = <em>reaper.MIDI_GetPPQPos_EndOfMeasure</em>(<i>MediaItem_Take</i> take, <i>number</i> ppqpos)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_MIDI_GetPPQPos_EndOfMeasure</em>(<i>MediaItem_Take</i> take, <i>Float</i> ppqpos)</code></div>
 </div><p>
 <div class="ch">
@@ -31623,17 +31623,17 @@ Returns the MIDI tick (ppq) position corresponding to the end of the measure.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> endposition</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ppqpos</td></tr>
+<tr><td class="pr"><i>number</i> ppqpos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31646,7 +31646,7 @@ Returns the MIDI tick (ppq) position corresponding to the end of the measure.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>MIDI_GetPPQPos_StartOfMeasure</em>(<i>MediaItem_Take*</i> take, <i>double</i> ppqpos)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>MIDI_GetPPQPos_StartOfMeasure</em>(<i>MediaItem_Take</i> take, ppqpos)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.MIDI_GetPPQPos_StartOfMeasure</em>(<i>MediaItem_Take</i> take, <i>number</i> ppqpos)</code></div>
+<div class="l">Lua: <code> <i>number</i> startposition = <em>reaper.MIDI_GetPPQPos_StartOfMeasure</em>(<i>MediaItem_Take</i> take, <i>number</i> ppqpos)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_MIDI_GetPPQPos_StartOfMeasure</em>(<i>MediaItem_Take</i> take, <i>Float</i> ppqpos)</code></div>
 </div><p>
 <div class="ch">
@@ -31654,17 +31654,17 @@ Returns the MIDI tick (ppq) position corresponding to the start of the measure.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> startposition</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ppqpos</td></tr>
+<tr><td class="pr"><i>number</i> ppqpos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31677,7 +31677,7 @@ Returns the MIDI tick (ppq) position corresponding to the start of the measure.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>MIDI_GetProjQNFromPPQPos</em>(<i>MediaItem_Take*</i> take, <i>double</i> ppqpos)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>MIDI_GetProjQNFromPPQPos</em>(<i>MediaItem_Take</i> take, ppqpos)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.MIDI_GetProjQNFromPPQPos</em>(<i>MediaItem_Take</i> take, <i>number</i> ppqpos)</code></div>
+<div class="l">Lua: <code> <i>number</i> qn_project_time = <em>reaper.MIDI_GetProjQNFromPPQPos</em>(<i>MediaItem_Take</i> take, <i>number</i> ppqpos)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_MIDI_GetProjQNFromPPQPos</em>(<i>MediaItem_Take</i> take, <i>Float</i> ppqpos)</code></div>
 </div><p>
 <div class="ch">
@@ -31685,17 +31685,17 @@ Returns the project time in quarter notes corresponding to a specific MIDI tick 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> qn_project_time</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ppqpos</td></tr>
+<tr><td class="pr"><i>number</i> ppqpos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31708,7 +31708,7 @@ Returns the project time in quarter notes corresponding to a specific MIDI tick 
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>MIDI_GetProjTimeFromPPQPos</em>(<i>MediaItem_Take*</i> take, <i>double</i> ppqpos)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>MIDI_GetProjTimeFromPPQPos</em>(<i>MediaItem_Take</i> take, ppqpos)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.MIDI_GetProjTimeFromPPQPos</em>(<i>MediaItem_Take</i> take, <i>number</i> ppqpos)</code></div>
+<div class="l">Lua: <code> <i>number</i> seconds_project_time = <em>reaper.MIDI_GetProjTimeFromPPQPos</em>(<i>MediaItem_Take</i> take, <i>number</i> ppqpos)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_MIDI_GetProjTimeFromPPQPos</em>(<i>MediaItem_Take</i> take, <i>Float</i> ppqpos)</code></div>
 </div><p>
 <div class="ch">
@@ -31716,17 +31716,17 @@ Returns the project time in seconds corresponding to a specific MIDI tick (ppq) 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> seconds_project_time</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ppqpos</td></tr>
+<tr><td class="pr"><i>number</i> ppqpos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31739,7 +31739,7 @@ Returns the project time in seconds corresponding to a specific MIDI tick (ppq) 
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_GetScale</em>(<i>MediaItem_Take*</i> take, <i>int*</i> rootOut, <i>int*</i> scaleOut, <i>char*</i> name, <i>int</i> name_sz)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_GetScale</em>(<i>MediaItem_Take</i> take, <i>int</i> &amp;root, <i>int</i> &amp;scale, #name)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> root, <i>number</i> scale, <i>string</i> name = <em>reaper.MIDI_GetScale</em>(<i>MediaItem_Take</i> take, <i>number</i> root, <i>number</i> scale, <i>string</i> name)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> root, <i>integer</i> scale, <i>string</i> name = <em>reaper.MIDI_GetScale</em>(<i>MediaItem_Take</i> take, <i>integer</i> root, <i>integer</i> scale, <i>string</i> name)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> rootOut, <i>Int</i> scaleOut, <i>String</i> name, <i>Int</i> name_sz) = <em>RPR_MIDI_GetScale</em>(take, rootOut, scaleOut, name, name_sz)</code></div>
 </div><p>
 <div class="ch">
@@ -31751,11 +31751,11 @@ Get the active scale in the media source, if any. root 0=C, 1=C#, etc. scale &am
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> root</td></tr>
+<tr><td class="pr"><i>integer</i> root</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> scale</td></tr>
+<tr><td class="pr"><i>integer</i> scale</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -31769,11 +31769,11 @@ Get the active scale in the media source, if any. root 0=C, 1=C#, etc. scale &am
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> root</td></tr>
+<tr><td class="pr"><i>integer</i> root</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> scale</td></tr>
+<tr><td class="pr"><i>integer</i> scale</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -31790,7 +31790,7 @@ Get the active scale in the media source, if any. root 0=C, 1=C#, etc. scale &am
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_GetTextSysexEvt</em>(<i>MediaItem_Take*</i> take, <i>int</i> textsyxevtidx, <i>bool*</i> selectedOutOptional, <i>bool*</i> mutedOutOptional, <i>double*</i> ppqposOutOptional, <i>int*</i> typeOutOptional, <i>char*</i> msgOptional, <i>int*</i> msgOptional_sz)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_GetTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>int</i> textsyxevtidx, <i>optional</i> <i>bool</i> &amp;selected, <i>optional</i> <i>bool</i> &amp;muted, <i>optional</i> &amp;ppqpos, <i>optional</i> <i>int</i> &amp;type, <i>optional</i> #msg)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> <i>boolean</i> selected, <i>optional</i> <i>boolean</i> muted, <i>optional</i> <i>number</i> ppqpos, <i>optional</i> <i>number</i> type, <i>optional</i> <i>string</i> msg = <em>reaper.MIDI_GetTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>integer</i> textsyxevtidx, <i>optional</i> <i>boolean</i> selected, <i>optional</i> <i>boolean</i> muted, <i>optional</i> <i>number</i> ppqpos, <i>optional</i> <i>number</i> type, <i>optional</i> <i>string</i> msg)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> <i>boolean</i> selected, <i>optional</i> <i>boolean</i> muted, <i>optional</i> <i>number</i> ppqpos, <i>optional</i> <i>integer</i> type, <i>optional</i> <i>string</i> msg = <em>reaper.MIDI_GetTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>integer</i> textsyxevtidx, <i>optional</i> <i>boolean</i> selected, <i>optional</i> <i>boolean</i> muted, <i>optional</i> <i>number</i> ppqpos, <i>optional</i> <i>integer</i> type, <i>optional</i> <i>string</i> msg)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> textsyxevtidx, <i>Boolean</i> selectedOutOptional, <i>Boolean</i> mutedOutOptional, <i>Float</i> ppqposOutOptional, <i>Int</i> typeOutOptional, <i>String</i> msgOptional, <i>Int</i> msgOptional_sz) = <em>RPR_MIDI_GetTextSysexEvt</em>(take, textsyxevtidx, selectedOutOptional, mutedOutOptional, ppqposOutOptional, typeOutOptional, msgOptional, msgOptional_sz)</code></div>
 </div><p>
 <div class="ch">
@@ -31815,7 +31815,7 @@ Get the active scale in the media source, if any. root 0=C, 1=C#, etc. scale &am
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> type</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> type</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -31845,7 +31845,7 @@ Get the active scale in the media source, if any. root 0=C, 1=C#, etc. scale &am
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> type</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> type</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -31901,7 +31901,7 @@ Get the active scale in the media source, if any. root 0=C, 1=C#, etc. scale &am
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_InsertCC</em>(<i>MediaItem_Take*</i> take, <i>bool</i> selected, <i>bool</i> muted, <i>double</i> ppqpos, <i>int</i> chanmsg, <i>int</i> chan, <i>int</i> msg2, <i>int</i> msg3)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_InsertCC</em>(<i>MediaItem_Take</i> take, <i>bool</i> selected, <i>bool</i> muted, ppqpos, <i>int</i> chanmsg, <i>int</i> chan, <i>int</i> msg2, <i>int</i> msg3)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> = <em>reaper.MIDI_InsertCC</em>(<i>MediaItem_Take</i> take, <i>boolean</i> selected, <i>boolean</i> muted, <i>number</i> ppqpos, <i>integer</i> chanmsg, <i>integer</i> chan, <i>integer</i> msg2, <i>integer</i> msg3)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_InsertCC</em>(<i>MediaItem_Take</i> take, <i>boolean</i> selected, <i>boolean</i> muted, <i>number</i> ppqpos, <i>integer</i> chanmsg, <i>integer</i> chan, <i>integer</i> msg2, <i>integer</i> msg3)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_MIDI_InsertCC</em>(<i>MediaItem_Take</i> take, <i>Boolean</i> selected, <i>Boolean</i> muted, <i>Float</i> ppqpos, <i>Int</i> chanmsg, <i>Int</i> chan, <i>Int</i> msg2, <i>Int</i> msg3)</code></div>
 </div><p>
 <div class="ch">
@@ -31909,41 +31909,41 @@ Insert a new MIDI CC event.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">selected</td></tr>
+<tr><td class="pr"><i>boolean</i> selected</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">muted</td></tr>
+<tr><td class="pr"><i>boolean</i> muted</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ppqpos</td></tr>
+<tr><td class="pr"><i>number</i> ppqpos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">chanmsg</td></tr>
+<tr><td class="pr"><i>integer</i> chanmsg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">chan</td></tr>
+<tr><td class="pr"><i>integer</i> chan</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">msg2</td></tr>
+<tr><td class="pr"><i>integer</i> msg2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">msg3</td></tr>
+<tr><td class="pr"><i>integer</i> msg3</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -36733,7 +36733,7 @@ If track is supplied, item is ignored
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MediaItemDescendsFromTrack</em>(<i>MediaItem*</i>  item, <i>MediaTrack*</i>  track)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>MediaItemDescendsFromTrack</em>(<i>MediaItem</i> item, <i>MediaTrack</i> track)</code></div>
-<div class="l">Lua: <code> <i>integer</i> = <em>reaper.MediaItemDescendsFromTrack</em>(<i>MediaItem</i> item, <i>MediaTrack</i> track)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.MediaItemDescendsFromTrack</em>(<i>MediaItem</i> item, <i>MediaTrack</i> track)</code></div>
 <div class="p">Python: <code> <i>Int</i> <em>RPR_MediaItemDescendsFromTrack</em>(<i>MediaItem</i> item, <i>MediaTrack</i> track)</code></div>
 </div><p>
 <div class="ch">
@@ -36741,17 +36741,17 @@ Returns 1 if the track holds the item, 2 if the track is a folder containing the
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -65218,7 +65218,7 @@ Seek to region after current region finishes playing (smooth seek).
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>Loop_OnArrow</em>(<i>ReaProject*</i> project, <i>int</i> direction)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>Loop_OnArrow</em>(<i>ReaProject</i> project, <i>int</i> direction)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> = <em>reaper.Loop_OnArrow</em>(<i>ReaProject</i> project, <i>integer</i> direction)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> snap_state = <em>reaper.Loop_OnArrow</em>(<i>ReaProject</i> project, <i>integer</i> direction)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_Loop_OnArrow</em>(<i>ReaProject</i> project, <i>Int</i> direction)</code></div>
 </div><p>
 <div class="ch">
@@ -65226,17 +65226,17 @@ Move the loop selection left or right in steps according to snap-settings(when s
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> snap_state</td></tr>
 <tr><td class="ch2">true, snap is enabled; false, snap is disabled</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">project</td></tr>
+<tr><td class="pr"><i>ReaProject</i> project</td></tr>
 <tr><td class="ch2">the project to be checked for. 0 for current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">direction</td></tr>
+<tr><td class="pr"><i>integer</i> direction</td></tr>
 <tr><td class="ch2">the direction to move; negative values, move towards start of project; positive values, move towards end of project; 0, keep position</td></tr>
 </table>
 <br>
@@ -65249,7 +65249,7 @@ Move the loop selection left or right in steps according to snap-settings(when s
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>Master_GetPlayRate</em>(<i>ReaProject*</i> project)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>Master_GetPlayRate</em>(<i>ReaProject</i> project)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.Master_GetPlayRate</em>(<i>ReaProject</i> project)</code></div>
+<div class="l">Lua: <code> <i>number</i> mas_playrate = <em>reaper.Master_GetPlayRate</em>(<i>ReaProject</i> project)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_Master_GetPlayRate</em>(<i>ReaProject</i> project)</code></div>
 </div><p>
 <div class="ch">
@@ -65257,13 +65257,13 @@ Get the playrate of the project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> mas_playrate</td></tr>
 <tr><td class="ch2">the playrate of the project, between 0.25 and 10.0</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">project</td></tr>
+<tr><td class="pr"><i>ReaProject</i> project</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
@@ -65276,24 +65276,24 @@ Get the playrate of the project.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>Master_GetPlayRateAtTime</em>(<i>double</i> time_s, <i>ReaProject*</i> proj)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>Master_GetPlayRateAtTime</em>(time_s, <i>ReaProject</i> proj)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.Master_GetPlayRateAtTime</em>(<i>number</i> time_s, <i>ReaProject</i> proj)</code></div>
+<div class="l">Lua: <code> <i>number</i> mas_playrate_time = <em>reaper.Master_GetPlayRateAtTime</em>(<i>number</i> time_s, <i>ReaProject</i> proj)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_Master_GetPlayRateAtTime</em>(<i>Float</i> time_s, <i>ReaProject</i> proj)</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> mas_playrate_time</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">time_s</td></tr>
+<tr><td class="pr"><i>number</i> time_s</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
@@ -65306,14 +65306,14 @@ Get the playrate of the project.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>Master_GetTempo</em>()</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>Master_GetTempo</em>()</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.Master_GetTempo</em>()</code></div>
+<div class="l">Lua: <code> <i>number</i> mas_tempo = <em>reaper.Master_GetTempo</em>()</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_Master_GetTempo</em>()</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> mas_tempo</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -65326,7 +65326,7 @@ Get the playrate of the project.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>Master_NormalizePlayRate</em>(<i>double</i> playrate, <i>bool</i> isnormalized)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>Master_NormalizePlayRate</em>(playrate, <i>bool</i> isnormalized)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.Master_NormalizePlayRate</em>(<i>number</i> playrate, <i>boolean</i> isnormalized)</code></div>
+<div class="l">Lua: <code> <i>number</i> mas_norm_playrate = <em>reaper.Master_NormalizePlayRate</em>(<i>number</i> playrate, <i>boolean</i> isnormalized)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_Master_NormalizePlayRate</em>(<i>Float</i> playrate, <i>Boolean</i> isnormalized)</code></div>
 </div><p>
 <div class="ch">
@@ -65334,17 +65334,17 @@ Convert play rate to/from a value between 0 and 1, representing the position on 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> mas_norm_playrate</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">playrate</td></tr>
+<tr><td class="pr"><i>number</i> playrate</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">isnormalized</td></tr>
+<tr><td class="pr"><i>boolean</i> isnormalized</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -65357,7 +65357,7 @@ Convert play rate to/from a value between 0 and 1, representing the position on 
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>Master_NormalizeTempo</em>(<i>double</i> bpm, <i>bool</i> isnormalized)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>Master_NormalizeTempo</em>(bpm, <i>bool</i> isnormalized)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.Master_NormalizeTempo</em>(<i>number</i> bpm, <i>boolean</i> isnormalized)</code></div>
+<div class="l">Lua: <code> <i>number</i> mas_norm_tempo = <em>reaper.Master_NormalizeTempo</em>(<i>number</i> bpm, <i>boolean</i> isnormalized)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_Master_NormalizeTempo</em>(<i>Float</i> bpm, <i>Boolean</i> isnormalized)</code></div>
 </div><p>
 <div class="ch">
@@ -65365,17 +65365,17 @@ Convert the tempo to/from a value between 0 and 1, representing bpm in the range
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i></td></tr>
+<tr><td class="pr"><i>number</i> mas_norm_tempo</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bpm</td></tr>
+<tr><td class="pr"><i>number</i> bpm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">isnormalized</td></tr>
+<tr><td class="pr"><i>boolean</i> isnormalized</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -66736,7 +66736,7 @@ Returns false if the line is entirely offscreen.
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MB</em>(<i>const</i> <i>char*</i> msg, <i>const</i> <i>char*</i> title, <i>int</i> type)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>MB</em>("msg", "title", <i>int</i> type)</code></div>
-<div class="l">Lua: <code> <i>integer</i> = <em>reaper.MB</em>(<i>string</i> msg, <i>string</i> title, <i>integer</i> type)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.MB</em>(<i>string</i> msg, <i>string</i> title, <i>integer</i> type)</code></div>
 <div class="p">Python: <code> <i>Int</i> <em>RPR_MB</em>(<i>String</i> msg, <i>String</i> title, <i>Int</i> type)</code></div>
 </div><p>
 <div class="ch">
@@ -66744,7 +66744,7 @@ Shows Messagebox with user-clickable buttons.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
 <tr><td class="ch2">the button pressed by the user<br/>
 1, OK<br/>
 2, CANCEL<br/>
@@ -66757,15 +66757,15 @@ Shows Messagebox with user-clickable buttons.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">msg</td></tr>
+<tr><td class="pr"><i>string</i> msg</td></tr>
 <tr><td class="ch2">the message, that shall be shown in messagebox</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">title</td></tr>
+<tr><td class="pr"><i>string</i> title</td></tr>
 <tr><td class="ch2">the title of the messagebox</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">type</td></tr>
+<tr><td class="pr"><i>string</i> type</td></tr>
 <tr><td class="ch2">which buttons shall be shown in the messagebox<br/>
 0, OK<br/>
 1, OK CANCEL<br/>

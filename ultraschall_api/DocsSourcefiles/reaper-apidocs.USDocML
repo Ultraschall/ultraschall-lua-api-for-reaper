@@ -10580,11 +10580,11 @@
             enumerates installed devices, returns GUID as a string
         </description>
         <retvals>
-            retval - 
+            string retval - 
             string namestr - 
         </retvals>
         <parameters>
-            index - 
+            integer index - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10599,7 +10599,7 @@
         <title>joystick_getaxis</title>
         <functioncall prog_lang="cpp">double joystick_getaxis(joystick_device* dev, int axis)</functioncall>
         <functioncall prog_lang="eel">double joystick_getaxis(joystick_device dev, int axis)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.joystick_getaxis(joystick_device dev, integer axis)</functioncall>
+        <functioncall prog_lang="lua">number joystick_axis_value = reaper.joystick_getaxis(joystick_device dev, integer axis)</functioncall>
         <functioncall prog_lang="python">Float RPR_joystick_getaxis(joystick_device dev, Int axis)</functioncall>
         <requires>
             Reaper=5.62
@@ -10608,11 +10608,11 @@
             returns axis value (-1..1)
         </description>
         <retvals>
-            number - 
+            number joystick_axis_value - 
         </retvals>
         <parameters>
-            dev - 
-            axis - 
+            joystick_device dev - 
+            integer axis - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10627,7 +10627,7 @@
         <title>joystick_getbuttonmask</title>
         <functioncall prog_lang="cpp">unsigned int joystick_getbuttonmask(joystick_device* dev)</functioncall>
         <functioncall prog_lang="eel">uint joystick_getbuttonmask(joystick_device dev)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.joystick_getbuttonmask(joystick_device dev)</functioncall>
+        <functioncall prog_lang="lua">integer joystick_button_mask = reaper.joystick_getbuttonmask(joystick_device dev)</functioncall>
         <functioncall prog_lang="python">Int RPR_joystick_getbuttonmask(joystick_device dev)</functioncall>
         <requires>
             Reaper=5.62
@@ -10636,10 +10636,10 @@
             returns button pressed mask, 1=first button, 2=second...
         </description>
         <retvals>
-            integer - 
+            integer joystick_button_mask - 
         </retvals>
         <parameters>
-            dev - 
+            joystick_device dev - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10663,12 +10663,12 @@
             returns button count
         </description>
         <retvals>
-            retval - 
-            axes - 
-            povs - 
+            integer retval - 
+            optional number axes - 
+            optional number povs - 
         </retvals>
         <parameters>
-            dev - 
+            joystick_device dev - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10683,7 +10683,7 @@
         <title>joystick_getpov</title>
         <functioncall prog_lang="cpp">double joystick_getpov(joystick_device* dev, int pov)</functioncall>
         <functioncall prog_lang="eel">double joystick_getpov(joystick_device dev, int pov)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.joystick_getpov(joystick_device dev, integer pov)</functioncall>
+        <functioncall prog_lang="lua">number joystick_pov = reaper.joystick_getpov(joystick_device dev, integer pov)</functioncall>
         <functioncall prog_lang="python">Float RPR_joystick_getpov(joystick_device dev, Int pov)</functioncall>
         <requires>
             Reaper=5.62
@@ -10692,11 +10692,11 @@
             returns POV value (usually 0..655.35, or 655.35 on error)
         </description>
         <retvals>
-            number - 
+            number joystick_pov - 
         </retvals>
         <parameters>
-            dev - 
-            pov - 
+            joystick_device dev - 
+            integer pov - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10711,7 +10711,7 @@
         <title>joystick_update</title>
         <functioncall prog_lang="cpp">bool joystick_update(joystick_device* dev)</functioncall>
         <functioncall prog_lang="eel">bool joystick_update(joystick_device dev)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.joystick_update(joystick_device dev)</functioncall>
+        <functioncall prog_lang="lua">boolean joystick_state = reaper.joystick_update(joystick_device dev)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_joystick_update(joystick_device dev)</functioncall>
         <requires>
             Reaper=5.62
@@ -10720,10 +10720,10 @@
             Updates joystick state from hardware, returns true if successful (joystick_get* will not be valid until joystick_update() is called successfully)
         </description>
         <retvals>
-            boolean - 
+            boolean joystick_state - 
         </retvals>
         <parameters>
-            dev - 
+            joystick_device dev - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10806,7 +10806,7 @@
         <title>Loop_OnArrow</title>
         <functioncall prog_lang="cpp">bool Loop_OnArrow(ReaProject* project, int direction)</functioncall>
         <functioncall prog_lang="eel">bool Loop_OnArrow(ReaProject project, int direction)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.Loop_OnArrow(ReaProject project, integer direction)</functioncall>
+        <functioncall prog_lang="lua">boolean snap_state = reaper.Loop_OnArrow(ReaProject project, integer direction)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_Loop_OnArrow(ReaProject project, Int direction)</functioncall>
         <requires>
             Reaper=5.62
@@ -10815,11 +10815,11 @@
             Move the loop selection left or right in steps according to snap-settings(when snap is enabled).
         </description>
         <retvals>
-            boolean - true, snap is enabled; false, snap is disabled
+            boolean snap_state - true, snap is enabled; false, snap is disabled
         </retvals>
         <parameters>
-            project - the project to be checked for. 0 for current project. 
-            direction - the direction to move; negative values, move towards start of project; positive values, move towards end of project; 0, keep position
+            ReaProject project - the project to be checked for. 0 for current project. 
+            integer direction - the direction to move; negative values, move towards start of project; positive values, move towards end of project; 0, keep position
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11019,7 +11019,7 @@
         <title>Master_GetPlayRate</title>
         <functioncall prog_lang="cpp">double Master_GetPlayRate(ReaProject* project)</functioncall>
         <functioncall prog_lang="eel">double Master_GetPlayRate(ReaProject project)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.Master_GetPlayRate(ReaProject project)</functioncall>
+        <functioncall prog_lang="lua">number mas_playrate = reaper.Master_GetPlayRate(ReaProject project)</functioncall>
         <functioncall prog_lang="python">Float RPR_Master_GetPlayRate(ReaProject project)</functioncall>
         <requires>
             Reaper=5.62
@@ -11028,10 +11028,10 @@
             Get the playrate of the project.
         </description>
         <retvals>
-            number - the playrate of the project, between 0.25 and 10.0
+            number mas_playrate - the playrate of the project, between 0.25 and 10.0
         </retvals>
         <parameters>
-            project - the project-number. 0 for the current project. 
+            ReaProject project - the project-number. 0 for the current project. 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11046,7 +11046,7 @@
         <title>Master_GetPlayRateAtTime</title>
         <functioncall prog_lang="cpp">double Master_GetPlayRateAtTime(double time_s, ReaProject* proj)</functioncall>
         <functioncall prog_lang="eel">double Master_GetPlayRateAtTime(time_s, ReaProject proj)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.Master_GetPlayRateAtTime(number time_s, ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">number mas_playrate_time = reaper.Master_GetPlayRateAtTime(number time_s, ReaProject proj)</functioncall>
         <functioncall prog_lang="python">Float RPR_Master_GetPlayRateAtTime(Float time_s, ReaProject proj)</functioncall>
         <requires>
             Reaper=5.62
@@ -11055,11 +11055,11 @@
 
         </description>
         <retvals>
-            number - 
+            number mas_playrate_time - 
         </retvals>
         <parameters>
-            time_s - 
-            proj - the project-number. 0 for the current project. 
+            number time_s - 
+            ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11074,7 +11074,7 @@
         <title>Master_GetTempo</title>
         <functioncall prog_lang="cpp">double Master_GetTempo()</functioncall>
         <functioncall prog_lang="eel">double Master_GetTempo()</functioncall>
-        <functioncall prog_lang="lua">number = reaper.Master_GetTempo()</functioncall>
+        <functioncall prog_lang="lua">number mas_tempo = reaper.Master_GetTempo()</functioncall>
         <functioncall prog_lang="python">Float RPR_Master_GetTempo()</functioncall>
         <requires>
             Reaper=5.62
@@ -11083,7 +11083,7 @@
 
         </description>
         <retvals>
-            number - 
+            number mas_tempo - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11098,7 +11098,7 @@
         <title>Master_NormalizePlayRate</title>
         <functioncall prog_lang="cpp">double Master_NormalizePlayRate(double playrate, bool isnormalized)</functioncall>
         <functioncall prog_lang="eel">double Master_NormalizePlayRate(playrate, bool isnormalized)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.Master_NormalizePlayRate(number playrate, boolean isnormalized)</functioncall>
+        <functioncall prog_lang="lua">number mas_norm_playrate = reaper.Master_NormalizePlayRate(number playrate, boolean isnormalized)</functioncall>
         <functioncall prog_lang="python">Float RPR_Master_NormalizePlayRate(Float playrate, Boolean isnormalized)</functioncall>
         <requires>
             Reaper=5.62
@@ -11107,11 +11107,11 @@
             Convert play rate to/from a value between 0 and 1, representing the position on the project playrate slider.
         </description>
         <retvals>
-            number - 
+            number mas_norm_playrate - 
         </retvals>
         <parameters>
-            playrate - 
-            isnormalized - 
+            number playrate - 
+            boolean isnormalized - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11126,7 +11126,7 @@
         <title>Master_NormalizeTempo</title>
         <functioncall prog_lang="cpp">double Master_NormalizeTempo(double bpm, bool isnormalized)</functioncall>
         <functioncall prog_lang="eel">double Master_NormalizeTempo(bpm, bool isnormalized)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.Master_NormalizeTempo(number bpm, boolean isnormalized)</functioncall>
+        <functioncall prog_lang="lua">number mas_norm_tempo = reaper.Master_NormalizeTempo(number bpm, boolean isnormalized)</functioncall>
         <functioncall prog_lang="python">Float RPR_Master_NormalizeTempo(Float bpm, Boolean isnormalized)</functioncall>
         <requires>
             Reaper=5.62
@@ -11135,11 +11135,11 @@
             Convert the tempo to/from a value between 0 and 1, representing bpm in the range of 40-296 bpm.
         </description>
         <retvals>
-            number - 
+            number mas_norm_tempo - 
         </retvals>
         <parameters>
-            bpm - 
-            isnormalized - 
+            number bpm - 
+            boolean isnormalized - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11154,7 +11154,7 @@
         <title>MB</title>
         <functioncall prog_lang="cpp">int MB(const char* msg, const char* title, int type)</functioncall>
         <functioncall prog_lang="eel">int MB("msg", "title", int type)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.MB(string msg, string title, integer type)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MB(string msg, string title, integer type)</functioncall>
         <functioncall prog_lang="python">Int RPR_MB(String msg, String title, Int type)</functioncall>
         <requires>
             Reaper=5.62
@@ -11163,7 +11163,7 @@
             Shows Messagebox with user-clickable buttons.
         </description>
         <retvals>
-            integer - the button pressed by the user
+            integer retval - the button pressed by the user
                     -1, OK
                     -2, CANCEL
                     -3, ABORT
@@ -11173,9 +11173,9 @@
                     -7, NO
         </retvals>
         <parameters>
-            msg - the message, that shall be shown in messagebox
-            title - the title of the messagebox
-            type - which buttons shall be shown in the messagebox
+            string msg - the message, that shall be shown in messagebox
+            string title - the title of the messagebox
+            string type - which buttons shall be shown in the messagebox
                 -0, OK
                 -1, OK CANCEL
                 -2, ABORT RETRY IGNORE
@@ -11196,7 +11196,7 @@
         <title>MediaItemDescendsFromTrack</title>
         <functioncall prog_lang="cpp">int MediaItemDescendsFromTrack(MediaItem* item, MediaTrack* track)</functioncall>
         <functioncall prog_lang="eel">int MediaItemDescendsFromTrack(MediaItem item, MediaTrack track)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.MediaItemDescendsFromTrack(MediaItem item, MediaTrack track)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MediaItemDescendsFromTrack(MediaItem item, MediaTrack track)</functioncall>
         <functioncall prog_lang="python">Int RPR_MediaItemDescendsFromTrack(MediaItem item, MediaTrack track)</functioncall>
         <requires>
             Reaper=5.62
@@ -11205,11 +11205,11 @@
             Returns 1 if the track holds the item, 2 if the track is a folder containing the track that holds the item, etc.
         </description>
         <retvals>
-            integer - 
+            integer retval - 
         </retvals>
         <parameters>
-            item - 
-            track - 
+            MediaItem item - 
+            MediaTrack track - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11233,13 +11233,13 @@
             Count the number of notes, CC events, and text/sysex events in a given MIDI item.
         </description>
         <retvals>
-            retval - 
-            notecnt - 
-            ccevtcnt - 
-            textsyxevtcnt - 
+            integer retval - 
+            integer notecnt - 
+            integer ccevtcnt - 
+            integer textsyxevtcnt - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11254,7 +11254,7 @@
         <title>MIDI_DeleteCC</title>
         <functioncall prog_lang="cpp">bool MIDI_DeleteCC(MediaItem_Take* take, int ccidx)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_DeleteCC(MediaItem_Take take, int ccidx)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.MIDI_DeleteCC(MediaItem_Take take, integer ccidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_DeleteCC(MediaItem_Take take, integer ccidx)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_MIDI_DeleteCC(MediaItem_Take take, Int ccidx)</functioncall>
         <requires>
             Reaper=5.62
@@ -11263,11 +11263,11 @@
             Delete a MIDI CC event.
         </description>
         <retvals>
-            boolean - 
+            boolean retval - 
         </retvals>
         <parameters>
-            take - 
-            ccidx - 
+            MediaItem_Take take - 
+            integer ccidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11282,7 +11282,7 @@
         <title>MIDI_DeleteEvt</title>
         <functioncall prog_lang="cpp">bool MIDI_DeleteEvt(MediaItem_Take* take, int evtidx)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_DeleteEvt(MediaItem_Take take, int evtidx)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.MIDI_DeleteEvt(MediaItem_Take take, integer evtidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_DeleteEvt(MediaItem_Take take, integer evtidx)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_MIDI_DeleteEvt(MediaItem_Take take, Int evtidx)</functioncall>
         <requires>
             Reaper=5.62
@@ -11291,11 +11291,11 @@
             Delete a MIDI event.
         </description>
         <retvals>
-            boolean - 
+            boolean retval - 
         </retvals>
         <parameters>
-            take - 
-            evtidx - 
+            MediaItem_Take take - 
+            integer evtidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11310,7 +11310,7 @@
         <title>MIDI_DeleteNote</title>
         <functioncall prog_lang="cpp">bool MIDI_DeleteNote(MediaItem_Take* take, int noteidx)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_DeleteNote(MediaItem_Take take, int noteidx)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.MIDI_DeleteNote(MediaItem_Take take, integer noteidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_DeleteNote(MediaItem_Take take, integer noteidx)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_MIDI_DeleteNote(MediaItem_Take take, Int noteidx)</functioncall>
         <requires>
             Reaper=5.62
@@ -11319,11 +11319,11 @@
             Delete a MIDI note.
         </description>
         <retvals>
-            boolean - 
+            boolean retval - 
         </retvals>
         <parameters>
-            take - 
-            noteidx - 
+            MediaItem_Take take - 
+            integer noteidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11338,7 +11338,7 @@
         <title>MIDI_DeleteTextSysexEvt</title>
         <functioncall prog_lang="cpp">bool MIDI_DeleteTextSysexEvt(MediaItem_Take* take, int textsyxevtidx)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_DeleteTextSysexEvt(MediaItem_Take take, int textsyxevtidx)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.MIDI_DeleteTextSysexEvt(MediaItem_Take take, integer textsyxevtidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_DeleteTextSysexEvt(MediaItem_Take take, integer textsyxevtidx)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_MIDI_DeleteTextSysexEvt(MediaItem_Take take, Int textsyxevtidx)</functioncall>
         <requires>
             Reaper=5.62
@@ -11347,11 +11347,11 @@
             Delete a MIDI text or sysex event.
         </description>
         <retvals>
-            boolean - 
+            boolean retval - 
         </retvals>
         <parameters>
-            take - 
-            textsyxevtidx - 
+            MediaItem_Take take - 
+            integer textsyxevtidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11390,7 +11390,7 @@
         <title>MIDI_EnumSelCC</title>
         <functioncall prog_lang="cpp">int MIDI_EnumSelCC(MediaItem_Take* take, int ccidx)</functioncall>
         <functioncall prog_lang="eel">int MIDI_EnumSelCC(MediaItem_Take take, int ccidx)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.MIDI_EnumSelCC(MediaItem_Take take, integer ccidx)</functioncall>
+        <functioncall prog_lang="lua">integer sel_midicc_index = reaper.MIDI_EnumSelCC(MediaItem_Take take, integer ccidx)</functioncall>
         <functioncall prog_lang="python">Int RPR_MIDI_EnumSelCC(MediaItem_Take take, Int ccidx)</functioncall>
         <requires>
             Reaper=5.62
@@ -11399,11 +11399,11 @@
             Returns the index of the next selected MIDI CC event after ccidx (-1 if there are no more selected events).
         </description>
         <retvals>
-            integer - 
+            integer sel_midicc_index - 
         </retvals>
         <parameters>
-            take - 
-            ccidx - 
+            MediaItem_Take take - 
+            integer ccidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11418,7 +11418,7 @@
         <title>MIDI_EnumSelEvts</title>
         <functioncall prog_lang="cpp">int MIDI_EnumSelEvts(MediaItem_Take* take, int evtidx)</functioncall>
         <functioncall prog_lang="eel">int MIDI_EnumSelEvts(MediaItem_Take take, int evtidx)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.MIDI_EnumSelEvts(MediaItem_Take take, integer evtidx)</functioncall>
+        <functioncall prog_lang="lua">integer sel_midi_evt_index = reaper.MIDI_EnumSelEvts(MediaItem_Take take, integer evtidx)</functioncall>
         <functioncall prog_lang="python">Int RPR_MIDI_EnumSelEvts(MediaItem_Take take, Int evtidx)</functioncall>
         <requires>
             Reaper=5.62
@@ -11427,11 +11427,11 @@
             Returns the index of the next selected MIDI event after evtidx (-1 if there are no more selected events).
         </description>
         <retvals>
-            integer - 
+            integer sel_midi_evt_index - 
         </retvals>
         <parameters>
-            take - 
-            evtidx - 
+            MediaItem_Take take - 
+            integer evtidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11446,7 +11446,7 @@
         <title>MIDI_EnumSelNotes</title>
         <functioncall prog_lang="cpp">int MIDI_EnumSelNotes(MediaItem_Take* take, int noteidx)</functioncall>
         <functioncall prog_lang="eel">int MIDI_EnumSelNotes(MediaItem_Take take, int noteidx)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.MIDI_EnumSelNotes(MediaItem_Take take, integer noteidx)</functioncall>
+        <functioncall prog_lang="lua">integer sel_midi_note_index = reaper.MIDI_EnumSelNotes(MediaItem_Take take, integer noteidx)</functioncall>
         <functioncall prog_lang="python">Int RPR_MIDI_EnumSelNotes(MediaItem_Take take, Int noteidx)</functioncall>
         <requires>
             Reaper=5.62
@@ -11455,11 +11455,11 @@
             Returns the index of the next selected MIDI note after noteidx (-1 if there are no more selected events).
         </description>
         <retvals>
-            integer - 
+            integer sel_midi_note_index - 
         </retvals>
         <parameters>
-            take - 
-            noteidx - 
+            MediaItek_Take take - 
+            integer noteidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11474,7 +11474,7 @@
         <title>MIDI_EnumSelTextSysexEvts</title>
         <functioncall prog_lang="cpp">int MIDI_EnumSelTextSysexEvts(MediaItem_Take* take, int textsyxidx)</functioncall>
         <functioncall prog_lang="eel">int MIDI_EnumSelTextSysexEvts(MediaItem_Take take, int textsyxidx)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.MIDI_EnumSelTextSysexEvts(MediaItem_Take take, integer textsyxidx)</functioncall>
+        <functioncall prog_lang="lua">integer sel_midi_sysex_index = reaper.MIDI_EnumSelTextSysexEvts(MediaItem_Take take, integer textsyxidx)</functioncall>
         <functioncall prog_lang="python">Int RPR_MIDI_EnumSelTextSysexEvts(MediaItem_Take take, Int textsyxidx)</functioncall>
         <requires>
             Reaper=5.62
@@ -11483,11 +11483,11 @@
             Returns the index of the next selected MIDI text/sysex event after textsyxidx (-1 if there are no more selected events).
         </description>
         <retvals>
-            integer - 
+            integer sel_midi_sysex_index - 
         </retvals>
         <parameters>
-            take - 
-            textsyxidx - 
+            MediaItem_Take take - 
+            integer textsyxidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11521,11 +11521,11 @@
             See [MIDI\_SetAllEvts](#MIDI_SetAllEvts).
         </description>
         <retvals>
-            retval - 
-            buf - 
+            boolean retval - 
+            string buf - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
             string buf - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11541,7 +11541,7 @@
         <title>MIDI_GetCC</title>
         <functioncall prog_lang="cpp">bool MIDI_GetCC(MediaItem_Take* take, int ccidx, bool* selectedOut, bool* mutedOut, double* ppqposOut, int* chanmsgOut, int* chanOut, int* msg2Out, int* msg3Out)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_GetCC(MediaItem_Take take, int ccidx, bool &amp;selected, bool &amp;muted, &amp;ppqpos, int &amp;chanmsg, int &amp;chan, int &amp;msg2, int &amp;msg3)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, boolean selected, boolean muted, number ppqpos, number chanmsg, number chan, number msg2, number msg3 = reaper.MIDI_GetCC(MediaItem_Take take, integer ccidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, boolean selected, boolean muted, number ppqpos, integer chanmsg, integer number chan, integer msg2, integer msg3 = reaper.MIDI_GetCC(MediaItem_Take take, integer ccidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int ccidx, Boolean selectedOut, Boolean mutedOut, Float ppqposOut, Int chanmsgOut, Int chanOut, Int msg2Out, Int msg3Out) = RPR_MIDI_GetCC(take, ccidx, selectedOut, mutedOut, ppqposOut, chanmsgOut, chanOut, msg2Out, msg3Out)</functioncall>
         <requires>
             Reaper=5.62
@@ -11550,18 +11550,18 @@
             Get MIDI CC event properties.
         </description>
         <retvals>
-            retval - 
-            selected - 
-            muted - 
-            ppqpos - 
-            chanmsg - 
-            chan - 
-            msg2 - 
-            msg3 - 
+            boolean retval - 
+            boolean selected - 
+            boolean muted - 
+            number ppqpos - 
+            integer chanmsg - 
+            integer chan - 
+            integer msg2 - 
+            integer msg3 - 
         </retvals>
         <parameters>
-            take - 
-            ccidx - 
+            MediaItem_Take take - 
+            integer ccidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11576,7 +11576,7 @@
         <title>MIDI_GetCCShape</title>
         <functioncall prog_lang="cpp">bool MIDI_GetCCShape(MediaItem_Take* take, int ccidx, int* shapeOut, double* beztensionOut)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_GetCCShape(MediaItem_Take take, int ccidx, int &shape, &beztension)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number shape, number beztension = reaper.MIDI_GetCCShape(MediaItem_Take take, integer ccidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer shape, number beztension = reaper.MIDI_GetCCShape(MediaItem_Take take, integer ccidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int ccidx, Int shapeOut, Float beztensionOut) = RPR_MIDI_GetCCShape(take, ccidx, shapeOut, beztensionOut)</functioncall>
         <requires>
             Reaper=6.00
@@ -11586,7 +11586,7 @@
         </description>
         <retvals>
             boolean retval - 
-            number shape - 
+            integer shape - 
             number beztension - 
         </retvals>
         <parameters>
@@ -11651,12 +11651,12 @@
             Returns the most recent MIDI editor grid size for this MIDI take, in QN. Swing is between 0 and 1. Note length is 0 if it follows the grid size.
         </description>
         <retvals>
-            retval - 
-            swing - 
-            noteLen - 
+            number retval - 
+            optional number swing - 
+            optional number noteLen - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11701,7 +11701,7 @@
         <title>MIDI_GetNote</title>
         <functioncall prog_lang="cpp">bool MIDI_GetNote(MediaItem_Take* take, int noteidx, bool* selectedOut, bool* mutedOut, double* startppqposOut, double* endppqposOut, int* chanOut, int* pitchOut, int* velOut)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_GetNote(MediaItem_Take take, int noteidx, bool &amp;selected, bool &amp;muted, &amp;startppqpos, &amp;endppqpos, int &amp;chan, int &amp;pitch, int &amp;vel)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, boolean selected, boolean muted, number startppqpos, number endppqpos, number chan, number pitch, number vel = reaper.MIDI_GetNote(MediaItem_Take take, integer noteidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, boolean selected, boolean muted, number startppqpos, number endppqpos, integer chan, integer pitch, integer vel = reaper.MIDI_GetNote(MediaItem_Take take, integer noteidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int noteidx, Boolean selectedOut, Boolean mutedOut, Float startppqposOut, Float endppqposOut, Int chanOut, Int pitchOut, Int velOut) = RPR_MIDI_GetNote(take, noteidx, selectedOut, mutedOut, startppqposOut, endppqposOut, chanOut, pitchOut, velOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -11710,18 +11710,18 @@
             Get MIDI note properties.
         </description>
         <retvals>
-            retval - 
-            selected - 
-            muted - 
-            startppqpos - 
-            endppqpos - 
-            chan - 
-            pitch - 
-            vel - 
+            boolean retval - 
+            boolean selected - 
+            boolean muted - 
+            number startppqpos - 
+            number endppqpos - 
+            integer chan - 
+            integer pitch - 
+            integer vel - 
         </retvals>
         <parameters>
-            take - 
-            noteidx - 
+            MediaItem_Take take - 
+            integer noteidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11736,7 +11736,7 @@
         <title>MIDI_GetPPQPos_EndOfMeasure</title>
         <functioncall prog_lang="cpp">double MIDI_GetPPQPos_EndOfMeasure(MediaItem_Take* take, double ppqpos)</functioncall>
         <functioncall prog_lang="eel">double MIDI_GetPPQPos_EndOfMeasure(MediaItem_Take take, ppqpos)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.MIDI_GetPPQPos_EndOfMeasure(MediaItem_Take take, number ppqpos)</functioncall>
+        <functioncall prog_lang="lua">number endposition = reaper.MIDI_GetPPQPos_EndOfMeasure(MediaItem_Take take, number ppqpos)</functioncall>
         <functioncall prog_lang="python">Float RPR_MIDI_GetPPQPos_EndOfMeasure(MediaItem_Take take, Float ppqpos)</functioncall>
         <requires>
             Reaper=5.62
@@ -11745,11 +11745,11 @@
             Returns the MIDI tick (ppq) position corresponding to the end of the measure.
         </description>
         <retvals>
-            number - 
+            number endposition - 
         </retvals>
         <parameters>
-            take - 
-            ppqpos - 
+            MediaItem_Take take - 
+            number ppqpos - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11764,7 +11764,7 @@
         <title>MIDI_GetPPQPos_StartOfMeasure</title>
         <functioncall prog_lang="cpp">double MIDI_GetPPQPos_StartOfMeasure(MediaItem_Take* take, double ppqpos)</functioncall>
         <functioncall prog_lang="eel">double MIDI_GetPPQPos_StartOfMeasure(MediaItem_Take take, ppqpos)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.MIDI_GetPPQPos_StartOfMeasure(MediaItem_Take take, number ppqpos)</functioncall>
+        <functioncall prog_lang="lua">number startposition = reaper.MIDI_GetPPQPos_StartOfMeasure(MediaItem_Take take, number ppqpos)</functioncall>
         <functioncall prog_lang="python">Float RPR_MIDI_GetPPQPos_StartOfMeasure(MediaItem_Take take, Float ppqpos)</functioncall>
         <requires>
             Reaper=5.62
@@ -11773,11 +11773,11 @@
             Returns the MIDI tick (ppq) position corresponding to the start of the measure.
         </description>
         <retvals>
-            number - 
+            number startposition - 
         </retvals>
         <parameters>
-            take - 
-            ppqpos - 
+            MediaItem_Take take - 
+            number ppqpos - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11792,7 +11792,7 @@
         <title>MIDI_GetPPQPosFromProjQN</title>
         <functioncall prog_lang="cpp">double MIDI_GetPPQPosFromProjQN(MediaItem_Take* take, double projqn)</functioncall>
         <functioncall prog_lang="eel">double MIDI_GetPPQPosFromProjQN(MediaItem_Take take, projqn)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.MIDI_GetPPQPosFromProjQN(MediaItem_Take take, number projqn)</functioncall>
+        <functioncall prog_lang="lua">number ppq_position = reaper.MIDI_GetPPQPosFromProjQN(MediaItem_Take take, number projqn)</functioncall>
         <functioncall prog_lang="python">Float RPR_MIDI_GetPPQPosFromProjQN(MediaItem_Take take, Float projqn)</functioncall>
         <requires>
             Reaper=5.62
@@ -11801,11 +11801,11 @@
             Returns the MIDI tick (ppq) position corresponding to a specific project time in quarter notes.
         </description>
         <retvals>
-            number - 
+            number ppq_position - 
         </retvals>
         <parameters>
-            take - 
-            projqn - 
+            MediaItem_Take take - 
+            number projqn - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11820,7 +11820,7 @@
         <title>MIDI_GetPPQPosFromProjTime</title>
         <functioncall prog_lang="cpp">double MIDI_GetPPQPosFromProjTime(MediaItem_Take* take, double projtime)</functioncall>
         <functioncall prog_lang="eel">double MIDI_GetPPQPosFromProjTime(MediaItem_Take take, projtime)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.MIDI_GetPPQPosFromProjTime(MediaItem_Take take, number projtime)</functioncall>
+        <functioncall prog_lang="lua">number ppq_position = reaper.MIDI_GetPPQPosFromProjTime(MediaItem_Take take, number projtime)</functioncall>
         <functioncall prog_lang="python">Float RPR_MIDI_GetPPQPosFromProjTime(MediaItem_Take take, Float projtime)</functioncall>
         <requires>
             Reaper=5.62
@@ -11829,11 +11829,11 @@
             Returns the MIDI tick (ppq) position corresponding to a specific project time in seconds.
         </description>
         <retvals>
-            number - 
+            number ppq_position - 
         </retvals>
         <parameters>
-            take - 
-            projtime - 
+            MediaItem_Take take - 
+            number projtime - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11848,7 +11848,7 @@
         <title>MIDI_GetProjQNFromPPQPos</title>
         <functioncall prog_lang="cpp">double MIDI_GetProjQNFromPPQPos(MediaItem_Take* take, double ppqpos)</functioncall>
         <functioncall prog_lang="eel">double MIDI_GetProjQNFromPPQPos(MediaItem_Take take, ppqpos)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.MIDI_GetProjQNFromPPQPos(MediaItem_Take take, number ppqpos)</functioncall>
+        <functioncall prog_lang="lua">number qn_project_time = reaper.MIDI_GetProjQNFromPPQPos(MediaItem_Take take, number ppqpos)</functioncall>
         <functioncall prog_lang="python">Float RPR_MIDI_GetProjQNFromPPQPos(MediaItem_Take take, Float ppqpos)</functioncall>
         <requires>
             Reaper=5.62
@@ -11857,11 +11857,11 @@
             Returns the project time in quarter notes corresponding to a specific MIDI tick (ppq) position.
         </description>
         <retvals>
-            number - 
+            number qn_project_time - 
         </retvals>
         <parameters>
-            take - 
-            ppqpos - 
+            MediaItem_Take take - 
+            number ppqpos - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11876,7 +11876,7 @@
         <title>MIDI_GetProjTimeFromPPQPos</title>
         <functioncall prog_lang="cpp">double MIDI_GetProjTimeFromPPQPos(MediaItem_Take* take, double ppqpos)</functioncall>
         <functioncall prog_lang="eel">double MIDI_GetProjTimeFromPPQPos(MediaItem_Take take, ppqpos)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.MIDI_GetProjTimeFromPPQPos(MediaItem_Take take, number ppqpos)</functioncall>
+        <functioncall prog_lang="lua">number seconds_project_time = reaper.MIDI_GetProjTimeFromPPQPos(MediaItem_Take take, number ppqpos)</functioncall>
         <functioncall prog_lang="python">Float RPR_MIDI_GetProjTimeFromPPQPos(MediaItem_Take take, Float ppqpos)</functioncall>
         <requires>
             Reaper=5.62
@@ -11885,11 +11885,11 @@
             Returns the project time in seconds corresponding to a specific MIDI tick (ppq) position.
         </description>
         <retvals>
-            number - 
+            number seconds_project_time - 
         </retvals>
         <parameters>
-            take - 
-            ppqpos - 
+            MediaItem_Take take - 
+            number ppqpos - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11904,7 +11904,7 @@
         <title>MIDI_GetScale</title>
         <functioncall prog_lang="cpp">bool MIDI_GetScale(MediaItem_Take* take, int* rootOut, int* scaleOut, char* name, int name_sz)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_GetScale(MediaItem_Take take, int &amp;root, int &amp;scale, #name)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number root, number scale, string name = reaper.MIDI_GetScale(MediaItem_Take take, number root, number scale, string name)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer root, integer scale, string name = reaper.MIDI_GetScale(MediaItem_Take take, integer root, integer scale, string name)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int rootOut, Int scaleOut, String name, Int name_sz) = RPR_MIDI_GetScale(take, rootOut, scaleOut, name, name_sz)</functioncall>
         <requires>
             Reaper=5.62
@@ -11914,14 +11914,14 @@
         </description>
         <retvals>
             boolean retval - 
-            number root - 
-            number scale - 
+            integer root - 
+            integer scale - 
             string name - 
         </retvals>
         <parameters>
             MediaItem_Take take - 
-            number root - 
-            number scale - 
+            integer root - 
+            integer scale - 
             string name - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11937,7 +11937,7 @@
         <title>MIDI_GetTextSysexEvt</title>
         <functioncall prog_lang="cpp">bool MIDI_GetTextSysexEvt(MediaItem_Take* take, int textsyxevtidx, bool* selectedOutOptional, bool* mutedOutOptional, double* ppqposOutOptional, int* typeOutOptional, char* msgOptional, int* msgOptional_sz)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_GetTextSysexEvt(MediaItem_Take take, int textsyxevtidx, optional bool &amp;selected, optional bool &amp;muted, optional &amp;ppqpos, optional int &amp;type, optional #msg)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, optional boolean selected, optional boolean muted, optional number ppqpos, optional number type, optional string msg = reaper.MIDI_GetTextSysexEvt(MediaItem_Take take, integer textsyxevtidx, optional boolean selected, optional boolean muted, optional number ppqpos, optional number type, optional string msg)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, optional boolean selected, optional boolean muted, optional number ppqpos, optional integer type, optional string msg = reaper.MIDI_GetTextSysexEvt(MediaItem_Take take, integer textsyxevtidx, optional boolean selected, optional boolean muted, optional number ppqpos, optional integer type, optional string msg)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Int textsyxevtidx, Boolean selectedOutOptional, Boolean mutedOutOptional, Float ppqposOutOptional, Int typeOutOptional, String msgOptional, Int msgOptional_sz) = RPR_MIDI_GetTextSysexEvt(take, textsyxevtidx, selectedOutOptional, mutedOutOptional, ppqposOutOptional, typeOutOptional, msgOptional, msgOptional_sz)</functioncall>
         <requires>
             Reaper=6.00
@@ -11952,7 +11952,7 @@
             optional boolean selected - 
             optional boolean muted - 
             optional number ppqpos - 
-            optional number type - 
+            optional integer type - 
             optional string msg - 
         </retvals>
         <parameters>
@@ -11961,7 +11961,7 @@
             optional boolean selected - 
             optional boolean muted - 
             optional number ppqpos -
-            optional number type - 
+            optional integer type - 
             optional string msg - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -12007,7 +12007,7 @@
         <title>MIDI_InsertCC</title>
         <functioncall prog_lang="cpp">bool MIDI_InsertCC(MediaItem_Take* take, bool selected, bool muted, double ppqpos, int chanmsg, int chan, int msg2, int msg3)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_InsertCC(MediaItem_Take take, bool selected, bool muted, ppqpos, int chanmsg, int chan, int msg2, int msg3)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.MIDI_InsertCC(MediaItem_Take take, boolean selected, boolean muted, number ppqpos, integer chanmsg, integer chan, integer msg2, integer msg3)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_InsertCC(MediaItem_Take take, boolean selected, boolean muted, number ppqpos, integer chanmsg, integer chan, integer msg2, integer msg3)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_MIDI_InsertCC(MediaItem_Take take, Boolean selected, Boolean muted, Float ppqpos, Int chanmsg, Int chan, Int msg2, Int msg3)</functioncall>
         <requires>
             Reaper=5.62
@@ -12016,17 +12016,17 @@
             Insert a new MIDI CC event.
         </description>
         <retvals>
-            boolean - 
+            boolean retval - 
         </retvals>
         <parameters>
-            take - 
-            selected - 
-            muted - 
-            ppqpos - 
-            chanmsg - 
-            chan - 
-            msg2 - 
-            msg3 - 
+            MediaItem_Take take - 
+            boolean selected - 
+            boolean muted - 
+            number ppqpos - 
+            integer chanmsg - 
+            integer chan - 
+            integer msg2 - 
+            integer msg3 - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -12035,6 +12035,8 @@
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
+    
+    MESPOTINE
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>MIDI_InsertEvt</slug>
