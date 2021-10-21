@@ -38297,17 +38297,16 @@
             is a stable sorting function with an API similar to qsort().
             HOWEVER, it requires some temporary space, equal to the size of the data being sorted, so you can pass it as the last parameter,
             or NULL and it will allocate and free space internally. 
-
         </description>
         <retvals>
             void* -
         </retvals>
         <parameters>
-            base - 
-            nmemb - 
-            size - 
-            *cmpfunc - 
-            tmpspace - 
+            void* base - 
+            size_t nmemb - 
+            size_t size - 
+            int *cmpfunc... - 
+            void* tmpspace - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38322,7 +38321,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>AddCustomizableMenu</slug>
         <title>AddCustomizableMenu</title>
-        <functioncall prog_lang="cpp">bool (*AddCustomizableMenu)(const char* menuidstr, const char* menuname, const char* kbdsecname, bool addtomainmenu)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*AddCustomizableMenu)(const char* menuidstr, const char* menuname, const char* kbdsecname, bool addtomainmenu)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38330,13 +38329,13 @@
             Adds customizable menu.
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <parameters>
-            menuidstr - is some unique identifying string
-            menuname - is for main menus only (displayed in a menu bar somewhere), NULL otherwise 
-            kbdsecname - is the name of the KbdSectionInfo registered by this plugin, or NULL for the main actions section
-            addtomainmenu - true, add to main menu; false, don't add to main menu
+            const char* menuidstr - is some unique identifying string
+            const char* menuname - is for main menus only (displayed in a menu bar somewhere), NULL otherwise 
+            const char* kbdsecname - is the name of the KbdSectionInfo registered by this plugin, or NULL for the main actions section
+            bool addtomainmenu - true, add to main menu; false, don't add to main menu
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38351,7 +38350,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>AddExtensionsMainMenu</slug>
         <title>AddExtensionsMainMenu</title>
-        <functioncall prog_lang="cpp">bool (*AddExtensionsMainMenu)()</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*AddExtensionsMainMenu)()</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38359,7 +38358,7 @@
             Add an Extensions main menu, which the extension can populate/modify with [plugin\_register("hookcustommenu")](#plugin_register)
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38374,7 +38373,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>plugin_register</slug>
         <title>plugin_register</title>
-        <functioncall prog_lang="cpp">int (*plugin_register)(const char* name, void* infostruct)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*plugin_register)(const char* name, void* infostruct)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38424,11 +38423,11 @@
              register("command_id_lookup", unique_string) will look up the integer ID of the named action without registering the string if it doesn't already exist.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            name - 
-            infostruct - 
+            const char* name - 
+            void* infostruct - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38442,7 +38441,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>Audio_RegHardwareHook</slug>
         <title>Audio_RegHardwareHook</title>
-        <functioncall prog_lang="cpp">int (*Audio_RegHardwareHook)(bool isAdd, audio_hook_register_t* reg)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*Audio_RegHardwareHook)(bool isAdd, audio_hook_register_t* reg)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38450,11 +38449,11 @@
             Registers Audio Hardware-Hook.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            isAdd - 
-            reg - 
+            bool isAdd - 
+            audio_hook_register_t* reg - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38468,7 +38467,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>CalculatePeaks</slug>
         <title>CalculatePeaks</title>
-        <functioncall prog_lang="cpp">int (*CalculatePeaks)(PCM_source_transfer_t* srcBlock, PCM_source_peaktransfer_t* pksBlock)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*CalculatePeaks)(PCM_source_transfer_t* srcBlock, PCM_source_peaktransfer_t* pksBlock)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38476,11 +38475,11 @@
             Calculates Peaks.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            srcBlock - 
-            pksBlock - 
+            PCM_source_transfer_t* srcBlock - 
+            PCM_source_peaktransfer_t* pksBlock - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38494,7 +38493,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>CalculatePeaksFloatSrcPtr</slug>
         <title>CalculatePeaksFloatSrcPtr</title>
-        <functioncall prog_lang="cpp">int (*CalculatePeaksFloatSrcPtr)(PCM_source_transfer_t* srcBlock, PCM_source_peaktransfer_t* pksBlock)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*CalculatePeaksFloatSrcPtr)(PCM_source_transfer_t* srcBlock, PCM_source_peaktransfer_t* pksBlock)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38502,11 +38501,11 @@
             Calculates Peaks.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            srcBlock - 
-            pksBlock - 
+            PCM_source_transfer_t* srcBlock - 
+            PCM_source_peaktransfer_t* pksBlock - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38520,7 +38519,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>CountActionShortcuts</slug>
         <title>CountActionShortcuts</title>
-        <functioncall prog_lang="cpp">int (*CountActionShortcuts)(KbdSectionInfo* section, int cmdID)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*CountActionShortcuts)(KbdSectionInfo* section, int cmdID)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38531,17 +38530,17 @@
             Use [NamedCommandLookup](#NamedCommandLookup) if you want to have the right commandID of an action, that is registered with an ActionCommandID-string.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            section - the section, in which the action lies
+            KbdSectionInfo* section - the section, in which the action lies
                     -0, Main
                     -100, Main (alt recording)
                     -32060, MIDI Editor
                     -32061, MIDI Event List Editor
                     -32062, MIDI Inline Editor
                     -32063, Media Explorer
-            cmdID - the commandID of the action, whose count of shortcuts you want to know.
+            int cmdID - the commandID of the action, whose count of shortcuts you want to know.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38566,8 +38565,8 @@
             void* -
         </retvals>
         <parameters>
-            obj - 
-            callback - 
+            void* obj - 
+            void* callback - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38581,7 +38580,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>CreateMIDIInput</slug>
         <title>CreateMIDIInput</title>
-        <functioncall prog_lang="cpp">midi_Input* (*CreateMIDIInput)(int dev)</functioncall>
+        <functioncall prog_lang="cpp">midi_Input* retval = (*CreateMIDIInput)(int dev)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38589,10 +38588,10 @@
             Can only reliably create midi access for devices not already opened in prefs/MIDI, suitable for control surfaces etc.
         </description>
         <retvals>
-            midi_Input* - 
+            midi_Input* retval - 
         </retvals>
         <parameters>
-            dev - 
+            int dev - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38606,7 +38605,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>CreateMIDIOutput</slug>
         <title>CreateMIDIOutput</title>
-        <functioncall prog_lang="cpp">midi_Output* (*CreateMIDIOutput)(int dev, bool streamMode, int* msoffset100)</functioncall>
+        <functioncall prog_lang="cpp">midi_Output* retval = (*CreateMIDIOutput)(int dev, bool streamMode, int* msoffset100)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38614,11 +38613,11 @@
             Can only reliably create midi access for devices not already opened in prefs/MIDI, suitable for control surfaces etc. 
         </description>
         <retvals>
-            midi_Output* -
+            midi_Output* retval -
         </retvals>
         <parameters>
-            dev - 
-            streamMode - true, msoffset points to a persistent variable(see msoffset100 for more details)
+            int dev - 
+            bool streamMode - true, msoffset points to a persistent variable(see msoffset100 for more details)
             int* msoffset100 - points to a persistent variable that can change and reflects added delay to output in 100ths of a millisecond. 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -38641,8 +38640,8 @@
             On OSC Control Message.
         </description>
         <parameters>
-            msg -  
-            arg - 
+            const char* msg -  
+            const float* arg - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38656,7 +38655,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>DeleteActionShortcut</slug>
         <title>DeleteActionShortcut</title>
-        <functioncall prog_lang="cpp">bool (*DeleteActionShortcut)(KbdSectionInfo* section, int cmdID, int shortcutidx)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*DeleteActionShortcut)(KbdSectionInfo* section, int cmdID, int shortcutidx)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38665,18 +38664,18 @@
             See [CountActionShortcuts](#CountActionShortcuts), [GetActionShortcutDesc](#GetActionShortcutDesc), [DoActionShortcutDialog](#DoActionShortcutDialog).
         </description>
         <retvals>
-            bool - 
+            bool retval - 
         </retvals>
         <parameters>
-            section - the section, to which this action belongs to
-                        -0, Main
+            KbdSectionInfo* section - the section, to which this action belongs to
+                    -0, Main
                     -100, Main (alt recording)
                     -32060, MIDI Editor
                     -32061, MIDI Event List Editor
                     -32062, MIDI Inline Editor
                     -32063, Media Explorer
-            cmdID - the commandID for the shortcut to be deleted
-            shortcutidx - the shortcut to be deleted
+            int cmdID - the commandID for the shortcut to be deleted
+            int shortcutidx - the shortcut to be deleted
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38698,7 +38697,7 @@
             See [CreateLocalOscHandler](#CreateLocalOscHandler), [SendLocalOscMessage](#SendLocalOscMessage).
         </description>
         <parameters>
-            local_osc_handler - 
+            void* local_osc_handler - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38712,22 +38711,23 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>DoActionShortcutDialog</slug>
         <title>DoActionShortcutDialog</title>
-        <functioncall prog_lang="cpp">bool (*DoActionShortcutDialog)(HWND hwnd, KbdSectionInfo* section, int cmdID, int shortcutidx)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*DoActionShortcutDialog)(HWND hwnd, KbdSectionInfo* section, int cmdID, int shortcutidx)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Open the action shortcut dialog to edit or add a shortcut for the given command ID. 
-            If (shortcutidx >= 0 && shortcutidx < CountActionShortcuts()), that specific shortcut will be replaced, otherwise a new shortcut will be added.
+            If (shortcutidx >= 0 &amp;&amp; shortcutidx &lt; CountActionShortcuts()), that specific shortcut will be replaced, otherwise a new shortcut will be added.
             See [CountActionShortcuts](#CountActionShortcuts), [GetActionShortcutDesc](#GetActionShortcutDesc), [DeleteActionShortcut](#DeleteActionShortcut). 
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <parameters>
-            section - 
-            cmdID - 
-            shortcutidx - 
+            HWND hwnd - 
+            KbdSectionInfo* section - 
+            int cmdID - 
+            int shortcutidx -             
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38741,7 +38741,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>DuplicateCustomizableMenu</slug>
         <title>DuplicateCustomizableMenu</title>
-        <functioncall prog_lang="cpp">bool (*DuplicateCustomizableMenu)(void* srcmenu, void* destmenu)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*DuplicateCustomizableMenu)(void* srcmenu, void* destmenu)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38749,11 +38749,11 @@
             Populate destmenu with all the entries and submenus found in srcmenu.
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <parameters>
-            srcmenu - 
-            destmenu - 
+            void* srcmenu - 
+            void* destmenu - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38776,7 +38776,7 @@
             free heap memory returned from a Reaper API function
         </description>
         <parameters>
-            ptr - 
+            void* ptr - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38804,8 +38804,8 @@
             void* -
         </retvals>
         <parameters>
-            name - 
-            szOut - 
+            const char* name - 
+            int* szOut - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38831,8 +38831,8 @@
             void* -
         </retvals>
         <parameters>
-            name - 
-            szOut - 
+            const char* name - 
+            int* szOut - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38847,7 +38847,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetActionShortcutDesc</slug>
         <title>GetActionShortcutDesc</title>
-        <functioncall prog_lang="cpp">bool (*GetActionShortcutDesc)(KbdSectionInfo* section, int cmdID, int shortcutidx, char* desc, int desclen)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*GetActionShortcutDesc)(KbdSectionInfo* section, int cmdID, int shortcutidx, char* desc, int desclen)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38859,17 +38859,17 @@
             bool -
         </retvals>
         <parameters>
-            section - the section of the action
-                        -0, Main
+            KbdSectionInfo* section - the section of the action
+                    -0, Main
                     -100, Main (alt recording)
                     -32060, MIDI Editor
                     -32061, MIDI Event List Editor
                     -32062, MIDI Inline Editor
                     -32063, Media Explorer
-            cmdID - the commandID of the action, whose shortcut-description you want.
-            shortcutidx - 
-            desc - 
-            descclean -
+            int cmdID - the commandID of the action, whose shortcut-description you want.
+            int shortcutidx - 
+            char* desc - 
+            int descclean -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38884,7 +38884,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetColorTheme</slug>
         <title>GetColorTheme</title>
-        <functioncall prog_lang="cpp">INT_PTR (*GetColorTheme)(int idx, int defval)</functioncall>
+        <functioncall prog_lang="cpp">INT_PTR retval = (*GetColorTheme)(int idx, int defval)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38892,11 +38892,11 @@
             Deprecated, see [GetColorThemeStruct](#GetColorThemeStruct).
         </description>
         <retvals>
-            INT_PTR -
+            INT_PTR retval -
         </retvals>
         <parameters>
-            idx - 
-            defval - 
+            int idx - 
+            int defval - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38922,7 +38922,7 @@
             void* -
         </retvals>
         <parameters>
-            szOut - 
+            int* szOut - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38937,7 +38937,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetContextMenu</slug>
         <title>GetContextMenu</title>
-        <functioncall prog_lang="cpp">HMENU (*GetContextMenu)(int idx)</functioncall>
+        <functioncall prog_lang="cpp">HMENU retval = (*GetContextMenu)(int idx)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38945,10 +38945,10 @@
             gets context menus. submenu 0:trackctl, 1:mediaitems, 2:ruler, 3:empty track area 
         </description>
         <retvals>
-            HMENU -
+            HMENU retval -
         </retvals>
         <parameters>
-            idx - 
+            int idx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -38974,7 +38974,7 @@
             void* -
         </retvals>
         <parameters>
-            name - 
+            const char* name - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39002,8 +39002,8 @@
             void* -
         </retvals>
         <parameters>
-            name - 
-            dpisc - 
+            const char* name - 
+            int dpisc - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39030,7 +39030,7 @@
             void* -
         </retvals>
         <parameters>
-            szOut - 
+            int* szOut - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39056,11 +39056,11 @@
             void* -
         </retvals>
         <parameters>
-            pks - 
-            maxamp - 
-            w - 
-            h - 
-            bmp -
+            PCM_source_peaktransfer_t* pks - 
+            double maxamp - 
+            int w - 
+            int h - 
+            LICE_IBitmap* bmp - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39086,9 +39086,9 @@
             void -
         </retvals>
         <parameters>
-            mode - 
-            nb - 
-            bs -
+            int* mode - 
+            int* nb - 
+            int* bs -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39114,9 +39114,9 @@
             void -
         </retvals>
         <parameters>
-            mode - 
-            nb - 
-            bs -
+            int* mode - 
+            int* nb - 
+            int* bs -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39141,9 +39141,9 @@
             void -
         </retvals>
         <parameters>
-            mode - 
-            nb - 
-            bs -
+            int* mode - 
+            int* nb - 
+            int* bs -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39168,8 +39168,8 @@
             void* -
         </retvals>
         <parameters>
-            tk - a MediaItem_Take-object, that shall be altered
-            parmname - the name of the parameter to be changed
+            MediaItek_Take* tk - a MediaItem_Take-object, that shall be altered
+            const char* parmname - the name of the parameter to be changed
                          -P_TRACK : pointer to MediaTrack (read-only)
                          -P_ITEM : pointer to MediaItem (read-only)
                          -P_SOURCE : PCM_source *. Note that if setting this, you should first retrieve the old source, set the new, THEN delete the old.
@@ -39188,7 +39188,7 @@
                          -I_PITCHMODE, int *, pitch shifter mode, -1=proj default, otherwise high word=shifter low word = parameter
                          -I_CUSTOMCOLOR : int *, custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).
                          -IP_TAKENUMBER : int, take number within the item (read-only, returns the take number directly)
-            setNewValue - the new value to be set to the parameter. See the description of parmname above for more details.
+            void* setNewValue - the new value to be set to the parameter. See the description of parmname above for more details.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39272,9 +39272,9 @@
             void* -
         </retvals>
         <parameters>
-            tr - the Mediatrack-object, that shall be modified
-            parmname - the parameter to be gotten or set
-            setNewValue - the new value. See the description of parmname above for more details
+            MediaTrack* tr - the Mediatrack-object, that shall be modified
+            const char* parmname - the parameter to be gotten or set
+            void* setNewValue - the new value. See the description of parmname above for more details
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39288,7 +39288,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetSetObjectState</slug>
         <title>GetSetObjectState</title>
-        <functioncall prog_lang="cpp">char* (*GetSetObjectState)(void* obj, const char* str)</functioncall>
+        <functioncall prog_lang="cpp">char* retval = (*GetSetObjectState)(void* obj, const char* str)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39298,11 +39298,11 @@
             supply str to set the state (returns zero)
         </description>
         <retvals>
-            char* -
+            char* retval -
         </retvals>
         <parameters>
-            obj - the object, to be modified. Can be MediaItem, TrackEnvelope, MediaTrack.
-            str - supply str to set the state (returns zero); str="" to get the chunk string returned 
+            void* obj - the object, to be modified. Can be MediaItem, TrackEnvelope, MediaTrack.
+            const char* str - supply str to set the state (returns zero); str="" to get the chunk string returned 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39316,7 +39316,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetSetObjectState2</slug>
         <title>GetSetObjectState2</title>
-        <functioncall prog_lang="cpp">char* (*GetSetObjectState2)(void* obj, const char* str, bool isundo)</functioncall>
+        <functioncall prog_lang="cpp">char* retval = (*GetSetObjectState2)(void* obj, const char* str, bool isundo)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39324,12 +39324,12 @@
             get or set the state of a {track,item,envelope} as an RPPXML chunk
         </description>
         <retvals>
-            char* -
+            char* retval -
         </retvals>
         <parameters>
-            obj - the object, to be modified. Can be MediaItem, TrackEnvelope, MediaTrack.
-            str - supply str to set the state (returns zero); str="" to get the chunk string returned (must call FreeHeapPtr when done)
-            isundo - set, if the state will be used for undo purposes (which may allow REAPER to get the state more efficiently
+            void* obj - the object, to be modified. Can be MediaItem, TrackEnvelope, MediaTrack.
+            const char* str - supply str to set the state (returns zero); str="" to get the chunk string returned (must call FreeHeapPtr when done)
+            bool isundo - set, if the state will be used for undo purposes (which may allow REAPER to get the state more efficiently
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39343,7 +39343,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetSetTrackMIDISupportFile</slug>
         <title>GetSetTrackMIDISupportFile</title>
-        <functioncall prog_lang="cpp">const char* (*GetSetTrackMIDISupportFile)(ReaProject* proj, MediaTrack* track, int which, const char* filename)</functioncall>
+        <functioncall prog_lang="cpp">const char* retval = (*GetSetTrackMIDISupportFile)(ReaProject* proj, MediaTrack* track, int which, const char* filename)</functioncall>
         <requires>
             Reaper=6.02
         </requires>
@@ -39354,17 +39354,17 @@
             If fn != NULL, a new track MIDI storage file will be set; otherwise the existing track MIDI storage file will be returned. 
         </description>
         <retvals>
-            char* -
+            const char* retval -
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            track - the MediaTrack-object of the track to be treated
-            which - thich MIDI-file to use
+            ReaProject* proj - the project-number. 0 for the current project. 
+            MediaTrack* track - the MediaTrack-object of the track to be treated
+            int which - thich MIDI-file to use
                         -0, MIDI colormap image file, 
                         -1, MIDI bank/program select file, 
                         -2, MIDI text string file, 
                         -3, MIDI note mapping file. 
-            filename - If fn != NULL, a new track MIDI storage file will be set; otherwise the existing track MIDI storage file will be returned.
+            const char* filename - If fn != NULL, a new track MIDI storage file will be set; otherwise the existing track MIDI storage file will be returned.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39391,10 +39391,10 @@
             void* -
         </retvals>
         <parameters>
-            tr - the MediaTrack object for the track to be gotten or set
-            category - &lt;0 for receives, 0=sends, &gt;0 for hardware outputs 
-            sendidx - 0..n (to enumerate, iterate over sendidx until it returns NULL) 
-            parmname - the parameter to get/set
+            MediaTrack* tr - the MediaTrack object for the track to be gotten or set
+            int category - &lt;0 for receives, 0=sends, &gt;0 for hardware outputs 
+            int sendidx - 0..n (to enumerate, iterate over sendidx until it returns NULL) 
+            const char* parmname - the parameter to get/set
                  -P_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
                  -P_SRCTRACK : read only, returns MediaTrack *, source track, only applies for sends/recvs
                  -P_ENV : read only, returns TrackEnvelope *, setNewValue=&lt;VOLENV, &lt;PANENV, etc
@@ -39409,7 +39409,7 @@
                  -I_SRCCHAN : returns int *, index,&amp;1024=mono, -1 for none
                  -I_DSTCHAN : returns int *, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
                  -I_MIDIFLAGS : returns int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chan
-            setNewValue - the new value to be set
+            void* setNewValue - the new value to be set
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39423,7 +39423,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetToggleCommandStateThroughHooks</slug>
         <title>GetToggleCommandStateThroughHooks</title>
-        <functioncall prog_lang="cpp">int (*GetToggleCommandStateThroughHooks)(KbdSectionInfo* section, int command_id)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*GetToggleCommandStateThroughHooks)(KbdSectionInfo* section, int command_id)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39431,17 +39431,17 @@
             Returns the state of an action via extension plugins' hooks.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            section - the section, in which the action appears in
-            -0, Main
-            -100, Main (alt recording)
-            -32060, MIDI Editor
-            -32061, MIDI Event List Editor
-            -32062, MIDI Inline Editor
-            -32063, Media Explorer
-            command_id - the command-id of the action, whose state you want
+            MediaTrack* section - the section, in which the action appears in
+                                -0, Main
+                                -100, Main (alt recording)
+                                -32060, MIDI Editor
+                                -32061, MIDI Event List Editor
+                                -32062, MIDI Inline Editor
+                                -32063, Media Explorer
+            int command_id - the command-id of the action, whose state you want
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39466,8 +39466,8 @@
             void -
         </retvals>
         <parameters>
-            src - 
-            block - 
+            PCM_source* src - 
+            PCM_source_peaktransfer_t* block - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39481,7 +39481,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>IsInRealTimeAudio</slug>
         <title>IsInRealTimeAudio</title>
-        <functioncall prog_lang="cpp">int (*IsInRealTimeAudio)()</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*IsInRealTimeAudio)()</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39489,7 +39489,7 @@
             Are we in a realtime audio thread (between OnAudioBuffer calls,not in some worker/anticipative FX thread)? threadsafe
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39503,7 +39503,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>IsItemTakeActiveForPlayback</slug>
         <title>IsItemTakeActiveForPlayback</title>
-        <functioncall prog_lang="cpp">bool (*IsItemTakeActiveForPlayback)(MediaItem* item, MediaItem_Take* take)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*IsItemTakeActiveForPlayback)(MediaItem* item, MediaItem_Take* take)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39511,11 +39511,11 @@
             get whether a take will be played (active take, unmuted, etc)
         </description>
         <retvals>
-            bool - 
+            bool retval - 
         </retvals>
         <parameters>
-            item - MediaItem in which the take is to be checked
-            take - the MediaItem_Take to be checked
+            MediaItem* item - MediaItem in which the take is to be checked
+            MediaItem_Take* take - the MediaItem_Take to be checked
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39529,7 +39529,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>IsREAPER</slug>
         <title>IsREAPER</title>
-        <functioncall prog_lang="cpp">bool (*IsREAPER)()</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*IsREAPER)()</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39537,7 +39537,7 @@
             Returns true if dealing with REAPER, returns false for ReaMote, etc
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39551,7 +39551,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>kbd_enumerateActions</slug>
         <title>kbd_enumerateActions</title>
-        <functioncall prog_lang="cpp">int (*kbd_enumerateActions)(KbdSectionInfo* section, int idx, const char** nameOut)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*kbd_enumerateActions)(KbdSectionInfo* section, int idx, const char** nameOut)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39559,18 +39559,18 @@
             Enumerates actions.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            section - the section, in which the action exists
-            -0, Main
-            -100, Main (alt recording)
-            -32060, MIDI Editor
-            -32061, MIDI Event List Editor
-            -32062, MIDI Inline Editor
-            -32063, Media Explorer
-            idx - 
-            nameOut - 
+            KbdSectionInfo* section - the section, in which the action exists
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
+            int idx - 
+            const char** nameOut - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39595,8 +39595,8 @@
             void -
         </retvals>
         <parameters>
-            ac - 
-            s - 
+            ACCEL* ac - 
+            char* s - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39622,15 +39622,15 @@
             void -
         </retvals>
         <parameters>
-            cmd - commandid of the action
-            s - 
-            section - the section, in which the action exists
-            -0, Main
-            -100, Main (alt recording)
-            -32060, MIDI Editor
-            -32061, MIDI Event List Editor
-            -32062, MIDI Inline Editor
-            -32063, Media Explorer
+            int cmd - commandid of the action
+            char* s - 
+            KbdSectionInfo* section - the section, in which the action exists
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39644,7 +39644,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>kbd_getTextFromCmd</slug>
         <title>kbd_getTextFromCmd</title>
-        <functioncall prog_lang="cpp">const char* (*kbd_getTextFromCmd)(DWORD cmd, KbdSectionInfo* section)</functioncall>
+        <functioncall prog_lang="cpp">const char* retval = (*kbd_getTextFromCmd)(DWORD cmd, KbdSectionInfo* section)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39655,14 +39655,14 @@
             const char* -
         </retvals>
         <parameters>
-            cmd - 
-            section - the section, in which the action exists
-            -0, Main
-            -100, Main (alt recording)
-            -32060, MIDI Editor
-            -32061, MIDI Event List Editor
-            -32062, MIDI Inline Editor
-            -32063, Media Explorer
+            DWORD cmd - 
+            KbdSectionInfo* section - the section, in which the action exists
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39687,8 +39687,8 @@
             void -
         </retvals>
         <parameters>
-            evt - the MIDI-event
-            dev_index - 
+            MIDI_event_t* evt - the MIDI-event
+            int dev_index - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39713,8 +39713,8 @@
             void - 
         </retvals>
         <parameters>
-            list - 
-            dev_index - 
+            MIDI_eventlist* list - 
+            int dev_index - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39739,8 +39739,8 @@
             void -
         </retvals>
         <parameters>
-            menu - 
-            section - the section, in which the action exists
+            HMENU menu - 
+            KbdSectionInfo* section - the section, in which the action exists
             -0, Main
             -100, Main (alt recording)
             -32060, MIDI Editor
@@ -39771,15 +39771,15 @@
             bool -
         </retvals>
         <parameters>
-            evt - 
-            section - the section, in which the action exists
-            -0, Main
-            -100, Main (alt recording)
-            -32060, MIDI Editor
-            -32061, MIDI Event List Editor
-            -32062, MIDI Inline Editor
-            -32063, Media Explorer
-            hwndCtx - 
+            MIDI_event_t* evt - 
+            KbdSectionInfo* section - the section, in which the action exists
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
+            HWND hwndCtx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39804,14 +39804,14 @@
             void -
         </retvals>
         <parameters>
-            menu - 
-            section - the section, in which the action exists
-            -0, Main
-            -100, Main (alt recording)
-            -32060, MIDI Editor
-            -32061, MIDI Event List Editor
-            -32062, MIDI Inline Editor
-            -32063, Media Explorer
+            HMENU menu - 
+            KbdSectionInfo* section - the section, in which the action exists
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39825,7 +39825,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>kbd_RunCommandThroughHooks</slug>
         <title>kbd_RunCommandThroughHooks</title>
-        <functioncall prog_lang="cpp">bool (*kbd_RunCommandThroughHooks)(KbdSectionInfo* section, int* actionCommandID, int* val, int* valhw, int* relmode, HWND hwnd)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*kbd_RunCommandThroughHooks)(KbdSectionInfo* section, int* actionCommandID, int* val, int* valhw, int* relmode, HWND hwnd)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39833,21 +39833,21 @@
             Run command through hooks. actioncommandID may get modified.
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <parameters>
-            section - the section, in which the action exists
-            -0, Main
-            -100, Main (alt recording)
-            -32060, MIDI Editor
-            -32061, MIDI Event List Editor
-            -32062, MIDI Inline Editor
-            -32063, Media Explorer
-            actionCommandID - the commandid-number of the action you want to run.
-            val - 
-            valhw - 
-            relmode - 
-            hwnd - 
+            KbdSectionInfo* section - the section, in which the action exists
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
+            int* actionCommandID - the commandid-number of the action you want to run.
+            int* val - 
+            int* valhw - 
+            int* relmode - 
+            HWND hwnd - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39861,7 +39861,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>kbd_translateAccelerator</slug>
         <title>kbd_translateAccelerator</title>
-        <functioncall prog_lang="cpp">int (*kbd_translateAccelerator)(HWND hwnd, MSG* msg, KbdSectionInfo* section)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*kbd_translateAccelerator)(HWND hwnd, MSG* msg, KbdSectionInfo* section)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39871,18 +39871,18 @@
             Returns 1 if processed, 0 if no key binding found.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            hwnd - 
-            msg - 
-            section - the section, in which the action exists
-            -0, Main
-            -100, Main (alt recording)
-            -32060, MIDI Editor
-            -32061, MIDI Event List Editor
-            -32062, MIDI Inline Editor
-            -32063, Media Explorer
+            HWND hwnd - 
+            MSG* msg - 
+            KbdSectionInfo* section - the section, in which the action exists
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39896,7 +39896,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>kbd_translateMouse</slug>
         <title>kbd_translateMouse</title>
-        <functioncall prog_lang="cpp">bool (*kbd_translateMouse)(void* winmsg, unsigned char* midimsg)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*kbd_translateMouse)(void* winmsg, unsigned char* midimsg)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39904,11 +39904,11 @@
             Translate mouse.
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <parameters>
-            winmsg - 
-            midimsg - 
+            void* winmsg - 
+            unsigned char* midimsg - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39934,7 +39934,7 @@
             void -
         </retvals>
         <parameters>
-            bm - 
+            LICE_IBitmap* bm - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39959,7 +39959,7 @@
             void -
         </retvals>
         <parameters>
-            font - 
+            LICE_IFont* font - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -39973,7 +39973,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE__DrawText</slug>
         <title>LICE__DrawText</title>
-        <functioncall prog_lang="cpp">int (*LICE__DrawText)(LICE_IFont* font, LICE_IBitmap* bm, const char* str, int strcnt, RECT* rect, UINT dtFlags)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*LICE__DrawText)(LICE_IFont* font, LICE_IBitmap* bm, const char* str, int strcnt, RECT* rect, UINT dtFlags)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -39981,15 +39981,15 @@
             LICE draw text.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            font - 
-            bm - 
-            str - 
-            strcnt - 
-            rect - 
-            dtFlags -
+            LICE_IFont* font -
+            LICE_IBitmap* bm - 
+            const char* str - 
+            int strcnt - 
+            RECT* rect - 
+            UINT dtFlags - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40014,7 +40014,7 @@
             void* -
         </retvals>
         <parameters>
-            bm - 
+            LICE_IBitmap* bm - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40028,7 +40028,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE__GetDC</slug>
         <title>LICE__GetDC</title>
-        <functioncall prog_lang="cpp">HDC (*LICE__GetDC)(LICE_IBitmap* bm)</functioncall>
+        <functioncall prog_lang="cpp">HDC retval = (*LICE__GetDC)(LICE_IBitmap* bm)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -40036,10 +40036,10 @@
             Translate mouse.
         </description>
         <retvals>
-            HDC -
+            HDC retval -
         </retvals>
         <parameters>
-            bm - 
+            LICE_IBitmap* bm - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40053,7 +40053,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE__GetHeight</slug>
         <title>LICE__GetHeight</title>
-        <functioncall prog_lang="cpp">int (*LICE__GetHeight)(LICE_IBitmap* bm)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*LICE__GetHeight)(LICE_IBitmap* bm)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -40061,10 +40061,10 @@
             LICE get height
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            bm - 
+            LICE_IBitmap* bm - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40078,7 +40078,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE__GetRowSpan</slug>
         <title>LICE__GetRowSpan</title>
-        <functioncall prog_lang="cpp">int (*LICE__GetRowSpan)(LICE_IBitmap* bm)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*LICE__GetRowSpan)(LICE_IBitmap* bm)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -40086,10 +40086,10 @@
             LICE get row span.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            bm - 
+            LICE_IBitmap* bm - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40103,7 +40103,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE__GetWidth</slug>
         <title>LICE__GetWidth</title>
-        <functioncall prog_lang="cpp">int (*LICE__GetWidth)(LICE_IBitmap* bm)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*LICE__GetWidth)(LICE_IBitmap* bm)</functioncall>
         <requires>  
             Reaper=5.62
         </requires>
@@ -40111,10 +40111,10 @@
             LICE get width.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            bm - 
+            LICE_IBitmap* bm - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40128,7 +40128,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE__IsFlipped</slug>
         <title>LICE__IsFlipped</title>
-        <functioncall prog_lang="cpp">bool (*LICE__IsFlipped)(LICE_IBitmap* bm)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*LICE__IsFlipped)(LICE_IBitmap* bm)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -40136,10 +40136,10 @@
             LICE is flipped
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <parameters>
-            bm - 
+            LICE_IBitmap* bm - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40153,7 +40153,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE__resize</slug>
         <title>LICE__resize</title>
-        <functioncall prog_lang="cpp">bool (*LICE__resize)(LICE_IBitmap* bm, int w, int h)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*LICE__resize)(LICE_IBitmap* bm, int w, int h)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -40161,12 +40161,12 @@
             LICE resize
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <parameters>
-            bm - 
-            w - 
-            h -
+            LICE_IBitmap* bm - 
+            int w - 
+            int h -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40180,7 +40180,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE__SetBkColor</slug>
         <title>LICE__SetBkColor</title>
-        <functioncall prog_lang="cpp">LICE_pixel (*LICE__SetBkColor)(LICE_IFont* font, LICE_pixel color)</functioncall>
+        <functioncall prog_lang="cpp">LICE_pixel retval = (*LICE__SetBkColor)(LICE_IFont* font, LICE_pixel color)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -40188,11 +40188,11 @@
             LICE set bk color
         </description>
         <retvals>
-            LICE_pixel -
+            LICE_pixel retval -
         </retvals>
         <parameters>
-            font - 
-            color - 
+            LICE_IFont* font - 
+            LICE_pixel color - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40217,9 +40217,9 @@
             void -
         </retvals>
         <parameters>
-            font - font must REMAIN valid,unless LICE_FONT_FLAG_PRECALCALL is set
-            hfont - 
-            flags - 
+            LICE_IFont* font - font must REMAIN valid,unless LICE_FONT_FLAG_PRECALCALL is set
+            HFONT hfont - 
+            int flags - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40244,8 +40244,8 @@
             LICE_pixel -
         </retvals>
         <parameters>
-            font - 
-            color - 
+            LICE_IFont* font - 
+            LICE_pixel color - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40270,9 +40270,9 @@
             void -
         </retvals>
         <parameters>
-            ifont - 
-            mode - 
-            alpha -
+            LICE_IFont* ifont - 
+            int mode - 
+            float alpha - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40297,16 +40297,16 @@
             void -
         </retvals>
         <parameters>
-            dest -
-            cx - 
-            cy - 
-            r - 
-            minAngle -
-            maxAngle - 
-            color - 
-            alpha - 
-            mode - 
-            aa -
+            LICE_IBitmap* dest - 
+            float cx - 
+            float cy - 
+            float r - 
+            float minAngle - 
+            float maxAngle - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
+            bool aa - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40331,16 +40331,16 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            src - 
-            dstx - 
-            dsty - 
-            srcx - 
-            srcy - 
-            srcw - 
-            srch - 
-            alpha - 
-            mode - 
+            LICE_IBitmap* dest -
+            LICE_IBitmap* src - 
+            int dstx - 
+            int dsty - 
+            int srcx - 
+            int srcy - 
+            int srcw - 
+            int srch - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40365,14 +40365,14 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            src - 
-            dstx -
-            dsty -
-            srcx -
-            srcy -
-            srcw -
-            srch -
+            LICE_IBitmap* dest - 
+            LICE_IBitmap* src - 
+            int dstx - 
+            int dsty - 
+            int srcx - 
+            int srcy - 
+            int srcw - 
+            int srch - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40397,15 +40397,15 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x - 
-            y -
-            w -
-            h -
-            bgcolor - 
-            fgcolor - 
-            alpha - 
-            mode -
+            LICE_IBitmap* dest - 
+            int x - 
+            int y - 
+            int w - 
+            int h - 
+            LICE_pixel bgcolor - 
+            LICE_pixel fgcolor - 
+            float alpha -
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40430,14 +40430,14 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            cx - 
-            cy -
-            r -
-            color -
-            alpha -
-            mode - 
-            aa -
+            LICE_IBitmap* dest - 
+            float cx - 
+            float cy - 
+            float r - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
+            bool aa - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40462,8 +40462,8 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            color - 
+            LICE_IBitmap* dest - 
+            LICE_pixel color - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40488,13 +40488,13 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x - 
-            y - 
-            w -
-            h - 
-            mask -
-            orbits -
+            LICE_IBitmap* dest - 
+            int x - 
+            int y - 
+            int w - 
+            int h - 
+            LICE_pixel mask - 
+            LICE_pixel orbits - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40519,8 +40519,8 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            src - 
+            LICE_IBitmap* dest - 
+            LICE_IBitmap* src - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40534,7 +40534,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE_CreateBitmap</slug>
         <title>LICE_CreateBitmap</title>
-        <functioncall prog_lang="cpp">LICE_IBitmap* (*LICE_CreateBitmap)(int mode, int w, int h)</functioncall>
+        <functioncall prog_lang="cpp">LICE_IBitmap* retval = (*LICE_CreateBitmap)(int mode, int w, int h)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -40542,12 +40542,12 @@
             Create a new bitmap. this is like calling new LICE_MemBitmap (mode=0) or new LICE_SysBitmap (mode=1).
         </description>
         <retvals>
-            LICE_IBitmap* -
+            LICE_IBitmap* retval -
         </retvals>
         <parameters>
-            mode - 
-            w - 
-            h -
+            int mode - 
+            int w - 
+            int h -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40594,11 +40594,13 @@
             void -
         </retvals>
         <parameters>
-            x - 
-            y - 
-            color -
-            alpha - 
-            mode -
+            LICE_IBitmap* bm - 
+            int x - 
+            int y - 
+            char c - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40623,15 +40625,15 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x - 
-            y -
-            color - 
-            alphas - 
-            glyph_w - 
-            glyph_h - 
-            alpha - 
-            mode - 
+            LICE_IBitmap* dest - 
+            int x - 
+            int y - 
+            LICE_pixel color - 
+            LICE_pixel_chan* alphas - 
+            int glyph_w - 
+            int glyph_h - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40694,14 +40696,14 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x - 
-            y -
-            w -
-            h -
-            color -
-            alpha -
-            mode -
+            LICE_IBitmap* dest - 
+            int x - 
+            int y - 
+            int w - 
+            int h - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40726,13 +40728,13 @@
             void -
         </retvals>
         <parameters>
-            bm - 
-            x - 
-            y -
-            string -
-            color - 
-            alpha - 
-            mode - 
+            LICE_IBitmap* bm - 
+            int x - 
+            int y - 
+            const char* string - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40797,14 +40799,14 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            cx - 
-            cy -
-            r -
-            color - 
-            alpha - 
-            mode - 
-            aa -
+            LICE_IBitmap* dest - 
+            float cx - 
+            float cy - 
+            float r - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
+            bool aa - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40829,13 +40831,13 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x - 
-            y -
-            npoints - 
-            color - 
-            alpha - 
-            mode - 
+            LICE_IBitmap* dest - 
+            int* x - 
+            int* y - 
+            int npoints - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40860,14 +40862,14 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x - 
-            y -
-            w -
-            h -
-            color - 
-            alpha - 
-            mode -
+            LICE_IBitmap* dest - 
+            int x - 
+            int y - 
+            int w - 
+            int h - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40892,16 +40894,16 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x1a - 
-            x1b - 
-            y1 - 
-            x2a - 
-            x2b - 
-            y2 - 
-            color - 
-            alpha - 
-            mode - 
+            LICE_IBitmap* dest - 
+            int x1a - 
+            int x1b - 
+            int y1 - 
+            int x2a - 
+            int x2b - 
+            int y2 - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40926,16 +40928,16 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x1 - 
-            y1 -
-            x2 - 
-            y2 - 
-            x3 - 
-            y3 - 
-            color - 
-            alpha - 
-            mode - 
+            LICE_IBitmap* dest - 
+            int x1 - 
+            int y1 - 
+            int x2 - 
+            int y2 - 
+            int x3 - 
+            int y3 - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40960,9 +40962,9 @@
             LICE_pixel -
         </retvals>
         <parameters>
-            bm - 
-            x - 
-            y -
+            LICE_IBitmap* bm - 
+            int x - 
+            int y -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -40987,24 +40989,24 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            dstx - 
-            dsty -
-            dstw - 
-            dsth - 
-            ir - 
-            ig - 
-            ib - 
-            ia - 
-            drdx - 
-            dgdx - 
-            dbdx - 
-            dadx - 
-            drdy -
-            dgdy - 
-            dbdy - 
-            dady -
-            mode -
+            LICE_IBitmap* dest - 
+            int dstx - 
+            int dsty - 
+            int dstw - 
+            int dsth - 
+            float ir - 
+            float ig - 
+            float ib - 
+            float ia - 
+            float drdx - 
+            float dgdx - 
+            float dbdx - 
+            float dadx - 
+            float drdy - 
+            float dgdy - 
+            float dbdy - 
+            float dady - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41029,15 +41031,15 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x1 - 
-            y1 -
-            x2 - 
-            y2 - 
-            color - 
-            alpha - 
-            mode - 
-            aa - 
+            LICE_IBitmap* dest - 
+            float x1 - 
+            float y1 - 
+            float x2 - 
+            float y2 - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
+            bool aa - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41062,15 +41064,15 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x1 - 
-            y1 -
-            x2 - 
-            y2 - 
-            color - 
-            alpha - 
-            mode - 
-            aa -
+            LICE_IBitmap* dest - 
+            int x1 - 
+            int y1 - 
+            int x2 - 
+            int y2 - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
+            bool aa - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41084,7 +41086,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE_LoadPNG</slug>
         <title>LICE_LoadPNG</title>
-        <functioncall prog_lang="cpp">LICE_IBitmap* (*LICE_LoadPNG)(const char* filename, LICE_IBitmap* bmp)</functioncall>
+        <functioncall prog_lang="cpp">LICE_IBitmap* retval = (*LICE_LoadPNG)(const char* filename, LICE_IBitmap* bmp)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41092,11 +41094,11 @@
             LICE load png
         </description>
         <retvals>
-            LICE_IBitmap* -
+            LICE_IBitmap* retval -
         </retvals>
         <parameters>
-            filename - 
-            bmp - 
+            const char* filename - 
+            Lice_IBitmap* bmp - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41110,7 +41112,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE_LoadPNGFromResource</slug>
         <title>LICE_LoadPNGFromResource</title>
-        <functioncall prog_lang="cpp">LICE_IBitmap* (*LICE_LoadPNGFromResource)(HINSTANCE hInst, int resid, LICE_IBitmap* bmp)</functioncall>
+        <functioncall prog_lang="cpp">LICE_IBitmap* retval = (*LICE_LoadPNGFromResource)(HINSTANCE hInst, int resid, LICE_IBitmap* bmp)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41121,9 +41123,9 @@
             LICE_IBitmap* -
         </retvals>
         <parameters>
-            hInst - 
-            resid - 
-            bmp -
+            HINSTANCE hInst - 
+            int resid - 
+            LICE_IBitmap* bmp -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41148,9 +41150,9 @@
             void -
         </retvals>
         <parameters>
-            string - 
-            w - 
-            h -
+            const char* string - 
+            int* w - 
+            int* h -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41175,19 +41177,19 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x - 
-            y -
-            w - 
-            h - 
-            rsc - 
-            gsc - 
-            bsc - 
-            asc - 
-            radd - 
-            gadd - 
-            badd - 
-            aadd - 
+            LICE_IBitmap* dest - 
+            int x - 
+            int y - 
+            int w - 
+            int h - 
+            float rsc - 
+            float gsc - 
+            float bsc - 
+            float asc - 
+            float radd - 
+            float gadd - 
+            float badd - 
+            float aadd - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41212,12 +41214,12 @@
             void -
         </retvals>
         <parameters>
-            bm - 
-            x - 
-            y -
-            color - 
-            alpha - 
-            mode - 
+            LICE_IBitmap* bm - 
+            int x - 
+            int y -
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41242,22 +41244,22 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            src - 
-            dstx -
-            dsty - 
-            dstw - 
-            dsth - 
-            srcx - 
-            srcy - 
-            srcw - 
-            srch - 
-            angle -
-            cliptosourcerect -
-            alpha - 
-            mode - 
-            rotxcent - 
-            rtoycent - 
+            LICE_IBitmap* dest - 
+            LICE_IBitmap* src - 
+            int dstx - 
+            int dsty - 
+            int dstw - 
+            int dsth - 
+            float srcx - 
+            float srcy - 
+            float srcw - 
+            float srch - 
+            float angle - 
+            bool cliptosourcerect - 
+            float alpha - 
+            int mode - 
+            float rotxcent - 
+            float rotycent - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41282,16 +41284,16 @@
             void -
         </retvals>
         <parameters>
-            drawbm - 
-            xpos - 
-            ypos -
-            w - 
-            h - 
-            cornerradius - 
-            col - 
-            alpha - 
-            mode - 
-            aa - 
+            LICE_IBitmap* drawbm - 
+            float xpos - 
+            float ypos - 
+            float w - 
+            float h - 
+            int cornerradius - 
+            LICE_pixel col - 
+            float alpha - 
+            int mode - 
+            bool aa - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41316,18 +41318,18 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            src - 
-            dstx -
-            dsty - 
-            dstw - 
-            dsth - 
-            srcx - 
-            srcy - 
-            srcw - 
-            srch - 
-            alpha - 
-            mode - 
+            LICE_IBitmap* dest - 
+            LICE_IBitmap* src - 
+            int dstx - 
+            int dsty - 
+            int dstw - 
+            int dsth - 
+            float srcx - 
+            float srcy - 
+            float srcw - 
+            float srch - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41352,12 +41354,12 @@
             void -
         </retvals>
         <parameters>
-            dest - 
-            x - 
-            y -
-            newcolor - 
-            comparemask - 
-            keepmask - 
+            LICE_IBitmap* dest - 
+            int x - 
+            int y -
+            LICE_pixel newcolor - 
+            LICE_pixel comparemask - 
+            LICE_pixel keepmask - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41371,7 +41373,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PCM_Source_CreateFromSimple</slug>
         <title>PCM_Source_CreateFromSimple</title>
-        <functioncall prog_lang="cpp">PCM_source* (*PCM_Source_CreateFromSimple)(ISimpleMediaDecoder* dec, const char* fn)</functioncall>
+        <functioncall prog_lang="cpp">PCM_source* retval = (*PCM_Source_CreateFromSimple)(ISimpleMediaDecoder* dec, const char* fn)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41379,11 +41381,11 @@
             PCM_Source create from simple
         </description>
         <retvals>
-            PCM_source* -
+            PCM_source* retval -
         </retvals>
         <parameters>
-            dec - 
-            fn - 
+            ISimpleMediaDecoder* dec - 
+            const char* fn - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41397,7 +41399,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PeakBuild_Create</slug>
         <title>PeakBuild_Create</title>
-        <functioncall prog_lang="cpp">REAPER_PeakBuild_Interface* (*PeakBuild_Create)(PCM_source* src, const char* fn, int srate, int nch)</functioncall>
+        <functioncall prog_lang="cpp">REAPER_PeakBuild_Interface* retval = (*PeakBuild_Create)(PCM_source* src, const char* fn, int srate, int nch)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41405,13 +41407,13 @@
             Peak build create
         </description>
         <retvals>
-            REAPER_PeakBuild_Interface* -
+            REAPER_PeakBuild_Interface*  retval -
         </retvals>
         <parameters>
-            src - 
-            fn - 
-            srate -
-            nch - 
+            PCM_source* src - 
+            const char* fn - 
+            int srate -
+            int nch - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41425,7 +41427,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PeakBuild_CreateEx</slug>
         <title>PeakBuild_CreateEx</title>
-        <functioncall prog_lang="cpp">REAPER_PeakBuild_Interface* (*PeakBuild_CreateEx)(PCM_source* src, const char* fn, int srate, int nch, int flags)</functioncall>
+        <functioncall prog_lang="cpp">REAPER_PeakBuild_Interface* retval = (*PeakBuild_CreateEx)(PCM_source* src, const char* fn, int srate, int nch, int flags)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41433,14 +41435,14 @@
             Peakbuild create-ex. flags&amp;1 for FP support
         </description>
         <retvals>
-            REAPER_PeakBuild_Interface* -
+            REAPER_PeakBuild_Interface* retval -
         </retvals>
         <parameters>
-            src - 
-            fn - 
-            srate -
-            nch - 
-            flags - 
+            PCM_source* src - 
+            const char* fn - 
+            int srate -
+            int nch - 
+            int flags - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41454,7 +41456,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PeakGet_Create</slug>
         <title>PeakGet_Create</title>
-        <functioncall prog_lang="cpp">REAPER_PeakGet_Interface* (*PeakGet_Create)(const char* fn, int srate, int nch)</functioncall>
+        <functioncall prog_lang="cpp">REAPER_PeakGet_Interface* retval =(*PeakGet_Create)(const char* fn, int srate, int nch)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41462,12 +41464,12 @@
             Peak get create.
         </description>
         <retvals>
-            REAPER_PeakGet_Interface* -
+            REAPER_PeakGet_Interface* retval -
         </retvals>
         <parameters>
-            fn - 
-            srate - 
-            nch -
+            const char* fn - 
+            int srate - 
+            int nch -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41481,7 +41483,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PlayPreview</slug>
         <title>PlayPreview</title>
-        <functioncall prog_lang="cpp">int (*PlayPreview)(preview_register_t* preview)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*PlayPreview)(preview_register_t* preview)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41489,10 +41491,10 @@
             Play preview. Return nonzero on success.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            preview - 
+            preview_register_t* preview - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41506,7 +41508,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PlayPreviewEx</slug>
         <title>PlayPreviewEx</title>
-        <functioncall prog_lang="cpp">int (*PlayPreviewEx)(preview_register_t* preview, int bufflags, double measure_align)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*PlayPreviewEx)(preview_register_t* preview, int bufflags, double measure_align)</functioncall>
         <requires>
             Reaper=6.19
         </requires>
@@ -41520,7 +41522,7 @@
             measure_align&lt;0=play immediately, &gt;0=align playback with measure start
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
             preview_register_t* preview - 
@@ -41539,7 +41541,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PlayTrackPreview</slug>
         <title>PlayTrackPreview</title>
-        <functioncall prog_lang="cpp">int (*PlayTrackPreview)(preview_register_t* preview)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*PlayTrackPreview)(preview_register_t* preview)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41547,10 +41549,10 @@
             Play track preview. Returns nonzero on success,in these,m_out_chan is a track index (0-n).
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            preview - 
+            preview_register_t* preview - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41564,7 +41566,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PlayTrackPreview2</slug>
         <title>PlayTrackPreview2</title>
-        <functioncall prog_lang="cpp">int (*PlayTrackPreview2)(ReaProject* proj, preview_register_t* preview)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*PlayTrackPreview2)(ReaProject* proj, preview_register_t* preview)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41572,11 +41574,11 @@
             Play track preview. Return nonzero on success,in these,m_out_chan is a track index (0-n).
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            preview - 
+            ReaProject* proj - the project-number. 0 for the current project. 
+            preview_register_t* preview - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41590,7 +41592,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PlayTrackPreview2Ex</slug>
         <title>PlayTrackPreview2Ex</title>
-        <functioncall prog_lang="cpp">int (*PlayTrackPreview2Ex)(ReaProject* proj, preview_register_t* preview, int flags, double measure_align)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*PlayTrackPreview2Ex)(ReaProject* proj, preview_register_t* preview, int flags, double measure_align)</functioncall>
         <requires>
             Reaper=6.19
         </requires>
@@ -41598,7 +41600,7 @@
             return nonzero on success,in these,m_out_chan is a track index (0-n). for flags see [PlayPreviewEx](#PlayPreviewEx) bufflags
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
             ReaProject* proj - the project-number. 0 for the current project. 
@@ -41629,7 +41631,7 @@
             void* -
         </retvals>
         <parameters>
-            name - 
+            const char* name - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41643,7 +41645,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>plugin_getFilterList</slug>
         <title>plugin_getFilterList</title>
-        <functioncall prog_lang="cpp">const char* (*plugin_getFilterList)()</functioncall>
+        <functioncall prog_lang="cpp">const char* retval (*plugin_getFilterList)()</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41651,7 +41653,7 @@
             Plugin get filter list. Returns a double-NULL terminated list of importable media files, suitable for passing to [GetOpenFileName()](#GetOpenFileName) etc. Includes *.* (All files).
         </description>
         <retvals>
-            char* -
+            const char* retval -
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41665,7 +41667,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>plugin_getImportableProjectFilterList</slug>
         <title>plugin_getImportableProjectFilterList</title>
-        <functioncall prog_lang="cpp">const char* (*plugin_getImportableProjectFilterList)()</functioncall>
+        <functioncall prog_lang="cpp">const char* retval = (*plugin_getImportableProjectFilterList)()</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41673,7 +41675,7 @@
             Plugin get importable project filter list. Returns a double-NULL terminated list of importable project files, suitable for passing to [GetOpenFileName()](#GetOpenFileName) etc. Includes *.* (All files). 
         </description>
         <retvals>
-            char* -
+            const char* retval -
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41700,8 +41702,8 @@
             void* -
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            idx - 
+            ReaProject* proj - the project-number. 0 for the current project. 
+            int idx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41715,7 +41717,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>projectconfig_var_getoffs</slug>
         <title>projectconfig_var_getoffs</title>
-        <functioncall prog_lang="cpp">int (*projectconfig_var_getoffs)(const char* name, int* szOut)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*projectconfig_var_getoffs)(const char* name, int* szOut)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41725,11 +41727,11 @@
             see [Reaper\_Config\_Variables.html](Reaper_Config_Variables.html) for valid config-vars
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            name - 
-            szOut - size of the object
+            const char* name - 
+            int* szOut - size of the object
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41743,7 +41745,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>ReaperGetPitchShiftAPI</slug>
         <title>ReaperGetPitchShiftAPI</title>
-        <functioncall prog_lang="cpp">IReaperPitchShift* (*ReaperGetPitchShiftAPI)(int version)</functioncall>
+        <functioncall prog_lang="cpp">IReaperPitchShift* retval = (*ReaperGetPitchShiftAPI)(int version)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41751,10 +41753,10 @@
             version must be REAPER_PITCHSHIFT_API_VER
         </description>
         <retvals>
-            IReaperPitchShift* -
+            IReaperPitchShift* retval -
         </retvals>
         <parameters>
-            version - 
+            int version - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41768,7 +41770,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>Resampler_Create</slug>
         <title>Resampler_Create</title>
-        <functioncall prog_lang="cpp">REAPER_Resample_Interface* (*Resampler_Create)()</functioncall>
+        <functioncall prog_lang="cpp">REAPER_Resample_Interface* retval = (*Resampler_Create)()</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41776,7 +41778,7 @@
             Resampler create
         </description>
         <retvals>
-            REAPER_Resample_Interface* -
+            REAPER_Resample_Interface* retval -
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41790,7 +41792,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>ResolveRenderPattern</slug>
         <title>ResolveRenderPattern</title>
-        <functioncall prog_lang="cpp">int (*ResolveRenderPattern)(ReaProject* project, const char* path, const char* pattern, char* targets, int targets_sz)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*ResolveRenderPattern)(ReaProject* project, const char* path, const char* pattern, char* targets, int targets_sz)</functioncall>
         <requires>
             Reaper=6.26
         </requires>
@@ -41798,7 +41800,7 @@
             Resolve a wildcard pattern into a set of nul-separated, double-nul terminated render target filenames. Returns the length of the string buffer needed for the returned file list. Call with path=NULL to suppress filtering out illegal pathnames, call with targets=NULL to get just the string buffer length.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
             ReaProject* project - 
@@ -41830,9 +41832,9 @@
             void -
         </retvals>
         <parameters>
-            id - 
-            callbackFunc - 
-            param -
+            char* id - 
+            void* callbackFunc - 
+            void* param -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41857,9 +41859,9 @@
             void -
         </retvals>
         <parameters>
-            id - 
-            callbackFunc - 
-            param -
+            char* id - 
+            screensetNewCallbackFunc callbackFunc - 
+            void* param -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41884,7 +41886,7 @@
             void -
         </retvals>
         <parameters>
-            id - 
+            char* id - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41909,7 +41911,7 @@
             void -
         </retvals>
         <parameters>
-            param - 
+            void* param - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41934,7 +41936,7 @@
             void -
         </retvals>
         <parameters>
-            prevWin - 
+            HWND prevWin - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41948,7 +41950,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>SectionFromUniqueID</slug>
         <title>SectionFromUniqueID</title>
-        <functioncall prog_lang="cpp">KbdSectionInfo* (*SectionFromUniqueID)(int uniqueID)</functioncall>
+        <functioncall prog_lang="cpp">KbdSectionInfo* retval = (*SectionFromUniqueID)(int uniqueID)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -41956,10 +41958,10 @@
             Section from unique ID.
         </description>
         <retvals>
-            KbdSectionInfo* -
+            KbdSectionInfo* retval -
         </retvals>
         <parameters>
-            uniqueID - 
+            int uniqueID - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41984,7 +41986,7 @@
             void -
         </retvals>
         <parameters>
-            errorstr - 
+            const char* errorstr - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -41998,7 +42000,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>StopPreview</slug>
         <title>StopPreview</title>
-        <functioncall prog_lang="cpp">int (*StopPreview)(preview_register_t* preview)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*StopPreview)(preview_register_t* preview)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42006,10 +42008,10 @@
             Stop preview.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            preview - 
+            preview_register_t* preview - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42023,7 +42025,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>StopTrackPreview</slug>
         <title>StopTrackPreview</title>
-        <functioncall prog_lang="cpp">int (*StopTrackPreview)(preview_register_t* preview)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*StopTrackPreview)(preview_register_t* preview)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42031,10 +42033,10 @@
             Stop track preview. Return nonzero on success.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            preview - 
+            preview_register_t* preview - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42049,7 +42051,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>StopTrackPreview2</slug>
         <title>StopTrackPreview2</title>
-        <functioncall prog_lang="cpp">int (*StopTrackPreview2)(void* proj, preview_register_t* preview)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*StopTrackPreview2)(void* proj, preview_register_t* preview)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42057,11 +42059,11 @@
             Stop track preview2.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            preview - 
+            void* proj - the project-number. 0 for the current project. 
+            preview_register_t* preview - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42088,8 +42090,8 @@
             void -
         </retvals>
         <parameters>
-            readamt - 
-            writeamt -
+            int readamt - 
+            int writeamt -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42104,7 +42106,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>WDL_VirtualWnd_ScaledBlitBG</slug>
         <title>WDL_VirtualWnd_ScaledBlitBG</title>
-        <functioncall prog_lang="cpp">bool (*WDL_VirtualWnd_ScaledBlitBG)(LICE_IBitmap* dest, WDL_VirtualWnd_BGCfg* src, int destx, int desty, int destw, int desth, int clipx, int clipy, int clipw, int cliph, float alpha, int mode)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*WDL_VirtualWnd_ScaledBlitBG)(LICE_IBitmap* dest, WDL_VirtualWnd_BGCfg* src, int destx, int desty, int destw, int desth, int clipx, int clipy, int clipw, int cliph, float alpha, int mode)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42112,21 +42114,21 @@
             WDL virtualwnd scale blit bg.
         </description>
         <retvals>
-            bool -
+            bool retval -
         </retvals>
         <parameters>
-            dest - 
-            src - 
-            destx - 
-            desty - 
-            destw - 
-            desth - 
-            clipx - 
-            clipy - 
-            clipw - 
-            cliph - 
-            alpha - 
-            mode - 
+            LICE_IBitmap* dest - 
+            WDL_VirtualWnd_BGCfg* src - 
+            int destx - 
+            int desty - 
+            int destw - 
+            int desth - 
+            int clipx - 
+            int clipy - 
+            int clipw - 
+            int cliph - 
+            float alpha - 
+            int mode - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42151,8 +42153,8 @@
             void* -
         </retvals>
         <parameters>
-            item - a MediaItem-object
-            parmname - the parameter to be gotten/set
+            MediaItem* item - a MediaItem-object
+            const char* parmname - the parameter to be gotten/set
                 -P_TRACK : MediaTrack * (read only)
                 -B_MUTE : bool * to muted state
                 -B_MUTE_ACTUAL : bool * : muted (ignores solo). setting this value will not affect C_MUTE_SOLO.
@@ -42185,7 +42187,7 @@
                 -F_FREEMODE_Y : float * to free mode y position (0..1)
                 -F_FREEMODE_H : float * to free mode height (0..1)
                 -P_NOTES : char * : item note text (do not write to returned pointer, use setNewValue to update)
-            setNewValue - the new value to be set, refer description of parmname for the values
+            void* setNewValue - the new value to be set, refer description of parmname for the values
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42199,7 +42201,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetToggleCommandState2</slug>
         <title>GetToggleCommandState2</title>
-        <functioncall prog_lang="cpp">int (*GetToggleCommandState2)(KbdSectionInfo* section, int command_id)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*GetToggleCommandState2)(KbdSectionInfo* section, int command_id)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42207,17 +42209,17 @@
             Get Toggle Command State 2
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            section - the section, in which the action exists
+            KbdSectionInfo* section - the section, in which the action exists
                 -0, Main
                 -100, Main (alt recording)
                 -32060, MIDI Editor
                 -32061, MIDI Event List Editor
                 -32062, MIDI Inline Editor
                 -32063, Media Explorer
-            command_id - the command-id of the command, whose toggle-state you want
+            int command_id - the command-id of the command, whose toggle-state you want
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42231,7 +42233,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetTrackInfo</slug>
         <title>GetTrackInfo</title>
-        <functioncall prog_lang="cpp">const char* (*GetTrackInfo)(INT_PTR track, int* flags)</functioncall>
+        <functioncall prog_lang="cpp">const char* retval = (*GetTrackInfo)(INT_PTR track, int* flags)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42239,11 +42241,11 @@
             Gets track info (returns name).
         </description>
         <retvals>
-            char* -
+            const char* retval -
         </retvals>
         <parameters>
-            track - track index, -1=master, 0..n, or cast a MediaTrack* to int 
-            flags - if flags is non-NULL, will be set to:
+            INT_PTR track - track index, -1=master, 0..n, or cast a MediaTrack* to int 
+            int* flags - if flags is non-NULL, will be set to:
                 -&amp;1, folder
                 -&amp;2, selected
                 -&amp;4, has fx enabled
@@ -42264,7 +42266,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>KBD_OnMainActionEx</slug>
         <title>KBD_OnMainActionEx</title>
-        <functioncall prog_lang="cpp">int (*KBD_OnMainActionEx)(int cmd, int val, int valhw, int relmode, HWND hwnd, ReaProject* proj)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*KBD_OnMainActionEx)(int cmd, int val, int valhw, int relmode, HWND hwnd, ReaProject* proj)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42272,15 +42274,15 @@
             val/valhw are used for midi stuff.
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            cmd - 
-            val - val=[0..127] and valhw=-1 (midi CC)
-            valhw - valhw >=0 (midi pitch (valhw | val<<7))
-            relmode - relmode absolute (0) or 1/2/3 for relative adjust modes
-            hwnd - 
-            proj -
+            int cmd - 
+            int val - val=[0..127] and valhw=-1 (midi CC)
+            int valhw - valhw >=0 (midi pitch (valhw | val&lt;&lt;7))
+            int relmode - relmode absolute (0) or 1/2/3 for relative adjust modes
+            HWND hwnd - 
+            ReaProject* proj -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42294,7 +42296,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>MIDI_eventlist_Create</slug>
         <title>MIDI_eventlist_Create</title>
-        <functioncall prog_lang="cpp">MIDI_eventlist* (*MIDI_eventlist_Create)()</functioncall>
+        <functioncall prog_lang="cpp">MIDI_eventlist* retval = (*MIDI_eventlist_Create)()</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42302,7 +42304,7 @@
             Create a MIDI_eventlist object. The returned object must be deleted with [MIDI\_eventlist\_destroy()](#MIDI_eventlist_destroy).
         </description>
         <retvals>
-            MIDI_eventlist* -
+            MIDI_eventlist* retval -
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42327,7 +42329,7 @@
             void -
         </retvals>
         <parameters>
-            evtlist - 
+            MIDI_eventlist* evtlist - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42341,7 +42343,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PCM_Sink_Create</slug>
         <title>PCM_Sink_Create</title>
-        <functioncall prog_lang="cpp">PCM_sink* (*PCM_Sink_Create)(const char* filename, const char* cfg, int cfg_sz, int nch, int srate, bool buildpeaks)</functioncall>
+        <functioncall prog_lang="cpp">PCM_sink* retval = (*PCM_Sink_Create)(const char* filename, const char* cfg, int cfg_sz, int nch, int srate, bool buildpeaks)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42349,15 +42351,15 @@
             PCM sink create
         </description>
         <retvals>
-            PCM_sink* -
+            PCM_sink* retval -
         </retvals>
         <parameters>
-            filename - 
-            cfg - 
-            cfg_sz - 
-            nch - 
-            srate - 
-            buildpeaks -
+            const char* filename - 
+            const char* cfg - 
+            int cfg_sz - 
+            int nch - 
+            int srate - 
+            bool buildpeaks -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42371,7 +42373,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PCM_Sink_CreateEx</slug>
         <title>PCM_Sink_CreateEx</title>
-        <functioncall prog_lang="cpp">PCM_sink* (*PCM_Sink_CreateEx)(ReaProject* proj, const char* filename, const char* cfg, int cfg_sz, int nch, int srate, bool buildpeaks)</functioncall>
+        <functioncall prog_lang="cpp">PCM_sink* retval = (*PCM_Sink_CreateEx)(ReaProject* proj, const char* filename, const char* cfg, int cfg_sz, int nch, int srate, bool buildpeaks)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42379,16 +42381,16 @@
             PCM sink create ex.
         </description>
         <retvals>
-            PCM_sink* -
+            PCM_sink* retval -
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            filename - 
-            cfg - 
-            cfg_sz - 
-            nch - 
-            srate - 
-            buildpeaks -
+            ReaProject* proj - the project-number. 0 for the current project. 
+            const char* filename - 
+            const char* cfg - 
+            int cfg_sz - 
+            int nch - 
+            int srate - 
+            bool buildpeaks -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42402,7 +42404,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PCM_Sink_CreateMIDIFile</slug>
         <title>PCM_Sink_CreateMIDIFile</title>
-        <functioncall prog_lang="cpp">PCM_sink* (*PCM_Sink_CreateMIDIFile)(const char* filename, const char* cfg, int cfg_sz, double bpm, int div)</functioncall>
+        <functioncall prog_lang="cpp">PCM_sink* retval = (*PCM_Sink_CreateMIDIFile)(const char* filename, const char* cfg, int cfg_sz, double bpm, int div)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42410,14 +42412,14 @@
             PCM sink create MIDI file.
         </description>
         <retvals>
-            PCM_sink* -
+            PCM_sink* retval -
         </retvals>
         <parameters>
-            filename - 
-            cfg - 
-            cfg_sz - 
-            bpm - 
-            div - 
+            const char* filename - 
+            const char* cfg - 
+            int cfg_sz - 
+            double bpm - 
+            int div - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42431,7 +42433,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PCM_Sink_CreateMIDIFileEx</slug>
         <title>PCM_Sink_CreateMIDIFileEx</title>
-        <functioncall prog_lang="cpp">PCM_sink* (*PCM_Sink_CreateMIDIFileEx)(ReaProject* proj, const char* filename, const char* cfg, int cfg_sz, double bpm, int div)</functioncall>
+        <functioncall prog_lang="cpp">PCM_sink* retval = (*PCM_Sink_CreateMIDIFileEx)(ReaProject* proj, const char* filename, const char* cfg, int cfg_sz, double bpm, int div)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42439,15 +42441,15 @@
             PCM sink create MIDI file ex
         </description>
         <retvals>
-            PCM_sink* -
+            PCM_sink* retval -
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            filename - 
-            cfg - 
-            cfg_sz - 
-            bpm - 
-            div - 
+            ReaProject* proj - the project-number. 0 for the current project. 
+            const char* filename - 
+            const char* cfg - 
+            int cfg_sz - 
+            double bpm - 
+            int div - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42472,9 +42474,9 @@
             void -
         </retvals>
         <parameters>
-            local_osc_handler - 
-            msg - 
-            msglen - 
+            void* local_osc_handler - 
+            const char* msg - 
+            int msglen - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42489,7 +42491,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PitchShiftSubModeMenu</slug>
         <title>PitchShiftSubModeMenu</title>
-        <functioncall prog_lang="cpp">int (*PitchShiftSubModeMenu)(HWND hwnd, int x, int y, int mode, int submode_sel)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*PitchShiftSubModeMenu)(HWND hwnd, int x, int y, int mode, int submode_sel)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42497,14 +42499,14 @@
             menu to select/modify pitch shifter submode, returns new value (or old value if no item selected)
         </description>
         <retvals>
-            int -
+            int retval -
         </retvals>
         <parameters>
-            hwnd - 
-            x - 
-            y - 
-            mode - 
-            submode_sel - 
+            HWND hwnd - 
+            int x - 
+            int y - 
+            int mode - 
+            int submode_sel - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42538,8 +42540,7 @@
             int - 0, if a function exists
         </retvals>
         <parameters>
-            *getAPI - 
-            * -
+            const char * - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42553,7 +42554,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>realloc_cmd_ptr</slug>
         <title>realloc_cmd_ptr</title>
-        <functioncall prog_lang="cpp">bool (*realloc_cmd_ptr)(char** ptr, int* ptr_size, int new_size)</functioncall>
+        <functioncall prog_lang="cpp">bool retval = (*realloc_cmd_ptr)(char** ptr, int* ptr_size, int new_size)</functioncall>
         <requires>
             Reaper=5.965
         </requires>
@@ -42561,11 +42562,12 @@
              special use for NeedBig script API functions - reallocates a NeedBig buffer and updates its size, returns false on error
         </description>
         <retvals>
-            int - 0, if a function exists
+            boolean retval - 
         </retvals>
         <parameters>
-            *getAPI - 
-            * -
+            char** ptr - 
+            int* ptr_size - 
+            int new_size - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -42581,7 +42583,7 @@
         <title>ReaPack_AboutInstalledPackage</title>
         <functioncall prog_lang="cpp">bool ReaPack_AboutInstalledPackage(PackageEntry* entry)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ReaPack_AboutInstalledPackage", PackageEntry entry)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.ReaPack_AboutInstalledPackage(PackageEntry entry)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.ReaPack_AboutInstalledPackage(PackageEntry entry)</functioncall>
         <functioncall prog_lang="python">Boolean ReaPack_AboutInstalledPackage(PackageEntry entry)</functioncall>
         <requires>
             Reaper=5.965
@@ -42594,7 +42596,7 @@
             see [ReaPack\_GetOwner](#ReaPack_GetOwner) to get this parameter
         </description>
         <retvals>
-            boolean - true, if the dialog is shown
+            boolean retval - true, if the dialog is shown
         </retvals>
         <parameters>
             PackageEntry entry - the installed Reapack-package, whose about dialog you want to show
@@ -42612,7 +42614,7 @@
         <title>ReaPack_AboutRepository</title>
         <functioncall prog_lang="cpp">bool ReaPack_AboutRepository(const char* repoName)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ReaPack_AboutRepository", "repoName")</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.ReaPack_AboutRepository(string repoName)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.ReaPack_AboutRepository(string repoName)</functioncall>
         <functioncall prog_lang="python">Boolean ReaPack_AboutRepository(String repoName)</functioncall>
         <requires>
             Reaper=5.965
@@ -42623,7 +42625,7 @@
             The repository index is downloaded asynchronously if the cached copy doesn't exist or is older than one week.
         </description>
         <retvals>
-            boolean - true, if the dialog is shown
+            boolean retval - true, if the dialog is shown
         </retvals>
         <parameters>
             string repoName - the repository, whose about-dialog you would love to have
@@ -42653,7 +42655,7 @@
             autoInstall: usually set to 2 (obey user setting).
         </description>
         <retvals>
-            boolean - true, if the repo has been added
+            boolean retval - true, if the repo has been added
             string error - 
         </retvals>
         <parameters>
@@ -42990,7 +42992,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            string payload - -
+            string payload - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -43024,7 +43026,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number count - -
+            number count - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -43057,7 +43059,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number rgb - -
+            number rgb - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -43090,7 +43092,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number rgba - -
+            number rgba - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -43208,7 +43210,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            boolean p_open - -
+            boolean p_open - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -43677,7 +43679,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            boolean p_open - -
+            boolean p_open - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -43743,7 +43745,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            boolean p_open - -
+            boolean p_open - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -44077,7 +44079,7 @@
         </description>        
         <retvals>
             number w - 
-            number h - -
+            number h - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -44139,7 +44141,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            boolean v - -
+            boolean v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -44170,7 +44172,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number flags - -
+            number flags - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -45610,7 +45612,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            boolean p_visible - -
+            boolean p_visible - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -45681,7 +45683,7 @@
             integer retval - 
             number r - 
             number g - 
-            number b - -
+            number b - 
         </retvals>        
         <parameters>
             number h - 
@@ -45745,7 +45747,7 @@
             integer retval - 
             number h - 
             number s - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             number r - 
@@ -45781,7 +45783,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number col_rgb - -
+            number col_rgb - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -45817,7 +45819,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number col_rgba - -
+            number col_rgba - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -46426,7 +46428,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number col_rgb - -
+            number col_rgb - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -46458,7 +46460,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number col_rgba - -
+            number col_rgba - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -46494,7 +46496,7 @@
         <retvals>
             boolean retval - 
             number current_item - 
-            string items - -
+            string items - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47330,7 +47332,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47367,7 +47369,7 @@
         <retvals>
             boolean retval - 
             number v1 - 
-            number v2 - -
+            number v2 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47406,7 +47408,7 @@
             boolean retval - 
             number v1 - 
             number v2 - 
-            number v3 - -
+            number v3 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47447,7 +47449,7 @@
             number v1 - 
             number v2 - 
             number v3 - 
-            number v4 - -
+            number v4 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47796,7 +47798,7 @@
         <retvals>
             boolean retval - 
             number v_current_min - 
-            number v_current_max - -
+            number v_current_max - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47842,7 +47844,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47879,7 +47881,7 @@
         <retvals>
             boolean retval - 
             number v1 - 
-            number v2 - -
+            number v2 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47918,7 +47920,7 @@
             boolean retval - 
             number v1 - 
             number v2 - 
-            number v3 - -
+            number v3 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47959,7 +47961,7 @@
             number v1 - 
             number v2 - 
             number v3 - 
-            number v4 - -
+            number v4 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -47999,7 +48001,7 @@
         <retvals>
             boolean retval - 
             number v_current_min - 
-            number v_current_max - -
+            number v_current_max - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -50041,7 +50043,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50070,7 +50072,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50099,7 +50101,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50184,7 +50186,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50213,7 +50215,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50273,7 +50275,7 @@
             string type - 
             string payload - 
             boolean is_preview - 
-            boolean is_delivery - -
+            boolean is_delivery - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50302,7 +50304,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            string filename - -
+            string filename - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -50500,7 +50502,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number unicode_char - -
+            number unicode_char - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -50530,7 +50532,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50559,7 +50561,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50588,7 +50590,7 @@
         </description>        
         <retvals>
             number w - 
-            number h - -
+            number h - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50738,7 +50740,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -50796,7 +50798,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50856,7 +50858,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -50889,7 +50891,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50918,7 +50920,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -50947,7 +50949,7 @@
         </description>        
         <retvals>
             number vertical - 
-            number horizontal - -
+            number horizontal - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -51145,7 +51147,7 @@
         </description>        
         <retvals>
             number val1 - 
-            number val2 - -
+            number val2 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -51287,7 +51289,7 @@
         </description>        
         <retvals>
             string imgui_version - 
-            string reaimgui_version - -
+            string reaimgui_version - 
         </retvals>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -51313,7 +51315,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -51342,7 +51344,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -51483,7 +51485,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -51512,7 +51514,7 @@
         </description>        
         <retvals>
             number w - 
-            number h - -
+            number h - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -51847,7 +51849,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -51883,7 +51885,7 @@
         <retvals>
             boolean retval - 
             number v1 - 
-            number v2 - -
+            number v2 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -51919,7 +51921,7 @@
             boolean retval - 
             number v1 - 
             number v2 - 
-            number v3 - -
+            number v3 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -51957,7 +51959,7 @@
             number v1 - 
             number v2 - 
             number v3 - 
-            number v4 - -
+            number v4 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -52026,7 +52028,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -52061,7 +52063,7 @@
         <retvals>
             boolean retval - 
             number v1 - 
-            number v2 - -
+            number v2 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -52096,7 +52098,7 @@
             boolean retval - 
             number v1 - 
             number v2 - 
-            number v3 - -
+            number v3 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -52133,7 +52135,7 @@
             number v1 - 
             number v2 - 
             number v3 - 
-            number v4 - -
+            number v4 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -52168,7 +52170,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            string buf - -
+            string buf - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -52575,7 +52577,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            string buf - -
+            string buf - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -52609,7 +52611,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            string buf - -
+            string buf - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -53782,7 +53784,7 @@
         <retvals>
             boolean retval - 
             number current_item - 
-            string items - -
+            string items - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -53870,7 +53872,7 @@
         </description>        
         <retvals>
             number display_start - 
-            number display_end - -
+            number display_end - 
         </retvals>        
         <parameters>
             ImGui_ListClipper clipper -
@@ -54065,7 +54067,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            boolean p_selected - -
+            boolean p_selected - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -54423,7 +54425,7 @@
         </description>        
         <retvals>
             number min - 
-            number max - -
+            number max - 
         </retvals>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -54578,7 +54580,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -55369,7 +55371,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -55459,7 +55461,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            boolean p_selected - -
+            boolean p_selected - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -56754,7 +56756,7 @@
             Default values: p_open = nil
         </description>        
         <retvals>
-            boolean p_open - -
+            boolean p_open - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -56783,7 +56785,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v_rad - -
+            number v_rad - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -56818,7 +56820,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -56854,7 +56856,7 @@
         <retvals>
             boolean retval - 
             number v1 - 
-            number v2 - -
+            number v2 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -56892,7 +56894,7 @@
             boolean retval - 
             number v1 - 
             number v2 - 
-            number v3 - -
+            number v3 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -56932,7 +56934,7 @@
             number v1 - 
             number v2 - 
             number v3 - 
-            number v4 - -
+            number v4 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -57128,7 +57130,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -57164,7 +57166,7 @@
         <retvals>
             boolean retval - 
             number v1 - 
-            number v2 - -
+            number v2 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -57202,7 +57204,7 @@
             boolean retval - 
             number v1 - 
             number v2 - 
-            number v3 - -
+            number v3 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -57242,7 +57244,7 @@
             number v1 - 
             number v2 - 
             number v3 - 
-            number v4 - -
+            number v4 - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -60181,7 +60183,7 @@
             number column_user_id - 
             number column_index - 
             number sort_order - 
-            number sort_direction - -
+            number sort_direction - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -60290,7 +60292,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            boolean has_specs - -
+            boolean has_specs - 
         </retvals>        
         <parameters>
             ImGui_Context ctx -
@@ -61366,7 +61368,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -61403,7 +61405,7 @@
         </description>        
         <retvals>
             boolean retval - 
-            number v - -
+            number v - 
         </retvals>        
         <parameters>
             ImGui_Context ctx - 
@@ -61469,7 +61471,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Viewport viewport -
@@ -61498,7 +61500,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Viewport viewport -
@@ -61527,7 +61529,7 @@
         </description>        
         <retvals>
             number w - 
-            number h - -
+            number h - 
         </retvals>        
         <parameters>
             ImGui_Viewport viewport -
@@ -61556,7 +61558,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Viewport viewport -
@@ -61585,7 +61587,7 @@
         </description>        
         <retvals>
             number x - 
-            number y - -
+            number y - 
         </retvals>        
         <parameters>
             ImGui_Viewport viewport -
@@ -61614,7 +61616,7 @@
         </description>        
         <retvals>
             number w - 
-            number h - -
+            number h - 
         </retvals>        
         <parameters>
             ImGui_Viewport viewport -

@@ -302,32 +302,32 @@ WDL_FastString(S&amp;M) - a different kind of a string, made into a Reaper-objec
 <a href="#AddCustomizableMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>AddCustomizableMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*AddCustomizableMenu)</em>(<i>const</i> <i>char*</i> menuidstr, <i>const</i> <i>char*</i> menuname, <i>const</i> <i>char*</i> kbdsecname, <i>bool</i> addtomainmenu)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*AddCustomizableMenu)</em>(<i>const</i> <i>char*</i> menuidstr, <i>const</i> <i>char*</i> menuname, <i>const</i> <i>char*</i> kbdsecname, <i>bool</i> addtomainmenu)</code></div>
 </div><p>
 <div class="ch">
 Adds customizable menu.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">menuidstr</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> menuidstr</td></tr>
 <tr><td class="ch2">is some unique identifying string</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">menuname</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> menuname</td></tr>
 <tr><td class="ch2">is for main menus only (displayed in a menu bar somewhere), NULL otherwise </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">kbdsecname</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> kbdsecname</td></tr>
 <tr><td class="ch2">is the name of the KbdSectionInfo registered by this plugin, or NULL for the main actions section</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">addtomainmenu</td></tr>
+<tr><td class="pr"><i>bool</i> addtomainmenu</td></tr>
 <tr><td class="ch2">true, add to main menu; false, don't add to main menu</td></tr>
 </table>
 <br>
@@ -338,14 +338,14 @@ Adds customizable menu.
 <a href="#AddExtensionsMainMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>AddExtensionsMainMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*AddExtensionsMainMenu)</em>()</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*AddExtensionsMainMenu)</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Add an Extensions main menu, which the extension can populate/modify with <a href="#plugin_register">plugin_register("hookcustommenu")</a></p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -356,24 +356,24 @@ Adds customizable menu.
 <a href="#Audio_RegHardwareHook"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>Audio_RegHardwareHook</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*Audio_RegHardwareHook)</em>(<i>bool</i> isAdd, <i>audio_hook_register_t*</i> reg)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*Audio_RegHardwareHook)</em>(<i>bool</i> isAdd, <i>audio_hook_register_t*</i> reg)</code></div>
 </div><p>
 <div class="ch">
 Registers Audio Hardware-Hook.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">isAdd</td></tr>
+<tr><td class="pr"><i>bool</i> isAdd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">reg</td></tr>
+<tr><td class="pr"><i>audio_hook_register_t*</i> reg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -390,11 +390,11 @@ Registers Audio Hardware-Hook.
 On OSC Control Message.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">msg</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> msg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">arg</td></tr>
+<tr><td class="pr"><i>const</i> <i>float*</i> arg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -405,24 +405,24 @@ On OSC Control Message.
 <a href="#CalculatePeaks"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CalculatePeaks</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*CalculatePeaks)</em>(<i>PCM_source_transfer_t*</i> srcBlock, <i>PCM_source_peaktransfer_t*</i> pksBlock)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*CalculatePeaks)</em>(<i>PCM_source_transfer_t*</i> srcBlock, <i>PCM_source_peaktransfer_t*</i> pksBlock)</code></div>
 </div><p>
 <div class="ch">
 Calculates Peaks.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">srcBlock</td></tr>
+<tr><td class="pr"><i>PCM_source_transfer_t*</i> srcBlock</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">pksBlock</td></tr>
+<tr><td class="pr"><i>PCM_source_peaktransfer_t*</i> pksBlock</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -433,24 +433,24 @@ Calculates Peaks.
 <a href="#CalculatePeaksFloatSrcPtr"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CalculatePeaksFloatSrcPtr</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*CalculatePeaksFloatSrcPtr)</em>(<i>PCM_source_transfer_t*</i> srcBlock, <i>PCM_source_peaktransfer_t*</i> pksBlock)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*CalculatePeaksFloatSrcPtr)</em>(<i>PCM_source_transfer_t*</i> srcBlock, <i>PCM_source_peaktransfer_t*</i> pksBlock)</code></div>
 </div><p>
 <div class="ch">
 Calculates Peaks.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">srcBlock</td></tr>
+<tr><td class="pr"><i>PCM_source_transfer_t*</i> srcBlock</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">pksBlock</td></tr>
+<tr><td class="pr"><i>PCM_source_peaktransfer_t*</i> pksBlock</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -461,7 +461,7 @@ Calculates Peaks.
 <a href="#CountActionShortcuts"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CountActionShortcuts</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*CountActionShortcuts)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*CountActionShortcuts)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID)</code></div>
 </div><p>
 <div class="ch">
 <p>Returns the number of shortcuts that exist for the given command ID. See <a href="#GetActionShortcutDesc">GetActionShortcutDesc</a>, <a href="#DeleteActionShortcut">DeleteActionShortcut</a>, <a href="#DoActionShortcutDialog">DoActionShortcutDialog</a>.</p>
@@ -469,13 +469,13 @@ Calculates Peaks.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action lies<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -485,7 +485,7 @@ Calculates Peaks.
 32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cmdID</td></tr>
+<tr><td class="pr"><i>int</i> cmdID</td></tr>
 <tr><td class="ch2">the commandID of the action, whose count of shortcuts you want to know.</td></tr>
 </table>
 <br>
@@ -509,11 +509,11 @@ Calculates Peaks.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">obj</td></tr>
+<tr><td class="pr"><i>void*</i> obj</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">callback</td></tr>
+<tr><td class="pr"><i>void*</i> callback</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -524,20 +524,20 @@ Calculates Peaks.
 <a href="#CreateMIDIInput"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CreateMIDIInput</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> midi_Input* <em>(*CreateMIDIInput)</em>(<i>int</i> dev)</code></div>
+<div class="c">C: <code> midi_Input* retval = <em>(*CreateMIDIInput)</em>(<i>int</i> dev)</code></div>
 </div><p>
 <div class="ch">
 Can only reliably create midi access for devices not already opened in prefs/MIDI, suitable for control surfaces etc.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">midi_Input*</td></tr>
+<tr><td class="pr">midi_Input* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dev</td></tr>
+<tr><td class="pr"><i>int</i> dev</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -548,24 +548,24 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <a href="#CreateMIDIOutput"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CreateMIDIOutput</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> midi_Output* <em>(*CreateMIDIOutput)</em>(<i>int</i> dev, <i>bool</i> streamMode, <i>int*</i> msoffset100)</code></div>
+<div class="c">C: <code> midi_Output* retval = <em>(*CreateMIDIOutput)</em>(<i>int</i> dev, <i>bool</i> streamMode, <i>int*</i> msoffset100)</code></div>
 </div><p>
 <div class="ch">
 Can only reliably create midi access for devices not already opened in prefs/MIDI, suitable for control surfaces etc.               
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">midi_Output*</td></tr>
+<tr><td class="pr">midi_Output* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dev</td></tr>
+<tr><td class="pr"><i>int</i> dev</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">streamMode</td></tr>
+<tr><td class="pr"><i>bool</i> streamMode</td></tr>
 <tr><td class="ch2">true, msoffset points to a persistent variable(see msoffset100 for more details)</td></tr>
 </table>
 <table class="ch">
@@ -580,20 +580,20 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <a href="#DeleteActionShortcut"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>DeleteActionShortcut</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*DeleteActionShortcut)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*DeleteActionShortcut)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
 </div><p>
 <div class="ch">
 <p>Delete the specific shortcut for the given command ID. See <a href="#CountActionShortcuts">CountActionShortcuts</a>, <a href="#GetActionShortcutDesc">GetActionShortcutDesc</a>, <a href="#DoActionShortcutDialog">DoActionShortcutDialog</a>.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, to which this action belongs to<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -603,11 +603,11 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cmdID</td></tr>
+<tr><td class="pr"><i>int</i> cmdID</td></tr>
 <tr><td class="ch2">the commandID for the shortcut to be deleted</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">shortcutidx</td></tr>
+<tr><td class="pr"><i>int</i> shortcutidx</td></tr>
 <tr><td class="ch2">the shortcut to be deleted</td></tr>
 </table>
 <br>
@@ -624,7 +624,7 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <p>See <a href="#CreateLocalOscHandler">CreateLocalOscHandler</a>, <a href="#SendLocalOscMessage">SendLocalOscMessage</a>.</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">local_osc_handler</td></tr>
+<tr><td class="pr"><i>void*</i> local_osc_handler</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -635,28 +635,32 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <a href="#DoActionShortcutDialog"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>DoActionShortcutDialog</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*DoActionShortcutDialog)</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*DoActionShortcutDialog)</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
 </div><p>
 <div class="ch">
 <p>Open the action shortcut dialog to edit or add a shortcut for the given command ID. If (shortcutidx &gt;= 0 &amp;&amp; shortcutidx &lt; CountActionShortcuts()), that specific shortcut will be replaced, otherwise a new shortcut will be added. See <a href="#CountActionShortcuts">CountActionShortcuts</a>, <a href="#GetActionShortcutDesc">GetActionShortcutDesc</a>, <a href="#DeleteActionShortcut">DeleteActionShortcut</a>.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>HWND</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cmdID</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">shortcutidx</td></tr>
+<tr><td class="pr"><i>int</i> cmdID</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>int</i> shortcutidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -667,24 +671,24 @@ Can only reliably create midi access for devices not already opened in prefs/MID
 <a href="#DuplicateCustomizableMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>DuplicateCustomizableMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*DuplicateCustomizableMenu)</em>(<i>void*</i> srcmenu, <i>void*</i> destmenu)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*DuplicateCustomizableMenu)</em>(<i>void*</i> srcmenu, <i>void*</i> destmenu)</code></div>
 </div><p>
 <div class="ch">
 Populate destmenu with all the entries and submenus found in srcmenu.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">srcmenu</td></tr>
+<tr><td class="pr"><i>void*</i> srcmenu</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destmenu</td></tr>
+<tr><td class="pr"><i>void*</i> destmenu</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -701,7 +705,7 @@ Populate destmenu with all the entries and submenus found in srcmenu.
 free heap memory returned from a Reaper API function              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">ptr</td></tr>
+<tr><td class="pr"><i>void*</i> ptr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -712,7 +716,7 @@ free heap memory returned from a Reaper API function
 <a href="#GetActionShortcutDesc"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetActionShortcutDesc</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*GetActionShortcutDesc)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx, <i>char*</i> desc, <i>int</i> desclen)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*GetActionShortcutDesc)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx, <i>char*</i> desc, <i>int</i> desclen)</code></div>
 </div><p>
 <div class="ch">
 <p>Get the text description of a specific shortcut for the given command ID. See <a href="#CountActionShortcuts">CountActionShortcuts</a>,<a href="#DeleteActionShortcut">DeleteActionShortcut</a>,<a href="#DoActionShortcutDialog">DoActionShortcutDialog</a>.</p>
@@ -725,7 +729,7 @@ free heap memory returned from a Reaper API function
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section of the action<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -735,19 +739,19 @@ free heap memory returned from a Reaper API function
 32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cmdID</td></tr>
+<tr><td class="pr"><i>int</i> cmdID</td></tr>
 <tr><td class="ch2">the commandID of the action, whose shortcut-description you want.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">shortcutidx</td></tr>
+<tr><td class="pr"><i>int</i> shortcutidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">desc</td></tr>
+<tr><td class="pr"><i>char*</i> desc</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">descclean</td></tr>
+<tr><td class="pr"><i>int</i> descclean</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -758,24 +762,24 @@ free heap memory returned from a Reaper API function
 <a href="#GetColorTheme"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetColorTheme</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> INT_PTR <em>(*GetColorTheme)</em>(<i>int</i> idx, <i>int</i> defval)</code></div>
+<div class="c">C: <code> INT_PTR retval = <em>(*GetColorTheme)</em>(<i>int</i> idx, <i>int</i> defval)</code></div>
 </div><p>
 <div class="ch">
 <p>Deprecated, see <a href="#GetColorThemeStruct">GetColorThemeStruct</a>.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">INT_PTR</td></tr>
+<tr><td class="pr">INT_PTR retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">idx</td></tr>
+<tr><td class="pr"><i>int</i> idx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">defval</td></tr>
+<tr><td class="pr"><i>int</i> defval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -799,7 +803,7 @@ returns the whole color theme (icontheme.h) and the size
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">szOut</td></tr>
+<tr><td class="pr"><i>int*</i> szOut</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -810,20 +814,20 @@ returns the whole color theme (icontheme.h) and the size
 <a href="#GetContextMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetContextMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>HMENU</i> <em>(*GetContextMenu)</em>(<i>int</i> idx)</code></div>
+<div class="c">C: <code> <i>HMENU</i> retval = <em>(*GetContextMenu)</em>(<i>int</i> idx)</code></div>
 </div><p>
 <div class="ch">
 gets context menus. submenu 0:trackctl, 1:mediaitems, 2:ruler, 3:empty track area               
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>HMENU</i></td></tr>
+<tr><td class="pr"><i>HMENU</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">idx</td></tr>
+<tr><td class="pr"><i>int</i> idx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -847,7 +851,7 @@ returns a named icontheme entry
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -874,11 +878,11 @@ Querying name=NULL returns the start of the structure
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dpisc</td></tr>
+<tr><td class="pr"><i>int</i> dpisc</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -902,7 +906,7 @@ returns a pointer to the icon theme (icontheme.h) and the size of that struct.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">szOut</td></tr>
+<tr><td class="pr"><i>int*</i> szOut</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -926,23 +930,23 @@ See note in reaper_plugin.h about PCM_source_peaktransfer_t::samplerate
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">pks</td></tr>
+<tr><td class="pr"><i>PCM_source_peaktransfer_t*</i> pks</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">maxamp</td></tr>
+<tr><td class="pr"><i>double</i> maxamp</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>int</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>int</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bmp</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bmp</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -966,15 +970,15 @@ Gets user configured preferred disk read mode. mode/nb/bs are all parameters tha
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int*</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nb</td></tr>
+<tr><td class="pr"><i>int*</i> nb</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bs</td></tr>
+<tr><td class="pr"><i>int*</i> bs</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -998,15 +1002,15 @@ Gets user configured preferred disk read mode for use when building peaks. mode/
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int*</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nb</td></tr>
+<tr><td class="pr"><i>int*</i> nb</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bs</td></tr>
+<tr><td class="pr"><i>int*</i> bs</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1030,15 +1034,15 @@ Gets user configured preferred disk write mode. nb will receive two values, the 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int*</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nb</td></tr>
+<tr><td class="pr"><i>int*</i> nb</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bs</td></tr>
+<tr><td class="pr"><i>int*</i> bs</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1062,11 +1066,11 @@ Get/Set Media Item Info
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem*</i>  item</td></tr>
 <tr><td class="ch2">a MediaItem-object</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">parmname</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> parmname</td></tr>
 <tr><td class="ch2">the parameter to be gotten/set<br/>
 P_TRACK : MediaTrack * (read only)<br/>
 B_MUTE : bool * to muted state<br/>
@@ -1102,7 +1106,7 @@ F_FREEMODE_H : float * to free mode height (0..1)<br/>
 P_NOTES : char * : item note text (do not write to returned pointer, use setNewValue to update)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">setNewValue</td></tr>
+<tr><td class="pr"><i>void*</i> setNewValue</td></tr>
 <tr><td class="ch2">the new value to be set, refer description of parmname for the values</td></tr>
 </table>
 <br>
@@ -1126,11 +1130,11 @@ Gets/Sets Media Item Take-parameters. Works like GetMediaItemTakeInfo_Value and 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">tk</td></tr>
+<tr><td class="pr">MediaItek_Take* tk</td></tr>
 <tr><td class="ch2">a MediaItem_Take-object, that shall be altered</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">parmname</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> parmname</td></tr>
 <tr><td class="ch2">the name of the parameter to be changed<br/>
 P_TRACK : pointer to MediaTrack (read-only)<br/>
 P_ITEM : pointer to MediaItem (read-only)<br/>
@@ -1152,7 +1156,7 @@ I_CUSTOMCOLOR : int *, custom color, OS dependent color|0x100000 (i.e. ColorToNa
 IP_TAKENUMBER : int, take number within the item (read-only, returns the take number directly)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">setNewValue</td></tr>
+<tr><td class="pr"><i>void*</i> setNewValue</td></tr>
 <tr><td class="ch2">the new value to be set to the parameter. See the description of parmname above for more details.</td></tr>
 </table>
 <br>
@@ -1235,15 +1239,15 @@ Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMedia
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">tr</td></tr>
+<tr><td class="pr"><i>MediaTrack*</i>  tr</td></tr>
 <tr><td class="ch2">the Mediatrack-object, that shall be modified</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">parmname</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> parmname</td></tr>
 <tr><td class="ch2">the parameter to be gotten or set</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">setNewValue</td></tr>
+<tr><td class="pr"><i>void*</i> setNewValue</td></tr>
 <tr><td class="ch2">the new value. See the description of parmname above for more details</td></tr>
 </table>
 <br>
@@ -1254,24 +1258,24 @@ Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMedia
 <a href="#GetSetObjectState"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetSetObjectState</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>char*</i> <em>(*GetSetObjectState)</em>(<i>void*</i> obj, <i>const</i> <i>char*</i> str)</code></div>
+<div class="c">C: <code> <i>char*</i> retval = <em>(*GetSetObjectState)</em>(<i>void*</i> obj, <i>const</i> <i>char*</i> str)</code></div>
 </div><p>
 <div class="ch">
 <p>get or set the state of a {track,item,envelope} as an RPPXML chunk str="" to get the chunk string returned (must call <a href="#FreeHeapPtr">FreeHeapPtr</a> when done) supply str to set the state (returns zero)</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>char*</i></td></tr>
+<tr><td class="pr"><i>char*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">obj</td></tr>
+<tr><td class="pr"><i>void*</i> obj</td></tr>
 <tr><td class="ch2">the object, to be modified. Can be MediaItem, TrackEnvelope, MediaTrack.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> str</td></tr>
 <tr><td class="ch2">supply str to set the state (returns zero); str="" to get the chunk string returned </td></tr>
 </table>
 <br>
@@ -1282,28 +1286,28 @@ Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMedia
 <a href="#GetSetObjectState2"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetSetObjectState2</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>char*</i> <em>(*GetSetObjectState2)</em>(<i>void*</i> obj, <i>const</i> <i>char*</i> str, <i>bool</i> isundo)</code></div>
+<div class="c">C: <code> <i>char*</i> retval = <em>(*GetSetObjectState2)</em>(<i>void*</i> obj, <i>const</i> <i>char*</i> str, <i>bool</i> isundo)</code></div>
 </div><p>
 <div class="ch">
 get or set the state of a {track,item,envelope} as an RPPXML chunk              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>char*</i></td></tr>
+<tr><td class="pr"><i>char*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">obj</td></tr>
+<tr><td class="pr"><i>void*</i> obj</td></tr>
 <tr><td class="ch2">the object, to be modified. Can be MediaItem, TrackEnvelope, MediaTrack.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> str</td></tr>
 <tr><td class="ch2">supply str to set the state (returns zero); str="" to get the chunk string returned (must call FreeHeapPtr when done)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">isundo</td></tr>
+<tr><td class="pr"><i>bool</i> isundo</td></tr>
 <tr><td class="ch2">set, if the state will be used for undo purposes (which may allow REAPER to get the state more efficiently</td></tr>
 </table>
 <br>
@@ -1314,7 +1318,7 @@ get or set the state of a {track,item,envelope} as an RPPXML chunk
 <a href="#GetSetTrackMIDISupportFile"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02"><u><b>GetSetTrackMIDISupportFile</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*GetSetTrackMIDISupportFile)</em>(<i>ReaProject*</i> proj, <i>MediaTrack*</i>  track, <i>int</i> which, <i>const</i> <i>char*</i> filename)</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> retval = <em>(*GetSetTrackMIDISupportFile)</em>(<i>ReaProject*</i> proj, <i>MediaTrack*</i>  track, <i>int</i> which, <i>const</i> <i>char*</i> filename)</code></div>
 </div><p>
 <div class="ch">
 Get or set the filename for storage of the MIDI bank/program select file. <br/>
@@ -1324,21 +1328,21 @@ If fn != NULL, a new track MIDI storage file will be set; otherwise the existing
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>char*</i></td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject*</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack*</i>  track</td></tr>
 <tr><td class="ch2">the MediaTrack-object of the track to be treated</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">which</td></tr>
+<tr><td class="pr"><i>int</i> which</td></tr>
 <tr><td class="ch2">thich MIDI-file to use<br/>
 0, MIDI colormap image file, <br/>
 1, MIDI bank/program select file, <br/>
@@ -1346,7 +1350,7 @@ If fn != NULL, a new track MIDI storage file will be set; otherwise the existing
 3, MIDI note mapping file. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">filename</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> filename</td></tr>
 <tr><td class="ch2">If fn != NULL, a new track MIDI storage file will be set; otherwise the existing track MIDI storage file will be returned.</td></tr>
 </table>
 <br>
@@ -1372,19 +1376,19 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">tr</td></tr>
+<tr><td class="pr"><i>MediaTrack*</i>  tr</td></tr>
 <tr><td class="ch2">the MediaTrack object for the track to be gotten or set</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">category</td></tr>
+<tr><td class="pr"><i>int</i> category</td></tr>
 <tr><td class="ch2">&lt;0 for receives, 0=sends, &gt;0 for hardware outputs </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">sendidx</td></tr>
+<tr><td class="pr"><i>int</i> sendidx</td></tr>
 <tr><td class="ch2">0..n (to enumerate, iterate over sendidx until it returns NULL) </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">parmname</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> parmname</td></tr>
 <tr><td class="ch2">the parameter to get/set<br/>
 P_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs<br/>
 P_SRCTRACK : read only, returns MediaTrack *, source track, only applies for sends/recvs<br/>
@@ -1402,7 +1406,7 @@ I_DSTCHAN : returns int *, index, &amp;1024=mono, otherwise stereo pair, hwout:&
 I_MIDIFLAGS : returns int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chan</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">setNewValue</td></tr>
+<tr><td class="pr"><i>void*</i> setNewValue</td></tr>
 <tr><td class="ch2">the new value to be set</td></tr>
 </table>
 <br>
@@ -1413,20 +1417,20 @@ I_MIDIFLAGS : returns int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=
 <a href="#GetToggleCommandState2"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetToggleCommandState2</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*GetToggleCommandState2)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> command_id)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*GetToggleCommandState2)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> command_id)</code></div>
 </div><p>
 <div class="ch">
 Get Toggle Command State 2              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action exists<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -1436,7 +1440,7 @@ Get Toggle Command State 2
 32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">command_id</td></tr>
+<tr><td class="pr"><i>int</i> command_id</td></tr>
 <tr><td class="ch2">the command-id of the command, whose toggle-state you want</td></tr>
 </table>
 <br>
@@ -1447,20 +1451,20 @@ Get Toggle Command State 2
 <a href="#GetToggleCommandStateThroughHooks"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetToggleCommandStateThroughHooks</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*GetToggleCommandStateThroughHooks)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> command_id)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*GetToggleCommandStateThroughHooks)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> command_id)</code></div>
 </div><p>
 <div class="ch">
 Returns the state of an action via extension plugins' hooks.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>MediaTrack*</i>  section</td></tr>
 <tr><td class="ch2">the section, in which the action appears in<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -1470,7 +1474,7 @@ Returns the state of an action via extension plugins' hooks.
 32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">command_id</td></tr>
+<tr><td class="pr"><i>int</i> command_id</td></tr>
 <tr><td class="ch2">the command-id of the action, whose state you want</td></tr>
 </table>
 <br>
@@ -1481,24 +1485,24 @@ Returns the state of an action via extension plugins' hooks.
 <a href="#GetTrackInfo"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetTrackInfo</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*GetTrackInfo)</em>(INT_PTR track, <i>int*</i> flags)</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> retval = <em>(*GetTrackInfo)</em>(INT_PTR track, <i>int*</i> flags)</code></div>
 </div><p>
 <div class="ch">
 Gets track info (returns name).              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>char*</i></td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr">INT_PTR track</td></tr>
 <tr><td class="ch2">track index, -1=master, 0..n, or cast a MediaTrack* to int </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">flags</td></tr>
+<tr><td class="pr"><i>int*</i> flags</td></tr>
 <tr><td class="ch2">if flags is non-NULL, will be set to:<br/>
 &amp;1, folder<br/>
 &amp;2, selected<br/>
@@ -1529,11 +1533,11 @@ Hires peaks from source.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>PCM_source*</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">block</td></tr>
+<tr><td class="pr"><i>PCM_source_peaktransfer_t*</i> block</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1544,14 +1548,14 @@ Hires peaks from source.
 <a href="#IsInRealTimeAudio"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>IsInRealTimeAudio</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*IsInRealTimeAudio)</em>()</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*IsInRealTimeAudio)</em>()</code></div>
 </div><p>
 <div class="ch">
 Are we in a realtime audio thread (between OnAudioBuffer calls,not in some worker/anticipative FX thread)? threadsafe              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1562,24 +1566,24 @@ Are we in a realtime audio thread (between OnAudioBuffer calls,not in some worke
 <a href="#IsItemTakeActiveForPlayback"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>IsItemTakeActiveForPlayback</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*IsItemTakeActiveForPlayback)</em>(<i>MediaItem*</i>  item, <i>MediaItem_Take*</i> take)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*IsItemTakeActiveForPlayback)</em>(<i>MediaItem*</i>  item, <i>MediaItem_Take*</i> take)</code></div>
 </div><p>
 <div class="ch">
 get whether a take will be played (active take, unmuted, etc)              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem*</i>  item</td></tr>
 <tr><td class="ch2">MediaItem in which the take is to be checked</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take*</i> take</td></tr>
 <tr><td class="ch2">the MediaItem_Take to be checked</td></tr>
 </table>
 <br>
@@ -1590,14 +1594,14 @@ get whether a take will be played (active take, unmuted, etc)
 <a href="#IsREAPER"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>IsREAPER</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*IsREAPER)</em>()</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*IsREAPER)</em>()</code></div>
 </div><p>
 <div class="ch">
 Returns true if dealing with REAPER, returns false for ReaMote, etc              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1608,40 +1612,40 @@ Returns true if dealing with REAPER, returns false for ReaMote, etc
 <a href="#KBD_OnMainActionEx"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>KBD_OnMainActionEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*KBD_OnMainActionEx)</em>(<i>int</i> cmd, <i>int</i> val, <i>int</i> valhw, <i>int</i> relmode, <i>HWND</i> hwnd, <i>ReaProject*</i> proj)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*KBD_OnMainActionEx)</em>(<i>int</i> cmd, <i>int</i> val, <i>int</i> valhw, <i>int</i> relmode, <i>HWND</i> hwnd, <i>ReaProject*</i> proj)</code></div>
 </div><p>
 <div class="ch">
 val/valhw are used for midi stuff.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">cmd</td></tr>
+<tr><td class="pr"><i>int</i> cmd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">val</td></tr>
+<tr><td class="pr"><i>int</i> val</td></tr>
 <tr><td class="ch2">val=[0..127] and valhw=-1 (midi CC)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">valhw</td></tr>
-<tr><td class="ch2">valhw >=0 (midi pitch (valhw | val<<7))</td></tr>
+<tr><td class="pr"><i>int</i> valhw</td></tr>
+<tr><td class="ch2">valhw >=0 (midi pitch (valhw | val&lt;&lt;7))</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">relmode</td></tr>
+<tr><td class="pr"><i>int</i> relmode</td></tr>
 <tr><td class="ch2">relmode absolute (0) or 1/2/3 for relative adjust modes</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">hwnd</td></tr>
+<tr><td class="pr"><i>HWND</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject*</i> proj</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1665,43 +1669,43 @@ LICE arc
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cx</td></tr>
+<tr><td class="pr"><i>float</i> cx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cy</td></tr>
+<tr><td class="pr"><i>float</i> cy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">r</td></tr>
+<tr><td class="pr"><i>float</i> r</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">minAngle</td></tr>
+<tr><td class="pr"><i>float</i> minAngle</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">maxAngle</td></tr>
+<tr><td class="pr"><i>float</i> maxAngle</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">aa</td></tr>
+<tr><td class="pr"><i>bool</i> aa</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1725,43 +1729,43 @@ LICE blit
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dstx</td></tr>
+<tr><td class="pr"><i>int</i> dstx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsty</td></tr>
+<tr><td class="pr"><i>int</i> dsty</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcx</td></tr>
+<tr><td class="pr"><i>int</i> srcx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcy</td></tr>
+<tr><td class="pr"><i>int</i> srcy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcw</td></tr>
+<tr><td class="pr"><i>int</i> srcw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srch</td></tr>
+<tr><td class="pr"><i>int</i> srch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1785,35 +1789,35 @@ LICE blur
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dstx</td></tr>
+<tr><td class="pr"><i>int</i> dstx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsty</td></tr>
+<tr><td class="pr"><i>int</i> dsty</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcx</td></tr>
+<tr><td class="pr"><i>int</i> srcx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcy</td></tr>
+<tr><td class="pr"><i>int</i> srcy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcw</td></tr>
+<tr><td class="pr"><i>int</i> srcw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srch</td></tr>
+<tr><td class="pr"><i>int</i> srch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1837,39 +1841,39 @@ LICE bordered rect.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>int</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>int</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bgcolor</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> bgcolor</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fgcolor</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> fgcolor</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1893,35 +1897,35 @@ LICE circle
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cx</td></tr>
+<tr><td class="pr"><i>float</i> cx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cy</td></tr>
+<tr><td class="pr"><i>float</i> cy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">r</td></tr>
+<tr><td class="pr"><i>float</i> r</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">aa</td></tr>
+<tr><td class="pr"><i>bool</i> aa</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1945,11 +1949,11 @@ LICE clear
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -1973,31 +1977,31 @@ LICE clear rect
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>int</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>int</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mask</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> mask</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">orbits</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> orbits</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2021,11 +2025,11 @@ LICE copy
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2036,28 +2040,28 @@ LICE copy
 <a href="#LICE_CreateBitmap"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_CreateBitmap</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_IBitmap*</i> <em>(*LICE_CreateBitmap)</em>(<i>int</i> mode, <i>int</i> w, <i>int</i> h)</code></div>
+<div class="c">C: <code> <i>LICE_IBitmap*</i> retval = <em>(*LICE_CreateBitmap)</em>(<i>int</i> mode, <i>int</i> w, <i>int</i> h)</code></div>
 </div><p>
 <div class="ch">
 Create a new bitmap. this is like calling new LICE_MemBitmap (mode=0) or new LICE_SysBitmap (mode=1).              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>LICE_IBitmap*</i></td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>int</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>int</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2175,23 +2179,31 @@ LICE draw char
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>char</i> c</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>float</i> alpha</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2215,39 +2227,39 @@ LICE draw glyph
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alphas</td></tr>
+<tr><td class="pr">LICE_pixel_chan* alphas</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">glyph_w</td></tr>
+<tr><td class="pr"><i>int</i> glyph_w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">glyph_h</td></tr>
+<tr><td class="pr"><i>int</i> glyph_h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2271,35 +2283,35 @@ LICE draw rect
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>int</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>int</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2323,31 +2335,31 @@ LICE draw text
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>string</i></td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> <i>string</i></td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2451,35 +2463,35 @@ LICE fill circle
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cx</td></tr>
+<tr><td class="pr"><i>float</i> cx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cy</td></tr>
+<tr><td class="pr"><i>float</i> cy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">r</td></tr>
+<tr><td class="pr"><i>float</i> r</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">aa</td></tr>
+<tr><td class="pr"><i>bool</i> aa</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2503,31 +2515,31 @@ LICE fill convex polygon
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int*</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int*</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">npoints</td></tr>
+<tr><td class="pr"><i>int</i> npoints</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2551,35 +2563,35 @@ LICE fill rect
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>int</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>int</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2603,43 +2615,43 @@ LICE fill trapezoid
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x1a</td></tr>
+<tr><td class="pr"><i>int</i> x1a</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x1b</td></tr>
+<tr><td class="pr"><i>int</i> x1b</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y1</td></tr>
+<tr><td class="pr"><i>int</i> y1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x2a</td></tr>
+<tr><td class="pr"><i>int</i> x2a</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x2b</td></tr>
+<tr><td class="pr"><i>int</i> x2b</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y2</td></tr>
+<tr><td class="pr"><i>int</i> y2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2663,43 +2675,43 @@ LICE fill triangle
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x1</td></tr>
+<tr><td class="pr"><i>int</i> x1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y1</td></tr>
+<tr><td class="pr"><i>int</i> y1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x2</td></tr>
+<tr><td class="pr"><i>int</i> x2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y2</td></tr>
+<tr><td class="pr"><i>int</i> y2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x3</td></tr>
+<tr><td class="pr"><i>int</i> x3</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y3</td></tr>
+<tr><td class="pr"><i>int</i> y3</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2723,15 +2735,15 @@ LICE get pixel
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2755,75 +2767,75 @@ LICE grad rect
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dstx</td></tr>
+<tr><td class="pr"><i>int</i> dstx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsty</td></tr>
+<tr><td class="pr"><i>int</i> dsty</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dstw</td></tr>
+<tr><td class="pr"><i>int</i> dstw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsth</td></tr>
+<tr><td class="pr"><i>int</i> dsth</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ir</td></tr>
+<tr><td class="pr"><i>float</i> ir</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ig</td></tr>
+<tr><td class="pr"><i>float</i> ig</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ib</td></tr>
+<tr><td class="pr"><i>float</i> ib</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ia</td></tr>
+<tr><td class="pr"><i>float</i> ia</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">drdx</td></tr>
+<tr><td class="pr"><i>float</i> drdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dgdx</td></tr>
+<tr><td class="pr"><i>float</i> dgdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dbdx</td></tr>
+<tr><td class="pr"><i>float</i> dbdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dadx</td></tr>
+<tr><td class="pr"><i>float</i> dadx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">drdy</td></tr>
+<tr><td class="pr"><i>float</i> drdy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dgdy</td></tr>
+<tr><td class="pr"><i>float</i> dgdy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dbdy</td></tr>
+<tr><td class="pr"><i>float</i> dbdy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dady</td></tr>
+<tr><td class="pr"><i>float</i> dady</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2847,39 +2859,39 @@ LICE line
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x1</td></tr>
+<tr><td class="pr"><i>float</i> x1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y1</td></tr>
+<tr><td class="pr"><i>float</i> y1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x2</td></tr>
+<tr><td class="pr"><i>float</i> x2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y2</td></tr>
+<tr><td class="pr"><i>float</i> y2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">aa</td></tr>
+<tr><td class="pr"><i>bool</i> aa</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2903,39 +2915,39 @@ LICE line int
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x1</td></tr>
+<tr><td class="pr"><i>int</i> x1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y1</td></tr>
+<tr><td class="pr"><i>int</i> y1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x2</td></tr>
+<tr><td class="pr"><i>int</i> x2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y2</td></tr>
+<tr><td class="pr"><i>int</i> y2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">aa</td></tr>
+<tr><td class="pr"><i>bool</i> aa</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2946,24 +2958,24 @@ LICE line int
 <a href="#LICE_LoadPNG"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_LoadPNG</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_IBitmap*</i> <em>(*LICE_LoadPNG)</em>(<i>const</i> <i>char*</i> filename, <i>LICE_IBitmap*</i> bmp)</code></div>
+<div class="c">C: <code> <i>LICE_IBitmap*</i> retval = <em>(*LICE_LoadPNG)</em>(<i>const</i> <i>char*</i> filename, <i>LICE_IBitmap*</i> bmp)</code></div>
 </div><p>
 <div class="ch">
 LICE load png              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>LICE_IBitmap*</i></td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">filename</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> filename</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bmp</td></tr>
+<tr><td class="pr">Lice_IBitmap* bmp</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -2974,7 +2986,7 @@ LICE load png
 <a href="#LICE_LoadPNGFromResource"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE_LoadPNGFromResource</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_IBitmap*</i> <em>(*LICE_LoadPNGFromResource)</em>(<i>HINSTANCE</i> hInst, <i>int</i> resid, <i>LICE_IBitmap*</i> bmp)</code></div>
+<div class="c">C: <code> <i>LICE_IBitmap*</i> retval = <em>(*LICE_LoadPNGFromResource)</em>(<i>HINSTANCE</i> hInst, <i>int</i> resid, <i>LICE_IBitmap*</i> bmp)</code></div>
 </div><p>
 <div class="ch">
 LICE load png from resource              
@@ -2987,15 +2999,15 @@ LICE load png from resource
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">hInst</td></tr>
+<tr><td class="pr"><i>HINSTANCE</i> hInst</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">resid</td></tr>
+<tr><td class="pr"><i>int</i> resid</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bmp</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bmp</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3019,15 +3031,15 @@ LICE measure text
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i></td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> <i>string</i></td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>int*</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>int*</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3051,55 +3063,55 @@ LICE multiplay add rect
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>int</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>int</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rsc</td></tr>
+<tr><td class="pr"><i>float</i> rsc</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">gsc</td></tr>
+<tr><td class="pr"><i>float</i> gsc</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bsc</td></tr>
+<tr><td class="pr"><i>float</i> bsc</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">asc</td></tr>
+<tr><td class="pr"><i>float</i> asc</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">radd</td></tr>
+<tr><td class="pr"><i>float</i> radd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">gadd</td></tr>
+<tr><td class="pr"><i>float</i> gadd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">badd</td></tr>
+<tr><td class="pr"><i>float</i> badd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">aadd</td></tr>
+<tr><td class="pr"><i>float</i> aadd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3123,27 +3135,27 @@ LICE put pixel
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3167,67 +3179,67 @@ LICE rotate blit. These coordinates are offset from the center of the image,in s
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dstx</td></tr>
+<tr><td class="pr"><i>int</i> dstx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsty</td></tr>
+<tr><td class="pr"><i>int</i> dsty</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dstw</td></tr>
+<tr><td class="pr"><i>int</i> dstw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsth</td></tr>
+<tr><td class="pr"><i>int</i> dsth</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcx</td></tr>
+<tr><td class="pr"><i>float</i> srcx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcy</td></tr>
+<tr><td class="pr"><i>float</i> srcy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcw</td></tr>
+<tr><td class="pr"><i>float</i> srcw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srch</td></tr>
+<tr><td class="pr"><i>float</i> srch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">angle</td></tr>
+<tr><td class="pr"><i>float</i> angle</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cliptosourcerect</td></tr>
+<tr><td class="pr"><i>bool</i> cliptosourcerect</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rotxcent</td></tr>
+<tr><td class="pr"><i>float</i> rotxcent</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rtoycent</td></tr>
+<tr><td class="pr"><i>float</i> rotycent</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3251,43 +3263,43 @@ LICE round rect
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">drawbm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> drawbm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">xpos</td></tr>
+<tr><td class="pr"><i>float</i> xpos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ypos</td></tr>
+<tr><td class="pr"><i>float</i> ypos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>float</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>float</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cornerradius</td></tr>
+<tr><td class="pr"><i>int</i> cornerradius</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">col</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> col</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">aa</td></tr>
+<tr><td class="pr"><i>bool</i> aa</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3311,51 +3323,51 @@ LICE scaled blit.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dstx</td></tr>
+<tr><td class="pr"><i>int</i> dstx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsty</td></tr>
+<tr><td class="pr"><i>int</i> dsty</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dstw</td></tr>
+<tr><td class="pr"><i>int</i> dstw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsth</td></tr>
+<tr><td class="pr"><i>int</i> dsth</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcx</td></tr>
+<tr><td class="pr"><i>float</i> srcx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcy</td></tr>
+<tr><td class="pr"><i>float</i> srcy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcw</td></tr>
+<tr><td class="pr"><i>float</i> srcw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srch</td></tr>
+<tr><td class="pr"><i>float</i> srch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3379,27 +3391,27 @@ LICE simple fill
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">newcolor</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> newcolor</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">comparemask</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> comparemask</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">keepmask</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> keepmask</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3423,7 +3435,7 @@ LICE destroy.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3447,7 +3459,7 @@ LICE destroy-font.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">font</td></tr>
+<tr><td class="pr"><i>LICE_IFont*</i> font</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3458,40 +3470,40 @@ LICE destroy-font.
 <a href="#LICE__DrawText"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__DrawText</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*LICE__DrawText)</em>(<i>LICE_IFont*</i> font, <i>LICE_IBitmap*</i> bm, <i>const</i> <i>char*</i> str, <i>int</i> strcnt, <i>RECT*</i> rect, <i>UINT</i> dtFlags)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*LICE__DrawText)</em>(<i>LICE_IFont*</i> font, <i>LICE_IBitmap*</i> bm, <i>const</i> <i>char*</i> str, <i>int</i> strcnt, <i>RECT*</i> rect, <i>UINT</i> dtFlags)</code></div>
 </div><p>
 <div class="ch">
 LICE draw text.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">font</td></tr>
+<tr><td class="pr"><i>LICE_IFont*</i> font</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">strcnt</td></tr>
+<tr><td class="pr"><i>int</i> strcnt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rect</td></tr>
+<tr><td class="pr"><i>RECT*</i> rect</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dtFlags</td></tr>
+<tr><td class="pr"><i>UINT</i> dtFlags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3515,7 +3527,7 @@ LICE get bits.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3526,20 +3538,20 @@ LICE get bits.
 <a href="#LICE__GetDC"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__GetDC</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> HDC <em>(*LICE__GetDC)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> HDC retval = <em>(*LICE__GetDC)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 Translate mouse.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">HDC</td></tr>
+<tr><td class="pr">HDC retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3550,20 +3562,20 @@ Translate mouse.
 <a href="#LICE__GetHeight"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__GetHeight</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*LICE__GetHeight)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*LICE__GetHeight)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE get height              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3574,20 +3586,20 @@ LICE get height
 <a href="#LICE__GetRowSpan"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__GetRowSpan</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*LICE__GetRowSpan)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*LICE__GetRowSpan)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE get row span.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3598,20 +3610,20 @@ LICE get row span.
 <a href="#LICE__GetWidth"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__GetWidth</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*LICE__GetWidth)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*LICE__GetWidth)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE get width.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3622,20 +3634,20 @@ LICE get width.
 <a href="#LICE__IsFlipped"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__IsFlipped</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*LICE__IsFlipped)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*LICE__IsFlipped)</em>(<i>LICE_IBitmap*</i> bm)</code></div>
 </div><p>
 <div class="ch">
 LICE is flipped              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3646,24 +3658,24 @@ LICE is flipped
 <a href="#LICE__SetBkColor"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__SetBkColor</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>LICE_pixel</i> <em>(*LICE__SetBkColor)</em>(<i>LICE_IFont*</i> font, <i>LICE_pixel</i> color)</code></div>
+<div class="c">C: <code> <i>LICE_pixel</i> retval = <em>(*LICE__SetBkColor)</em>(<i>LICE_IFont*</i> font, <i>LICE_pixel</i> color)</code></div>
 </div><p>
 <div class="ch">
 LICE set bk color              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>LICE_pixel</i></td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">font</td></tr>
+<tr><td class="pr"><i>LICE_IFont*</i> font</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3687,15 +3699,15 @@ LICE set from h-font
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">font</td></tr>
+<tr><td class="pr"><i>LICE_IFont*</i> font</td></tr>
 <tr><td class="ch2">font must REMAIN valid,unless LICE_FONT_FLAG_PRECALCALL is set</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">hfont</td></tr>
+<tr><td class="pr"><i>HFONT</i> hfont</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">flags</td></tr>
+<tr><td class="pr"><i>int</i> flags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3719,11 +3731,11 @@ LICE set text color
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">font</td></tr>
+<tr><td class="pr"><i>LICE_IFont*</i> font</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>LICE_pixel</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3747,15 +3759,15 @@ LICE set text combine mode
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">ifont</td></tr>
+<tr><td class="pr"><i>LICE_IFont*</i> ifont</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3766,28 +3778,28 @@ LICE set text combine mode
 <a href="#LICE__resize"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>LICE__resize</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*LICE__resize)</em>(<i>LICE_IBitmap*</i> bm, <i>int</i> w, <i>int</i> h)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*LICE__resize)</em>(<i>LICE_IBitmap*</i> bm, <i>int</i> w, <i>int</i> h)</code></div>
 </div><p>
 <div class="ch">
 LICE resize              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bm</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> bm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>int</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>int</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3798,14 +3810,14 @@ LICE resize
 <a href="#MIDI_eventlist_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>MIDI_eventlist_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>MIDI_eventlist*</i> <em>(*MIDI_eventlist_Create)</em>()</code></div>
+<div class="c">C: <code> <i>MIDI_eventlist*</i> retval = <em>(*MIDI_eventlist_Create)</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Create a MIDI_eventlist object. The returned object must be deleted with <a href="#MIDI_eventlist_destroy">MIDI_eventlist_destroy()</a>.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>MIDI_eventlist*</i></td></tr>
+<tr><td class="pr"><i>MIDI_eventlist*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3829,7 +3841,7 @@ LICE resize
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">evtlist</td></tr>
+<tr><td class="pr"><i>MIDI_eventlist*</i> evtlist</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3840,40 +3852,40 @@ LICE resize
 <a href="#PCM_Sink_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Sink_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> PCM_sink* <em>(*PCM_Sink_Create)</em>(<i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>int</i> nch, <i>int</i> srate, <i>bool</i> buildpeaks)</code></div>
+<div class="c">C: <code> PCM_sink* retval = <em>(*PCM_Sink_Create)</em>(<i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>int</i> nch, <i>int</i> srate, <i>bool</i> buildpeaks)</code></div>
 </div><p>
 <div class="ch">
 PCM sink create              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">PCM_sink*</td></tr>
+<tr><td class="pr">PCM_sink* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">filename</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> filename</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cfg</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> cfg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cfg_sz</td></tr>
+<tr><td class="pr"><i>int</i> cfg_sz</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nch</td></tr>
+<tr><td class="pr"><i>int</i> nch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srate</td></tr>
+<tr><td class="pr"><i>int</i> srate</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">buildpeaks</td></tr>
+<tr><td class="pr"><i>bool</i> buildpeaks</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3884,44 +3896,44 @@ PCM sink create
 <a href="#PCM_Sink_CreateEx"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Sink_CreateEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> PCM_sink* <em>(*PCM_Sink_CreateEx)</em>(<i>ReaProject*</i> proj, <i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>int</i> nch, <i>int</i> srate, <i>bool</i> buildpeaks)</code></div>
+<div class="c">C: <code> PCM_sink* retval = <em>(*PCM_Sink_CreateEx)</em>(<i>ReaProject*</i> proj, <i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>int</i> nch, <i>int</i> srate, <i>bool</i> buildpeaks)</code></div>
 </div><p>
 <div class="ch">
 PCM sink create ex.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">PCM_sink*</td></tr>
+<tr><td class="pr">PCM_sink* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject*</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">filename</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> filename</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cfg</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> cfg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cfg_sz</td></tr>
+<tr><td class="pr"><i>int</i> cfg_sz</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nch</td></tr>
+<tr><td class="pr"><i>int</i> nch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srate</td></tr>
+<tr><td class="pr"><i>int</i> srate</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">buildpeaks</td></tr>
+<tr><td class="pr"><i>bool</i> buildpeaks</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3932,36 +3944,36 @@ PCM sink create ex.
 <a href="#PCM_Sink_CreateMIDIFile"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Sink_CreateMIDIFile</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> PCM_sink* <em>(*PCM_Sink_CreateMIDIFile)</em>(<i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>double</i> bpm, <i>int</i> div)</code></div>
+<div class="c">C: <code> PCM_sink* retval = <em>(*PCM_Sink_CreateMIDIFile)</em>(<i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>double</i> bpm, <i>int</i> div)</code></div>
 </div><p>
 <div class="ch">
 PCM sink create MIDI file.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">PCM_sink*</td></tr>
+<tr><td class="pr">PCM_sink* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">filename</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> filename</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cfg</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> cfg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cfg_sz</td></tr>
+<tr><td class="pr"><i>int</i> cfg_sz</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bpm</td></tr>
+<tr><td class="pr"><i>double</i> bpm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">div</td></tr>
+<tr><td class="pr"><i>int</i> div</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -3972,40 +3984,40 @@ PCM sink create MIDI file.
 <a href="#PCM_Sink_CreateMIDIFileEx"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Sink_CreateMIDIFileEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> PCM_sink* <em>(*PCM_Sink_CreateMIDIFileEx)</em>(<i>ReaProject*</i> proj, <i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>double</i> bpm, <i>int</i> div)</code></div>
+<div class="c">C: <code> PCM_sink* retval = <em>(*PCM_Sink_CreateMIDIFileEx)</em>(<i>ReaProject*</i> proj, <i>const</i> <i>char*</i> filename, <i>const</i> <i>char*</i> cfg, <i>int</i> cfg_sz, <i>double</i> bpm, <i>int</i> div)</code></div>
 </div><p>
 <div class="ch">
 PCM sink create MIDI file ex              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">PCM_sink*</td></tr>
+<tr><td class="pr">PCM_sink* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject*</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">filename</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> filename</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cfg</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> cfg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cfg_sz</td></tr>
+<tr><td class="pr"><i>int</i> cfg_sz</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bpm</td></tr>
+<tr><td class="pr"><i>double</i> bpm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">div</td></tr>
+<tr><td class="pr"><i>int</i> div</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4016,24 +4028,24 @@ PCM sink create MIDI file ex
 <a href="#PCM_Source_CreateFromSimple"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PCM_Source_CreateFromSimple</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>PCM_source*</i> <em>(*PCM_Source_CreateFromSimple)</em>(<i>ISimpleMediaDecoder*</i> dec, <i>const</i> <i>char*</i> fn)</code></div>
+<div class="c">C: <code> <i>PCM_source*</i> retval = <em>(*PCM_Source_CreateFromSimple)</em>(<i>ISimpleMediaDecoder*</i> dec, <i>const</i> <i>char*</i> fn)</code></div>
 </div><p>
 <div class="ch">
 PCM_Source create from simple              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>PCM_source*</i></td></tr>
+<tr><td class="pr"><i>PCM_source*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dec</td></tr>
+<tr><td class="pr"><i>ISimpleMediaDecoder*</i> dec</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fn</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> fn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4044,32 +4056,32 @@ PCM_Source create from simple
 <a href="#PeakBuild_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PeakBuild_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> REAPER_PeakBuild_Interface* <em>(*PeakBuild_Create)</em>(<i>PCM_source*</i> src, <i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch)</code></div>
+<div class="c">C: <code> REAPER_PeakBuild_Interface* retval = <em>(*PeakBuild_Create)</em>(<i>PCM_source*</i> src, <i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch)</code></div>
 </div><p>
 <div class="ch">
 Peak build create              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">REAPER_PeakBuild_Interface*</td></tr>
+<tr><td class="pr">REAPER_PeakBuild_Interface*  retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>PCM_source*</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fn</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> fn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srate</td></tr>
+<tr><td class="pr"><i>int</i> srate</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nch</td></tr>
+<tr><td class="pr"><i>int</i> nch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4080,36 +4092,36 @@ Peak build create
 <a href="#PeakBuild_CreateEx"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PeakBuild_CreateEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> REAPER_PeakBuild_Interface* <em>(*PeakBuild_CreateEx)</em>(<i>PCM_source*</i> src, <i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch, <i>int</i> flags)</code></div>
+<div class="c">C: <code> REAPER_PeakBuild_Interface* retval = <em>(*PeakBuild_CreateEx)</em>(<i>PCM_source*</i> src, <i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch, <i>int</i> flags)</code></div>
 </div><p>
 <div class="ch">
 Peakbuild create-ex. flags&amp;1 for FP support              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">REAPER_PeakBuild_Interface*</td></tr>
+<tr><td class="pr">REAPER_PeakBuild_Interface* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>PCM_source*</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fn</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> fn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srate</td></tr>
+<tr><td class="pr"><i>int</i> srate</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nch</td></tr>
+<tr><td class="pr"><i>int</i> nch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">flags</td></tr>
+<tr><td class="pr"><i>int</i> flags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4120,28 +4132,28 @@ Peakbuild create-ex. flags&amp;1 for FP support
 <a href="#PeakGet_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PeakGet_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> REAPER_PeakGet_Interface* <em>(*PeakGet_Create)</em>(<i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch)</code></div>
+<div class="c">C: <code> REAPER_PeakGet_Interface* retval =<em>(*PeakGet_Create)</em>(<i>const</i> <i>char*</i> fn, <i>int</i> srate, <i>int</i> nch)</code></div>
 </div><p>
 <div class="ch">
 Peak get create.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">REAPER_PeakGet_Interface*</td></tr>
+<tr><td class="pr">REAPER_PeakGet_Interface* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">fn</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> fn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srate</td></tr>
+<tr><td class="pr"><i>int</i> srate</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nch</td></tr>
+<tr><td class="pr"><i>int</i> nch</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4152,36 +4164,36 @@ Peak get create.
 <a href="#PitchShiftSubModeMenu"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PitchShiftSubModeMenu</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*PitchShiftSubModeMenu)</em>(<i>HWND</i> hwnd, <i>int</i> x, <i>int</i> y, <i>int</i> mode, <i>int</i> submode_sel)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*PitchShiftSubModeMenu)</em>(<i>HWND</i> hwnd, <i>int</i> x, <i>int</i> y, <i>int</i> mode, <i>int</i> submode_sel)</code></div>
 </div><p>
 <div class="ch">
 menu to select/modify pitch shifter submode, returns new value (or old value if no item selected)              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">hwnd</td></tr>
+<tr><td class="pr"><i>HWND</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>int</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>int</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">submode_sel</td></tr>
+<tr><td class="pr"><i>int</i> submode_sel</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4192,20 +4204,20 @@ menu to select/modify pitch shifter submode, returns new value (or old value if 
 <a href="#PlayPreview"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PlayPreview</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*PlayPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*PlayPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Play preview. Return nonzero on success.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">preview</td></tr>
+<tr><td class="pr"><i>preview_register_t*</i> preview</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4216,7 +4228,7 @@ Play preview. Return nonzero on success.
 <a href="#PlayPreviewEx"> ^</a> 
 <img width="3%" src="gfx/reaper6.19.png" alt="Reaper version 6.19"><u><b>PlayPreviewEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*PlayPreviewEx)</em>(<i>preview_register_t*</i> preview, <i>int</i> bufflags, <i>double</i> measure_align)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*PlayPreviewEx)</em>(<i>preview_register_t*</i> preview, <i>int</i> bufflags, <i>double</i> measure_align)</code></div>
 </div><p>
 <div class="ch">
 return nonzero on success. <br/>
@@ -4229,7 +4241,7 @@ measure_align&lt;0=play immediately, &gt;0=align playback with measure start
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4254,20 +4266,20 @@ measure_align&lt;0=play immediately, &gt;0=align playback with measure start
 <a href="#PlayTrackPreview"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PlayTrackPreview</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*PlayTrackPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*PlayTrackPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Play track preview. Returns nonzero on success,in these,m_out_chan is a track index (0-n).              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">preview</td></tr>
+<tr><td class="pr"><i>preview_register_t*</i> preview</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4278,24 +4290,24 @@ Play track preview. Returns nonzero on success,in these,m_out_chan is a track in
 <a href="#PlayTrackPreview2"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>PlayTrackPreview2</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*PlayTrackPreview2)</em>(<i>ReaProject*</i> proj, <i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*PlayTrackPreview2)</em>(<i>ReaProject*</i> proj, <i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Play track preview. Return nonzero on success,in these,m_out_chan is a track index (0-n).              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject*</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">preview</td></tr>
+<tr><td class="pr"><i>preview_register_t*</i> preview</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4306,14 +4318,14 @@ Play track preview. Return nonzero on success,in these,m_out_chan is a track ind
 <a href="#PlayTrackPreview2Ex"> ^</a> 
 <img width="3%" src="gfx/reaper6.19.png" alt="Reaper version 6.19"><u><b>PlayTrackPreview2Ex</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*PlayTrackPreview2Ex)</em>(<i>ReaProject*</i> proj, <i>preview_register_t*</i> preview, <i>int</i> flags, <i>double</i> measure_align)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*PlayTrackPreview2Ex)</em>(<i>ReaProject*</i> proj, <i>preview_register_t*</i> preview, <i>int</i> flags, <i>double</i> measure_align)</code></div>
 </div><p>
 <div class="ch">
 <p>return nonzero on success,in these,m<em>out</em>chan is a track index (0-n). for flags see <a href="#PlayPreviewEx">PlayPreviewEx</a> bufflags</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4364,11 +4376,7 @@ loaded functions are verified using REAPERAPI_LoadAPI(), see note below).<br/>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">*getAPI</td></tr>
-<tr><td class="ch2"></td></tr>
-</table>
-<table class="ch">
-<tr><td class="pr">*</td></tr>
+<tr><td class="pr"><i>const</i> <i>char</i> *</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4379,20 +4387,20 @@ loaded functions are verified using REAPERAPI_LoadAPI(), see note below).<br/>
 <a href="#ReaperGetPitchShiftAPI"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>ReaperGetPitchShiftAPI</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> IReaperPitchShift* <em>(*ReaperGetPitchShiftAPI)</em>(<i>int</i> version)</code></div>
+<div class="c">C: <code> IReaperPitchShift* retval = <em>(*ReaperGetPitchShiftAPI)</em>(<i>int</i> version)</code></div>
 </div><p>
 <div class="ch">
 version must be REAPER_PITCHSHIFT_API_VER              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">IReaperPitchShift*</td></tr>
+<tr><td class="pr">IReaperPitchShift* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">version</td></tr>
+<tr><td class="pr"><i>int</i> version</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4403,14 +4411,14 @@ version must be REAPER_PITCHSHIFT_API_VER
 <a href="#Resampler_Create"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>Resampler_Create</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> REAPER_Resample_Interface* <em>(*Resampler_Create)</em>()</code></div>
+<div class="c">C: <code> REAPER_Resample_Interface* retval = <em>(*Resampler_Create)</em>()</code></div>
 </div><p>
 <div class="ch">
 Resampler create              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">REAPER_Resample_Interface*</td></tr>
+<tr><td class="pr">REAPER_Resample_Interface* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4421,14 +4429,14 @@ Resampler create
 <a href="#ResolveRenderPattern"> ^</a> 
 <img width="3%" src="gfx/reaper6.26.png" alt="Reaper version 6.26"><u><b>ResolveRenderPattern</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*ResolveRenderPattern)</em>(<i>ReaProject*</i> project, <i>const</i> <i>char*</i> path, <i>const</i> <i>char*</i> pattern, <i>char*</i> targets, <i>int</i> targets_sz)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*ResolveRenderPattern)</em>(<i>ReaProject*</i> project, <i>const</i> <i>char*</i> path, <i>const</i> <i>char*</i> pattern, <i>char*</i> targets, <i>int</i> targets_sz)</code></div>
 </div><p>
 <div class="ch">
 Resolve a wildcard pattern into a set of nul-separated, double-nul terminated render target filenames. Returns the length of the string buffer needed for the returned file list. Call with path=NULL to suppress filtering out illegal pathnames, call with targets=NULL to get just the string buffer length.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4461,20 +4469,20 @@ Resolve a wildcard pattern into a set of nul-separated, double-nul terminated re
 <a href="#SectionFromUniqueID"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>SectionFromUniqueID</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>KbdSectionInfo*</i> <em>(*SectionFromUniqueID)</em>(<i>int</i> uniqueID)</code></div>
+<div class="c">C: <code> <i>KbdSectionInfo*</i> retval = <em>(*SectionFromUniqueID)</em>(<i>int</i> uniqueID)</code></div>
 </div><p>
 <div class="ch">
 Section from unique ID.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>KbdSectionInfo*</i></td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">uniqueID</td></tr>
+<tr><td class="pr"><i>int</i> uniqueID</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4498,15 +4506,15 @@ Send local Osc message.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">local_osc_handler</td></tr>
+<tr><td class="pr"><i>void*</i> local_osc_handler</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">msg</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> msg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">msglen</td></tr>
+<tr><td class="pr"><i>int</i> msglen</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4530,7 +4538,7 @@ Set render last error.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">errorstr</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> errorstr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4541,20 +4549,20 @@ Set render last error.
 <a href="#StopPreview"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>StopPreview</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*StopPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*StopPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Stop preview.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">preview</td></tr>
+<tr><td class="pr"><i>preview_register_t*</i> preview</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4565,20 +4573,20 @@ Stop preview.
 <a href="#StopTrackPreview"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>StopTrackPreview</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*StopTrackPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*StopTrackPreview)</em>(<i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Stop track preview. Return nonzero on success.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">preview</td></tr>
+<tr><td class="pr"><i>preview_register_t*</i> preview</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4589,24 +4597,24 @@ Stop track preview. Return nonzero on success.
 <a href="#StopTrackPreview2"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>StopTrackPreview2</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*StopTrackPreview2)</em>(<i>void*</i> proj, <i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*StopTrackPreview2)</em>(<i>void*</i> proj, <i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Stop track preview2.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>void*</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">preview</td></tr>
+<tr><td class="pr"><i>preview_register_t*</i> preview</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4617,64 +4625,64 @@ Stop track preview2.
 <a href="#WDL_VirtualWnd_ScaledBlitBG"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>WDL_VirtualWnd_ScaledBlitBG</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*WDL_VirtualWnd_ScaledBlitBG)</em>(<i>LICE_IBitmap*</i> dest, <i>WDL_VirtualWnd_BGCfg*</i> src, <i>int</i> destx, <i>int</i> desty, <i>int</i> destw, <i>int</i> desth, <i>int</i> clipx, <i>int</i> clipy, <i>int</i> clipw, <i>int</i> cliph, <i>float</i> alpha, <i>int</i> mode)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*WDL_VirtualWnd_ScaledBlitBG)</em>(<i>LICE_IBitmap*</i> dest, <i>WDL_VirtualWnd_BGCfg*</i> src, <i>int</i> destx, <i>int</i> desty, <i>int</i> destw, <i>int</i> desth, <i>int</i> clipx, <i>int</i> clipy, <i>int</i> clipw, <i>int</i> cliph, <i>float</i> alpha, <i>int</i> mode)</code></div>
 </div><p>
 <div class="ch">
 WDL virtualwnd scale blit bg.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>LICE_IBitmap*</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>WDL_VirtualWnd_BGCfg*</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destx</td></tr>
+<tr><td class="pr"><i>int</i> destx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">desty</td></tr>
+<tr><td class="pr"><i>int</i> desty</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destw</td></tr>
+<tr><td class="pr"><i>int</i> destw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">desth</td></tr>
+<tr><td class="pr"><i>int</i> desth</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">clipx</td></tr>
+<tr><td class="pr"><i>int</i> clipx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">clipy</td></tr>
+<tr><td class="pr"><i>int</i> clipy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">clipw</td></tr>
+<tr><td class="pr"><i>int</i> clipw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cliph</td></tr>
+<tr><td class="pr"><i>int</i> cliph</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">alpha</td></tr>
+<tr><td class="pr"><i>float</i> alpha</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
+<tr><td class="pr"><i>int</i> mode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4700,23 +4708,23 @@ or NULL and it will allocate and free space internally.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">base</td></tr>
+<tr><td class="pr"><i>void*</i> base</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nmemb</td></tr>
+<tr><td class="pr"><i>size_t</i> nmemb</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>size_t</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">*cmpfunc</td></tr>
+<tr><td class="pr"><i>int</i> *cmpfunc...</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">tmpspace</td></tr>
+<tr><td class="pr"><i>void*</i> tmpspace</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4741,11 +4749,11 @@ or NULL and it will allocate and free space internally.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">szOut</td></tr>
+<tr><td class="pr"><i>int*</i> szOut</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4769,11 +4777,11 @@ Deprecated.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">szOut</td></tr>
+<tr><td class="pr"><i>int*</i> szOut</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4797,11 +4805,11 @@ On Midi Event. Can be called from anywhere (threadsafe)
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">evt</td></tr>
+<tr><td class="pr"><i>MIDI_event_t*</i> evt</td></tr>
 <tr><td class="ch2">the MIDI-event</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dev_index</td></tr>
+<tr><td class="pr"><i>int</i> dev_index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4825,11 +4833,11 @@ On MIDI List. Can be called from anywhere (threadsafe)
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">list</td></tr>
+<tr><td class="pr"><i>MIDI_eventlist*</i> list</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dev_index</td></tr>
+<tr><td class="pr"><i>int</i> dev_index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4853,11 +4861,11 @@ Process actions-menu.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">menu</td></tr>
+<tr><td class="pr"><i>HMENU</i> menu</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action exists<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -4874,20 +4882,20 @@ Process actions-menu.
 <a href="#kbd_RunCommandThroughHooks"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_RunCommandThroughHooks</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*kbd_RunCommandThroughHooks)</em>(<i>KbdSectionInfo*</i> section, <i>int*</i> actionCommandID, <i>int*</i> val, <i>int*</i> valhw, <i>int*</i> relmode, <i>HWND</i> hwnd)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*kbd_RunCommandThroughHooks)</em>(<i>KbdSectionInfo*</i> section, <i>int*</i> actionCommandID, <i>int*</i> val, <i>int*</i> valhw, <i>int*</i> relmode, <i>HWND</i> hwnd)</code></div>
 </div><p>
 <div class="ch">
 Run command through hooks. actioncommandID may get modified.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action exists<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -4897,23 +4905,23 @@ Run command through hooks. actioncommandID may get modified.
 32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">actionCommandID</td></tr>
+<tr><td class="pr"><i>int*</i> actionCommandID</td></tr>
 <tr><td class="ch2">the commandid-number of the action you want to run.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">val</td></tr>
+<tr><td class="pr"><i>int*</i> val</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">valhw</td></tr>
+<tr><td class="pr"><i>int*</i> valhw</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">relmode</td></tr>
+<tr><td class="pr"><i>int*</i> relmode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">hwnd</td></tr>
+<tr><td class="pr"><i>HWND</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4924,20 +4932,20 @@ Run command through hooks. actioncommandID may get modified.
 <a href="#kbd_enumerateActions"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_enumerateActions</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*kbd_enumerateActions)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> idx, <i>const</i> char** nameOut)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*kbd_enumerateActions)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> idx, <i>const</i> char** nameOut)</code></div>
 </div><p>
 <div class="ch">
 Enumerates actions.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action exists<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -4947,11 +4955,11 @@ Enumerates actions.
 32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">idx</td></tr>
+<tr><td class="pr"><i>int</i> idx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">nameOut</td></tr>
+<tr><td class="pr"><i>const</i> char** nameOut</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -4975,11 +4983,11 @@ Format keyname
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">ac</td></tr>
+<tr><td class="pr"><i>ACCEL*</i> ac</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">s</td></tr>
+<tr><td class="pr"><i>char*</i> s</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5003,15 +5011,15 @@ Format keyname
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">cmd</td></tr>
+<tr><td class="pr"><i>int</i> cmd</td></tr>
 <tr><td class="ch2">commandid of the action</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">s</td></tr>
+<tr><td class="pr"><i>char*</i> s</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action exists<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -5028,7 +5036,7 @@ Format keyname
 <a href="#kbd_getTextFromCmd"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_getTextFromCmd</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*kbd_getTextFromCmd)</em>(<i>DWORD</i> cmd, <i>KbdSectionInfo*</i> section)</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> retval = <em>(*kbd_getTextFromCmd)</em>(<i>DWORD</i> cmd, <i>KbdSectionInfo*</i> section)</code></div>
 </div><p>
 <div class="ch">
 Get text from Command              
@@ -5041,11 +5049,11 @@ Get text from Command
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">cmd</td></tr>
+<tr><td class="pr"><i>DWORD</i> cmd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action exists<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -5075,11 +5083,11 @@ Process Midi Event Action
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">evt</td></tr>
+<tr><td class="pr"><i>MIDI_event_t*</i> evt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action exists<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -5089,7 +5097,7 @@ Process Midi Event Action
 32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">hwndCtx</td></tr>
+<tr><td class="pr"><i>HWND</i> hwndCtx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5113,11 +5121,11 @@ Reprocess a menu recursively, setting key assignments to what their command IDs 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">menu</td></tr>
+<tr><td class="pr"><i>HMENU</i> menu</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action exists<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -5134,7 +5142,7 @@ Reprocess a menu recursively, setting key assignments to what their command IDs 
 <a href="#kbd_translateAccelerator"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_translateAccelerator</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*kbd_translateAccelerator)</em>(<i>HWND</i> hwnd, <i>MSG*</i> msg, <i>KbdSectionInfo*</i> section)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*kbd_translateAccelerator)</em>(<i>HWND</i> hwnd, <i>MSG*</i> msg, <i>KbdSectionInfo*</i> section)</code></div>
 </div><p>
 <div class="ch">
 Pass in the HWND to receive commands, a MSG of a key command,&nbsp;&nbsp;and a valid section,<br/>
@@ -5143,21 +5151,21 @@ Returns 1 if processed, 0 if no key binding found.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">hwnd</td></tr>
+<tr><td class="pr"><i>HWND</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">msg</td></tr>
+<tr><td class="pr"><i>MSG*</i> msg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
 <tr><td class="ch2">the section, in which the action exists<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
@@ -5174,24 +5182,24 @@ Returns 1 if processed, 0 if no key binding found.
 <a href="#kbd_translateMouse"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_translateMouse</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*kbd_translateMouse)</em>(<i>void*</i> winmsg, <i>unsigned</i> <i>char*</i> midimsg)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*kbd_translateMouse)</em>(<i>void*</i> winmsg, <i>unsigned</i> <i>char*</i> midimsg)</code></div>
 </div><p>
 <div class="ch">
 Translate mouse.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i></td></tr>
+<tr><td class="pr"><i>bool</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">winmsg</td></tr>
+<tr><td class="pr"><i>void*</i> winmsg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">midimsg</td></tr>
+<tr><td class="pr"><i>unsigned</i> <i>char*</i> midimsg</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5202,14 +5210,14 @@ Translate mouse.
 <a href="#plugin_getFilterList"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>plugin_getFilterList</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*plugin_getFilterList)</em>()</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> retval <em>(*plugin_getFilterList)</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Plugin get filter list. Returns a double-NULL terminated list of importable media files, suitable for passing to <a href="#GetOpenFileName">GetOpenFileName()</a> etc. Includes <em>.</em> (All files).</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>char*</i></td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5220,14 +5228,14 @@ Translate mouse.
 <a href="#plugin_getImportableProjectFilterList"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>plugin_getImportableProjectFilterList</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> <em>(*plugin_getImportableProjectFilterList)</em>()</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> retval = <em>(*plugin_getImportableProjectFilterList)</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Plugin get importable project filter list. Returns a double-NULL terminated list of importable project files, suitable for passing to <a href="#GetOpenFileName">GetOpenFileName()</a> etc. Includes <em>.</em> (All files).</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>char*</i></td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5251,7 +5259,7 @@ Plugin get api.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5262,7 +5270,7 @@ Plugin get api.
 <a href="#plugin_register"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>plugin_register</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*plugin_register)</em>(<i>const</i> <i>char*</i> name, <i>void*</i> infostruct)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*plugin_register)</em>(<i>const</i> <i>char*</i> name, <i>void*</i> infostruct)</code></div>
 </div><p>
 <div class="ch">
 like rec->Register<br/>
@@ -5311,17 +5319,17 @@ register("command_id_lookup", unique_string) will look up the integer ID of the 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">infostruct</td></tr>
+<tr><td class="pr"><i>void*</i> infostruct</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5346,11 +5354,11 @@ register("command_id_lookup", unique_string) will look up the integer ID of the 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject*</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">idx</td></tr>
+<tr><td class="pr"><i>int</i> idx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5361,7 +5369,7 @@ register("command_id_lookup", unique_string) will look up the integer ID of the 
 <a href="#projectconfig_var_getoffs"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>projectconfig_var_getoffs</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>(*projectconfig_var_getoffs)</em>(<i>const</i> <i>char*</i> name, <i>int*</i> szOut)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*projectconfig_var_getoffs)</em>(<i>const</i> <i>char*</i> name, <i>int*</i> szOut)</code></div>
 </div><p>
 <div class="ch">
 <p>Returns offset to pass to projectconfig<em>var</em>addr() to get project-config var of name. szout gets size of object.</p>
@@ -5369,17 +5377,17 @@ register("command_id_lookup", unique_string) will look up the integer ID of the 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
+<tr><td class="pr"><i>int</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>const</i> <i>char*</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">szOut</td></tr>
+<tr><td class="pr"><i>int*</i> szOut</td></tr>
 <tr><td class="ch2">size of the object</td></tr>
 </table>
 <br>
@@ -5390,24 +5398,28 @@ register("command_id_lookup", unique_string) will look up the integer ID of the 
 <a href="#realloc_cmd_ptr"> ^</a> 
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965"><u><b>realloc_cmd_ptr</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>(*realloc_cmd_ptr)</em>(char** ptr, <i>int*</i> ptr_size, <i>int</i> new_size)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>(*realloc_cmd_ptr)</em>(char** ptr, <i>int*</i> ptr_size, <i>int</i> new_size)</code></div>
 </div><p>
 <div class="ch">
 special use for NeedBig script API functions - reallocates a NeedBig buffer and updates its size, returns false on error              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i></td></tr>
-<tr><td class="ch2">0, if a function exists</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">*getAPI</td></tr>
+<tr><td class="pr">char** ptr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">*</td></tr>
+<tr><td class="pr"><i>int*</i> ptr_size</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>int</i> new_size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5431,15 +5443,15 @@ Screenset register.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">id</td></tr>
+<tr><td class="pr"><i>char*</i> id</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">callbackFunc</td></tr>
+<tr><td class="pr"><i>void*</i> callbackFunc</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">param</td></tr>
+<tr><td class="pr"><i>void*</i> param</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5463,15 +5475,15 @@ Screenset register new.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">id</td></tr>
+<tr><td class="pr"><i>char*</i> id</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">callbackFunc</td></tr>
+<tr><td class="pr"><i>screensetNewCallbackFunc</i> callbackFunc</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">param</td></tr>
+<tr><td class="pr"><i>void*</i> param</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5495,7 +5507,7 @@ Screenset unregister.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">id</td></tr>
+<tr><td class="pr"><i>char*</i> id</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5519,7 +5531,7 @@ Screenset unregister by param
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">param</td></tr>
+<tr><td class="pr"><i>void*</i> param</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5543,7 +5555,7 @@ LICE simple fill
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">prevWin</td></tr>
+<tr><td class="pr"><i>HWND</i> prevWin</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5568,11 +5580,11 @@ Notify REAPER of a write error by calling with readamt=0, writeamt=-101010110 fo
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">readamt</td></tr>
+<tr><td class="pr"><i>int</i> readamt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">writeamt</td></tr>
+<tr><td class="pr"><i>int</i> writeamt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -39606,7 +39618,7 @@ Default values: flags = ImGui_DragDropFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> payload</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -39652,7 +39664,7 @@ Default values: flags = ImGui_DragDropFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> count</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -39694,7 +39706,7 @@ Default values: flags = ImGui_DragDropFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> rgb</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -39736,7 +39748,7 @@ Default values: flags = ImGui_DragDropFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> rgba</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -39861,7 +39873,7 @@ Default values: p_open = nil, flags = ImGui_WindowFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> p_open</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -40409,7 +40421,7 @@ Default values: p_open = nil, flags = ImGui_WindowFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> p_open</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -40493,7 +40505,7 @@ Default values: p_open = nil, flags = ImGui_TabItemFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> p_open</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -40844,7 +40856,7 @@ Default values: hide_text_after_double_hash = false, wrap_width = -1.0
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> h</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -40922,7 +40934,7 @@ Default values: want_capture_keyboard_value = true
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -40961,7 +40973,7 @@ Default values: want_capture_keyboard_value = true
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> flags</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -42205,7 +42217,7 @@ Default values: flags = ImGui_TreeNodeFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> p_visible</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -42309,7 +42321,7 @@ Default values: alpha = nil
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> b</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -42391,7 +42403,7 @@ Default values: alpha = nil
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -42439,7 +42451,7 @@ Default values: flags = ImGui_ColorEditFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> col_rgb</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -42487,7 +42499,7 @@ Default values: flags = ImGui_ColorEditFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> col_rgba</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -43039,7 +43051,7 @@ Default values: flags = ImGui_ColorEditFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> col_rgb</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -43083,7 +43095,7 @@ Default values: flags = ImGui_ColorEditFlags_None, ref_col = nil
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> col_rgba</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -43137,7 +43149,7 @@ Default values: popup_max_height_in_items = -1
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> items</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -43906,7 +43918,7 @@ Default values: v_speed = 1.0, v_min = 0.0, v_max = 0.0, format = '%.3f', flags 
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -43970,7 +43982,7 @@ Default values: v_speed = 1.0, v_min = 0.0, v_max = 0.0, format = '%.3f', flags 
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v2</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -44042,7 +44054,7 @@ Default values: v_speed = 1.0, v_min = 0.0, v_max = 0.0, format = '%.3f', flags 
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v3</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -44122,7 +44134,7 @@ Default values: v_speed = 1.0, v_min = 0.0, v_max = 0.0, format = '%.3f', flags 
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v4</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -44492,7 +44504,7 @@ Default values: v_speed = 1.0, v_min = 0.0, v_max = 0.0, format = '%.3f', format
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v_current_max</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -44568,7 +44580,7 @@ Default values: v_speed = 1.0, v_min = 0, v_max = 0, format = '%d', flags = ImGu
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -44632,7 +44644,7 @@ Default values: v_speed = 1.0, v_min = 0, v_max = 0, format = '%d', flags = ImGu
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v2</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -44704,7 +44716,7 @@ Default values: v_speed = 1.0, v_min = 0, v_max = 0, format = '%d', flags = ImGu
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v3</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -44784,7 +44796,7 @@ Default values: v_speed = 1.0, v_min = 0, v_max = 0, format = '%d', flags = ImGu
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v4</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -44860,7 +44872,7 @@ Default values: v_speed = 1.0, v_min = 0, v_max = 0, format = '%d', format_max =
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v_current_max</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47174,7 +47186,7 @@ See <a href="#ImGui_SetConfigFlags">ImGui_SetConfigFlags</a>, ImGui_ConfigFlags_
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47206,7 +47218,7 @@ Current content boundaries (typically window boundaries including scrolling, or 
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47238,7 +47250,7 @@ Cursor position in window
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47326,7 +47338,7 @@ Cursor position in absolute screen coordinates (useful to work with the DrawList
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47358,7 +47370,7 @@ Initial cursor position in window coordinates.
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47430,7 +47442,7 @@ Peek directly into the current payload from anywhere.
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> is_delivery</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47462,7 +47474,7 @@ Get a filename from the list of dropped files. Returns false if index is out of 
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> filename</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47666,7 +47678,7 @@ Read from ImGui's character input queue. Call with increasing idx until false is
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> unicode_char</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47702,7 +47714,7 @@ Get lower-right bounding rectangle of the last item (screen space)
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47734,7 +47746,7 @@ Get upper-left bounding rectangle of the last item (screen space)
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47766,7 +47778,7 @@ Get size of last item
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> h</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47930,7 +47942,7 @@ Windows are generally trying to stay within the Work Area of their host viewport
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -47994,7 +48006,7 @@ Mouse delta. Note that this is zero if either current or previous position are i
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48060,7 +48072,7 @@ Default values: button = ImGui_MouseButton_Left, lock_threshold = -1.0
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48107,7 +48119,7 @@ Default values: button = ImGui_MouseButton_Left, lock_threshold = -1.0
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48139,7 +48151,7 @@ Retrieve mouse position at the time of opening popup we have BeginPopup() into (
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48171,7 +48183,7 @@ Mouse wheel Vertical: 1 unit scrolls about 5 lines text.
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> horizontal</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48374,7 +48386,7 @@ Get a string corresponding to the enum value (for display, saving, etc.).
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> val2</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48521,7 +48533,7 @@ Horizontal distance preceding label when using ImGui_TreeNode*() or ImGui_Bullet
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> reaimgui_version</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 </div>
@@ -48547,7 +48559,7 @@ Content boundaries max (roughly (0,0)+Size-Scroll) where Size can be override wi
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48579,7 +48591,7 @@ Content boundaries min (roughly (0,0)-Scroll), in window coordinates.
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48722,7 +48734,7 @@ Get current window position in screen space (useful if you want to do your own d
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48754,7 +48766,7 @@ Get current window size
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> h</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49061,7 +49073,7 @@ Default values: step = 0.0, step_fast = 0.0, format = '%.3f', flags = ImGui_Inpu
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49121,7 +49133,7 @@ Default values: format = '%.3f', flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v2</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49181,7 +49193,7 @@ Default values: format = '%.3f', flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v3</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49249,7 +49261,7 @@ Default values: format = '%.3f', flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v4</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49357,7 +49369,7 @@ Default values: step = 1, step_fast = 100, flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49413,7 +49425,7 @@ Default values: flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v2</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49469,7 +49481,7 @@ Default values: flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v3</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49533,7 +49545,7 @@ Default values: flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v4</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49589,7 +49601,7 @@ Default values: flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> buf</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -49963,7 +49975,7 @@ Default values: size_w = 0.0, size_h = 0.0, flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> buf</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -50015,7 +50027,7 @@ Default values: flags = ImGui_InputTextFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> buf</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -51285,7 +51297,7 @@ Default values: height_in_items = -1
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> items</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -51385,7 +51397,7 @@ Automatically called on the last call of ImGui_ListClipper_Step that returns fal
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> display_end</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -51578,7 +51590,7 @@ Default values: enabled = true
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> p_selected</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -51907,7 +51919,7 @@ Returns FLT_MIN and FLT_MAX for this system.
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> max</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 </div>
@@ -52100,7 +52112,7 @@ Default values: to_native = false
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -52868,7 +52880,7 @@ Shortcut to handle RadioButton's example pattern when value is an integer
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -52971,7 +52983,7 @@ Default values: flags = ImGui_SelectableFlags_None, size_w = 0.0, size_h = 0.0
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> p_selected</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -54308,7 +54320,7 @@ Default values: p_open = nil
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> p_open</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -54340,7 +54352,7 @@ Default values: v_degrees_min = -360.0, v_degrees_max = +360.0, format = '%.0f d
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v_rad</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -54396,7 +54408,7 @@ Default values: format = '%.3f', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -54456,7 +54468,7 @@ Default values: format = '%.3f', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v2</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -54524,7 +54536,7 @@ Default values: format = '%.3f', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v3</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -54600,7 +54612,7 @@ Default values: format = '%.3f', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v4</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -54826,7 +54838,7 @@ Default values: format = '%d', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -54886,7 +54898,7 @@ Default values: format = '%d', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v2</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -54954,7 +54966,7 @@ Default values: format = '%d', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v3</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -55030,7 +55042,7 @@ Default values: format = '%d', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v4</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -57702,7 +57714,7 @@ See <a href="#ImGui_TableNeedSort">ImGui_TableNeedSort</a>.
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> sort_direction</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -57812,7 +57824,7 @@ Return true once when sorting specs have changed since last call, or the first t
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> has_specs</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -58863,7 +58875,7 @@ Default values: format = '%.3f', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -58927,7 +58939,7 @@ Default values: format = '%d', flags = ImGui_SliderFlags_None
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> v</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -59023,7 +59035,7 @@ Main Area: Center of the viewport.
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -59055,7 +59067,7 @@ Main Area: Position of the viewport (Dear ImGui coordinates are the same as OS d
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -59087,7 +59099,7 @@ Main Area: Size of the viewport.
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> h</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -59119,7 +59131,7 @@ Work Area: Center of the viewport.
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -59151,7 +59163,7 @@ Work Area: Position of the viewport minus task bars, menus bars, status bars (&g
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> y</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -59183,7 +59195,7 @@ Work Area: Size of the viewport minus task bars, menu bars, status bars (&lt;= S
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> h</td></tr>
-<tr><td class="ch2">-</td></tr>
+<tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -59773,7 +59785,7 @@ Display a dot next to the title. When used in a tab/docking context, tab is sele
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>ReaPack_AboutInstalledPackage</em>(PackageEntry* entry)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>ReaPack_AboutInstalledPackage</em>", <i>PackageEntry</i> entry)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> = <em>reaper.ReaPack_AboutInstalledPackage</em>(<i>PackageEntry</i> entry)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.ReaPack_AboutInstalledPackage</em>(<i>PackageEntry</i> entry)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>ReaPack_AboutInstalledPackage</em>(<i>PackageEntry</i> entry)</code></div>
 </div><p>
 <div class="ch">
@@ -59782,7 +59794,7 @@ Display a dot next to the title. When used in a tab/docking context, tab is sele
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2">true, if the dialog is shown</td></tr>
 </table>
 <br>
@@ -59801,7 +59813,7 @@ Display a dot next to the title. When used in a tab/docking context, tab is sele
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>ReaPack_AboutRepository</em>(<i>const</i> <i>char*</i> repoName)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>ReaPack_AboutRepository</em>", "repoName")</code></div>
-<div class="l">Lua: <code> <i>boolean</i> = <em>reaper.ReaPack_AboutRepository</em>(<i>string</i> repoName)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.ReaPack_AboutRepository</em>(<i>string</i> repoName)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>ReaPack_AboutRepository</em>(<i>String</i> repoName)</code></div>
 </div><p>
 <div class="ch">
@@ -59810,7 +59822,7 @@ The repository index is downloaded asynchronously if the cached copy doesn't exi
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2">true, if the dialog is shown</td></tr>
 </table>
 <br>
@@ -59838,7 +59850,7 @@ The repository index is downloaded asynchronously if the cached copy doesn't exi
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2">true, if the repo has been added</td></tr>
 </table>
 <table class="ch">
