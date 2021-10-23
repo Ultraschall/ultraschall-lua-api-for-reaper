@@ -6067,17 +6067,17 @@ Note that fft()/ifft() must NOT cross a 65,536 item boundary, so be sure to spec
 <a href="#eel_fft_real"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fft_real</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fft_real</em>(buffer,size)</code></div>
+<div class="e">EEL2: <code> <em>fft_real</em>(data buffer, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
 Performs an FFT, but takes size input samples and produces size/2 complex output pairs. Usually used along with fft_permute(size/2). Inputs/outputs will need to be scaled by 0.5/size.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">buffer</td></tr>
+<tr><td class="pr">data buffer</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>integer</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -6088,14 +6088,21 @@ Performs an FFT, but takes size input samples and produces size/2 complex output
 <a href="#eel_fgetc"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fgetc</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fgetc</em>(fp)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> character = <em>fgetc</em>(filehandler fp)</code></div>
 </div><p>
 <div class="ch">
 Reads a character from file fp, returns -1 if EOF.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> character</td></tr>
+<tr><td class="ch2">a character read from the file; -1, if end of file</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
+<tr><td class="ch2">the handler to the file </td></tr>
 </table>
 <br>
 </div>
@@ -6105,18 +6112,25 @@ Reads a character from file fp, returns -1 if EOF.
 <a href="#eel_fgets"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fgets</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fgets</em>(fp,#str)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> length = <em>fgets</em>(filehandler fp, <i>string</i> #str)</code></div>
 </div><p>
 <div class="ch">
 Reads a line from file fp into #str. Returns length of #str read.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> length</td></tr>
+<tr><td class="ch2">the length of the line read from file.</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
+<tr><td class="ch2">the handler of the file</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">#str</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> #str</td></tr>
+<tr><td class="ch2">the returned string </td></tr>
 </table>
 <br>
 </div>
@@ -6126,14 +6140,21 @@ Reads a line from file fp into #str. Returns length of #str read.
 <a href="#eel_floor"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>floor</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>floor</em>(value)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> rounded_value = <em>floor</em>(<i>float</i> value)</code></div>
 </div><p>
 <div class="ch">
 Returns the value rounded to the next lowest integer (floor(3.9)==3, floor(-3.1)==-4).              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> rounded_value</td></tr>
+<tr><td class="ch2">the rounded value to the next lowest integer</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>float</i> value</td></tr>
+<tr><td class="ch2">the value to be rounded</td></tr>
 </table>
 <br>
 </div>
@@ -6143,18 +6164,29 @@ Returns the value rounded to the next lowest integer (floor(3.9)==3, floor(-3.1)
 <a href="#eel_fopen"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fopen</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fopen</em>(fn,mode)</code></div>
+<div class="e">EEL2: <code> filehandler fp = <em>fopen</em>(<i>string</i> fn, <i>string</i> mode)</code></div>
 </div><p>
 <div class="ch">
 Opens a file "fn" with mode "mode". For read, use "r" or "rb", write "w" or "wb". Returns a positive integer on success.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fn</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr">filehandler fp</td></tr>
+<tr><td class="ch2">the filehandler of the opened file; 0, if file couldn't be opened</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>string</i> fn</td></tr>
+<tr><td class="ch2">the filename to be opened</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> mode</td></tr>
+<tr><td class="ch2">the opening mode<br/>
+"r" read,<br/>
+"rb", read binary<br/>
+"w", write<br/>
+"wb", write binary</td></tr>
 </table>
 <br>
 </div>
@@ -6164,7 +6196,7 @@ Opens a file "fn" with mode "mode". For read, use "r" or "rb", write "w" or "wb"
 <a href="#eel_fprintf"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fprintf</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fprintf</em>(fp,format[,...])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> length = <em>fprintf</em>(filehandler fp, <i>string</i> format[, various ...])</code></div>
 </div><p>
 <div class="ch">
 <p>Formats a string and writes it to file fp. For more information on format specifiers, see <a href="#eel_sprintf">sprintf()</a>. Returns bytes written to file.</p>
@@ -6212,17 +6244,24 @@ Opens a file "fn" with mode "mode". For read, use "r" or "rb", write "w" or "wb"
 <li>%010f = integer, minimum of 10 digits (zero padded)</li>
 </ul>
 <p>Values for format specifiers can be specified as additional parameters to fprintf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).</p>
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
+<tr><td class="pr"><i>integer</i> length</td></tr>
+<tr><td class="ch2">the length of the written string</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">format</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> format</td></tr>
+<tr><td class="ch2">a string to format</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">[...]</td></tr>
+<tr><td class="pr">various [...]</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -6233,22 +6272,29 @@ Opens a file "fn" with mode "mode". For read, use "r" or "rb", write "w" or "wb"
 <a href="#eel_fread"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fread</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fread</em>(fp,#str,length)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> read_length = <em>fread</em>(filehandler fp, <i>string</i> #str, <i>integer</i> length)</code></div>
 </div><p>
 <div class="ch">
 Reads from file fp into #str, up to length bytes. Returns actual length read, or negative if error.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> read_length</td></tr>
+<tr><td class="ch2">the length of the returned string(might be less than parameter length)</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
+<tr><td class="ch2">the handler of the file</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">#str</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> #str</td></tr>
+<tr><td class="ch2">the string read from the file</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">length</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> length</td></tr>
+<tr><td class="ch2">the length you want to read from the file</td></tr>
 </table>
 <br>
 </div>
@@ -6258,13 +6304,20 @@ Reads from file fp into #str, up to length bytes. Returns actual length read, or
 <a href="#eel_freembuf"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>freembuf</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>freembuf</em>(address)</code></div>
+<div class="e">EEL2: <code> <i>float</i> retval = <em>freembuf</em>(<i>float</i> address)</code></div>
 </div><p>
 <div class="ch">
 Hints the runtime that memory above the address specified may no longer be used. The runtime may, at its leisure, choose to lose the contents of memory above the address specified.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">address</td></tr>
+<tr><td class="pr"><i>float</i> retval</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>float</i> address</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -6275,21 +6328,28 @@ Hints the runtime that memory above the address specified may no longer be used.
 <a href="#eel_fseek"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fseek</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fseek</em>(fp,offset,whence)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>fseek</em>(filehandler fp, <i>integer</i> offset, <i>integer</i> whence)</code></div>
 </div><p>
 <div class="ch">
 Seeks file fp, offset bytes from whence reference. Whence negative specifies start of file, positive whence specifies end of file, and zero whence specifies current file position.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">-1, if seek isn't possible;</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">offset</td></tr>
+<tr><td class="pr"><i>integer</i> offset</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">whence</td></tr>
+<tr><td class="pr"><i>integer</i> whence</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -6300,14 +6360,21 @@ Seeks file fp, offset bytes from whence reference. Whence negative specifies sta
 <a href="#eel_ftell"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>ftell</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>ftell</em>(fp)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> fposition = <em>ftell</em>(filehandler fp)</code></div>
 </div><p>
 <div class="ch">
 Returns the current file position.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> fposition</td></tr>
+<tr><td class="ch2">the current position within the opened file</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
+<tr><td class="ch2">the handler of the file</td></tr>
 </table>
 <br>
 </div>
@@ -6317,22 +6384,31 @@ Returns the current file position.
 <a href="#eel_fwrite"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fwrite</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fwrite</em>(fp,#str,len)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> length = <em>fwrite</em>(filehandler fp, <i>string</i> #str, <i>integer</i> len)</code></div>
 </div><p>
 <div class="ch">
-Writes up to len characters of #str to file fp. If len is less than 1, the full contents of #str will be written. Returns the number of bytes written to file.              
-</div><br>          <u>Parameters:</u>
+Writes up to len characters of #str to file fp. If len is less than 1, the full contents of #str will be written. Returns the number of bytes written to file.<br/>
+<br/>
+Use fflush(fp) to write all data from the cache into the file.              
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> length</td></tr>
+<tr><td class="ch2">the number of written bytes</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
+<tr><td class="ch2">the handler of the file</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">#str</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> #str</td></tr>
+<tr><td class="ch2">the string to write into the file</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">len</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> len</td></tr>
+<tr><td class="ch2">the number of bytes to write to the file; 0, to write entire string</td></tr>
 </table>
 <br>
 </div>
@@ -6342,7 +6418,7 @@ Writes up to len characters of #str to file fp. If len is less than 1, the full 
 <a href="#eel_get_action_context"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>get_action_context</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>get_action_context</em>(#filename,sectionID,cmdID,mode,resolution,val)</code></div>
+<div class="e">EEL2: <code> <em>get_action_context</em>(<i>string</i> #filename, <i>integer</i> sectionID, <i>integer</i> cmdID, <i>integer</i> mode, <i>integer</i> resolution, <i>integer</i> val)</code></div>
 </div><p>
 <div class="ch">
 Queries contextual information about the script, typically MIDI/OSC input values.<br/>
@@ -6353,28 +6429,34 @@ Notes: sectionID, and cmdID will be set to -1 if the script is not part of the a
 For relative mode bindings, calling get_action_context() will return the accumulated relative value in decoded form (not 65 or 63, but +1/-1 etc), and clear the internal state. So if you call it multiple times, the first one will return the accumulated value, and the second will always return 0.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">#filename</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> #filename</td></tr>
+<tr><td class="ch2">the filename plus path of the script</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">sectionID</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> sectionID</td></tr>
+<tr><td class="ch2">the section <br/>
+0, Main<br/>
+100, Main (alt recording) <br/>
+32060, MIDI Editor<br/>
+32061, MIDI Event List Editor<br/>
+32062, MIDI Inline Editor<br/>
+32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">cmdID</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> cmdID</td></tr>
+<tr><td class="ch2">the command id of the script</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mode</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> mode</td></tr>
+<tr><td class="ch2">-1, if script isn't run by shortcut; 55953, if script is run by shortcut</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">resolution</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> resolution</td></tr>
+<tr><td class="ch2">-1, if script isn't run by shortcut; resolution of OSC(14 bit)/MIDI(7 bit)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">val</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> val</td></tr>
+<tr><td class="ch2">the value sent by MIDI or OSC</td></tr>
 </table>
 <br>
 </div>
@@ -6384,33 +6466,40 @@ For relative mode bindings, calling get_action_context() will return the accumul
 <a href="#eel_gfx_arc"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_arc</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_arc</em>(x,y,r,ang1,ang2[,antialias])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>gfx_arc</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> r, <i>float</i> ang1, <i>float</i> ang2[, <i>optional</i> <i>float</i> antialias])</code></div>
 </div><p>
 <div class="ch">
 Draws an arc of the circle centered at x,y, with ang1/ang2 being specified in radians.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">usually 0</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2">x position of the center of the circle</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>integer</i> y</td></tr>
 <tr><td class="ch2">y position of the center of the circle</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">r</td></tr>
+<tr><td class="pr"><i>integer</i> r</td></tr>
 <tr><td class="ch2">the radius of the circle</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ang1</td></tr>
+<tr><td class="pr"><i>float</i> ang1</td></tr>
 <tr><td class="ch2">the beginning of the circle in radians; meant for partial circles; 0-6.28</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ang2</td></tr>
+<tr><td class="pr"><i>float</i> ang2</td></tr>
 <tr><td class="ch2">the end of the circle in radians; meant for partial circles; 0-6.28</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">antialias</td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> antialias</td></tr>
 <tr><td class="ch2"><=0.5, antialias off; >0.5, antialias on</td></tr>
 </table>
 <br>
@@ -6421,62 +6510,70 @@ Draws an arc of the circle centered at x,y, with ang1/ang2 being specified in ra
 <a href="#eel_gfx_blit"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_blit</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_blit</em>(source, scale, rotation[, srcx, srcy, srcw, srch, destx, desty, destw, desth, rotxoffs, rotyoffs])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> src = <em>gfx_blit</em>(<i>integer</i> source, <i>float</i> scale, <i>float</i> rotation[, <i>optional</i> <i>float</i> srcx, <i>optional</i> <i>float</i> srcy, <i>optional</i> <i>float</i> srcw, <i>optional</i> <i>float</i> srch, <i>optional</i> <i>integer</i> destx, <i>optional</i> <i>integer</i> desty, <i>optional</i> <i>integer</i> destw, <i>optional</i> <i>integer</i> desth, <i>optional</i> <i>float</i> rotxoffs, <i>optional</i> <i>float</i> rotyoffs])</code></div>
 </div><p>
 <div class="ch">
 srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default to image size), destx/desty/destw/desth specify dest rectangle (if not specified, these will default to reasonable defaults -- destw/desth default to srcw/srch * scale).               
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">source</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> src</td></tr>
+<tr><td class="ch2">the blitted source</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> source</td></tr>
+<tr><td class="ch2">the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">scale</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> scale</td></tr>
+<tr><td class="ch2">the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger<br/>
+has no effect, when destx, desty, destw, desth are given</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rotation</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> rotation</td></tr>
+<tr><td class="ch2">the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcx</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> srcx</td></tr>
+<tr><td class="ch2">the x-coordinate-offset in the source-image</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcy</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> srcy</td></tr>
+<tr><td class="ch2">the y-coordinate-offset in the source-image</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcw</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> srcw</td></tr>
+<tr><td class="ch2">the width-offset in the source-image</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srch</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> srch</td></tr>
+<tr><td class="ch2">the height-offset in the source-image</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destx</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> destx</td></tr>
+<tr><td class="ch2">the x-coordinate of the blitting destination</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">desty</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> desty</td></tr>
+<tr><td class="ch2">the y-coordinate of the blitting destination</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destw</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> destw</td></tr>
+<tr><td class="ch2">the width of the blitting destination; may lead to stretched images</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">desth</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> desth</td></tr>
+<tr><td class="ch2">the height of the blitting destination; may lead to stretched images</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rotxoffs</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> rotxoffs</td></tr>
+<tr><td class="ch2">influences rotation</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rotyoffs</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> rotyoffs</td></tr>
+<tr><td class="ch2">influences rotation</td></tr>
 </table>
 <br>
 </div>
@@ -6486,62 +6583,70 @@ srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default t
 <a href="#eel_gfx_blit"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_blit</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_blit</em>(source, scale, rotation[, srcx, srcy, srcw, srch, destx, desty, destw, desth, rotxoffs, rotyoffs])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> src = <em>gfx_blit</em>(<i>integer</i> source, <i>float</i> scale, <i>float</i> rotation[, <i>optional</i> <i>float</i> srcx, <i>optional</i> <i>float</i> srcy, <i>optional</i> <i>float</i> srcw, <i>optional</i> <i>float</i> srch, <i>optional</i> <i>integer</i> destx, <i>optional</i> <i>integer</i> desty, <i>optional</i> <i>integer</i> destw, <i>optional</i> <i>integer</i> desth, <i>optional</i> <i>float</i> rotxoffs, <i>optional</i> <i>float</i> rotyoffs])</code></div>
 </div><p>
 <div class="ch">
 srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default to image size), destx/desty/destw/desth specify dest rectangle (if not specified, these will default to reasonable defaults -- destw/desth default to srcw/srch * scale).               
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">source</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> src</td></tr>
+<tr><td class="ch2">the blitted source</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> source</td></tr>
+<tr><td class="ch2">the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">scale</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> scale</td></tr>
+<tr><td class="ch2">the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger<br/>
+has no effect, when destx, desty, destw, desth are given</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rotation</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> rotation</td></tr>
+<tr><td class="ch2">the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcx</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> srcx</td></tr>
+<tr><td class="ch2">the x-coordinate-offset in the source-image</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcy</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> srcy</td></tr>
+<tr><td class="ch2">the y-coordinate-offset in the source-image</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcw</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> srcw</td></tr>
+<tr><td class="ch2">the width-offset in the source-image</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srch</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> srch</td></tr>
+<tr><td class="ch2">the height-offset in the source-image</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destx</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> destx</td></tr>
+<tr><td class="ch2">the x-coordinate of the blitting destination</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">desty</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> desty</td></tr>
+<tr><td class="ch2">the y-coordinate of the blitting destination</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destw</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> destw</td></tr>
+<tr><td class="ch2">the width of the blitting destination; may lead to stretched images</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">desth</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> desth</td></tr>
+<tr><td class="ch2">the height of the blitting destination; may lead to stretched images</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rotxoffs</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> rotxoffs</td></tr>
+<tr><td class="ch2">influences rotation</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rotyoffs</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> rotyoffs</td></tr>
+<tr><td class="ch2">influences rotation</td></tr>
 </table>
 <br>
 </div>
@@ -6551,7 +6656,7 @@ srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default t
 <a href="#eel_gfx_blitext"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_blitext</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_blitext</em>(source,coordinatelist,rotation)</code></div>
+<div class="e">EEL2: <code> <em>gfx_blitext</em>(<i>integer</i> source, <i>array</i> coordinatelist, <i>integer</i> rotation)</code></div>
 </div><p>
 <div class="ch">
 Deprecated, use gfx_blit instead.<br/>
@@ -6559,15 +6664,15 @@ Deprecated, use gfx_blit instead.<br/>
 Note: the naming of the function might be misleading, as it has nothing to do with blitting of text, but rather is called Blit Ext.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">source</td></tr>
+<tr><td class="pr"><i>integer</i> source</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">coordinatelist</td></tr>
+<tr><td class="pr"><i>array</i> coordinatelist</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rotation</td></tr>
+<tr><td class="pr"><i>float</i> rotation</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -6578,17 +6683,17 @@ Note: the naming of the function might be misleading, as it has nothing to do wi
 <a href="#eel_gfx_blurto"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_blurto</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_blurto</em>(x,y)</code></div>
+<div class="e">EEL2: <code> <em>gfx_blurto</em>(<i>integer</i> x, <i>integer</i> y)</code></div>
 </div><p>
 <div class="ch">
 Blurs the region of the screen between gfx_x,gfx_y and x,y, and updates gfx_x,gfx_y to x,y.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2">x position of the other edge of the blur-region</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>integer</i> y</td></tr>
 <tr><td class="ch2">y position of the other edge of the blur-region</td></tr>
 </table>
 <br>
@@ -6599,29 +6704,29 @@ Blurs the region of the screen between gfx_x,gfx_y and x,y, and updates gfx_x,gf
 <a href="#eel_gfx_circle"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_circle</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_circle</em>(x,y,r[,fill,antialias])</code></div>
+<div class="e">EEL2: <code> <em>gfx_circle</em>(<i>integer</i> x, <i>integer</i> y, <i>float</i> r[, <i>float</i> fill, <i>float</i> antialias])</code></div>
 </div><p>
 <div class="ch">
 Draws a circle, optionally filling/antialiasing              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2">x position of center of the circle</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>integer</i> y</td></tr>
 <tr><td class="ch2">y position of center of the circle</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">r</td></tr>
+<tr><td class="pr"><i>float</i> r</td></tr>
 <tr><td class="ch2">radius of the circle</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fill</td></tr>
+<tr><td class="pr"><i>float</i> fill</td></tr>
 <tr><td class="ch2"><=0.5, circle is not filled; >0.5, circle is filled</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">antialias</td></tr>
+<tr><td class="pr"><i>float</i> antialias</td></tr>
 <tr><td class="ch2"><=0.5, circle is not antialiased; >0.5, circle is antialiased</td></tr>
 </table>
 <br>
@@ -6632,17 +6737,23 @@ Draws a circle, optionally filling/antialiasing
 <a href="#eel_gfx_clienttoscreen"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_clienttoscreen</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_clienttoscreen</em>(x,y)</code></div>
+<div class="e">EEL2: <code> <em>gfx_clienttoscreen</em>(<i>integer</i> x, <i>integer</i> y)</code></div>
 </div><p>
 <div class="ch">
-Converts client coordinates x,y to screen coordinates.              
+<p>Converts client coordinates x,y to screen coordinates.</p>
+<p>Use variables for x and y, as the returned values will be put back into them:</p>
+<pre><code>gfx_init(&quot;&quot;); // open window
+x=10; // the client x-coordinate
+y=20; // the client y-coordinate
+
+gfx_clienttoscreen(x,y); // x and y hold now the converted screen-coordinates</code></pre>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2">the x coordinate within(!) the gfx_init()-window, that shall be converted to screen-coordinates</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>integer</i> y</td></tr>
 <tr><td class="ch2">the y coordinate within(!) the gfx_init()-window, that shall be converted to screen-coordinates </td></tr>
 </table>
 <br>
@@ -6653,7 +6764,7 @@ Converts client coordinates x,y to screen coordinates.
 <a href="#eel_gfx_deltablit"> ^</a> 
 <img width="3%" src="gfx/reaper5.95.png" alt="Reaper version 5.95"><u><b>gfx_deltablit</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_deltablit</em>(srcimg,srcs,srct,srcw,srch,destx,desty,destw,desth,dsdx,dtdx,dsdy,dtdy,dsdxdy,dtdxdy[,usecliprect=1])</code></div>
+<div class="e">EEL2: <code> <em>gfx_deltablit</em>(<i>integer</i> srcimg, <i>integer</i> srcs, <i>integer</i> srct, <i>integer</i> srcw, <i>integer</i> srch, <i>float</i> destx, <i>float</i> desty, <i>float</i> destw, <i>float</i> desth, <i>float</i> dsdx, <i>float</i> dtdx, <i>float</i> dsdy, <i>float</i> dtdy, <i>float</i> dsdxdy, <i>float</i> dtdxdy[,optional <i>integer</i> usecliprect=1])</code></div>
 </div><p>
 <div class="ch">
 Blits from srcimg(srcs,srct,srcw,srch) to destination (destx,desty,destw,desth). Source texture coordinates are s/t, dsdx represents the change in s coordinate for each x pixel, dtdy represents the change in t coordinate for each y pixel, etc. dsdxdy represents the change in dsdx for each line. If usecliprect is specified and 0, then srcw/srch are ignored.<br/>
@@ -6663,67 +6774,67 @@ This function allows you to manipulate the image, which you want to blit, by tra
 To do rotation, you can manipulate dtdx and dsdy together.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">srcimg</td></tr>
+<tr><td class="pr"><i>integer</i> srcimg</td></tr>
 <tr><td class="ch2">image - the image to blit</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcs</td></tr>
+<tr><td class="pr"><i>integer</i> srcs</td></tr>
 <tr><td class="ch2">positiondeltaX - the delta of the x-position of the image within the blitted area in pixels(useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srct</td></tr>
+<tr><td class="pr"><i>integer</i> srct</td></tr>
 <tr><td class="ch2">positiondeltaY - the delta of the y-position of the image within the blitted area in pixels(useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcw</td></tr>
+<tr><td class="pr"><i>integer</i> srcw</td></tr>
 <tr><td class="ch2">unknown - (useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srch</td></tr>
+<tr><td class="pr"><i>integer</i> srch</td></tr>
 <tr><td class="ch2">unknown - (useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destx</td></tr>
+<tr><td class="pr"><i>float</i> destx</td></tr>
 <tr><td class="ch2">positiondeltaX - the delta of the x-position of the blitted area in pixels(useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">desty</td></tr>
+<tr><td class="pr"><i>float</i> desty</td></tr>
 <tr><td class="ch2">positiondeltaY - the delta of the y-position of the blitted area in pixels(useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destw</td></tr>
+<tr><td class="pr"><i>float</i> destw</td></tr>
 <tr><td class="ch2">blitsizeX - the x-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: width of the image)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">desth</td></tr>
+<tr><td class="pr"><i>float</i> desth</td></tr>
 <tr><td class="ch2">blitsizeY - the y-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: height of the image)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsdx</td></tr>
+<tr><td class="pr"><i>float</i> dsdx</td></tr>
 <tr><td class="ch2">stretchfactorX, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeX(useful default: 1)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dtdx</td></tr>
+<tr><td class="pr"><i>float</i> dtdx</td></tr>
 <tr><td class="ch2">deltaY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta is linear(useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsdy</td></tr>
+<tr><td class="pr"><i>float</i> dsdy</td></tr>
 <tr><td class="ch2">deltaX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta is linear(useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dtdy</td></tr>
+<tr><td class="pr"><i>float</i> dtdy</td></tr>
 <tr><td class="ch2">stretchfactorY, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeY(useful default: 1)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dsdxdy</td></tr>
+<tr><td class="pr"><i>float</i> dsdxdy</td></tr>
 <tr><td class="ch2">deltacurvedY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta "curves" the delta via a bezier(useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dtdxdy</td></tr>
+<tr><td class="pr"><i>float</i> dtdxdy</td></tr>
 <tr><td class="ch2">deltacurvedX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta "curves" the delta via a bezier(useful default: 0)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">usecliprect</td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> usecliprect</td></tr>
 <tr><td class="ch2">can be set to 0 or 1(useful default: 0)</td></tr>
 </table>
 <br>
@@ -6734,30 +6845,37 @@ To do rotation, you can manipulate dtdx and dsdy together.
 <a href="#eel_gfx_dock"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_dock</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_dock</em>(v[,#wx,#wy,#ww,#wh])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> dockstate = <em>gfx_dock</em>(<i>integer</i> v[, <i>optional</i> <i>integer</i> wx, <i>optional</i> <i>integer</i> wy, <i>optional</i> <i>integer</i> ww, <i>optional</i> <i>integer</i> wh])</code></div>
 </div><p>
 <div class="ch">
 Call with v=-1 to query docked state, otherwise v>=0 to set docked state. State is &amp;1 if docked, second byte is docker index (or last docker index if undocked). If wx-wh are specified, they will be filled with the undocked window position/size              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> dockstate</td></tr>
+<tr><td class="ch2">the new/queried dockstate</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> v</td></tr>
-<tr><td class="ch2">-1, query docking-state; 0 and higher, set state of the window to docked</td></tr>
+<tr><td class="ch2">-1, query only docking-state; 0 and higher, set state of the window to docked</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> #wx</td></tr>
-<tr><td class="ch2">set to a number to query current-windowx-position; contains windowx when v=-1</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> wx</td></tr>
+<tr><td class="ch2">will hold window-x-position</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> #wy</td></tr>
-<tr><td class="ch2">set to a number to query current-windowy-position; contains windowy when v=-1</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> wy</td></tr>
+<tr><td class="ch2">will hold window-y-position</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> #ww</td></tr>
-<tr><td class="ch2">set to a number to query current-window-width; contains windoww when v=-1</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> ww</td></tr>
+<tr><td class="ch2">will hold window-width&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> #wh</td></tr>
-<tr><td class="ch2">set to a number to query current-window-height; contains windowh when v=-1</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> wh</td></tr>
+<tr><td class="ch2">will hold window-height</td></tr>
 </table>
 <br>
 </div>
@@ -8797,14 +8915,21 @@ Returns the tangent of the angle specified (specified in radians).
 <a href="#eel_tcp_close"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>tcp_close</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>tcp_close</em>(connection)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>tcp_close</em>(tcp_handler connection)</code></div>
 </div><p>
 <div class="ch">
 Closes a TCP connection created by tcp_listen() or tcp_connect().              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">connection</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">1, closing was successful; 0, closing was unsuccessful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">tcp_handler connection</td></tr>
+<tr><td class="ch2">the handler to the tcp-connection</td></tr>
 </table>
 <br>
 </div>
@@ -8814,22 +8939,29 @@ Closes a TCP connection created by tcp_listen() or tcp_connect().
 <a href="#eel_tcp_connect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>tcp_connect</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>tcp_connect</em>(address,port[,block])</code></div>
+<div class="e">EEL2: <code> tcp_handler connection = <em>tcp_connect</em>(<i>string</i> address, <i>integer</i> port[, <i>optional</i> <i>integer</i> block])</code></div>
 </div><p>
 <div class="ch">
 Create a new TCP connection to address:port. If block is specified and 0, connection will be made nonblocking. Returns TCP connection ID greater than 0 on success.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">address</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr">tcp_handler connection</td></tr>
+<tr><td class="ch2">the handler to the tcp-connection</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>string</i> address</td></tr>
+<tr><td class="ch2">the tcp-address of the connection</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">port</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> port</td></tr>
+<tr><td class="ch2">the port of the connection</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">block</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> block</td></tr>
+<tr><td class="ch2">0, non-blocking connection; unspecified, blocking connection</td></tr>
 </table>
 <br>
 </div>
@@ -8839,21 +8971,21 @@ Create a new TCP connection to address:port. If block is specified and 0, connec
 <a href="#eel_tcp_listen"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>tcp_listen</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>tcp_listen</em>(port[,interface,#ip_out])</code></div>
+<div class="e">EEL2: <code> <em>tcp_listen</em>(<i>integer</i> port[, <i>optional</i> <i>string</i> interface, <i>optional</i> <i>string</i> #ip_out])</code></div>
 </div><p>
 <div class="ch">
 Listens on port specified. Returns less than 0 if could not listen, 0 if no new connection available, or greater than 0 (as a TCP connection ID) if a new connection was made. If a connection made and #ip_out specified, it will be set to the remote IP. interface can be empty for all interfaces, otherwise an interface IP as a string.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">port</td></tr>
+<tr><td class="pr"><i>integer</i> port</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">interface</td></tr>
+<tr><td class="pr"><i>optional</i> <i>string</i> interface</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">#ip_out</td></tr>
+<tr><td class="pr"><i>optional</i> <i>string</i> #ip_out</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -8864,13 +8996,13 @@ Listens on port specified. Returns less than 0 if could not listen, 0 if no new 
 <a href="#eel_tcp_listen_end"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>tcp_listen_end</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>tcp_listen_end</em>(port)</code></div>
+<div class="e">EEL2: <code> <em>tcp_listen_end</em>(<i>integer</i> port)</code></div>
 </div><p>
 <div class="ch">
 Ends listening on port specified.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">port</td></tr>
+<tr><td class="pr"><i>integer</i> port</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -8881,21 +9013,28 @@ Ends listening on port specified.
 <a href="#eel_tcp_recv"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>tcp_recv</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>tcp_recv</em>(connection,#str[,maxlen])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>tcp_recv</em>(tcp_handler connection, <i>string</i> #str[, <i>integer</i> maxlen])</code></div>
 </div><p>
 <div class="ch">
 Receives data from a connection to #str. If maxlen is specified, no more than maxlen bytes will be received. If non-blocking, 0 will be returned if would block. Returns less than 0 if error.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">connection</td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">0, receiving works; -1, receiving doesn't work</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">tcp_handler connection</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">#str</td></tr>
+<tr><td class="pr"><i>string</i> #str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">maxlen</td></tr>
+<tr><td class="pr"><i>integer</i> maxlen</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -8906,21 +9045,21 @@ Receives data from a connection to #str. If maxlen is specified, no more than ma
 <a href="#eel_tcp_send"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>tcp_send</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>tcp_send</em>(connection,str[,len])</code></div>
+<div class="e">EEL2: <code> <em>tcp_send</em>(tcp_handler connection, <i>string</i> str[, <i>optional</i> <i>integer</i> len])</code></div>
 </div><p>
 <div class="ch">
 Sends a string to connection. Returns -1 on error, 0 if connection is non-blocking and would block, otherwise returns length sent. If len is specified and not less than 1, only the first len bytes of the string parameter will be sent.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">connection</td></tr>
+<tr><td class="pr">tcp_handler connection</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>string</i> str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">len</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> len</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -8931,18 +9070,25 @@ Sends a string to connection. Returns -1 on error, 0 if connection is non-blocki
 <a href="#eel_tcp_set_block"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>tcp_set_block</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>tcp_set_block</em>(connection,block)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>tcp_set_block</em>(connection,block)</code></div>
 </div><p>
 <div class="ch">
 Sets whether a connection blocks.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">connection</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the new block-state</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">tcp_handlerconnection</td></tr>
+<tr><td class="ch2">the handler to the tcp-connection</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">block</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> block</td></tr>
+<tr><td class="ch2">0, keep block unblocked</td></tr>
 </table>
 <br>
 </div>
@@ -8958,8 +9104,8 @@ Sets whether a connection blocks.
 Sets the parameter (or a temporary buffer if omitted) to the number of seconds since January 1, 1970, and returns a reference to that value. The granularity of the value returned is 1 second.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">val</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> seconds</td></tr>
+<tr><td class="ch2">number of seconds since January 1, 1970</td></tr>
 </table>
 <br>
 </div>
@@ -8969,14 +9115,14 @@ Sets the parameter (or a temporary buffer if omitted) to the number of seconds s
 <a href="#eel_time_precise"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>time_precise</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>time_precise</em>([&amp;val])</code></div>
+<div class="e">EEL2: <code> <i>float</i> timestamp = <em>time_precise</em>([&amp;timestamp])</code></div>
 </div><p>
 <div class="ch">
 Sets the parameter (or a temporary buffer if omitted) to a system-local timestamp in seconds, and returns a reference to that value. The granularity of the value returned is system defined (but generally significantly smaller than one second).              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">val</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> timestamp</td></tr>
+<tr><td class="ch2">the timestamp</td></tr>
 </table>
 <br>
 </div>
@@ -8989,7 +9135,13 @@ Sets the parameter (or a temporary buffer if omitted) to a system-local timestam
 <div class="e">EEL2: <code> <em>while</em>(expression)</code></div>
 </div><p>
 <div class="ch">
-Executes expression until expression evaluates to zero, or until 1048576 iterations occur. An alternate and more useful syntax is while (expression) ( statements ), which evaluates statements after every non-zero evaluation of expression.              
+<p>Executes expression until expression evaluates to zero, or until 1048576 iterations occur. An alternate and more useful syntax is while (expression) ( statements ), which evaluates statements after every non-zero evaluation of expression.</p>
+<pre><code>A=0; // set A to 0
+
+// while A is still less than 10, add 1 to A
+while(A&lt;10)(
+  A=A+1;
+);</code></pre>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr">expression</td></tr>
@@ -9085,15 +9237,15 @@ For relative mode bindings, calling get_action_context() will return the accumul
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> mode</td></tr>
-<tr><td class="ch2">-1, if script isn't run by shortcut; 55953, is script is run by shortcut; probably for for MIDI?</td></tr>
+<tr><td class="ch2">-1, if script isn't run by shortcut; 55953, if script is run by shortcut</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> resolution</td></tr>
-<tr><td class="ch2">-1, if script isn't run by shortcut; probably more for MIDI?</td></tr>
+<tr><td class="ch2">-1, if script isn't run by shortcut; resolution of OSC(14 bit)/MIDI(7 bit)-shortcut</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> val</td></tr>
-<tr><td class="ch2">-1, if script isn't run by shortcut; probably more for MIDI?</td></tr>
+<tr><td class="ch2">-1, if script isn't run by shortcut; the value sent by OSC or MIDI</td></tr>
 </table>
 <br>
 </div>

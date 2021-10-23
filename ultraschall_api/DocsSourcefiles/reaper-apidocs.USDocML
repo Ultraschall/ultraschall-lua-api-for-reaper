@@ -33858,7 +33858,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fft_real</slug>
         <title>fft_real</title>
-        <functioncall prog_lang="eel">fft_real(buffer,size)</functioncall>
+        <functioncall prog_lang="eel">fft_real(data buffer, integer size)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -33866,8 +33866,8 @@ Mespotine
             Performs an FFT, but takes size input samples and produces size/2 complex output pairs. Usually used along with fft_permute(size/2). Inputs/outputs will need to be scaled by 0.5/size.
         </description>
         <parameters>
-            buffer - 
-            size - 
+            data buffer - 
+            integer size - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33880,15 +33880,18 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fgetc</slug>
         <title>fgetc</title>
-        <functioncall prog_lang="eel">fgetc(fp)</functioncall>
+        <functioncall prog_lang="eel">integer character = fgetc(filehandler fp)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Reads a character from file fp, returns -1 if EOF.
         </description>
+        <retvals>
+            integer character - a character read from the file; -1, if end of file
+        </retvals>
         <parameters>
-            fp - 
+            filehandler fp - the handler to the file 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33901,16 +33904,19 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fgets</slug>
         <title>fgets</title>
-        <functioncall prog_lang="eel">fgets(fp,#str)</functioncall>
+        <functioncall prog_lang="eel">integer length = fgets(filehandler fp, string #str)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Reads a line from file fp into #str. Returns length of #str read.
         </description>
+        <retvals>
+            integer length - the length of the line read from file.
+        </retvals>
         <parameters>
-            fp - 
-            #str - 
+            filehandler fp - the handler of the file
+            string #str - the returned string 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33923,15 +33929,18 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_floor</slug>
         <title>floor</title>
-        <functioncall prog_lang="eel">floor(value)</functioncall>
+        <functioncall prog_lang="eel">integer rounded_value = floor(float value)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Returns the value rounded to the next lowest integer (floor(3.9)==3, floor(-3.1)==-4).
         </description>
+        <retvals>
+            integer rounded_value - the rounded value to the next lowest integer
+        </retvals>
         <parameters>
-            value - 
+            float value - the value to be rounded
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33944,16 +33953,23 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fopen</slug>
         <title>fopen</title>
-        <functioncall prog_lang="eel">fopen(fn,mode)</functioncall>
+        <functioncall prog_lang="eel">filehandler fp = fopen(string fn, string mode)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Opens a file "fn" with mode "mode". For read, use "r" or "rb", write "w" or "wb". Returns a positive integer on success.
         </description>
+        <retvals>
+            filehandler fp - the filehandler of the opened file; 0, if file couldn't be opened
+        </retvals>
         <parameters>
-            fn - 
-            mode - 
+            string fn - the filename to be opened
+            string mode - the opening mode
+                        - "r" read,
+                        - "rb", read binary
+                        - "w", write
+                        - "wb", write binary
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33966,7 +33982,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fprintf</slug>
         <title>fprintf</title>
-        <functioncall prog_lang="eel">fprintf(fp,format[,...])</functioncall>
+        <functioncall prog_lang="eel">integer length = fprintf(filehandler fp, string format[, various ...])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -33999,10 +34015,13 @@ Mespotine
 
             Values for format specifiers can be specified as additional parameters to fprintf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>
+        <retvals>
+            integer length - the length of the written string
+        </retvals>
         <parameters>
-            fp - 
-            format - 
-            [...] - 
+            filehandler fp - 
+            string format - a string to format
+            various [...] - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34015,17 +34034,20 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fread</slug>
         <title>fread</title>
-        <functioncall prog_lang="eel">fread(fp,#str,length)</functioncall>
+        <functioncall prog_lang="eel">integer read_length = fread(filehandler fp, string #str, integer length)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Reads from file fp into #str, up to length bytes. Returns actual length read, or negative if error.
         </description>
+        <retvals>
+            integer read_length - the length of the returned string(might be less than parameter length)
+        </retvals>
         <parameters>
-            fp - 
-            #str - 
-            length - 
+            filehandler fp - the handler of the file
+            string #str - the string read from the file
+            integer length - the length you want to read from the file
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34038,15 +34060,18 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_freembuf</slug>
         <title>freembuf</title>
-        <functioncall prog_lang="eel">freembuf(address)</functioncall>
+        <functioncall prog_lang="eel">float retval = freembuf(float address)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Hints the runtime that memory above the address specified may no longer be used. The runtime may, at its leisure, choose to lose the contents of memory above the address specified.
         </description>
+        <retvals>
+            float retval - 
+        </retvals>
         <parameters>
-            address - 
+            float address - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34059,17 +34084,20 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fseek</slug>
         <title>fseek</title>
-        <functioncall prog_lang="eel">fseek(fp,offset,whence)</functioncall>
+        <functioncall prog_lang="eel">integer retval = fseek(filehandler fp, integer offset, integer whence)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Seeks file fp, offset bytes from whence reference. Whence negative specifies start of file, positive whence specifies end of file, and zero whence specifies current file position.
         </description>
+        <retvals>
+            integer retval - -1, if seek isn't possible;
+        </retvals>
         <parameters>
-            fp - 
-            offset - 
-            whence - 
+            filehandler fp - 
+            integer offset - 
+            integer whence - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34082,15 +34110,18 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_ftell</slug>
         <title>ftell</title>
-        <functioncall prog_lang="eel">ftell(fp)</functioncall>
+        <functioncall prog_lang="eel">integer fposition = ftell(filehandler fp)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Returns the current file position.
         </description>
+        <retvals>
+            integer fposition - the current position within the opened file
+        </retvals>
         <parameters>
-            fp - 
+            filehandler fp - the handler of the file
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34103,17 +34134,22 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fwrite</slug>
         <title>fwrite</title>
-        <functioncall prog_lang="eel">fwrite(fp,#str,len)</functioncall>
+        <functioncall prog_lang="eel">integer length = fwrite(filehandler fp, string #str, integer len)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Writes up to len characters of #str to file fp. If len is less than 1, the full contents of #str will be written. Returns the number of bytes written to file.
+            
+            Use fflush(fp) to write all data from the cache into the file.
         </description>
+        <retvals>
+            integer length - the number of written bytes
+        </retvals>
         <parameters>
-            fp - 
-            #str - 
-            len -
+            filehandler fp - the handler of the file
+            string #str - the string to write into the file
+            integer len - the number of bytes to write to the file; 0, to write entire string
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34126,7 +34162,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_get_action_context</slug>
         <title>get_action_context</title>
-        <functioncall prog_lang="eel">get_action_context(#filename,sectionID,cmdID,mode,resolution,val)</functioncall>
+        <functioncall prog_lang="eel">get_action_context(string #filename, integer sectionID, integer cmdID, integer mode, integer resolution, integer val)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -34139,12 +34175,18 @@ Mespotine
             For relative mode bindings, calling get_action_context() will return the accumulated relative value in decoded form (not 65 or 63, but +1/-1 etc), and clear the internal state. So if you call it multiple times, the first one will return the accumulated value, and the second will always return 0.
         </description>
         <parameters>
-            #filename - 
-            sectionID - 
-            cmdID - 
-            mode - 
-            resolution - 
-            val - 
+            string #filename - the filename plus path of the script
+            integer sectionID - the section 
+                              - 0, Main
+                              - 100, Main (alt recording) 
+                              - 32060, MIDI Editor
+                              - 32061, MIDI Event List Editor
+                              - 32062, MIDI Inline Editor
+                              - 32063, Media Explorer
+            integer cmdID - the command id of the script
+            integer mode - -1, if script isn't run by shortcut; 55953, if script is run by shortcut
+            integer resolution - -1, if script isn't run by shortcut; resolution of OSC(14 bit)/MIDI(7 bit)
+            integer val - the value sent by MIDI or OSC
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34205,20 +34247,23 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_arc</slug>
         <title>gfx_arc</title>
-        <functioncall prog_lang="eel">gfx_arc(x,y,r,ang1,ang2[,antialias])</functioncall>
+        <functioncall prog_lang="eel">integer retval = gfx_arc(integer x, integer y, integer r, float ang1, float ang2[, optional float antialias])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Draws an arc of the circle centered at x,y, with ang1/ang2 being specified in radians.
         </description>
+        <retvals>
+            integer retval - usually 0
+        </retvals>
         <parameters>
-            x - x position of the center of the circle
-            y - y position of the center of the circle
-            r - the radius of the circle
-            ang1 - the beginning of the circle in radians; meant for partial circles; 0-6.28
-            ang2 - the end of the circle in radians; meant for partial circles; 0-6.28
-            antialias - <=0.5, antialias off; >0.5, antialias on
+            integer x - x position of the center of the circle
+            integer y - y position of the center of the circle
+            integer r - the radius of the circle
+            float ang1 - the beginning of the circle in radians; meant for partial circles; 0-6.28
+            float ang2 - the end of the circle in radians; meant for partial circles; 0-6.28
+            optional float antialias - <=0.5, antialias off; >0.5, antialias on
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34231,27 +34276,31 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_blit</slug>
         <title>gfx_blit</title>
-        <functioncall prog_lang="eel">gfx_blit(source, scale, rotation[, srcx, srcy, srcw, srch, destx, desty, destw, desth, rotxoffs, rotyoffs])</functioncall>
+        <functioncall prog_lang="eel">integer src = gfx_blit(integer source, float scale, float rotation[, optional float srcx, optional float srcy, optional float srcw, optional float srch, optional integer destx, optional integer desty, optional integer destw, optional integer desth, optional float rotxoffs, optional float rotyoffs])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default to image size), destx/desty/destw/desth specify dest rectangle (if not specified, these will default to reasonable defaults -- destw/desth default to srcw/srch * scale). 
         </description>
+        <retvals>
+            integer src - the blitted source
+        </retvals>
         <parameters>
-            source - 
-            scale - 
-            rotation - 
-            srcx - 
-            srcy - 
-            srcw - 
-            srch -
-            destx - 
-            desty - 
-            destw - 
-            desth - 
-            rotxoffs - 
-            rotyoffs - 
+            integer source - the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.
+            float scale - the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger
+                        - has no effect, when destx, desty, destw, desth are given
+            float rotation - the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.
+            optional float srcx - the x-coordinate-offset in the source-image
+            optional float srcy - the y-coordinate-offset in the source-image
+            optional float srcw - the width-offset in the source-image
+            optional float srch - the height-offset in the source-image
+            optional integer destx - the x-coordinate of the blitting destination
+            optional integer desty - the y-coordinate of the blitting destination
+            optional integer destw - the width of the blitting destination; may lead to stretched images
+            optional integer desth - the height of the blitting destination; may lead to stretched images
+            optional float rotxoffs - influences rotation
+            optional float rotyoffs - influences rotation
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34264,7 +34313,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_blit</slug>
         <title>gfx_blit</title>
-        <functioncall prog_lang="eel">gfx_blit(source,scale,rotation)</functioncall>
+        <functioncall prog_lang="eel">integer src = gfx_blit(integer source, float scale, float rotation)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -34272,10 +34321,14 @@ Mespotine
             If three parameters are specified, copies the entirity of the source bitmap to gfx\_x,gfx\_y using current opacity and copy mode (set with gfx\_a, gfx\_mode). You can specify scale (1.0 is unscaled) and rotation (0.0 is not rotated, angles are in radians).
             For the "source" parameter specify -1 to use the main framebuffer as source, or an image index (see [gfx\_loadimg()](#eel_gfx_loadimg).
         </description>
+        <retvals>
+            integer src - the blitted source
+        </retvals>
         <parameters>
-            source - 
-            scale - 
-            rotation - 
+            integer source - the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.
+            float scale - the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger
+                        - has no effect, when destx, desty, destw, desth are given
+            float rotation - the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34288,7 +34341,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_blitext</slug>
         <title>gfx_blitext</title>
-        <functioncall prog_lang="eel">gfx_blitext(source,coordinatelist,rotation)</functioncall>
+        <functioncall prog_lang="eel">gfx_blitext(integer source, array coordinatelist, integer rotation)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -34298,9 +34351,9 @@ Mespotine
             Note: the naming of the function might be misleading, as it has nothing to do with blitting of text, but rather is called Blit Ext.
         </description>
         <parameters>
-            source - 
-            coordinatelist - 
-            rotation - 
+            integer source - 
+            array coordinatelist - 
+            float rotation - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34313,7 +34366,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_blurto</slug>
         <title>gfx_blurto</title>
-        <functioncall prog_lang="eel">gfx_blurto(x,y)</functioncall>
+        <functioncall prog_lang="eel">gfx_blurto(integer x, integer y)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -34321,8 +34374,8 @@ Mespotine
             Blurs the region of the screen between gfx_x,gfx_y and x,y, and updates gfx_x,gfx_y to x,y.
         </description>
         <parameters>
-            x - x position of the other edge of the blur-region
-            y - y position of the other edge of the blur-region
+            integer x - x position of the other edge of the blur-region
+            integer y - y position of the other edge of the blur-region
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34335,7 +34388,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_circle</slug>
         <title>gfx_circle</title>
-        <functioncall prog_lang="eel">gfx_circle(x,y,r[,fill,antialias])</functioncall>
+        <functioncall prog_lang="eel">gfx_circle(integer x, integer y, float r[, float fill, float antialias])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -34343,11 +34396,11 @@ Mespotine
             Draws a circle, optionally filling/antialiasing
         </description>
         <parameters>
-            x - x position of center of the circle
-            y - y position of center of the circle
-            r - radius of the circle
-            fill - <=0.5, circle is not filled; >0.5, circle is filled
-            antialias - <=0.5, circle is not antialiased; >0.5, circle is antialiased
+            integer x - x position of center of the circle
+            integer y - y position of center of the circle
+            float r - radius of the circle
+            float fill - <=0.5, circle is not filled; >0.5, circle is filled
+            float antialias - <=0.5, circle is not antialiased; >0.5, circle is antialiased
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34360,16 +34413,24 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_clienttoscreen</slug>
         <title>gfx_clienttoscreen</title>
-        <functioncall prog_lang="eel">gfx_clienttoscreen(x,y)</functioncall>
+        <functioncall prog_lang="eel">gfx_clienttoscreen(integer x, integer y)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
-        <description indent="default">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Converts client coordinates x,y to screen coordinates.
+            
+            Use variables for x and y, as the returned values will be put back into them:
+            
+                gfx_init(""); // open window
+                x=10; // the client x-coordinate
+                y=20; // the client y-coordinate
+
+                gfx_clienttoscreen(x,y); // x and y hold now the converted screen-coordinates
         </description>
         <parameters>
-            x - the x coordinate within(!) the gfx_init()-window, that shall be converted to screen-coordinates
-            y - the y coordinate within(!) the gfx_init()-window, that shall be converted to screen-coordinates 
+            integer x - the x coordinate within(!) the gfx_init()-window, that shall be converted to screen-coordinates
+            integer y - the y coordinate within(!) the gfx_init()-window, that shall be converted to screen-coordinates 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34382,7 +34443,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_deltablit</slug>
         <title>gfx_deltablit</title>
-        <functioncall prog_lang="eel">gfx_deltablit(srcimg,srcs,srct,srcw,srch,destx,desty,destw,desth,dsdx,dtdx,dsdy,dtdy,dsdxdy,dtdxdy[,usecliprect=1])</functioncall>
+        <functioncall prog_lang="eel">gfx_deltablit(integer srcimg, integer srcs, integer srct, integer srcw, integer srch, float destx, float desty, float destw, float desth, float dsdx, float dtdx, float dsdy, float dtdy, float dsdxdy, float dtdxdy[,optional integer usecliprect=1])</functioncall>
         <requires>
             Reaper=5.95
         </requires>
@@ -34394,22 +34455,22 @@ Mespotine
             To do rotation, you can manipulate dtdx and dsdy together.
         </description>
         <parameters>
-            srcimg - image - the image to blit
-            srcs - positiondeltaX - the delta of the x-position of the image within the blitted area in pixels(useful default: 0)
-            srct - positiondeltaY - the delta of the y-position of the image within the blitted area in pixels(useful default: 0)
-            srcw - unknown - (useful default: 0)
-            srch - unknown - (useful default: 0)
-            destx - positiondeltaX - the delta of the x-position of the blitted area in pixels(useful default: 0)
-            desty - positiondeltaY - the delta of the y-position of the blitted area in pixels(useful default: 0)
-            destw - blitsizeX - the x-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: width of the image)
-            desth - blitsizeY - the y-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: height of the image)
-            dsdx - stretchfactorX, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeX(useful default: 1)
-            dtdx - deltaY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta is linear(useful default: 0)
-            dsdy - deltaX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta is linear(useful default: 0)
-            dtdy - stretchfactorY, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeY(useful default: 1)
-            dsdxdy - deltacurvedY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta "curves" the delta via a bezier(useful default: 0)
-            dtdxdy - deltacurvedX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta "curves" the delta via a bezier(useful default: 0)
-            usecliprect - can be set to 0 or 1(useful default: 0)
+            integer srcimg - image - the image to blit
+            integer srcs - positiondeltaX - the delta of the x-position of the image within the blitted area in pixels(useful default: 0)
+            integer srct - positiondeltaY - the delta of the y-position of the image within the blitted area in pixels(useful default: 0)
+            integer srcw - unknown - (useful default: 0)
+            integer srch - unknown - (useful default: 0)
+            float destx - positiondeltaX - the delta of the x-position of the blitted area in pixels(useful default: 0)
+            float desty - positiondeltaY - the delta of the y-position of the blitted area in pixels(useful default: 0)
+            float destw - blitsizeX - the x-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: width of the image)
+            float desth - blitsizeY - the y-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: height of the image)
+            float dsdx - stretchfactorX, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeX(useful default: 1)
+            float dtdx - deltaY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta is linear(useful default: 0)
+            float dsdy - deltaX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta is linear(useful default: 0)
+            float dtdy - stretchfactorY, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeY(useful default: 1)
+            float dsdxdy - deltacurvedY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta "curves" the delta via a bezier(useful default: 0)
+            float dtdxdy - deltacurvedX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta "curves" the delta via a bezier(useful default: 0)
+            optional float usecliprect - can be set to 0 or 1(useful default: 0)
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34422,7 +34483,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_dock</slug>
         <title>gfx_dock</title>
-        <functioncall prog_lang="eel">gfx_dock(v[,#wx,#wy,#ww,#wh])</functioncall>
+        <functioncall prog_lang="eel">integer dockstate = gfx_dock(integer v[, optional integer wx, optional integer wy, optional integer ww, optional integer wh])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -34431,14 +34492,18 @@ Mespotine
         </description>
         <description indent="default">
             Queries or sets the docking-state of the gfx_init()-window.
-            Call with v=-1 to query docked state, otherwise v&gt;=0 to set docked state. State is &amp;1 if docked, second byte is docker index (or last docker index if undocked). If wx-wh specified, additional values will be returned with the undocked window position/size
+            Call with v=-1 to query docked state, otherwise v&gt;=0 to set docked state. State is &amp;1 if docked, second byte is docker index (or last docker index if undocked). 
+            If wx-wh specified, additional values will be returned with the undocked window position/size
         </description>
+        <retvals>
+            integer dockstate - the new/queried dockstate
+        </retvals>
         <parameters>
-            integer v - -1, query docking-state; 0 and higher, set state of the window to docked
-            integer #wx - set to a number to query current-windowx-position; contains windowx when v=-1
-            integer #wy - set to a number to query current-windowy-position; contains windowy when v=-1
-            integer #ww - set to a number to query current-window-width; contains windoww when v=-1
-            integer #wh - set to a number to query current-window-height; contains windowh when v=-1
+            integer v - -1, query only docking-state; 0 and higher, set state of the window to docked
+            optional integer wx - will hold window-x-position
+            optional integer wy - will hold window-y-position
+            optional integer ww - will hold window-width            
+            optional integer wh - will hold window-height
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36341,15 +36406,18 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_tcp_close</slug>
         <title>tcp_close</title>
-        <functioncall prog_lang="eel">tcp_close(connection)</functioncall>
+        <functioncall prog_lang="eel">integer retval = tcp_close(tcp_handler connection)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Closes a TCP connection created by tcp_listen() or tcp_connect().
         </description>
+        <retvals>
+            integer retval - 1, closing was successful; 0, closing was unsuccessful
+        </retvals>
         <parameters>
-            connection - 
+            tcp_handler connection - the handler to the tcp-connection
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36362,17 +36430,20 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_tcp_connect</slug>
         <title>tcp_connect</title>
-        <functioncall prog_lang="eel">tcp_connect(address,port[,block])</functioncall>
+        <functioncall prog_lang="eel">tcp_handler connection = tcp_connect(string address, integer port[, optional integer block])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Create a new TCP connection to address:port. If block is specified and 0, connection will be made nonblocking. Returns TCP connection ID greater than 0 on success.
         </description>
+        <retvals>
+            tcp_handler connection - the handler to the tcp-connection
+        </retvals>
         <parameters>
-            address - 
-            port - 
-            block - 
+            string address - the tcp-address of the connection
+            integer port - the port of the connection
+            optional integer block - 0, non-blocking connection; unspecified, blocking connection
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36385,7 +36456,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_tcp_listen</slug>
         <title>tcp_listen</title>
-        <functioncall prog_lang="eel">tcp_listen(port[,interface,#ip_out])</functioncall>
+        <functioncall prog_lang="eel">tcp_listen(integer port[, optional string interface, optional string #ip_out])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -36393,9 +36464,9 @@ Mespotine
             Listens on port specified. Returns less than 0 if could not listen, 0 if no new connection available, or greater than 0 (as a TCP connection ID) if a new connection was made. If a connection made and #ip_out specified, it will be set to the remote IP. interface can be empty for all interfaces, otherwise an interface IP as a string.
         </description>
         <parameters>
-            port - 
-            interface - 
-            #ip_out - 
+            integer port - 
+            optional string interface - 
+            optional string #ip_out - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36408,7 +36479,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_tcp_listen_end</slug>
         <title>tcp_listen_end</title>
-        <functioncall prog_lang="eel">tcp_listen_end(port)</functioncall>
+        <functioncall prog_lang="eel">tcp_listen_end(integer port)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -36416,7 +36487,7 @@ Mespotine
             Ends listening on port specified.
         </description>
         <parameters>
-            port - 
+            integer port - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36429,17 +36500,20 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_tcp_recv</slug>
         <title>tcp_recv</title>
-        <functioncall prog_lang="eel">tcp_recv(connection,#str[,maxlen])</functioncall>
+        <functioncall prog_lang="eel">integer retval = tcp_recv(tcp_handler connection, string #str[, integer maxlen])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Receives data from a connection to #str. If maxlen is specified, no more than maxlen bytes will be received. If non-blocking, 0 will be returned if would block. Returns less than 0 if error.
         </description>
+        <retvals>
+            integer retval - 0, receiving works; -1, receiving doesn't work
+        </retvals>
         <parameters>
-            connection - 
-            #str - 
-            maxlen - 
+            tcp_handler connection - 
+            string #str - 
+            integer maxlen - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36452,7 +36526,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_tcp_send</slug>
         <title>tcp_send</title>
-        <functioncall prog_lang="eel">tcp_send(connection,str[,len])</functioncall>
+        <functioncall prog_lang="eel">tcp_send(tcp_handler connection, string str[, optional integer len])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -36460,9 +36534,9 @@ Mespotine
             Sends a string to connection. Returns -1 on error, 0 if connection is non-blocking and would block, otherwise returns length sent. If len is specified and not less than 1, only the first len bytes of the string parameter will be sent.
         </description>
         <parameters>
-            connection - 
-            str - 
-            len - 
+            tcp_handler connection - 
+            string str - 
+            optional integer len - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36475,16 +36549,19 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_tcp_set_block</slug>
         <title>tcp_set_block</title>
-        <functioncall prog_lang="eel">tcp_set_block(connection,block)</functioncall>
+        <functioncall prog_lang="eel">integer retval = tcp_set_block(connection,block)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Sets whether a connection blocks.
         </description>
+        <retvals>
+            integer retval - the new block-state
+        </retvals>
         <parameters>
-            connection - 
-            block - 
+            tcp_handlerconnection - the handler to the tcp-connection
+            integer block - 0, keep block unblocked
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36505,7 +36582,7 @@ Mespotine
             Sets the parameter (or a temporary buffer if omitted) to the number of seconds since January 1, 1970, and returns a reference to that value. The granularity of the value returned is 1 second.
         </description>
         <parameters>
-            val - 
+            integer seconds - number of seconds since January 1, 1970
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36518,15 +36595,18 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_time_precise</slug>
         <title>time_precise</title>
-        <functioncall prog_lang="eel">time_precise([&amp;val])</functioncall>
+        <functioncall prog_lang="eel">float timestamp = time_precise([&amp;timestamp])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Sets the parameter (or a temporary buffer if omitted) to a system-local timestamp in seconds, and returns a reference to that value. The granularity of the value returned is system defined (but generally significantly smaller than one second).
         </description>
+        <retval>
+            float time - the timestamp
+        </retval>
         <parameters>
-            val - 
+            float timestamp - the timestamp
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -36543,8 +36623,16 @@ Mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description indent="default">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Executes expression until expression evaluates to zero, or until 1048576 iterations occur. An alternate and more useful syntax is while (expression) ( statements ), which evaluates statements after every non-zero evaluation of expression.
+            
+                A=0; // set A to 0
+
+                // while A is still less than 10, add 1 to A
+                while(A<10)(
+                  A=A+1;
+                );
+                
         </description>
         <parameters>
             expression - 
@@ -36634,9 +36722,9 @@ Mespotine
             string filename_with_path - the script's own filename with path
             integer sectionID - the section, in which this script was called
             integer cmdID - the command-id associated with this script
-            integer mode - -1, if script isn't run by shortcut; 55953, is script is run by shortcut; probably for for MIDI?
-            integer resolution - -1, if script isn't run by shortcut; probably more for MIDI?
-            integer val - -1, if script isn't run by shortcut; probably more for MIDI?
+            integer mode - -1, if script isn't run by shortcut; 55953, if script is run by shortcut
+            integer resolution - -1, if script isn't run by shortcut; resolution of OSC(14 bit)/MIDI(7 bit)-shortcut
+            integer val - -1, if script isn't run by shortcut; the value sent by OSC or MIDI
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
