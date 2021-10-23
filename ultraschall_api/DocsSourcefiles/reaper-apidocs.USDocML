@@ -6240,7 +6240,7 @@
             MediaTrack tr - the MediaTrack, where the MediaItem is located in 
         </retvals>
         <parameters>
-            MediaItem - the MediaItem, whose associated MediaTrack you want to have
+            MediaItem item - the MediaItem, whose associated MediaTrack you want to have
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -9465,7 +9465,7 @@
         <title>GetTrackSendInfo_Value</title>
         <functioncall prog_lang="cpp">double GetTrackSendInfo_Value(MediaTrack* tr, int category, int sendidx, const char* parmname)</functioncall>
         <functioncall prog_lang="eel">double GetTrackSendInfo_Value(MediaTrack tr, int category, int sendidx, "parmname")</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetTrackSendInfo_Value(MediaTrack tr, integer category, integer sendidx, string parmname)</functioncall>
+        <functioncall prog_lang="lua">number value = reaper.GetTrackSendInfo_Value(MediaTrack tr, integer category, integer sendidx, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetTrackSendInfo_Value(MediaTrack tr, Int category, Int sendidx, String parmname)</functioncall>
         <requires>
             Reaper=6.30
@@ -9495,7 +9495,7 @@
             See [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
         </description>
         <retvals>
-            number number - 
+            number value - 
         </retvals>
         <parameters>
             MediaTrack tr - 
@@ -9906,9 +9906,9 @@
             For Regions, use [GoToRegion](#GoToRegion).
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            marker_index - the markerindex, where you want to go to.
-            use_timeline_order - false, use the shown-markernumber as marker_index; true, use markers in timelineorder, ignoring the shown-markernumber
+            ReaProject proj - the project-number. 0 for the current project. 
+            integer marker_index - the markerindex, where you want to go to.
+            boolean use_timeline_order - false, use the shown-markernumber as marker_index; true, use markers in timelineorder, ignoring the shown-markernumber
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -9933,9 +9933,9 @@
             Seek to region after current region finishes playing (smooth seek). 
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            region_index - the regionindex, where you want to got to.
-            use_timeline_order - false, use the shown-regionnumber as region_index; true, use regions in timelineorder, ignoring the shown-regionnumber
+            ReaProject proj - the project-number. 0 for the current project. 
+            integer region_index - the regionindex, where you want to got to.
+            boolean use_timeline_order - false, use the shown-regionnumber as region_index; true, use regions in timelineorder, ignoring the shown-regionnumber
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10125,8 +10125,8 @@
             Displays an information in the help and information-display, underneath the TCP(might be missing, in certain themes).
         </description>
         <parameters>
-            helpstring - the string to display
-            is_temporary_help - true, show until another message is displayed; false, show permanently, every time no other message is displayed.
+            string helpstring - the string to display
+            boolean is_temporary_help - true, show until another message is displayed; false, show permanently, every time no other message is displayed.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10364,8 +10364,8 @@
             inserts a track at idx,of course this will be clamped to 0..[GetNumTracks](#GetNumTracks)().
         </description>
         <parameters>
-            idx - the index, in which to insert the track; 0, insert before the first track.
-            wantDefaults - true, default envelopes/FX; false, no enabled FX/envelopes
+            integer idx - the index, in which to insert the track; 0, insert before the first track.
+            boolean wantDefaults - true, default envelopes/FX; false, no enabled FX/envelopes
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10556,7 +10556,7 @@
             destroys a joystick device
         </description>
         <parameters>
-            device - 
+            joystick_device device - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10844,8 +10844,8 @@
             See [Main\_OnCommandEx](#Main_OnCommandEx).
         </description>
         <parameters>
-            command -  the command-id of the action, you want to run
-            flag - set to 0
+            integer command -  the command-id of the action, you want to run
+            integer flag - set to 0
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10869,9 +10869,9 @@
             Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see [NamedCommandLookup](#NamedCommandLookup)().
         </description>
         <parameters>
-            command -  the command-id of the action, you want to run
-            flag - 0
-            proj - the project-number. 0 for the current project. 
+            integer command -  the command-id of the action, you want to run
+            integer flag - 0
+            ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10930,8 +10930,8 @@
             Optional with a save-dialog.
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            forceSaveAsIn - false, save the project; true, open save-file-dialog first
+            ReaProject proj - the project-number. 0 for the current project. 
+            boolean forceSaveAsIn - false, save the project; true, open save-file-dialog first
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10955,7 +10955,7 @@
 
         </description>
         <parameters>
-            ignoremask - 
+            integer ignoremask - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10979,7 +10979,7 @@
             Marks project as dirty (needing save) if 'undo/prompt to save' is enabled in preferences.
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
+            ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -11003,8 +11003,8 @@
             If track is supplied, item is ignored
         </description>
         <parameters>
-            track - the MediaTrack that you want to mark as dirty
-            item - if no MediaTrack is given, use this MediaItem to mark as dirty
+            MediaTrack track - the MediaTrack that you want to mark as dirty
+            MediaItem item - if no MediaTrack is given, use this MediaItem to mark as dirty
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -16501,7 +16501,7 @@
         <title>SnapToGrid</title>
         <functioncall prog_lang="cpp">double SnapToGrid(ReaProject* project, double time_pos)</functioncall>
         <functioncall prog_lang="eel">double SnapToGrid(ReaProject project, time_pos)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.SnapToGrid(ReaProject project, number time_pos)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.SnapToGrid(ReaProject project, number time_pos)</functioncall>
         <functioncall prog_lang="python">Float RPR_SnapToGrid(ReaProject project, Float time_pos)</functioncall>
         <requires>
             Reaper=5.62
@@ -20048,9 +20048,9 @@
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <parameters>
-            track - the track, in which the FX to be opened is located
-            fx - the fx-id within the fxchain
-            open - true, open FX-UI; false, close FX-UI
+            MediaTrack track - the track, in which the FX to be opened is located
+            integer fx - the fx-id within the fxchain
+            boolean open - true, open FX-UI; false, close FX-UI
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20060,7 +20060,6 @@
         <tags>trackmanagement, set, open, ui, fx</tags>
     </US_DocBloc>
 
-Mespotine
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_SetParam</slug>
@@ -20080,10 +20079,10 @@ Mespotine
             boolean retval - 
         </retvals>
         <parameters>
-            track - 
-            fx - 
-            param - 
-            val - 
+            MediaTrack track - 
+            integer fx - 
+            integer param - 
+            number val - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20111,10 +20110,10 @@ Mespotine
             boolean retval - 
         </retvals>
         <parameters>
-            track - 
-            fx - 
-            param - 
-            value - 
+            MediaTrack track - 
+            integer fx - 
+            integer param - 
+            number value - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20144,12 +20143,12 @@ Mespotine
             boolean retval - 
         </retvals>
         <parameters>
-            tr - 
-            fx - 
-            is - 
-            pin - 
-            low32bits - 
-            hi32bits - 
+            MediaTrack tr - 
+            integer fx - 
+            integer is - 
+            integer pin - 
+            integer low32bits - 
+            integer hi32bits - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20181,9 +20180,9 @@ Mespotine
             boolean retval - 
         </retvals>
         <parameters>
-            track - 
-            fx - 
-            presetname - 
+            MediaTrack track - 
+            integer fx - 
+            string presetname - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20213,9 +20212,9 @@ Mespotine
             boolean retval - 
         </retvals>
         <parameters>
-            track - 
-            fx - 
-            idx - 
+            MediaTrack track - 
+            integer fx - 
+            integer idx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20338,7 +20337,7 @@ Mespotine
             call to start a new undo block. Code after that and before [Undo\_EndBlock](#Undo_EndBlock) can be undone.
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
+            ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20360,9 +20359,11 @@ Mespotine
         </requires>
         <description prog_lang="*">
             returns string of next action,if able,NULL if not
+            
+            basically, if you undid an action, this will return the description of the action you undid.
         </description>
         <retvals>
-            string undo_string - 
+            string undo_string - next redo-able action
         </retvals>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
@@ -20387,9 +20388,11 @@ Mespotine
         </requires>
         <description prog_lang="*">
             returns string of last action,if able,NULL if not
+            
+            basically returns the description of the next undoable action
         </description>
         <retvals>
-            string undo_text - 
+            string undo_text - the next undoable action
         </retvals>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
@@ -20413,13 +20416,15 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
+            redo an undone action
+            
             nonzero if success
         </description>
         <retvals>
-            integer retval - 
+            integer retval - 0, not successful; everything else, successful
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
+            ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20440,13 +20445,15 @@ Mespotine
             Reaper=5.62
         </requires>
         <description prog_lang="*">
+            undo an undoable action
+            
             nonzero if success
         </description>
         <retvals>
-            integer retval - 
+            integer retval - 0, not successful; everything else, successful
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
+            ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20470,8 +20477,8 @@ Mespotine
             call to end the block,with extra flags if any,and a description
         </description>
         <parameters>
-            descchange - a string that describes the changes of the undo-block
-            extraflags - set to -1, include all undo states
+            string descchange - a string that describes the changes of the undo-block
+            integer extraflags - set to -1, include all undo states
                        - 1, track/master vol/pan/routing, routing/hwout envelopes too
                        - 2, track/master fx
                        - 4, track items
@@ -20504,9 +20511,9 @@ Mespotine
             call to end the block,with extra flags if any,and a description
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            descchange - a string that describes the changes of the undo-block
-            extraflags - set to -1, include all undo states
+            ReaProject proj - the project-number. 0 for the current project. 
+            string descchange - a string that describes the changes of the undo-block
+            integer extraflags - set to -1, include all undo states
                        - 1, track/master vol/pan/routing, routing/hwout envelopes too
                        - 2, track/master fx
                        - 4, track items
@@ -20539,7 +20546,7 @@ Mespotine
             limited state change to items
         </description>
         <parameters>
-            descchange - 
+            string descchange - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20563,8 +20570,8 @@ Mespotine
             limited state change to items
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            descchange - 
+            ReaProject proj - the project-number. 0 for the current project. 
+            string descchange - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20588,9 +20595,9 @@ Mespotine
 
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            name - 
-            item - 
+            ReaProject proj - the project-number. 0 for the current project. 
+            string name - 
+            MediaItem item - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20614,9 +20621,9 @@ Mespotine
             trackparm=-1 by default,or if updating one fx chain,you can specify track index
         </description>
         <parameters>
-            descchange - 
-            whichStates - 
-            trackparm - 
+            string descchange - 
+            integer whichStates - 
+            integer trackparm - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20640,10 +20647,10 @@ Mespotine
             trackparm=-1 by default,or if updating one fx chain,you can specify track index
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            descchange - 
-            whichStates - 
-            trackparm - 
+            ReaProject proj - the project-number. 0 for the current project. 
+            string descchange - 
+            integer whichStates - 
+            integer trackparm - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20688,7 +20695,7 @@ Mespotine
 
         </description>
         <parameters>
-            item - 
+            MediaItem item - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20738,8 +20745,8 @@ Mespotine
             boolean retval - true, the object/pointer is of ctypename; false, it is not
         </retvals>
         <parameters>
-            pointer - a pointer to the object to check for. In Lua or Python, you just give the object to check as this parameter.
-            ctypename - the type of project to check for(given as a pointer)
+            identifier pointer - a pointer to the object to check for. In Lua or Python, you just give the object to check as this parameter.
+            string ctypename - the type of project to check for(given as a pointer)
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20766,9 +20773,9 @@ Mespotine
             boolean retval - true, the object/pointer is of ctypename; false, it is not
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            pointer - a pointer to the object to check for. In Lua or Python, you just give the object to check as this parameter.
-            ctypename - the type of project to check for(given as a pointer)
+            ReaProject proj - the project-number. 0 for the current project. 
+            identifier pointer - a pointer to the object to check for. In Lua or Python, you just give the object to check as this parameter.
+            string ctypename - the type of project to check for(given as a pointer)
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20792,7 +20799,7 @@ Mespotine
             Opens the prefs to a page, use pageByName if page is 0.
         </description>
         <parameters>
-            page - the idx of the preferences-page. The following are valid:
+            integer page - the idx of the preferences-page. The following are valid:
                     - 139, General 
                     - 474, Paths 
                     - 219, Keyboard/Multitouch 
@@ -20831,7 +20838,7 @@ Mespotine
                     - 227, ReaMote 
                     - 257, Control/OSC/web 
                     - 160, External Editors 
-            pageByName - 
+            string pageByName - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20934,7 +20941,7 @@ Mespotine
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
-MESPOTINE - 3rd party functions
+
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>BR_EnvAlloc</slug>
         <title>BR_EnvAlloc(SWS)</title>
@@ -20986,7 +20993,7 @@ MESPOTINE - 3rd party functions
             integer retval - the number of envelope-points in the BR_Envelope-object
         </retvals>
         <parameters>
-            envelope - the BR_Envelope-object, whose points you want to count
+            BR_Envelope envelope - the BR_Envelope-object, whose points you want to count
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21014,8 +21021,8 @@ MESPOTINE - 3rd party functions
             boolean retval - true, deleting was successful; false, deleting was unsuccessful
         </retvals>
         <parameters>
-            envelope - the BR_Envelope-object, where you want to delete an envelope-point
-            id - the envelope-point-idx, that you want to delete. 0, first envelope-point; 1, second envelope-point, etc
+            BR_Envelope envelope - the BR_Envelope-object, where you want to delete an envelope-point
+            integer id - the envelope-point-idx, that you want to delete. 0, first envelope-point; 1, second envelope-point, etc
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21043,9 +21050,9 @@ MESPOTINE - 3rd party functions
             integer retval - envelope-point-id or -1 on failure
         </retvals>
         <parameters>
-            envelope - the BR_Envelope-object, in which you want to find an envelope-point
-            position - the position in seconds, where you want to find from
-            delta - delta &gt; 0 to search surrounding range
+            BR_Envelope envelope - the BR_Envelope-object, in which you want to find an envelope-point
+            number position - the position in seconds, where you want to find from
+            number delta - delta &gt; 0 to search surrounding range
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21073,8 +21080,8 @@ MESPOTINE - 3rd party functions
             integer retval - envelope-point-id or -1 on failure
         </retvals>
         <parameters>
-            envelope - the BR_Envelope-object, in which you want to find the next envelope-point
-            position - the position in seconds, where you want to find the next envelope-point from
+            BR_Envelope envelope - the BR_Envelope-object, in which you want to find the next envelope-point
+            number position - the position in seconds, where you want to find the next envelope-point from
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21102,8 +21109,8 @@ MESPOTINE - 3rd party functions
             integer retval - envelope-point-id or -1 on failure
         </retvals>
         <parameters>
-            envelope - the BR_Envelope-object, in which you want to find the previous envelope-point
-            position - the position in seconds, where you want to find the previous envelope-point from
+            BR_Envelope envelope - the BR_Envelope-object, in which you want to find the previous envelope-point
+            number position - the position in seconds, where you want to find the previous envelope-point from
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21131,8 +21138,8 @@ MESPOTINE - 3rd party functions
             boolean retval - true, committing was successful; false, committing was unsuccessful or no committing was necessary
         </retvals>
         <parameters>
-            envelope - the BR_Envelope-object that you want to commit and be freed
-            commit - true, commit changes when freeing the BR_Envelope-object; false, don't commit changes when freeing the BR_Envelope-object
+            BR_Envelope envelope - the BR_Envelope-object that you want to commit and be freed
+            boolean commit - true, commit changes when freeing the BR_Envelope-object; false, don't commit changes when freeing the BR_Envelope-object
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21273,7 +21280,7 @@ MESPOTINE - 3rd party functions
             optional number automationItemsOptions - 
         </retvals>
         <parameters>
-            envelope - 
+            BR_Envelope envelope - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21302,13 +21309,13 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            envelope - 
-            id - 
-            position - 
-            value - 
-            shape - 
-            selected - 
-            bezier - 
+            BR_Envelope envelope - 
+            integer id - 
+            number position - 
+            number value - 
+            integer shape - 
+            boolean selected - 
+            number bezier - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21367,7 +21374,7 @@ MESPOTINE - 3rd party functions
             \[BR\] Sort envelope points by position. The only reason to call this is if sorted points are explicitly needed after editing them with [BR\_EnvSetPoint](#BR_EnvSetPoint). Note that you do not have to call this before doing [BR\_EnvFree](#BR_EnvFree) since it does handle unsorted points too.
         </description>
         <parameters>
-            envelope - 
+            BR_Envelope envelope - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21382,7 +21389,7 @@ MESPOTINE - 3rd party functions
         <title>BR_EnvValueAtPos(SWS)</title>
         <functioncall prog_lang="cpp">double BR_EnvValueAtPos(BR_Envelope* envelope, double position)</functioncall>
         <functioncall prog_lang="eel">double extension_api("BR_EnvValueAtPos", BR_Envelope envelope, position)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.BR_EnvValueAtPos(BR_Envelope envelope, number position)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.BR_EnvValueAtPos(BR_Envelope envelope, number position)</functioncall>
         <functioncall prog_lang="python">Float BR_EnvValueAtPos(BR_Envelope envelope, Float position)</functioncall>
         <requires>
             Reaper=5.62
@@ -21395,8 +21402,8 @@ MESPOTINE - 3rd party functions
             number retval - 
         </retvals>
         <parameters>
-            envelope - 
-            position - 
+            BR_Envelope envelope - 
+            number position - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21421,11 +21428,11 @@ MESPOTINE - 3rd party functions
             \[BR\] Deprecated, see [GetSet\_ArrangeView2](#GetSet_ArrangeView2) (REAPER v5.12pre4+) -- Get start and end time position of arrange view. To set arrange view instead, see [BR\_SetArrangeView](#BR_SetArrangeView).
         </description>
         <retvals>
-            startTime retval - the current starttime in the arrangeview in seconds
-            endTime - the current endtime in the arrangeview in seconds
+            number startTime retval - the current starttime in the arrangeview in seconds
+            number endTime - the current endtime in the arrangeview in seconds
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
+            ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21440,7 +21447,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetClosestGridDivision(SWS)</title>
         <functioncall prog_lang="cpp">double BR_GetClosestGridDivision(double position)</functioncall>
         <functioncall prog_lang="eel">double extension_api("BR_GetClosestGridDivision", position)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.BR_GetClosestGridDivision(number position)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.BR_GetClosestGridDivision(number position)</functioncall>
         <functioncall prog_lang="python">Float BR_GetClosestGridDivision(Float position)</functioncall>
         <requires>
             Reaper=5.62
@@ -21453,7 +21460,7 @@ MESPOTINE - 3rd party functions
             number retval - 
         </retvals>
         <parameters>
-            position - 
+            number position - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21468,7 +21475,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetCurrentTheme(SWS)</title>
         <functioncall prog_lang="cpp">void BR_GetCurrentTheme(char* themePathOut, int themePathOut_sz, char* themeNameOut, int themeNameOut_sz)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_GetCurrentTheme", #themePath, #themeName)</functioncall>
-        <functioncall prog_lang="lua">string themePath retval, string themeName = reaper.BR_GetCurrentTheme()</functioncall>
+        <functioncall prog_lang="lua">string themePath, string themeName = reaper.BR_GetCurrentTheme()</functioncall>
         <functioncall prog_lang="python">(String themePathOut, Int themePathOut_sz, String themeNameOut, Int themeNameOut_sz) = BR_GetCurrentTheme(themePathOut, themePathOut_sz, themeNameOut, themeNameOut_sz)</functioncall>
         <requires>
             Reaper=5.62
@@ -21478,8 +21485,8 @@ MESPOTINE - 3rd party functions
             [BR] Get current theme information. themePathOut is set to full theme path and themeNameOut is set to theme name excluding any path info and extension
         </description>
         <retvals>
-            themePath retval - 
-            themeName - 
+            string themePath - 
+            string themeName - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21533,10 +21540,10 @@ MESPOTINE - 3rd party functions
             \[BR\] Get media item GUID as a string (guidStringOut_sz should be at least 64). To get media item back from GUID string, see [BR\_GetMediaItemByGUID](#BR_GetMediaItemByGUID).
         </description>
         <retvals>
-            guidString - the requested guid of the MediaItem
+            string guidString - the requested guid of the MediaItem
         </retvals>
         <parameters>
-            item - the MediaItem, whose guid you want to request
+            MediaItem item - the MediaItem, whose guid you want to request
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21551,7 +21558,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMediaItemImageResource(SWS)</title>
         <functioncall prog_lang="cpp">bool BR_GetMediaItemImageResource(MediaItem* item, char* imageOut, int imageOut_sz, int* imageFlagsOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("BR_GetMediaItemImageResource", MediaItem item, #image, int &amp;imageFlags)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string image, number imageFlags = reaper.BR_GetMediaItemImageResource(MediaItem item)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string image, integer imageFlags = reaper.BR_GetMediaItemImageResource(MediaItem item)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem item, String imageOut, Int imageOut_sz, Int imageFlagsOut) = BR_GetMediaItemImageResource(item, imageOut, imageOut_sz, imageFlagsOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -21561,12 +21568,12 @@ MESPOTINE - 3rd party functions
             \[BR\] Get currently loaded image resource and its flags for a given item. Returns false if there is no image resource set. To set image resource, see [BR\_SetMediaItemImageResource](#BR_SetMediaItemImageResource).
         </description>
         <retvals>
-            retval - 
-            image - 
-            imageFlags - 
+            boolean retval - 
+            string image - 
+            number imageFlags - 
         </retvals>
         <parameters>
-            item - 
+            MediaItem item - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21591,10 +21598,10 @@ MESPOTINE - 3rd party functions
             \[BR\] Get media item take GUID as a string (guidStringOut_sz should be at least 64). To get take from GUID string, see [SNM\_GetMediaItemTakeByGUID](#SNM_GetMediaItemTakeByGUID).
         </description>
         <retvals>
-            guidString - 
+            string guidString - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21620,15 +21627,15 @@ MESPOTINE - 3rd party functions
             To set source properties, see [BR\_SetMediaSourceProperties](#BR_SetMediaSourceProperties).
         </description>
         <retvals>
-            retval - 
-            section - 
-            start - 
-            length - 
-            fade - 
-            reverse - 
+            boolean retval - 
+            boolean section - 
+            number start - 
+            number length - 
+            number fade - 
+            boolean reverse - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21643,7 +21650,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMediaTrackByGUID(SWS)</title>
         <functioncall prog_lang="cpp">MediaTrack* BR_GetMediaTrackByGUID(ReaProject* proj, const char* guidStringIn)</functioncall>
         <functioncall prog_lang="eel">MediaTrack extension_api("BR_GetMediaTrackByGUID", ReaProject proj, "guidStringIn")</functioncall>
-        <functioncall prog_lang="lua">MediaTrack = reaper.BR_GetMediaTrackByGUID(ReaProject proj, string guidStringIn)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack item = reaper.BR_GetMediaTrackByGUID(ReaProject proj, string guidStringIn)</functioncall>
         <functioncall prog_lang="python">MediaTrack BR_GetMediaTrackByGUID(ReaProject proj, String guidStringIn)</functioncall>
         <requires>
             Reaper=5.62
@@ -21653,7 +21660,7 @@ MESPOTINE - 3rd party functions
             [BR] Get media track from GUID string. Note that the GUID must be enclosed in braces {}. To get track's GUID as a string, see [GetSetMediaTrackInfo\_String](#GetSetMediaTrackInfo_String).
         </description>
         <retvals>
-            MediaTrack - the MediaTrack requested, as MediaTrack-object
+            MediaTrack item - the MediaTrack requested, as MediaTrack-object
         </retvals>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
@@ -21685,7 +21692,7 @@ MESPOTINE - 3rd party functions
             integer retval - 
         </retvals>
         <parameters>
-            track - 
+            MediaTrack track - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21728,7 +21735,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMediaTrackLayouts(SWS)</title>
         <functioncall prog_lang="cpp">void BR_GetMediaTrackLayouts(MediaTrack* track, char* mcpLayoutNameOut, int mcpLayoutNameOut_sz, char* tcpLayoutNameOut, int tcpLayoutNameOut_sz)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_GetMediaTrackLayouts", MediaTrack track, #mcpLayoutName, #tcpLayoutName)</functioncall>
-        <functioncall prog_lang="lua">string mcpLayoutName retval, string tcpLayoutName = reaper.BR_GetMediaTrackLayouts(MediaTrack track)</functioncall>
+        <functioncall prog_lang="lua">string mcpLayoutName, string tcpLayoutName = reaper.BR_GetMediaTrackLayouts(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">(MediaTrack track, String mcpLayoutNameOut, Int mcpLayoutNameOut_sz, String tcpLayoutNameOut, Int tcpLayoutNameOut_sz) = BR_GetMediaTrackLayouts(track, mcpLayoutNameOut, mcpLayoutNameOut_sz, tcpLayoutNameOut, tcpLayoutNameOut_sz)</functioncall>
         <requires>
             Reaper=5.62
@@ -21738,11 +21745,11 @@ MESPOTINE - 3rd party functions
             \[BR\] Deprecated, see [GetSetMediaTrackInfo](#GetSetMediaTrackInfo) (REAPER v5.02+). Get media track layouts for MCP and TCP. Empty string ("") means that layout is set to the default layout. To set media track layouts, see [BR\_SetMediaTrackLayouts](#BR_SetMediaTrackLayouts).
         </description>
         <retvals>
-            mcpLayoutName retval - 
-            tcpLayoutName - 
+            string mcpLayoutName - 
+            string tcpLayoutName - 
         </retvals>
         <parameters>
-            track - 
+            MediaTrack track - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21757,7 +21764,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMediaTrackSendInfo_Envelope(SWS)</title>
         <functioncall prog_lang="cpp">TrackEnvelope* BR_GetMediaTrackSendInfo_Envelope(MediaTrack* track, int category, int sendidx, int envelopeType)</functioncall>
         <functioncall prog_lang="eel">TrackEnvelope extension_api("BR_GetMediaTrackSendInfo_Envelope", MediaTrack track, int category, int sendidx, int envelopeType)</functioncall>
-        <functioncall prog_lang="lua">TrackEnvelope = reaper.BR_GetMediaTrackSendInfo_Envelope(MediaTrack track, integer category, integer sendidx, integer envelopeType)</functioncall>
+        <functioncall prog_lang="lua">TrackEnvelope env = reaper.BR_GetMediaTrackSendInfo_Envelope(MediaTrack track, integer category, integer sendidx, integer envelopeType)</functioncall>
         <functioncall prog_lang="python">TrackEnvelope BR_GetMediaTrackSendInfo_Envelope(MediaTrack track, Int category, Int sendidx, Int envelopeType)</functioncall>
         <requires>
             Reaper=5.62
@@ -21773,13 +21780,13 @@ MESPOTINE - 3rd party functions
             Note: To get or set other send attributes, see [BR\_GetSetTrackSendInfo](#BR_GetSetTrackSendInfo) and [BR\_GetMediaTrackSendInfo\_Track](#BR_GetMediaTrackSendInfo_Track).
         </description>
         <retvals>
-            TrackEnvelope - 
+            TrackEnvelope env - 
         </retvals>
         <parameters>
-            track - 
-            category - 
-            sendidx - 
-            envelopeType - 
+            MediaTrack track - 
+            integer category - 
+            integer sendidx - 
+            integer envelopeType - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21794,7 +21801,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMediaTrackSendInfo_Track(SWS)</title>
         <functioncall prog_lang="cpp">MediaTrack* BR_GetMediaTrackSendInfo_Track(MediaTrack* track, int category, int sendidx, int trackType)</functioncall>
         <functioncall prog_lang="eel">MediaTrack extension_api("BR_GetMediaTrackSendInfo_Track", MediaTrack track, int category, int sendidx, int trackType)</functioncall>
-        <functioncall prog_lang="lua">MediaTrack = reaper.BR_GetMediaTrackSendInfo_Track(MediaTrack track, integer category, integer sendidx, integer trackType)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack tr = reaper.BR_GetMediaTrackSendInfo_Track(MediaTrack track, integer category, integer sendidx, integer trackType)</functioncall>
         <functioncall prog_lang="python">MediaTrack BR_GetMediaTrackSendInfo_Track(MediaTrack track, Int category, Int sendidx, Int trackType)</functioncall>
         <requires>
             Reaper=5.62
@@ -21810,13 +21817,13 @@ MESPOTINE - 3rd party functions
             Note: To get or set other send attributes, see [BR\_GetSetTrackSendInfo](#BR_GetSetTrackSendInfo) and [BR\_GetMediaTrackSendInfo_Envelope](#BR_GetMediaTrackSendInfo_Envelope).
         </description>
         <retvals>
-            MediaTrack - 
+            MediaTrack tr - 
         </retvals>
         <parameters>
-            track - 
-            category - 
-            sendidx - 
-            trackType - 
+            MediaTrack track - 
+            integer category - 
+            integer sendidx - 
+            integer trackType - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21831,7 +21838,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMidiSourceLenPPQ(SWS)</title>
         <functioncall prog_lang="cpp">double BR_GetMidiSourceLenPPQ(MediaItem_Take* take)</functioncall>
         <functioncall prog_lang="eel">double extension_api("BR_GetMidiSourceLenPPQ", MediaItem_Take take)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.BR_GetMidiSourceLenPPQ(MediaItem_Take take)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.BR_GetMidiSourceLenPPQ(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">Float BR_GetMidiSourceLenPPQ(MediaItem_Take take)</functioncall>
         <requires>
             Reaper=5.62
@@ -21844,7 +21851,7 @@ MESPOTINE - 3rd party functions
             number retval - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21869,11 +21876,11 @@ MESPOTINE - 3rd party functions
             [BR] Get MIDI take pool GUID as a string (guidStringOut_sz should be at least 64). Returns true if take is pooled.
         </description>
         <retvals>
-            retval - 
-            guidString - 
+            boolean retval - 
+            string guidString - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21888,7 +21895,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMidiTakeTempoInfo(SWS)</title>
         <functioncall prog_lang="cpp">bool BR_GetMidiTakeTempoInfo(MediaItem_Take* take, bool* ignoreProjTempoOut, double* bpmOut, int* numOut, int* denOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("BR_GetMidiTakeTempoInfo", MediaItem_Take take, bool &amp;ignoreProjTempo, &amp;bpm, int &amp;num, int &amp;den)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, boolean ignoreProjTempo, number bpm, number num, number den = reaper.BR_GetMidiTakeTempoInfo(MediaItem_Take take)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, boolean ignoreProjTempo, number bpm, integer num, integer den = reaper.BR_GetMidiTakeTempoInfo(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Boolean ignoreProjTempoOut, Float bpmOut, Int numOut, Int denOut) = BR_GetMidiTakeTempoInfo(take, ignoreProjTempoOut, bpmOut, numOut, denOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -21898,14 +21905,14 @@ MESPOTINE - 3rd party functions
             [BR] Get "ignore project tempo" information for MIDI take. Returns true if take can ignore project tempo (no matter if it's actually ignored), otherwise false.
         </description>
         <retvals>
-            retval - 
-            ignoreProjTempo - 
-            bpm - 
-            num - 
-            den - 
+            boolean retval - 
+            boolean ignoreProjTempo - 
+            number bpm - 
+            integer num - 
+            integer den - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21920,7 +21927,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMouseCursorContext(SWS)</title>
         <functioncall prog_lang="cpp">void BR_GetMouseCursorContext(char* windowOut, int windowOut_sz, char* segmentOut, int segmentOut_sz, char* detailsOut, int detailsOut_sz)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_GetMouseCursorContext", #window, #segment, #details)</functioncall>
-        <functioncall prog_lang="lua">string window retval, string segment, string details = reaper.BR_GetMouseCursorContext()</functioncall>
+        <functioncall prog_lang="lua">string window, string segment, string details = reaper.BR_GetMouseCursorContext()</functioncall>
         <functioncall prog_lang="python">(String windowOut, Int windowOut_sz, String segmentOut, Int segmentOut_sz, String detailsOut, Int detailsOut_sz) = BR_GetMouseCursorContext(windowOut, windowOut_sz, segmentOut, segmentOut_sz, detailsOut, detailsOut_sz)</functioncall>
         <requires>
             Reaper=5.62
@@ -21954,9 +21961,9 @@ MESPOTINE - 3rd party functions
             </table>
         </description>
         <retvals>
-            window retval - the window, in which the mouse-cursor was, at time of calling BR_GetMouseCursorContext
-            segment - the segment within the window
-            details - details with the segment of the window
+            string window retval - the window, in which the mouse-cursor was, at time of calling BR_GetMouseCursorContext
+            string segment - the segment within the window
+            string details - details with the segment of the window
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21981,8 +21988,8 @@ MESPOTINE - 3rd party functions
             \[BR\] Returns envelope that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext). In case the envelope belongs to take, takeEnvelope will be true.
         </description>
         <retvals>
-            retval - 
-            takeEnvelope - 
+            TrackEnvelope retval - 
+            boolean takeEnvelope - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21997,7 +22004,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMouseCursorContext_Item(SWS)</title>
         <functioncall prog_lang="cpp">MediaItem* BR_GetMouseCursorContext_Item()</functioncall>
         <functioncall prog_lang="eel">MediaItem extension_api("BR_GetMouseCursorContext_Item")</functioncall>
-        <functioncall prog_lang="lua">MediaItem = reaper.BR_GetMouseCursorContext_Item()</functioncall>
+        <functioncall prog_lang="lua">MediaItem item = reaper.BR_GetMouseCursorContext_Item()</functioncall>
         <functioncall prog_lang="python">MediaItem BR_GetMouseCursorContext_Item()</functioncall>
         <requires>
             Reaper=5.62
@@ -22007,7 +22014,7 @@ MESPOTINE - 3rd party functions
             \[BR\] Returns item under mouse cursor that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext). Note that the function will return item even if mouse cursor is over some other track lane element like stretch marker or envelope. This enables for easier identification of items when you want to ignore elements within the item.
         </description>
         <retvals>
-            MediaItem - 
+            MediaItem item - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22022,7 +22029,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMouseCursorContext_MIDI(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_GetMouseCursorContext_MIDI(bool* inlineEditorOut, int* noteRowOut, int* ccLaneOut, int* ccLaneValOut, int* ccLaneIdOut)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_GetMouseCursorContext_MIDI", bool &amp;inlineEditor, int &amp;noteRow, int &amp;ccLane, int &amp;ccLaneVal, int &amp;ccLaneId)</functioncall>
-        <functioncall prog_lang="lua">identifier retval, boolean inlineEditor, number noteRow, number ccLane, number ccLaneVal, number ccLaneId = reaper.BR_GetMouseCursorContext_MIDI()</functioncall>
+        <functioncall prog_lang="lua">identifier retval, boolean inlineEditor, integer noteRow, integer ccLane, integer ccLaneVal, integer ccLaneId = reaper.BR_GetMouseCursorContext_MIDI()</functioncall>
         <functioncall prog_lang="python">(void retval, Boolean inlineEditorOut, Int noteRowOut, Int ccLaneOut, Int ccLaneValOut, Int ccLaneIdOut) = BR_GetMouseCursorContext_MIDI(inlineEditorOut, noteRowOut, ccLaneOut, ccLaneValOut, ccLaneIdOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -22040,12 +22047,12 @@ MESPOTINE - 3rd party functions
             Note: due to API limitations, if mouse is over inline MIDI editor with some note rows hidden, noteRow will be -1
         </description>
         <retvals>
-            retval - 
-            inlineEditor - 
-            noteRow - 
-            ccLane - 
-            ccLaneVal - 
-            ccLaneId - 
+            identifier retval - 
+            boolean inlineEditor - 
+            integer noteRow - 
+            integer ccLane - 
+            integer ccLaneVal - 
+            integer ccLaneId - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22060,7 +22067,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMouseCursorContext_Position(SWS)</title>
         <functioncall prog_lang="cpp">double BR_GetMouseCursorContext_Position()</functioncall>
         <functioncall prog_lang="eel">double extension_api("BR_GetMouseCursorContext_Position")</functioncall>
-        <functioncall prog_lang="lua">number = reaper.BR_GetMouseCursorContext_Position()</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.BR_GetMouseCursorContext_Position()</functioncall>
         <functioncall prog_lang="python">Float BR_GetMouseCursorContext_Position()</functioncall>
         <requires>
             Reaper=5.62
@@ -22110,7 +22117,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMouseCursorContext_Take(SWS)</title>
         <functioncall prog_lang="cpp">MediaItem_Take* BR_GetMouseCursorContext_Take()</functioncall>
         <functioncall prog_lang="eel">MediaItem_Take extension_api("BR_GetMouseCursorContext_Take")</functioncall>
-        <functioncall prog_lang="lua">MediaItem_Take = reaper.BR_GetMouseCursorContext_Take()</functioncall>
+        <functioncall prog_lang="lua">MediaItem_Take take = reaper.BR_GetMouseCursorContext_Take()</functioncall>
         <functioncall prog_lang="python">MediaItem_Take BR_GetMouseCursorContext_Take()</functioncall>
         <requires>
             Reaper=5.62
@@ -22120,7 +22127,7 @@ MESPOTINE - 3rd party functions
             \[BR\] Returns take under mouse cursor that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext).
         </description>
         <retvals>
-            MediaItem_Take - 
+            MediaItem_Take take - the found take under the mouse-cursor
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22135,7 +22142,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetMouseCursorContext_Track(SWS)</title>
         <functioncall prog_lang="cpp">MediaTrack* BR_GetMouseCursorContext_Track()</functioncall>
         <functioncall prog_lang="eel">MediaTrack extension_api("BR_GetMouseCursorContext_Track")</functioncall>
-        <functioncall prog_lang="lua">MediaTrack = reaper.BR_GetMouseCursorContext_Track()</functioncall>
+        <functioncall prog_lang="lua">MediaTrack tr = reaper.BR_GetMouseCursorContext_Track()</functioncall>
         <functioncall prog_lang="python">MediaTrack BR_GetMouseCursorContext_Track()</functioncall>
         <requires>
             Reaper=5.62
@@ -22145,7 +22152,7 @@ MESPOTINE - 3rd party functions
             \[BR\] Returns track under mouse cursor that was captured with the last call to [BR\_GetMouseCursorContext](#BR_GetMouseCursorContext).
         </description>
         <retvals>
-            MediaTrack - 
+            MediaTrack tr - the track under the mouse-cursor
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22160,7 +22167,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetNextGridDivision(SWS)</title>
         <functioncall prog_lang="cpp">double BR_GetNextGridDivision(double position)</functioncall>
         <functioncall prog_lang="eel">double extension_api("BR_GetNextGridDivision", position)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.BR_GetNextGridDivision(number position)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.BR_GetNextGridDivision(number position)</functioncall>
         <functioncall prog_lang="python">Float BR_GetNextGridDivision(Float position)</functioncall>
         <requires>
             Reaper=5.62
@@ -22173,7 +22180,7 @@ MESPOTINE - 3rd party functions
             number retval - 
         </retvals>
         <parameters>
-            position - 
+            number position - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22188,7 +22195,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetPrevGridDivision(SWS)</title>
         <functioncall prog_lang="cpp">double BR_GetPrevGridDivision(double position)</functioncall>
         <functioncall prog_lang="eel">double extension_api("BR_GetPrevGridDivision", position)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.BR_GetPrevGridDivision(number position)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.BR_GetPrevGridDivision(number position)</functioncall>
         <functioncall prog_lang="python">Float BR_GetPrevGridDivision(Float position)</functioncall>
         <requires>
             Reaper=5.62
@@ -22201,7 +22208,7 @@ MESPOTINE - 3rd party functions
             number retval - 
         </retvals>
         <parameters>
-            position - 
+            number position - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22216,7 +22223,7 @@ MESPOTINE - 3rd party functions
         <title>BR_GetSetTrackSendInfo(SWS)</title>
         <functioncall prog_lang="cpp">double BR_GetSetTrackSendInfo(MediaTrack* track, int category, int sendidx, const char* parmname, bool setNewValue, double newValue)</functioncall>
         <functioncall prog_lang="eel">double extension_api("BR_GetSetTrackSendInfo", MediaTrack track, int category, int sendidx, "parmname", bool setNewValue, newValue)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.BR_GetSetTrackSendInfo(MediaTrack track, integer category, integer sendidx, string parmname, boolean setNewValue, number newValue)</functioncall>
+        <functioncall prog_lang="lua">number value = reaper.BR_GetSetTrackSendInfo(MediaTrack track, integer category, integer sendidx, string parmname, boolean setNewValue, number newValue)</functioncall>
         <functioncall prog_lang="python">Float BR_GetSetTrackSendInfo(MediaTrack track, Int category, Int sendidx, String parmname, Boolean setNewValue, Float newValue)</functioncall>
         <requires>
             Reaper=5.62
@@ -22249,15 +22256,15 @@ MESPOTINE - 3rd party functions
             Note: To get or set other send attributes, see [BR\_GetMediaTrackSendInfo\_Envelope](#BR_GetMediaTrackSendInfo_Envelope) and [BR\_GetMediaTrackSendInfo\_Track](#BR_GetMediaTrackSendInfo_Track).
         </description>
         <retvals>
-            number retval - 
+            number value - 
         </retvals>
         <parameters>
-            track - 
-            category - 
-            sendidx - 
-            parmname - 
-            setNewValue - 
-            newValue - 
+            MediaTrack track - 
+            integer category - 
+            integer sendidx - 
+            string parmname - 
+            boolean setNewValue - 
+            number newValue - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22285,7 +22292,7 @@ MESPOTINE - 3rd party functions
             integer retval - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22313,7 +22320,7 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22338,11 +22345,11 @@ MESPOTINE - 3rd party functions
             [BR] Check if take is MIDI take, in case MIDI take is in-project MIDI source data, inProjectMidiOut will be true, otherwise false.
         </description>
         <retvals>
-            retval - 
-            inProjectMidi - 
+            boolean retval - 
+            boolean inProjectMidi - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22357,7 +22364,7 @@ MESPOTINE - 3rd party functions
         <title>BR_ItemAtMouseCursor(SWS)</title>
         <functioncall prog_lang="cpp">MediaItem* BR_ItemAtMouseCursor(double* positionOut)</functioncall>
         <functioncall prog_lang="eel">MediaItem extension_api("BR_ItemAtMouseCursor", &amp;position)</functioncall>
-        <functioncall prog_lang="lua">MediaItem retval, number position = reaper.BR_ItemAtMouseCursor()</functioncall>
+        <functioncall prog_lang="lua">MediaItem item, number position = reaper.BR_ItemAtMouseCursor()</functioncall>
         <functioncall prog_lang="python">(MediaItem retval, Float positionOut) = BR_ItemAtMouseCursor(positionOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -22367,8 +22374,8 @@ MESPOTINE - 3rd party functions
             [BR] Get media item under mouse cursor. Position is mouse cursor position in arrange.
         </description>
         <retvals>
-            retval - 
-            position - 
+            MediaItem item - the item at mouse-cursor
+            number position - position at mouse-cursor
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22396,8 +22403,8 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            midiEditor - 
-            laneId - 
+            identifier midiEditor - 
+            integer laneId - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22426,9 +22433,9 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            midiEditor - 
-            laneId - 
-            newCC - 
+            identifier midiEditor - 
+            integer laneId - 
+            integer newCC - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22443,7 +22450,7 @@ MESPOTINE - 3rd party functions
         <title>BR_PositionAtMouseCursor(SWS)</title>
         <functioncall prog_lang="cpp">double BR_PositionAtMouseCursor(bool checkRuler)</functioncall>
         <functioncall prog_lang="eel">double extension_api("BR_PositionAtMouseCursor", bool checkRuler)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.BR_PositionAtMouseCursor(boolean checkRuler)</functioncall>
+        <functioncall prog_lang="lua">number position = reaper.BR_PositionAtMouseCursor(boolean checkRuler)</functioncall>
         <functioncall prog_lang="python">Float BR_PositionAtMouseCursor(Boolean checkRuler)</functioncall>
         <requires>
             Reaper=5.62
@@ -22453,10 +22460,10 @@ MESPOTINE - 3rd party functions
             [BR] Get position at mouse cursor. To check ruler along with arrange, pass checkRuler=true. Returns -1 if cursor is not over arrange/ruler.
         </description>
         <retvals>
-            number retval - 
+            number position - the position at mouse-cursor
         </retvals>
         <parameters>
-            checkRuler - 
+            boolean checkRuler - true, include ruler/markerarea; false, donÄt include ruler/markerarea
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22481,9 +22488,9 @@ MESPOTINE - 3rd party functions
             \[BR\] Deprecated, see [GetSet\_ArrangeView2](#GetSet_ArrangeView2) (REAPER v5.12pre4+) -- Set start and end time position of arrange view. To get arrange view instead, see [BR\_GetArrangeView](#BR_GetArrangeView).
         </description>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            startTime - the new starttime of the arrangewview in seconds
-            endTime - the new endtime of the arrangewview in seconds
+            ReaProject proj - the project-number. 0 for the current project. 
+            number startTime - the new starttime of the arrangewview in seconds
+            number endTime - the new endtime of the arrangewview in seconds
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22511,9 +22518,9 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            item - 
-            startTime - 
-            endTime - 
+            MediaItem item - 
+            number startTime - 
+            number endTime - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22540,9 +22547,9 @@ MESPOTINE - 3rd party functions
             To get image resource, see [BR\_GetMediaItemImageResource](#BR_GetMediaItemImageResource).
         </description>
         <parameters>
-            item - 
-            imageIn - 
-            imageFlags - 
+            MediaItem item - 
+            string imageIn - 
+            integer imageFlags - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22571,12 +22578,12 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            take - 
-            section - 
-            start - 
-            length - 
-            fade - 
-            reverse - 
+            MediaItem_Take take - 
+            boolean section - 
+            number start - 
+            number length - 
+            number fade - 
+            boolean reverse - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22605,9 +22612,9 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            track - 
-            mcpLayoutNameIn - 
-            tcpLayoutNameIn - 
+            MediaTrack track - 
+            stirng mcpLayoutNameIn - 
+            string tcpLayoutNameIn - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22635,11 +22642,11 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            take - 
-            ignoreProjTempo - 
-            bpm - 
-            num - 
-            den - 
+            MediaItem_Take take - 
+            boolean ignoreProjTempo - 
+            number bpm - 
+            integer num - 
+            integer den - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22669,9 +22676,9 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            take - 
-            filenameIn - 
-            inProjectData - 
+            MediaItem_Take take - 
+            string filenameIn - 
+            boolean inProjectData - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22699,10 +22706,10 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            take - 
-            filenameIn - 
-            inProjectData - 
-            keepSourceProperties - 
+            MediaItem_Take take - 
+            string filenameIn - 
+            boolean inProjectData - 
+            boolean keepSourceProperties - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22717,7 +22724,7 @@ MESPOTINE - 3rd party functions
         <title>BR_TakeAtMouseCursor(SWS)</title>
         <functioncall prog_lang="cpp">MediaItem_Take* BR_TakeAtMouseCursor(double* positionOut)</functioncall>
         <functioncall prog_lang="eel">MediaItem_Take extension_api("BR_TakeAtMouseCursor", &amp;position)</functioncall>
-        <functioncall prog_lang="lua">MediaItem_Take retval, number position = reaper.BR_TakeAtMouseCursor()</functioncall>
+        <functioncall prog_lang="lua">MediaItem_Take take, number position = reaper.BR_TakeAtMouseCursor()</functioncall>
         <functioncall prog_lang="python">(MediaItem_Take retval, Float positionOut) = BR_TakeAtMouseCursor(positionOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -22727,8 +22734,8 @@ MESPOTINE - 3rd party functions
             [BR] Get take under mouse cursor. Position is mouse cursor position in arrange.
         </description>
         <retvals>
-            retval - 
-            position - 
+            MediaItem_Take take - the take under mouse-cursor
+            number position - the position under mouse-cursor
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22755,9 +22762,9 @@ MESPOTINE - 3rd party functions
             Position will hold mouse cursor position in arrange if applicable.
         </description>
         <retvals>
-            retval - 
-            context - 
-            position - 
+            MediaItem retval - 
+            number context - 
+            number position - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22851,11 +22858,11 @@ MESPOTINE - 3rd party functions
             integer retval - 
         </retvals>
         <parameters>
-            operation - 
-            file - 
-            parameters - 
-            directory - 
-            showFlags - 
+            string operation - 
+            string file - 
+            string parameters - 
+            string directory - 
+            integer showFlags - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -22887,10 +22894,10 @@ MESPOTINE - 3rd party functions
             boolean retval - true, if it worked; false, if not
         </retvals>
         <parameters>
-            sectionName - the [section] in which the key is stored, you'd like to set
-            keyName - the key from the [section], whose value you'd like to set
-            value - the value you want to have set to the key
-            filePath - the path+filename, where the [section] and key are going to be stored
+            string sectionName - the [section] in which the key is stored, you'd like to set
+            string keyName - the key from the [section], whose value you'd like to set
+            string value - the value you want to have set to the key
+            stirng filePath - the path+filename, where the [section] and key are going to be stored
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23681,7 +23688,7 @@ MESPOTINE - 3rd party functions
         <title>CF_GetClipboardBig(SWS)</title>
         <functioncall prog_lang="cpp">const char* CF_GetClipboardBig(WDL_FastString* output)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("CF_GetClipboardBig", #retval, WDL_FastString output)</functioncall>
-        <functioncall prog_lang="lua">string = reaper.CF_GetClipboardBig(WDL_FastString output)</functioncall>
+        <functioncall prog_lang="lua">string clipboard_content = reaper.CF_GetClipboardBig(WDL_FastString output)</functioncall>
         <functioncall prog_lang="python">String CF_GetClipboardBig(WDL_FastString output)</functioncall>
         <requires>
             Reaper=5.62
@@ -23691,7 +23698,7 @@ MESPOTINE - 3rd party functions
             \[DEPRECATED: Use [CF\_GetClipboard](#CF_GetClipboard)\] Read the contents of the system clipboard. See [SNM\_CreateFastString](#SNM_CreateFastString) and [SNM\_DeleteFastString](#SNM_DeleteFastString).
         </description>
         <retvals>
-            string - the content of the clipboard
+            string clipboard_content - the content of the clipboard
         </retvals>
         <parameters>
             WDL_FastString output - a faststring used by this 
@@ -23719,7 +23726,7 @@ MESPOTINE - 3rd party functions
             Write the given string into the system clipboard.
         </description>
         <parameters>
-            str - the string to put into the clipboard
+            string str - the string to put into the clipboard
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23734,7 +23741,7 @@ MESPOTINE - 3rd party functions
         <title>FNG_AddMidiNote(SWS)</title>
         <functioncall prog_lang="cpp">RprMidiNote* FNG_AddMidiNote(RprMidiTake* midiTake)</functioncall>
         <functioncall prog_lang="eel">RprMidiNote extension_api("FNG_AddMidiNote", RprMidiTake midiTake)</functioncall>
-        <functioncall prog_lang="lua">RprMidiNote = reaper.FNG_AddMidiNote(RprMidiTake midiTake)</functioncall>
+        <functioncall prog_lang="lua">RprMidiNote note = reaper.FNG_AddMidiNote(RprMidiTake midiTake)</functioncall>
         <functioncall prog_lang="python">RprMidiNote FNG_AddMidiNote(RprMidiTake midiTake)</functioncall>
         <requires>
             Reaper=5.62
@@ -23744,10 +23751,10 @@ MESPOTINE - 3rd party functions
             [FNG]Add MIDI note to MIDI take
         </description>
         <retvals>
-            RprMidiNote - 
+            RprMidiNote note - 
         </retvals>
         <parameters>
-            midiTake - 
+            RprMidiTake midiTake - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23762,7 +23769,7 @@ MESPOTINE - 3rd party functions
         <title>FNG_AllocMidiTake(SWS)</title>
         <functioncall prog_lang="cpp">RprMidiTake* FNG_AllocMidiTake(MediaItem_Take* take)</functioncall>
         <functioncall prog_lang="eel">RprMidiTake extension_api("FNG_AllocMidiTake", MediaItem_Take take)</functioncall>
-        <functioncall prog_lang="lua">RprMidiTake = reaper.FNG_AllocMidiTake(MediaItem_Take take)</functioncall>
+        <functioncall prog_lang="lua">RprMidiTake rpr_take = reaper.FNG_AllocMidiTake(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">RprMidiTake FNG_AllocMidiTake(MediaItem_Take take)</functioncall>
         <requires>
             Reaper=5.62
@@ -23772,10 +23779,10 @@ MESPOTINE - 3rd party functions
             [FNG]Allocate a RprMidiTake from a take pointer. Returns a NULL pointer if the take is not an in-project MIDI take
         </description>
         <retvals>
-            RprMidiTake - 
+            RprMidiTake rpr_take - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23803,7 +23810,7 @@ MESPOTINE - 3rd party functions
             integer retval - 
         </retvals>
         <parameters>
-            midiTake - 
+            RprMidiTake midiTake - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23828,7 +23835,7 @@ MESPOTINE - 3rd party functions
             [FNG]Commit changes to MIDI take and free allocated memory
         </description>
         <parameters>
-            midiTake - 
+            RprMidiTake midiTake - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23843,7 +23850,7 @@ MESPOTINE - 3rd party functions
         <title>FNG_GetMidiNote(SWS)</title>
         <functioncall prog_lang="cpp">RprMidiNote* FNG_GetMidiNote(RprMidiTake* midiTake, int index)</functioncall>
         <functioncall prog_lang="eel">RprMidiNote extension_api("FNG_GetMidiNote", RprMidiTake midiTake, int index)</functioncall>
-        <functioncall prog_lang="lua">RprMidiNote = reaper.FNG_GetMidiNote(RprMidiTake midiTake, integer index)</functioncall>
+        <functioncall prog_lang="lua">RprMidiNote note = reaper.FNG_GetMidiNote(RprMidiTake midiTake, integer index)</functioncall>
         <functioncall prog_lang="python">RprMidiNote FNG_GetMidiNote(RprMidiTake midiTake, Int index)</functioncall>
         <requires>
             Reaper=5.62
@@ -23853,11 +23860,11 @@ MESPOTINE - 3rd party functions
             [FNG]Get a MIDI note from a MIDI take at specified index
         </description>
         <retvals>
-            RprMidiNote - 
+            RprMidiNote note - 
         </retvals>
         <parameters>
-            midiTake - 
-            index - 
+            RprMidiTake midiTake - 
+            integer index - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23885,8 +23892,8 @@ MESPOTINE - 3rd party functions
             integer retval - 
         </retvals>
         <parameters>
-            midiNote - 
-            property - 
+            RprMidiNote midiNote - 
+            string property - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23911,9 +23918,9 @@ MESPOTINE - 3rd party functions
             [FNG]Set MIDI note property
         </description>
         <parameters>
-            midiNote - 
-            property - 
-            value - 
+            RprMidiNote midiNote - 
+            string property - 
+            integer value - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23938,17 +23945,17 @@ MESPOTINE - 3rd party functions
             Full loudness analysis. retval: returns true on successful analysis, false on MIDI take or when analysis failed for some reason. analyzeTruePeak=true: Also do true peak analysis. Returns true peak value and true peak position (relative to item position). Considerably slower than without true peak analysis (since it uses oversampling). Note: Short term uses a time window of 3 sec. for calculation. So for items shorter than this shortTermMaxOut can't be calculated correctly. Momentary uses a time window of 0.4 sec.
         </description>
         <retvals>
-            retval - 
-            lufsIntegrated - 
-            range - 
-             truePeak - 
-            truePeakPos - 
-            shortTermMax - 
-            momentaryMax - 
+            boolean retval - 
+            number lufsIntegrated - 
+            number range - 
+            number truePeak - 
+            number truePeakPos - 
+            number shortTermMax - 
+            number momentaryMax - 
         </retvals>
         <parameters>
-            take - 
-            analyzeTruePeak - 
+            MediaItem_Take take - 
+            boolean analyzeTruePeak - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -23973,19 +23980,19 @@ MESPOTINE - 3rd party functions
             Same as [NF\_AnalyzeTakeLoudness](#NF_AnalyzeTakeLoudness) but additionally returns shortTermMaxPos and momentaryMaxPos (in absolute project time). Note: shortTermMaxPos and momentaryMaxPos actually indicate the beginning of time *intervalls*, (3 sec. and 0.4 sec. resp.). 
         </description>
         <retvals>
-            retval - 
-            lufsIntegrated - 
-            range - 
-             truePeak - 
-            truePeakPos - 
-            shortTermMax - 
-            momentaryMax - 
-            shortTermMaxPos - 
-            momentaryMaxPos - 
+            boolean retval - 
+            number lufsIntegrated - 
+            number range - 
+            number truePeak - 
+            number truePeakPos - 
+            number shortTermMax - 
+            number momentaryMax - 
+            number shortTermMaxPos - 
+            number momentaryMaxPos - 
         </retvals>
         <parameters>
-            take - 
-            analyzeTruePeak - 
+            MediaItem_Take take - 
+            boolean analyzeTruePeak - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24014,11 +24021,11 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            retval - 
-            lufsIntegrated - 
+            boolean retval - 
+            number lufsIntegrated - 
         </retvals>
         <parameters>
-            take - 
+            MediaItem_Take take - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24033,7 +24040,7 @@ MESPOTINE - 3rd party functions
         <title>NF_GetMediaItemAverageRMS(SWS)</title>
         <functioncall prog_lang="cpp">double NF_GetMediaItemAverageRMS(MediaItem* item)</functioncall>
         <functioncall prog_lang="eel">double extension_api("NF_GetMediaItemAverageRMS", MediaItem item)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.NF_GetMediaItemAverageRMS(MediaItem item)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.NF_GetMediaItemAverageRMS(MediaItem item)</functioncall>
         <functioncall prog_lang="python">Float NF_GetMediaItemAverageRMS(MediaItem item)</functioncall>
         <requires>
             Reaper=5.62
@@ -24047,7 +24054,7 @@ MESPOTINE - 3rd party functions
             number retval - 
         </retvals>
         <parameters>
-            item - 
+            MediaItem item - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24062,7 +24069,7 @@ MESPOTINE - 3rd party functions
         <title>NF_GetMediaItemMaxPeak(SWS)</title>
         <functioncall prog_lang="cpp">double NF_GetMediaItemMaxPeak(MediaItem* item)</functioncall>
         <functioncall prog_lang="eel">double extension_api("NF_GetMediaItemMaxPeak", MediaItem item)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.NF_GetMediaItemMaxPeak(MediaItem item)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.NF_GetMediaItemMaxPeak(MediaItem item)</functioncall>
         <functioncall prog_lang="python">Float NF_GetMediaItemMaxPeak(MediaItem item)</functioncall>
         <requires>
             Reaper=5.62
@@ -24076,7 +24083,7 @@ MESPOTINE - 3rd party functions
             number retval - 
         </retvals>
         <parameters>
-            item - 
+            MediaItem item - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24091,7 +24098,7 @@ MESPOTINE - 3rd party functions
         <title>NF_GetMediaItemPeakRMS_NonWindowed(SWS)</title>
         <functioncall prog_lang="cpp">double NF_GetMediaItemPeakRMS_NonWindowed(MediaItem* item)</functioncall>
         <functioncall prog_lang="eel">double extension_api("NF_GetMediaItemPeakRMS_NonWindowed", MediaItem item)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.NF_GetMediaItemPeakRMS_NonWindowed(MediaItem item)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.NF_GetMediaItemPeakRMS_NonWindowed(MediaItem item)</functioncall>
         <functioncall prog_lang="python">Float NF_GetMediaItemPeakRMS_NonWindowed(MediaItem item)</functioncall>
         <requires>
             Reaper=5.62
@@ -24105,7 +24112,7 @@ MESPOTINE - 3rd party functions
             number retval - 
         </retvals>
         <parameters>
-            item - 
+            MediaItem item - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24120,7 +24127,7 @@ MESPOTINE - 3rd party functions
         <title>NF_GetMediaItemPeakRMS_Windowed(SWS)</title>
         <functioncall prog_lang="cpp">double NF_GetMediaItemPeakRMS_Windowed(MediaItem* item)</functioncall>
         <functioncall prog_lang="eel">double extension_api("NF_GetMediaItemPeakRMS_Windowed", MediaItem item)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.NF_GetMediaItemPeakRMS_Windowed(MediaItem item)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.NF_GetMediaItemPeakRMS_Windowed(MediaItem item)</functioncall>
         <functioncall prog_lang="python">Float NF_GetMediaItemPeakRMS_Windowed(MediaItem item)</functioncall>
         <requires>
             Reaper=5.62
@@ -24134,7 +24141,7 @@ MESPOTINE - 3rd party functions
             number retval - 
         </retvals>
         <parameters>
-            item - 
+            MediaItem item - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24164,9 +24171,9 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            src - 
-            dest - 
-            type - 
+            MediaTrack src - 
+            MediaTrack dest - 
+            integer type - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24194,9 +24201,9 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            tr - 
-            fxId - 
-            prmId - 
+            MediaTrack tr - 
+            integer fxId - 
+            integer prmId - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24211,7 +24218,7 @@ MESPOTINE - 3rd party functions
         <title>SNM_CreateFastString(SWS)</title>
         <functioncall prog_lang="cpp">WDL_FastString* SNM_CreateFastString(const char* str)</functioncall>
         <functioncall prog_lang="eel">WDL_FastString extension_api("SNM_CreateFastString", "str")</functioncall>
-        <functioncall prog_lang="lua">WDL_FastString = reaper.SNM_CreateFastString(string str)</functioncall>
+        <functioncall prog_lang="lua">WDL_FastString fstr = reaper.SNM_CreateFastString(string str)</functioncall>
         <functioncall prog_lang="python">WDL_FastString SNM_CreateFastString(String str)</functioncall>
         <requires>
             Reaper=5.62
@@ -24221,10 +24228,10 @@ MESPOTINE - 3rd party functions
             \[S&amp;M\] Instantiates a new "fast string". You must delete this string, see [SNM\_DeleteFastString](#SNM_DeleteFastString).
         </description>
         <retvals>
-            WDL_FastString - 
+            WDL_FastString fstr - 
         </retvals>
         <parameters>
-            str - 
+            string str - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24249,7 +24256,7 @@ MESPOTINE - 3rd party functions
             [S&amp;M] Deletes a "fast string" instance.
         </description>
         <parameters>
-            str - 
+            WDL_FastString str - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24264,7 +24271,7 @@ MESPOTINE - 3rd party functions
         <title>SNM_GetDoubleConfigVar(SWS)</title>
         <functioncall prog_lang="cpp">double SNM_GetDoubleConfigVar(const char* varname, double errvalue)</functioncall>
         <functioncall prog_lang="eel">double extension_api("SNM_GetDoubleConfigVar", "varname", errvalue)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.SNM_GetDoubleConfigVar(string varname, number errvalue)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.SNM_GetDoubleConfigVar(string varname, number errvalue)</functioncall>
         <functioncall prog_lang="python">Float SNM_GetDoubleConfigVar(String varname, Float errvalue)</functioncall>
         <requires>
             Reaper=5.62
@@ -24298,7 +24305,7 @@ MESPOTINE - 3rd party functions
         <title>SNM_GetFastString(SWS)</title>
         <functioncall prog_lang="cpp">const char* SNM_GetFastString(WDL_FastString* str)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("SNM_GetFastString", #retval, WDL_FastString str)</functioncall>
-        <functioncall prog_lang="lua">string = reaper.SNM_GetFastString(WDL_FastString str)</functioncall>
+        <functioncall prog_lang="lua">string str = reaper.SNM_GetFastString(WDL_FastString str)</functioncall>
         <functioncall prog_lang="python">String SNM_GetFastString(WDL_FastString str)</functioncall>
         <requires>
             Reaper=5.62
@@ -24308,10 +24315,10 @@ MESPOTINE - 3rd party functions
             [S&amp;M] Gets the "fast string" content.
         </description>
         <retvals>
-            string - 
+            string str - 
         </retvals>
         <parameters>
-            str - 
+            WDL_FastString str - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24339,7 +24346,7 @@ MESPOTINE - 3rd party functions
             integer retval - 
         </retvals>
         <parameters>
-            str - 
+            WDL_FastString str - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24420,7 +24427,7 @@ MESPOTINE - 3rd party functions
         <title>SNM_GetMediaItemTakeByGUID(SWS)</title>
         <functioncall prog_lang="cpp">MediaItem_Take* SNM_GetMediaItemTakeByGUID(ReaProject* project, const char* guid)</functioncall>
         <functioncall prog_lang="eel">MediaItem_Take extension_api("SNM_GetMediaItemTakeByGUID", ReaProject project, "guid")</functioncall>
-        <functioncall prog_lang="lua">MediaItem_Take = reaper.SNM_GetMediaItemTakeByGUID(ReaProject project, string guid)</functioncall>
+        <functioncall prog_lang="lua">MediaItem_Take take = reaper.SNM_GetMediaItemTakeByGUID(ReaProject project, string guid)</functioncall>
         <functioncall prog_lang="python">MediaItem_Take SNM_GetMediaItemTakeByGUID(ReaProject project, String guid)</functioncall>
         <requires>
             Reaper=5.62
@@ -24430,11 +24437,11 @@ MESPOTINE - 3rd party functions
             \[S&amp;M\] Gets a take by GUID as string. The GUID must be enclosed in braces {}. To get take GUID as string, see [BR\_GetMediaItemTakeGUID](#BR_GetMediaItemTakeGUID)
         </description>
         <retvals>
-            MediaItem_Take - 
+            MediaItem_Take take - 
         </retvals>
         <parameters>
-            project - the project-number. 0 for the current project. 
-            guid - 
+            ReaProject project - the project-number. 0 for the current project. 
+            string guid - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24495,10 +24502,10 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            obj - 
+            identifier obj - 
             WDL_FastString state - 
-            setnewvalue - 
-            wantminimalstate - 
+            boolean setnewvalue - 
+            boolean wantminimalstate - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24618,9 +24625,9 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            tr - 
-            fxId - 
-            what - 
+            MediaTrack tr - 
+            integer fxId - 
+            integer what - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24678,8 +24685,8 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            tr - 
-            rcvidx - 
+            MediaTrack tr - 
+            integer rcvidx - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24707,8 +24714,8 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            tr - 
-            srctr - 
+            MediaTrack tr - 
+            MediaTrack srctr - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24736,7 +24743,7 @@ MESPOTINE - 3rd party functions
             integer retval - 
         </retvals>
         <parameters>
-            name - 
+            string name - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24787,7 +24794,7 @@ MESPOTINE - 3rd party functions
         <title>SNM_SetFastString(SWS)</title>
         <functioncall prog_lang="cpp">WDL_FastString* SNM_SetFastString(WDL_FastString* str, const char* newstr)</functioncall>
         <functioncall prog_lang="eel">WDL_FastString extension_api("SNM_SetFastString", WDL_FastString str, "newstr")</functioncall>
-        <functioncall prog_lang="lua">WDL_FastString = reaper.SNM_SetFastString(WDL_FastString str, string newstr)</functioncall>
+        <functioncall prog_lang="lua">WDL_FastString fstr = reaper.SNM_SetFastString(WDL_FastString str, string newstr)</functioncall>
         <functioncall prog_lang="python">WDL_FastString SNM_SetFastString(WDL_FastString str, String newstr)</functioncall>
         <requires>
             Reaper=5.62
@@ -24797,11 +24804,11 @@ MESPOTINE - 3rd party functions
             [S&amp;M] Sets the "fast string" content. Returns str for facility.
         </description>
         <retvals>
-            WDL_FastString - 
+            WDL_FastString fstr - 
         </retvals>
         <parameters>
-            str - 
-            newstr - 
+            WDL_FastString str - 
+            string newstr - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24898,13 +24905,13 @@ MESPOTINE - 3rd party functions
             boolean retval - 
         </retvals>
         <parameters>
-            proj - the project-number. 0 for the current project. 
-            num - 
-            isrgn - 
-            pos - 
-            rgnend - 
-            name - 
-            color - 
+            ReaProject proj - the project-number. 0 for the current project. 
+            integer num - 
+            boolean isrgn - 
+            number pos - 
+            number rgnend - 
+            string name - 
+            integer color - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24959,7 +24966,7 @@ MESPOTINE - 3rd party functions
             [S&amp;M] Attach Resources slot actions to a given bookmark.
         </description>
         <parameters>
-            bookmarkId - 
+            integer bookmarkId - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -24996,7 +25003,7 @@ MESPOTINE - 3rd party functions
         <title>ULT_GetMediaItemNote(SWS)</title>
         <functioncall prog_lang="cpp">const char* ULT_GetMediaItemNote(MediaItem* item)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ULT_GetMediaItemNote", #retval, MediaItem item)</functioncall>
-        <functioncall prog_lang="lua">string = reaper.ULT_GetMediaItemNote(MediaItem item)</functioncall>
+        <functioncall prog_lang="lua">string str = reaper.ULT_GetMediaItemNote(MediaItem item)</functioncall>
         <functioncall prog_lang="python">String ULT_GetMediaItemNote(MediaItem item)</functioncall>
         <requires>
             Reaper=5.62
@@ -25008,7 +25015,7 @@ MESPOTINE - 3rd party functions
             [ULT] Deprecated, see [GetSetMediaItemInfo\_String](#GetSetMediaItemInfo_String) (v5.95+). Get item notes.
         </description>
         <retvals>
-            string - the notes, as stored in the MediaItem. If no notes exist, it will return ""
+            string str - the notes, as stored in the MediaItem. If no notes exist, it will return ""
         </retvals>
         <parameters>
             MediaItem item - the MediaItem from which to get the notes from
@@ -25212,7 +25219,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-           number byte   - 
+           number byte - 
         </retvals>
         <parameters>
            identifier address - 
@@ -27074,7 +27081,7 @@ MESPOTINE - 3rd party functions
         <title>JS_LICE_LoadJPG(JS)</title>
         <functioncall prog_lang="cpp">void* JS_LICE_LoadJPG(const char* filename)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("JS_LICE_LoadJPG", "filename")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_LICE_LoadJPG(string filename)</functioncall>
+        <functioncall prog_lang="lua">identifier image = reaper.JS_LICE_LoadJPG(string filename)</functioncall>
         <functioncall prog_lang="python">void JS_LICE_LoadJPG(String filename)</functioncall>
         <requires>
             Reaper=5.974
@@ -27084,7 +27091,7 @@ MESPOTINE - 3rd party functions
             Returns a system LICE bitmap containing the JPEG.
         </description>
         <retvals>
-           identifier - the bitmap, which holds the jpg
+           identifier image - the bitmap, which holds the jpg
         </retvals>
         <parameters>
             string filename - the filename+path of the jpg-file to load
@@ -27682,7 +27689,7 @@ MESPOTINE - 3rd party functions
         <title>JS_Mem_Alloc(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Mem_Alloc(int sizeBytes)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("JS_Mem_Alloc", int sizeBytes)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Mem_Alloc(integer sizeBytes)</functioncall>
+        <functioncall prog_lang="lua">identifier memory = reaper.JS_Mem_Alloc(integer sizeBytes)</functioncall>
         <functioncall prog_lang="python">void JS_Mem_Alloc(Int sizeBytes)</functioncall>
         <requires>
             Reaper=5.974
@@ -27692,7 +27699,7 @@ MESPOTINE - 3rd party functions
             Allocates memory for general use by functions that require memory buffers.
         </description>
         <retvals>
-           identifier - 
+           identifier memory - 
         </retvals>
         <parameters>
            integer sizeBytes - 
@@ -27711,7 +27718,7 @@ MESPOTINE - 3rd party functions
         <title>JS_Mem_Free(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Mem_Alloc(int sizeBytes)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("JS_Mem_Alloc", int sizeBytes)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Mem_Alloc(integer sizeBytes)</functioncall>
+        <functioncall prog_lang="lua">identifier mem = reaper.JS_Mem_Alloc(integer sizeBytes)</functioncall>
         <functioncall prog_lang="python">Boolean JS_Mem_Free(void mallocPointer)</functioncall>
         <requires>
             Reaper=5.974
@@ -27721,7 +27728,7 @@ MESPOTINE - 3rd party functions
             Frees memory that was previously allocated by JS\_Mem\_Alloc.
         </description>
         <retvals>
-           identifier - 
+           identifier mem - 
         </retvals>
         <parameters>
            integer sizeBytes - 
@@ -27749,7 +27756,7 @@ MESPOTINE - 3rd party functions
             Copies a packed string into a memory buffer.
         </description>
         <retvals>
-           boolean - 
+           boolean retval - 
         </retvals>
         <parameters>
            identifier mallocPointer - 
@@ -27770,7 +27777,7 @@ MESPOTINE - 3rd party functions
         <title>JS_Mouse_GetCursor(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Mouse_GetCursor()</functioncall>
         <functioncall prog_lang="eel">void* extension_api("JS_Mouse_GetCursor")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Mouse_GetCursor()</functioncall>
+        <functioncall prog_lang="lua">identifier mouse_cursor = reaper.JS_Mouse_GetCursor()</functioncall>
         <functioncall prog_lang="python">void JS_Mouse_GetCursor()</functioncall>
         <requires>
             Reaper=5.974
@@ -27781,7 +27788,7 @@ MESPOTINE - 3rd party functions
             On Linux and macOS, retrieves a handle to the last cursor set by REAPER or its extensions via SWELL.
         </description>
         <retvals>
-           identifier - 
+           identifier mouse_cursor - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -27796,7 +27803,7 @@ MESPOTINE - 3rd party functions
         <title>JS_Mouse_GetState(JS)</title>
         <functioncall prog_lang="cpp">int JS_Mouse_GetState(int flags)</functioncall>
         <functioncall prog_lang="eel">int  extension_api("JS_Mouse_GetState", int flags)</functioncall>
-        <functioncall prog_lang="lua">integer retval = reaper.JS_Mouse_GetState(integer flags)</functioncall>
+        <functioncall prog_lang="lua">integer mouse_states = reaper.JS_Mouse_GetState(integer flags)</functioncall>
         <functioncall prog_lang="python">Int  JS_Mouse_GetState(Int flags)</functioncall>
         <requires>
             Reaper=5.974
@@ -27811,7 +27818,7 @@ MESPOTINE - 3rd party functions
             use -1 as flags to retrieve the states of all mouse-buttons and modifier
         </description>
         <retvals>
-           integer  - 
+           integer mouse_states - 
         </retvals>
         <parameters>
            integer flags - 
@@ -27829,7 +27836,7 @@ MESPOTINE - 3rd party functions
         <title>JS_Mouse_LoadCursor(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Mouse_LoadCursor(int cursorNumber)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Mouse_LoadCursor", int cursorNumber)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Mouse_LoadCursor(integer cursorNumber)</functioncall>
+        <functioncall prog_lang="lua">identifier mouse_cursor = reaper.JS_Mouse_LoadCursor(integer cursorNumber)</functioncall>
         <functioncall prog_lang="python">void  JS_Mouse_LoadCursor(Int cursorNumber)</functioncall>
         <requires>
             Reaper=5.974
@@ -27844,7 +27851,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-           identifier  - 
+           identifier mouse_cursor - 
         </retvals>
         <parameters>
            integer cursorNumber - 
@@ -27862,7 +27869,7 @@ MESPOTINE - 3rd party functions
         <title>JS_Mouse_LoadCursorFromFile(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Mouse_LoadCursorFromFile(const char* pathAndFileName, bool* forceNewLoad)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Mouse_LoadCursorFromFile", "pathAndFileName", boolean forceNewLoad)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Mouse_LoadCursorFromFile(string pathAndFileName, optional boolean forceNewLoad)</functioncall>
+        <functioncall prog_lang="lua">identifier mouse_cursor = reaper.JS_Mouse_LoadCursorFromFile(string pathAndFileName, optional boolean forceNewLoad)</functioncall>
         <functioncall prog_lang="python">void  JS_Mouse_LoadCursorFromFile(String pathAndFileName, Boolean forceNewLoadOptional)</functioncall>
         <requires>
             Reaper=5.974
@@ -27878,7 +27885,7 @@ MESPOTINE - 3rd party functions
             forceNewLoad is an optional boolean parameter:
         </description>
         <retvals>
-           identifier  - 
+           identifier mouse_cursor - 
         </retvals>
         <parameters>
            string pathAndFileName - 
@@ -27907,7 +27914,6 @@ MESPOTINE - 3rd party functions
             Sets the mouse cursor.  (Only lasts while script is running, and for a single "defer" cycle.)
 
         </description>
-
         <parameters>
            identifier cursorHandle - 
         </parameters>
@@ -31308,7 +31314,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_FindWindowEx(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_FindWindowEx(const char* hwndParent, const char* hwndChildAfter, const char* className, const char* windowName, bool searchClass, bool searchName)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_FindWindowEx", "hwndParent", "hwndChildAfter", "className", "windowName", bool searchClass, bool searchName)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_FindWindowEx(string hwndParent, string hwndChildAfter, string className, string windowName, boolean searchClass, boolean searchName)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.BR_Win32_FindWindowEx(string hwndParent, string hwndChildAfter, string className, string windowName, boolean searchClass, boolean searchName)</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_FindWindowEx(String hwndParent, String hwndChildAfter, String className, String windowName, Boolean searchClass, Boolean searchName)</functioncall>
         <requires>
             Reaper=5.965
@@ -31319,7 +31325,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd - 
         </retvals>
         <parameters>
             string hwndParent - 
@@ -31475,7 +31481,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_GetFocus(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_GetFocus()</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_GetFocus")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_GetFocus()</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd_focus = reaper.BR_Win32_GetFocus()</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_GetFocus()</functioncall>
         <requires>
             Reaper=5.965
@@ -31486,7 +31492,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd_focus - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -31503,7 +31509,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_GetForegroundWindow(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_GetForegroundWindow()</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_GetForegroundWindow")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_GetForegroundWindow()</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd_foreground = reaper.BR_Win32_GetForegroundWindow()</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_GetForegroundWindow()</functioncall>
         <requires>
             Reaper=5.965
@@ -31514,7 +31520,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd_foreground - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -31531,7 +31537,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_GetMainHwnd(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_GetMainHwnd()</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_GetMainHwnd")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_GetMainHwnd()</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd_main = reaper.BR_Win32_GetMainHwnd()</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_GetMainHwnd()</functioncall>
         <requires>
             Reaper=5.965
@@ -31542,7 +31548,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd_main - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -31626,7 +31632,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_GetParent(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_GetParent(void* hwnd)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_GetParent", void* hwnd)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_GetParent(identifier hwnd)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd_parent = reaper.BR_Win32_GetParent(identifier hwnd)</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_GetParent(void hwnd)</functioncall>
         <requires>
             Reaper=5.965
@@ -31637,7 +31643,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd_parent - 
         </retvals>
         <parameters>
             identifier hwnd - 
@@ -31657,7 +31663,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_GetWindow(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_GetWindow(void* hwnd, int cmd)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_GetWindow", void* hwnd, int cmd)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_GetWindow(identifier hwnd, integer cmd)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.BR_Win32_GetWindow(identifier hwnd, integer cmd)</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_GetWindow(void hwnd, Int cmd)</functioncall>
         <requires>
             Reaper=5.965
@@ -31668,7 +31674,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd - 
         </retvals>
         <parameters>
             identifier hwnd - 
@@ -31857,6 +31863,7 @@ MESPOTINE - 3rd party functions
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Convert HWND to string. To convert string back to HWND, see [BR\_Win32_StringToHwnd](#BR_Win32_StringToHwnd).
 
+            A way to share a hwnd via extstate, which only allows strings, not binary objects.
         </description>
         <retvals>
             string hwndstring - 
@@ -32157,7 +32164,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_MIDIEditor_GetActive(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_MIDIEditor_GetActive()</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_MIDIEditor_GetActive")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_MIDIEditor_GetActive()</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd_active_midi_ed = reaper.BR_Win32_MIDIEditor_GetActive()</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_MIDIEditor_GetActive()</functioncall>
         <requires>
             Reaper=5.965
@@ -32168,7 +32175,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd_active_midi_ed - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -32253,7 +32260,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_SetFocus(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_SetFocus(void* hwnd)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_SetFocus", void* hwnd)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_SetFocus(identifier hwnd)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd_focus = reaper.BR_Win32_SetFocus(identifier hwnd)</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_SetFocus(void hwnd)</functioncall>
         <requires>
             Reaper=5.965
@@ -32264,7 +32271,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd_focus - 
         </retvals>
         <parameters>
             identifier hwnd - 
@@ -32418,7 +32425,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_StringToHwnd(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_StringToHwnd(const char* string)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_StringToHwnd", "string")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_StringToHwnd(string string)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.BR_Win32_StringToHwnd(string string)</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_StringToHwnd(String string)</functioncall>
         <requires>
             Reaper=5.965
@@ -32426,10 +32433,11 @@ MESPOTINE - 3rd party functions
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Convert string to HWND. To convert HWND back to string, see [BR\_Win32\_HwndToString](BR_Win32_HwndToString).
-
+            
+            A way to share a hwnd via extstate, which only allows strings, not binary objects.
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd - 
         </retvals>
         <parameters>
             string string - 
@@ -32449,7 +32457,7 @@ MESPOTINE - 3rd party functions
         <title>BR_Win32_WindowFromPoint(SWS)</title>
         <functioncall prog_lang="cpp">void* BR_Win32_WindowFromPoint(int x, int y)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_Win32_WindowFromPoint", int x, int y)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.BR_Win32_WindowFromPoint(integer x, integer y)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd_point = reaper.BR_Win32_WindowFromPoint(integer x, integer y)</functioncall>
         <functioncall prog_lang="python">void  BR_Win32_WindowFromPoint(Int x, Int y)</functioncall>
         <requires>
             Reaper=5.965
@@ -32457,14 +32465,13 @@ MESPOTINE - 3rd party functions
         </requires>
         <description prog_lang="*">
             [BR] Equivalent to win32 API WindowFromPoint().
-
         </description>
         <retvals>
-            identifier - 
+            identifier hwnd_point - the hwnd at x and y-coordinates
         </retvals>
         <parameters>
-            integer x - 
-            integer y - 
+            integer x - x-coordinate of the point to look for possible hwnd
+            integer y - y-coordinate of the point to look for possible hwnd
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -32611,7 +32618,7 @@ MESPOTINE - 3rd party functions
         <title>CF_GetCommandText(SWS)</title>
         <functioncall prog_lang="cpp">const char* CF_GetCommandText(int section, int command)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("CF_GetCommandText", #retval, int section, int command)</functioncall>
-        <functioncall prog_lang="lua">string = reaper.CF_GetCommandText(integer section, integer command)</functioncall>
+        <functioncall prog_lang="lua">string str = reaper.CF_GetCommandText(integer section, integer command)</functioncall>
         <functioncall prog_lang="python">String  CF_GetCommandText(Int section, Int command)</functioncall>
         <requires>
             Reaper=5.965
@@ -32622,7 +32629,7 @@ MESPOTINE - 3rd party functions
 
         </description>
         <retvals>
-            string - 
+            string str - 
         </retvals>
         <parameters>
             integer section - 
@@ -32819,7 +32826,7 @@ MESPOTINE - 3rd party functions
         <title>CF_GetTakeFXChain(SWS)</title>
         <functioncall prog_lang="cpp">FxChain* CF_GetTakeFXChain(MediaItem_Take* take)</functioncall>
         <functioncall prog_lang="eel">FxChain extension_api("CF_GetTakeFXChain", MediaItem_Take take)</functioncall>
-        <functioncall prog_lang="lua">FxChain = reaper.CF_GetTakeFXChain(MediaItem_Take take)</functioncall>
+        <functioncall prog_lang="lua">FxChain hwnd = reaper.CF_GetTakeFXChain(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">FxChain  CF_GetTakeFXChain(MediaItem_Take take)</functioncall>
         <requires>
             Reaper=5.965
@@ -32827,13 +32834,12 @@ MESPOTINE - 3rd party functions
         </requires>
         <description prog_lang="*">
             Return a handle to the given take FX chain window. HACK: This temporarily renames the take in order to disambiguate the take FX chain window from similarily named takes.
-
         </description>
         <retvals>
-            FxChain - 
+            FxChain hwnd - the hwnd-window-handler of the FX-chain of the item
         </retvals>
         <parameters>
-            MediaItem_Take take - 
+            MediaItem_Take take - the take, whose FXChain-window-handler you want to get
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -32849,7 +32855,7 @@ MESPOTINE - 3rd party functions
         <title>CF_GetTrackFXChain(SWS)</title>
         <functioncall prog_lang="cpp">FxChain* CF_GetTrackFXChain(MediaTrack* track)</functioncall>
         <functioncall prog_lang="eel">FxChain extension_api("CF_GetTrackFXChain", MediaTrack track)</functioncall>
-        <functioncall prog_lang="lua">FxChain = reaper.CF_GetTrackFXChain(MediaTrack track)</functioncall>
+        <functioncall prog_lang="lua">FxChain hwnd = reaper.CF_GetTrackFXChain(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">FxChain  CF_GetTrackFXChain(MediaTrack track)</functioncall>
         <requires>
             Reaper=5.965
@@ -32857,13 +32863,12 @@ MESPOTINE - 3rd party functions
         </requires>
         <description prog_lang="*">
             Return a handle to the given track FX chain window.
-
         </description>
         <retvals>
-            FxChain - 
+            FxChain hwnd - the hwnd-window-handler of the FX-chain of the track
         </retvals>
         <parameters>
-            MediaTrack track - 
+            MediaTrack track - the track, whose FXChain-window-handler you want to get
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -32887,7 +32892,6 @@ MESPOTINE - 3rd party functions
         </requires>
         <description prog_lang="*">
             Select the given file in explorer/finder.
-
         </description>
         <retvals>
             boolean retval - 
@@ -33096,7 +33100,7 @@ MESPOTINE - 3rd party functions
         <title>NF_GetSWSMarkerRegionSub(SWS)</title>
         <functioncall prog_lang="cpp">const char* NF_GetSWSMarkerRegionSub(int markerRegionIdx)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("NF_GetSWSMarkerRegionSub", #retval, int markerRegionIdx)</functioncall>
-        <functioncall prog_lang="lua">string = reaper.NF_GetSWSMarkerRegionSub(integer markerRegionIdx)</functioncall>
+        <functioncall prog_lang="lua">string subtitle = reaper.NF_GetSWSMarkerRegionSub(integer markerRegionIdx)</functioncall>
         <functioncall prog_lang="python">String  NF_GetSWSMarkerRegionSub(Int markerRegionIdx)</functioncall>
         <requires>
             Reaper=5.965
@@ -33109,7 +33113,7 @@ MESPOTINE - 3rd party functions
             [Lua code example can be found here](https://github.com/ReaTeam/ReaScripts-Templates/blob/master/Markers%20and%20Regions/NF_Get%20SWS%20markers%20and%20regions%20notes.lua)
         </description>
         <retvals>
-            string - 
+            string subtitle - 
         </retvals>
         <parameters>
             integer markerRegionIdx - 
@@ -33372,7 +33376,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_abs</slug>
         <title>abs</title>
-        <functioncall prog_lang="eel">abs(value)</functioncall>
+        <functioncall prog_lang="eel">float abs_value = abs(float value)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -33380,7 +33384,10 @@ MESPOTINE - 3rd party functions
             Returns the absolute value of the parameter.
         </description>
         <parameters>
-            value - 
+            float abs_value - the absolute-value of value
+        </parameters>
+        <parameters>
+            float value - the value, that you want to convert to absolute
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33393,15 +33400,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_acos</slug>
         <title>acos</title>
-        <functioncall prog_lang="eel">acos(value)</functioncall>
+        <functioncall prog_lang="eel">float arc_cos = acos(float value)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description prog_lang="eel">
             Returns the arc cosine of the value specified (return value is in radians). If the parameter is not between -1.0 and 1.0 inclusive, the return value is undefined.
         </description>
+        <retvals>
+            float arc_cos - the arc-cosine-value in radians
+        </retvals>
         <parameters>
-            value - 
+            float value - the value, that you want to convert into arc-cosine
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33414,15 +33424,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_asin</slug>
         <title>asin</title>
-        <functioncall prog_lang="eel">asin(value)</functioncall>
+        <functioncall prog_lang="eel">float arc_sine = asin(float value)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Returns the arc sine of the value specified (return value is in radians). If the parameter is not between -1.0 and 1.0 inclusive, the return value is undefined.
         </description>
+        <retvals>
+            float arc_sine - the arc-sine-value in radians of value
+        </retvals>
         <parameters>
-            value - 
+            float value - the value, that you want to convert to arc-sine
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33435,15 +33448,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_atan</slug>
         <title>atan</title>
-        <functioncall prog_lang="eel">atan(value)</functioncall>
+        <functioncall prog_lang="eel">float arc_tan = atan(value)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Returns the arc tangent of the value specified (return value is in radians). If the parameter is not between -1.0 and 1.0 inclusive, the return value is undefined.
         </description>
+        <retvals>
+            float arc_tan - the arc-tan-value in radians of value
+        </retvals>
         <parameters>
-            value - 
+            float value - the value, that you want to convert to arc-tan
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33463,9 +33479,12 @@ MESPOTINE - 3rd party functions
         <description indent="default">
             Returns the arc tangent of the numerator divided by the denominator, allowing the denominator to be 0, and using their signs to produce a more meaningful result.
         </description>
+        <revals>
+            float arc_tangent - the arc-tangent 
+        </retvals>
         <parameters>
-            numerator - 
-            denominator -
+            float numerator - the numerator to calculate the arc-tangent
+            float denominator - the denominator to calculate the arc-tangent
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33478,15 +33497,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_atexit</slug>
         <title>atexit</title>
-        <functioncall prog_lang="eel">atexit(code)</functioncall>
+        <functioncall prog_lang="eel">float retval = atexit(string code)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Adds code to be executed when the script finishes or is ended by the user. Typically used to clean up after the user terminates defer() or runloop() code.
         </description>
+        <retval>
+            float retval - 0, nothing to run; 1, code was run
+        </retval>
         <parameters>
-            code - 
+            string code - the code to be run. You can also add a regular functioncall into this string, like "main()", if there's a main-function in the script
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33499,15 +33521,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_ceil</slug>
         <title>ceil</title>
-        <functioncall prog_lang="eel">ceil(value)</functioncall>
+        <functioncall prog_lang="eel">float round_val = ceil(float value)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Returns the value rounded to the next highest integer (ceil(3.1)==4, ceil(-3.9)==-3).
         </description>
+        <retvals>
+            float round_val - the rounded value to the next highest integer
+        </retvals>
         <parameters>
-            value - 
+            float value - the value to round
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33520,17 +33545,20 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_convolve_c</slug>
         <title>convolve_c</title>
-        <functioncall prog_lang="eel">convolve_c(dest,src,size)</functioncall>
+        <functioncall prog_lang="eel">float convolved_val = convolve_c(float dest, float src, float size)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Multiplies each of size complex pairs in dest by the complex pairs in src. Often used for convolution.
         </description>
+        <retvals>
+            float convolved_val - 
+        </retvals>
         <parameters>
-            dest - 
-            src - 
-            size -
+            float dest - 
+            float src - 
+            float size -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33543,15 +33571,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_cos</slug>
         <title>cos</title>
-        <functioncall prog_lang="eel">cos(angle)</functioncall>
+        <functioncall prog_lang="eel">float cos = cos(float angle)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description prog_lang="eel">
             Returns the cosine of the angle specified (specified in radians).
         </description>
+        <retvals>
+            float cos - the cosine value in radians
+        </retvals>
         <parameters>
-            angle -
+            float angle - the angle to convert into cosine
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33608,9 +33639,11 @@ MESPOTINE - 3rd party functions
         </requires>
         <description prog_lang="eel">
             Executes code passed in. Code can use functions, but functions created in code can't be used elsewhere.
+            
+            Allows loading code from files and executing it
         </description>
         <parameters>
-            code -
+            string code - the code to be executed
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33623,15 +33656,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_exp</slug>
         <title>exp</title>
-        <functioncall prog_lang="eel">exp(exponent)</functioncall>
+        <functioncall prog_lang="eel">float e_pow = exp(float exponent)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description prog_lang="eel">
             Returns the number e ($e, approximately 2.718) raised to the parameter-th power. This function is significantly faster than pow() or the ^ operator.
         </description>
+        <retvals>
+            float e_pow - the number e raised to parameter-th power
+        </retvals>
         <parameters>
-            exponent -
+            float exponent - the exponent to use for raise
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33644,16 +33680,21 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_extension_api</slug>
         <title>extension_api</title>
-        <functioncall prog_lang="eel">extension_api(function_name[,...])</functioncall>
+        <functioncall prog_lang="eel">various retval = extension_api(string function_name[,...])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Used to call functions exported by extension plugins. The first parameter must be the exported function name, then its own parameters (as if the function was called directly).
+            
+            Will return the returnvalue of the function called.
         </description>
+        <retvals>
+            various retval - the return value of functionname, can be of numerous datatypes, refer to the docs of functionname
+        </retvals>
         <parameters>
-            functionname - 
-            ... - 
+            string functionname - the name of the function to run
+            various parameters... - the parameters used by functionname
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33666,15 +33707,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fclose</slug>
         <title>fclose</title>
-        <functioncall prog_lang="eel">fclose(fp)</functioncall>
+        <functioncall prog_lang="eel">integer retval = fclose(filehandler fp)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Closes a file previously opened with fopen().
         </description>
+        <retvals>
+            integer retval - 0, closing was successful; -1, closing was unsuccessful
+        </retvals>
         <parameters>
-            fp - 
+            filehandler fp - the handler of the opened file
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33687,15 +33731,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_feof</slug>
         <title>feof</title>
-        <functioncall prog_lang="eel">feof(fp)</functioncall>
+        <functioncall prog_lang="eel">integer retval = feof(filehandler fp)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Returns nonzero if the file fp is at the end of file.
         </description>
+        <retvals>
+            integer rteval - 0, file is not at the end of a file; nonzero, it is at the end of the file
+        </retvals>
         <parameters>
-            fp - 
+            filehandler fp - the handler of the opened file
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33708,15 +33755,18 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fflush</slug>
         <title>fflush</title>
-        <functioncall prog_lang="eel">fflush(fp)</functioncall>
+        <functioncall prog_lang="eel">integer retval = fflush(filehandler fp)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             If file fp is open for writing, flushes out any buffered data to disk.
         </description>
+        <retvals>
+            integer retval - -1, couldn't flush file; 0, flushing was successful
+        </retvals>
         <parameters>
-            fp - 
+            filehandler fp - the handler of the file
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33729,7 +33779,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fft</slug>
         <title>fft</title>
-        <functioncall prog_lang="eel">fft(buffer,size)</functioncall>
+        <functioncall prog_lang="eel">float retval = fft(data buffer, integer size)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -33738,9 +33788,12 @@ MESPOTINE - 3rd party functions
             Note that fft()/ifft() require real / imaginary input pairs, so a 256 point FFT actually works with 512 items.
             Note that fft()/ifft() must NOT cross a 65,536 item boundary, so be sure to specify the offset accordingly.
         </description>
+        <retvals>
+            float retval - 
+        </retvals>
         <parameters>
-            buffer - 
-            size -
+            data buffer - 
+            integer size -
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33753,16 +33806,19 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fft_ipermute</slug>
         <title>fft_ipermute</title>
-        <functioncall prog_lang="eel">fft_ipermute(buffer,size)</functioncall>
+        <functioncall prog_lang="eel">float retval = fft_ipermute(data buffer, integer size)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Permute the input for ifft(), taking bands from in-order to the order ifft() requires. See [fft()](#eel_fft) for more information.
         </description>
+        <retvals>
+            float retval - 
+        </retvals>
         <parameters>
-            buffer - 
-            size - 
+            data buffer - 
+            integer size - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33775,16 +33831,19 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fft_permute</slug>
         <title>fft_permute</title>
-        <functioncall prog_lang="eel">fft_permute(buffer,size)</functioncall>
+        <functioncall prog_lang="eel">float retval = fft_permute(data buffer, integer size)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Permute the output of fft() to have bands in-order. See [fft()](#eel_fft) for more information.
         </description>
+        <retvals>
+            float retval - 
+        </retvals>
         <parameters>
-            buffer - 
-            size - 
+            data buffer - 
+            integer size - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -33793,6 +33852,8 @@ MESPOTINE - 3rd party functions
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
+
+Mespotine
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_fft_real</slug>
@@ -34233,6 +34294,8 @@ MESPOTINE - 3rd party functions
         </requires>
         <description indent="default">
             Deprecated, use gfx_blit instead.
+            
+            Note: the naming of the function might be misleading, as it has nothing to do with blitting of text, but rather is called Blit Ext.
         </description>
         <parameters>
             source - 
@@ -36724,17 +36787,22 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.blitext</slug>
         <title>gfx.blitext</title>
-        <functioncall prog_lang="lua">gfx.blitext(source,coordinatelist,rotation)</functioncall>
+        <functioncall prog_lang="lua">number retval = gfx.blitext(source,coordinatelist,rotation)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Deprecated, use gfx.blit instead.
+            
+            Note: the naming of the function might be misleading, as it has nothing to do with blitting of text, but rather is called Blit Ext.
         </description>
+        <retvals>
+            number retval - the index of the source that got blitted
+        </retvals>
         <parameters>
-            source - 
-            coordinatelist - 
-            rotation - 
+            integer source - the source of the blitted image
+            table coordinatelist - 
+            number rotation - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -37146,7 +37214,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.gradrect</slug>
         <title>gfx.gradrect</title>
-        <functioncall prog_lang="lua">gfx.gradrect(x,y,w,h, r,g,b,a[, drdx, dgdx, dbdx, dadx, drdy, dgdy, dbdy, dady])</functioncall>
+        <functioncall prog_lang="lua">gfx.gradrect(number x, number y, number w, number h, number r, number g, number b, number a[, optional number drdx, optional number dgdx, optional number dbdx, optional number dadx, optional number drdy, optional number dgdy, optional number dbdy, optional number dady])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -37154,22 +37222,22 @@ MESPOTINE - 3rd party functions
             Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect the adjustment (per-pixel) applied for each pixel moved to the right, drdy-dady are the adjustment applied for each pixel moved toward the bottom. Normally drdx=adjustamount/w, drdy=adjustamount/h, etc.
         </description>
         <parameters>
-            x - 
-            y - 
-            w - 
-            h - 
-            r -
-            g -
-            b - 
-            a -
-            drdx -
-            dgdx - 
-            dbdx -
-            dadx -
-            drdy - 
-            dgdy - 
-            dbdy - 
-            dady - 
+            number x - 
+            number y - 
+            number w - 
+            number h - 
+            number r -
+            number g -
+            number b - 
+            number a -
+            optional number drdx -
+            optional number dgdx - 
+            optional number dbdx -
+            optional number dadx -
+            optional number drdy - 
+            optional number dgdy - 
+            optional number dbdy - 
+            optional number dady - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -37377,7 +37445,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.printf</slug>
         <title>gfx.printf</title>
-        <functioncall prog_lang="lua">gfx.printf(format[, ...])</functioncall>
+        <functioncall prog_lang="lua">number retval = gfx.printf(string format[, various ...])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -37410,9 +37478,12 @@ MESPOTINE - 3rd party functions
 
             Values for format specifiers can be specified as additional parameters to gfx.printf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>
+        <retvals>
+            number retval - always 0
+        </retvals>
         <parameters>
-            format - 
-            ... - 
+            string format - the format, as which the string shall be printed(refer to the description)
+            various ... - the value to be shown, canbe of various datatypes
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -37588,19 +37659,39 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.setcursor</slug>
         <title>gfx.setcursor</title>
-        <functioncall prog_lang="lua">gfx.setcursor(resource_id,custom_cursor_name)</functioncall>
+        <functioncall prog_lang="lua">number retval = gfx.setcursor(optional integer resource_id, optional string custom_cursor_name)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
             Sets the mouse cursor. resource_id is a value like 32512 (for an arrow cursor), custom_cursor_name is a string like "arrow" (for the REAPER custom arrow cursor). resource_id must be nonzero, but custom_cursor_name is optional.
+            
+            examples for resource_id:
+                101, enter text
+                102, hourglass
+                103, cross
+                104, arrow up
+                105, arrows to left up AND right down
+                106, arrows to left down AND right up
+                107, arrows to left AND right
+                108, arrows to up AND down
+                109, arrows to up, down, left and right
+                110, stop sign
+                111, arrow with hourglass
+                112, arrow with question mark
+                113, a pen
+                114, hand with index finger pointing
+                115, a square
+                116, arrow with cd
+                
+            works only with gfx-window opened.
         </description>
         <retvals>
-
+            number retval - 0.0, gfx-window not opened; 1.0, gfx-window opened
         </retvals>
         <parameters>
-            resource_id - 
-            custom_cursor_name - 
+            optional integer resource_id - the index of the mousecursor to be used
+            optional string custom_cursor_name - a name of the mousecursor to be used
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -38038,7 +38129,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_{reaper.array}.fft</slug>
         <title>{reaper.array}.fft</title>
-        <functioncall prog_lang="lua">{reaper.array}.fft(size[, permute, offset])</functioncall>
+        <functioncall prog_lang="lua">boolean retval = {reaper.array}.fft(integer size[, boolean permute, integer offset])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38046,12 +38137,12 @@ MESPOTINE - 3rd party functions
             Performs a forward FFT of size. size must be a power of two between 4 and 32768 inclusive. If permute is specified and true, the values will be shuffled following the FFT to be in normal order.
         </description>
         <retvals>
-
+            boolean retval - true, fft was successful; false, fft was unsuccessful
         </retvals>
         <parameters>
-            size - 
-            premute - 
-            offset - 
+            integer size - 
+            boolean premute - 
+            integer offset - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -38064,7 +38155,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_{reaper.array}.fft_real</slug>
         <title>{reaper.array}.fft_real</title>
-        <functioncall prog_lang="lua">{reaper.array}.fft_real(size[, permute, offset])</functioncall>
+        <functioncall prog_lang="lua">boolean retval = {reaper.array}.fft_real(integer size[, boolean permute, integer offset])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38072,12 +38163,12 @@ MESPOTINE - 3rd party functions
             Performs a forward real-&gt;complex FFT of size. size must be a power of two between 4 and 32768 inclusive. If permute is specified and true, the values will be shuffled following the FFT to be in normal order.
         </description>
         <retvals>
-
+            boolean retval - true, fft was successful; false, fft was unsuccessful
         </retvals>
         <parameters>
-            size - 
-            premute - 
-            offset - 
+            integer size - 
+            boolean premute - 
+            integer offset - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -38111,7 +38202,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_{reaper.array}.ifft</slug>
         <title>{reaper.array}.ifft</title>
-        <functioncall prog_lang="lua">{reaper.array}.ifft(size[, permute, offset])</functioncall>
+        <functioncall prog_lang="lua">boolean retval = {reaper.array}.ifft(integer size[, boolean permute, integer offset])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38119,12 +38210,12 @@ MESPOTINE - 3rd party functions
             Performs a backwards FFT of size. size must be a power of two between 4 and 32768 inclusive. If permute is specified and true, the values will be shuffled before the IFFT to be in fft-order.
         </description>
         <retvals>
-
+            boolean retval - true, fft was successful; false, fft was unsuccessful
         </retvals>
         <parameters>
-            size - 
-            permute - 
-            offset - 
+            integer size - 
+            boolean permute - 
+            integer offset - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -38137,7 +38228,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_{reaper.array}.ifft_real</slug>
         <title>{reaper.array}.ifft_real</title>
-        <functioncall prog_lang="lua">{reaper.array}.ifft_real(size[, permute, offset])</functioncall>
+        <functioncall prog_lang="lua">boolean retval = {reaper.array}.ifft_real(integer size[, boolean permute, integer offset])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38145,12 +38236,12 @@ MESPOTINE - 3rd party functions
             Performs a backwards complex-&gt;real FFT of size. size must be a power of two between 4 and 32768 inclusive. If permute is specified and true, the values will be shuffled before the IFFT to be in fft-order.
         </description>
         <retvals>
-
+            boolean retval - true, fft was successful; false, fft was unsuccessful
         </retvals>
         <parameters>
-            size - 
-            permute - 
-            offset - 
+            integer size - 
+            boolean permute - 
+            integer offset - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -38163,7 +38254,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_{reaper.array}.multiply</slug>
         <title>{reaper.array}.multiply</title>
-        <functioncall prog_lang="lua">{reaper.array}.multiply([src, srcoffs, size, destoffs])</functioncall>
+        <functioncall prog_lang="lua">integer retvals = {reaper.array}.multiply([{reaper.array} src, integer srcoffs, integer size, number destoffs])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38171,13 +38262,13 @@ MESPOTINE - 3rd party functions
             Multiplies values from reaper.array, starting at 1-based srcoffs, reading/writing to 1-based destoffs.
         </description>
         <retvals>
-
+            integer retvals - 
         </retvals>
         <parameters>
-            src - 
-            srcoffs - 
-            size - 
-            destoff - 
+            {reaper.array} src - 
+            integer srcoffs - 
+            integer size - 
+            number destoff - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -38190,7 +38281,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_{reaper.array}.resize</slug>
         <title>{reaper.array}.resize</title>
-        <functioncall prog_lang="lua">{reaper.array}.resize(size)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = {reaper.array}.resize(size)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38198,10 +38289,10 @@ MESPOTINE - 3rd party functions
             Resizes an array object to size. size must be [0..max_size].
         </description>
         <retvals>
-
+            boolean retval - true, changing size was successful; false, changing was unsuccessful
         </retvals>
         <parameters>
-            size - 
+            integer size - the new size of the table
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -38214,7 +38305,7 @@ MESPOTINE - 3rd party functions
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_{reaper.array}.table</slug>
         <title>{reaper.array}.table</title>
-        <functioncall prog_lang="lua">{reaper.array}.table([offset, size])</functioncall>
+        <functioncall prog_lang="lua">table new_table = {reaper.array}.table([integer offset, integer size])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -38222,11 +38313,11 @@ MESPOTINE - 3rd party functions
             Returns a new table with values from items in the array. Offset is 1-based and if size is omitted all available values are used.
         </description>
         <retvals>
-
+            table new_table - a table with the entries from the reaper.array
         </retvals>
         <parameters>
-            offset - 
-            size - 
+            integer offset - the first entry of the reaper.array to be included into the table
+            integer size - the number of entries to include into the table
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -38246,9 +38337,6 @@ MESPOTINE - 3rd party functions
         <description indent="default">
             Adds code to be executed when the script finishes or is ended by the user. Typically used to clean up after the user terminates defer() or runloop() code.
         </description>
-        <retvals>
-
-        </retvals>
         <parameters>
             String code - 
         </parameters>
@@ -38271,11 +38359,8 @@ MESPOTINE - 3rd party functions
             Adds code to be called back by REAPER. Used to create persistent ReaScripts that continue to run and respond to input, while the user does other tasks. Identical to runloop().
             Note that no undo point will be automatically created when the script finishes, unless you create it explicitly.
         </description>
-        <retvals>
-
-        </retvals>
         <parameters>
-            code - 
+           String code - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -38296,11 +38381,8 @@ MESPOTINE - 3rd party functions
             Adds code to be called back by REAPER. Used to create persistent ReaScripts that continue to run and respond to input, while the user does other tasks. Identical to defer().
             Note that no undo point will be automatically created when the script finishes, unless you create it explicitly.
         </description>
-        <retvals>
-
-        </retvals>
         <parameters>
-            code - 
+            String code - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>

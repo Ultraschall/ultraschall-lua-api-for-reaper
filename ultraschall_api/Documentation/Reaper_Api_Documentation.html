@@ -5595,14 +5595,14 @@ Notify REAPER of a write error by calling with readamt=0, writeamt=-101010110 fo
 <a href="#eel_abs"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>abs</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>abs</em>(value)</code></div>
+<div class="e">EEL2: <code> <i>float</i> abs_value = <em>abs</em>(<i>float</i> value)</code></div>
 </div><p>
 <div class="ch">
 Returns the absolute value of the parameter.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> abs_value</td></tr>
+<tr><td class="ch2">the absolute-value of value</td></tr>
 </table>
 <br>
 </div>
@@ -5612,14 +5612,21 @@ Returns the absolute value of the parameter.
 <a href="#eel_acos"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>acos</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>acos</em>(value)</code></div>
+<div class="e">EEL2: <code> <i>float</i> arc_cos = <em>acos</em>(<i>float</i> value)</code></div>
 </div><p>
 <div class="ch">
 Returns the arc cosine of the value specified (return value is in radians). If the parameter is not between -1.0 and 1.0 inclusive, the return value is undefined.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> arc_cos</td></tr>
+<tr><td class="ch2">the arc-cosine-value in radians</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>float</i> value</td></tr>
+<tr><td class="ch2">the value, that you want to convert into arc-cosine</td></tr>
 </table>
 <br>
 </div>
@@ -5629,14 +5636,21 @@ Returns the arc cosine of the value specified (return value is in radians). If t
 <a href="#eel_asin"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>asin</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>asin</em>(value)</code></div>
+<div class="e">EEL2: <code> <i>float</i> arc_sine = <em>asin</em>(<i>float</i> value)</code></div>
 </div><p>
 <div class="ch">
 Returns the arc sine of the value specified (return value is in radians). If the parameter is not between -1.0 and 1.0 inclusive, the return value is undefined.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> arc_sine</td></tr>
+<tr><td class="ch2">the arc-sine-value in radians of value</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>float</i> value</td></tr>
+<tr><td class="ch2">the value, that you want to convert to arc-sine</td></tr>
 </table>
 <br>
 </div>
@@ -5646,14 +5660,21 @@ Returns the arc sine of the value specified (return value is in radians). If the
 <a href="#eel_atan"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>atan</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>atan</em>(value)</code></div>
+<div class="e">EEL2: <code> <i>float</i> arc_tan = <em>atan</em>(value)</code></div>
 </div><p>
 <div class="ch">
 Returns the arc tangent of the value specified (return value is in radians). If the parameter is not between -1.0 and 1.0 inclusive, the return value is undefined.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> arc_tan</td></tr>
+<tr><td class="ch2">the arc-tan-value in radians of value</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>float</i> value</td></tr>
+<tr><td class="ch2">the value, that you want to convert to arc-tan</td></tr>
 </table>
 <br>
 </div>
@@ -5669,12 +5690,12 @@ Returns the arc tangent of the value specified (return value is in radians). If 
 Returns the arc tangent of the numerator divided by the denominator, allowing the denominator to be 0, and using their signs to produce a more meaningful result.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">numerator</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> numerator</td></tr>
+<tr><td class="ch2">the numerator to calculate the arc-tangent</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">denominator</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> denominator</td></tr>
+<tr><td class="ch2">the denominator to calculate the arc-tangent</td></tr>
 </table>
 <br>
 </div>
@@ -5684,14 +5705,14 @@ Returns the arc tangent of the numerator divided by the denominator, allowing th
 <a href="#eel_atexit"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>atexit</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>atexit</em>(code)</code></div>
+<div class="e">EEL2: <code> <i>float</i> retval = <em>atexit</em>(<i>string</i> code)</code></div>
 </div><p>
 <div class="ch">
 Adds code to be executed when the script finishes or is ended by the user. Typically used to clean up after the user terminates defer() or runloop() code.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">code</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> code</td></tr>
+<tr><td class="ch2">the code to be run. You can also add a regular functioncall into this string, like "main()", if there's a main-function in the script</td></tr>
 </table>
 <br>
 </div>
@@ -5701,14 +5722,21 @@ Adds code to be executed when the script finishes or is ended by the user. Typic
 <a href="#eel_ceil"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>ceil</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>ceil</em>(value)</code></div>
+<div class="e">EEL2: <code> <i>float</i> round_val = <em>ceil</em>(<i>float</i> value)</code></div>
 </div><p>
 <div class="ch">
 Returns the value rounded to the next highest integer (ceil(3.1)==4, ceil(-3.9)==-3).              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> round_val</td></tr>
+<tr><td class="ch2">the rounded value to the next highest integer</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>float</i> value</td></tr>
+<tr><td class="ch2">the value to round</td></tr>
 </table>
 <br>
 </div>
@@ -5718,21 +5746,28 @@ Returns the value rounded to the next highest integer (ceil(3.1)==4, ceil(-3.9)=
 <a href="#eel_convolve_c"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>convolve_c</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>convolve_c</em>(dest,src,size)</code></div>
+<div class="e">EEL2: <code> <i>float</i> convolved_val = <em>convolve_c</em>(<i>float</i> dest, <i>float</i> src, <i>float</i> size)</code></div>
 </div><p>
 <div class="ch">
 Multiplies each of size complex pairs in dest by the complex pairs in src. Often used for convolution.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>float</i> convolved_val</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>float</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>float</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>float</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5743,14 +5778,21 @@ Multiplies each of size complex pairs in dest by the complex pairs in src. Often
 <a href="#eel_cos"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>cos</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>cos</em>(angle)</code></div>
+<div class="e">EEL2: <code> <i>float</i> cos = <em>cos</em>(<i>float</i> angle)</code></div>
 </div><p>
 <div class="ch">
 Returns the cosine of the angle specified (specified in radians).              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">angle</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> cos</td></tr>
+<tr><td class="ch2">the cosine value in radians</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>float</i> angle</td></tr>
+<tr><td class="ch2">the angle to convert into cosine</td></tr>
 </table>
 <br>
 </div>
@@ -5797,11 +5839,13 @@ main();<br/>
 <div class="e">EEL2: <code> <em>eval</em>(code)</code></div>
 </div><p>
 <div class="ch">
-Executes code passed in. Code can use functions, but functions created in code can't be used elsewhere.              
+Executes code passed in. Code can use functions, but functions created in code can't be used elsewhere.<br/>
+<br/>
+Allows loading code from files and executing it              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">code</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> code</td></tr>
+<tr><td class="ch2">the code to be executed</td></tr>
 </table>
 <br>
 </div>
@@ -5811,14 +5855,21 @@ Executes code passed in. Code can use functions, but functions created in code c
 <a href="#eel_exp"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>exp</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>exp</em>(exponent)</code></div>
+<div class="e">EEL2: <code> <i>float</i> e_pow = <em>exp</em>(<i>float</i> exponent)</code></div>
 </div><p>
 <div class="ch">
 Returns the number e ($e, approximately 2.718) raised to the parameter-th power. This function is significantly faster than pow() or the ^ operator.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">exponent</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>float</i> e_pow</td></tr>
+<tr><td class="ch2">the number e raised to parameter-th power</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>float</i> exponent</td></tr>
+<tr><td class="ch2">the exponent to use for raise</td></tr>
 </table>
 <br>
 </div>
@@ -5828,18 +5879,27 @@ Returns the number e ($e, approximately 2.718) raised to the parameter-th power.
 <a href="#eel_extension_api"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>extension_api</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>extension_api</em>(function_name[,...])</code></div>
+<div class="e">EEL2: <code> various retval = <em>extension_api</em>(<i>string</i> function_name[,...])</code></div>
 </div><p>
 <div class="ch">
-Used to call functions exported by extension plugins. The first parameter must be the exported function name, then its own parameters (as if the function was called directly).              
-</div><br>          <u>Parameters:</u>
+Used to call functions exported by extension plugins. The first parameter must be the exported function name, then its own parameters (as if the function was called directly).<br/>
+<br/>
+Will return the returnvalue of the function called.              
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">functionname</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr">various retval</td></tr>
+<tr><td class="ch2">the return value of functionname, can be of numerous datatypes, refer to the docs of functionname</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>string</i> functionname</td></tr>
+<tr><td class="ch2">the name of the function to run</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">...</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr">various parameters...</td></tr>
+<tr><td class="ch2">the parameters used by functionname</td></tr>
 </table>
 <br>
 </div>
@@ -5849,14 +5909,21 @@ Used to call functions exported by extension plugins. The first parameter must b
 <a href="#eel_fclose"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fclose</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fclose</em>(fp)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>fclose</em>(filehandler fp)</code></div>
 </div><p>
 <div class="ch">
 Closes a file previously opened with fopen().              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">0, closing was successful; -1, closing was unsuccessful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
+<tr><td class="ch2">the handler of the opened file</td></tr>
 </table>
 <br>
 </div>
@@ -5866,14 +5933,21 @@ Closes a file previously opened with fopen().
 <a href="#eel_feof"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>feof</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>feof</em>(fp)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>feof</em>(filehandler fp)</code></div>
 </div><p>
 <div class="ch">
 Returns nonzero if the file fp is at the end of file.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> rteval</td></tr>
+<tr><td class="ch2">0, file is not at the end of a file; nonzero, it is at the end of the file</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
+<tr><td class="ch2">the handler of the opened file</td></tr>
 </table>
 <br>
 </div>
@@ -5883,14 +5957,21 @@ Returns nonzero if the file fp is at the end of file.
 <a href="#eel_fflush"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fflush</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fflush</em>(fp)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>fflush</em>(filehandler fp)</code></div>
 </div><p>
 <div class="ch">
 If file fp is open for writing, flushes out any buffered data to disk.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">fp</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">-1, couldn't flush file; 0, flushing was successful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">filehandler fp</td></tr>
+<tr><td class="ch2">the handler of the file</td></tr>
 </table>
 <br>
 </div>
@@ -5900,19 +5981,26 @@ If file fp is open for writing, flushes out any buffered data to disk.
 <a href="#eel_fft"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fft</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fft</em>(buffer,size)</code></div>
+<div class="e">EEL2: <code> <i>float</i> retval = <em>fft</em>(data buffer, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
 Performs a FFT on the data in the local memory buffer at the offset specified by the first parameter. The size of the FFT is specified by the second parameter, which must be 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, or 32768. The outputs are permuted, so if you plan to use them in-order, call fft_permute(buffer, size) before and fft_ipermute(buffer,size) after your in-order use. Your inputs or outputs will need to be scaled down by 1/size, if used.<br/>
 Note that fft()/ifft() require real / imaginary input pairs, so a 256 point FFT actually works with 512 items.<br/>
 Note that fft()/ifft() must NOT cross a 65,536 item boundary, so be sure to specify the offset accordingly.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">buffer</td></tr>
+<tr><td class="pr"><i>float</i> retval</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">data buffer</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>integer</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5923,17 +6011,24 @@ Note that fft()/ifft() must NOT cross a 65,536 item boundary, so be sure to spec
 <a href="#eel_fft_ipermute"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fft_ipermute</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fft_ipermute</em>(buffer,size)</code></div>
+<div class="e">EEL2: <code> <i>float</i> retval = <em>fft_ipermute</em>(data buffer, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
 <p>Permute the input for ifft(), taking bands from in-order to the order ifft() requires. See <a href="#eel_fft">fft()</a> for more information.</p>
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">buffer</td></tr>
+<tr><td class="pr"><i>float</i> retval</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">data buffer</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>integer</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -5944,17 +6039,24 @@ Note that fft()/ifft() must NOT cross a 65,536 item boundary, so be sure to spec
 <a href="#eel_fft_permute"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>fft_permute</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>fft_permute</em>(buffer,size)</code></div>
+<div class="e">EEL2: <code> <i>float</i> retval = <em>fft_permute</em>(data buffer, <i>integer</i> size)</code></div>
 </div><p>
 <div class="ch">
 <p>Permute the output of fft() to have bands in-order. See <a href="#eel_fft">fft()</a> for more information.</p>
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">buffer</td></tr>
+<tr><td class="pr"><i>float</i> retval</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">data buffer</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>integer</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -6452,7 +6554,9 @@ srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default t
 <div class="e">EEL2: <code> <em>gfx_blitext</em>(source,coordinatelist,rotation)</code></div>
 </div><p>
 <div class="ch">
-Deprecated, use gfx_blit instead.              
+Deprecated, use gfx_blit instead.<br/>
+<br/>
+Note: the naming of the function might be misleading, as it has nothing to do with blitting of text, but rather is called Blit Ext.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr">source</td></tr>
@@ -9131,21 +9235,30 @@ has no effect, when destx, desty, destw, desth are given</td></tr>
 <a href="#lua_gfx.blitext"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx.blitext</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>gfx.blitext</em>(source,coordinatelist,rotation)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>gfx.blitext</em>(source,coordinatelist,rotation)</code></div>
 </div><p>
 <div class="ch">
-Deprecated, use gfx.blit instead.              
-</div><br>          <u>Parameters:</u>
+Deprecated, use gfx.blit instead.<br/>
+<br/>
+Note: the naming of the function might be misleading, as it has nothing to do with blitting of text, but rather is called Blit Ext.              
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">source</td></tr>
+<tr><td class="pr"><i>number</i> retval</td></tr>
+<tr><td class="ch2">the index of the source that got blitted</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> source</td></tr>
+<tr><td class="ch2">the source of the blitted image</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>table</i> coordinatelist</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">coordinatelist</td></tr>
-<tr><td class="ch2"></td></tr>
-</table>
-<table class="ch">
-<tr><td class="pr">rotation</td></tr>
+<tr><td class="pr"><i>number</i> rotation</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -9645,73 +9758,73 @@ Returns r,g,b values [0..1] of the pixel at (gfx.x,gfx.y)
 <a href="#lua_gfx.gradrect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx.gradrect</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>gfx.gradrect</em>(x,y,w,h, r,g,b,a[, drdx, dgdx, dbdx, dadx, drdy, dgdy, dbdy, dady])</code></div>
+<div class="l">Lua: <code> <em>gfx.gradrect</em>(<i>number</i> x, <i>number</i> y, <i>number</i> w, <i>number</i> h, <i>number</i> r, <i>number</i> g, <i>number</i> b, <i>number</i> a[, <i>optional</i> <i>number</i> drdx, <i>optional</i> <i>number</i> dgdx, <i>optional</i> <i>number</i> dbdx, <i>optional</i> <i>number</i> dadx, <i>optional</i> <i>number</i> drdy, <i>optional</i> <i>number</i> dgdy, <i>optional</i> <i>number</i> dbdy, <i>optional</i> <i>number</i> dady])</code></div>
 </div><p>
 <div class="ch">
 Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect the adjustment (per-pixel) applied for each pixel moved to the right, drdy-dady are the adjustment applied for each pixel moved toward the bottom. Normally drdx=adjustamount/w, drdy=adjustamount/h, etc.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>number</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>number</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>number</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>number</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">r</td></tr>
+<tr><td class="pr"><i>number</i> r</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">g</td></tr>
+<tr><td class="pr"><i>number</i> g</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">b</td></tr>
+<tr><td class="pr"><i>number</i> b</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">a</td></tr>
+<tr><td class="pr"><i>number</i> a</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">drdx</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> drdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dgdx</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> dgdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dbdx</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> dbdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dadx</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> dadx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">drdy</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> drdy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dgdy</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> dgdy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dbdy</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> dbdy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dady</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> dady</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -9981,7 +10094,7 @@ The multiplied values usually affect only pixels, that are not black(0,0,0,0), w
 <a href="#lua_gfx.printf"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx.printf</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>gfx.printf</em>(format[, ...])</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>gfx.printf</em>(<i>string</i> format[, various ...])</code></div>
 </div><p>
 <div class="ch">
 Formats and draws a string at gfx.x, gfx.y, and updates gfx.x/gfx.y accordingly (the latter only if the formatted string contains newline). For more information on format strings, see sprintf()<br/>
@@ -10011,14 +10124,21 @@ Many standard C printf() modifiers can be used, including:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;* %010f = integer, minimum of 10 digits (zero padded)<br/>
 <br/>
 Values for format specifiers can be specified as additional parameters to gfx.printf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">format</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>number</i> retval</td></tr>
+<tr><td class="ch2">always 0</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>string</i> format</td></tr>
+<tr><td class="ch2">the format, as which the string shall be printed(refer to the description)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">...</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr">various ...</td></tr>
+<tr><td class="ch2">the value to be shown, canbe of various datatypes</td></tr>
 </table>
 <br>
 </div>
@@ -10239,18 +10359,45 @@ Add 4.0 to disable filtering for gfx.blit(). </td></tr>
 <a href="#lua_gfx.setcursor"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx.setcursor</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>gfx.setcursor</em>(resource_id,custom_cursor_name)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>gfx.setcursor</em>(<i>optional</i> <i>integer</i> resource_id, <i>optional</i> <i>string</i> custom_cursor_name)</code></div>
 </div><p>
 <div class="ch">
-Sets the mouse cursor. resource_id is a value like 32512 (for an arrow cursor), custom_cursor_name is a string like "arrow" (for the REAPER custom arrow cursor). resource_id must be nonzero, but custom_cursor_name is optional.              
-</div><br>          <u>Parameters:</u>
+Sets the mouse cursor. resource_id is a value like 32512 (for an arrow cursor), custom_cursor_name is a string like "arrow" (for the REAPER custom arrow cursor). resource_id must be nonzero, but custom_cursor_name is optional.<br/>
+<br/>
+examples for resource_id:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;101, enter text<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;102, hourglass<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;103, cross<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;104, arrow up<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;105, arrows to left up AND right down<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;106, arrows to left down AND right up<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;107, arrows to left AND right<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;108, arrows to up AND down<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;109, arrows to up, down, left and right<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;110, stop sign<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;111, arrow with hourglass<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;112, arrow with question mark<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;113, a pen<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;114, hand with index finger pointing<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;115, a square<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;116, arrow with cd<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+works only with gfx-window opened.              
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">resource_id</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>number</i> retval</td></tr>
+<tr><td class="ch2">0.0, gfx-window not opened; 1.0, gfx-window opened</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> resource_id</td></tr>
+<tr><td class="ch2">the index of the mousecursor to be used</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">custom_cursor_name</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>string</i> custom_cursor_name</td></tr>
+<tr><td class="ch2">a name of the mousecursor to be used</td></tr>
 </table>
 <br>
 </div>
@@ -10800,21 +10947,28 @@ Copies values from reaper.array or table, starting at 1-based srcoffs, writing t
 <a href="#lua_{reaper.array}.fft"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>{reaper.array}.fft</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>{reaper.array}.fft</em>(size[, permute, offset])</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>{reaper.array}.fft</em>(<i>integer</i> size[, <i>boolean</i> permute, <i>integer</i> offset])</code></div>
 </div><p>
 <div class="ch">
 Performs a forward FFT of size. size must be a power of two between 4 and 32768 inclusive. If permute is specified and true, the values will be shuffled following the FFT to be in normal order.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, fft was successful; false, fft was unsuccessful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">premute</td></tr>
+<tr><td class="pr"><i>boolean</i> premute</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">offset</td></tr>
+<tr><td class="pr"><i>integer</i> offset</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -10825,21 +10979,28 @@ Performs a forward FFT of size. size must be a power of two between 4 and 32768 
 <a href="#lua_{reaper.array}.fft_real"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>{reaper.array}.fft_real</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>{reaper.array}.fft_real</em>(size[, permute, offset])</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>{reaper.array}.fft_real</em>(<i>integer</i> size[, <i>boolean</i> permute, <i>integer</i> offset])</code></div>
 </div><p>
 <div class="ch">
 Performs a forward real-&gt;complex FFT of size. size must be a power of two between 4 and 32768 inclusive. If permute is specified and true, the values will be shuffled following the FFT to be in normal order.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, fft was successful; false, fft was unsuccessful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">premute</td></tr>
+<tr><td class="pr"><i>boolean</i> premute</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">offset</td></tr>
+<tr><td class="pr"><i>integer</i> offset</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -10868,21 +11029,28 @@ Returns the maximum (allocated) size of the array.
 <a href="#lua_{reaper.array}.ifft"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>{reaper.array}.ifft</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>{reaper.array}.ifft</em>(size[, permute, offset])</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>{reaper.array}.ifft</em>(<i>integer</i> size[, <i>boolean</i> permute, <i>integer</i> offset])</code></div>
 </div><p>
 <div class="ch">
 Performs a backwards FFT of size. size must be a power of two between 4 and 32768 inclusive. If permute is specified and true, the values will be shuffled before the IFFT to be in fft-order.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, fft was successful; false, fft was unsuccessful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">permute</td></tr>
+<tr><td class="pr"><i>boolean</i> permute</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">offset</td></tr>
+<tr><td class="pr"><i>integer</i> offset</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -10893,21 +11061,28 @@ Performs a backwards FFT of size. size must be a power of two between 4 and 3276
 <a href="#lua_{reaper.array}.ifft_real"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>{reaper.array}.ifft_real</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>{reaper.array}.ifft_real</em>(size[, permute, offset])</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>{reaper.array}.ifft_real</em>(<i>integer</i> size[, <i>boolean</i> permute, <i>integer</i> offset])</code></div>
 </div><p>
 <div class="ch">
 Performs a backwards complex-&gt;real FFT of size. size must be a power of two between 4 and 32768 inclusive. If permute is specified and true, the values will be shuffled before the IFFT to be in fft-order.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, fft was successful; false, fft was unsuccessful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">permute</td></tr>
+<tr><td class="pr"><i>boolean</i> permute</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">offset</td></tr>
+<tr><td class="pr"><i>integer</i> offset</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -10918,25 +11093,32 @@ Performs a backwards complex-&gt;real FFT of size. size must be a power of two b
 <a href="#lua_{reaper.array}.multiply"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>{reaper.array}.multiply</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>{reaper.array}.multiply</em>([src, srcoffs, size, destoffs])</code></div>
+<div class="l">Lua: <code> <i>integer</i> retvals = <em>{reaper.array}.multiply</em>([{reaper.array} src, <i>integer</i> srcoffs, <i>integer</i> size, <i>number</i> destoffs])</code></div>
 </div><p>
 <div class="ch">
 Multiplies values from reaper.array, starting at 1-based srcoffs, reading/writing to 1-based destoffs.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>integer</i> retvals</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">{reaper.array} src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srcoffs</td></tr>
+<tr><td class="pr"><i>integer</i> srcoffs</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
+<tr><td class="pr"><i>integer</i> size</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">destoff</td></tr>
+<tr><td class="pr"><i>number</i> destoff</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -10947,14 +11129,21 @@ Multiplies values from reaper.array, starting at 1-based srcoffs, reading/writin
 <a href="#lua_{reaper.array}.resize"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>{reaper.array}.resize</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>{reaper.array}.resize</em>(size)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>{reaper.array}.resize</em>(size)</code></div>
 </div><p>
 <div class="ch">
 Resizes an array object to size. size must be [0..max_size].              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, changing size was successful; false, changing was unsuccessful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> size</td></tr>
+<tr><td class="ch2">the new size of the table</td></tr>
 </table>
 <br>
 </div>
@@ -10964,18 +11153,25 @@ Resizes an array object to size. size must be [0..max_size].
 <a href="#lua_{reaper.array}.table"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>{reaper.array}.table</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>{reaper.array}.table</em>([offset, size])</code></div>
+<div class="l">Lua: <code> <i>table</i> new_table = <em>{reaper.array}.table</em>([<i>integer</i> offset, <i>integer</i> size])</code></div>
 </div><p>
 <div class="ch">
 Returns a new table with values from items in the array. Offset is 1-based and if size is omitted all available values are used.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">offset</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>table</i> new_table</td></tr>
+<tr><td class="ch2">a table with the entries from the reaper.array</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> offset</td></tr>
+<tr><td class="ch2">the first entry of the reaper.array to be included into the table</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">size</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> size</td></tr>
+<tr><td class="ch2">the number of entries to include into the table</td></tr>
 </table>
 <br>
 </div>
@@ -11009,7 +11205,7 @@ Adds code to be called back by REAPER. Used to create persistent ReaScripts that
 Note that no undo point will be automatically created when the script finishes, unless you create it explicitly.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">code</td></tr>
+<tr><td class="pr"><i>String</i> code</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -11027,7 +11223,7 @@ Adds code to be called back by REAPER. Used to create persistent ReaScripts that
 Note that no undo point will be automatically created when the script finishes, unless you create it explicitly.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">code</td></tr>
+<tr><td class="pr"><i>String</i> code</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -11458,23 +11654,23 @@ WS_MAXIMIZE, WS_OVERLAPPEDWINDOW
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">operation</td></tr>
+<tr><td class="pr"><i>string</i> operation</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">file</td></tr>
+<tr><td class="pr"><i>string</i> file</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">parameters</td></tr>
+<tr><td class="pr"><i>string</i> parameters</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">directory</td></tr>
+<tr><td class="pr"><i>string</i> directory</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">showFlags</td></tr>
+<tr><td class="pr"><i>integer</i> showFlags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -11547,7 +11743,7 @@ Read the contents of the system clipboard.
 <div class="cc">
 <div class="c">C: <code> <i>const</i> <i>char*</i> <em>CF_GetClipboardBig</em>(WDL_FastString* output)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>CF_GetClipboardBig</em>", #retval, <i>WDL_FastString</i> output)</code></div>
-<div class="l">Lua: <code> <i>string</i> = <em>reaper.CF_GetClipboardBig</em>(<i>WDL_FastString</i> output)</code></div>
+<div class="l">Lua: <code> <i>string</i> clipboard_content = <em>reaper.CF_GetClipboardBig</em>(<i>WDL_FastString</i> output)</code></div>
 <div class="p">Python: <code> <i>String</i> <em>CF_GetClipboardBig</em>(<i>WDL_FastString</i> output)</code></div>
 </div><p>
 <div class="ch">
@@ -11555,7 +11751,7 @@ Read the contents of the system clipboard.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i></td></tr>
+<tr><td class="pr"><i>string</i> clipboard_content</td></tr>
 <tr><td class="ch2">the content of the clipboard</td></tr>
 </table>
 <br>
@@ -11575,7 +11771,7 @@ Read the contents of the system clipboard.
 <div class="cc">
 <div class="c">C: <code> <i>const</i> <i>char*</i> <em>CF_GetCommandText</em>(<i>int</i> section, <i>int</i> command)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>CF_GetCommandText</em>", #retval, <i>int</i> section, <i>int</i> command)</code></div>
-<div class="l">Lua: <code> <i>string</i> = <em>reaper.CF_GetCommandText</em>(<i>integer</i> section, <i>integer</i> command)</code></div>
+<div class="l">Lua: <code> <i>string</i> str = <em>reaper.CF_GetCommandText</em>(<i>integer</i> section, <i>integer</i> command)</code></div>
 <div class="p">Python: <code> <i>String</i>  <em>CF_GetCommandText</em>(<i>Int</i> section, <i>Int</i> command)</code></div>
 </div><p>
 <div class="ch">
@@ -11583,7 +11779,7 @@ Read the contents of the system clipboard.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i></td></tr>
+<tr><td class="pr"><i>string</i> str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -11636,7 +11832,7 @@ Return the current SWS version number.
 Write the given string into the system clipboard.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>string</i> str</td></tr>
 <tr><td class="ch2">the string to put into the clipboard</td></tr>
 </table>
 <br>
@@ -12091,11 +12287,11 @@ Returns a localized version of src_string, in section section. flags can have 1 
 <p>Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see <a href="#NamedCommandLookup">NamedCommandLookup</a>(). See <a href="#Main_OnCommandEx">Main_OnCommandEx</a>.</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">command</td></tr>
+<tr><td class="pr"><i>integer</i> command</td></tr>
 <tr><td class="ch2">the command-id of the action, you want to run</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">flag</td></tr>
+<tr><td class="pr"><i>integer</i> flag</td></tr>
 <tr><td class="ch2">set to 0</td></tr>
 </table>
 <br>
@@ -12115,15 +12311,15 @@ Returns a localized version of src_string, in section section. flags can have 1 
 <p>Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see <a href="#NamedCommandLookup">NamedCommandLookup</a>().</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">command</td></tr>
+<tr><td class="pr"><i>integer</i> command</td></tr>
 <tr><td class="ch2">the command-id of the action, you want to run</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">flag</td></tr>
+<tr><td class="pr"><i>integer</i> flag</td></tr>
 <tr><td class="ch2">0</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
@@ -12274,7 +12470,7 @@ Convert slider-value to it's dB-value-equivalent.
 <div class="cc">
 <div class="c">C: <code> WDL_FastString* <em>SNM_CreateFastString</em>(<i>const</i> <i>char*</i> str)</code></div>
 <div class="e">EEL2: <code> <i>WDL_FastString</i> extension_api("<em>SNM_CreateFastString</em>", "str")</code></div>
-<div class="l">Lua: <code> <i>WDL_FastString</i> = <em>reaper.SNM_CreateFastString</em>(<i>string</i> str)</code></div>
+<div class="l">Lua: <code> <i>WDL_FastString</i> fstr = <em>reaper.SNM_CreateFastString</em>(<i>string</i> str)</code></div>
 <div class="p">Python: <code> <i>WDL_FastString</i> <em>SNM_CreateFastString</em>(<i>String</i> str)</code></div>
 </div><p>
 <div class="ch">
@@ -12282,13 +12478,13 @@ Convert slider-value to it's dB-value-equivalent.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>WDL_FastString</i></td></tr>
+<tr><td class="pr"><i>WDL_FastString</i> fstr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>string</i> str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -12309,7 +12505,7 @@ Convert slider-value to it's dB-value-equivalent.
 [S&amp;M] Deletes a "fast string" instance.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>WDL_FastString</i> str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -12323,7 +12519,7 @@ Convert slider-value to it's dB-value-equivalent.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>SNM_GetDoubleConfigVar</em>(<i>const</i> <i>char*</i> varname, <i>double</i> errvalue)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>SNM_GetDoubleConfigVar</em>", "varname", errvalue)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.SNM_GetDoubleConfigVar</em>(<i>string</i> varname, <i>number</i> errvalue)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.SNM_GetDoubleConfigVar</em>(<i>string</i> varname, <i>number</i> errvalue)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>SNM_GetDoubleConfigVar</em>(<i>String</i> varname, <i>Float</i> errvalue)</code></div>
 </div><p>
 <div class="ch">
@@ -12357,7 +12553,7 @@ Convert slider-value to it's dB-value-equivalent.
 <div class="cc">
 <div class="c">C: <code> <i>const</i> <i>char*</i> <em>SNM_GetFastString</em>(WDL_FastString* str)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>SNM_GetFastString</em>", #retval, <i>WDL_FastString</i> str)</code></div>
-<div class="l">Lua: <code> <i>string</i> = <em>reaper.SNM_GetFastString</em>(<i>WDL_FastString</i> str)</code></div>
+<div class="l">Lua: <code> <i>string</i> str = <em>reaper.SNM_GetFastString</em>(<i>WDL_FastString</i> str)</code></div>
 <div class="p">Python: <code> <i>String</i> <em>SNM_GetFastString</em>(<i>WDL_FastString</i> str)</code></div>
 </div><p>
 <div class="ch">
@@ -12365,13 +12561,13 @@ Convert slider-value to it's dB-value-equivalent.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i></td></tr>
+<tr><td class="pr"><i>string</i> str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>WDL_FastString</i> str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -12399,7 +12595,7 @@ Convert slider-value to it's dB-value-equivalent.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>WDL_FastString</i> str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -12519,7 +12715,7 @@ Convert slider-value to it's dB-value-equivalent.
 <div class="cc">
 <div class="c">C: <code> WDL_FastString* <em>SNM_SetFastString</em>(WDL_FastString* str, <i>const</i> <i>char*</i> newstr)</code></div>
 <div class="e">EEL2: <code> <i>WDL_FastString</i> extension_api("<em>SNM_SetFastString</em>", <i>WDL_FastString</i> str, "newstr")</code></div>
-<div class="l">Lua: <code> <i>WDL_FastString</i> = <em>reaper.SNM_SetFastString</em>(<i>WDL_FastString</i> str, <i>string</i> newstr)</code></div>
+<div class="l">Lua: <code> <i>WDL_FastString</i> fstr = <em>reaper.SNM_SetFastString</em>(<i>WDL_FastString</i> str, <i>string</i> newstr)</code></div>
 <div class="p">Python: <code> <i>WDL_FastString</i> <em>SNM_SetFastString</em>(<i>WDL_FastString</i> str, <i>String</i> newstr)</code></div>
 </div><p>
 <div class="ch">
@@ -12527,17 +12723,17 @@ Convert slider-value to it's dB-value-equivalent.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>WDL_FastString</i></td></tr>
+<tr><td class="pr"><i>WDL_FastString</i> fstr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
+<tr><td class="pr"><i>WDL_FastString</i> str</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">newstr</td></tr>
+<tr><td class="pr"><i>string</i> newstr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -12758,11 +12954,11 @@ send_idx&lt;0 for receives, &gt;=0 for hw ouputs, &gt;=nb_of_hw_ouputs for sends
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">pointer</td></tr>
+<tr><td class="pr"><i>identifier</i> pointer</td></tr>
 <tr><td class="ch2">a pointer to the object to check for. In Lua or Python, you just give the object to check as this parameter.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ctypename</td></tr>
+<tr><td class="pr"><i>string</i> ctypename</td></tr>
 <tr><td class="ch2">the type of project to check for(given as a pointer)</td></tr>
 </table>
 <br>
@@ -12789,15 +12985,15 @@ Return true if the pointer is a valid object of the right type in proj (proj is 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">pointer</td></tr>
+<tr><td class="pr"><i>identifier</i> pointer</td></tr>
 <tr><td class="ch2">a pointer to the object to check for. In Lua or Python, you just give the object to check as this parameter.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ctypename</td></tr>
+<tr><td class="pr"><i>string</i> ctypename</td></tr>
 <tr><td class="ch2">the type of project to check for(given as a pointer)</td></tr>
 </table>
 <br>
@@ -13494,17 +13690,17 @@ Resolves a filename "in" by using project settings etc. If no file found, out wi
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">startTime retval</td></tr>
+<tr><td class="pr"><i>number</i> startTime retval</td></tr>
 <tr><td class="ch2">the current starttime in the arrangeview in seconds</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">endTime</td></tr>
+<tr><td class="pr"><i>number</i> endTime</td></tr>
 <tr><td class="ch2">the current endtime in the arrangeview in seconds</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
@@ -13525,15 +13721,15 @@ Resolves a filename "in" by using project settings etc. If no file found, out wi
 <p>[BR] Deprecated, see <a href="#GetSet_ArrangeView2">GetSet_ArrangeView2</a> (REAPER v5.12pre4+) -- Set start and end time position of arrange view. To get arrange view instead, see <a href="#BR_GetArrangeView">BR_GetArrangeView</a>.</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">startTime</td></tr>
+<tr><td class="pr"><i>number</i> startTime</td></tr>
 <tr><td class="ch2">the new starttime of the arrangewview in seconds</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">endTime</td></tr>
+<tr><td class="pr"><i>number</i> endTime</td></tr>
 <tr><td class="ch2">the new endtime of the arrangewview in seconds</td></tr>
 </table>
 <br>
@@ -14826,41 +15022,41 @@ Full loudness analysis. retval: returns true on successful analysis, false on MI
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">lufsIntegrated</td></tr>
+<tr><td class="pr"><i>number</i> lufsIntegrated</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">range</td></tr>
+<tr><td class="pr"><i>number</i> range</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">truePeak</td></tr>
+<tr><td class="pr"><i>number</i> truePeak</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">truePeakPos</td></tr>
+<tr><td class="pr"><i>number</i> truePeakPos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">shortTermMax</td></tr>
+<tr><td class="pr"><i>number</i> shortTermMax</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">momentaryMax</td></tr>
+<tr><td class="pr"><i>number</i> momentaryMax</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">analyzeTruePeak</td></tr>
+<tr><td class="pr"><i>boolean</i> analyzeTruePeak</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -14882,49 +15078,49 @@ Full loudness analysis. retval: returns true on successful analysis, false on MI
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">lufsIntegrated</td></tr>
+<tr><td class="pr"><i>number</i> lufsIntegrated</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">range</td></tr>
+<tr><td class="pr"><i>number</i> range</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">truePeak</td></tr>
+<tr><td class="pr"><i>number</i> truePeak</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">truePeakPos</td></tr>
+<tr><td class="pr"><i>number</i> truePeakPos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">shortTermMax</td></tr>
+<tr><td class="pr"><i>number</i> shortTermMax</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">momentaryMax</td></tr>
+<tr><td class="pr"><i>number</i> momentaryMax</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">shortTermMaxPos</td></tr>
+<tr><td class="pr"><i>number</i> shortTermMaxPos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">momentaryMaxPos</td></tr>
+<tr><td class="pr"><i>number</i> momentaryMaxPos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">analyzeTruePeak</td></tr>
+<tr><td class="pr"><i>boolean</i> analyzeTruePeak</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -14947,17 +15143,17 @@ Full loudness analysis. retval: returns true on successful analysis, false on MI
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">lufsIntegrated</td></tr>
+<tr><td class="pr"><i>number</i> lufsIntegrated</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -14971,7 +15167,7 @@ Full loudness analysis. retval: returns true on successful analysis, false on MI
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>NF_GetMediaItemAverageRMS</em>(<i>MediaItem*</i>  item)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>NF_GetMediaItemAverageRMS</em>", <i>MediaItem</i> item)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.NF_GetMediaItemAverageRMS</em>(<i>MediaItem</i> item)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.NF_GetMediaItemAverageRMS</em>(<i>MediaItem</i> item)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>NF_GetMediaItemAverageRMS</em>(<i>MediaItem</i> item)</code></div>
 </div><p>
 <div class="ch">
@@ -14986,7 +15182,7 @@ Returns -150.0 if MIDI take or empty item.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -15000,7 +15196,7 @@ Returns -150.0 if MIDI take or empty item.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>NF_GetMediaItemMaxPeak</em>(<i>MediaItem*</i>  item)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>NF_GetMediaItemMaxPeak</em>", <i>MediaItem</i> item)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.NF_GetMediaItemMaxPeak</em>(<i>MediaItem</i> item)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.NF_GetMediaItemMaxPeak</em>(<i>MediaItem</i> item)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>NF_GetMediaItemMaxPeak</em>(<i>MediaItem</i> item)</code></div>
 </div><p>
 <div class="ch">
@@ -15015,7 +15211,7 @@ Returns -150.0 if MIDI take or empty item.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -15061,7 +15257,7 @@ Returns -150.0 if MIDI take or empty item.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>NF_GetMediaItemPeakRMS_NonWindowed</em>(<i>MediaItem*</i>  item)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>NF_GetMediaItemPeakRMS_NonWindowed</em>", <i>MediaItem</i> item)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.NF_GetMediaItemPeakRMS_NonWindowed</em>(<i>MediaItem</i> item)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.NF_GetMediaItemPeakRMS_NonWindowed</em>(<i>MediaItem</i> item)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>NF_GetMediaItemPeakRMS_NonWindowed</em>(<i>MediaItem</i> item)</code></div>
 </div><p>
 <div class="ch">
@@ -15076,7 +15272,7 @@ Returns -150.0 if MIDI take or empty item.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -15090,7 +15286,7 @@ Returns -150.0 if MIDI take or empty item.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>NF_GetMediaItemPeakRMS_Windowed</em>(<i>MediaItem*</i>  item)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>NF_GetMediaItemPeakRMS_Windowed</em>", <i>MediaItem</i> item)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.NF_GetMediaItemPeakRMS_Windowed</em>(<i>MediaItem</i> item)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.NF_GetMediaItemPeakRMS_Windowed</em>(<i>MediaItem</i> item)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>NF_GetMediaItemPeakRMS_Windowed</em>(<i>MediaItem</i> item)</code></div>
 </div><p>
 <div class="ch">
@@ -15105,7 +15301,7 @@ Obeys 'Window size for peak RMS' setting in 'SWS: Set RMS analysis/normalize opt
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -16381,7 +16577,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2">the BR_Envelope-object, whose points you want to count</td></tr>
 </table>
 <br>
@@ -16409,11 +16605,11 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2">the BR_Envelope-object, where you want to delete an envelope-point</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">id</td></tr>
+<tr><td class="pr"><i>integer</i> id</td></tr>
 <tr><td class="ch2">the envelope-point-idx, that you want to delete. 0, first envelope-point; 1, second envelope-point, etc</td></tr>
 </table>
 <br>
@@ -16441,15 +16637,15 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2">the BR_Envelope-object, in which you want to find an envelope-point</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
 <tr><td class="ch2">the position in seconds, where you want to find from</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">delta</td></tr>
+<tr><td class="pr"><i>number</i> delta</td></tr>
 <tr><td class="ch2">delta &gt; 0 to search surrounding range</td></tr>
 </table>
 <br>
@@ -16477,11 +16673,11 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2">the BR_Envelope-object, in which you want to find the next envelope-point</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
 <tr><td class="ch2">the position in seconds, where you want to find the next envelope-point from</td></tr>
 </table>
 <br>
@@ -16509,11 +16705,11 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2">the BR_Envelope-object, in which you want to find the previous envelope-point</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
 <tr><td class="ch2">the position in seconds, where you want to find the previous envelope-point from</td></tr>
 </table>
 <br>
@@ -16541,11 +16737,11 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2">the BR_Envelope-object that you want to commit and be freed</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">commit</td></tr>
+<tr><td class="pr"><i>boolean</i> commit</td></tr>
 <tr><td class="ch2">true, commit changes when freeing the BR_Envelope-object; false, don't commit changes when freeing the BR_Envelope-object</td></tr>
 </table>
 <br>
@@ -16726,7 +16922,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -16754,31 +16950,31 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">id</td></tr>
+<tr><td class="pr"><i>integer</i> id</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
+<tr><td class="pr"><i>number</i> value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">shape</td></tr>
+<tr><td class="pr"><i>integer</i> shape</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">selected</td></tr>
+<tr><td class="pr"><i>boolean</i> selected</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bezier</td></tr>
+<tr><td class="pr"><i>number</i> bezier</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -16852,7 +17048,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <p>[BR] Sort envelope points by position. The only reason to call this is if sorted points are explicitly needed after editing them with <a href="#BR_EnvSetPoint">BR_EnvSetPoint</a>. Note that you do not have to call this before doing <a href="#BR_EnvFree">BR_EnvFree</a> since it does handle unsorted points too.</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -16866,7 +17062,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>BR_EnvValueAtPos</em>(BR_Envelope* envelope, <i>double</i> position)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>BR_EnvValueAtPos</em>", <i>BR_Envelope</i> envelope, position)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.BR_EnvValueAtPos</em>(<i>BR_Envelope</i> envelope, <i>number</i> position)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.BR_EnvValueAtPos</em>(<i>BR_Envelope</i> envelope, <i>number</i> position)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>BR_EnvValueAtPos</em>(<i>BR_Envelope</i> envelope, <i>Float</i> position)</code></div>
 </div><p>
 <div class="ch">
@@ -16880,11 +17076,11 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">envelope</td></tr>
+<tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -18616,7 +18812,7 @@ Set automation-mode for a specific MediaTrack.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -18720,7 +18916,7 @@ Return a handle to the currently focused FX chain window.
 <div class="cc">
 <div class="c">C: <code> FxChain* <em>CF_GetTakeFXChain</em>(<i>MediaItem_Take*</i> take)</code></div>
 <div class="e">EEL2: <code> FxChain extension_api("<em>CF_GetTakeFXChain</em>", <i>MediaItem_Take</i> take)</code></div>
-<div class="l">Lua: <code> FxChain = <em>reaper.CF_GetTakeFXChain</em>(<i>MediaItem_Take</i> take)</code></div>
+<div class="l">Lua: <code> FxChain hwnd = <em>reaper.CF_GetTakeFXChain</em>(<i>MediaItem_Take</i> take)</code></div>
 <div class="p">Python: <code> FxChain  <em>CF_GetTakeFXChain</em>(<i>MediaItem_Take</i> take)</code></div>
 </div><p>
 <div class="ch">
@@ -18728,14 +18924,14 @@ Return a handle to the given take FX chain window. HACK: This temporarily rename
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">FxChain</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr">FxChain hwnd</td></tr>
+<tr><td class="ch2">the hwnd-window-handler of the FX-chain of the item</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the take, whose FXChain-window-handler you want to get</td></tr>
 </table>
 <br>
 </div>
@@ -18748,7 +18944,7 @@ Return a handle to the given take FX chain window. HACK: This temporarily rename
 <div class="cc">
 <div class="c">C: <code> FxChain* <em>CF_GetTrackFXChain</em>(<i>MediaTrack*</i>  track)</code></div>
 <div class="e">EEL2: <code> FxChain extension_api("<em>CF_GetTrackFXChain</em>", <i>MediaTrack</i> track)</code></div>
-<div class="l">Lua: <code> FxChain = <em>reaper.CF_GetTrackFXChain</em>(<i>MediaTrack</i> track)</code></div>
+<div class="l">Lua: <code> FxChain hwnd = <em>reaper.CF_GetTrackFXChain</em>(<i>MediaTrack</i> track)</code></div>
 <div class="p">Python: <code> FxChain  <em>CF_GetTrackFXChain</em>(<i>MediaTrack</i> track)</code></div>
 </div><p>
 <div class="ch">
@@ -18756,14 +18952,14 @@ Return a handle to the given track FX chain window.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">FxChain</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr">FxChain hwnd</td></tr>
+<tr><td class="ch2">the hwnd-window-handler of the FX-chain of the track</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaTrack</i> track</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the track, whose FXChain-window-handler you want to get</td></tr>
 </table>
 <br>
 </div>
@@ -18997,15 +19193,15 @@ For item FX, the low word defines the FX index in the chain, and the high word d
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">tr</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> tr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fxId</td></tr>
+<tr><td class="pr"><i>integer</i> fxId</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">prmId</td></tr>
+<tr><td class="pr"><i>integer</i> prmId</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -19034,15 +19230,15 @@ fxId: fx index in chain or -1 for the selected fx. what: 0 to remove, -1 to move
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">tr</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> tr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fxId</td></tr>
+<tr><td class="pr"><i>integer</i> fxId</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">what</td></tr>
+<tr><td class="pr"><i>integer</i> what</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -22165,19 +22361,19 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fx</td></tr>
+<tr><td class="pr"><i>integer</i> fx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">param</td></tr>
+<tr><td class="pr"><i>integer</i> param</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">val</td></tr>
+<tr><td class="pr"><i>number</i> val</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -22205,19 +22401,19 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fx</td></tr>
+<tr><td class="pr"><i>integer</i> fx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">param</td></tr>
+<tr><td class="pr"><i>integer</i> param</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
+<tr><td class="pr"><i>number</i> value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -22247,27 +22443,27 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">tr</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> tr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fx</td></tr>
+<tr><td class="pr"><i>integer</i> fx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">is</td></tr>
+<tr><td class="pr"><i>integer</i> is</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">pin</td></tr>
+<tr><td class="pr"><i>integer</i> pin</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">low32bits</td></tr>
+<tr><td class="pr"><i>integer</i> low32bits</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">hi32bits</td></tr>
+<tr><td class="pr"><i>integer</i> hi32bits</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -22296,15 +22492,15 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fx</td></tr>
+<tr><td class="pr"><i>integer</i> fx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">presetname</td></tr>
+<tr><td class="pr"><i>string</i> presetname</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -22332,15 +22528,15 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fx</td></tr>
+<tr><td class="pr"><i>integer</i> fx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">idx</td></tr>
+<tr><td class="pr"><i>integer</i> idx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -22434,19 +22630,19 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">sectionName</td></tr>
+<tr><td class="pr"><i>string</i> sectionName</td></tr>
 <tr><td class="ch2">the [section] in which the key is stored, you'd like to set</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">keyName</td></tr>
+<tr><td class="pr"><i>string</i> keyName</td></tr>
 <tr><td class="ch2">the key from the [section], whose value you'd like to set</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
+<tr><td class="pr"><i>string</i> value</td></tr>
 <tr><td class="ch2">the value you want to have set to the key</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">filePath</td></tr>
+<tr><td class="pr">stirng filePath</td></tr>
 <tr><td class="ch2">the path+filename, where the [section] and key are going to be stored</td></tr>
 </table>
 <br>
@@ -22838,7 +23034,7 @@ Returns the unsigned byte at address[offset]. Offset is added as steps of 1 byte
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> byte  </td></tr>
+<tr><td class="pr"><i>number</i> byte</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -25320,7 +25516,7 @@ LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_LICE_LoadJPG</em>(<i>const</i> <i>char*</i> filename)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>JS_LICE_LoadJPG</em>", "filename")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_LICE_LoadJPG</em>(<i>string</i> filename)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> image = <em>reaper.JS_LICE_LoadJPG</em>(<i>string</i> filename)</code></div>
 <div class="p">Python: <code> <i>void</i> <em>JS_LICE_LoadJPG</em>(<i>String</i> filename)</code></div>
 </div><p>
 <div class="ch">
@@ -25328,7 +25524,7 @@ Returns a system LICE bitmap containing the JPEG.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> image</td></tr>
 <tr><td class="ch2">the bitmap, which holds the jpg</td></tr>
 </table>
 <br>
@@ -26486,7 +26682,7 @@ Currently, this fuction only accepts ASCII text.
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Mem_Alloc</em>(<i>int</i> sizeBytes)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>JS_Mem_Alloc</em>", <i>int</i> sizeBytes)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Mem_Alloc</em>(<i>integer</i> sizeBytes)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> memory = <em>reaper.JS_Mem_Alloc</em>(<i>integer</i> sizeBytes)</code></div>
 <div class="p">Python: <code> <i>void</i> <em>JS_Mem_Alloc</em>(<i>Int</i> sizeBytes)</code></div>
 </div><p>
 <div class="ch">
@@ -26494,7 +26690,7 @@ Allocates memory for general use by functions that require memory buffers.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> memory</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -26514,7 +26710,7 @@ Allocates memory for general use by functions that require memory buffers.
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Mem_Alloc</em>(<i>int</i> sizeBytes)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>JS_Mem_Alloc</em>", <i>int</i> sizeBytes)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Mem_Alloc</em>(<i>integer</i> sizeBytes)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> mem = <em>reaper.JS_Mem_Alloc</em>(<i>integer</i> sizeBytes)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>JS_Mem_Free</em>(<i>void</i> mallocPointer)</code></div>
 </div><p>
 <div class="ch">
@@ -26522,7 +26718,7 @@ Allocates memory for general use by functions that require memory buffers.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> mem</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -26550,7 +26746,7 @@ Copies a packed string into a memory buffer.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -26582,7 +26778,7 @@ Copies a packed string into a memory buffer.
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Mouse_GetCursor</em>()</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>JS_Mouse_GetCursor</em>")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Mouse_GetCursor</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> mouse_cursor = <em>reaper.JS_Mouse_GetCursor</em>()</code></div>
 <div class="p">Python: <code> <i>void</i> <em>JS_Mouse_GetCursor</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -26591,7 +26787,7 @@ On Linux and macOS, retrieves a handle to the last cursor set by REAPER or its e
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> mouse_cursor</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -26605,7 +26801,7 @@ On Linux and macOS, retrieves a handle to the last cursor set by REAPER or its e
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>JS_Mouse_GetState</em>(<i>int</i> flags)</code></div>
 <div class="e">EEL2: <code> <i>int</i>  extension_api("<em>JS_Mouse_GetState</em>", <i>int</i> flags)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.JS_Mouse_GetState</em>(<i>integer</i> flags)</code></div>
+<div class="l">Lua: <code> <i>integer</i> mouse_states = <em>reaper.JS_Mouse_GetState</em>(<i>integer</i> flags)</code></div>
 <div class="p">Python: <code> <i>Int</i>  <em>JS_Mouse_GetState</em>(<i>Int</i> flags)</code></div>
 </div><p>
 <div class="ch">
@@ -26618,7 +26814,7 @@ use -1 as flags to retrieve the states of all mouse-buttons and modifier
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> </td></tr>
+<tr><td class="pr"><i>integer</i> mouse_states</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -26638,7 +26834,7 @@ use -1 as flags to retrieve the states of all mouse-buttons and modifier
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Mouse_LoadCursor</em>(<i>int</i> cursorNumber)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Mouse_LoadCursor</em>", <i>int</i> cursorNumber)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Mouse_LoadCursor</em>(<i>integer</i> cursorNumber)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> mouse_cursor = <em>reaper.JS_Mouse_LoadCursor</em>(<i>integer</i> cursorNumber)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Mouse_LoadCursor</em>(<i>Int</i> cursorNumber)</code></div>
 </div><p>
 <div class="ch">
@@ -26648,7 +26844,7 @@ use -1 as flags to retrieve the states of all mouse-buttons and modifier
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> mouse_cursor</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -26668,7 +26864,7 @@ use -1 as flags to retrieve the states of all mouse-buttons and modifier
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Mouse_LoadCursorFromFile</em>(<i>const</i> <i>char*</i> pathAndFileName, <i>bool*</i> forceNewLoad)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Mouse_LoadCursorFromFile</em>", "pathAndFileName", <i>boolean</i> forceNewLoad)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Mouse_LoadCursorFromFile</em>(<i>string</i> pathAndFileName, <i>optional</i> <i>boolean</i> forceNewLoad)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> mouse_cursor = <em>reaper.JS_Mouse_LoadCursorFromFile</em>(<i>string</i> pathAndFileName, <i>optional</i> <i>boolean</i> forceNewLoad)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Mouse_LoadCursorFromFile</em>(<i>String</i> pathAndFileName, <i>Boolean</i> forceNewLoadOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -26678,7 +26874,7 @@ use -1 as flags to retrieve the states of all mouse-buttons and modifier
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> mouse_cursor</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29717,7 +29913,7 @@ creates a joystick device
 destroys a joystick device              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">device</td></tr>
+<tr><td class="pr"><i>joystick_device</i> device</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29913,7 +30109,7 @@ Updates joystick state from hardware, returns true if successful (joystick_get* 
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>BR_GetMidiSourceLenPPQ</em>(<i>MediaItem_Take*</i> take)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>BR_GetMidiSourceLenPPQ</em>", <i>MediaItem_Take</i> take)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.BR_GetMidiSourceLenPPQ</em>(<i>MediaItem_Take</i> take)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.BR_GetMidiSourceLenPPQ</em>(<i>MediaItem_Take</i> take)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>BR_GetMidiSourceLenPPQ</em>(<i>MediaItem_Take</i> take)</code></div>
 </div><p>
 <div class="ch">
@@ -29927,7 +30123,7 @@ Updates joystick state from hardware, returns true if successful (joystick_get* 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29949,17 +30145,17 @@ Updates joystick state from hardware, returns true if successful (joystick_get* 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">guidString</td></tr>
+<tr><td class="pr"><i>string</i> guidString</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29973,7 +30169,7 @@ Updates joystick state from hardware, returns true if successful (joystick_get* 
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>BR_GetMidiTakeTempoInfo</em>(<i>MediaItem_Take*</i> take, <i>bool*</i> ignoreProjTempoOut, <i>double*</i> bpmOut, <i>int*</i> numOut, <i>int*</i> denOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>BR_GetMidiTakeTempoInfo</em>", <i>MediaItem_Take</i> take, <i>bool</i> &amp;ignoreProjTempo, &amp;bpm, <i>int</i> &amp;num, <i>int</i> &amp;den)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> ignoreProjTempo, <i>number</i> bpm, <i>number</i> num, <i>number</i> den = <em>reaper.BR_GetMidiTakeTempoInfo</em>(<i>MediaItem_Take</i> take)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> ignoreProjTempo, <i>number</i> bpm, <i>integer</i> num, <i>integer</i> den = <em>reaper.BR_GetMidiTakeTempoInfo</em>(<i>MediaItem_Take</i> take)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Boolean</i> ignoreProjTempoOut, <i>Float</i> bpmOut, <i>Int</i> numOut, <i>Int</i> denOut) = <em>BR_GetMidiTakeTempoInfo</em>(take, ignoreProjTempoOut, bpmOut, numOut, denOut)</code></div>
 </div><p>
 <div class="ch">
@@ -29981,29 +30177,29 @@ Updates joystick state from hardware, returns true if successful (joystick_get* 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ignoreProjTempo</td></tr>
+<tr><td class="pr"><i>boolean</i> ignoreProjTempo</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bpm</td></tr>
+<tr><td class="pr"><i>number</i> bpm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">num</td></tr>
+<tr><td class="pr"><i>integer</i> num</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">den</td></tr>
+<tr><td class="pr"><i>integer</i> den</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30031,7 +30227,7 @@ Updates joystick state from hardware, returns true if successful (joystick_get* 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30053,17 +30249,17 @@ Updates joystick state from hardware, returns true if successful (joystick_get* 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">inProjectMidi</td></tr>
+<tr><td class="pr"><i>boolean</i> inProjectMidi</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30091,11 +30287,11 @@ Updates joystick state from hardware, returns true if successful (joystick_get* 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">midiEditor</td></tr>
+<tr><td class="pr"><i>identifier</i> midiEditor</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">laneId</td></tr>
+<tr><td class="pr"><i>integer</i> laneId</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30124,15 +30320,15 @@ Valid CC lanes: CC0-127=CC, 0x100|(0-31)=14-bit CC, 0x200=velocity, 0x201=pitch,
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">midiEditor</td></tr>
+<tr><td class="pr"><i>identifier</i> midiEditor</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">laneId</td></tr>
+<tr><td class="pr"><i>integer</i> laneId</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">newCC</td></tr>
+<tr><td class="pr"><i>integer</i> newCC</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30160,23 +30356,23 @@ Valid CC lanes: CC0-127=CC, 0x100|(0-31)=14-bit CC, 0x200=velocity, 0x201=pitch,
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ignoreProjTempo</td></tr>
+<tr><td class="pr"><i>boolean</i> ignoreProjTempo</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bpm</td></tr>
+<tr><td class="pr"><i>number</i> bpm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">num</td></tr>
+<tr><td class="pr"><i>integer</i> num</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">den</td></tr>
+<tr><td class="pr"><i>integer</i> den</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30272,7 +30468,7 @@ returns false if there are no plugins on the track that support MIDI programs,or
 <div class="cc">
 <div class="c">C: <code> RprMidiNote* <em>FNG_AddMidiNote</em>(RprMidiTake* midiTake)</code></div>
 <div class="e">EEL2: <code> RprMidiNote extension_api("<em>FNG_AddMidiNote</em>", <i>RprMidiTake</i> midiTake)</code></div>
-<div class="l">Lua: <code> RprMidiNote = <em>reaper.FNG_AddMidiNote</em>(<i>RprMidiTake</i> midiTake)</code></div>
+<div class="l">Lua: <code> RprMidiNote note = <em>reaper.FNG_AddMidiNote</em>(<i>RprMidiTake</i> midiTake)</code></div>
 <div class="p">Python: <code> RprMidiNote <em>FNG_AddMidiNote</em>(<i>RprMidiTake</i> midiTake)</code></div>
 </div><p>
 <div class="ch">
@@ -30280,13 +30476,13 @@ returns false if there are no plugins on the track that support MIDI programs,or
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">RprMidiNote</td></tr>
+<tr><td class="pr">RprMidiNote note</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">midiTake</td></tr>
+<tr><td class="pr"><i>RprMidiTake</i> midiTake</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30300,7 +30496,7 @@ returns false if there are no plugins on the track that support MIDI programs,or
 <div class="cc">
 <div class="c">C: <code> RprMidiTake* <em>FNG_AllocMidiTake</em>(<i>MediaItem_Take*</i> take)</code></div>
 <div class="e">EEL2: <code> <i>RprMidiTake</i> extension_api("<em>FNG_AllocMidiTake</em>", <i>MediaItem_Take</i> take)</code></div>
-<div class="l">Lua: <code> <i>RprMidiTake</i> = <em>reaper.FNG_AllocMidiTake</em>(<i>MediaItem_Take</i> take)</code></div>
+<div class="l">Lua: <code> <i>RprMidiTake</i> rpr_take = <em>reaper.FNG_AllocMidiTake</em>(<i>MediaItem_Take</i> take)</code></div>
 <div class="p">Python: <code> <i>RprMidiTake</i> <em>FNG_AllocMidiTake</em>(<i>MediaItem_Take</i> take)</code></div>
 </div><p>
 <div class="ch">
@@ -30308,13 +30504,13 @@ returns false if there are no plugins on the track that support MIDI programs,or
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>RprMidiTake</i></td></tr>
+<tr><td class="pr"><i>RprMidiTake</i> rpr_take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30342,7 +30538,7 @@ returns false if there are no plugins on the track that support MIDI programs,or
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">midiTake</td></tr>
+<tr><td class="pr"><i>RprMidiTake</i> midiTake</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30363,7 +30559,7 @@ returns false if there are no plugins on the track that support MIDI programs,or
 [FNG]Commit changes to MIDI take and free allocated memory              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">midiTake</td></tr>
+<tr><td class="pr"><i>RprMidiTake</i> midiTake</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30377,7 +30573,7 @@ returns false if there are no plugins on the track that support MIDI programs,or
 <div class="cc">
 <div class="c">C: <code> RprMidiNote* <em>FNG_GetMidiNote</em>(RprMidiTake* midiTake, <i>int</i> index)</code></div>
 <div class="e">EEL2: <code> RprMidiNote extension_api("<em>FNG_GetMidiNote</em>", <i>RprMidiTake</i> midiTake, <i>int</i> index)</code></div>
-<div class="l">Lua: <code> RprMidiNote = <em>reaper.FNG_GetMidiNote</em>(<i>RprMidiTake</i> midiTake, <i>integer</i> index)</code></div>
+<div class="l">Lua: <code> RprMidiNote note = <em>reaper.FNG_GetMidiNote</em>(<i>RprMidiTake</i> midiTake, <i>integer</i> index)</code></div>
 <div class="p">Python: <code> RprMidiNote <em>FNG_GetMidiNote</em>(<i>RprMidiTake</i> midiTake, <i>Int</i> index)</code></div>
 </div><p>
 <div class="ch">
@@ -30385,17 +30581,17 @@ returns false if there are no plugins on the track that support MIDI programs,or
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">RprMidiNote</td></tr>
+<tr><td class="pr">RprMidiNote note</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">midiTake</td></tr>
+<tr><td class="pr"><i>RprMidiTake</i> midiTake</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">index</td></tr>
+<tr><td class="pr"><i>integer</i> index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30423,11 +30619,11 @@ returns false if there are no plugins on the track that support MIDI programs,or
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">midiNote</td></tr>
+<tr><td class="pr">RprMidiNote midiNote</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">property</td></tr>
+<tr><td class="pr"><i>string</i> property</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30448,15 +30644,15 @@ returns false if there are no plugins on the track that support MIDI programs,or
 [FNG]Set MIDI note property              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">midiNote</td></tr>
+<tr><td class="pr">RprMidiNote midiNote</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">property</td></tr>
+<tr><td class="pr"><i>string</i> property</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">value</td></tr>
+<tr><td class="pr"><i>integer</i> value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -33647,7 +33843,7 @@ If position/source position are used to find marker position, their values are n
 <div class="cc">
 <div class="c">C: <code> <i>const</i> <i>char*</i> <em>NF_GetSWSMarkerRegionSub</em>(<i>int</i> markerRegionIdx)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>NF_GetSWSMarkerRegionSub</em>", #retval, <i>int</i> markerRegionIdx)</code></div>
-<div class="l">Lua: <code> <i>string</i> = <em>reaper.NF_GetSWSMarkerRegionSub</em>(<i>integer</i> markerRegionIdx)</code></div>
+<div class="l">Lua: <code> <i>string</i> subtitle = <em>reaper.NF_GetSWSMarkerRegionSub</em>(<i>integer</i> markerRegionIdx)</code></div>
 <div class="p">Python: <code> <i>String</i>  <em>NF_GetSWSMarkerRegionSub</em>(<i>Int</i> markerRegionIdx)</code></div>
 </div><p>
 <div class="ch">
@@ -33657,7 +33853,7 @@ Returns empty string if marker/region with specified index not found or marker/r
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i></td></tr>
+<tr><td class="pr"><i>string</i> subtitle</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -33765,31 +33961,31 @@ Returns true if subtitle is set successfully (i.e. marker/region with specified 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">num</td></tr>
+<tr><td class="pr"><i>integer</i> num</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">isrgn</td></tr>
+<tr><td class="pr"><i>boolean</i> isrgn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">pos</td></tr>
+<tr><td class="pr"><i>number</i> pos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rgnend</td></tr>
+<tr><td class="pr"><i>number</i> rgnend</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>string</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">color</td></tr>
+<tr><td class="pr"><i>integer</i> color</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34459,13 +34655,13 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">guidString</td></tr>
+<tr><td class="pr"><i>string</i> guidString</td></tr>
 <tr><td class="ch2">the requested guid of the MediaItem</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2">the MediaItem, whose guid you want to request</td></tr>
 </table>
 <br>
@@ -34479,7 +34675,7 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>BR_GetMediaItemImageResource</em>(<i>MediaItem*</i>  item, <i>char*</i> imageOut, <i>int</i> imageOut_sz, <i>int*</i> imageFlagsOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>BR_GetMediaItemImageResource</em>", <i>MediaItem</i> item, #image, <i>int</i> &amp;imageFlags)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> image, <i>number</i> imageFlags = <em>reaper.BR_GetMediaItemImageResource</em>(<i>MediaItem</i> item)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> image, <i>integer</i> imageFlags = <em>reaper.BR_GetMediaItemImageResource</em>(<i>MediaItem</i> item)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem</i> item, <i>String</i> imageOut, <i>Int</i> imageOut_sz, <i>Int</i> imageFlagsOut) = <em>BR_GetMediaItemImageResource</em>(item, imageOut, imageOut_sz, imageFlagsOut)</code></div>
 </div><p>
 <div class="ch">
@@ -34487,21 +34683,21 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">image</td></tr>
+<tr><td class="pr"><i>string</i> image</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">imageFlags</td></tr>
+<tr><td class="pr"><i>number</i> imageFlags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34523,13 +34719,13 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">guidString</td></tr>
+<tr><td class="pr"><i>string</i> guidString</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34551,33 +34747,33 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>boolean</i> section</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">start</td></tr>
+<tr><td class="pr"><i>number</i> start</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">length</td></tr>
+<tr><td class="pr"><i>number</i> length</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fade</td></tr>
+<tr><td class="pr"><i>number</i> fade</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">reverse</td></tr>
+<tr><td class="pr"><i>boolean</i> reverse</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34605,7 +34801,7 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34633,15 +34829,15 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">startTime</td></tr>
+<tr><td class="pr"><i>number</i> startTime</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">endTime</td></tr>
+<tr><td class="pr"><i>number</i> endTime</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34662,15 +34858,15 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 <p>[BR] Set image resource and its flags for a given item. To clear current image resource, pass imageIn as "". imageFlags: &amp;1=0: don't display image, &amp;1: center / tile, &amp;3: stretch, &amp;5: full height (REAPER 5.974+). To get image resource, see <a href="#BR_GetMediaItemImageResource">BR_GetMediaItemImageResource</a>.</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">imageIn</td></tr>
+<tr><td class="pr"><i>string</i> imageIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">imageFlags</td></tr>
+<tr><td class="pr"><i>integer</i> imageFlags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34698,27 +34894,27 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">section</td></tr>
+<tr><td class="pr"><i>boolean</i> section</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">start</td></tr>
+<tr><td class="pr"><i>number</i> start</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">length</td></tr>
+<tr><td class="pr"><i>number</i> length</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fade</td></tr>
+<tr><td class="pr"><i>number</i> fade</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">reverse</td></tr>
+<tr><td class="pr"><i>boolean</i> reverse</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34746,15 +34942,15 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">filenameIn</td></tr>
+<tr><td class="pr"><i>string</i> filenameIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">inProjectData</td></tr>
+<tr><td class="pr"><i>boolean</i> inProjectData</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34782,19 +34978,19 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">take</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">filenameIn</td></tr>
+<tr><td class="pr"><i>string</i> filenameIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">inProjectData</td></tr>
+<tr><td class="pr"><i>boolean</i> inProjectData</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">keepSourceProperties</td></tr>
+<tr><td class="pr"><i>boolean</i> keepSourceProperties</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -35909,7 +36105,7 @@ Get, if a MediaItem is selected or not.
 <div class="cc">
 <div class="c">C: <code> <i>MediaItem_Take*</i> <em>SNM_GetMediaItemTakeByGUID</em>(<i>ReaProject*</i> project, <i>const</i> <i>char*</i> guid)</code></div>
 <div class="e">EEL2: <code> <i>MediaItem_Take</i> extension_api("<em>SNM_GetMediaItemTakeByGUID</em>", <i>ReaProject</i> project, "guid")</code></div>
-<div class="l">Lua: <code> <i>MediaItem_Take</i> = <em>reaper.SNM_GetMediaItemTakeByGUID</em>(<i>ReaProject</i> project, <i>string</i> guid)</code></div>
+<div class="l">Lua: <code> <i>MediaItem_Take</i> take = <em>reaper.SNM_GetMediaItemTakeByGUID</em>(<i>ReaProject</i> project, <i>string</i> guid)</code></div>
 <div class="p">Python: <code> <i>MediaItem_Take</i> <em>SNM_GetMediaItemTakeByGUID</em>(<i>ReaProject</i> project, <i>String</i> guid)</code></div>
 </div><p>
 <div class="ch">
@@ -35917,17 +36113,17 @@ Get, if a MediaItem is selected or not.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>MediaItem_Take</i></td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">project</td></tr>
+<tr><td class="pr"><i>ReaProject</i> project</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">guid</td></tr>
+<tr><td class="pr"><i>string</i> guid</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -36393,7 +36589,7 @@ The original item becomes the left-hand split, the function returns the right-ha
 <div class="cc">
 <div class="c">C: <code> <i>const</i> <i>char*</i> <em>ULT_GetMediaItemNote</em>(<i>MediaItem*</i>  item)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>ULT_GetMediaItemNote</em>", #retval, <i>MediaItem</i> item)</code></div>
-<div class="l">Lua: <code> <i>string</i> = <em>reaper.ULT_GetMediaItemNote</em>(<i>MediaItem</i> item)</code></div>
+<div class="l">Lua: <code> <i>string</i> str = <em>reaper.ULT_GetMediaItemNote</em>(<i>MediaItem</i> item)</code></div>
 <div class="p">Python: <code> <i>String</i> <em>ULT_GetMediaItemNote</em>(<i>MediaItem</i> item)</code></div>
 </div><p>
 <div class="ch">
@@ -36402,7 +36598,7 @@ The original item becomes the left-hand split, the function returns the right-ha
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i></td></tr>
+<tr><td class="pr"><i>string</i> str</td></tr>
 <tr><td class="ch2">the notes, as stored in the MediaItem. If no notes exist, it will return ""</td></tr>
 </table>
 <br>
@@ -36452,7 +36648,7 @@ The original item becomes the left-hand split, the function returns the right-ha
 <div class="ch">
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -36683,11 +36879,11 @@ gets the currently armed command and section name (returns 0 if nothing armed). 
 Displays an information in the help and information-display, underneath the TCP(might be missing, in certain themes).              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">helpstring</td></tr>
+<tr><td class="pr"><i>string</i> helpstring</td></tr>
 <tr><td class="ch2">the string to display</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">is_temporary_help</td></tr>
+<tr><td class="pr"><i>boolean</i> is_temporary_help</td></tr>
 <tr><td class="ch2">true, show until another message is displayed; false, show permanently, every time no other message is displayed.</td></tr>
 </table>
 <br>
@@ -36706,7 +36902,7 @@ Displays an information in the help and information-display, underneath the TCP(
 <div class="ch">
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">ignoremask</td></tr>
+<tr><td class="pr"><i>integer</i> ignoremask</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -36726,11 +36922,11 @@ Displays an information in the help and information-display, underneath the TCP(
 If track is supplied, item is ignored              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2">the MediaTrack that you want to mark as dirty</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2">if no MediaTrack is given, use this MediaItem to mark as dirty</td></tr>
 </table>
 <br>
@@ -36834,7 +37030,7 @@ Note: unlike the native GetSetObjectState, calling to FreeHeapPtr() is not requi
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">obj</td></tr>
+<tr><td class="pr"><i>identifier</i> obj</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -36842,11 +37038,11 @@ Note: unlike the native GetSetObjectState, calling to FreeHeapPtr() is not requi
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">setnewvalue</td></tr>
+<tr><td class="pr"><i>boolean</i> setnewvalue</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">wantminimalstate</td></tr>
+<tr><td class="pr"><i>boolean</i> wantminimalstate</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -36874,7 +37070,7 @@ Note: unlike the native GetSetObjectState, calling to FreeHeapPtr() is not requi
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>string</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -36895,7 +37091,7 @@ Note: unlike the native GetSetObjectState, calling to FreeHeapPtr() is not requi
 [S&amp;M] Attach Resources slot actions to a given bookmark.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">bookmarkId</td></tr>
+<tr><td class="pr"><i>integer</i> bookmarkId</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -37615,7 +37811,7 @@ Returns submode name, or NULL
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>BR_GetClosestGridDivision</em>(<i>double</i> position)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>BR_GetClosestGridDivision</em>", position)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.BR_GetClosestGridDivision</em>(<i>number</i> position)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.BR_GetClosestGridDivision</em>(<i>number</i> position)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>BR_GetClosestGridDivision</em>(<i>Float</i> position)</code></div>
 </div><p>
 <div class="ch">
@@ -37629,7 +37825,7 @@ Returns submode name, or NULL
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -37643,7 +37839,7 @@ Returns submode name, or NULL
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>BR_GetNextGridDivision</em>(<i>double</i> position)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>BR_GetNextGridDivision</em>", position)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.BR_GetNextGridDivision</em>(<i>number</i> position)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.BR_GetNextGridDivision</em>(<i>number</i> position)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>BR_GetNextGridDivision</em>(<i>Float</i> position)</code></div>
 </div><p>
 <div class="ch">
@@ -37657,7 +37853,7 @@ Returns submode name, or NULL
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -37671,7 +37867,7 @@ Returns submode name, or NULL
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>BR_GetPrevGridDivision</em>(<i>double</i> position)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>BR_GetPrevGridDivision</em>", position)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.BR_GetPrevGridDivision</em>(<i>number</i> position)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.BR_GetPrevGridDivision</em>(<i>number</i> position)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>BR_GetPrevGridDivision</em>(<i>Float</i> position)</code></div>
 </div><p>
 <div class="ch">
@@ -37685,7 +37881,7 @@ Returns submode name, or NULL
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -38382,11 +38578,11 @@ Save the project.<br/>
 Optional with a save-dialog.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">forceSaveAsIn</td></tr>
+<tr><td class="pr"><i>boolean</i> forceSaveAsIn</td></tr>
 <tr><td class="ch2">false, save the project; true, open save-file-dialog first</td></tr>
 </table>
 <br>
@@ -38436,7 +38632,7 @@ If passed a .RTrackTemplate file, adds the template to the existing project.
 Marks project as dirty (needing save) if 'undo/prompt to save' is enabled in preferences.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
@@ -38560,7 +38756,7 @@ Set the arrange view grid division. 0.25=quarter note, 1.0/3.0=half note triplet
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>SnapToGrid</em>(<i>ReaProject*</i> project, <i>double</i> time_pos)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>SnapToGrid</em>(<i>ReaProject</i> project, time_pos)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.SnapToGrid</em>(<i>ReaProject</i> project, <i>number</i> time_pos)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.SnapToGrid</em>(<i>ReaProject</i> project, <i>number</i> time_pos)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_SnapToGrid</em>(<i>ReaProject</i> project, <i>Float</i> time_pos)</code></div>
 </div><p>
 <div class="ch">
@@ -38612,7 +38808,7 @@ call to start a new block
 <p>call to start a new undo block. Code after that and before <a href="#Undo_EndBlock">Undo_EndBlock</a> can be undone.</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
@@ -38629,12 +38825,14 @@ call to start a new block
 <div class="p">Python: <code> <i>String</i> <em>RPR_Undo_CanRedo2</em>(<i>ReaProject</i> proj)</code></div>
 </div><p>
 <div class="ch">
-returns string of next action,if able,NULL if not              
+returns string of next action,if able,NULL if not<br/>
+<br/>
+basically, if you undid an action, this will return the description of the action you undid.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> undo_string</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">next redo-able action</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -38656,12 +38854,14 @@ returns string of next action,if able,NULL if not
 <div class="p">Python: <code> <i>String</i> <em>RPR_Undo_CanUndo2</em>(<i>ReaProject</i> proj)</code></div>
 </div><p>
 <div class="ch">
-returns string of last action,if able,NULL if not              
+returns string of last action,if able,NULL if not<br/>
+<br/>
+basically returns the description of the next undoable action              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> undo_text</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the next undoable action</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -38683,17 +38883,19 @@ returns string of last action,if able,NULL if not
 <div class="p">Python: <code> <i>Int</i> <em>RPR_Undo_DoRedo2</em>(<i>ReaProject</i> proj)</code></div>
 </div><p>
 <div class="ch">
+redo an undone action<br/>
+<br/>
 nonzero if success              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">0, not successful; everything else, successful</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
@@ -38710,17 +38912,19 @@ nonzero if success
 <div class="p">Python: <code> <i>Int</i> <em>RPR_Undo_DoUndo2</em>(<i>ReaProject</i> proj)</code></div>
 </div><p>
 <div class="ch">
+undo an undoable action<br/>
+<br/>
 nonzero if success              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">0, not successful; everything else, successful</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
@@ -38740,11 +38944,11 @@ nonzero if success
 call to end the block,with extra flags if any,and a description              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">descchange</td></tr>
+<tr><td class="pr"><i>string</i> descchange</td></tr>
 <tr><td class="ch2">a string that describes the changes of the undo-block</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">extraflags</td></tr>
+<tr><td class="pr"><i>integer</i> extraflags</td></tr>
 <tr><td class="ch2">set to -1, include all undo states<br/>
 1, track/master vol/pan/routing, routing/hwout envelopes too<br/>
 2, track/master fx<br/>
@@ -38773,15 +38977,15 @@ call to end the block,with extra flags if any,and a description
 call to end the block,with extra flags if any,and a description              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">descchange</td></tr>
+<tr><td class="pr"><i>string</i> descchange</td></tr>
 <tr><td class="ch2">a string that describes the changes of the undo-block</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">extraflags</td></tr>
+<tr><td class="pr"><i>integer</i> extraflags</td></tr>
 <tr><td class="ch2">set to -1, include all undo states<br/>
 1, track/master vol/pan/routing, routing/hwout envelopes too<br/>
 2, track/master fx<br/>
@@ -38810,7 +39014,7 @@ call to end the block,with extra flags if any,and a description
 limited state change to items              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">descchange</td></tr>
+<tr><td class="pr"><i>string</i> descchange</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -38830,11 +39034,11 @@ limited state change to items
 limited state change to items              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">descchange</td></tr>
+<tr><td class="pr"><i>string</i> descchange</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -38854,15 +39058,15 @@ limited state change to items
 trackparm=-1 by default,or if updating one fx chain,you can specify track index              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">descchange</td></tr>
+<tr><td class="pr"><i>string</i> descchange</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">whichStates</td></tr>
+<tr><td class="pr"><i>integer</i> whichStates</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">trackparm</td></tr>
+<tr><td class="pr"><i>integer</i> trackparm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -38882,19 +39086,19 @@ trackparm=-1 by default,or if updating one fx chain,you can specify track index
 trackparm=-1 by default,or if updating one fx chain,you can specify track index              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">descchange</td></tr>
+<tr><td class="pr"><i>string</i> descchange</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">whichStates</td></tr>
+<tr><td class="pr"><i>integer</i> whichStates</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">trackparm</td></tr>
+<tr><td class="pr"><i>integer</i> trackparm</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -38913,15 +39117,15 @@ trackparm=-1 by default,or if updating one fx chain,you can specify track index
 <div class="ch">
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">name</td></tr>
+<tr><td class="pr"><i>string</i> name</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">item</td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -60813,7 +61017,7 @@ returns, whether any of the tracks is solo in Project proj
 <div class="cc">
 <div class="c">C: <code> <i>MediaTrack*</i>  <em>BR_GetMediaTrackByGUID</em>(<i>ReaProject*</i> proj, <i>const</i> <i>char*</i> guidStringIn)</code></div>
 <div class="e">EEL2: <code> <i>MediaTrack</i> extension_api("<em>BR_GetMediaTrackByGUID</em>", <i>ReaProject</i> proj, "guidStringIn")</code></div>
-<div class="l">Lua: <code> <i>MediaTrack</i> = <em>reaper.BR_GetMediaTrackByGUID</em>(<i>ReaProject</i> proj, <i>string</i> guidStringIn)</code></div>
+<div class="l">Lua: <code> <i>MediaTrack</i> item = <em>reaper.BR_GetMediaTrackByGUID</em>(<i>ReaProject</i> proj, <i>string</i> guidStringIn)</code></div>
 <div class="p">Python: <code> <i>MediaTrack</i> <em>BR_GetMediaTrackByGUID</em>(<i>ReaProject</i> proj, <i>String</i> guidStringIn)</code></div>
 </div><p>
 <div class="ch">
@@ -60821,7 +61025,7 @@ returns, whether any of the tracks is solo in Project proj
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>MediaTrack</i></td></tr>
+<tr><td class="pr"><i>MediaTrack</i> item</td></tr>
 <tr><td class="ch2">the MediaTrack requested, as MediaTrack-object</td></tr>
 </table>
 <br>
@@ -60873,7 +61077,7 @@ returns, whether any of the tracks is solo in Project proj
 <div class="cc">
 <div class="c">C: <code> <i>TrackEnvelope*</i> <em>BR_GetMediaTrackSendInfo_Envelope</em>(<i>MediaTrack*</i>  track, <i>int</i> category, <i>int</i> sendidx, <i>int</i> envelopeType)</code></div>
 <div class="e">EEL2: <code> <i>TrackEnvelope</i> extension_api("<em>BR_GetMediaTrackSendInfo_Envelope</em>", <i>MediaTrack</i> track, <i>int</i> category, <i>int</i> sendidx, <i>int</i> envelopeType)</code></div>
-<div class="l">Lua: <code> <i>TrackEnvelope</i> = <em>reaper.BR_GetMediaTrackSendInfo_Envelope</em>(<i>MediaTrack</i> track, <i>integer</i> category, <i>integer</i> sendidx, <i>integer</i> envelopeType)</code></div>
+<div class="l">Lua: <code> <i>TrackEnvelope</i> env = <em>reaper.BR_GetMediaTrackSendInfo_Envelope</em>(<i>MediaTrack</i> track, <i>integer</i> category, <i>integer</i> sendidx, <i>integer</i> envelopeType)</code></div>
 <div class="p">Python: <code> <i>TrackEnvelope</i> <em>BR_GetMediaTrackSendInfo_Envelope</em>(<i>MediaTrack</i> track, <i>Int</i> category, <i>Int</i> sendidx, <i>Int</i> envelopeType)</code></div>
 </div><p>
 <div class="ch">
@@ -60883,25 +61087,25 @@ returns, whether any of the tracks is solo in Project proj
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>TrackEnvelope</i></td></tr>
+<tr><td class="pr"><i>TrackEnvelope</i> env</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">category</td></tr>
+<tr><td class="pr"><i>integer</i> category</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">sendidx</td></tr>
+<tr><td class="pr"><i>integer</i> sendidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">envelopeType</td></tr>
+<tr><td class="pr"><i>integer</i> envelopeType</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -60915,7 +61119,7 @@ returns, whether any of the tracks is solo in Project proj
 <div class="cc">
 <div class="c">C: <code> <i>MediaTrack*</i>  <em>BR_GetMediaTrackSendInfo_Track</em>(<i>MediaTrack*</i>  track, <i>int</i> category, <i>int</i> sendidx, <i>int</i> trackType)</code></div>
 <div class="e">EEL2: <code> <i>MediaTrack</i> extension_api("<em>BR_GetMediaTrackSendInfo_Track</em>", <i>MediaTrack</i> track, <i>int</i> category, <i>int</i> sendidx, <i>int</i> trackType)</code></div>
-<div class="l">Lua: <code> <i>MediaTrack</i> = <em>reaper.BR_GetMediaTrackSendInfo_Track</em>(<i>MediaTrack</i> track, <i>integer</i> category, <i>integer</i> sendidx, <i>integer</i> trackType)</code></div>
+<div class="l">Lua: <code> <i>MediaTrack</i> tr = <em>reaper.BR_GetMediaTrackSendInfo_Track</em>(<i>MediaTrack</i> track, <i>integer</i> category, <i>integer</i> sendidx, <i>integer</i> trackType)</code></div>
 <div class="p">Python: <code> <i>MediaTrack</i> <em>BR_GetMediaTrackSendInfo_Track</em>(<i>MediaTrack</i> track, <i>Int</i> category, <i>Int</i> sendidx, <i>Int</i> trackType)</code></div>
 </div><p>
 <div class="ch">
@@ -60925,25 +61129,25 @@ returns, whether any of the tracks is solo in Project proj
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>MediaTrack</i></td></tr>
+<tr><td class="pr"><i>MediaTrack</i> tr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">category</td></tr>
+<tr><td class="pr"><i>integer</i> category</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">sendidx</td></tr>
+<tr><td class="pr"><i>integer</i> sendidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">trackType</td></tr>
+<tr><td class="pr"><i>integer</i> trackType</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -60957,7 +61161,7 @@ returns, whether any of the tracks is solo in Project proj
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>BR_GetSetTrackSendInfo</em>(<i>MediaTrack*</i>  track, <i>int</i> category, <i>int</i> sendidx, <i>const</i> <i>char*</i> parmname, <i>bool</i> setNewValue, <i>double</i> newValue)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>BR_GetSetTrackSendInfo</em>", <i>MediaTrack</i> track, <i>int</i> category, <i>int</i> sendidx, "parmname", <i>bool</i> setNewValue, newValue)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.BR_GetSetTrackSendInfo</em>(<i>MediaTrack</i> track, <i>integer</i> category, <i>integer</i> sendidx, <i>string</i> parmname, <i>boolean</i> setNewValue, <i>number</i> newValue)</code></div>
+<div class="l">Lua: <code> <i>number</i> value = <em>reaper.BR_GetSetTrackSendInfo</em>(<i>MediaTrack</i> track, <i>integer</i> category, <i>integer</i> sendidx, <i>string</i> parmname, <i>boolean</i> setNewValue, <i>number</i> newValue)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>BR_GetSetTrackSendInfo</em>(<i>MediaTrack</i> track, <i>Int</i> category, <i>Int</i> sendidx, <i>String</i> parmname, <i>Boolean</i> setNewValue, <i>Float</i> newValue)</code></div>
 </div><p>
 <div class="ch">
@@ -60969,33 +61173,33 @@ returns, whether any of the tracks is solo in Project proj
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> retval</td></tr>
+<tr><td class="pr"><i>number</i> value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">category</td></tr>
+<tr><td class="pr"><i>integer</i> category</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">sendidx</td></tr>
+<tr><td class="pr"><i>integer</i> sendidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">parmname</td></tr>
+<tr><td class="pr"><i>string</i> parmname</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">setNewValue</td></tr>
+<tr><td class="pr"><i>boolean</i> setNewValue</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">newValue</td></tr>
+<tr><td class="pr"><i>number</i> newValue</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -62387,7 +62591,7 @@ Get the associated MediaTrack of a MediaItem.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>MediaItem</i></td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2">the MediaItem, whose associated MediaTrack you want to have</td></tr>
 </table>
 <br>
@@ -63293,7 +63497,7 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>GetTrackSendInfo_Value</em>(<i>MediaTrack*</i>  tr, <i>int</i> category, <i>int</i> sendidx, <i>const</i> <i>char*</i> parmname)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>GetTrackSendInfo_Value</em>(<i>MediaTrack</i> tr, <i>int</i> category, <i>int</i> sendidx, "parmname")</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.GetTrackSendInfo_Value</em>(<i>MediaTrack</i> tr, <i>integer</i> category, <i>integer</i> sendidx, <i>string</i> parmname)</code></div>
+<div class="l">Lua: <code> <i>number</i> value = <em>reaper.GetTrackSendInfo_Value</em>(<i>MediaTrack</i> tr, <i>integer</i> category, <i>integer</i> sendidx, <i>string</i> parmname)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>RPR_GetTrackSendInfo_Value</em>(<i>MediaTrack</i> tr, <i>Int</i> category, <i>Int</i> sendidx, <i>String</i> parmname)</code></div>
 </div><p>
 <div class="ch">
@@ -63304,7 +63508,7 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> number</td></tr>
+<tr><td class="pr"><i>number</i> value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -63639,11 +63843,11 @@ Gets the RPPXML state of a track, returns true if successful. Undo flag is a per
 <p>inserts a track at idx,of course this will be clamped to 0..<a href="#GetNumTracks">GetNumTracks</a>().</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">idx</td></tr>
+<tr><td class="pr"><i>integer</i> idx</td></tr>
 <tr><td class="ch2">the index, in which to insert the track; 0, insert before the first track.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">wantDefaults</td></tr>
+<tr><td class="pr"><i>boolean</i> wantDefaults</td></tr>
 <tr><td class="ch2">true, default envelopes/FX; false, no enabled FX/envelopes</td></tr>
 </table>
 <br>
@@ -63914,15 +64118,15 @@ apply, when beforeTrackIdx>0(a track above the moved tracks exists).<br/>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">src</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> src</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dest</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> dest</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">type</td></tr>
+<tr><td class="pr"><i>integer</i> type</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -63950,11 +64154,11 @@ apply, when beforeTrackIdx>0(a track above the moved tracks exists).<br/>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">tr</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> tr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">rcvidx</td></tr>
+<tr><td class="pr"><i>integer</i> rcvidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -63982,11 +64186,11 @@ apply, when beforeTrackIdx>0(a track above the moved tracks exists).<br/>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">tr</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> tr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">srctr</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> srctr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -64410,15 +64614,15 @@ Set solo-state for all tracks.
 <p>By setting fx you can add 0x1000000 set to reference input FX. To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2">the track, in which the FX to be opened is located</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">fx</td></tr>
+<tr><td class="pr"><i>integer</i> fx</td></tr>
 <tr><td class="ch2">the fx-id within the fxchain</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">open</td></tr>
+<tr><td class="pr"><i>boolean</i> open</td></tr>
 <tr><td class="ch2">true, open FX-UI; false, close FX-UI</td></tr>
 </table>
 <br>
@@ -65181,15 +65385,15 @@ So you can control them individually, when you've unlinked them with this functi
 <p>For Regions, use <a href="#GoToRegion">GoToRegion</a>.</p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">marker_index</td></tr>
+<tr><td class="pr"><i>integer</i> marker_index</td></tr>
 <tr><td class="ch2">the markerindex, where you want to go to.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">use_timeline_order</td></tr>
+<tr><td class="pr"><i>boolean</i> use_timeline_order</td></tr>
 <tr><td class="ch2">false, use the shown-markernumber as marker_index; true, use markers in timelineorder, ignoring the shown-markernumber</td></tr>
 </table>
 <br>
@@ -65210,15 +65414,15 @@ Go to beginning of a region.<br/>
 Seek to region after current region finishes playing (smooth seek).               
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">proj</td></tr>
+<tr><td class="pr"><i>ReaProject</i> proj</td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">region_index</td></tr>
+<tr><td class="pr"><i>integer</i> region_index</td></tr>
 <tr><td class="ch2">the regionindex, where you want to got to.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">use_timeline_order</td></tr>
+<tr><td class="pr"><i>boolean</i> use_timeline_order</td></tr>
 <tr><td class="ch2">false, use the shown-regionnumber as region_index; true, use regions in timelineorder, ignoring the shown-regionnumber</td></tr>
 </table>
 <br>
@@ -65613,7 +65817,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>BR_GetCurrentTheme</em>(<i>char*</i> themePathOut, <i>int</i> themePathOut_sz, <i>char*</i> themeNameOut, <i>int</i> themeNameOut_sz)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>BR_GetCurrentTheme</em>", #themePath, #themeName)</code></div>
-<div class="l">Lua: <code> <i>string</i> themePath retval, <i>string</i> themeName = <em>reaper.BR_GetCurrentTheme</em>()</code></div>
+<div class="l">Lua: <code> <i>string</i> themePath, <i>string</i> themeName = <em>reaper.BR_GetCurrentTheme</em>()</code></div>
 <div class="p">Python: <code> (<i>String</i> themePathOut, <i>Int</i> themePathOut_sz, <i>String</i> themeNameOut, <i>Int</i> themeNameOut_sz) = <em>BR_GetCurrentTheme</em>(themePathOut, themePathOut_sz, themeNameOut, themeNameOut_sz)</code></div>
 </div><p>
 <div class="ch">
@@ -65621,11 +65825,11 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">themePath retval</td></tr>
+<tr><td class="pr"><i>string</i> themePath</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">themeName</td></tr>
+<tr><td class="pr"><i>string</i> themeName</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -65639,7 +65843,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>BR_GetMediaTrackLayouts</em>(<i>MediaTrack*</i>  track, <i>char*</i> mcpLayoutNameOut, <i>int</i> mcpLayoutNameOut_sz, <i>char*</i> tcpLayoutNameOut, <i>int</i> tcpLayoutNameOut_sz)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>BR_GetMediaTrackLayouts</em>", <i>MediaTrack</i> track, #mcpLayoutName, #tcpLayoutName)</code></div>
-<div class="l">Lua: <code> <i>string</i> mcpLayoutName retval, <i>string</i> tcpLayoutName = <em>reaper.BR_GetMediaTrackLayouts</em>(<i>MediaTrack</i> track)</code></div>
+<div class="l">Lua: <code> <i>string</i> mcpLayoutName, <i>string</i> tcpLayoutName = <em>reaper.BR_GetMediaTrackLayouts</em>(<i>MediaTrack</i> track)</code></div>
 <div class="p">Python: <code> (<i>MediaTrack</i> track, <i>String</i> mcpLayoutNameOut, <i>Int</i> mcpLayoutNameOut_sz, <i>String</i> tcpLayoutNameOut, <i>Int</i> tcpLayoutNameOut_sz) = <em>BR_GetMediaTrackLayouts</em>(track, mcpLayoutNameOut, mcpLayoutNameOut_sz, tcpLayoutNameOut, tcpLayoutNameOut_sz)</code></div>
 </div><p>
 <div class="ch">
@@ -65647,17 +65851,17 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">mcpLayoutName retval</td></tr>
+<tr><td class="pr"><i>string</i> mcpLayoutName</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">tcpLayoutName</td></tr>
+<tr><td class="pr"><i>string</i> tcpLayoutName</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -65671,7 +65875,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>BR_GetMouseCursorContext</em>(<i>char*</i> windowOut, <i>int</i> windowOut_sz, <i>char*</i> segmentOut, <i>int</i> segmentOut_sz, <i>char*</i> detailsOut, <i>int</i> detailsOut_sz)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>BR_GetMouseCursorContext</em>", #window, #segment, #details)</code></div>
-<div class="l">Lua: <code> <i>string</i> window retval, <i>string</i> segment, <i>string</i> details = <em>reaper.BR_GetMouseCursorContext</em>()</code></div>
+<div class="l">Lua: <code> <i>string</i> window, <i>string</i> segment, <i>string</i> details = <em>reaper.BR_GetMouseCursorContext</em>()</code></div>
 <div class="p">Python: <code> (<i>String</i> windowOut, <i>Int</i> windowOut_sz, <i>String</i> segmentOut, <i>Int</i> segmentOut_sz, <i>String</i> detailsOut, <i>Int</i> detailsOut_sz) = <em>BR_GetMouseCursorContext</em>(windowOut, windowOut_sz, segmentOut, segmentOut_sz, detailsOut, detailsOut_sz)</code></div>
 </div><p>
 <div class="ch">
@@ -65680,15 +65884,15 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">window retval</td></tr>
+<tr><td class="pr"><i>string</i> window retval</td></tr>
 <tr><td class="ch2">the window, in which the mouse-cursor was, at time of calling BR_GetMouseCursorContext</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">segment</td></tr>
+<tr><td class="pr"><i>string</i> segment</td></tr>
 <tr><td class="ch2">the segment within the window</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">details</td></tr>
+<tr><td class="pr"><i>string</i> details</td></tr>
 <tr><td class="ch2">details with the segment of the window</td></tr>
 </table>
 <br>
@@ -65710,11 +65914,11 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>TrackEnvelope</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">takeEnvelope</td></tr>
+<tr><td class="pr"><i>boolean</i> takeEnvelope</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -65728,7 +65932,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>MediaItem*</i>  <em>BR_GetMouseCursorContext_Item</em>()</code></div>
 <div class="e">EEL2: <code> <i>MediaItem</i> extension_api("<em>BR_GetMouseCursorContext_Item</em>")</code></div>
-<div class="l">Lua: <code> <i>MediaItem</i> = <em>reaper.BR_GetMouseCursorContext_Item</em>()</code></div>
+<div class="l">Lua: <code> <i>MediaItem</i> item = <em>reaper.BR_GetMouseCursorContext_Item</em>()</code></div>
 <div class="p">Python: <code> <i>MediaItem</i> <em>BR_GetMouseCursorContext_Item</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -65736,7 +65940,7 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>MediaItem</i></td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -65750,7 +65954,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_GetMouseCursorContext_MIDI</em>(<i>bool*</i> inlineEditorOut, <i>int*</i> noteRowOut, <i>int*</i> ccLaneOut, <i>int*</i> ccLaneValOut, <i>int*</i> ccLaneIdOut)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_GetMouseCursorContext_MIDI</em>", <i>bool</i> &amp;inlineEditor, <i>int</i> &amp;noteRow, <i>int</i> &amp;ccLane, <i>int</i> &amp;ccLaneVal, <i>int</i> &amp;ccLaneId)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> retval, <i>boolean</i> inlineEditor, <i>number</i> noteRow, <i>number</i> ccLane, <i>number</i> ccLaneVal, <i>number</i> ccLaneId = <em>reaper.BR_GetMouseCursorContext_MIDI</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> retval, <i>boolean</i> inlineEditor, <i>integer</i> noteRow, <i>integer</i> ccLane, <i>integer</i> ccLaneVal, <i>integer</i> ccLaneId = <em>reaper.BR_GetMouseCursorContext_MIDI</em>()</code></div>
 <div class="p">Python: <code> (<i>void</i> retval, <i>Boolean</i> inlineEditorOut, <i>Int</i> noteRowOut, <i>Int</i> ccLaneOut, <i>Int</i> ccLaneValOut, <i>Int</i> ccLaneIdOut) = <em>BR_GetMouseCursorContext_MIDI</em>(inlineEditorOut, noteRowOut, ccLaneOut, ccLaneValOut, ccLaneIdOut)</code></div>
 </div><p>
 <div class="ch">
@@ -65760,27 +65964,27 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>identifier</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">inlineEditor</td></tr>
+<tr><td class="pr"><i>boolean</i> inlineEditor</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">noteRow</td></tr>
+<tr><td class="pr"><i>integer</i> noteRow</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ccLane</td></tr>
+<tr><td class="pr"><i>integer</i> ccLane</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ccLaneVal</td></tr>
+<tr><td class="pr"><i>integer</i> ccLaneVal</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">ccLaneId</td></tr>
+<tr><td class="pr"><i>integer</i> ccLaneId</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -65794,7 +65998,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>BR_GetMouseCursorContext_Position</em>()</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>BR_GetMouseCursorContext_Position</em>")</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.BR_GetMouseCursorContext_Position</em>()</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.BR_GetMouseCursorContext_Position</em>()</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>BR_GetMouseCursorContext_Position</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -65838,7 +66042,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>MediaItem_Take*</i> <em>BR_GetMouseCursorContext_Take</em>()</code></div>
 <div class="e">EEL2: <code> <i>MediaItem_Take</i> extension_api("<em>BR_GetMouseCursorContext_Take</em>")</code></div>
-<div class="l">Lua: <code> <i>MediaItem_Take</i> = <em>reaper.BR_GetMouseCursorContext_Take</em>()</code></div>
+<div class="l">Lua: <code> <i>MediaItem_Take</i> take = <em>reaper.BR_GetMouseCursorContext_Take</em>()</code></div>
 <div class="p">Python: <code> <i>MediaItem_Take</i> <em>BR_GetMouseCursorContext_Take</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -65846,8 +66050,8 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>MediaItem_Take</i></td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
+<tr><td class="ch2">the found take under the mouse-cursor</td></tr>
 </table>
 <br>
 </div>
@@ -65860,7 +66064,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>MediaTrack*</i>  <em>BR_GetMouseCursorContext_Track</em>()</code></div>
 <div class="e">EEL2: <code> <i>MediaTrack</i> extension_api("<em>BR_GetMouseCursorContext_Track</em>")</code></div>
-<div class="l">Lua: <code> <i>MediaTrack</i> = <em>reaper.BR_GetMouseCursorContext_Track</em>()</code></div>
+<div class="l">Lua: <code> <i>MediaTrack</i> tr = <em>reaper.BR_GetMouseCursorContext_Track</em>()</code></div>
 <div class="p">Python: <code> <i>MediaTrack</i> <em>BR_GetMouseCursorContext_Track</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -65868,8 +66072,8 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>MediaTrack</i></td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>MediaTrack</i> tr</td></tr>
+<tr><td class="ch2">the track under the mouse-cursor</td></tr>
 </table>
 <br>
 </div>
@@ -65882,7 +66086,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>MediaItem*</i>  <em>BR_ItemAtMouseCursor</em>(<i>double*</i> positionOut)</code></div>
 <div class="e">EEL2: <code> <i>MediaItem</i> extension_api("<em>BR_ItemAtMouseCursor</em>", &amp;position)</code></div>
-<div class="l">Lua: <code> <i>MediaItem</i> retval, <i>number</i> position = <em>reaper.BR_ItemAtMouseCursor</em>()</code></div>
+<div class="l">Lua: <code> <i>MediaItem</i> item, <i>number</i> position = <em>reaper.BR_ItemAtMouseCursor</em>()</code></div>
 <div class="p">Python: <code> (<i>MediaItem</i> retval, <i>Float</i> positionOut) = <em>BR_ItemAtMouseCursor</em>(positionOut)</code></div>
 </div><p>
 <div class="ch">
@@ -65890,12 +66094,12 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>MediaItem</i> item</td></tr>
+<tr><td class="ch2">the item at mouse-cursor</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
+<tr><td class="ch2">position at mouse-cursor</td></tr>
 </table>
 <br>
 </div>
@@ -65908,7 +66112,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>BR_PositionAtMouseCursor</em>(<i>bool</i> checkRuler)</code></div>
 <div class="e">EEL2: <code> <i>double</i> extension_api("<em>BR_PositionAtMouseCursor</em>", <i>bool</i> checkRuler)</code></div>
-<div class="l">Lua: <code> <i>number</i> = <em>reaper.BR_PositionAtMouseCursor</em>(<i>boolean</i> checkRuler)</code></div>
+<div class="l">Lua: <code> <i>number</i> position = <em>reaper.BR_PositionAtMouseCursor</em>(<i>boolean</i> checkRuler)</code></div>
 <div class="p">Python: <code> <i>Float</i> <em>BR_PositionAtMouseCursor</em>(<i>Boolean</i> checkRuler)</code></div>
 </div><p>
 <div class="ch">
@@ -65916,14 +66120,14 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
+<tr><td class="ch2">the position at mouse-cursor</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">checkRuler</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>boolean</i> checkRuler</td></tr>
+<tr><td class="ch2">true, include ruler/markerarea; false, donÄt include ruler/markerarea</td></tr>
 </table>
 <br>
 </div>
@@ -65950,15 +66154,15 @@ Change the position of the edit-cursor in a specific project.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">track</td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">mcpLayoutNameIn</td></tr>
+<tr><td class="pr">stirng mcpLayoutNameIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">tcpLayoutNameIn</td></tr>
+<tr><td class="pr"><i>string</i> tcpLayoutNameIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -65972,7 +66176,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>MediaItem_Take*</i> <em>BR_TakeAtMouseCursor</em>(<i>double*</i> positionOut)</code></div>
 <div class="e">EEL2: <code> <i>MediaItem_Take</i> extension_api("<em>BR_TakeAtMouseCursor</em>", &amp;position)</code></div>
-<div class="l">Lua: <code> <i>MediaItem_Take</i> retval, <i>number</i> position = <em>reaper.BR_TakeAtMouseCursor</em>()</code></div>
+<div class="l">Lua: <code> <i>MediaItem_Take</i> take, <i>number</i> position = <em>reaper.BR_TakeAtMouseCursor</em>()</code></div>
 <div class="p">Python: <code> (<i>MediaItem_Take</i> retval, <i>Float</i> positionOut) = <em>BR_TakeAtMouseCursor</em>(positionOut)</code></div>
 </div><p>
 <div class="ch">
@@ -65980,12 +66184,12 @@ Change the position of the edit-cursor in a specific project.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
+<tr><td class="ch2">the take under mouse-cursor</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
+<tr><td class="ch2">the position under mouse-cursor</td></tr>
 </table>
 <br>
 </div>
@@ -66008,15 +66212,15 @@ Position will hold mouse cursor position in arrange if applicable.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">retval</td></tr>
+<tr><td class="pr"><i>MediaItem</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">context</td></tr>
+<tr><td class="pr"><i>number</i> context</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">position</td></tr>
+<tr><td class="pr"><i>number</i> position</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -67291,7 +67495,7 @@ false, tooltip will only be shown within Reaper's windows</td></tr>
 Opens the prefs to a page, use pageByName if page is 0.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">page</td></tr>
+<tr><td class="pr"><i>integer</i> page</td></tr>
 <tr><td class="ch2">the idx of the preferences-page. The following are valid:<br/>
 139, General <br/>
 474, Paths <br/>
@@ -67333,7 +67537,7 @@ Opens the prefs to a page, use pageByName if page is 0.
 160, External Editors </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">pageByName</td></tr>
+<tr><td class="pr"><i>string</i> pageByName</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -67531,7 +67735,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_FindWindowEx</em>(<i>const</i> <i>char*</i> hwndParent, <i>const</i> <i>char*</i> hwndChildAfter, <i>const</i> <i>char*</i> className, <i>const</i> <i>char*</i> windowName, <i>bool</i> searchClass, <i>bool</i> searchName)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_FindWindowEx</em>", "hwndParent", "hwndChildAfter", "className", "windowName", <i>bool</i> searchClass, <i>bool</i> searchName)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_FindWindowEx</em>(<i>string</i> hwndParent, <i>string</i> hwndChildAfter, <i>string</i> className, <i>string</i> windowName, <i>boolean</i> searchClass, <i>boolean</i> searchName)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.BR_Win32_FindWindowEx</em>(<i>string</i> hwndParent, <i>string</i> hwndChildAfter, <i>string</i> className, <i>string</i> windowName, <i>boolean</i> searchClass, <i>boolean</i> searchName)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_FindWindowEx</em>(<i>String</i> hwndParent, <i>String</i> hwndChildAfter, <i>String</i> className, <i>String</i> windowName, <i>Boolean</i> searchClass, <i>Boolean</i> searchName)</code></div>
 </div><p>
 <div class="ch">
@@ -67539,7 +67743,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -67635,7 +67839,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_GetFocus</em>()</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_GetFocus</em>")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_GetFocus</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd_focus = <em>reaper.BR_Win32_GetFocus</em>()</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_GetFocus</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -67643,7 +67847,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd_focus</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -67657,7 +67861,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_GetForegroundWindow</em>()</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_GetForegroundWindow</em>")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_GetForegroundWindow</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd_foreground = <em>reaper.BR_Win32_GetForegroundWindow</em>()</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_GetForegroundWindow</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -67665,7 +67869,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd_foreground</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -67679,7 +67883,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_GetMainHwnd</em>()</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_GetMainHwnd</em>")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_GetMainHwnd</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd_main = <em>reaper.BR_Win32_GetMainHwnd</em>()</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_GetMainHwnd</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -67687,7 +67891,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd_main</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -67783,7 +67987,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_GetParent</em>(<i>void*</i> hwnd)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_GetParent</em>", <i>void*</i> hwnd)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_GetParent</em>(<i>identifier</i> hwnd)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd_parent = <em>reaper.BR_Win32_GetParent</em>(<i>identifier</i> hwnd)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_GetParent</em>(<i>void</i> hwnd)</code></div>
 </div><p>
 <div class="ch">
@@ -67791,7 +67995,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd_parent</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -67811,7 +68015,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_GetWindow</em>(<i>void*</i> hwnd, <i>int</i> cmd)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_GetWindow</em>", <i>void*</i> hwnd, <i>int</i> cmd)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_GetWindow</em>(<i>identifier</i> hwnd, <i>integer</i> cmd)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.BR_Win32_GetWindow</em>(<i>identifier</i> hwnd, <i>integer</i> cmd)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_GetWindow</em>(<i>void</i> hwnd, <i>Int</i> cmd)</code></div>
 </div><p>
 <div class="ch">
@@ -67819,7 +68023,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -67956,6 +68160,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><p>
 <div class="ch">
 <p>[BR] Convert HWND to string. To convert string back to HWND, see <a href="#BR_Win32_StringToHwnd">BR_Win32_StringToHwnd</a>.</p>
+<p>A way to share a hwnd via extstate, which only allows strings, not binary objects.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -68035,7 +68240,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_MIDIEditor_GetActive</em>()</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_MIDIEditor_GetActive</em>")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_MIDIEditor_GetActive</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd_active_midi_ed = <em>reaper.BR_Win32_MIDIEditor_GetActive</em>()</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_MIDIEditor_GetActive</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -68043,7 +68248,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd_active_midi_ed</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -68137,7 +68342,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_SetFocus</em>(<i>void*</i> hwnd)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_SetFocus</em>", <i>void*</i> hwnd)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_SetFocus</em>(<i>identifier</i> hwnd)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd_focus = <em>reaper.BR_Win32_SetFocus</em>(<i>identifier</i> hwnd)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_SetFocus</em>(<i>void</i> hwnd)</code></div>
 </div><p>
 <div class="ch">
@@ -68145,7 +68350,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd_focus</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -68313,15 +68518,16 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_StringToHwnd</em>(<i>const</i> <i>char*</i> string)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_StringToHwnd</em>", "string")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_StringToHwnd</em>(<i>string</i> string)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.BR_Win32_StringToHwnd</em>(<i>string</i> string)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_StringToHwnd</em>(<i>String</i> string)</code></div>
 </div><p>
 <div class="ch">
 <p>[BR] Convert string to HWND. To convert HWND back to string, see <a href="BR_Win32_HwndToString">BR_Win32_HwndToString</a>.</p>
+<p>A way to share a hwnd via extstate, which only allows strings, not binary objects.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -68341,7 +68547,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_Win32_WindowFromPoint</em>(<i>int</i> x, <i>int</i> y)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_Win32_WindowFromPoint</em>", <i>int</i> x, <i>int</i> y)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.BR_Win32_WindowFromPoint</em>(<i>integer</i> x, <i>integer</i> y)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd_point = <em>reaper.BR_Win32_WindowFromPoint</em>(<i>integer</i> x, <i>integer</i> y)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>BR_Win32_WindowFromPoint</em>(<i>Int</i> x, <i>Int</i> y)</code></div>
 </div><p>
 <div class="ch">
@@ -68349,18 +68555,18 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i></td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd_point</td></tr>
+<tr><td class="ch2">the hwnd at x and y-coordinates</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> x</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">x-coordinate of the point to look for possible hwnd</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> y</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">y-coordinate of the point to look for possible hwnd</td></tr>
 </table>
 <br>
 </div>
