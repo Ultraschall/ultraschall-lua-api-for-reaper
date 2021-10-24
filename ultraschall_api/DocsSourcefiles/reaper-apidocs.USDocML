@@ -5449,10 +5449,12 @@
         <requires>
             Reaper=5.975
         </requires>
-        <description prog_lang="*">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the first item at the screen coordinates specified. If allow_locked is false, locked items are ignored. If takeOutOptional specified, returns the take hit(in Lua, this function simply returns the take as additional return-value).
 
             Note: You can not get the item at screen-coordinates, where it is hidden by other windows.
+            
+            See [GetThingFromPoint](#GetThingFromPoint)
         </description>
         <retvals>
             MediaItem item - the MediaItem at the position
@@ -7970,7 +7972,7 @@
         <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetMediaTrackInfo_String(MediaTrack tr, string parmname, string stringNeedBig, boolean setnewvalue)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack tr, String parmname, String stringNeedBig, Boolean setnewvalue) = RPR_GetSetMediaTrackInfo_String(tr, parmname, stringNeedBig, setnewvalue)</functioncall>
         <requires>
-            Reaper=6.24
+            Reaper=6.36
         </requires>
         <description prog_lang="*">
             Get or set track string attributes.
@@ -7983,6 +7985,7 @@
                 Set stringNeedBig="" and setnewvalue=false to query the currently set razor-edits on this track.
             P_TCP_LAYOUT : const char * : layout name
             P_EXT:xyz : char * : extension-specific persistent data
+            P_UI_RECT:tcp.mute : char * : read-only, allows querying screen position + size of track WALTER elements (tcp.size queries screen position and size of entire TCP, etc).
             GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
         </description>
         <retvals>
@@ -8787,6 +8790,38 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetThingFromPoint</slug>
+        <title>GetThingFromPoint</title>
+        <functioncall prog_lang="cpp">MediaTrack* GetThingFromPoint(int screen_x, int screen_y, char* infoOut, int infoOut_sz)</functioncall>
+        <functioncall prog_lang="eel">MediaTrack GetThingFromPoint(int screen_x, int screen_y, #info)</functioncall>
+        <functioncall prog_lang="lua">optional MediaTrack tr, string info = reaper.GetThingFromPoint(integer screen_x, integer screen_y)</functioncall>
+        <functioncall prog_lang="python">(MediaTrack tr, Int screen_x, Int screen_y, String infoOut, Int infoOut_sz) = RPR_GetThingFromPoint(screen_x, screen_y, infoOut, infoOut_sz)</functioncall>
+        <requires>
+            Reaper=6.37
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Hit tests a point in screen coordinates. Updates infoOut with information such as "arrange", "fx_chain", "fx_0" (first FX in chain, floating) or Walter-elements. 
+            If a track panel is hit, string will begin with "tcp" or "mcp" or "tcp.mute" etc (future versions may append additional information). 
+            
+            May return NULL with valid info string to indicate non-track thing.
+        </description>
+        <retvals>
+            optional MediaTrack tr - a track-object, if existing at this point
+            string info - info like Walter-elements, arrange, fx_chain, etc
+        </retvals>
+        <parameters>
+            integer screen_x - the x-position to query element
+            integer screen_y - the y-position to query element
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Miscellaneous
+        </chapter_context>
+        <tags>miscellaneous, get, thing, from point</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetToggleCommandState</slug>
         <title>GetToggleCommandState</title>
         <functioncall prog_lang="cpp">int GetToggleCommandState(int command_id)</functioncall>
@@ -9088,10 +9123,12 @@
         <requires>
             Reaper=5.975
         </requires>
-        <description prog_lang="*">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the track from the screen coordinates specified. If the screen coordinates refer to a window associated to the track (such as FX), the track will be returned. infoOutOptional will be set to 1 if it is likely an envelope, 2 if it is likely a track FX.
 
             Note: You can not get the track at screen-coordinates, where it is hidden by other windows.
+            
+            See [GetThingFromPoint](GetThingFromPoint)
         </description>
         <retvals>
             MediaTrack retval - the MediaTrack at position; if the position is above a window associated with the track, this holds the track, where retval info will hold additional information
@@ -39399,7 +39436,7 @@ Mespotine
         <title>GetSetMediaTrackInfo</title>
         <functioncall prog_lang="cpp">void* (*GetSetMediaTrackInfo)(MediaTrack* tr, const char* parmname, void* setNewValue)</functioncall>
         <requires>
-            Reaper=6.24
+            Reaper=6.36
         </requires>
         <description indent="default">
             Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMediaTrackInfo_Value but has more parameters.
@@ -39413,6 +39450,7 @@ Mespotine
                    -Example: "0.00 1.00 \"\" 0.00 1.00 "{xyz-...}"
                  -P_TCP_LAYOUT : const char * : layout name
                  -P_EXT:xyz : char * : extension-specific persistent data
+                 -P_UI_RECT:tcp.mute : char * : read-only, allows querying screen position + size of track WALTER elements (tcp.size queries screen position and size of entire TCP, etc).
                  -GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
                  -B_MUTE : bool * : muted
                  -B_PHASE : bool * : track phase inverted
