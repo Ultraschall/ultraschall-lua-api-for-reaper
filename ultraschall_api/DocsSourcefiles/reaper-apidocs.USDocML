@@ -7221,7 +7221,7 @@
         <title>GetProjectPathEx</title>
         <functioncall prog_lang="cpp">void GetProjectPathEx(ReaProject* proj, char* bufOut, int bufOut_sz)</functioncall>
         <functioncall prog_lang="eel">GetProjectPathEx(ReaProject proj, #buf)</functioncall>
-        <functioncall prog_lang="lua">string buf = reaper.GetProjectPathEx(ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">string project_path = reaper.GetProjectPathEx(ReaProject proj)</functioncall>
         <functioncall prog_lang="python">(ReaProject proj, String bufOut, Int bufOut_sz) = RPR_GetProjectPathEx(proj, bufOut, bufOut_sz)</functioncall>
         <requires>
             Reaper=6.37
@@ -9212,7 +9212,7 @@
         </description>
         <retvals>
             boolean retval - 
-            string bufWantNeedBig_sz - 
+            string buf - 
         </retvals>
         <parameters>
             MediaTrack track - 
@@ -18720,7 +18720,7 @@
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
-7044 Mespotine
+
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_FormatParamValue</slug>
         <title>TrackFX_FormatParamValue</title>
