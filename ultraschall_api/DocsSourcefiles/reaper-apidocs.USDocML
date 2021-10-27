@@ -6422,7 +6422,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
-            Reaper=6.35
+            Reaper=6.38
         </requires>
         <description prog_lang="*">
             Get track numerical-value attributes.
@@ -6439,17 +6439,17 @@
             I_RECMON : int * : record monitoring, 0=off, 1=normal, 2=not when playing (tape style)
             I_RECMONITEMS : int * : monitor items while recording, 0=off, 1=on
             B_AUTO_RECARM : bool * : automatically set record arm when selected (does not immediately affect recarm state, script should set directly if desired)
-            I_VUMODE : int * : track vu mode, &amp;1=disabled, 0=stereo peaks, 2=multichannel peaks, 4=stereo RMS, 8=combined RMS, 12=LUFS-M, 16=LUFS-S (readout=max), 20=LUFS-S (readout=current)
+            I_VUMODE : int * : track vu mode, &amp;1:disabled, &amp;30==0:stereo peaks, &amp;30==2:multichannel peaks, &amp;30==4:stereo RMS, &amp;30==8:combined RMS, &amp;30==12:LUFS-M, &amp;30==16:LUFS-S (readout=max), &amp;30==20:LUFS-S (readout=current), &amp;32:LUFS calculation on channels 1+2 only            
             I_AUTOMODE : int * : track automation mode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch
             I_NCHAN : int * : number of track channels, 2-64, even numbers only
             I_SELECTED : int * : track selected, 0=unselected, 1=selected
             I_WNDH : int * : current TCP window height in pixels including envelopes (read-only)
             I_TCPH : int * : current TCP window height in pixels not including envelopes (read-only)
             I_TCPY : int * : current TCP window Y-position in pixels relative to top of arrange view (read-only)
-            I_MCPX : int * : current MCP X-position in pixels relative to mixer container
-            I_MCPY : int * : current MCP Y-position in pixels relative to mixer container
-            I_MCPW : int * : current MCP width in pixels
-            I_MCPH : int * : current MCP height in pixels
+            I_MCPX : int * : current MCP X-position in pixels relative to mixer container(read only)
+            I_MCPY : int * : current MCP Y-position in pixels relative to mixer container(read only)
+            I_MCPW : int * : current MCP width in pixels(read only)
+            I_MCPH : int * : current MCP height in pixels(read only)
             I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children
             I_MIDIHWOUT : int * : track midi hardware output index, &lt;0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
@@ -8006,10 +8006,10 @@
         <functioncall prog_lang="lua">string author = reaper.GetSetProjectAuthor(ReaProject proj, boolean set, string author)</functioncall>
         <functioncall prog_lang="python">(ReaProject proj, Boolean set, String author, Int author_sz) = RPR_GetSetProjectAuthor(proj, set, author, author_sz)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.38
         </requires>
         <description prog_lang="*">
-            gets or sets project author, author_sz is ignored when setting
+            deprecated, see GetSetProjectInfo_String with desc="PROJECT_AUTHOR"
         </description>
         <retvals>
             string author - the (new) project's author
@@ -8113,14 +8113,18 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetProjectInfo_String(ReaProject project, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject project, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetProjectInfo_String(project, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=6.30
+            Reaper=6.38
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get or set project information.  
 
+            PROJECT\_NAME : project file name (read-only, is_set will be ignored)
+            PROJECT\_TITLE : title field from Project Settings/Notes dialog
+            PROJECT\_AUTHOR : author field from Project Settings/Notes dialog
             TRACK\_GROUP\_NAME:X : track group name, X should be 1..64  
             MARKER\_GUID:X : get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number  
             RECORD\_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)  
+            RECORD\_PATH\_SECONDARY : secondary recording directory
             RENDER\_FILE: render directory  
             RENDER\_PATTERN: render file name (may contain wildcards)  
             RENDER\_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is_set=false to get a semicolon-separated list of defined project metadata identifiers.  
@@ -8599,7 +8603,7 @@
         <functioncall prog_lang="lua">integer retval, number pos, optional number srcpos = reaper.GetTakeStretchMarker(MediaItem_Take take, integer idx)</functioncall>
         <functioncall prog_lang="python">(Int retval, MediaItem_Take take, Int idx, Float posOut, Float srcposOutOptional) = RPR_GetTakeStretchMarker(take, idx, posOut, srcposOutOptional)</functioncall>
         <requires>
-            Reaper=6.34
+            Reaper=6.39
         </requires>
         <description prog_lang="*">
             Gets information on a stretch marker, idx is 0..n. 
@@ -8608,7 +8612,7 @@
             posOut will be set to position in item
             srcposOutOptional will be set to source media position. 
             
-            Returns index. if input index is -1, next marker is found using position (or source position if position is -1). 
+            Returns index. if input index is -1, the following  marker is found using position (or source position if position is -1). 
             If position/source position are used to find marker position, their values are not updated.
         </description>
         <retvals>
@@ -11921,6 +11925,49 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MIDI_GetRecentInputEvent</slug>
+        <title>MIDI_GetRecentInputEvent</title>
+        <functioncall prog_lang="cpp">int MIDI_GetRecentInputEvent(int idx, char* bufOut, int* bufOut_sz, int* tsOut, int* devIdxOut, double* projPosOut)</functioncall>
+        <functioncall prog_lang="eel">int MIDI_GetRecentInputEvent(int idx, #buf, int &ts, int &devIdx, &projPos)</functioncall>
+        <functioncall prog_lang="lua">integer retval, string buf, number ts, number devIdx, number projPos = reaper.MIDI_GetRecentInputEvent(integer idx)</functioncall>
+        <functioncall prog_lang="python">(Int retval, Int idx, String bufOut, Int bufOut_sz, Int tsOut, Int devIdxOut, Float projPosOut) = RPR_MIDI_GetRecentInputEvent(idx, bufOut, bufOut_sz, tsOut, devIdxOut, projPosOut)</functioncall>
+        <requires>
+            Reaper=6.39
+        </requires>
+        <description prog_lang="*">
+            Gets a recent MIDI input event from the global history. 
+            
+            parameters:
+            idx=0 for the most recent event, which also latches to the latest MIDI event state (to get a more recent list, calling with idx=0 is necessary). 
+            idx=1 next most recent event, returns a non-zero sequence number for the event, or zero if no more events. 
+            
+            retvals:
+            tsOut/ts will be set to the timestamp in samples relative to the current position (0 is current, -48000 is one second ago, etc). 
+            
+            devIdxOut/devIdx will have the low 16 bits set to the input device index, and 0x10000 will be set if device was enabled only for control. 
+            
+            projPosOut/projPos will be set to project position in seconds if project was playing back at time of event, otherwise -1. Large SysEx events will not be included in this event list.
+
+        </description>
+        <retvals>
+            integer retval - 
+            string buf - 
+            number ts - 
+            number devIdx - 
+            number projPos - 
+        </retvals>
+        <parameters>
+            integer idx - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            MIDI Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>MIDI_GetScale</slug>
         <title>MIDI_GetScale</title>
         <functioncall prog_lang="cpp">bool MIDI_GetScale(MediaItem_Take* take, int* rootOut, int* scaleOut, char* nameOut, int nameOut_sz)</functioncall>
@@ -15033,7 +15080,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.SetMediaTrackInfo_Value(MediaTrack tr, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaTrackInfo_Value(MediaTrack tr, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=6.35
+            Reaper=6.39
         </requires>
         <description>
             Set track numerical-value attributes.
@@ -15050,17 +15097,17 @@
             I_RECMON : int * : record monitoring, 0=off, 1=normal, 2=not when playing (tape style)
             I_RECMONITEMS : int * : monitor items while recording, 0=off, 1=on
             B_AUTO_RECARM : bool * : automatically set record arm when selected (does not immediately affect recarm state, script should set directly if desired)
-            I_VUMODE : int * : track vu mode, &amp;1=disabled, 0=stereo peaks, 2=multichannel peaks, 4=stereo RMS, 8=combined RMS, 12=LUFS-M, 16=LUFS-S (readout=max), 20=LUFS-S (readout=current)
+            I_VUMODE : int * : track vu mode, &amp;1:disabled, &amp;30==0:stereo peaks, &amp;30==2:multichannel peaks, &amp;30==4:stereo RMS, &amp;30==8:combined RMS, &amp;30==12:LUFS-M, &amp;30==16:LUFS-S (readout=max), &amp;30==20:LUFS-S (readout=current), &amp;32:LUFS calculation on channels 1+2 only
             I_AUTOMODE : int * : track automation mode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch
             I_NCHAN : int * : number of track channels, 2-64, even numbers only
             I_SELECTED : int * : track selected, 0=unselected, 1=selected
             I_WNDH : int * : current TCP window height in pixels including envelopes (read-only)
             I_TCPH : int * : current TCP window height in pixels not including envelopes (read-only)
             I_TCPY : int * : current TCP window Y-position in pixels relative to top of arrange view (read-only)
-            I_MCPX : int * : current MCP X-position in pixels relative to mixer container
-            I_MCPY : int * : current MCP Y-position in pixels relative to mixer container
-            I_MCPW : int * : current MCP width in pixels
-            I_MCPH : int * : current MCP height in pixels
+            I_MCPX : int * : current MCP X-position in pixels relative to mixer container (read-only)
+            I_MCPY : int * : current MCP Y-position in pixels relative to mixer container (read-only)
+            I_MCPW : int * : current MCP width in pixels (read-only)
+            I_MCPH : int * : current MCP height in pixels (read-only)
             I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children
             I_MIDIHWOUT : int * : track midi hardware output index, &lt;0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
@@ -19426,10 +19473,10 @@
         <functioncall prog_lang="lua">integer param = reaper.TrackFX_GetParamFromIdent(MediaTrack track, integer fx, string ident_str)</functioncall>
         <functioncall prog_lang="python">Int RPR_TrackFX_GetParamFromIdent(MediaTrack track, Int fx, String ident_str)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=6.38
         </requires>
         <description prog_lang="*">
-            gets the parameter index from an identifying string (:wet, :bypass, or a string returned from GetParamIdent), or -1 if unknown.
+            gets the parameter index from an identifying string (:wet, :bypass, :delta, or a string returned from GetParamIdent), or -1 if unknown.
         </description>
         <retvals>
             integer param - 
