@@ -835,7 +835,7 @@
         <functioncall prog_lang="lua">reaper.ClearConsole()</functioncall>
         <functioncall prog_lang="python">RPR_ClearConsole()</functioncall>
         <requires>
-            Reaper=5.62 
+            Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Clear the ReaScript console. See [ShowConsoleMsg](#ShowConsoleMsg)
