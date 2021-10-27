@@ -428,11 +428,12 @@ Has now 1406 functions, with 6 new ones
   - Render Management: GetRenderTargetFiles - returns the render-target and filenames of all render-files, if they would be rendered right now
 
 #### Changes from 4.2.005 to 4.2.006  
+  - DeveloperTools: ultraschall\_developertool\_CheckForNewConfigVars - tries now to read possible config-vars from reaper.exe directly(windows only atm)
   - DocEngine: Docs\_RemoveIndent - had inner variable exposed -> fixed
   - Docs: Reaper Internals - updated to Reaper 6.37 and ReaImGui 0.5.8
   - Docs: Reaper-API-docs - All-View jumped to the top of the document instead of just unhiding functioncalls -> fixed
   - Docs: All docs - you can create now a custom.css file in the Documentation-folder to customize the style of the docs
-  - Docs: MediaItemStateChunk-docs - added new behavior of Reaper 6.33 to just enclose source-files with " that have a space in filename or path
+  - Docs: MediaItemStateChunk-docs - added new behavior of Reaper 6.33 to just enclose source-files with " that have a space in filename or path  
   - EventManager: general - didn't start on Linux distributions due case-typo in ultraschall\_EventManager.lua-filename -> fixed (thanks to dronenb)
   - ParmLearn: AddParmLearn\_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -> fixed(thanks to TonE)
   - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)

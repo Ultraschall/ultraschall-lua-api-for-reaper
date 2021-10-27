@@ -2183,7 +2183,7 @@ function ultraschall.GetRenderTable_Project()
                                     &8, dither noise shaping stems
             RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked
             RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides; true, checked; false, unchecked
-			RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked                        
+            RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked                        
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds            
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
@@ -2197,7 +2197,7 @@ function ultraschall.GetRenderTable_Project()
                            5, LUFS-S max
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; false, don't normalize stems to master-target
             RenderTable["Normalize_Target"] - the normalize-target as dB-value
-			RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
+            RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
                                                     0, Full-speed Offline
                                                     1, 1x Offline
@@ -2377,7 +2377,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
                                     &8, dither noise shaping stems
             RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked
             RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides; true, checked; false, unchecked
-			RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked                        
+            RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked                        
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds            
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
@@ -2391,7 +2391,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
                                        5, LUFS-S max
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; false, don't normalize stems to master-target
             RenderTable["Normalize_Target"] - the normalize-target as dB-value
-			RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
+            RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
                                                     0, Full-speed Offline; 
                                                     1, 1x Offline; 
@@ -3109,7 +3109,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
                                                      5, LUFS-S max
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; 
                                                               false, don't normalize stems to master-target
-            RenderTable["Normalize_Target"]       - the normalize-target as dB-value	
+            RenderTable["Normalize_Target"]       - the normalize-target as dB-value    
             RenderTable["NoSilentRender"]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
                                                         0, Full-speed Offline; 
@@ -3196,27 +3196,27 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   local Source=RenderTable["Source"]
   
   if RenderTable["EmbedStretchMarkers"]==true then 
-	if Source&256==0 then Source=Source+256 end
+    if Source&256==0 then Source=Source+256 end
   else 
-	if Source&256~=0 then Source=Source-256 end
+    if Source&256~=0 then Source=Source-256 end
   end
   
   if RenderTable["EmbedMetaData"]==true then 
-	if Source&512==0 then Source=Source+512 end
+    if Source&512==0 then Source=Source+512 end
   else 
-	if Source&512~=0 then Source=Source-512 end
+    if Source&512~=0 then Source=Source-512 end
   end
   
   if RenderTable["EmbedTakeMarkers"]==true then 
-	if Source&1024==0 then Source=Source+1024 end
+    if Source&1024==0 then Source=Source+1024 end
   else 
-	if Source&1024~=0 then Source=Source-1024 end
+    if Source&1024~=0 then Source=Source-1024 end
   end
   
   if RenderTable["Enable2ndPassRender"]==true then 
-	if Source&2048==0 then Source=Source+2048 end
+    if Source&2048==0 then Source=Source+2048 end
   else 
-	if Source&2048~=0 then Source=Source-2048 end
+    if Source&2048~=0 then Source=Source-2048 end
   end
   
   if RenderTable["MultiChannelFiles"]==true and Source&4==0 then 
@@ -3367,7 +3367,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
                                                      5, LUFS-S max
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; 
                                                               false, don't normalize stems to master-target
-            RenderTable["Normalize_Target"]       - the normalize-target as dB-value	
+            RenderTable["Normalize_Target"]       - the normalize-target as dB-value    
             RenderTable["NoSilentRender"]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
                                                         0, Full-speed Offline; 
@@ -3695,8 +3695,8 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender, Normali
     optional boolean CloseAfterRender - true, closes rendering to file-dialog after render(default); false, doesn't close it
     optional boolean EmbedStretchMarkers - true, Embed stretch markers/transient guides-checkbox=on; false or nil, Embed stretch markers/transient guides"-checkbox=off(default)
     optional string RenderString2 - the render-string for the secondary rendering; default=""
-	optional boolean EmbedTakeMarkers - the "Take markers"-checkbox; true, checked; false, unchecked(default)
-	optional boolean DoNotSilentRender - the "Do not render files that are likely silent"-checkbox; true, checked; false, unchecked(default)
+    optional boolean EmbedTakeMarkers - the "Take markers"-checkbox; true, checked; false, unchecked(default)
+    optional boolean DoNotSilentRender - the "Do not render files that are likely silent"-checkbox; true, checked; false, unchecked(default)
     optional boolean EmbedMetadata - the "Embed metadata"-checkbox; true, checked; false, unchecked(default)
     optional boolean Enable2ndPassRender - true, 2nd pass render is enabled; false, 2nd pass render is disabled
     optional boolean Normalize_Enabled - true, normalization enabled; false, normalization not enabled
@@ -4357,7 +4357,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
                                                      5, LUFS-S max
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; 
                                                               false, don't normalize stems to master-target
-            RenderTable["Normalize_Target"]       - the normalize-target as dB-value	
+            RenderTable["Normalize_Target"]       - the normalize-target as dB-value    
             RenderTable["NoSilentRender"]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
                                                         0, Full-speed Offline; 
@@ -4453,8 +4453,8 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
       Presetname2=A:match("%s(.-)%s")
     end
   
-	B=A:sub(0,20).."A"..A:sub(21+Quote:len()+Quote:len()+Presetname2:len(),-1)
-	
+    B=A:sub(0,20).."A"..A:sub(21+Quote:len()+Quote:len()+Presetname2:len(),-1)
+    
     if B:match("\"")~=nil then
       Outputfilename_renderpattern2=B:match("\"(.-)\"")
     else
@@ -4477,15 +4477,15 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
     A2=A2.." "
     rendercfg=A2:match(".-\n%s*(.-)\n")
     Quote=A2:sub(15,15)
-	
+    
     if Quote=="\"" then
       Presetname=A2:match(" [\"](.-)[\"]")
     else
       Quote=""
       Presetname=A2:match("%s(.-)%s")
     end
-	
-	A2=A2:sub(0,14).."A"..A2:sub(15+Quote:len()+Quote:len()+Presetname:len(),-1)
+    
+    A2=A2:sub(0,14).."A"..A2:sub(15+Quote:len()+Quote:len()+Presetname:len(),-1)
   
     _temp, SampleRate, Channels, Offline_online_dropdownlist, 
     Useprojectsamplerate_checkbox, Resamplemode_dropdownlist, Various_checkboxes, Various_checkboxes2
@@ -4514,7 +4514,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
       Presetname2=A:match("%s(.-)%s")
     end
   
-	local A1, A2=A:match(".* (%d-) (.*)")
+    local A1, A2=A:match(".* (%d-) (.*)")
     if A1~=nil and A2~=nil then 
       Normalize_Method, Normalize_Target=tonumber(A1), tonumber(A2)
     end
@@ -4706,9 +4706,9 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
      
      Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.
      
-	 Some settings aren't stored in Presets and will get default values:
+     Some settings aren't stored in Presets and will get default values:
      TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false
-	 
+     
      Bounds_Name stores only:
               RenderTable["Bounds"] - the bounds-dropdownlist, 
                                       0, Custom time range
@@ -4776,7 +4776,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
               RenderTable["OnlyMonoMedia"] - only mono media-checkbox
               RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked
               RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides-checkbox
-			  RenderTable["EmbedTakeMarkers"] - Embed Take markers-checkbox
+              RenderTable["EmbedTakeMarkers"] - Embed Take markers-checkbox
               RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
               RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings
               RenderTable["RenderString2"] - the render-cfg-string, which holds the secondary render-outformat-settings
@@ -4900,9 +4900,9 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
      
      Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.
      
-	 Some settings aren't stored in Presets and will get default values:
+     Some settings aren't stored in Presets and will get default values:
      TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false
-	 
+     
      Bounds_Name stores only:
               RenderTable["Bounds"] - the bounds-dropdownlist, 
                                       0, Custom time range
@@ -5145,7 +5145,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
                                                      5, LUFS-S max
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; 
                                                               false, don't normalize stems to master-target
-            RenderTable["Normalize_Target"]       - the normalize-target as dB-value	
+            RenderTable["Normalize_Target"]       - the normalize-target as dB-value    
             RenderTable["NoSilentRender"]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
                                                         0, Full-speed Offline; 

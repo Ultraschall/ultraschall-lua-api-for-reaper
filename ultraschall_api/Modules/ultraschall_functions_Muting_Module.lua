@@ -64,12 +64,12 @@ function ultraschall.ToggleMute(track, position, state)
   <functioncall>integer retval = ultraschall.ToggleMute(integer track, number position, integer state)</functioncall>
   <description>
     Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. 
-	
-	Note: If the user sets the track muted using the mute-button of the track, changes to the mute-envelope will be made but possibly ignored by Reaper by Reaper's design. So maybe taking care of this is neccessary in scripts.
+    
+    Note: If the user sets the track muted using the mute-button of the track, changes to the mute-envelope will be made but possibly ignored by Reaper by Reaper's design. So maybe taking care of this is neccessary in scripts.
     
     Returns -1, in case of an error
-	
-	Works like <a href="#ToggleMute_TrackObject">ultraschall.ToggleMute_TrackObject</a> but uses a tracknumber instead of a trackobject as parameter.
+    
+    Works like <a href="#ToggleMute_TrackObject">ultraschall.ToggleMute_TrackObject</a> but uses a tracknumber instead of a trackobject as parameter.
   </description>
   <retvals>
     integer retval - toggling was 0, success; -1, fail
@@ -115,10 +115,10 @@ function ultraschall.ToggleMute(track, position, state)
     reaper.Main_OnCommand(22+ActionOffset,0)
   --elseif ArmState==0 and Automationmode==3 and reaper.GetPlayState()~=0 and MuteState2~=state then
     --reaper.Main_OnCommand(22+ActionOffset,0)
-	--print2(66)
+    --print2(66)
   elseif MuteState2~=state then
-	local C=reaper.InsertEnvelopePoint(MuteEnvelopeTrack, position, state, 1, 0, 0)
-	reaper.Envelope_SortPoints(MuteEnvelopeTrack)
+    local C=reaper.InsertEnvelopePoint(MuteEnvelopeTrack, position, state, 1, 0, 0)
+    reaper.Envelope_SortPoints(MuteEnvelopeTrack)
   end
   reaper.UpdateArrange()
   return 0
@@ -138,8 +138,8 @@ function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
     Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. 
     
     Note: If the user sets the track muted using the mute-button of the track, changes to the mute-envelope will be made but possibly ignored by Reaper by Reaper's design. So maybe taking care of this is neccessary in scripts.
-	
-	Returns -1, if it fails.
+    
+    Returns -1, if it fails.
     
     Works like <a href="#ToggleMute">ultraschall.ToggleMute</a> but uses a trackobject instead of the tracknumber as parameter.
   </description>

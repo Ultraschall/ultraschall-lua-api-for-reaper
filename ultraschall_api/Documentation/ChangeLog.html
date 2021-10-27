@@ -48,11 +48,13 @@ Bla</li>
 </ul>
 <h4>Changes from 4.2.005 to 4.2.006</h4>
 <ul>
+<li>DeveloperTools: ultraschall_developertool_CheckForNewConfigVars - tries now to read possible config-vars from reaper.exe directly(windows only atm)</li>
 <li>DocEngine: Docs_RemoveIndent - had inner variable exposed -&gt; fixed</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.37 and ReaImGui 0.5.8</li>
 <li>Docs: Reaper-API-docs - All-View jumped to the top of the document instead of just unhiding functioncalls -&gt; fixed</li>
 <li>Docs: All docs - you can create now a custom.css file in the Documentation-folder to customize the style of the docs</li>
-<li>Docs: MediaItemStateChunk-docs - added new behavior of Reaper 6.33 to just enclose source-files with " that have a space in filename or path</li>
+<li>Docs: MediaItemStateChunk-docs - added new behavior of Reaper 6.33 to just enclose source-files with " that have a space in filename or path<br />
+</li>
 <li>EventManager: general - didn't start on Linux distributions due case-typo in ultraschall_EventManager.lua-filename -&gt; fixed (thanks to dronenb)</li>
 <li>ParmLearn: AddParmLearn_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -&gt; fixed(thanks to TonE)</li>
 <li>ParmLearn: GetParmLearn_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -&gt; fixed(thanks to TonE)</li>

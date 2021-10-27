@@ -961,22 +961,22 @@ function ultraschall.GFX_GetDropFile()
   </requires>
   <functioncall>boolean changed, integer num_dropped_files, array dropped_files, integer drop_mouseposition_x, integer drop_mouseposition_y = ultraschall.GFX_GetDropFile()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-	returns the files drag'n'dropped into a gfx-window, including the mouseposition within the gfx-window, where the files have been dropped.
-	
-	if changed==true, then the filelist is updated, otherwise this function returns the last dropped files again.
-	Note: when the same files will be dropped, changed==true will also be dropped with only the mouse-position updated.
-	That way, dropping the same files in differen places is recognised by this function.
-	
-	Call repeatedly in every defer-cycle to get the latest files and coordinates.
-	
-	Important: Don't use Reaper's own gfx.dropfile while using this, as this could intefere with this function.
+    returns the files drag'n'dropped into a gfx-window, including the mouseposition within the gfx-window, where the files have been dropped.
+    
+    if changed==true, then the filelist is updated, otherwise this function returns the last dropped files again.
+    Note: when the same files will be dropped, changed==true will also be dropped with only the mouse-position updated.
+    That way, dropping the same files in differen places is recognised by this function.
+    
+    Call repeatedly in every defer-cycle to get the latest files and coordinates.
+    
+    Important: Don't use Reaper's own gfx.dropfile while using this, as this could intefere with this function.
   </description>
   <retvals>
-	boolean changed - true, new files have been dropped since last time calling this function; false, no new files have been dropped
-	integer num_dropped_files - the number of dropped files; -1, if no files have beend dropped at all
-	array dropped_files - an array with all filenames+path of the dropped files
-	integer drop_mouseposition_x - the x-mouseposition within the gfx-window, where the files have been dropped; -10000, if no files have been dropped yet
-	integer drop_mouseposition_y - the y-mouseposition within the gfx-window, where the files have been dropped; -10000, if no files have been dropped yet
+    boolean changed - true, new files have been dropped since last time calling this function; false, no new files have been dropped
+    integer num_dropped_files - the number of dropped files; -1, if no files have beend dropped at all
+    array dropped_files - an array with all filenames+path of the dropped files
+    integer drop_mouseposition_x - the x-mouseposition within the gfx-window, where the files have been dropped; -10000, if no files have been dropped yet
+    integer drop_mouseposition_y - the y-mouseposition within the gfx-window, where the files have been dropped; -10000, if no files have been dropped yet
   </retvals>
   <chapter_context>
     Window Handling

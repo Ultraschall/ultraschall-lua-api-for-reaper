@@ -25,7 +25,7 @@
   --]]
 
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
--- This checks, whether any line in a string, stored in clipboard, is a valid config-var
+-- This checks, whether any string, stored in reaper.exe, is a valid config-var
 -- after that, it will put a string into clipboard with all found strings.
 -- This looks for configvars, who can be either int, double or string.
 --
@@ -37,9 +37,10 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 -- When running this script with Ultraschall-API installed, it will only show config-vars not already existing in the 
 -- config-vars-documentation of Reaper-Internals, which is supplied together with Ultraschall-API.
 --
--- Meo Mespotine 12th of July 2019
+-- Meo Mespotine 27th of October 2021
 
 
+print_update("Read strings from reaper.exe")
 A2=ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML")
 if A2==nil then A2="" end
 
@@ -62,27 +63,16 @@ end
 
 local Clipboard_string = ultraschall.GetStringFromClipboard_SWS()
 
+A=ultraschall.ReadFullFile(reaper.GetExePath().."/reaper.exe", true)
+split_string={}
+count=0
 
--- read strings from Reaper.exe
--- unfortunately too slow.. :/
---[[
-A = ultraschall.ReadFullFile(reaper.GetExePath().."/reaper.exe", true):lower()
-
---if OL==nil then return end
-
-Clipboard_string=""
-
---for D in string.gmatch(A, "([%w%d%p_]+)()") do
-for D in string.gmatch(A, "([%l_]+)") do
-  if D:len()>1 then
-    Clipboard_string=Clipboard_string..D.."\n"
+for k in string.gmatch(A, "[%l%_%s]*") do
+  if k:len()>2 and k:match("%s")==nil then
+    count=count+1
+    split_string[count]=k
   end
 end
-
---print3(Clipboard_string)
-
-if OL==nil then return end
---]]
 
 
 Clipboard_string=Clipboard_string.."\n "
@@ -94,14 +84,17 @@ Clipboard_string=Clipboard_string.."\n "
 ints={}
 local integers=""
 local doubles=""
-count=1
+
 ALABAMA=0
 
 
 AAA=reaper.time_precise()
-count, split_string = ultraschall.SplitStringAtLineFeedToArray(Clipboard_string)
+--count, split_string = ultraschall.SplitStringAtLineFeedToArray(Clipboard_string)
 BBB=reaper.time_precise()-AAA
 table.sort(split_string)
+
+
+print("Check for integers")
 
 --Integer
 
@@ -135,7 +128,9 @@ for i=1, Intcount do
   Intstring=Intstring..Int[i].."\n"
 end
 
-reaper.MB(split_string[1].."OLO",reaper.time_precise()-AAA,0)
+--reaper.MB(split_string[1].."OLO",reaper.time_precise()-AAA,0)
+
+print("Check for double")
 
 -- Double
 Double={}
@@ -168,7 +163,7 @@ for i=1, Doublecount do
   Doublestring=Doublestring..Double[i].."\n"
 end
 
-
+print("Check for strings")
 -- String
 Strings={}
 Stringscount=0
@@ -202,5 +197,7 @@ end
 
 print3(Intstring.."\n"..Doublestring.."\n"..Stringsstring)
 
-reaper.MB(split_string[1].."OLO",reaper.time_precise()-AAA,0)
+--reaper.MB(split_string[1].."OLO",reaper.time_precise()-AAA,0)
 
+print("")
+print(Intstring.."\n"..Doublestring.."\n"..Stringsstring)

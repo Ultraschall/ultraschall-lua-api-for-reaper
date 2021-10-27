@@ -1681,9 +1681,9 @@ function ultraschall.GetProject_AddMediaToProjectAfterRender(projectfilename_wit
   <functioncall>integer state = ultraschall.GetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns, if rendered media shall be added to the project afterwards as well as if likely silent files shall be rendered-state, from an RPP-Projectfile or a ProjectStateChunk.
-	
-	It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.
-	
+   
+    It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.
+   
     It's the entry RENDER_ADDTOPROJ
     
     Returns nil in case of error.
@@ -1694,8 +1694,8 @@ function ultraschall.GetProject_AddMediaToProjectAfterRender(projectfilename_wit
   </parameters>
   <retvals>
     integer state - the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox 
-				  - &1, rendered media shall be added to the project afterwards; 0, don't add
-				  - &2, don't render likely silent files; 0, render anyway
+                  - &1, rendered media shall be added to the project afterwards; 0, don't add
+                  - &2, don't render likely silent files; 0, render anyway
   </retvals>
   <chapter_context>
     Project-Management
@@ -1744,7 +1744,7 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
     - 64,  Selected media items via master
     - 128, Selected tracks via master
     - &256, Embed stretch markers/transient guides-checkbox
-	- &1024, Embed Take markers
+    - &1024, Embed Take markers
     - &2048, enable second pass rendering
   </retvals>
   <chapter_context>
@@ -5974,9 +5974,9 @@ function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_wit
   <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, integer state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets, if rendered media shall be added to the project afterwards as well as if likely silent files shall be rendered-state, from an RPP-Projectfile or a ProjectStateChunk.
-	
-	It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.
-	
+    
+    It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.
+    
     It's the entry RENDER_ADDTOPROJ
     
     Returns -1 in case of error.
@@ -5984,8 +5984,8 @@ function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_wit
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer state - the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox 
-				  - &1, rendered media shall be added to the project afterwards; 0, don't add
-				  - &2, don't render likely silent files; 0, render anyway
+                  - &1, rendered media shall be added to the project afterwards; 0, don't add
+                  - &2, don't render likely silent files; 0, render anyway
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -6047,7 +6047,7 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
     - 64, Selected media items via master
     - 128, Selected tracks via master
     - &256, Embed stretch markers/transient guides-checkbox 
-	- &1024, Embed Take markers
+    - &1024, Embed Take markers
     - &2048, enable second pass rendering
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -8393,13 +8393,13 @@ function ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path, Pro
                       - markertable[id][5] = integer markrgnindexnumber - the shown number of the region/marker
                       - markertable[id][6] = integer color - the color-value of the marker
                       - markertable[id][7] = string guid - the guid of the marker
-					  - markertable[id][8] = if a region: true, region is selected; false, region is not selected
-					  - markertable[id][9] = if a region: true, region-render-matrix Master mix is selected; false, region-render-matrix Master mix is unselected
-					  - markertable[id][10]= if a region: true, region-render-matrix All tracks is selected; false, region-render-matrix All tracks is unselected
+                      - markertable[id][8] = if a region: true, region is selected; false, region is not selected
+                      - markertable[id][9] = if a region: true, region-render-matrix Master mix is selected; false, region-render-matrix Master mix is unselected
+                      - markertable[id][10]= if a region: true, region-render-matrix All tracks is selected; false, region-render-matrix All tracks is unselected
 
-					  MarkerArray[MarkerCount][8]=tonumber(isrgn)&8==8  -- is region selected?
-	MarkerArray[MarkerCount][9]=tonumber(isrgn)&4==4  -- is region-matrix-mastermix selected?
-MarkerArray[MarkerCount][10]=tonumber(isrgn)&2==2 -- is region-matrix-All tracks selected?
+                      MarkerArray[MarkerCount][8]=tonumber(isrgn)&8==8  -- is region selected?
+                      MarkerArray[MarkerCount][9]=tonumber(isrgn)&4==4  -- is region-matrix-mastermix selected?
+                      MarkerArray[MarkerCount][10]=tonumber(isrgn)&2==2 -- is region-matrix-All tracks selected?
   </retvals>
   <chapter_context>
     Project-Management
@@ -8460,9 +8460,9 @@ MarkerArray[MarkerCount][10]=tonumber(isrgn)&2==2 -- is region-matrix-All tracks
     MarkerArray[MarkerCount][5]=tonumber(shownnumber)
     MarkerArray[MarkerCount][6]=tonumber(color)
     MarkerArray[MarkerCount][7]=guid
-	MarkerArray[MarkerCount][8]=tonumber(isrgn)&8==8  -- is region selected?
-	MarkerArray[MarkerCount][9]=tonumber(isrgn)&4==4  -- is region-matrix-mastermix selected?
-	MarkerArray[MarkerCount][10]=tonumber(isrgn)&2==2 -- is region-matrix-All tracks selected?
+    MarkerArray[MarkerCount][8]=tonumber(isrgn)&8==8  -- is region selected?
+    MarkerArray[MarkerCount][9]=tonumber(isrgn)&4==4  -- is region-matrix-mastermix selected?
+    MarkerArray[MarkerCount][10]=tonumber(isrgn)&2==2 -- is region-matrix-All tracks selected?
   end
   return MarkerCount, NumMarker, NumRegions, MarkerArray
 end

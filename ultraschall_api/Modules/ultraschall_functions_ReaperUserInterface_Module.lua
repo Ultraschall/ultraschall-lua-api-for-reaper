@@ -3901,7 +3901,7 @@ function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMi
   <requires>
     Ultraschall=4.1
     Reaper=6.10
-	SWS=2.9.7
+    SWS=2.9.7
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetItemButtonsVisible(optional boolean Volume, optional integer Locked, optional integer Mute, optional integer Notes, optional boolean PooledMidi, optional boolean GroupedItems, optional integer PerTakeFX, optional integer Properties, optional integer AutomationEnvelopes)</functioncall>
@@ -3915,43 +3915,43 @@ function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMi
   </retvals>
   <parameters>
     optional boolean Volume - true, show the volume knob; false, don't show the volume knob; nil, keep current setting
-	optional integer Locked - sets state of locked/unlocked button
-							- nil, keep current state
-						    - 0, don't show lockstate button
-							- 1, show locked button only
-							- 2, show unlocked button only
-							- 3, show locked and unlocked button
-	optional integer Mute - sets state of mute/unmuted button
-							- nil, keep current state
-						    - 0, don't show mute button
-							- 1, show mute button only
-							- 2, show unmuted button only
-							- 3, show muted and unmuted button
-	optional integer Notes - sets state of itemnotes-button
-							- nil, keep current state
-						    - 0, don't show item-note button
-							- 1, show itemnote existing-button only
-							- 2, show no itemnote existing-button only
-							- 3, show itemnote existing and no itemnote existing-button
-	optional boolean PooledMidi - true, show the pooled midi-button; false, don't show the pooled midi-button; nil, keep current setting
-	optional boolean GroupedItems - true, show the grouped item-button; false, don't show the grouped item-button; nil, keep current setting
-	optional integer PerTakeFX - sets state of take fx-button
-							- nil, keep current state
-						    - 0, don't show take-fx button
-							- 1, show active take fx-button only
-							- 2, show non active take fx-button only
-							- 3, show active and nonactive take fx-button
-	optional integer Properties - show properties-button
-								- nil, keep current state
-								- 0, don't show item properties-button
-								- 1, show item properties-button
-								- 2, show item properties-button only if resampled media
-	optional integer AutomationEnvelopes - sets state of envelope-button
-										- nil, keep current state
-										- 0, don't show envelope-button
-										- 1, show active envelope-button only
-										- 2, show non active envelope-button only
-										- 3, show active and nonactive envelope-button
+    optional integer Locked - sets state of locked/unlocked button
+                            - nil, keep current state
+                            - 0, don't show lockstate button
+                            - 1, show locked button only
+                            - 2, show unlocked button only
+                            - 3, show locked and unlocked button
+    optional integer Mute - sets state of mute/unmuted button
+                            - nil, keep current state
+                            - 0, don't show mute button
+                            - 1, show mute button only
+                            - 2, show unmuted button only
+                            - 3, show muted and unmuted button
+    optional integer Notes - sets state of itemnotes-button
+                            - nil, keep current state
+                            - 0, don't show item-note button
+                            - 1, show itemnote existing-button only
+                            - 2, show no itemnote existing-button only
+                            - 3, show itemnote existing and no itemnote existing-button
+    optional boolean PooledMidi - true, show the pooled midi-button; false, don't show the pooled midi-button; nil, keep current setting
+    optional boolean GroupedItems - true, show the grouped item-button; false, don't show the grouped item-button; nil, keep current setting
+    optional integer PerTakeFX - sets state of take fx-button
+                            - nil, keep current state
+                            - 0, don't show take-fx button
+                            - 1, show active take fx-button only
+                            - 2, show non active take fx-button only
+                            - 3, show active and nonactive take fx-button
+    optional integer Properties - show properties-button
+                                - nil, keep current state
+                                - 0, don't show item properties-button
+                                - 1, show item properties-button
+                                - 2, show item properties-button only if resampled media
+    optional integer AutomationEnvelopes - sets state of envelope-button
+                                        - nil, keep current state
+                                        - 0, don't show envelope-button
+                                        - 1, show active envelope-button only
+                                        - 2, show non active envelope-button only
+                                        - 3, show active and nonactive envelope-button
   </parameters>
   <chapter_context>
     User Interface
@@ -4031,7 +4031,7 @@ function ultraschall.GetItemButtonsVisible()
   <requires>
     Ultraschall=4.1
     Reaper=6.10
-	SWS=2.9.7
+    SWS=2.9.7
     Lua=5.3
   </requires>
   <functioncall>boolean Volume, integer Locked, integer Mute, integer Notes, boolean PooledMidi, boolean GroupedItems, integer PerTakeFX, integer Properties, integer AutomationEnvelopes = ultraschall.GetItemButtonsVisible()</functioncall>
@@ -4040,37 +4040,37 @@ function ultraschall.GetItemButtonsVisible()
   </description>
   <retvals>
     boolean Volume - true, shows the volume knob; false, doesn't show the volume knob
-	integer Locked - gets visibility-state of locked/unlocked button
-						    - 0, doesn't show lockstate button
-							- 1, shows locked button only
-							- 2, shows unlocked button only
-							- 3, shows locked and unlocked button
-	integer Mute - gets visibility-state of mute/unmuted button
-						    - 0, doesn't show mute button
-							- 1, shows mute button only
-							- 2, shows unmuted button only
-							- 3, shows muted and unmuted button
-	integer Notes - gets visibility-state of itemnotes-button
-						    - 0, doesn't show item-note button
-							- 1, shows itemnote existing-button only
-							- 2, shows no itemnote existing-button only
-							- 3, shows itemnote existing and no itemnote existing-button
-	boolean PooledMidi - true, shows the pooled midi-button; false, don't show the pooled midi-button
-	boolean GroupedItems - true, shows the grouped item-button; false, don't show the grouped item-button
-	integer PerTakeFX - gets visibility-state of take fx-button
-						    - 0, doesn't show take-fx button
-							- 1, shows active take fx-button only
-							- 2, shows non active take fx-button only
-							- 3, shows active and nonactive take fx-button
-	integer Properties - gets visibility-state of properties-button
-								- 0, doesn't show item properties-button
-								- 1, shows item properties-button
-								- 2, shows item properties-button only if resampled media
-	integer AutomationEnvelopes - gets visibility-state of envelope-button
-										- 0, doesn't show envelope-button
-										- 1, shows active envelope-button only
-										- 2, shows non active envelope-button only
-										- 3, shows active and nonactive envelope-button
+    integer Locked - gets visibility-state of locked/unlocked button
+                            - 0, doesn't show lockstate button
+                            - 1, shows locked button only
+                            - 2, shows unlocked button only
+                            - 3, shows locked and unlocked button
+    integer Mute - gets visibility-state of mute/unmuted button
+                            - 0, doesn't show mute button
+                            - 1, shows mute button only
+                            - 2, shows unmuted button only
+                            - 3, shows muted and unmuted button
+    integer Notes - gets visibility-state of itemnotes-button
+                            - 0, doesn't show item-note button
+                            - 1, shows itemnote existing-button only
+                            - 2, shows no itemnote existing-button only
+                            - 3, shows itemnote existing and no itemnote existing-button
+    boolean PooledMidi - true, shows the pooled midi-button; false, don't show the pooled midi-button
+    boolean GroupedItems - true, shows the grouped item-button; false, don't show the grouped item-button
+    integer PerTakeFX - gets visibility-state of take fx-button
+                            - 0, doesn't show take-fx button
+                            - 1, shows active take fx-button only
+                            - 2, shows non active take fx-button only
+                            - 3, shows active and nonactive take fx-button
+    integer Properties - gets visibility-state of properties-button
+                                - 0, doesn't show item properties-button
+                                - 1, shows item properties-button
+                                - 2, shows item properties-button only if resampled media
+    integer AutomationEnvelopes - gets visibility-state of envelope-button
+                                        - 0, doesn't show envelope-button
+                                        - 1, shows active envelope-button only
+                                        - 2, shows non active envelope-button only
+                                        - 3, shows active and nonactive envelope-button
   </retvals>
   <chapter_context>
     User Interface

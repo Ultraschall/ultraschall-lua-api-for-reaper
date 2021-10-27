@@ -619,11 +619,11 @@ end
 mode=2
 FunctionList=FunctionList..[[<div class="ch"><p></p>
     <!-- Clipboard Button -->
-	<script src="./scripts/clipboard.min.js.Download"></script>
+    <script src="./scripts/clipboard.min.js.Download"></script>
 
 
-	<!-- External Script -->
-	<script src="./scripts/scripts.js.Download"></script>
+    <!-- External Script -->
+    <script src="./scripts/scripts.js.Download"></script>
 ]]
 contentindex()
 convertMarkdown()

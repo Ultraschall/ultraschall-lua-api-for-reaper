@@ -23329,8 +23329,8 @@ Returns -1 in case of no time-signature-markers available
 </div><p>
 <div class="ch">
 returns, if at position is a time-signature marker<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;returns false in case of an error              
+<br/>
+returns false in case of an error              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -31375,12 +31375,12 @@ Returns false in case of an error
 </div><p>
 <div class="ch">
 Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Note: If the user sets the track muted using the mute-button of the track, changes to the mute-envelope will be made but possibly ignored by Reaper by Reaper's design. So maybe taking care of this is neccessary in scripts.<br/>
+<br/>
+Note: If the user sets the track muted using the mute-button of the track, changes to the mute-envelope will be made but possibly ignored by Reaper by Reaper's design. So maybe taking care of this is neccessary in scripts.<br/>
 <br/>
 Returns -1, in case of an error<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Works like <a href="#ToggleMute_TrackObject">ultraschall.ToggleMute_TrackObject</a> but uses a tracknumber instead of a trackobject as parameter.              
+<br/>
+Works like <a href="#ToggleMute_TrackObject">ultraschall.ToggleMute_TrackObject</a> but uses a tracknumber instead of a trackobject as parameter.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -31416,8 +31416,8 @@ Returns -1, in case of an error<br/>
 Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. <br/>
 <br/>
 Note: If the user sets the track muted using the mute-button of the track, changes to the mute-envelope will be made but possibly ignored by Reaper by Reaper's design. So maybe taking care of this is neccessary in scripts.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Returns -1, if it fails.<br/>
+<br/>
+Returns -1, if it fails.<br/>
 <br/>
 Works like <a href="#ToggleMute">ultraschall.ToggleMute</a> but uses a trackobject instead of the tracknumber as parameter.              
 </div><br>      
@@ -32634,7 +32634,7 @@ returns nil in case of an error
 <p>Returns the position of the last itemedge, regionend, marker, time-signature-marker in the project.</p>
 <p>It will return -1, if no such elements are found, means: last_markerpos=-1 if no marker has been found Exception when no items are found, it will return nil for last_itemedge</p>
 <p>You can optimise the speed of the function, by setting the appropriate parameters to false. So if you don't need the last itemedge, setting return_last_itemedge=false speeds up execution massively.</p>
-<pre><code>If you want to have the full projectlength during recording, means, including items currently recorded, set include_rec=true</code></pre>
+<p>If you want to have the full projectlength during recording, means, including items currently recorded, set include_rec=true</p>
 <p>To do the same for projectfiles, use: <a href="#GetProject_Length">GetProject_Length</a></p>
 </div><br>      
 <u>Returnvalues:</u>
@@ -33044,9 +33044,9 @@ returns nil in case of an error
 </div><p>
 <div class="ch">
 Returns, if rendered media shall be added to the project afterwards as well as if likely silent files shall be rendered-state, from an RPP-Projectfile or a ProjectStateChunk.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp; <br/>
+It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.<br/>
+&nbsp;&nbsp; <br/>
 It's the entry RENDER_ADDTOPROJ<br/>
 <br/>
 Returns nil in case of error.              
@@ -38731,9 +38731,9 @@ Returns nil in case of error.
 </div><p>
 <div class="ch">
 Sets, if rendered media shall be added to the project afterwards as well as if likely silent files shall be rendered-state, from an RPP-Projectfile or a ProjectStateChunk.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+<br/>
+It's the state of the "Add rendered items to new tracks in project"- checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to file-dialog.<br/>
+<br/>
 It's the entry RENDER_ADDTOPROJ<br/>
 <br/>
 Returns -1 in case of error.              
@@ -44972,7 +44972,7 @@ returns the last 12 used render-patterns, that have been used for rendering by a
                             &amp;8, dither noise shaping stems
     RenderTable[&quot;EmbedMetaData&quot;] - Embed metadata; true, checked; false, unchecked
     RenderTable[&quot;EmbedStretchMarkers&quot;] - Embed stretch markers/transient guides; true, checked; false, unchecked
-        RenderTable[&quot;EmbedTakeMarkers&quot;] - Embed Take markers; true, checked; false, unchecked                        
+    RenderTable[&quot;EmbedTakeMarkers&quot;] - Embed Take markers; true, checked; false, unchecked                        
     RenderTable[&quot;Enable2ndPassRender&quot;] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
     RenderTable[&quot;Endposition&quot;] - the endposition of the rendering selection in seconds            
     RenderTable[&quot;MultiChannelFiles&quot;] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
@@ -44986,7 +44986,7 @@ returns the last 12 used render-patterns, that have been used for rendering by a
                    5, LUFS-S max
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target; false, don&#39;t normalize stems to master-target
     RenderTable[&quot;Normalize_Target&quot;] - the normalize-target as dB-value
-        RenderTable[&quot;NoSilentRender&quot;] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;NoSilentRender&quot;] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
     RenderTable[&quot;OfflineOnlineRendering&quot;] - Offline/Online rendering-dropdownlist; 
                                             0, Full-speed Offline
                                             1, 1x Offline
@@ -45078,7 +45078,7 @@ use 0, for the currently active project; 1, for the first project-tab; 2, for th
                             &amp;8, dither noise shaping stems
     RenderTable[&quot;EmbedMetaData&quot;] - Embed metadata; true, checked; false, unchecked
     RenderTable[&quot;EmbedStretchMarkers&quot;] - Embed stretch markers/transient guides; true, checked; false, unchecked
-        RenderTable[&quot;EmbedTakeMarkers&quot;] - Embed Take markers; true, checked; false, unchecked                        
+    RenderTable[&quot;EmbedTakeMarkers&quot;] - Embed Take markers; true, checked; false, unchecked                        
     RenderTable[&quot;Enable2ndPassRender&quot;] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
     RenderTable[&quot;Endposition&quot;] - the endposition of the rendering selection in seconds            
     RenderTable[&quot;MultiChannelFiles&quot;] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
@@ -45092,7 +45092,7 @@ use 0, for the currently active project; 1, for the first project-tab; 2, for th
                                5, LUFS-S max
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target; false, don&#39;t normalize stems to master-target
     RenderTable[&quot;Normalize_Target&quot;] - the normalize-target as dB-value
-        RenderTable[&quot;NoSilentRender&quot;] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;NoSilentRender&quot;] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
     RenderTable[&quot;OfflineOnlineRendering&quot;] - Offline/Online rendering-dropdownlist; 
                                             0, Full-speed Offline; 
                                             1, 1x Offline; 
@@ -46366,9 +46366,9 @@ Added render-presets are available after (re-)opening in the Render to File-dial
 <br/>
 Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.<br/>
 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp; Some settings aren't stored in Presets and will get default values:<br/>
+Some settings aren't stored in Presets and will get default values:<br/>
 TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false<br/>
-&nbsp;&nbsp;&nbsp;&nbsp; <br/>
+<br/>
 Bounds_Name stores only:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Bounds"] - the bounds-dropdownlist, <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, Custom time range<br/>
@@ -46436,7 +46436,7 @@ Options_and_Format_Name stores only:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["OnlyMonoMedia"] - only mono media-checkbox<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides-checkbox<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["EmbedTakeMarkers"] - Embed Take markers-checkbox<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["EmbedTakeMarkers"] - Embed Take markers-checkbox<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["RenderString2"] - the render-cfg-string, which holds the secondary render-outformat-settings<br/>
@@ -46608,7 +46608,7 @@ Returns all render-preset-names for a) Bounds and output pattern/filename b) Opt
                                             5, LUFS-S max
    RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target; 
                                                      false, don&#39;t normalize stems to master-target
-   RenderTable[&quot;Normalize_Target&quot;]       - the normalize-target as dB-value 
+   RenderTable[&quot;Normalize_Target&quot;]       - the normalize-target as dB-value    
    RenderTable[&quot;NoSilentRender&quot;]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
    RenderTable[&quot;OfflineOnlineRendering&quot;] - Offline/Online rendering-dropdownlist; 
                                                0, Full-speed Offline; 
@@ -46698,9 +46698,9 @@ Changed render-presets are updated after (re-)opening in the Render to File-dial
 <br/>
 Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.<br/>
 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp; Some settings aren't stored in Presets and will get default values:<br/>
+Some settings aren't stored in Presets and will get default values:<br/>
 TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false<br/>
-&nbsp;&nbsp;&nbsp;&nbsp; <br/>
+<br/>
 Bounds_Name stores only:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Bounds"] - the bounds-dropdownlist, <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, Custom time range<br/>
@@ -53777,11 +53777,11 @@ returns false in case of an error
 </div><p>
 <div class="ch">
 returns all tracks with a certain name.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;You can set case-sensitivity, whether pattern-matchin is possible and whether the name shall be used strictly.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;For instance, if you want to look for a track named exactly "JaM.-Enlightened" you set case_sensitive=false and escaped_strict=2. That way, tracks names "JaM.*Enlightened" will be ignored.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;returns -1 in case of an error              
+<br/>
+You can set case-sensitivity, whether pattern-matchin is possible and whether the name shall be used strictly.<br/>
+For instance, if you want to look for a track named exactly "JaM.-Enlightened" you set case_sensitive=false and escaped_strict=2. That way, tracks names "JaM.*Enlightened" will be ignored.<br/>
+<br/>
+returns -1 in case of an error              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
