@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.33 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 6.37 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -8532,6 +8532,24 @@
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projrenderbrickwall</slug>  
+      <title>projrenderbrickwall</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The "Brickwall"-db-value-inputbox as set in the Render to File-dialog.  
+          It is a double-float
+
+          See also [projrendernorm](#projrendernorm)
+
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>    
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>projrenderdither</slug>  
       <title>projrenderdither</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
@@ -8620,6 +8638,14 @@
             
            >&32=0, Nomalize stems to master target-checkbox(only available with source -> Master mix + stems) - unchecked  
            >&32=1, Nomalize stems to master target-checkbox(only available with source -> Master mix + stems) - checked  
+           
+           >&64=0, Brickwall Limit-checkbox - unchecked
+           >&64=1, Brickwall Limit-checkbox - checked
+           
+           >&128=0, Brickwall-Limit-dropdownlist - Peak
+           >&128=1, Brickwall-Limit-dropdownlist - True Peak
+           
+          See also [projrenderbrickwall](#projrenderbrickwall)
            
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
