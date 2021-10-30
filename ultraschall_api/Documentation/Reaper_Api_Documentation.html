@@ -6886,13 +6886,20 @@ Call with v=-1 to query docked state, otherwise v>=0 to set docked state. State 
 <a href="#eel_gfx_drawchar"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_drawchar</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_drawchar</em>(char)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>gfx_drawchar</em>(<i>integer</i> char)</code></div>
 </div><p>
 <div class="ch">
 Draws the character (can be a numeric ASCII code as well), to gfx_x, gfx_y, and moves gfx_x over by the size of the character.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>char</i></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the ASCII-representation of the shown character</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> <i>char</i></td></tr>
 <tr><td class="ch2">the numeric ASCII-representation of the character to be drawn</td></tr>
 </table>
 <br>
@@ -6903,18 +6910,25 @@ Draws the character (can be a numeric ASCII code as well), to gfx_x, gfx_y, and 
 <a href="#eel_gfx_drawnumber"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_drawnumber</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_drawnumber</em>(n,ndigits)</code></div>
+<div class="e">EEL2: <code> <i>double</i> retval = <em>gfx_drawnumber</em>(<i>double</i> n, <i>double</i> n_digits)</code></div>
 </div><p>
 <div class="ch">
 Draws the number n with ndigits of precision to gfx_x, gfx_y, and updates gfx_x to the right side of the drawing. The text height is gfx_texth.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">n</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>double</i> retval</td></tr>
+<tr><td class="ch2">the number of parameter n</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>double</i> n</td></tr>
+<tr><td class="ch2">the number to draw</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">n digits</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>double</i> n_digits</td></tr>
+<tr><td class="ch2">the number of shown digits; double values will be rounded</td></tr>
 </table>
 <br>
 </div>
@@ -6924,27 +6938,34 @@ Draws the number n with ndigits of precision to gfx_x, gfx_y, and updates gfx_x 
 <a href="#eel_gfx_drawstr"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_drawstr</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_drawstr</em>(str[,flags,right,bottom])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>gfx_drawstr</em>(<i>string</i> str, <i>optional</i> <i>integer</i> flags, <i>optional</i> <i>integer</i> right, <i>optional</i> <i>integer</i> bottom)</code></div>
 </div><p>
 <div class="ch">
 <p>Draws a string at gfx_x, gfx_y, and updates gfx_x/gfx_y so that subsequent draws will occur in a similar place.</p>
 <p>* If flags, right ,bottom passed in: * flags&amp;1: center horizontally * flags&amp;2: right justify * flags&amp;4: center vertically * flags&amp;8: bottom justify * flags&amp;256: ignore right/bottom, otherwise text is clipped to (gfx_x, gfx_y, right, bottom)</p>
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">str</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">2000000, no string is drawn; 2000001, string is drawn</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>string</i> str</td></tr>
+<tr><td class="ch2">the string to draw</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">flags</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> flags</td></tr>
+<tr><td class="ch2">the flags to adjust the text-alignement</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">right</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> right</td></tr>
+<tr><td class="ch2">clip text at x-pixels from gfx_x</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">bottom</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> bottom</td></tr>
+<tr><td class="ch2">clip text at y-pixels from gfx_y </td></tr>
 </table>
 <br>
 </div>
@@ -6954,7 +6975,7 @@ Draws the number n with ndigits of precision to gfx_x, gfx_y, and updates gfx_x 
 <a href="#eel_gfx_getchar"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_getchar</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_getchar</em>([char])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> typed_character = <em>gfx_getchar</em>(<i>integer</i> char)</code></div>
 </div><p>
 <div class="ch">
 <p>If char is 0 or omitted, returns a character from the keyboard queue, or 0 if no character is available, or -1 if the graphics window is not open. If char is specified and nonzero, that character's status will be checked, and the function will return greater than 0 if it is pressed.</p>
@@ -6962,10 +6983,17 @@ Draws the number n with ndigits of precision to gfx_x, gfx_y, and updates gfx_x 
 <p>Shortcuts with scope "Global + textfields" will still run the associated action, scope of "Normal" or "Global" will not.</p>
 <p>Modified and special keys can also be returned, including:</p>
 <p>* Ctrl/Cmd+A..Ctrl+Z as 1..26 * Ctrl/Cmd+Alt+A..Z as 257..282 * Alt+A..Z as 'A'+256..'Z'+256 * 27 for ESC * 13 for Enter * ' ' for space</p>
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>char</i></td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> typed_character</td></tr>
+<tr><td class="ch2">the character that has been typed; -1, if no window is open</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> <i>char</i></td></tr>
+<tr><td class="ch2">if you want to get only a certain character-key, pass the ASCII-code for the character into this parameter</td></tr>
 </table>
 <br>
 </div>
@@ -7010,14 +7038,21 @@ It MUST be called BEFORE calling gfx_update, as gfx_update flushes the filelist 
 <a href="#eel_gfx_getfont"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_getfont</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_getfont</em>([#str])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> font_index = <em>gfx_getfont</em>(<i>optional</i> <i>string</i> #str)</code></div>
 </div><p>
 <div class="ch">
 Returns current font index. If a string is passed, it will receive the actual font face used by this font, if available.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">#str</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> font_index</td></tr>
+<tr><td class="ch2">the index of the currently used font</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> #str</td></tr>
+<tr><td class="ch2">this variable will hold the font-face after calling gfx_getfont</td></tr>
 </table>
 <br>
 </div>
@@ -7027,22 +7062,29 @@ Returns current font index. If a string is passed, it will receive the actual fo
 <a href="#eel_gfx_getimgdim"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_getimgdim</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_getimgdim</em>(image, <i>integer</i> #w, <i>integer</i> #h)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>gfx_getimgdim</em>(<i>integer</i> image, <i>integer</i> w, <i>integer</i> h)</code></div>
 </div><p>
 <div class="ch">
 Retrieves the dimensions of image (representing a filename: index number) into w and h. Sets these values to 0 if an image failed loading (or if the filename index is invalid).              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the image-index</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> image</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the image, whose dimensions you want to retrieve</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> #w</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> w</td></tr>
+<tr><td class="ch2">will hold the width of the image</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> #h</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> h</td></tr>
+<tr><td class="ch2">will hold the height of the image</td></tr>
 </table>
 <br>
 </div>
@@ -7052,22 +7094,22 @@ Retrieves the dimensions of image (representing a filename: index number) into w
 <a href="#eel_gfx_getpixel"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_getpixel</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_getpixel</em>(<i>integer</i> r, <i>integer</i> g, <i>integer</i> b)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> red_value = <em>gfx_getpixel</em>(<i>integer</i> r, <i>integer</i> g, <i>integer</i> b)</code></div>
 </div><p>
 <div class="ch">
 Gets the value of the pixel at gfx_x,gfx_y into r,g,b.               
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> r</td></tr>
-<tr><td class="ch2">the red-color-value, a value between 0 to 1</td></tr>
+<tr><td class="ch2">will hold the red-color-value, a value between 0 to 1</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> g</td></tr>
-<tr><td class="ch2">the green-color-value, a value between 0 to 1</td></tr>
+<tr><td class="ch2">will hold the green-color-value, a value between 0 to 1</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> b</td></tr>
-<tr><td class="ch2">the blue-color-value, a value between 0 to 1</td></tr>
+<tr><td class="ch2">will hold the blue-color-value, a value between 0 to 1</td></tr>
 </table>
 <br>
 </div>
@@ -7077,73 +7119,80 @@ Gets the value of the pixel at gfx_x,gfx_y into r,g,b.
 <a href="#eel_gfx_gradrect"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_gradrect</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_gradrect</em>(x,y,w,h, r,g,b,a[, drdx, dgdx, dbdx, dadx, drdy, dgdy, dbdy, dady])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>gfx_gradrect</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> w, <i>integer</i> h, <i>double</i> r, <i>double</i> g, <i>double</i> b, <i>double</i> a, <i>optional</i> <i>double</i> drdx, <i>optional</i> <i>double</i> dgdx, <i>optional</i> <i>double</i> dbdx, <i>optional</i> <i>double</i> dadx, <i>optional</i> <i>double</i> drdy, <i>optional</i> <i>double</i> dgdy, <i>optional</i> <i>double</i> dbdy, <i>optional</i> <i>double</i> dady)</code></div>
 </div><p>
 <div class="ch">
 Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect the adjustment (per-pixel) applied for each pixel moved to the right, drdy-dady are the adjustment applied for each pixel moved toward the bottom. Normally drdx=adjustamount/w, drdy=adjustamount/h, etc.              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
+<tr><td class="pr"><i>integer</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">w</td></tr>
+<tr><td class="pr"><i>integer</i> w</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">h</td></tr>
+<tr><td class="pr"><i>integer</i> h</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">r</td></tr>
+<tr><td class="pr"><i>double</i> r</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">g</td></tr>
+<tr><td class="pr"><i>double</i> g</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">b</td></tr>
+<tr><td class="pr"><i>double</i> b</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">a</td></tr>
+<tr><td class="pr"><i>double</i> a</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">drdx</td></tr>
+<tr><td class="pr"><i>optional</i> <i>double</i> drdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dgdx</td></tr>
+<tr><td class="pr"><i>optional</i> <i>double</i> dgdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dbdx</td></tr>
+<tr><td class="pr"><i>optional</i> <i>double</i> dbdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dadx</td></tr>
+<tr><td class="pr"><i>optional</i> <i>double</i> dadx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">drdy</td></tr>
+<tr><td class="pr"><i>optional</i> <i>double</i> drdy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dgdy</td></tr>
+<tr><td class="pr"><i>optional</i> <i>double</i> dgdy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dbdy</td></tr>
+<tr><td class="pr"><i>optional</i> <i>double</i> dbdy</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">dady</td></tr>
+<tr><td class="pr"><i>optional</i> <i>double</i> dady</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -7154,7 +7203,7 @@ Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect
 <a href="#eel_gfx_init"> ^</a> 
 <img width="3%" src="gfx/reaper6.40.png" alt="Reaper version 6.40"><u><b>gfx_init</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_init</em>(name[,width,height,dockstate,xpos,ypos])</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>gfx_init</em>(<i>string</i> name, <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> dockstate, <i>optional</i> <i>integer</i> xpos, <i>optional</i> <i>integer</i> ypos)</code></div>
 </div><p>
 <div class="ch">
 <p>Initializes the graphics window with title name. Suggested width and height can be specified.</p>
@@ -7162,7 +7211,32 @@ Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect
 <p>To resize/reposition the window, call gfx_init again and pass an empty string as name-parameter.</p>
 <p>To retitle the window, run gfx_init again with the new title as parameter name.</p>
 <p>To get the current window-states, dimensions, etc, you can use <a href="#eel_gfx_dock">gfx_dock</a>.</p>
-</div><br>
+</div><br>          <u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>string</i> name</td></tr>
+<tr><td class="ch2">the name of the window; "" to alter position/size of already opened window</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> width</td></tr>
+<tr><td class="ch2">the width of the window(default=640)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> height</td></tr>
+<tr><td class="ch2">the height of the window(default=400)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> dockstate</td></tr>
+<tr><td class="ch2">the dockstate of the window; 1, docked; 0, undocked(default undocked=0)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> xpos</td></tr>
+<tr><td class="ch2">the x-position of the window(default: 0)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> ypos</td></tr>
+<tr><td class="ch2">the y-position of the window(default: 0)</td></tr>
+</table>
+<br>
 </div>
 <div class="ch">
 <hr>
@@ -7170,30 +7244,30 @@ Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect
 <a href="#eel_gfx_line"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_line</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>gfx_line</em>(x,y,x2,y2[,aa])</code></div>
+<div class="e">EEL2: <code> <em>gfx_line</em>(<i>integer</i> x, <i>integer</i> y, <i>integer</i> x2, <i>integer</i> y2, <i>optional</i> <i>float</i> aa)</code></div>
 </div><p>
 <div class="ch">
 Draws a line from x,y to x2,y2, and if aa is not specified or 0.5 or greater, it will be antialiased.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">x</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> x</td></tr>
+<tr><td class="ch2">the x-position of starting-point</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> y</td></tr>
+<tr><td class="ch2">the y-position of starting-point</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">x2</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> x2</td></tr>
+<tr><td class="ch2">the x-position of ending-point</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">y2</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> y2</td></tr>
+<tr><td class="ch2">the y-position of ending-point</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr">aa</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>optional</i> <i>float</i> aa</td></tr>
+<tr><td class="ch2">0.5 and higher or not specified, antialias; lower than 0.5, not antialiased</td></tr>
 </table>
 <br>
 </div>
@@ -8900,14 +8974,21 @@ Compares strings giving up after maxlen characters, ignoring case, returning 0 i
 <a href="#eel_tan"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>tan</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>tan</em>(angle)</code></div>
+<div class="e">EEL2: <code> <i>double</i> tangent = <em>tan</em>(<i>double</i> angle)</code></div>
 </div><p>
 <div class="ch">
 Returns the tangent of the angle specified (specified in radians).              
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">angle</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>double</i> tangent</td></tr>
+<tr><td class="ch2">the tangent of the angle</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>double</i> angle</td></tr>
+<tr><td class="ch2">the angle in radians</td></tr>
 </table>
 <br>
 </div>
@@ -9134,7 +9215,7 @@ Sets the parameter (or a temporary buffer if omitted) to a system-local timestam
 <a href="#eel_while"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>while</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>while</em>(expression)</code></div>
+<div class="e">EEL2: <code> <i>integer</i> retval = <em>while</em>(code expression)</code></div>
 </div><p>
 <div class="ch">
 <p>Executes expression until expression evaluates to zero, or until 1048576 iterations occur. An alternate and more useful syntax is while (expression) ( statements ), which evaluates statements after every non-zero evaluation of expression.</p>
@@ -9144,10 +9225,17 @@ Sets the parameter (or a temporary buffer if omitted) to a system-local timestam
 while(A&lt;10)(
   A=A+1;
 );</code></pre>
-</div><br>          <u>Parameters:</u>
+</div><br>      
+<u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">expression</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">0</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr">code expression</td></tr>
+<tr><td class="ch2">the expression that needs to return true or false</td></tr>
 </table>
 <br>
 </div>
@@ -9838,7 +9926,7 @@ It MUST be called BEFORE calling gfx.update, as gfx.update flushes the filelist 
 <a href="#lua_gfx.getfont"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx.getfont</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> fontindex = <em>gfx.getfont</em>()</code></div>
+<div class="l">Lua: <code> <i>integer</i> fontindex, <i>string</i> fontface = <em>gfx.getfont</em>()</code></div>
 </div><p>
 <div class="ch">
 <p>Returns current font index, and the actual font face used by this font (if available).</p>
@@ -9848,6 +9936,10 @@ It MUST be called BEFORE calling gfx.update, as gfx.update flushes the filelist 
 <table class="ch">
 <tr><td class="pr"><i>integer</i> fontindex</td></tr>
 <tr><td class="ch2">the index of the font used. </td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> fontface</td></tr>
+<tr><td class="ch2">the font-face(fontname) of the currently used font</td></tr>
 </table>
 <br>
 </div>
