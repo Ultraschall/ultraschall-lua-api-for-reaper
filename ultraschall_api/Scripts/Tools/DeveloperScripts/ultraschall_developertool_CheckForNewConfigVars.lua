@@ -61,7 +61,7 @@ while A2~=nil do
   A2=A2:sub(offs,-1)
 end
 
-local Clipboard_string = ultraschall.GetStringFromClipboard_SWS()
+--local Clipboard_string = ultraschall.GetStringFromClipboard_SWS()
 
 A=ultraschall.ReadFullFile(reaper.GetExePath().."/reaper.exe", true)
 split_string={}
@@ -75,7 +75,7 @@ for k in string.gmatch(A, "[%l%_%s]*") do
 end
 
 
-Clipboard_string=Clipboard_string.."\n "
+--Clipboard_string=Clipboard_string.."\n "
 --print3(Clipboard_string)
 --if LLLLL==nil then return end
 

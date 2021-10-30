@@ -114,7 +114,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.39<br>""</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.40<br>"Fully Fungible"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -7152,14 +7152,15 @@ Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect
 <hr>
 <a class="anch" id="eel_gfx_init"></a>
 <a href="#eel_gfx_init"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx_init</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.40.png" alt="Reaper version 6.40"><u><b>gfx_init</b></u><br>			<p>
 <div class="cc">
 <div class="e">EEL2: <code> <em>gfx_init</em>(name[,width,height,dockstate,xpos,ypos])</code></div>
 </div><p>
 <div class="ch">
 <p>Initializes the graphics window with title name. Suggested width and height can be specified.</p>
 <p>Once the graphics window is open, <a href="#eel_gfx_update">gfx_update()</a> should be called periodically.</p>
-<p>To resizes/reposition the window, call gfx_init again and pass an empty string as name-parameter.</p>
+<p>To resize/reposition the window, call gfx_init again and pass an empty string as name-parameter.</p>
+<p>To retitle the window, run gfx_init again with the new title as parameter name.</p>
 <p>To get the current window-states, dimensions, etc, you can use <a href="#eel_gfx_dock">gfx_dock</a>.</p>
 </div><br>
 </div>
@@ -9986,14 +9987,15 @@ Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect
 <hr>
 <a class="anch" id="lua_gfx.init"></a>
 <a href="#lua_gfx.init"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>gfx.init</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.40.png" alt="Reaper version 6.40"><u><b>gfx.init</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> retval = <em>gfx.init</em>(<i>string</i> "name", <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> dockstate, <i>optional</i> <i>integer</i> xpos, <i>optional</i> <i>integer</i> ypos)</code></div>
 </div><p>
 <div class="ch">
 <p>Initializes the graphics window with title name. Suggested width and height can be specified.Once the graphics window is open, gfx.update() should be called periodically.</p>
 <p>Only one graphics-window can be opened per script! Calling gfx.ini after a window has been opened has no effect.</p>
-<p>To resizes/reposition the window, call gfx.init again and pass an empty string as name-parameter.</p>
+<p>To resize/reposition the window, call gfx.init again and pass an empty string as name-parameter.</p>
+<p>To retitle the window, run gfx.init again with the new title as parameter name.</p>
 <p>To get the current window-states, dimensions, etc, you can use <a href="#lua_gfx.dock">gfx.dock</a>.</p>
 </div><br>      
 <u>Returnvalues:</u>
@@ -19994,7 +19996,7 @@ returns HWND of floating window for effect index, if any
 <div class="p">Python: <code> (<i>Int</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> fx, <i>Int</i> inputPinsOutOptional, <i>Int</i> outputPinsOutOptional) = <em>RPR_TakeFX_GetIOSize</em>(take, fx, inputPinsOutOptional, outputPinsOutOptional)</code></div>
 </div><p>
 <div class="ch">
-sets the number of input/output pins for FX if available, returns plug-in type or -1 on error              
+gets the number of input/output pins for FX if available, returns plug-in type or -1 on error              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -21671,7 +21673,7 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <div class="p">Python: <code> (<i>Int</i> retval, <i>MediaTrack</i> track, <i>Int</i> fx, <i>Int</i> inputPinsOutOptional, <i>Int</i> outputPinsOutOptional) = <em>RPR_TrackFX_GetIOSize</em>(track, fx, inputPinsOutOptional, outputPinsOutOptional)</code></div>
 </div><p>
 <div class="ch">
-sets the number of input/output pins for FX if available, returns plug-in type or -1 on error<br/>
+gets the number of input/output pins for FX if available, returns plug-in type or -1 on error<br/>
 <br/>
 By setting fx you can add 0x1000000 set to reference input FX. <br/>
 To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.              
@@ -32194,10 +32196,10 @@ Returns the project time in seconds corresponding to a specific MIDI tick (ppq) 
 <a href="#MIDI_GetRecentInputEvent"> ^</a> 
 <img width="3%" src="gfx/reaper6.39.png" alt="Reaper version 6.39"><u><b>MIDI_GetRecentInputEvent</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>MIDI_GetRecentInputEvent</em>(<i>int</i> idx, <i>char*</i> bufOut, <i>int*</i> bufOut_sz, <i>int*</i> tsOut, <i>int*</i> devIdxOut, <i>double*</i> projPosOut)</code></div>
-<div class="e">EEL2: <code> <i>int</i> <em>MIDI_GetRecentInputEvent</em>(<i>int</i> idx, #buf, <i>int</i> &ts, <i>int</i> &devIdx, &projPos)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>string</i> buf, <i>number</i> ts, <i>number</i> devIdx, <i>number</i> projPos = <em>reaper.MIDI_GetRecentInputEvent</em>(<i>integer</i> idx)</code></div>
-<div class="p">Python: <code> (<i>Int</i> retval, <i>Int</i> idx, <i>String</i> bufOut, <i>Int</i> bufOut_sz, <i>Int</i> tsOut, <i>Int</i> devIdxOut, <i>Float</i> projPosOut) = <em>RPR_MIDI_GetRecentInputEvent</em>(idx, bufOut, bufOut_sz, tsOut, devIdxOut, projPosOut)</code></div>
+<div class="c">C: <code> <i>int</i> <em>MIDI_GetRecentInputEvent</em>(<i>int</i> idx, <i>char*</i> bufOut, <i>int*</i> bufOut_sz, <i>int*</i> tsOut, <i>int*</i> devIdxOut, <i>double*</i> projPosOut, <i>int*</i> projLoopCntOut)</code></div>
+<div class="e">EEL2: <code> <i>int</i> <em>MIDI_GetRecentInputEvent</em>(<i>int</i> idx, #buf, <i>int</i> &ts, <i>int</i> &devIdx, &projPos, <i>int</i> &projLoopCnt)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>string</i> buf, <i>integer</i> ts, <i>integer</i> devIdx, <i>number</i> projPos, <i>integer</i> projLoopCnt = <em>reaper.MIDI_GetRecentInputEvent</em>(<i>integer</i> idx)</code></div>
+<div class="p">Python: <code> (<i>Int</i> retval, <i>Int</i> idx, <i>String</i> bufOut, <i>Int</i> bufOut_sz, <i>Int</i> tsOut, <i>Int</i> devIdxOut, <i>Float</i> projPosOut, <i>Int</i> projLoopCntOut) = <em>RPR_MIDI_GetRecentInputEvent</em>(idx, bufOut, bufOut_sz, tsOut, devIdxOut, projPosOut, projLoopCntOut)</code></div>
 </div><p>
 <div class="ch">
 Gets a recent MIDI input event from the global history. <br/>
@@ -38417,7 +38419,7 @@ returns free disk space in megabytes, pathIdx 0 for normal, 1 for alternate.
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> retval</td></tr>
-<tr><td class="ch2">true, if such an extended-state exists; false, if not</td></tr>
+<tr><td class="ch2">0, no such extstate; 1, extstate exists and is returned</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> val</td></tr>

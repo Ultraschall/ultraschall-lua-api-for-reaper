@@ -7366,7 +7366,7 @@
             Get the value previously associated with this extname and key, the last time the project was saved or the value was changed. See [SetProjExtState](#SetProjExtState), [EnumProjExtState](#EnumProjExtState).
         </description>
         <retvals>
-            integer retval - true, if such an extended-state exists; false, if not
+            integer retval - 0, no such extstate; 1, extstate exists and is returned
             string val - the value, as stored in extname->key
         </retvals>
         <parameters>
@@ -11927,10 +11927,10 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>MIDI_GetRecentInputEvent</slug>
         <title>MIDI_GetRecentInputEvent</title>
-        <functioncall prog_lang="cpp">int MIDI_GetRecentInputEvent(int idx, char* bufOut, int* bufOut_sz, int* tsOut, int* devIdxOut, double* projPosOut)</functioncall>
-        <functioncall prog_lang="eel">int MIDI_GetRecentInputEvent(int idx, #buf, int &ts, int &devIdx, &projPos)</functioncall>
-        <functioncall prog_lang="lua">integer retval, string buf, number ts, number devIdx, number projPos = reaper.MIDI_GetRecentInputEvent(integer idx)</functioncall>
-        <functioncall prog_lang="python">(Int retval, Int idx, String bufOut, Int bufOut_sz, Int tsOut, Int devIdxOut, Float projPosOut) = RPR_MIDI_GetRecentInputEvent(idx, bufOut, bufOut_sz, tsOut, devIdxOut, projPosOut)</functioncall>
+        <functioncall prog_lang="cpp">int MIDI_GetRecentInputEvent(int idx, char* bufOut, int* bufOut_sz, int* tsOut, int* devIdxOut, double* projPosOut, int* projLoopCntOut)</functioncall>
+        <functioncall prog_lang="eel">int MIDI_GetRecentInputEvent(int idx, #buf, int &ts, int &devIdx, &projPos, int &projLoopCnt)</functioncall>
+        <functioncall prog_lang="lua">integer retval, string buf, integer ts, integer devIdx, number projPos, integer projLoopCnt = reaper.MIDI_GetRecentInputEvent(integer idx)</functioncall>
+        <functioncall prog_lang="python">(Int retval, Int idx, String bufOut, Int bufOut_sz, Int tsOut, Int devIdxOut, Float projPosOut, Int projLoopCntOut) = RPR_MIDI_GetRecentInputEvent(idx, bufOut, bufOut_sz, tsOut, devIdxOut, projPosOut, projLoopCntOut)</functioncall>
         <requires>
             Reaper=6.39
         </requires>
@@ -17125,7 +17125,7 @@
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            sets the number of input/output pins for FX if available, returns plug-in type or -1 on error
+            gets the number of input/output pins for FX if available, returns plug-in type or -1 on error
         </description>
         <retvals>
             integer retval - 
@@ -19243,7 +19243,7 @@
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            sets the number of input/output pins for FX if available, returns plug-in type or -1 on error
+            gets the number of input/output pins for FX if available, returns plug-in type or -1 on error
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
@@ -34942,14 +34942,16 @@ Mespotine
         <title>gfx_init</title>
         <functioncall prog_lang="eel">gfx_init(name[,width,height,dockstate,xpos,ypos])</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.40
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
         Initializes the graphics window with title name. Suggested width and height can be specified.
 
         Once the graphics window is open, [gfx\_update()](#eel_gfx_update) should be called periodically. 
 
-        To resizes/reposition the window, call gfx_init again and pass an empty string as name-parameter.
+        To resize/reposition the window, call gfx_init again and pass an empty string as name-parameter.
+        
+        To retitle the window, run gfx_init again with the new title as parameter name.
 
         To get the current window-states, dimensions, etc, you can use [gfx_dock](#eel_gfx_dock).
         </description>
@@ -37553,14 +37555,16 @@ Mespotine
         <title>gfx.init</title>
         <functioncall prog_lang="lua">integer retval = gfx.init(string "name", optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.40
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Initializes the graphics window with title name. Suggested width and height can be specified.Once the graphics window is open, gfx.update() should be called periodically. 
 
             Only one graphics-window can be opened per script! Calling gfx.ini after a window has been opened has no effect.
 
-            To resizes/reposition the window, call gfx.init again and pass an empty string as name-parameter.
+            To resize/reposition the window, call gfx.init again and pass an empty string as name-parameter.
+            
+            To retitle the window, run gfx.init again with the new title as parameter name.
 
             To get the current window-states, dimensions, etc, you can use [gfx.dock](#lua_gfx.dock).
         </description>
