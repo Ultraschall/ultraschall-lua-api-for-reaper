@@ -162,7 +162,8 @@ function ultraschall.Docs_RemoveIndent(String, indenttype, i)
   <tags>doc engine, indent, unindent, text, usdocbloc</tags>
 </US_DocBloc>
 ]]
-  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_RemoveIndent", "String", "must be a string"..i, -1) return nil end
+  --if type(String)~="string" and i==nil then print2(String) end
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_RemoveIndent", "String", "must be a string", -1) return nil end
   if type(indenttype)~="string" then ultraschall.AddErrorMessage("Docs_RemoveIndent", "indenttype", "must be a string", -2) return nil end
   if indenttype=="as_typed" then return String end
   if indenttype=="minus_starts_line" then return string.gsub("\n"..String, "\n.-%-", "\n"):sub(2,-1) end
@@ -353,7 +354,11 @@ function ultraschall.Docs_GetUSDocBloc_Description(String, unindent_description,
   
   if found~=true then return end
   
-  local Description=String:match("<description.->.-\n(.-)\n%s*</description>")
+  --local Description=String:match("<description.->.-\n(.-)\n%s*</description>") -- old line, remove, if no problem arised
+  local Description=String:match("<description.->.-\n(.-)</description>")
+  if Description:match("\n") then Description=Description:match("(.*)\n") end
+  
+  if Description==nil then Description="" end
   local markup_type=String:match("markup_type=\"(.-)\"")
   local markup_version=String:match("markup_version=\"(.-)\"")
   local indent=String:match("indent=\"(.-)\"")
@@ -365,7 +370,6 @@ function ultraschall.Docs_GetUSDocBloc_Description(String, unindent_description,
   if markup_type==nil then markup_type="plaintext" end
   if markup_version==nil then markup_version="" end
   if unindent_description~=false then 
-    --if i=="GetSetTrackSendInfo_String" then print2(Description) end
     Description=ultraschall.Docs_RemoveIndent(Description, indent, i)
   end
   return Description, markup_type, markup_version, indent, language, prog_language

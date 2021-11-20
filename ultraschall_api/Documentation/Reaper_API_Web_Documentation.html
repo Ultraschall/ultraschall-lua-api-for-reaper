@@ -253,7 +253,8 @@ The next example shows you, what to do with the returned data, how to handle it,
 The internal server in Reaper can be killed with a Denial of Service-Attack. It seems, as it can process 1000 requests in a short time without a problem. More requests than 1000 can lead Reaper to simply ignore them. An even higher amount of requests(i.e. 10.000 and more) could cause Reaper to hang for a few seconds(maybe even longer?). What effects this has during recording or playback, needs to be researched more.<br/>
 Setting a username and password in the Reaper-preferences for the Web-Interface is definately a good idea.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-If the Web-Interface-API has any kind of https-support needs to be researched.              
+If the Web-Interface-API has any kind of https-support needs to be researched.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -443,7 +444,8 @@ You should define a function named wwr_onreply:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-See index.html for an example.              
+See index.html for an example.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -458,7 +460,8 @@ or<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;wwr_req_recur("command;command",interval):<br/>
 (which are internally sent as /_/command;command;command;command to the server)<br/>
 There can be any reasonable number of commands, separated by semicolons. They will be executed in order, and responses may be given, depending on the commands and the server.<br/>
-The format of the response is a list of lines (separated by \n), and each line has tokens separated by \t.              
+The format of the response is a list of lines (separated by \n), and each line has tokens separated by \t.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -467,7 +470,8 @@ The format of the response is a list of lines (separated by \n), and each line h
 <a href="#ValidCommands"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>Valid commands</b></u><br>			<p>
 <div class="ch">
-There's a variety of commands available, that can be send to Reaper as request.              
+There's a variety of commands available, that can be send to Reaper as request.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -478,7 +482,8 @@ There's a variety of commands available, that can be send to Reaper as request.
 <div class="ch">
 REAPER command IDs. (todo: support for registered names, too). These typically do not have any response.<br/>
 _123456789abcdef...<br/>
-REAPER plug-in registered command IDs (also used by ReaScripts and custom actions)              
+REAPER plug-in registered command IDs (also used by ReaScripts and custom actions)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -493,7 +498,8 @@ Returns a line including (note that the spaces are here for readability, there i
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 - playstate is 0 for stopped, 1 for playing, 2 for paused, 5 for recording, and 6 for record paused.<br/>
 - isRepeatOn will be nonzero if repeat is enabled.<br/>
-- position_string is always in the project timeline format (time, beats, etc), position_string_beats is always in measures.beats.hundredths format.              
+- position_string is always in the project timeline format (time, beats, etc), position_string_beats is always in measures.beats.hundredths format.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -504,7 +510,8 @@ Returns a line including (note that the spaces are here for readability, there i
 <div class="ch">
 Returns a line:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;BEATPOS \t playstate \t position_seconds \t full_beat_position \t measure_cnt \t beats_in_measure \t ts_numerator \t ts_denominator              
+&nbsp;&nbsp;&nbsp;&nbsp;BEATPOS \t playstate \t position_seconds \t full_beat_position \t measure_cnt \t beats_in_measure \t ts_numerator \t ts_denominator<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -517,7 +524,8 @@ Requests track count. Returns a line:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;NTRACK \t value<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-value is 0 (no tracks, just master track) or greater.              
+value is 0 (no tracks, just master track) or greater.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -546,7 +554,8 @@ trackflags includes various bits (test with parseInt(field)&1 etc):<br/>
 volume is track volume, where 0 is -inf, 1 is +0dB, etc. see mkvolstr for dB conversions<br/>
 pan is -1..1, where -1 is full left, 0 is centered, 1 is full right<br/>
 last_meter_peak and last_meter_pos are integers that are dB*10, so -100 would be -10dB.<br/>
-color is in the form of 0xaarrggbb, nonzero if a custom color set              
+color is in the form of 0xaarrggbb, nonzero if a custom color set<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -561,7 +570,8 @@ Gets state for track x hardware output/send y. Returns a line:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 Use y=-1 for first receive, -2 for second, etc.<br/>
 other_track_index is -1 if hardware output<br/>
-flags & 8 is true if send/output muted              
+flags & 8 is true if send/output muted<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -570,7 +580,8 @@ flags & 8 is true if send/output muted
 <a href="#GET/TRACK/index/xxxxxx"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/TRACK/index/xxxxxx</b></u><br>			<p>
 <div class="ch">
-Requests information for track "index", via GetSetMediaTrackInfo(). See the REAPER API documentation for which strings are acceptable, but for example you can query the track record input index for the first track via:              
+Requests information for track "index", via GetSetMediaTrackInfo(). See the REAPER API documentation for which strings are acceptable, but for example you can query the track record input index for the first track via:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -584,7 +595,8 @@ The returned string will be:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;GET/TRACK/1/I_RECINPUT\t <index><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 (if an error occurs you may get nothing back at all, or you might get the GET string back but with no parameter)<br/>
-String will have newlines/tabs/backslashes encoded as \\n, \\t and \\.              
+String will have newlines/tabs/backslashes encoded as \\n, \\t and \\.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -593,7 +605,11 @@ String will have newlines/tabs/backslashes encoded as \\n, \\t and \\.
 <a href="#SET/TRACK/index/xxxxx/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/xxxxx/value</b></u><br>			<p>
 <div class="ch">
-Similar to GET/TRACK/index/xxxxx, but sets the value of this item. You probably will want to follow this with a SET/UNDO command, below. This will not give any response.              
+Similar to GET/TRACK/index/xxxxx, but sets the value of this item. You probably will want to follow this with a SET/UNDO command, below. This will not give any response.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -602,7 +618,8 @@ Similar to GET/TRACK/index/xxxxx, but sets the value of this item. You probably 
 <a href="#SET/TRACK/index/VOL/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/VOL/value</b></u><br>			<p>
 <div class="ch">
-Special case of SET/TRACK/index/xxxx, sets volume for a track via control surface API (meaning it respects automation modes etc). If value starts with + or -, then adjustment is relative (in dB), otherwise adjustment is absolute (1=0dB, etc). If value ends in "g", then ganging is ignored. Does not need SET/UNDO.              
+Special case of SET/TRACK/index/xxxx, sets volume for a track via control surface API (meaning it respects automation modes etc). If value starts with + or -, then adjustment is relative (in dB), otherwise adjustment is absolute (1=0dB, etc). If value ends in "g", then ganging is ignored. Does not need SET/UNDO.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -611,7 +628,8 @@ Special case of SET/TRACK/index/xxxx, sets volume for a track via control surfac
 <a href="#SET/TRACK/index/PAN/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/PAN/value</b></u><br>			<p>
 <div class="ch">
-Special case of SET/TRACK/index/xxxx, sets pan for a track via control surface API. If value starts with + or -, adjustment is relative. Range is always -1..1. If value ends in "g", then ganging is ignored. Does not need SET/UNDO.              
+Special case of SET/TRACK/index/xxxx, sets pan for a track via control surface API. If value starts with + or -, adjustment is relative. Range is always -1..1. If value ends in "g", then ganging is ignored. Does not need SET/UNDO.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -620,7 +638,7 @@ Special case of SET/TRACK/index/xxxx, sets pan for a track via control surface A
 <a href="#SET/TRACK/index/WIDTH/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/WIDTH/value</b></u><br>			<p>
 <div class="ch">
-Special case of SET/TRACK/index/xxxx, sets width for a track via control surface API. If value starts with + or -, adjustment is relative. Range is always -1..1. If value ends in "g", then ganging is ignored. Does not need SET/UNDO.              
+Special case of SET/TRACK/index/xxxx, sets width for a track via control surface API. If value starts with + or -, adjustment is relative. Range is always -1..1. If value ends in "g", then ganging is ignored. Does not need SET/UNDO.<br/>
 </div><br>
 </div>
 <div class="ch">
@@ -629,7 +647,8 @@ Special case of SET/TRACK/index/xxxx, sets width for a track via control surface
 <a href="#SET/TRACK/index/MUTE/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/MUTE/value</b></u><br>			<p>
 <div class="ch">
-Special case of SET/TRACK/index/xxxx, sets mute for track. if value is <0, mute is toggled. Does not need SET/UNDO.              
+Special case of SET/TRACK/index/xxxx, sets mute for track. if value is <0, mute is toggled. Does not need SET/UNDO.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -638,7 +657,8 @@ Special case of SET/TRACK/index/xxxx, sets mute for track. if value is <0, mute 
 <a href="#SET/TRACK/index/SOLO/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/SOLO/value</b></u><br>			<p>
 <div class="ch">
-Special case of SET/TRACK/index/xxxx, sets solo for track. if value is <0, solo is toggled. Does not need SET/UNDO.              
+Special case of SET/TRACK/index/xxxx, sets solo for track. if value is <0, solo is toggled. Does not need SET/UNDO.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -647,7 +667,8 @@ Special case of SET/TRACK/index/xxxx, sets solo for track. if value is <0, solo 
 <a href="#SET/TRACK/index/FX/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/FX/value</b></u><br>			<p>
 <div class="ch">
-Special case of SET/TRACK/index/xxxx, sets fx enabled for track. if value is <0, fx enabled is toggled. Does not need SET/UNDO.              
+Special case of SET/TRACK/index/xxxx, sets fx enabled for track. if value is <0, fx enabled is toggled. Does not need SET/UNDO.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -656,7 +677,8 @@ Special case of SET/TRACK/index/xxxx, sets fx enabled for track. if value is <0,
 <a href="#SET/TRACK/index/RECARM/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/RECARM/value</b></u><br>			<p>
 <div class="ch">
-Special case of SET/TRACK/index/xxxx, sets record arm enabled for track. if value is <0, record arm enabled is toggled. Does not need SET/UNDO.              
+Special case of SET/TRACK/index/xxxx, sets record arm enabled for track. if value is <0, record arm enabled is toggled. Does not need SET/UNDO.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -665,7 +687,8 @@ Special case of SET/TRACK/index/xxxx, sets record arm enabled for track. if valu
 <a href="#SET/TRACK/index/RECMON/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/RECMON/value</b></u><br>			<p>
 <div class="ch">
-Special case of SET/TRACK/index/xxxx, sets record monitoring for track. if value is <0, record monitoring is cycled, otherwise 1=on, 2=auto. Does not need SET/UNDO.              
+Special case of SET/TRACK/index/xxxx, sets record monitoring for track. if value is <0, record monitoring is cycled, otherwise 1=on, 2=auto. Does not need SET/UNDO.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -674,7 +697,8 @@ Special case of SET/TRACK/index/xxxx, sets record monitoring for track. if value
 <a href="#SET/TRACK/index/SEL/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/index/SEL/value</b></u><br>			<p>
 <div class="ch">
-Special case of SET/TRACK/index/xxxx, sets selection for track. if value is <0, selection is toggled. Does not need SET/UNDO.              
+Special case of SET/TRACK/index/xxxx, sets selection for track. if value is <0, selection is toggled. Does not need SET/UNDO.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -683,7 +707,8 @@ Special case of SET/TRACK/index/xxxx, sets selection for track. if value is <0, 
 <a href="#SET/UNDO/message"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/UNDO/message</b></u><br>			<p>
 <div class="ch">
-Adds an undo point, useful if you have modified anything that needs it.              
+Adds an undo point, useful if you have modified anything that needs it.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -692,7 +717,8 @@ Adds an undo point, useful if you have modified anything that needs it.
 <a href="#SET/UNDO_BEGIN"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/UNDO_BEGIN</b></u><br>			<p>
 <div class="ch">
-Begins an undo block (should always be matched with SET/UNDO_END!)              
+Begins an undo block (should always be matched with SET/UNDO_END!)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -701,7 +727,8 @@ Begins an undo block (should always be matched with SET/UNDO_END!)
 <a href="#SET/UNDO_END/message"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/UNDO_END/message</b></u><br>			<p>
 <div class="ch">
-Ends an undo block              
+Ends an undo block<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -710,7 +737,8 @@ Ends an undo block
 <a href="#SET/REPEAT/val"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/REPEAT/val</b></u><br>			<p>
 <div class="ch">
-If val is -1, toggles repeat, 0 disables repeat, 1 enables repeat.              
+If val is -1, toggles repeat, 0 disables repeat, 1 enables repeat.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -719,7 +747,8 @@ If val is -1, toggles repeat, 0 disables repeat, 1 enables repeat.
 <a href="#GET/REPEAT"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/REPEAT</b></u><br>			<p>
 <div class="ch">
-Returns:              
+Returns:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -728,7 +757,8 @@ Returns:
 <a href="#GET/REPEAT \t val"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>GET/REPEAT \t val</b></u><br>			<p>
 <div class="ch">
-where val is 0 or 1.              
+where val is 0 or 1.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -738,7 +768,7 @@ where val is 0 or 1.
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/x/SEND/y/MUTE/value</b></u><br>			<p>
 <div class="ch">
 Sets hardware output/send mute for track x, send y. value can be -1 to toggle.<br/>
-Use y=-1 for first receive, -2 for second, etc.              
+Use y=-1 for first receive, -2 for second, etc.<br/>
 </div><br>
 </div>
 <div class="ch">
@@ -748,7 +778,7 @@ Use y=-1 for first receive, -2 for second, etc.
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/x/SEND/y/VOL/value</b></u><br>			<p>
 <div class="ch">
 Sets hardware output/send volume (1.0 = +0dB) for track x, send y. append e to value to treat as "end" (capture), or "E" to treat as an instant edit.<br/>
-Use y=-1 for first receive, -2 for second, etc.              
+Use y=-1 for first receive, -2 for second, etc.<br/>
 </div><br>
 </div>
 <div class="ch">
@@ -758,7 +788,8 @@ Use y=-1 for first receive, -2 for second, etc.
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/TRACK/x/SEND/y/PAN/value</b></u><br>			<p>
 <div class="ch">
 Sets hardware output/send pan (0=center, -1=left) for track x, send y. append e to value to treat as "end" (capture), or "E" to treat as an instant edit.<br/>
-Use y=-1 for first receive, -2 for second, etc.              
+Use y=-1 for first receive, -2 for second, etc.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -767,7 +798,8 @@ Use y=-1 for first receive, -2 for second, etc.
 <a href="#SET/POS/value_in_seconds"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/POS/value_in_seconds</b></u><br>			<p>
 <div class="ch">
-Sets edit cursor position (seeking playback) to value_in_seconds              
+Sets edit cursor position (seeking playback) to value_in_seconds<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -777,7 +809,8 @@ Sets edit cursor position (seeking playback) to value_in_seconds
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/POS_STR/value_string</b></u><br>			<p>
 <div class="ch">
 Sets edit cursor position (seeking playback) to value_string (format auto-detected)<br/>
-r1 goes to region ID 1, m1 to marker 1, R1 to first timeline region, M1 to first timeline marker              
+r1 goes to region ID 1, m1 to marker 1, R1 to first timeline region, M1 to first timeline marker<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -789,7 +822,8 @@ r1 goes to region ID 1, m1 to marker 1, R1 to first timeline region, M1 to first
 Returns:<br/>
 LYRICS \t trackindex \t beat_position \t lyric \t ...<br/>
 Retrieves MIDI lyrics for trackindex.<br/>
-String will have newlines/tabs/backslashes encoded as \\n, \\t and \\. Length is limited to around 16k.              
+String will have newlines/tabs/backslashes encoded as \\n, \\t and \\. Length is limited to around 16k.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -798,7 +832,8 @@ String will have newlines/tabs/backslashes encoded as \\n, \\t and \\. Length is
 <a href="#SET/PROJEXTSTATE/section/key/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/PROJEXTSTATE/section/key/value</b></u><br>			<p>
 <div class="ch">
-See SetProjExtState() API -- section, key, value should be urlencoded              
+See SetProjExtState() API -- section, key, value should be urlencoded<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -810,7 +845,8 @@ See SetProjExtState() API -- section, key, value should be urlencoded
 Returns:<br/>
 PROJEXTSTATE \t section \t key \t string<br/>
 See: GetProjExtState() API<br/>
-String will have newlines/tabs/backslashes encoded as \\n, \\t and \\. Length is limited to around 16k.              
+String will have newlines/tabs/backslashes encoded as \\n, \\t and \\. Length is limited to around 16k.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -822,7 +858,7 @@ String will have newlines/tabs/backslashes encoded as \\n, \\t and \\. Length is
 Returns:<br/>
 EXTSTATE \t section \t key \t string<br/>
 See GetExtState() API<br/>
-String will have newlines/tabs/backslashes encoded as \\n, \\t and \\              
+String will have newlines/tabs/backslashes encoded as \\n, \\t and \\<br/>
 </div><br>
 </div>
 <div class="ch">
@@ -831,7 +867,8 @@ String will have newlines/tabs/backslashes encoded as \\n, \\t and \\
 <a href="#SET/EXTSTATE/section/key/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/EXTSTATE/section/key/value</b></u><br>			<p>
 <div class="ch">
-See SetExtState() API (persist=false) section, key, value should be urlencoded              
+See SetExtState() API (persist=false) section, key, value should be urlencoded<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -840,7 +877,8 @@ See SetExtState() API (persist=false) section, key, value should be urlencoded
 <a href="#SET/EXTSTATEPERSIST/section/key/value"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>SET/EXTSTATEPERSIST/section/key/value</b></u><br>			<p>
 <div class="ch">
-See SetExtState() API (persist=true) section, key, value should be urlencoded              
+See SetExtState() API (persist=true) section, key, value should be urlencoded<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -853,7 +891,8 @@ command_id can be numeric or _123456789abcdef... registered ID.<br/>
 Returns:<br/>
 CMDSTATE \t command_id \t state<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-state>0 for on, 0=off, -1=no state              
+state>0 for on, 0=off, -1=no state<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -862,7 +901,8 @@ state>0 for on, 0=off, -1=no state
 <a href="#OSC/oscstring[:value]"> ^</a> 
 <img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13"><u><b>OSC/oscstring[:value]</b></u><br>			<p>
 <div class="ch">
-Sends an OSC message through the default processing (Default.ReaperOSC) and MIDI-learn/action mappings. oscstring:value will be urldecoded.              
+Sends an OSC message through the default processing (Default.ReaperOSC) and MIDI-learn/action mappings. oscstring:value will be urldecoded.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
 </div><br>
 </div>
 <div class="ch">
@@ -878,7 +918,7 @@ MARKER \t name \t ID \t position [\t color]<br/>
 ...<br/>
 MARKER_LIST_END<br/>
 <br/>
-color is in the form of 0xaarrggbb, nonzero if a custom color set              
+color is in the form of 0xaarrggbb, nonzero if a custom color set<br/>
 </div><br>
 </div>
 <div class="ch">
@@ -893,7 +933,7 @@ Returns a list of all markers or regions, in the format of:<br/>
 REGION_LIST<br/>
 REGION \t name \t ID \t start-position \t end-position [\t color]<br/>
 ...<br/>
-REGION_LIST_END              
+REGION_LIST_END<br/>
 </div><br>
 </div>
       <div class="ch">
