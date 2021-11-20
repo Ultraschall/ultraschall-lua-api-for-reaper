@@ -429,8 +429,9 @@ Has now 1406 functions, with 6 new ones
 
 #### Changes from 4.2.005 to 4.2.006  
   - DeveloperTools: ultraschall\_developertool\_CheckForNewConfigVars - tries now to read possible config-vars from reaper.exe directly(windows only atm)
+  - DeveloperTools: ultraschall\_developertool\_Display-Altered-Config-Vars - shows now the difs to old values as well
   - DocEngine: Docs\_RemoveIndent - had inner variable exposed -> fixed
-  - Docs: Reaper Internals - updated to Reaper 6.40 and ReaImGui 0.5.8
+  - Docs: Reaper Internals - updated to Reaper 6.41 and ReaImGui 0.5.8
   - Docs: Reaper-API-docs - All-View jumped to the top of the document instead of just unhiding functioncalls -> fixed
   - Docs: All docs - you can create now a custom.css file in the Documentation-folder to customize the style of the docs
   - Docs: MediaItemStateChunk-docs - added new behavior of Reaper 6.33 to just enclose source-files with " that have a space in filename or path  

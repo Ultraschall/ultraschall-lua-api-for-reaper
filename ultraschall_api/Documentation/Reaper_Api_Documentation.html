@@ -4598,7 +4598,7 @@ Stop track preview. Return nonzero on success.
 <a href="#StopTrackPreview2"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>StopTrackPreview2</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> retval = <em>(*StopTrackPreview2)</em>(<i>void*</i> proj, <i>preview_register_t*</i> preview)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>(*StopTrackPreview2)</em>(<i>ReaProject*</i> proj, <i>preview_register_t*</i> preview)</code></div>
 </div><p>
 <div class="ch">
 Stop track preview2.              
@@ -4611,7 +4611,7 @@ Stop track preview2.
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>void*</i> proj</td></tr>
+<tr><td class="pr"><i>void*</i> <i>ReaProject</i></td></tr>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <table class="ch">

@@ -42518,7 +42518,7 @@ mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>StopTrackPreview2</slug>
         <title>StopTrackPreview2</title>
-        <functioncall prog_lang="cpp">int retval = (*StopTrackPreview2)(void* proj, preview_register_t* preview)</functioncall>
+        <functioncall prog_lang="cpp">int retval = (*StopTrackPreview2)(ReaProject* proj, preview_register_t* preview)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -42529,7 +42529,7 @@ mespotine
             int retval -
         </retvals>
         <parameters>
-            void* proj - the project-number. 0 for the current project. 
+            void* ReaProject - the project-number. 0 for the current project. 
             preview_register_t* preview - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
