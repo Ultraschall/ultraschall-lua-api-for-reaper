@@ -319,7 +319,7 @@
         <retvals>
             integer index - the shown-number of the newly created marker/region
         </retvals>
-        <linked_to>
+        <linked_to id="1" desc="see:">
             ColorToNative - ColorToNative to convert color-value
         </linked_to>
         <parameters>
@@ -359,7 +359,7 @@
 
             If you want to add a script to several sections, you need to add them individually, by calling the function again with the changed section-number.
         </description>
-        <linked_to>
+        <linked_to id="1" desc="see:">
             ReverseNamedCommandLookup - see ReverseNamedCommandLookup to get ActionCommandID-string of the script
         </linked_to>
         <retvals>
@@ -719,7 +719,7 @@
         <description>
             Returns true if the underlying samples (track or media item take) have changed, but does not update the audio accessor, so the user can selectively call AudioAccessorValidateState only when needed. 
         </description>
-        <linked_to>
+        <linked_to id="1" desc="see also:">
             AudioAccessorValidateState - to get validation-state of an AudioAccessor
             CreateTakeAudioAccessor - to create an AudioAccessor for take
             CreateTakeAudioAccessor - to create an AudioAccessor for track
@@ -1064,7 +1064,7 @@
         <title>CountProjectMarkers</title>
         <functioncall prog_lang="cpp">int CountProjectMarkers(ReaProject* proj, int* num_markersOut, int* num_regionsOut)</functioncall>
         <functioncall prog_lang="eel">int CountProjectMarkers(ReaProject proj, int &amp;num_markers, int &amp;num_regions)</functioncall>
-        <functioncall prog_lang="lua">integer retval, number num_markers, number num_regions = reaper.CountProjectMarkers(ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">integer retval, integer num_markers, integer num_regions = reaper.CountProjectMarkers(ReaProject proj)</functioncall>
         <functioncall prog_lang="python">(Int retval, ReaProject proj, Int num_markersOut, Int num_regionsOut) = RPR_CountProjectMarkers(proj, num_markersOut, num_regionsOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -3141,7 +3141,7 @@
         <title>DeleteTakeStretchMarkers</title>
         <functioncall prog_lang="cpp">int DeleteTakeStretchMarkers(MediaItem_Take* take, int idx, const int* countInOptional)</functioncall>
         <functioncall prog_lang="eel">int DeleteTakeStretchMarkers(MediaItem_Take take, int idx, optional int countIn)</functioncall>
-        <functioncall prog_lang="lua">integer count_del_stretchmarkers = reaper.DeleteTakeStretchMarkers(MediaItem_Take take, integer idx, optional number countIn)</functioncall>
+        <functioncall prog_lang="lua">integer count_del_stretchmarkers = reaper.DeleteTakeStretchMarkers(MediaItem_Take take, integer idx, optional integer countIn)</functioncall>
         <functioncall prog_lang="python">Int RPR_DeleteTakeStretchMarkers(MediaItem_Take take, Int idx, const int countInOptional)</functioncall>
         <requires>
             Reaper=5.62
@@ -3155,7 +3155,7 @@
         <parameters>
             MediaItem_Take take - 
             integer idx - 
-            optional number countIn - 
+            optional integer countIn - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -4019,7 +4019,7 @@
         <title>Envelope_GetParentTake</title>
         <functioncall prog_lang="cpp">MediaItem_Take* Envelope_GetParentTake(TrackEnvelope* env, int* indexOutOptional, int* index2OutOptional)</functioncall>
         <functioncall prog_lang="eel">MediaItem_Take Envelope_GetParentTake(TrackEnvelope env, optional int &amp;index, optional int &amp;index2)</functioncall>
-        <functioncall prog_lang="lua">MediaItem_Take retval, optional number index, optional number index2 = reaper.Envelope_GetParentTake(TrackEnvelope env)</functioncall>
+        <functioncall prog_lang="lua">MediaItem_Take retval, optional integer index, optional integer index2 = reaper.Envelope_GetParentTake(TrackEnvelope env)</functioncall>
         <functioncall prog_lang="python">(MediaItem_Take retval, TrackEnvelope env, Int indexOutOptional, Int index2OutOptional) = RPR_Envelope_GetParentTake(env, indexOutOptional, index2OutOptional)</functioncall>
         <requires>
             Reaper=5.62
@@ -4029,8 +4029,8 @@
         </description>
         <retvals>
             MediaItem_Take retval - 
-            optional number index - 
-            optional number index2 - 
+            optional integer index - 
+            optional integer index2 - 
         </retvals>
         <parameters>
             TrackEnvelope env - 
@@ -4048,7 +4048,7 @@
         <title>Envelope_GetParentTrack</title>
         <functioncall prog_lang="cpp">MediaTrack* Envelope_GetParentTrack(TrackEnvelope* env, int* indexOutOptional, int* index2OutOptional)</functioncall>
         <functioncall prog_lang="eel">MediaTrack Envelope_GetParentTrack(TrackEnvelope env, optional int &amp;index, optional int &amp;index2)</functioncall>
-        <functioncall prog_lang="lua">MediaTrack retval, optional number index, optional number index2 = reaper.Envelope_GetParentTrack(TrackEnvelope env)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack retval, optional integer index, optional integer index2 = reaper.Envelope_GetParentTrack(TrackEnvelope env)</functioncall>
         <functioncall prog_lang="python">(MediaTrack retval, TrackEnvelope env, Int indexOutOptional, Int index2OutOptional) = RPR_Envelope_GetParentTrack(env, indexOutOptional, index2OutOptional)</functioncall>
         <requires>
             Reaper=5.62
@@ -4058,8 +4058,8 @@
         </description>
         <retvals>
             MediaTrack retval - 
-            optional number index - 
-            optional number index2 - 
+            optional integer index - 
+            optional integer index2 - 
         </retvals>
         <parameters>
             TrackEnvelope env - 
@@ -4950,7 +4950,7 @@
         <title>GetEnvelopePoint</title>
         <functioncall prog_lang="cpp">bool GetEnvelopePoint(TrackEnvelope* envelope, int ptidx, double* timeOutOptional, double* valueOutOptional, int* shapeOutOptional, double* tensionOutOptional, bool* selectedOutOptional)</functioncall>
         <functioncall prog_lang="eel">bool GetEnvelopePoint(TrackEnvelope envelope, int ptidx, optional &amp;time, optional &amp;value, optional int &amp;shape, optional &amp;tension, optional bool &amp;selected)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, optional number time, optional number value, optional number shape, optional number tension, optional boolean selected = reaper.GetEnvelopePoint(TrackEnvelope envelope, integer ptidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, optional number time, optional number value, optional integer shape, optional number tension, optional boolean selected = reaper.GetEnvelopePoint(TrackEnvelope envelope, integer ptidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int ptidx, Float timeOutOptional, Float valueOutOptional, Int shapeOutOptional, Float tensionOutOptional, Boolean selectedOutOptional) = RPR_GetEnvelopePoint(envelope, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</functioncall>
         <requires>
             Reaper=5.979
@@ -4962,7 +4962,7 @@
             boolean retval - 
             optional number time - 
             optional number value - 
-            optional number shape - 
+            optional integer shape - 
             optional number tension - 
             optional boolean selected - 
         </retvals>
@@ -5048,7 +5048,7 @@
         <title>GetEnvelopePointEx</title>
         <functioncall prog_lang="cpp">bool GetEnvelopePointEx(TrackEnvelope* envelope, int autoitem_idx, int ptidx, double* timeOutOptional, double* valueOutOptional, int* shapeOutOptional, double* tensionOutOptional, bool* selectedOutOptional)</functioncall>
         <functioncall prog_lang="eel">bool GetEnvelopePointEx(TrackEnvelope envelope, int autoitem_idx, int ptidx, optional &amp;time, optional &amp;value, optional int &amp;shape, optional &amp;tension, optional bool &amp;selected)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, optional number time, optional number value, optional number shape, optional number tension, optional boolean selected = reaper.GetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, optional number time, optional number value, optional integer shape, optional number tension, optional boolean selected = reaper.GetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Int ptidx, Float timeOutOptional, Float valueOutOptional, Int shapeOutOptional, Float tensionOutOptional, Boolean selectedOutOptional) = RPR_GetEnvelopePointEx(envelope, autoitem_idx, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</functioncall>
         <requires>
             Reaper=5.979
@@ -5066,7 +5066,7 @@
             boolean retval - 
             optional number time - 
             optional number value - 
-            optional number shape - 
+            optional integer shape - 
             optional number tension - 
             optional boolean selected - 
         </retvals>
@@ -5429,7 +5429,7 @@
         <title>GetItemEditingTime2</title>
         <functioncall prog_lang="cpp">double GetItemEditingTime2(PCM_source** which_itemOut, int* flagsOut)</functioncall>
         <functioncall prog_lang="eel">double GetItemEditingTime2(PCM_source &amp;which_item, int &amp;flags)</functioncall>
-        <functioncall prog_lang="lua">number position, PCM_source which_item, number flags = reaper.GetItemEditingTime2()</functioncall>
+        <functioncall prog_lang="lua">number position, PCM_source which_item, integer flags = reaper.GetItemEditingTime2()</functioncall>
         <functioncall prog_lang="python">(Float retval, PCM_source* which_itemOut, Int flagsOut) = RPR_GetItemEditingTime2(which_itemOut, flagsOut)</functioncall>
         <requires>
             Reaper=5.97
@@ -5440,7 +5440,7 @@
         <retvals>
             number position - 
             PCM_source which_item - 
-            number flags - 
+            integer flags - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -8043,8 +8043,8 @@
         <slug>GetSetProjectGrid</slug>
         <title>GetSetProjectGrid</title>
         <functioncall prog_lang="cpp">int GetSetProjectGrid(ReaProject* project, bool set, double* divisionInOutOptional, int* swingmodeInOutOptional, double* swingamtInOutOptional)</functioncall>
-        <functioncall prog_lang="eel">int GetSetProjectGrid(ReaProject project, bool set, optional &amp;divisionIn, optional int &amp;swingmodeIn, optional &amp;swingamtIn)</functioncall>
-        <functioncall prog_lang="lua">integer retval, optional number divisionIn, optional number swingmodeIn, optional number swingamtIn = reaper.GetSetProjectGrid(ReaProject project, boolean set)</functioncall>
+        <functioncall prog_lang="eel">int GetSetProjectGrid(ReaProject project, bool set, optional &division, optional int &swingmode, optional &swingamt)</functioncall>
+        <functioncall prog_lang="lua">integer retval, optional number division, optional integer swingmode, optional number swingamt = reaper.GetSetProjectGrid(ReaProject project, boolean set, optional number division, optional integer swingmode, optional number swingamt)</functioncall>
         <functioncall prog_lang="python">(Int retval, ReaProject project, Boolean set, Float divisionInOutOptional, Int swingmodeInOutOptional, Float swingamtInOutOptional) = RPR_GetSetProjectGrid(project, set, divisionInOutOptional, swingmodeInOutOptional, swingamtInOutOptional)</functioncall>
         <requires>
             Reaper=5.965
@@ -8054,13 +8054,16 @@
         </description>
         <retvals>
             integer retval - 
-            optional number divisionIn - 
-            optional number swingmodeIn - 
-            optional number swingamtIn - 
+            optional number division - 
+            optional integer swingmode - 
+            optional number swingamt - 
         </retvals>
         <parameters>
             ReaProject project - the project-number. 0 for the current project. 
             boolean set - 
+            optional number division - 
+            optional integer swingmode - 
+            optional number swingamt - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -8525,7 +8528,7 @@
         <title>GetTakeMarker</title>
         <functioncall prog_lang="cpp">double position = GetTakeMarker(MediaItem_Take* take, int idx, char* nameOut, int nameOut_sz, int* colorOutOptional)</functioncall>
         <functioncall prog_lang="eel">double position = GetTakeMarker(MediaItem_Take take, int idx, #name, optional int &color)</functioncall>
-        <functioncall prog_lang="lua">number position, string name, optional number color = reaper.GetTakeMarker(MediaItem_Take take, integer idx)</functioncall>
+        <functioncall prog_lang="lua">number position, string name, optional integer color = reaper.GetTakeMarker(MediaItem_Take take, integer idx)</functioncall>
         <functioncall prog_lang="python">(Float position, MediaItem_Take take, Int idx, String nameOut, Int nameOut_sz, Int colorOutOptional) = RPR_GetTakeMarker(take, idx, nameOut, nameOut_sz, colorOutOptional))</functioncall>
         <requires>
             Reaper=6.09
@@ -8538,7 +8541,7 @@
         <retvals>
             number position - the position of the takemarker within the take in seconds
             string name - the name of the takemarker
-            optional number color - the color of the takemarker
+            optional integer color - the color of the takemarker
         </retvals>
         <parameters>
             MediaItem_Take take - the take, whose take-marker you want to get
@@ -8677,7 +8680,7 @@
         <title>GetTCPFXParm</title>
         <functioncall prog_lang="cpp">bool GetTCPFXParm(ReaProject* project, MediaTrack* track, int index, int* fxindexOut, int* parmidxOut)</functioncall>
         <functioncall prog_lang="eel">bool GetTCPFXParm(ReaProject project, MediaTrack track, int index, int &amp;fxindex, int &amp;parmidx)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number fxindex, number parmidx = reaper.GetTCPFXParm(ReaProject project, MediaTrack track, integer index)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer fxindex, integer parmidx = reaper.GetTCPFXParm(ReaProject project, MediaTrack track, integer index)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject project, MediaTrack track, Int index, Int fxindexOut, Int parmidxOut) = RPR_GetTCPFXParm(project, track, index, fxindexOut, parmidxOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -8687,8 +8690,8 @@
         </description>
         <retvals>
             boolean retval - 
-            number fxindex - 
-            number parmidx - 
+            integer fxindex - 
+            integer parmidx - 
         </retvals>
         <parameters>
             ReaProject project - the project-number. 0 for the current project. 
@@ -8740,7 +8743,7 @@
         <title>GetTempoTimeSigMarker</title>
         <functioncall prog_lang="cpp">bool GetTempoTimeSigMarker(ReaProject* proj, int ptidx, double* timeposOut, int* measureposOut, double* beatposOut, double* bpmOut, int* timesig_numOut, int* timesig_denomOut, bool* lineartempoOut)</functioncall>
         <functioncall prog_lang="eel">bool GetTempoTimeSigMarker(ReaProject proj, int ptidx, &amp;timepos, int &amp;measurepos, &amp;beatpos, &amp;bpm, int &amp;timesig_num, int &amp;timesig_denom, bool &amp;lineartempo)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number timepos, number measurepos, number beatpos, number bpm, number timesig_num, number timesig_denom, boolean lineartempo = reaper.GetTempoTimeSigMarker(ReaProject proj, integer ptidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, number timepos, integer measurepos, number beatpos, number bpm, integer timesig_num, integer timesig_denom, boolean lineartempo = reaper.GetTempoTimeSigMarker(ReaProject proj, integer ptidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject proj, Int ptidx, Float timeposOut, Int measureposOut, Float beatposOut, Float bpmOut, Int timesig_numOut, Int timesig_denomOut, Boolean lineartempoOut) = RPR_GetTempoTimeSigMarker(proj, ptidx, timeposOut, measureposOut, beatposOut, bpmOut, timesig_numOut, timesig_denomOut, lineartempoOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -8751,11 +8754,11 @@
         <retvals>
             boolean retval - 
             number timepos - 
-            number measurepos - 
+            integer measurepos - 
             number beatpos - 
             number bpm - 
-            number timesig_num - 
-            number timesig_denom - 
+            integer timesig_num - 
+            integer timesig_denom - 
             boolean lineartempo - 
         </retvals>
         <parameters>
@@ -9127,7 +9130,7 @@
         <title>GetTrackFromPoint</title>
         <functioncall prog_lang="cpp">MediaTrack* GetTrackFromPoint(int screen_x, int screen_y, int* infoOutOptional)</functioncall>
         <functioncall prog_lang="eel">MediaTrack GetTrackFromPoint(int screen_x, int screen_y, optional int &info)</functioncall>
-        <functioncall prog_lang="lua">MediaTrack retval, optional number info = reaper.GetTrackFromPoint(integer screen_x, integer screen_y)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack retval, optional integer info = reaper.GetTrackFromPoint(integer screen_x, integer screen_y)</functioncall>
         <functioncall prog_lang="python">(MediaTrack retval, Int screen_x, Int screen_y, Int infoOutOptional) = RPR_GetTrackFromPoint(screen_x, screen_y, infoOutOptional)</functioncall>
         <requires>
             Reaper=5.975
@@ -9141,7 +9144,7 @@
         </description>
         <retvals>
             MediaTrack retval - the MediaTrack at position; if the position is above a window associated with the track, this holds the track, where retval info will hold additional information
-            optional number info - additional information, if the position is above a windows associated with a track
+            optional integer info - additional information, if the position is above a windows associated with a track
                                  - 1, if it is likely an envelope
                                  - 2, if it is likely a track FX
         </retvals>
@@ -9306,7 +9309,7 @@
         <title>GetTrackMIDINoteRange</title>
         <functioncall prog_lang="cpp">void GetTrackMIDINoteRange(ReaProject* proj, MediaTrack* track, int* note_loOut, int* note_hiOut)</functioncall>
         <functioncall prog_lang="eel">GetTrackMIDINoteRange(ReaProject proj, MediaTrack track, int &amp;note_lo, int &amp;note_hi)</functioncall>
-        <functioncall prog_lang="lua">number note_lo_retval, number note_hi = reaper.GetTrackMIDINoteRange(ReaProject proj, MediaTrack track)</functioncall>
+        <functioncall prog_lang="lua">integer note_lo_retval, integer note_hi = reaper.GetTrackMIDINoteRange(ReaProject proj, MediaTrack track)</functioncall>
         <functioncall prog_lang="python">(ReaProject proj, MediaTrack track, Int note_loOut, Int note_hiOut) = RPR_GetTrackMIDINoteRange(proj, track, note_loOut, note_hiOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -9315,8 +9318,8 @@
 
         </description>
         <retvals>
-            number note_lo_retval - 
-            number note_hi - 
+            integer note_lo_retval - 
+            integer note_hi - 
         </retvals>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
@@ -9648,7 +9651,7 @@
         <title>GetTrackState</title>
         <functioncall prog_lang="cpp">const char* GetTrackState(MediaTrack* track, int* flagsOut)</functioncall>
         <functioncall prog_lang="eel">bool GetTrackState(#retval, MediaTrack track, int &amp;flags)</functioncall>
-        <functioncall prog_lang="lua">string retval, number flags = reaper.GetTrackState(MediaTrack track)</functioncall>
+        <functioncall prog_lang="lua">string retval, integer flags = reaper.GetTrackState(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">(String retval, MediaTrack track, Int flagsOut) = RPR_GetTrackState(track, flagsOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -9670,7 +9673,7 @@
         </description>
         <retvals>
             string retval - 
-            number flags - 
+            integer flags - 
         </retvals>
         <parameters>
             MediaTrack track - 
@@ -9746,7 +9749,7 @@
         <title>GetTrackUIPan</title>
         <functioncall prog_lang="cpp">bool GetTrackUIPan(MediaTrack* track, double* pan1Out, double* pan2Out, int* panmodeOut)</functioncall>
         <functioncall prog_lang="eel">bool GetTrackUIPan(MediaTrack track, &amp;pan1, &amp;pan2, int &amp;panmode)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number pan1, number pan2, number panmode = reaper.GetTrackUIPan(MediaTrack track)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, number pan1, number pan2, integer panmode = reaper.GetTrackUIPan(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Float pan1Out, Float pan2Out, Int panmodeOut) = RPR_GetTrackUIPan(track, pan1Out, pan2Out, panmodeOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -9758,7 +9761,7 @@
             boolean retval - 
             number pan1 - 
             number pan2 - 
-            number panmode - 
+            integer panmode - 
         </retvals>
         <parameters>
             MediaTrack track - 
@@ -9805,7 +9808,7 @@
         <title>GetUnderrunTime</title>
         <functioncall prog_lang="cpp">void GetUnderrunTime(unsigned int* audio_xrunOutOptional, unsigned int* media_xrunOutOptional, unsigned int* curtimeOutOptional)</functioncall>
         <functioncall prog_lang="eel">GetUnderrunTime(optional unsigned int &amp;audio_xrun, optional unsigned int &amp;media_xrun, optional unsigned int &amp;curtime)</functioncall>
-        <functioncall prog_lang="lua">optional number audio_xrun retval, optional number media_xrun, optional number curtime = reaper.GetUnderrunTime()</functioncall>
+        <functioncall prog_lang="lua">optional integer audio_xrun, optional integer media_xrun, optional integer curtime = reaper.GetUnderrunTime()</functioncall>
         <functioncall prog_lang="python">RPR_GetUnderrunTime(unsigned int audio_xrunOutOptional, unsigned int media_xrunOutOptional, unsigned int curtimeOutOptional)</functioncall>
         <requires>
             Reaper=5.62
@@ -9814,9 +9817,9 @@
             retrieves the last timestamps of audio xrun (yellow-flash, if available), media xrun (red-flash), and the current time stamp (all milliseconds)
         </description>
         <retvals>
-            optional number audio_xrun retval - 
-            optional number media_xrun - 
-            optional number curtime - 
+            optional integer audio_xrun - 
+            optional integer media_xrun - 
+            optional integer curtime - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10697,7 +10700,7 @@
         <title>joystick_getinfo</title>
         <functioncall prog_lang="cpp">int joystick_getinfo(joystick_device* dev, int* axesOutOptional, int* povsOutOptional)</functioncall>
         <functioncall prog_lang="eel">int joystick_getinfo(joystick_device dev, optional int &amp;axes, optional int &amp;povs)</functioncall>
-        <functioncall prog_lang="lua">integer retval, optional number axes, optional number povs = reaper.joystick_getinfo(joystick_device dev)</functioncall>
+        <functioncall prog_lang="lua">integer retval, optional integer axes, optional integer povs = reaper.joystick_getinfo(joystick_device dev)</functioncall>
         <functioncall prog_lang="python">(Int retval, joystick_device dev, Int axesOutOptional, Int povsOutOptional) = RPR_joystick_getinfo(dev, axesOutOptional, povsOutOptional)</functioncall>
         <requires>
             Reaper=5.62
@@ -10707,8 +10710,8 @@
         </description>
         <retvals>
             integer retval - 
-            optional number axes - 
-            optional number povs - 
+            optional integer axes - 
+            optional integer povs - 
         </retvals>
         <parameters>
             joystick_device dev - 
@@ -10781,7 +10784,7 @@
         <title>LICE_ClipLine</title>
         <functioncall prog_lang="cpp">bool LICE_ClipLine(int* pX1Out, int* pY1Out, int* pX2Out, int* pY2Out, int xLo, int yLo, int xHi, int yHi)</functioncall>
         <functioncall prog_lang="eel">bool LICE_ClipLine(int &amp;pX1, int &amp;pY1, int &amp;pX2, int &amp;pY2, int xLo, int yLo, int xHi, int yHi)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number pX1, number pY1, number pX2, number pY2 = reaper.LICE_ClipLine(number pX1, number pY1, number pX2, number pY2, integer xLo, integer yLo, integer xHi, integer yHi)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer pX1, integer pY1, integer pX2, integer pY2 = reaper.LICE_ClipLine(integer pX1, integer pY1, integer pX2, integer pY2, integer xLo, integer yLo, integer xHi, integer yHi)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, Int pX1Out, Int pY1Out, Int pX2Out, Int pY2Out, Int xLo, Int yLo, Int xHi, Int yHi) = RPR_LICE_ClipLine(pX1Out, pY1Out, pX2Out, pY2Out, xLo, yLo, xHi, yHi)</functioncall>
         <requires>
             Reaper=5.62
@@ -10791,16 +10794,16 @@
         </description>
         <retvals>
             boolean retval - 
-            number pX1 - 
-            number pY1 - 
-            number pX2 - 
-            number pY2 - 
+            integer pX1 - 
+            integer pY1 - 
+            integer pX2 - 
+            integer pY2 - 
         </retvals>
         <parameters>
-            number pX1 - 
-            number pY1 - 
-            number pX2 - 
-            number pY2 - 
+            integer pX1 - 
+            integer pY1 - 
+            integer pX2 - 
+            integer pY2 - 
             integer xLo - 
             integer yLo - 
             integer xHi - 
@@ -11944,7 +11947,7 @@
         <functioncall prog_lang="lua">integer retval, string buf, integer ts, integer devIdx, number projPos, integer projLoopCnt = reaper.MIDI_GetRecentInputEvent(integer idx)</functioncall>
         <functioncall prog_lang="python">(Int retval, Int idx, String bufOut, Int bufOut_sz, Int tsOut, Int devIdxOut, Float projPosOut, Int projLoopCntOut) = RPR_MIDI_GetRecentInputEvent(idx, bufOut, bufOut_sz, tsOut, devIdxOut, projPosOut, projLoopCntOut)</functioncall>
         <requires>
-            Reaper=6.39
+            Reaper=6.41
         </requires>
         <description prog_lang="*">
             Gets a recent MIDI input event from the global history. 
@@ -11959,14 +11962,14 @@
             devIdxOut/devIdx will have the low 16 bits set to the input device index, and 0x10000 will be set if device was enabled only for control. 
             
             projPosOut/projPos will be set to project position in seconds if project was playing back at time of event, otherwise -1. Large SysEx events will not be included in this event list.
-
         </description>
         <retvals>
             integer retval - 
             string buf - 
-            number ts - 
-            number devIdx - 
-            number projPos - 
+            integer ts - 
+            integer devIdx - 
+            integer projPos - 
+            number projLoopCnt - 
         </retvals>
         <parameters>
             integer idx - 
@@ -12301,7 +12304,7 @@
         <title>MIDI_SetCC</title>
         <functioncall prog_lang="cpp">bool MIDI_SetCC(MediaItem_Take* take, int ccidx, const bool* selectedInOptional, const bool* mutedInOptional, const double* ppqposInOptional, const int* chanmsgInOptional, const int* chanInOptional, const int* msg2InOptional, const int* msg3InOptional, const bool* noSortInOptional)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_SetCC(MediaItem_Take take, int ccidx, optional bool selectedIn, optional bool mutedIn, optional ppqposIn, optional int chanmsgIn, optional int chanIn, optional int msg2In, optional int msg3In, optional bool noSortIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_SetCC(MediaItem_Take take, integer ccidx, optional boolean selectedIn, optional boolean mutedIn, optional number ppqposIn, optional number chanmsgIn, optional number chanIn, optional number msg2In, optional number msg3In, optional boolean noSortIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_SetCC(MediaItem_Take take, integer ccidx, optional boolean selectedIn, optional boolean mutedIn, optional number ppqposIn, optional integer chanmsgIn, optional integer chanIn, optional integer msg2In, optional integer msg3In, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_MIDI_SetCC(MediaItem_Take take, Int ccidx, const bool selectedInOptional, const bool mutedInOptional, const double ppqposInOptional, const int chanmsgInOptional, const int chanInOptional, const int msg2InOptional, const int msg3InOptional, const bool noSortInOptional)</functioncall>
         <requires>
             Reaper=5.62
@@ -12318,10 +12321,10 @@
             optional boolean selectedIn - 
             optional boolean mutedIn - 
             optional number ppqposIn - 
-            optional number chanmsgIn - 
-            optional number chanIn - 
-            optional number msg2In - 
-            optional number msg3In - 
+            optional integer chanmsgIn - 
+            optional integer chanIn - 
+            optional integer msg2In - 
+            optional integer msg3In - 
             optional boolean noSortIn - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -12430,7 +12433,7 @@
         <title>MIDI_SetNote</title>
         <functioncall prog_lang="cpp">bool MIDI_SetNote(MediaItem_Take* take, int noteidx, const bool* selectedInOptional, const bool* mutedInOptional, const double* startppqposInOptional, const double* endppqposInOptional, const int* chanInOptional, const int* pitchInOptional, const int* velInOptional, const bool* noSortInOptional)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_SetNote(MediaItem_Take take, int noteidx, optional bool selectedIn, optional bool mutedIn, optional startppqposIn, optional endppqposIn, optional int chanIn, optional int pitchIn, optional int velIn, optional bool noSortIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_SetNote(MediaItem_Take take, integer noteidx, optional boolean selectedIn, optional boolean mutedIn, optional number startppqposIn, optional number endppqposIn, optional number chanIn, optional number pitchIn, optional number velIn, optional boolean noSortIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_SetNote(MediaItem_Take take, integer noteidx, optional boolean selectedIn, optional boolean mutedIn, optional number startppqposIn, optional number endppqposIn, optional integer chanIn, optional integer pitchIn, optional integer velIn, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_MIDI_SetNote(MediaItem_Take take, Int noteidx, const bool selectedInOptional, const bool mutedInOptional, const double startppqposInOptional, const double endppqposInOptional, const int chanInOptional, const int pitchInOptional, const int velInOptional, const bool noSortInOptional)</functioncall>
         <requires>
             Reaper=5.62
@@ -12448,9 +12451,9 @@
             optional boolean mutedIn - 
             optional number startppqposIn - 
             optional number endppqposIn - 
-            optional number chanIn - 
-            optional number pitchIn - 
-            optional number velIn - 
+            optional integer chanIn - 
+            optional integer pitchIn - 
+            optional integer velIn - 
             optional boolean noSortIn - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -12466,7 +12469,7 @@
         <title>MIDI_SetTextSysexEvt</title>
         <functioncall prog_lang="cpp">bool MIDI_SetTextSysexEvt(MediaItem_Take* take, int textsyxevtidx, const bool* selectedInOptional, const bool* mutedInOptional, const double* ppqposInOptional, const int* typeInOptional, const char* msgOptional, int msgOptional_sz, const bool* noSortInOptional)</functioncall>
         <functioncall prog_lang="eel">bool MIDI_SetTextSysexEvt(MediaItem_Take take, int textsyxevtidx, optional bool selectedIn, optional bool mutedIn, optional ppqposIn, optional int typeIn, optional "msg", optional bool noSortIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_SetTextSysexEvt(MediaItem_Take take, integer textsyxevtidx, optional boolean selectedIn, optional boolean mutedIn, optional number ppqposIn, optional number typeIn, optional string msg, optional boolean noSortIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.MIDI_SetTextSysexEvt(MediaItem_Take take, integer textsyxevtidx, optional boolean selectedIn, optional boolean mutedIn, optional number ppqposIn, optional integer typeIn, optional string msg, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_MIDI_SetTextSysexEvt(MediaItem_Take take, Int textsyxevtidx, const bool selectedInOptional, const bool mutedInOptional, const double ppqposInOptional, const int typeInOptional, String msgOptional, Int msgOptional_sz, const bool noSortInOptional)</functioncall>
         <requires>
             Reaper=6.00
@@ -12483,7 +12486,7 @@
             optional boolean selectedIn - 
             optional boolean mutedIn - 
             optional number ppqposIn - 
-            optional number typeIn - 
+            optional integer typeIn - 
             optional string msg - 
             optional boolean noSortIn - 
         </parameters>
@@ -12611,7 +12614,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.MIDIEditor_GetSetting_int(HWND midieditor, string setting_desc)</functioncall>
         <functioncall prog_lang="python">Int RPR_MIDIEditor_GetSetting_int(HWND midieditor, String setting_desc)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=6.41
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get settings from a MIDI editor. setting_desc can be:
@@ -12634,7 +12637,8 @@
                 default\_note\_chan: returns 0-15
                 default\_note\_len: returns default length in MIDI ticks
                 scale\_enabled: returns 0-1
-                scale\_root: returns 0-12 (0=C)
+                scale\_root: returns 0-12 (0=C) 
+                list\_cnt: if viewing list view, returns event count  
                 if setting\_desc is unsupported, the function returns -1.
                 See [MIDIEditor\_SetSetting\_int](#MIDIEditor_SetSetting_int), [MIDIEditor\_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_GetSetting\_str](#MIDIEditor_GetSetting_str)
         </description>
@@ -12656,17 +12660,19 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>MIDIEditor_GetSetting_str</slug>
         <title>MIDIEditor_GetSetting_str</title>
-        <functioncall prog_lang="cpp">bool MIDIEditor_GetSetting_str(HWND midieditor, const char* setting_desc, char* buf, int buf_sz)</functioncall>
+        <functioncall prog_lang="cpp">bool MIDIEditor_GetSetting_str(HWND midieditor, const char* setting_desc, char* bufOut, int bufOut_sz)</functioncall>
         <functioncall prog_lang="eel">bool MIDIEditor_GetSetting_str(HWND midieditor, "setting_desc", #buf)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string buf = reaper.MIDIEditor_GetSetting_str(HWND midieditor, string setting_desc, string buf)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, HWND midieditor, String setting_desc, String buf, Int buf_sz) = RPR_MIDIEditor_GetSetting_str(midieditor, setting_desc, buf, buf_sz)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string buf = reaper.MIDIEditor_GetSetting_str(HWND midieditor, string setting_desc)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, HWND midieditor, String setting_desc, String bufOut, Int bufOut_sz) = RPR_MIDIEditor_GetSetting_str(midieditor, setting_desc, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.41
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get settings from a MIDI editor. setting\_desc can be:
             last\_clicked\_cc\_lane: returns text description ("velocity", "pitch", etc)
             scale: returns the scale record, for example "102034050607" for a major scale
+            list\_X: if viewing list view, returns string describing event at row X (0-based). String will have a list of key=value pairs, e.g. 'pos=4.0 len=4.0 offvel=127 msg=90317F'. pos/len times are in QN, len/offvel may not be present if event is not a note. other keys which may be present include pos\_pq/len\_pq, sel, mute, ccval14, ccshape, ccbeztension.
+
             if setting\_desc is unsupported, the function returns false.
 
             See [MIDIEditor\_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_GetSetting_int](#MIDIEditor_GetSetting_int)
@@ -14659,7 +14665,7 @@
         <title>SetEnvelopePoint</title>
         <functioncall prog_lang="cpp">bool SetEnvelopePoint(TrackEnvelope* envelope, int ptidx, double* timeInOptional, double* valueInOptional, int* shapeInOptional, double* tensionInOptional, bool* selectedInOptional, bool* noSortInOptional)</functioncall>
         <functioncall prog_lang="eel">bool SetEnvelopePoint(TrackEnvelope envelope, int ptidx, optional timeIn, optional valueIn, optional int shapeIn, optional tensionIn, optional bool selectedIn, optional bool noSortIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.SetEnvelopePoint(TrackEnvelope envelope, integer ptidx, optional number timeIn, optional number valueIn, optional number shapeIn, optional number tensionIn, optional boolean selectedIn, optional boolean noSortIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.SetEnvelopePoint(TrackEnvelope envelope, integer ptidx, optional number timeIn, optional number valueIn, optional integer shapeIn, optional number tensionIn, optional boolean selectedIn, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int ptidx, Float timeInOptional, Float valueInOptional, Int shapeInOptional, Float tensionInOptional, Boolean selectedInOptional, Boolean noSortInOptional) = RPR_SetEnvelopePoint(envelope, ptidx, timeInOptional, valueInOptional, shapeInOptional, tensionInOptional, selectedInOptional, noSortInOptional)</functioncall>
         <requires>
             Reaper=5.979
@@ -14675,7 +14681,7 @@
             integer ptidx - 
             optional number timeIn -
             optional number valueIn - 
-            optional number shapeIn - 
+            optional integer shapeIn - 
             optional number tensionIn - 
             optional boolean selectedIn - 
             optional boolean noSortIn - 
@@ -14693,7 +14699,7 @@
         <title>SetEnvelopePointEx</title>
         <functioncall prog_lang="cpp">bool SetEnvelopePointEx(TrackEnvelope* envelope, int autoitem_idx, int ptidx, double* timeInOptional, double* valueInOptional, int* shapeInOptional, double* tensionInOptional, bool* selectedInOptional, bool* noSortInOptional)</functioncall>
         <functioncall prog_lang="eel">bool SetEnvelopePointEx(TrackEnvelope envelope, int autoitem_idx, int ptidx, optional timeIn, optional valueIn, optional int shapeIn, optional tensionIn, optional bool selectedIn, optional bool noSortIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.SetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx, optional number timeIn, optional number valueIn, optional number shapeIn, optional number tensionIn, optional boolean selectedIn, optional boolean noSortIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.SetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx, optional number timeIn, optional number valueIn, optional integer shapeIn, optional number tensionIn, optional boolean selectedIn, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Int ptidx, Float timeInOptional, Float valueInOptional, Int shapeInOptional, Float tensionInOptional, Boolean selectedInOptional, Boolean noSortInOptional) = RPR_SetEnvelopePointEx(envelope, autoitem_idx, ptidx, timeInOptional, valueInOptional, shapeInOptional, tensionInOptional, selectedInOptional, noSortInOptional)</functioncall>
         <requires>
             Reaper=5.979
@@ -14715,7 +14721,7 @@
             integer ptidx - 
             optional number timeIn - 
             optional number valueIn - 
-            optional number shapeIn - 
+            optional integer shapeIn - 
             optional number tensionIn - 
             optional boolean selectedIn - 
             optional boolean noSortIn - 
@@ -15576,7 +15582,7 @@
         <title>SetTakeMarker</title>
         <functioncall prog_lang="cpp">int index = SetTakeMarker(MediaItem_Take* take, int idx, const char* nameIn, double* srcposInOptional, int* colorInOptional)</functioncall>
         <functioncall prog_lang="eel">int index = SetTakeMarker(MediaItem_Take take, int idx, "nameIn", optional srcposIn, optional int colorIn)</functioncall>
-        <functioncall prog_lang="lua">integer index = reaper.SetTakeMarker(MediaItem_Take take, integer idx, string nameIn, optional number srcposIn, optional number colorIn)</functioncall>
+        <functioncall prog_lang="lua">integer index = reaper.SetTakeMarker(MediaItem_Take take, integer idx, string nameIn, optional number srcposIn, optional integer colorIn)</functioncall>
         <functioncall prog_lang="python">(Int index, MediaItem_Take take, Int idx, String nameIn, Float srcposInOptional, Int colorInOptional) = RPR_SetTakeMarker(take, idx, nameIn, srcposInOptional, colorInOptional)</functioncall>
         <requires>
             Reaper=6.09
@@ -15596,7 +15602,7 @@
             integer idx - the id of the marker within the take, 0 for the first, 1 for the second, etc.
             string nameIn - the name of the takemarker
             optional number srcposIn - the position of the takemarker; omit if you want to keep the old position; must be given, when inserting a new takemarker
-            optional number colorIn - the color of the takemarker
+            optional integer colorIn - the color of the takemarker
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -17459,10 +17465,10 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TakeFX_GetPinMappings</slug>
         <title>TakeFX_GetPinMappings</title>
-        <functioncall prog_lang="cpp">int TakeFX_GetPinMappings(MediaItem_Take* tr, int fx, int isOutput, int pin, int* high32OutOptional)</functioncall>
-        <functioncall prog_lang="eel">int TakeFX_GetPinMappings(MediaItem_Take tr, int fx, int is, int pin, optional int &amp;high32)</functioncall>
-        <functioncall prog_lang="lua">integer retval, optional integer high32 = reaper.TakeFX_GetPinMappings(MediaItem_Take tr, integer fx, integer is, integer pin)</functioncall>
-        <functioncall prog_lang="python">(Int retval, MediaItem_Take tr, Int fx, Int isOutput, Int pin, Int high32OutOptional) = RPR_TakeFX_GetPinMappings(tr, fx, isOutput, pin, high32OutOptional)</functioncall>
+        <functioncall prog_lang="cpp">int TakeFX_GetPinMappings(MediaItem_Take* take, int fx, int isOutput, int pin, int* high32OutOptional)</functioncall>
+        <functioncall prog_lang="eel">int TakeFX_GetPinMappings(MediaItem_Take take, int fx, int is, int pin, optional int &amp;high32)</functioncall>
+        <functioncall prog_lang="lua">integer retval, optional integer high32 = reaper.TakeFX_GetPinMappings(MediaItem_Take take, integer fx, integer is, integer pin)</functioncall>
+        <functioncall prog_lang="python">(Int retval, MediaItem_Take tr, Int fx, Int isOutput, Int pin, Int high32OutOptional) = RPR_TakeFX_GetPinMappings(take, fx, isOutput, pin, high32OutOptional)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -17474,7 +17480,7 @@
             optional integer high32 - 
         </retvals>
         <parameters>
-            integer tr - 
+            MediaItem_Take take - 
             integer fx - 
             integer is - 
             integer pin - 
@@ -17932,7 +17938,7 @@
         <title>ThemeLayout_GetParameter</title>
         <functioncall prog_lang="cpp">const char* ThemeLayout_GetParameter(int wp, const char** descOutOptional, int* valueOutOptional, int* defValueOutOptional, int* minValueOutOptional, int* maxValueOutOptional)</functioncall>
         <functioncall prog_lang="eel">bool ThemeLayout_GetParameter(#retval, int wp, optional #desc, optional int &value, optional int &defValue, optional int &minValue, optional int &maxValue)</functioncall>
-        <functioncall prog_lang="lua">string retval, optional string desc, optional number value, optional number defValue, optional number minValue, optional number maxValue = reaper.ThemeLayout_GetParameter(integer wp)</functioncall>
+        <functioncall prog_lang="lua">string retval, optional string desc, optional integer value, optional integer defValue, optional integer minValue, optional integer maxValue = reaper.ThemeLayout_GetParameter(integer wp)</functioncall>
         <functioncall prog_lang="python">(String retval, Int wp, String descOutOptional, Int valueOutOptional, Int defValueOutOptional, Int minValueOutOptional, Int maxValueOutOptional) = RPR_ThemeLayout_GetParameter(wp, descOutOptional, valueOutOptional, defValueOutOptional, minValueOutOptional, maxValueOutOptional)</functioncall>
         <requires>
             Reaper=5.972
@@ -17943,10 +17949,10 @@
         <retvals>
             string retval - 
             optional string desc - 
-            optional number value - 
-            optional number defValue - 
-            optional number minValue - 
-            optional number maxValue - 
+            optional integer value - 
+            optional integer defValue - 
+            optional integer minValue - 
+            optional integer maxValue - 
         </retvals>
         <parameters>
             integer wp - 
@@ -18371,7 +18377,7 @@
         <title>TimeMap_GetTimeSigAtTime</title>
         <functioncall prog_lang="cpp">void TimeMap_GetTimeSigAtTime(ReaProject* proj, double time, int* timesig_numOut, int* timesig_denomOut, double* tempoOut)</functioncall>
         <functioncall prog_lang="eel">TimeMap_GetTimeSigAtTime(ReaProject proj, time, int &amp;timesig_num, int &amp;timesig_denom, &amp;tempo)</functioncall>
-        <functioncall prog_lang="lua">number timesig_num retval, number timesig_denom, number tempo = reaper.TimeMap_GetTimeSigAtTime(ReaProject proj, number time)</functioncall>
+        <functioncall prog_lang="lua">integer timesig_num, integer timesig_denom, number tempo = reaper.TimeMap_GetTimeSigAtTime(ReaProject proj, number time)</functioncall>
         <functioncall prog_lang="python">(ReaProject proj, Float time, Int timesig_numOut, Int timesig_denomOut, Float tempoOut) = RPR_TimeMap_GetTimeSigAtTime(proj, time, timesig_numOut, timesig_denomOut, tempoOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -18380,8 +18386,8 @@
             get the effective time signature and tempo
         </description>
         <retvals>
-            number timesig_num retval - 
-            number timesig_denom - 
+            integer timesig_num - 
+            integer timesig_denom - 
             number tempo - 
         </retvals>
         <parameters>
@@ -19053,7 +19059,7 @@
         <title>TrackFX_GetEQParam</title>
         <functioncall prog_lang="cpp">bool TrackFX_GetEQParam(MediaTrack* track, int fx, int paramidx, int* bandtypeOut, int* bandidxOut, int* paramtypeOut, double* normvalOut)</functioncall>
         <functioncall prog_lang="eel">bool TrackFX_GetEQParam(MediaTrack track, int fx, int paramidx, int &amp;bandtype, int &amp;bandidx, int &amp;paramtype, &amp;normval)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number bandtype, number bandidx, number paramtype, number normval = reaper.TrackFX_GetEQParam(MediaTrack track, integer fx, integer paramidx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer bandtype, integer bandidx, integer paramtype, number normval = reaper.TrackFX_GetEQParam(MediaTrack track, integer fx, integer paramidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int paramidx, Int bandtypeOut, Int bandidxOut, Int paramtypeOut, Float normvalOut) = RPR_TrackFX_GetEQParam(track, fxidx, paramidx, bandtypeOut, bandidxOut, paramtypeOut, normvalOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -19071,7 +19077,7 @@
         </description>
         <retvals>
             boolean retval - true, if it's a ReaEQ-instance; false, is not a ReaEQ-instance or in case of an error
-            number bandtype - the bandtype of the band to change;
+            integer bandtype - the bandtype of the band to change;
                             - -1, master gain
                             - 0, lhipass
                             - 1, loshelf
@@ -19079,8 +19085,8 @@
                             - 3, notch
                             - 4, hishelf
                             - 5, lopass 
-            number bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc. 
-            number paramtype - 0, freq; 1, gain; 2, Q 
+            integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc. 
+            integer paramtype - 0, freq; 1, gain; 2, Q 
             number normval - the normalized value
         </retvals>
         <parameters>
@@ -21435,7 +21441,7 @@
         <title>BR_EnvGetPoint(SWS)</title>
         <functioncall prog_lang="cpp">bool BR_EnvGetPoint(BR_Envelope* envelope, int id, double* positionOut, double* valueOut, int* shapeOut, bool* selectedOut, double* bezierOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("BR_EnvGetPoint", BR_Envelope envelope, int id, &amp;position, &amp;value, int &amp;shape, bool &amp;selected, &amp;bezier)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number position, number value, number shape, boolean selected, number bezier = reaper.BR_EnvGetPoint(BR_Envelope envelope, integer id)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, number position, number value, integer shape, boolean selected, number bezier = reaper.BR_EnvGetPoint(BR_Envelope envelope, integer id)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, BR_Envelope envelope, Int id, Float positionOut, Float valueOut, Int shapeOut, Boolean selectedOut, Float bezierOut) = BR_EnvGetPoint(envelope, id, positionOut, valueOut, shapeOut, selectedOut, bezierOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -21448,7 +21454,7 @@
             boolean retval - 
             number position - 
             number value - 
-            number shape - 
+            integer shape - 
             boolean selected - 
             number bezier - 
         </retvals>
@@ -21469,7 +21475,7 @@
         <title>BR_EnvGetProperties(SWS)</title>
         <functioncall prog_lang="cpp">void BR_EnvGetProperties(BR_Envelope* envelope, bool* activeOut, bool* visibleOut, bool* armedOut, bool* inLaneOut, int* laneHeightOut, int* defaultShapeOut, double* minValueOut, double* maxValueOut, double* centerValueOut, int* typeOut, bool* faderScalingOut, int* automationItemsOptionsOutOptional)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_EnvGetProperties", BR_Envelope envelope, bool &active, bool &visible, bool &armed, bool &inLane, int &laneHeight, int &defaultShape, &minValue, &maxValue, &centerValue, int &type, bool &faderScaling, optional int &automationItemsOptions)</functioncall>
-        <functioncall prog_lang="lua">boolean active, boolean visible, boolean armed, boolean inLane, number laneHeight, number defaultShape, number minValue, number maxValue, number centerValue, number type, boolean faderScaling, optional number automationItemsOptions = reaper.BR_EnvGetProperties(BR_Envelope envelope)</functioncall>
+        <functioncall prog_lang="lua">boolean active, boolean visible, boolean armed, boolean inLane, integer laneHeight, integer defaultShape, number minValue, number maxValue, number centerValue, integer type, boolean faderScaling, optional integer automationItemsOptions = reaper.BR_EnvGetProperties(BR_Envelope envelope)</functioncall>
         <functioncall prog_lang="python">(BR_Envelope envelope, Boolean activeOut, Boolean visibleOut, Boolean armedOut, Boolean inLaneOut, Int laneHeightOut, Int defaultShapeOut, Float minValueOut, Float maxValueOut, Float centerValueOut, Int typeOut, Boolean faderScalingOut, Int automationItemsOptionsOutOptional) = BR_EnvGetProperties(envelope, activeOut, visibleOut, armedOut, inLaneOut, laneHeightOut, defaultShapeOut, minValueOut, maxValueOut, centerValueOut, typeOut, faderScalingOut, automationItemsOptionsOutOptional)</functioncall>
         <requires>
             Reaper=5.62
@@ -21495,14 +21501,14 @@
             boolean visible - 
             boolean armed - 
             boolean inLane - 
-            number laneHeight - 
-            number defaultShape - 
+            integer laneHeight - 
+            integer defaultShape - 
             number minValue - 
             number maxValue - 
             number centerValue - 
-            number type - 
+            integer type - 
             boolean faderScaling - 
-            optional number automationItemsOptions - 
+            optional integer automationItemsOptions - 
         </retvals>
         <parameters>
             BR_Envelope envelope - 
@@ -21555,7 +21561,7 @@
         <title>BR_EnvSetProperties(SWS)</title>
         <functioncall prog_lang="cpp">void BR_EnvSetProperties(BR_Envelope* envelope, bool active, bool visible, bool armed, bool inLane, int laneHeight, int defaultShape, bool faderScaling, int* automationItemsOptionsInOptional)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_EnvSetProperties", BR_Envelope envelope, bool active, bool visible, bool armed, bool inLane, int laneHeight, int defaultShape, bool faderScaling, optional int automationItemsOptionsIn)</functioncall>
-        <functioncall prog_lang="lua">reaper.BR_EnvSetProperties(BR_Envelope envelope, boolean active, boolean visible, boolean armed, boolean inLane, integer laneHeight, integer defaultShape, boolean faderScaling, optional number automationItemsOptionsIn)</functioncall>
+        <functioncall prog_lang="lua">reaper.BR_EnvSetProperties(BR_Envelope envelope, boolean active, boolean visible, boolean armed, boolean inLane, integer laneHeight, integer defaultShape, boolean faderScaling, optional integer automationItemsOptionsIn)</functioncall>
         <functioncall prog_lang="python">(BR_Envelope envelope, Boolean active, Boolean visible, Boolean armed, Boolean inLane, Int laneHeight, Int defaultShape, Boolean faderScaling, Int automationItemsOptionsInOptional) = BR_EnvSetProperties(envelope, active, visible, armed, inLane, laneHeight, defaultShape, faderScaling, automationItemsOptionsInOptional)</functioncall>
         <requires>
             Reaper=5.979
@@ -21574,7 +21580,7 @@
             integer laneHeight - 
             integer defaultShape - 
             boolean faderScaling - 
-            optional number automationItemsOptionsIn - 
+            optional integer automationItemsOptionsIn - 
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -21795,7 +21801,7 @@
         <retvals>
             boolean retval - 
             string image - 
-            number imageFlags - 
+            integer imageFlags - 
         </retvals>
         <parameters>
             MediaItem item - 
@@ -22975,7 +22981,7 @@
         <title>BR_TrackAtMouseCursor(SWS)</title>
         <functioncall prog_lang="cpp">MediaTrack* BR_TrackAtMouseCursor(int* contextOut, double* positionOut)</functioncall>
         <functioncall prog_lang="eel">MediaTrack extension_api("BR_TrackAtMouseCursor", int &amp;context, &amp;position)</functioncall>
-        <functioncall prog_lang="lua">MediaTrack retval, number context, number position = reaper.BR_TrackAtMouseCursor()</functioncall>
+        <functioncall prog_lang="lua">MediaTrack retval, integer context, number position = reaper.BR_TrackAtMouseCursor()</functioncall>
         <functioncall prog_lang="python">(MediaTrack retval, Int contextOut, Float positionOut) = BR_TrackAtMouseCursor(contextOut, positionOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -22988,7 +22994,7 @@
         </description>
         <retvals>
             MediaItem retval - 
-            number context - 
+            integer context - 
             number position - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -24620,7 +24626,7 @@
         <title>SNM_GetLongConfigVar(SWS)</title>
         <functioncall prog_lang="cpp">bool SNM_GetLongConfigVar(const char* varname, int* highOut, int* lowOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("SNM_GetLongConfigVar", "varname", int &high, int &low)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number high, number low = reaper.SNM_GetLongConfigVar(string varname)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer high, integer low = reaper.SNM_GetLongConfigVar(string varname)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, String varname, Int highOut, Int lowOut) = SNM_GetLongConfigVar(varname, highOut, lowOut)</functioncall>
         <requires>
             Reaper=5.80
@@ -24633,8 +24639,8 @@
         </description>
         <retvals>
             boolean retval - true, varname was found; false, varname wasn't found
-            number high - the high-32bits of the value
-            number low - the low-32bits of the value
+            integer high - the high-32bits of the value
+            integer low - the low-32bits of the value
         </retvals>
         <parameters>
             string varname - the name of the config-variable to be read; not case sensitive
@@ -25433,7 +25439,7 @@
         <title>JS_Byte(JS)</title>
         <functioncall prog_lang="cpp">void JS_Byte(void* pointer, int offset, int* byteOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("JS_Byte", void* pointer, int offset, int &amp;byte)</functioncall>
-        <functioncall prog_lang="lua">number byte = reaper.JS_Byte(identifier pointer, integer offset)</functioncall>
+        <functioncall prog_lang="lua">integer byte = reaper.JS_Byte(identifier pointer, integer offset)</functioncall>
         <functioncall prog_lang="python">(void pointer, Int offset, Int byteOut) = JS_Byte(pointer, offset, byteOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -25444,7 +25450,7 @@
 
         </description>
         <retvals>
-           number byte - 
+           integer byte - 
         </retvals>
         <parameters>
            identifier address - 
@@ -25526,7 +25532,7 @@
         <title>JS_Composite_Delay(JS)</title>
         <functioncall prog_lang="cpp">int JS_Composite_Delay(void* windowHWND, double minTime, double maxTime, int numBitmapsWhenMax, double* prevMinTimeOut, double* prevMaxTimeOut, int* prevBitmapsOut)</functioncall>
         <functioncall prog_lang="eel">int extension_api("JS_Composite_Delay", void* windowHWND, minTime, maxTime, int numBitmapsWhenMax, &prevMinTime, &prevMaxTime, int &prevBitmaps)</functioncall>
-        <functioncall prog_lang="lua">integer retval, number prevMinTime, number prevMaxTime, number prevBitmaps = reaper.JS_Composite_Delay(identifier windowHWND, number minTime, number maxTime, integer numBitmapsWhenMax)</functioncall>
+        <functioncall prog_lang="lua">integer retval, number prevMinTime, number prevMaxTime, integer prevBitmaps = reaper.JS_Composite_Delay(identifier windowHWND, number minTime, number maxTime, integer numBitmapsWhenMax)</functioncall>
         <functioncall prog_lang="python">(Int retval, void windowHWND, Float minTime, Float maxTime, Int numBitmapsWhenMax, Float prevMinTimeOut, Float prevMaxTimeOut, Int prevBitmapsOut) = JS_Composite_Delay(windowHWND, minTime, maxTime, numBitmapsWhenMax, prevMinTimeOut, prevMaxTimeOut, prevBitmapsOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -25547,7 +25553,7 @@
            integer retval - 
            number prevMinTime - 
            number prevMaxTime - 
-           number prevBitmaps - 
+           integer prevBitmaps - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -25662,7 +25668,7 @@
         <title>JS_File_Stat(JS)</title>
         <functioncall prog_lang="cpp">int JS_File_Stat(const char* filePath, double* sizeOut, char* accessedTimeOut, char* modifiedTimeOut, char* cTimeOut, int* deviceIDOut, int* deviceSpecialIDOut, int* inodeOut, int* modeOut, int* numLinksOut, int* ownerUserIDOut, int* ownerGroupIDOut)</functioncall>
         <functioncall prog_lang="eel">int extension_api("JS_File_Stat", "filePath", &size, #accessedTime, #modifiedTime, #cTime, int &deviceID, int &deviceSpecialID, int &inode, int &mode, int &numLinks, int &ownerUserID, int &ownerGroupID)</functioncall>
-        <functioncall prog_lang="lua">integer retval, number size, string accessedTime, string modifiedTime, string cTime, number deviceID, number deviceSpecialID, number inode, number mode, number numLinks, number ownerUserID, number ownerGroupID = reaper.JS_File_Stat(string filePath)</functioncall>
+        <functioncall prog_lang="lua">integer retval, number size, string accessedTime, string modifiedTime, string cTime, integer deviceID, integer deviceSpecialID, integer inode, integer mode, integer numLinks, integer ownerUserID, integer ownerGroupID = reaper.JS_File_Stat(string filePath)</functioncall>
         <functioncall prog_lang="python">(Int retval, String filePath, Float sizeOut, String accessedTimeOut, String modifiedTimeOut, String cTimeOut, Int deviceIDOut, Int deviceSpecialIDOut, Int inodeOut, Int modeOut, Int numLinksOut, Int ownerUserIDOut, Int ownerGroupIDOut) = JS_File_Stat(filePath, sizeOut, accessedTimeOut, modifiedTimeOut, cTimeOut, deviceIDOut, deviceSpecialIDOut, inodeOut, modeOut, numLinksOut, ownerUserIDOut, ownerGroupIDOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -25681,13 +25687,13 @@
            string accessedTime - the last time the file was accessed
            string modifiedTime - the last time the file was modified
            string cTime - the time the file was created(Windows) or the last time its status had changed(Mac and Linux)
-           number deviceID - the ID of the device
-           number deviceSpecialID - the special ID of the file
-           number inode - the inode
-           number mode - the attributes set
-           number numLinks - the number of links
-           number ownerUserID - ID of the user the file belongs to
-           number ownerGroupID - ID of the group the file belongs to
+           integer deviceID - the ID of the device
+           integer deviceSpecialID - the special ID of the file
+           integer inode - the inode
+           integer mode - the attributes set
+           integer numLinks - the number of links
+           integer ownerUserID - ID of the user the file belongs to
+           integer ownerGroupID - ID of the group the file belongs to
         </retvals>
         <parameters>
            string filePath - the file, whose file-stats you want to get
@@ -26440,7 +26446,7 @@
         <title>JS_Int(JS)</title>
         <functioncall prog_lang="cpp">void JS_Int(void* pointer, int offset, int* intOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("JS_Int", void* pointer, int offset, int &amp;int)</functioncall>
-        <functioncall prog_lang="lua">number int = reaper.JS_Int(identifier pointer, integer offset)</functioncall>
+        <functioncall prog_lang="lua">integer int = reaper.JS_Int(identifier pointer, integer offset)</functioncall>
         <functioncall prog_lang="python">(void pointer, Int offset, Int intOut) = JS_Int(pointer, offset, intOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -26451,7 +26457,7 @@
 
         </description>
         <retvals>
-           number int   - 
+           integer int   - 
         </retvals>
         <parameters>
            identifier address - 
@@ -27364,7 +27370,7 @@
         <title>JS_LICE_MeasureText(JS)</title>
         <functioncall prog_lang="cpp">void JS_LICE_MeasureText(const char* text, int* widthOut, int* HeightOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("JS_LICE_MeasureText", "text", int &width, int &Height)</functioncall>
-        <functioncall prog_lang="lua">number width, number Height = reaper.JS_LICE_MeasureText(string text)</functioncall>
+        <functioncall prog_lang="lua">integer width, integer Height = reaper.JS_LICE_MeasureText(string text)</functioncall>
         <functioncall prog_lang="python">(String text, Int widthOut, Int HeightOut) = JS_LICE_MeasureText(text, widthOut, HeightOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -27374,8 +27380,8 @@
 
         </description>
         <retvals>
-           number width - 
-           number Height - 
+           integer width - 
+           integer Height - 
         </retvals>
         <parameters>
            string text - 
@@ -28647,7 +28653,7 @@
         <title>JS_WindowMessage_Peek(JS)</title>
         <functioncall prog_lang="cpp">bool JS_WindowMessage_Peek(void* windowHWND, const char* message, bool* passedThroughOut, double* timeOut, int* wParamLowOut, int* wParamHighOut, int* lParamLowOut, int* lParamHighOut)</functioncall>
         <functioncall prog_lang="eel">bool  extension_api("JS_WindowMessage_Peek", void* windowHWND, "message", bool &amp;passedThrough, &amp;time, int &amp;wParamLow, int &amp;wParamHigh, int &amp;lParamLow, int &amp;lParamHigh)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, boolean passedThrough, number time, number wParamLow, number wParamHigh, number lParamLow, number lParamHigh = reaper.JS_WindowMessage_Peek(identifier windowHWND, string message)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, boolean passedThrough, number time, integer wParamLow, integer wParamHigh, integer lParamLow, integer lParamHigh = reaper.JS_WindowMessage_Peek(identifier windowHWND, string message)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, void windowHWND, String message, Boolean passedThroughOut, Float timeOut, Int wParamLowOut, Int wParamHighOut, Int lParamLowOut, Int lParamHighOut) = JS_WindowMessage_Peek(windowHWND, message, passedThroughOut, timeOut, wParamLowOut, wParamHighOut, lParamLowOut, lParamHighOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -28683,10 +28689,10 @@
            boolean retval - 
            boolean passedThrough - 
            number time - 
-           number wParamLow - 
-           number wParamHigh - 
-           number lParamLow - 
-           number lParamHigh   - 
+           integer wParamLow - 
+           integer wParamHigh - 
+           integer lParamLow - 
+           integer lParamHigh   - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -29065,7 +29071,7 @@
         <title>JS_Window_ClientToScreen(JS)</title>
         <functioncall prog_lang="cpp">void JS_Window_ClientToScreen(void* windowHWND, int x, int y, int* xOut, int* yOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("JS_Window_ClientToScreen", void* windowHWND, int x, int y, int &amp;x, int &amp;y)</functioncall>
-        <functioncall prog_lang="lua">number x, number y = reaper.JS_Window_ClientToScreen(identifier windowHWND, integer x, integer y)</functioncall>
+        <functioncall prog_lang="lua">integer x, integer y = reaper.JS_Window_ClientToScreen(identifier windowHWND, integer x, integer y)</functioncall>
         <functioncall prog_lang="python">(void windowHWND, Int x, Int y, Int xOut, Int yOut) = JS_Window_ClientToScreen(windowHWND, x, y, xOut, yOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -29076,8 +29082,8 @@
 
         </description>
         <retvals>
-           number x - 
-           number y   - 
+           integer x - 
+           integer y   - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -29469,7 +29475,7 @@
         <title>JS_Window_GetClientRect(JS)</title>
         <functioncall prog_lang="cpp">bool JS_Window_GetClientRect(void* windowHWND, int* leftOut, int* topOut, int* rightOut, int* bottomOut)</functioncall>
         <functioncall prog_lang="eel">bool  extension_api("JS_Window_GetClientRect", void* windowHWND, int &amp;left, int &amp;top, int &amp;right, int &amp;bottom)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number left, number top, number right, number bottom = reaper.JS_Window_GetClientRect(identifier windowHWND)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer left, integer top, integer right, integer bottom = reaper.JS_Window_GetClientRect(identifier windowHWND)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, void windowHWND, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = JS_Window_GetClientRect(windowHWND, leftOut, topOut, rightOut, bottomOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -29484,10 +29490,10 @@
         </description>
         <retvals>
            boolean retval - 
-           number left - 
-           number top - 
-           number right - 
-           number bottom   - 
+           integer left - 
+           integer top - 
+           integer right - 
+           integer bottom   - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -29505,7 +29511,7 @@
         <title>JS_Window_GetClientSize(JS)</title>
         <functioncall prog_lang="cpp">bool JS_Window_GetClientSize(void* windowHWND, int* widthOut, int* heightOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("JS_Window_GetClientSize", void* windowHWND, int &width, int &height)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number width, number height = reaper.JS_Window_GetClientSize(identifier windowHWND)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer width, integer height = reaper.JS_Window_GetClientSize(identifier windowHWND)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, void windowHWND, Int widthOut, Int heightOut) = JS_Window_GetClientSize(windowHWND, widthOut, heightOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -29517,8 +29523,8 @@
         </description>
         <retvals>
            boolean retval - 
-           number width - 
-           number height - 
+           integer width - 
+           integer height - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -29688,7 +29694,7 @@
         <title>JS_Window_GetRect(JS)</title>
         <functioncall prog_lang="cpp">bool JS_Window_GetRect(void* windowHWND, int* leftOut, int* topOut, int* rightOut, int* bottomOut)</functioncall>
         <functioncall prog_lang="eel">bool  extension_api("JS_Window_GetRect", void* windowHWND, int &amp;left, int &amp;top, int &amp;right, int &amp;bottom)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number left, number top, number right, number bottom = reaper.JS_Window_GetRect(identifier windowHWND)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer left, integer top, integer right, integer bottom = reaper.JS_Window_GetRect(identifier windowHWND)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, void windowHWND, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = JS_Window_GetRect(windowHWND, leftOut, topOut, rightOut, bottomOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -29701,10 +29707,10 @@
         </description>
         <retvals>
            boolean retval - 
-           number left - 
-           number top - 
-           number right - 
-           number bottom   - 
+           integer left - 
+           integer top - 
+           integer right - 
+           integer bottom   - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -29755,7 +29761,7 @@
         <title>JS_Window_GetScrollInfo(JS)</title>
         <functioncall prog_lang="cpp">bool JS_Window_GetScrollInfo(void* windowHWND, const char* scrollbar, int* positionOut, int* pageSizeOut, int* minOut, int* maxOut, int* trackPosOut)</functioncall>
         <functioncall prog_lang="eel">bool  extension_api("JS_Window_GetScrollInfo", void* windowHWND, "scrollbar", int &amp;position, int &amp;pageSize, int &amp;min, int &amp;max, int &amp;trackPos)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number position, number pageSize, number min, number max, number trackPos = reaper.JS_Window_GetScrollInfo(identifier windowHWND, string scrollbar)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer position, integer pageSize, integer min, integer max, integer trackPos = reaper.JS_Window_GetScrollInfo(identifier windowHWND, string scrollbar)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, void windowHWND, String scrollbar, Int positionOut, Int pageSizeOut, Int minOut, Int maxOut, Int trackPosOut) = JS_Window_GetScrollInfo(windowHWND, scrollbar, positionOut, pageSizeOut, minOut, maxOut, trackPosOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -29773,11 +29779,11 @@
         </description>
         <retvals>
            boolean retval - 
-           number position - 
-           number pageSize - 
-           number min - 
-           number max - 
-           number trackPos   - 
+           integer position - 
+           integer pageSize - 
+           integer min - 
+           integer max - 
+           integer trackPos   - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -29826,7 +29832,7 @@
         <title>JS_Window_GetViewportFromRect(JS)</title>
         <functioncall prog_lang="cpp">void JS_Window_GetViewportFromRect(int x1, int y1, int x2, int y2, bool wantWork, int* leftOut, int* topOut, int* rightOut, int* bottomOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("JS_Window_GetViewportFromRect", int x1, int y1, int x2, int y2, bool wantWork, int &left, int &top, int &right, int &bottom)</functioncall>
-        <functioncall prog_lang="lua">number left, number top, number right, number bottom = reaper.JS_Window_GetViewportFromRect(integer x1, integer y1, integer x2, integer y2, boolean wantWork)</functioncall>
+        <functioncall prog_lang="lua">integer left, integer top, integer right, integer bottom = reaper.JS_Window_GetViewportFromRect(integer x1, integer y1, integer x2, integer y2, boolean wantWork)</functioncall>
         <functioncall prog_lang="python">(Int x1, Int y1, Int x2, Int y2, Boolean wantWork, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = JS_Window_GetViewportFromRect(x1, y1, x2, y2, wantWork, leftOut, topOut, rightOut, bottomOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -29840,10 +29846,10 @@
             wantWork: Returns the work area of the display, which excludes the system taskbar or application desktop toolbars.
         </description>
         <retvals>
-           number left - 
-           number top - 
-           number right - 
-           number bottom - 
+           integer left - 
+           integer top - 
+           integer right - 
+           integer bottom - 
         </retvals>
         <parameters>
            integer x1 - 
@@ -30121,7 +30127,7 @@
         <title>JS_Window_MonitorFromRect(JS)</title>
         <functioncall prog_lang="cpp">void JS_Window_MonitorFromRect(int x1, int y1, int x2, int y2, bool wantWork, int* leftOut, int* topOut, int* rightOut, int* bottomOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("JS_Window_MonitorFromRect", int x1, int y1, int x2, int y2, bool wantWork, int &left, int &top, int &right, int &bottom)</functioncall>
-        <functioncall prog_lang="lua">number left, number top, number right, number bottom = reaper.JS_Window_MonitorFromRect(integer x1, integer y1, integer x2, integer y2, boolean wantWork)</functioncall>
+        <functioncall prog_lang="lua">integer left, integer top, integer right, integer bottom = reaper.JS_Window_MonitorFromRect(integer x1, integer y1, integer x2, integer y2, boolean wantWork)</functioncall>
         <functioncall prog_lang="python">(Int x1, Int y1, Int x2, Int y2, Boolean wantWork, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = JS_Window_MonitorFromRect(x1, y1, x2, y2, wantWork, leftOut, topOut, rightOut, bottomOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -30131,10 +30137,10 @@
             Deprecated - use [GetViewportFromRect](#GetViewportFromRect) instead.
         </description>
         <retvals>
-            number left - 
-            number top - 
-            number right - 
-            number bottom - 
+            integer left - 
+            integer top - 
+            integer right - 
+            integer bottom - 
         </retvals>
         <parameters>
            integer x1 - 
@@ -30284,7 +30290,7 @@
         <title>JS_Window_ScreenToClient(JS)</title>
         <functioncall prog_lang="cpp">void JS_Window_ScreenToClient(void* windowHWND, int x, int y, int* xOut, int* yOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("JS_Window_ScreenToClient", void* windowHWND, int x, int y, int &amp;x, int &amp;y)</functioncall>
-        <functioncall prog_lang="lua">number x, number y = reaper.JS_Window_ScreenToClient(identifier windowHWND, integer x, integer y)</functioncall>
+        <functioncall prog_lang="lua">integer x, integer y = reaper.JS_Window_ScreenToClient(identifier windowHWND, integer x, integer y)</functioncall>
         <functioncall prog_lang="python">(void windowHWND, Int x, Int y, Int xOut, Int yOut) = JS_Window_ScreenToClient(windowHWND, x, y, xOut, yOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -30295,8 +30301,8 @@
 
         </description>
         <retvals>
-           number x - 
-           number y   - 
+           integer x - 
+           integer y   - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -30907,7 +30913,7 @@
         <title>JS_ListView_GetItem(JS)</title>
         <functioncall prog_lang="cpp">void JS_ListView_GetItem(void* listviewHWND, int index, int subItem, char* textOut, int textOut_sz, int* stateOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("JS_ListView_GetItem", void* listviewHWND, int index, int subItem, #text, int &state)</functioncall>
-        <functioncall prog_lang="lua">string text, number state = reaper.JS_ListView_GetItem(identifier listviewHWND, integer index, integer subItem)</functioncall>
+        <functioncall prog_lang="lua">string text, integer state = reaper.JS_ListView_GetItem(identifier listviewHWND, integer index, integer subItem)</functioncall>
         <functioncall prog_lang="python">(void listviewHWND, Int index, Int subItem, String textOut, Int textOut_sz, Int stateOut) = JS_ListView_GetItem(listviewHWND, index, subItem, textOut, textOut_sz, stateOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -30923,7 +30929,7 @@
         </parameters>
         <retvals>
            string text - 
-           number state - 
+           integer state - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -30967,7 +30973,7 @@
         <title>JS_ListView_GetItemRect(JS)</title>
         <functioncall prog_lang="cpp">bool JS_ListView_GetItemRect(void* listviewHWND, int index, int* leftOut, int* topOut, int* rightOut, int* bottomOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("JS_ListView_GetItemRect", void* listviewHWND, int index, int &left, int &top, int &right, int &bottom)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number left, number top, number right, number bottom = reaper.JS_ListView_GetItemRect(identifier listviewHWND, integer index)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer left, integer top, integer right, integer bottom = reaper.JS_ListView_GetItemRect(identifier listviewHWND, integer index)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, void listviewHWND, Int index, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = JS_ListView_GetItemRect(listviewHWND, index, leftOut, topOut, rightOut, bottomOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -30982,10 +30988,10 @@
         </parameters>
         <retvals>
            boolean retval - 
-           number left - 
-           number top - 
-           number right - 
-           number bottom - 
+           integer left - 
+           integer top - 
+           integer right - 
+           integer bottom - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -31125,7 +31131,7 @@
         <title>JS_ListView_HitTest(JS)</title>
         <functioncall prog_lang="cpp">void JS_ListView_HitTest(void* listviewHWND, int clientX, int clientY, int* indexOut, int* subItemOut, int* flagsOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("JS_ListView_HitTest", void* listviewHWND, int clientX, int clientY, int &index, int &subItem, int &flags)</functioncall>
-        <functioncall prog_lang="lua">number index, number subItem, number flags = reaper.JS_ListView_HitTest(identifier listviewHWND, integer clientX, integer clientY)</functioncall>
+        <functioncall prog_lang="lua">integer index, integer subItem, integer flags = reaper.JS_ListView_HitTest(identifier listviewHWND, integer clientX, integer clientY)</functioncall>
         <functioncall prog_lang="python">(void listviewHWND, Int clientX, Int clientY, Int indexOut, Int subItemOut, Int flagsOut) = JS_ListView_HitTest(listviewHWND, clientX, clientY, indexOut, subItemOut, flagsOut)</functioncall>
         <requires>
             Reaper=5.974
@@ -31140,9 +31146,9 @@
            integer clientY - 
         </parameters>
         <retvals>
-           number index - 
-           number subItem - 
-           number flags - 
+           integer index - 
+           integer subItem - 
+           integer flags - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -31372,7 +31378,7 @@
         <title>Xen_StartSourcePreview(JS)</title>
         <functioncall prog_lang="cpp">int Xen_StartSourcePreview(PCM_source* source, double gain, bool loop, int* outputchanindexInOptional)</functioncall>
         <functioncall prog_lang="eel">int extension_api("Xen_StartSourcePreview", PCM_source source, gain, bool loop, optional int outputchanindexIn)</functioncall>
-        <functioncall prog_lang="lua">integer retval = reaper.Xen_StartSourcePreview(PCM_source source, number gain, boolean loop, optional number outputchanindexIn)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.Xen_StartSourcePreview(PCM_source source, number gain, boolean loop, optional integer outputchanindexIn)</functioncall>
         <functioncall prog_lang="python">(Int retval, PCM_source source, Float gain, Boolean loop, Int outputchanindexInOptional) = Xen_StartSourcePreview(source, gain, loop, outputchanindexInOptional)</functioncall>
         <requires>
             Reaper=5.974
@@ -31394,7 +31400,7 @@
            PCM_source source - a PCM_source-created using a mediafile/item 
            number gain - the volume of the previewed pcm_source
            boolean loop - true, loop the PCM_source; false, play only once
-           optional number outputchanindexIn - the output channel; for multichannel files, this is the first hardware-output-channel for e.g. left channel of a stereo file
+           optional integer outputchanindexIn - the output channel; for multichannel files, this is the first hardware-output-channel for e.g. left channel of a stereo file
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -31505,7 +31511,7 @@
         <title>BR_Win32_ClientToScreen(SWS)</title>
         <functioncall prog_lang="cpp">void BR_Win32_ClientToScreen(void* hwnd, int xIn, int yIn, int* xOut, int* yOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_Win32_ClientToScreen", void* hwnd, int xIn, int yIn, int &amp;x, int &amp;y)</functioncall>
-        <functioncall prog_lang="lua">number x, number y = reaper.BR_Win32_ClientToScreen(identifier hwnd, integer xIn, integer yIn)</functioncall>
+        <functioncall prog_lang="lua">integer x, integer y = reaper.BR_Win32_ClientToScreen(identifier hwnd, integer xIn, integer yIn)</functioncall>
         <functioncall prog_lang="python">(void hwnd, Int xIn, Int yIn, Int xOut, Int yOut) = BR_Win32_ClientToScreen(hwnd, xIn, yIn, xOut, yOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -31513,11 +31519,10 @@
         </requires>
         <description prog_lang="*">
             [BR] Equivalent to win32 API ClientToScreen().
-
         </description>
         <retvals>
-            number x - 
-            number y -
+            integer x - 
+            integer y -
         </retvals>
         <parameters>
             identifier hwnd - 
@@ -31677,7 +31682,7 @@
         <title>BR_Win32_GetCursorPos(SWS)</title>
         <functioncall prog_lang="cpp">bool BR_Win32_GetCursorPos(int* xOut, int* yOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("BR_Win32_GetCursorPos", int &amp;x, int &amp;y)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number x, number y = reaper.BR_Win32_GetCursorPos()</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer x, integer y = reaper.BR_Win32_GetCursorPos()</functioncall>
         <functioncall prog_lang="python">(Boolean retval, Int xOut, Int yOut) = BR_Win32_GetCursorPos(xOut, yOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -31689,8 +31694,8 @@
         </description>
         <retvals>
             boolean retval - 
-            number x - 
-            number y - 
+            integer x - 
+            integer y - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -31819,7 +31824,7 @@
         <title>BR_Win32_GetMonitorRectFromRect(SWS)</title>
         <functioncall prog_lang="cpp">void BR_Win32_GetMonitorRectFromRect(bool workingAreaOnly, int leftIn, int topIn, int rightIn, int bottomIn, int* leftOut, int* topOut, int* rightOut, int* bottomOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_Win32_GetMonitorRectFromRect", bool workingAreaOnly, int leftIn, int topIn, int rightIn, int bottomIn, int &amp;left, int &amp;top, int &amp;right, int &amp;bottom)</functioncall>
-        <functioncall prog_lang="lua">number left, number top, number right, number bottom = reaper.BR_Win32_GetMonitorRectFromRect(boolean workingAreaOnly, integer leftIn, integer topIn, integer rightIn, integer bottomIn)</functioncall>
+        <functioncall prog_lang="lua">integer left, integer top, integer right, integer bottom = reaper.BR_Win32_GetMonitorRectFromRect(boolean workingAreaOnly, integer leftIn, integer topIn, integer rightIn, integer bottomIn)</functioncall>
         <functioncall prog_lang="python">(Boolean workingAreaOnly, Int leftIn, Int topIn, Int rightIn, Int bottomIn, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = BR_Win32_GetMonitorRectFromRect(workingAreaOnly, leftIn, topIn, rightIn, bottomIn, leftOut, topOut, rightOut, bottomOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -31830,10 +31835,10 @@
 
         </description>
         <retvals>
-            number left - 
-            number top - 
-            number right - 
-            number bottom - 
+            integer left - 
+            integer top - 
+            integer right - 
+            integer bottom - 
         </retvals>
         <parameters>
             boolean workingAreaOnly - 
@@ -31952,7 +31957,7 @@
         <title>BR_Win32_GetWindowRect(SWS)</title>
         <functioncall prog_lang="cpp">bool BR_Win32_GetWindowRect(void* hwnd, int* leftOut, int* topOut, int* rightOut, int* bottomOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("BR_Win32_GetWindowRect", void* hwnd, int &amp;left, int &amp;top, int &amp;right, int &amp;bottom)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number left, number top, number right, number bottom = reaper.BR_Win32_GetWindowRect(identifier hwnd)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, integer left, integer top, integer right, integer bottom = reaper.BR_Win32_GetWindowRect(identifier hwnd)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, void hwnd, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = BR_Win32_GetWindowRect(hwnd, leftOut, topOut, rightOut, bottomOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -31964,10 +31969,10 @@
         </description>
         <retvals>
             boolean retval - 
-            number left - 
-            number top - 
-            number right - 
-            number bottom - 
+            integer left - 
+            integer top - 
+            integer right - 
+            integer bottom - 
         </retvals>
         <parameters>
             identifier hwnd - 
@@ -32417,7 +32422,7 @@
         <title>BR_Win32_ScreenToClient(SWS)</title>
         <functioncall prog_lang="cpp">void BR_Win32_ScreenToClient(void* hwnd, int xIn, int yIn, int* xOut, int* yOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_Win32_ScreenToClient", void* hwnd, int xIn, int yIn, int &amp;x, int &amp;y)</functioncall>
-        <functioncall prog_lang="lua">number x, number y = reaper.BR_Win32_ScreenToClient(identifier hwnd, integer xIn, integer yIn)</functioncall>
+        <functioncall prog_lang="lua">integer x, integer y = reaper.BR_Win32_ScreenToClient(identifier hwnd, integer xIn, integer yIn)</functioncall>
         <functioncall prog_lang="python">(void hwnd, Int xIn, Int yIn, Int xOut, Int yOut) = BR_Win32_ScreenToClient(hwnd, xIn, yIn, xOut, yOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -32428,8 +32433,8 @@
 
         </description>
         <retvals>
-            number x - 
-            number y - 
+            integer x - 
+            integer y - 
         </retvals>
         <parameters>
             identifier hwnd - 
@@ -43200,7 +43205,7 @@ mespotine
         <title>ReaPack_EnumOwnedFiles</title>
         <functioncall prog_lang="cpp">bool ReaPack_EnumOwnedFiles(PackageEntry* entry, int index, char* pathOut, int pathOut_sz, int* sectionsOut, int* typeOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ReaPack_EnumOwnedFiles", PackageEntry entry, int index, #path, int &sections, int &type)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string path, number sections, number type = reaper.ReaPack_EnumOwnedFiles(PackageEntry entry, integer index)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string path, integer sections, integer type = reaper.ReaPack_EnumOwnedFiles(PackageEntry entry, integer index)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, PackageEntry entry, Int index, String pathOut, Int pathOut_sz, Int sectionsOut, Int typeOut) = ReaPack_EnumOwnedFiles(entry, index, pathOut, pathOut_sz, sectionsOut, typeOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -43218,12 +43223,12 @@ mespotine
         <retvals>
             boolean retval - true, if more files exist; false, if this is the last/only file
             string path - the path and filename of the installed file
-            number sections - the section(s), in which this file is installed; it is an integer bitfield
+            integer sections - the section(s), in which this file is installed; it is an integer bitfield
                             -   0=not in action list
                             -   &amp;1=main
                             -   &amp;2=midi editor
                             -   &amp;4=midi inline editor
-            number type - the type of the extension, in which this file exists
+            integer type - the type of the extension, in which this file exists
                         -   1, script 
                         -   2, extension
                         -   3, effect 
@@ -43277,7 +43282,7 @@ mespotine
         <title>ReaPack_GetEntryInfo</title>
         <functioncall prog_lang="cpp">bool ReaPack_GetEntryInfo(PackageEntry* entry, char* repoOut, int repoOut_sz, char* catOut, int catOut_sz, char* pkgOut, int pkgOut_sz, char* descOut, int descOut_sz, int* typeOut, char* verOut, int verOut_sz, char* authorOut, int authorOut_sz, bool* pinnedOut, int* fileCountOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ReaPack_GetEntryInfo", PackageEntry entry, #repo, #cat, #pkg, #desc, int &type, #ver, #author, bool &pinned, int &fileCount)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string repo, string cat, string pkg, string desc, number type, string ver, string author, boolean pinned, number fileCount = reaper.ReaPack_GetEntryInfo(PackageEntry entry)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string repo, string cat, string pkg, string desc, integer type, string ver, string author, boolean pinned, integer fileCount = reaper.ReaPack_GetEntryInfo(PackageEntry entry)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, PackageEntry entry, String repoOut, Int repoOut_sz, String catOut, Int catOut_sz, String pkgOut, Int pkgOut_sz, String descOut, Int descOut_sz, Int typeOut, String verOut, Int verOut_sz, String authorOut, Int authorOut_sz, Boolean pinnedOut, Int fileCountOut) = ReaPack_GetEntryInfo(entry, repoOut, repoOut_sz, catOut, catOut_sz, pkgOut, pkgOut_sz, descOut, descOut_sz, typeOut, verOut, verOut_sz, authorOut, authorOut_sz, pinnedOut, fileCountOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -43294,7 +43299,7 @@ mespotine
             string cat - the category of this package
             string pkg - the package-name of this package
             string desc - the description of this package
-            number type - the type of this package
+            integer type - the type of this package
                         -  1, script
                         -  2, extension
                         -  3, effect
@@ -43305,7 +43310,7 @@ mespotine
             string ver - the currently installed version of this package
             string author - the author of this package
             boolean pinned - the pinned-status of this package
-            number fileCount - the number of files of this package
+            integer fileCount - the number of files of this package
         </retvals>
         <parameters>
             PackageEntry entry - the installed Reapack-package, whose package-infos you want
@@ -43353,7 +43358,7 @@ mespotine
         <title>ReaPack_GetRepositoryInfo</title>
         <functioncall prog_lang="cpp">bool ReaPack_GetRepositoryInfo(const char* name, char* urlOut, int urlOut_sz, bool* enabledOut, int* autoInstallOut)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ReaPack_GetRepositoryInfo", "name", #url, bool &enabled, int &autoInstall)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string url, boolean enabled, number autoInstall = reaper.ReaPack_GetRepositoryInfo(string name)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string url, boolean enabled, integer autoInstall = reaper.ReaPack_GetRepositoryInfo(string name)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, String name, String urlOut, Int urlOut_sz, Boolean enabledOut, Int autoInstallOut) = ReaPack_GetRepositoryInfo(name, urlOut, urlOut_sz, enabledOut, autoInstallOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -43366,7 +43371,7 @@ mespotine
             boolean retval - true, such a repository exists; false, it does not exist
             string url - the url of the repository
             boolean enabled - true, the repository is enabled for installing/syncing; false, if not
-            number autoInstall - shall this repository be automatically installed when syncing?
+            integer autoInstall - shall this repository be automatically installed when syncing?
                                - 0, manual 
                                - 1, when synchronizing
                                - 2, obey user setting

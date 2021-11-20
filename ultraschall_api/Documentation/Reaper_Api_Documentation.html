@@ -114,7 +114,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.40<br>"Fully Fungible"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.41<br>"Right Click Everything"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -12896,7 +12896,7 @@ Convert slider-value to it's dB-value-equivalent.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>SNM_GetLongConfigVar</em>(<i>const</i> <i>char*</i> varname, <i>int*</i> highOut, <i>int*</i> lowOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>SNM_GetLongConfigVar</em>", "varname", <i>int</i> &high, <i>int</i> &low)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> high, <i>number</i> low = <em>reaper.SNM_GetLongConfigVar</em>(<i>string</i> varname)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> high, <i>integer</i> low = <em>reaper.SNM_GetLongConfigVar</em>(<i>string</i> varname)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>String</i> varname, <i>Int</i> highOut, <i>Int</i> lowOut) = <em>SNM_GetLongConfigVar</em>(varname, highOut, lowOut)</code></div>
 </div><p>
 <div class="ch">
@@ -12909,11 +12909,11 @@ Convert slider-value to it's dB-value-equivalent.
 <tr><td class="ch2">true, varname was found; false, varname wasn't found</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> high</td></tr>
+<tr><td class="pr"><i>integer</i> high</td></tr>
 <tr><td class="ch2">the high-32bits of the value</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> low</td></tr>
+<tr><td class="pr"><i>integer</i> low</td></tr>
 <tr><td class="ch2">the low-32bits of the value</td></tr>
 </table>
 <br>
@@ -14737,7 +14737,7 @@ Set the online/offline status of the given source (closes files when set=false).
 <div class="cc">
 <div class="c">C: <code> <i>double</i> <em>GetItemEditingTime2</em>(PCM_source** which_itemOut, <i>int*</i> flagsOut)</code></div>
 <div class="e">EEL2: <code> <i>double</i> <em>GetItemEditingTime2</em>(<i>PCM_source</i> &amp;which_item, <i>int</i> &amp;flags)</code></div>
-<div class="l">Lua: <code> <i>number</i> position, <i>PCM_source</i> which_item, <i>number</i> flags = <em>reaper.GetItemEditingTime2</em>()</code></div>
+<div class="l">Lua: <code> <i>number</i> position, <i>PCM_source</i> which_item, <i>integer</i> flags = <em>reaper.GetItemEditingTime2</em>()</code></div>
 <div class="p">Python: <code> (<i>Float</i> retval, <i>PCM_source*</i> which_itemOut, <i>Int</i> flagsOut) = <em>RPR_GetItemEditingTime2</em>(which_itemOut, flagsOut)</code></div>
 </div><p>
 <div class="ch">
@@ -14753,7 +14753,7 @@ returns time of relevant edit, set which_item to the pcm_source (if applicable),
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> flags</td></tr>
+<tr><td class="pr"><i>integer</i> flags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -16538,7 +16538,7 @@ returns output latency in seconds
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>GetUnderrunTime</em>(<i>unsigned</i> <i>int*</i> audio_xrunOutOptional, <i>unsigned</i> <i>int*</i> media_xrunOutOptional, <i>unsigned</i> <i>int*</i> curtimeOutOptional)</code></div>
 <div class="e">EEL2: <code> <em>GetUnderrunTime</em>(<i>optional</i> <i>unsigned</i> <i>int</i> &amp;audio_xrun, <i>optional</i> <i>unsigned</i> <i>int</i> &amp;media_xrun, <i>optional</i> <i>unsigned</i> <i>int</i> &amp;curtime)</code></div>
-<div class="l">Lua: <code> <i>optional</i> <i>number</i> audio_xrun retval, <i>optional</i> <i>number</i> media_xrun, <i>optional</i> <i>number</i> curtime = <em>reaper.GetUnderrunTime</em>()</code></div>
+<div class="l">Lua: <code> <i>optional</i> <i>integer</i> audio_xrun, <i>optional</i> <i>integer</i> media_xrun, <i>optional</i> <i>integer</i> curtime = <em>reaper.GetUnderrunTime</em>()</code></div>
 <div class="p">Python: <code> <em>RPR_GetUnderrunTime</em>(<i>unsigned</i> <i>int</i> audio_xrunOutOptional, <i>unsigned</i> <i>int</i> media_xrunOutOptional, <i>unsigned</i> <i>int</i> curtimeOutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -16546,15 +16546,15 @@ retrieves the last timestamps of audio xrun (yellow-flash, if available), media 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> audio_xrun retval</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> audio_xrun</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> media_xrun</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> media_xrun</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> curtime</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> curtime</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17047,7 +17047,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>BR_EnvGetPoint</em>(BR_Envelope* envelope, <i>int</i> id, <i>double*</i> positionOut, <i>double*</i> valueOut, <i>int*</i> shapeOut, <i>bool*</i> selectedOut, <i>double*</i> bezierOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>BR_EnvGetPoint</em>", <i>BR_Envelope</i> envelope, <i>int</i> id, &amp;position, &amp;value, <i>int</i> &amp;shape, <i>bool</i> &amp;selected, &amp;bezier)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> position, <i>number</i> value, <i>number</i> shape, <i>boolean</i> selected, <i>number</i> bezier = <em>reaper.BR_EnvGetPoint</em>(<i>BR_Envelope</i> envelope, <i>integer</i> id)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> position, <i>number</i> value, <i>integer</i> shape, <i>boolean</i> selected, <i>number</i> bezier = <em>reaper.BR_EnvGetPoint</em>(<i>BR_Envelope</i> envelope, <i>integer</i> id)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>BR_Envelope</i> envelope, <i>Int</i> id, <i>Float</i> positionOut, <i>Float</i> valueOut, <i>Int</i> shapeOut, <i>Boolean</i> selectedOut, <i>Float</i> bezierOut) = <em>BR_EnvGetPoint</em>(envelope, id, positionOut, valueOut, shapeOut, selectedOut, bezierOut)</code></div>
 </div><p>
 <div class="ch">
@@ -17067,7 +17067,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> shape</td></tr>
+<tr><td class="pr"><i>integer</i> shape</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -17099,7 +17099,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>BR_EnvGetProperties</em>(BR_Envelope* envelope, <i>bool*</i> activeOut, <i>bool*</i> visibleOut, <i>bool*</i> armedOut, <i>bool*</i> inLaneOut, <i>int*</i> laneHeightOut, <i>int*</i> defaultShapeOut, <i>double*</i> minValueOut, <i>double*</i> maxValueOut, <i>double*</i> centerValueOut, <i>int*</i> typeOut, <i>bool*</i> faderScalingOut, <i>int*</i> automationItemsOptionsOutOptional)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>BR_EnvGetProperties</em>", <i>BR_Envelope</i> envelope, <i>bool</i> &active, <i>bool</i> &visible, <i>bool</i> &armed, <i>bool</i> &inLane, <i>int</i> &laneHeight, <i>int</i> &defaultShape, &minValue, &maxValue, &centerValue, <i>int</i> &type, <i>bool</i> &faderScaling, <i>optional</i> <i>int</i> &automationItemsOptions)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> active, <i>boolean</i> visible, <i>boolean</i> armed, <i>boolean</i> inLane, <i>number</i> laneHeight, <i>number</i> defaultShape, <i>number</i> minValue, <i>number</i> maxValue, <i>number</i> centerValue, <i>number</i> type, <i>boolean</i> faderScaling, <i>optional</i> <i>number</i> automationItemsOptions = <em>reaper.BR_EnvGetProperties</em>(<i>BR_Envelope</i> envelope)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> active, <i>boolean</i> visible, <i>boolean</i> armed, <i>boolean</i> inLane, <i>integer</i> laneHeight, <i>integer</i> defaultShape, <i>number</i> minValue, <i>number</i> maxValue, <i>number</i> centerValue, <i>integer</i> type, <i>boolean</i> faderScaling, <i>optional</i> <i>integer</i> automationItemsOptions = <em>reaper.BR_EnvGetProperties</em>(<i>BR_Envelope</i> envelope)</code></div>
 <div class="p">Python: <code> (<i>BR_Envelope</i> envelope, <i>Boolean</i> activeOut, <i>Boolean</i> visibleOut, <i>Boolean</i> armedOut, <i>Boolean</i> inLaneOut, <i>Int</i> laneHeightOut, <i>Int</i> defaultShapeOut, <i>Float</i> minValueOut, <i>Float</i> maxValueOut, <i>Float</i> centerValueOut, <i>Int</i> typeOut, <i>Boolean</i> faderScalingOut, <i>Int</i> automationItemsOptionsOutOptional) = <em>BR_EnvGetProperties</em>(envelope, activeOut, visibleOut, armedOut, inLaneOut, laneHeightOut, defaultShapeOut, minValueOut, maxValueOut, centerValueOut, typeOut, faderScalingOut, automationItemsOptionsOutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -17124,11 +17124,11 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> laneHeight</td></tr>
+<tr><td class="pr"><i>integer</i> laneHeight</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> defaultShape</td></tr>
+<tr><td class="pr"><i>integer</i> defaultShape</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -17144,7 +17144,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> type</td></tr>
+<tr><td class="pr"><i>integer</i> type</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -17152,7 +17152,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> automationItemsOptions</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> automationItemsOptions</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17224,7 +17224,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>BR_EnvSetProperties</em>(BR_Envelope* envelope, <i>bool</i> active, <i>bool</i> visible, <i>bool</i> armed, <i>bool</i> inLane, <i>int</i> laneHeight, <i>int</i> defaultShape, <i>bool</i> faderScaling, <i>int*</i> automationItemsOptionsInOptional)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>BR_EnvSetProperties</em>", <i>BR_Envelope</i> envelope, <i>bool</i> active, <i>bool</i> visible, <i>bool</i> armed, <i>bool</i> inLane, <i>int</i> laneHeight, <i>int</i> defaultShape, <i>bool</i> faderScaling, <i>optional</i> <i>int</i> automationItemsOptionsIn)</code></div>
-<div class="l">Lua: <code> <em>reaper.BR_EnvSetProperties</em>(<i>BR_Envelope</i> envelope, <i>boolean</i> active, <i>boolean</i> visible, <i>boolean</i> armed, <i>boolean</i> inLane, <i>integer</i> laneHeight, <i>integer</i> defaultShape, <i>boolean</i> faderScaling, <i>optional</i> <i>number</i> automationItemsOptionsIn)</code></div>
+<div class="l">Lua: <code> <em>reaper.BR_EnvSetProperties</em>(<i>BR_Envelope</i> envelope, <i>boolean</i> active, <i>boolean</i> visible, <i>boolean</i> armed, <i>boolean</i> inLane, <i>integer</i> laneHeight, <i>integer</i> defaultShape, <i>boolean</i> faderScaling, <i>optional</i> <i>integer</i> automationItemsOptionsIn)</code></div>
 <div class="p">Python: <code> (<i>BR_Envelope</i> envelope, <i>Boolean</i> active, <i>Boolean</i> visible, <i>Boolean</i> armed, <i>Boolean</i> inLane, <i>Int</i> laneHeight, <i>Int</i> defaultShape, <i>Boolean</i> faderScaling, <i>Int</i> automationItemsOptionsInOptional) = <em>BR_EnvSetProperties</em>(envelope, active, visible, armed, inLane, laneHeight, defaultShape, faderScaling, automationItemsOptionsInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -17263,7 +17263,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> automationItemsOptionsIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> automationItemsOptionsIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17643,7 +17643,7 @@ Formats the value of an envelope to a user-readable form
 <div class="cc">
 <div class="c">C: <code> <i>MediaItem_Take*</i> <em>Envelope_GetParentTake</em>(<i>TrackEnvelope*</i> env, <i>int*</i> indexOutOptional, <i>int*</i> index2OutOptional)</code></div>
 <div class="e">EEL2: <code> <i>MediaItem_Take</i> <em>Envelope_GetParentTake</em>(<i>TrackEnvelope</i> env, <i>optional</i> <i>int</i> &amp;index, <i>optional</i> <i>int</i> &amp;index2)</code></div>
-<div class="l">Lua: <code> <i>MediaItem_Take</i> retval, <i>optional</i> <i>number</i> index, <i>optional</i> <i>number</i> index2 = <em>reaper.Envelope_GetParentTake</em>(<i>TrackEnvelope</i> env)</code></div>
+<div class="l">Lua: <code> <i>MediaItem_Take</i> retval, <i>optional</i> <i>integer</i> index, <i>optional</i> <i>integer</i> index2 = <em>reaper.Envelope_GetParentTake</em>(<i>TrackEnvelope</i> env)</code></div>
 <div class="p">Python: <code> (<i>MediaItem_Take</i> retval, <i>TrackEnvelope</i> env, <i>Int</i> indexOutOptional, <i>Int</i> index2OutOptional) = <em>RPR_Envelope_GetParentTake</em>(env, indexOutOptional, index2OutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -17655,11 +17655,11 @@ If take envelope, gets the take from the envelope. If FX, indexOutOptional set t
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> index</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> index2</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> index2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17678,7 +17678,7 @@ If take envelope, gets the take from the envelope. If FX, indexOutOptional set t
 <div class="cc">
 <div class="c">C: <code> <i>MediaTrack*</i>  <em>Envelope_GetParentTrack</em>(<i>TrackEnvelope*</i> env, <i>int*</i> indexOutOptional, <i>int*</i> index2OutOptional)</code></div>
 <div class="e">EEL2: <code> <i>MediaTrack</i> <em>Envelope_GetParentTrack</em>(<i>TrackEnvelope</i> env, <i>optional</i> <i>int</i> &amp;index, <i>optional</i> <i>int</i> &amp;index2)</code></div>
-<div class="l">Lua: <code> <i>MediaTrack</i> retval, <i>optional</i> <i>number</i> index, <i>optional</i> <i>number</i> index2 = <em>reaper.Envelope_GetParentTrack</em>(<i>TrackEnvelope</i> env)</code></div>
+<div class="l">Lua: <code> <i>MediaTrack</i> retval, <i>optional</i> <i>integer</i> index, <i>optional</i> <i>integer</i> index2 = <em>reaper.Envelope_GetParentTrack</em>(<i>TrackEnvelope</i> env)</code></div>
 <div class="p">Python: <code> (<i>MediaTrack</i> retval, <i>TrackEnvelope</i> env, <i>Int</i> indexOutOptional, <i>Int</i> index2OutOptional) = <em>RPR_Envelope_GetParentTrack</em>(env, indexOutOptional, index2OutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -17690,11 +17690,11 @@ If track envelope, gets the track from the envelope. If FX, indexOutOptional set
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> index</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> index2</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> index2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17848,7 +17848,7 @@ see description for the attributes you can use for more details</td></tr>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>GetEnvelopePoint</em>(<i>TrackEnvelope*</i> envelope, <i>int</i> ptidx, <i>double*</i> timeOutOptional, <i>double*</i> valueOutOptional, <i>int*</i> shapeOutOptional, <i>double*</i> tensionOutOptional, <i>bool*</i> selectedOutOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>GetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>int</i> ptidx, <i>optional</i> &amp;time, <i>optional</i> &amp;value, <i>optional</i> <i>int</i> &amp;shape, <i>optional</i> &amp;tension, <i>optional</i> <i>bool</i> &amp;selected)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> <i>number</i> time, <i>optional</i> <i>number</i> value, <i>optional</i> <i>number</i> shape, <i>optional</i> <i>number</i> tension, <i>optional</i> <i>boolean</i> selected = <em>reaper.GetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> ptidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> <i>number</i> time, <i>optional</i> <i>number</i> value, <i>optional</i> <i>integer</i> shape, <i>optional</i> <i>number</i> tension, <i>optional</i> <i>boolean</i> selected = <em>reaper.GetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> ptidx)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> ptidx, <i>Float</i> timeOutOptional, <i>Float</i> valueOutOptional, <i>Int</i> shapeOutOptional, <i>Float</i> tensionOutOptional, <i>Boolean</i> selectedOutOptional) = <em>RPR_GetEnvelopePoint</em>(envelope, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -17868,7 +17868,7 @@ see description for the attributes you can use for more details</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> shape</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> shape</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -17967,7 +17967,7 @@ see description for the attributes you can use for more details</td></tr>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>GetEnvelopePointEx</em>(<i>TrackEnvelope*</i> envelope, <i>int</i> autoitem_idx, <i>int</i> ptidx, <i>double*</i> timeOutOptional, <i>double*</i> valueOutOptional, <i>int*</i> shapeOutOptional, <i>double*</i> tensionOutOptional, <i>bool*</i> selectedOutOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>GetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>int</i> autoitem_idx, <i>int</i> ptidx, <i>optional</i> &amp;time, <i>optional</i> &amp;value, <i>optional</i> <i>int</i> &amp;shape, <i>optional</i> &amp;tension, <i>optional</i> <i>bool</i> &amp;selected)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> <i>number</i> time, <i>optional</i> <i>number</i> value, <i>optional</i> <i>number</i> shape, <i>optional</i> <i>number</i> tension, <i>optional</i> <i>boolean</i> selected = <em>reaper.GetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> autoitem_idx, <i>integer</i> ptidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> <i>number</i> time, <i>optional</i> <i>number</i> value, <i>optional</i> <i>integer</i> shape, <i>optional</i> <i>number</i> tension, <i>optional</i> <i>boolean</i> selected = <em>reaper.GetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> autoitem_idx, <i>integer</i> ptidx)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> autoitem_idx, <i>Int</i> ptidx, <i>Float</i> timeOutOptional, <i>Float</i> valueOutOptional, <i>Int</i> shapeOutOptional, <i>Float</i> tensionOutOptional, <i>Boolean</i> selectedOutOptional) = <em>RPR_GetEnvelopePointEx</em>(envelope, autoitem_idx, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -17988,7 +17988,7 @@ see description for the attributes you can use for more details</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> shape</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> shape</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -18710,7 +18710,7 @@ Includes the master-track.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>SetEnvelopePoint</em>(<i>TrackEnvelope*</i> envelope, <i>int</i> ptidx, <i>double*</i> timeInOptional, <i>double*</i> valueInOptional, <i>int*</i> shapeInOptional, <i>double*</i> tensionInOptional, <i>bool*</i> selectedInOptional, <i>bool*</i> noSortInOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>SetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>int</i> ptidx, <i>optional</i> timeIn, <i>optional</i> valueIn, <i>optional</i> <i>int</i> shapeIn, <i>optional</i> tensionIn, <i>optional</i> <i>bool</i> selectedIn, <i>optional</i> <i>bool</i> noSortIn)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.SetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> ptidx, <i>optional</i> <i>number</i> timeIn, <i>optional</i> <i>number</i> valueIn, <i>optional</i> <i>number</i> shapeIn, <i>optional</i> <i>number</i> tensionIn, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.SetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> ptidx, <i>optional</i> <i>number</i> timeIn, <i>optional</i> <i>number</i> valueIn, <i>optional</i> <i>integer</i> shapeIn, <i>optional</i> <i>number</i> tensionIn, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> ptidx, <i>Float</i> timeInOptional, <i>Float</i> valueInOptional, <i>Int</i> shapeInOptional, <i>Float</i> tensionInOptional, <i>Boolean</i> selectedInOptional, <i>Boolean</i> noSortInOptional) = <em>RPR_SetEnvelopePoint</em>(envelope, ptidx, timeInOptional, valueInOptional, shapeInOptional, tensionInOptional, selectedInOptional, noSortInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -18740,7 +18740,7 @@ Includes the master-track.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> shapeIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> shapeIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -18765,7 +18765,7 @@ Includes the master-track.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>SetEnvelopePointEx</em>(<i>TrackEnvelope*</i> envelope, <i>int</i> autoitem_idx, <i>int</i> ptidx, <i>double*</i> timeInOptional, <i>double*</i> valueInOptional, <i>int*</i> shapeInOptional, <i>double*</i> tensionInOptional, <i>bool*</i> selectedInOptional, <i>bool*</i> noSortInOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>SetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>int</i> autoitem_idx, <i>int</i> ptidx, <i>optional</i> timeIn, <i>optional</i> valueIn, <i>optional</i> <i>int</i> shapeIn, <i>optional</i> tensionIn, <i>optional</i> <i>bool</i> selectedIn, <i>optional</i> <i>bool</i> noSortIn)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.SetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> autoitem_idx, <i>integer</i> ptidx, <i>optional</i> <i>number</i> timeIn, <i>optional</i> <i>number</i> valueIn, <i>optional</i> <i>number</i> shapeIn, <i>optional</i> <i>number</i> tensionIn, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.SetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> autoitem_idx, <i>integer</i> ptidx, <i>optional</i> <i>number</i> timeIn, <i>optional</i> <i>number</i> valueIn, <i>optional</i> <i>integer</i> shapeIn, <i>optional</i> <i>number</i> tensionIn, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> autoitem_idx, <i>Int</i> ptidx, <i>Float</i> timeInOptional, <i>Float</i> valueInOptional, <i>Int</i> shapeInOptional, <i>Float</i> tensionInOptional, <i>Boolean</i> selectedInOptional, <i>Boolean</i> noSortInOptional) = <em>RPR_SetEnvelopePointEx</em>(envelope, autoitem_idx, ptidx, timeInOptional, valueInOptional, shapeInOptional, tensionInOptional, selectedInOptional, noSortInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -18799,7 +18799,7 @@ Includes the master-track.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> shapeIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> shapeIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -19352,7 +19352,7 @@ For item FX, the low word defines the FX index in the chain, and the high word d
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>GetTCPFXParm</em>(<i>ReaProject*</i> project, <i>MediaTrack*</i>  track, <i>int</i> index, <i>int*</i> fxindexOut, <i>int*</i> parmidxOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>GetTCPFXParm</em>(<i>ReaProject</i> project, <i>MediaTrack</i> track, <i>int</i> index, <i>int</i> &amp;fxindex, <i>int</i> &amp;parmidx)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> fxindex, <i>number</i> parmidx = <em>reaper.GetTCPFXParm</em>(<i>ReaProject</i> project, <i>MediaTrack</i> track, <i>integer</i> index)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> fxindex, <i>integer</i> parmidx = <em>reaper.GetTCPFXParm</em>(<i>ReaProject</i> project, <i>MediaTrack</i> track, <i>integer</i> index)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>ReaProject</i> project, <i>MediaTrack</i> track, <i>Int</i> index, <i>Int</i> fxindexOut, <i>Int</i> parmidxOut) = <em>RPR_GetTCPFXParm</em>(project, track, index, fxindexOut, parmidxOut)</code></div>
 </div><p>
 <div class="ch">
@@ -19364,11 +19364,11 @@ For item FX, the low word defines the FX index in the chain, and the high word d
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> fxindex</td></tr>
+<tr><td class="pr"><i>integer</i> fxindex</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> parmidx</td></tr>
+<tr><td class="pr"><i>integer</i> parmidx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -20541,10 +20541,10 @@ gets an identifying string for the parameter
 <a href="#TakeFX_GetPinMappings"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TakeFX_GetPinMappings</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>TakeFX_GetPinMappings</em>(<i>MediaItem_Take*</i> tr, <i>int</i> fx, <i>int</i> isOutput, <i>int</i> pin, <i>int*</i> high32OutOptional)</code></div>
-<div class="e">EEL2: <code> <i>int</i> <em>TakeFX_GetPinMappings</em>(<i>MediaItem_Take</i> tr, <i>int</i> fx, <i>int</i> is, <i>int</i> pin, <i>optional</i> <i>int</i> &amp;high32)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>integer</i> high32 = <em>reaper.TakeFX_GetPinMappings</em>(<i>MediaItem_Take</i> tr, <i>integer</i> fx, <i>integer</i> is, <i>integer</i> pin)</code></div>
-<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaItem_Take</i> tr, <i>Int</i> fx, <i>Int</i> isOutput, <i>Int</i> pin, <i>Int</i> high32OutOptional) = <em>RPR_TakeFX_GetPinMappings</em>(tr, fx, isOutput, pin, high32OutOptional)</code></div>
+<div class="c">C: <code> <i>int</i> <em>TakeFX_GetPinMappings</em>(<i>MediaItem_Take*</i> take, <i>int</i> fx, <i>int</i> isOutput, <i>int</i> pin, <i>int*</i> high32OutOptional)</code></div>
+<div class="e">EEL2: <code> <i>int</i> <em>TakeFX_GetPinMappings</em>(<i>MediaItem_Take</i> take, <i>int</i> fx, <i>int</i> is, <i>int</i> pin, <i>optional</i> <i>int</i> &amp;high32)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>integer</i> high32 = <em>reaper.TakeFX_GetPinMappings</em>(<i>MediaItem_Take</i> take, <i>integer</i> fx, <i>integer</i> is, <i>integer</i> pin)</code></div>
+<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaItem_Take</i> tr, <i>Int</i> fx, <i>Int</i> isOutput, <i>Int</i> pin, <i>Int</i> high32OutOptional) = <em>RPR_TakeFX_GetPinMappings</em>(take, fx, isOutput, pin, high32OutOptional)</code></div>
 </div><p>
 <div class="ch">
 gets the effective channel mapping bitmask for a particular pin. high32OutOptional will be set to the high 32 bits              
@@ -20561,7 +20561,7 @@ gets the effective channel mapping bitmask for a particular pin. high32OutOption
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> tr</td></tr>
+<tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -21530,7 +21530,7 @@ returns the number of trackfx in the FXChain of track
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>TrackFX_GetEQParam</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>int</i> paramidx, <i>int*</i> bandtypeOut, <i>int*</i> bandidxOut, <i>int*</i> paramtypeOut, <i>double*</i> normvalOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>TrackFX_GetEQParam</em>(<i>MediaTrack</i> track, <i>int</i> fx, <i>int</i> paramidx, <i>int</i> &amp;bandtype, <i>int</i> &amp;bandidx, <i>int</i> &amp;paramtype, &amp;normval)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> bandtype, <i>number</i> bandidx, <i>number</i> paramtype, <i>number</i> normval = <em>reaper.TrackFX_GetEQParam</em>(<i>MediaTrack</i> track, <i>integer</i> fx, <i>integer</i> paramidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> bandtype, <i>integer</i> bandidx, <i>integer</i> paramtype, <i>number</i> normval = <em>reaper.TrackFX_GetEQParam</em>(<i>MediaTrack</i> track, <i>integer</i> fx, <i>integer</i> paramidx)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> fx, <i>Int</i> paramidx, <i>Int</i> bandtypeOut, <i>Int</i> bandidxOut, <i>Int</i> paramtypeOut, <i>Float</i> normvalOut) = <em>RPR_TrackFX_GetEQParam</em>(track, fxidx, paramidx, bandtypeOut, bandidxOut, paramtypeOut, normvalOut)</code></div>
 </div><p>
 <div class="ch">
@@ -21544,7 +21544,7 @@ returns the number of trackfx in the FXChain of track
 <tr><td class="ch2">true, if it's a ReaEQ-instance; false, is not a ReaEQ-instance or in case of an error</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> bandtype</td></tr>
+<tr><td class="pr"><i>integer</i> bandtype</td></tr>
 <tr><td class="ch2">the bandtype of the band to change;<br/>
 -1, master gain<br/>
 0, lhipass<br/>
@@ -21555,11 +21555,11 @@ returns the number of trackfx in the FXChain of track
 5, lopass </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> bandidx</td></tr>
+<tr><td class="pr"><i>integer</i> bandidx</td></tr>
 <tr><td class="ch2">0, first band matching bandtype; 1, 2nd band matching bandtype, etc. </td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> paramtype</td></tr>
+<tr><td class="pr"><i>integer</i> paramtype</td></tr>
 <tr><td class="ch2">0, freq; 1, gain; 2, Q </td></tr>
 </table>
 <table class="ch">
@@ -23374,7 +23374,7 @@ This will be the shown representation of the shortcut as seen in the actionlist.
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>JS_Byte</em>(<i>void*</i> pointer, <i>int</i> offset, <i>int*</i> byteOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>JS_Byte</em>", <i>void*</i> pointer, <i>int</i> offset, <i>int</i> &amp;byte)</code></div>
-<div class="l">Lua: <code> <i>number</i> byte = <em>reaper.JS_Byte</em>(<i>identifier</i> pointer, <i>integer</i> offset)</code></div>
+<div class="l">Lua: <code> <i>integer</i> byte = <em>reaper.JS_Byte</em>(<i>identifier</i> pointer, <i>integer</i> offset)</code></div>
 <div class="p">Python: <code> (<i>void</i> pointer, <i>Int</i> offset, <i>Int</i> byteOut) = <em>JS_Byte</em>(pointer, offset, byteOut)</code></div>
 </div><p>
 <div class="ch">
@@ -23382,7 +23382,7 @@ Returns the unsigned byte at address[offset]. Offset is added as steps of 1 byte
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> byte</td></tr>
+<tr><td class="pr"><i>integer</i> byte</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -23489,7 +23489,7 @@ Returns the unsigned byte at address[offset]. Offset is added as steps of 1 byte
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>JS_Composite_Delay</em>(<i>void*</i> windowHWND, <i>double</i> minTime, <i>double</i> maxTime, <i>int</i> numBitmapsWhenMax, <i>double*</i> prevMinTimeOut, <i>double*</i> prevMaxTimeOut, <i>int*</i> prevBitmapsOut)</code></div>
 <div class="e">EEL2: <code> <i>int</i> extension_api("<em>JS_Composite_Delay</em>", <i>void*</i> windowHWND, minTime, maxTime, <i>int</i> numBitmapsWhenMax, &prevMinTime, &prevMaxTime, <i>int</i> &prevBitmaps)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>number</i> prevMinTime, <i>number</i> prevMaxTime, <i>number</i> prevBitmaps = <em>reaper.JS_Composite_Delay</em>(<i>identifier</i> windowHWND, <i>number</i> minTime, <i>number</i> maxTime, <i>integer</i> numBitmapsWhenMax)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>number</i> prevMinTime, <i>number</i> prevMaxTime, <i>integer</i> prevBitmaps = <em>reaper.JS_Composite_Delay</em>(<i>identifier</i> windowHWND, <i>number</i> minTime, <i>number</i> maxTime, <i>integer</i> numBitmapsWhenMax)</code></div>
 <div class="p">Python: <code> (<i>Int</i> retval, <i>void</i> windowHWND, <i>Float</i> minTime, <i>Float</i> maxTime, <i>Int</i> numBitmapsWhenMax, <i>Float</i> prevMinTimeOut, <i>Float</i> prevMaxTimeOut, <i>Int</i> prevBitmapsOut) = <em>JS_Composite_Delay</em>(windowHWND, minTime, maxTime, numBitmapsWhenMax, prevMinTimeOut, prevMaxTimeOut, prevBitmapsOut)</code></div>
 </div><p>
 <div class="ch">
@@ -23517,7 +23517,7 @@ Returns:<br/>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> prevBitmaps</td></tr>
+<tr><td class="pr"><i>integer</i> prevBitmaps</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -23818,7 +23818,7 @@ Returns the 8-byte floating point value at address[offset]. Offset is added as s
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>JS_File_Stat</em>(<i>const</i> <i>char*</i> filePath, <i>double*</i> sizeOut, <i>char*</i> accessedTimeOut, <i>char*</i> modifiedTimeOut, <i>char*</i> cTimeOut, <i>int*</i> deviceIDOut, <i>int*</i> deviceSpecialIDOut, <i>int*</i> inodeOut, <i>int*</i> modeOut, <i>int*</i> numLinksOut, <i>int*</i> ownerUserIDOut, <i>int*</i> ownerGroupIDOut)</code></div>
 <div class="e">EEL2: <code> <i>int</i> extension_api("<em>JS_File_Stat</em>", "filePath", &size, #accessedTime, #modifiedTime, #cTime, <i>int</i> &deviceID, <i>int</i> &deviceSpecialID, <i>int</i> &inode, <i>int</i> &mode, <i>int</i> &numLinks, <i>int</i> &ownerUserID, <i>int</i> &ownerGroupID)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>number</i> size, <i>string</i> accessedTime, <i>string</i> modifiedTime, <i>string</i> cTime, <i>number</i> deviceID, <i>number</i> deviceSpecialID, <i>number</i> inode, <i>number</i> mode, <i>number</i> numLinks, <i>number</i> ownerUserID, <i>number</i> ownerGroupID = <em>reaper.JS_File_Stat</em>(<i>string</i> filePath)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>number</i> size, <i>string</i> accessedTime, <i>string</i> modifiedTime, <i>string</i> cTime, <i>integer</i> deviceID, <i>integer</i> deviceSpecialID, <i>integer</i> inode, <i>integer</i> mode, <i>integer</i> numLinks, <i>integer</i> ownerUserID, <i>integer</i> ownerGroupID = <em>reaper.JS_File_Stat</em>(<i>string</i> filePath)</code></div>
 <div class="p">Python: <code> (<i>Int</i> retval, <i>String</i> filePath, <i>Float</i> sizeOut, <i>String</i> accessedTimeOut, <i>String</i> modifiedTimeOut, <i>String</i> cTimeOut, <i>Int</i> deviceIDOut, <i>Int</i> deviceSpecialIDOut, <i>Int</i> inodeOut, <i>Int</i> modeOut, <i>Int</i> numLinksOut, <i>Int</i> ownerUserIDOut, <i>Int</i> ownerGroupIDOut) = <em>JS_File_Stat</em>(filePath, sizeOut, accessedTimeOut, modifiedTimeOut, cTimeOut, deviceIDOut, deviceSpecialIDOut, inodeOut, modeOut, numLinksOut, ownerUserIDOut, ownerGroupIDOut)</code></div>
 </div><p>
 <div class="ch">
@@ -23850,31 +23850,31 @@ retval is 0 if successful, negative if not.
 <tr><td class="ch2">the time the file was created(Windows) or the last time its status had changed(Mac and Linux)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> deviceID</td></tr>
+<tr><td class="pr"><i>integer</i> deviceID</td></tr>
 <tr><td class="ch2">the ID of the device</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> deviceSpecialID</td></tr>
+<tr><td class="pr"><i>integer</i> deviceSpecialID</td></tr>
 <tr><td class="ch2">the special ID of the file</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> inode</td></tr>
+<tr><td class="pr"><i>integer</i> inode</td></tr>
 <tr><td class="ch2">the inode</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> mode</td></tr>
+<tr><td class="pr"><i>integer</i> mode</td></tr>
 <tr><td class="ch2">the attributes set</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> numLinks</td></tr>
+<tr><td class="pr"><i>integer</i> numLinks</td></tr>
 <tr><td class="ch2">the number of links</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> ownerUserID</td></tr>
+<tr><td class="pr"><i>integer</i> ownerUserID</td></tr>
 <tr><td class="ch2">ID of the user the file belongs to</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> ownerGroupID</td></tr>
+<tr><td class="pr"><i>integer</i> ownerGroupID</td></tr>
 <tr><td class="ch2">ID of the group the file belongs to</td></tr>
 </table>
 <br>
@@ -24729,7 +24729,7 @@ Activates a font, pen, or fill brush for subsequent drawing in the specified dev
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>JS_Int</em>(<i>void*</i> pointer, <i>int</i> offset, <i>int*</i> intOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>JS_Int</em>", <i>void*</i> pointer, <i>int</i> offset, <i>int</i> &amp;int)</code></div>
-<div class="l">Lua: <code> <i>number</i> <i>int</i> = <em>reaper.JS_Int</em>(<i>identifier</i> pointer, <i>integer</i> offset)</code></div>
+<div class="l">Lua: <code> <i>integer</i> <i>int</i> = <em>reaper.JS_Int</em>(<i>identifier</i> pointer, <i>integer</i> offset)</code></div>
 <div class="p">Python: <code> (<i>void</i> pointer, <i>Int</i> offset, <i>Int</i> intOut) = <em>JS_Int</em>(pointer, offset, intOut)</code></div>
 </div><p>
 <div class="ch">
@@ -24737,7 +24737,7 @@ Returns the 4-byte signed integer at address[offset]. Offset is added as steps o
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> <i>int</i>  </td></tr>
+<tr><td class="pr"><i>integer</i> <i>int</i>  </td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -25920,18 +25920,18 @@ Returns a system LICE bitmap containing the PNG.
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>JS_LICE_MeasureText</em>(<i>const</i> <i>char*</i> text, <i>int*</i> widthOut, <i>int*</i> HeightOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>JS_LICE_MeasureText</em>", "text", <i>int</i> &width, <i>int</i> &Height)</code></div>
-<div class="l">Lua: <code> <i>number</i> width, <i>number</i> Height = <em>reaper.JS_LICE_MeasureText</em>(<i>string</i> text)</code></div>
+<div class="l">Lua: <code> <i>integer</i> width, <i>integer</i> Height = <em>reaper.JS_LICE_MeasureText</em>(<i>string</i> text)</code></div>
 <div class="p">Python: <code> (<i>String</i> text, <i>Int</i> widthOut, <i>Int</i> HeightOut) = <em>JS_LICE_MeasureText</em>(text, widthOut, HeightOut)</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> width</td></tr>
+<tr><td class="pr"><i>integer</i> width</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> Height</td></tr>
+<tr><td class="pr"><i>integer</i> Height</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -26557,7 +26557,7 @@ Returns the index and text of the focused item, if any.
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>JS_ListView_GetItem</em>(<i>void*</i> listviewHWND, <i>int</i> index, <i>int</i> subItem, <i>char*</i> textOut, <i>int</i> textOut_sz, <i>int*</i> stateOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>JS_ListView_GetItem</em>", <i>void*</i> listviewHWND, <i>int</i> index, <i>int</i> subItem, #text, <i>int</i> &state)</code></div>
-<div class="l">Lua: <code> <i>string</i> text, <i>number</i> state = <em>reaper.JS_ListView_GetItem</em>(<i>identifier</i> listviewHWND, <i>integer</i> index, <i>integer</i> subItem)</code></div>
+<div class="l">Lua: <code> <i>string</i> text, <i>integer</i> state = <em>reaper.JS_ListView_GetItem</em>(<i>identifier</i> listviewHWND, <i>integer</i> index, <i>integer</i> subItem)</code></div>
 <div class="p">Python: <code> (<i>void</i> listviewHWND, <i>Int</i> index, <i>Int</i> subItem, <i>String</i> textOut, <i>Int</i> textOut_sz, <i>Int</i> stateOut) = <em>JS_ListView_GetItem</em>(listviewHWND, index, subItem, textOut, textOut_sz, stateOut)</code></div>
 </div><p>
 <div class="ch">
@@ -26569,7 +26569,7 @@ Returns the text and state of specified item.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> state</td></tr>
+<tr><td class="pr"><i>integer</i> state</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -26624,7 +26624,7 @@ Returns the text and state of specified item.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>JS_ListView_GetItemRect</em>(<i>void*</i> listviewHWND, <i>int</i> index, <i>int*</i> leftOut, <i>int*</i> topOut, <i>int*</i> rightOut, <i>int*</i> bottomOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>JS_ListView_GetItemRect</em>", <i>void*</i> listviewHWND, <i>int</i> index, <i>int</i> &left, <i>int</i> &top, <i>int</i> &right, <i>int</i> &bottom)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> left, <i>number</i> top, <i>number</i> right, <i>number</i> bottom = <em>reaper.JS_ListView_GetItemRect</em>(<i>identifier</i> listviewHWND, <i>integer</i> index)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> left, <i>integer</i> top, <i>integer</i> right, <i>integer</i> bottom = <em>reaper.JS_ListView_GetItemRect</em>(<i>identifier</i> listviewHWND, <i>integer</i> index)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>void</i> listviewHWND, <i>Int</i> index, <i>Int</i> leftOut, <i>Int</i> topOut, <i>Int</i> rightOut, <i>Int</i> bottomOut) = <em>JS_ListView_GetItemRect</em>(listviewHWND, index, leftOut, topOut, rightOut, bottomOut)</code></div>
 </div><p>
 <div class="ch">
@@ -26636,19 +26636,19 @@ Returns client coordinates of the item.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> left</td></tr>
+<tr><td class="pr"><i>integer</i> left</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> top</td></tr>
+<tr><td class="pr"><i>integer</i> top</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> right</td></tr>
+<tr><td class="pr"><i>integer</i> right</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> bottom</td></tr>
+<tr><td class="pr"><i>integer</i> bottom</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -26796,22 +26796,22 @@ Warning: this function uses the Win32 bitmask values, which differ from the valu
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>JS_ListView_HitTest</em>(<i>void*</i> listviewHWND, <i>int</i> clientX, <i>int</i> clientY, <i>int*</i> indexOut, <i>int*</i> subItemOut, <i>int*</i> flagsOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>JS_ListView_HitTest</em>", <i>void*</i> listviewHWND, <i>int</i> clientX, <i>int</i> clientY, <i>int</i> &index, <i>int</i> &subItem, <i>int</i> &flags)</code></div>
-<div class="l">Lua: <code> <i>number</i> index, <i>number</i> subItem, <i>number</i> flags = <em>reaper.JS_ListView_HitTest</em>(<i>identifier</i> listviewHWND, <i>integer</i> clientX, <i>integer</i> clientY)</code></div>
+<div class="l">Lua: <code> <i>integer</i> index, <i>integer</i> subItem, <i>integer</i> flags = <em>reaper.JS_ListView_HitTest</em>(<i>identifier</i> listviewHWND, <i>integer</i> clientX, <i>integer</i> clientY)</code></div>
 <div class="p">Python: <code> (<i>void</i> listviewHWND, <i>Int</i> clientX, <i>Int</i> clientY, <i>Int</i> indexOut, <i>Int</i> subItemOut, <i>Int</i> flagsOut) = <em>JS_ListView_HitTest</em>(listviewHWND, clientX, clientY, indexOut, subItemOut, flagsOut)</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> index</td></tr>
+<tr><td class="pr"><i>integer</i> index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> subItem</td></tr>
+<tr><td class="pr"><i>integer</i> subItem</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> flags</td></tr>
+<tr><td class="pr"><i>integer</i> flags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -27764,7 +27764,7 @@ Returns 1 if successful, 0 if the message type is not yet being intercepted, or 
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>JS_WindowMessage_Peek</em>(<i>void*</i> windowHWND, <i>const</i> <i>char*</i> message, <i>bool*</i> passedThroughOut, <i>double*</i> timeOut, <i>int*</i> wParamLowOut, <i>int*</i> wParamHighOut, <i>int*</i> lParamLowOut, <i>int*</i> lParamHighOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i>  extension_api("<em>JS_WindowMessage_Peek</em>", <i>void*</i> windowHWND, "message", <i>bool</i> &amp;passedThrough, &amp;time, <i>int</i> &amp;wParamLow, <i>int</i> &amp;wParamHigh, <i>int</i> &amp;lParamLow, <i>int</i> &amp;lParamHigh)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> passedThrough, <i>number</i> time, <i>number</i> wParamLow, <i>number</i> wParamHigh, <i>number</i> lParamLow, <i>number</i> lParamHigh = <em>reaper.JS_WindowMessage_Peek</em>(<i>identifier</i> windowHWND, <i>string</i> message)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> passedThrough, <i>number</i> time, <i>integer</i> wParamLow, <i>integer</i> wParamHigh, <i>integer</i> lParamLow, <i>integer</i> lParamHigh = <em>reaper.JS_WindowMessage_Peek</em>(<i>identifier</i> windowHWND, <i>string</i> message)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>void</i> windowHWND, <i>String</i> message, <i>Boolean</i> passedThroughOut, <i>Float</i> timeOut, <i>Int</i> wParamLowOut, <i>Int</i> wParamHighOut, <i>Int</i> lParamLowOut, <i>Int</i> lParamHighOut) = <em>JS_WindowMessage_Peek</em>(windowHWND, message, passedThroughOut, timeOut, wParamLowOut, wParamHighOut, lParamLowOut, lParamHighOut)</code></div>
 </div><p>
 <div class="ch">
@@ -27806,19 +27806,19 @@ Polls the state of an intercepted message.<br/>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> wParamLow</td></tr>
+<tr><td class="pr"><i>integer</i> wParamLow</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> wParamHigh</td></tr>
+<tr><td class="pr"><i>integer</i> wParamHigh</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> lParamLow</td></tr>
+<tr><td class="pr"><i>integer</i> lParamLow</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> lParamHigh  </td></tr>
+<tr><td class="pr"><i>integer</i> lParamHigh  </td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28203,7 +28203,7 @@ WARNING: This function does not yet work on Linux.
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>JS_Window_ClientToScreen</em>(<i>void*</i> windowHWND, <i>int</i> x, <i>int</i> y, <i>int*</i> xOut, <i>int*</i> yOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>JS_Window_ClientToScreen</em>", <i>void*</i> windowHWND, <i>int</i> x, <i>int</i> y, <i>int</i> &amp;x, <i>int</i> &amp;y)</code></div>
-<div class="l">Lua: <code> <i>number</i> x, <i>number</i> y = <em>reaper.JS_Window_ClientToScreen</em>(<i>identifier</i> windowHWND, <i>integer</i> x, <i>integer</i> y)</code></div>
+<div class="l">Lua: <code> <i>integer</i> x, <i>integer</i> y = <em>reaper.JS_Window_ClientToScreen</em>(<i>identifier</i> windowHWND, <i>integer</i> x, <i>integer</i> y)</code></div>
 <div class="p">Python: <code> (<i>void</i> windowHWND, <i>Int</i> x, <i>Int</i> y, <i>Int</i> xOut, <i>Int</i> yOut) = <em>JS_Window_ClientToScreen</em>(windowHWND, x, y, xOut, yOut)</code></div>
 </div><p>
 <div class="ch">
@@ -28211,11 +28211,11 @@ Converts the client-area coordinates of a specified point to screen coordinates.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> x</td></tr>
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> y  </td></tr>
+<tr><td class="pr"><i>integer</i> y  </td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28637,7 +28637,7 @@ WARNING: May not be fully implemented on MacOS and Linux.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>JS_Window_GetClientRect</em>(<i>void*</i> windowHWND, <i>int*</i> leftOut, <i>int*</i> topOut, <i>int*</i> rightOut, <i>int*</i> bottomOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i>  extension_api("<em>JS_Window_GetClientRect</em>", <i>void*</i> windowHWND, <i>int</i> &amp;left, <i>int</i> &amp;top, <i>int</i> &amp;right, <i>int</i> &amp;bottom)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> left, <i>number</i> top, <i>number</i> right, <i>number</i> bottom = <em>reaper.JS_Window_GetClientRect</em>(<i>identifier</i> windowHWND)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> left, <i>integer</i> top, <i>integer</i> right, <i>integer</i> bottom = <em>reaper.JS_Window_GetClientRect</em>(<i>identifier</i> windowHWND)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>void</i> windowHWND, <i>Int</i> leftOut, <i>Int</i> topOut, <i>Int</i> rightOut, <i>Int</i> bottomOut) = <em>JS_Window_GetClientRect</em>(windowHWND, leftOut, topOut, rightOut, bottomOut)</code></div>
 </div><p>
 <div class="ch">
@@ -28651,19 +28651,19 @@ WARNING: May not be fully implemented on MacOS and Linux.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> left</td></tr>
+<tr><td class="pr"><i>integer</i> left</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> top</td></tr>
+<tr><td class="pr"><i>integer</i> top</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> right</td></tr>
+<tr><td class="pr"><i>integer</i> right</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> bottom  </td></tr>
+<tr><td class="pr"><i>integer</i> bottom  </td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28683,7 +28683,7 @@ WARNING: May not be fully implemented on MacOS and Linux.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>JS_Window_GetClientSize</em>(<i>void*</i> windowHWND, <i>int*</i> widthOut, <i>int*</i> heightOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>JS_Window_GetClientSize</em>", <i>void*</i> windowHWND, <i>int</i> &width, <i>int</i> &height)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> width, <i>number</i> height = <em>reaper.JS_Window_GetClientSize</em>(<i>identifier</i> windowHWND)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> width, <i>integer</i> height = <em>reaper.JS_Window_GetClientSize</em>(<i>identifier</i> windowHWND)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>void</i> windowHWND, <i>Int</i> widthOut, <i>Int</i> heightOut) = <em>JS_Window_GetClientSize</em>(windowHWND, widthOut, heightOut)</code></div>
 </div><p>
 <div class="ch">
@@ -28695,11 +28695,11 @@ Retrieves a HWND to the window that has the keyboard focus, if the window is att
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> width</td></tr>
+<tr><td class="pr"><i>integer</i> width</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> height</td></tr>
+<tr><td class="pr"><i>integer</i> height</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28860,7 +28860,7 @@ Returns NULL if the window is unowned or if the function otherwise fails.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>JS_Window_GetRect</em>(<i>void*</i> windowHWND, <i>int*</i> leftOut, <i>int*</i> topOut, <i>int*</i> rightOut, <i>int*</i> bottomOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i>  extension_api("<em>JS_Window_GetRect</em>", <i>void*</i> windowHWND, <i>int</i> &amp;left, <i>int</i> &amp;top, <i>int</i> &amp;right, <i>int</i> &amp;bottom)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> left, <i>number</i> top, <i>number</i> right, <i>number</i> bottom = <em>reaper.JS_Window_GetRect</em>(<i>identifier</i> windowHWND)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> left, <i>integer</i> top, <i>integer</i> right, <i>integer</i> bottom = <em>reaper.JS_Window_GetRect</em>(<i>identifier</i> windowHWND)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>void</i> windowHWND, <i>Int</i> leftOut, <i>Int</i> topOut, <i>Int</i> rightOut, <i>Int</i> bottomOut) = <em>JS_Window_GetRect</em>(windowHWND, leftOut, topOut, rightOut, bottomOut)</code></div>
 </div><p>
 <div class="ch">
@@ -28874,19 +28874,19 @@ NOTE: The pixel at (right, bottom) lies immediately outside the rectangle.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> left</td></tr>
+<tr><td class="pr"><i>integer</i> left</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> top</td></tr>
+<tr><td class="pr"><i>integer</i> top</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> right</td></tr>
+<tr><td class="pr"><i>integer</i> right</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> bottom  </td></tr>
+<tr><td class="pr"><i>integer</i> bottom  </td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28940,7 +28940,7 @@ NOTE: The pixel at (right, bottom) lies immediately outside the rectangle.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>JS_Window_GetScrollInfo</em>(<i>void*</i> windowHWND, <i>const</i> <i>char*</i> scrollbar, <i>int*</i> positionOut, <i>int*</i> pageSizeOut, <i>int*</i> minOut, <i>int*</i> maxOut, <i>int*</i> trackPosOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i>  extension_api("<em>JS_Window_GetScrollInfo</em>", <i>void*</i> windowHWND, "scrollbar", <i>int</i> &amp;position, <i>int</i> &amp;pageSize, <i>int</i> &amp;min, <i>int</i> &amp;max, <i>int</i> &amp;trackPos)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> position, <i>number</i> pageSize, <i>number</i> min, <i>number</i> max, <i>number</i> trackPos = <em>reaper.JS_Window_GetScrollInfo</em>(<i>identifier</i> windowHWND, <i>string</i> scrollbar)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> position, <i>integer</i> pageSize, <i>integer</i> min, <i>integer</i> max, <i>integer</i> trackPos = <em>reaper.JS_Window_GetScrollInfo</em>(<i>identifier</i> windowHWND, <i>string</i> scrollbar)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>void</i> windowHWND, <i>String</i> scrollbar, <i>Int</i> positionOut, <i>Int</i> pageSizeOut, <i>Int</i> minOut, <i>Int</i> maxOut, <i>Int</i> trackPosOut) = <em>JS_Window_GetScrollInfo</em>(windowHWND, scrollbar, positionOut, pageSizeOut, minOut, maxOut, trackPosOut)</code></div>
 </div><p>
 <div class="ch">
@@ -28958,23 +28958,23 @@ Returns:<br/>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> position</td></tr>
+<tr><td class="pr"><i>integer</i> position</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> pageSize</td></tr>
+<tr><td class="pr"><i>integer</i> pageSize</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> min</td></tr>
+<tr><td class="pr"><i>integer</i> min</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> max</td></tr>
+<tr><td class="pr"><i>integer</i> max</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> trackPos  </td></tr>
+<tr><td class="pr"><i>integer</i> trackPos  </td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29026,7 +29026,7 @@ Returns the title (if any) of the specified window.
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>JS_Window_GetViewportFromRect</em>(<i>int</i> x1, <i>int</i> y1, <i>int</i> x2, <i>int</i> y2, <i>bool</i> wantWork, <i>int*</i> leftOut, <i>int*</i> topOut, <i>int*</i> rightOut, <i>int*</i> bottomOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>JS_Window_GetViewportFromRect</em>", <i>int</i> x1, <i>int</i> y1, <i>int</i> x2, <i>int</i> y2, <i>bool</i> wantWork, <i>int</i> &left, <i>int</i> &top, <i>int</i> &right, <i>int</i> &bottom)</code></div>
-<div class="l">Lua: <code> <i>number</i> left, <i>number</i> top, <i>number</i> right, <i>number</i> bottom = <em>reaper.JS_Window_GetViewportFromRect</em>(<i>integer</i> x1, <i>integer</i> y1, <i>integer</i> x2, <i>integer</i> y2, <i>boolean</i> wantWork)</code></div>
+<div class="l">Lua: <code> <i>integer</i> left, <i>integer</i> top, <i>integer</i> right, <i>integer</i> bottom = <em>reaper.JS_Window_GetViewportFromRect</em>(<i>integer</i> x1, <i>integer</i> y1, <i>integer</i> x2, <i>integer</i> y2, <i>boolean</i> wantWork)</code></div>
 <div class="p">Python: <code> (<i>Int</i> x1, <i>Int</i> y1, <i>Int</i> x2, <i>Int</i> y2, <i>Boolean</i> wantWork, <i>Int</i> leftOut, <i>Int</i> topOut, <i>Int</i> rightOut, <i>Int</i> bottomOut) = <em>JS_Window_GetViewportFromRect</em>(x1, y1, x2, y2, wantWork, leftOut, topOut, rightOut, bottomOut)</code></div>
 </div><p>
 <div class="ch">
@@ -29038,19 +29038,19 @@ wantWork: Returns the work area of the display, which excludes the system taskba
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> left</td></tr>
+<tr><td class="pr"><i>integer</i> left</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> top</td></tr>
+<tr><td class="pr"><i>integer</i> top</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> right</td></tr>
+<tr><td class="pr"><i>integer</i> right</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> bottom</td></tr>
+<tr><td class="pr"><i>integer</i> bottom</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29350,7 +29350,7 @@ Determines the visibility state of the window.
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>JS_Window_MonitorFromRect</em>(<i>int</i> x1, <i>int</i> y1, <i>int</i> x2, <i>int</i> y2, <i>bool</i> wantWork, <i>int*</i> leftOut, <i>int*</i> topOut, <i>int*</i> rightOut, <i>int*</i> bottomOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>JS_Window_MonitorFromRect</em>", <i>int</i> x1, <i>int</i> y1, <i>int</i> x2, <i>int</i> y2, <i>bool</i> wantWork, <i>int</i> &left, <i>int</i> &top, <i>int</i> &right, <i>int</i> &bottom)</code></div>
-<div class="l">Lua: <code> <i>number</i> left, <i>number</i> top, <i>number</i> right, <i>number</i> bottom = <em>reaper.JS_Window_MonitorFromRect</em>(<i>integer</i> x1, <i>integer</i> y1, <i>integer</i> x2, <i>integer</i> y2, <i>boolean</i> wantWork)</code></div>
+<div class="l">Lua: <code> <i>integer</i> left, <i>integer</i> top, <i>integer</i> right, <i>integer</i> bottom = <em>reaper.JS_Window_MonitorFromRect</em>(<i>integer</i> x1, <i>integer</i> y1, <i>integer</i> x2, <i>integer</i> y2, <i>boolean</i> wantWork)</code></div>
 <div class="p">Python: <code> (<i>Int</i> x1, <i>Int</i> y1, <i>Int</i> x2, <i>Int</i> y2, <i>Boolean</i> wantWork, <i>Int</i> leftOut, <i>Int</i> topOut, <i>Int</i> rightOut, <i>Int</i> bottomOut) = <em>JS_Window_MonitorFromRect</em>(x1, y1, x2, y2, wantWork, leftOut, topOut, rightOut, bottomOut)</code></div>
 </div><p>
 <div class="ch">
@@ -29358,19 +29358,19 @@ Determines the visibility state of the window.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> left</td></tr>
+<tr><td class="pr"><i>integer</i> left</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> top</td></tr>
+<tr><td class="pr"><i>integer</i> top</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> right</td></tr>
+<tr><td class="pr"><i>integer</i> right</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> bottom</td></tr>
+<tr><td class="pr"><i>integer</i> bottom</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29535,7 +29535,7 @@ deprecated, removed from JS_0.952 and later
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>JS_Window_ScreenToClient</em>(<i>void*</i> windowHWND, <i>int</i> x, <i>int</i> y, <i>int*</i> xOut, <i>int*</i> yOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>JS_Window_ScreenToClient</em>", <i>void*</i> windowHWND, <i>int</i> x, <i>int</i> y, <i>int</i> &amp;x, <i>int</i> &amp;y)</code></div>
-<div class="l">Lua: <code> <i>number</i> x, <i>number</i> y = <em>reaper.JS_Window_ScreenToClient</em>(<i>identifier</i> windowHWND, <i>integer</i> x, <i>integer</i> y)</code></div>
+<div class="l">Lua: <code> <i>integer</i> x, <i>integer</i> y = <em>reaper.JS_Window_ScreenToClient</em>(<i>identifier</i> windowHWND, <i>integer</i> x, <i>integer</i> y)</code></div>
 <div class="p">Python: <code> (<i>void</i> windowHWND, <i>Int</i> x, <i>Int</i> y, <i>Int</i> xOut, <i>Int</i> yOut) = <em>JS_Window_ScreenToClient</em>(windowHWND, x, y, xOut, yOut)</code></div>
 </div><p>
 <div class="ch">
@@ -29543,11 +29543,11 @@ Converts the screen coordinates of a specified point on the screen to client-are
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> x</td></tr>
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> y  </td></tr>
+<tr><td class="pr"><i>integer</i> y  </td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30155,7 +30155,7 @@ Get interleaved audio data from media source
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>Xen_StartSourcePreview</em>(<i>PCM_source*</i> source, <i>double</i> gain, <i>bool</i> loop, <i>int*</i> outputchanindexInOptional)</code></div>
 <div class="e">EEL2: <code> <i>int</i> extension_api("<em>Xen_StartSourcePreview</em>", <i>PCM_source</i> source, gain, <i>bool</i> loop, <i>optional</i> <i>int</i> outputchanindexIn)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.Xen_StartSourcePreview</em>(<i>PCM_source</i> source, <i>number</i> gain, <i>boolean</i> loop, <i>optional</i> <i>number</i> outputchanindexIn)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.Xen_StartSourcePreview</em>(<i>PCM_source</i> source, <i>number</i> gain, <i>boolean</i> loop, <i>optional</i> <i>integer</i> outputchanindexIn)</code></div>
 <div class="p">Python: <code> (<i>Int</i> retval, <i>PCM_source</i> source, <i>Float</i> gain, <i>Boolean</i> loop, <i>Int</i> outputchanindexInOptional) = <em>Xen_StartSourcePreview</em>(source, gain, loop, outputchanindexInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -30184,7 +30184,7 @@ Get interleaved audio data from media source
 <tr><td class="ch2">true, loop the PCM_source; false, play only once</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> outputchanindexIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> outputchanindexIn</td></tr>
 <tr><td class="ch2">the output channel; for multichannel files, this is the first hardware-output-channel for e.g. left channel of a stereo file</td></tr>
 </table>
 <br>
@@ -30363,7 +30363,7 @@ returns button pressed mask, 1=first button, 2=second...
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>joystick_getinfo</em>(joystick_device* dev, <i>int*</i> axesOutOptional, <i>int*</i> povsOutOptional)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>joystick_getinfo</em>(<i>joystick_device</i> dev, <i>optional</i> <i>int</i> &amp;axes, <i>optional</i> <i>int</i> &amp;povs)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>number</i> axes, <i>optional</i> <i>number</i> povs = <em>reaper.joystick_getinfo</em>(<i>joystick_device</i> dev)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>integer</i> axes, <i>optional</i> <i>integer</i> povs = <em>reaper.joystick_getinfo</em>(<i>joystick_device</i> dev)</code></div>
 <div class="p">Python: <code> (<i>Int</i> retval, <i>joystick_device</i> dev, <i>Int</i> axesOutOptional, <i>Int</i> povsOutOptional) = <em>RPR_joystick_getinfo</em>(dev, axesOutOptional, povsOutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -30375,11 +30375,11 @@ returns button count
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> axes</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> axes</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> povs</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> povs</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31122,18 +31122,18 @@ returns false if there are no plugins on the track that support MIDI programs,or
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>GetTrackMIDINoteRange</em>(<i>ReaProject*</i> proj, <i>MediaTrack*</i>  track, <i>int*</i> note_loOut, <i>int*</i> note_hiOut)</code></div>
 <div class="e">EEL2: <code> <em>GetTrackMIDINoteRange</em>(<i>ReaProject</i> proj, <i>MediaTrack</i> track, <i>int</i> &amp;note_lo, <i>int</i> &amp;note_hi)</code></div>
-<div class="l">Lua: <code> <i>number</i> note_lo_retval, <i>number</i> note_hi = <em>reaper.GetTrackMIDINoteRange</em>(<i>ReaProject</i> proj, <i>MediaTrack</i> track)</code></div>
+<div class="l">Lua: <code> <i>integer</i> note_lo_retval, <i>integer</i> note_hi = <em>reaper.GetTrackMIDINoteRange</em>(<i>ReaProject</i> proj, <i>MediaTrack</i> track)</code></div>
 <div class="p">Python: <code> (<i>ReaProject</i> proj, <i>MediaTrack</i> track, <i>Int</i> note_loOut, <i>Int</i> note_hiOut) = <em>RPR_GetTrackMIDINoteRange</em>(proj, track, note_loOut, note_hiOut)</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> note_lo_retval</td></tr>
+<tr><td class="pr"><i>integer</i> note_lo_retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> note_hi</td></tr>
+<tr><td class="pr"><i>integer</i> note_hi</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -31294,7 +31294,7 @@ returns name of track plugin that is supplying MIDI programs,or NULL if there is
 <hr>
 <a class="anch" id="MIDIEditor_GetSetting_int"></a>
 <a href="#MIDIEditor_GetSetting_int"> ^</a> 
-<img width="3%" src="gfx/reaper5.975.png" alt="Reaper version 5.975"><u><b>MIDIEditor_GetSetting_int</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.41.png" alt="Reaper version 6.41"><u><b>MIDIEditor_GetSetting_int</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MIDIEditor_GetSetting_int</em>(<i>HWND</i> midieditor, <i>const</i> <i>char*</i> setting_desc)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>MIDIEditor_GetSetting_int</em>(<i>HWND</i> midieditor, "setting_desc")</code></div>
@@ -31302,7 +31302,8 @@ returns name of track plugin that is supplying MIDI programs,or NULL if there is
 <div class="p">Python: <code> <i>Int</i> <em>RPR_MIDIEditor_GetSetting_int</em>(<i>HWND</i> midieditor, <i>String</i> setting_desc)</code></div>
 </div><p>
 <div class="ch">
-<p>Get settings from a MIDI editor. setting_desc can be: snap_enabled: returns 0 or 1 active_note_row: returns 0-127 last_clicked_cc_lane: returns 0-127=CC, 0x100|(0-31)=14-bit CC, 0x200=velocity, 0x201=pitch, 0x202=program, 0x203=channel pressure, 0x204=bank/program select, 0x205=text, 0x206=sysex, 0x207=off velocity, 0x208=notation events, 0x210=media item lane default_note_vel: returns 0-127 default_note_chan: returns 0-15 default_note_len: returns default length in MIDI ticks scale_enabled: returns 0-1 scale_root: returns 0-12 (0=C) if setting_desc is unsupported, the function returns -1. See <a href="#MIDIEditor_SetSetting_int">MIDIEditor_SetSetting_int</a>, <a href="#MIDIEditor_GetActive">MIDIEditor_GetActive</a>, <a href="#MIDIEditor_GetSetting_str">MIDIEditor_GetSetting_str</a></p>
+<p>Get settings from a MIDI editor. setting_desc can be: snap_enabled: returns 0 or 1 active_note_row: returns 0-127 last_clicked_cc_lane: returns 0-127=CC, 0x100|(0-31)=14-bit CC, 0x200=velocity, 0x201=pitch, 0x202=program, 0x203=channel pressure, 0x204=bank/program select, 0x205=text, 0x206=sysex, 0x207=off velocity, 0x208=notation events, 0x210=media item lane default_note_vel: returns 0-127 default_note_chan: returns 0-15 default_note_len: returns default length in MIDI ticks scale_enabled: returns 0-1 scale_root: returns 0-12 (0=C) list_cnt: if viewing list view, returns event count<br />
+if setting_desc is unsupported, the function returns -1. See <a href="#MIDIEditor_SetSetting_int">MIDIEditor_SetSetting_int</a>, <a href="#MIDIEditor_GetActive">MIDIEditor_GetActive</a>, <a href="#MIDIEditor_GetSetting_str">MIDIEditor_GetSetting_str</a></p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -31325,15 +31326,16 @@ returns name of track plugin that is supplying MIDI programs,or NULL if there is
 <hr>
 <a class="anch" id="MIDIEditor_GetSetting_str"></a>
 <a href="#MIDIEditor_GetSetting_str"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>MIDIEditor_GetSetting_str</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.41.png" alt="Reaper version 6.41"><u><b>MIDIEditor_GetSetting_str</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>MIDIEditor_GetSetting_str</em>(<i>HWND</i> midieditor, <i>const</i> <i>char*</i> setting_desc, <i>char*</i> buf, <i>int</i> buf_sz)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>MIDIEditor_GetSetting_str</em>(<i>HWND</i> midieditor, <i>const</i> <i>char*</i> setting_desc, <i>char*</i> bufOut, <i>int</i> bufOut_sz)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDIEditor_GetSetting_str</em>(<i>HWND</i> midieditor, "setting_desc", #buf)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.MIDIEditor_GetSetting_str</em>(<i>HWND</i> midieditor, <i>string</i> setting_desc, <i>string</i> buf)</code></div>
-<div class="p">Python: <code> (<i>Boolean</i> retval, <i>HWND</i> midieditor, <i>String</i> setting_desc, <i>String</i> buf, <i>Int</i> buf_sz) = <em>RPR_MIDIEditor_GetSetting_str</em>(midieditor, setting_desc, buf, buf_sz)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.MIDIEditor_GetSetting_str</em>(<i>HWND</i> midieditor, <i>string</i> setting_desc)</code></div>
+<div class="p">Python: <code> (<i>Boolean</i> retval, <i>HWND</i> midieditor, <i>String</i> setting_desc, <i>String</i> bufOut, <i>Int</i> bufOut_sz) = <em>RPR_MIDIEditor_GetSetting_str</em>(midieditor, setting_desc, bufOut, bufOut_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Get settings from a MIDI editor. setting_desc can be: last_clicked_cc_lane: returns text description ("velocity", "pitch", etc) scale: returns the scale record, for example "102034050607" for a major scale if setting_desc is unsupported, the function returns false.</p>
+<p>Get settings from a MIDI editor. setting_desc can be: last_clicked_cc_lane: returns text description ("velocity", "pitch", etc) scale: returns the scale record, for example "102034050607" for a major scale list_X: if viewing list view, returns string describing event at row X (0-based). String will have a list of key=value pairs, e.g. 'pos=4.0 len=4.0 offvel=127 msg=90317F'. pos/len times are in QN, len/offvel may not be present if event is not a note. other keys which may be present include pos_pq/len_pq, sel, mute, ccval14, ccshape, ccbeztension.</p>
+<p>if setting_desc is unsupported, the function returns false.</p>
 <p>See <a href="#MIDIEditor_GetActive">MIDIEditor_GetActive</a>, <a href="#MIDIEditor_GetSetting_int">MIDIEditor_GetSetting_int</a></p>
 </div><br>      
 <u>Returnvalues:</u>
@@ -32291,7 +32293,7 @@ Returns the project time in seconds corresponding to a specific MIDI tick (ppq) 
 <hr>
 <a class="anch" id="MIDI_GetRecentInputEvent"></a>
 <a href="#MIDI_GetRecentInputEvent"> ^</a> 
-<img width="3%" src="gfx/reaper6.39.png" alt="Reaper version 6.39"><u><b>MIDI_GetRecentInputEvent</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.41.png" alt="Reaper version 6.41"><u><b>MIDI_GetRecentInputEvent</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MIDI_GetRecentInputEvent</em>(<i>int</i> idx, <i>char*</i> bufOut, <i>int*</i> bufOut_sz, <i>int*</i> tsOut, <i>int*</i> devIdxOut, <i>double*</i> projPosOut, <i>int*</i> projLoopCntOut)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>MIDI_GetRecentInputEvent</em>(<i>int</i> idx, #buf, <i>int</i> &ts, <i>int</i> &devIdx, &projPos, <i>int</i> &projLoopCnt)</code></div>
@@ -32322,15 +32324,19 @@ projPosOut/projPos will be set to project position in seconds if project was pla
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> ts</td></tr>
+<tr><td class="pr"><i>integer</i> ts</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> devIdx</td></tr>
+<tr><td class="pr"><i>integer</i> devIdx</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> projPos</td></tr>
+<tr><td class="pr"><i>integer</i> projPos</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> projLoopCnt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -32757,7 +32763,7 @@ Select or deselect all MIDI content.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_SetCC</em>(<i>MediaItem_Take*</i> take, <i>int</i> ccidx, <i>const</i> <i>bool*</i> selectedInOptional, <i>const</i> <i>bool*</i> mutedInOptional, <i>const</i> <i>double*</i> ppqposInOptional, <i>const</i> <i>int*</i> chanmsgInOptional, <i>const</i> <i>int*</i> chanInOptional, <i>const</i> <i>int*</i> msg2InOptional, <i>const</i> <i>int*</i> msg3InOptional, <i>const</i> <i>bool*</i> noSortInOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_SetCC</em>(<i>MediaItem_Take</i> take, <i>int</i> ccidx, <i>optional</i> <i>bool</i> selectedIn, <i>optional</i> <i>bool</i> mutedIn, <i>optional</i> ppqposIn, <i>optional</i> <i>int</i> chanmsgIn, <i>optional</i> <i>int</i> chanIn, <i>optional</i> <i>int</i> msg2In, <i>optional</i> <i>int</i> msg3In, <i>optional</i> <i>bool</i> noSortIn)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_SetCC</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> mutedIn, <i>optional</i> <i>number</i> ppqposIn, <i>optional</i> <i>number</i> chanmsgIn, <i>optional</i> <i>number</i> chanIn, <i>optional</i> <i>number</i> msg2In, <i>optional</i> <i>number</i> msg3In, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_SetCC</em>(<i>MediaItem_Take</i> take, <i>integer</i> ccidx, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> mutedIn, <i>optional</i> <i>number</i> ppqposIn, <i>optional</i> <i>integer</i> chanmsgIn, <i>optional</i> <i>integer</i> chanIn, <i>optional</i> <i>integer</i> msg2In, <i>optional</i> <i>integer</i> msg3In, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_MIDI_SetCC</em>(<i>MediaItem_Take</i> take, <i>Int</i> ccidx, <i>const</i> <i>bool</i> selectedInOptional, <i>const</i> <i>bool</i> mutedInOptional, <i>const</i> <i>double</i> ppqposInOptional, <i>const</i> <i>int</i> chanmsgInOptional, <i>const</i> <i>int</i> chanInOptional, <i>const</i> <i>int</i> msg2InOptional, <i>const</i> <i>int</i> msg3InOptional, <i>const</i> <i>bool</i> noSortInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -32791,19 +32797,19 @@ Set MIDI CC event properties. Properties passed as NULL will not be set. set noS
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> chanmsgIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> chanmsgIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> chanIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> chanIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> msg2In</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> msg2In</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> msg3In</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> msg3In</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -32949,7 +32955,7 @@ Set the start/end positions of a media item that contains a MIDI take.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_SetNote</em>(<i>MediaItem_Take*</i> take, <i>int</i> noteidx, <i>const</i> <i>bool*</i> selectedInOptional, <i>const</i> <i>bool*</i> mutedInOptional, <i>const</i> <i>double*</i> startppqposInOptional, <i>const</i> <i>double*</i> endppqposInOptional, <i>const</i> <i>int*</i> chanInOptional, <i>const</i> <i>int*</i> pitchInOptional, <i>const</i> <i>int*</i> velInOptional, <i>const</i> <i>bool*</i> noSortInOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_SetNote</em>(<i>MediaItem_Take</i> take, <i>int</i> noteidx, <i>optional</i> <i>bool</i> selectedIn, <i>optional</i> <i>bool</i> mutedIn, <i>optional</i> startppqposIn, <i>optional</i> endppqposIn, <i>optional</i> <i>int</i> chanIn, <i>optional</i> <i>int</i> pitchIn, <i>optional</i> <i>int</i> velIn, <i>optional</i> <i>bool</i> noSortIn)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_SetNote</em>(<i>MediaItem_Take</i> take, <i>integer</i> noteidx, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> mutedIn, <i>optional</i> <i>number</i> startppqposIn, <i>optional</i> <i>number</i> endppqposIn, <i>optional</i> <i>number</i> chanIn, <i>optional</i> <i>number</i> pitchIn, <i>optional</i> <i>number</i> velIn, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_SetNote</em>(<i>MediaItem_Take</i> take, <i>integer</i> noteidx, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> mutedIn, <i>optional</i> <i>number</i> startppqposIn, <i>optional</i> <i>number</i> endppqposIn, <i>optional</i> <i>integer</i> chanIn, <i>optional</i> <i>integer</i> pitchIn, <i>optional</i> <i>integer</i> velIn, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_MIDI_SetNote</em>(<i>MediaItem_Take</i> take, <i>Int</i> noteidx, <i>const</i> <i>bool</i> selectedInOptional, <i>const</i> <i>bool</i> mutedInOptional, <i>const</i> <i>double</i> startppqposInOptional, <i>const</i> <i>double</i> endppqposInOptional, <i>const</i> <i>int</i> chanInOptional, <i>const</i> <i>int</i> pitchInOptional, <i>const</i> <i>int</i> velInOptional, <i>const</i> <i>bool</i> noSortInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -32987,15 +32993,15 @@ Set MIDI note properties. Properties passed as NULL (or negative values) will no
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> chanIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> chanIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> pitchIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> pitchIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> velIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> velIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -33012,7 +33018,7 @@ Set MIDI note properties. Properties passed as NULL (or negative values) will no
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>MIDI_SetTextSysexEvt</em>(<i>MediaItem_Take*</i> take, <i>int</i> textsyxevtidx, <i>const</i> <i>bool*</i> selectedInOptional, <i>const</i> <i>bool*</i> mutedInOptional, <i>const</i> <i>double*</i> ppqposInOptional, <i>const</i> <i>int*</i> typeInOptional, <i>const</i> <i>char*</i> msgOptional, <i>int</i> msgOptional_sz, <i>const</i> <i>bool*</i> noSortInOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>MIDI_SetTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>int</i> textsyxevtidx, <i>optional</i> <i>bool</i> selectedIn, <i>optional</i> <i>bool</i> mutedIn, <i>optional</i> ppqposIn, <i>optional</i> <i>int</i> typeIn, <i>optional</i> "msg", <i>optional</i> <i>bool</i> noSortIn)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_SetTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>integer</i> textsyxevtidx, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> mutedIn, <i>optional</i> <i>number</i> ppqposIn, <i>optional</i> <i>number</i> typeIn, <i>optional</i> <i>string</i> msg, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.MIDI_SetTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>integer</i> textsyxevtidx, <i>optional</i> <i>boolean</i> selectedIn, <i>optional</i> <i>boolean</i> mutedIn, <i>optional</i> <i>number</i> ppqposIn, <i>optional</i> <i>integer</i> typeIn, <i>optional</i> <i>string</i> msg, <i>optional</i> <i>boolean</i> noSortIn)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_MIDI_SetTextSysexEvt</em>(<i>MediaItem_Take</i> take, <i>Int</i> textsyxevtidx, <i>const</i> <i>bool</i> selectedInOptional, <i>const</i> <i>bool</i> mutedInOptional, <i>const</i> <i>double</i> ppqposInOptional, <i>const</i> <i>int</i> typeInOptional, <i>String</i> msgOptional, <i>Int</i> msgOptional_sz, <i>const</i> <i>bool</i> noSortInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -33046,7 +33052,7 @@ Set MIDI text or sysex event properties. Properties passed as NULL will not be s
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> typeIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> typeIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -33455,7 +33461,7 @@ Returns the index of the created marker/region, or -1 on failure. Supply wantidx
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>CountProjectMarkers</em>(<i>ReaProject*</i> proj, <i>int*</i> num_markersOut, <i>int*</i> num_regionsOut)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>CountProjectMarkers</em>(<i>ReaProject</i> proj, <i>int</i> &amp;num_markers, <i>int</i> &amp;num_regions)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>number</i> num_markers, <i>number</i> num_regions = <em>reaper.CountProjectMarkers</em>(<i>ReaProject</i> proj)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>integer</i> num_markers, <i>integer</i> num_regions = <em>reaper.CountProjectMarkers</em>(<i>ReaProject</i> proj)</code></div>
 <div class="p">Python: <code> (<i>Int</i> retval, <i>ReaProject</i> proj, <i>Int</i> num_markersOut, <i>Int</i> num_regionsOut) = <em>RPR_CountProjectMarkers</em>(proj, num_markersOut, num_regionsOut)</code></div>
 </div><p>
 <div class="ch">
@@ -33617,7 +33623,7 @@ Does not delete tempo/timesignature markers!
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>DeleteTakeStretchMarkers</em>(<i>MediaItem_Take*</i> take, <i>int</i> idx, <i>const</i> <i>int*</i> countInOptional)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>DeleteTakeStretchMarkers</em>(<i>MediaItem_Take</i> take, <i>int</i> idx, <i>optional</i> <i>int</i> countIn)</code></div>
-<div class="l">Lua: <code> <i>integer</i> count_del_stretchmarkers = <em>reaper.DeleteTakeStretchMarkers</em>(<i>MediaItem_Take</i> take, <i>integer</i> idx, <i>optional</i> <i>number</i> countIn)</code></div>
+<div class="l">Lua: <code> <i>integer</i> count_del_stretchmarkers = <em>reaper.DeleteTakeStretchMarkers</em>(<i>MediaItem_Take</i> take, <i>integer</i> idx, <i>optional</i> <i>integer</i> countIn)</code></div>
 <div class="p">Python: <code> <i>Int</i> <em>RPR_DeleteTakeStretchMarkers</em>(<i>MediaItem_Take</i> take, <i>Int</i> idx, <i>const</i> <i>int</i> countInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -33639,7 +33645,7 @@ Deletes one or more stretch markers. Returns number of stretch markers deleted.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> countIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> countIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -34034,7 +34040,7 @@ this does not reflect tempo envelopes but is purely what is set in the project s
 <div class="cc">
 <div class="c">C: <code> <i>double</i> position = <em>GetTakeMarker</em>(<i>MediaItem_Take*</i> take, <i>int</i> idx, <i>char*</i> nameOut, <i>int</i> nameOut_sz, <i>int*</i> colorOutOptional)</code></div>
 <div class="e">EEL2: <code> <i>double</i> position = <em>GetTakeMarker</em>(<i>MediaItem_Take</i> take, <i>int</i> idx, #name, <i>optional</i> <i>int</i> &color)</code></div>
-<div class="l">Lua: <code> <i>number</i> position, <i>string</i> name, <i>optional</i> <i>number</i> color = <em>reaper.GetTakeMarker</em>(<i>MediaItem_Take</i> take, <i>integer</i> idx)</code></div>
+<div class="l">Lua: <code> <i>number</i> position, <i>string</i> name, <i>optional</i> <i>integer</i> color = <em>reaper.GetTakeMarker</em>(<i>MediaItem_Take</i> take, <i>integer</i> idx)</code></div>
 <div class="p">Python: <code> (<i>Float</i> position, <i>MediaItem_Take</i> take, <i>Int</i> idx, <i>String</i> nameOut, <i>Int</i> nameOut_sz, <i>Int</i> colorOutOptional) = <em>RPR_GetTakeMarker</em>(take, idx, nameOut, nameOut_sz, colorOutOptional))</code></div>
 </div><p>
 <div class="ch">
@@ -34051,7 +34057,7 @@ this does not reflect tempo envelopes but is purely what is set in the project s
 <tr><td class="ch2">the name of the takemarker</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> color</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> color</td></tr>
 <tr><td class="ch2">the color of the takemarker</td></tr>
 </table>
 <br>
@@ -34178,7 +34184,7 @@ If position/source position are used to find marker position, their values are n
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>GetTempoTimeSigMarker</em>(<i>ReaProject*</i> proj, <i>int</i> ptidx, <i>double*</i> timeposOut, <i>int*</i> measureposOut, <i>double*</i> beatposOut, <i>double*</i> bpmOut, <i>int*</i> timesig_numOut, <i>int*</i> timesig_denomOut, <i>bool*</i> lineartempoOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>GetTempoTimeSigMarker</em>(<i>ReaProject</i> proj, <i>int</i> ptidx, &amp;timepos, <i>int</i> &amp;measurepos, &amp;beatpos, &amp;bpm, <i>int</i> &amp;timesig_num, <i>int</i> &amp;timesig_denom, <i>bool</i> &amp;lineartempo)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> timepos, <i>number</i> measurepos, <i>number</i> beatpos, <i>number</i> bpm, <i>number</i> timesig_num, <i>number</i> timesig_denom, <i>boolean</i> lineartempo = <em>reaper.GetTempoTimeSigMarker</em>(<i>ReaProject</i> proj, <i>integer</i> ptidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> timepos, <i>integer</i> measurepos, <i>number</i> beatpos, <i>number</i> bpm, <i>integer</i> timesig_num, <i>integer</i> timesig_denom, <i>boolean</i> lineartempo = <em>reaper.GetTempoTimeSigMarker</em>(<i>ReaProject</i> proj, <i>integer</i> ptidx)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>ReaProject</i> proj, <i>Int</i> ptidx, <i>Float</i> timeposOut, <i>Int</i> measureposOut, <i>Float</i> beatposOut, <i>Float</i> bpmOut, <i>Int</i> timesig_numOut, <i>Int</i> timesig_denomOut, <i>Boolean</i> lineartempoOut) = <em>RPR_GetTempoTimeSigMarker</em>(proj, ptidx, timeposOut, measureposOut, beatposOut, bpmOut, timesig_numOut, timesig_denomOut, lineartempoOut)</code></div>
 </div><p>
 <div class="ch">
@@ -34194,7 +34200,7 @@ If position/source position are used to find marker position, their values are n
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> measurepos</td></tr>
+<tr><td class="pr"><i>integer</i> measurepos</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -34206,11 +34212,11 @@ If position/source position are used to find marker position, their values are n
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> timesig_num</td></tr>
+<tr><td class="pr"><i>integer</i> timesig_num</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> timesig_denom</td></tr>
+<tr><td class="pr"><i>integer</i> timesig_denom</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -34705,7 +34711,7 @@ color should be 0 to not change, or ColorToNative(r,g,b)|0x1000000, flags&amp;1 
 <div class="cc">
 <div class="c">C: <code> <i>int</i> index = <em>SetTakeMarker</em>(<i>MediaItem_Take*</i> take, <i>int</i> idx, <i>const</i> <i>char*</i> nameIn, <i>double*</i> srcposInOptional, <i>int*</i> colorInOptional)</code></div>
 <div class="e">EEL2: <code> <i>int</i> index = <em>SetTakeMarker</em>(<i>MediaItem_Take</i> take, <i>int</i> idx, "nameIn", <i>optional</i> srcposIn, <i>optional</i> <i>int</i> colorIn)</code></div>
-<div class="l">Lua: <code> <i>integer</i> index = <em>reaper.SetTakeMarker</em>(<i>MediaItem_Take</i> take, <i>integer</i> idx, <i>string</i> nameIn, <i>optional</i> <i>number</i> srcposIn, <i>optional</i> <i>number</i> colorIn)</code></div>
+<div class="l">Lua: <code> <i>integer</i> index = <em>reaper.SetTakeMarker</em>(<i>MediaItem_Take</i> take, <i>integer</i> idx, <i>string</i> nameIn, <i>optional</i> <i>number</i> srcposIn, <i>optional</i> <i>integer</i> colorIn)</code></div>
 <div class="p">Python: <code> (<i>Int</i> index, <i>MediaItem_Take</i> take, <i>Int</i> idx, <i>String</i> nameIn, <i>Float</i> srcposInOptional, <i>Int</i> colorInOptional) = <em>RPR_SetTakeMarker</em>(take, idx, nameIn, srcposInOptional, colorInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -34737,7 +34743,7 @@ color should be 0 to not change, or ColorToNative(r,g,b)|0x1000000, flags&amp;1 
 <tr><td class="ch2">the position of the takemarker; omit if you want to keep the old position; must be given, when inserting a new takemarker</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> colorIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> colorIn</td></tr>
 <tr><td class="ch2">the color of the takemarker</td></tr>
 </table>
 <br>
@@ -35086,7 +35092,7 @@ Nudges elements like items, cursor, contents, etc to or by a value you want. Nud
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> imageFlags</td></tr>
+<tr><td class="pr"><i>integer</i> imageFlags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -37916,7 +37922,7 @@ Fills in a string representing the active metronome pattern. For example, in a 7
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>TimeMap_GetTimeSigAtTime</em>(<i>ReaProject*</i> proj, <i>double</i> time, <i>int*</i> timesig_numOut, <i>int*</i> timesig_denomOut, <i>double*</i> tempoOut)</code></div>
 <div class="e">EEL2: <code> <em>TimeMap_GetTimeSigAtTime</em>(<i>ReaProject</i> proj, time, <i>int</i> &amp;timesig_num, <i>int</i> &amp;timesig_denom, &amp;tempo)</code></div>
-<div class="l">Lua: <code> <i>number</i> timesig_num retval, <i>number</i> timesig_denom, <i>number</i> tempo = <em>reaper.TimeMap_GetTimeSigAtTime</em>(<i>ReaProject</i> proj, <i>number</i> time)</code></div>
+<div class="l">Lua: <code> <i>integer</i> timesig_num, <i>integer</i> timesig_denom, <i>number</i> tempo = <em>reaper.TimeMap_GetTimeSigAtTime</em>(<i>ReaProject</i> proj, <i>number</i> time)</code></div>
 <div class="p">Python: <code> (<i>ReaProject</i> proj, <i>Float</i> time, <i>Int</i> timesig_numOut, <i>Int</i> timesig_denomOut, <i>Float</i> tempoOut) = <em>RPR_TimeMap_GetTimeSigAtTime</em>(proj, time, timesig_numOut, timesig_denomOut, tempoOut)</code></div>
 </div><p>
 <div class="ch">
@@ -37924,11 +37930,11 @@ get the effective time signature and tempo
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> timesig_num retval</td></tr>
+<tr><td class="pr"><i>integer</i> timesig_num</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> timesig_denom</td></tr>
+<tr><td class="pr"><i>integer</i> timesig_denom</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -38741,8 +38747,8 @@ deprecated, see GetSetProjectInfo_String with desc="PROJECT_AUTHOR"
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965"><u><b>GetSetProjectGrid</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>GetSetProjectGrid</em>(<i>ReaProject*</i> project, <i>bool</i> set, <i>double*</i> divisionInOutOptional, <i>int*</i> swingmodeInOutOptional, <i>double*</i> swingamtInOutOptional)</code></div>
-<div class="e">EEL2: <code> <i>int</i> <em>GetSetProjectGrid</em>(<i>ReaProject</i> project, <i>bool</i> set, <i>optional</i> &amp;divisionIn, <i>optional</i> <i>int</i> &amp;swingmodeIn, <i>optional</i> &amp;swingamtIn)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>number</i> divisionIn, <i>optional</i> <i>number</i> swingmodeIn, <i>optional</i> <i>number</i> swingamtIn = <em>reaper.GetSetProjectGrid</em>(<i>ReaProject</i> project, <i>boolean</i> set)</code></div>
+<div class="e">EEL2: <code> <i>int</i> <em>GetSetProjectGrid</em>(<i>ReaProject</i> project, <i>bool</i> set, <i>optional</i> &division, <i>optional</i> <i>int</i> &swingmode, <i>optional</i> &swingamt)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>number</i> division, <i>optional</i> <i>integer</i> swingmode, <i>optional</i> <i>number</i> swingamt = <em>reaper.GetSetProjectGrid</em>(<i>ReaProject</i> project, <i>boolean</i> set, <i>optional</i> <i>number</i> division, <i>optional</i> <i>integer</i> swingmode, <i>optional</i> <i>number</i> swingamt)</code></div>
 <div class="p">Python: <code> (<i>Int</i> retval, <i>ReaProject</i> project, <i>Boolean</i> set, <i>Float</i> divisionInOutOptional, <i>Int</i> swingmodeInOutOptional, <i>Float</i> swingamtInOutOptional) = <em>RPR_GetSetProjectGrid</em>(project, set, divisionInOutOptional, swingmodeInOutOptional, swingamtInOutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -38754,15 +38760,15 @@ Get or set the arrange view grid division. 0.25=quarter note, 1.0/3.0=half note 
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> divisionIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> division</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> swingmodeIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> swingmode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> swingamtIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> swingamt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -38773,6 +38779,18 @@ Get or set the arrange view grid division. 0.25=quarter note, 1.0/3.0=half note 
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> set</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> division</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> swingmode</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> swingamt</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -60569,7 +60587,7 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>ReaPack_EnumOwnedFiles</em>(PackageEntry* entry, <i>int</i> index, <i>char*</i> pathOut, <i>int</i> pathOut_sz, <i>int*</i> sectionsOut, <i>int*</i> typeOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>ReaPack_EnumOwnedFiles</em>", <i>PackageEntry</i> entry, <i>int</i> index, #path, <i>int</i> &sections, <i>int</i> &type)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> path, <i>number</i> sections, <i>number</i> type = <em>reaper.ReaPack_EnumOwnedFiles</em>(<i>PackageEntry</i> entry, <i>integer</i> index)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> path, <i>integer</i> sections, <i>integer</i> type = <em>reaper.ReaPack_EnumOwnedFiles</em>(<i>PackageEntry</i> entry, <i>integer</i> index)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>PackageEntry</i> entry, <i>Int</i> index, <i>String</i> pathOut, <i>Int</i> pathOut_sz, <i>Int</i> sectionsOut, <i>Int</i> typeOut) = <em>ReaPack_EnumOwnedFiles</em>(entry, index, pathOut, pathOut_sz, sectionsOut, typeOut)</code></div>
 </div><p>
 <div class="ch">
@@ -60587,7 +60605,7 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <tr><td class="ch2">the path and filename of the installed file</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> sections</td></tr>
+<tr><td class="pr"><i>integer</i> sections</td></tr>
 <tr><td class="ch2">the section(s), in which this file is installed; it is an integer bitfield<br/>
 &nbsp;&nbsp;0=not in action list<br/>
 &nbsp;&nbsp;&amp;1=main<br/>
@@ -60595,7 +60613,7 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 &nbsp;&nbsp;&amp;4=midi inline editor</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> type</td></tr>
+<tr><td class="pr"><i>integer</i> type</td></tr>
 <tr><td class="ch2">the type of the extension, in which this file exists<br/>
 &nbsp;&nbsp;1, script <br/>
 &nbsp;&nbsp;2, extension<br/>
@@ -60652,7 +60670,7 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>ReaPack_GetEntryInfo</em>(PackageEntry* entry, <i>char*</i> repoOut, <i>int</i> repoOut_sz, <i>char*</i> catOut, <i>int</i> catOut_sz, <i>char*</i> pkgOut, <i>int</i> pkgOut_sz, <i>char*</i> descOut, <i>int</i> descOut_sz, <i>int*</i> typeOut, <i>char*</i> verOut, <i>int</i> verOut_sz, <i>char*</i> authorOut, <i>int</i> authorOut_sz, <i>bool*</i> pinnedOut, <i>int*</i> fileCountOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>ReaPack_GetEntryInfo</em>", <i>PackageEntry</i> entry, #repo, #cat, #pkg, #desc, <i>int</i> &type, #ver, #author, <i>bool</i> &pinned, <i>int</i> &fileCount)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> repo, <i>string</i> cat, <i>string</i> pkg, <i>string</i> desc, <i>number</i> type, <i>string</i> ver, <i>string</i> author, <i>boolean</i> pinned, <i>number</i> fileCount = <em>reaper.ReaPack_GetEntryInfo</em>(<i>PackageEntry</i> entry)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> repo, <i>string</i> cat, <i>string</i> pkg, <i>string</i> desc, <i>integer</i> type, <i>string</i> ver, <i>string</i> author, <i>boolean</i> pinned, <i>integer</i> fileCount = <em>reaper.ReaPack_GetEntryInfo</em>(<i>PackageEntry</i> entry)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>PackageEntry</i> entry, <i>String</i> repoOut, <i>Int</i> repoOut_sz, <i>String</i> catOut, <i>Int</i> catOut_sz, <i>String</i> pkgOut, <i>Int</i> pkgOut_sz, <i>String</i> descOut, <i>Int</i> descOut_sz, <i>Int</i> typeOut, <i>String</i> verOut, <i>Int</i> verOut_sz, <i>String</i> authorOut, <i>Int</i> authorOut_sz, <i>Boolean</i> pinnedOut, <i>Int</i> fileCountOut) = <em>ReaPack_GetEntryInfo</em>(entry, repoOut, repoOut_sz, catOut, catOut_sz, pkgOut, pkgOut_sz, descOut, descOut_sz, typeOut, verOut, verOut_sz, authorOut, authorOut_sz, pinnedOut, fileCountOut)</code></div>
 </div><p>
 <div class="ch">
@@ -60681,7 +60699,7 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <tr><td class="ch2">the description of this package</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> type</td></tr>
+<tr><td class="pr"><i>integer</i> type</td></tr>
 <tr><td class="ch2">the type of this package<br/>
 1, script<br/>
 2, extension<br/>
@@ -60704,7 +60722,7 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <tr><td class="ch2">the pinned-status of this package</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> fileCount</td></tr>
+<tr><td class="pr"><i>integer</i> fileCount</td></tr>
 <tr><td class="ch2">the number of files of this package</td></tr>
 </table>
 <br>
@@ -60754,7 +60772,7 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>ReaPack_GetRepositoryInfo</em>(<i>const</i> <i>char*</i> name, <i>char*</i> urlOut, <i>int</i> urlOut_sz, <i>bool*</i> enabledOut, <i>int*</i> autoInstallOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>ReaPack_GetRepositoryInfo</em>", "name", #url, <i>bool</i> &enabled, <i>int</i> &autoInstall)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> url, <i>boolean</i> enabled, <i>number</i> autoInstall = <em>reaper.ReaPack_GetRepositoryInfo</em>(<i>string</i> name)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> url, <i>boolean</i> enabled, <i>integer</i> autoInstall = <em>reaper.ReaPack_GetRepositoryInfo</em>(<i>string</i> name)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>String</i> name, <i>String</i> urlOut, <i>Int</i> urlOut_sz, <i>Boolean</i> enabledOut, <i>Int</i> autoInstallOut) = <em>ReaPack_GetRepositoryInfo</em>(name, urlOut, urlOut_sz, enabledOut, autoInstallOut)</code></div>
 </div><p>
 <div class="ch">
@@ -60774,7 +60792,7 @@ Get the infos of the given repository.
 <tr><td class="ch2">true, the repository is enabled for installing/syncing; false, if not</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> autoInstall</td></tr>
+<tr><td class="pr"><i>integer</i> autoInstall</td></tr>
 <tr><td class="ch2">shall this repository be automatically installed when syncing?<br/>
 0, manual <br/>
 1, when synchronizing<br/>
@@ -61273,7 +61291,7 @@ returns false if failed.
 <div class="cc">
 <div class="c">C: <code> <i>const</i> <i>char*</i> <em>ThemeLayout_GetParameter</em>(<i>int</i> wp, <i>const</i> char** descOutOptional, <i>int*</i> valueOutOptional, <i>int*</i> defValueOutOptional, <i>int*</i> minValueOutOptional, <i>int*</i> maxValueOutOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>ThemeLayout_GetParameter</em>(#retval, <i>int</i> wp, <i>optional</i> #desc, <i>optional</i> <i>int</i> &value, <i>optional</i> <i>int</i> &defValue, <i>optional</i> <i>int</i> &minValue, <i>optional</i> <i>int</i> &maxValue)</code></div>
-<div class="l">Lua: <code> <i>string</i> retval, <i>optional</i> <i>string</i> desc, <i>optional</i> <i>number</i> value, <i>optional</i> <i>number</i> defValue, <i>optional</i> <i>number</i> minValue, <i>optional</i> <i>number</i> maxValue = <em>reaper.ThemeLayout_GetParameter</em>(<i>integer</i> wp)</code></div>
+<div class="l">Lua: <code> <i>string</i> retval, <i>optional</i> <i>string</i> desc, <i>optional</i> <i>integer</i> value, <i>optional</i> <i>integer</i> defValue, <i>optional</i> <i>integer</i> minValue, <i>optional</i> <i>integer</i> maxValue = <em>reaper.ThemeLayout_GetParameter</em>(<i>integer</i> wp)</code></div>
 <div class="p">Python: <code> (<i>String</i> retval, <i>Int</i> wp, <i>String</i> descOutOptional, <i>Int</i> valueOutOptional, <i>Int</i> defValueOutOptional, <i>Int</i> minValueOutOptional, <i>Int</i> maxValueOutOptional) = <em>RPR_ThemeLayout_GetParameter</em>(wp, descOutOptional, valueOutOptional, defValueOutOptional, minValueOutOptional, maxValueOutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -61289,19 +61307,19 @@ returns theme layout parameter. return value is cfg-name, or nil/empty if out of
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> value</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> defValue</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> defValue</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> minValue</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> minValue</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> maxValue</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> maxValue</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -63648,7 +63666,7 @@ Get the depth of a track within a folder structure
 <div class="cc">
 <div class="c">C: <code> <i>MediaTrack*</i>  <em>GetTrackFromPoint</em>(<i>int</i> screen_x, <i>int</i> screen_y, <i>int*</i> infoOutOptional)</code></div>
 <div class="e">EEL2: <code> <i>MediaTrack</i> <em>GetTrackFromPoint</em>(<i>int</i> screen_x, <i>int</i> screen_y, <i>optional</i> <i>int</i> &info)</code></div>
-<div class="l">Lua: <code> <i>MediaTrack</i> retval, <i>optional</i> <i>number</i> info = <em>reaper.GetTrackFromPoint</em>(<i>integer</i> screen_x, <i>integer</i> screen_y)</code></div>
+<div class="l">Lua: <code> <i>MediaTrack</i> retval, <i>optional</i> <i>integer</i> info = <em>reaper.GetTrackFromPoint</em>(<i>integer</i> screen_x, <i>integer</i> screen_y)</code></div>
 <div class="p">Python: <code> (<i>MediaTrack</i> retval, <i>Int</i> screen_x, <i>Int</i> screen_y, <i>Int</i> infoOutOptional) = <em>RPR_GetTrackFromPoint</em>(screen_x, screen_y, infoOutOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -63662,7 +63680,7 @@ Get the depth of a track within a folder structure
 <tr><td class="ch2">the MediaTrack at position; if the position is above a window associated with the track, this holds the track, where retval info will hold additional information</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> info</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> info</td></tr>
 <tr><td class="ch2">additional information, if the position is above a windows associated with a track<br/>
 1, if it is likely an envelope<br/>
 2, if it is likely a track FX</td></tr>
@@ -64065,7 +64083,7 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <div class="cc">
 <div class="c">C: <code> <i>const</i> <i>char*</i> <em>GetTrackState</em>(<i>MediaTrack*</i>  track, <i>int*</i> flagsOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>GetTrackState</em>(#retval, <i>MediaTrack</i> track, <i>int</i> &amp;flags)</code></div>
-<div class="l">Lua: <code> <i>string</i> retval, <i>number</i> flags = <em>reaper.GetTrackState</em>(<i>MediaTrack</i> track)</code></div>
+<div class="l">Lua: <code> <i>string</i> retval, <i>integer</i> flags = <em>reaper.GetTrackState</em>(<i>MediaTrack</i> track)</code></div>
 <div class="p">Python: <code> (<i>String</i> retval, <i>MediaTrack</i> track, <i>Int</i> flagsOut) = <em>RPR_GetTrackState</em>(track, flagsOut)</code></div>
 </div><p>
 <div class="ch">
@@ -64089,7 +64107,7 @@ flags will be set to:<br/>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> flags</td></tr>
+<tr><td class="pr"><i>integer</i> flags</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -64177,7 +64195,7 @@ Gets the RPPXML state of a track, returns true if successful. Undo flag is a per
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>GetTrackUIPan</em>(<i>MediaTrack*</i>  track, <i>double*</i> pan1Out, <i>double*</i> pan2Out, <i>int*</i> panmodeOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>GetTrackUIPan</em>(<i>MediaTrack</i> track, &amp;pan1, &amp;pan2, <i>int</i> &amp;panmode)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> pan1, <i>number</i> pan2, <i>number</i> panmode = <em>reaper.GetTrackUIPan</em>(<i>MediaTrack</i> track)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> pan1, <i>number</i> pan2, <i>integer</i> panmode = <em>reaper.GetTrackUIPan</em>(<i>MediaTrack</i> track)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Float</i> pan1Out, <i>Float</i> pan2Out, <i>Int</i> panmodeOut) = <em>RPR_GetTrackUIPan</em>(track, pan1Out, pan2Out, panmodeOut)</code></div>
 </div><p>
 <div class="ch">
@@ -64196,7 +64214,7 @@ Gets the RPPXML state of a track, returns true if successful. Undo flag is a per
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> panmode</td></tr>
+<tr><td class="pr"><i>integer</i> panmode</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -66615,7 +66633,7 @@ Change the position of the edit-cursor in a specific project.
 <div class="cc">
 <div class="c">C: <code> <i>MediaTrack*</i>  <em>BR_TrackAtMouseCursor</em>(<i>int*</i> contextOut, <i>double*</i> positionOut)</code></div>
 <div class="e">EEL2: <code> <i>MediaTrack</i> extension_api("<em>BR_TrackAtMouseCursor</em>", <i>int</i> &amp;context, &amp;position)</code></div>
-<div class="l">Lua: <code> <i>MediaTrack</i> retval, <i>number</i> context, <i>number</i> position = <em>reaper.BR_TrackAtMouseCursor</em>()</code></div>
+<div class="l">Lua: <code> <i>MediaTrack</i> retval, <i>integer</i> context, <i>number</i> position = <em>reaper.BR_TrackAtMouseCursor</em>()</code></div>
 <div class="p">Python: <code> (<i>MediaTrack</i> retval, <i>Int</i> contextOut, <i>Float</i> positionOut) = <em>BR_TrackAtMouseCursor</em>(contextOut, positionOut)</code></div>
 </div><p>
 <div class="ch">
@@ -66629,7 +66647,7 @@ Position will hold mouse cursor position in arrange if applicable.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> context</td></tr>
+<tr><td class="pr"><i>integer</i> context</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -66647,7 +66665,7 @@ Position will hold mouse cursor position in arrange if applicable.
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>BR_Win32_GetCursorPos</em>(<i>int*</i> xOut, <i>int*</i> yOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>BR_Win32_GetCursorPos</em>", <i>int</i> &amp;x, <i>int</i> &amp;y)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> x, <i>number</i> y = <em>reaper.BR_Win32_GetCursorPos</em>()</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> x, <i>integer</i> y = <em>reaper.BR_Win32_GetCursorPos</em>()</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>Int</i> xOut, <i>Int</i> yOut) = <em>BR_Win32_GetCursorPos</em>(xOut, yOut)</code></div>
 </div><p>
 <div class="ch">
@@ -66659,11 +66677,11 @@ Position will hold mouse cursor position in arrange if applicable.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> x</td></tr>
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> y</td></tr>
+<tr><td class="pr"><i>integer</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -67291,7 +67309,7 @@ examples:<br/>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>LICE_ClipLine</em>(<i>int*</i> pX1Out, <i>int*</i> pY1Out, <i>int*</i> pX2Out, <i>int*</i> pY2Out, <i>int</i> xLo, <i>int</i> yLo, <i>int</i> xHi, <i>int</i> yHi)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>LICE_ClipLine</em>(<i>int</i> &amp;pX1, <i>int</i> &amp;pY1, <i>int</i> &amp;pX2, <i>int</i> &amp;pY2, <i>int</i> xLo, <i>int</i> yLo, <i>int</i> xHi, <i>int</i> yHi)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> pX1, <i>number</i> pY1, <i>number</i> pX2, <i>number</i> pY2 = <em>reaper.LICE_ClipLine</em>(<i>number</i> pX1, <i>number</i> pY1, <i>number</i> pX2, <i>number</i> pY2, <i>integer</i> xLo, <i>integer</i> yLo, <i>integer</i> xHi, <i>integer</i> yHi)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> pX1, <i>integer</i> pY1, <i>integer</i> pX2, <i>integer</i> pY2 = <em>reaper.LICE_ClipLine</em>(<i>integer</i> pX1, <i>integer</i> pY1, <i>integer</i> pX2, <i>integer</i> pY2, <i>integer</i> xLo, <i>integer</i> yLo, <i>integer</i> xHi, <i>integer</i> yHi)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>Int</i> pX1Out, <i>Int</i> pY1Out, <i>Int</i> pX2Out, <i>Int</i> pY2Out, <i>Int</i> xLo, <i>Int</i> yLo, <i>Int</i> xHi, <i>Int</i> yHi) = <em>RPR_LICE_ClipLine</em>(pX1Out, pY1Out, pX2Out, pY2Out, xLo, yLo, xHi, yHi)</code></div>
 </div><p>
 <div class="ch">
@@ -67303,37 +67321,37 @@ Returns false if the line is entirely offscreen.
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> pX1</td></tr>
+<tr><td class="pr"><i>integer</i> pX1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> pY1</td></tr>
+<tr><td class="pr"><i>integer</i> pY1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> pX2</td></tr>
+<tr><td class="pr"><i>integer</i> pX2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> pY2</td></tr>
+<tr><td class="pr"><i>integer</i> pY2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> pX1</td></tr>
+<tr><td class="pr"><i>integer</i> pX1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> pY1</td></tr>
+<tr><td class="pr"><i>integer</i> pY1</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> pX2</td></tr>
+<tr><td class="pr"><i>integer</i> pX2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> pY2</td></tr>
+<tr><td class="pr"><i>integer</i> pY2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -68104,7 +68122,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>BR_Win32_ClientToScreen</em>(<i>void*</i> hwnd, <i>int</i> xIn, <i>int</i> yIn, <i>int*</i> xOut, <i>int*</i> yOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>BR_Win32_ClientToScreen</em>", <i>void*</i> hwnd, <i>int</i> xIn, <i>int</i> yIn, <i>int</i> &amp;x, <i>int</i> &amp;y)</code></div>
-<div class="l">Lua: <code> <i>number</i> x, <i>number</i> y = <em>reaper.BR_Win32_ClientToScreen</em>(<i>identifier</i> hwnd, <i>integer</i> xIn, <i>integer</i> yIn)</code></div>
+<div class="l">Lua: <code> <i>integer</i> x, <i>integer</i> y = <em>reaper.BR_Win32_ClientToScreen</em>(<i>identifier</i> hwnd, <i>integer</i> xIn, <i>integer</i> yIn)</code></div>
 <div class="p">Python: <code> (<i>void</i> hwnd, <i>Int</i> xIn, <i>Int</i> yIn, <i>Int</i> xOut, <i>Int</i> yOut) = <em>BR_Win32_ClientToScreen</em>(hwnd, xIn, yIn, xOut, yOut)</code></div>
 </div><p>
 <div class="ch">
@@ -68112,11 +68130,11 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> x</td></tr>
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> y</td></tr>
+<tr><td class="pr"><i>integer</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -68340,7 +68358,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>BR_Win32_GetMonitorRectFromRect</em>(<i>bool</i> workingAreaOnly, <i>int</i> leftIn, <i>int</i> topIn, <i>int</i> rightIn, <i>int</i> bottomIn, <i>int*</i> leftOut, <i>int*</i> topOut, <i>int*</i> rightOut, <i>int*</i> bottomOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>BR_Win32_GetMonitorRectFromRect</em>", <i>bool</i> workingAreaOnly, <i>int</i> leftIn, <i>int</i> topIn, <i>int</i> rightIn, <i>int</i> bottomIn, <i>int</i> &amp;left, <i>int</i> &amp;top, <i>int</i> &amp;right, <i>int</i> &amp;bottom)</code></div>
-<div class="l">Lua: <code> <i>number</i> left, <i>number</i> top, <i>number</i> right, <i>number</i> bottom = <em>reaper.BR_Win32_GetMonitorRectFromRect</em>(<i>boolean</i> workingAreaOnly, <i>integer</i> leftIn, <i>integer</i> topIn, <i>integer</i> rightIn, <i>integer</i> bottomIn)</code></div>
+<div class="l">Lua: <code> <i>integer</i> left, <i>integer</i> top, <i>integer</i> right, <i>integer</i> bottom = <em>reaper.BR_Win32_GetMonitorRectFromRect</em>(<i>boolean</i> workingAreaOnly, <i>integer</i> leftIn, <i>integer</i> topIn, <i>integer</i> rightIn, <i>integer</i> bottomIn)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> workingAreaOnly, <i>Int</i> leftIn, <i>Int</i> topIn, <i>Int</i> rightIn, <i>Int</i> bottomIn, <i>Int</i> leftOut, <i>Int</i> topOut, <i>Int</i> rightOut, <i>Int</i> bottomOut) = <em>BR_Win32_GetMonitorRectFromRect</em>(workingAreaOnly, leftIn, topIn, rightIn, bottomIn, leftOut, topOut, rightOut, bottomOut)</code></div>
 </div><p>
 <div class="ch">
@@ -68348,19 +68366,19 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> left</td></tr>
+<tr><td class="pr"><i>integer</i> left</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> top</td></tr>
+<tr><td class="pr"><i>integer</i> top</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> right</td></tr>
+<tr><td class="pr"><i>integer</i> right</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> bottom</td></tr>
+<tr><td class="pr"><i>integer</i> bottom</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -68488,7 +68506,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>BR_Win32_GetWindowRect</em>(<i>void*</i> hwnd, <i>int*</i> leftOut, <i>int*</i> topOut, <i>int*</i> rightOut, <i>int*</i> bottomOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>BR_Win32_GetWindowRect</em>", <i>void*</i> hwnd, <i>int</i> &amp;left, <i>int</i> &amp;top, <i>int</i> &amp;right, <i>int</i> &amp;bottom)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> left, <i>number</i> top, <i>number</i> right, <i>number</i> bottom = <em>reaper.BR_Win32_GetWindowRect</em>(<i>identifier</i> hwnd)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> left, <i>integer</i> top, <i>integer</i> right, <i>integer</i> bottom = <em>reaper.BR_Win32_GetWindowRect</em>(<i>identifier</i> hwnd)</code></div>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>void</i> hwnd, <i>Int</i> leftOut, <i>Int</i> topOut, <i>Int</i> rightOut, <i>Int</i> bottomOut) = <em>BR_Win32_GetWindowRect</em>(hwnd, leftOut, topOut, rightOut, bottomOut)</code></div>
 </div><p>
 <div class="ch">
@@ -68500,19 +68518,19 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> left</td></tr>
+<tr><td class="pr"><i>integer</i> left</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> top</td></tr>
+<tr><td class="pr"><i>integer</i> top</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> right</td></tr>
+<tr><td class="pr"><i>integer</i> right</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> bottom</td></tr>
+<tr><td class="pr"><i>integer</i> bottom</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -68671,7 +68689,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>BR_Win32_ScreenToClient</em>(<i>void*</i> hwnd, <i>int</i> xIn, <i>int</i> yIn, <i>int*</i> xOut, <i>int*</i> yOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>BR_Win32_ScreenToClient</em>", <i>void*</i> hwnd, <i>int</i> xIn, <i>int</i> yIn, <i>int</i> &amp;x, <i>int</i> &amp;y)</code></div>
-<div class="l">Lua: <code> <i>number</i> x, <i>number</i> y = <em>reaper.BR_Win32_ScreenToClient</em>(<i>identifier</i> hwnd, <i>integer</i> xIn, <i>integer</i> yIn)</code></div>
+<div class="l">Lua: <code> <i>integer</i> x, <i>integer</i> y = <em>reaper.BR_Win32_ScreenToClient</em>(<i>identifier</i> hwnd, <i>integer</i> xIn, <i>integer</i> yIn)</code></div>
 <div class="p">Python: <code> (<i>void</i> hwnd, <i>Int</i> xIn, <i>Int</i> yIn, <i>Int</i> xOut, <i>Int</i> yOut) = <em>BR_Win32_ScreenToClient</em>(hwnd, xIn, yIn, xOut, yOut)</code></div>
 </div><p>
 <div class="ch">
@@ -68679,11 +68697,11 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> x</td></tr>
+<tr><td class="pr"><i>integer</i> x</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> y</td></tr>
+<tr><td class="pr"><i>integer</i> y</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
