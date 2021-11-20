@@ -6131,7 +6131,7 @@
            >0, Enable output(off) - unchecked  
            >1, Enable output(on) - checked  
            
-          For other settings in Preferences -> MIDI Devices, see [midioutthread](#midioutthread), [midisendflags](#midisendflags), [midiouts\_clock](#midiouts_clock), [midiouts\_clock\_nospp](#midiouts_clock_nospp), [midiouts\_llmode](#midiouts_llmode)  
+          For other settings in Preferences -> MIDI Devices, see [midiouts\_noreset](#midiouts_noreset), [midioutthread](#midioutthread), [midisendflags](#midisendflags), [midiouts\_clock](#midiouts_clock), [midiouts\_clock\_nospp](#midiouts_clock_nospp), [midiouts\_llmode](#midiouts_llmode)  
            
                     
           Stored in reaper.ini under the same name in the section REAPER.      
@@ -6148,19 +6148,15 @@
       <slug>midiouts_clock</slug>  
       <title>midiouts_clock</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          The context-menu of the MIDI outputs to make available-section, as set in Preferences -> MIDI Devices  
-          Doubleclick on a device in the list.  
-          Needs midiouts to be set to 1.  
-          It is an integer  
-          
-           >0, Send clock to output(off) - unchecked  
-           >1, Send clock to output(on) - checked  
+          The Send clock to output-contextmenu-entry as set in Preferences->MIDI Devices->MIDI output-devices->rightlick on the midi-devices
+          It is a string   
+
+          This string works like an integer-bitfield, means, you need to convert it to integer.
+          After that, each bit(1 through n) represents a MIDI-output-device. If the bit is set to 1, the "Send clock to output-contextmenu-entry"-option for this device is set to on, otherwise to off.
            
-          For other settings in Preferences -> MIDI Devices, see [midioutthread](#midioutthread), [midisendflags](#midisendflags), [midiouts](#midiouts), [midiouts\_clock\_nospp](#midiouts_clock_nospp), [midiouts\_llmode](midiouts_llmode )   
+          For other settings in Preferences -> MIDI Devices, see [midiouts\_noreset](#midiouts_noreset), [midioutthread](#midioutthread), [midisendflags](#midisendflags), [midiouts](#midiouts), [midiouts\_clock\_nospp](#midiouts_clock_nospp), [midiouts\_llmode](midiouts_llmode )   
            
-                    
           Stored in reaper.ini under the same name in the section REAPER.      
-            
       </description>  
       <chapter_context>
          Config Variables  
@@ -6173,15 +6169,13 @@
       <slug>midiouts_clock_nospp</slug>  
       <title>midiouts_clock_nospp</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          The context-menu of the MIDI outputs to make available-section, as set in Preferences -> MIDI Devices  
-          Doubleclick on a device in the list.  
-          Needs midiouts to be set to 1 and midiouts_clock to be set to 1.  
-          It is an integer  
-          
-           >0, Do not send SPP to output(off) - unchecked  
-           >1, Do not send SPP to output(on) - checked  
+          The Do not send SPP to output-contextmenu-entry as set in Preferences->MIDI Devices->MIDI output-devices->rightlick on the midi-devices
+          It is a string   
+
+          This string works like an integer-bitfield, means, you need to convert it to integer.
+          After that, each bit(1 through n) represents a MIDI-output-device. If the bit is set to 1, the "Do not send SPP to output"-option for this device is set to on, otherwise to off.
            
-          For other settings in Preferences -> MIDI Devices, see [midioutthread](#midioutthread), [midisendflags](#midisendflags), [midiouts](#midiouts), [midiouts\_clock](#midiouts_clock), [midiouts\_llmode](midiouts_llmode )   
+          For other settings in Preferences -> MIDI Devices, see [midiouts\_noreset](#midiouts_noreset), [midioutthread](#midioutthread), [midisendflags](#midisendflags), [midiouts](#midiouts), [midiouts\_clock](#midiouts_clock), [midiouts\_llmode](midiouts_llmode )   
            
                     
           Stored in reaper.ini under the same name in the section REAPER.      
@@ -6198,15 +6192,13 @@
       <slug>midiouts_llmode</slug>  
       <title>midiouts_llmode</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          The context-menu of the MIDI outputs to make available-section, as set in Preferences -> MIDI Devices  
-          Doubleclick on a device in the list.  
-          Needs midiouts to be set to 1.  
-          It is an integer  
-          
-           >0, Low latency outut mode (low precision)(off) - unchecked  
-           >1, Low latency outut mode (low precision)(on) - checked  
+          The Low latency mode(low precision)-contextmenu-entry as set in Preferences->MIDI Devices->MIDI output-devices->rightlick on the midi-devices
+          It is a string   
+
+          This string works like an integer-bitfield, means, you need to convert it to integer.
+          After that, each bit(1 through n) represents a MIDI-output-device. If the bit is set to 1, the "Low latency mode(low precision)"-option for this device is set to on, otherwise to off.
             
-          For other settings in Preferences -> MIDI Devices, see [midioutthread](#midioutthread), [midisendflags](#midisendflags), [midiouts](#midiouts), [midiouts\_clock](#midiouts_clock), [midiouts\_clock\_nospp](#midiouts_clock_nospp)  
+          For other settings in Preferences -> MIDI Devices, see [midiouts\_noreset](#midiouts_noreset), [midioutthread](#midioutthread), [midisendflags](#midisendflags), [midiouts](#midiouts), [midiouts\_clock](#midiouts_clock), [midiouts\_clock\_nospp](#midiouts_clock_nospp)  
            
                     
           Stored in reaper.ini under the same name in the section REAPER.      
@@ -6223,11 +6215,15 @@
       <slug>midiouts_noreset</slug>  
       <title>midiouts_noreset</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Unknown
-          It is a double   
+          The Do not send reset messages-contextmenu-entry as set in Preferences->MIDI Devices->MIDI output-devices->rightlick on the midi-devices
+          It is a string   
 
-          Unknown, default is 0.0
-
+          This string works like an integer-bitfield, means, you need to convert it to integer.
+          After that, each bit(1 through n) represents a MIDI-output-device. If the bit is set to 1, the "Do not send reset messages"-option for this device is set to on, otherwise to off.
+          
+          For other settings in Preferences -> MIDI Devices, see [midiouts\_clock](#midiouts_clock), [midioutthread](#midioutthread), [midisendflags](#midisendflags), [midiouts](#midiouts), [midiouts\_clock\_nospp](#midiouts_clock_nospp), [midiouts\_llmode](midiouts_llmode )   
+          
+          Stored in reaper.ini under the same name in the section REAPER.    
       </description>  
       <chapter_context>
          Config Variables  
@@ -6316,7 +6312,7 @@
            >&256=0, Reset MIDI CC/pitch on: playback loop/skip(on) - checked  
            >&256=1, Reset MIDI CC/pitch on: playback loop/skip(off) - unchecked  
             
-          For other settings in Preferences -> MIDI Devices, see [midioutthread](#midioutthread), [midiouts](#midiouts), [midiouts\_clock](#midiouts_clock), [midiouts\_clock\_nospp](#midiouts_clock_nospp), [midiouts\_llmode](midiouts_llmode )   
+          For other settings in Preferences -> MIDI Devices, see [midiouts\_noreset](#midiouts_noreset), [midioutthread](#midioutthread), [midiouts](#midiouts), [midiouts\_clock](#midiouts_clock), [midiouts\_clock\_nospp](#midiouts_clock_nospp), [midiouts\_llmode](midiouts_llmode )   
           For other settings in section Playback settings, as set in Preferences -> Playback, see [loopstopfx](#loopstopfx), [runafterstop](#runafterstop), [runallonstop](#runallonstop),   
                                                                       [stopendofloop](#stopendofloop), [stopprojlen](#stopprojlen), [viewadvance](#viewadvance)  
                     

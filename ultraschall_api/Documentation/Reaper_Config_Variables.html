@@ -5315,7 +5315,7 @@ It is an integer</p>
 <p>0, Enable output(off) - unchecked<br />
 1, Enable output(on) - checked</p>
 </blockquote>
-<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midioutthread">midioutthread</a>, <a href="#midisendflags">midisendflags</a>, <a href="#midiouts_clock">midiouts_clock</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a>, <a href="#midiouts_llmode">midiouts_llmode</a></p>
+<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midiouts_noreset">midiouts_noreset</a>, <a href="#midioutthread">midioutthread</a>, <a href="#midisendflags">midisendflags</a>, <a href="#midiouts_clock">midiouts_clock</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a>, <a href="#midiouts_llmode">midiouts_llmode</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </div><br>
 </div>
@@ -5324,15 +5324,9 @@ It is an integer</p>
 <a class="anch" id="midiouts_clock"></a>
 <a href="#midiouts_clock"> ^</a> <u><b>midiouts_clock</b></u><br>			<p>
 <div class="ch">
-<p>The context-menu of the MIDI outputs to make available-section, as set in Preferences -&gt; MIDI Devices<br />
-Doubleclick on a device in the list.<br />
-Needs midiouts to be set to 1.<br />
-It is an integer</p>
-<blockquote>
-<p>0, Send clock to output(off) - unchecked<br />
-1, Send clock to output(on) - checked</p>
-</blockquote>
-<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midioutthread">midioutthread</a>, <a href="#midisendflags">midisendflags</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a>, <a href="midiouts_llmode">midiouts_llmode</a></p>
+<p>The Send clock to output-contextmenu-entry as set in Preferences-&gt;MIDI Devices-&gt;MIDI output-devices-&gt;rightlick on the midi-devices It is a string</p>
+<p>This string works like an integer-bitfield, means, you need to convert it to integer. After that, each bit(1 through n) represents a MIDI-output-device. If the bit is set to 1, the "Send clock to output-contextmenu-entry"-option for this device is set to on, otherwise to off.</p>
+<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midiouts_noreset">midiouts_noreset</a>, <a href="#midioutthread">midioutthread</a>, <a href="#midisendflags">midisendflags</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a>, <a href="midiouts_llmode">midiouts_llmode</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </div><br>
 </div>
@@ -5341,15 +5335,9 @@ It is an integer</p>
 <a class="anch" id="midiouts_clock_nospp"></a>
 <a href="#midiouts_clock_nospp"> ^</a> <u><b>midiouts_clock_nospp</b></u><br>			<p>
 <div class="ch">
-<p>The context-menu of the MIDI outputs to make available-section, as set in Preferences -&gt; MIDI Devices<br />
-Doubleclick on a device in the list.<br />
-Needs midiouts to be set to 1 and midiouts_clock to be set to 1.<br />
-It is an integer</p>
-<blockquote>
-<p>0, Do not send SPP to output(off) - unchecked<br />
-1, Do not send SPP to output(on) - checked</p>
-</blockquote>
-<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midioutthread">midioutthread</a>, <a href="#midisendflags">midisendflags</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock">midiouts_clock</a>, <a href="midiouts_llmode">midiouts_llmode</a></p>
+<p>The Do not send SPP to output-contextmenu-entry as set in Preferences-&gt;MIDI Devices-&gt;MIDI output-devices-&gt;rightlick on the midi-devices It is a string</p>
+<p>This string works like an integer-bitfield, means, you need to convert it to integer. After that, each bit(1 through n) represents a MIDI-output-device. If the bit is set to 1, the "Do not send SPP to output"-option for this device is set to on, otherwise to off.</p>
+<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midiouts_noreset">midiouts_noreset</a>, <a href="#midioutthread">midioutthread</a>, <a href="#midisendflags">midisendflags</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock">midiouts_clock</a>, <a href="midiouts_llmode">midiouts_llmode</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </div><br>
 </div>
@@ -5358,15 +5346,9 @@ It is an integer</p>
 <a class="anch" id="midiouts_llmode"></a>
 <a href="#midiouts_llmode"> ^</a> <u><b>midiouts_llmode</b></u><br>			<p>
 <div class="ch">
-<p>The context-menu of the MIDI outputs to make available-section, as set in Preferences -&gt; MIDI Devices<br />
-Doubleclick on a device in the list.<br />
-Needs midiouts to be set to 1.<br />
-It is an integer</p>
-<blockquote>
-<p>0, Low latency outut mode (low precision)(off) - unchecked<br />
-1, Low latency outut mode (low precision)(on) - checked</p>
-</blockquote>
-<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midioutthread">midioutthread</a>, <a href="#midisendflags">midisendflags</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock">midiouts_clock</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a></p>
+<p>The Low latency mode(low precision)-contextmenu-entry as set in Preferences-&gt;MIDI Devices-&gt;MIDI output-devices-&gt;rightlick on the midi-devices It is a string</p>
+<p>This string works like an integer-bitfield, means, you need to convert it to integer. After that, each bit(1 through n) represents a MIDI-output-device. If the bit is set to 1, the "Low latency mode(low precision)"-option for this device is set to on, otherwise to off.</p>
+<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midiouts_noreset">midiouts_noreset</a>, <a href="#midioutthread">midioutthread</a>, <a href="#midisendflags">midisendflags</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock">midiouts_clock</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </div><br>
 </div>
@@ -5375,8 +5357,10 @@ It is an integer</p>
 <a class="anch" id="midiouts_noreset"></a>
 <a href="#midiouts_noreset"> ^</a> <u><b>midiouts_noreset</b></u><br>			<p>
 <div class="ch">
-<p>Unknown It is a double</p>
-<p>Unknown, default is 0.0</p>
+<p>The Do not send reset messages-contextmenu-entry as set in Preferences-&gt;MIDI Devices-&gt;MIDI output-devices-&gt;rightlick on the midi-devices It is a string</p>
+<p>This string works like an integer-bitfield, means, you need to convert it to integer. After that, each bit(1 through n) represents a MIDI-output-device. If the bit is set to 1, the "Do not send reset messages"-option for this device is set to on, otherwise to off.</p>
+<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midiouts_clock">midiouts_clock</a>, <a href="#midioutthread">midioutthread</a>, <a href="#midisendflags">midisendflags</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a>, <a href="midiouts_llmode">midiouts_llmode</a></p>
+<p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </div><br>
 </div>
 <div class="ch">
@@ -5452,7 +5436,7 @@ It is an integer-bitfield</p>
 <p>&amp;256=0, Reset MIDI CC/pitch on: playback loop/skip(on) - checked<br />
 &amp;256=1, Reset MIDI CC/pitch on: playback loop/skip(off) - unchecked</p>
 </blockquote>
-<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midioutthread">midioutthread</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock">midiouts_clock</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a>, <a href="midiouts_llmode">midiouts_llmode</a><br />
+<p>For other settings in Preferences -&gt; MIDI Devices, see <a href="#midiouts_noreset">midiouts_noreset</a>, <a href="#midioutthread">midioutthread</a>, <a href="#midiouts">midiouts</a>, <a href="#midiouts_clock">midiouts_clock</a>, <a href="#midiouts_clock_nospp">midiouts_clock_nospp</a>, <a href="midiouts_llmode">midiouts_llmode</a><br />
 For other settings in section Playback settings, as set in Preferences -&gt; Playback, see <a href="#loopstopfx">loopstopfx</a>, <a href="#runafterstop">runafterstop</a>, <a href="#runallonstop">runallonstop</a>,<br />
 <a href="#stopendofloop">stopendofloop</a>, <a href="#stopprojlen">stopprojlen</a>, <a href="#viewadvance">viewadvance</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>

@@ -1,7 +1,7 @@
   --[[
   ################################################################################
   # 
-  # Copyright (c) 2014-2019 Ultraschall (http://ultraschall.fm)
+  # Copyright (c) 2014-2021 Ultraschall (http://ultraschall.fm)
   # 
   # Permission is hereby granted, free of charge, to any person obtaining a copy
   # of this software and associated documentation files (the "Software"), to deal
@@ -37,21 +37,17 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 -- When running this script with Ultraschall-API installed, it will only show config-vars not already existing in the 
 -- config-vars-documentation of Reaper-Internals, which is supplied together with Ultraschall-API.
 --
--- Meo Mespotine 27th of October 2021
+-- Meo-Ada Mespotine 27th of October 2021
 
 
-print_update("Read strings from reaper.exe")
+print_update("Checking for new config-var-names.\n\n")
+print("Read known config-var-names")
 A2=ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML")
 if A2==nil then A2="" end
 
---A2=""
 
 orgvars={}
 Acount=1
-
---if OLOL==nil then return end
-
---local ultraschall=ultraschall
 
 while A2~=nil do
   line,offs=A2:match("<slug>(.-)</slug>()")
@@ -61,9 +57,8 @@ while A2~=nil do
   A2=A2:sub(offs,-1)
 end
 
---local Clipboard_string = ultraschall.GetStringFromClipboard_SWS()
-
-A=ultraschall.ReadFullFile(reaper.GetExePath().."/reaper.exe", true)
+print("Read strings from reaper.exe")
+A=ultraschall.ReadFullFile(ultraschall.ReturnReaperExeFile_With_Path(), true)
 split_string={}
 count=0
 
@@ -74,13 +69,6 @@ for k in string.gmatch(A, "[%l%_%s]*") do
   end
 end
 
-
---Clipboard_string=Clipboard_string.."\n "
---print3(Clipboard_string)
---if LLLLL==nil then return end
-
--- let's check the strings
-
 ints={}
 local integers=""
 local doubles=""
@@ -89,15 +77,12 @@ ALABAMA=0
 
 
 AAA=reaper.time_precise()
---count, split_string = ultraschall.SplitStringAtLineFeedToArray(Clipboard_string)
 BBB=reaper.time_precise()-AAA
 table.sort(split_string)
 
 
-print("Check for integers")
-
 --Integer
-
+print("Check for integers")
 Int={}
 Intcount=0
 
@@ -111,7 +96,6 @@ for i=1, count do
     if found==false then 
       Intcount=Intcount+1 
       Int[Intcount]=split_string[i]:lower() 
-      --reaper.ShowConsoleMsg(split_string[i].." "..tostring(C).."\n")
     end
     found=false
   end
@@ -128,11 +112,8 @@ for i=1, Intcount do
   Intstring=Intstring..Int[i].."\n"
 end
 
---reaper.MB(split_string[1].."OLO",reaper.time_precise()-AAA,0)
-
-print("Check for double")
-
 -- Double
+print("Check for double")
 Double={}
 Doublecount=0
 
@@ -146,7 +127,6 @@ for i=1, count do
     if found==false then 
       Doublecount=Doublecount+1 
       Double[Doublecount]=split_string[i]:lower() 
-      --reaper.ShowConsoleMsg(split_string[i].." "..tostring(C).."\n")
     end
     found=false
   end
@@ -163,8 +143,8 @@ for i=1, Doublecount do
   Doublestring=Doublestring..Double[i].."\n"
 end
 
-print("Check for strings")
 -- String
+print("Check for strings")
 Strings={}
 Stringscount=0
 
@@ -194,10 +174,6 @@ for i=1, Stringscount do
     Stringsstring=Stringsstring..Strings[i].."\n"
   end
 end
-
-print3(Intstring.."\n"..Doublestring.."\n"..Stringsstring)
-
---reaper.MB(split_string[1].."OLO",reaper.time_precise()-AAA,0)
 
 print("")
 print(Intstring.."\n"..Doublestring.."\n"..Stringsstring)

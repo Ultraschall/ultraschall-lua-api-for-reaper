@@ -48,8 +48,10 @@ Bla</li>
 </ul>
 <h4>Changes from 4.2.005 to 4.2.006</h4>
 <ul>
+<li>API: minimum Reaper version - raised minimum Reaper-version to Reaper 6.20</li>
 <li>DeveloperTools: ultraschall_developertool_CheckForNewConfigVars - tries now to read possible config-vars from reaper.exe directly(windows only atm)</li>
-<li>DeveloperTools: ultraschall_developertool_Display-Altered-Config-Vars - shows now the difs to old values as well</li>
+<li>DeveloperTools: ultraschall_developertool_Display-Altered-Config-Vars - shows now the diffs to old values as well</li>
+<li>DeveloperTools: ultraschall_developertool_Display-Altered-ConfigFile-Entries - shows diffs to old values when entries are numerical; added missing files</li>
 <li>DocEngine: Docs_RemoveIndent - had inner variable exposed -&gt; fixed</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.41 and ReaImGui 0.5.8</li>
 <li>Docs: Reaper-API-docs - All-View jumped to the top of the document instead of just unhiding functioncalls -&gt; fixed</li>
@@ -57,6 +59,9 @@ Bla</li>
 <li>Docs: MediaItemStateChunk-docs - added new behavior of Reaper 6.33 to just enclose source-files with " that have a space in filename or path<br />
 </li>
 <li>EventManager: general - didn't start on Linux distributions due case-typo in ultraschall_EventManager.lua-filename -&gt; fixed (thanks to dronenb)</li>
+<li>FileManagement: GetAllDirectoriesInPath - has now an optional filter-parameter, to just get directories of a certain pattern</li>
+<li>FileManagement: GetAllFilenamesInPath - has now an optional filter-parameter, to just get filenames of a certain pattern; returned pure path as well -&gt; fixed</li>
+<li>FileManagement: GetAllRecursiveFilesAndSubdirectories - has now optional filter-parameters for folders and files</li>
 <li>ParmLearn: AddParmLearn_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -&gt; fixed(thanks to TonE)</li>
 <li>ParmLearn: GetParmLearn_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -&gt; fixed(thanks to TonE)</li>
 <li>ParmLearn: SetParmLearn_FXStateChunk2 - had massive errors in the docs -&gt; fixed(thanks to TonE)</li>

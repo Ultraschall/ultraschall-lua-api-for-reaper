@@ -126,7 +126,7 @@ function Update_ConfigVars()
       update=true
        if ConsoleToggle==true then
          local A1=A-ConfigVarsInt[i]
-         local B1=B-ConfigVarsDouble[i]
+         B1=B-ConfigVarsDouble[i]
          local INT="       int    \t: "..A..""
          -- layout dif-value correctly
          if INT:len()<20 then INT=INT.."\t\t\t(Difference to old value: "..A1..")" 
@@ -144,7 +144,7 @@ function Update_ConfigVars()
          print(DOUBLE)
 --         print("       int    \t: "..A.."\t\t(Difference to old value: "..A1..")")
 --         print("       double\t: "..B.."\t\t(Difference to old value: "..B1..")")
-         print("       strings\t: "..C)
+         print("       strings\t: \""..C.."\"")
        end
        ConfigVarsInt[i]=A
        ConfigVarsDouble[i]=B
