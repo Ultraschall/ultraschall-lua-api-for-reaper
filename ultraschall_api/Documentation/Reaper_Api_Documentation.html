@@ -11529,8 +11529,14 @@ Displays a message window with "Hello World", if the API was successfully called
 <div class="p">Python: <code> <i>Int</i> <em>RPR_AddRemoveReaScript</em>(<i>Boolean</i> add, <i>Int</i> sectionID, <i>String</i> scriptfn, <i>Boolean</i> commit)</code></div>
 </div><p>
 <div class="ch">
-<p>Adds a ReaScript (returns the new command ID, or 0 if failed) or removes a ReaScript Returns &gt;0 on success. Use commit==true when adding/removing a single script. When bulk adding/removing multiple scripts, you can optimize the n-1 first calls with commit==false and commit==true for the last call. The commandID returned, might change, when addng this script into an other Reaper-installation. To be sure to use the right command-id, use <a href="#ReverseNamedCommandLookup">ReverseNamedCommandLookup()</a> to get the ActionCommandID, which will never change, until you remove the script.</p>
-<p>If you want to add a script to several sections, you need to add them individually, by calling the function again with the changed section-number.</p>
+Adds a ReaScript (returns the new command ID, or 0 if failed) or removes a ReaScript<br/>
+Returns &gt;0 on success. <br/>
+Use commit==true when adding/removing a single script. <br/>
+When bulk adding/removing multiple scripts, you can optimize the n-1 first calls with commit==false and commit==true for the last call.<br/>
+The commandID returned, might change, when adding this script into another Reaper-installation. <br/>
+To be sure to use the right command-id, use ReverseNamedCommandLookup() to get the ActionCommandID, which will never change, until you remove the script.<br/>
+<br/>
+If you want to add a script to several sections, you need to add them individually, by calling the function again with the changed section-number.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16074,19 +16080,18 @@ enumerates the existing resample-modes
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_AudioAccessorStateChanged</em>(<i>AudioAccessor</i> accessor)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns true if the underlying samples (track or media item take) have changed, but does not update the audio accessor, so the user can selectively call <a href="#AudioAccessorValidateState">AudioAccessorValidateState</a> only when needed.</p>
-<p>See <a href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a>, <a href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a>, <a href="#DestroyAudioAccessor">DestroyAudioAccessor</a>, <a href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a>, <a href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a>.</p>
+Returns true if the underlying samples (track or media item take) have changed, but does not update the audio accessor, so the user can selectively call AudioAccessorValidateState only when needed.               
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> changed_samples</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">true, underlying samples changed; false, underlying samples didn't change</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>AudioAccessor</i> accessor</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the AudioAccessor, whose sample-statechange you want to get</td></tr>
 </table>
 <br>
 </div>
@@ -33356,7 +33361,7 @@ Returns the index of the created marker/region, or -1 on failure. Supply wantidx
 <div class="p">Python: <code> <i>Int</i> <em>RPR_AddProjectMarker2</em>(<i>ReaProject</i> proj, <i>Boolean</i> isrgn, <i>Float</i> pos, <i>Float</i> rgnend, <i>String</i> name, <i>Int</i> wantidx, <i>Int</i> color)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or <a href="#ColorToNative">ColorToNative(r,g,b)|0x1000000</a></p>
+Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -38838,14 +38843,18 @@ PROJECT_SRATE_USE : set to 1 if project samplerate is used</p>
 </div><p>
 <div class="ch">
 <p>Get or set project information.</p>
-<p>PROJECT_NAME : project file name (read-only, is<em>set will be ignored) PROJECT_TITLE : title field from Project Settings/Notes dialog PROJECT_AUTHOR : author field from Project Settings/Notes dialog TRACK_GROUP_NAME:X : track group name, X should be 1..64<br />
-MARKER_GUID:X : get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number<br />
+<p>PROJECT_NAME: project file name (read-only, is_set will be ignored)<br />
+PROJECT_TITLE: title field from Project Settings/Notes dialog<br />
+PROJECT_AUTHOR: author field from Project Settings/Notes dialog<br />
+TRACK_GROUP_NAME:X: track group name, X should be 1..64<br />
+MARKER_GUID:X: get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number<br />
 RECORD_PATH: recording directory -- may be blank or a relative path, to get the effective path see <a href="#GetProjectPathEx">GetProjectPathEx</a><br />
-RECORD_PATH_SECONDARY : secondary recording directory RENDER_FILE: render directory<br />
+RECORD_PATH_SECONDARY: secondary recording directory<br />
+RENDER_FILE: render directory<br />
 RENDER_PATTERN: render file name (may contain wildcards)<br />
-RENDER_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is</em>set=false to get a semicolon-separated list of defined project metadata identifiers.<br />
+RENDER_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is_set=false to get a semicolon-separated list of defined project metadata identifiers.<br />
 RENDER_TARGETS: semicolon separated list of files that would be written if the project is rendered using the most recent render settings<br />
-RENDER_STATS : (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.<br />
+RENDER_STATS: (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.<br />
 RENDER_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.<br />
 RENDER_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.<br />
 see <a href="render-codes-decoded-base64-strings.txt">render-code-documentation</a> for how the unencoded RENDER_FORMAT-string is structured.</p>

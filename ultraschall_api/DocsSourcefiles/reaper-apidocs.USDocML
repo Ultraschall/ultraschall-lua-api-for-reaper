@@ -313,12 +313,15 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or [ColorToNative(r,g,b)|0x1000000](#ColorToNative)
+        <description>
+            Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000
         </description>
         <retvals>
             integer index - the shown-number of the newly created marker/region
         </retvals>
+        <linked_to>
+            ColorToNative - ColorToNative to convert color-value
+        </linked_to>
         <parameters>
             ReaProject proj - the project, in which to add the new marker; use 0 for the current project; 
             boolean isrgn - true, if it shall be a region; false, if a normal marker
@@ -346,16 +349,19 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Adds a ReaScript (returns the new command ID, or 0 if failed) or removes a ReaScript
             Returns &gt;0 on success. 
             Use commit==true when adding/removing a single script. 
             When bulk adding/removing multiple scripts, you can optimize the n-1 first calls with commit==false and commit==true for the last call.
-            The commandID returned, might change, when addng this script into an other Reaper-installation. 
-            To be sure to use the right command-id, use [ReverseNamedCommandLookup()](#ReverseNamedCommandLookup) to get the ActionCommandID, which will never change, until you remove the script.
+            The commandID returned, might change, when adding this script into another Reaper-installation. 
+            To be sure to use the right command-id, use ReverseNamedCommandLookup() to get the ActionCommandID, which will never change, until you remove the script.
 
             If you want to add a script to several sections, you need to add them individually, by calling the function again with the changed section-number.
         </description>
+        <linked_to>
+            ReverseNamedCommandLookup - see ReverseNamedCommandLookup to get ActionCommandID-string of the script
+        </linked_to>
         <retvals>
             integer command id - the command ID for this script.
         </retvals>
@@ -710,16 +716,22 @@
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns true if the underlying samples (track or media item take) have changed, but does not update the audio accessor, so the user can selectively call [AudioAccessorValidateState](#AudioAccessorValidateState) only when needed. 
-
-            See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+        <description>
+            Returns true if the underlying samples (track or media item take) have changed, but does not update the audio accessor, so the user can selectively call AudioAccessorValidateState only when needed. 
         </description>
+        <linked_to>
+            AudioAccessorValidateState - to get validation-state of an AudioAccessor
+            CreateTakeAudioAccessor - to create an AudioAccessor for take
+            CreateTakeAudioAccessor - to create an AudioAccessor for track
+            DestroyAudioAccessor - to destroy an AudioAccessor
+            GetAudioAccessorEndTime - to get endtime of an AudioAccessor
+            GetAudioAccessorSamples - to get samples of an AudioAccessor
+        </linked_to>
         <retvals>
-            boolean changed_samples - 
+            boolean changed_samples - true, underlying samples changed; false, underlying samples didn't change
         </retvals>
         <parameters>
-            AudioAccessor accessor - 
+            AudioAccessor accessor - the AudioAccessor, whose sample-statechange you want to get
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -8118,18 +8130,18 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get or set project information.  
 
-            PROJECT\_NAME : project file name (read-only, is_set will be ignored)
-            PROJECT\_TITLE : title field from Project Settings/Notes dialog
-            PROJECT\_AUTHOR : author field from Project Settings/Notes dialog
-            TRACK\_GROUP\_NAME:X : track group name, X should be 1..64  
-            MARKER\_GUID:X : get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number  
+            PROJECT\_NAME: project file name (read-only, is\_set will be ignored)  
+            PROJECT\_TITLE: title field from Project Settings/Notes dialog  
+            PROJECT\_AUTHOR: author field from Project Settings/Notes dialog  
+            TRACK\_GROUP\_NAME:X: track group name, X should be 1..64  
+            MARKER\_GUID:X: get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number  
             RECORD\_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)  
-            RECORD\_PATH\_SECONDARY : secondary recording directory
+            RECORD\_PATH\_SECONDARY: secondary recording directory  
             RENDER\_FILE: render directory  
             RENDER\_PATTERN: render file name (may contain wildcards)  
-            RENDER\_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is_set=false to get a semicolon-separated list of defined project metadata identifiers.  
+            RENDER\_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is\_set=false to get a semicolon-separated list of defined project metadata identifiers.  
             RENDER\_TARGETS: semicolon separated list of files that would be written if the project is rendered using the most recent render settings  
-            RENDER\_STATS : (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.  
+            RENDER\_STATS: (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.  
             RENDER\_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.  
             RENDER\_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.  
             see [render-code-documentation](render-codes-decoded-base64-strings.txt) for how the unencoded RENDER\_FORMAT-string is structured.  
@@ -36603,7 +36615,7 @@ Mespotine
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
-
+mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_strnicmp</slug>
         <title>strnicmp</title>
