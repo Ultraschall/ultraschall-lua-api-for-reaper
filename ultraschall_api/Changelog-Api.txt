@@ -429,6 +429,7 @@ Has now 1406 functions, with 6 new ones
 
 #### Changes from 4.2.005 to 4.2.006  
   - API: minimum Reaper version - raised minimum Reaper-version to Reaper 6.20
+  - Developer: EditReaScript - allows now setting docking state and watchlist-size; didn't add scripts, when the file already existed, contrary to what the docs suggested; didn't reset old values in reaper.ini  -> fixed
   - DeveloperTools: ultraschall\_developertool\_CheckForNewConfigVars - tries now to read possible config-vars from reaper.exe directly(windows only atm)
   - DeveloperTools: ultraschall\_developertool\_Display-Altered-Config-Vars - shows now the diffs to old values as well
   - DeveloperTools: ultraschall\_developertool\_Display-Altered-ConfigFile-Entries - shows diffs to old values when entries are numerical; added missing files
@@ -445,6 +446,8 @@ Has now 1406 functions, with 6 new ones
   - ParmLearn: AddParmLearn\_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -> fixed(thanks to TonE)
   - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
+  - Rendering: GetRenderCFG\_Settings\_AIFF - when passing nil, it returns now the default-project-render-settings for aiff
+  - Rendering: GetRenderCFG\_Settings\_XXX - all those functions could produce error, when sending in non-Base-64-strings -> fixed  
   - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)
   - User Interface: Windows\_Find - had inner variable exposed -> fixed
   

@@ -86,9 +86,10 @@ function ultraschall.GetRenderCFG_Settings_FLAC(rendercfg)
     <tags>render management, get, settings, rendercfg, renderstring, flac, encoding depth, compression</tags>
   </US_DocBloc>
   ]]
-  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_FLAC", "rendercfg", "must be a string", -1) return -1 end
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_FLAC", "rendercfg", "must be a string or nil", -1) return -1 end
+
   local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="calf" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_FLAC", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="calf" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_FLAC", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
    
   if Decoded_string:len()==4 then
     return 16, 5
@@ -123,7 +124,7 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
       boolean EmbedBeatLength - Embed beat length if exact-checkbox; true, checked; false, unchecked
     </retvals>
     <parameters>
-      string render_cfg - the render-cfg-string, that contains the aiff-settings
+      string render_cfg - the render-cfg-string, that contains the aiff-settings; nil, get the current new-project-default render-settings
     </parameters>
     <chapter_context>
       Rendering Projects
@@ -134,9 +135,16 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
     <tags>render management, get, settings, rendercfg, renderstring, aiff, bitdepth, beat length</tags>
   </US_DocBloc>
   ]]
-  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg~=nil and type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("aiff sink defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="66666961180000AE" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
   local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="ffia" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "not a render-cfg-string of the format aiff", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="ffia" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "not a render-cfg-string of the format aiff", -2) return -1 end
   
   if Decoded_string:len()==4 then
     return 24, false
@@ -144,6 +152,7 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
   
   return string.byte(Decoded_string:sub(5,5)), string.byte(Decoded_string:sub(6,6))==32
 end
+
 
 --C=ultraschall.GetRenderCFG_Settings_AIFF(B)
 
@@ -192,7 +201,7 @@ function ultraschall.GetRenderCFG_Settings_AudioCD(rendercfg)
   if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "must be a string", -1) return -1 end
   local Decoded_string, LeadInSilenceDisc, LeadInSilenceTrack, num_integers, BurnImage, TrackMode, UseMarkers
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~=" osi" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "not a render-cfg-string of the format audio cd", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~=" osi" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "not a render-cfg-string of the format audio cd", -2) return -1 end
 
   if Decoded_string:len()==4 then
     return 0, false, 0, 0, false
@@ -276,7 +285,7 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
   local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
   local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate, add
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)  
-  if Decoded_string:sub(1,4)~="l3pm" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3", "rendercfg", "not a render-cfg-string of the format mp3", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="l3pm" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3", "rendercfg", "not a render-cfg-string of the format mp3", -2) return -1 end
   
   if Decoded_string:len()==4 then
     return 65344, 2, 40, 128, 128, false, false
@@ -392,7 +401,7 @@ function ultraschall.GetRenderCFG_Settings_MP3CBR(rendercfg)
   local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
   local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="l3pm" or string.byte(Decoded_string:sub(17,17))~=255 or string.byte(Decoded_string:sub(13,13))==10 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3CBR", "rendercfg", "not a render-cfg-string of the format mp3-cbr", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="l3pm" or string.byte(Decoded_string:sub(17,17))~=255 or string.byte(Decoded_string:sub(13,13))==10 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3CBR", "rendercfg", "not a render-cfg-string of the format mp3-cbr", -2) return -1 end
 
   if Decoded_string:len()==4 then
     return 128, 2, false, false
@@ -460,7 +469,7 @@ function ultraschall.GetRenderCFG_Settings_MP3VBR(rendercfg)
   local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
   local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="l3pm" or string.byte(Decoded_string:sub(17,17))~=0 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3VBR", "rendercfg", "not a render-cfg-string of the format mp3-vbr", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="l3pm" or string.byte(Decoded_string:sub(17,17))~=0 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3VBR", "rendercfg", "not a render-cfg-string of the format mp3-vbr", -2) return -1 end
 
   if Decoded_string:len()==4 then
     return 40, 2, false, false
@@ -546,7 +555,7 @@ function ultraschall.GetRenderCFG_Settings_MP3ABR(rendercfg)
   local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
   local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="l3pm" or string.byte(Decoded_string:sub(17,17))~=4 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3ABR", "rendercfg", "not a render-cfg-string of the format mp3-abr", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="l3pm" or string.byte(Decoded_string:sub(17,17))~=4 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3ABR", "rendercfg", "not a render-cfg-string of the format mp3-abr", -2) return -1 end
 
   if Decoded_string:len()==4 then
     return 11, 2, false, false
@@ -607,7 +616,7 @@ function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
   local Decoded_string
   local num_integers, Mode, VBR_quality, CBR_Bitrate, ABR_Bitrate, ABRmin_Bitrate, ABRmax_Bitrate
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="vggo" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OGG", "rendercfg", "not a render-cfg-string of the format ogg", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="vggo" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OGG", "rendercfg", "not a render-cfg-string of the format ogg", -2) return -1 end
   
   if Decoded_string:len()==4 then
     return 0, 0.50, 128, 128, 32, 256
@@ -665,7 +674,7 @@ function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
   local Decoded_string
   local num_integers, Mode, Bitrate, Complexity, Encode1, Encode2, Combine, Encode
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="SggO" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OPUS", "rendercfg", "not a render-cfg-string of the format opus", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="SggO" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OPUS", "rendercfg", "not a render-cfg-string of the format opus", -2) return -1 end
   
   if Decoded_string:len()==4 then
     return 0, 128, 10, false, true
@@ -724,7 +733,7 @@ function ultraschall.GetRenderCFG_Settings_GIF(rendercfg)
   local Decoded_string
   local num_integers, Width, Height, MaxFramerate, PreserveAspectRatio, Transparency, IgnoreLowBits
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~=" FIG" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_GIF", "rendercfg", "not a render-cfg-string of the format gif", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~=" FIG" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_GIF", "rendercfg", "not a render-cfg-string of the format gif", -2) return -1 end
   
   if Decoded_string:len()==4 then
     return 640, 360, 30.00, false, 0, false
@@ -785,7 +794,7 @@ function ultraschall.GetRenderCFG_Settings_LCF(rendercfg)
   local Decoded_string
   local num_integers, Width, Height, MaxFramerate, PreserveAspectRatio, TweakSettings
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~=" FCL" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_LCF", "rendercfg", "not a render-cfg-string of the format lcf", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~=" FCL" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_LCF", "rendercfg", "not a render-cfg-string of the format lcf", -2) return -1 end
   
   if Decoded_string:len()==4 then
     return 640, 360, 30.00, false, "t20 x128 y16"
@@ -870,7 +879,7 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
   local IncludeMarkers, IncludeMarkers_temp, Bitdepth, LargeFiles, BWFChunk, EmbedProjectTempo
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
   
-  if Decoded_string:sub(1,4)~="evaw" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAV", "rendercfg", "not a render-cfg-string of the format wav", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="evaw" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAV", "rendercfg", "not a render-cfg-string of the format wav", -2) return -1 end
   if Decoded_string:len()==4 then 
     Bitdepth=2
     LargeFiles=0
@@ -963,7 +972,7 @@ function ultraschall.GetRenderCFG_Settings_WAVPACK(rendercfg)
   local Decoded_string
   local Mode, Bitdepth, WriteMarkers, WriteBWFChunk, IncludeProjectFilenameInBWFData
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="kpvw" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAVPACK", "rendercfg", "not a render-cfg-string of the format wavpack", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="kpvw" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAVPACK", "rendercfg", "not a render-cfg-string of the format wavpack", -2) return -1 end
   
   if Decoded_string:len()==4 then
     return 0, 1, 0, false, false
@@ -1025,7 +1034,7 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
   local Decoded_string
   local num_integers, VidKBPS, AudKBPS, Width, Height, FPS, AspectRatio
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=6 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WebMVideo", "rendercfg", "not a render-cfg-string of the format webm-video", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=6 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WebMVideo", "rendercfg", "not a render-cfg-string of the format webm-video", -2) return -1 end
   
   if Decoded_string:len()==4 then
     ultraschall.AddErrorMessage("GetRenderCFG_Settings_WebMVideo", "rendercfg", "can't make out, which video format is chosen", -3) return nil
@@ -1099,7 +1108,7 @@ function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
   local Decoded_string
   local num_integers, VideoCodec, MJPEG_quality, AudioCodec, Width, Height, FPS, AspectRatio
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=4 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MKV_Video", "rendercfg", "not a render-cfg-string of the format mkv-video", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=4 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MKV_Video", "rendercfg", "not a render-cfg-string of the format mkv-video", -2) return -1 end
   
   if Decoded_string:len()==4 then
     ultraschall.AddErrorMessage("GetRenderCFG_Settings_MKV_Video", "rendercfg", "can't make out, which video format is chosen", -3) return nil
@@ -1173,7 +1182,7 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
   local Decoded_string
   local num_integers, VideoCodec, MJPEG_quality, AudioCodec, Width, Height, FPS, AspectRatio
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=0 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AVI_Video", "rendercfg", "not a render-cfg-string of the format avi-video", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=0 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AVI_Video", "rendercfg", "not a render-cfg-string of the format avi-video", -2) return -1 end
   
   if Decoded_string:len()==4 then
     ultraschall.AddErrorMessage("GetRenderCFG_Settings_AVI_Video", "rendercfg", "can't make out, which video format is chosen", -3) return nil
@@ -1242,7 +1251,7 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
   local Decoded_string
   local num_integers, VideoCodec, MJPEG_quality, AudioCodec, Width, Height, FPS, AspectRatio
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=3 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_QTMOVMP4_Video", "rendercfg", "not a render-cfg-string of the format qt/move/mp4-video", -2) return -1 end
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=3 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_QTMOVMP4_Video", "rendercfg", "not a render-cfg-string of the format qt/move/mp4-video", -2) return -1 end
   
   if Decoded_string:len()==4 then
     ultraschall.AddErrorMessage("GetRenderCFG_Settings_QTMOVMP4_Video", "rendercfg", "can't make out, which video format is chosen", -3) return nil
@@ -1271,7 +1280,7 @@ function ultraschall.GetRenderCFG_Settings_DDP(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_DDP</slug>
     <requires>
-      Ultraschall=4.00
+      Ultraschall=4.2
       Reaper=5.975
       Lua=5.3
     </requires>
@@ -1307,7 +1316,7 @@ function ultraschall.CreateRenderCFG_GIF(Width, Height, MaxFPS, AspectRatio, Ign
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_GIF</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -1368,7 +1377,7 @@ function ultraschall.CreateRenderCFG_LCF(Width, Height, MaxFPS, AspectRatio, LCF
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_LCF</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -1429,7 +1438,7 @@ function ultraschall.CreateRenderCFG_WebMVideo(VIDKBPS, AUDKBPS, WIDTH, HEIGHT, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WebMVideo</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -1496,7 +1505,7 @@ function ultraschall.CreateRenderCFG_MKV_Video(VideoCodec, MJPEG_quality, AudioC
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MKV_Video</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -1575,7 +1584,7 @@ function ultraschall.CreateRenderCFG_QTMOVMP4_Video(VideoCodec, MJPEG_quality, A
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_QTMOVMP4_Video</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -1652,7 +1661,7 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_AVI_Video</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.2
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -1874,7 +1883,7 @@ function ultraschall.GetRenderCFG_Settings_M4AMac(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_M4AMac</slug>
     <requires>
-      Ultraschall=4.00
+      Ultraschall=4.2
       Reaper=5.975
       Lua=5.3
     </requires>
