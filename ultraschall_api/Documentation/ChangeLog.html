@@ -35,7 +35,7 @@
       
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.2.006 - " - " - XX of YYYY 2021</h3>
+<h3>4.2.006 - "The Beatles - The continuing story of Bungalow Bill" - XX of YYYY 2022</h3>
 <p>Has now 1406 functions, with 6 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
@@ -44,6 +44,9 @@ Bla</li>
 </ul>
 <h4>New features in 4.2.006</h4>
 <ul>
+<li>Doc-Engine: Docs_GetUSDocBloc_Changelog - returns the changelogs from each US-DocML-entry</li>
+<li>Doc-Engine: Docs_GetUSDocBloc_LinkedTo - returns the entries of the linked_to-tags insie an USDocML-entry</li>
+<li>Helper Functions: ReturnReaperExeFile_With_Path - returns the name of the reaper-executable including its path</li>
 <li>Render Management: GetRenderTargetFiles - returns the render-target and filenames of all render-files, if they would be rendered right now</li>
 </ul>
 <h4>Changes from 4.2.005 to 4.2.006</h4>
@@ -67,6 +70,11 @@ Bla</li>
 <li>ParmLearn: AddParmLearn_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -&gt; fixed(thanks to TonE)</li>
 <li>ParmLearn: GetParmLearn_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -&gt; fixed(thanks to TonE)</li>
 <li>ParmLearn: SetParmLearn_FXStateChunk2 - had massive errors in the docs -&gt; fixed(thanks to TonE)</li>
+<li>Rendering: GetRenderCFG_Settings_AIFF - when passing nil, it returns now the default-project-render-settings for aiff</li>
+<li>Rendering: GetRenderCFG_Settings_FLAC - when passing nil, it returns now the default-project-render-settings for flac<br />
+</li>
+<li>Rendering: GetRenderCFG_Settings_XXX - all those functions could produce error, when sending in non-Base-64-strings -&gt; fixed<br />
+</li>
 <li>Rendering: RenderProject_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -&gt; fixed(thnx to aurelien)</li>
 <li>User Interface: Windows_Find - had inner variable exposed -&gt; fixed</li>
 </ul>

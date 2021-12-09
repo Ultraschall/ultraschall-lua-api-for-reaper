@@ -75,7 +75,8 @@ function ultraschall.GetRenderCFG_Settings_FLAC(rendercfg)
       integer compression - the data-compression speed from fastest and worst efficiency(0) to slowest but best efficiency(8); default is 5
     </retvals>
     <parameters>
-      string render_cfg - the render-cfg-string, that contains the flac-settings
+      string render_cfg - the render-cfg-string, that contains the flac-settings; 
+                        - nil, get the current new-project-default render-settings for flac
     </parameters>
     <chapter_context>
       Rendering Projects
@@ -86,8 +87,14 @@ function ultraschall.GetRenderCFG_Settings_FLAC(rendercfg)
     <tags>render management, get, settings, rendercfg, renderstring, flac, encoding depth, compression</tags>
   </US_DocBloc>
   ]]
-  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_FLAC", "rendercfg", "must be a string or nil", -1) return -1 end
-
+  if rendercfg~=nil and type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_FLAC", "rendercfg", "must be a string or nil", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("flac sink defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="63616C661000000005000000AB" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
   local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
   if Decoded_string==nil or Decoded_string:sub(1,4)~="calf" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_FLAC", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
    
@@ -124,7 +131,8 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
       boolean EmbedBeatLength - Embed beat length if exact-checkbox; true, checked; false, unchecked
     </retvals>
     <parameters>
-      string render_cfg - the render-cfg-string, that contains the aiff-settings; nil, get the current new-project-default render-settings
+      string render_cfg - the render-cfg-string, that contains the aiff-settings
+                        - nil, get the current new-project-default render-settings for aiff
     </parameters>
     <chapter_context>
       Rendering Projects
@@ -198,7 +206,7 @@ function ultraschall.GetRenderCFG_Settings_AudioCD(rendercfg)
     <tags>render management, get, settings, rendercfg, renderstring, audiocd, leadin silence, tracks, burn cd, image, markers as hashes</tags>
   </US_DocBloc>
   ]]
-  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "must be a string", -1) return -1 end
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "must be a string", -1) return -1 end  
   local Decoded_string, LeadInSilenceDisc, LeadInSilenceTrack, num_integers, BurnImage, TrackMode, UseMarkers
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
   if Decoded_string==nil or Decoded_string:sub(1,4)~=" osi" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "not a render-cfg-string of the format audio cd", -2) return -1 end

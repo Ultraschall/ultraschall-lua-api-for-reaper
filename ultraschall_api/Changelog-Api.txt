@@ -414,7 +414,7 @@ Doesn't work on Windows 7???
 
 ## Ultraschall Framework - Changelog
 
-### 4.2.006 - " - " - XX of YYYY 2021
+### 4.2.006 - "The Beatles - The continuing story of Bungalow Bill" - XX of YYYY 2022
 
 Has now 1406 functions, with 6 new ones
 
@@ -425,6 +425,9 @@ Has now 1406 functions, with 6 new ones
   
   
 #### New features in 4.2.006  
+  - Doc-Engine: Docs\_GetUSDocBloc\_Changelog - returns the changelogs from each US-DocML-entry
+  - Doc-Engine: Docs\_GetUSDocBloc\_LinkedTo - returns the entries of the linked_to-tags insie an USDocML-entry
+  - Helper Functions: ReturnReaperExeFile\_With\_Path - returns the name of the reaper-executable including its path
   - Render Management: GetRenderTargetFiles - returns the render-target and filenames of all render-files, if they would be rendered right now
 
 #### Changes from 4.2.005 to 4.2.006  
@@ -447,6 +450,7 @@ Has now 1406 functions, with 6 new ones
   - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
   - Rendering: GetRenderCFG\_Settings\_AIFF - when passing nil, it returns now the default-project-render-settings for aiff
+  - Rendering: GetRenderCFG\_Settings\_FLAC - when passing nil, it returns now the default-project-render-settings for flac  
   - Rendering: GetRenderCFG\_Settings\_XXX - all those functions could produce error, when sending in non-Base-64-strings -> fixed  
   - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)
   - User Interface: Windows\_Find - had inner variable exposed -> fixed
