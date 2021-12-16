@@ -610,6 +610,7 @@ function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the ogg-settings
+                        - nil, get the current new-project-default render-settings for ogg
     </parameters>
     <chapter_context>
       Rendering Projects
@@ -619,8 +620,15 @@ function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
     <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, ogg, vbr, cbr, tbr, max quality</tags>
   </US_DocBloc>
-  ]]
-  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OGG", "rendercfg", "must be a string", -1) return -1 end
+  ]] 
+  if rendercfg~=nil and type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OGG", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("ogg encoder defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="7667676F0000003F008000000080000000200000000001000013" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
   local Decoded_string
   local num_integers, Mode, VBR_quality, CBR_Bitrate, ABR_Bitrate, ABRmin_Bitrate, ABRmax_Bitrate
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
@@ -668,6 +676,7 @@ function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the opus-settings
+                        - nil, get the current new-project-default render-settings for opus
     </parameters>
     <chapter_context>
       Rendering Projects
@@ -678,7 +687,14 @@ function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
     <tags>render management, get, settings, rendercfg, renderstring, opus, vbr, cbr, cvbr</tags>
   </US_DocBloc>
   ]]
-  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OPUS", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg~=nil and type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OPUS", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("ogg opus encoder defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="5367674F00000043000A00000000000000BD" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
   local Decoded_string
   local num_integers, Mode, Bitrate, Complexity, Encode1, Encode2, Combine, Encode
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
@@ -831,7 +847,7 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
     <slug>GetRenderCFG_Settings_WAV</slug>
     <requires>
       Ultraschall=4.2
-      Reaper=5.975
+      Reaper=6.13
       Lua=5.3
     </requires>
     <functioncall>integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo = ultraschall.GetRenderCFG_Settings_WAV(string rendercfg)</functioncall>
@@ -844,13 +860,15 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
     </description>
     <retvals>
       integer BitDepth - the bitdepth of the WAV-file
-                       -   0, 8 Bit PCM
-                       -   1, 16 Bit PCM
-                       -   2, 24 Bit PCM
-                       -   3, 32 Bit FP
-                       -   4, 64 Bit FP
-                       -   5, 4 Bit IMA ADPCM
-                       -   6, 2 Bit cADPCM 
+                       - 0, 8 Bit PCM
+                       - 1, 16 Bit PCM
+                       - 2, 24 Bit PCM                     
+                       - 3, 32 Bit FP
+                       - 4, 64 Bit FP
+                       - 5, 4 Bit IMA ADPCM
+                       - 6, 2 Bit cADPCM                     
+                       - 7, 32 Bit PCM
+                       - 8, 8 Bit u-Law
       integer LargeFiles - how shall Reaper treat large WAV-files
                          -   0, Auto WAV/Wave64
                          -   1, Auto Wav/RF64
@@ -872,6 +890,7 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the wav-settings
+                        - nil, get the current new-project-default render-settings for wav
     </parameters>
     <chapter_context>
       Rendering Projects
@@ -880,9 +899,18 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, wav</tags>
+    <changelog>
+    </changelog>
   </US_DocBloc>
   ]]
-  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAV", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg~=nil and type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAV", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("wave sink defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="65766177180000CB" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
   local Decoded_string
   local IncludeMarkers, IncludeMarkers_temp, Bitdepth, LargeFiles, BWFChunk, EmbedProjectTempo
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
@@ -896,11 +924,21 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
     EmbedProjectTempo=false
   else
     Bitdepth=string.byte(Decoded_string:sub(5,5))
+    if Bitdepth==8 then Bitdepth=0
+    elseif Bitdepth==16 then Bitdepth=1
+    elseif Bitdepth==24 then Bitdepth=2
+    elseif Bitdepth==32 then Bitdepth=3
+    elseif Bitdepth==64 then Bitdepth=4
+    elseif Bitdepth==4 then Bitdepth=5
+    elseif Bitdepth==2 then Bitdepth=6
+    elseif Bitdepth==33 then Bitdepth=7
+    elseif Bitdepth==14 then Bitdepth=8    
+    end
   
     IncludeMarkers_temp={string.byte(Decoded_string:sub(6,6))&8,
-                        string.byte(Decoded_string:sub(6,6))&16,
-                        string.byte(Decoded_string:sub(6,6))&64,
-                        string.byte(Decoded_string:sub(6,6))&128}
+                         string.byte(Decoded_string:sub(6,6))&16,
+                         string.byte(Decoded_string:sub(6,6))&64,
+                         string.byte(Decoded_string:sub(6,6))&128}
     IncludeMarkers=0
     if IncludeMarkers_temp[1]~=0 then IncludeMarkers=IncludeMarkers+1 end
     if IncludeMarkers_temp[2]~=0 then IncludeMarkers=IncludeMarkers+1 end
@@ -966,6 +1004,7 @@ function ultraschall.GetRenderCFG_Settings_WAVPACK(rendercfg)
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the wavpack-settings
+                        - nil, get the current new-project-default render-settings for wavpack
     </parameters>
     <chapter_context>
       Rendering Projects
@@ -976,7 +1015,14 @@ function ultraschall.GetRenderCFG_Settings_WAVPACK(rendercfg)
     <tags>render management, get, settings, rendercfg, renderstring, wavpack</tags>
   </US_DocBloc>
   ]]
-  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAVPACK", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg~=nil and type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAVPACK", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("wavpack encoder defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="6B70767700000000010000000000000000000000C9" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
   local Decoded_string
   local Mode, Bitdepth, WriteMarkers, WriteBWFChunk, IncludeProjectFilenameInBWFData
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
@@ -6347,8 +6393,8 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_WAV</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.77
+    Ultraschall=4.2
+    Reaper=6.13
     Lua=5.3
   </requires>
   <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_WAV(integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo)</functioncall>
@@ -6369,6 +6415,8 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
                      - 4, 64 Bit FP
                      - 5, 4 Bit IMA ADPCM
                      - 6, 2 Bit cADPCM
+                     - 7, 32 Bit PCM
+                     - 8, 8 Bit u-Law
     integer LargeFiles - how shall Reaper treat large WAV-files
                        - 0, Auto WAV/Wave64
                        - 1, Auto Wav/RF64
@@ -6397,6 +6445,8 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, wav</tags>
+  <changelog>
+  </changelog>
 </US_DocBloc>
 ]]
   if math.type(BitDepth)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "BitDepth", "Must be an integer.", -1) return nil end
@@ -6405,7 +6455,7 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
   if math.type(IncludeMarkers)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "IncludeMarkers", "Must be an integer.", -4) return nil end
   if type(EmbedProjectTempo)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "EmbedProjectTempo", "Must be a boolean.", -5) return nil end
   
-  if BitDepth<0 or BitDepth>6 then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "Bitdepth", "Must be between 0 and 6.", -6) return nil end
+  if BitDepth<0 or BitDepth>8 then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "Bitdepth", "Must be between 0 and 8.", -6) return nil end
   if LargeFiles<0 or LargeFiles>4 then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "LargeFiles", "Must be between 0 and 4.", -7) return nil end
   if BWFChunk<0 or BWFChunk>3 then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "BWFChunk", "Must be between 0 and 3.", -8) return nil end
   if IncludeMarkers<0 or IncludeMarkers>6 then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "IncludeMarkers", "Must be between 0 and 6.", -9) return nil end
@@ -6419,9 +6469,13 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
   elseif BitDepth==1 then BitDepth="x" A0="A" -- 16 Bit PCM
   elseif BitDepth==2 then BitDepth="x" A0="g" -- 24 Bit PCM
   elseif BitDepth==3 then BitDepth="y" A0="A" -- 32 Bit FP
+  elseif BitDepth==7 then BitDepth="y" A0="E" -- 32 Bit PCM
   elseif BitDepth==4 then BitDepth="0" A0="A" -- 64 Bit FP
   elseif BitDepth==5 then BitDepth="w" A0="Q" -- 4 Bit IMA ADPCM
   elseif BitDepth==6 then BitDepth="w" A0="I" -- 2 Bit cADPCM
+  elseif BitDepth==8 then BitDepth="w" A0="4" -- 8 Bit u-Law
+  
+  
   else return nil 
   end
   

@@ -44149,7 +44149,8 @@ Returns -1 in case of an error
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> render_cfg</td></tr>
-<tr><td class="ch2">the render-cfg-string, that contains the ogg-settings</td></tr>
+<tr><td class="ch2">the render-cfg-string, that contains the ogg-settings<br/>
+nil, get the current new-project-default render-settings for ogg</td></tr>
 </table>
 <br>
 </div>
@@ -44192,7 +44193,8 @@ Returns -1 in case of an error
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> render_cfg</td></tr>
-<tr><td class="ch2">the render-cfg-string, that contains the opus-settings</td></tr>
+<tr><td class="ch2">the render-cfg-string, that contains the opus-settings<br/>
+nil, get the current new-project-default render-settings for opus</td></tr>
 </table>
 <br>
 </div>
@@ -44250,7 +44252,7 @@ Returns -1 in case of an error
 <hr>
 <a class="anch" id="GetRenderCFG_Settings_WAV"></a>
 <a href="#GetRenderCFG_Settings_WAV"> ^</a> 
-<img width="3%" src="gfx/reaper5.975.png" alt="Reaper version 5.975">
+<img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetRenderCFG_Settings_WAV</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> BitDepth, <i>integer</i> LargeFiles, <i>integer</i> BWFChunk, <i>integer</i> IncludeMarkers, <i>boolean</i> EmbedProjectTempo = <em>ultraschall.GetRenderCFG_Settings_WAV</em>(<i>string</i> rendercfg)</code></div>
@@ -44264,13 +44266,15 @@ Returns -1 in case of an error
 <table class="ch">
 <tr><td class="pr"><i>integer</i> BitDepth</td></tr>
 <tr><td class="ch2">the bitdepth of the WAV-file<br/>
-&nbsp;&nbsp;0, 8 Bit PCM<br/>
-&nbsp;&nbsp;1, 16 Bit PCM<br/>
-&nbsp;&nbsp;2, 24 Bit PCM<br/>
-&nbsp;&nbsp;3, 32 Bit FP<br/>
-&nbsp;&nbsp;4, 64 Bit FP<br/>
-&nbsp;&nbsp;5, 4 Bit IMA ADPCM<br/>
-&nbsp;&nbsp;6, 2 Bit cADPCM </td></tr>
+0, 8 Bit PCM<br/>
+1, 16 Bit PCM<br/>
+2, 24 Bit PCM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br/>
+3, 32 Bit FP<br/>
+4, 64 Bit FP<br/>
+5, 4 Bit IMA ADPCM<br/>
+6, 2 Bit cADPCM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br/>
+7, 32 Bit PCM<br/>
+8, 8 Bit u-Law</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> LargeFiles</td></tr>
@@ -44306,7 +44310,8 @@ Returns -1 in case of an error
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> render_cfg</td></tr>
-<tr><td class="ch2">the render-cfg-string, that contains the wav-settings</td></tr>
+<tr><td class="ch2">the render-cfg-string, that contains the wav-settings<br/>
+nil, get the current new-project-default render-settings for wav</td></tr>
 </table>
 <br>
 </div>
@@ -44366,7 +44371,8 @@ Returns -1 in case of an error
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> render_cfg</td></tr>
-<tr><td class="ch2">the render-cfg-string, that contains the wavpack-settings</td></tr>
+<tr><td class="ch2">the render-cfg-string, that contains the wavpack-settings<br/>
+nil, get the current new-project-default render-settings for wavpack</td></tr>
 </table>
 <br>
 </div>
@@ -46195,8 +46201,8 @@ Returns nil in case of an error
 <hr>
 <a class="anch" id="CreateRenderCFG_WAV"></a>
 <a href="#CreateRenderCFG_WAV"> ^</a> 
-<img width="3%" src="gfx/reaper5.77.png" alt="Reaper version 5.77">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>CreateRenderCFG_WAV</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.13.png" alt="Reaper version 6.13">
+<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>CreateRenderCFG_WAV</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_WAV</em>(<i>integer</i> BitDepth, <i>integer</i> LargeFiles, <i>integer</i> BWFChunk, <i>integer</i> IncludeMarkers, <i>boolean</i> EmbedProjectTempo)</code></div>
 </div><p>
@@ -46221,7 +46227,9 @@ Returns nil in case of an error
 3, 32 Bit FP<br/>
 4, 64 Bit FP<br/>
 5, 4 Bit IMA ADPCM<br/>
-6, 2 Bit cADPCM</td></tr>
+6, 2 Bit cADPCM<br/>
+7, 32 Bit PCM<br/>
+8, 8 Bit u-Law</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> LargeFiles</td></tr>

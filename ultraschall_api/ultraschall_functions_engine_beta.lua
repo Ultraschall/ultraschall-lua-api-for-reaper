@@ -1652,8 +1652,8 @@ function ultraschall.Docs_GetUSDocBloc_Changelog(String, unindent_description, i
   <retvals>
     integer changelogscount - the number of changelog-entries found
     array changelogs - all changelogs found, as an array
-                 -   changelogs[index][1] - software-version of the introduction of the change
-                 -   changelogs[index][2] - a description of the change
+                     -   changelogs[index][1] - software-version of the introduction of the change, like "Reaper 6.23" or "US_API 4.2.006"
+                     -   changelogs[index][2] - a description of the change
   </retvals>
   <parameters>
     string String - a string which hold a US_DocBloc to retrieve the changelog-entry from

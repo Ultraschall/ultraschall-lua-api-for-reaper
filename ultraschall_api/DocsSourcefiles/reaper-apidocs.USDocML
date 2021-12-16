@@ -281,9 +281,6 @@
         </chapter_context>
         <tags>mediaitemmanagement, mediaitem, item, track, empty</tags>
         <changelog>
-            6.64 - this is the text of the changelog entry
-                 - with this being an additional line
-            5.61 - another changelog line
         </changelog>
         <linked_to desc="see:">
             inline: SetMediaItemInfo_Value

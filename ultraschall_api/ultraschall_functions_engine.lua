@@ -239,8 +239,8 @@ function ultraschall.IntToDouble(integer, selector)
     local A=string.char(integer:sub(1,2)+1)..string.char(integer:sub(3,4)+1)..string.char(integer:sub(5,6)+1)..string.char(integer:sub(7,8)+1)
     
     -- read ini-file
-      --local B=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)
- B=UseMe -- debug
+    local B=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/double_to_int_2.ini", true)
+ --B=UseMe -- debug
     -- look for the byte-sequence in the ini-file. The (offset/4)/100 is the double-float-value
     local i=-1
     for k in string.gmatch(B, "....") do

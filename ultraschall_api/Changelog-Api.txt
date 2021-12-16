@@ -430,10 +430,16 @@ Has now 1406 functions, with 6 new ones
   - ParmLearn: AddParmLearn\_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -> fixed(thanks to TonE)
   - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
+  - Rendering: CreateRenderCFG\_WAV - supports now 32 Bit PCM(7) and 8 Bit u-Law(8) as BitDepth
   - Rendering: GetRenderCFG\_Settings\_AIFF - when passing nil, it returns now the default-project-render-settings for aiff
   - Rendering: GetRenderCFG\_Settings\_FLAC - when passing nil, it returns now the default-project-render-settings for flac  
-  - Rendering: GetRenderCFG\_Settings\_XXX - all those functions could produce error, when sending in non-Base-64-strings -> fixed  
+  - Rendering: GetRenderCFG\_Settings\_OGG - when passing nil, it returns now the default-project-render-settings for ogg
+  - Rendering: GetRenderCFG\_Settings\_OPUS - when passing nil, it returns now the default-project-render-settings for opus
+  - Rendering: GetRenderCFG\_WAV - when passing nil, it returns now the default-project-render-settings for wav; supports now 32 Bit PCM(7) and 8 Bit u-Law(8) as BitDepth; returned wrong value as BitDepth -> fixed  
+  - Rendering: GetRenderCFG\_WAVPACK - when passing nil, it returns now the default-project-render-settings for wavpack
+  - Rendering: GetRenderCFG\_Settings\_XXX - all those functions could produce error, when sending in non-Base-64-strings -> fixed      
   - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)
+  - Rendering: various - many render-cfg-functions who work with floats didn't work properly -> fixed
   - User Interface: Windows\_Find - had inner variable exposed -> fixed
   
 ---
