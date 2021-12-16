@@ -19132,7 +19132,7 @@ Return the index of the next selected effect in the given FX chain. Start index 
 <div class="cc">
 <div class="c">C: <code> FxChain* <em>CF_GetFocusedFXChain</em>()</code></div>
 <div class="e">EEL2: <code> FxChain extension_api("<em>CF_GetFocusedFXChain</em>")</code></div>
-<div class="l">Lua: <code> FxChain  = <em>reaper.CF_GetFocusedFXChain</em>()</code></div>
+<div class="l">Lua: <code> FxChain hwnd = <em>reaper.CF_GetFocusedFXChain</em>()</code></div>
 <div class="p">Python: <code> FxChain  <em>CF_GetFocusedFXChain</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -19140,7 +19140,7 @@ Return a handle to the currently focused FX chain window.<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">FxChain </td></tr>
+<tr><td class="pr">FxChain hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -23951,14 +23951,14 @@ retval is 0 if successful, negative if not.
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_GDI_CreateFillBrush</em>(<i>int</i> color)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_GDI_CreateFillBrush</em>", <i>int</i> color)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_GDI_CreateFillBrush</em>(<i>integer</i> color)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> font = <em>reaper.JS_GDI_CreateFillBrush</em>(<i>integer</i> color)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_GDI_CreateFillBrush</em>(<i>Int</i> color)</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> font</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -23978,7 +23978,7 @@ retval is 0 if successful, negative if not.
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_GDI_CreateFont</em>(<i>int</i> height, <i>int</i> weight, <i>int</i> angle, <i>bool</i> italic, <i>bool</i> underline, <i>bool</i> strikeOut, <i>const</i> <i>char*</i> fontName)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_GDI_CreateFont</em>", <i>int</i> height, <i>int</i> weight, <i>int</i> angle, <i>bool</i> italic, <i>bool</i> underline, <i>bool</i> strike, "fontName")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_GDI_CreateFont</em>(<i>integer</i> height, <i>integer</i> weight, <i>integer</i> angle, <i>boolean</i> italic, <i>boolean</i> underline, <i>boolean</i> strike, <i>string</i> fontName)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> font = <em>reaper.JS_GDI_CreateFont</em>(<i>integer</i> height, <i>integer</i> weight, <i>integer</i> angle, <i>boolean</i> italic, <i>boolean</i> underline, <i>boolean</i> strike, <i>string</i> fontName)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_GDI_CreateFont</em>(<i>Int</i> height, <i>Int</i> weight, <i>Int</i> angle, <i>Boolean</i> italic, <i>Boolean</i> underline, <i>Boolean</i> strikeOut, <i>String</i> fontName)</code></div>
 </div><p>
 <div class="ch">
@@ -23996,7 +23996,7 @@ Parameters:<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> font</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -24040,14 +24040,14 @@ Parameters:<br/>
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_GDI_CreatePen</em>(<i>int</i> width, <i>int</i> color)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_GDI_CreatePen</em>", <i>int</i> width, <i>int</i> color)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_GDI_CreatePen</em>(<i>integer</i> width, <i>integer</i> color)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> pen = <em>reaper.JS_GDI_CreatePen</em>(<i>integer</i> width, <i>integer</i> color)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_GDI_CreatePen</em>(<i>Int</i> width, <i>Int</i> color)</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> pen</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -24298,7 +24298,7 @@ packedX and packedY are strings of points, each packed as "&lt;i4".<br/>
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_GDI_GetClientDC</em>(<i>void*</i> windowHWND)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_GDI_GetClientDC</em>", <i>void*</i> windowHWND)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_GDI_GetClientDC</em>(<i>identifier</i> windowHWND)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> device_context = <em>reaper.JS_GDI_GetClientDC</em>(<i>identifier</i> windowHWND)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_GDI_GetClientDC</em>(<i>void</i> windowHWND)</code></div>
 </div><p>
 <div class="ch">
@@ -24306,7 +24306,7 @@ Returns the device context for the client area of the specified window.<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> device_context</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -24326,7 +24326,7 @@ Returns the device context for the client area of the specified window.<br/>
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_GDI_GetScreenDC</em>()</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_GDI_GetScreenDC</em>")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_GDI_GetScreenDC</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> device_context = <em>reaper.JS_GDI_GetScreenDC</em>()</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_GDI_GetScreenDC</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -24338,7 +24338,7 @@ WARNING: Only available on Windows, not Linux or MacOS.<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> device_context</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -24406,7 +24406,7 @@ WARNING: Only available on Windows, not Linux or MacOS.<br/>
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_GDI_GetWindowDC</em>(<i>void*</i> windowHWND)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_GDI_GetWindowDC</em>", <i>void*</i> windowHWND)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_GDI_GetWindowDC</em>(<i>identifier</i> windowHWND)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> device_context = <em>reaper.JS_GDI_GetWindowDC</em>(<i>identifier</i> windowHWND)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_GDI_GetWindowDC</em>(<i>void</i> windowHWND)</code></div>
 </div><p>
 <div class="ch">
@@ -24414,7 +24414,7 @@ Returns the device context for the entire window, including title bar and frame.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> device_context</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -24532,7 +24532,7 @@ NOTE: Any GDI HDC should be released immediately after drawing, and deferred scr
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_GDI_SelectObject</em>(<i>void*</i> deviceHDC, <i>void*</i> GDIObject)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_GDI_SelectObject</em>", <i>void*</i> deviceHDC, <i>void*</i> GDIObject)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_GDI_SelectObject</em>(<i>identifier</i> deviceHDC, <i>identifier</i> GDIObject)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> object = <em>reaper.JS_GDI_SelectObject</em>(<i>identifier</i> deviceHDC, <i>identifier</i> GDIObject)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_GDI_SelectObject</em>(<i>void</i> deviceHDC, <i>void</i> GDIObject)</code></div>
 </div><p>
 <div class="ch">
@@ -24540,7 +24540,7 @@ Activates a font, pen, or fill brush for subsequent drawing in the specified dev
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> object</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -25140,14 +25140,14 @@ LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).<br/>
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_LICE_CreateBitmap</em>(<i>bool</i> isSysBitmap, <i>int</i> width, <i>int</i> height)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_LICE_CreateBitmap</em>", <i>bool</i> isSysBitmap, <i>int</i> width, <i>int</i> height)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_LICE_CreateBitmap</em>(<i>boolean</i> isSysBitmap, <i>integer</i> width, <i>integer</i> height)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> bitmap = <em>reaper.JS_LICE_CreateBitmap</em>(<i>boolean</i> isSysBitmap, <i>integer</i> width, <i>integer</i> height)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_LICE_CreateBitmap</em>(<i>Boolean</i> isSysBitmap, <i>Int</i> width, <i>Int</i> height)</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> bitmap</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -25175,14 +25175,14 @@ LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).<br/>
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_LICE_CreateFont</em>()</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_LICE_CreateFont</em>")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_LICE_CreateFont</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> font = <em>reaper.JS_LICE_CreateFont</em>()</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_LICE_CreateFont</em>()</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> font</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -25552,14 +25552,14 @@ LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_LICE_GetDC</em>(<i>void*</i> bitmap)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_LICE_GetDC</em>", <i>void*</i> bitmap)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_LICE_GetDC</em>(<i>identifier</i> bitmap)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> device_context = <em>reaper.JS_LICE_GetDC</em>(<i>identifier</i> bitmap)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_LICE_GetDC</em>(<i>void</i> bitmap)</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> device_context</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -25894,7 +25894,7 @@ Returns a system LICE bitmap containing the JPEG.
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_LICE_LoadPNG</em>(<i>const</i> <i>char*</i> filename)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_LICE_LoadPNG</em>", "filename")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_LICE_LoadPNG</em>(<i>string</i> filename)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> bitmap = <em>reaper.JS_LICE_LoadPNG</em>(<i>string</i> filename)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_LICE_LoadPNG</em>(<i>String</i> filename)</code></div>
 </div><p>
 <div class="ch">
@@ -25902,7 +25902,7 @@ Returns a system LICE bitmap containing the PNG.<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> bitmap</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -27301,14 +27301,14 @@ Moves the mouse cursor to the specified coordinates.<br/>
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_PtrFromStr</em>(<i>const</i> <i>char*</i> s)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_PtrFromStr</em>", "s")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_PtrFromStr</em>(<i>string</i> s)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> ptr = <em>reaper.JS_PtrFromStr</em>(<i>string</i> s)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_PtrFromStr</em>(<i>String</i> s)</code></div>
 </div><p>
 <div class="ch">
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> ptr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28385,7 +28385,7 @@ Enables or disables mouse and keyboard input to the specified window or control.
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_Find</em>(<i>const</i> <i>char*</i> title, <i>bool</i> exact)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Window_Find</em>", "title", <i>bool</i> exact)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_Find</em>(<i>string</i> title, <i>boolean</i> exact)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_Find</em>(<i>string</i> title, <i>boolean</i> exact)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Window_Find</em>(<i>String</i> title, <i>Boolean</i> exact)</code></div>
 </div><p>
 <div class="ch">
@@ -28399,7 +28399,7 @@ Parameters:<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2">the identifier of the found window, or nil</td></tr>
 </table>
 <br>
@@ -28423,7 +28423,7 @@ Parameters:<br/>
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_FindChild</em>(<i>void*</i> parentHWND, <i>const</i> <i>char*</i> title, <i>bool</i> exact)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Window_FindChild</em>", <i>void*</i> parentHWND, "title", <i>bool</i> exact)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_FindChild</em>(<i>identifier</i> parentHWND, <i>string</i> title, <i>boolean</i> exact)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_FindChild</em>(<i>identifier</i> parentHWND, <i>string</i> title, <i>boolean</i> exact)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Window_FindChild</em>(<i>void</i> parentHWND, <i>String</i> title, <i>Boolean</i> exact)</code></div>
 </div><p>
 <div class="ch">
@@ -28435,7 +28435,7 @@ Parameters:<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2">the identifier for the window found; nil, if no such window found</td></tr>
 </table>
 <br>
@@ -28540,7 +28540,7 @@ Parameters: * childWindow: The function searches child windows, beginning with t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_FindTop</em>(<i>const</i> <i>char*</i> title, <i>bool</i> exact)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>JS_Window_FindTop</em>", "title", <i>bool</i> exact)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_FindTop</em>(<i>string</i> title, <i>boolean</i> exact)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_FindTop</em>(<i>string</i> title, <i>boolean</i> exact)</code></div>
 <div class="p">Python: <code> <i>void</i> <em>JS_Window_FindTop</em>(<i>String</i> title, <i>Boolean</i> exact)</code></div>
 </div><p>
 <div class="ch">
@@ -28551,7 +28551,7 @@ Parameters:<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> <i>HWND</i></td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2">the found identifier of the window; nil, if not found</td></tr>
 </table>
 <br>
@@ -28575,7 +28575,7 @@ Parameters:<br/>
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_FromPoint</em>(<i>int</i> x, <i>int</i> y)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Window_FromPoint</em>", <i>int</i> x, <i>int</i> y)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_FromPoint</em>(<i>integer</i> x, <i>integer</i> y)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_FromPoint</em>(<i>integer</i> x, <i>integer</i> y)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Window_FromPoint</em>(<i>Int</i> x, <i>Int</i> y)</code></div>
 </div><p>
 <div class="ch">
@@ -28583,7 +28583,7 @@ Retrieves a HWND to the window that contains the specified point.<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2">the window found at the coordinates</td></tr>
 </table>
 <br>
@@ -28721,7 +28721,7 @@ Retrieves a HWND to the window that has the keyboard focus, if the window is att
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_GetFocus</em>()</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Window_GetFocus</em>")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_GetFocus</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_GetFocus</em>()</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Window_GetFocus</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -28729,7 +28729,7 @@ Retrieves a HWND to the window that has the keyboard focus, if the window is att
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28743,7 +28743,7 @@ Retrieves a HWND to the window that has the keyboard focus, if the window is att
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_GetForeground</em>()</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Window_GetForeground</em>")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_GetForeground</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_GetForeground</em>()</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Window_GetForeground</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -28751,7 +28751,7 @@ Retrieves a HWND to the top-level foreground window (the window with which the u
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28798,7 +28798,7 @@ Retrieves a HWND to the top-level foreground window (the window with which the u
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_GetLongPtr</em>(<i>void*</i> windowHWND, <i>const</i> <i>char*</i> info)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Window_GetLongPtr</em>", <i>void*</i> windowHWND, "info")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_GetLongPtr</em>(<i>identifier</i> windowHWND, <i>string</i> info)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> long_ptr = <em>reaper.JS_Window_GetLongPtr</em>(<i>identifier</i> windowHWND, <i>string</i> info)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Window_GetLongPtr</em>(<i>void</i> windowHWND, <i>String</i> info)</code></div>
 </div><p>
 <div class="ch">
@@ -28808,7 +28808,7 @@ Retrieves a HWND to the top-level foreground window (the window with which the u
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> long_ptr</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28832,7 +28832,7 @@ Retrieves a HWND to the top-level foreground window (the window with which the u
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_GetParent</em>(<i>void*</i> windowHWND)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Window_GetParent</em>", <i>void*</i> windowHWND)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_GetParent</em>(<i>identifier</i> windowHWND)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_GetParent</em>(<i>identifier</i> windowHWND)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Window_GetParent</em>(<i>void</i> windowHWND)</code></div>
 </div><p>
 <div class="ch">
@@ -28842,7 +28842,7 @@ Returns NULL if the window is unowned or if the function otherwise fails.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -28908,7 +28908,7 @@ NOTE: The pixel at (right, bottom) lies immediately outside the rectangle.
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_GetRelated</em>(<i>void*</i> windowHWND, <i>const</i> <i>char*</i> relation)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Window_GetRelated</em>", <i>void*</i> windowHWND, "relation")</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_GetRelated</em>(<i>identifier</i> windowHWND, <i>string</i> relation)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_GetRelated</em>(<i>identifier</i> windowHWND, <i>string</i> relation)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Window_GetRelated</em>(<i>void</i> windowHWND, <i>String</i> relation)</code></div>
 </div><p>
 <div class="ch">
@@ -28918,7 +28918,7 @@ NOTE: The pixel at (right, bottom) lies immediately outside the rectangle.
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29088,7 +29088,7 @@ wantWork: Returns the work area of the display, which excludes the system taskba
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_HandleFromAddress</em>(<i>double</i> address)</code></div>
 <div class="e">EEL2: <code> <i>void*</i>  extension_api("<em>JS_Window_HandleFromAddress</em>", address)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_HandleFromAddress</em>(<i>number</i> address)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_HandleFromAddress</em>(<i>number</i> address)</code></div>
 <div class="p">Python: <code> <i>void</i>  <em>JS_Window_HandleFromAddress</em>(<i>Float</i> address)</code></div>
 </div><p>
 <div class="ch">
@@ -29096,7 +29096,7 @@ Converts an address to a handle (such as a HWND) that can be utilized by REAPER 
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> </td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29702,7 +29702,7 @@ Transparency can only be applied to top-level windows. If windowHWND refers to a
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>JS_Window_SetParent</em>(<i>void*</i> childHWND, <i>void*</i> parentHWNDOptional)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>JS_Window_SetParent</em>", <i>void*</i> childHWND, <i>void*</i> parentHWND)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> = <em>reaper.JS_Window_SetParent</em>(<i>identifier</i> childHWND, <i>identifier</i> parentHWND)</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd = <em>reaper.JS_Window_SetParent</em>(<i>identifier</i> childHWND, <i>identifier</i> parentHWND)</code></div>
 <div class="p">Python: <code> <i>void</i> <em>JS_Window_SetParent</em>(<i>void</i> childHWND, <i>void</i> parentHWNDOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -29712,7 +29712,7 @@ Only on WindowsOS: If parentHWND is not specified, the desktop window becomes th
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> Identifier </td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd </td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29799,7 +29799,7 @@ ZOrder and flags are optional parameters. If no arguments are supplied, the wind
 <img width="3%" src="gfx/js_0.951.png" alt="JS version 0.951"><u><b>JS_Window_SetScrollPos(JS)</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>JS_Window_SetScrollPos</em>(<i>void*</i> windowHWND, <i>const</i> <i>char*</i> scrollbar, <i>int</i> position)</code></div>
-<div class="e">EEL2: <code> <i>bool</i>  extension_api("<em>JS_Window_SetScrollPos</em>", <i>void*</i> windowHWND, "scrollbar", <i>int</i> position)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> extension_api("<em>JS_Window_SetScrollPos</em>", <i>void*</i> windowHWND, "scrollbar", <i>int</i> position)</code></div>
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.JS_Window_SetScrollPos</em>(<i>identifier</i> windowHWND, <i>string</i> scrollbar, <i>integer</i> position)</code></div>
 <div class="p">Python: <code> <i>Boolean</i>  <em>JS_Window_SetScrollPos</em>(<i>void</i> windowHWND, <i>String</i> scrollbar, <i>Int</i> position)</code></div>
 </div><p>
@@ -29814,7 +29814,7 @@ Parameters:<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i> </td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29881,7 +29881,7 @@ On Linux and macOS, "MAXIMIZE" has not yet been implmented, and the remaining st
 <img width="3%" src="gfx/js_0.951.png" alt="JS version 0.951"><u><b>JS_Window_SetTitle(JS)</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>JS_Window_SetTitle</em>(<i>void*</i> windowHWND, <i>const</i> <i>char*</i> title)</code></div>
-<div class="e">EEL2: <code> <i>bool</i>  extension_api("<em>JS_Window_SetTitle</em>", <i>void*</i> windowHWND, "title")</code></div>
+<div class="e">EEL2: <code> <i>bool</i> extension_api("<em>JS_Window_SetTitle</em>", <i>void*</i> windowHWND, "title")</code></div>
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.JS_Window_SetTitle</em>(<i>identifier</i> windowHWND, <i>string</i> title)</code></div>
 <div class="p">Python: <code> <i>Boolean</i>  <em>JS_Window_SetTitle</em>(<i>void</i> windowHWND, <i>String</i> title)</code></div>
 </div><p>
@@ -29890,7 +29890,7 @@ Changes the title of the specified window. Returns true if successful.<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i> </td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -29929,7 +29929,7 @@ Parameters:<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i> </td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30007,8 +30007,8 @@ Similar to the Win32 function UpdateWindow.
 <img width="3%" src="gfx/js_0.951.png" alt="JS version 0.951"><u><b>Xen_AudioWriter_Create(JS)</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> AudioWriter* <em>Xen_AudioWriter_Create</em>(<i>const</i> <i>char*</i> filename, <i>int</i> numchans, <i>int</i> samplerate)</code></div>
-<div class="e">EEL2: <code> AudioWriter  extension_api("<em>Xen_AudioWriter_Create</em>", "filename", <i>int</i> numchans, <i>int</i> samplerate)</code></div>
-<div class="l">Lua: <code> AudioWriter = <em>reaper.Xen_AudioWriter_Create</em>(<i>string</i> filename, <i>integer</i> numchans, <i>integer</i> samplerate)</code></div>
+<div class="e">EEL2: <code> AudioWriter extension_api("<em>Xen_AudioWriter_Create</em>", "filename", <i>int</i> numchans, <i>int</i> samplerate)</code></div>
+<div class="l">Lua: <code> AudioWriter writer = <em>reaper.Xen_AudioWriter_Create</em>(<i>string</i> filename, <i>integer</i> numchans, <i>integer</i> samplerate)</code></div>
 <div class="p">Python: <code> AudioWriter  <em>Xen_AudioWriter_Create</em>(<i>String</i> filename, <i>Int</i> numchans, <i>Int</i> samplerate)</code></div>
 </div><p>
 <div class="ch">
@@ -30016,7 +30016,7 @@ Creates writer for 32 bit floating point WAV
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">AudioWriter </td></tr>
+<tr><td class="pr">AudioWriter writer</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30073,7 +30073,7 @@ Write interleaved audio data to disk
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> </td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -30113,7 +30113,7 @@ Get interleaved audio data from media source
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> </td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>

@@ -27433,7 +27433,7 @@
         <title>JS_GDI_CreateFillBrush(JS)</title>
         <functioncall prog_lang="cpp">void* JS_GDI_CreateFillBrush(int color)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_GDI_CreateFillBrush", int color)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_GDI_CreateFillBrush(integer color)</functioncall>
+        <functioncall prog_lang="lua">identifier font = reaper.JS_GDI_CreateFillBrush(integer color)</functioncall>
         <functioncall prog_lang="python">void  JS_GDI_CreateFillBrush(Int color)</functioncall>
         <requires>
             Reaper=5.974
@@ -27443,7 +27443,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier font - 
         </retvals>
         <parameters>
            integer color - 
@@ -27463,7 +27463,7 @@
         <title>JS_GDI_CreateFont(JS)</title>
         <functioncall prog_lang="cpp">void* JS_GDI_CreateFont(int height, int weight, int angle, bool italic, bool underline, bool strikeOut, const char* fontName)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_GDI_CreateFont", int height, int weight, int angle, bool italic, bool underline, bool strike, "fontName")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_GDI_CreateFont(integer height, integer weight, integer angle, boolean italic, boolean underline, boolean strike, string fontName)</functioncall>
+        <functioncall prog_lang="lua">identifier font = reaper.JS_GDI_CreateFont(integer height, integer weight, integer angle, boolean italic, boolean underline, boolean strike, string fontName)</functioncall>
         <functioncall prog_lang="python">void  JS_GDI_CreateFont(Int height, Int weight, Int angle, Boolean italic, Boolean underline, Boolean strikeOut, String fontName)</functioncall>
         <requires>
             Reaper=5.974
@@ -27484,7 +27484,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier font - 
         </retvals>
         <parameters>
            integer height - 
@@ -27510,7 +27510,7 @@
         <title>JS_GDI_CreatePen(JS)</title>
         <functioncall prog_lang="cpp">void* JS_GDI_CreatePen(int width, int color)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_GDI_CreatePen", int width, int color)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_GDI_CreatePen(integer width, integer color)</functioncall>
+        <functioncall prog_lang="lua">identifier pen = reaper.JS_GDI_CreatePen(integer width, integer color)</functioncall>
         <functioncall prog_lang="python">void  JS_GDI_CreatePen(Int width, Int color)</functioncall>
         <requires>
             Reaper=5.974
@@ -27520,7 +27520,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier pen - 
         </retvals>
         <parameters>
            integer width - 
@@ -27737,7 +27737,7 @@
         <title>JS_GDI_GetClientDC(JS)</title>
         <functioncall prog_lang="cpp">void* JS_GDI_GetClientDC(void* windowHWND)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_GDI_GetClientDC", void* windowHWND)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_GDI_GetClientDC(identifier windowHWND)</functioncall>
+        <functioncall prog_lang="lua">identifier device_context = reaper.JS_GDI_GetClientDC(identifier windowHWND)</functioncall>
         <functioncall prog_lang="python">void  JS_GDI_GetClientDC(void windowHWND)</functioncall>
         <requires>
             Reaper=5.974
@@ -27748,7 +27748,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier device_context - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -27768,7 +27768,7 @@
         <title>JS_GDI_GetScreenDC(JS)</title>
         <functioncall prog_lang="cpp">void* JS_GDI_GetScreenDC()</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_GDI_GetScreenDC")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_GDI_GetScreenDC()</functioncall>
+        <functioncall prog_lang="lua">identifier device_context = reaper.JS_GDI_GetScreenDC()</functioncall>
         <functioncall prog_lang="python">void  JS_GDI_GetScreenDC()</functioncall>
         <requires>
             Reaper=5.974
@@ -27783,7 +27783,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier device_context - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -27860,7 +27860,7 @@
         <title>JS_GDI_GetWindowDC(JS)</title>
         <functioncall prog_lang="cpp">void* JS_GDI_GetWindowDC(void* windowHWND)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_GDI_GetWindowDC", void* windowHWND)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_GDI_GetWindowDC(identifier windowHWND)</functioncall>
+        <functioncall prog_lang="lua">identifier device_context = reaper.JS_GDI_GetWindowDC(identifier windowHWND)</functioncall>
         <functioncall prog_lang="python">void  JS_GDI_GetWindowDC(void windowHWND)</functioncall>
         <requires>
             Reaper=5.974
@@ -27871,7 +27871,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier device_context - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -27986,7 +27986,7 @@
         <title>JS_GDI_SelectObject(JS)</title>
         <functioncall prog_lang="cpp">void* JS_GDI_SelectObject(void* deviceHDC, void* GDIObject)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_GDI_SelectObject", void* deviceHDC, void* GDIObject)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_GDI_SelectObject(identifier deviceHDC, identifier GDIObject)</functioncall>
+        <functioncall prog_lang="lua">identifier object = reaper.JS_GDI_SelectObject(identifier deviceHDC, identifier GDIObject)</functioncall>
         <functioncall prog_lang="python">void  JS_GDI_SelectObject(void deviceHDC, void GDIObject)</functioncall>
         <requires>
             Reaper=5.974
@@ -27997,7 +27997,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier object - 
         </retvals>
         <parameters>
            identifier deviceHDC - 
@@ -28492,7 +28492,7 @@
         <title>JS_LICE_CreateBitmap(JS)</title>
         <functioncall prog_lang="cpp">void* JS_LICE_CreateBitmap(bool isSysBitmap, int width, int height)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_LICE_CreateBitmap", bool isSysBitmap, int width, int height)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_LICE_CreateBitmap(boolean isSysBitmap, integer width, integer height)</functioncall>
+        <functioncall prog_lang="lua">identifier bitmap = reaper.JS_LICE_CreateBitmap(boolean isSysBitmap, integer width, integer height)</functioncall>
         <functioncall prog_lang="python">void  JS_LICE_CreateBitmap(Boolean isSysBitmap, Int width, Int height)</functioncall>
         <requires>
             Reaper=5.974
@@ -28502,7 +28502,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier bitmap - 
         </retvals>
         <parameters>
            boolean isSysBitmap - 
@@ -28524,7 +28524,7 @@
         <title>JS_LICE_CreateFont(JS)</title>
         <functioncall prog_lang="cpp">void* JS_LICE_CreateFont()</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_LICE_CreateFont")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_LICE_CreateFont()</functioncall>
+        <functioncall prog_lang="lua">identifier font = reaper.JS_LICE_CreateFont()</functioncall>
         <functioncall prog_lang="python">void  JS_LICE_CreateFont()</functioncall>
         <requires>
             Reaper=5.974
@@ -28534,7 +28534,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier font - 
         </retvals>
 
         <target_document>Reaper_Api_Documentation</target_document>
@@ -28832,7 +28832,7 @@
         <title>JS_LICE_GetDC(JS)</title>
         <functioncall prog_lang="cpp">void* JS_LICE_GetDC(void* bitmap)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_LICE_GetDC", void* bitmap)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_LICE_GetDC(identifier bitmap)</functioncall>
+        <functioncall prog_lang="lua">identifier device_context = reaper.JS_LICE_GetDC(identifier bitmap)</functioncall>
         <functioncall prog_lang="python">void  JS_LICE_GetDC(void bitmap)</functioncall>
         <requires>
             Reaper=5.974
@@ -28842,7 +28842,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier device_context - 
         </retvals>
         <parameters>
            identifier bitmap - 
@@ -29128,7 +29128,7 @@
         <title>JS_LICE_LoadPNG(JS)</title>
         <functioncall prog_lang="cpp">void* JS_LICE_LoadPNG(const char* filename)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_LICE_LoadPNG", "filename")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_LICE_LoadPNG(string filename)</functioncall>
+        <functioncall prog_lang="lua">identifier bitmap = reaper.JS_LICE_LoadPNG(string filename)</functioncall>
         <functioncall prog_lang="python">void  JS_LICE_LoadPNG(String filename)</functioncall>
         <requires>
             Reaper=5.974
@@ -29139,7 +29139,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier bitmap - 
         </retvals>
         <parameters>
            string filename - the filename with path of the png filename to load
@@ -30032,7 +30032,7 @@
         <title>JS_PtrFromStr(JS)</title>
         <functioncall prog_lang="cpp">void* JS_PtrFromStr(const char* s)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_PtrFromStr", "s")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_PtrFromStr(string s)</functioncall>
+        <functioncall prog_lang="lua">identifier ptr = reaper.JS_PtrFromStr(string s)</functioncall>
         <functioncall prog_lang="python">void  JS_PtrFromStr(String s)</functioncall>
         <requires>
             Reaper=5.974
@@ -30042,7 +30042,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier ptr - 
         </retvals>
         <parameters>
            string s - 
@@ -31141,7 +31141,7 @@
         <title>JS_Window_Find(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_Find(const char* title, bool exact)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Window_Find", "title", bool exact)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_Find(string title, boolean exact)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_Find(string title, boolean exact)</functioncall>
         <functioncall prog_lang="python">void  JS_Window_Find(String title, Boolean exact)</functioncall>
         <requires>
             Reaper=5.974
@@ -31157,7 +31157,7 @@
             * exact: Match entire title, or match substring of title.
         </description>
         <retvals>
-           identifier  - the identifier of the found window, or nil
+           identifier hwnd - the identifier of the found window, or nil
         </retvals>
         <parameters>
            string title - the title of the window to find
@@ -31178,7 +31178,7 @@
         <title>JS_Window_FindChild(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_FindChild(void* parentHWND, const char* title, bool exact)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Window_FindChild", void* parentHWND, "title", bool exact)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_FindChild(identifier parentHWND, string title, boolean exact)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_FindChild(identifier parentHWND, string title, boolean exact)</functioncall>
         <functioncall prog_lang="python">void  JS_Window_FindChild(void parentHWND, String title, Boolean exact)</functioncall>
         <requires>
             Reaper=5.974
@@ -31193,7 +31193,7 @@
 
         </description>
         <retvals>
-           identifier  - the identifier for the window found; nil, if no such window found
+           identifier hwnd - the identifier for the window found; nil, if no such window found
         </retvals>
         <parameters>
            identifier parentHWND - the identifier of the parent window to the child-window
@@ -31292,7 +31292,7 @@
         <title>JS_Window_FindTop(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_FindTop(const char* title, bool exact)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("JS_Window_FindTop", "title", bool exact)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_FindTop(string title, boolean exact)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_FindTop(string title, boolean exact)</functioncall>
         <functioncall prog_lang="python">void JS_Window_FindTop(String title, Boolean exact)</functioncall>
         <requires>
             Reaper=5.974
@@ -31309,7 +31309,7 @@
            boolean exact - true, title must match exactly the name of the window; false, title can only partially match the windowtitle 
         </parameters>
         <retvals>
-            identifier HWND - the found identifier of the window; nil, if not found
+            identifier hwnd - the found identifier of the window; nil, if not found
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -31326,7 +31326,7 @@
         <title>JS_Window_FromPoint(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_FromPoint(int x, int y)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Window_FromPoint", int x, int y)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_FromPoint(integer x, integer y)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_FromPoint(integer x, integer y)</functioncall>
         <functioncall prog_lang="python">void  JS_Window_FromPoint(Int x, Int y)</functioncall>
         <requires>
             Reaper=5.974
@@ -31337,7 +31337,7 @@
 
         </description>
         <retvals>
-           identifier  - the window found at the coordinates
+           identifier hwnd - the window found at the coordinates
         </retvals>
         <parameters>
            integer x - the x-position in pixels, at which to find the window
@@ -31461,7 +31461,7 @@
         <title>JS_Window_GetFocus(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_GetFocus()</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Window_GetFocus")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_GetFocus()</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_GetFocus()</functioncall>
         <functioncall prog_lang="python">void  JS_Window_GetFocus()</functioncall>
         <requires>
             Reaper=5.974
@@ -31472,7 +31472,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier hwnd - 
         </retvals>
 
         <target_document>Reaper_Api_Documentation</target_document>
@@ -31490,7 +31490,7 @@
         <title>JS_Window_GetForeground(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_GetForeground()</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Window_GetForeground")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_GetForeground()</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_GetForeground()</functioncall>
         <functioncall prog_lang="python">void  JS_Window_GetForeground()</functioncall>
         <requires>
             Reaper=5.974
@@ -31500,7 +31500,7 @@
             Retrieves a HWND to the top-level foreground window (the window with which the user is currently working).
         </description>
         <retvals>
-           identifier  - 
+           identifier hwnd - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -31550,7 +31550,7 @@
         <title>JS_Window_GetLongPtr(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_GetLongPtr(void* windowHWND, const char* info)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Window_GetLongPtr", void* windowHWND, "info")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_GetLongPtr(identifier windowHWND, string info)</functioncall>
+        <functioncall prog_lang="lua">identifier long_ptr = reaper.JS_Window_GetLongPtr(identifier windowHWND, string info)</functioncall>
         <functioncall prog_lang="python">void  JS_Window_GetLongPtr(void windowHWND, String info)</functioncall>
         <requires>
             Reaper=5.974
@@ -31570,7 +31570,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier long_ptr - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -31591,7 +31591,7 @@
         <title>JS_Window_GetParent(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_GetParent(void* windowHWND)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Window_GetParent", void* windowHWND)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_GetParent(identifier windowHWND)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_GetParent(identifier windowHWND)</functioncall>
         <functioncall prog_lang="python">void  JS_Window_GetParent(void windowHWND)</functioncall>
         <requires>
             Reaper=5.974
@@ -31603,7 +31603,7 @@
             Returns NULL if the window is unowned or if the function otherwise fails.
         </description>
         <retvals>
-           identifier  - 
+           identifier hwnd - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -31659,7 +31659,7 @@
         <title>JS_Window_GetRelated(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_GetRelated(void* windowHWND, const char* relation)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Window_GetRelated", void* windowHWND, "relation")</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_GetRelated(identifier windowHWND, string relation)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_GetRelated(identifier windowHWND, string relation)</functioncall>
         <functioncall prog_lang="python">void  JS_Window_GetRelated(void windowHWND, String relation)</functioncall>
         <requires>
             Reaper=5.974
@@ -31673,7 +31673,7 @@
             (Refer to documentation for Win32 C++ function GetWindow.)
         </description>
         <retvals>
-           identifier  - 
+           identifier hwnd - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -31810,7 +31810,7 @@
         <title>JS_Window_HandleFromAddress(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_HandleFromAddress(double address)</functioncall>
         <functioncall prog_lang="eel">void*  extension_api("JS_Window_HandleFromAddress", address)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_HandleFromAddress(number address)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_HandleFromAddress(number address)</functioncall>
         <functioncall prog_lang="python">void  JS_Window_HandleFromAddress(Float address)</functioncall>
         <requires>
             Reaper=5.974
@@ -31821,7 +31821,7 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier hwnd - 
         </retvals>
         <parameters>
            number address - 
@@ -32422,7 +32422,7 @@
         <title>JS_Window_SetParent(JS)</title>
         <functioncall prog_lang="cpp">void* JS_Window_SetParent(void* childHWND, void* parentHWNDOptional)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("JS_Window_SetParent", void* childHWND, void* parentHWND)</functioncall>
-        <functioncall prog_lang="lua">identifier = reaper.JS_Window_SetParent(identifier childHWND, identifier parentHWND)</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd = reaper.JS_Window_SetParent(identifier childHWND, identifier parentHWND)</functioncall>
         <functioncall prog_lang="python">void JS_Window_SetParent(void childHWND, void parentHWNDOptional)</functioncall>
         <requires>
             Reaper=5.974
@@ -32434,7 +32434,7 @@
             Only on WindowsOS: If parentHWND is not specified, the desktop window becomes the new parent window.
         </description>
         <retvals>
-           identifier Identifier  - 
+           identifier hwnd  - 
         </retvals>
         <parameters>
            identifier childHWND - 
@@ -32497,7 +32497,7 @@
         <slug>JS_Window_SetScrollPos</slug>
         <title>JS_Window_SetScrollPos(JS)</title>
         <functioncall prog_lang="cpp">bool JS_Window_SetScrollPos(void* windowHWND, const char* scrollbar, int position)</functioncall>
-        <functioncall prog_lang="eel">bool  extension_api("JS_Window_SetScrollPos", void* windowHWND, "scrollbar", int position)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_Window_SetScrollPos", void* windowHWND, "scrollbar", int position)</functioncall>
         <functioncall prog_lang="lua">boolean retval = reaper.JS_Window_SetScrollPos(identifier windowHWND, string scrollbar, integer position)</functioncall>
         <functioncall prog_lang="python">Boolean  JS_Window_SetScrollPos(void windowHWND, String scrollbar, Int position)</functioncall>
         <requires>
@@ -32515,7 +32515,7 @@
 
         </description>
         <retvals>
-           boolean  - 
+           boolean retval - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -32572,7 +32572,7 @@
         <slug>JS_Window_SetTitle</slug>
         <title>JS_Window_SetTitle(JS)</title>
         <functioncall prog_lang="cpp">bool JS_Window_SetTitle(void* windowHWND, const char* title)</functioncall>
-        <functioncall prog_lang="eel">bool  extension_api("JS_Window_SetTitle", void* windowHWND, "title")</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_Window_SetTitle", void* windowHWND, "title")</functioncall>
         <functioncall prog_lang="lua">boolean retval = reaper.JS_Window_SetTitle(identifier windowHWND, string title)</functioncall>
         <functioncall prog_lang="python">Boolean  JS_Window_SetTitle(void windowHWND, String title)</functioncall>
         <requires>
@@ -32584,7 +32584,7 @@
 
         </description>
         <retvals>
-           boolean  - 
+           boolean retval - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -32622,7 +32622,7 @@
             * InsertAfterHWND: For compatibility with older versions, this parameter is still available, and is optional. If ZOrder is "INSERTAFTER", insertAfterHWND must be a handle to the window behind which windowHWND will be placed in the Z order, equivalent to setting ZOrder to this HWND; otherwise, insertAfterHWND is ignored and can be left out (or it can simply be set to the same value as windowHWND).
         </description>
         <retvals>
-           boolean  - 
+           boolean retval - 
         </retvals>
         <parameters>
            identifier windowHWND - 
@@ -33278,8 +33278,8 @@
         <slug>Xen_AudioWriter_Create</slug>
         <title>Xen_AudioWriter_Create(JS)</title>
         <functioncall prog_lang="cpp">AudioWriter* Xen_AudioWriter_Create(const char* filename, int numchans, int samplerate)</functioncall>
-        <functioncall prog_lang="eel">AudioWriter  extension_api("Xen_AudioWriter_Create", "filename", int numchans, int samplerate)</functioncall>
-        <functioncall prog_lang="lua">AudioWriter = reaper.Xen_AudioWriter_Create(string filename, integer numchans, integer samplerate)</functioncall>
+        <functioncall prog_lang="eel">AudioWriter extension_api("Xen_AudioWriter_Create", "filename", int numchans, int samplerate)</functioncall>
+        <functioncall prog_lang="lua">AudioWriter writer = reaper.Xen_AudioWriter_Create(string filename, integer numchans, integer samplerate)</functioncall>
         <functioncall prog_lang="python">AudioWriter  Xen_AudioWriter_Create(String filename, Int numchans, Int samplerate)</functioncall>
         <requires>
             Reaper=5.974
@@ -33289,7 +33289,7 @@
             Creates writer for 32 bit floating point WAV
         </description>
         <retvals>
-           AudioWriter  - 
+           AudioWriter writer - 
         </retvals>
         <parameters>
            string filename - 
@@ -33349,7 +33349,7 @@
             Write interleaved audio data to disk
         </description>
         <retvals>
-           integer  - 
+           integer retval - 
         </retvals>
         <parameters>
            AudioWriter writer - 
@@ -33382,7 +33382,7 @@
             Get interleaved audio data from media source
         </description>
         <retvals>
-           integer  - 
+           integer retval - 
         </retvals>
         <parameters>
            PCM_source src - 
@@ -35004,7 +35004,7 @@
         <title>CF_GetFocusedFXChain(SWS)</title>
         <functioncall prog_lang="cpp">FxChain* CF_GetFocusedFXChain()</functioncall>
         <functioncall prog_lang="eel">FxChain extension_api("CF_GetFocusedFXChain")</functioncall>
-        <functioncall prog_lang="lua">FxChain  = reaper.CF_GetFocusedFXChain()</functioncall>
+        <functioncall prog_lang="lua">FxChain hwnd = reaper.CF_GetFocusedFXChain()</functioncall>
         <functioncall prog_lang="python">FxChain  CF_GetFocusedFXChain()</functioncall>
         <requires>
             Reaper=5.965
@@ -35015,7 +35015,7 @@
 
         </description>
         <retvals>
-            FxChain  - 
+            FxChain hwnd - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>

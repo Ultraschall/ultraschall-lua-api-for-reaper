@@ -446,6 +446,7 @@ Has now 1406 functions, with 6 new ones
   - FileManagement: GetAllDirectoriesInPath - has now an optional filter-parameter, to just get directories of a certain pattern
   - FileManagement: GetAllFilenamesInPath - has now an optional filter-parameter, to just get filenames of a certain pattern; returned pure path as well -> fixed
   - FileManagement: GetAllRecursiveFilesAndSubdirectories - has now optional filter-parameters for folders and files
+  - Mute: ToggleMute - didn't unmute under certain conditions -> fixed
   - ParmLearn: AddParmLearn\_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -> fixed(thanks to TonE)
   - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
