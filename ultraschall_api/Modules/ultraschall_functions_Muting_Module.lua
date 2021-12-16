@@ -119,6 +119,9 @@ function ultraschall.ToggleMute(track, position, state)
   elseif MuteState2~=state then
     local C=reaper.InsertEnvelopePoint(MuteEnvelopeTrack, position, state, 1, 0, 0)
     reaper.Envelope_SortPoints(MuteEnvelopeTrack)
+  else
+    local C=reaper.InsertEnvelopePoint(MuteEnvelopeTrack, position, state, 1, 0, 0)
+	reaper.Envelope_SortPoints(MuteEnvelopeTrack)
   end
   reaper.UpdateArrange()
   return 0

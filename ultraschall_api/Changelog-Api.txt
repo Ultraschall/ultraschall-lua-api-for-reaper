@@ -3,7 +3,6 @@
 
     -- later releases
         - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
-        - BatchConvertFiles - maybe finishing it up?
         - Set Metadata from Project - still missing
         - IsTakeEnvelopeVisible(könnt knifflig werden)
         - Download files via Curl -> darf ich Curl mit ausliefern oder beisst sich das mit Lizenz? Auf Windows kann ich auch certutil nutzen.
@@ -235,19 +234,6 @@ TODO:
         B=A:match(".*(%[.-%]%(.-%))") -- URL-parsen!!!
        to parse URLs
     
-    -- clear cache before 6.20
-    use an existing path and use as fileindex/subdir-index 1
-    This clears the cache. Use two different one, to avoid potentially using the same folder, that was used before
-    my clear-caching mechanism.
-    So:
-    
-    reaper.EnumerateFiles(reaper.GetResourcePath(), 1) -- clear cache
-    reaper.EnumerateFiles(reaper.GetResourcePath().."/Scripts", 1) -- clear cache 
-                                                                   -- safety measure, if the resource-path was the 
-                                                                   -- last one used in a script not done by 
-                                                                   -- Ultraschall-API
-    reaper.EnumerateFiles(path, 1) -- get the file with index 1 in path
-    
     - CreateRenderCFG-functions - support getting default format-settings(only ffia, evaw, etc as from GetProjectSettings_String?)
     - Button to install developer-tools in settings-window
     
@@ -401,14 +387,7 @@ Doesn't work on Windows 7???
 
 
   - Rendering: CalculateLoudness - calculates loundness of tracks/items and returns its stats  
-
-  - Docs: GetMediaFileMetaData has the parameter "identifier" colored.
-     this is because, some functions return in the docs returnvalues with only the datatype, not a name like retval
-     so if I don't convert all "identifier" it might result into uncolored datatypes.
-     Solution: give all functions, who only return one retval a descriptive name for the retval.
-     Tedious, but the only proper way and the best way to deal within a descriptive docs anyway.
  
-
 </TODO>
 
 
@@ -432,6 +411,7 @@ Has now 1406 functions, with 6 new ones
 
 #### Changes from 4.2.005 to 4.2.006  
   - API: minimum Reaper version - raised minimum Reaper-version to Reaper 6.20
+  - API: Settings - Beta-functions-feature removed, as it was pointless and slowed down initializing US-API
   - Developer: EditReaScript - allows now setting docking state and watchlist-size; didn't add scripts, when the file already existed, contrary to what the docs suggested; didn't reset old values in reaper.ini  -> fixed
   - DeveloperTools: ultraschall\_developertool\_CheckForNewConfigVars - tries now to read possible config-vars from reaper.exe directly(windows only atm)
   - DeveloperTools: ultraschall\_developertool\_Display-Altered-Config-Vars - shows now the diffs to old values as well
