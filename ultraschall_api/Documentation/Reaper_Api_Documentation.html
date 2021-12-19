@@ -114,7 +114,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.42<br>"Right Click Everything"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.43<br>""</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -1229,8 +1229,8 @@ Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMedia
 &nbsp;&nbsp;&nbsp;&nbsp; -F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; -F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=minimum allowed, 1=maximum allowed)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; -F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp; -I_PLAY_OFFSET_FLAG : int * : track playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp; -D_PLAY_OFFSET : double * : track playback offset, units depend on I_PLAY_OFFSET_FLAG              
+&nbsp;&nbsp;&nbsp;&nbsp; -I_PLAY_OFFSET_FLAG : int * : track media playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp; -D_PLAY_OFFSET : double * : track media playback offset, units depend on I_PLAY_OFFSET_FLAG              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -6983,6 +6983,9 @@ Draws the number n with ndigits of precision to gfx_x, gfx_y, and updates gfx_x 
 <p>Shortcuts with scope "Global + textfields" will still run the associated action, scope of "Normal" or "Global" will not.</p>
 <p>Modified and special keys can also be returned, including:</p>
 <p>* Ctrl/Cmd+A..Ctrl+Z as 1..26 * Ctrl/Cmd+Alt+A..Z as 257..282 * Alt+A..Z as 'A'+256..'Z'+256 * 27 for ESC * 13 for Enter * ' ' for space</p>
+<p>If the user typed in multiple characters, the character queue will hold them. So calling gfx_getchar multiple times, until it returns 0 or -1 will give you all typed keys.</p>
+<p>Typed characters between 256 and 1024(maybe higher?) seem to hint at multibyte-unicode characters. That means, you need to take the next character-value in the character-queue into consideration as well to get the current unicode-character!</p>
+<p>Note that calling gfx<em>getchar() at least once causes mouse</em>cap to reflect keyboard modifiers even when the mouse is not captured.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -7905,7 +7908,7 @@ Updates the graphics display, if opened.
 <hr>
 <a class="anch" id="eel_gfx_variables"></a>
 <a href="#eel_gfx_variables"> ^</a> 
-<img width="3%" src="gfx/reaper6.30.png" alt="Reaper version 6.30"><u><b>gfx_variables</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>gfx_variables</b></u><br>			<p>
 <div class="cc">
 <div class="e">EEL2: <code><em> gfx VARIABLES</em></code></div>
 </div><p>
@@ -7925,7 +7928,7 @@ The following global variables are special and will be used by the graphics syst
 &nbsp;&nbsp; * gfx_clear - if greater than -1.0, framebuffer will be cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black).<br/>
 &nbsp;&nbsp; * gfx_dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).<br/>
 &nbsp;&nbsp; * gfx_texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.<br/>
-&nbsp;&nbsp; * gfx_ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx_w/gfx_h/etc will be doubled.<br/>
+&nbsp;&nbsp; * gfx_ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, this value will be updated to value greater than 1.0 (such as 2.0) if retina/hidpi. On macOS gfx_w/gfx_h/etc will be doubled, but on other systems gfx_w/gfx_h will remain the same and gfx_ext_retina is a scaling hint for drawing.<br/>
 &nbsp;&nbsp; * gfx_ext_flags - &amp;1 if context is JSFX embedded in TCP or MCP.<br/>
 &nbsp;&nbsp; * mouse_x - current X coordinate of the mouse relative to the graphics window.<br/>
 &nbsp;&nbsp; * mouse_y - current Y coordinate of the mouse relative to the graphics window.<br/>
@@ -9856,15 +9859,12 @@ Modified and special keys can also be returned, including:&nbsp;&nbsp;<br/>
 -<br/>
 - use 65536 as parameter charactercode to query special flags, returns: &amp;1 (supported in this script), &amp;2=window has focus, &amp;4=window is visible&nbsp;&nbsp;<br/>
 <br/>
-Some multibyte-characters, like home, up, down, left, right, f1 .. f12, pgup, pgdn, ins, del are returned as values above 255, but some other characters, like €,&nbsp;&nbsp;<br/>
-are "real"-multibyte-characters, stored as multiple 8-bit-values after each other.<br/>
-To retrieve them, you need to run gfx.getchar() twice per defer-cycle and return their retvals into two variables:&nbsp;&nbsp;<br/>
-Example:<br/>
+If the user typed in multiple characters, the character queue will hold them. So calling gfx.getchar multiple times, until it returns 0 or -1 will give you all typed keys.<br/>
 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A=gfx.getchar() -- first byte<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B=gfx.getchar() -- second byte<br/>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if A==261 and B==128 then reaper.MB("You typed the Euro-symbol.", "Message", 0) end -- typed character is the Euro-currency-symbol.<br/>
+Typed characters between 256 and 1024(maybe higher?) seem to hint at multibyte-unicode characters. <br/>
+That means, you need to take the next character-value in the character-queue into consideration as well to get the current unicode-character!<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+Note that calling gfx.getchar() at least once causes gfx.mouse_cap to reflect keyboard modifiers even when the mouse is not captured.<br/>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -10940,7 +10940,7 @@ The following global variables are special and will be used by the graphics syst
 &nbsp;&nbsp;* gfx.clear - if greater than -1.0, framebuffer will be cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black).<br/>
 &nbsp;&nbsp;* gfx.dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).<br/>
 &nbsp;&nbsp;* gfx.texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.<br/>
-&nbsp;&nbsp;* gfx.ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.<br/>
+&nbsp;&nbsp;* gfx.ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, this value will be updated to value greater than 1.0 (such as 2.0) if retina/hidpi. On macOS gfx.w/gfx.h/etc will be doubled, but on other systems gfx.w/gfx.h will remain the same and gfx.ext_retina is a scaling hint for drawing.<br/>
 &nbsp;&nbsp;* gfx.ext_flags - &amp;1 if context is JSFX embedded in TCP or MCP.<br/>
 &nbsp;&nbsp;* gfx.mouse_x - current X coordinate of the mouse relative to the graphics window.<br/>
 &nbsp;&nbsp;* gfx.mouse_y - current Y coordinate of the mouse relative to the graphics window.<br/>
@@ -16539,25 +16539,25 @@ returns output latency in seconds
 <a href="#GetUnderrunTime"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetUnderrunTime</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>void</i> <em>GetUnderrunTime</em>(<i>unsigned</i> <i>int*</i> audio_xrunOutOptional, <i>unsigned</i> <i>int*</i> media_xrunOutOptional, <i>unsigned</i> <i>int*</i> curtimeOutOptional)</code></div>
-<div class="e">EEL2: <code> <em>GetUnderrunTime</em>(<i>optional</i> <i>unsigned</i> <i>int</i> &amp;audio_xrun, <i>optional</i> <i>unsigned</i> <i>int</i> &amp;media_xrun, <i>optional</i> <i>unsigned</i> <i>int</i> &amp;curtime)</code></div>
-<div class="l">Lua: <code> <i>optional</i> <i>integer</i> audio_xrun, <i>optional</i> <i>integer</i> media_xrun, <i>optional</i> <i>integer</i> curtime = <em>reaper.GetUnderrunTime</em>()</code></div>
-<div class="p">Python: <code> <em>RPR_GetUnderrunTime</em>(<i>unsigned</i> <i>int</i> audio_xrunOutOptional, <i>unsigned</i> <i>int</i> media_xrunOutOptional, <i>unsigned</i> <i>int</i> curtimeOutOptional)</code></div>
+<div class="c">C: <code> <i>void</i> <em>GetUnderrunTime</em>(<i>unsigned</i> <i>int*</i> audio_xrunOut, <i>unsigned</i> <i>int*</i> media_xrunOut, <i>unsigned</i> <i>int*</i> curtimeOut)</code></div>
+<div class="e">EEL2: <code> <em>GetUnderrunTime</em>(<i>unsigned</i> <i>int</i> &audio_xrun, <i>unsigned</i> <i>int</i> &media_xrun, <i>unsigned</i> <i>int</i> &curtime)</code></div>
+<div class="l">Lua: <code> <i>integer</i> audio_xrun, <i>integer</i> media_xrun, <i>integer</i> curtime = <em>reaper.GetUnderrunTime</em>()</code></div>
+<div class="p">Python: <code> <em>RPR_GetUnderrunTime</em>(<i>unsigned</i> <i>int</i> audio_xrunOut, <i>unsigned</i> <i>int</i> media_xrunOut, <i>unsigned</i> <i>int</i> curtimeOut)</code></div>
 </div><p>
 <div class="ch">
 retrieves the last timestamps of audio xrun (yellow-flash, if available), media xrun (red-flash), and the current time stamp (all milliseconds)              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> audio_xrun</td></tr>
+<tr><td class="pr"><i>integer</i> audio_xrun</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> media_xrun</td></tr>
+<tr><td class="pr"><i>integer</i> media_xrun</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> curtime</td></tr>
+<tr><td class="pr"><i>integer</i> curtime</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17552,12 +17552,12 @@ Delete a range of envelope points. autoitem_idx=-1 for the underlying envelope, 
 <hr>
 <a class="anch" id="Envelope_Evaluate"></a>
 <a href="#Envelope_Evaluate"> ^</a> 
-<img width="3%" src="gfx/reaper5.987.png" alt="Reaper version 5.987"><u><b>Envelope_Evaluate</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>Envelope_Evaluate</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>Envelope_Evaluate</em>(<i>TrackEnvelope*</i> envelope, <i>double</i> time, <i>double</i> samplerate, <i>int</i> samplesRequested, <i>double*</i> valueOutOptional, <i>double*</i> dVdSOutOptional, <i>double*</i> ddVdSOutOptional, <i>double*</i> dddVdSOutOptional)</code></div>
-<div class="e">EEL2: <code> <i>int</i> <em>Envelope_Evaluate</em>(<i>TrackEnvelope</i> envelope, time, samplerate, <i>int</i> samplesRequested, <i>optional</i> &amp;value, <i>optional</i> &amp;dVdS, <i>optional</i> &amp;ddVdS, <i>optional</i> &amp;dddVdS)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>number</i> value, <i>optional</i> <i>number</i> dVdS, <i>optional</i> <i>number</i> ddVdS, <i>optional</i> <i>number</i> dddVdS = <em>reaper.Envelope_Evaluate</em>(<i>TrackEnvelope</i> envelope, <i>number</i> time, <i>number</i> samplerate, <i>integer</i> samplesRequested)</code></div>
-<div class="p">Python: <code> (<i>Int</i> retval, <i>TrackEnvelope</i> envelope, <i>Float</i> time, <i>Float</i> samplerate, <i>Int</i> samplesRequested, <i>Float</i> valueOutOptional, <i>Float</i> dVdSOutOptional, <i>Float</i> ddVdSOutOptional, <i>Float</i> dddVdSOutOptional) = <em>RPR_Envelope_Evaluate</em>(envelope, time, samplerate, samplesRequested, valueOutOptional, dVdSOutOptional, ddVdSOutOptional, dddVdSOutOptional)</code></div>
+<div class="c">C: <code> <i>int</i> <em>Envelope_Evaluate</em>(<i>TrackEnvelope*</i> envelope, <i>double</i> time, <i>double</i> samplerate, <i>int</i> samplesRequested, <i>double*</i> valueOut, <i>double*</i> dVdSOut, <i>double*</i> ddVdSOut, <i>double*</i> dddVdSOut)</code></div>
+<div class="e">EEL2: <code> <i>int</i> <em>Envelope_Evaluate</em>(<i>TrackEnvelope</i> envelope, time, samplerate, <i>int</i> samplesRequested, &value, &dVdS, &ddVdS, &dddVdS)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>number</i> value, <i>number</i> dVdS, <i>number</i> ddVdS, <i>number</i> dddVdS = <em>reaper.Envelope_Evaluate</em>(<i>TrackEnvelope</i> envelope, <i>number</i> time, <i>number</i> samplerate, <i>integer</i> samplesRequested)</code></div>
+<div class="p">Python: <code> (<i>Int</i> retval, <i>TrackEnvelope</i> envelope, <i>Float</i> time, <i>Float</i> samplerate, <i>Int</i> samplesRequested, <i>Float</i> valueOut, <i>Float</i> dVdSOut, <i>Float</i> ddVdSOut, <i>Float</i> dddVdSOut) = <em>RPR_Envelope_Evaluate</em>(envelope, time, samplerate, samplesRequested, valueOut, dVdSOut, ddVdSOut, dddVdSOut)</code></div>
 </div><p>
 <div class="ch">
 <p>Get the effective envelope value at a given time position.</p>
@@ -17572,19 +17572,19 @@ Delete a range of envelope points. autoitem_idx=-1 for the underlying envelope, 
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> value</td></tr>
+<tr><td class="pr"><i>number</i> value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> dVdS</td></tr>
+<tr><td class="pr"><i>number</i> dVdS</td></tr>
 <tr><td class="ch2">the change in value per sample (first derivative)</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> ddVdS</td></tr>
+<tr><td class="pr"><i>number</i> ddVdS</td></tr>
 <tr><td class="ch2">the second derivative</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> dddVdS</td></tr>
+<tr><td class="pr"><i>number</i> dddVdS</td></tr>
 <tr><td class="ch2">is the third derivative</td></tr>
 </table>
 <br>
@@ -17642,15 +17642,15 @@ Formats the value of an envelope to a user-readable form
 <hr>
 <a class="anch" id="Envelope_GetParentTake"></a>
 <a href="#Envelope_GetParentTake"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>Envelope_GetParentTake</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>Envelope_GetParentTake</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>MediaItem_Take*</i> <em>Envelope_GetParentTake</em>(<i>TrackEnvelope*</i> env, <i>int*</i> indexOutOptional, <i>int*</i> index2OutOptional)</code></div>
-<div class="e">EEL2: <code> <i>MediaItem_Take</i> <em>Envelope_GetParentTake</em>(<i>TrackEnvelope</i> env, <i>optional</i> <i>int</i> &amp;index, <i>optional</i> <i>int</i> &amp;index2)</code></div>
-<div class="l">Lua: <code> <i>MediaItem_Take</i> retval, <i>optional</i> <i>integer</i> index, <i>optional</i> <i>integer</i> index2 = <em>reaper.Envelope_GetParentTake</em>(<i>TrackEnvelope</i> env)</code></div>
-<div class="p">Python: <code> (<i>MediaItem_Take</i> retval, <i>TrackEnvelope</i> env, <i>Int</i> indexOutOptional, <i>Int</i> index2OutOptional) = <em>RPR_Envelope_GetParentTake</em>(env, indexOutOptional, index2OutOptional)</code></div>
+<div class="c">C: <code> <i>MediaItem_Take*</i> <em>Envelope_GetParentTake</em>(<i>TrackEnvelope*</i> env, <i>int*</i> indexOut, <i>int*</i> index2Out)</code></div>
+<div class="e">EEL2: <code> <i>MediaItem_Take</i> <em>Envelope_GetParentTake</em>(<i>TrackEnvelope</i> env, <i>int</i> &index, <i>int</i> &index2)</code></div>
+<div class="l">Lua: <code> <i>MediaItem_Take</i> retval, <i>integer</i> index, <i>integer</i> index2 = <em>reaper.Envelope_GetParentTake</em>(<i>TrackEnvelope</i> env)</code></div>
+<div class="p">Python: <code> (<i>MediaItem_Take</i> retval, <i>TrackEnvelope</i> env, <i>Int</i> indexOut, <i>Int</i> index2Out) = <em>RPR_Envelope_GetParentTake</em>(env, indexOut, index2Out)</code></div>
 </div><p>
 <div class="ch">
-If take envelope, gets the take from the envelope. If FX, indexOutOptional set to FX index, index2OutOptional set to parameter index, otherwise -1.              
+If take envelope, gets the take from the envelope. If FX, indexOut set to FX index, index2Out set to parameter index, otherwise -1.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -17658,11 +17658,11 @@ If take envelope, gets the take from the envelope. If FX, indexOutOptional set t
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> index</td></tr>
+<tr><td class="pr"><i>integer</i> index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> index2</td></tr>
+<tr><td class="pr"><i>integer</i> index2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17677,15 +17677,15 @@ If take envelope, gets the take from the envelope. If FX, indexOutOptional set t
 <hr>
 <a class="anch" id="Envelope_GetParentTrack"></a>
 <a href="#Envelope_GetParentTrack"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>Envelope_GetParentTrack</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>Envelope_GetParentTrack</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>MediaTrack*</i>  <em>Envelope_GetParentTrack</em>(<i>TrackEnvelope*</i> env, <i>int*</i> indexOutOptional, <i>int*</i> index2OutOptional)</code></div>
-<div class="e">EEL2: <code> <i>MediaTrack</i> <em>Envelope_GetParentTrack</em>(<i>TrackEnvelope</i> env, <i>optional</i> <i>int</i> &amp;index, <i>optional</i> <i>int</i> &amp;index2)</code></div>
-<div class="l">Lua: <code> <i>MediaTrack</i> retval, <i>optional</i> <i>integer</i> index, <i>optional</i> <i>integer</i> index2 = <em>reaper.Envelope_GetParentTrack</em>(<i>TrackEnvelope</i> env)</code></div>
-<div class="p">Python: <code> (<i>MediaTrack</i> retval, <i>TrackEnvelope</i> env, <i>Int</i> indexOutOptional, <i>Int</i> index2OutOptional) = <em>RPR_Envelope_GetParentTrack</em>(env, indexOutOptional, index2OutOptional)</code></div>
+<div class="c">C: <code> <i>MediaTrack*</i>  <em>Envelope_GetParentTrack</em>(<i>TrackEnvelope*</i> env, <i>int*</i> indexOut, <i>int*</i> index2Out)</code></div>
+<div class="e">EEL2: <code> <i>MediaTrack</i> <em>Envelope_GetParentTrack</em>(<i>TrackEnvelope</i> env, <i>int</i> &index, <i>int</i> &index2)</code></div>
+<div class="l">Lua: <code> <i>MediaTrack</i> retval, <i>integer</i> index, <i>integer</i> index2 = <em>reaper.Envelope_GetParentTrack</em>(<i>TrackEnvelope</i> env)</code></div>
+<div class="p">Python: <code> (<i>MediaTrack</i> retval, <i>TrackEnvelope</i> env, <i>Int</i> indexOut, <i>Int</i> index2Out) = <em>RPR_Envelope_GetParentTrack</em>(env, indexOut, index2Out)</code></div>
 </div><p>
 <div class="ch">
-If track envelope, gets the track from the envelope. If FX, indexOutOptional set to FX index, index2OutOptional set to parameter index, otherwise -1.              
+If track envelope, gets the track from the envelope. If FX, indexOut set to FX index, index2Out set to parameter index, otherwise -1.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -17693,11 +17693,11 @@ If track envelope, gets the track from the envelope. If FX, indexOutOptional set
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> index</td></tr>
+<tr><td class="pr"><i>integer</i> index</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> index2</td></tr>
+<tr><td class="pr"><i>integer</i> index2</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17847,12 +17847,12 @@ see description for the attributes you can use for more details</td></tr>
 <hr>
 <a class="anch" id="GetEnvelopePoint"></a>
 <a href="#GetEnvelopePoint"> ^</a> 
-<img width="3%" src="gfx/reaper5.979.png" alt="Reaper version 5.979"><u><b>GetEnvelopePoint</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>GetEnvelopePoint</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>GetEnvelopePoint</em>(<i>TrackEnvelope*</i> envelope, <i>int</i> ptidx, <i>double*</i> timeOutOptional, <i>double*</i> valueOutOptional, <i>int*</i> shapeOutOptional, <i>double*</i> tensionOutOptional, <i>bool*</i> selectedOutOptional)</code></div>
-<div class="e">EEL2: <code> <i>bool</i> <em>GetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>int</i> ptidx, <i>optional</i> &amp;time, <i>optional</i> &amp;value, <i>optional</i> <i>int</i> &amp;shape, <i>optional</i> &amp;tension, <i>optional</i> <i>bool</i> &amp;selected)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> <i>number</i> time, <i>optional</i> <i>number</i> value, <i>optional</i> <i>integer</i> shape, <i>optional</i> <i>number</i> tension, <i>optional</i> <i>boolean</i> selected = <em>reaper.GetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> ptidx)</code></div>
-<div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> ptidx, <i>Float</i> timeOutOptional, <i>Float</i> valueOutOptional, <i>Int</i> shapeOutOptional, <i>Float</i> tensionOutOptional, <i>Boolean</i> selectedOutOptional) = <em>RPR_GetEnvelopePoint</em>(envelope, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>GetEnvelopePoint</em>(<i>TrackEnvelope*</i> envelope, <i>int</i> ptidx, <i>double*</i> timeOut, <i>double*</i> valueOut, <i>int*</i> shapeOut, <i>double*</i> tensionOut, <i>bool*</i> selectedOut)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> <em>GetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>int</i> ptidx, &time, &value, <i>int</i> &shape, &tension, <i>bool</i> &selected)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> time, <i>number</i> value, <i>integer</i> shape, <i>number</i> tension, <i>boolean</i> selected = <em>reaper.GetEnvelopePoint</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> ptidx)</code></div>
+<div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> ptidx, <i>Float</i> timeOut, <i>Float</i> valueOut, <i>Int</i> shapeOut, <i>Float</i> tensionOut, <i>Boolean</i> selectedOut) = <em>RPR_GetEnvelopePoint</em>(envelope, ptidx, timeOut, valueOut, shapeOut, tensionOut, selectedOut)</code></div>
 </div><p>
 <div class="ch">
 <p>Get the attributes of an envelope point. See <a href="#GetEnvelopePointEx">GetEnvelopePointEx</a></p>
@@ -17863,23 +17863,23 @@ see description for the attributes you can use for more details</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> time</td></tr>
+<tr><td class="pr"><i>number</i> time</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> value</td></tr>
+<tr><td class="pr"><i>number</i> value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> shape</td></tr>
+<tr><td class="pr"><i>integer</i> shape</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> tension</td></tr>
+<tr><td class="pr"><i>number</i> tension</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>boolean</i> selected</td></tr>
+<tr><td class="pr"><i>boolean</i> selected</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17966,12 +17966,12 @@ see description for the attributes you can use for more details</td></tr>
 <hr>
 <a class="anch" id="GetEnvelopePointEx"></a>
 <a href="#GetEnvelopePointEx"> ^</a> 
-<img width="3%" src="gfx/reaper5.979.png" alt="Reaper version 5.979"><u><b>GetEnvelopePointEx</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>GetEnvelopePointEx</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>GetEnvelopePointEx</em>(<i>TrackEnvelope*</i> envelope, <i>int</i> autoitem_idx, <i>int</i> ptidx, <i>double*</i> timeOutOptional, <i>double*</i> valueOutOptional, <i>int*</i> shapeOutOptional, <i>double*</i> tensionOutOptional, <i>bool*</i> selectedOutOptional)</code></div>
-<div class="e">EEL2: <code> <i>bool</i> <em>GetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>int</i> autoitem_idx, <i>int</i> ptidx, <i>optional</i> &amp;time, <i>optional</i> &amp;value, <i>optional</i> <i>int</i> &amp;shape, <i>optional</i> &amp;tension, <i>optional</i> <i>bool</i> &amp;selected)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> <i>number</i> time, <i>optional</i> <i>number</i> value, <i>optional</i> <i>integer</i> shape, <i>optional</i> <i>number</i> tension, <i>optional</i> <i>boolean</i> selected = <em>reaper.GetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> autoitem_idx, <i>integer</i> ptidx)</code></div>
-<div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> autoitem_idx, <i>Int</i> ptidx, <i>Float</i> timeOutOptional, <i>Float</i> valueOutOptional, <i>Int</i> shapeOutOptional, <i>Float</i> tensionOutOptional, <i>Boolean</i> selectedOutOptional) = <em>RPR_GetEnvelopePointEx</em>(envelope, autoitem_idx, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>GetEnvelopePointEx</em>(<i>TrackEnvelope*</i> envelope, <i>int</i> autoitem_idx, <i>int</i> ptidx, <i>double*</i> timeOut, <i>double*</i> valueOut, <i>int*</i> shapeOut, <i>double*</i> tensionOut, <i>bool*</i> selectedOut)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> <em>GetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>int</i> autoitem_idx, <i>int</i> ptidx, &time, &value, <i>int</i> &shape, &tension, <i>bool</i> &selected)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> time, <i>number</i> value, <i>integer</i> shape, <i>number</i> tension, <i>boolean</i> selected = <em>reaper.GetEnvelopePointEx</em>(<i>TrackEnvelope</i> envelope, <i>integer</i> autoitem_idx, <i>integer</i> ptidx)</code></div>
+<div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> autoitem_idx, <i>Int</i> ptidx, <i>Float</i> timeOut, <i>Float</i> valueOut, <i>Int</i> shapeOut, <i>Float</i> tensionOut, <i>Boolean</i> selectedOut) = <em>RPR_GetEnvelopePointEx</em>(envelope, autoitem_idx, ptidx, timeOut, valueOut, shapeOut, tensionOut, selectedOut)</code></div>
 </div><p>
 <div class="ch">
 <p>Get the attributes of an envelope point. autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration, even if the automation item is trimmed so that not all points are visible. Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.</p>
@@ -17983,23 +17983,23 @@ see description for the attributes you can use for more details</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> time</td></tr>
+<tr><td class="pr"><i>number</i> time</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> value</td></tr>
+<tr><td class="pr"><i>number</i> value</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> shape</td></tr>
+<tr><td class="pr"><i>integer</i> shape</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>number</i> tension</td></tr>
+<tr><td class="pr"><i>number</i> tension</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>boolean</i> selected</td></tr>
+<tr><td class="pr"><i>boolean</i> selected</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -20088,12 +20088,12 @@ returns HWND of floating window for effect index, if any
 <hr>
 <a class="anch" id="TakeFX_GetIOSize"></a>
 <a href="#TakeFX_GetIOSize"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TakeFX_GetIOSize</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>TakeFX_GetIOSize</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>TakeFX_GetIOSize</em>(<i>MediaItem_Take*</i> take, <i>int</i> fx, <i>int*</i> inputPinsOutOptional, <i>int*</i> outputPinsOutOptional)</code></div>
-<div class="e">EEL2: <code> <i>int</i> <em>TakeFX_GetIOSize</em>(<i>MediaItem_Take</i> take, <i>int</i> fx, <i>optional</i> <i>int</i> &amp;inputPins, <i>optional</i> <i>int</i> &amp;outputPins)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>integer</i> inputPins, <i>optional</i> <i>integer</i> outputPins = <em>reaper.TakeFX_GetIOSize</em>(<i>MediaItem_Take</i> take, <i>integer</i> fx)</code></div>
-<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> fx, <i>Int</i> inputPinsOutOptional, <i>Int</i> outputPinsOutOptional) = <em>RPR_TakeFX_GetIOSize</em>(take, fx, inputPinsOutOptional, outputPinsOutOptional)</code></div>
+<div class="c">C: <code> <i>int</i> <em>TakeFX_GetIOSize</em>(<i>MediaItem_Take*</i> take, <i>int</i> fx, <i>int*</i> inputPinsOut, <i>int*</i> outputPinsOut)</code></div>
+<div class="e">EEL2: <code> <i>int</i> <em>TakeFX_GetIOSize</em>(<i>MediaItem_Take</i> take, <i>int</i> fx, <i>int</i> &inputPins, <i>int</i> &outputPins)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>integer</i> inputPins, <i>integer</i> outputPins = <em>reaper.TakeFX_GetIOSize</em>(<i>MediaItem_Take</i> take, <i>integer</i> fx)</code></div>
+<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> fx, <i>Int</i> inputPinsOut, <i>Int</i> outputPinsOut) = <em>RPR_TakeFX_GetIOSize</em>(take, fx, inputPinsOut, outputPinsOut)</code></div>
 </div><p>
 <div class="ch">
 gets the number of input/output pins for FX if available, returns plug-in type or -1 on error              
@@ -20104,11 +20104,11 @@ gets the number of input/output pins for FX if available, returns plug-in type o
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> inputPins</td></tr>
+<tr><td class="pr"><i>integer</i> inputPins</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> outputPins</td></tr>
+<tr><td class="pr"><i>integer</i> outputPins</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -20542,15 +20542,15 @@ gets an identifying string for the parameter
 <hr>
 <a class="anch" id="TakeFX_GetPinMappings"></a>
 <a href="#TakeFX_GetPinMappings"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TakeFX_GetPinMappings</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>TakeFX_GetPinMappings</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>TakeFX_GetPinMappings</em>(<i>MediaItem_Take*</i> take, <i>int</i> fx, <i>int</i> isOutput, <i>int</i> pin, <i>int*</i> high32OutOptional)</code></div>
-<div class="e">EEL2: <code> <i>int</i> <em>TakeFX_GetPinMappings</em>(<i>MediaItem_Take</i> take, <i>int</i> fx, <i>int</i> is, <i>int</i> pin, <i>optional</i> <i>int</i> &amp;high32)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>integer</i> high32 = <em>reaper.TakeFX_GetPinMappings</em>(<i>MediaItem_Take</i> take, <i>integer</i> fx, <i>integer</i> is, <i>integer</i> pin)</code></div>
-<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaItem_Take</i> tr, <i>Int</i> fx, <i>Int</i> isOutput, <i>Int</i> pin, <i>Int</i> high32OutOptional) = <em>RPR_TakeFX_GetPinMappings</em>(take, fx, isOutput, pin, high32OutOptional)</code></div>
+<div class="c">C: <code> <i>int</i> <em>TakeFX_GetPinMappings</em>(<i>MediaItem_Take*</i> take, <i>int</i> fx, <i>int</i> isoutput, <i>int</i> pin, <i>int*</i> high32Out)</code></div>
+<div class="e">EEL2: <code> <i>int</i> <em>TakeFX_GetPinMappings</em>(<i>MediaItem_Take</i> take, <i>int</i> fx, <i>int</i> isoutput, <i>int</i> pin, <i>int</i> &high32)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>integer</i> high32 = <em>reaper.TakeFX_GetPinMappings</em>(<i>MediaItem_Take</i> take, <i>integer</i> fx, <i>integer</i> isoutput, <i>integer</i> pin)</code></div>
+<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> fx, <i>Int</i> isoutput, <i>Int</i> pin, <i>Int</i> high32Out) = <em>RPR_TakeFX_GetPinMappings</em>(take, fx, isoutput, pin, high32Out)</code></div>
 </div><p>
 <div class="ch">
-gets the effective channel mapping bitmask for a particular pin. high32OutOptional will be set to the high 32 bits              
+gets the effective channel mapping bitmask for a particular pin. high32Out will be set to the high 32 bits              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -20558,7 +20558,7 @@ gets the effective channel mapping bitmask for a particular pin. high32OutOption
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> high32</td></tr>
+<tr><td class="pr"><i>integer</i> high32</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -21488,7 +21488,7 @@ returns the number of trackfx in the FXChain of track
 <hr>
 <a class="anch" id="TrackFX_GetEQBandEnabled"></a>
 <a href="#TrackFX_GetEQBandEnabled"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TrackFX_GetEQBandEnabled</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>TrackFX_GetEQBandEnabled</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>TrackFX_GetEQBandEnabled</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>int</i> bandtype, <i>int</i> bandidx)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>TrackFX_GetEQBandEnabled</em>(<i>MediaTrack</i> track, <i>int</i> fx, <i>int</i> bandtype, <i>int</i> bandidx)</code></div>
@@ -21496,7 +21496,7 @@ returns the number of trackfx in the FXChain of track
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_TrackFX_GetEQBandEnabled</em>(<i>MediaTrack</i> track, <i>Int</i> fx, <i>Int</i> bandtype, <i>Int</i> bandidx)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns true if the EQ band is enabled. Returns false if the band is disabled, or if track/fxidx is not ReaEQ. Bandtype: 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass. Bandidx: 0=first band matching bandtype, 1=2nd band matching bandtype, etc.</p>
+<p>Returns true if the EQ band is enabled. Returns false if the band is disabled, or if track/fxidx is not ReaEQ. Bandtype: -1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass, 6=bandpass. Bandidx:(ignored for master gain): 0=target first band matching bandtype, 1=target 2nd band matching bandtype, etc.</p>
 <p>By setting fx you can add 0x1000000 set to reference input FX. To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.</p>
 <p>See <a href="#TrackFX_GetEQ">TrackFX_GetEQ</a>, <a href="#TrackFX_GetEQParam">TrackFX_GetEQParam</a>, <a href="#TrackFX_SetEQParam">TrackFX_SetEQParam</a>, <a href="#TrackFX_SetEQBandEnabled">TrackFX_SetEQBandEnabled</a>.</p>
 </div><br>      
@@ -21517,11 +21517,11 @@ returns the number of trackfx in the FXChain of track
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> bandtype</td></tr>
-<tr><td class="ch2">0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.</td></tr>
+<tr><td class="ch2">-1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass, 6=bandpass.</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> bandidx</td></tr>
-<tr><td class="ch2">0=first band matching bandtype, 1=2nd band matching bandtype, etc.</td></tr>
+<tr><td class="ch2">(ignored for master gain): 0=first band matching bandtype, 1=2nd band matching bandtype, etc.</td></tr>
 </table>
 <br>
 </div>
@@ -21529,7 +21529,7 @@ returns the number of trackfx in the FXChain of track
 <hr>
 <a class="anch" id="TrackFX_GetEQParam"></a>
 <a href="#TrackFX_GetEQParam"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TrackFX_GetEQParam</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>TrackFX_GetEQParam</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>TrackFX_GetEQParam</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>int</i> paramidx, <i>int*</i> bandtypeOut, <i>int*</i> bandidxOut, <i>int*</i> paramtypeOut, <i>double*</i> normvalOut)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>TrackFX_GetEQParam</em>(<i>MediaTrack</i> track, <i>int</i> fx, <i>int</i> paramidx, <i>int</i> &amp;bandtype, <i>int</i> &amp;bandidx, <i>int</i> &amp;paramtype, &amp;normval)</code></div>
@@ -21537,7 +21537,7 @@ returns the number of trackfx in the FXChain of track
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> fx, <i>Int</i> paramidx, <i>Int</i> bandtypeOut, <i>Int</i> bandidxOut, <i>Int</i> paramtypeOut, <i>Float</i> normvalOut) = <em>RPR_TrackFX_GetEQParam</em>(track, fxidx, paramidx, bandtypeOut, bandidxOut, paramtypeOut, normvalOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns false if track/fxidx is not ReaEQ. Bandtype: -1=master gain, 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass. Bandidx (ignored for master gain): 0=first band matching bandtype, 1=2nd band matching bandtype, etc. Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q.</p>
+<p>Returns false if track/fxidx is not ReaEQ. Bandtype: -1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass. Bandidx (ignored for master gain): 0=first band matching bandtype, 1=2nd band matching bandtype, etc. Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q.</p>
 <p>By setting fx you can add 0x1000000 set to reference input FX. To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.</p>
 <p>See <a href="#TrackFX_GetEQ">TrackFX_GetEQ</a>, <a href="#TrackFX_SetEQParam">TrackFX_SetEQParam</a>, <a href="#TrackFX_GetEQBandEnabled">TrackFX_GetEQBandEnabled</a>, <a href="#TrackFX_SetEQBandEnabled">TrackFX_SetEQBandEnabled</a>.</p>
 </div><br>      
@@ -21550,16 +21550,17 @@ returns the number of trackfx in the FXChain of track
 <tr><td class="pr"><i>integer</i> bandtype</td></tr>
 <tr><td class="ch2">the bandtype of the band to change;<br/>
 -1, master gain<br/>
-0, lhipass<br/>
+0, hipass<br/>
 1, loshelf<br/>
 2, band<br/>
 3, notch<br/>
 4, hishelf<br/>
-5, lopass </td></tr>
+5, lopass <br/>
+6, bandpass</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> bandidx</td></tr>
-<tr><td class="ch2">0, first band matching bandtype; 1, 2nd band matching bandtype, etc. </td></tr>
+<tr><td class="ch2">0, target first band matching bandtype; 1, target 2nd band matching bandtype, etc. </td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> paramtype</td></tr>
@@ -21765,12 +21766,12 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <hr>
 <a class="anch" id="TrackFX_GetIOSize"></a>
 <a href="#TrackFX_GetIOSize"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TrackFX_GetIOSize</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>TrackFX_GetIOSize</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>TrackFX_GetIOSize</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>int*</i> inputPinsOutOptional, <i>int*</i> outputPinsOutOptional)</code></div>
-<div class="e">EEL2: <code> <i>int</i> <em>TrackFX_GetIOSize</em>(<i>MediaTrack</i> track, <i>int</i> fx, <i>optional</i> <i>int</i> &amp;inputPins, <i>optional</i> <i>int</i> &amp;outputPins)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>integer</i> inputPins, <i>optional</i> <i>integer</i> outputPins = <em>reaper.TrackFX_GetIOSize</em>(<i>MediaTrack</i> track, <i>integer</i> fx)</code></div>
-<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaTrack</i> track, <i>Int</i> fx, <i>Int</i> inputPinsOutOptional, <i>Int</i> outputPinsOutOptional) = <em>RPR_TrackFX_GetIOSize</em>(track, fx, inputPinsOutOptional, outputPinsOutOptional)</code></div>
+<div class="c">C: <code> <i>int</i> <em>TrackFX_GetIOSize</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>int*</i> inputPinsOut, <i>int*</i> outputPinsOut)</code></div>
+<div class="e">EEL2: <code> <i>int</i> <em>TrackFX_GetIOSize</em>(<i>MediaTrack</i> track, <i>int</i> fx, <i>int</i> &inputPins, <i>int</i> &outputPins)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>integer</i> inputPins, <i>integer</i> outputPins = <em>reaper.TrackFX_GetIOSize</em>(<i>MediaTrack</i> track, <i>integer</i> fx)</code></div>
+<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaTrack</i> track, <i>Int</i> fx, <i>Int</i> inputPinsOut, <i>Int</i> outputPinsOut) = <em>RPR_TrackFX_GetIOSize</em>(track, fx, inputPinsOut, outputPinsOut)</code></div>
 </div><p>
 <div class="ch">
 gets the number of input/output pins for FX if available, returns plug-in type or -1 on error<br/>
@@ -21784,11 +21785,11 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> inputPins</td></tr>
+<tr><td class="pr"><i>integer</i> inputPins</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> outputPins</td></tr>
+<tr><td class="pr"><i>integer</i> outputPins</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -22242,15 +22243,15 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <hr>
 <a class="anch" id="TrackFX_GetPinMappings"></a>
 <a href="#TrackFX_GetPinMappings"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TrackFX_GetPinMappings</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>TrackFX_GetPinMappings</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>TrackFX_GetPinMappings</em>(<i>MediaTrack*</i>  tr, <i>int</i> fx, <i>int</i> isOutput, <i>int</i> pin, <i>int*</i> high32OutOptional)</code></div>
-<div class="e">EEL2: <code> <i>int</i> <em>TrackFX_GetPinMappings</em>(<i>MediaTrack</i> tr, <i>int</i> fx, <i>int</i> is, <i>int</i> pin, <i>optional</i> <i>int</i> &amp;high32)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval, <i>optional</i> <i>integer</i> high32 = <em>reaper.TrackFX_GetPinMappings</em>(<i>MediaTrack</i> tr, <i>integer</i> fx, <i>integer</i> is, <i>integer</i> pin)</code></div>
-<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaTrack</i> tr, <i>Int</i> fx, <i>Int</i> isOutput, <i>Int</i> pin, <i>Int</i> high32OutOptional) = <em>RPR_TrackFX_GetPinMappings</em>(tr, fx, isOutput, pin, high32OutOptional)</code></div>
+<div class="c">C: <code> <i>int</i> <em>TrackFX_GetPinMappings</em>(<i>MediaTrack*</i>  tr, <i>int</i> fx, <i>int</i> isoutput, <i>int</i> pin, <i>int*</i> high32Out)</code></div>
+<div class="e">EEL2: <code> <i>int</i> <em>TrackFX_GetPinMappings</em>(<i>MediaTrack</i> tr, <i>int</i> fx, <i>int</i> isoutput, <i>int</i> pin, <i>int</i> &high32)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>integer</i> high32 = <em>reaper.TrackFX_GetPinMappings</em>(<i>MediaTrack</i> tr, <i>integer</i> fx, <i>integer</i> isoutput, <i>integer</i> pin)</code></div>
+<div class="p">Python: <code> (<i>Int</i> retval, <i>MediaTrack</i> tr, <i>Int</i> fx, <i>Int</i> isoutput, <i>Int</i> pin, <i>Int</i> high32Out) = <em>RPR_TrackFX_GetPinMappings</em>(tr, fx, isoutput, pin, high32Out)</code></div>
 </div><p>
 <div class="ch">
-gets the effective channel mapping bitmask for a particular pin. high32OutOptional will be set to the high 32 bits<br/>
+gets the effective channel mapping bitmask for a particular pin. high32Out will be set to the high 32 bits<br/>
 <br/>
 By setting fx you can add 0x1000000 set to reference input FX. <br/>
 To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.              
@@ -22261,7 +22262,7 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> high32</td></tr>
+<tr><td class="pr"><i>integer</i> high32</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -22496,15 +22497,15 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <hr>
 <a class="anch" id="TrackFX_SetEQBandEnabled"></a>
 <a href="#TrackFX_SetEQBandEnabled"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TrackFX_SetEQBandEnabled</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>TrackFX_SetEQBandEnabled</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>TrackFX_SetEQBandEnabled</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>int</i> bandtype, <i>int</i> bandidx, <i>bool</i> enable)</code></div>
-<div class="e">EEL2: <code> <i>bool</i> <em>TrackFX_SetEQBandEnabled</em>(<i>MediaTrack</i> track, <i>int</i> fx, <i>int</i> bandtype, <i>int</i> bandidx, <i>bool</i> enable)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval= <em>reaper.TrackFX_SetEQBandEnabled</em>(<i>MediaTrack</i> track, <i>integer</i> fx, <i>integer</i> bandtype, <i>integer</i> bandidx, <i>boolean</i> enable)</code></div>
-<div class="p">Python: <code> <i>Boolean</i> <em>RPR_TrackFX_SetEQBandEnabled</em>(<i>MediaTrack</i> track, <i>Int</i> fx, <i>Int</i> bandtype, <i>Int</i> bandidx, <i>Boolean</i> enable)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>TrackFX_SetEQBandEnabled</em>(<i>MediaTrack*</i>  track, <i>int</i> fxidx, <i>int</i> bandtype, <i>int</i> bandidx, <i>bool</i> enable)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> <em>TrackFX_SetEQBandEnabled</em>(<i>MediaTrack</i> track, <i>int</i> fxidx, <i>int</i> bandtype, <i>int</i> bandidx, <i>bool</i> enable)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> <em>reaper.TrackFX_SetEQBandEnabled</em>(<i>MediaTrack</i> track, <i>integer</i> fxidx, <i>integer</i> bandtype, <i>integer</i> bandidx, <i>boolean</i> enable)</code></div>
+<div class="p">Python: <code> <i>Boolean</i> <em>RPR_TrackFX_SetEQBandEnabled</em>(<i>MediaTrack</i> track, <i>Int</i> fxidx, <i>Int</i> bandtype, <i>Int</i> bandidx, <i>Boolean</i> enable)</code></div>
 </div><p>
 <div class="ch">
-<p>Enable or disable a ReaEQ band. Returns false if track/fxidx is not ReaEQ. Bandtype: 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass. Bandidx: 0=first band matching bandtype, 1=2nd band matching bandtype, etc. See <a href="#TrackFX_GetEQ">TrackFX_GetEQ</a>, <a href="#TrackFX_GetEQParam">TrackFX_GetEQParam</a>, <a href="#TrackFX_SetEQParam">TrackFX_SetEQParam</a>, <a href="#TrackFX_GetEQBandEnabled">TrackFX_GetEQBandEnabled</a>.</p>
+<p>Enable or disable a ReaEQ band. Returns false if track/fxidx is not ReaEQ. Bandtype: -1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass, 6=bandpass. Bandidx: (ignored for master gain): 0=target first band matching bandtype, 1=target 2nd band matching bandtype, etc. See <a href="#TrackFX_GetEQ">TrackFX_GetEQ</a>, <a href="#TrackFX_GetEQParam">TrackFX_GetEQParam</a>, <a href="#TrackFX_SetEQParam">TrackFX_SetEQParam</a>, <a href="#TrackFX_GetEQBandEnabled">TrackFX_GetEQBandEnabled</a>.</p>
 <p>By setting fx you can add 0x1000000 set to reference input FX. To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.</p>
 </div><br>      
 <u>Returnvalues:</u>
@@ -22548,7 +22549,7 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_TrackFX_SetEQParam</em>(<i>MediaTrack</i> track, <i>Int</i> fx, <i>Int</i> bandtype, <i>Int</i> bandidx, <i>Int</i> paramtype, <i>Float</i> val, <i>Boolean</i> isnorm)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns false if track/fxidx is not ReaEQ. Targets a band matching bandtype. Bandtype: -1=master gain, 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass. Bandidx (ignored for master gain): 0=target first band matching bandtype, 1=target 2nd band matching bandtype, etc. Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q. See <a href="#TrackFX_GetEQ">TrackFX_GetEQ</a>, <a href="#TrackFX_GetEQParam">TrackFX_GetEQParam</a>, <a href="#TrackFX_GetEQBandEnabled">TrackFX_GetEQBandEnabled</a>, <a href="#TrackFX_SetEQBandEnabled">TrackFX_SetEQBandEnabled</a>.</p>
+<p>Returns false if track/fxidx is not ReaEQ. Targets a band matching bandtype. Bandtype: -1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass. Bandidx (ignored for master gain): 0=target first band matching bandtype, 1=target 2nd band matching bandtype, etc. Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q. See <a href="#TrackFX_GetEQ">TrackFX_GetEQ</a>, <a href="#TrackFX_GetEQParam">TrackFX_GetEQParam</a>, <a href="#TrackFX_GetEQBandEnabled">TrackFX_GetEQBandEnabled</a>, <a href="#TrackFX_SetEQBandEnabled">TrackFX_SetEQBandEnabled</a>.</p>
 <p>By setting fx you can add 0x1000000 set to reference input FX. To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.</p>
 </div><br>      
 <u>Returnvalues:</u>
@@ -38057,12 +38058,12 @@ converts project QN position to time.
 <hr>
 <a class="anch" id="TimeMap_curFrameRate"></a>
 <a href="#TimeMap_curFrameRate"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TimeMap_curFrameRate</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>TimeMap_curFrameRate</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>double</i> <em>TimeMap_curFrameRate</em>(<i>ReaProject*</i> proj, <i>bool*</i> dropFrameOutOptional)</code></div>
-<div class="e">EEL2: <code> <i>double</i> <em>TimeMap_curFrameRate</em>(<i>ReaProject</i> proj, <i>optional</i> <i>bool</i> &amp;dropFrame)</code></div>
-<div class="l">Lua: <code> <i>number</i> retval, <i>optional</i> <i>boolean</i> dropFrame = <em>reaper.TimeMap_curFrameRate</em>(<i>ReaProject</i> proj)</code></div>
-<div class="p">Python: <code> (<i>Float</i> retval, <i>ReaProject</i> proj, <i>Boolean</i> dropFrameOutOptional) = <em>RPR_TimeMap_curFrameRate</em>(proj, dropFrameOutOptional)</code></div>
+<div class="c">C: <code> <i>double</i> <em>TimeMap_curFrameRate</em>(<i>ReaProject*</i> proj, <i>bool*</i> dropFrameOut)</code></div>
+<div class="e">EEL2: <code> <i>double</i> <em>TimeMap_curFrameRate</em>(<i>ReaProject</i> proj, <i>bool</i> &amp;dropFrame)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval, <i>boolean</i> dropFrame = <em>reaper.TimeMap_curFrameRate</em>(<i>ReaProject</i> proj)</code></div>
+<div class="p">Python: <code> (<i>Float</i> retval, <i>ReaProject</i> proj, <i>Boolean</i> dropFrameOut) = <em>RPR_TimeMap_curFrameRate</em>(proj, dropFrameOut)</code></div>
 </div><p>
 <div class="ch">
 Gets project framerate, and optionally whether it is drop-frame timecode              
@@ -38073,7 +38074,7 @@ Gets project framerate, and optionally whether it is drop-frame timecode
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>boolean</i> dropFrame</td></tr>
+<tr><td class="pr"><i>boolean</i> dropFrame</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -38855,7 +38856,7 @@ PROJECT_SRATE_USE : set to 1 if project samplerate is used</p>
 <hr>
 <a class="anch" id="GetSetProjectInfo_String"></a>
 <a href="#GetSetProjectInfo_String"> ^</a> 
-<img width="3%" src="gfx/reaper6.38.png" alt="Reaper version 6.38"><u><b>GetSetProjectInfo_String</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43"><u><b>GetSetProjectInfo_String</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>GetSetProjectInfo_String</em>(<i>ReaProject*</i> project, <i>const</i> <i>char*</i> desc, <i>char*</i> valuestrNeedBig, <i>bool</i> is_set)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>GetSetProjectInfo_String</em>(<i>ReaProject</i> project, "desc", #valuestrNeedBig, <i>bool</i> is_set)</code></div>
@@ -38879,7 +38880,7 @@ RENDER_STATS: (read-only) semicolon separated list of statistics for the most re
 RENDER_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.<br />
 RENDER_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.<br />
 see <a href="render-codes-decoded-base64-strings.txt">render-code-documentation</a> for how the unencoded RENDER_FORMAT-string is structured.</p>
-<p>To just use the 4-byte-string, you can use: "evaw" for wave, "ffia" for aiff, " osi" for audio-cd, " pdd" for ddp, "calf" for flac, "l3pm" for mp3, "vggo" for ogg, "SggO" for Opus, "PMFF" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, " FIG" for Gif, " FCL" for LCF, "kpvw" for wavepack</p>
+<p>To just use the 4-byte-string, you can use: "wave" for wave, "aiff" for aiff, "caff" for caf, "iso " for audio-cd, "ddp " for ddp, "flac" for flac, "mp3l" for mp3, "oggv" for ogg, "OggS" for Opus, "FFMP" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, "GIF " for Gif, "LCF " for LCF, "wvpk" for wavepack</p>
 <p>RENDER_METADATA: get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: Uses common ID3-tagcodes like TALB(album), TPE1(Artist), etc. To get album tag, use "ID3:TALB", to set album tag, use "ID3:TALB|my album name".</p>
 <p>Examples in Lua:<br />
 getting the album name from the metadata of the current project:</p>
@@ -63838,8 +63839,8 @@ F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0=minimum allowed, 
 F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)<br/>
 F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=minimum allowed, 1=maximum allowed)<br/>
 F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)<br/>
-I_PLAY_OFFSET_FLAG : int * : track playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)<br/>
-D_PLAY_OFFSET : double * : track playback offset, units depend on I_PLAY_OFFSET_FLAG<br/>
+I_PLAY_OFFSET_FLAG : int * : track media playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)<br/>
+D_PLAY_OFFSET : double * : track media playback offset, units depend on I_PLAY_OFFSET_FLAG<br/>
 P_PARTRACK : MediaTrack * : parent track (read-only)<br/>
 P_PROJECT : ReaProject * : parent project (read-only)              
 </div><br>      
@@ -65432,8 +65433,8 @@ F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0=minimum allowed, 
 F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)<br/>
 F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=minimum allowed, 1=maximum allowed)<br/>
 F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)<br/>
-I_PLAY_OFFSET_FLAG : int * : track playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)<br/>
-D_PLAY_OFFSET : double * : track playback offset, units depend on I_PLAY_OFFSET_FLAG              
+I_PLAY_OFFSET_FLAG : int * : track media playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)<br/>
+D_PLAY_OFFSET : double * : track media playback offset, units depend on I_PLAY_OFFSET_FLAG              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

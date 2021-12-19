@@ -2042,3 +2042,135 @@ function ultraschall.GetParmLFOLearnID_by_FXParam_FXStateChunk(FXStateChunk, fxi
   end
   return -1
 end
+
+function ultraschall.GetRenderCFG_Settings_CAF(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_CAF</slug>
+    <requires>
+      Ultraschall=4.2
+      Reaper=6.43
+      Lua=5.3
+    </requires>
+    <functioncall>integer bitdepth, boolean EmbedTempo, integer include_markers = ultraschall.GetRenderCFG_Settings_CAF(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for CAF.
+
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer bitdepth - the bitdepth of the CAF-file(8, 16, 24, 32(fp), 33(pcm), 64)
+      boolean EmbedTempo - Embed tempo-checkbox; true, checked; false, unchecked
+      integer include_markers - the include markers and regions dropdownlist
+                              - 0, Do not include markers or regions
+                              - 1, Markers + Regions
+                              - 2, Markers + Regions starting with #
+                              - 3, Markers only
+                              - 4, Markers starting with # only
+                              - 5, Regions only
+                              - 6, Regions starting with # only
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the caf-settings
+                        - nil, get the current new-project-default render-settings for caf
+    </parameters>
+    <chapter_context>
+      Rendering Projects
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, caff, caf, bitdepth, beat length</tags>
+  </US_DocBloc>
+  ]]
+  if rendercfg~=nil and type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_CAF", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("caff sink defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="6666616340B80088" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
+  local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="ffac" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_CAF", "rendercfg", "not a render-cfg-string of the format caf", -2) return -1 end
+  
+  if Decoded_string:len()==4 then
+    return 24, false
+  end
+  
+  dropdownlist=tonumber(string.byte(Decoded_string:sub(6,6)))
+  if dropdownlist&32~=0 then dropdownlist=dropdownlist-32 end
+  dropdownlist=dropdownlist>>3
+  if dropdownlist==0 then dropdownlist=0
+  elseif dropdownlist==1 then dropdownlist=1
+  elseif dropdownlist==3 then dropdownlist=2
+  elseif dropdownlist==9 then dropdownlist=3
+  elseif dropdownlist==11 then dropdownlist=4
+  elseif dropdownlist==17 then dropdownlist=5
+  elseif dropdownlist==19 then dropdownlist=6
+  end
+  
+  return string.byte(Decoded_string:sub(5,5)), tonumber(string.byte(Decoded_string:sub(6,6)))&32==32, dropdownlist
+end
+
+function ultraschall.CreateRenderCFG_CAF(bits, EmbedTempo, include_markers)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_CAF</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_CAF(integer bits, boolean EmbedTempo, integer include_markers)</functioncall>
+  <description>
+    Returns the render-cfg-string for the CAF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected CAF-settings
+  </retvals>
+  <parameters>
+      integer bitdepth - the bitdepth of the CAF-file(8, 16, 24, 32(fp), 33(pcm), 64)
+      boolean EmbedTempo - Embed tempo-checkbox; true, checked; false, unchecked
+      integer include_markers - the include markers and regions dropdownlist
+                              - 0, Do not include markers or regions
+                              - 1, Markers + Regions
+                              - 2, Markers + Regions starting with #
+                              - 3, Markers only
+                              - 4, Markers starting with # only
+                              - 5, Regions only
+                              - 6, Regions starting with # only
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>projectfiles, create, render, outputformat, caf</tags>
+</US_DocBloc>
+]]
+  if math.type(bits)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_CAF", "bits", "must be an integer", -1) return nil end
+  if bits~=8 and bits~=16 and bits~=24 and bits~=32 and bits~=33 and bits~=64 then ultraschall.AddErrorMessage("CreateRenderCFG_CAF", "bits", "only 8, 16, 24, 32, 33(32 pcm) and 64 are supported by CAF", -2) return nil end
+  if EmbedTempo~=nil and type(EmbedTempo)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_CAF", "EmbedTempo", "must be a boolean", -3) return nil end  
+  
+  if include_markers==2 then include_markers=3
+  elseif include_markers==3 then include_markers=9
+  elseif include_markers==4 then include_markers=11
+  elseif include_markers==5 then include_markers=17
+  elseif include_markers==6 then include_markers=19
+  end
+  
+  include_markers=include_markers<<3
+  
+  if EmbedTempo==true then include_markers=include_markers+32 end
+
+  local renderstring="ffac"..string.char(bits)..string.char(include_markers)..string.char(0)
+  renderstring=ultraschall.Base64_Encoder(renderstring)
+  
+  return renderstring
+end

@@ -400,7 +400,7 @@ Doesn't work on Windows 7???
 
 ### 4.2.006 - "The Beatles - The continuing story of Bungalow Bill" - XX of YYYY 2022
 
-Has now 1413 functions, with 7 new ones
+Has now 1416 functions, with 10 new ones
 
 **new in this release:**  
 
@@ -411,12 +411,16 @@ Has now 1413 functions, with 7 new ones
 #### New features in 4.2.006  
   - Doc-Engine: Docs\_GetUSDocBloc\_Changelog - returns the changelogs from each US-DocML-entry
   - Doc-Engine: Docs\_GetUSDocBloc\_LinkedTo - returns the entries of the linked_to-tags insie an USDocML-entry
+  - GFX-Management: GFX\_GetChar - a more powerful version of gfx.getchar, with additional clipboard management and conversion of non-printable characters to readable ones
   - Helper Functions: ReturnReaperExeFile\_With\_Path - returns the name of the reaper-executable including its path
   - ParmAlias: GetParmAlias\_by\_FXParam\_FXStateChunk - gets the parmalias_id by fx-parameter, that you can use as parameter id for Set/Get/Delete-ParmAlias-functions
   - ParmLearn: GetParmLearnID\_by\_FXParam\_FXStateChunk - gets the parmlearn_id by fx-parameter, that you can use as parmlearn_id for Set/Get/Delete-ParmLearn-functions(requested by TonE)
   - ParmLFOLearn: GetParmLFOLearn\_by\_FXParam\_FXStateChunk - gets the parm_lfolearn_id by fx-parameter, that you can use as parameter id for Set/Get/Delete-ParmLFOLearn-functions  
   - Render Management: GetRenderTargetFiles - returns the render-target and filenames of all render-files, if they would be rendered right now
-
+  - Render Management: GetRenderCFG\_Settings\_CAF - gets settings of a render-string of the caf-format
+  - Render Management: CreateRenderCFG\_CAF - creates a render-string for the CAF-format
+  
+  
 #### Changes from 4.2.005 to 4.2.006  
   - API: minimum Reaper version - raised minimum Reaper-version to Reaper 6.20
   - API: Settings - Beta-functions-feature removed, as it was pointless and slowed down initializing US-API
@@ -426,7 +430,7 @@ Has now 1413 functions, with 7 new ones
   - DeveloperTools: ultraschall\_developertool\_Display-Altered-ConfigFile-Entries - shows diffs to old values when entries are numerical; added missing ini-files
   - DocEngine: Docs\_GetUSDocBloc\_Description - had problems with description-tags without any line in it -> fixed
   - DocEngine: Docs\_RemoveIndent - had inner variable exposed -> fixed
-  - Docs: Reaper Internals - updated to Reaper 6.42 and ReaImGui 0.5.8
+  - Docs: Reaper Internals - updated to Reaper 6.43 and ReaImGui 0.5.8
   - Docs: Reaper-API-docs - All-View jumped to the top of the document instead of just unhiding functioncalls -> fixed
   - Docs: All docs - you can create now a custom.css file in the Documentation-folder to customize the style of the docs
   - Docs: MediaItemStateChunk-docs - added new behavior of Reaper 6.33 to just enclose source-files with " that have a space in filename or path  
@@ -434,11 +438,16 @@ Has now 1413 functions, with 7 new ones
   - FileManagement: GetAllDirectoriesInPath - has now an optional filter-parameter, to just get directories of a certain pattern
   - FileManagement: GetAllFilenamesInPath - has now an optional filter-parameter, to just get filenames of a certain pattern; returned pure path as well -> fixed
   - FileManagement: GetAllRecursiveFilesAndSubdirectories - has now optional filter-parameters for folders and files
+  - FXManagement: InputFX\_GetEQBandEnabled - new bandtypes added, as added by Reaper 6.43
+  - FXManagement: InputFX\_GetEQParam - new bandtypes added, as added by Reaper 6.43
+  - FXManagement: InputFX\_SetEQBandEnabled - new bandtypes added, as added by Reaper 6.43
+  - FXManagement: InputFX\_SetEQParam - new bandtypes added, as added by Reaper 6.43
   - Mute: ToggleMute - didn't unmute under certain conditions; sometimes created additional envelope-points when unneccessary -> fixed
   - ParmLearn: AddParmLearn\_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -> fixed(thanks to TonE)
   - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
   - Rendering: CreateRenderCFG\_WAV - supports now 32 Bit PCM(7) and 8 Bit u-Law(8) as BitDepth
+  - Rendering: GetOutputFormat\_RenderCfg - supports now CAF as well
   - Rendering: GetRenderCFG\_Settings\_AIFF - when passing nil, it returns now the default-project-render-settings for aiff
   - Rendering: GetRenderCFG\_Settings\_FLAC - when passing nil, it returns now the default-project-render-settings for flac  
   - Rendering: GetRenderCFG\_Settings\_OGG - when passing nil, it returns now the default-project-render-settings for ogg

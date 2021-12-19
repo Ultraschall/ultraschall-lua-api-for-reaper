@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="49802.00" author="Meo Mespotine">
+      <version name="49841.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -213,6 +213,8 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.39.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Documentation/gfx/reaper6.39.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.40.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Documentation/gfx/reaper6.40.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.41.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Documentation/gfx/reaper6.41.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.42.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Documentation/gfx/reaper6.42.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.43.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Documentation/gfx/reaper6.43.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.965.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Documentation/gfx/reaper6.965.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.10.0.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Documentation/gfx/sws2.10.0.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.10.1.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Documentation/gfx/sws2.10.1.1.png</source>
@@ -448,7 +450,7 @@
 
 4.2.006 - “The Beatles - The continuing story of Bungalow Bill” - XX of YYYY 2022
 
-Has now 1413 functions, with 7 new ones
+Has now 1416 functions, with 10 new ones
 
 new in this release:
 
@@ -461,6 +463,9 @@ New features in 4.2.006
     from each US-DocML-entry
 -   Doc-Engine: Docs_GetUSDocBloc_LinkedTo - returns the entries of the
     linked_to-tags insie an USDocML-entry
+-   GFX-Management: GFX_GetChar - a more powerful version of
+    gfx.getchar, with additional clipboard management and conversion of
+    non-printable characters to readable ones
 -   Helper Functions: ReturnReaperExeFile_With_Path - returns the name
     of the reaper-executable including its path
 -   ParmAlias: GetParmAlias_by_FXParam_FXStateChunk - gets the
@@ -475,6 +480,10 @@ New features in 4.2.006
 -   Render Management: GetRenderTargetFiles - returns the render-target
     and filenames of all render-files, if they would be rendered right
     now
+-   Render Management: GetRenderCFG_Settings_CAF - gets settings of a
+    render-string of the caf-format
+-   Render Management: CreateRenderCFG_CAF - creates a render-string for
+    the CAF-format
 
 Changes from 4.2.005 to 4.2.006
 
@@ -499,7 +508,7 @@ Changes from 4.2.005 to 4.2.006
 -   DocEngine: Docs_GetUSDocBloc_Description - had problems with
     description-tags without any line in it -> fixed
 -   DocEngine: Docs_RemoveIndent - had inner variable exposed -> fixed
--   Docs: Reaper Internals - updated to Reaper 6.42 and ReaImGui 0.5.8
+-   Docs: Reaper Internals - updated to Reaper 6.43 and ReaImGui 0.5.8
 -   Docs: Reaper-API-docs - All-View jumped to the top of the document
     instead of just unhiding functioncalls -> fixed
 -   Docs: All docs - you can create now a custom.css file in the
@@ -517,6 +526,14 @@ Changes from 4.2.005 to 4.2.006
     returned pure path as well -> fixed
 -   FileManagement: GetAllRecursiveFilesAndSubdirectories - has now
     optional filter-parameters for folders and files
+-   FXManagement: InputFX_GetEQBandEnabled - new bandtypes added, as
+    added by Reaper 6.43
+-   FXManagement: InputFX_GetEQParam - new bandtypes added, as added by
+    Reaper 6.43
+-   FXManagement: InputFX_SetEQBandEnabled - new bandtypes added, as
+    added by Reaper 6.43
+-   FXManagement: InputFX_SetEQParam - new bandtypes added, as added by
+    Reaper 6.43
 -   Mute: ToggleMute - didn’t unmute under certain conditions; sometimes
     created additional envelope-points when unneccessary -> fixed
 -   ParmLearn: AddParmLearn_FXStateChunk2 - parameter midi_channel
@@ -528,6 +545,7 @@ Changes from 4.2.005 to 4.2.006
     docs -> fixed(thanks to TonE)
 -   Rendering: CreateRenderCFG_WAV - supports now 32 Bit PCM(7) and 8
     Bit u-Law(8) as BitDepth
+-   Rendering: GetOutputFormat_RenderCfg - supports now CAF as well
 -   Rendering: GetRenderCFG_Settings_AIFF - when passing nil, it returns
     now the default-project-render-settings for aiff
 -   Rendering: GetRenderCFG_Settings_FLAC - when passing nil, it returns
@@ -576,7 +594,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1423 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49802 from 19.12.2021 19:41:14).}
+a 1425 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49841 from 19.12.2021 23:38:50).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -590,7 +608,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1423 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1425 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -714,7 +732,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1423 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49802 from 19.12.2021 19:41:14).}
+a 1425 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49841 from 19.12.2021 23:38:50).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -728,7 +746,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1423 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1425 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

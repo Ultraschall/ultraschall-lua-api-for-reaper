@@ -6735,12 +6735,14 @@ function ultraschall.InputFX_SetEQBandEnabled(fxindex, bandtype, bandidx, enable
   <parameters>
     integer fxindex - the index of the monitoring-fx; 1-based
     integer bandtype - the bandtype of the band to change;
-                     - 0, lhipass
+                     - -1, master gain
+                     - 0, hipass
                      - 1, loshelf
                      - 2, band
                      - 3, notch
                      - 4, hishelf
                      - 5, lopass
+                     - 6, bandpass
     integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc.
     boolean enable - true, enable band; false, disable band
     optional integer tracknumber - the tracknumber, whose inputFX-eq-band-enabled-state you want to set; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
@@ -6777,7 +6779,7 @@ function ultraschall.InputFX_SetEQParam(fxindex, bandtype, bandidx, paramtype, v
   <slug>InputFX_SetEQParam</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.02
+    Reaper=6.43
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.InputFX_SetEQParam(integer fxindex, integer bandtype, integer bandidx, integer paramtype, number val, boolean isnorm)</functioncall>
@@ -6792,13 +6794,15 @@ function ultraschall.InputFX_SetEQParam(fxindex, bandtype, bandidx, paramtype, v
   <parameters>
     integer fxindex - the index of the monitoring-fx; 1-based
     integer bandtype - the bandtype of the band to change;
-                     - 0, lhipass
+                     - -1, master gain
+                     - 0, hipass
                      - 1, loshelf
                      - 2, band
                      - 3, notch
                      - 4, hishelf
                      - 5, lopass
-    integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc.
+                     - 6, bandpass
+    integer bandidx - (ignored for master gain): 0, target first band matching bandtype; 1, target 2nd band matching bandtype, etc.
     integer paramtype - 0, freq; 1, gain; 2, Q
     number val - the new value for the paramtype of a bandidx
     boolean isnorm - true, value is normalized; false, value is not normalized
@@ -6990,7 +6994,7 @@ function ultraschall.InputFX_GetEQBandEnabled(fxindex, bandtype, bandidx, trackn
   <slug>InputFX_GetEQBandEnabled</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.02
+    Reaper=6.42
     Lua=5.3
   </requires>
   <functioncall>boolean enabled = ultraschall.InputFX_GetEQBandEnabled(integer fxindex, integer bandtype, integer bandidx, optional integer tracknumber)</functioncall>
@@ -7005,12 +7009,14 @@ function ultraschall.InputFX_GetEQBandEnabled(fxindex, bandtype, bandidx, trackn
   <parameters>
     integer fxindex - the index of the monitoring-fx; 1-based
     integer bandtype - the bandtype of the band to change;
-                     - 0, lhipass
+                     - -1, master gain
+                     - 0, hipass
                      - 1, loshelf
                      - 2, band
                      - 3, notch
                      - 4, hishelf
                      - 5, lopass
+                     - 6, bandpass
     integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc.
     optional integer tracknumber - the tracknumber, whose inputFX-EQ-Band-enabled-state you want to get; 0 or nil, global monitoring fx; 1 and higher, track 1 and higher
   </parameters>
@@ -7044,7 +7050,7 @@ function ultraschall.InputFX_GetEQParam(fxindex, paramidx, tracknumber)
   <slug>InputFX_GetEQParam</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.02
+    Reaper=6.43
     Lua=5.3
   </requires>
   <functioncall>boolean retval, number bandtype, number bandidx, number paramtype, number normval = ultraschall.InputFX_GetEQParam(integer fxindex, integer paramidx, optional integer tracknumber)</functioncall>
@@ -7057,12 +7063,13 @@ function ultraschall.InputFX_GetEQParam(fxindex, paramidx, tracknumber)
     boolean retval - true, if it's a ReaEQ-instance; false, is not a ReaEQ-instance or in case of an error
     integer bandtype - the bandtype of the band to change;
                      - -1, master gain
-                     - 0, lhipass
+                     - 0, hipass
                      - 1, loshelf
                      - 2, band
                      - 3, notch
                      - 4, hishelf
                      - 5, lopass
+                     - 6, bandpass
     integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc.
     number paramtype -  0, freq; 1, gain; 2, Q
     number normval - the normalized value

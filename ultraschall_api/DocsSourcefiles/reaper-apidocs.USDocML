@@ -4233,12 +4233,12 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Envelope_Evaluate</slug>
         <title>Envelope_Evaluate</title>
-        <functioncall prog_lang="cpp">int Envelope_Evaluate(TrackEnvelope* envelope, double time, double samplerate, int samplesRequested, double* valueOutOptional, double* dVdSOutOptional, double* ddVdSOutOptional, double* dddVdSOutOptional)</functioncall>
-        <functioncall prog_lang="eel">int Envelope_Evaluate(TrackEnvelope envelope, time, samplerate, int samplesRequested, optional &amp;value, optional &amp;dVdS, optional &amp;ddVdS, optional &amp;dddVdS)</functioncall>
-        <functioncall prog_lang="lua">integer retval, optional number value, optional number dVdS, optional number ddVdS, optional number dddVdS = reaper.Envelope_Evaluate(TrackEnvelope envelope, number time, number samplerate, integer samplesRequested)</functioncall>
-        <functioncall prog_lang="python">(Int retval, TrackEnvelope envelope, Float time, Float samplerate, Int samplesRequested, Float valueOutOptional, Float dVdSOutOptional, Float ddVdSOutOptional, Float dddVdSOutOptional) = RPR_Envelope_Evaluate(envelope, time, samplerate, samplesRequested, valueOutOptional, dVdSOutOptional, ddVdSOutOptional, dddVdSOutOptional)</functioncall>
+        <functioncall prog_lang="cpp">int Envelope_Evaluate(TrackEnvelope* envelope, double time, double samplerate, int samplesRequested, double* valueOut, double* dVdSOut, double* ddVdSOut, double* dddVdSOut)</functioncall>
+        <functioncall prog_lang="eel">int Envelope_Evaluate(TrackEnvelope envelope, time, samplerate, int samplesRequested, &value, &dVdS, &ddVdS, &dddVdS)</functioncall>
+        <functioncall prog_lang="lua">integer retval, number value, number dVdS, number ddVdS, number dddVdS = reaper.Envelope_Evaluate(TrackEnvelope envelope, number time, number samplerate, integer samplesRequested)</functioncall>
+        <functioncall prog_lang="python">(Int retval, TrackEnvelope envelope, Float time, Float samplerate, Int samplesRequested, Float valueOut, Float dVdSOut, Float ddVdSOut, Float dddVdSOut) = RPR_Envelope_Evaluate(envelope, time, samplerate, samplesRequested, valueOut, dVdSOut, ddVdSOut, dddVdSOut)</functioncall>
         <requires>
-            Reaper=5.987
+            Reaper=6.43
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the effective envelope value at a given time position. 
@@ -4253,10 +4253,10 @@
         </description>
         <retvals>
             integer retval - 
-            optional number value - 
-            optional number dVdS - the change in value per sample (first derivative)
-            optional number ddVdS - the second derivative
-            optional number dddVdS - is the third derivative
+            number value - 
+            number dVdS - the change in value per sample (first derivative)
+            number ddVdS - the second derivative
+            number dddVdS - is the third derivative
         </retvals>
         <parameters>
             TrackEnvelope envelope - 
@@ -4271,6 +4271,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters aren't optional anymore: 
+                        - CPP: valueOut, dVdSOut, ddVdSOut, dddVdSOut
+                        - EEL2: value, dVdS, ddVdS, dddVdS
+                        - Lua: value, dVdS, ddVdS, dddVdS
+                        - Python: valueOut, dVdSOut, ddVdSOut, dddVdSOut
         </changelog>
     </US_DocBloc>
 
@@ -4307,20 +4312,20 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Envelope_GetParentTake</slug>
         <title>Envelope_GetParentTake</title>
-        <functioncall prog_lang="cpp">MediaItem_Take* Envelope_GetParentTake(TrackEnvelope* env, int* indexOutOptional, int* index2OutOptional)</functioncall>
-        <functioncall prog_lang="eel">MediaItem_Take Envelope_GetParentTake(TrackEnvelope env, optional int &amp;index, optional int &amp;index2)</functioncall>
-        <functioncall prog_lang="lua">MediaItem_Take retval, optional integer index, optional integer index2 = reaper.Envelope_GetParentTake(TrackEnvelope env)</functioncall>
-        <functioncall prog_lang="python">(MediaItem_Take retval, TrackEnvelope env, Int indexOutOptional, Int index2OutOptional) = RPR_Envelope_GetParentTake(env, indexOutOptional, index2OutOptional)</functioncall>
+        <functioncall prog_lang="cpp">MediaItem_Take* Envelope_GetParentTake(TrackEnvelope* env, int* indexOut, int* index2Out)</functioncall>
+        <functioncall prog_lang="eel">MediaItem_Take Envelope_GetParentTake(TrackEnvelope env, int &index, int &index2)</functioncall>
+        <functioncall prog_lang="lua">MediaItem_Take retval, integer index, integer index2 = reaper.Envelope_GetParentTake(TrackEnvelope env)</functioncall>
+        <functioncall prog_lang="python">(MediaItem_Take retval, TrackEnvelope env, Int indexOut, Int index2Out) = RPR_Envelope_GetParentTake(env, indexOut, index2Out)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description prog_lang="*">
-            If take envelope, gets the take from the envelope. If FX, indexOutOptional set to FX index, index2OutOptional set to parameter index, otherwise -1.
+            If take envelope, gets the take from the envelope. If FX, indexOut set to FX index, index2Out set to parameter index, otherwise -1.
         </description>
         <retvals>
             MediaItem_Take retval - 
-            optional integer index - 
-            optional integer index2 - 
+            integer index - 
+            integer index2 - 
         </retvals>
         <parameters>
             TrackEnvelope env - 
@@ -4332,26 +4337,31 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters aren't optional anymore:
+                        - CPP: indexOut, index2Out
+                        - EEL2: index, index2
+                        - Lua: index, index2
+                        - Python: indexOut, index2Out
         </changelog>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Envelope_GetParentTrack</slug>
         <title>Envelope_GetParentTrack</title>
-        <functioncall prog_lang="cpp">MediaTrack* Envelope_GetParentTrack(TrackEnvelope* env, int* indexOutOptional, int* index2OutOptional)</functioncall>
-        <functioncall prog_lang="eel">MediaTrack Envelope_GetParentTrack(TrackEnvelope env, optional int &amp;index, optional int &amp;index2)</functioncall>
-        <functioncall prog_lang="lua">MediaTrack retval, optional integer index, optional integer index2 = reaper.Envelope_GetParentTrack(TrackEnvelope env)</functioncall>
-        <functioncall prog_lang="python">(MediaTrack retval, TrackEnvelope env, Int indexOutOptional, Int index2OutOptional) = RPR_Envelope_GetParentTrack(env, indexOutOptional, index2OutOptional)</functioncall>
+        <functioncall prog_lang="cpp">MediaTrack* Envelope_GetParentTrack(TrackEnvelope* env, int* indexOut, int* index2Out)</functioncall>
+        <functioncall prog_lang="eel">MediaTrack Envelope_GetParentTrack(TrackEnvelope env, int &index, int &index2)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack retval, integer index, integer index2 = reaper.Envelope_GetParentTrack(TrackEnvelope env)</functioncall>
+        <functioncall prog_lang="python">(MediaTrack retval, TrackEnvelope env, Int indexOut, Int index2Out) = RPR_Envelope_GetParentTrack(env, indexOut, index2Out)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description prog_lang="*">
-            If track envelope, gets the track from the envelope. If FX, indexOutOptional set to FX index, index2OutOptional set to parameter index, otherwise -1.
+            If track envelope, gets the track from the envelope. If FX, indexOut set to FX index, index2Out set to parameter index, otherwise -1.
         </description>
         <retvals>
             MediaTrack retval - 
-            optional integer index - 
-            optional integer index2 - 
+            integer index - 
+            integer index2 - 
         </retvals>
         <parameters>
             TrackEnvelope env - 
@@ -4363,6 +4373,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters aren't optional anymore:
+                        - CPP: indexOut, index2Out
+                        - EEL2: index, index2
+                        - Lua: index, index2
+                        - Python: indexOut, index2Out
         </changelog>
     </US_DocBloc>
 
@@ -5300,23 +5315,23 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetEnvelopePoint</slug>
         <title>GetEnvelopePoint</title>
-        <functioncall prog_lang="cpp">bool GetEnvelopePoint(TrackEnvelope* envelope, int ptidx, double* timeOutOptional, double* valueOutOptional, int* shapeOutOptional, double* tensionOutOptional, bool* selectedOutOptional)</functioncall>
-        <functioncall prog_lang="eel">bool GetEnvelopePoint(TrackEnvelope envelope, int ptidx, optional &amp;time, optional &amp;value, optional int &amp;shape, optional &amp;tension, optional bool &amp;selected)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, optional number time, optional number value, optional integer shape, optional number tension, optional boolean selected = reaper.GetEnvelopePoint(TrackEnvelope envelope, integer ptidx)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int ptidx, Float timeOutOptional, Float valueOutOptional, Int shapeOutOptional, Float tensionOutOptional, Boolean selectedOutOptional) = RPR_GetEnvelopePoint(envelope, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool GetEnvelopePoint(TrackEnvelope* envelope, int ptidx, double* timeOut, double* valueOut, int* shapeOut, double* tensionOut, bool* selectedOut)</functioncall>
+        <functioncall prog_lang="eel">bool GetEnvelopePoint(TrackEnvelope envelope, int ptidx, &time, &value, int &shape, &tension, bool &selected)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, number time, number value, integer shape, number tension, boolean selected = reaper.GetEnvelopePoint(TrackEnvelope envelope, integer ptidx)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int ptidx, Float timeOut, Float valueOut, Int shapeOut, Float tensionOut, Boolean selectedOut) = RPR_GetEnvelopePoint(envelope, ptidx, timeOut, valueOut, shapeOut, tensionOut, selectedOut)</functioncall>
         <requires>
-            Reaper=5.979
+            Reaper=6.43
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the attributes of an envelope point. See [GetEnvelopePointEx](#GetEnvelopePointEx)
         </description>
         <retvals>
             boolean retval - 
-            optional number time - 
-            optional number value - 
-            optional integer shape - 
-            optional number tension - 
-            optional boolean selected - 
+            number time - 
+            number value - 
+            integer shape - 
+            number tension - 
+            boolean selected - 
         </retvals>
         <parameters>
             TrackEnvelope envelope - 
@@ -5329,6 +5344,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters aren't optional anymore
+                        - CPP: timeOut, valueOut, shapeOut, tensionOut, selectedOut
+                        - EEL2: time, value, shape, tension, selected
+                        - Lua: time, value, shape, tension, selected
+                        - Python: timeOut, valueOut, shapeOut, tensionOut, selectedOut
         </changelog>
     </US_DocBloc>
 
@@ -5404,12 +5424,12 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetEnvelopePointEx</slug>
         <title>GetEnvelopePointEx</title>
-        <functioncall prog_lang="cpp">bool GetEnvelopePointEx(TrackEnvelope* envelope, int autoitem_idx, int ptidx, double* timeOutOptional, double* valueOutOptional, int* shapeOutOptional, double* tensionOutOptional, bool* selectedOutOptional)</functioncall>
-        <functioncall prog_lang="eel">bool GetEnvelopePointEx(TrackEnvelope envelope, int autoitem_idx, int ptidx, optional &amp;time, optional &amp;value, optional int &amp;shape, optional &amp;tension, optional bool &amp;selected)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, optional number time, optional number value, optional integer shape, optional number tension, optional boolean selected = reaper.GetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Int ptidx, Float timeOutOptional, Float valueOutOptional, Int shapeOutOptional, Float tensionOutOptional, Boolean selectedOutOptional) = RPR_GetEnvelopePointEx(envelope, autoitem_idx, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool GetEnvelopePointEx(TrackEnvelope* envelope, int autoitem_idx, int ptidx, double* timeOut, double* valueOut, int* shapeOut, double* tensionOut, bool* selectedOut)</functioncall>
+        <functioncall prog_lang="eel">bool GetEnvelopePointEx(TrackEnvelope envelope, int autoitem_idx, int ptidx, &time, &value, int &shape, &tension, bool &selected)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, number time, number value, integer shape, number tension, boolean selected = reaper.GetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Int ptidx, Float timeOut, Float valueOut, Int shapeOut, Float tensionOut, Boolean selectedOut) = RPR_GetEnvelopePointEx(envelope, autoitem_idx, ptidx, timeOut, valueOut, shapeOut, tensionOut, selectedOut)</functioncall>
         <requires>
-            Reaper=5.979
+            Reaper=6.43
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the attributes of an envelope point.
@@ -5422,11 +5442,11 @@
         </description>
         <retvals>
             boolean retval - 
-            optional number time - 
-            optional number value - 
-            optional integer shape - 
-            optional number tension - 
-            optional boolean selected - 
+            number time - 
+            number value - 
+            integer shape - 
+            number tension - 
+            boolean selected - 
         </retvals>
         <parameters>
             TrackEnvelope envelope - 
@@ -5440,6 +5460,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters aren't optional anymore
+                        - CPP: timeOut, valueOut, shapeOut, tensionOut, selectedOut
+                        - EEL2: time, value, shape, tension, selected
+                        - Lua: time, value, shape, tension, selected
+                        - Python: timeOut, valueOut, shapeOut, tensionOut, selectedOut
         </changelog>
     </US_DocBloc>
 
@@ -6942,8 +6967,8 @@
             F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
             F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=minimum allowed, 1=maximum allowed)
             F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)
-            I_PLAY_OFFSET_FLAG : int * : track playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
-            D_PLAY_OFFSET : double * : track playback offset, units depend on I_PLAY_OFFSET_FLAG
+            I_PLAY_OFFSET_FLAG : int * : track media playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
+            D_PLAY_OFFSET : double * : track media playback offset, units depend on I_PLAY_OFFSET_FLAG
             P_PARTRACK : MediaTrack * : parent track (read-only)
             P_PROJECT : ReaProject * : parent project (read-only)
         </description>
@@ -8694,7 +8719,7 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetProjectInfo_String(ReaProject project, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject project, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetProjectInfo_String(project, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=6.38
+            Reaper=6.43
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get or set project information.  
@@ -8716,7 +8741,7 @@
             see [render-code-documentation](render-codes-decoded-base64-strings.txt) for how the unencoded RENDER\_FORMAT-string is structured.  
 
             To just use the 4-byte-string, you can use: 
-            "evaw" for wave, "ffia" for aiff, " osi" for audio-cd, " pdd" for ddp, "calf" for flac, "l3pm" for mp3, "vggo" for ogg, "SggO" for Opus, "PMFF" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, " FIG" for Gif, " FCL" for LCF, "kpvw" for wavepack
+            "wave" for wave, "aiff" for aiff, "caff" for caf, "iso " for audio-cd, "ddp " for ddp, "flac" for flac, "mp3l" for mp3, "oggv" for ogg, "OggS" for Opus, "FFMP" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, "GIF " for Gif, "LCF " for LCF, "wvpk" for wavepack
 
             RENDER\_METADATA: get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: Uses common ID3-tagcodes like TALB(album), TPE1(Artist), etc.
             To get album tag, use "ID3:TALB", to set album tag, use "ID3:TALB|my album name".  
@@ -8773,6 +8798,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - "caff" as render-outputformat for the CAF-format now supported
         </changelog>
     </US_DocBloc>
 
@@ -10478,10 +10504,10 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetUnderrunTime</slug>
         <title>GetUnderrunTime</title>
-        <functioncall prog_lang="cpp">void GetUnderrunTime(unsigned int* audio_xrunOutOptional, unsigned int* media_xrunOutOptional, unsigned int* curtimeOutOptional)</functioncall>
-        <functioncall prog_lang="eel">GetUnderrunTime(optional unsigned int &amp;audio_xrun, optional unsigned int &amp;media_xrun, optional unsigned int &amp;curtime)</functioncall>
-        <functioncall prog_lang="lua">optional integer audio_xrun, optional integer media_xrun, optional integer curtime = reaper.GetUnderrunTime()</functioncall>
-        <functioncall prog_lang="python">RPR_GetUnderrunTime(unsigned int audio_xrunOutOptional, unsigned int media_xrunOutOptional, unsigned int curtimeOutOptional)</functioncall>
+        <functioncall prog_lang="cpp">void GetUnderrunTime(unsigned int* audio_xrunOut, unsigned int* media_xrunOut, unsigned int* curtimeOut)</functioncall>
+        <functioncall prog_lang="eel">GetUnderrunTime(unsigned int &audio_xrun, unsigned int &media_xrun, unsigned int &curtime)</functioncall>
+        <functioncall prog_lang="lua">integer audio_xrun, integer media_xrun, integer curtime = reaper.GetUnderrunTime()</functioncall>
+        <functioncall prog_lang="python">RPR_GetUnderrunTime(unsigned int audio_xrunOut, unsigned int media_xrunOut, unsigned int curtimeOut)</functioncall>
         <requires>
             Reaper=5.62
         </requires>
@@ -10489,9 +10515,9 @@
             retrieves the last timestamps of audio xrun (yellow-flash, if available), media xrun (red-flash), and the current time stamp (all milliseconds)
         </description>
         <retvals>
-            optional integer audio_xrun - 
-            optional integer media_xrun - 
-            optional integer curtime - 
+            integer audio_xrun - 
+            integer media_xrun - 
+            integer curtime - 
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -10500,6 +10526,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters aren't optional anymore:
+                        - CPP: audio_xrunOut, media_xrunOut, curtimeOut
+                        - EEL2: audio_xrun, media_xrun, curtime
+                        - LUA: audio_xrun, media_xrun, curtime
+                        - Python: audio_xrunOut, media_xrunOut, curtimeOut
         </changelog>
     </US_DocBloc>
 
@@ -16169,8 +16200,8 @@
             F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
             F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=minimum allowed, 1=maximum allowed)
             F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)
-            I_PLAY_OFFSET_FLAG : int * : track playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
-            D_PLAY_OFFSET : double * : track playback offset, units depend on I_PLAY_OFFSET_FLAG
+            I_PLAY_OFFSET_FLAG : int * : track media playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
+            D_PLAY_OFFSET : double * : track media playback offset, units depend on I_PLAY_OFFSET_FLAG
         </description>
         <retvals>
             boolean retval - true, setting was successful; false, setting was unsuccessful
@@ -18258,20 +18289,20 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TakeFX_GetIOSize</slug>
         <title>TakeFX_GetIOSize</title>
-        <functioncall prog_lang="cpp">int TakeFX_GetIOSize(MediaItem_Take* take, int fx, int* inputPinsOutOptional, int* outputPinsOutOptional)</functioncall>
-        <functioncall prog_lang="eel">int TakeFX_GetIOSize(MediaItem_Take take, int fx, optional int &amp;inputPins, optional int &amp;outputPins)</functioncall>
-        <functioncall prog_lang="lua">integer retval, optional integer inputPins, optional integer outputPins = reaper.TakeFX_GetIOSize(MediaItem_Take take, integer fx)</functioncall>
-        <functioncall prog_lang="python">(Int retval, MediaItem_Take take, Int fx, Int inputPinsOutOptional, Int outputPinsOutOptional) = RPR_TakeFX_GetIOSize(take, fx, inputPinsOutOptional, outputPinsOutOptional)</functioncall>
+        <functioncall prog_lang="cpp">int TakeFX_GetIOSize(MediaItem_Take* take, int fx, int* inputPinsOut, int* outputPinsOut)</functioncall>
+        <functioncall prog_lang="eel">int TakeFX_GetIOSize(MediaItem_Take take, int fx, int &inputPins, int &outputPins)</functioncall>
+        <functioncall prog_lang="lua">integer retval, integer inputPins, integer outputPins = reaper.TakeFX_GetIOSize(MediaItem_Take take, integer fx)</functioncall>
+        <functioncall prog_lang="python">(Int retval, MediaItem_Take take, Int fx, Int inputPinsOut, Int outputPinsOut) = RPR_TakeFX_GetIOSize(take, fx, inputPinsOut, outputPinsOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description prog_lang="*">
             gets the number of input/output pins for FX if available, returns plug-in type or -1 on error
         </description>
         <retvals>
             integer retval - 
-            optional integer inputPins - 
-            optional integer outputPins - 
+            integer inputPins - 
+            integer outputPins - 
         </retvals>
         <parameters>
             MediaItem_Take take - 
@@ -18284,6 +18315,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters are not optional anymore:
+                        - CPP: inputPinsOut, outputPinsOut
+                        - EEL2: inputPins, outputPins
+                        - LUA: inputPins, outputPins
+                        - Python: inputPinsOut, outputPinsOut
         </changelog>
     </US_DocBloc>
 
@@ -18610,19 +18646,19 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TakeFX_GetPinMappings</slug>
         <title>TakeFX_GetPinMappings</title>
-        <functioncall prog_lang="cpp">int TakeFX_GetPinMappings(MediaItem_Take* take, int fx, int isOutput, int pin, int* high32OutOptional)</functioncall>
-        <functioncall prog_lang="eel">int TakeFX_GetPinMappings(MediaItem_Take take, int fx, int is, int pin, optional int &amp;high32)</functioncall>
-        <functioncall prog_lang="lua">integer retval, optional integer high32 = reaper.TakeFX_GetPinMappings(MediaItem_Take take, integer fx, integer is, integer pin)</functioncall>
-        <functioncall prog_lang="python">(Int retval, MediaItem_Take tr, Int fx, Int isOutput, Int pin, Int high32OutOptional) = RPR_TakeFX_GetPinMappings(take, fx, isOutput, pin, high32OutOptional)</functioncall>
+        <functioncall prog_lang="cpp">int TakeFX_GetPinMappings(MediaItem_Take* take, int fx, int isoutput, int pin, int* high32Out)</functioncall>
+        <functioncall prog_lang="eel">int TakeFX_GetPinMappings(MediaItem_Take take, int fx, int isoutput, int pin, int &high32)</functioncall>
+        <functioncall prog_lang="lua">integer retval, integer high32 = reaper.TakeFX_GetPinMappings(MediaItem_Take take, integer fx, integer isoutput, integer pin)</functioncall>
+        <functioncall prog_lang="python">(Int retval, MediaItem_Take take, Int fx, Int isoutput, Int pin, Int high32Out) = RPR_TakeFX_GetPinMappings(take, fx, isoutput, pin, high32Out)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description prog_lang="*">
-            gets the effective channel mapping bitmask for a particular pin. high32OutOptional will be set to the high 32 bits
+            gets the effective channel mapping bitmask for a particular pin. high32Out will be set to the high 32 bits
         </description>
         <retvals>
             integer retval - 
-            optional integer high32 - 
+            integer high32 - 
         </retvals>
         <parameters>
             MediaItem_Take take - 
@@ -18637,6 +18673,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters aren't optional anymore
+                        - CPP: high32Out
+                        - EEL2: high32
+                        - Lua: high32
+                        - Python: high32Out
         </changelog>
     </US_DocBloc>
  
@@ -19456,19 +19497,19 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TimeMap_curFrameRate</slug>
         <title>TimeMap_curFrameRate</title>
-        <functioncall prog_lang="cpp">double TimeMap_curFrameRate(ReaProject* proj, bool* dropFrameOutOptional)</functioncall>
-        <functioncall prog_lang="eel">double TimeMap_curFrameRate(ReaProject proj, optional bool &amp;dropFrame)</functioncall>
-        <functioncall prog_lang="lua">number retval, optional boolean dropFrame = reaper.TimeMap_curFrameRate(ReaProject proj)</functioncall>
-        <functioncall prog_lang="python">(Float retval, ReaProject proj, Boolean dropFrameOutOptional) = RPR_TimeMap_curFrameRate(proj, dropFrameOutOptional)</functioncall>
+        <functioncall prog_lang="cpp">double TimeMap_curFrameRate(ReaProject* proj, bool* dropFrameOut)</functioncall>
+        <functioncall prog_lang="eel">double TimeMap_curFrameRate(ReaProject proj, bool &amp;dropFrame)</functioncall>
+        <functioncall prog_lang="lua">number retval, boolean dropFrame = reaper.TimeMap_curFrameRate(ReaProject proj)</functioncall>
+        <functioncall prog_lang="python">(Float retval, ReaProject proj, Boolean dropFrameOut) = RPR_TimeMap_curFrameRate(proj, dropFrameOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description prog_lang="*">
             Gets project framerate, and optionally whether it is drop-frame timecode
         </description>
         <retvals>
             number retval - 
-            optional boolean dropFrame - 
+            boolean dropFrame - 
         </retvals>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
@@ -19480,6 +19521,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters aren't optional anymore:
+                        - CPP: dropFrameOut
+                        - EEL2: dropFrame
+                        - Lua: dropFrame
+                        - Python: dropFrameOut
         </changelog>
     </US_DocBloc>
 
@@ -20273,13 +20319,13 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_GetEQBandEnabled(MediaTrack track, integer fx, integer bandtype, integer bandidx)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_TrackFX_GetEQBandEnabled(MediaTrack track, Int fx, Int bandtype, Int bandidx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns true if the EQ band is enabled.
             Returns false if the band is disabled, or if track/fxidx is not ReaEQ.
-            Bandtype: 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
-            Bandidx: 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
+            Bandtype: -1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass, 6=bandpass.
+            Bandidx:(ignored for master gain): 0=target first band matching bandtype, 1=target 2nd band matching bandtype, etc.
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
@@ -20292,8 +20338,8 @@
         <parameters>
             MediaTrack track - the track, whose ReaEQ-instance-enabledstate you want to query
             integer fx - the index of the fx in the FXChain, that is the ReaEQ-instance in question
-            integer bandtype - 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
-            integer bandidx - 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
+            integer bandtype - -1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass, 6=bandpass.
+            integer bandidx - (ignored for master gain): 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -20302,6 +20348,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - new bandtypes added, master gain(-1) and bandpass(6); bandidx is ignored by master gain
         </changelog>
     </US_DocBloc>
 
@@ -20313,11 +20360,11 @@
         <functioncall prog_lang="lua">boolean retval, integer bandtype, integer bandidx, integer paramtype, number normval = reaper.TrackFX_GetEQParam(MediaTrack track, integer fx, integer paramidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int paramidx, Int bandtypeOut, Int bandidxOut, Int paramtypeOut, Float normvalOut) = RPR_TrackFX_GetEQParam(track, fxidx, paramidx, bandtypeOut, bandidxOut, paramtypeOut, normvalOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns false if track/fxidx is not ReaEQ.
-            Bandtype: -1=master gain, 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
+            Bandtype: -1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             Bandidx (ignored for master gain): 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
             Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q.
 
@@ -20330,13 +20377,14 @@
             boolean retval - true, if it's a ReaEQ-instance; false, is not a ReaEQ-instance or in case of an error
             integer bandtype - the bandtype of the band to change;
                             - -1, master gain
-                            - 0, lhipass
+                            - 0, hipass
                             - 1, loshelf
                             - 2, band
                             - 3, notch
                             - 4, hishelf
                             - 5, lopass 
-            integer bandidx - 0, first band matching bandtype; 1, 2nd band matching bandtype, etc. 
+                            - 6, bandpass
+            integer bandidx - 0, target first band matching bandtype; 1, target 2nd band matching bandtype, etc. 
             integer paramtype - 0, freq; 1, gain; 2, Q 
             number normval - the normalized value
         </retvals>
@@ -20352,6 +20400,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - new bandtypes added, bandpass(6)
         </changelog>
     </US_DocBloc>
 
@@ -20516,12 +20565,12 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_GetIOSize</slug>
         <title>TrackFX_GetIOSize</title>
-        <functioncall prog_lang="cpp">int TrackFX_GetIOSize(MediaTrack* track, int fx, int* inputPinsOutOptional, int* outputPinsOutOptional)</functioncall>
-        <functioncall prog_lang="eel">int TrackFX_GetIOSize(MediaTrack track, int fx, optional int &amp;inputPins, optional int &amp;outputPins)</functioncall>
-        <functioncall prog_lang="lua">integer retval, optional integer inputPins, optional integer outputPins = reaper.TrackFX_GetIOSize(MediaTrack track, integer fx)</functioncall>
-        <functioncall prog_lang="python">(Int retval, MediaTrack track, Int fx, Int inputPinsOutOptional, Int outputPinsOutOptional) = RPR_TrackFX_GetIOSize(track, fx, inputPinsOutOptional, outputPinsOutOptional)</functioncall>
+        <functioncall prog_lang="cpp">int TrackFX_GetIOSize(MediaTrack* track, int fx, int* inputPinsOut, int* outputPinsOut)</functioncall>
+        <functioncall prog_lang="eel">int TrackFX_GetIOSize(MediaTrack track, int fx, int &inputPins, int &outputPins)</functioncall>
+        <functioncall prog_lang="lua">integer retval, integer inputPins, integer outputPins = reaper.TrackFX_GetIOSize(MediaTrack track, integer fx)</functioncall>
+        <functioncall prog_lang="python">(Int retval, MediaTrack track, Int fx, Int inputPinsOut, Int outputPinsOut) = RPR_TrackFX_GetIOSize(track, fx, inputPinsOut, outputPinsOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description prog_lang="*">
             gets the number of input/output pins for FX if available, returns plug-in type or -1 on error
@@ -20531,8 +20580,8 @@
         </description>
         <retvals>
             integer retval - 
-            optional integer inputPins - 
-            optional integer outputPins - 
+            integer inputPins - 
+            integer outputPins - 
         </retvals>
         <parameters>
             MediaTrack track - 
@@ -20545,6 +20594,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters are not optional anymore
+                        - CPP: inputPinsOut, outputPinsOut
+                        - EEL2: inputPins, outputPins
+                        - Lua: inputPins, outputPins
+                        - Python: inputPinsOut, outputPinsOut
         </changelog>
     </US_DocBloc>
 
@@ -20892,22 +20946,22 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_GetPinMappings</slug>
         <title>TrackFX_GetPinMappings</title>
-        <functioncall prog_lang="cpp">int TrackFX_GetPinMappings(MediaTrack* tr, int fx, int isOutput, int pin, int* high32OutOptional)</functioncall>
-        <functioncall prog_lang="eel">int TrackFX_GetPinMappings(MediaTrack tr, int fx, int is, int pin, optional int &amp;high32)</functioncall>
-        <functioncall prog_lang="lua">integer retval, optional integer high32 = reaper.TrackFX_GetPinMappings(MediaTrack tr, integer fx, integer is, integer pin)</functioncall>
-        <functioncall prog_lang="python">(Int retval, MediaTrack tr, Int fx, Int isOutput, Int pin, Int high32OutOptional) = RPR_TrackFX_GetPinMappings(tr, fx, isOutput, pin, high32OutOptional)</functioncall>
+        <functioncall prog_lang="cpp">int TrackFX_GetPinMappings(MediaTrack* tr, int fx, int isoutput, int pin, int* high32Out)</functioncall>
+        <functioncall prog_lang="eel">int TrackFX_GetPinMappings(MediaTrack tr, int fx, int isoutput, int pin, int &high32)</functioncall>
+        <functioncall prog_lang="lua">integer retval, integer high32 = reaper.TrackFX_GetPinMappings(MediaTrack tr, integer fx, integer isoutput, integer pin)</functioncall>
+        <functioncall prog_lang="python">(Int retval, MediaTrack tr, Int fx, Int isoutput, Int pin, Int high32Out) = RPR_TrackFX_GetPinMappings(tr, fx, isoutput, pin, high32Out)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description prog_lang="*">
-            gets the effective channel mapping bitmask for a particular pin. high32OutOptional will be set to the high 32 bits
+            gets the effective channel mapping bitmask for a particular pin. high32Out will be set to the high 32 bits
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
             integer retval - 
-            optional integer high32 - 
+            integer high32 - 
         </retvals>
         <parameters>
             MediaTrack tr - 
@@ -20922,6 +20976,11 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - the following retvals and parameters aren't optional anymore
+                        - CPP: high32Out
+                        - EEL2: high32
+                        - Lua: high32
+                        - Python: high32Out
         </changelog>
     </US_DocBloc>
 
@@ -21165,18 +21224,18 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_SetEQBandEnabled</slug>
         <title>TrackFX_SetEQBandEnabled</title>
-        <functioncall prog_lang="cpp">bool TrackFX_SetEQBandEnabled(MediaTrack* track, int fx, int bandtype, int bandidx, bool enable)</functioncall>
-        <functioncall prog_lang="eel">bool TrackFX_SetEQBandEnabled(MediaTrack track, int fx, int bandtype, int bandidx, bool enable)</functioncall>
-        <functioncall prog_lang="lua">boolean retval= reaper.TrackFX_SetEQBandEnabled(MediaTrack track, integer fx, integer bandtype, integer bandidx, boolean enable)</functioncall>
-        <functioncall prog_lang="python">Boolean RPR_TrackFX_SetEQBandEnabled(MediaTrack track, Int fx, Int bandtype, Int bandidx, Boolean enable)</functioncall>
+        <functioncall prog_lang="cpp">bool TrackFX_SetEQBandEnabled(MediaTrack* track, int fxidx, int bandtype, int bandidx, bool enable)</functioncall>
+        <functioncall prog_lang="eel">bool TrackFX_SetEQBandEnabled(MediaTrack track, int fxidx, int bandtype, int bandidx, bool enable)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.TrackFX_SetEQBandEnabled(MediaTrack track, integer fxidx, integer bandtype, integer bandidx, boolean enable)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_TrackFX_SetEQBandEnabled(MediaTrack track, Int fxidx, Int bandtype, Int bandidx, Boolean enable)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.43
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Enable or disable a ReaEQ band.
             Returns false if track/fxidx is not ReaEQ.
-            Bandtype: 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
-            Bandidx: 0=first band matching bandtype, 1=2nd band matching bandtype, etc.
+            Bandtype: -1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass, 6=bandpass.
+            Bandidx: (ignored for master gain): 0=target first band matching bandtype, 1=target 2nd band matching bandtype, etc.
             See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetEQParam](#TrackFX_GetEQParam), [TrackFX\_SetEQParam](#TrackFX_SetEQParam), [TrackFX\_GetEQBandEnabled](#TrackFX_GetEQBandEnabled).
 
             By setting fx you can add 0x1000000 set to reference input FX. 
@@ -21199,6 +21258,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - new bandtypes added, master gain(-1) and bandpass(6); bandidx is ignored by master gain
         </changelog>
     </US_DocBloc>
 
@@ -21214,7 +21274,7 @@
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns false if track/fxidx is not ReaEQ. Targets a band matching bandtype.
-            Bandtype: -1=master gain, 0=lhipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
+            Bandtype: -1=master gain, 0=hipass, 1=loshelf, 2=band, 3=notch, 4=hishelf, 5=lopass.
             Bandidx (ignored for master gain): 0=target first band matching bandtype, 1=target 2nd band matching bandtype, etc.
             Paramtype (ignored for master gain): 0=freq, 1=gain, 2=Q.
             See [TrackFX\_GetEQ](#TrackFX_GetEQ), [TrackFX\_GetEQParam](#TrackFX_GetEQParam), [TrackFX\_GetEQBandEnabled](#TrackFX_GetEQBandEnabled), [TrackFX\_SetEQBandEnabled](#TrackFX_SetEQBandEnabled).
@@ -21241,6 +21301,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.43 - new bandtypes added: bandpass(6)
         </changelog>
     </US_DocBloc>
 
@@ -36670,7 +36731,7 @@ Mespotine
         <title>gfx_variables</title>
         <functioncall prog_lang="eel">gfx VARIABLES</functioncall>
         <requires>
-            Reaper=6.30
+            Reaper=6.43
         </requires>
         <description>
             The following global variables are special and will be used by the graphics system:
@@ -36688,7 +36749,7 @@ Mespotine
                * gfx_clear - if greater than -1.0, framebuffer will be cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black).
                * gfx_dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
                * gfx_texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.
-               * gfx_ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx_w/gfx_h/etc will be doubled.
+               * gfx_ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, this value will be updated to value greater than 1.0 (such as 2.0) if retina/hidpi. On macOS gfx_w/gfx_h/etc will be doubled, but on other systems gfx_w/gfx_h will remain the same and gfx_ext_retina is a scaling hint for drawing.
                * gfx_ext_flags - &amp;1 if context is JSFX embedded in TCP or MCP.
                * mouse_x - current X coordinate of the mouse relative to the graphics window.
                * mouse_y - current Y coordinate of the mouse relative to the graphics window.
@@ -37113,6 +37174,12 @@ Mespotine
             \* 27 for ESC
             \* 13 for Enter
             \* ' ' for space
+            
+            If the user typed in multiple characters, the character queue will hold them. So calling gfx_getchar multiple times, until it returns 0 or -1 will give you all typed keys.
+            
+            Typed characters between 256 and 1024(maybe higher?) seem to hint at multibyte-unicode characters. That means, you need to take the next character-value in the character-queue into consideration as well to get the current unicode-character!
+            
+            Note that calling gfx_getchar() at least once causes mouse_cap to reflect keyboard modifiers even when the mouse is not captured.
         </description>
         <retvals>
             integer typed_character - the character that has been typed; -1, if no window is open
@@ -39460,7 +39527,7 @@ mespotine
               * gfx.clear - if greater than -1.0, framebuffer will be cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black).
               * gfx.dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
               * gfx.texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.
-              * gfx.ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.
+              * gfx.ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, this value will be updated to value greater than 1.0 (such as 2.0) if retina/hidpi. On macOS gfx.w/gfx.h/etc will be doubled, but on other systems gfx.w/gfx.h will remain the same and gfx.ext_retina is a scaling hint for drawing.
               * gfx.ext_flags - &amp;1 if context is JSFX embedded in TCP or MCP.
               * gfx.mouse_x - current X coordinate of the mouse relative to the graphics window.
               * gfx.mouse_y - current Y coordinate of the mouse relative to the graphics window.
@@ -39893,15 +39960,12 @@ mespotine
             -
             - use 65536 as parameter charactercode to query special flags, returns: &amp;1 (supported in this script), &amp;2=window has focus, &amp;4=window is visible  
 
-            Some multibyte-characters, like home, up, down, left, right, f1 .. f12, pgup, pgdn, ins, del are returned as values above 255, but some other characters, like €,  
-            are "real"-multibyte-characters, stored as multiple 8-bit-values after each other.
-            To retrieve them, you need to run gfx.getchar() twice per defer-cycle and return their retvals into two variables:  
-            Example:
+            If the user typed in multiple characters, the character queue will hold them. So calling gfx.getchar multiple times, until it returns 0 or -1 will give you all typed keys.
 
-                        A=gfx.getchar() -- first byte
-                        B=gfx.getchar() -- second byte
-
-                        if A==261 and B==128 then reaper.MB("You typed the Euro-symbol.", "Message", 0) end -- typed character is the Euro-currency-symbol.
+            Typed characters between 256 and 1024(maybe higher?) seem to hint at multibyte-unicode characters. 
+            That means, you need to take the next character-value in the character-queue into consideration as well to get the current unicode-character!
+                        
+            Note that calling gfx.getchar() at least once causes gfx.mouse_cap to reflect keyboard modifiers even when the mouse is not captured.
 
         </description>
         <retvals>
@@ -42349,8 +42413,8 @@ mespotine
                  -F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
                  -F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=minimum allowed, 1=maximum allowed)
                  -F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)
-                 -I_PLAY_OFFSET_FLAG : int * : track playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
-                 -D_PLAY_OFFSET : double * : track playback offset, units depend on I_PLAY_OFFSET_FLAG
+                 -I_PLAY_OFFSET_FLAG : int * : track media playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
+                 -D_PLAY_OFFSET : double * : track media playback offset, units depend on I_PLAY_OFFSET_FLAG
         </description>
         <retvals>
             void* -

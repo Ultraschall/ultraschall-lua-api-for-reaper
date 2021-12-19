@@ -2614,8 +2614,8 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetOutputFormat_RenderCfg</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.975
+    Ultraschall=4.2
+    Reaper=6.43
     Lua=5.3
   </requires>
   <functioncall>string outputformat, string renderstring = ultraschall.GetOutputFormat_RenderCfg(string Renderstring, optional ReaProject ReaProject)</functioncall>
@@ -2627,7 +2627,7 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
   <retvals>
     string outputformat - the outputformat, set in the render-cfg-string
     - The following are valid: 
-    - "WAV", "AIFF", "AUDIOCD-IMAGE", "DDP", "FLAC", "MP3", "OGG", "Opus", "Video", "Video (Mac)", "Video GIF", "Video LCF", "WAVPACK", "Unknown"
+    - "WAV", "AIFF", "CAF", "AUDIOCD-IMAGE", "DDP", "FLAC", "MP3", "OGG", "Opus", "Video", "Video (Mac)", "Video GIF", "Video LCF", "WAVPACK", "Unknown"
     string renderstring - the renderstring, which is either the renderstring you've passed or the one from the ReaProject you passed as second parameter
   </retvals>
   <parameters>
@@ -2677,6 +2677,7 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
   
   if Renderstring:sub(1,4)=="evaw" then return "WAV", Renderstring end
   if Renderstring:sub(1,4)=="ffia" then return "AIFF", Renderstring end
+  if Renderstring:sub(1,4)=="ffac" then return "CAF", Renderstring end
   if Renderstring:sub(1,4)==" osi" then return "AUDIOCD-IMAGE", Renderstring end
   if Renderstring:sub(1,4)==" pdd" then return "DDP", Renderstring end
   if Renderstring:sub(1,4)=="calf" then return "FLAC", Renderstring end
