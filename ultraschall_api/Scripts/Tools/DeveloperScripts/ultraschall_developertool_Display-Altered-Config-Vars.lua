@@ -105,6 +105,8 @@ for w in string.gmatch(A, "<slug>(.-)</slug>") do
     ConfigVars[ConfigVars_Counter]["configvar"]=w
     ConfigVars[ConfigVars_Counter]["int"]=reaper.SNM_GetIntConfigVar(w, -9987)
     ConfigVars[ConfigVars_Counter]["double"]=tostring(reaper.SNM_GetDoubleConfigVar(w, -9987))
+    ConfigVarsInt[ConfigVars_Counter]=reaper.SNM_GetIntConfigVar(w, -9987)
+    ConfigVarsDouble[ConfigVars_Counter]=tostring(reaper.SNM_GetDoubleConfigVar(w, -9987))
     retval, ConfigVars[ConfigVars_Counter]["string"]=reaper.get_config_var_string(w)
     ConfigVars_Counter=ConfigVars_Counter+1
   end
@@ -125,18 +127,18 @@ function Update_ConfigVars()
        C~=ConfigVars[i]["string"] then
       update=true
        if ConsoleToggle==true then
-         local A1=A-ConfigVarsInt[i]
+         A1=A-ConfigVarsInt[i]
          B1=B-ConfigVarsDouble[i]
          local INT="       int    \t: "..A..""
          -- layout dif-value correctly
-         if INT:len()<20 then INT=INT.."\t\t\t(Difference to old value: "..A1..")" 
-         else INT=INT.."\t\t\t(Difference to old value: "..A1..")" end
+         if INT:len()<20 then INT=INT.."\t\t\tDifference to old value: "..A1.."" 
+         else INT=INT.."\t\t\tDifference to old value: "..A1.."" end
 
          -- layout dif-value correctly         
          local DOUBLE="       double\t: "..B
-         if DOUBLE:len()<20 then DOUBLE=DOUBLE.."\t\t\t(Difference to old value: "..B1..")" 
-         elseif DOUBLE:len()<26 then DOUBLE=DOUBLE.."\t\t(Difference to old value: "..B1..")" 
-         else DOUBLE=DOUBLE.."\t(Difference to old value: "..B1..")" end
+         if DOUBLE:len()<20 then DOUBLE=DOUBLE.."\t\t\tDifference to old value: "..B1.."" 
+         elseif DOUBLE:len()<26 then DOUBLE=DOUBLE.."\t\tDifference to old value: "..B1.."" 
+         else DOUBLE=DOUBLE.."\tDifference to old value: "..B1.."" end
          
          print(" ")
          print(ConfigVars[i]["configvar"])

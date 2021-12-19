@@ -423,7 +423,7 @@ Has now 1413 functions, with 7 new ones
   - Developer: EditReaScript - allows now setting docking state and watchlist-size; didn't add scripts, when the file already existed, contrary to what the docs suggested; didn't reset old values in reaper.ini  -> fixed
   - DeveloperTools: ultraschall\_developertool\_CheckForNewConfigVars - tries now to read possible config-vars from reaper.exe directly(windows only atm)
   - DeveloperTools: ultraschall\_developertool\_Display-Altered-Config-Vars - shows now the diffs to old values as well
-  - DeveloperTools: ultraschall\_developertool\_Display-Altered-ConfigFile-Entries - shows diffs to old values when entries are numerical; added missing files
+  - DeveloperTools: ultraschall\_developertool\_Display-Altered-ConfigFile-Entries - shows diffs to old values when entries are numerical; added missing ini-files
   - DocEngine: Docs\_GetUSDocBloc\_Description - had problems with description-tags without any line in it -> fixed
   - DocEngine: Docs\_RemoveIndent - had inner variable exposed -> fixed
   - Docs: Reaper Internals - updated to Reaper 6.42 and ReaImGui 0.5.8
