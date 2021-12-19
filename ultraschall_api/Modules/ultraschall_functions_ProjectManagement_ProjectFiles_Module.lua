@@ -10633,6 +10633,8 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
     
     It's returning the position of the overall length, as well as the position of the last itemedge/regionedge/marker/time-signature-marker of the project.
     
+    It will not take the effect of stretch-markers and time-signature-markers and change of playrate into account!
+    
     To do the same for currently opened projects, use: [GetProjectLength](#GetProjectLength)
     
     Returns -1 in case of an error

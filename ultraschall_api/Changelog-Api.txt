@@ -388,6 +388,11 @@ Doesn't work on Windows 7???
 
   - Rendering: CalculateLoudness - calculates loundness of tracks/items and returns its stats  
  
+  - Rendering: add Normalize-Brickwall Limit: Normalize_Method &32(checkbox), &64(dropdownlist)
+                        RENDER_NORMALIZE: &1=enable, (&14==0)=LUFS-I, (&14==2)=RMS, (&14==4)=peak, (&14==6)=true peak, (&14==8)=LUFS-M max, (&14==10)=LUFS-S max, &32=normalize stems to common gain based on master, &64=enable brickwall limi
+                    inputbox:
+                        RENDER_BRICKWALL: render brickwall limit as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc
+ 
 </TODO>
 
 
@@ -395,7 +400,7 @@ Doesn't work on Windows 7???
 
 ### 4.2.006 - "The Beatles - The continuing story of Bungalow Bill" - XX of YYYY 2022
 
-Has now 1406 functions, with 6 new ones
+Has now 1413 functions, with 7 new ones
 
 **new in this release:**  
 
@@ -407,6 +412,9 @@ Has now 1406 functions, with 6 new ones
   - Doc-Engine: Docs\_GetUSDocBloc\_Changelog - returns the changelogs from each US-DocML-entry
   - Doc-Engine: Docs\_GetUSDocBloc\_LinkedTo - returns the entries of the linked_to-tags insie an USDocML-entry
   - Helper Functions: ReturnReaperExeFile\_With\_Path - returns the name of the reaper-executable including its path
+  - ParmAlias: GetParmAlias\_by\_FXParam\_FXStateChunk - gets the parmalias_id by fx-parameter, that you can use as parameter id for Set/Get/Delete-ParmAlias-functions
+  - ParmLearn: GetParmLearnID\_by\_FXParam\_FXStateChunk - gets the parmlearn_id by fx-parameter, that you can use as parmlearn_id for Set/Get/Delete-ParmLearn-functions(requested by TonE)
+  - ParmLFOLearn: GetParmLFOLearn\_by\_FXParam\_FXStateChunk - gets the parm_lfolearn_id by fx-parameter, that you can use as parameter id for Set/Get/Delete-ParmLFOLearn-functions  
   - Render Management: GetRenderTargetFiles - returns the render-target and filenames of all render-files, if they would be rendered right now
 
 #### Changes from 4.2.005 to 4.2.006  
@@ -426,7 +434,7 @@ Has now 1406 functions, with 6 new ones
   - FileManagement: GetAllDirectoriesInPath - has now an optional filter-parameter, to just get directories of a certain pattern
   - FileManagement: GetAllFilenamesInPath - has now an optional filter-parameter, to just get filenames of a certain pattern; returned pure path as well -> fixed
   - FileManagement: GetAllRecursiveFilesAndSubdirectories - has now optional filter-parameters for folders and files
-  - Mute: ToggleMute - didn't unmute under certain conditions -> fixed
+  - Mute: ToggleMute - didn't unmute under certain conditions; sometimes created additional envelope-points when unneccessary -> fixed
   - ParmLearn: AddParmLearn\_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -> fixed(thanks to TonE)
   - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)

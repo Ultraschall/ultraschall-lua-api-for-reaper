@@ -1367,7 +1367,7 @@ function ultraschall.CalculateLoudness(mode, timeselection, trackstring)
   </requires>
   <functioncall>string filename, string peak, string clip, string rms, string lrange, string lufs_i = ultraschall.CalculateLoudness(integer mode, boolean timeselection)</functioncall>
   <description>
-    Calculates the loudness of items and tracks or returns the loundness of last render/dry-render.
+    Calculates the loudness of items and tracks or returns the loudness of last render/dry-render.
     
     Returns nil in case of an error
   </description>
@@ -1380,13 +1380,13 @@ function ultraschall.CalculateLoudness(mode, timeselection, trackstring)
     string lufs_i - the lufs-i of the rendered element
   </retvals>
   <parameters>
-    integer mode - -1, return loundness-stats of the last render/dry render
-                 - 0, calculate loundness-stats of selected media items
-                 - 1, calculate loundness-stats of master track
-                 - 2, calculate loundness-stats of selected tracks
-    boolean timeselection - shall loundness calculation only be within time-selection?
+    integer mode - -1, return loudness-stats of the last render/dry render
+                 - 0, calculate loudness-stats of selected media items
+                 - 1, calculate loudness-stats of master track
+                 - 2, calculate loudness-stats of selected tracks
+    boolean timeselection - shall loudness calculation only be within time-selection?
                           - only with mode 1 and 2; if no time-selection is given, use entire track
-                          - false, calculate loundness within the entire tracks;
+                          - false, calculate loudness within the entire tracks;
                           - true, calculate loudness-stats within time-selection
   </parameters>
   <chapter_context>
@@ -1853,4 +1853,192 @@ function ultraschall.ReturnReaperExeFile_With_Path()
     ExeFile=reaper.GetExePath().."/reaper"
   end
   return ExeFile
+end
+
+function ultraschall.GetParmLearnID_by_FXParam_FXStateChunk(FXStateChunk, fxid, param_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmLearnID_by_FXParam_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parmlearn_id, = ultraschall.GetParmLearnID_by_FXParam_FXStateChunk(string FXStateChunk, integer fxid, integer param_id)</functioncall>
+  <description>
+    Returns the parmlearn_id by parameter.
+
+    This can be used as parameter parm_learn_id for Get/Set/DeleteParmLearn-functions
+    
+    Returns -1, if the parameter has no ParmLearn associated.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parmlearn_id - the idx of the parmlearn, that you can use for Add/Get/Set/DeleteParmLearn-functions; -1, if parameter has no ParmLearn associated
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the parmlearn
+    integer fxid - the fx, of which you want to get the parmlearn_id
+    integer param_id - the parameter, whose parmlearn_id you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Learn
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, parameter, learn, fxstatechunk, osc, midi</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLearnID_by_FXParam_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(param_id)~="integer" then ultraschall.AddErrorMessage("GetParmLearnID_by_FXParam_FXStateChunk", "param_id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLearnID_by_FXParam_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmLearnID_by_FXParam_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  local count=0
+  local name=""
+  local idx, midi_note, checkboxes
+  for w in string.gmatch(FXStateChunk, "PARMLEARN.-\n") do
+    w=w:sub(1,-2).." " 
+    idx = w:match(" (.-) ") 
+    if tonumber(idx)==nil then 
+      idx, name = w:match(" (.-):(.-) ")
+    end
+    
+    if tonumber(idx)==param_id then 
+      return count
+    end
+    count=count+1
+  end
+  return -1
+end
+
+
+function ultraschall.GetParmAliasID_by_FXParam_FXStateChunk(FXStateChunk, fxid, param_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmAliasID_by_FXParam_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parmalias_id, = ultraschall.GetParmAliasID_by_FXParam_FXStateChunk(string FXStateChunk, integer fxid, integer param_id)</functioncall>
+  <description>
+    Returns the parmalias_id by parameter.
+
+    This can be used as parameter parm_alias_id for Get/Set/DeleteParmAlias-functions
+    
+    Returns -1, if the parameter has no ParmAlias associated.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parmalias_id - the idx of the parmalias, that you can use for Add/Get/Set/DeleteParmAlias-functions; -1, if parameter has no ParmAlias associated
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the parmalias_id
+    integer fxid - the fx, of which you want to get the parmalias_id
+    integer param_id - the parameter, whose parmalias_id you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Alias
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, parameter, alias, fxstatechunk, osc, midi</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmAliasID_by_FXParam_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(param_id)~="integer" then ultraschall.AddErrorMessage("GetParmAliasID_by_FXParam_FXStateChunk", "param_id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmAliasID_by_FXParam_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmAliasID_by_FXParam_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  local count=0
+  local name=""
+  local idx, midi_note, checkboxes
+  for w in string.gmatch(FXStateChunk, "PARMALIAS.-\n") do
+    w=w:sub(1,-2).." " 
+    idx = w:match(" (.-) ") 
+    if tonumber(idx)==nil then 
+      idx, name = w:match(" (.-):(.-) ")
+    end
+    
+    if tonumber(idx)==param_id then 
+      return count
+    end
+    count=count+1
+  end
+  return -1
+end
+
+
+function ultraschall.GetParmLFOLearnID_by_FXParam_FXStateChunk(FXStateChunk, fxid, param_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmLFOLearnID_by_FXParam_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parm_lfolearn_id, = ultraschall.GetParmLFOLearnID_by_FXParam_FXStateChunk(string FXStateChunk, integer fxid, integer param_id)</functioncall>
+  <description>
+    Returns the parmlfolearn_id by parameter.
+
+    This can be used as parameter parm_lfolearn_id for Get/Set/DeleteLFOLearn-functions
+    
+    Returns -1, if the parameter has no ParmLFOLearn associated.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parm_lfolearn_id - the idx of the parm_lfolearn, that you can use for Add/Get/Set/DeleteParmLFOLearn-functions; -1, if parameter has no ParmLFOLearn associated
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the parm_lfolearn_id
+    integer fxid - the fx, of which you want to get the parameter-lfo_learn-settings
+    integer param_id - the parameter, whose parm_lfolearn_id you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping LFOLearn
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, parameter, lfolearn, fxstatechunk, osc, midi</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLFOLearnID_by_FXParam_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(param_id)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearnID_by_FXParam_FXStateChunk", "param_id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearnID_by_FXParam_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmLFOLearnID_by_FXParam_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  local count=0
+  local name=""
+  local idx, midi_note, checkboxes
+  for w in string.gmatch(FXStateChunk, "LFOLEARN.-\n") do
+    w=w:sub(1,-2).." " 
+    idx = w:match(" (.-) ") 
+    if tonumber(idx)==nil then 
+      idx, name = w:match(" (.-):(.-) ")
+    end
+    
+    if tonumber(idx)==param_id then 
+      return count
+    end
+    count=count+1
+  end
+  return -1
 end

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="49786.00" author="Meo Mespotine">
+      <version name="49801.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -448,7 +448,7 @@
 
 4.2.006 - “The Beatles - The continuing story of Bungalow Bill” - XX of YYYY 2022
 
-Has now 1406 functions, with 6 new ones
+Has now 1413 functions, with 7 new ones
 
 new in this release:
 
@@ -463,6 +463,15 @@ New features in 4.2.006
     linked_to-tags insie an USDocML-entry
 -   Helper Functions: ReturnReaperExeFile_With_Path - returns the name
     of the reaper-executable including its path
+-   ParmAlias: GetParmAlias_by_FXParam_FXStateChunk - gets the
+    parmalias_id by fx-parameter, that you can use as parameter id for
+    Set/Get/Delete-ParmAlias-functions
+-   ParmLearn: GetParmLearnID_by_FXParam_FXStateChunk - gets the
+    parmlearn_id by fx-parameter, that you can use as parmlearn_id for
+    Set/Get/Delete-ParmLearn-functions(requested by TonE)
+-   ParmLFOLearn: GetParmLFOLearn_by_FXParam_FXStateChunk - gets the
+    parm_lfolearn_id by fx-parameter, that you can use as parameter id
+    for Set/Get/Delete-ParmLFOLearn-functions
 -   Render Management: GetRenderTargetFiles - returns the render-target
     and filenames of all render-files, if they would be rendered right
     now
@@ -507,7 +516,8 @@ Changes from 4.2.005 to 4.2.006
     returned pure path as well -> fixed
 -   FileManagement: GetAllRecursiveFilesAndSubdirectories - has now
     optional filter-parameters for folders and files
--   Mute: ToggleMute - didn’t unmute under certain conditions -> fixed
+-   Mute: ToggleMute - didn’t unmute under certain conditions; sometimes
+    created additional envelope-points when unneccessary -> fixed
 -   ParmLearn: AddParmLearn_FXStateChunk2 - parameter midi_channel
     falsely expected to be 0-15 not 1-16 as documented -> fixed(thanks
     to TonE)
@@ -565,7 +575,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1420 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49786 from 17.12.2021 00:19:14).}
+a 1423 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49801 from 19.12.2021 19:17:30).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -579,7 +589,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1420 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1423 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -703,7 +713,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1420 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49786 from 17.12.2021 00:19:14).}
+a 1423 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49801 from 19.12.2021 19:17:30).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -717,7 +727,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1420 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1423 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
