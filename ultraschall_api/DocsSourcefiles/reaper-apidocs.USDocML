@@ -458,6 +458,7 @@
         <description markup_type="markdown" markup_version="1.0.1">
             Deprecated. Use [SetTempoTimeSigMarker](#SetTempoTimeSigMarker) with ptidx=-1.
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="SetTempoTimeSigMarker"/>
         <retvals>
             boolean retval - true, if adding was successful; false, if not
         </retvals>
@@ -4875,8 +4876,9 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get a short hash string (128 chars or less) that will change only if the underlying samples change. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
 
-            Deprecated. See [AudioAccessorStateChanged](#AudioAccessorStateChanged) instead.
+            Deprecated. See [AudioAccessorStateChanged](#AudioAccessorStateChanged) instead.            
         </description>
+        <deprecated since_when="Reaper 5.97" alternative="AudioAccessorStateChanged"/>
         <retvals>
             string hashNeed128 - 
         </retvals>
@@ -5598,10 +5600,11 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get focused FX. 
 
-            !!Deprecated, use [GetFocusedFX2](#GetFocusedFX) instead
+            !!Deprecated, use [GetFocusedFX2](#GetFocusedFX2) instead
 
             See [GetLastTouchedFX](#GetLastTouchedFX).
         </description>
+        <deprecated since_when="Reaper 5.979" alternative="GetFocusedFX2"/>
         <retvals>
             integer retval - 0, if no FX window has focus
                            - 1, if a track FX window has focus or was the last focused and still open
@@ -6117,6 +6120,7 @@
         <description prog_lang="*">
             Deprecated: Get the mute/solo-state of the master-track. This is deprecated as you can just query the master track as well.
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="GetTrackState with GetMasterTrack"/>
         <retvals>
             integer mastermutesolo - state of mute/solo of the master-track; &amp;1=master mute,&amp;2=master solo.
         </retvals>
@@ -7864,6 +7868,7 @@
         <description prog_lang="*">
             deprecated
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="GetProjectTimeSignature2"/>
         <retvals>
             number bpm - the bpm of the project's time-signature
             number bpi - the bpi of the project's time-signature
@@ -8366,6 +8371,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             deprecated -- see [SetEnvelopeStateChunk](#SetEnvelopeStateChunk), [GetEnvelopeStateChunk](#GetEnvelopeStateChunk)
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="SetEnvelopeStateChunk and GetEnvelopeStateChunk"/>
         <retvals>
             boolean retval - true, getting/setting was successful; false, getting/setting was unsuccessful
             string str - the value currently set
@@ -8397,6 +8403,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             deprecated -- see [SetEnvelopeStateChunk](#SetEnvelopeStateChunk), [GetEnvelopeStateChunk](#GetEnvelopeStateChunk)
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="SetEnvelopeStateChunk and GetEnvelopeStateChunk"/>
         <retvals>
             boolean retval - true, getting/setting was successful; false, getting/setting was unsuccessful
             string str - the value currently set
@@ -8429,6 +8436,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             deprecated -- see [SetItemStateChunk](#SetItemStateChunk), [GetItemStateChunk](#GetItemStateChunk)
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="SetItemStateChunk and GetItemStateChunk"/>
         <retvals>
             boolean retval - true, getting/setting was successful; false, getting/setting was unsuccessful
             string str - the value currently set
@@ -8460,6 +8468,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             deprecated -- see [SetItemStateChunk](#SetItemStateChunk), [GetItemStateChunk](#GetItemStateChunk)
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="SetItemStateChunk and GetItemStateChunk"/>
         <retvals>
             boolean retval - true, getting/setting was successful; false, getting/setting was unsuccessful
             string str - the value currently set
@@ -8608,6 +8617,7 @@
         <description prog_lang="*">
             deprecated, see GetSetProjectInfo_String with desc="PROJECT_AUTHOR"
         </description>
+        <deprecated since_when="Reaper 6.38" alternative="GetSetProjectInfo_String with desc=\"PROJECT_AUTHOR\""/>
         <retvals>
             string author - the (new) project's author
         </retvals>
@@ -8968,6 +8978,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             deprecated -- see [SetTrackStateChunk](#SetTrackStateChunk), [GetTrackStateChunk](#GetTrackStateChunk)
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="GetTrackStateChunk and SetTrackStateChunk"/>
         <retvals>
             boolean retval - 
             string str - 
@@ -8999,6 +9010,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             deprecated -- see [SetTrackStateChunk](#SetTrackStateChunk), [GetTrackStateChunk](#GetTrackStateChunk)
         </description>
+        <deprecated since_when="5.62" alternative="GetTrackStateChunk and SetTrackStateChunk"/>
         <retvals>
             boolean retval - 
             string str - 
@@ -23136,6 +23148,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Deprecated, see [GetSet\_ArrangeView2](#GetSet_ArrangeView2) (REAPER v5.12pre4+) -- Get start and end time position of arrange view. To set arrange view instead, see [BR\_SetArrangeView](#BR_SetArrangeView).
         </description>
+        <deprecated since_when="SWS 2.9.7" alternative="GetSet_ArrangeView2"/>
         <retvals>
             number startTime retval - the current starttime in the arrangeview in seconds
             number endTime - the current endtime in the arrangeview in seconds
@@ -23445,6 +23458,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             [BR] Deprecated, see [GetSetMediaTrackInfo\_String](#GetSetMediaTrackInfo_String) (v5.95+). Get media track GUID as a string (guidStringOut\_sz should be at least 64). To get media track back from GUID string, see [BR\_GetMediaTrackByGUID](#BR_GetMediaTrackByGUID).
         </description>
+        <deprecated since_when="SWS 2.12.1.1" alternative="GetSetMediaTrackInfo_String"/>
         <retvals>
             string guidString - the guid of the track
         </retvals>
@@ -23475,6 +23489,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Deprecated, see [GetSetMediaTrackInfo](#GetSetMediaTrackInfo) (REAPER v5.02+). Get media track layouts for MCP and TCP. Empty string ("") means that layout is set to the default layout. To set media track layouts, see [BR\_SetMediaTrackLayouts](#BR_SetMediaTrackLayouts).
         </description>
+        <deprecated since_when="SWS 2.9.7" alternative="GetSetMediaTrackInfo"/>
         <retvals>
             string mcpLayoutName - 
             string tcpLayoutName - 
@@ -24266,6 +24281,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Deprecated, see [GetSet\_ArrangeView2](#GetSet_ArrangeView2) (REAPER v5.12pre4+) -- Set start and end time position of arrange view. To get arrange view instead, see [BR\_GetArrangeView](#BR_GetArrangeView).
         </description>
+        <deprecated since_when="SWS 2.9.7" alternative="GetSet_ArrangeView2"/>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
             number startTime - the new starttime of the arrangewview in seconds
@@ -24395,6 +24411,7 @@
             \[BR\] Deprecated, see [GetSetMediaTrackInfo](#GetSetMediaTrackInfo) (REAPER v5.02+). Set media track layouts for MCP and TCP. To set default layout, pass empty string ("") as layout name. In case layouts were successfully set, returns true (if layouts are already set to supplied layout names, it will return false since no changes were made).
             To get media track layouts, see [BR\_GetMediaTrackLayouts](#BR_GetMediaTrackLayouts).
         </description>
+        <deprecated since_when="SWS 2.9.7" alternative="GetSetMediaTrackInfo"/>
         <retvals>
             boolean retval - 
         </retvals>
@@ -25562,6 +25579,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             \[DEPRECATED: Use [CF\_GetClipboard](#CF_GetClipboard)\] Read the contents of the system clipboard. See [SNM\_CreateFastString](#SNM_CreateFastString) and [SNM\_DeleteFastString](#SNM_DeleteFastString).
         </description>
+        <deprecated since_when="SWS 2.11.0" alternative="CF_GetClipboard"/>
         <retvals>
             string clipboard_content - the content of the clipboard
         </retvals>
@@ -26064,6 +26082,7 @@
             type -1=Default type (user preferences), 0=Post-Fader (Post-Pan), 1=Pre-FX, 2=deprecated, 3=Pre-Fader (Post-FX).
             Note: obeys default sends preferences, supports frozen tracks, etc..
         </description>
+        <deprecated since_when="SWS 2.9.7" alternative="CreateTrackSend"/>
         <retvals>
             boolean retval - 
         </retvals>
@@ -26517,6 +26536,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             [S&amp;M] Deprecated, see [GetMediaSourceType](#GetMediaSourceType). Gets the source type of a take. Returns false if failed (e.g. take with empty source, etc..)
         </description>
+        <deprecated since_when="SWS 2.12.1" alternative="GetMediaSourceType"/>
         <retvals>
             boolean retval - 
         </retvals>
@@ -26548,6 +26568,7 @@
             [S&amp;M] Deprecated, see TakeFX_/TrackFX_ CopyToTrack/Take, TrackFX/TakeFX _Delete (v5.95pre2+). Move or removes a track FX. Returns true if tr has been updated.
             fxId: fx index in chain or -1 for the selected fx. what: 0 to remove, -1 to move fx up in chain, 1 to move fx down in chain.
         </description>
+        <deprecated since_when="SWS 2.10.0.1" alternative="TakeFX_/TrackFX_ CopyToTrack/Take, TrackFX/TakeFX _Delete"/>
         <retvals>
             boolean retval - 
         </retvals>
@@ -26612,6 +26633,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             \[S&amp;M\] Deprecated, see [RemoveTrackSend](#RemoveTrackSend) (v5.15pre1+). Removes a receive. Returns false if nothing updated.
         </description>
+        <deprecated since_when="SWS 2.9.7" alternative="RemoveTrackSend"/>
         <retvals>
             boolean retval - 
         </retvals>
@@ -26846,6 +26868,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             \[S&amp;M\] Deprecated, see [SetProjectMarker4](#SetProjectMarker4) -- Same function as SetProjectMarker3() except it can set empty names "".
         </description>
+        <deprecated since_when="SWS 2.9.7" alternative="SetProjectMarker4"/>
         <retvals>
             boolean retval - 
         </retvals>
@@ -26967,6 +26990,7 @@
 
             [ULT] Deprecated, see [GetSetMediaItemInfo\_String](#GetSetMediaItemInfo_String) (v5.95+). Get item notes.
         </description>
+        <deprecated since_when="SWS 2.12.1.1" alternative="GetSetMediaItemInfo_String"/>
         <retvals>
             string str - the notes, as stored in the MediaItem. If no notes exist, it will return ""
         </retvals>
@@ -26997,6 +27021,7 @@
         <description markup_type="markdown" markup_version="1.0.1" prog_lang="*">
             [ULT] Deprecated, see [GetSetMediaItemInfo\_String](#GetSetMediaItemInfo_String) (v5.95+). Set item notes.
         </description>
+        <deprecated since_when="SWS 2.9.7" alternative="GetSetMediaItemInfo_String"/>
         <parameters>
             MediaItem item - the MediaItem in which to add the Notes
             string note - the notes to be added. Newlines are allowed. Long strings may slow down Reaper!
@@ -30232,6 +30257,7 @@
         <description>
             deprecated
         </description>
+        <deprecated since_when="JS 0.980" alternative=""/>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -30256,6 +30282,7 @@
         <description>
            deprecated
         </description>
+        <deprecated since_when="JS 0.980" alternative=""/>
         <retvals>
            boolean retval - 
            string state - 
@@ -32156,6 +32183,7 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Deprecated - use [GetViewportFromRect](#GetViewportFromRect) instead.
         </description>
+        <deprecated since_when="JS 0.963" alternative="GetViewportFromRect"/>
         <retvals>
             integer left - 
             integer top - 
@@ -32264,6 +32292,7 @@
         <description>
             deprecated, removed from JS_0.952 and later
         </description>
+        <deprecated since_when="JS 0.951" alternative="" removed="yes"/>
         <retvals>
            boolean  - 
         </retvals>
@@ -35750,6 +35779,7 @@
 
             See [BR\_TrackFX\_GetFXModuleName](#BR_TrackFX_GetFXModuleName). fx: counted consecutively across all takes (zero-based).
         </description>
+        <deprecated since_when="SWS 2.11.0" alternative="BR_TrackFX_GetFXModuleName"/>
         <retvals>
             boolean retval - true, modulename could be retrieved; false, modulename couldn't be retrieved(e.g. no such fx)
             string name - the name of the module
@@ -36888,6 +36918,7 @@ Mespotine
             
             Note: the naming of the function might be misleading, as it has nothing to do with blitting of text, but rather is called Blit Ext.
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="gfx_blit"/>
         <parameters>
             integer source - 
             array coordinatelist - 
@@ -39662,6 +39693,7 @@ mespotine
             
             Note: the naming of the function might be misleading, as it has nothing to do with blitting of text, but rather is called Blit Ext.
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="gfx_blit"/>
         <retvals>
             number retval - the index of the source that got blitted
         </retvals>
@@ -41948,6 +41980,7 @@ mespotine
         <description indent="default">
             Deprecated.
         </description>
+        <deprecated since_when="Reaper 5.62"/>
         <retvals>
             void* -
         </retvals>
@@ -42016,6 +42049,7 @@ mespotine
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Deprecated, see [GetColorThemeStruct](#GetColorThemeStruct).
         </description>
+        <deprecated since_when="Reaper 5.62" alternative="GetColorThemeStruct"/>
         <retvals>
             INT_PTR retval -
         </retvals>

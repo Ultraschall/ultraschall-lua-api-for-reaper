@@ -52,6 +52,11 @@ function SwitchBeta()
   end
 end
 --]]
+function set_depr_val()
+    local num1 =  GUI.Val("Deprecated")
+--    print2(num1)
+    reaper.SetExtState("ultraschall_api", "deprecated_script_checker_ask", num1, true)
+end
 
 GUI.name = "Ultraschall API - Settings"
 GUI.x, GUI.y = 128, 128
@@ -70,6 +75,12 @@ if dontask=="false" then dontask=0 else dontask=1 end
 GUI.New("DontAsk",   "Radio", 6, 200,  26, 160, 95, "   Confirmdialogs\n   in Devtools?\n", "don't ask, ask", "v", 4)
 GUI.Val("DontAsk", dontask+1)
 GUI.New("Target2", "Button",  1, 280,  85,  64, 24, "Confirm", set_ask_val)
+
+deprecated_state=reaper.GetExtState("ultraschall_api", "deprecated_script_checker_ask")
+if deprecated_state=="false" then deprecated_state=0 else deprecated_state=1 end
+GUI.New("Deprecated",   "Radio", 6, 20,  226, 160, 120, "Ask for Subfolder in\n Deprecated Checker?\n", "subfolder,no subfolder,ask", "v", 4)
+GUI.Val("Deprecated", deprecated_state+1)
+GUI.New("Target3", "Button",  1, 100,  310,  64, 24, "Set", set_depr_val)
 
 -- Allow Beta functions?
 --beta=reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/beta.txt")

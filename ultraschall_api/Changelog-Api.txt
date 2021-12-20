@@ -400,7 +400,7 @@ Doesn't work on Windows 7???
 
 ### 4.2.006 - "The Beatles - The continuing story of Bungalow Bill" - XX of YYYY 2022
 
-Has now 1416 functions, with 10 new ones
+Has now 1417 functions, with 11 new ones
 
 **new in this release:**  
 
@@ -409,7 +409,11 @@ Has now 1416 functions, with 10 new ones
   
   
 #### New features in 4.2.006  
+  - DeveloperTools: Check scripts in folder for deprecated functions - checks, whether a folder contains Lua-scripts that ue deprecated or removed API-functions
+  - Docs: function changelogs - include now changelogs for each function beginning from Reaper 6.42+, SWS 2.12.1.3+, ReaBlink 0.4.0, JS 1.22+, ReaImGui 0.5.8+
+  - Docs: deprecated-states - include now deprecated-states for each depreacted function which includes since when and a possible alternative
   - Doc-Engine: Docs\_GetUSDocBloc\_Changelog - returns the changelogs from each US-DocML-entry
+  - Doc-Engine: Docs\_GetUSDocBloc\_Deprecated - returns the attributes of the deprecated-tag of an US-DocBloc
   - Doc-Engine: Docs\_GetUSDocBloc\_LinkedTo - returns the entries of the linked_to-tags insie an USDocML-entry
   - GFX-Management: GFX\_GetChar - a more powerful version of gfx.getchar, with additional clipboard management and conversion of non-printable characters to readable ones
   - Helper Functions: ReturnReaperExeFile\_With\_Path - returns the name of the reaper-executable including its path

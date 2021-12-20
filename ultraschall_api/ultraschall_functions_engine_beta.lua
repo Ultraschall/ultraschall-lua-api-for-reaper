@@ -2318,3 +2318,45 @@ function ultraschall.GFX_GetChar(character, manage_clipboard, to_clipboard, read
   --  end
   return first, CharacterCount, CharacterTable--, B, C
 end
+
+function ultraschall.Docs_GetUSDocBloc_Deprecated(US_DocBloc)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUSDocBloc_Deprecated</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>string what, string when, string alternative = ultraschall.Docs_GetUSDocBloc_Deprecated(string US_DocBloc)</functioncall>
+  <description>
+    returns the deprecated-tag of an US-DocBloc, which holds the information about, is a function is deprecated and what to use alternatively.
+    
+    returns nil in case of an error or if no such deprecated-tag exists for this US_DocBloc
+  </description>
+  <retvals>
+    string what - which software deprecated the function "Reaper" or "SWS" or "JS", etc
+    string when - since which version is this function deprecated
+    string alternative - what is a possible alternative to this function, if existing
+    string removed - function got removed
+  </retvals>
+  <parameters>
+    string US_DocBloc - a string which hold a US_DocBloc to retrieve the deprecated-tag-attributes from
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, deprecated, usdocbloc</tags>
+</US_DocBloc>
+]]  
+  if type(US_DocBloc)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Deprecated", "US_DocBloc", "must be a string", -1) return end
+  local Deprecated=US_DocBloc:match("<deprecated .*/>")
+  if Deprecated == nil then return end
+  local DepreWhat, Depr_SinceWhen=Deprecated:match("since_when=\"(.-) (.-)\"")
+  local Depr_Alternative=Deprecated:match("alternative=\"(.-)\"")
+  local Depr_Removed=Deprecated:match("removed=\"(.-)\"")
+  --print2(Depr_Removed)
+  return DepreWhat, Depr_SinceWhen, Depr_Alternative, Depr_Removed~=nil
+end
