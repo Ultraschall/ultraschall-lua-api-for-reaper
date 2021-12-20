@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="49867.00" author="Meo Mespotine">
+      <version name="49881.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -401,7 +401,6 @@
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Visualize_VideoSamplePeekerJSFX.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Scripts_Examples/US_Api_Examples_Visualize_VideoSamplePeekerJSFX.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua</source>
-	<source file="/ultraschall_api/beta.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/beta.txt</source>
 	<source file="/ultraschall_api/misc/Launchpad_functions.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/misc/Launchpad_functions.lua</source>
 	<source file="/ultraschall_api/misc/Markdown_Newspeak-1.0-draft" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/misc/Markdown_Newspeak-1.0-draft</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/misc/USDocML-Specs1_0.txt</source>
@@ -520,14 +519,15 @@ Changes from 4.2.005 to 4.2.006
 -   DocEngine: Docs_GetUSDocBloc_Description - had problems with
     description-tags without any line in it -> fixed
 -   DocEngine: Docs_RemoveIndent - had inner variable exposed -> fixed
--   Docs: Reaper Internals - updated to Reaper 6.43 and ReaImGui 0.5.8
--   Docs: Reaper-API-docs - All-View jumped to the top of the document
-    instead of just unhiding functioncalls -> fixed
 -   Docs: All docs - you can create now a custom.css file in the
     Documentation-folder to customize the style of the docs
 -   Docs: MediaItemStateChunk-docs - added new behavior of Reaper 6.33
     to just enclose source-files with " that have a space in filename or
     path
+-   Docs: Reaper Internals - updated to Reaper 6.43 and ReaImGui 0.5.8
+-   Docs: Reaper-API-docs - All-View jumped to the top of the document
+    instead of just unhiding functioncalls -> fixed
+-   Docs: RenderPreset-Configfile.txt - updated to Reaper 6.43
 -   EventManager: general - didn’t start on Linux distributions due
     case-typo in ultraschall_EventManager.lua-filename -> fixed (thanks
     to dronenb)
@@ -555,6 +555,10 @@ Changes from 4.2.005 to 4.2.006
     existing ParmLearns and threw nil error -> fixed(thanks to TonE)
 -   ParmLearn: SetParmLearn_FXStateChunk2 - had massive errors in the
     docs -> fixed(thanks to TonE)
+-   ProjectManagement: GetProject_Render_Normalize - supports now
+    brickwall-settings
+-   ProjectManagement: SetProject_Render_Normalize - supports now
+    brickwall-settings
 -   Rendering: CreateRenderCFG_WAV - supports now 32 Bit PCM(7) and 8
     Bit u-Law(8) as BitDepth
 -   Rendering: GetOutputFormat_RenderCfg - supports now CAF as well
@@ -574,6 +578,8 @@ Changes from 4.2.005 to 4.2.006
     the default-project-render-settings for wavpack
 -   Rendering: GetRenderCFG_Settings_XXX - all those functions could
     produce error, when sending in non-Base-64-strings -> fixed
+-   Rendering: GetRenderTable_Project - supports now
+    brickwall-normalization
 -   Rendering: RenderProject_RenderTable - didn’t return filenames due
     changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)
 -   Rendering: various - many render-cfg-functions who work with floats
@@ -606,7 +612,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1427 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49867 from 20.12.2021 03:21:59).}
+a 1427 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49881 from 20.12.2021 06:38:38).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -744,7 +750,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1427 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49867 from 20.12.2021 03:21:59).}
+a 1427 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49881 from 20.12.2021 06:38:38).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

@@ -38227,7 +38227,7 @@ Returns nil in case of error.
 <hr>
 <a class="anch" id="GetProject_Render_Normalize"></a>
 <a href="#GetProject_Render_Normalize"> ^</a> 
-<img width="3%" src="gfx/reaper6.32.png" alt="Reaper version 6.32">
+<img width="3%" src="gfx/reaper6.42.png" alt="Reaper version 6.42">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetProject_Render_Normalize</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> render_normalize_mode, <i>number</i> normalize_target = <em>ultraschall.GetProject_Render_Normalize</em>(<i>string</i> projectfilename_with_path, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
@@ -38254,10 +38254,20 @@ returns nil in case of an error
 10, LUFS-S max<br/>
 &32, Normalize stems to master target-checkbox<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;0, unchecked(off)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;1, checked(on)</td></tr>
+&nbsp;&nbsp;&nbsp;&nbsp;1, checked(on)<br/>
+&64, Brickwall-enabled-checkbox<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0, unchecked(off)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;1, checked(on)<br/>
+&128, Brickwall-mode<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0, Peak<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;1, True Peak</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> normalize_target</td></tr>
+<tr><td class="ch2">the normalize-target as amp-volume. Use ultraschall.MKVOL2DB to convert it to dB.</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> brickwall_target</td></tr>
 <tr><td class="ch2">the normalize-target as amp-volume. Use ultraschall.MKVOL2DB to convert it to dB.</td></tr>
 </table>
 <br>
@@ -42621,10 +42631,10 @@ Returns -1 in case of error.
 <hr>
 <a class="anch" id="SetProject_Render_Normalize"></a>
 <a href="#SetProject_Render_Normalize"> ^</a> 
-<img width="3%" src="gfx/reaper6.32.png" alt="Reaper version 6.32">
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>SetProject_Render_Normalize</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> retval = <em>ultraschall.SetProject_Render_Normalize</em>(<i>string</i> projectfilename_with_path, <i>integer</i> render_normalize_method, <i>number</i> normalize_target, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>ultraschall.SetProject_Render_Normalize</em>(<i>string</i> projectfilename_with_path, <i>integer</i> render_normalize_method, <i>number</i> normalize_target, <i>optional</i> <i>string</i> ProjectStateChunk, <i>optional</i> <i>number</i> brickwall_target)</code></div>
 </div><p>
 <div class="ch">
 <p>Sets the panmode for the master-track of an rpp-projectfile or a ProjectStateChunk.</p>
@@ -42656,7 +42666,13 @@ Returns -1 in case of error.
 10, LUFS-S max<br/>
 &32, Normalize stems to master target-checkbox<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;0, unchecked(off)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;1, checked(on)</td></tr>
+&nbsp;&nbsp;&nbsp;&nbsp;1, checked(on)<br/>
+&64, Brickwall-enabled-checkbox<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0, unchecked(off)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;1, checked(on)<br/>
+&128, Brickwall-mode<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0, Peak<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;1, True Peak</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> normalize_target</td></tr>
@@ -42665,6 +42681,10 @@ Returns -1 in case of error.
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>string</i> ProjectStateChunk</td></tr>
 <tr><td class="ch2">a projectstatechunk, that you want to be changed</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> brickwall_target</td></tr>
+<tr><td class="ch2">the brickwall-normalizatin-target as amp-volume. Use ultraschall.DB2MKVOL to convert it from dB.</td></tr>
 </table>
 <br>
 </div>
@@ -45237,7 +45257,7 @@ returns the last 12 used render-patterns, that have been used for rendering by a
 <hr>
 <a class="anch" id="GetRenderTable_Project"></a>
 <a href="#GetRenderTable_Project"> ^</a> 
-<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
+<img width="3%" src="gfx/reaper6.42.png" alt="Reaper version 6.42">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/js_0.972.png" alt="JS version 0.972">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetRenderTable_Project</b></u><br>			<p>
@@ -45268,6 +45288,9 @@ returns the last 12 used render-patterns, that have been used for rendering by a
     RenderTable[&quot;Enable2ndPassRender&quot;] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
     RenderTable[&quot;Endposition&quot;] - the endposition of the rendering selection in seconds            
     RenderTable[&quot;MultiChannelFiles&quot;] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
+    RenderTable[&quot;Normalize_Brickwall_Limit&quot;] - the volume of the brickwall-limit
+    RenderTable[&quot;Normalize_Brickwall_Mode&quot;] - true, brickall limiting is enabled; false, brickwall limiting is disabled
+    RenderTable[&quot;Normalize_Brickwall_Method&quot;] - brickwall-normalize-mode; 1, peak; 2, true peak
     RenderTable[&quot;Normalize_Enabled&quot;] - true, normalization enabled; false, normalization not enabled
     RenderTable[&quot;Normalize_Method&quot;] - the normalize-method-dropdownlist
                    0, LUFS-I

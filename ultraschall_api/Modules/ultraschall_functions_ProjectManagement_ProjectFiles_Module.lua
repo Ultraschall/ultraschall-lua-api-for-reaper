@@ -11923,7 +11923,7 @@ function ultraschall.GetProject_Render_Normalize(projectfilename_with_path, Proj
   <slug>GetProject_Render_Normalize</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.32
+    Reaper=6.42
     Lua=5.3
   </requires>
   <functioncall>integer render_normalize_mode, number normalize_target = ultraschall.GetProject_Render_Normalize(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
@@ -11952,7 +11952,14 @@ function ultraschall.GetProject_Render_Normalize(projectfilename_with_path, Proj
                                     - &32, Normalize stems to master target-checkbox
                                     -     0, unchecked(off)
                                     -     1, checked(on)
+                                    - &64, Brickwall-enabled-checkbox
+                                    -     0, unchecked(off)
+                                    -     1, checked(on)
+                                    - &128, Brickwall-mode
+                                    -     0, Peak
+                                    -     1, True Peak
     number normalize_target - the normalize-target as amp-volume. Use ultraschall.MKVOL2DB to convert it to dB.
+    number brickwall_target - the normalize-target as amp-volume. Use ultraschall.MKVOL2DB to convert it to dB.
   </retvals>
   <chapter_context>
     Project-Management
@@ -11966,20 +11973,20 @@ function ultraschall.GetProject_Render_Normalize(projectfilename_with_path, Proj
   return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_NORMALIZE", ProjectStateChunk, "GetProject_Render_Normalize")
 end
 
-function ultraschall.SetProject_Render_Normalize(projectfilename_with_path, render_normalize_method, normalize_target, ProjectStateChunk)
+function ultraschall.SetProject_Render_Normalize(projectfilename_with_path, render_normalize_method, normalize_target, ProjectStateChunk, brickwall_target)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_Render_Normalize</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.32
+    Reaper=6.43
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_Render_Normalize(string projectfilename_with_path, integer render_normalize_method, number normalize_target, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval = ultraschall.SetProject_Render_Normalize(string projectfilename_with_path, integer render_normalize_method, number normalize_target, optional string ProjectStateChunk, optional number brickwall_target)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets the panmode for the master-track of an rpp-projectfile or a ProjectStateChunk.
     
-    It's the entry RENDER_NORMALIZE 
+    It's the entry RENDER_NORMALIZE
     
     Returns -1 in case of error.
   </description>
@@ -11998,8 +12005,15 @@ function ultraschall.SetProject_Render_Normalize(projectfilename_with_path, rend
                                     - &32, Normalize stems to master target-checkbox
                                     -     0, unchecked(off)
                                     -     1, checked(on)
+                                    - &64, Brickwall-enabled-checkbox
+                                    -     0, unchecked(off)
+                                    -     1, checked(on)
+                                    - &128, Brickwall-mode
+                                    -     0, Peak
+                                    -     1, True Peak
     number normalize_target - the normalize-target as amp-volume. Use ultraschall.DB2MKVOL to convert it from dB.
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+    optional number brickwall_target - the brickwall-normalizatin-target as amp-volume. Use ultraschall.DB2MKVOL to convert it from dB.
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
@@ -12010,20 +12024,23 @@ function ultraschall.SetProject_Render_Normalize(projectfilename_with_path, rend
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
-  <tags>projectfiles, rpp, state, set, master track, panmode</tags>
+  <tags>projectfiles, rpp, state, set, render, normalize, brickwall</tags>
 </US_DocBloc>
 ]]  
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "projectfilename_with_path", "File does not exist", -2) return -1 end
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+
   if math.type(render_normalize_method)~="integer" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "render_normalize_method", "Must be an integer", -4) return -1 end
   if type(normalize_target)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "normalize_target", "Must be a number", -5) return -1 end
+  if brickwall_target~=nil and type(brickwall_target)~="number" then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "brickwall_target", "Must be a number", -7) return -1 end
 
   if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Render_Normalize", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
-  
+  if brickwall_target==nil then brickwall_target="" else brickwall_target=" "..brickwall_target end
   local ProjectEntry=""
-  ProjectEntry="  RENDER_NORMALIZE "..render_normalize_method.." "..normalize_target.."\n" 
+  
+  ProjectEntry="  RENDER_NORMALIZE "..render_normalize_method.." "..normalize_target..brickwall_target.."\n" 
   
   if ProjectStateChunk:match("RENDER_NORMALIZE")~=nil then
     ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  RENDER_NORMALIZE .-%c", "\n"..ProjectEntry)

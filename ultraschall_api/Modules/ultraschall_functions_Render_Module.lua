@@ -2219,7 +2219,7 @@ function ultraschall.GetRenderTable_Project()
   <slug>GetRenderTable_Project</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.20
+    Reaper=6.42
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -2250,6 +2250,9 @@ function ultraschall.GetRenderTable_Project()
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds            
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
+            RenderTable["Normalize_Brickwall_Limit"] - the volume of the brickwall-limit
+            RenderTable["Normalize_Brickwall_Mode"] - true, brickall limiting is enabled; false, brickwall limiting is disabled
+            RenderTable["Normalize_Brickwall_Method"] - brickwall-normalize-mode; 1, peak; 2, true peak
             RenderTable["Normalize_Enabled"] - true, normalization enabled; false, normalization not enabled
             RenderTable["Normalize_Method"] - the normalize-method-dropdownlist
                            0, LUFS-I
@@ -2391,6 +2394,7 @@ function ultraschall.GetRenderTable_Project()
   if RenderTable["SaveCopyOfProject"]==1 then RenderTable["SaveCopyOfProject"]=true else RenderTable["SaveCopyOfProject"]=false end
   
   RenderTable["Normalize_Method"]=math.tointeger(reaper.GetSetProjectInfo(0, "RENDER_NORMALIZE", 0, false))
+  
   RenderTable["Normalize_Enabled"]=reaper.GetSetProjectInfo(0, "RENDER_NORMALIZE", 0, false)&1==1
   if RenderTable["Normalize_Enabled"]==true then RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-1 end
   if reaper.GetSetProjectInfo(0, "RENDER_NORMALIZE_TARGET", 0, false)~="" then
@@ -2398,6 +2402,25 @@ function ultraschall.GetRenderTable_Project()
   else
     RenderTable["Normalize_Target"]=-24
   end
+  
+  
+  
+ -- print_update(RenderTable["Normalize_Method"]&128, RenderTable["Normalize_Method"]&64, RenderTable["Normalize_Method"])
+  if RenderTable["Normalize_Method"]&128==0 then     
+    RenderTable["Normalize_Brickwall_Method"]=1    
+  elseif RenderTable["Normalize_Method"]&128==128 then
+    RenderTable["Normalize_Brickwall_Method"]=2
+    RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-128
+  end
+  
+  if RenderTable["Normalize_Method"]&64==64 then 
+    RenderTable["Normalize_Brickwall_Mode"]=true
+    RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-64
+  elseif RenderTable["Normalize_Method"]&64==0 then 
+    RenderTable["Normalize_Brickwall_Mode"]=false
+  end
+  
+  RenderTable["Normalize_Brickwall_Limit"]=ultraschall.MKVOL2DB(reaper.GetSetProjectInfo(0, "RENDER_BRICKWALL", 0, false))
   RenderTable["Normalize_Stems_to_Master_Target"]=RenderTable["Normalize_Method"]&32==32
   if RenderTable["Normalize_Stems_to_Master_Target"]==true then RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-32 end
   RenderTable["Normalize_Method"]=math.tointeger(RenderTable["Normalize_Method"]/2)  

@@ -70,11 +70,12 @@ Bla</li>
 <li>DeveloperTools: ultraschall_developertool_Display-Altered-ConfigFile-Entries - shows diffs to old values when entries are numerical; added missing ini-files</li>
 <li>DocEngine: Docs_GetUSDocBloc_Description - had problems with description-tags without any line in it -&gt; fixed</li>
 <li>DocEngine: Docs_RemoveIndent - had inner variable exposed -&gt; fixed</li>
-<li>Docs: Reaper Internals - updated to Reaper 6.43 and ReaImGui 0.5.8</li>
-<li>Docs: Reaper-API-docs - All-View jumped to the top of the document instead of just unhiding functioncalls -&gt; fixed</li>
 <li>Docs: All docs - you can create now a custom.css file in the Documentation-folder to customize the style of the docs</li>
 <li>Docs: MediaItemStateChunk-docs - added new behavior of Reaper 6.33 to just enclose source-files with " that have a space in filename or path<br />
 </li>
+<li>Docs: Reaper Internals - updated to Reaper 6.43 and ReaImGui 0.5.8</li>
+<li>Docs: Reaper-API-docs - All-View jumped to the top of the document instead of just unhiding functioncalls -&gt; fixed</li>
+<li>Docs: RenderPreset-Configfile.txt - updated to Reaper 6.43</li>
 <li>EventManager: general - didn't start on Linux distributions due case-typo in ultraschall_EventManager.lua-filename -&gt; fixed (thanks to dronenb)</li>
 <li>FileManagement: GetAllDirectoriesInPath - has now an optional filter-parameter, to just get directories of a certain pattern</li>
 <li>FileManagement: GetAllFilenamesInPath - has now an optional filter-parameter, to just get filenames of a certain pattern; returned pure path as well -&gt; fixed</li>
@@ -87,6 +88,8 @@ Bla</li>
 <li>ParmLearn: AddParmLearn_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -&gt; fixed(thanks to TonE)</li>
 <li>ParmLearn: GetParmLearn_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -&gt; fixed(thanks to TonE)</li>
 <li>ParmLearn: SetParmLearn_FXStateChunk2 - had massive errors in the docs -&gt; fixed(thanks to TonE)</li>
+<li>ProjectManagement: GetProject_Render_Normalize - supports now brickwall-settings</li>
+<li>ProjectManagement: SetProject_Render_Normalize - supports now brickwall-settings</li>
 <li>Rendering: CreateRenderCFG_WAV - supports now 32 Bit PCM(7) and 8 Bit u-Law(8) as BitDepth</li>
 <li>Rendering: GetOutputFormat_RenderCfg - supports now CAF as well</li>
 <li>Rendering: GetRenderCFG_Settings_AIFF - when passing nil, it returns now the default-project-render-settings for aiff</li>
@@ -99,6 +102,7 @@ Bla</li>
 <li>Rendering: GetRenderCFG_WAVPACK - when passing nil, it returns now the default-project-render-settings for wavpack</li>
 <li>Rendering: GetRenderCFG_Settings_XXX - all those functions could produce error, when sending in non-Base-64-strings -&gt; fixed<br />
 </li>
+<li>Rendering: GetRenderTable_Project - supports now brickwall-normalization</li>
 <li>Rendering: RenderProject_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -&gt; fixed(thnx to aurelien)</li>
 <li>Rendering: various - many render-cfg-functions who work with floats didn't work properly -&gt; fixed</li>
 <li>User Interface: Windows_Find - had inner variable exposed -&gt; fixed</li>
