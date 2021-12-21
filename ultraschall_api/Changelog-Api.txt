@@ -454,6 +454,7 @@ Has now 1417 functions, with 11 new ones
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
   - ProjectManagement: GetProject\_Render\_Normalize - supports now brickwall-settings
   - ProjectManagement: SetProject\_Render\_Normalize - supports now brickwall-settings
+  - Rendering: ApplyRenderTable\_Project - supports now brickwall-normalization
   - Rendering: CreateRenderCFG\_WAV - supports now 32 Bit PCM(7) and 8 Bit u-Law(8) as BitDepth
   - Rendering: GetOutputFormat\_RenderCfg - supports now CAF as well
   - Rendering: GetRenderCFG\_Settings\_AIFF - when passing nil, it returns now the default-project-render-settings for aiff
@@ -464,7 +465,9 @@ Has now 1417 functions, with 11 new ones
   - Rendering: GetRenderCFG\_WAVPACK - when passing nil, it returns now the default-project-render-settings for wavpack
   - Rendering: GetRenderCFG\_Settings\_XXX - all those functions could produce error, when sending in non-Base-64-strings -> fixed      
   - Rendering: GetRenderTable\_Project - supports now brickwall-normalization
-  - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)
+  - Rendering: GetRenderTable\_ProjectFile - supports now brickwall-normalization  
+  - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)  
+  - Rendering: IsValidRenderTable - supports now brickwall-normalization
   - Rendering: various - many render-cfg-functions who work with floats didn't work properly -> fixed
   - User Interface: Windows\_Find - had inner variable exposed -> fixed
   

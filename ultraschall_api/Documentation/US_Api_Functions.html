@@ -44662,7 +44662,7 @@ Returns -1 in case of an error
 <hr>
 <a class="anch" id="ApplyRenderTable_Project"></a>
 <a href="#ApplyRenderTable_Project"> ^</a> 
-<img width="3%" src="gfx/reaper6.32.png" alt="Reaper version 6.32">
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/js_0.972.png" alt="JS version 0.972">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>ApplyRenderTable_Project</b></u><br>			<p>
@@ -44697,7 +44697,10 @@ Returns -1 in case of an error
     RenderTable[&quot;EmbedTakeMarkers&quot;]    - Embed Take markers; true, checked; false, unchecked
     RenderTable[&quot;Enable2ndPassRender&quot;] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
     RenderTable[&quot;Endposition&quot;]         - the endposition of the rendering selection in seconds
-    RenderTable[&quot;MultiChannelFiles&quot;]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;MultiChannelFiles&quot;]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
+    RenderTable[&quot;Normalize_Brickwall_Limit&quot;] - the volume of the brickwall-limit
+    RenderTable[&quot;Normalize_Brickwall_Method&quot;] - brickwall-normalize-mode; 1, peak; 2, true peak
+    RenderTable[&quot;Normalize_Brickwall_Mode&quot;] - true, brickall limiting is enabled; false, brickwall limiting is disabled            
     RenderTable[&quot;Normalize_Enabled&quot;]   - true, normalization enabled; 
                                          false, normalization not enabled
     RenderTable[&quot;Normalize_Method&quot;]    - the normalize-method-dropdownlist
@@ -45257,7 +45260,7 @@ returns the last 12 used render-patterns, that have been used for rendering by a
 <hr>
 <a class="anch" id="GetRenderTable_Project"></a>
 <a href="#GetRenderTable_Project"> ^</a> 
-<img width="3%" src="gfx/reaper6.42.png" alt="Reaper version 6.42">
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/js_0.972.png" alt="JS version 0.972">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetRenderTable_Project</b></u><br>			<p>
@@ -45289,8 +45292,8 @@ returns the last 12 used render-patterns, that have been used for rendering by a
     RenderTable[&quot;Endposition&quot;] - the endposition of the rendering selection in seconds            
     RenderTable[&quot;MultiChannelFiles&quot;] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
     RenderTable[&quot;Normalize_Brickwall_Limit&quot;] - the volume of the brickwall-limit
-    RenderTable[&quot;Normalize_Brickwall_Mode&quot;] - true, brickall limiting is enabled; false, brickwall limiting is disabled
     RenderTable[&quot;Normalize_Brickwall_Method&quot;] - brickwall-normalize-mode; 1, peak; 2, true peak
+    RenderTable[&quot;Normalize_Brickwall_Mode&quot;] - true, brickall limiting is enabled; false, brickwall limiting is disabled            
     RenderTable[&quot;Normalize_Enabled&quot;] - true, normalization enabled; false, normalization not enabled
     RenderTable[&quot;Normalize_Method&quot;] - the normalize-method-dropdownlist
                    0, LUFS-I
@@ -45368,7 +45371,7 @@ use 0, for the currently active project; 1, for the first project-tab; 2, for th
 <hr>
 <a class="anch" id="GetRenderTable_ProjectFile"></a>
 <a href="#GetRenderTable_ProjectFile"> ^</a> 
-<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetRenderTable_ProjectFile</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderTable_ProjectFile</em>(<i>string</i> projectfilename_with_path)</code></div>
@@ -45407,6 +45410,9 @@ use 0, for the currently active project; 1, for the first project-tab; 2, for th
                                5, LUFS-S max
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target; false, don&#39;t normalize stems to master-target
     RenderTable[&quot;Normalize_Target&quot;] - the normalize-target as dB-value
+    RenderTable[&quot;Normalize_Brickwall_Limit&quot;] - the volume of the brickwall-limit
+    RenderTable[&quot;Normalize_Brickwall_Method&quot;] - brickwall-normalize-mode; 1, peak; 2, true peak
+    RenderTable[&quot;Normalize_Brickwall_Mode&quot;] - true, brickall limiting is enabled; false, brickwall limiting is disabled
     RenderTable[&quot;NoSilentRender&quot;] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
     RenderTable[&quot;OfflineOnlineRendering&quot;] - Offline/Online rendering-dropdownlist; 
                                             0, Full-speed Offline; 
@@ -45538,7 +45544,7 @@ Returns, if Reaper is currently rendering and the rendering position and project
 <hr>
 <a class="anch" id="IsValidRenderTable"></a>
 <a href="#IsValidRenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper6.32.png" alt="Reaper version 6.32">
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>IsValidRenderTable</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.IsValidRenderTable</em>(<i>table</i> RenderTable)</code></div>
