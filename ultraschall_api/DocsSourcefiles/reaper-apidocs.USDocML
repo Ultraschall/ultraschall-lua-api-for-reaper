@@ -5634,7 +5634,7 @@
             Reaper=6.16
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Return value has 1 set if track FX, 2 if take/item FX, 4 set if FX is no longer focused but still open. 
+            Return value has 1 set if track FX, 2 if take/item FX, &4 is set if FX is no longer focused but still open. 
 
             tracknumber==0 means the master track, 1 means track 1, etc. itemnumber is zero-based (or -1 if not an item). 
 
@@ -5644,7 +5644,7 @@
             integer retval - 0, if no FX window has focus
                            - 1, if a track FX window has focus or was the last focused and still open
                            - 2, if an item FX window has focus or was the last focused and still open
-                           - 4, if FX is no longer focused but still open
+                           - &4, if FX is no longer focused but still open
             integer tracknumber - tracknumber; 0, master track; 1, track 1; etc. 
             integer itemnumber - -1, if it's a track-fx; 0 and higher, the mediaitem-number
             integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index

@@ -19283,7 +19283,7 @@ Set which track effect is active in the track's FX chain. The FX chain window do
 <div class="p">Python: <code> (<i>Int</i> retval, <i>Int</i> tracknumberOut, <i>Int</i> itemnumberOut, <i>Int</i> fxnumberOut) = <em>RPR_GetFocusedFX2</em>(tracknumberOut, itemnumberOut, fxnumberOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Return value has 1 set if track FX, 2 if take/item FX, 4 set if FX is no longer focused but still open.</p>
+<p>Return value has 1 set if track FX, 2 if take/item FX, &amp;4 is set if FX is no longer focused but still open.</p>
 <p>tracknumber==0 means the master track, 1 means track 1, etc. itemnumber is zero-based (or -1 if not an item).</p>
 <p>For interpretation of fxnumber, see <a href="#GetLastTouchedFX">GetLastTouchedFX</a>.</p>
 </div><br>      
@@ -19293,7 +19293,7 @@ Set which track effect is active in the track's FX chain. The FX chain window do
 <tr><td class="ch2">0, if no FX window has focus<br/>
 1, if a track FX window has focus or was the last focused and still open<br/>
 2, if an item FX window has focus or was the last focused and still open<br/>
-4, if FX is no longer focused but still open</td></tr>
+&4, if FX is no longer focused but still open</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> tracknumber</td></tr>
