@@ -596,6 +596,9 @@
                     RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; 
                                                 true, checked; 
                                                 false, unchecked
+                    RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+                    RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
+                    RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
                     RenderTable["Bounds"]    - 0, Custom time range; 
                                                1, Entire project; 
                                                2, Time selection; 
