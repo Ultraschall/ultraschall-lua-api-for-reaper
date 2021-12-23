@@ -14,10 +14,12 @@ MaxStars=2521
 
 
 
-gfx.init()
+gfx.init("Nirvana Screensaver")
 Stars={}
 UseStars=1200
 Saturation=255
+circlesize=20
+Help=true
 
 for i=1, MaxStars do
   Stars[i]={}
@@ -50,7 +52,7 @@ function main()
     Stars[i]["count"]=Stars[i]["count"]+0.001
     gfx.set(Stars[i]["r"], Stars[i]["g"], Stars[i]["b"], Stars[i]["a"])
     gfx.rect(Stars[i]["x"]+centerx, Stars[i]["y"]+centery, 2, 2, true)
-    gfx.arc(Stars[i]["x"]+centerx, Stars[i]["y"]+centery,Stars[i]["count"]*20,30,20,1)
+    gfx.arc(Stars[i]["x"]+centerx, Stars[i]["y"]+centery, Stars[i]["count"]*circlesize,30,20,1)
     gfx.set(Stars[i]["r"], Stars[i]["g"], Stars[i]["b"], 0.3)
     gfx.line(Stars[i]["x"]+centerx, Stars[i]["y"]+centery, Stars[i+1]["x"]+centerx, Stars[i+1]["y"]+centery,1)
     if (Stars[i]["x"]>gfx.w+centerx and Stars[i]["y"]>gfx.h+centery) or (Stars[i]["x"]<-centerx*2 or Stars[i]["y"]<-centerx*2) then
@@ -83,6 +85,33 @@ function main()
   
   if A==1919379572.0 then Saturation=Saturation+10 if Saturation>255 then Saturation=255 end gfx.x=gfx.w-200 gfx.set(1) gfx.y=gfx.h-gfx.texth gfx.drawstr("Saturation: "..Saturation) end
   if A==1818584692.0 then Saturation=Saturation-10 if Saturation<1 then Saturation=1 end gfx.x=gfx.w-200 gfx.set(1) gfx.y=gfx.h-gfx.texth gfx.drawstr("Saturation: "..Saturation) end
+
+  
+  if A==43 then circlesize=circlesize+1 gfx.x=gfx.w-200 gfx.set(1) gfx.y=gfx.h-gfx.texth gfx.drawstr("Circlesize: "..circlesize) end
+  if A==45 then circlesize=circlesize-1 gfx.x=gfx.w-200 gfx.set(1) gfx.y=gfx.h-gfx.texth gfx.drawstr("Circlesize: "..circlesize) end
+  
+  if A==104 and Help==true then Help=false elseif A==104 and Help==false then Help=true end
+  
+  if Help~=false then
+    gfx.set(1,1,1,0.6)
+    gfx.x=180
+    gfx.y=330
+    gfx.drawstr([[
+    Use H to toggle this help.
+    
+    Move mouse around to influence the patterns.
+    
+    
+    +/- influence circle-size
+    
+    up/down influence the number of shown elements
+    
+    left/right influence the saturation of shown elements
+    
+    
+    Have fun in Nirvana... - Meo-Ada Mespotine 2021
+    ]])
+  end
   
   if A~=-1 then
     reaper.defer(main)

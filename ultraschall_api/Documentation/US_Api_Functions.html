@@ -44676,6 +44676,9 @@ Returns -1 in case of an error
 <pre><code>    RenderTable[&quot;AddToProj&quot;] - Add rendered items to new tracks in project-checkbox; 
                                 true, checked; 
                                 false, unchecked
+    RenderTable[&quot;Brickwall_Limiter_Enabled&quot;] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+    RenderTable[&quot;Brickwall_Limiter_Method&quot;] - brickwall-limiting-mode; 1, peak; 2, true peak
+    RenderTable[&quot;Brickwall_Limiter_Target&quot;] - the volume of the brickwall-limit
     RenderTable[&quot;Bounds&quot;]    - 0, Custom time range; 
                                1, Entire project; 
                                2, Time selection; 
@@ -44698,9 +44701,6 @@ Returns -1 in case of an error
     RenderTable[&quot;Enable2ndPassRender&quot;] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
     RenderTable[&quot;Endposition&quot;]         - the endposition of the rendering selection in seconds
     RenderTable[&quot;MultiChannelFiles&quot;]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
-    RenderTable[&quot;Normalize_Brickwall_Limit&quot;] - the volume of the brickwall-limit
-    RenderTable[&quot;Normalize_Brickwall_Method&quot;] - brickwall-normalize-mode; 1, peak; 2, true peak
-    RenderTable[&quot;Normalize_Brickwall_Mode&quot;] - true, brickall limiting is enabled; false, brickwall limiting is disabled            
     RenderTable[&quot;Normalize_Enabled&quot;]   - true, normalization enabled; 
                                          false, normalization not enabled
     RenderTable[&quot;Normalize_Method&quot;]    - the normalize-method-dropdownlist
@@ -44798,7 +44798,7 @@ Returns -1 in case of an error
 <hr>
 <a class="anch" id="ApplyRenderTable_ProjectFile"></a>
 <a href="#ApplyRenderTable_ProjectFile"> ^</a> 
-<img width="3%" src="gfx/reaper6.32.png" alt="Reaper version 6.32">
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>ApplyRenderTable_ProjectFile</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> ProjectStateChunk = <em>ultraschall.ApplyRenderTable_ProjectFile</em>(<i>table</i> RenderTable, <i>string</i> projectfilename_with_path, <i>optional</i> <i>boolean</i> apply_rendercfg_string, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
@@ -44809,6 +44809,9 @@ Returns -1 in case of an error
 <pre><code>    RenderTable[&quot;AddToProj&quot;] - Add rendered items to new tracks in project-checkbox; 
                                 true, checked; 
                                 false, unchecked
+    RenderTable[&quot;Brickwall_Limiter_Enabled&quot;] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+    RenderTable[&quot;Brickwall_Limiter_Method&quot;] - brickwall-limiting-mode; 1, peak; 2, true peak
+    RenderTable[&quot;Brickwall_Limiter_Target&quot;] - the volume of the brickwall-limit
     RenderTable[&quot;Bounds&quot;]    - 0, Custom time range; 
                                1, Entire project; 
                                2, Time selection; 
@@ -44978,10 +44981,10 @@ Returns -1 in case of an error
 <hr>
 <a class="anch" id="CreateNewRenderTable"></a>
 <a href="#CreateNewRenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper6.32.png" alt="Reaper version 6.32">
+<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>CreateNewRenderTable</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.CreateNewRenderTable</em>(<i>optional</i> <i>integer</i> Source, <i>optional</i> <i>integer</i> Bounds, <i>optional</i> <i>number</i> Startposition, <i>optional</i> <i>number</i> Endposition, <i>optional</i> <i>integer</i> TailFlag, <i>optional</i> <i>integer</i> TailMS, <i>optional</i> <i>string</i> RenderFile, <i>optional</i> <i>string</i> RenderPattern, <i>optional</i> <i>integer</i> SampleRate, <i>optional</i> <i>integer</i> Channels, <i>optional</i> <i>integer</i> OfflineOnlineRendering, <i>optional</i> <i>boolean</i> ProjectSampleRateFXProcessing, <i>optional</i> <i>integer</i> RenderResample, <i>optional</i> <i>boolean</i> OnlyMonoMedia, <i>optional</i> <i>boolean</i> MultiChannelFiles, <i>optional</i> <i>integer</i> Dither, <i>optional</i> <i>string</i> RenderString, <i>optional</i> <i>boolean</i> SilentlyIncrementFilename, <i>optional</i> <i>boolean</i> AddToProj, <i>optional</i> <i>boolean</i> SaveCopyOfProject, <i>optional</i> <i>boolean</i> RenderQueueDelay, <i>optional</i> <i>integer</i> RenderQueueDelaySeconds, <i>optional</i> <i>boolean</i> CloseAfterRender, <i>optional</i> <i>boolean</i> EmbedStretchMarkers, <i>optional</i> <i>string</i> RenderString2, <i>optional</i> <i>boolean</i> EmbedTakeMarkers, <i>optional</i> <i>boolean</i> DoNotSilentRender, <i>optional</i> <i>boolean</i> EmbedMetadata, <i>optional</i> <i>boolean</i> Enable2ndPassRender, <i>optional</i> <i>boolean</i> Normalize_Enabled, <i>optional</i> <i>integer</i> Normalize_Method, <i>optional</i> <i>boolean</i> Normalize_Stems_to_Master_Target, <i>optional</i> <i>number</i> Normalize_Target)</code></div>
+<div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.CreateNewRenderTable</em>(<i>optional</i> <i>integer</i> Source, <i>optional</i> <i>integer</i> Bounds, <i>optional</i> <i>number</i> Startposition, <i>optional</i> <i>number</i> Endposition, <i>optional</i> <i>integer</i> TailFlag, <i>optional</i> <i>integer</i> TailMS, <i>optional</i> <i>string</i> RenderFile, <i>optional</i> <i>string</i> RenderPattern, <i>optional</i> <i>integer</i> SampleRate, <i>optional</i> <i>integer</i> Channels, <i>optional</i> <i>integer</i> OfflineOnlineRendering, <i>optional</i> <i>boolean</i> ProjectSampleRateFXProcessing, <i>optional</i> <i>integer</i> RenderResample, <i>optional</i> <i>boolean</i> OnlyMonoMedia, <i>optional</i> <i>boolean</i> MultiChannelFiles, <i>optional</i> <i>integer</i> Dither, <i>optional</i> <i>string</i> RenderString, <i>optional</i> <i>boolean</i> SilentlyIncrementFilename, <i>optional</i> <i>boolean</i> AddToProj, <i>optional</i> <i>boolean</i> SaveCopyOfProject, <i>optional</i> <i>boolean</i> RenderQueueDelay, <i>optional</i> <i>integer</i> RenderQueueDelaySeconds, <i>optional</i> <i>boolean</i> CloseAfterRender, <i>optional</i> <i>boolean</i> EmbedStretchMarkers, <i>optional</i> <i>string</i> RenderString2, <i>optional</i> <i>boolean</i> EmbedTakeMarkers, <i>optional</i> <i>boolean</i> DoNotSilentRender, <i>optional</i> <i>boolean</i> EmbedMetadata, <i>optional</i> <i>boolean</i> Enable2ndPassRender, <i>optional</i> <i>boolean</i> Normalize_Enabled, <i>optional</i> <i>integer</i> Normalize_Method, <i>optional</i> <i>boolean</i> Normalize_Stems_to_Master_Target, <i>optional</i> <i>number</i> Normalize_Target, <i>optional</i> <i>boolean</i> Brickwall_Limiter_Enabled, <i>optional</i> <i>integer</i> Brickwall_Limiter_Method, <i>optional</i> <i>number</i> Brickwall_Limiter_Target)</code></div>
 </div><p>
 <div class="ch">
 Creates a new RenderTable.<br/>
@@ -44991,6 +44994,9 @@ Parameters set to nil will create a rendertable with all entries set to that of 
 Factory-Default will be set to these settings:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["AddToProj"]=false<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Brickwall_Limiter_Enabled"]=false<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Brickwall_Limiter_Method"]=1<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Brickwall_Limiter_Target"]=1<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Bounds"]=1<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Channels"]=2<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["CloseAfterRender"]=true<br/>
@@ -45214,6 +45220,18 @@ Include project filename in BWF unchecked, Do not include markers or regions, Em
 <tr><td class="pr"><i>optional</i> <i>number</i> Normalize_Target</td></tr>
 <tr><td class="ch2">the normalize-target as dB-value</td></tr>
 </table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> Brickwall_Limiter_Enabled</td></tr>
+<tr><td class="ch2">true, enable brickwall-limiter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> Brickwall_Limiter_Method</td></tr>
+<tr><td class="ch2">the brickwall-limiter-method; 1, peak; 2, True Peak</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> Brickwall_Limiter_Target</td></tr>
+<tr><td class="ch2">the target of brickwall-limiter in dB</td></tr>
+</table>
 <br>
 </div>
 <div class="ch">
@@ -45270,6 +45288,9 @@ returns the last 12 used render-patterns, that have been used for rendering by a
 <div class="ch">
 <p>Returns all stored render-settings for the current project, as a handy table.</p>
 <pre><code>    RenderTable[&quot;AddToProj&quot;] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;Brickwall_Limiter_Enabled&quot;] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+    RenderTable[&quot;Brickwall_Limiter_Method&quot;] - brickwall-limiting-mode; 1, peak; 2, true peak
+    RenderTable[&quot;Brickwall_Limiter_Target&quot;] - the volume of the brickwall-limit
     RenderTable[&quot;Bounds&quot;] - 0, Custom time range; 
                             1, Entire project; 
                             2, Time selection; 
@@ -45291,9 +45312,6 @@ returns the last 12 used render-patterns, that have been used for rendering by a
     RenderTable[&quot;Enable2ndPassRender&quot;] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
     RenderTable[&quot;Endposition&quot;] - the endposition of the rendering selection in seconds            
     RenderTable[&quot;MultiChannelFiles&quot;] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
-    RenderTable[&quot;Normalize_Brickwall_Limit&quot;] - the volume of the brickwall-limit
-    RenderTable[&quot;Normalize_Brickwall_Method&quot;] - brickwall-normalize-mode; 1, peak; 2, true peak
-    RenderTable[&quot;Normalize_Brickwall_Mode&quot;] - true, brickall limiting is enabled; false, brickwall limiting is disabled            
     RenderTable[&quot;Normalize_Enabled&quot;] - true, normalization enabled; false, normalization not enabled
     RenderTable[&quot;Normalize_Method&quot;] - the normalize-method-dropdownlist
                    0, LUFS-I
@@ -45379,6 +45397,9 @@ use 0, for the currently active project; 1, for the first project-tab; 2, for th
 <div class="ch">
 <p>Returns all stored render-settings in a projectfile, as a handy table.</p>
 <pre><code>    RenderTable[&quot;AddToProj&quot;] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+    RenderTable[&quot;Brickwall_Limiter_Enabled&quot;] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+    RenderTable[&quot;Brickwall_Limiter_Method&quot;] - brickwall-limiting-mode; 1, peak; 2, true peak
+    RenderTable[&quot;Brickwall_Limiter_Target&quot;] - the volume of the brickwall-limit
     RenderTable[&quot;Bounds&quot;] - 0, Custom time range; 
                             1, Entire project; 
                             2, Time selection; 
@@ -45410,9 +45431,6 @@ use 0, for the currently active project; 1, for the first project-tab; 2, for th
                                5, LUFS-S max
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target; false, don&#39;t normalize stems to master-target
     RenderTable[&quot;Normalize_Target&quot;] - the normalize-target as dB-value
-    RenderTable[&quot;Normalize_Brickwall_Limit&quot;] - the volume of the brickwall-limit
-    RenderTable[&quot;Normalize_Brickwall_Method&quot;] - brickwall-normalize-mode; 1, peak; 2, true peak
-    RenderTable[&quot;Normalize_Brickwall_Mode&quot;] - true, brickall limiting is enabled; false, brickwall limiting is disabled
     RenderTable[&quot;NoSilentRender&quot;] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
     RenderTable[&quot;OfflineOnlineRendering&quot;] - Offline/Online rendering-dropdownlist; 
                                             0, Full-speed Offline; 

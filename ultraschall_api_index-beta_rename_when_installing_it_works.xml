@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="49907.00" author="Meo Mespotine">
+      <version name="49933.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.2.006/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -561,7 +561,10 @@ Changes from 4.2.005 to 4.2.006
 -   ProjectManagement: SetProject_Render_Normalize - supports now
     brickwall-settings
 -   Rendering: ApplyRenderTable_Project - supports now
-    brickwall-normalization
+    brickwall-limiting
+-   Rendering: ApplyRenderTable_ProjectFile - supports now
+    brickwall-limiting
+-   Rendering: CreateNewRenderTable - supports now brickwall-limiting
 -   Rendering: CreateRenderCFG_WAV - supports now 32 Bit PCM(7) and 8
     Bit u-Law(8) as BitDepth
 -   Rendering: GetOutputFormat_RenderCfg - supports now CAF as well
@@ -581,13 +584,12 @@ Changes from 4.2.005 to 4.2.006
     the default-project-render-settings for wavpack
 -   Rendering: GetRenderCFG_Settings_XXX - all those functions could
     produce error, when sending in non-Base-64-strings -> fixed
--   Rendering: GetRenderTable_Project - supports now
-    brickwall-normalization
+-   Rendering: GetRenderTable_Project - supports now brickwall-limiting
 -   Rendering: GetRenderTable_ProjectFile - supports now
-    brickwall-normalization
+    brickwall-limiting
 -   Rendering: RenderProject_RenderTable - didn’t return filenames due
     changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)
--   Rendering: IsValidRenderTable - supports now brickwall-normalization
+-   Rendering: IsValidRenderTable - supports now brickwall-limiting
 -   Rendering: various - many render-cfg-functions who work with floats
     didn’t work properly -> fixed
 -   User Interface: Windows_Find - had inner variable exposed -> fixed
@@ -618,7 +620,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1427 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49907 from 21.12.2021 03:32:53).}
+a 1427 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49933 from 23.12.2021 04:40:25).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -756,7 +758,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1427 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49907 from 21.12.2021 03:32:53).}
+a 1427 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 49933 from 23.12.2021 04:40:25).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

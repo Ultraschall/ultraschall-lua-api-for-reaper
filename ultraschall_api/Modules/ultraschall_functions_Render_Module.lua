@@ -2229,6 +2229,9 @@ function ultraschall.GetRenderTable_Project()
     Returns all stored render-settings for the current project, as a handy table.
             
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+            RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+            RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
+            RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
             RenderTable["Bounds"] - 0, Custom time range; 
                                     1, Entire project; 
                                     2, Time selection; 
@@ -2250,9 +2253,6 @@ function ultraschall.GetRenderTable_Project()
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds            
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
-            RenderTable["Normalize_Brickwall_Limit"] - the volume of the brickwall-limit
-            RenderTable["Normalize_Brickwall_Method"] - brickwall-normalize-mode; 1, peak; 2, true peak
-            RenderTable["Normalize_Brickwall_Mode"] - true, brickall limiting is enabled; false, brickwall limiting is disabled            
             RenderTable["Normalize_Enabled"] - true, normalization enabled; false, normalization not enabled
             RenderTable["Normalize_Method"] - the normalize-method-dropdownlist
                            0, LUFS-I
@@ -2343,6 +2343,7 @@ function ultraschall.GetRenderTable_Project()
   elseif _temp==true then
     ultraschall.AddErrorMessage("GetRenderTable_Project", "ReaProject", "no project currently rendering", -5) return nil 
   end
+
   local RenderTable={}
   RenderTable["RenderTable"]=true
   RenderTable["Source"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", 0, false))
@@ -2406,20 +2407,20 @@ function ultraschall.GetRenderTable_Project()
   
  
   if RenderTable["Normalize_Method"]&128==0 then     
-    RenderTable["Normalize_Brickwall_Method"]=1    
+    RenderTable["Brickwall_Limiter_Method"]=1    
   elseif RenderTable["Normalize_Method"]&128==128 then
-    RenderTable["Normalize_Brickwall_Method"]=2
+    RenderTable["Brickwall_Limiter_Method"]=2
     RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-128
   end
   
   if RenderTable["Normalize_Method"]&64==64 then 
-    RenderTable["Normalize_Brickwall_Mode"]=true
+    RenderTable["Brickwall_Limiter_Enabled"]=true
     RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-64
   elseif RenderTable["Normalize_Method"]&64==0 then 
-    RenderTable["Normalize_Brickwall_Mode"]=false
+    RenderTable["Brickwall_Limiter_Enabled"]=false
   end
   
-  RenderTable["Normalize_Brickwall_Limit"]=ultraschall.MKVOL2DB(reaper.GetSetProjectInfo(0, "RENDER_BRICKWALL", 0, false))
+  RenderTable["Brickwall_Limiter_Target"]=ultraschall.MKVOL2DB(reaper.GetSetProjectInfo(0, "RENDER_BRICKWALL", 0, false))
   RenderTable["Normalize_Stems_to_Master_Target"]=RenderTable["Normalize_Method"]&32==32
   if RenderTable["Normalize_Stems_to_Master_Target"]==true then RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-32 end
   RenderTable["Normalize_Method"]=math.tointeger(RenderTable["Normalize_Method"]/2)  
@@ -2445,6 +2446,9 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
     Returns all stored render-settings in a projectfile, as a handy table.
             
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+            RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+            RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
+            RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
             RenderTable["Bounds"] - 0, Custom time range; 
                                     1, Entire project; 
                                     2, Time selection; 
@@ -2476,9 +2480,6 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
                                        5, LUFS-S max
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; false, don't normalize stems to master-target
             RenderTable["Normalize_Target"] - the normalize-target as dB-value
-            RenderTable["Normalize_Brickwall_Limit"] - the volume of the brickwall-limit
-            RenderTable["Normalize_Brickwall_Method"] - brickwall-normalize-mode; 1, peak; 2, true peak
-            RenderTable["Normalize_Brickwall_Mode"] - true, brickall limiting is enabled; false, brickwall limiting is disabled
             RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
                                                     0, Full-speed Offline; 
@@ -2609,16 +2610,16 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
   RenderTable["SaveCopyOfProject"]=false
   RenderTable["CloseAfterRender"]=true
   
-  RenderTable["Normalize_Method"], RenderTable["Normalize_Target"], RenderTable["Normalize_Brickwall_Limit"] = ultraschall.GetProject_Render_Normalize(nil, ProjectStateChunk)
+  RenderTable["Normalize_Method"], RenderTable["Normalize_Target"], RenderTable["Brickwall_Limiter_Target"] = ultraschall.GetProject_Render_Normalize(nil, ProjectStateChunk)
   if RenderTable["Normalize_Method"]==nil then
     RenderTable["Normalize_Method"]=0
     RenderTable["Normalize_Target"]=-24
     RenderTable["Normalize_Enabled"]=false
     RenderTable["Normalize_Stems_to_Master_Target"]=false
     
-    RenderTable["Normalize_Brickwall_Limit"]=0.99999648310761
-    RenderTable["Normalize_Brickwall_Method"]=1
-    RenderTable["Normalize_Brickwall_Mode"]=false
+    RenderTable["Brickwall_Limiter_Target"]=0.99999648310761
+    RenderTable["Brickwall_Limiter_Method"]=1
+    RenderTable["Brickwall_Limiter_Enabled"]=false
   else
     RenderTable["Normalize_Enabled"]=RenderTable["Normalize_Method"]&1==1
     if RenderTable["Normalize_Enabled"]==true then RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-1 end
@@ -2626,20 +2627,20 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
     RenderTable["Normalize_Stems_to_Master_Target"]=RenderTable["Normalize_Method"]&32==32
   
       if RenderTable["Normalize_Method"]&128==0 then     
-        RenderTable["Normalize_Brickwall_Method"]=1    
+        RenderTable["Brickwall_Limiter_Method"]=1    
       elseif RenderTable["Normalize_Method"]&128==128 then
-        RenderTable["Normalize_Brickwall_Method"]=2
+        RenderTable["Brickwall_Limiter_Method"]=2
         RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-128
       end
       
       if RenderTable["Normalize_Method"]&64==64 then 
-        RenderTable["Normalize_Brickwall_Mode"]=true
+        RenderTable["Brickwall_Limiter_Enabled"]=true
         RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-64
       elseif RenderTable["Normalize_Method"]&64==0 then 
-        RenderTable["Normalize_Brickwall_Mode"]=false
+        RenderTable["Brickwall_Limiter_Enabled"]=false
       end
       
-      RenderTable["Normalize_Brickwall_Limit"]=ultraschall.MKVOL2DB(RenderTable["Normalize_Brickwall_Limit"])
+      RenderTable["Brickwall_Limiter_Target"]=ultraschall.MKVOL2DB(RenderTable["Brickwall_Limiter_Target"])
 
     if RenderTable["Normalize_Stems_to_Master_Target"]==true then 
       RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-32 
@@ -3160,9 +3161,9 @@ function ultraschall.IsValidRenderTable(RenderTable)
   if type(RenderTable["Normalize_Target"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Normalize_Target\"] must be a number", -24) return false end
   if math.type(RenderTable["Normalize_Method"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Normalize_Method\"] must be a number", -25) return false end
 
-  if math.type(RenderTable["Normalize_Brickwall_Method"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Normalize_Brickwall_Method\"] must be an integer", -26) return false end
-  if type(RenderTable["Normalize_Brickwall_Mode"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Normalize_Brickwall_Mode\"] must be a boolean", -27) return false end
-  if type(RenderTable["Normalize_Brickwall_Limit"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Normalize_Brickwall_Limit\"] must be a number", -28) return false end
+  if math.type(RenderTable["Brickwall_Limiter_Method"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Brickwall_Limiter_Method\"] must be an integer", -26) return false end
+  if type(RenderTable["Brickwall_Limiter_Enabled"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Brickwall_Limiter_Enabled\"] must be a boolean", -27) return false end
+  if type(RenderTable["Brickwall_Limiter_Target"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Brickwall_Limiter_Target\"] must be a number", -28) return false end
 
   return true
 end
@@ -3189,6 +3190,9 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; 
                                         true, checked; 
                                         false, unchecked
+            RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+            RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
+            RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
             RenderTable["Bounds"]    - 0, Custom time range; 
                                        1, Entire project; 
                                        2, Time selection; 
@@ -3211,9 +3215,6 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"]         - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
-            RenderTable["Normalize_Brickwall_Limit"] - the volume of the brickwall-limit
-            RenderTable["Normalize_Brickwall_Method"] - brickwall-normalize-mode; 1, peak; 2, true peak
-            RenderTable["Normalize_Brickwall_Mode"] - true, brickall limiting is enabled; false, brickwall limiting is disabled            
             RenderTable["Normalize_Enabled"]   - true, normalization enabled; 
                                                  false, normalization not enabled
             RenderTable["Normalize_Method"]    - the normalize-method-dropdownlist
@@ -3356,13 +3357,13 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   if RenderTable["Normalize_Stems_to_Master_Target"]==true and normalize_method&32==0 then normalize_method=normalize_method+32 end
   if RenderTable["Normalize_Stems_to_Master_Target"]==false and normalize_method&32==32 then normalize_method=normalize_method-32 end
   
-  if RenderTable["Normalize_Brickwall_Mode"]==true and normalize_method&64==0 then normalize_method=normalize_method+64 end
-  if RenderTable["Normalize_Brickwall_Mode"]==false and normalize_method&64==64 then normalize_method=normalize_method-64 end
+  if RenderTable["Brickwall_Limiter_Enabled"]==true and normalize_method&64==0 then normalize_method=normalize_method+64 end
+  if RenderTable["Brickwall_Limiter_Enabled"]==false and normalize_method&64==64 then normalize_method=normalize_method-64 end
   
-  if RenderTable["Normalize_Brickwall_Method"]==2 and normalize_method&128==0 then normalize_method=normalize_method+128 end
-  if RenderTable["Normalize_Brickwall_Method"]==1 and normalize_method&128==128 then normalize_method=normalize_method-128 end
+  if RenderTable["Brickwall_Limiter_Method"]==2 and normalize_method&128==0 then normalize_method=normalize_method+128 end
+  if RenderTable["Brickwall_Limiter_Method"]==1 and normalize_method&128==128 then normalize_method=normalize_method-128 end
   
-  reaper.GetSetProjectInfo(0, "RENDER_BRICKWALL", ultraschall.DB2MKVOL(RenderTable["Normalize_Brickwall_Limit"]), true)
+  reaper.GetSetProjectInfo(0, "RENDER_BRICKWALL", ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"]), true)
   
   reaper.GetSetProjectInfo(ReaProject, "RENDER_NORMALIZE", normalize_method, true)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_NORMALIZE_TARGET", normalize_target, true)
@@ -3440,13 +3441,14 @@ end
 --AA =  reaper.GetSetProjectInfo(ReaProject, "PROJECT_SRATE_USE", 1, true)
 
 --Mespotine
+
 function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_with_path, apply_rendercfg_string, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderTable_ProjectFile</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.32
+    Reaper=6.43
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string ProjectStateChunk = ultraschall.ApplyRenderTable_ProjectFile(table RenderTable, string projectfilename_with_path, optional boolean apply_rendercfg_string, optional string ProjectStateChunk)</functioncall>
@@ -3458,6 +3460,9 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; 
                                         true, checked; 
                                         false, unchecked
+            RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+            RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
+            RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
             RenderTable["Bounds"]    - 0, Custom time range; 
                                        1, Entire project; 
                                        2, Time selection; 
@@ -3633,13 +3638,20 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
   local normalize_method=RenderTable["Normalize_Method"]
   normalize_method=normalize_method*2
   local normalize_target=ultraschall.DB2MKVOL(RenderTable["Normalize_Target"])
+  local brickwall_target=ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"])
   if RenderTable["Normalize_Enabled"]==true and normalize_method&1==0 then normalize_method=normalize_method+1 end
   if RenderTable["Normalize_Enabled"]==false and normalize_method&1==1 then normalize_method=normalize_method-1 end
   
   if RenderTable["Normalize_Stems_to_Master_Target"]==true and normalize_method&32==0 then normalize_method=normalize_method+32 end
   if RenderTable["Normalize_Stems_to_Master_Target"]==false and normalize_method&32==32 then normalize_method=normalize_method-32 end
   
-  retval, ProjectStateChunk = ultraschall.SetProject_Render_Normalize(nil, normalize_method, normalize_target, ProjectStateChunk)
+  if RenderTable["Brickwall_Limiter_Enabled"]==true and normalize_method&64==0 then normalize_method=normalize_method+64 end
+  if RenderTable["Brickwall_Limiter_Enabled"]==false and normalize_method&64==64 then normalize_method=normalize_method-64 end
+  
+  if RenderTable["Brickwall_Limiter_Method"]==1 and normalize_method&128==128 then normalize_method=normalize_method-128 end
+  if RenderTable["Brickwall_Limiter_Method"]==2 and normalize_method&128==0 then normalize_method=normalize_method+128 end
+  
+  retval, ProjectStateChunk = ultraschall.SetProject_Render_Normalize(nil, normalize_method, normalize_target, ProjectStateChunk, brickwall_target)
   
   
   retval, ProjectStateChunk = ultraschall.SetProject_RenderStems(nil, RenderTable["Source"], ProjectStateChunk)
@@ -3694,16 +3706,18 @@ TailMS, RenderFile, RenderPattern, SampleRate, Channels,
 OfflineOnlineRendering, ProjectSampleRateFXProcessing, RenderResample, OnlyMonoMedia, MultiChannelFiles,
 Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, 
 RenderQueueDelay, RenderQueueDelaySeconds, CloseAfterRender, EmbedStretchMarkers, RenderString2, 
-EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender, Normalize_Enabled, Normalize_Method, Normalize_Stems_to_Master_Target, Normalize_Target)
+EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender, 
+Normalize_Enabled, Normalize_Method, Normalize_Stems_to_Master_Target, Normalize_Target, 
+Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateNewRenderTable</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.32
+    Reaper=6.43
     Lua=5.3
   </requires>
-  <functioncall>table RenderTable = ultraschall.CreateNewRenderTable(optional integer Source, optional integer Bounds, optional number Startposition, optional number Endposition, optional integer TailFlag, optional integer TailMS, optional string RenderFile, optional string RenderPattern, optional integer SampleRate, optional integer Channels, optional integer OfflineOnlineRendering, optional boolean ProjectSampleRateFXProcessing, optional integer RenderResample, optional boolean OnlyMonoMedia, optional boolean MultiChannelFiles, optional integer Dither, optional string RenderString, optional boolean SilentlyIncrementFilename, optional boolean AddToProj, optional boolean SaveCopyOfProject, optional boolean RenderQueueDelay, optional integer RenderQueueDelaySeconds, optional boolean CloseAfterRender, optional boolean EmbedStretchMarkers, optional string RenderString2, optional boolean EmbedTakeMarkers, optional boolean DoNotSilentRender, optional boolean EmbedMetadata, optional boolean Enable2ndPassRender, optional boolean Normalize_Enabled, optional integer Normalize_Method, optional boolean Normalize_Stems_to_Master_Target, optional number Normalize_Target)</functioncall>
+  <functioncall>table RenderTable = ultraschall.CreateNewRenderTable(optional integer Source, optional integer Bounds, optional number Startposition, optional number Endposition, optional integer TailFlag, optional integer TailMS, optional string RenderFile, optional string RenderPattern, optional integer SampleRate, optional integer Channels, optional integer OfflineOnlineRendering, optional boolean ProjectSampleRateFXProcessing, optional integer RenderResample, optional boolean OnlyMonoMedia, optional boolean MultiChannelFiles, optional integer Dither, optional string RenderString, optional boolean SilentlyIncrementFilename, optional boolean AddToProj, optional boolean SaveCopyOfProject, optional boolean RenderQueueDelay, optional integer RenderQueueDelaySeconds, optional boolean CloseAfterRender, optional boolean EmbedStretchMarkers, optional string RenderString2, optional boolean EmbedTakeMarkers, optional boolean DoNotSilentRender, optional boolean EmbedMetadata, optional boolean Enable2ndPassRender, optional boolean Normalize_Enabled, optional integer Normalize_Method, optional boolean Normalize_Stems_to_Master_Target, optional number Normalize_Target, optional boolean Brickwall_Limiter_Enabled, optional integer Brickwall_Limiter_Method, optional number Brickwall_Limiter_Target)</functioncall>
   <description>
     Creates a new RenderTable.
     
@@ -3712,6 +3726,9 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender, Normali
     Factory-Default will be set to these settings:
               
               RenderTable["AddToProj"]=false
+              RenderTable["Brickwall_Limiter_Enabled"]=false
+              RenderTable["Brickwall_Limiter_Method"]=1
+              RenderTable["Brickwall_Limiter_Target"]=1
               RenderTable["Bounds"]=1
               RenderTable["Channels"]=2
               RenderTable["CloseAfterRender"]=true
@@ -3833,6 +3850,9 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender, Normali
                                       - 5, LUFS-S max
     optional boolean Normalize_Stems_to_Master_Target - true, normalize-stems to master target; false, don't normalize stems to master-target
     optional number Normalize_Target - the normalize-target as dB-value
+    optional boolean Brickwall_Limiter_Enabled - true, enable brickwall-limiter
+    optional integer Brickwall_Limiter_Method - the brickwall-limiter-method; 1, peak; 2, True Peak
+    optional number Brickwall_Limiter_Target - the target of brickwall-limiter in dB
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -3882,6 +3902,10 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender, Normali
   if Normalize_Method~=nil and math.type(Normalize_Method)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Normalize_Method", "#31: must be nil or a number", -33) return end
   if Normalize_Stems_to_Master_Target~=nil and type(Normalize_Stems_to_Master_Target)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Normalize_Stems_to_Master_Target", "#32: must be nil or a boolean", -34) return end
   if Normalize_Target~=nil and type(Normalize_Target)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Normalize_Target", "#33: must be nil or a number", -34) return end
+  
+  if Brickwall_Limiter_Enabled~=nil and type(Brickwall_Limiter_Enabled)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Brickwall_Limiter_Enabled", "#34: must be nil or a boolean", -35) return end
+  if Brickwall_Limiter_Method~=nil and math.type(Brickwall_Limiter_Method)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Brickwall_Limiter_Method", "#35: must be nil or an integer", -36) return end
+  if Brickwall_Limiter_Target~=nil and type(Brickwall_Limiter_Target)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Brickwall_Limiter_Target", "#36: must be nil or a number", -37) return end
     
 
   -- create Reaper-vanilla default RenderTable
@@ -3920,6 +3944,9 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender, Normali
   RenderTable["Normalize_Method"]=0
   RenderTable["Normalize_Stems_to_Master_Target"]=false
   RenderTable["Normalize_Target"]=-24
+  RenderTable["Brickwall_Limiter_Enabled"]=false
+  RenderTable["Brickwall_Limiter_Method"]=1
+  RenderTable["Brickwall_Limiter_Target"]=1
 
   -- set all attributes passed via parameters
   if AddToProj~=nil           then RenderTable["AddToProj"]=AddToProj end
@@ -3955,6 +3982,12 @@ EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender, Normali
   if Normalize_Method~=nil then RenderTable["Normalize_Method"]=Normalize_Method end
   if Normalize_Stems_to_Master_Target~=nil then RenderTable["Normalize_Stems_to_Master_Target"]=Normalize_Stems_to_Master_Target end
   if Normalize_Target~=nil then RenderTable["Normalize_Target"]=Normalize_Target end
+  if Brickwall_Limiter_Enabled~=nil then RenderTable["Brickwall_Limiter_Enabled"]=Brickwall_Limiter_Enabled end
+  if Brickwall_Limiter_Method~=nil then RenderTable["Brickwall_Limiter_Method"]=Brickwall_Limiter_Method end
+  if Brickwall_Limiter_Target~=nil then RenderTable["Brickwall_Limiter_Target"]=Brickwall_Limiter_Target end
+  
+  
+  
  
   return RenderTable
 end

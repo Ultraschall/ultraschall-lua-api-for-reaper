@@ -90,7 +90,9 @@ Bla</li>
 <li>ParmLearn: SetParmLearn_FXStateChunk2 - had massive errors in the docs -&gt; fixed(thanks to TonE)</li>
 <li>ProjectManagement: GetProject_Render_Normalize - supports now brickwall-settings</li>
 <li>ProjectManagement: SetProject_Render_Normalize - supports now brickwall-settings</li>
-<li>Rendering: ApplyRenderTable_Project - supports now brickwall-normalization</li>
+<li>Rendering: ApplyRenderTable_Project - supports now brickwall-limiting</li>
+<li>Rendering: ApplyRenderTable_ProjectFile - supports now brickwall-limiting</li>
+<li>Rendering: CreateNewRenderTable - supports now brickwall-limiting</li>
 <li>Rendering: CreateRenderCFG_WAV - supports now 32 Bit PCM(7) and 8 Bit u-Law(8) as BitDepth</li>
 <li>Rendering: GetOutputFormat_RenderCfg - supports now CAF as well</li>
 <li>Rendering: GetRenderCFG_Settings_AIFF - when passing nil, it returns now the default-project-render-settings for aiff</li>
@@ -103,12 +105,12 @@ Bla</li>
 <li>Rendering: GetRenderCFG_WAVPACK - when passing nil, it returns now the default-project-render-settings for wavpack</li>
 <li>Rendering: GetRenderCFG_Settings_XXX - all those functions could produce error, when sending in non-Base-64-strings -&gt; fixed<br />
 </li>
-<li>Rendering: GetRenderTable_Project - supports now brickwall-normalization</li>
-<li>Rendering: GetRenderTable_ProjectFile - supports now brickwall-normalization<br />
+<li>Rendering: GetRenderTable_Project - supports now brickwall-limiting</li>
+<li>Rendering: GetRenderTable_ProjectFile - supports now brickwall-limiting<br />
 </li>
 <li>Rendering: RenderProject_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -&gt; fixed(thnx to aurelien)<br />
 </li>
-<li>Rendering: IsValidRenderTable - supports now brickwall-normalization</li>
+<li>Rendering: IsValidRenderTable - supports now brickwall-limiting</li>
 <li>Rendering: various - many render-cfg-functions who work with floats didn't work properly -&gt; fixed</li>
 <li>User Interface: Windows_Find - had inner variable exposed -&gt; fixed</li>
 </ul>
