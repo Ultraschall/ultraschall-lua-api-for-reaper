@@ -5357,7 +5357,7 @@ Use sparsely and with care, as it uses a lot of resources!
 <a href="#GetStringFromClipboard_SWS"> ^</a> 
 <img width="3%" src="gfx/reaper5.52.png" alt="Reaper version 5.52">
 <img width="3%" src="gfx/sws2.9.7.png" alt="SWS version 2.9.7">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetStringFromClipboard_SWS</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetStringFromClipboard_SWS</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> clipboard_string = <em>ultraschall.GetStringFromClipboard_SWS</em>()</code></div>
 </div><p>
@@ -13272,7 +13272,7 @@ returns nil in case of an error
 <hr>
 <a class="anch" id="GetFocusedFX"></a>
 <a href="#GetFocusedFX"> ^</a> 
-<img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
+<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>GetFocusedFX</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> retval, <i>integer</i> tracknumber, <i>integer</i> fxidx, <i>integer</i> itemnumber, <i>integer</i> takeidx, <i>MediaTrack</i> track, <i>optional</i> <i>MediaItem</i> item, <i>optional</i> MediaItemTake take = <em>ultraschall.GetFocusedFX</em>()</code></div>
@@ -13285,7 +13285,8 @@ Returns the focused FX
 <tr><td class="pr"><i>integer</i> retval</td></tr>
 <tr><td class="ch2">0, if no FX window has focus<br/>
 1, if a track FX window has focus or was the last focused and still open<br/>
-2, if an item FX window has focus or was the last focused and still open</td></tr>
+2, if an item FX window has focus or was the last focused and still open<br/>
+&4, if fx is not focused anymore but is still opened</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> tracknumber</td></tr>
@@ -28293,7 +28294,7 @@ If you have a MediaItemArray with items from track 1,2,3,4,5 and you give tracks
 <hr>
 <a class="anch" id="InsertMediaItemFromFile"></a>
 <a href="#InsertMediaItemFromFile"> ^</a> 
-<img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
+<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.9.7.png" alt="SWS version 2.9.7">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>InsertMediaItemFromFile</b></u><br>			<p>
 <div class="cc">
@@ -31685,9 +31686,9 @@ Works like <a href="#ToggleMute">ultraschall.ToggleMute</a> but uses a trackobje
 <hr>
 <a class="anch" id="CenterViewToCursor"></a>
 <a href="#CenterViewToCursor"> ^</a> 
-<img width="3%" src="gfx/reaper5.52.png" alt="Reaper version 5.52">
+<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.9.7.png" alt="SWS version 2.9.7">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>CenterViewToCursor</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>CenterViewToCursor</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <em>ultraschall.CenterViewToCursor</em>(<i>integer</i> cursortype, <i>optional</i> <i>number</i> position)</code></div>
 </div><p>
@@ -57204,9 +57205,9 @@ Returns false in case of error.
 <hr>
 <a class="anch" id="RestoreArrangeviewSnapshot"></a>
 <a href="#RestoreArrangeviewSnapshot"> ^</a> 
-<img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
+<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.9.7.png" alt="SWS version 2.9.7">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>RestoreArrangeviewSnapshot</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>RestoreArrangeviewSnapshot</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> description, <i>number</i> startposition, <i>number</i> endposition, <i>integer</i> vzoomfactor, <i>number</i> hzoomfactor, <i>number</i> vertical_scroll_factor = <em>ultraschall.RestoreArrangeviewSnapshot</em>(<i>integer</i> slot, <i>optional</i> <i>boolean</i> position, <i>optional</i> <i>boolean</i> vzoom, <i>optional</i> <i>integer</i> hcentermode, <i>optional</i> <i>boolean</i> verticalscroll)</code></div>
 </div><p>
@@ -58598,10 +58599,10 @@ returns nil if the "Export Project MIDI"-dialog is closed
 <hr>
 <a class="anch" id="GetHWND_ArrangeViewAndTimeLine"></a>
 <a href="#GetHWND_ArrangeViewAndTimeLine"> ^</a> 
-<img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
+<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.9.7.png" alt="SWS version 2.9.7">
 <img width="3%" src="gfx/js_0.964.png" alt="JS version 0.964">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetHWND_ArrangeViewAndTimeLine</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetHWND_ArrangeViewAndTimeLine</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>HWND</i> arrange_view, <i>HWND</i> timeline, <i>HWND</i> TrackControlPanel, <i>HWND</i> TrackListWindow = <em>ultraschall.GetHWND_ArrangeViewAndTimeLine</em>()</code></div>
 </div><p>

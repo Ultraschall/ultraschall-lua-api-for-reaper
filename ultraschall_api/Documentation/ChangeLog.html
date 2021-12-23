@@ -62,6 +62,7 @@ Bla</li>
 </ul>
 <h4>Changes from 4.2.005 to 4.2.006</h4>
 <ul>
+<li>API: deprecated - replaced most of the deprecated functions US-API used</li>
 <li>API: minimum Reaper version - raised minimum Reaper-version to Reaper 6.20</li>
 <li>API: Settings - Beta-functions-feature removed, as it was pointless and slowed down initializing US-API</li>
 <li>Developer: EditReaScript - allows now setting docking state and watchlist-size; didn't add scripts, when the file already existed, contrary to what the docs suggested; didn't reset old values in reaper.ini -&gt; fixed</li>
@@ -84,6 +85,7 @@ Bla</li>
 <li>FXManagement: InputFX_GetEQParam - new bandtypes added, as added by Reaper 6.43</li>
 <li>FXManagement: InputFX_SetEQBandEnabled - new bandtypes added, as added by Reaper 6.43</li>
 <li>FXManagement: InputFX_SetEQParam - new bandtypes added, as added by Reaper 6.43</li>
+<li>MediaItem Management: InsertMediaItemFromFile - didn't place editcursor correctly at the end of item, when length==-1 -&gt; fixed</li>
 <li>Mute: ToggleMute - didn't unmute under certain conditions; sometimes created additional envelope-points when unneccessary -&gt; fixed</li>
 <li>ParmLearn: AddParmLearn_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -&gt; fixed(thanks to TonE)</li>
 <li>ParmLearn: GetParmLearn_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -&gt; fixed(thanks to TonE)</li>

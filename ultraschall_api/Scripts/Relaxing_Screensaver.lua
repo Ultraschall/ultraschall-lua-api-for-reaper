@@ -113,6 +113,7 @@ function main()
     ]])
   end
   
+  gfx.rect(gfx.mouse_x, gfx.mouse_y, 4,4,1)
   if A~=-1 then
     reaper.defer(main)
   end

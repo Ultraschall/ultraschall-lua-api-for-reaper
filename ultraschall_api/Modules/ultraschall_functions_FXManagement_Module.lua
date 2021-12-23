@@ -7107,7 +7107,7 @@ function ultraschall.GetFocusedFX()
   <slug>GetFocusedFX</slug>
   <requires>
     Ultraschall=4.1
-    Reaper=6.02
+    Reaper=6.20
     Lua=5.3
   </requires>
   <functioncall>integer retval, integer tracknumber, integer fxidx, integer itemnumber, integer takeidx, MediaTrack track, optional MediaItem item, optional MediaItemTake take = ultraschall.GetFocusedFX()</functioncall>
@@ -7118,6 +7118,7 @@ function ultraschall.GetFocusedFX()
     integer retval -   0, if no FX window has focus
                    -   1, if a track FX window has focus or was the last focused and still open
                    -   2, if an item FX window has focus or was the last focused and still open
+                   -   &4, if fx is not focused anymore but is still opened
     integer tracknumber - tracknumber; 0, master track; 1, track 1; etc.
     integer fxidx - the index of the FX; 1-based
     integer itemnumber - -1, if it's a track-fx; 1 and higher, the mediaitem-number
@@ -7135,7 +7136,7 @@ function ultraschall.GetFocusedFX()
   <tags>fx management, get, focused, fx</tags>
 </US_DocBloc>
 ]]    
-  local retval, tracknumber, itemnumber, fxnumber = reaper.GetFocusedFX()
+  local retval, tracknumber, itemnumber, fxnumber = reaper.GetFocusedFX2()
   if retval==0 then return 0 end
   local FXID, TakeID, item, take, track
   FXID=fxnumber+1

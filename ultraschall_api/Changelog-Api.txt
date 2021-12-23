@@ -427,6 +427,7 @@ Has now 1417 functions, with 11 new ones
   
   
 #### Changes from 4.2.005 to 4.2.006  
+  - API: deprecated - replaced most of the deprecated functions US-API used
   - API: minimum Reaper version - raised minimum Reaper-version to Reaper 6.20
   - API: Settings - Beta-functions-feature removed, as it was pointless and slowed down initializing US-API
   - Developer: EditReaScript - allows now setting docking state and watchlist-size; didn't add scripts, when the file already existed, contrary to what the docs suggested; didn't reset old values in reaper.ini  -> fixed
@@ -448,6 +449,7 @@ Has now 1417 functions, with 11 new ones
   - FXManagement: InputFX\_GetEQParam - new bandtypes added, as added by Reaper 6.43
   - FXManagement: InputFX\_SetEQBandEnabled - new bandtypes added, as added by Reaper 6.43
   - FXManagement: InputFX\_SetEQParam - new bandtypes added, as added by Reaper 6.43
+  - MediaItem Management: InsertMediaItemFromFile - didn't place editcursor correctly at the end of item, when length==-1 -> fixed
   - Mute: ToggleMute - didn't unmute under certain conditions; sometimes created additional envelope-points when unneccessary -> fixed
   - ParmLearn: AddParmLearn\_FXStateChunk2 - parameter midi_channel falsely expected to be 0-15 not 1-16 as documented -> fixed(thanks to TonE)
   - ParmLearn: GetParmLearn\_FXStateChunk2 - didn't check for non existing ParmLearns and threw nil error -> fixed(thanks to TonE)

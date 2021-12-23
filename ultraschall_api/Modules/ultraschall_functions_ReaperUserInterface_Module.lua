@@ -349,8 +349,8 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RestoreArrangeviewSnapshot</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.2
+    Reaper=6.20
     SWS=2.9.7
     Lua=5.3
   </requires>
@@ -414,9 +414,9 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
   -- set arrangeview to the values
   if position==false then
     reaper.adjustZoom(hzoom, 1, true, hcentermode)
-    start, ende = reaper.BR_GetArrangeView(0)
+    start, ende =  reaper.GetSet_ArrangeView2(0, false, 0, 0, 0, 0)
   else
-    reaper.BR_SetArrangeView(0, start, ende)
+    reaper.GetSet_ArrangeView2(0, true, 0, 0, start, ende)
   end
   
   
@@ -1414,8 +1414,8 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetHWND_ArrangeViewAndTimeLine</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.965
+    Ultraschall=4.2
+    Reaper=6.20
     JS=0.964
     SWS=2.9.7
     Lua=5.3
@@ -1441,8 +1441,6 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   <tags>user interface, get, hwnd, arrangeview, timeline, trackview, tcp, track control panel</tags>
 </US_DocBloc>
 --]]
-  -- fantastic arrangeview- and timeline-hwnds and where to find them...
-  -- by "J.K."Mespotine ;)
 
   -- preparation of variables
   local ARHWND, TLHWND, temphwnd, TCPHWND, TCPHWND2
@@ -1450,7 +1448,7 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   -- if we haven't stored the adress of the arrangeviewhwnd yet, let's go find them.
   if reaper.GetExtState("ultraschall", "arrangehwnd")=="" then
     -- prepare some values we need
-    local Start,Stop = reaper.BR_GetArrangeView(0)
+    local Start, Stop = reaper.GetSet_ArrangeView2(0, false, 0, 0, 0, 0)
     local Projectlength=reaper.GetProjectLength()
 
     -- get mainhwnd of Reaper and all of it's childhwnds
@@ -1477,7 +1475,7 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
     end
     
     -- alter scrollstate
-    reaper.BR_SetArrangeView(0,Start+100000,Stop+100000)
+    reaper.GetSet_ArrangeView2(0, true, 0, 0, Start+100000,Stop+100000)
     
     -- check scrollstate of all hwnds for the one, whose scrollstate changed, as this is the arrange-view-hwnd
     for i=1, Count do
@@ -1501,7 +1499,7 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   ]]..Projectlength..", "..Start..", "..Stop..", "..reaper.GetHZoomLevel(), -1) return nil end
     
     -- reset arrangeview-scrolling to it's original state
-    reaper.BR_SetArrangeView(0,Start,Stop)
+    reaper.GetSet_ArrangeView2(0, true, 0, 0, Start,Stop)
     
 
     -- [ Getting Timeline HWND] --
