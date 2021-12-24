@@ -42,6 +42,7 @@ FileA[#FileA+1]="Ultraschall_ConceptsDocConverter_v2.lua"
 FileA[#FileA+1]="Reaper_VideoProcessorDocConverter_v2.lua"
 FileA[#FileA+1]="Reaper_ReaScriptConverter_v2.lua"
 --FileA[#FileA+1]="Reaper_FileTypeDocConverter_v2.lua"
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/ultraschall_ModulerLoader_Generator.lua")
 
 Starterkit=reaper.time_precise()
 

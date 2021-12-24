@@ -2261,7 +2261,8 @@ function ultraschall.GetRenderTable_Project()
                            3, True Peak
                            4, LUFS-M max
                            5, LUFS-S max
-            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; false, don't normalize stems to master-target
+            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
+                                                              false, normalize each file individually
             RenderTable["Normalize_Target"] - the normalize-target as dB-value
             RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
@@ -2478,7 +2479,8 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
                                        3, True Peak
                                        4, LUFS-M max
                                        5, LUFS-S max
-            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; false, don't normalize stems to master-target
+            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
+                                                              false, normalize each file individually
             RenderTable["Normalize_Target"] - the normalize-target as dB-value
             RenderTable["NoSilentRender"] - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
@@ -2664,7 +2666,7 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
     Reaper=6.43
     Lua=5.3
   </requires>
-  <functioncall>string outputformat, string renderstring = ultraschall.GetOutputFormat_RenderCfg(string Renderstring, optional ReaProject ReaProject)</functioncall>
+  <functioncall>string outputformat, string renderstring_decoded, string renderstring_encoded = ultraschall.GetOutputFormat_RenderCfg(string Renderstring, optional ReaProject ReaProject)</functioncall>
   <description>
     Returns the output-format set in a render-cfg-string, as stored in rpp-files and the render-presets file reaper-render.ini
     
@@ -2674,7 +2676,8 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
     string outputformat - the outputformat, set in the render-cfg-string
     - The following are valid: 
     - "WAV", "AIFF", "CAF", "AUDIOCD-IMAGE", "DDP", "FLAC", "MP3", "OGG", "Opus", "Video", "Video (Mac)", "Video GIF", "Video LCF", "WAVPACK", "Unknown"
-    string renderstring - the renderstring, which is either the renderstring you've passed or the one from the ReaProject you passed as second parameter
+    string renderstring_decoded - the base64-decoded renderstring, which is either the renderstring you've passed or the one from the ReaProject you passed as second parameter
+    string renderstring_encoded - the base64-encoded renderstring, which is either the renderstring you've passed or the one from the ReaProject you passed as second parameter
   </retvals>
   <parameters>
     string Renderstring - the render-cfg-string from a rpp-projectfile or the reaper-render.ini
@@ -2716,27 +2719,27 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
   if Renderstring:len()>4 then 
     local A2,B=Renderstring:match("%s*()[%g%=]*()")
     Renderstring=Renderstring:sub(A2,B-1)
-    Renderstring=ultraschall.Base64_Decoder(Renderstring) 
+    Renderstring2=ultraschall.Base64_Decoder(Renderstring) 
   end
 
   --print2("9"..Renderstring:sub(1,4).."9")
   
-  if Renderstring:sub(1,4)=="evaw" then return "WAV", Renderstring end
-  if Renderstring:sub(1,4)=="ffia" then return "AIFF", Renderstring end
-  if Renderstring:sub(1,4)=="ffac" then return "CAF", Renderstring end
-  if Renderstring:sub(1,4)==" osi" then return "AUDIOCD-IMAGE", Renderstring end
-  if Renderstring:sub(1,4)==" pdd" then return "DDP", Renderstring end
-  if Renderstring:sub(1,4)=="calf" then return "FLAC", Renderstring end
-  if Renderstring:sub(1,4)=="l3pm" then return "MP3", Renderstring end
-  if Renderstring:sub(1,4)=="vggo" then return "OGG", Renderstring end
-  if Renderstring:sub(1,4)=="SggO" then return "Opus", Renderstring end
-  if Renderstring:sub(1,4)=="PMFF" then return "Video", Renderstring end
-  if Renderstring:sub(1,4)=="FVAX" then return "Video (Mac)", Renderstring end
-  if Renderstring:sub(1,4)==" FIG" then return "Video GIF", Renderstring end
-  if Renderstring:sub(1,4)==" FCL" then return "Video LCF", Renderstring end
-  if Renderstring:sub(1,4)=="kpvw" then return "WAVPACK", Renderstring end
+  if Renderstring2:sub(1,4)=="evaw" then return "WAV", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)=="ffia" then return "AIFF", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)=="ffac" then return "CAF", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)==" osi" then return "AUDIOCD-IMAGE", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)==" pdd" then return "DDP", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)=="calf" then return "FLAC", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)=="l3pm" then return "MP3", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)=="vggo" then return "OGG", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)=="SggO" then return "Opus", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)=="PMFF" then return "Video", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)=="FVAX" then return "Video (Mac)", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)==" FIG" then return "Video GIF", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)==" FCL" then return "Video LCF", Renderstring2, Renderstring end
+  if Renderstring2:sub(1,4)=="kpvw" then return "WAVPACK", Renderstring2, Renderstring end
     
-  return "Unknown", Renderstring
+  return "Unknown", Renderstring2, Renderstring
 end
 
 --A=
@@ -3224,8 +3227,8 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
                                                      3, True Peak
                                                      4, LUFS-M max
                                                      5, LUFS-S max
-            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; 
-                                                              false, don't normalize stems to master-target
+            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
+                                                              false, normalize each file individually
             RenderTable["Normalize_Target"]       - the normalize-target as dB-value    
             RenderTable["NoSilentRender"]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
@@ -3440,8 +3443,6 @@ end
 
 --AA =  reaper.GetSetProjectInfo(ReaProject, "PROJECT_SRATE_USE", 1, true)
 
---Mespotine
-
 function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_with_path, apply_rendercfg_string, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3494,8 +3495,8 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
                                                      3, True Peak
                                                      4, LUFS-M max
                                                      5, LUFS-S max
-            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; 
-                                                              false, don't normalize stems to master-target
+            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
+                                                              false, normalize each file individually
             RenderTable["Normalize_Target"]       - the normalize-target as dB-value    
             RenderTable["NoSilentRender"]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
@@ -3848,7 +3849,7 @@ Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target)
                                       - 3, True Peak
                                       - 4, LUFS-M max
                                       - 5, LUFS-S max
-    optional boolean Normalize_Stems_to_Master_Target - true, normalize-stems to master target; false, don't normalize stems to master-target
+    optional boolean Normalize_Stems_to_Master_Target - true, normalize-stems to master target(common gain to stems); false, normalize each file individually
     optional number Normalize_Target - the normalize-target as dB-value
     optional boolean Brickwall_Limiter_Enabled - true, enable brickwall-limiter
     optional integer Brickwall_Limiter_Method - the brickwall-limiter-method; 1, peak; 2, True Peak
@@ -4465,7 +4466,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
    <slug>GetRenderPreset_RenderTable</slug>
    <requires>
      Ultraschall=4.2
-     Reaper=6.32
+     Reaper=6.43
      Lua=5.3
    </requires>
    <functioncall>table RenderTable = ultraschall.GetRenderPreset_RenderTable(string Bounds_Name, string Options_and_Format_Name)</functioncall>
@@ -4481,6 +4482,9 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
      
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; 
                                        always false, as this isn't stored in render-presets
+            RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+            RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
+            RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
             RenderTable["Bounds"]    - 0, Custom time range; 
                                        1, Entire project; 
                                        2, Time selection; 
@@ -4512,8 +4516,8 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
                                                      3, True Peak
                                                      4, LUFS-M max
                                                      5, LUFS-S max
-            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; 
-                                                              false, don't normalize stems to master-target
+            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems); 
+                                                              false, normalize each file individually
             RenderTable["Normalize_Target"]       - the normalize-target as dB-value    
             RenderTable["NoSilentRender"]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 
@@ -4598,7 +4602,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   local Presetname2, Bounds_dropdownlist2, Start_position2, Endposition2
   local Source_dropdownlist_and_checkboxes2, Unknown2, Outputfilename_renderpattern2
   local Tail_checkbox2, Quote
-  local B, _temp  
+  local B, _temp, path, _temp2
 
   -- bounds-presets
   for A in string.gmatch(A, "(RENDERPRESET_OUTPUT .-)\n") do
@@ -4612,17 +4616,24 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   
     B=A:sub(0,20).."A"..A:sub(21+Quote:len()+Quote:len()+Presetname2:len(),-1)
     
-    if B:match("\"")~=nil then
+    if B:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.)")=="\"" then
+    
+      Quote="\""
       Outputfilename_renderpattern2=B:match("\"(.-)\"")
     else
-      Outputfilename_renderpattern2=B:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-(.-)%s")
+      Quote=""
+      Outputfilename_renderpattern2=B:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-(.-)%s.*")
+
     end
     B=string.gsub(B, Quote..Outputfilename_renderpattern2..Quote, "A").." "
+    
+    B=B..""
 
     _temp, Bounds_dropdownlist2, Start_position2, Endposition2,
-    Source_dropdownlist_and_checkboxes2, Unknown2, _temp,
-    Tail_checkbox2 = 
-    B:match(".- (.-) (.-) (.-) (.-) (.-) (.-) (.-) (.-) ")
+    Source_dropdownlist_and_checkboxes2, Unknown2, _temp2,
+    Tail_checkbox2= 
+    B:match(".- (.-) (.-) (.-) (.-) (.-) (.-) (.-) (.-) (.*)")
+    path=B:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.*)")
     if Presetname2==Bounds_Name then found=true break end
   end
   
@@ -4661,7 +4672,8 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   
   --normalization-presets
   local Normalize_Method=0
-  local Normalize_Target=-44
+  local Normalize_Target=0.063096
+  local Brickwall_Target=1.122018
   for A in string.gmatch(A, "(RENDERPRESET_EXT .-)\n") do
     Quote=A:sub(21,21)
     if Quote=="\"" then
@@ -4670,10 +4682,14 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
       Quote=""
       Presetname2=A:match("%s(.-)%s")
     end
-  
-    local A1, A2=A:match(".* (%d-) (.*)")
-    if A1~=nil and A2~=nil then 
-      Normalize_Method, Normalize_Target=tonumber(A1), tonumber(A2)
+    local A1, A2, A3=A:match(".* (%d-) (.*) (.*)")
+
+    if A1==nil then
+      A1, A2=A:match(".* (%d-) (.*)")
+      A3=0
+    end
+    if A1~=nil then 
+      Normalize_Method, Normalize_Target, Brickwall_Target=tonumber(A1), tonumber(A2), tonumber(A3)
     end
     
     if Presetname2==Options_and_Format_Name then found=true break end
@@ -4682,25 +4698,19 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   if found~=true then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Options_and_Format_Name", "no such preset", -4) return end
   found=nil
   
-  Presetname=nil
+  --Presetname=nil
   
-  for A2 in string.gmatch(A, "<RENDERPRESET2.->") do
-    A2=A2.." "
-    rendercfg2=A2:match(".-\n%s*(.-)\n")
-    Quote=A2:sub(15,15)
-    if Quote=="\"" then
-      Presetname=A2:match(" [\"](.-)[\"]")
-    else
-      Quote=""
-      Presetname=A2:match("%s(.-)%s")
-    end
+  for A2, A3 in string.gmatch(A, "<RENDERPRESET2 (.-)\n(.->)") do
+    
+    if A2:sub(1,1)=="\"" then A2=A2:sub(2,-2) end    
+    rendercfg2=A3:match(".-%s*(.-)\n")
+
     if Presetname==Options_and_Format_Name then found=true break end
   end
   
   if found~=true then rendercfg2="" end
   
   if rendercfg2==nil then rendercfg2="" end
-  
   RenderTable["AddToProj"]=false
   RenderTable["Bounds"]=tonumber(Bounds_dropdownlist2)
   RenderTable["Channels"]=tonumber(Channels)
@@ -4708,7 +4718,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   RenderTable["Endposition"]=tonumber(Endposition2)
   RenderTable["OfflineOnlineRendering"]=tonumber(Offline_online_dropdownlist)
   RenderTable["ProjectSampleRateFXProcessing"]=useprojectsamplerate_checkbox~=1
-  RenderTable["RenderFile"]=""
+  RenderTable["RenderFile"]=string.gsub(path, "\"", ""):sub(1,-2)
   RenderTable["RenderPattern"]=Outputfilename_renderpattern2
   RenderTable["RenderQueueDelay"]=false
   RenderTable["RenderQueueDelaySeconds"]=0
@@ -4735,8 +4745,20 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   RenderTable["Normalize_Stems_to_Master_Target"]=Normalize_Method&32==32
   if RenderTable["Normalize_Enabled"]==true then Normalize_Method=Normalize_Method-1 end
   if RenderTable["Normalize_Stems_to_Master_Target"]==true then Normalize_Method=Normalize_Method-32 end
+  RenderTable["Brickwall_Limiter_Enabled"]=Normalize_Method&64==64
+  if RenderTable["Brickwall_Limiter_Enabled"]==true then Normalize_Method=Normalize_Method-64 end
+  if Normalize_Method&128==128 then 
+    RenderTable["Brickwall_Limiter_Method"]=2
+    Normalize_Method=Normalize_Method-128
+  else
+    RenderTable["Brickwall_Limiter_Method"]=1
+  end
+  RenderTable["Brickwall_Limiter_Target"]=ultraschall.MKVOL2DB(Brickwall_Target)
+  
   RenderTable["Normalize_Method"]=math.tointeger(Normalize_Method/2)
   RenderTable["Normalize_Target"]=ultraschall.MKVOL2DB(Normalize_Target)
+  
+  
 
   return RenderTable
 end
@@ -4850,7 +4872,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
    <slug>AddRenderPreset</slug>
    <requires>
      Ultraschall=4.2
-     Reaper=6.32
+     Reaper=6.43
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.AddRenderPreset(string Bounds_Name, string Options_and_Format_Name, table RenderTable)</functioncall>
@@ -4863,7 +4885,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
      
      Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.
      
-     Some settings aren't stored in Presets and will get default values:
+     Some settings aren't stored in Presets and will be ignored:
      TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false
      
      Bounds_Name stores only:
@@ -4885,6 +4907,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       64, selected media items via master
                                       128, selected tracks via master
               RenderTable["RenderPattern"] - the renderpattern, which hold also the wildcards
+              RenderTable["RenderFile"] - the output-path
               RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
                                         &1, custom time bounds
                                         &2, entire project
@@ -4928,7 +4951,8 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                                 3, True Peak
                                                 4, LUFS-M max
                                                 5, LUFS-S max
-              RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; false, don't normalize stems to master-target
+              RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
+                                                                false, normalize each file individually
               RenderTable["Normalize_Target"] - the normalize-target as dB-value
               RenderTable["OnlyMonoMedia"] - only mono media-checkbox
               RenderTable["EmbedMetaData"] - Embed metadata; true, checked; false, unchecked
@@ -4937,6 +4961,9 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
               RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
               RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings
               RenderTable["RenderString2"] - the render-cfg-string, which holds the secondary render-outformat-settings
+              RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled
+              RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
+              RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
   
      Returns false in case of an error
    </description>
@@ -4957,9 +4984,9 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
    <tags>render management, add, render preset, names, format options, bounds, rendertable</tags>
  </US_DocBloc>
  ]]
-  if Bounds_Name==nil and Options_and_Format_Name==nil then ultraschall.AddErrorMessage("AddRenderPreset", "RenderTable/Options_and_Format_Name", "can't be both set to nil", -6) return false end
+  if Bounds_Name==nil and Options_and_Format_Name==nil then  ultraschall.AddErrorMessage("AddRenderPreset", "RenderTable/Options_and_Format_Name", "can't be both set to nil", -6) return false end
   if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("AddRenderPreset", "RenderTable", "must be a valid render-table", -1) return false end
-  if Bounds_Name~=nil and type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "must be a string", -2) return false end
+  if Bounds_Name~=nil and type(Bounds_Name)~="string" then   ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "must be a string", -2) return false end
   if Options_and_Format_Name~=nil and type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("AddRenderPreset", "Options_and_Format_Name", "must be a string", -3) return false end
   
   local A,B, Source, RenderPattern, ProjectSampleRateFXProcessing, String, String2, Checkboxes
@@ -4999,7 +5026,8 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
            " "..RenderTable["Source"]..
            " ".."0"..
            " "..RenderPattern..
-           " "..RenderTable["TailFlag"].."\n"
+           " "..RenderTable["TailFlag"]..
+           " \""..RenderTable["RenderFile"].."\"\n"
     A=A..String
   end
   
@@ -5023,8 +5051,11 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
       local normalize_method=RenderTable["Normalize_Method"]*2
       if RenderTable["Normalize_Enabled"]==true then normalize_method=normalize_method+1 end
       if RenderTable["Normalize_Stems_to_Master_Target"]==true then normalize_method=normalize_method+32 end
+      if RenderTable["Brickwall_Limiter_Enabled"]==true then normalize_method=normalize_method+64 end
+      if RenderTable["Brickwall_Limiter_Method"]==2 then normalize_method=normalize_method+128 end
+      local brickwall_target=ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"])
       local normalize_target=ultraschall.DB2MKVOL(RenderTable["Normalize_Target"])
-      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target
+      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target.." "..brickwall_target
       A=A..String..String2..String3
   end
     
@@ -5044,7 +5075,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
    <slug>SetRenderPreset</slug>
    <requires>
      Ultraschall=4.2
-     Reaper=6.32
+     Reaper=6.43
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.SetRenderPreset(string Bounds_Name, string Options_and_Format_Name, table RenderTable)</functioncall>
@@ -5057,7 +5088,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
      
      Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.
      
-     Some settings aren't stored in Presets and will get default values:
+     Some settings aren't stored in Presets and will be ignored:
      TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false
      
      Bounds_Name stores only:
@@ -5067,7 +5098,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       2, Time selection 
                                       3, Project regions
                                       4, Selected Media Items(in combination with Source 32)
-                                      5, Selected regions 
+                                      5, Selected regions
               RenderTable["Startposition"] - the startposition of the render
               RenderTable["Endposition"] - the endposition of the render
               RenderTable["Source"]+RenderTable["MultiChannelFiles"]+RenderTable["OnlyMonoMedia"] - the source dropdownlist, includes 
@@ -5129,8 +5160,12 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                                 3, True Peak
                                                 4, LUFS-M max
                                                 5, LUFS-S max
-              RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; false, don't normalize stems to master-target
+              RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
+                                                                false, normalize each file individually
               RenderTable["Normalize_Target"] - the normalize-target as dB-value
+              RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
+              RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
+              RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
      Returns false in case of an error
    </description>
    <parameters>
@@ -5189,7 +5224,8 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
            " "..Source..
            " ".."0"..
            " "..RenderPattern..
-           " "..RenderTable["TailFlag"].."\n"
+           " "..RenderTable["TailFlag"]..
+           " \""..RenderTable["RenderFile"].."\"\n"
     A=string.gsub(A, Bounds, String)
   end
 
@@ -5226,11 +5262,17 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
       local normalize_method=RenderTable["Normalize_Method"]*2
       if RenderTable["Normalize_Enabled"]==true then normalize_method=normalize_method+1 end
       if RenderTable["Normalize_Stems_to_Master_Target"]==true then normalize_method=normalize_method+32 end
+      if RenderTable["Brickwall_Limiter_Enabled"]==true then normalize_method=normalize_method+64 end
+      if RenderTable["Brickwall_Limiter_Method"]==2 then normalize_method=normalize_method+128 end
+      
+      local brickwall_target=ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"])
       local normalize_target=ultraschall.DB2MKVOL(RenderTable["Normalize_Target"])
-      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target
+      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target.. " "..brickwall_target
       A=A.."\n"
       local RenderNormalization=A:match("\nRENDERPRESET_EXT "..Options_and_Format_Name..".-\n")
+      
       if RenderNormalization~=nil then
+        RenderNormalization=ultraschall.EscapeMagicCharacters_String(RenderNormalization)
         A=string.gsub(A, RenderNormalization, String3.."\n"):sub(1,-2)
       else
         A=A:sub(1,-2)
@@ -5300,8 +5342,8 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
                                                      3, True Peak
                                                      4, LUFS-M max
                                                      5, LUFS-S max
-            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target; 
-                                                              false, don't normalize stems to master-target
+            RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
+                                                              false, normalize each file individually
             RenderTable["Normalize_Target"]       - the normalize-target as dB-value    
             RenderTable["NoSilentRender"]         - Do not render files that are likely silent-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 

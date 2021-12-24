@@ -6379,7 +6379,7 @@ function ultraschall.InputFX_GetNamedConfigParm(fxindex, parmname, tracknumber)
   <slug>InputFX_GetNamedConfigParm</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.02
+    Reaper=6.43
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string config_parm_name = ultraschall.InputFX_GetNamedConfigParm(integer fxindex, string parmname, optional integer tracknumber)</functioncall>
@@ -6390,6 +6390,7 @@ function ultraschall.InputFX_GetNamedConfigParm(fxindex, parmname, tracknumber)
     'pdc' returns PDC latency. 
     'in_pin_0' returns name of first input pin (if available), 
     'out_pin_0' returns name of first output pin (if available), etc.
+    'fx_ident' returns pluginname with path
     
     returns false in case of an error
   </description>

@@ -388,26 +388,41 @@ Doesn't work on Windows 7???
 
   - Rendering: CalculateLoudness - calculates loundness of tracks/items and returns its stats  
  
-  - Rendering: add Normalize-Brickwall Limit: Normalize_Method &32(checkbox), &64(dropdownlist)
-                        RENDER_NORMALIZE: &1=enable, (&14==0)=LUFS-I, (&14==2)=RMS, (&14==4)=peak, (&14==6)=true peak, (&14==8)=LUFS-M max, (&14==10)=LUFS-S max, &32=normalize stems to common gain based on master, &64=enable brickwall limi
-                    inputbox:
-                        RENDER_BRICKWALL: render brickwall limit as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc
-  - add new render-preset settings(filename can be saved now)
+  - Normalization in BatchConverter?
  
 </TODO>
 
 
 ## Ultraschall Framework - Changelog
 
-### 4.2.006 - "The Beatles - The continuing story of Bungalow Bill" - XX of YYYY 2022
+### 4.2.006 - "The Beatles - The continuing story of Bungalow Bill" - 24th of December 2021
 
-Has now 1417 functions, with 11 new ones
+Has now 1423 functions, with 17 new ones
 
 **new in this release:**  
 
-  - **Bla**  
-  Bla
+  - **Brickwall Limiting Support**  
+  The rendering-functions support now brickwall-rendering and the render-preset-functions the new possibility to
+  store the rendering-path as well(as of Reaper 6.43)
   
+  - **CAF-support**  
+  CAF is now supported as well with rendering.
+  
+  - **GFX_GetChar**  
+  Gives you a more powerful version of gfx.getchar, which returns the characters and optionally a readable version of
+  non-printable characters.  
+  It also allows you managing the clipboard directly inside of it, so you don't need to code cmd+x/c yourself.  
+  
+  - **New MetaData-functions added**  
+  For ASWG, AXML, CAFINFO, FLACPIC, IFF and WAVEEXT.  I also updated the docs for other metadata-functions to include
+  newly added tags.
+  
+  - **Deprecated Checker for scripters**  
+  A new devtool allows you to check lua-scripts inside a folder, if they use deprecated functions. It also warns you,
+  if one of them still uses a function that got actually removed.
+  
+  - **Bugfixes**  
+  And cleanup, cleanup, cleanup
   
 #### New features in 4.2.006  
   - DeveloperTools: Check scripts in folder for deprecated functions - checks, whether a folder contains Lua-scripts that ue deprecated or removed API-functions
@@ -418,6 +433,12 @@ Has now 1417 functions, with 11 new ones
   - Doc-Engine: Docs\_GetUSDocBloc\_LinkedTo - returns the entries of the linked_to-tags insie an USDocML-entry
   - GFX-Management: GFX\_GetChar - a more powerful version of gfx.getchar, with additional clipboard management and conversion of non-printable characters to readable ones
   - Helper Functions: ReturnReaperExeFile\_With\_Path - returns the name of the reaper-executable including its path
+  - MetaData: Metadata\_ASWG\_GetSet - gets/sets ASWG-metadata
+  - MetaData: Metadata\_AXML\_GetSet - gets/sets AXML-metadata
+  - MetaData: Metadata\_CAFINFO\_GetSet - gets/sets metadata for CAF-files
+  - MetaData: Metadata\_FLACPIC\_GetSet - gets/set metadata to embed pictures into flac-files
+  - MetaData: Metadata\_IFF\_GetSet - gets/set metadata for iff  
+  - MetaData: Metadata\_WAVEXT\_GetSet gets/set metadata for wavext
   - ParmAlias: GetParmAlias\_by\_FXParam\_FXStateChunk - gets the parmalias_id by fx-parameter, that you can use as parameter id for Set/Get/Delete-ParmAlias-functions
   - ParmLearn: GetParmLearnID\_by\_FXParam\_FXStateChunk - gets the parmlearn_id by fx-parameter, that you can use as parmlearn_id for Set/Get/Delete-ParmLearn-functions(requested by TonE)
   - ParmLFOLearn: GetParmLFOLearn\_by\_FXParam\_FXStateChunk - gets the parm_lfolearn_id by fx-parameter, that you can use as parameter id for Set/Get/Delete-ParmLFOLearn-functions  
@@ -427,6 +448,7 @@ Has now 1417 functions, with 11 new ones
   
   
 #### Changes from 4.2.005 to 4.2.006  
+  - API: bugs - newly added functions from last release weren't working, due oversight -> fixed
   - API: deprecated - replaced most of the deprecated functions US-API used
   - API: minimum Reaper version - raised minimum Reaper-version to Reaper 6.20
   - API: Settings - Beta-functions-feature removed, as it was pointless and slowed down initializing US-API
@@ -456,11 +478,12 @@ Has now 1417 functions, with 11 new ones
   - ParmLearn: SetParmLearn\_FXStateChunk2 - had massive errors in the docs -> fixed(thanks to TonE)
   - ProjectManagement: GetProject\_Render\_Normalize - supports now brickwall-settings
   - ProjectManagement: SetProject\_Render\_Normalize - supports now brickwall-settings
+  - Rendering: AddRenderPreset - supports now brickwall-limiting and output-directory
   - Rendering: ApplyRenderTable\_Project - supports now brickwall-limiting
   - Rendering: ApplyRenderTable\_ProjectFile - supports now brickwall-limiting
   - Rendering: CreateNewRenderTable - supports now brickwall-limiting
   - Rendering: CreateRenderCFG\_WAV - supports now 32 Bit PCM(7) and 8 Bit u-Law(8) as BitDepth
-  - Rendering: GetOutputFormat\_RenderCfg - supports now CAF as well
+  - Rendering: GetOutputFormat\_RenderCfg - supports now CAF as well; returned the decoded render-string only, not the base64-decoded one; the latter is now retval #3
   - Rendering: GetRenderCFG\_Settings\_AIFF - when passing nil, it returns now the default-project-render-settings for aiff
   - Rendering: GetRenderCFG\_Settings\_FLAC - when passing nil, it returns now the default-project-render-settings for flac  
   - Rendering: GetRenderCFG\_Settings\_OGG - when passing nil, it returns now the default-project-render-settings for ogg
@@ -468,10 +491,12 @@ Has now 1417 functions, with 11 new ones
   - Rendering: GetRenderCFG\_WAV - when passing nil, it returns now the default-project-render-settings for wav; supports now 32 Bit PCM(7) and 8 Bit u-Law(8) as BitDepth; returned wrong value as BitDepth -> fixed  
   - Rendering: GetRenderCFG\_WAVPACK - when passing nil, it returns now the default-project-render-settings for wavpack
   - Rendering: GetRenderCFG\_Settings\_XXX - all those functions could produce error, when sending in non-Base-64-strings -> fixed      
+  - Rendering: GetRenderPreset\_RenderTable - supports now brickwall-limiting and the output-diretory, if stored; did not return secondary render-string, when having a presetname with spaces in it -> fixed
   - Rendering: GetRenderTable\_Project - supports now brickwall-limiting
   - Rendering: GetRenderTable\_ProjectFile - supports now brickwall-limiting  
-  - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)  
   - Rendering: IsValidRenderTable - supports now brickwall-limiting
+  - Rendering: RenderProject\_RenderTable - didn't return filenames due changes in statechunks in Reaper 6.33 -> fixed(thnx to aurelien)  
+  - Rendering: SetRenderPreset - supports now brickwall-limiting; didn't set some settings, when normalize-target had + in its value -> fixed
   - Rendering: various - many render-cfg-functions who work with floats didn't work properly -> fixed
   - User Interface: Windows\_Find - had inner variable exposed -> fixed
   
