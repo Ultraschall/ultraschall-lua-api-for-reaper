@@ -1367,7 +1367,7 @@ function ultraschall.CalculateLoudness(mode, timeselection, trackstring)
   </requires>
   <functioncall>string filename, string peak, string clip, string rms, string lrange, string lufs_i = ultraschall.CalculateLoudness(integer mode, boolean timeselection)</functioncall>
   <description>
-    Calculates the loudness of items and tracks or returns the loundness of last render/dry-render.
+    Calculates the loudness of items and tracks or returns the loudness of last render/dry-render.
     
     Returns nil in case of an error
   </description>
@@ -1380,13 +1380,13 @@ function ultraschall.CalculateLoudness(mode, timeselection, trackstring)
     string lufs_i - the lufs-i of the rendered element
   </retvals>
   <parameters>
-    integer mode - -1, return loundness-stats of the last render/dry render
-                 - 0, calculate loundness-stats of selected media items
-                 - 1, calculate loundness-stats of master track
-                 - 2, calculate loundness-stats of selected tracks
-    boolean timeselection - shall loundness calculation only be within time-selection?
+    integer mode - -1, return loudness-stats of the last render/dry render
+                 - 0, calculate loudness-stats of selected media items
+                 - 1, calculate loudness-stats of master track
+                 - 2, calculate loudness-stats of selected tracks
+    boolean timeselection - shall loudness calculation only be within time-selection?
                           - only with mode 1 and 2; if no time-selection is given, use entire track
-                          - false, calculate loundness within the entire tracks;
+                          - false, calculate loudness within the entire tracks;
                           - true, calculate loudness-stats within time-selection
   </parameters>
   <chapter_context>
@@ -1455,276 +1455,432 @@ end
 
 -- Need to be documented, but are finished
 
-function ultraschall.AddParmLearn_FXStateChunk2(FXStateChunk, fxid, parmidx, parmname, input_mode, channel, cc_note, cc_mode, checkboxflags, osc_message)
+function ultraschall.GetRenderTargetFiles()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>AddParmLearn_FXStateChunk2</slug>
+  <slug>GetRenderTargetFiles</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.32
+    Reaper=6.33
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.AddParmLearn_FXStateChunk2(string FXStateChunk, integer fxid, integer parmidx, string parmname, integer input_mode, integer channel, integer cc_note, integer cc_mode, integer checkboxflags, optional string osc_message)</functioncall>
+  <functioncall>string path, integer file_count, array filenames_with_path = ultraschall.GetRenderTargetFiles()</functioncall>
   <description>
-    Adds a new Parm-Learn-entry to an FX-plugin from an FXStateChunk.
-    Allows setting some values more detailed, unlike AddParmLearn_FXStateChunk.
+    Will return the render output-path and all filenames with path that would be rendered, if rendering would run right now
     
-    It's the PARMLEARN-entry
-    
-    returns false in case of an error
+    returns nil in case of error
   </description>
   <retvals>
-    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful(e.g. no such ParmLearn)
-    optional string alteredFXStateChunk - the altered FXStateChunk
+    string path - the output-path for the rendered files
+    integer file_count - the number of files that would be rendered
+    array filenames_with_path - the filenames with path of the files that would be rendered
   </retvals>
-  <parameters>
-    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
-    integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
-    integer parmidx - the parameter, whose Parameter Learn you want to add
-    string parmname - the name of the parameter, usually \"\" or \"byp\" for bypass or \"wet\" for wet; when using wet or bypass, these are essential to give, otherwise just pass ""
-    integer input_mode - the input mode of this ParmLearn-entry
-                       - 0, OSC
-                       - 1, MIDI Note
-                       - 2, MIDI CC
-                       - 3, MIDI PC
-                       - 4, MIDI Pitch
-    integer channel - the midi-channel used; 1-16
-    integer cc_note - the midi/cc-note used; 0-127
-    integer cc_mode - the cc-mode-dropdownlist
-                    - 0, Absolute
-                    - 1, Relative 1(127=-1, 1=+1)
-                    - 2, Relative 2(63=-1, 65=+1)
-                    - 3, Relative 3(65=-1, 1=+1)
-                    - 4, Toggle (>0=toggle)
-    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
-                          -    0, no checkboxes
-                          -    1, enable only when track or item is selected
-                          -    2, Soft takeover (absolute mode only)
-                          -    3, Soft takeover (absolute mode only)+enable only when track or item is selected
-                          -    4, enable only when effect configuration is focused
-                          -    20, enable only when effect configuration is visible 
-    optional string osc_message - the osc-message, that triggers the ParmLearn, only when midi_note is set to 0!
-  </parameters>
   <chapter_context>
-    FX-Management
-    Parameter Mapping Learn
+    Rendering Projects
+    Assistance functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
-  <tags>fx management, add, parm, learn, midi, osc, binding</tags>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render, get, output filenames, target path</tags>
 </US_DocBloc>
-]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "FXStateChunk", "no valid FXStateChunk", -1) return false end
-  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "fxid", "must be an integer", -2) return false end
-
-  if osc_message~=nil and type(osc_message)~="string" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "osc_message", "must be either nil or a string", -3) return false end
-  if math.type(checkboxflags)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "checkboxflags", "must be an integer", -4) return false end
-  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "parmidx", "must be an integer", -5) return false end
-  if type(parmname)~="string" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "parmname", "must be a string, either \"\" or byp or wet", -6) return false 
-  elseif parmname~="" then parmname=":"..parmname
+--]]
+  retval, Targets = reaper.GetSetProjectInfo_String(0, "RENDER_TARGETS", "", false)
+  if retval==false then return end
+  local Temp=Targets:sub(1,2)
+  local Count, Files = ultraschall.CSV2IndividualLinesAsArray(Targets, ";"..Temp)
+  for i=2, Count do
+    Files[i]=Temp..Files[i]
   end
-  if math.type(input_mode)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "input_mode", "must be an integer", -7) return false end  
-  if math.type(channel)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "channel", "must be an integer", -8) return false end  
-  if math.type(cc_note)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "cc_note", "must be an integer", -9) return false end  
-  if math.type(cc_mode)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "cc_mode", "must be an integer", -10) return false end  
-  if input_mode<0 or input_mode>4 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "input_mode", "must be between 0 and 4", -11) return false end  
-  if channel<0 or channel>15 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "channel", "must be between 1 and 16", -12) return false end  
-  if cc_note<0 or cc_note>127 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "cc_note", "must be between 0 and 127", -13) return false end  
-  if cc_mode<0 or cc_mode>4 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", "cc_mode", "must be between 1 and 4", -14) return false end  
-  channel=channel-1
-  if input_mode==0 then -- osc
-    channel=0 
-    cc_note=0 
-  elseif input_mode==1 then 
-    input_mode=144 -- midi note
-  elseif input_mode==2 then
-    input_mode=176 -- midi cc
-  elseif input_mode==3 then
-    input_mode=192 -- midi pc
-  elseif input_mode==4 then
-    input_mode=224 -- midi pitch
-  else
-  end
-  if cc_mode==1 then cc_mode=65536
-  elseif cc_mode==2 then cc_mode=131072
-  elseif cc_mode==3 then cc_mode=65536+131072
-  elseif cc_mode==4 then cc_mode=262144
-  end
-  input_mode=input_mode+channel
-  input_mode=ultraschall.CombineBytesToInteger(0, input_mode, cc_note)
-  input_mode=input_mode+cc_mode  
-  local errorcounter_old = ultraschall.CountErrorMessages()  
-  local A={ultraschall.AddParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parmname, input_mode, checkboxflags, osc_message)}
-  if errorcounter_old ~= ultraschall.CountErrorMessages() then
-    local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
-    ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk2", parmname, errormessage, errcode-100)
-    return false
-  end
-    
-  return table.unpack(A)
+  
+  local Path=Files[1]:match("(.*[\\/])")
+  
+  return Path, Count, Files
 end
 
-function ultraschall.SetParmLearn_FXStateChunk2(FXStateChunk, fxid, parmidx, parmname, input_mode, channel, cc_note, cc_mode, checkboxflags, osc_message)
+function ultraschall.Docs_GetReaperApiFunction_Description(functionname)
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Description", "functionname", "must be a string", -1) return nil end
+  if ultraschall.Docs_ReaperApiDocBlocs==nil then
+    ultraschall.Docs_ReaperApiDocBlocs=ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourceFiles/reaper-apidocs.USDocML")
+    ultraschall.Docs_ReaperApiDocBlocs_Count, ultraschall.Docs_ReaperApiDocBlocs = ultraschall.Docs_GetAllUSDocBlocsFromString(ultraschall.Docs_ReaperApiDocBlocs)
+    ultraschall.Docs_ReaperApiDocBlocs_Titles={}
+    for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do 
+      ultraschall.Docs_ReaperApiDocBlocs_Titles[i]= ultraschall.Docs_GetUSDocBloc_Title(ultraschall.Docs_ReaperApiDocBlocs[i], 1)
+    end
+  end
+
+  local found=-1
+  for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do
+    if ultraschall.Docs_ReaperApiDocBlocs_Titles[i]:lower()==functionname:lower() then
+      found=i
+    end
+  end
+  if found==-1 then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Description", "functionname", "function not found", -2) return end
+
+  local Description, markup_type, markup_version
+
+  Description, markup_type, markup_version  = ultraschall.Docs_GetUSDocBloc_Description(ultraschall.Docs_ReaperApiDocBlocs[found], true, 1)
+  if Description==nil then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Description", "functionname", "no description existing", -3) return end
+
+  Description = string.gsub(Description, "&lt;", "<")
+  Description = string.gsub(Description, "&gt;", ">")
+  Description = string.gsub(Description, "&amp;", "&")
+  return Description, markup_type, markup_version
+end
+
+
+
+function ultraschall.Docs_GetReaperApiFunction_Call(functionname, proglang)
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Call", "functionname", "must be a string", -1) return nil end
+  if math.type(proglang)~="integer" then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Call", "proglang", "must be an integer", -2) return nil end
+  if proglang<1 or proglang>4 then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Call", "proglang", "no such programming language available", -3) return nil end
+  if ultraschall.Docs_ReaperApiDocBlocs==nil then
+    ultraschall.Docs_ReaperApiDocBlocs=ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourceFiles/reaper-apidocs.USDocML")
+    ultraschall.Docs_ReaperApiDocBlocs_Count, ultraschall.Docs_ReaperApiDocBlocs = ultraschall.Docs_GetAllUSDocBlocsFromString(ultraschall.Docs_ReaperApiDocBlocs)
+    ultraschall.Docs_ReaperApiDocBlocs_Titles={}
+    for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do 
+      ultraschall.Docs_ReaperApiDocBlocs_Titles[i]= ultraschall.Docs_GetUSDocBloc_Title(ultraschall.Docs_ReaperApiDocBlocs[i], 1)
+    end
+  end
+
+  local found=-1
+  for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do
+    if ultraschall.Docs_ReaperApiDocBlocs_Titles[i]:lower()==functionname:lower() then
+      found=i
+    end
+  end
+  if found==-1 then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Call", "functionname", "function not found", -4) return end
+
+  local Call, prog_lang
+  Call, prog_lang  = ultraschall.Docs_GetUSDocBloc_Functioncall(ultraschall.Docs_ReaperApiDocBlocs[found], proglang)
+  if Call==nil then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Call", "functionname", "no such programming language available", -5) return end
+  Call = string.gsub(Call, "&lt;", "<")
+  Call = string.gsub(Call, "&gt;", ">")
+  Call = string.gsub(Call, "&amp;", "&")
+  return Call, prog_lang
+end
+
+function ultraschall.Docs_LoadReaperApiDocBlocs()
+  ultraschall.Docs_ReaperApiDocBlocs=ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourceFiles/reaper-apidocs.USDocML")
+  ultraschall.Docs_ReaperApiDocBlocs_Count, ultraschall.Docs_ReaperApiDocBlocs = ultraschall.Docs_GetAllUSDocBlocsFromString(ultraschall.Docs_ReaperApiDocBlocs)
+  ultraschall.Docs_ReaperApiDocBlocs_Titles={}
+  for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do 
+    ultraschall.Docs_ReaperApiDocBlocs_Titles[i]= ultraschall.Docs_GetUSDocBloc_Title(ultraschall.Docs_ReaperApiDocBlocs[i], 1)
+  end
+end
+
+function ultraschall.Docs_FindReaperApiFunction_Pattern(pattern, case_sensitive, include_descriptions, include_retvalnames, include_paramnames, include_tags)
+  -- unfinished:
+  -- include_retvalnames, include_paramnames not yet implemented
+  -- probably needs RetVal/Param-function that returns datatypes and name independently from each other
+  -- which also means: all functions must return values with a proper, descriptive name(or at least retval)
+  --                   or this breaks -> Doc-CleanUp-Work...Yeah!!! (looking forward to it, actually)
+  if desc_startoffset==nil then desc_startoffset=-10 end
+  if desc_endoffset==nil then desc_endoffset=-10 end
+  if case_sensitive==false then pattern=pattern:lower() end
+  local Found_count=0
+  local Found={}
+  local FoundInformation={}
+  if include_descriptions==false then FoundInformation=nil end
+  local found_this_time=false
+  for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do
+    -- search for titles
+    local Title=ultraschall.Docs_ReaperApiDocBlocs_Titles[i]
+    if case_sensitive==false then Title=Title:lower() end
+    if Title:match(pattern) then
+      found_this_time=true
+    end
+    
+    -- search within tags
+    if found_this_time==false and include_tags==true then
+      local count, tags = ultraschall.Docs_GetUSDocBloc_Tags(ultraschall.Docs_ReaperApiDocBlocs[i], 1)
+      for i=1, count do
+        if case_sensitive==false then tags[i]=tags[i]:lower() end
+        if tags[i]:match(pattern) then found_this_time=true break end
+      end
+    end
+    
+    -- search within descriptions
+    local _temp, Offset1, Offset2
+    if found_this_time==false and include_descriptions==true then
+      local Description, markup_type = ultraschall.Docs_GetUSDocBloc_Description(ultraschall.Docs_ReaperApiDocBlocs[i], true, 1)
+      Description = string.gsub(Description, "&lt;", "<")
+      Description = string.gsub(Description, "&gt;", ">")
+      Description = string.gsub(Description, "&amp;", "&")
+      if case_sensitive==false then Description=Description:lower() end
+      if Description:match(pattern) then
+        found_this_time=true
+      end
+      Offset1, _temp, Offset2=Description:match("()("..pattern..")()")
+      if Offset1~=nil then
+        if Offset1-desc_startoffset<0 then Offset1=0 else Offset1=Offset1-desc_startoffset end
+        FoundInformation[Found_count+1]={}
+        FoundInformation[Found_count+1][1]=Description:sub(Offset1, Offset2+desc_endoffset-1)
+        FoundInformation[Found_count+1][2]=Offset1 -- startoffset of found pattern, so this part can be highlighted
+                                                   -- when displaying somewhere later
+      end
+    end
+    
+    if found_this_time==true then
+      Found_count=Found_count+1
+      Found[Found_count]=ultraschall.Docs_ReaperApiDocBlocs_Titles[i]
+    end
+    
+    found_this_time=false
+  end
+  return Found_count, Found, FoundInformation
+end
+
+--A,B,C=ultraschall.Docs_FindReaperApiFunction_Pattern("tudel", false, false, 10, 14, nil, nil, true)
+
+function ultraschall.Docs_GetUSDocBloc_Changelog(String, unindent_description, index)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetParmLearn_FXStateChunk2</slug>
+  <slug>Docs_GetUSDocBloc_Changelog</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.32
+    Reaper=5.978
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.SetParmLearn_FXStateChunk2(string FXStateChunk, integer fxid, integer id, integer input_mode, integer checkboxflags, optional string osc_message)</functioncall>
+  <functioncall>integer changelogscount, table changelogs = ultraschall.Docs_GetUSDocBloc_Changelog(string String, boolean unindent_description, integer index)</functioncall>
   <description>
-    Sets an already existing Parm-Learn-entry of an FX-plugin from an FXStateChunk.
-    Allows setting some values more detailed, unlike SetParmLearn_FXStateChunk.
+    returns the changelog-entries of an US_DocBloc-entry
     
-    It's the PARMLEARN-entry
+    this returns the version-number of the software and the changes introduced in that version inside a table.
     
-    returns false in case of an error
+    returns nil in case of an error
   </description>
   <retvals>
-    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful(e.g. no such ParmLearn)
-    optional string alteredFXStateChunk - the altered FXStateChunk
+    integer changelogscount - the number of changelog-entries found
+    array changelogs - all changelogs found, as an array
+                     -   changelogs[index][1] - software-version of the introduction of the change, like "Reaper 6.23" or "US_API 4.2.006"
+                     -   changelogs[index][2] - a description of the change
   </retvals>
   <parameters>
-    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
-    integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
-    integer id - the id of the Parm-Learn-entry to set; beginning with 1
-    integer input_mode - the input mode of this ParmLearn-entry
-                       - 0, OSC
-                       - 1, MIDI Note
-                       - 2, MIDI CC
-                       - 3, MIDI PC
-                       - 4, MIDI Pitch
-    integer channel - the midi-channel used; 1-16
-    integer cc_note - the midi/cc-note used; 0-127
-    integer cc_mode - the cc-mode-dropdownlist
-                    - 0, Absolute
-                    - 1, Relative 1(127=-1, 1=+1)
-                    - 2, Relative 2(63=-1, 65=+1)
-                    - 3, Relative 3(65=-1, 1=+1)
-                    - 4, Toggle (>0=toggle)
-    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
-                          -    0, no checkboxes
-                          -    1, enable only when track or item is selected
-                          -    2, Soft takeover (absolute mode only)
-                          -    3, Soft takeover (absolute mode only)+enable only when track or item is selected
-                          -    4, enable only when effect configuration is focused
-                          -    20, enable only when effect configuration is visible 
-    optional string osc_message - the osc-message, that triggers the ParmLearn, only when midi_note is set to 0!
+    string String - a string which hold a US_DocBloc to retrieve the changelog-entry from
+    boolean unindent_description - true, will remove indentation as given in the changelog-tag; false, return the text as it is
+    integer index - the index of the changelog-entries, starting with 1 for the first
   </parameters>
   <chapter_context>
-    FX-Management
-    Parameter Mapping Learn
+    Ultraschall DocML
   </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
-  <tags>fx management, set, parm, learn, midi, osc, binding</tags>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, changelog, usdocbloc</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "FXStateChunk", "no valid FXStateChunk", -1) return false end
-  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "fxid", "must be an integer", -2) return false end
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Changelog", "String", "must be a string", -1) return nil end
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Changelog", "index", "must be an integer", -2) return nil end
+  if index<1 then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Changelog", "index", "must be >0", -3) return nil end
+  if type(unindent_description)~="boolean" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Changelog", "unindent_description", "must be a boolean", -4) return nil end
+  
+  local counter=0
+  local title, spok_lang, found
+  for k in string.gmatch(String, "(<changelog.->.-</changelog>)") do
+    counter=counter+1
+    if counter==index then String=k found=true end
+  end  
+  
+  if found~=true then return 0 end
+  
+  local parms=String:match("(<changelog.->.-)</changelog>")
+  local count, split_string = ultraschall.SplitStringAtLineFeedToArray(parms)
+  local Parmcount=0
+  local Params={}
+  
+  for i=1, count do
+    split_string[i]=split_string[i]:match("%s*(.*)")
+  end
 
-  if osc_message~=nil and type(osc_message)~="string" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "osc_message", "must be either nil or a string", -3) return false end
-  if math.type(checkboxflags)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "checkboxflags", "must be an integer", -4) return false end
-  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "parmidx", "must be an integer", -5) return false end
-  if type(parmname)~="string" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "parmname", "must be a string, either \"\" or byp or wet", -6) return false 
-  elseif parmname~="" then parmname=":"..parmname
+  for i=2, count do
+    if split_string[i]:match("%-")==nil then
+    elseif split_string[i]:sub(1,1)~="-" then
+      Parmcount=Parmcount+1
+      Params[Parmcount]={}
+      Params[Parmcount][1], Params[Parmcount][2]=split_string[i]:match("(.-)%-(.*)")
+      Params[Parmcount][1]=Params[Parmcount][1].."\0"
+      Params[Parmcount][1]=Params[Parmcount][1]:match("(.*) %s*\0")
+    else
+      Params[Parmcount][2]=Params[Parmcount][2].."\n"..split_string[i]:sub(2,-1)
+    end
   end
-  if math.type(input_mode)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "input_mode", "must be an integer", -7) return false end  
-  if math.type(channel)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "channel", "must be an integer", -8) return false end  
-  if math.type(cc_note)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "cc_note", "must be an integer", -9) return false end  
-  if math.type(cc_mode)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "cc_mode", "must be an integer", -10) return false end  
-  if input_mode<0 or input_mode>4 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "input_mode", "must be between 0 and 4", -11) return false end  
-  if channel<1 or channel>16 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "channel", "must be between 1 and 16", -12) return false end  
-  if cc_note<0 or cc_note>127 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "cc_note", "must be between 0 and 127", -13) return false end  
-  if cc_mode<0 or cc_mode>4 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "cc_mode", "must be between 1 and 4", -14) return false end  
-  if osc_message~=nil and input_mode~=0 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "input_mode", "must be set to 0, when using parameter osc_message", -15) return false end
-  if osc_message==nil and input_mode==0 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", "osc_message", "osc-message missing", -16) return false end
-  channel=channel-1
-  if input_mode==0 then -- osc
-    channel=0 
-    cc_note=0 
-  elseif input_mode==1 then 
-    input_mode=144 -- midi note
-  elseif input_mode==2 then
-    input_mode=176 -- midi cc
-  elseif input_mode==3 then
-    input_mode=192 -- midi pc
-  elseif input_mode==4 then
-    input_mode=224 -- midi pitch
-  else
-
+  
+  if indent==nil then indent="default" end
+  
+  if unindent_description~=false then 
+    for i=1, Parmcount do
+      Params[i][2]=ultraschall.Docs_RemoveIndent(Params[i][2], indent)
+    end
   end
-  if cc_mode==1 then cc_mode=65536
-  elseif cc_mode==2 then cc_mode=131072
-  elseif cc_mode==3 then cc_mode=65536+131072
-  elseif cc_mode==4 then cc_mode=262144
-  end
-  input_mode=input_mode+channel
-  input_mode=ultraschall.CombineBytesToInteger(0, input_mode, cc_note)
-  input_mode=input_mode+cc_mode  
-  local errorcounter_old = ultraschall.CountErrorMessages()
-  local A={ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, input_mode, checkboxflags, osc_message )}
-  if errorcounter_old ~= ultraschall.CountErrorMessages() then
-    local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
-    ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk2", parmname, errormessage, errcode-100)
-    return false
-  end
-    
-  return table.unpack(A)
+  
+  return Parmcount, Params
 end
 
-function ultraschall.GetParmLearn_FXStateChunk2(FXStateChunk, fxid, id)
+function ultraschall.Docs_GetUSDocBloc_LinkedTo(String, unindent_description, index)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetParmLearn_FXStateChunk2</slug>
+  <slug>Docs_GetUSDocBloc_LinkedTo</slug>
   <requires>
     Ultraschall=4.2
-    Reaper=6.32
+    Reaper=5.978
     Lua=5.3
   </requires>
-  <functioncall>integer parm_idx, string parmname, integer input_mode, integer channel, integer cc_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_FXStateChunk2(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <functioncall>integer linked_to_count, table links, string description = ultraschall.Docs_GetUSDocBloc_LinkedTo(string String, boolean unindent_description, integer index)</functioncall>
   <description>
-    Returns a parameter-learn-setting from an FXStateChunk
-    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    returns the linked_to-tags of an US_DocBloc-entry
     
-    Returns some values more detailed, unlike GetParmLearn_FXStateChunk.
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer linked_to_count - the number of linked_to-entries found
+    array links - all links found, as an array
+                 -   links[index]["location"] - the location of the link, either inline(for slugs inside the same document) or url(for links/urls/uris outside of it)
+                 -   links[index]["link"] - the slug to the element inside the document/the url or uri linking outside of the document
+                 -   links[index]["description"] - a description for this link
+    string description - a description for this linked_to-tag
+  </retvals>
+  <parameters>
+    string String - a string which hold a US_DocBloc to retrieve the linked_to-entry from
+    boolean unindent_description - true, will remove indentation as given in the changelog-tag; false, return the text as it is
+    integer index - the index of the linked_to-entries, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, linked_to, usdocbloc</tags>
+</US_DocBloc>
+]]
+
+--[[
+    linked_to tags work as follows:
+    <linked_to desc="a description for the links in this linked_to-tag">
+        inline: slug
+              description
+              optional second line of description
+              optional third line of description
+              etc
+        url: actual-url.com
+              description
+              optional second line of description
+              optional third line of description
+              etc
+    </linked_to>
     
-    It is the PARMLEARN-entry
+    There can be multiple link-tags inside a usdocml-tag!
+--]]
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_LinkedTo", "String", "must be a string", -1) return nil end
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_LinkedTo", "index", "must be an integer", -2) return nil end
+  if index<1 then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_LinkedTo", "index", "must be >0", -3) return nil end
+  if type(unindent_description)~="boolean" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_LinkedTo", "unindent_description", "must be a boolean", -4) return nil end
+  
+  local counter=0
+  local title, spok_lang, found
+  for k in string.gmatch(String, "(<linked_to.->.-</linked_to>)") do
+    counter=counter+1
+    if counter==index then String=k found=true end
+  end  
+  
+  if found~=true then return 0 end
+  
+  local parms=String:match("(<linked_to.->.-)</linked_to>")
+  local desc=parms:match("<linked_to.-desc=\"(.-)\">")
+  if desc==nil then desc="" end
+  local count, split_string = ultraschall.SplitStringAtLineFeedToArray(parms)
+  local Linkedcount=0
+  local LinkedTo={}
+  
+  for i=1, count do
+    split_string[i]=split_string[i]:match("%s*(.*)")
+  end
+
+  for i=2, count-1 do
+    if split_string[i]:match(":") then 
+      Linkedcount=Linkedcount+1
+      LinkedTo[Linkedcount]={}
+      LinkedTo[Linkedcount]["location"], LinkedTo[Linkedcount]["link"] = split_string[i]:match("(.-):(.*)")
+    else
+      if LinkedTo[Linkedcount]["description"]==nil then LinkedTo[Linkedcount]["description"]="" end
+      LinkedTo[Linkedcount]["description"]=LinkedTo[Linkedcount]["description"]..split_string[i].."\n"
+    end
+  end
+  
+  if unindent_description~=false then 
+    for i=1, Linkedcount do
+      LinkedTo[i]["description"]=ultraschall.Docs_RemoveIndent(LinkedTo[i]["description"]:sub(1,-2), "default")
+    end
+  end
+  
+  return Linkedcount, LinkedTo, desc
+end
+
+function ultraschall.ReturnReaperExeFile_With_Path()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ReturnReaperExeFile_With_Path</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.33
+    Lua=5.3
+  </requires>
+  <functioncall>string exefile_with_path = ultraschall.ReturnReaperExeFile_With_Path()</functioncall>
+  <description>
+    returns the reaper-exe-file with file-path
+  </description>
+  <retvals>
+    string exefile_with_path - the filename and path of the reaper-executable
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Various
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
+  <tags>helper functions, get, exe, filename, path</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.IsOS_Windows()==true then
+    -- On Windows
+    ExeFile=reaper.GetExePath().."\\reaper.exe"
+  elseif ultraschall.IsOS_Mac()==true then
+    -- On Mac
+    ExeFile=reaper.GetExePath().."/Reaper64.app/Contents/MacOS/reaper"
+    if reaper.file_exists(ExeFile)==false then
+      ExeFile=reaper.GetExePath().."/Reaper.app/Contents/MacOS/reaper"
+    end
+  else
+    -- On Linux
+    ExeFile=reaper.GetExePath().."/reaper"
+  end
+  return ExeFile
+end
+
+function ultraschall.GetParmLearnID_by_FXParam_FXStateChunk(FXStateChunk, fxid, param_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmLearnID_by_FXParam_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parmlearn_id, = ultraschall.GetParmLearnID_by_FXParam_FXStateChunk(string FXStateChunk, integer fxid, integer param_id)</functioncall>
+  <description>
+    Returns the parmlearn_id by parameter.
+
+    This can be used as parameter parm_learn_id for Get/Set/DeleteParmLearn-functions
+    
+    Returns -1, if the parameter has no ParmLearn associated.
     
     Returns nil in case of an error
   </description>
   <retvals>
-    integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
-    string parmname - the name of the parameter, though usually only wet or bypass
-    integer input_mode - the input mode of this ParmLearn-entry
-                       - 0, OSC
-                       - 1, MIDI Note
-                       - 2, MIDI CC
-                       - 3, MIDI PC
-                       - 4, MIDI Pitch
-    integer channel - the midi-channel used; 1-16
-    integer cc_note - the midi/cc-note used; 0-127
-    integer cc_mode - the cc-mode-dropdownlist
-                    - 0, Absolute
-                    - 1, Relative 1(127=-1, 1=+1)
-                    - 2, Relative 2(63=-1, 65=+1)
-                    - 3, Relative 3(65=-1, 1=+1)
-                    - 4, Toggle (>0=toggle)
-    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
-                          - 0, no checkboxes
-                          - 1, enable only when track or item is selected
-                          - 2, Soft takeover (absolute mode only)
-                          - 3, Soft takeover (absolute mode only)+enable only when track or item is selected
-                          - 4, enable only when effect configuration is focused
-                          - 20, enable only when effect configuration is visible
-    optional string osc_message - the osc-message, that triggers the ParmLearn
+    integer parmlearn_id - the idx of the parmlearn, that you can use for Add/Get/Set/DeleteParmLearn-functions; -1, if parameter has no ParmLearn associated
   </retvals>
   <parameters>
-    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmLearn-settings
-    integer fxid - the fx, of which you want to get the parameter-learn-settings
-    integer id - the id of the ParmLearn-settings you want to have, starting with 1 for the first
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the parmlearn
+    integer fxid - the fx, of which you want to get the parmlearn_id
+    integer param_id - the parameter, whose parmlearn_id you want to get
   </parameters>
   <chapter_context>
     FX-Management
@@ -1735,35 +1891,472 @@ function ultraschall.GetParmLearn_FXStateChunk2(FXStateChunk, fxid, id)
   <tags>fxmanagement, get, parameter, learn, fxstatechunk, osc, midi</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk2", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
-  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk2", "id", "must be an integer", -2) return nil end
-  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk2", "fxid", "must be an integer", -3) return nil end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLearnID_by_FXParam_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(param_id)~="integer" then ultraschall.AddErrorMessage("GetParmLearnID_by_FXParam_FXStateChunk", "param_id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLearnID_by_FXParam_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmLearnID_by_FXParam_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  local count=0
+  local name=""
+  local idx, midi_note, checkboxes
+  for w in string.gmatch(FXStateChunk, "PARMLEARN.-\n") do
+    w=w:sub(1,-2).." " 
+    idx = w:match(" (.-) ") 
+    if tonumber(idx)==nil then 
+      idx, name = w:match(" (.-):(.-) ")
+    end
     
-  local channel, input_mode
-  local parm_idx, parmname, midi_note, checkboxflags, osc_message = ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, fxid, id)
-  local Byte1, cc_note = ultraschall.SplitIntegerIntoBytes(midi_note)
-  if Byte1>=224 then input_mode=4 channel=Byte1-224     -- MIDI Pitch
-  elseif Byte1>=192 then input_mode=3 channel=Byte1-192 -- MIDI PC
-  elseif Byte1>=176 then input_mode=2 channel=Byte1-176 -- MIDI CC
-  elseif Byte1>=144 then input_mode=1 channel=Byte1-144 -- MIDI Note 
-  else 
-    input_mode=0 
-    channel=-1
+    if tonumber(idx)==param_id then 
+      return count
+    end
+    count=count+1
+  end
+  return -1
+end
+
+
+function ultraschall.GetParmAliasID_by_FXParam_FXStateChunk(FXStateChunk, fxid, param_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmAliasID_by_FXParam_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parmalias_id, = ultraschall.GetParmAliasID_by_FXParam_FXStateChunk(string FXStateChunk, integer fxid, integer param_id)</functioncall>
+  <description>
+    Returns the parmalias_id by parameter.
+
+    This can be used as parameter parm_alias_id for Get/Set/DeleteParmAlias-functions
+    
+    Returns -1, if the parameter has no ParmAlias associated.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parmalias_id - the idx of the parmalias, that you can use for Add/Get/Set/DeleteParmAlias-functions; -1, if parameter has no ParmAlias associated
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the parmalias_id
+    integer fxid - the fx, of which you want to get the parmalias_id
+    integer param_id - the parameter, whose parmalias_id you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping Alias
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, parameter, alias, fxstatechunk, osc, midi</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmAliasID_by_FXParam_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(param_id)~="integer" then ultraschall.AddErrorMessage("GetParmAliasID_by_FXParam_FXStateChunk", "param_id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmAliasID_by_FXParam_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmAliasID_by_FXParam_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  local count=0
+  local name=""
+  local idx, midi_note, checkboxes
+  for w in string.gmatch(FXStateChunk, "PARMALIAS.-\n") do
+    w=w:sub(1,-2).." " 
+    idx = w:match(" (.-) ") 
+    if tonumber(idx)==nil then 
+      idx, name = w:match(" (.-):(.-) ")
+    end
+    
+    if tonumber(idx)==param_id then 
+      return count
+    end
+    count=count+1
+  end
+  return -1
+end
+
+
+function ultraschall.GetParmLFOLearnID_by_FXParam_FXStateChunk(FXStateChunk, fxid, param_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmLFOLearnID_by_FXParam_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parm_lfolearn_id, = ultraschall.GetParmLFOLearnID_by_FXParam_FXStateChunk(string FXStateChunk, integer fxid, integer param_id)</functioncall>
+  <description>
+    Returns the parmlfolearn_id by parameter.
+
+    This can be used as parameter parm_lfolearn_id for Get/Set/DeleteLFOLearn-functions
+    
+    Returns -1, if the parameter has no ParmLFOLearn associated.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parm_lfolearn_id - the idx of the parm_lfolearn, that you can use for Add/Get/Set/DeleteParmLFOLearn-functions; -1, if parameter has no ParmLFOLearn associated
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the parm_lfolearn_id
+    integer fxid - the fx, of which you want to get the parameter-lfo_learn-settings
+    integer param_id - the parameter, whose parm_lfolearn_id you want to get
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping LFOLearn
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, parameter, lfolearn, fxstatechunk, osc, midi</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLFOLearnID_by_FXParam_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(param_id)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearnID_by_FXParam_FXStateChunk", "param_id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearnID_by_FXParam_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmLFOLearnID_by_FXParam_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  local count=0
+  local name=""
+  local idx, midi_note, checkboxes
+  for w in string.gmatch(FXStateChunk, "LFOLEARN.-\n") do
+    w=w:sub(1,-2).." " 
+    idx = w:match(" (.-) ") 
+    if tonumber(idx)==nil then 
+      idx, name = w:match(" (.-):(.-) ")
+    end
+    
+    if tonumber(idx)==param_id then 
+      return count
+    end
+    count=count+1
+  end
+  return -1
+end
+
+function ultraschall.GetRenderCFG_Settings_CAF(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_CAF</slug>
+    <requires>
+      Ultraschall=4.2
+      Reaper=6.43
+      Lua=5.3
+    </requires>
+    <functioncall>integer bitdepth, boolean EmbedTempo, integer include_markers = ultraschall.GetRenderCFG_Settings_CAF(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for CAF.
+
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer bitdepth - the bitdepth of the CAF-file(8, 16, 24, 32(fp), 33(pcm), 64)
+      boolean EmbedTempo - Embed tempo-checkbox; true, checked; false, unchecked
+      integer include_markers - the include markers and regions dropdownlist
+                              - 0, Do not include markers or regions
+                              - 1, Markers + Regions
+                              - 2, Markers + Regions starting with #
+                              - 3, Markers only
+                              - 4, Markers starting with # only
+                              - 5, Regions only
+                              - 6, Regions starting with # only
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the caf-settings
+                        - nil, get the current new-project-default render-settings for caf
+    </parameters>
+    <chapter_context>
+      Rendering Projects
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, caff, caf, bitdepth, beat length</tags>
+  </US_DocBloc>
+  ]]
+  if rendercfg~=nil and type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_CAF", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("caff sink defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="6666616340B80088" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
+  local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string==nil or Decoded_string:sub(1,4)~="ffac" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_CAF", "rendercfg", "not a render-cfg-string of the format caf", -2) return -1 end
+  
+  if Decoded_string:len()==4 then
+    return 24, false
   end
   
-  -- cc_mode
-  local cc_mode
-  channel=channel+1
-  if     midi_note&65536==0     and midi_note&131072==0      and midi_note&262144==0 then -- Absolute
-    cc_mode=0
-  elseif midi_note&65536==65536 and midi_note&131072==0      and midi_note&262144==0 then -- Relative 1(127=-1, 1=+1)
-    cc_mode=1
-  elseif midi_note&65536==0     and midi_note&131072==131072 and midi_note&262144==0 then -- Relative 2(63=-1, 65=+1)
-    cc_mode=2
-  elseif midi_note&65536==65536 and midi_note&131072==131072 and midi_note&262144==0 then -- Relative 3(65=-1, 1=+1)
-    cc_mode=3
-  elseif midi_note&65536==0     and midi_note&131072==0      and midi_note&262144==262144 then -- Toggle (>0=toggle) 
-    cc_mode=4
+  dropdownlist=tonumber(string.byte(Decoded_string:sub(6,6)))
+  if dropdownlist&32~=0 then dropdownlist=dropdownlist-32 end
+  dropdownlist=dropdownlist>>3
+  if dropdownlist==0 then dropdownlist=0
+  elseif dropdownlist==1 then dropdownlist=1
+  elseif dropdownlist==3 then dropdownlist=2
+  elseif dropdownlist==9 then dropdownlist=3
+  elseif dropdownlist==11 then dropdownlist=4
+  elseif dropdownlist==17 then dropdownlist=5
+  elseif dropdownlist==19 then dropdownlist=6
   end
-  return parm_idx, parmname, input_mode, channel, cc_note, cc_mode, checkboxflags, osc_message
+  
+  return string.byte(Decoded_string:sub(5,5)), tonumber(string.byte(Decoded_string:sub(6,6)))&32==32, dropdownlist
+end
+
+function ultraschall.CreateRenderCFG_CAF(bits, EmbedTempo, include_markers)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_CAF</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_CAF(integer bits, boolean EmbedTempo, integer include_markers)</functioncall>
+  <description>
+    Returns the render-cfg-string for the CAF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected CAF-settings
+  </retvals>
+  <parameters>
+      integer bitdepth - the bitdepth of the CAF-file(8, 16, 24, 32(fp), 33(pcm), 64)
+      boolean EmbedTempo - Embed tempo-checkbox; true, checked; false, unchecked
+      integer include_markers - the include markers and regions dropdownlist
+                              - 0, Do not include markers or regions
+                              - 1, Markers + Regions
+                              - 2, Markers + Regions starting with #
+                              - 3, Markers only
+                              - 4, Markers starting with # only
+                              - 5, Regions only
+                              - 6, Regions starting with # only
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>projectfiles, create, render, outputformat, caf</tags>
+</US_DocBloc>
+]]
+  if math.type(bits)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_CAF", "bits", "must be an integer", -1) return nil end
+  if bits~=8 and bits~=16 and bits~=24 and bits~=32 and bits~=33 and bits~=64 then ultraschall.AddErrorMessage("CreateRenderCFG_CAF", "bits", "only 8, 16, 24, 32, 33(32 pcm) and 64 are supported by CAF", -2) return nil end
+  if EmbedTempo~=nil and type(EmbedTempo)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_CAF", "EmbedTempo", "must be a boolean", -3) return nil end  
+  
+  if include_markers==2 then include_markers=3
+  elseif include_markers==3 then include_markers=9
+  elseif include_markers==4 then include_markers=11
+  elseif include_markers==5 then include_markers=17
+  elseif include_markers==6 then include_markers=19
+  end
+  
+  include_markers=include_markers<<3
+  
+  if EmbedTempo==true then include_markers=include_markers+32 end
+
+  local renderstring="ffac"..string.char(bits)..string.char(include_markers)..string.char(0)
+  renderstring=ultraschall.Base64_Encoder(renderstring)
+  
+  return renderstring
+end
+
+function ultraschall.GFX_GetChar(character, manage_clipboard, to_clipboard, readable_characters)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GFX_GetChar</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.42
+    Lua=5.3
+  </requires>
+  <functioncall>integer first_typed_character, integer num_characters, table character_queue = ultraschall.GFX_GetChar(optional integer character, optional boolean manage_clipboard, optional string to_clipboard, optional boolean readable_characters)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    gets all characters from the keyboard-queue of gfx.getchar as a handy table.
+    
+    the returned table character_queue is of the following format:
+    
+        character_queue[index]["Code"] - the character-code
+        character_queue[index]["Ansi"] - the character-code converted into Ansi
+        character_queue[index]["UTF8"] - the character-code converted into UTF8
+      
+    When readable_characters=true, the entries of the character_queue for Ansi and UTF8 will hold readable strings for non-printable characters, like:
+      "ins ", "del ", "home", "F1  "-"F12 ", "tab ", "esc ", "pgup", "pgdn", "up  ", "down", "left", "rght", "bspc", "ente"
+      
+    You can optionally let this function manage clipboard. So hitting Ctrl+V will get put the content of the clipboard into the character_queue of Ansi/UTF8 in the specific position of the character-queue,
+    while hitting Ctrl+C will put the contents of the parameter to_clipboard into the clipboard in this case.
+    
+    Retval first_typed_character behaves basically like the returned character of Reaper's native function gfx.getchar()
+    
+    returns -2 in case of an error
+  </description>
+  <parameters>
+    optional integer character - a specific character-code to check for(will ignore all other keys)
+                               - 65536 queries special flags, like: &amp;1 (supported in this script), &amp;2=window has focus, &amp;4=window is visible  
+    optional boolean manage_clipboard - true, when user hits ctrl+v/cmd+v the character-queue will hold clipboard-contents in this position
+                                      - false, treat ctrl+v/cmd+v as regular typed character
+    optional string to_clipboard - if get_paste_from_clipboard=true and user hits ctrl+c/cmd+c, the contents of this variable will be put into the clipboard
+    optional boolean readable_characters - true, make non-printable characters readable; false, keep them in original state
+  </parameters>
+  <retvals>
+    integer first_typed_character - the character-code of the first character found
+    integer num_characters - the number of characters in the queue
+    table character_queue - the characters in the queue, within a table(see description for more details)
+  </retvals>
+  <chapter_context>
+    Key-Management
+  </chapter_context>
+  <target_document>US_Api_GFX</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, gfx, getchar, character, clipboard</tags>
+</US_DocBloc>
+]]
+  if character~=nil and math.type(character)~="integer" then ultraschall.AddErrorMessage("GFX_GetChar", "character", "must be an integer", -1) return -2 end
+  if manage_clipboard~=nil and type(manage_clipboard)~="boolean" then ultraschall.AddErrorMessage("GFX_GetChar", "manage_clipboard", "must be either nil or boolean", -2) return -2 end
+  if readable_characters~=nil and type(readable_characters)~="boolean" then ultraschall.AddErrorMessage("GFX_GetChar", "readable_characters", "must be either nil or boolean", -3) return -2 end
+  to_clipboard=tostring(to_clipboard)
+  
+  local A=1
+  local CharacterTable={}
+  local CharacterCount=0
+  local first=-2
+  while A>0 do
+    A=gfx.getchar(character)
+    if first==-2 then first=math.tointeger(A) end
+    if A>0 then
+      CharacterCount=CharacterCount+1
+      CharacterTable[CharacterCount]={}
+      CharacterTable[CharacterCount]["Code"]=A
+      if manage_clipboard==true and A==3 then
+        ToClip(to_clipboard)
+      elseif manage_clipboard==true and A==22 and gfx.mouse_cap&4==4 then
+        CharacterTable[CharacterCount]["Ansi"]=FromClip()
+      else
+        if A>-1 and A<255 then
+          CharacterTable[CharacterCount]["Ansi"]=string.char(A)
+        else
+          CharacterTable[CharacterCount]["Ansi"]=""
+        end
+        if A>-1 and A<1114112 then
+          CharacterTable[CharacterCount]["UTF8"]=utf8.char(A)
+        else
+          CharacterTable[CharacterCount]["UTF8"]=""
+        end
+        if readable_characters==false then
+          if A>1114112 then
+            CharacterTable[CharacterCount]["UTF8"] = ultraschall.ConvertIntegerIntoString2(4, math.tointeger(A)):reverse()
+            CharacterTable[CharacterCount]["Ansi"] = CharacterTable[CharacterCount]["UTF8"]
+          end
+    
+          if A==6647396.0 then -- end-key
+            CharacterTable[CharacterCount]["Ansi"] = "end " 
+            CharacterTable[CharacterCount]["UTF8"] = "end "
+          end
+          if A==6909555.0 then -- insert key
+            CharacterTable[CharacterCount]["Ansi"] = "ins " 
+            CharacterTable[CharacterCount]["UTF8"] = "ins "
+          end
+          if A==6579564.0 then -- del key
+            CharacterTable[CharacterCount]["Ansi"] = "del " 
+            CharacterTable[CharacterCount]["UTF8"] = "del "
+          end
+          if A>26160.0 and A<26170.0 then -- F1 through F9
+            CharacterTable[CharacterCount]["Ansi"] = "F"..(math.tointeger(A)-26160).."  "
+            CharacterTable[CharacterCount]["UTF8"] = "F"..(math.tointeger(A)-26160).."  "
+          end
+          if A>=6697264.0 and A<=6697266.0 then -- F10 and higher
+            CharacterTable[CharacterCount]["Ansi"] = "F"..(math.tointeger(A)-6697254).." "
+            CharacterTable[CharacterCount]["UTF8"] = "F"..(math.tointeger(A)-6697254).." "
+          end
+          if A==8 then -- backspace
+            CharacterTable[CharacterCount]["Ansi"] = "bspc"
+            CharacterTable[CharacterCount]["UTF8"] = "bspc"
+          end
+          if A==9 then -- backspace
+            CharacterTable[CharacterCount]["Ansi"] = "tab "
+            CharacterTable[CharacterCount]["UTF8"] = "tab "
+          end
+          if A==13 then -- enter
+            CharacterTable[CharacterCount]["Ansi"] = "ente"
+            CharacterTable[CharacterCount]["UTF8"] = "ente"
+          end
+          if A==27 then -- escape
+            CharacterTable[CharacterCount]["Ansi"] = "esc "
+            CharacterTable[CharacterCount]["UTF8"] = "esc "
+          end
+          if A==30064.0 then -- upkey, others are treated with A>1114112
+            CharacterTable[CharacterCount]["Ansi"] = "up  "
+            CharacterTable[CharacterCount]["UTF8"] = "up  "
+          end
+
+        end
+      end    
+    else
+      break
+    end
+  end
+
+  --  local B=""
+  --  local C=""
+  --  for i=1, CharacterCount do
+  --    B=B..CharacterTable[i]["UTF"]
+  --    C=C..CharacterTable[i]["Ansi"]
+  --  end
+  return first, CharacterCount, CharacterTable--, B, C
+end
+
+function ultraschall.Docs_GetUSDocBloc_Deprecated(US_DocBloc)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUSDocBloc_Deprecated</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>string what, string when, string alternative = ultraschall.Docs_GetUSDocBloc_Deprecated(string US_DocBloc)</functioncall>
+  <description>
+    returns the deprecated-tag of an US-DocBloc, which holds the information about, is a function is deprecated and what to use alternatively.
+    
+    returns nil in case of an error or if no such deprecated-tag exists for this US_DocBloc
+  </description>
+  <retvals>
+    string what - which software deprecated the function "Reaper" or "SWS" or "JS", etc
+    string when - since which version is this function deprecated
+    string alternative - what is a possible alternative to this function, if existing
+    string removed - function got removed
+  </retvals>
+  <parameters>
+    string US_DocBloc - a string which hold a US_DocBloc to retrieve the deprecated-tag-attributes from
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, deprecated, usdocbloc</tags>
+</US_DocBloc>
+]]  
+  if type(US_DocBloc)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Deprecated", "US_DocBloc", "must be a string", -1) return end
+  local Deprecated=US_DocBloc:match("<deprecated .*/>")
+  if Deprecated == nil then return end
+  local DepreWhat, Depr_SinceWhen=Deprecated:match("since_when=\"(.-) (.-)\"")
+  local Depr_Alternative=Deprecated:match("alternative=\"(.-)\"")
+  local Depr_Removed=Deprecated:match("removed=\"(.-)\"")
+  --print2(Depr_Removed)
+  return DepreWhat, Depr_SinceWhen, Depr_Alternative, Depr_Removed~=nil
 end
