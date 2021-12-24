@@ -6415,3 +6415,44 @@ function ultraschall.GMem_GetValues_VideoSamplePeeker(samplesize)
          #Buf,  -- number of values of the sample-buffer
          Buf   -- the values themselves of the sample-buffer
 end
+
+function ultraschall.ReturnReaperExeFile_With_Path()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ReturnReaperExeFile_With_Path</slug>
+  <requires>
+    Ultraschall=4.2
+    Reaper=6.33
+    Lua=5.3
+  </requires>
+  <functioncall>string exefile_with_path = ultraschall.ReturnReaperExeFile_With_Path()</functioncall>
+  <description>
+    returns the reaper-exe-file with file-path
+  </description>
+  <retvals>
+    string exefile_with_path - the filename and path of the reaper-executable
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Various
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
+  <tags>helper functions, get, exe, filename, path</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.IsOS_Windows()==true then
+    -- On Windows
+    ExeFile=reaper.GetExePath().."\\reaper.exe"
+  elseif ultraschall.IsOS_Mac()==true then
+    -- On Mac
+    ExeFile=reaper.GetExePath().."/Reaper64.app/Contents/MacOS/reaper"
+    if reaper.file_exists(ExeFile)==false then
+      ExeFile=reaper.GetExePath().."/Reaper.app/Contents/MacOS/reaper"
+    end
+  else
+    -- On Linux
+    ExeFile=reaper.GetExePath().."/reaper"
+  end
+  return ExeFile
+end

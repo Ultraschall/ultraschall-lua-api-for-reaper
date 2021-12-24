@@ -1296,6 +1296,18 @@ else
     ultraschall.LM(11)
     return ultraschall.GetParmLearn_FXStateChunk2(table.unpack({...}))
   end
+  function ultraschall.GetParmLearnID_by_FXParam_FXStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.GetParmLearnID_by_FXParam_FXStateChunk(table.unpack({...}))
+  end
+  function ultraschall.GetParmAliasID_by_FXParam_FXStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.GetParmAliasID_by_FXParam_FXStateChunk(table.unpack({...}))
+  end
+  function ultraschall.GetParmLFOLearnID_by_FXParam_FXStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.GetParmLFOLearnID_by_FXParam_FXStateChunk(table.unpack({...}))
+  end
   function ultraschall.ReadFullFile(...)
     ultraschall.LM(12)
     return ultraschall.ReadFullFile(table.unpack({...}))
@@ -1943,6 +1955,10 @@ else
   function ultraschall.GMem_GetValues_VideoSamplePeeker(...)
     ultraschall.LM(13)
     return ultraschall.GMem_GetValues_VideoSamplePeeker(table.unpack({...}))
+  end
+  function ultraschall.ReturnReaperExeFile_With_Path(...)
+    ultraschall.LM(13)
+    return ultraschall.ReturnReaperExeFile_With_Path(table.unpack({...}))
   end
   function ultraschall.ResizePNG(...)
     ultraschall.LM(14)
@@ -4503,6 +4519,14 @@ else
   function ultraschall.AreRenderTablesEqual(...)
     ultraschall.LM(28)
     return ultraschall.AreRenderTablesEqual(table.unpack({...}))
+  end
+  function ultraschall.GetRenderCFG_Settings_CAF(...)
+    ultraschall.LM(28)
+    return ultraschall.GetRenderCFG_Settings_CAF(table.unpack({...}))
+  end
+  function ultraschall.CreateRenderCFG_CAF(...)
+    ultraschall.LM(28)
+    return ultraschall.CreateRenderCFG_CAF(table.unpack({...}))
   end
   function ultraschall.GetAllThemeLayoutNames(...)
     ultraschall.LM(29)
