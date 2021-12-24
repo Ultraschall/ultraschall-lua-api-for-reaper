@@ -5528,8 +5528,8 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     local Filearray={}
     if aborted~=true then
       for i=1, Count do
-        --print2(MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\""))
-        Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE (.-)")
+        --print2(MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \".-\""))
+        Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE (.-)\n")
         if Filearray[i]:sub(1,1)=="\"" and Filearray[i]:sub(-1,-1)=="\"" then
           Filearray[i]=Filearray[i]:sub(2,-2)
         end
