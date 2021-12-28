@@ -1681,14 +1681,14 @@ function ultraschall.SetGuidExtState(guid, key, value, savelocation, overwrite, 
   </description>
   <parameters>
     string guid - the guid of the object, for whom you want to store a key/value-pair; can have additional characters before and after the guid, but must contain a valid guid!
-    string key - the key for this guid
-    string value - the value to store into the key/value-store
+    string key - the key for this guid; "", deletes all keys+values stored with this marker
+    string value - the value to store into the key/value-store; "", deletes the value for this key
     integer savelocation - 0, store as project extension state(into the currently opened project); 1, store as global extension state(when persist=true, into reaper-extstate.ini in the resourcesfolder)
     boolean overwrite - true, overwrite a previous given value; false, don't overwrite, if a value exists already
     boolean persists - true, make extension state persistent(available after Reaper-restart); false, don't make it persistent; Only with global extension states
   </parameters>
   <retvals>
-    integer retval - the idx of the extstate(if a project extension state); 1, successful(with extension states), -1, unsuccessful
+    integer retval - the idx of the extstate(if a project extension state); >=1 number of stored extension states(means successful), -1, unsuccessful
   </retvals>
   <chapter_context>
     Metadata Management

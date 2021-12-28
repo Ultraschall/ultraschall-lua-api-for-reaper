@@ -403,7 +403,7 @@ Doesn't work on Windows 7???
 
 ### 4.3 - "Babylon Zoo - The Boy with the X-Ray Eyes" - XX of XX 2022
 
-Has now 1423 functions, with 17 new ones
+Has now 1423 functions, with XX new ones
 
 **new in this release:**  
 
@@ -411,10 +411,17 @@ Has now 1423 functions, with 17 new ones
   
   
 #### New features in 4.3  
+  - Markers: AddShownoteMarker - adds a shownote-marker
+  - Markers: CountShownoteMarkers - counts shownote-markers in a project
+  - Markers: DeleteShownoteMarker - deletes a shownote-marker
+  - Markers: EnumerateShownoteMarkers - gets a shownote-marker
+  - Markers: GetSetShownoteMarker\_Attributes - sets additional attributes of a shownote-marker
+  - Markers: SetShownoteMarker - sets an already existing shownote
   
-  
-#### Changes from 4.2.006 to 4.3  
-  
+#### Changes from 4.2.006 to 4.3    
+  - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well
+  - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well
+  - ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk
 
 ---
 

@@ -291,12 +291,12 @@ function ultraschall.SetMarkerExtState(index, key, value)
     returns -1 in case of an error
   </description>
   <retvals>
-    integer retval - -1, in case of an error; 1, in case of success
+    integer retval - -1, in case of an error; >=1 number of stored extension states(means successful), -1, unsuccessful
   </retvals>
   <parameters>
     integer index - the marker/region-index, for which to store an extstate; starting with 1 for first marker/region, 2 for second marker/region
-    string key - the key, into which the marker-extstate shall be stored
-    string value - the value, which you want to store into the marker-extstate
+    string key - the key, into which the marker-extstate shall be stored; "", deletes all keys+values stored with this marker
+    string value - the value, which you want to store into the marker-extstate; "", deletes the value for this key
   </parameters>
   <chapter_context>
     Metadata Management

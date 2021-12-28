@@ -4015,7 +4015,7 @@ function ultraschall.EnumerateCustomMarkers(custom_marker_name, idx)
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer marker_index, number pos, string name, integer shown_number, integer color = ultraschall.EnumerateCustomMarkers(string custom_marker_name, integer idx)</functioncall>
+  <functioncall>boolean retval, integer marker_index, number pos, string name, integer shown_number, integer color, string guid = ultraschall.EnumerateCustomMarkers(string custom_marker_name, integer idx)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will return a specific custom-marker with a certain name.
     
@@ -4045,7 +4045,7 @@ function ultraschall.EnumerateCustomMarkers(custom_marker_name, idx)
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     boolean retval - true, if the custom-marker exists; false, if not or an error occurred
-    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 2 for the second, etc
+    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 1 for the second, etc
     number pos - the position of the marker in seconds
     string name - the name of the marker, exluding the custom-marker-name
     integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
@@ -4119,7 +4119,7 @@ function ultraschall.EnumerateCustomRegions(custom_region_name, idx)
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     boolean retval - true, if the custom-region exists; false, if not or an error occurred
-    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 2 for the second, etc
+    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 1 for the second, etc
     number pos - the position of the region in seconds
     number rgnend - the end of the region in seconds
     string name - the name of the region, exluding the custom-region-name
@@ -4194,7 +4194,7 @@ function ultraschall.DeleteCustomMarkers(custom_marker_name, idx)
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     boolean retval - true, if the custom-marker exists; false, if not or an error occurred
-    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 2 for the second, etc
+    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 1 for the second, etc
     number pos - the position of the marker in seconds
     string name - the name of the marker, exluding the custom-marker-name
     integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
@@ -4270,7 +4270,7 @@ function ultraschall.DeleteCustomRegions(custom_region_name, idx)
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     boolean retval - true, if the custom-region exists; false, if not or an error occurred
-    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 2 for the second, etc
+    integer marker_index - the index of the region within all custom regions, by position in the project, with 0 for the first, 1 for the second, etc
     number pos - the position of the region in seconds
     number rgnend - the end of the region in seconds
     string name - the name of the region, exluding the custom-region-name
@@ -4316,7 +4316,7 @@ function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer markernumber, string guid = ultraschall.AddCustomMarker(string custom_marker_name, number pos, string name, integer shown_number, integer color)</functioncall>
+  <functioncall>boolean retval, integer markernumber, string guid, integer custommarker_index = ultraschall.AddCustomMarker(string custom_marker_name, number pos, string name, integer shown_number, integer color)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will add new custom-marker with a certain name.
     
@@ -4347,8 +4347,11 @@ function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number
   </parameters>
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     boolean retval - true, if adding the custom-marker was successful; false, if not or an error occurred
-    integer markernumber - the indexnumber of the newly added custommarker
+    integer markernumber - the indexnumber of the newly added custommarker within all regions and markers; 0-based
+                         - use this for Reaper's own marker-management-functions
     string guid - the guid of the custommarker
+    integer custommarker_index - the index of the custom-marker within the custom-markers only(!); 0-based
+                               - use this for Ultraschall-API's custom-markers-functions
   </retvals>
   <chapter_context>
     Markers
@@ -4366,6 +4369,8 @@ function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number
   if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("AddCustomMarker", "shown_number", "must be an integer", -4) return false end
   if math.type(color)~="integer" then ultraschall.AddErrorMessage("AddCustomMarker", "color", "must be an integer; 0, for default color", -5) return false end  
   
+  local ocm=custom_marker_name
+  local found_custommarker_idx
   if custom_marker_name==nil then custom_marker_name=name else custom_marker_name="_"..custom_marker_name..": "..name end
   
   local Aretval, Acount, Amarkersstring, Amarkersarray = ultraschall.IsMarkerAtPosition(pos)
@@ -4376,7 +4381,13 @@ function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number
   local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(A1markersarray, Amarkersarray)
   local retval, guid = reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..originals_array1[1]-1, "", false)
   
-  return true, originals_array1[1]-1, guid
+  if ocm~=nil then 
+    for i=0, ultraschall.CountAllCustomMarkers(ocm) do    
+      local retval, markerindex, pos2, name2, shown_number, color, guid2 = ultraschall.EnumerateCustomMarkers(ocm, i)
+      if guid2==guid then found_custommarker_idx=i end
+    end
+  end
+  return true, originals_array1[1]-1, guid, found_custommarker_idx
 end
 --A,B,C=ultraschall.AddCustomMarker("vanillachief", 1, "Hulahoop", 987, 9865)
 
@@ -4390,7 +4401,7 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer shown_number, integer markerindex, string guid = ultraschall.AddCustomRegion(string custom_region_name, number pos, number regionend, string name, integer shown_number, integer color)</functioncall>
+  <functioncall>boolean retval, integer shown_number, integer markerindex, string guid, integer customregion_index = ultraschall.AddCustomRegion(string custom_region_name, number pos, number regionend, string name, integer shown_number, integer color)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will add new custom-region with a certain name.
     
@@ -4423,8 +4434,11 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
   <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     boolean retval - true, if adding the custom-region was successful; false, if not or an error occurred
     integer shown_number - if the desired shown_number is already used by another region, this will hold the alternative number for the new custom-region
-    integer markernumber - the indexnumber of the newly added customregion
+    integer markernumber - the indexnumber of the newly added customregion within all regions and markers; 0-based
+                         - use this for Reaper's own marker-management-functions
     string guid - the guid of the customregion
+    integer customregion_index - the index of the custom-region within the custom-regions only(!); 0-based
+                               - use this for Ultraschall-API's custom-regions-functions
   </retvals>
   <chapter_context>
     Markers
@@ -4443,6 +4457,8 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
   if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("AddCustomRegion", "shown_number", "must be an integer", -4) return false end
   if math.type(color)~="integer" then ultraschall.AddErrorMessage("AddCustomRegion", "color", "must be an integer; 0, for default color", -5) return false end  
   
+  local ocm=custom_region_name
+  local found_custommarker_idx
   if custom_region_name==nil then custom_region_name=name else custom_region_name="_"..custom_region_name..": "..name end
   
   local Aretval, Acount, Amarkersstring, Amarkersarray = ultraschall.IsRegionAtPosition(pos)
@@ -4456,7 +4472,13 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
   
   local retval, guid = reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..originals_array1[1]-1, "", false)
   
-  return true, shown_number, originals_array1[1]-1, guid
+  if ocm~=nil then 
+    for i=0, ultraschall.CountAllCustomRegions(ocm) do    
+      local retval, markerindex, pos2, rgnend2, name2, shown_number, color, guid2 = ultraschall.EnumerateCustomRegions(ocm, i)
+      if guid2==guid then found_custommarker_idx=i end
+    end
+  end
+  return true, shown_number, originals_array1[1]-1, guid, found_custommarker_idx
 end
 
 --A,B,C=ultraschall.AddCustomRegion("vanillachief", 105, 150, "Hulahoop", 987, 9865)
