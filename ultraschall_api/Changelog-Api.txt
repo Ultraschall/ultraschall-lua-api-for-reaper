@@ -386,14 +386,37 @@ Ok, I'll add the EnumProjects-approach as "IsReaperQuitting()"-function to my AP
 Doesn't work on Windows 7???
 
 
-  - Rendering: CalculateLoudness - calculates loundness of tracks/items and returns its stats  
+  - Rendering: CalculateLoudness - calculates loudness of tracks/items and returns its stats  
  
   - Normalization in BatchConverter?
+
+  - GetItemButtonsVisible/SetItemButtonsVisible - add "hide buttons when lane is less than x pixels"-feature to the parameters/retvals too
+  - Docs: mach mal Abstand zwischen retvals/params und der description kürzer, dafür aber evtl den Abstand ÜBER den retval/param-names etwas höher.
+          Mach mal auch den Abstand zwischen <u>Return Values</u> und <u>Parameters</u> etwas kürzer, siehe ShowEnvelopePointMenu. Da ist zuviel Abstand dazwischen.
+  
+          Sieh schicker aus.
  
 </TODO>
 
 
 ## Ultraschall Framework - Changelog
+
+### 4.3 - "Babylon Zoo - The Boy with the X-Ray Eyes" - XX of XX 2022
+
+Has now 1423 functions, with 17 new ones
+
+**new in this release:**  
+
+  - **Blabla**  
+  
+  
+#### New features in 4.3  
+  
+  
+#### Changes from 4.2.006 to 4.3  
+  
+
+---
 
 ### 4.2.006 - "The Beatles - The continuing story of Bungalow Bill" - 24th of December 2021
 

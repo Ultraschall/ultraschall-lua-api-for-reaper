@@ -56,7 +56,7 @@ else
 end
 --]]
 
-ultraschall.US_BetaFunctions=false
+ultraschall.US_BetaFunctions=true
 
 
 ultraschall.temp1,ultraschall.temp=reaper.get_action_context()
