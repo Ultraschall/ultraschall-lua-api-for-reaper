@@ -395,6 +395,16 @@ Doesn't work on Windows 7???
           Mach mal auch den Abstand zwischen <u>Return Values</u> und <u>Parameters</u> etwas kürzer, siehe ShowEnvelopePointMenu. Da ist zuviel Abstand dazwischen.
   
           Sieh schicker aus.
+
+
+-- Podcast Metadata
+
+    individual functions for:
+        - "podcast_feed" - the feed-url of the podcast(see additional_attributes for more details)
+
+        Donate?-
+
+        Contributors.
  
 </TODO>
 
@@ -411,12 +421,16 @@ Has now 1423 functions, with XX new ones
   
   
 #### New features in 4.3  
+  - ErrorMessagingSystem: DAEM - like ultraschall.DeleteAllErrorMessages(), just shorter
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
-  - Markers: EnumerateShownoteMarkers - gets a shownote-marker
-  - Markers: GetSetShownoteMarker\_Attributes - sets additional attributes of a shownote-marker
+  - Markers: EnumerateShownoteMarkers - gets a shownote-marker  
   - Markers: SetShownoteMarker - sets an already existing shownote
+  - PodcastMetadata: CommitShownote\_ReaperMetadata - commits shownotes to Reaper's metadata-storage
+  - PodcastMetadata: GetSetPodcast\_MetaData - gets/sets metadata-attributes of a podcast
+  - PodcastMetadata: GetSetPodcastEpisode\_MetaData - gets/sets metadata-attributes of a podcast-episode
+  - PodcastMetadata: GetSetShownoteMarker\_Attributes - sets additional attributes of a shownote-marker
   
 #### Changes from 4.2.006 to 4.3    
   - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well
