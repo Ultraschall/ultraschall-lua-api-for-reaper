@@ -23629,8 +23629,21 @@ Use this for the other Ultraschall-API-shownote-functions!</td></tr>
 <tr><td class="pr"><i>string</i> attributename</td></tr>
 <tr><td class="ch2">the attributename you want to get/set<br/>
 supported attributes are:<br/>
+"language" - the language of the content; Languagecode according to ISO639<br/>
+"location_gps" - the gps-coordinates of the location<br/>
+"location_google_maps" - the coordinates as used in Google Maps<br/>
+"location_open_street_map" - the coordinates as used in Open Street Maps<br/>
+"location_apple_maps" - the coordinates as used in Apple Maps<br/>
+"content_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd<br/>
+"content_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss<br/>
+"content_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format<br/>
 "url" - a url to a website, that shall be associated with this shownote<br/>
-"citation" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite<br/>
+"url_retrieval_date" - the date of the retrieval of the url; yyyy-mm-dd<br/>
+"url_retrieval_time" - the time of the retrieval of the url; hh:mm:ss<br/>
+"url_retrieval_timezone" - the timezone of the url in UTC-format<br/>
+"url_archived_copy_of_original_url" - an archived copy of the content of the url at retrieval time, (archive.org for instance)<br/>
+"cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite<br/>
+"quote" - a quote from the cite_source<br/>
 "image_uri" - the uri of the image to store with the shownote(location on harddisk)<br/>
 "image_content" - the image-file itself as string, that you can store in the project; only png and jpg.<br/>
 "image_description" - a description of the image for blind/visually impaired users<br/>

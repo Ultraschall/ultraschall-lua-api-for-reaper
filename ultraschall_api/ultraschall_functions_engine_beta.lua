@@ -1814,8 +1814,21 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     integer idx - the index of the shownote, whose attribute you want to get
     string attributename - the attributename you want to get/set
                          - supported attributes are:
+                         - "language" - the language of the content; Languagecode according to ISO639
+                         - "location_gps" - the gps-coordinates of the location
+                         - "location_google_maps" - the coordinates as used in Google Maps
+                         - "location_open_street_map" - the coordinates as used in Open Street Maps
+                         - "location_apple_maps" - the coordinates as used in Apple Maps
+                         - "content_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd
+                         - "content_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss
+                         - "content_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format
                          - "url" - a url to a website, that shall be associated with this shownote
-                         - "citation" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
+                         - "url_retrieval_date" - the date of the retrieval of the url; yyyy-mm-dd
+                         - "url_retrieval_time" - the time of the retrieval of the url; hh:mm:ss
+                         - "url_retrieval_timezone" - the timezone of the url in UTC-format
+                         - "url_archived_copy_of_original_url" - an archived copy of the content of the url at retrieval time, (archive.org for instance)
+                         - "cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
+                         - "quote" - a quote from the cite_source
                          - "image_uri" - the uri of the image to store with the shownote(location on harddisk)
                          - "image_content" - the image-file itself as string, that you can store in the project; only png and jpg.
                          - "image_description" - a description of the image for blind/visually impaired users
@@ -1840,17 +1853,36 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "idx", "must be an integer", -2) return false end  
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "attributename", "must be a string", -3) return false end  
   if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "must be a string", -4) return false end  
-
-  if attributename~="url" and
-     attributename~="citation" and
-     attributename~="image_uri" and
-     attributename~="image_content" and
-     attributename~="image_description" and
-     attributename~="image_source" and 
-     attributename~="image_license"
-     then
-     ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "attributename", "attributename not supported", -7) return false
+  
+  local tags={"language",                   -- check for validity ISO639
+              "location_gps",-- check for validity
+              "location_google_maps",-- check for validity
+              "location_open_street_map",-- check for validity
+              "location_apple_maps",-- check for validity
+              "content_date",-- check for validity
+              "content_time",-- check for validity
+              "content_timezone",-- check for validity
+              "url",-- check for validity
+              "url_retrieval_date",-- check for validity
+              "url_retrieval_time",-- check for validity
+              "url_retrieval_timezone",-- check for validity
+              "url_archived_copy_of_original_url",-- check for validity
+              "cite_source", 
+              "quote", 
+              "image_uri",
+              "image_content",-- check for validity
+              "image_description",
+              "image_source",
+              "image_license"}
+  local found=false
+  for i=1, #tags do
+    if attributename==tags[i] then
+      found=true
+      break
+    end
   end
+  
+  if found==false then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "attributename", "attributename not supported", -7) return false end
   
   local A,B,Retval
   A={ultraschall.EnumerateShownoteMarkers(idx)}
@@ -1858,11 +1890,11 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
 
   if is_set==true then
     if attributename=="image_content" and content:sub(1,6)~="ÿØÿ" and content:sub(2,4)~="PNG" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "image_content: only png and jpg are supported", -6) return false end
-    Retval = ultraschall.SetMarkerExtState(A[2], attributename, content)
+    Retval = ultraschall.SetMarkerExtState(A[2]+1, attributename, content)
     if Retval==-1 then Retval=false else Retval=true end
     B=content
   else
-    B=ultraschall.GetMarkerExtState(A[2], attributename, content)
+    B=ultraschall.GetMarkerExtState(A[2]+1, attributename, content)
     if B==nil then Retval=false else Retval=true end
   end
   return Retval, B
