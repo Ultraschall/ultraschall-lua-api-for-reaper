@@ -1816,9 +1816,11 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - supported attributes are:
                          - "url" - a url to a website, that shall be associated with this shownote
                          - "citation" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
-                         - "image_uri" - the uri of the image to store with the shownote(url or location on harddisk)
+                         - "image_uri" - the uri of the image to store with the shownote(location on harddisk)
                          - "image_content" - the image-file itself as string, that you can store in the project; only png and jpg.
                          - "image_description" - a description of the image for blind/visually impaired users
+                         - "image_source" - the original source of the image(book+page or url)
+                         - "image_license" - the user-license of the image(public domain, creative commons, etc)
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
@@ -1837,13 +1839,15 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "is_set", "must be a boolean", -1) return false end  
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "idx", "must be an integer", -2) return false end  
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "attributename", "must be a string", -3) return false end  
-  if type(content)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "must be a string", -4) return false end  
+  if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "must be a string", -4) return false end  
 
   if attributename~="url" and
      attributename~="citation" and
      attributename~="image_uri" and
      attributename~="image_content" and
-     attributename~="image_description" 
+     attributename~="image_description" and
+     attributename~="image_source" and 
+     attributename~="image_license"
      then
      ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "attributename", "attributename not supported", -7) return false
   end
