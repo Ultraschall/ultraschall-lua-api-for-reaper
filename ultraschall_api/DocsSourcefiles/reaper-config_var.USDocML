@@ -10305,7 +10305,10 @@
            
            >&1024=0, LRA, LUFS-S (loudness range, short-term loudness) -> Calculate statistics when rendering-button - checked
            >&1024=1, LRA, LUFS-S (loudness range, short-term loudness) -> Calculate statistics when rendering-button - unchecked
-                      
+
+           >&2048=0, Calculate and embed peak/loudness value-checkbox - unchecked
+           >&2048=0, Calculate and embed peak/loudness value-checkbox - checked
+           
            >seems not to be available anymore as of Reaper 5.977:  
            >&65537=0, Save copy of project to outfile.wav.RPP - unchecked  
            >&65537=1, Save copy of project to outfile.wav.RPP - checked  

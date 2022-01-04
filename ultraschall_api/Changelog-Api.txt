@@ -431,6 +431,8 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: GetSetPodcast\_MetaData - gets/sets metadata-attributes of a podcast
   - PodcastMetadata: GetSetPodcastEpisode\_MetaData - gets/sets metadata-attributes of a podcast-episode
   - PodcastMetadata: GetSetShownoteMarker\_Attributes - sets additional attributes of a shownote-marker
+  - PodcastMetadata: GetSetShownoteMarker\_URL - stores one or more urls with attributes for a shownote
+  - PodcastMetadata: GetShownoteMarker\_URLCount - returns the number of urls stored with a shownote
   
 #### Changes from 4.2.006 to 4.3    
   - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well
