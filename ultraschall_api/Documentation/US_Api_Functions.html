@@ -45536,17 +45536,18 @@ Returns -1 in case of an error
     RenderTable[&quot;RenderPattern&quot;]    - the render pattern as input into the File name-inputbox of the Render to File-dialog
     RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
     RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay
-    RenderTable[&quot;RenderResample&quot;]   - Resample mode-dropdownlist; 
-                                          0, Medium (64pt Sinc); 
-                                          1, Low (Linear Interpolation); 
-                                          2, Lowest (Point Sampling); 
-                                          3, Good (192pt Sinc); 
-                                          4, Better (348 pt Sinc); 
-                                          5, Fast (IIR + Linear Interpolation); 
-                                          6, Fast (IIRx2 + Linear Interpolation); 
-                                          7, Fast (16pt Sinc); 
-                                          8, HQ (512 pt); 
-                                          9, Extreme HQ(768pt HQ Sinc)
+    RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
+                                        0, Point Sampling (lowest quality, retro)
+                                        1, Linear Interpolation (low quality)
+                                        2, Linear Interpolation + IIR
+                                        3, Linear Interpolation + IIRx2
+                                        4, Sinc Interpolation: 16pt
+                                        5, Sinc Interpolation: 64pt (medium quality)
+                                        6, Sinc Interpolation: 192pt
+                                        7, Sinc Interpolation: 384pt
+                                        8, Sinc Interpolation: 512pt (slow)
+                                        9, Sinc Interpolation: 768pt (very slow)
+                                        10, r8brain free (highest quality, fast)
     RenderTable[&quot;RenderString&quot;]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
     RenderTable[&quot;RenderString2&quot;]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
     RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
@@ -45669,17 +45670,18 @@ Returns -1 in case of an error
     RenderTable[&quot;RenderPattern&quot;]    - the render pattern as input into the File name-inputbox of the Render to File-dialog
     RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
     RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay
-    RenderTable[&quot;RenderResample&quot;]   - Resample mode-dropdownlist; 
-                                          0, Medium (64pt Sinc); 
-                                          1, Low (Linear Interpolation); 
-                                          2, Lowest (Point Sampling); 
-                                          3, Good (192pt Sinc); 
-                                          4, Better (348 pt Sinc); 
-                                          5, Fast (IIR + Linear Interpolation); 
-                                          6, Fast (IIRx2 + Linear Interpolation); 
-                                          7, Fast (16pt Sinc); 
-                                          8, HQ (512 pt); 
-                                          9, Extreme HQ(768pt HQ Sinc)
+    RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
+                                        0, Point Sampling (lowest quality, retro)
+                                        1, Linear Interpolation (low quality)
+                                        2, Linear Interpolation + IIR
+                                        3, Linear Interpolation + IIRx2
+                                        4, Sinc Interpolation: 16pt
+                                        5, Sinc Interpolation: 64pt (medium quality)
+                                        6, Sinc Interpolation: 192pt
+                                        7, Sinc Interpolation: 384pt
+                                        8, Sinc Interpolation: 512pt (slow)
+                                        9, Sinc Interpolation: 768pt (very slow)
+                                        10, r8brain free (highest quality, fast)
     RenderTable[&quot;RenderString&quot;]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
     RenderTable[&quot;RenderString2&quot;]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
     RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
@@ -45924,16 +45926,17 @@ Returns nil in case of an error
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>integer</i> RenderResample</td></tr>
 <tr><td class="ch2">Resample mode-dropdownlist<br/>
-0, Medium (64pt Sinc)<br/>
-1, Low (Linear Interpolation)<br/>
-2, Lowest (Point Sampling)<br/>
-3, Good (192pt Sinc) (default)<br/>
-4, Better (348 pt Sinc)<br/>
-5, Fast (IIR + Linear Interpolation)<br/>
-6, Fast (IIRx2 + Linear Interpolation)<br/>
-7, Fast (16pt Sinc)<br/>
-8, HQ (512 pt)<br/>
-9, Extreme HQ(768pt HQ Sinc)</td></tr>
+0, Point Sampling (lowest quality, retro)<br/>
+1, Linear Interpolation (low quality)<br/>
+2, Linear Interpolation + IIR<br/>
+3, Linear Interpolation + IIRx2<br/>
+4, Sinc Interpolation: 16pt<br/>
+5, Sinc Interpolation: 64pt (medium quality)<br/>
+6, Sinc Interpolation: 192pt<br/>
+7, Sinc Interpolation: 384pt<br/>
+8, Sinc Interpolation: 512pt (slow)<br/>
+9, Sinc Interpolation: 768pt (very slow)<br/>
+10, r8brain free (highest quality, fast)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>boolean</i> OnlyMonoMedia</td></tr>
@@ -46144,16 +46147,17 @@ returns the last 12 used render-patterns, that have been used for rendering by a
     RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
     RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay
     RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
-                                    0, Medium (64pt Sinc); 
-                                    1, Low (Linear Interpolation); 
-                                    2, Lowest (Point Sampling); 
-                                    3, Good (192pt Sinc); 
-                                    4, Better (348 pt Sinc); 
-                                    5, Fast (IIR + Linear Interpolation); 
-                                    6, Fast (IIRx2 + Linear Interpolation); 
-                                    7, Fast (16pt Sinc); 
-                                    8, HQ (512 pt); 
-                                    9, Extreme HQ(768pt HQ Sinc)
+                                        0, Point Sampling (lowest quality, retro)
+                                        1, Linear Interpolation (low quality)
+                                        2, Linear Interpolation + IIR
+                                        3, Linear Interpolation + IIRx2
+                                        4, Sinc Interpolation: 16pt
+                                        5, Sinc Interpolation: 64pt (medium quality)
+                                        6, Sinc Interpolation: 192pt
+                                        7, Sinc Interpolation: 384pt
+                                        8, Sinc Interpolation: 512pt (slow)
+                                        9, Sinc Interpolation: 768pt (very slow)
+                                        10, r8brain free (highest quality, fast)
     RenderTable[&quot;RenderString&quot;] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
     RenderTable[&quot;RenderString2&quot;] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
     RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
@@ -46254,16 +46258,17 @@ use 0, for the currently active project; 1, for the first project-tab; 2, for th
     RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
     RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay
     RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
-                                    0, Medium (64pt Sinc); 
-                                    1, Low (Linear Interpolation); 
-                                    2, Lowest (Point Sampling); 
-                                    3, Good (192pt Sinc); 
-                                    4, Better (348 pt Sinc); 
-                                    5, Fast (IIR + Linear Interpolation); 
-                                    6, Fast (IIRx2 + Linear Interpolation); 
-                                    7, Fast (16pt Sinc); 
-                                    8, HQ (512 pt); 
-                                    9, Extreme HQ(768pt HQ Sinc)
+                                        0, Point Sampling (lowest quality, retro)
+                                        1, Linear Interpolation (low quality)
+                                        2, Linear Interpolation + IIR
+                                        3, Linear Interpolation + IIRx2
+                                        4, Sinc Interpolation: 16pt
+                                        5, Sinc Interpolation: 64pt (medium quality)
+                                        6, Sinc Interpolation: 192pt
+                                        7, Sinc Interpolation: 384pt
+                                        8, Sinc Interpolation: 512pt (slow)
+                                        9, Sinc Interpolation: 768pt (very slow)
+                                        10, r8brain free (highest quality, fast)
     RenderTable[&quot;RenderString&quot;] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
     RenderTable[&quot;RenderString2&quot;] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
     RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
@@ -47600,16 +47605,17 @@ Options_and_Format_Name stores only:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4, Offline Render(Idle); <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["RenderResample"] - Resample mode-dropdownlist; <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, Medium (64pt Sinc)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1, Low (Linear Interpolation)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2, Lowest (Point Sampling)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3, Good (192pt Sinc)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4, Better (348 pt Sinc)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5, Fast (IIR + Linear Interpolation)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6, Fast (IIRx2 + Linear Interpolation)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7, Fast (16pt Sinc)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8, HQ (512 pt)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9, Extreme HQ(768pt HQ Sinc) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, Point Sampling (lowest quality, retro)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1, Linear Interpolation (low quality)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2, Linear Interpolation + IIR<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3, Linear Interpolation + IIRx2<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4, Sinc Interpolation: 16pt<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5, Sinc Interpolation: 64pt (medium quality)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6, Sinc Interpolation: 192pt<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7, Sinc Interpolation: 384pt<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8, Sinc Interpolation: 512pt (slow)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9, Sinc Interpolation: 768pt (very slow)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10, r8brain free (highest quality, fast)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Dither"] - the Dither/Noise shaping-checkboxes: <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &1, dither master mix<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &2, noise shaping master mix<br/>
@@ -47827,17 +47833,18 @@ Returns all render-preset-names for a) Bounds and output pattern/filename b) Opt
                                      always false, as this isn&#39;t stored in render-presets
    RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay; 
                                             always 0, as this isn&#39;t stored in render-presets
-   RenderTable[&quot;RenderResample&quot;]   - Resample mode-dropdownlist; 
-                                         0, Medium (64pt Sinc); 
-                                         1, Low (Linear Interpolation); 
-                                         2, Lowest (Point Sampling); 
-                                         3, Good (192pt Sinc); 
-                                         4, Better (348 pt Sinc); 
-                                         5, Fast (IIR + Linear Interpolation); 
-                                         6, Fast (IIRx2 + Linear Interpolation); 
-                                         7, Fast (16pt Sinc); 
-                                         8, HQ (512 pt); 
-                                         9, Extreme HQ(768pt HQ Sinc)
+   RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
+                                       0, Point Sampling (lowest quality, retro)
+                                       1, Linear Interpolation (low quality)
+                                       2, Linear Interpolation + IIR
+                                       3, Linear Interpolation + IIRx2
+                                       4, Sinc Interpolation: 16pt
+                                       5, Sinc Interpolation: 64pt (medium quality)
+                                       6, Sinc Interpolation: 192pt
+                                       7, Sinc Interpolation: 384pt
+                                       8, Sinc Interpolation: 512pt (slow)
+                                       9, Sinc Interpolation: 768pt (very slow)
+                                       10, r8brain free (highest quality, fast)
    RenderTable[&quot;RenderString&quot;]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
    RenderTable[&quot;RenderString2&quot;]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
    RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table
@@ -47941,16 +47948,17 @@ Options_and_Format_Name stores only:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4, Offline Render(Idle); <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["RenderResample"] - Resample mode-dropdownlist; <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, Medium (64pt Sinc)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1, Low (Linear Interpolation)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2, Lowest (Point Sampling)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3, Good (192pt Sinc)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4, Better (348 pt Sinc)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5, Fast (IIR + Linear Interpolation)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6, Fast (IIRx2 + Linear Interpolation)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7, Fast (16pt Sinc)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8, HQ (512 pt)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9, Extreme HQ(768pt HQ Sinc) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, Point Sampling (lowest quality, retro)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1, Linear Interpolation (low quality)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2, Linear Interpolation + IIR<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3, Linear Interpolation + IIRx2<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4, Sinc Interpolation: 16pt<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5, Sinc Interpolation: 64pt (medium quality)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6, Sinc Interpolation: 192pt<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7, Sinc Interpolation: 384pt<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8, Sinc Interpolation: 512pt (slow)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9, Sinc Interpolation: 768pt (very slow)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10, r8brain free (highest quality, fast)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Dither"] - the Dither/Noise shaping-checkboxes: <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &1, dither master mix<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &2, noise shaping master mix<br/>
@@ -48922,17 +48930,18 @@ Default is an empty string.</td></tr>
     RenderTable[&quot;RenderPattern&quot;]    - the render pattern as input into the File name-inputbox of the Render to File-dialog
     RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
     RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay
-    RenderTable[&quot;RenderResample&quot;]   - Resample mode-dropdownlist; 
-                                          0, Medium (64pt Sinc); 
-                                          1, Low (Linear Interpolation); 
-                                          2, Lowest (Point Sampling); 
-                                          3, Good (192pt Sinc); 
-                                          4, Better (348 pt Sinc); 
-                                          5, Fast (IIR + Linear Interpolation); 
-                                          6, Fast (IIRx2 + Linear Interpolation); 
-                                          7, Fast (16pt Sinc); 
-                                          8, HQ (512 pt); 
-                                          9, Extreme HQ(768pt HQ Sinc)
+    RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
+                                        0, Point Sampling (lowest quality, retro)
+                                        1, Linear Interpolation (low quality)
+                                        2, Linear Interpolation + IIR
+                                        3, Linear Interpolation + IIRx2
+                                        4, Sinc Interpolation: 16pt
+                                        5, Sinc Interpolation: 64pt (medium quality)
+                                        6, Sinc Interpolation: 192pt
+                                        7, Sinc Interpolation: 384pt
+                                        8, Sinc Interpolation: 512pt (slow)
+                                        9, Sinc Interpolation: 768pt (very slow)
+                                        10, r8brain free (highest quality, fast)
     RenderTable[&quot;RenderString&quot;]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
     RenderTable[&quot;RenderString2&quot;]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
     RenderTable[&quot;RenderTable&quot;]=true - signals, this is a valid render-table

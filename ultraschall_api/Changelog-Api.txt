@@ -405,7 +405,12 @@ Doesn't work on Windows 7???
         Donate?-
 
         Contributors.
+        
+        Introduction is missing the new file-format-functions for rendering, CAF.
+        
+        SetItemMixFlag is missing!
  
+        Rendertable in introduction has brickwall in it?
 </TODO>
 
 
@@ -438,6 +443,7 @@ Has now 1423 functions, with XX new ones
   - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well
   - ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk
+  - RenderManagement: CreateRenderCFG\_DDP - returned string was wrong due typo -> fixed(thnx to loTrT)
 
 ---
 

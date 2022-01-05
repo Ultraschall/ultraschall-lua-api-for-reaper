@@ -2278,16 +2278,17 @@ function ultraschall.GetRenderTable_Project()
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                            0, Medium (64pt Sinc); 
-                                            1, Low (Linear Interpolation); 
-                                            2, Lowest (Point Sampling); 
-                                            3, Good (192pt Sinc); 
-                                            4, Better (348 pt Sinc); 
-                                            5, Fast (IIR + Linear Interpolation); 
-                                            6, Fast (IIRx2 + Linear Interpolation); 
-                                            7, Fast (16pt Sinc); 
-                                            8, HQ (512 pt); 
-                                            9, Extreme HQ(768pt HQ Sinc)
+                                                0, Point Sampling (lowest quality, retro)
+                                                1, Linear Interpolation (low quality)
+                                                2, Linear Interpolation + IIR
+                                                3, Linear Interpolation + IIRx2
+                                                4, Sinc Interpolation: 16pt
+                                                5, Sinc Interpolation: 64pt (medium quality)
+                                                6, Sinc Interpolation: 192pt
+                                                7, Sinc Interpolation: 384pt
+                                                8, Sinc Interpolation: 512pt (slow)
+                                                9, Sinc Interpolation: 768pt (very slow)
+                                                10, r8brain free (highest quality, fast)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
@@ -2496,16 +2497,17 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                            0, Medium (64pt Sinc); 
-                                            1, Low (Linear Interpolation); 
-                                            2, Lowest (Point Sampling); 
-                                            3, Good (192pt Sinc); 
-                                            4, Better (348 pt Sinc); 
-                                            5, Fast (IIR + Linear Interpolation); 
-                                            6, Fast (IIRx2 + Linear Interpolation); 
-                                            7, Fast (16pt Sinc); 
-                                            8, HQ (512 pt); 
-                                            9, Extreme HQ(768pt HQ Sinc)
+                                                0, Point Sampling (lowest quality, retro)
+                                                1, Linear Interpolation (low quality)
+                                                2, Linear Interpolation + IIR
+                                                3, Linear Interpolation + IIRx2
+                                                4, Sinc Interpolation: 16pt
+                                                5, Sinc Interpolation: 64pt (medium quality)
+                                                6, Sinc Interpolation: 192pt
+                                                7, Sinc Interpolation: 384pt
+                                                8, Sinc Interpolation: 512pt (slow)
+                                                9, Sinc Interpolation: 768pt (very slow)
+                                                10, r8brain free (highest quality, fast)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
@@ -2908,7 +2910,7 @@ function ultraschall.CreateRenderCFG_DDP()
   <tags>projectfiles, create, render, outputformat, ddp</tags>
 </US_DocBloc>
 ]]
-  return "IHBkZA="
+  return "IHBkZA=="
 end
 
 --A=ultraschall.CreateRenderCFG_DDP()
@@ -3246,17 +3248,18 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["RenderPattern"]    - the render pattern as input into the File name-inputbox of the Render to File-dialog
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
-            RenderTable["RenderResample"]   - Resample mode-dropdownlist; 
-                                                  0, Medium (64pt Sinc); 
-                                                  1, Low (Linear Interpolation); 
-                                                  2, Lowest (Point Sampling); 
-                                                  3, Good (192pt Sinc); 
-                                                  4, Better (348 pt Sinc); 
-                                                  5, Fast (IIR + Linear Interpolation); 
-                                                  6, Fast (IIRx2 + Linear Interpolation); 
-                                                  7, Fast (16pt Sinc); 
-                                                  8, HQ (512 pt); 
-                                                  9, Extreme HQ(768pt HQ Sinc)
+            RenderTable["RenderResample"] - Resample mode-dropdownlist; 
+                                                0, Point Sampling (lowest quality, retro)
+                                                1, Linear Interpolation (low quality)
+                                                2, Linear Interpolation + IIR
+                                                3, Linear Interpolation + IIRx2
+                                                4, Sinc Interpolation: 16pt
+                                                5, Sinc Interpolation: 64pt (medium quality)
+                                                6, Sinc Interpolation: 192pt
+                                                7, Sinc Interpolation: 384pt
+                                                8, Sinc Interpolation: 512pt (slow)
+                                                9, Sinc Interpolation: 768pt (very slow)
+                                                10, r8brain free (highest quality, fast)
             RenderTable["RenderString"]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
@@ -3514,17 +3517,18 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["RenderPattern"]    - the render pattern as input into the File name-inputbox of the Render to File-dialog
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
-            RenderTable["RenderResample"]   - Resample mode-dropdownlist; 
-                                                  0, Medium (64pt Sinc); 
-                                                  1, Low (Linear Interpolation); 
-                                                  2, Lowest (Point Sampling); 
-                                                  3, Good (192pt Sinc); 
-                                                  4, Better (348 pt Sinc); 
-                                                  5, Fast (IIR + Linear Interpolation); 
-                                                  6, Fast (IIRx2 + Linear Interpolation); 
-                                                  7, Fast (16pt Sinc); 
-                                                  8, HQ (512 pt); 
-                                                  9, Extreme HQ(768pt HQ Sinc)
+            RenderTable["RenderResample"] - Resample mode-dropdownlist; 
+                                                0, Point Sampling (lowest quality, retro)
+                                                1, Linear Interpolation (low quality)
+                                                2, Linear Interpolation + IIR
+                                                3, Linear Interpolation + IIRx2
+                                                4, Sinc Interpolation: 16pt
+                                                5, Sinc Interpolation: 64pt (medium quality)
+                                                6, Sinc Interpolation: 192pt
+                                                7, Sinc Interpolation: 384pt
+                                                8, Sinc Interpolation: 512pt (slow)
+                                                9, Sinc Interpolation: 768pt (very slow)
+                                                10, r8brain free (highest quality, fast)
             RenderTable["RenderString"]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
@@ -3809,16 +3813,17 @@ Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target)
                                    - 4, Offline Render(Idle)
     optional boolean ProjectSampleRateFXProcessing - Use project sample rate for mixing and FX/synth processing-checkbox; true(default), checked; false, unchecked
     optional integer RenderResample - Resample mode-dropdownlist
-                           - 0, Medium (64pt Sinc)
-                           - 1, Low (Linear Interpolation)
-                           - 2, Lowest (Point Sampling)
-                           - 3, Good (192pt Sinc) (default)
-                           - 4, Better (348 pt Sinc)
-                           - 5, Fast (IIR + Linear Interpolation)
-                           - 6, Fast (IIRx2 + Linear Interpolation)
-                           - 7, Fast (16pt Sinc)
-                           - 8, HQ (512 pt)
-                           - 9, Extreme HQ(768pt HQ Sinc)
+                                              - 0, Point Sampling (lowest quality, retro)
+                                              - 1, Linear Interpolation (low quality)
+                                              - 2, Linear Interpolation + IIR
+                                              - 3, Linear Interpolation + IIRx2
+                                              - 4, Sinc Interpolation: 16pt
+                                              - 5, Sinc Interpolation: 64pt (medium quality)
+                                              - 6, Sinc Interpolation: 192pt
+                                              - 7, Sinc Interpolation: 384pt
+                                              - 8, Sinc Interpolation: 512pt (slow)
+                                              - 9, Sinc Interpolation: 768pt (very slow)
+                                              - 10, r8brain free (highest quality, fast)
     optional boolean OnlyMonoMedia - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked(default)
     optional boolean MultiChannelFiles - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked(default)
     optional integer Dither - the Dither/Noise shaping-checkboxes; default=0
@@ -4537,17 +4542,18 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
                                               always false, as this isn't stored in render-presets
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay; 
                                                      always 0, as this isn't stored in render-presets
-            RenderTable["RenderResample"]   - Resample mode-dropdownlist; 
-                                                  0, Medium (64pt Sinc); 
-                                                  1, Low (Linear Interpolation); 
-                                                  2, Lowest (Point Sampling); 
-                                                  3, Good (192pt Sinc); 
-                                                  4, Better (348 pt Sinc); 
-                                                  5, Fast (IIR + Linear Interpolation); 
-                                                  6, Fast (IIRx2 + Linear Interpolation); 
-                                                  7, Fast (16pt Sinc); 
-                                                  8, HQ (512 pt); 
-                                                  9, Extreme HQ(768pt HQ Sinc)
+            RenderTable["RenderResample"] - Resample mode-dropdownlist; 
+                                                0, Point Sampling (lowest quality, retro)
+                                                1, Linear Interpolation (low quality)
+                                                2, Linear Interpolation + IIR
+                                                3, Linear Interpolation + IIRx2
+                                                4, Sinc Interpolation: 16pt
+                                                5, Sinc Interpolation: 64pt (medium quality)
+                                                6, Sinc Interpolation: 192pt
+                                                7, Sinc Interpolation: 384pt
+                                                8, Sinc Interpolation: 512pt (slow)
+                                                9, Sinc Interpolation: 768pt (very slow)
+                                                10, r8brain free (highest quality, fast)
             RenderTable["RenderString"]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
@@ -4927,16 +4933,17 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       4, Offline Render(Idle); 
               RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked 
               RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                      0, Medium (64pt Sinc)
-                                      1, Low (Linear Interpolation)
-                                      2, Lowest (Point Sampling)
-                                      3, Good (192pt Sinc)
-                                      4, Better (348 pt Sinc)
-                                      5, Fast (IIR + Linear Interpolation)
-                                      6, Fast (IIRx2 + Linear Interpolation)
-                                      7, Fast (16pt Sinc)
-                                      8, HQ (512 pt)
-                                      9, Extreme HQ(768pt HQ Sinc) 
+                                                0, Point Sampling (lowest quality, retro)
+                                                1, Linear Interpolation (low quality)
+                                                2, Linear Interpolation + IIR
+                                                3, Linear Interpolation + IIRx2
+                                                4, Sinc Interpolation: 16pt
+                                                5, Sinc Interpolation: 64pt (medium quality)
+                                                6, Sinc Interpolation: 192pt
+                                                7, Sinc Interpolation: 384pt
+                                                8, Sinc Interpolation: 512pt (slow)
+                                                9, Sinc Interpolation: 768pt (very slow)
+                                                10, r8brain free (highest quality, fast)
               RenderTable["Dither"] - the Dither/Noise shaping-checkboxes: 
                                       &1, dither master mix
                                       &2, noise shaping master mix
@@ -5131,16 +5138,17 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       4, Offline Render(Idle); 
               RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked 
               RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                      0, Medium (64pt Sinc)
-                                      1, Low (Linear Interpolation)
-                                      2, Lowest (Point Sampling)
-                                      3, Good (192pt Sinc)
-                                      4, Better (348 pt Sinc)
-                                      5, Fast (IIR + Linear Interpolation)
-                                      6, Fast (IIRx2 + Linear Interpolation)
-                                      7, Fast (16pt Sinc)
-                                      8, HQ (512 pt)
-                                      9, Extreme HQ(768pt HQ Sinc) 
+                                                0, Point Sampling (lowest quality, retro)
+                                                1, Linear Interpolation (low quality)
+                                                2, Linear Interpolation + IIR
+                                                3, Linear Interpolation + IIRx2
+                                                4, Sinc Interpolation: 16pt
+                                                5, Sinc Interpolation: 64pt (medium quality)
+                                                6, Sinc Interpolation: 192pt
+                                                7, Sinc Interpolation: 384pt
+                                                8, Sinc Interpolation: 512pt (slow)
+                                                9, Sinc Interpolation: 768pt (very slow)
+                                                10, r8brain free (highest quality, fast)
               RenderTable["Dither"] - the Dither/Noise shaping-checkboxes: 
                                       &1, dither master mix
                                       &2, noise shaping master mix
@@ -5361,17 +5369,18 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
             RenderTable["RenderPattern"]    - the render pattern as input into the File name-inputbox of the Render to File-dialog
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
-            RenderTable["RenderResample"]   - Resample mode-dropdownlist; 
-                                                  0, Medium (64pt Sinc); 
-                                                  1, Low (Linear Interpolation); 
-                                                  2, Lowest (Point Sampling); 
-                                                  3, Good (192pt Sinc); 
-                                                  4, Better (348 pt Sinc); 
-                                                  5, Fast (IIR + Linear Interpolation); 
-                                                  6, Fast (IIRx2 + Linear Interpolation); 
-                                                  7, Fast (16pt Sinc); 
-                                                  8, HQ (512 pt); 
-                                                  9, Extreme HQ(768pt HQ Sinc)
+            RenderTable["RenderResample"] - Resample mode-dropdownlist; 
+                                                0, Point Sampling (lowest quality, retro)
+                                                1, Linear Interpolation (low quality)
+                                                2, Linear Interpolation + IIR
+                                                3, Linear Interpolation + IIRx2
+                                                4, Sinc Interpolation: 16pt
+                                                5, Sinc Interpolation: 64pt (medium quality)
+                                                6, Sinc Interpolation: 192pt
+                                                7, Sinc Interpolation: 384pt
+                                                8, Sinc Interpolation: 512pt (slow)
+                                                9, Sinc Interpolation: 768pt (very slow)
+                                                10, r8brain free (highest quality, fast)
             RenderTable["RenderString"]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table

@@ -5077,6 +5077,29 @@
       <source_document>reaper-config_var.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+ 
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>itemnotes</slug>  
+      <title>itemnotes</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          Settings in the Item-Notes-dialog
+          It is an integer  
+            
+          >&8=0, Word wrap-checkbox(updated only, when itemnotes window gets closed) - unchecked
+          >&8=1, Word wrap-checkbox(updated only, when itemnotes window gets closed) - checked
+          
+          >256=0, Enter to close, Shift+Enter for new line-checkbox - unchecked
+          >256=1, Enter to close, Shift+Enter for new line-checkbox - checked
+          
+          Stored in reaper.ini under the same name in the section REAPER.
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>    
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>itemprops</slug>  
@@ -7238,11 +7261,14 @@
       <slug>opennotes</slug>  
       <title>opennotes</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          "Show notes on project load"-checkbox, as set in the Project Settings -> Notes  
+          Some settings, as set in the Project Settings -> Notes  
           It is an integer  
           
-           >0, checkbox unchecked (don't show notes on project load)  
-           >1, checkbox checked (show notes on project load)  
+           >&1=0, show notes on project load-checkbox - unchecked
+           >&1=1, show notes on project load-checkbox - checked
+           
+           >&2=0, word wrap-checkbox - unchecked
+           >&2=1, word wrap-checkbox - checked
            
           Stored in reaper.ini under the same name in the section REAPER only, when Save as default project settings is clicked.  
            

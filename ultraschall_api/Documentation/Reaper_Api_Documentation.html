@@ -1098,7 +1098,7 @@ I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)<br
 I_LASTH : int * : height in pixels (read-only)<br/>
 I_LASTY : int * to last y position in track (readonly)<br/>
 I_LASTH : int * to last height in track (readonly)<br/>
-I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).<br/>
+I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used (though will store the color anyway).<br/>
 I_CURTAKE : int * to active take<br/>
 IP_ITEMNUMBER : int, item number within the track (read-only, returns the item number directly)<br/>
 F_FREEMODE_Y : float * to free mode y position (0..1)<br/>
@@ -1152,7 +1152,7 @@ I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)<br
 I_LASTH : int * : height in pixels (read-only)<br/>
 I_CHANMODE, int *, channel mode (0=normal, 1=revstereo, 2=downmix, 3=l, 4=r)<br/>
 I_PITCHMODE, int *, pitch shifter mode, -1=proj default, otherwise high word=shifter low word = parameter<br/>
-I_CUSTOMCOLOR : int *, custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).<br/>
+I_CUSTOMCOLOR : int *, custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used (though will store the color anyway).<br/>
 IP_TAKENUMBER : int, take number within the item (read-only, returns the take number directly)</td></tr>
 </table>
 <table class="ch">
@@ -1208,7 +1208,7 @@ Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMedia
 &nbsp;&nbsp;&nbsp;&nbsp; -I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; -I_MIDIHWOUT : int * : track midi hardware output index, &amp;lt;0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; -I_PERFFLAGS : int * : track performance flags, &amp;1=no media buffering, &amp;2=no anticipative FX<br/>
-&nbsp;&nbsp;&nbsp;&nbsp; -I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color<br/>
+&nbsp;&nbsp;&nbsp;&nbsp; -I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; -I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; -B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp; -D_VOL : double * : trim volume of track, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc<br/>
@@ -35865,7 +35865,7 @@ Get media item numerical-value attributes.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;I_GROUPID : int * : group ID, 0=no group<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;I_LASTH : int * : height in pixels (read-only)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;I_CURTAKE : int * : active take number<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;IP_ITEMNUMBER : int : item number on this track (read-only, returns the item number directly)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;F_FREEMODE_Y : float * : free item positioning Y-position, 0=top of track, 1=bottom of track (will never be 1)<br/>
@@ -36001,7 +36001,7 @@ I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)<br
 I_LASTH : int * : height in pixels (read-only)<br/>
 I_CHANMODE : int * : channel mode, 0=normal, 1=reverse stereo, 2=downmix, 3=left, 4=right<br/>
 I_PITCHMODE : int * : pitch shifter mode, -1=projext default, otherwise high 2 bytes=shifter, low 2 bytes=parameter<br/>
-I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.<br/>
+I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color.<br/>
 IP_TAKENUMBER : int : take number (read-only, returns the take number directly)<br/>
 P_TRACK : pointer to MediaTrack (read-only)<br/>
 P_ITEM : pointer to MediaItem (read-only)<br/>
@@ -36753,7 +36753,7 @@ C_FADEOUTSHAPE : int * : fadeout shape, 0..6, 0=linear<br/>
 I_GROUPID : int * : group ID, 0=no group<br/>
 I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)<br/>
 I_LASTH : int * : height in pixels (read-only)<br/>
-I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.<br/>
+I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color.<br/>
 I_CURTAKE : int * : active take number<br/>
 IP_ITEMNUMBER : int : item number on this track (read-only, returns the item number directly)<br/>
 F_FREEMODE_Y : float * : free item positioning Y-position, 0=top of track, 1=bottom of track (will never be 1)<br/>
@@ -36899,7 +36899,7 @@ I_LASTY : int * : Y-position (relative to top of track) in pixels (read-only)<br
 I_LASTH : int * : height in pixels (read-only)<br/>
 I_CHANMODE : int * : channel mode, 0=normal, 1=reverse stereo, 2=downmix, 3=left, 4=right<br/>
 I_PITCHMODE : int * : pitch shifter mode, -1=projext default, otherwise high 2 bytes=shifter, low 2 bytes=parameter<br/>
-I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.<br/>
+I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). If you do not |0x1000000, then it will not be used, but will store the color.<br/>
 IP_TAKENUMBER : int : take number (read-only, returns the take number directly)              
 </div><br>      
 <u>Returnvalues:</u>
@@ -63817,7 +63817,7 @@ I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder paren
 I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children<br/>
 I_MIDIHWOUT : int * : track midi hardware output index, &lt;0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)<br/>
 I_PERFFLAGS : int * : track performance flags, &amp;1=no media buffering, &amp;2=no anticipative FX<br/>
-I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000), 0, default color. If you do not |0x100000, then it will not be used, but will store the color.<br/>
+I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000), 0, default color. If you do not |0x1000000, then it will not be used, but will store the color.<br/>
 I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels<br/>
 B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)<br/>
 D_VOL : double * : trim volume of track, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc<br/>
@@ -64331,7 +64331,7 @@ get a track from a project by track count (zero-based) (proj=0 for active projec
 <div class="p">Python: <code> <i>Int</i> <em>RPR_GetTrackColor</em>(<i>MediaTrack</i> track)</code></div>
 </div><p>
 <div class="ch">
-Returns the track custom color as OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). Black is returned as 0x01000000, no color setting is returned as 0.              
+Returns the track custom color as OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). Black is returned as 0x01000000, no color setting is returned as 0.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -65411,7 +65411,7 @@ I_FOLDERDEPTH : int * : folder depth change, 0=normal, 1=track is a folder paren
 I_FOLDERCOMPACT : int * : folder compacted state (only valid on folders), 0=normal, 1=small, 2=tiny children<br/>
 I_MIDIHWOUT : int * : track midi hardware output index, &lt;0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)<br/>
 I_PERFFLAGS : int * : track performance flags, &amp;1=no media buffering, &amp;2=no anticipative FX<br/>
-I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). 0, default color. If you do not |0x100000, then it will not be used, but will store the color<br/>
+I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x1000000 (i.e. ColorToNative(r,g,b)|0x1000000). 0, default color. If you do not |0x1000000, then it will not be used, but will store the color<br/>
 I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels<br/>
 B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)<br/>
 D_VOL : double * : trim volume of track, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc<br/>
