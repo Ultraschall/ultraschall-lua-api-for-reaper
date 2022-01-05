@@ -2908,7 +2908,7 @@ function ultraschall.CreateRenderCFG_DDP()
   <tags>projectfiles, create, render, outputformat, ddp</tags>
 </US_DocBloc>
 ]]
-  return "IHBkZA="
+  return "IHBkZA=="
 end
 
 --A=ultraschall.CreateRenderCFG_DDP()
