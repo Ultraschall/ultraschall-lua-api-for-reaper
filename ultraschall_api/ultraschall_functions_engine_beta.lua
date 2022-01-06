@@ -1814,6 +1814,12 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     integer idx - the index of the shownote, whose attribute you want to get
     string attributename - the attributename you want to get/set
                          - supported attributes are:
+                         - "url" - the url you want to set
+                         - "url_description" - a short description of the url
+                         - "url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
+                         - "url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss
+                         - "url_retrieval_timezone_utc" - the timezone of the retrieval time as utc
+                         - "url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
                          - "language" - the language of the content; Languagecode according to ISO639
                          - "location_gps" - the gps-coordinates of the location
                          - "location_google_maps" - the coordinates as used in Google Maps
@@ -1828,7 +1834,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "image_content" - the image-file itself as string, that you can store in the project; only png and jpg.
                          - "image_description" - a description of the image for blind/visually impaired users
                          - "image_source" - the original source of the image(book+page or url)
-                         - "image_license" - the user-license of the image(public domain, creative commons, etc)
+                         - "image_license" - the user-license of the image(public domain, creative commons, etc)                         
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
@@ -1851,21 +1857,27 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   
   
   -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN THE CODE OF CommitShownote_ReaperMetadata() !!!
-  local tags={"language",                   -- check for validity ISO639
-              "location_gps",-- check for validity
+  local tags={"language",           -- check for validity ISO639
+              "location_gps",       -- check for validity
               "location_google_maps",-- check for validity
               "location_open_street_map",-- check for validity
               "location_apple_maps",-- check for validity
-              "content_date",-- check for validity
-              "content_time",-- check for validity
-              "content_timezone",-- check for validity
+              "content_date",       -- check for validity
+              "content_time",       -- check for validity
+              "content_timezone",   -- check for validity
               "cite_source", 
               "quote", 
               "image_uri",
-              "image_content",-- check for validity
+              "image_content",      -- check for validity
               "image_description",
               "image_source",
-              "image_license"
+              "image_license",
+              "url", 
+              "url_description",
+              "url_retrieval_date",
+              "url_retrieval_time",
+              "url_retrieval_timezone_utc",
+              "url_archived_copy_of_original_url"
               }
   local found=false
   for i=1, #tags do
@@ -2228,7 +2240,8 @@ function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additi
               "episode_description",
               "episode_cover",
               "episode_language", 
-              "episode_explicit"
+              "episode_explicit",
+              "url"
               }
   local found=false
   for i=1, #tags do
@@ -2366,13 +2379,20 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3,
               "image_content", 
               "image_description",
               "image_source",
-              "image_license"}
+              "image_license",
+              "url", 
+              "url_description",
+              "url_retrieval_date",
+              "url_retrieval_time",
+              "url_retrieval_timezone_utc",
+              "url_archived_copy_of_original_url"
+              }
   pos=pos-offset
   if pos<0 then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "shownote-position minus offset is smaller than 0", -6) return false end
   name=string.gsub(name, "\\", "\\\\")
   name=string.gsub(name, "\"", "\\\"")
 
-  local Shownote_String="pos=\""..pos.."\" title=\""..name.."\" "
+  local Shownote_String="pos:\""..pos.."\" title:\""..name.."\" "
   local temp
 
   for i=1, #Tags do
@@ -2382,38 +2402,18 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3,
     else 
       temp=string.gsub(temp, "\\", "\\\\")
       temp=string.gsub(temp, "\"", "\\\"")
-      temp=" "..Tags[i].."=\""..temp.."\"" 
+      temp=" "..Tags[i]..":\""..temp.."\"" 
     end
       
     Shownote_String=Shownote_String..temp
   end
 
-  Shownote_String=Shownote_String.."num_urls=\""..ultraschall.GetShownoteMarker_URLCount(shownote_idx).."\" "
-  --print2(shownote_idx)  
-  for i=1, ultraschall.GetShownoteMarker_URLCount(shownote_idx) do
-    local retval, url_idx, url, url_description, url_retrieval_date, url_retrieval_time, url_retrieval_timezone_utc, url_archived_copy_of_original_url = 
-      ultraschall.GetSetShownoteMarker_URL(false, shownote_idx, i, "", "", "", "", "", "")
-    if url==nil then url="" end
-    if url_description==nil then url_description="" end
-    if url_retrieval_date==nil then url_retrieval_date="" end
-    if url_retrieval_time==nil then url_retrieval_time="" end
-    if url_retrieval_timezone_utc==nil then url_retrieval_timezone_utc="" end
-    if url_archived_copy_of_original_url==nil then url_archived_copy_of_original_url="" end
-    Shownote_String=Shownote_String..
-                    " url_"..i.."=\""..url.."\" "..
-                    " url_description_"..i.."=\""..url_description.."\" "..
-                    " url_retrieval_date_"..i.."=\""..url_retrieval_date.."\" "..
-                    
-                    " url_retrieval_time_"..i.."=\""..url_retrieval_time.."\" "..
-                    " url_retrieval_timezone_utc_"..i.."=\""..url_retrieval_timezone_utc.."\" "..
-                    " url_retrieval_timezone_utc_"..i.."=\""..url_retrieval_timezone_utc.."\" "..
-                    " url_archived_copy_of_original_url_"..i.."=\""..url_archived_copy_of_original_url.."\" "
-  end
 
   Shownote_String="SHOWNOTE_v1 "..shownote_idx..": "..Shownote_String.." SHOWNOTE_END"
   --print2(Shownote_String)
   if do_id3~=false then
     reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String, true)
+    print2("ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String)
   end
   
   if do_vorbis~=false then
@@ -2431,136 +2431,40 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3,
   return true
 end
 
-function ultraschall.GetSetShownoteMarker_URL(is_set, shownote_idx, url_idx, url, url_description, url_retrieval_date, url_retrieval_time, url_retrieval_timezone_utc, url_archived_copy_of_original_url)
+
+function ultraschall.ConvertTrackstringToArray(trackstring)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetSetShownoteMarker_URL</slug>
+  <slug>ConvertTrackstringToArray</slug>
   <requires>
     Ultraschall=4.3
-    Reaper=6.02
+    Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer url_idx, string url, string url_description, string url_retrieval_date, string url_retrieval_time, string url_retrieval_timezone_utc, string url_archived_copy_of_original_url = ultraschall.GetSetShownoteMarker_URL(boolean is_set, integer shownote_idx, integer url_idx, string url, string url_description, string url_retrieval_date, string url_retrieval_time, string url_retrieval_timezone_utc, string url_archived_copy_of_original_url)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Will get/set additional attributes of a shownote-marker.
+  <functioncall>integer count, array individual_tracknumbers = ultraschall.ConvertTrackstringToArray(string trackstring)</functioncall>
+  <description>
+    returns all tracknumbers from trackstring, that can be used as tracknumbers, as an array.
     
-    A shownote-marker has the naming-scheme 
-        
-        _shownote: name for this marker
-        
     returns false in case of an error
   </description>
-  <parameters>
-    boolean is_set - true, set this url; false, don't set this url
-    integer shownote_idx - the shownote, whose url you want to set
-    integer url_idx - the index of the url to set, as you can multiple urls; 
-                    - if the index doesn't exist yet, the function will create a new one and return it(see retval url_idx)
-    string url - the url you want to set
-    string url_description - a short description of the url
-    string url_retrieval_date - the date, at which you retrieved the url; yyyy-mm-dd
-    string url_retrieval_time - the time, at which you retrieved the url; hh:mm:ss
-    string url_retrieval_timezone_utc - the timezone of the retrieval time as utc
-    string url_archived_copy_of_original_url - if you have an archived copy of the url(from archive.org, etc), you can place the link here
-  </parameters>
   <retvals>
-    boolean retval - true, setting the url was successful; false, setting was not successful
-    integer url_idx - the url-index; if it differs from the parameter url_idx, use this returned value for later use
-    string url - the stored url
-    string url_retrieval_date - the stored retrieval-date; yyyy-mm-dd 
-    string url_retrieval_time - the stored retrievel-time; hh:mm:ss
-    string url_retrieval_timezone_utc - the timezone of the retrieval time as utc
-    string url_archived_copy_of_original_url - the url of an archived copy of the original url, if existing
+    integer count - number of tracks in trackstring
+    array individual_tracknumbers - an array that contains all tracknumbers in trackstring
   </retvals>
+  <parameters>
+    string trackstring - the trackstring to check, if it's a valid one
+  </parameters>
   <chapter_context>
-    Markers
-    ShowNote Marker
+    Track Management
+    Assistance functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
-  <tags>marker management, get, set, url, retrieval time and date, shownote</tags>
+  <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+  <tags>trackmanagement, trackstring, get, count, tracks</tags>
 </US_DocBloc>
 ]]
-  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "is_set", "must be a boolean", -1) return false end
-  if math.type(shownote_idx)~="integer" then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "shownote_idx", "must be an integer", -2) return false end
-  if math.type(url_idx)~="integer" then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "url_idx", "must be an integer", -3) return false end
-  if url_idx<0 then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "url_idx", "must be bigger or equal 0", -4) return false end
-  if type(url)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "url", "must be a string", -5) return false end
-  if type(url_description)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "url_description", "must be a string", -6) return false end
-  if type(url_retrieval_date)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "url_retrieval_date", "must be a string", -7) return false end
-  if type(url_retrieval_time)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "url_retrieval_time", "must be a string", -8) return false end
-  if type(url_retrieval_timezone_utc)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "url_retrieval_timezone_utc", "must be a string", -9) return false end
-  if type(url_archived_copy_of_original_url)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "url_archived_copy_of_original_url", "must be a string", -10) return false end
+  local retval, count, individual_tracknumbers = ultraschall.IsValidTrackString(trackstring )
+  if retval==false then ultraschall.AddErrorMessage("ConvertTrackstringToArray", "trackstring", "not a valid trackstring", -1) return end
 
-  local A,B,Retval, count
-  A={ultraschall.EnumerateShownoteMarkers(shownote_idx)}
-  if A[1]==false then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "shownote_idx", "no such shownote-marker", -11) return false end
-    
-  if is_set==true then
-    count=math.tointeger(ultraschall.GetMarkerExtState(A[2]+1, "maxcount_urls", content))
-    if count==nil then 
-      count=0
-    end
-    if count<url_idx then url_idx=count+1 ultraschall.SetMarkerExtState(A[2]+1, "maxcount_urls", tostring(count+1))  end
-    --print2(url_idx, count)
-    Retval = ultraschall.SetMarkerExtState(A[2]+1, "url_"..url_idx, url)
-    Retval = ultraschall.SetMarkerExtState(A[2]+1, "url_description"..url_idx, url_description)
-    Retval = ultraschall.SetMarkerExtState(A[2]+1, "url_retrieval_date"..url_idx, url_retrieval_date)
-    Retval = ultraschall.SetMarkerExtState(A[2]+1, "url_retrieval_time"..url_idx, url_retrieval_time)
-    Retval = ultraschall.SetMarkerExtState(A[2]+1, "url_retrieval_timezone_utc"..url_idx, url_retrieval_timezone_utc)
-    Retval = ultraschall.SetMarkerExtState(A[2]+1, "url_archived_copy_of_original_url"..url_idx, url_archived_copy_of_original_url)
-    return true, url_idx, url, url_description, url_retrieval_date, url_retrieval_time, url_retrieval_timezone_utc, url_archived_copy_of_original_url
-  else
-    --print2(url_idx)
-    url = ultraschall.GetMarkerExtState(A[2]+1, "url_"..url_idx)
-    if url==nil then ultraschall.AddErrorMessage("GetSetShownoteMarker_URL", "url_idx", "no such url", -12) return false end
-    url_retrieval_date = ultraschall.GetMarkerExtState(A[2]+1, "url_retrieval_date"..url_idx)
-    url_description = ultraschall.GetMarkerExtState(A[2]+1, "url_description"..url_idx)
-    url_retrieval_time = ultraschall.GetMarkerExtState(A[2]+1, "url_retrieval_time"..url_idx)
-    url_retrieval_timezone_utc = ultraschall.GetMarkerExtState(A[2]+1, "url_retrieval_timezone_utc"..url_idx)
-    url_archived_copy_of_original_url = ultraschall.GetMarkerExtState(A[2]+1, "url_archived_copy_of_original_url"..url_idx)
-    return true, url_idx, url, url_description, url_retrieval_date, url_retrieval_time, url_retrieval_timezone_utc, url_archived_copy_of_original_url
-  end
-end
-
-function ultraschall.GetShownoteMarker_URLCount(shownote_idx)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetShownoteMarker_URLCount</slug>
-  <requires>
-    Ultraschall=4.3
-    Reaper=6.02
-    Lua=5.3
-  </requires>
-  <functioncall>integer shownote_url_count = ultraschall.GetShownoteMarker_URLCount(shownote_idx)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Will return the number of stored urls of a shownote-marker.
-    
-    A shownote-marker has the naming-scheme 
-        
-        _shownote: name for this marker
-        
-    returns false in case of an error
-  </description>
-  <parameters>
-    integer shownote_idx - the shownote, whose urls you want to count
-  </parameters>
-  <retvals>
-    integer url_count - the number of urls stored with a shownote-marker
-  </retvals>
-  <chapter_context>
-    Markers
-    ShowNote Marker
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
-  <tags>marker management, count, url, shownote</tags>
-</US_DocBloc>
-]]
-  local A, count
-  A={ultraschall.EnumerateShownoteMarkers(shownote_idx)}
-  if A[1]==false then ultraschall.AddErrorMessage("GetShownoteMarker_URLCount", "shownote_idx", "no such shownote-marker", -1) return false end
-
-  count=math.tointeger(ultraschall.GetMarkerExtState(A[2]+1, "maxcount_urls", content))
-  if count==nil then count=0 end
-  return count
+  return count, individual_tracknumbers
 end
