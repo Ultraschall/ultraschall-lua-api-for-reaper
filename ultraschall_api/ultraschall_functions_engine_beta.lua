@@ -2525,15 +2525,15 @@ end
 function ultraschall.GetShownoteMarker_URLCount(shownote_idx)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetSetShownoteMarker_URL</slug>
+  <slug>GetShownoteMarker_URLCount</slug>
   <requires>
     Ultraschall=4.3
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer url_idx, string url, string url_description, string url_retrieval_date, string url_retrieval_time, string url_retrieval_timezone_utc, string url_archived_copy_of_original_url = ultraschall.GetSetShownoteMarker_URL(boolean is_set, integer shownote_idx, integer url_idx, string url, string url_description, string url_retrieval_date, string url_retrieval_time, string url_retrieval_timezone_utc, string url_archived_copy_of_original_url)</functioncall>
+  <functioncall>integer shownote_url_count = ultraschall.GetShownoteMarker_URLCount(shownote_idx)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Will return the count stored urls of a shownote-marker.
+    Will return the number of stored urls of a shownote-marker.
     
     A shownote-marker has the naming-scheme 
         
