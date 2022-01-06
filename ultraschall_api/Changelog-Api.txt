@@ -443,7 +443,8 @@ Has now 1423 functions, with XX new ones
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well
   - ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk
   - RenderManagement: CreateRenderCFG\_DDP - returned string was wrong due typo -> fixed(thnx to loTrT)
-
+  - WebRC: WebInterface\_GetInstalledInterfaces - could break, if html-pages had no title-tag in them -> fixed
+  
 ---
 
 ### 4.2.006 - "The Beatles - The continuing story of Bungalow Bill" - 24th of December 2021
