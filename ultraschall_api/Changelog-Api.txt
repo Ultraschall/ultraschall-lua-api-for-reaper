@@ -399,6 +399,15 @@ Doesn't work on Windows 7???
 
 -- Podcast Metadata
 
+    - Shownote attributes: 
+            (event_)date, 
+            (event_)time, 
+            (event_)name, 
+            location_description(für Ort), 
+            location_google_earth(?)
+
+    - Shownote - index 1-based?
+
     individual functions for:
         - "podcast_feed" - the feed-url of the podcast(see additional_attributes for more details)
 
@@ -438,6 +447,8 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: GetSetPodcast\_MetaData - gets/sets metadata-attributes of a podcast
   - PodcastMetadata: GetSetPodcastEpisode\_MetaData - gets/sets metadata-attributes of a podcast-episode
   - PodcastMetadata: GetSetShownoteMarker\_Attributes - gets/sets additional attributes of a shownote-marker
+  - PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering
+  - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering
   - TrackManagement: ConvertTrackstringToArray - returns all tracknumbers of a trackstring as an array
   
 #### Changes from 4.2.006 to 4.3    

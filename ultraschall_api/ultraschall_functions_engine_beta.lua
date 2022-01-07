@@ -2528,3 +2528,72 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
     return ultraschall.SetMarkerExtState(idx, attributename, content)~=-1, content
   end
 end
+
+function ultraschall.PrepareChapterMarkers4ReaperExport()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>PrepareChapterMarkers4ReaperExport</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.PrepareChapterMarkers4ReaperExport()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will add CHAP= to the beginning of each chapter-marker name. This will let Reaper embed this marker into the exported
+    media-file as metadata, when rendering.
+    
+    Will add CHAP= only to chapter-markers, who do not already have that in their name.
+  </description>
+  <chapter_context>
+    Markers
+    Chapter Marker
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, prepare, chapter, export</tags>
+</US_DocBloc>
+]]
+  local A,B=ultraschall.GetAllNormalMarkers()
+  for i=1, A do
+    if B[i][1]:sub(1,5)~="CHAP=" then
+      ultraschall.SetNormalMarker(i, B[i][0], B[i][3], "CHAP="..B[i][1])
+    end
+  end
+end
+
+--ultraschall.PrepareChapterMarkers4ReaperExport()
+
+function ultraschall.RestoreChapterMarkersAfterReaperExport()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RestoreChapterMarkersAfterReaperExport</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.RestoreChapterMarkersAfterReaperExport()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will remove CHAP= at the beginning of each chapter-marker name, so you have the original marker-names back after render-export.
+    
+    Will remove only CHAP= from chapter-markers and leave the rest untouched.
+  </description>
+  <chapter_context>
+    Markers
+    Chapter Marker
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, restore, chapter, export</tags>
+</US_DocBloc>
+]]
+  local A,B=ultraschall.GetAllNormalMarkers()
+  for i=1, A do
+    if B[i][1]:sub(1,5)=="CHAP=" then
+      ultraschall.SetNormalMarker(i, B[i][0], B[i][3], B[i][1]:sub(6,-1))
+    end
+  end
+end
+
+--ultraschall.RestoreChapterMarkersAfterReaperExport()
