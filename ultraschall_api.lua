@@ -75,7 +75,7 @@ if ultraschall.temp_GetProjExtState~=nil then
     --]]
     function reaper.SetExtState(extname, key, value, persist)
       if ultraschall.temp_GetExtState("ultraschall_api", "debug_extstate")=="true" then 
-        print(ultraschall.Script_Context.."\n\tExtState -> Set: \""..extname.."\" \""..key.."\" \""..value.."\" "..tostring(persist))
+        print(ultraschall.Script_Context.."\n\tExtState -> Set: \""..tostring(extname).."\" \""..tostring(key).."\" \""..tostring(value).."\" "..tostring(persist))
       end
       return ultraschall.temp_SetExtState(extname, key, value, persist)
     end
@@ -89,7 +89,7 @@ if ultraschall.temp_GetProjExtState~=nil then
     --]]
     function reaper.SetProjExtState(proj, extname, key, value)
       if ultraschall.temp_GetExtState("ultraschall_api", "debug_extstate")=="true" then 
-        print(ultraschall.Script_Context.."\n\tProjExtState -> Set: \""..extname.."\" \""..key.."\" \""..value.."\"")
+        print(ultraschall.Script_Context.."\n\tProjExtState -> Set: \""..tostring(extname).."\" \""..tostring(key).."\" \""..tostring(value).."\"")
       end
       return ultraschall.temp_SetProjExtState(proj, extname, key, value)
     end
