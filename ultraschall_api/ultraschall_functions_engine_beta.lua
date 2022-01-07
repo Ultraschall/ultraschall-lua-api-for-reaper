@@ -1651,7 +1651,7 @@ function ultraschall.AddShownoteMarker(pos, name)
     
     A shownote-marker has the naming-scheme 
         
-        _shownote: name for this shownote
+        _Shownote: name for this shownote
     
     returns false in case of an error
   </description>
@@ -1678,14 +1678,14 @@ function ultraschall.AddShownoteMarker(pos, name)
 ]]
   if type(pos)~="number" then ultraschall.AddErrorMessage("AddShownoteMarker", "pos", "must be a number", -2) return false end
   if type(name)~="string" then ultraschall.AddErrorMessage("AddShownoteMarker", "name", "must be a string", -3) return false end
-  local Count = ultraschall.CountAllCustomMarkers("shownote")
+  local Count = ultraschall.CountAllCustomMarkers("Shownote")
   local Color
   if reaper.GetOS():sub(1,3)=="Win" then
     Color = 0xA8A800|0x1000000
   else
     Color = 0x00A8A8|0x1000000
   end
-  local A={ultraschall.AddCustomMarker("shownote", pos, name, Count+1, Color)}
+  local A={ultraschall.AddCustomMarker("Shownote", pos, name, Count+1, Color)}
   return table.unpack(A)
 end
 
@@ -1706,7 +1706,7 @@ function ultraschall.SetShownoteMarker(idx, pos, name)
     
     A shownote-marker has the naming-scheme 
         
-        _shownote: name for this shownote
+        _Shownote: name for this shownote
     
     returns false in case of an error
   </description>
@@ -1729,17 +1729,17 @@ function ultraschall.SetShownoteMarker(idx, pos, name)
   if type(pos)~="number" then ultraschall.AddErrorMessage("SetShownoteMarker", "pos", "must be a number", -1) return false end
   if type(name)~="string" then ultraschall.AddErrorMessage("SetShownoteMarker", "name", "must be a string", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetShownoteMarker", "idx", "must be an integer", -3) return false end
-  local retval, markerindex, pos2, name2, shown_number = ultraschall.EnumerateCustomMarkers("shownote", idx)
+  local retval, markerindex, pos2, name2, shown_number = ultraschall.EnumerateCustomMarkers("Shownote", idx)
   if retval==false then ultraschall.AddErrorMessage("SetShownoteMarker", "idx", "no such shownote-marker", -4) return false end
   
-  local Count = ultraschall.CountAllCustomMarkers("shownote")
+  local Count = ultraschall.CountAllCustomMarkers("Shownote")
   local Color
   if reaper.GetOS():sub(1,3)=="Win" then
     Color = 0xA8A800|0x1000000
   else
     Color = 0x00A8A8|0x1000000
   end
-  local A={ultraschall.SetCustomMarker("shownote", idx, pos, name, shown_number, Color)}
+  local A={ultraschall.SetCustomMarker("Shownote", idx, pos, name, shown_number, Color)}
   return table.unpack(A)
 end
 
@@ -1758,7 +1758,7 @@ function ultraschall.EnumerateShownoteMarkers(idx)
     
     A shownote-marker has the naming-scheme 
         
-        _shownote: name for this marker
+        _Shownote: name for this marker
         
     returns false in case of an error
   </description>
@@ -1783,7 +1783,7 @@ function ultraschall.EnumerateShownoteMarkers(idx)
 </US_DocBloc>
 ]]
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateShownoteMarkers", "idx", "must be an integer", -1) return false end
-  local A = {ultraschall.EnumerateCustomMarkers("shownote", idx)}
+  local A = {ultraschall.EnumerateCustomMarkers("Shownote", idx)}
   if A[1]==false then ultraschall.AddErrorMessage("EnumerateShownoteMarkers", "idx", "no such shownote-marker", -2) return false end  
   table.remove(A,6)
   return table.unpack(A)
@@ -1805,7 +1805,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     
     A shownote-marker has the naming-scheme 
         
-        _shownote: name for this marker
+        _Shownote: name for this marker
         
     returns false in case of an error
   </description>
@@ -1953,7 +1953,7 @@ function ultraschall.CountShownoteMarkers()
     
     A shownote-marker has the naming-scheme 
         
-        _shownote: name for this marker
+        _Shownote: name for this marker
 
   </description>
   <retvals>
@@ -1968,7 +1968,7 @@ function ultraschall.CountShownoteMarkers()
   <tags>marker management, count, shownote</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.CountAllCustomMarkers("shownote")
+  return ultraschall.CountAllCustomMarkers("Shownote")
 end
 --Kuddel=FromClip()
 --A,B,C=ultraschall.GetSetShownoteMarker_Attributes(false, 1, "image_content", "kuchen")
@@ -1990,7 +1990,7 @@ function ultraschall.DeleteShownoteMarker(idx)
     
     A shownote-marker has the naming-scheme 
         
-        _shownote: name for this marker
+        _Shownote: name for this marker
 
     will also delete all stored additional attributes with the shownote!
 
@@ -2012,10 +2012,10 @@ function ultraschall.DeleteShownoteMarker(idx)
 </US_DocBloc>
 ]]
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteShownoteMarker", "idx", "must be an integer", -1) return false end
-  local A = {ultraschall.EnumerateCustomMarkers("shownote", idx)}
+  local A = {ultraschall.EnumerateCustomMarkers("Shownote", idx)}
   if A[1]==false then ultraschall.AddErrorMessage("DeleteShownoteMarker", "idx", "no such shownote-marker", -2) return false end  
   ultraschall.SetMarkerExtState(A[2], "", "")
-  local retval, marker_index, pos, name, shown_number, color = ultraschall.DeleteCustomMarkers("shownote", idx)
+  local retval, marker_index, pos, name, shown_number, color = ultraschall.DeleteCustomMarkers("Shownote", idx)
   return retval
 end
 
@@ -2413,7 +2413,7 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3,
   --print2(Shownote_String)
   if do_id3~=false then
     reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String, true)
-    print2("ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String)
+    --print2("ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String)
   end
   
   if do_vorbis~=false then
@@ -2467,4 +2467,64 @@ function ultraschall.ConvertTrackstringToArray(trackstring)
   if retval==false then ultraschall.AddErrorMessage("ConvertTrackstringToArray", "trackstring", "not a valid trackstring", -1) return end
 
   return count, individual_tracknumbers
+end
+
+function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, content)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetChapterMarker_Attributes</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string content = ultraschall.GetSetChapterMarker_Attributes(boolean is_set, integer idx, string attributename, string content)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will get/set additional attributes of a chapter-marker.
+        
+    returns false in case of an error
+  </description>
+  <parameters>
+    boolean is_set - true, set the attribute; false, retrieve the current content
+    integer idx - the index of the chapter-marker, whose attribute you want to get
+    string attributename - the attributename you want to get/set
+                         - supported attributes are:
+                         - "url" - the url you want to set
+    string content - the new contents to set the attribute with
+  </parameters>
+  <retvals>
+    boolean retval - true, if the attribute exists/could be set; false, if not or an error occurred
+    string content - the content of a specific attribute
+  </retvals>
+  <chapter_context>
+    Markers
+    Chapter Marker
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, set, attribute, chapter, url</tags>
+</US_DocBloc>
+]]
+  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "is_set", "must be a boolean", -1) return false end  
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "idx", "must be an integer", -2) return false end  
+  if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "must be a string", -3) return false end  
+  if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "content", "must be a string", -4) return false end  
+  
+  local tags={"url"}
+  local found=false
+  for i=1, #tags do
+    if attributename==tags[i] then
+      found=true
+      break
+    end
+  end
+  
+  if found==false then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "attributename not supported", -7) return false end
+  idx=ultraschall.EnumerateNormalMarkers(idx)
+  
+  if is_set==false then
+    return true, ultraschall.GetMarkerExtState(idx, attributename)  
+  elseif is_set==true then
+    return ultraschall.SetMarkerExtState(idx, attributename, content)~=-1, content
+  end
 end

@@ -426,6 +426,7 @@ Has now 1423 functions, with XX new ones
   
   
 #### New features in 4.3  
+  - DeveloperTools: Toggle\_Logging\_SetExtState\_SetProjExtState_access - logs set access to (proj)extstates while using US-API to the ReaScript console
   - ErrorMessagingSystem: DAEM - like ultraschall.DeleteAllErrorMessages(), just shorter
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
@@ -433,9 +434,10 @@ Has now 1423 functions, with XX new ones
   - Markers: EnumerateShownoteMarkers - gets a shownote-marker  
   - Markers: SetShownoteMarker - sets an already existing shownote
   - PodcastMetadata: CommitShownote\_ReaperMetadata - commits shownotes to Reaper's metadata-storage
+  - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
   - PodcastMetadata: GetSetPodcast\_MetaData - gets/sets metadata-attributes of a podcast
   - PodcastMetadata: GetSetPodcastEpisode\_MetaData - gets/sets metadata-attributes of a podcast-episode
-  - PodcastMetadata: GetSetShownoteMarker\_Attributes - sets additional attributes of a shownote-marker
+  - PodcastMetadata: GetSetShownoteMarker\_Attributes - gets/sets additional attributes of a shownote-marker
   - TrackManagement: ConvertTrackstringToArray - returns all tracknumbers of a trackstring as an array
   
 #### Changes from 4.2.006 to 4.3    
