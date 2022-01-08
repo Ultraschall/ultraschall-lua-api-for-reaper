@@ -1314,8 +1314,8 @@ function ultraschall.GetTrackLockState(tracknumber, str)
 </US_DocBloc>
 --]]
   local retval
-  if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end
-  str=str:match("(.-)<ITEM")
+  if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end  
+  --str=str:match("(.-)<ITEM")..">"
   return ultraschall.GetTrackState_NumbersOnly("LOCK", str, "GetTrackLockState", true)
 end
 
