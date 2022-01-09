@@ -2156,7 +2156,8 @@ function ultraschall.GetAllMediaItemsFromTrack(tracknumber)
   local temp
   local retval, str = ultraschall.GetTrackStateChunk(MediaTrack, "", true)
   str=str:match("<ITEM.*")
-
+  if str==nil then return 0, MediaItemArray, MediaItemArrayStateChunk end
+  
   while str:match(".-%cIGUID.-")~= nil do
     local GUID=str:match(".-%cIGUID ({.-})%c")
     MediaItemArray[count]=reaper.BR_GetMediaItemByGUID(0, GUID)
