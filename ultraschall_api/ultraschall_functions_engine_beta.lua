@@ -2349,11 +2349,11 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3,
     optional boolean do_ixml - true or nil, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false, don't commit
   </parameters>
   <chapter_context>
-    Markers
-    ShowNote Marker
+     Rendering Projects
+     Ultraschall
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>marker management, commit, shownote, reaper metadata</tags>
 </US_DocBloc>
 ]]
@@ -2597,3 +2597,176 @@ function ultraschall.RestoreChapterMarkersAfterReaperExport()
 end
 
 --ultraschall.RestoreChapterMarkersAfterReaperExport()
+
+
+function ultraschall.GetSetPodcastExport_Attributes_String(is_set, attribute, value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetPodcastExport_Attributes_String</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string content = ultraschall.GetSetPodcastExport_Attributes_String(boolean is_set, string attributename, string content)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will get/set attributes for podcast-export.
+    
+    Unset-values will be returned as "" when is_set=false
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    boolean is_set - true, set the attribute; false, retrieve the current content
+    string attributename - the attributename you want to get/set
+                         - supported attributes are:
+                         - "output_mp3" - the renderstring of mp3
+                         - "output_opus" - the renderstring of opus
+                         - "output_ogg" - the renderstring of ogg
+                         - "output_wav" - the renderstring of wav
+                         - "output_wav_multitrack" - the renderstring of wav-multitrack
+                         - "output_flac" - the renderstring of flac
+                         - "output_flac_multitrack" - the renderstring of flac-multitrack
+                         - "path" - the render-output-path
+                         - "filename" - the filename of the rendered file
+    string content - the new contents to set the attribute with
+  </parameters>
+  <retvals>
+    boolean retval - true, if the attribute exists/could be set; false, if not or an error occurred
+    string content - the content of a specific attribute
+  </retvals>
+  <chapter_context>
+     Rendering Projects
+     Ultraschall
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, get, set, attribute, export, string</tags>
+</US_DocBloc>
+]]
+  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "is_set", "must be a boolean", -1) return false end  
+  if type(attribute)~="string" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "attributename", "must be a string", -2) return false end  
+  if is_set==true and type(value)~="string" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "must be a string", -3) return false end  
+  
+  local tags={"output_mp3",
+              "output_opus",
+              "output_ogg",
+              "output_wav",
+              "output_wav_multitrack",
+              "output_flac",
+              "output_flac_multitrack",
+              "path",
+              "filename"
+                          }
+  local found=false
+  for i=1, #tags do
+    if attributename==tags[i] then
+      found=true
+      break
+    end
+  end
+  
+  local _retval
+  
+  if is_set==false then
+    _retval, value=reaper.GetProjExtState(0, "Ultraschall_Podcast_Render_Attributes", attribute)
+  elseif is_set==true then
+    -- validation checks
+    if attribute=="path" and ultraschall.DirectoryExists2(value)==false then
+      ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "path: not a valid path", -4)
+    else
+      if value:sub(-1,-1)~=ultraschall.Separator then
+        value=value..ultraschall.Separator
+      end
+    end
+    if attribute=="output_mp3" and ultraschall.GetRenderCFG_Settings_MP3(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_mp3: not a valid mp3-renderstring", -20) return false end  
+    if attribute=="output_opus" and ultraschall.GetRenderCFG_Settings_OPUS(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_opus: not a valid opus-renderstring", -21) return false end  
+    if attribute=="output_ogg" and ultraschall.GetRenderCFG_Settings_OGG(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_ogg: not a valid ogg-renderstring", -22) return false end  
+    if attribute=="output_wav" and ultraschall.GetRenderCFG_Settings_WAV(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_wav: not a valid wav-renderstring", -23) return false end  
+    if attribute=="output_wav_multitrack" and ultraschall.GetRenderCFG_Settings_WAV(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_wav_multitrack: not a valid wav-renderstring", -23) return false end  
+    if attribute=="output_flac" and ultraschall.GetRenderCFG_Settings_FLAC(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_flac: not a valid flac-renderstring", -24) return false end  
+    if attribute=="output_flac_multitrack" and ultraschall.GetRenderCFG_Settings_FLAC(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_flac_multitrack: not a valid flac-renderstring", -24) return false end  
+    _retval=reaper.SetProjExtState(0, "Ultraschall_Podcast_Render_Attributes", attribute, value)
+  end
+  
+  return true, value
+end
+
+function ultraschall.GetSetPodcastExport_Attributes_Value(is_set, attribute, value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetPodcastExport_Attributes_Value</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, number content = ultraschall.GetSetPodcastExport_Attributes_Value(boolean is_set, string attributename, number content)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will get/set attributes for podcast-export.
+    
+    Unset-values will be returned as -1 when is_set=false
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    boolean is_set - true, set the attribute; false, retrieve the current content
+    string attributename - the attributename you want to get/set
+                         - supported attributes are:
+                         - "mono_stereo" - 0, export as mono-file; 1, export as stereo-file
+                         - "add_rendered_files_to_tracks" - 0, don't add rendered files to project; 1, add rendered files to project
+                         - "start_time" - the start-time of the area to render
+                         - "end_time" - the end-time of the area to render
+    number content - the new contents to set the attribute with
+  </parameters>
+  <retvals>
+    boolean retval - true, if the attribute exists/could be set; false, if not or an error occurred
+    number content - the content of a specific attribute
+  </retvals>
+  <chapter_context>
+     Rendering Projects
+     Ultraschall
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, get, set, attribute, export, value</tags>
+</US_DocBloc>
+]]
+  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "is_set", "must be a boolean", -1) return false end  
+  if type(attribute)~="string" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "attributename", "must be a string", -2) return false end  
+  if is_set==true and type(value)~="number" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "must be a number", -3) return false end  
+  
+  local tags={"mono_stereo",
+              "add_rendered_files_to_tracks",
+              "start_time",
+              "end_time"
+                          }
+  local found=false
+  for i=1, #tags do
+    if attributename==tags[i] then
+      found=true
+      break
+    end
+  end
+  
+  local _retval
+  
+  if is_set==false then
+    _retval, value=reaper.GetProjExtState(0, "Ultraschall_Podcast_Render_Attributes", attribute)
+    value=tonumber(value)
+    if value==nil then value=-1 end
+  elseif is_set==true then
+    -- validation checks
+    if attribute=="mono_stereo" and math.tointeger(value)==nil then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "mono_stereo: must be an integer", -4) return false end  
+    if attribute=="mono_stereo" and (value<0 or value>1) then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "mono_stereo: must be between 0 and 1", -5) return false end  
+    if attribute=="add_rendered_files_to_tracks" and math.tointeger(value)==nil then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "add_rendered_files_to_tracks: must be an integer", -6) return false end  
+    if attribute=="add_rendered_files_to_tracks" and (value<0 or value>1) then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "add_rendered_files_to_tracks: must be between 0 and 1", -7) return false end  
+    if attribute=="start_time" and value<0 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "start_time: must be bigger than 0", -8) return false end  
+
+    if attribute=="end_time" and value<0 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "end_time: value", "must be bigger than 0 and start_time", -9) return false end  
+    
+    _retval=reaper.SetProjExtState(0, "Ultraschall_Podcast_Render_Attributes", attribute, value)    
+  end
+  
+  return true, value
+end

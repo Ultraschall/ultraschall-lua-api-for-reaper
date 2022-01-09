@@ -446,6 +446,8 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
   - PodcastMetadata: GetSetPodcast\_MetaData - gets/sets metadata-attributes of a podcast
   - PodcastMetadata: GetSetPodcastEpisode\_MetaData - gets/sets metadata-attributes of a podcast-episode
+  - PodcastMetadata: GetSetPodcastExport\_Attributes\_String - gets/sets string attributes for podcast-export in Ultraschall
+  - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall
   - PodcastMetadata: GetSetShownoteMarker\_Attributes - gets/sets additional attributes of a shownote-marker
   - PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering
