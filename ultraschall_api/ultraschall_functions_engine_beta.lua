@@ -1645,7 +1645,7 @@ function ultraschall.AddShownoteMarker(pos, name)
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer markernumber, string guid = ultraschall.AddShownoteMarker(number pos, string name)</functioncall>
+  <functioncall>boolean retval, integer markernumber, string guid, integer shownotemarker_index = ultraschall.AddShownoteMarker(number pos, string name)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will add new shownote-marker.
     
@@ -1835,6 +1835,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "image_description" - a description of the image for blind/visually impaired users
                          - "image_source" - the original source of the image(book+page or url)
                          - "image_license" - the user-license of the image(public domain, creative commons, etc)                         
+                         - "wikidata_uri" - the uri to an entry to wikidata
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
@@ -1877,7 +1878,8 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
               "url_retrieval_date",
               "url_retrieval_time",
               "url_retrieval_timezone_utc",
-              "url_archived_copy_of_original_url"
+              "url_archived_copy_of_original_url",
+              "wikidata_uri"
               }
   local found=false
   for i=1, #tags do
@@ -2314,16 +2316,16 @@ function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additi
 end
 
 
-function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3, do_vorbis, do_ape, do_ixml)
+function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_in_metadata, offset, do_id3, do_vorbis, do_ape, do_ixml)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CommitShownote_ReaperMetadata</slug>
   <requires>
     Ultraschall=4.3
-    Reaper=6.02
+    Reaper=6.43
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.CommitShownote_ReaperMetadata(integer shownote_idx, number offset, optional boolean do_id3, optional boolean do_vorbis, optional boolean do_ape, optional boolean do_ixml)</functioncall>
+  <functioncall>boolean retval, string shownote_entry = ultraschall.CommitShownote_ReaperMetadata(integer shownote_idx, integer shownote_index_in_metadata, number offset, optional boolean do_id3, optional boolean do_vorbis, optional boolean do_ape, optional boolean do_ixml)</functioncall>
   <description>
     Commits the metadata of a shownote into Reaper's metadata-storage.
     
@@ -2333,21 +2335,33 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3,
     
     Also helpful for podcasts rendered using region-rendering.
     
-    This will be added to 
+    This will be added to the Reaper-metadata schemes:
+       ID3(MP3) - stored in file as user-defined-frame "TXXX:"
+       Vorbis (Opus, Ogg, Wav, Flac)
+       IXML(FLAC, WAV, MP3) - <BWFXML><USER><Podcast_Shownote_XnumberX> shownote entry </Podcast_Shownote_XnumberX></USER></BWFXML>
+       APE(MP3, WavPak)
 
     returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, shownote committed; false, shownote not committed
+    string shownote_entry - the created shownote-entry for this shownote, according to PODCAST_SHOWNOTE_v1-standard
   </retvals>
   <parameters>
     integer shownote_idx - the index of the shownote to commit
+    integer shownote_index_in_metadata - the index, that shall be inserted into the metadata
+                                       - this is for cases, where shownote #4 would be the first shownote in the file(region-rendering),
+                                       - so you would want it indexed as shownote 1 NOT shownote 4.
+                                       - in that case, set this parameter to 1, wheras shownote_idx would be 4
+                                       - 
+                                       - If you render out the project before the first shownote and after the last one(entire project), 
+                                       - simply make shownote_idx=shownote_index_in_metadata
     number offset - the offset in seconds to subtract from the shownote-position(see description for details); set to 0 for no offset; must be 0 or higher
-    optional boolean do_id3 - true or nil, commit to ID3-metadata-storage(MP3) of Reaper; false, don't commit
-    optional boolean do_vorbis - true or nil, commit to Vorbis-metadata-storage(Vorbis, Mp3, Flac, Ogg, Opus) of Reaper; false, don't commit
-    optional boolean do_ape - true or nil, commit to APE-metadata-storage(MP3, WavPack) of Reaper; false, don't commit
-    optional boolean do_ixml - true or nil, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false, don't commit
-  </parameters>
+    optional boolean do_id3 - true, commit to ID3-metadata-storage(MP3) of Reaper; false or nil, don't commit
+    optional boolean do_vorbis - true, commit to Vorbis-metadata-storage(Vorbis, Mp3, Flac, Ogg, Opus) of Reaper; false or nil, don't commit
+    optional boolean do_ape - true, commit to APE-metadata-storage(MP3, WavPack) of Reaper; false or nil, don't commit
+    optional boolean do_ixml - true, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false or nil, don't commit
+  </parameters>  
   <chapter_context>
      Rendering Projects
      Ultraschall
@@ -2359,11 +2373,14 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3,
 ]]
   if math.type(shownote_idx)~="integer" then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "shownote_idx", "must be an integer", -1) return false end
   if shownote_idx<0 then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "shownote_idx", "must be bigger than 0", -2) return false end
-  if type(offset)~="number" then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "must be a number", -3) return false end
-  if offset<0 then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "must be bigger than 0", -4) return false end
+  if math.type(shownote_index_in_metadata)~="integer" then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "shownote_index_in_metadata", "must be an integer", -3) return false end
+  if shownote_index_in_metadata<0 then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "shownote_index_in_metadata", "must be bigger than 0", -4) return false end
+  
+  if type(offset)~="number" then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "must be a number", -5) return false end
+  if offset<0 then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "must be bigger than 0", -6) return false end
   local retval, marker_index, pos, name, shown_number, color, guid = ultraschall.EnumerateShownoteMarkers(shownote_idx)
-  if retval==false then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "shownote_idx", "no such shownote", -5) return false end
-
+  if retval==false then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "shownote_idx", "no such shownote", -7) return false end
+  
   -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN GetSetShownoteMarker_Attributes() !!!
   local Tags={"language", 
               "location_gps", 
@@ -2385,10 +2402,11 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3,
               "url_retrieval_date",
               "url_retrieval_time",
               "url_retrieval_timezone_utc",
-              "url_archived_copy_of_original_url"
+              "url_archived_copy_of_original_url",
+              "wikidata_uri"
               }
   pos=pos-offset
-  if pos<0 then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "shownote-position minus offset is smaller than 0", -6) return false end
+  if pos<0 then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "shownote-position minus offset is smaller than 0", -8) return false end
   name=string.gsub(name, "\\", "\\\\")
   name=string.gsub(name, "\"", "\\\"")
 
@@ -2409,26 +2427,26 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, offset, do_id3,
   end
 
 
-  Shownote_String="SHOWNOTE_v1 "..shownote_idx..": "..Shownote_String.." SHOWNOTE_END"
+  Shownote_String="PODCAST_SHOWNOTE_v1 "..shownote_index_in_metadata..": "..Shownote_String.." PODCAST_SHOWNOTE_END"
   --print2(Shownote_String)
-  if do_id3~=false then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String, true)
+  if do_id3==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
     --print2("ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String)
   end
   
-  if do_vorbis~=false then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String, true)
+  if do_vorbis==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
   end
   
-  if do_ape~=false then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String, true)
+  if do_ape==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
   end
 
-  if do_ixml~=false then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String, true)
+  if do_ixml==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
   end
   
-  return true
+  return true, Shownote_String
 end
 
 
@@ -2770,3 +2788,132 @@ function ultraschall.GetSetPodcastExport_Attributes_Value(is_set, attribute, val
   
   return true, value
 end
+
+function ultraschall.Commit4AllShownotes_ReaperMetadata(start_time, end_time, offset, do_id3, do_vorbis, do_ape, do_ixml)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Commit4AllShownotes_ReaperMetadata</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_shownotes, array shownote_entries = ultraschall.Commit4AllShownotes_ReaperMetadata(number start_time, number end_time, number offset, optional boolean do_id3, optional boolean do_vorbis, optional boolean do_ape, optional boolean do_ixml)</functioncall>
+  <description>
+    Commits the metadata of all shownotes into Reaper's metadata-storage.
+    
+    The offset allows to offset the starttimes of a shownote-marker. 
+    For instance, for files that aren't rendered from projectstart but from position 33.44, this position should be passed as offset
+    so the shownote isn't at the wrong position.
+    
+    Also helpful for podcasts rendered using region-rendering.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    integer number_of_shownotes - the number of added shownotes
+    array shownote_entries - the individual shownote-entries
+  </retvals>
+  <parameters>
+    number start_time - the start-time of the range, from which to commit the shownotes
+    number end_time - the end-time of the range, from which to commit the shownotes
+    number offset - the offset in seconds to subtract from the shownote-positions(see description for details); set to 0 for no offset; must be 0 or higher
+    optional boolean do_id3 - true, commit to ID3-metadata-storage(MP3) of Reaper; false or nil, don't commit
+    optional boolean do_vorbis - true, commit to Vorbis-metadata-storage(Vorbis, Mp3, Flac, Ogg, Opus) of Reaper; false or nil, don't commit
+    optional boolean do_ape - true, commit to APE-metadata-storage(MP3, WavPack) of Reaper; false or nil, don't commit
+    optional boolean do_ixml - true, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false or nil, don't commit
+  </parameters>  
+  <chapter_context>
+     Rendering Projects
+     Ultraschall
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>marker management, commit, all, shownote, reaper metadata</tags>
+</US_DocBloc>
+]]
+
+  if type(start_time)~="number" then ultraschall.AddErrorMessage("Commit4AllShownotes_ReaperMetadata", "start_time", "must be a number", -1) return -1 end
+  if start_time<0 then ultraschall.AddErrorMessage("Commit4AllShownotes_ReaperMetadata", "start_time", "must be bigger than 0", -2) return -1 end
+  if type(end_time)~="number" then ultraschall.AddErrorMessage("Commit4AllShownotes_ReaperMetadata", "end_time", "must be a number", -3) return -1 end
+  if start_time>end_time then ultraschall.AddErrorMessage("Commit4AllShownotes_ReaperMetadata", "end_time", "must be bigger than 0", -4) return -1 end
+  
+  if type(offset)~="number" then ultraschall.AddErrorMessage("Commit4AllShownotes_ReaperMetadata", "offset", "must be a number", -5) return -1 end
+  if offset<0 then ultraschall.AddErrorMessage("Commit4AllShownotes_ReaperMetadata", "offset", "must be bigger than 0", -6) return -1 end
+  
+  local A={}
+  local counter=0
+  for i=0, ultraschall.CountShownoteMarkers()-1 do
+    local A1, A2, pos = ultraschall.EnumerateShownoteMarkers(i)
+    if pos>=start_time and pos<=end_time then
+      counter=counter+1
+      retval, A[#A+1]=ultraschall.CommitShownote_ReaperMetadata(i, counter, offset, do_id3, do_vorbis, do_ape, do_ixml)
+    end
+  end
+  return #A, A
+end
+
+--A,B=ultraschall.Commit4AllShownotes_ReaperMetadata(4, 7.1, 0, true, true, true, true)
+
+function ultraschall.RemoveAllShownotes_ReaperMetaData(do_id3, do_vorbis, do_ape, do_ixml)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RemoveAllShownotes_ReaperMetaData</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.RemoveAllShownotes_ReaperMetaData(optional boolean do_id3, optional boolean do_vorbis, optional boolean do_ape, optional boolean do_ixml)</functioncall>
+  <description>
+    Deletes the metadata of all shownotes in Reaper's metadata-storage, up until shownote #65000.
+
+    returns false in case of an error
+  </description>
+  <parameters>
+    optional boolean do_id3 - true, commit to ID3-metadata-storage(MP3) of Reaper; false or nil, don't commit
+    optional boolean do_vorbis - true, commit to Vorbis-metadata-storage(Vorbis, Mp3, Flac, Ogg, Opus) of Reaper; false or nil, don't commit
+    optional boolean do_ape - true, commit to APE-metadata-storage(MP3, WavPack) of Reaper; false or nil, don't commit
+    optional boolean do_ixml - true, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false or nil, don't commit
+  </parameters>  
+  <chapter_context>
+     Rendering Projects
+     Ultraschall
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>marker management, delete, shownote, reaper metadata</tags>
+</US_DocBloc>
+]]
+  for shownote_idx=0, 65000 do
+    if do_id3==true then
+      local A,B=reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|", false)
+      if B~="" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|", true)
+      end
+    end
+    
+    if do_vorbis==true then
+      local A,B=reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Shownote_"..shownote_idx.."|", false)
+      if B~="" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Shownote_"..shownote_idx.."|", true)
+      end
+    end
+    
+    if do_ape==true then
+      local A,B=reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Shownote_"..shownote_idx.."|", false)    
+      if B~="" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Shownote_"..shownote_idx.."|", true)
+      end
+    end
+    
+    if do_ixml==true then
+      local A,B=reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Shownote_"..shownote_idx.."|", false)
+      if B~="" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Shownote_"..shownote_idx.."|", true)
+      end
+    end
+  end
+end
+
+--ultraschall.RemoveAllShownotes_ReaperMetaData(true, true, true, true)
