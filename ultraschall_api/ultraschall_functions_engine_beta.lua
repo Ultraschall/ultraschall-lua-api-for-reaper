@@ -1814,6 +1814,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     integer idx - the index of the shownote, whose attribute you want to get
     string attributename - the attributename you want to get/set
                          - supported attributes are:
+                         - "description" - a more detailed description for this shownote
                          - "url" - the url you want to set
                          - "url_description" - a short description of the url
                          - "url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
@@ -1859,6 +1860,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   
   -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN THE CODE OF CommitShownote_ReaperMetadata() !!!
   local tags={"language",           -- check for validity ISO639
+              "description",
               "location_gps",       -- check for validity
               "location_google_maps",-- check for validity
               "location_open_street_map",-- check for validity
@@ -2382,7 +2384,8 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
   if retval==false then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "shownote_idx", "no such shownote", -7) return false end
   
   -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN GetSetShownoteMarker_Attributes() !!!
-  local Tags={"language", 
+  local Tags={"language",
+              "description", 
               "location_gps", 
               "location_google_maps", 
               "location_open_street_map", 
@@ -2409,8 +2412,9 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
   if pos<0 then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "shownote-position minus offset is smaller than 0", -8) return false end
   name=string.gsub(name, "\\", "\\\\")
   name=string.gsub(name, "\"", "\\\"")
+  --name=string.gsub(name, "\n", "\\n")
 
-  local Shownote_String="pos:\""..pos.."\" title:\""..name.."\" "
+  local Shownote_String="pos:\""..pos.."\" \n title:\""..name.."\" "
   local temp
 
   for i=1, #Tags do
@@ -2420,14 +2424,17 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
     else 
       temp=string.gsub(temp, "\\", "\\\\")
       temp=string.gsub(temp, "\"", "\\\"")
-      temp=" "..Tags[i]..":\""..temp.."\"" 
+      --temp=string.gsub(temp, "\r", "")
+      --temp=string.gsub(temp, "\n", "\\n")
+      temp="\n "..Tags[i]..":\""..temp.."\"" 
+      temp=temp.." "
     end
       
     Shownote_String=Shownote_String..temp
   end
 
 
-  Shownote_String="PODCAST_SHOWNOTE:\"v1\" idx=\""..shownote_index_in_metadata.."\" "..Shownote_String.." PODCAST_SHOWNOTE:\"END\""
+  Shownote_String="PODCAST_SHOWNOTE:\"v1\"\n idx:\""..shownote_index_in_metadata.."\" \n "..Shownote_String.."\nPODCAST_SHOWNOTE:\"END\""
   --print2(Shownote_String)
   if do_id3==true then
     reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
