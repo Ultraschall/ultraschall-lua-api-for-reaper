@@ -2427,7 +2427,7 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
   end
 
 
-  Shownote_String="PODCAST_SHOWNOTE_v1 "..shownote_index_in_metadata..": "..Shownote_String.." PODCAST_SHOWNOTE_END"
+  Shownote_String="PODCAST_SHOWNOTE:\"v1\" idx=\""..shownote_index_in_metadata.."\" "..Shownote_String.." PODCAST_SHOWNOTE:\"END\""
   --print2(Shownote_String)
   if do_id3==true then
     reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
