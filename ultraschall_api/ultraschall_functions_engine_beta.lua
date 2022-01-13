@@ -2347,7 +2347,7 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
   </description>
   <retvals>
     boolean retval - true, shownote committed; false, shownote not committed
-    string shownote_entry - the created shownote-entry for this shownote, according to PODCAST_SHOWNOTE_v1-standard
+    string shownote_entry - the created shownote-entry for this shownote, according to PODCAST_SHOWNOTE:"v1"-standard
   </retvals>
   <parameters>
     integer shownote_idx - the index of the shownote to commit
@@ -2419,7 +2419,7 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
 
   for i=1, #Tags do
     retval, temp = ultraschall.GetSetShownoteMarker_Attributes(false, shownote_idx, Tags[i], "")
-    if retval==false then 
+    if temp==nil then 
       temp="" 
     else 
       temp=string.gsub(temp, "\\", "\\\\")
@@ -2514,7 +2514,13 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
     integer idx - the index of the chapter-marker, whose attribute you want to get
     string attributename - the attributename you want to get/set
                          - supported attributes are:
-                         - "url" - the url you want to set
+                         - "chapter_url",
+                         - "chapter_description",
+                         - "chapter_image",
+                         - "chapter_image_description",
+                         - "chapter_image_license",
+                         - "chapter_image_source",
+                         - "chapter_image_url"
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
@@ -2535,7 +2541,14 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "must be a string", -3) return false end  
   if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "content", "must be a string", -4) return false end  
   
-  local tags={"url"}
+  local tags={"chapter_url",
+              "chapter_description",
+              "chapter_image",
+              "chapter_image_description",
+              "chapter_image_license",
+              "chapter_image_source",
+              "chapter_image_url"
+              }
   local found=false
   for i=1, #tags do
     if attributename==tags[i] then
@@ -2924,3 +2937,123 @@ function ultraschall.RemoveAllShownotes_ReaperMetaData(do_id3, do_vorbis, do_ape
 end
 
 --ultraschall.RemoveAllShownotes_ReaperMetaData(true, true, true, true)
+
+
+function ultraschall.CommitChapter_ReaperMetadata(chapter_idx, chapter_index_in_metadata, offset, do_id3, do_vorbis, do_ape, do_ixml)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CommitChapter_ReaperMetadata</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string chapter_entry = ultraschall.CommitChapter_ReaperMetadata(integer chapter_idx, integer chapter_index_in_metadata, number offset, optional boolean do_id3, optional boolean do_vorbis, optional boolean do_ape, optional boolean do_ixml)</functioncall>
+  <description>
+    Commits the metadata of a chapter into Reaper's metadata-storage.
+    
+    The offset allows to offset the starttimes of a chapter-marker. 
+    For instance, for files that aren't rendered from projectstart but from position 33.44, this position should be passed as offset
+    so the chapter isn't at the wrong position.
+    
+    Also helpful for podcasts rendered using region-rendering.
+    
+    This will be added to the Reaper-metadata schemes:
+       ID3(MP3) - stored in file as user-defined-frame "TXXX:"
+       Vorbis (Opus, Ogg, Wav, Flac)
+       IXML(FLAC, WAV, MP3) - <BWFXML><USER><Podcast_Chapter_XnumberX> chapter entry </Podcast_Chapter_XnumberX></USER></BWFXML>
+       APE(MP3, WavPak)
+
+    Note: this will include the metadata of "normal markers", that are used as chapter-markers in Ultraschall!
+
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, chapter committed; false, chapter not committed
+    string chapter_entry - the created chapter-entry for this chapter, according to PODCAST_CHAPTER:"v1"-standard
+  </retvals>
+  <parameters>
+    integer chapter_idx - the index of the chapter to commit
+    integer chapter_index_in_metadata - the index, that shall be inserted into the metadata
+                                       - this is for cases, where chapter #4 would be the first chapter in the file(region-rendering),
+                                       - so you would want it indexed as chapter 1 NOT chapter 4.
+                                       - in that case, set this parameter to 1, wheras chapter_idx would be 4
+                                       - 
+                                       - If you render out the project before the first chapter and after the last one(entire project), 
+                                       - simply make chapter_idx=chapter_index_in_metadata
+    number offset - the offset in seconds to subtract from the chapter-position(see description for details); set to 0 for no offset; must be 0 or higher
+    optional boolean do_id3 - true, commit to ID3-metadata-storage(MP3) of Reaper; false or nil, don't commit
+    optional boolean do_vorbis - true, commit to Vorbis-metadata-storage(Vorbis, Mp3, Flac, Ogg, Opus) of Reaper; false or nil, don't commit
+    optional boolean do_ape - true, commit to APE-metadata-storage(MP3, WavPack) of Reaper; false or nil, don't commit
+    optional boolean do_ixml - true, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false or nil, don't commit
+  </parameters>  
+  <chapter_context>
+     Rendering Projects
+     Ultraschall
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>marker management, commit, chapter, reaper metadata</tags>
+</US_DocBloc>
+]]
+  if math.type(chapter_idx)~="integer" then ultraschall.AddErrorMessage("CommitChapter_ReaperMetadata", "chapter_idx", "must be an integer", -1) return false end
+  if chapter_idx<0 then ultraschall.AddErrorMessage("CommitChapter_ReaperMetadata", "chapter_idx", "must be bigger than 0", -2) return false end
+  if math.type(chapter_index_in_metadata)~="integer" then ultraschall.AddErrorMessage("CommitChapter_ReaperMetadata", "chapter_index_in_metadata", "must be an integer", -3) return false end
+  if chapter_index_in_metadata<0 then ultraschall.AddErrorMessage("CommitChapter_ReaperMetadata", "chapter_index_in_metadata", "must be bigger than 0", -4) return false end
+  
+  if type(offset)~="number" then ultraschall.AddErrorMessage("CommitChapter_ReaperMetadata", "offset", "must be a number", -5) return false end
+  if offset<0 then ultraschall.AddErrorMessage("CommitChapter_ReaperMetadata", "offset", "must be bigger than 0", -6) return false end
+  local retval, marker_index, pos, name, shown_number, color, guid = ultraschall.EnumerateNormalMarkers(chapter_idx)
+  if retval==false then ultraschall.AddErrorMessage("CommitChapter_ReaperMetadata", "chapter_idx", "no such chapter", -7) return false end
+  
+  -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN GetSetChapterMarker_Attributes() !!!
+  local Tags={"chapter_description",
+              "chapter_url",
+              "chapter_image",
+              "chapter_image_description",
+              "chapter_image_license",
+              "chapter_image_source",
+              "chapter_image_url"
+              }
+  pos=pos-offset
+  if pos<0 then ultraschall.AddErrorMessage("CommitChapter_ReaperMetadata", "offset", "chapter-position minus offset is smaller than 0", -8) return false end
+  name=string.gsub(name, "\\", "\\\\")
+  name=string.gsub(name, "\"", "\\\"")
+
+  local Chapter_String="pos:\""..pos.."\" \n title:\""..name.."\" "
+  local temp
+
+  for i=1, #Tags do
+    retval, temp = ultraschall.GetSetChapterMarker_Attributes(false, chapter_idx, Tags[i], "")
+    if temp==nil then 
+      temp="" 
+    else 
+      temp=string.gsub(temp, "\\", "\\\\")
+      temp=string.gsub(temp, "\"", "\\\"")
+      temp="\n "..Tags[i]..":\""..temp.."\"" 
+      temp=temp.." "
+    end
+      
+    Chapter_String=Chapter_String..temp
+  end
+
+
+  Chapter_String="PODCAST_CHAPTER:\"v1\"\n idx:\""..chapter_index_in_metadata.."\" \n "..Chapter_String.."\nPODCAST_CHAPTER:\"END\""
+  if do_id3==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Chapter_"..chapter_index_in_metadata.."|"..Chapter_String, true)
+  end
+  
+  if do_vorbis==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Chapter_"..chapter_index_in_metadata.."|"..Chapter_String, true)
+  end
+  
+  if do_ape==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Chapter_"..chapter_index_in_metadata.."|"..Chapter_String, true)
+  end
+
+  if do_ixml==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Chapter_"..chapter_index_in_metadata.."|"..Chapter_String, true)
+  end
+  
+  return true, Chapter_String
+end

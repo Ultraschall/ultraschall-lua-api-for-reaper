@@ -60,15 +60,15 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddNormalMarker</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.3
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer marker_number, string guid = ultraschall.AddNormalMarker(number position, integer shown_number, string markertitle)</functioncall>
+  <functioncall>integer marker_number, string guid, integer normal_marker_idx = ultraschall.AddNormalMarker(number position, integer shown_number, string markertitle)</functioncall>
   <description>
     Adds a normal marker. Returns the index of the marker as marker_number.
     
-    Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+    Normal markers are all markers, that don't include "_Shownote:" or "_Edit" or custommarkers with the scheme "_custommarker:" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
     
     returns -1 in case of an error
   </description>
@@ -79,7 +79,8 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
   <parameters>
     number position - position in seconds.
     integer shown_number - the number, that will be shown within Reaper. Can be multiple times. Use -1 to let Reaper decide the number.
-    string markertitle - the title of the marker.
+    string markertitle - the title of the marker
+    integer normal_marker_idx - the index of the new marker within all normal markers
   </parameters>
   <chapter_context>
     Markers
@@ -105,7 +106,17 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
   local A1retval, Acount1, A1markersstring, A1markersarray = ultraschall.IsMarkerAtPosition(position)
   local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(A1markersarray, Amarkersarray)
   local retval, guid = reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..originals_array1[1]-1, "", false)
-  return originals_array1[1]-1, guid
+  
+  local found=-1
+  for i=1, ultraschall.CountNormalMarkers() do
+    retnumber, retidxnum, position, markertitle, guid2 = ultraschall.EnumerateNormalMarkers(i)
+    if guid2==guid then
+        found=i
+        break
+    end
+  end
+  
+  return originals_array1[1]-1, guid, found
 end
 
 
@@ -498,14 +509,15 @@ function ultraschall.CountNormalMarkers()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountNormalMarkers</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.3
     Reaper=5.40
     Lua=5.3
   </requires>
   <functioncall> integer number_of_markers = ultraschall.CountNormalMarkers()</functioncall>
   <description>
     Counts all normal markers. 
-    Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+    
+    Normal markers are all markers, that don't include "_Shownote:" or "_Edit" or custommarkers with the scheme "_custommarker:" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
   </description>
   <retvals>
      integer number_of_markers  - number of normal markers
@@ -527,7 +539,10 @@ function ultraschall.CountNormalMarkers()
   for i=0, a-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
     if name==nil then name="" end
-    if name:sub(1,10)=="_Shownote:" or name:sub(1,5)=="_Edit" or color == ultraschall.planned_marker_color then 
+    if name:match("^(_.-:).*")~=nil
+    or name:sub(1,5)=="_Edit" or 
+    color == ultraschall.planned_marker_color 
+    then 
         -- if marker is shownote, chapter, edit or planned chapter
     elseif isrgn==false then count=count+1 -- elseif marker is no region, count up
     end
@@ -631,22 +646,22 @@ function ultraschall.EnumerateNormalMarkers(number)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateNormalMarkers</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.3
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer retnumber, integer retidxnum, number position, string markertitle, string guid = ultraschall.EnumerateNormalMarkers(integer number)</functioncall>
+  <functioncall>integer retnumber, integer shown_number, number position, string markertitle, string guid = ultraschall.EnumerateNormalMarkers(integer number)</functioncall>
   <description>
     Get the data of a normal marker. 
-    Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+    Normal markers are all markers, that don't include "_Shownote:" or "_Edit" or custommarkers with the scheme "_custommarker:" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
     
     Returns -1 in case of error
   </description>
   <retvals>
      integer retnumber - overallmarker/regionnumber of marker beginning with 1 for the first marker; ignore the order of first,second,etc creation of
-    - markers but counts from position 00:00:00 to end of project. So if you created a marker at position 00:00:00 and move the first created marker to
-    - the end of the timeline, it will be the last one, NOT the first one in the retval! For use with reaper's own marker-functions.
-     integer retidxnum - indexnumber of the marker
+                       - markers but counts from position 00:00:00 to end of project. So if you created a marker at position 00:00:00 and move the first created marker to
+                       - the end of the timeline, it will be the last one, NOT the first one in the retval! For use with reaper's own marker-functions.
+     integer shown_number - shown number of the marker
      number position - the position of the marker
      string markertitle  - the name of the marker
      string guid - the guid of the enumerated marker
@@ -682,11 +697,10 @@ function ultraschall.EnumerateNormalMarkers(number)
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color= reaper.EnumProjectMarkers3(0,i)
     
     if isrgn==false then
-      if name:sub(1,10)~="_Shownote:" and 
-         name:sub(1,5)~="_Edit" and 
-         color~=ultraschall.planned_marker_color 
-         then 
-            count=count+1 
+      if name==nil then name="" end
+      if name:match("^(_.-:).*")==nil and name:sub(1,5)~="_Edit" and color ~= ultraschall.planned_marker_color 
+      then 
+        count=count+1 
       end
     end
     if number>=0 and wentfine==0 and count==number then
@@ -949,7 +963,7 @@ function ultraschall.SetNormalMarker(number, position, shown_number, markertitle
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetNormalMarker</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.3
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -957,7 +971,7 @@ function ultraschall.SetNormalMarker(number, position, shown_number, markertitle
   <description>
      Sets values of a normal Marker(no _Chapter:, _Shownote:, etc). Returns true if successful and false if not(i.e. marker doesn't exist)
      
-     Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+     Normal markers are all markers, that don't include "_Shownote:" or "_Edit" or custommarkers with the scheme "_custommarker:" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
      
      returns false in case of an error
   </description>
@@ -997,7 +1011,9 @@ function ultraschall.SetNormalMarker(number, position, shown_number, markertitle
   for i=0, c-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
     if isrgn==false then
-      if name:sub(1,10)~="_Shownote:" and name:sub(1,5)~="_Edit" and color~=ultraschall.planned_marker_color then count=count+1 end
+      if name:match("^(_.-:).*")==nil and name:sub(1,5)~="_Edit" and color ~= ultraschall.planned_marker_color then 
+        count=count+1 
+      end
     end
     if number>=0 and wentfine==0 and count==number then
         if tonumber(position)==-1 or position==nil then position=pos end
@@ -1177,7 +1193,7 @@ function ultraschall.DeleteNormalMarker(number)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteNormalMarker</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.3
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -1185,7 +1201,7 @@ function ultraschall.DeleteNormalMarker(number)
   <description>
     Deletes a Normal-Marker. Returns true if successful and false if not(i.e. marker doesn't exist) Use <a href="#EnumerateNormalMarkers">ultraschall.EnumerateNormalMarkers</a> to get the correct number.
     
-    Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+    Normal markers are all markers, that don't include "_Shownote:" or "_Edit" or custommarkers with the scheme "_custommarker:" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
     
     returns -1 in case of an error
   </description>
@@ -1218,7 +1234,9 @@ function ultraschall.DeleteNormalMarker(number)
   for i=1, c-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers(i)
     if isrgn==false then
-      if name:sub(1,10)~="_Shownote:" and name:sub(1,5)~="_Edit" and color~=ultraschall.planned_marker_color then count=count+1 end
+      if name:match("^(_.-:).*")==nil and name:sub(1,5)~="_Edit" and color ~= ultraschall.planned_marker_color then 
+        count=count+1 
+      end
     end
     if number>=0 and wentfine==0 and count==number then
         retnumber=i
@@ -2931,13 +2949,14 @@ function ultraschall.CountNormalMarkers_NumGap()
   <tags>markermanagement, marker, count, gap, position</tags>
 </US_DocBloc>
 ]]
+
   local nix=""
   local a,nummarkers,b=reaper.CountProjectMarkers(0)
   local count=0
   for b=1, nummarkers do
     for i=0, a do
-        local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color= reaper.EnumProjectMarkers3(0, i)
-        if markrgnindexnumber==b then 
+        local retnumber, retidxnum, position, markertitle, guid= ultraschall.EnumerateNormalMarkers(i)
+        if retidxnum==b then 
             count=b 
             nix="hui" 
             break

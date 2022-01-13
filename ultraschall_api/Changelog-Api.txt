@@ -455,7 +455,9 @@ Has now 1423 functions, with XX new ones
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
   - Markers: EnumerateShownoteMarkers - gets a shownote-marker  
   - Markers: SetShownoteMarker - sets an already existing shownote
-  - PodcastMetadata: Commit4AllShownotes\_ReaperMetadata - commits all shownotes between start and endposition to Reaper's metadata-storage
+  - PodcastMetadata: Commit4AllChapters_ReaperMetadata - commits all chapter-metadata between start and endposition to Reaper's metadata-storage
+  - PodcastMetadata: Commit4AllShownotes\_ReaperMetadata - commits all shownote-metadata between start and endposition to Reaper's metadata-storage  
+  - PodcastMetadata: CommitChapter\_ReaperMetadata - commits chapters to Reaper's metadata-storage
   - PodcastMetadata: CommitShownote\_ReaperMetadata - commits shownotes to Reaper's metadata-storage
   - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
   - PodcastMetadata: GetSetPodcast\_MetaData - gets/sets metadata-attributes of a podcast
@@ -464,13 +466,19 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall
   - PodcastMetadata: GetSetShownoteMarker\_Attributes - gets/sets additional attributes of a shownote-marker
   - PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering
-  - PodcastMetadata: RemoveAllShownotes\_ReaperMetaData - removes all currently stored shownotes from Reaper's metadata-storage
+  - PodcastMetadata: RemoveAllShownotes\_ReaperMetaData - removes all currently stored shownotes-metadata-blocks from Reaper's metadata-storage
+  - PodcastMetadata: RemoveAllChapters\_ReaperMetaData - removes all currently stored chapter-metadata-blocks from Reaper's metadata-storage
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering
   - TrackManagement: ConvertTrackstringToArray - returns all tracknumbers of a trackstring as an array
   
 #### Changes from 4.2.006 to 4.3    
   - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well
+  - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "_Shownote:", "_Edit:" ,"_Custom"
+  - MarkerManagement: CountNormalMarkers - did count custom-markers as well -> fixed
+  - MarkerManagement: CountNormalMarkers_NumGap - didn't count normal markers only, but rather all -> fixed
+  - MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -> fixed
+  - MarkerManagement: SetNormalMarker - did set custom-markers as well -> fixed
   - MediaItemManagement: GetAllMediaItemsFromTrack - had problems, when a track had no item -> fixed(thnx to Distressor)
   - ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk
   - RenderManagement: CreateRenderCFG\_DDP - returned string was wrong due typo -> fixed(thnx to loTrT)
