@@ -1834,6 +1834,8 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "event_time_start" - the starttime of an event associated with the show; hh:mm:ss
                          - "event_time_end" - the endtime of an event associated with the show; hh:mm:ss
                          - "event_timezone" - the timezone of the event assocated with the show; UTC-format
+                         - "event_name" - a name for the event
+                         - "event_url" - an url of the event(for ticket sale or the general url for the event)
                          - "event_location_gps" - the gps-coordinates of the event-location
                          - "event_location_google_maps" - the google-maps-coordinates of the event-location
                          - "event_location_open_street_map" - the open-streetmap-coordinates of the event-location
@@ -1882,6 +1884,8 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
               "event_time_start",   -- check for validity
               "event_time_end",     -- check for validity
               "event_timezone",     -- check for validity
+              "event_name", 
+              "event_url", 
               "event_location_gps",       -- check for validity
               "event_location_google_maps",-- check for validity
               "event_location_open_street_map",-- check for validity
@@ -2417,6 +2421,8 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
               "event_time_start",   -- check for validity
               "event_time_end",     -- check for validity
               "event_timezone",     -- check for validity
+              "event_name", 
+              "event_url", 
               "event_location_gps",       -- check for validity
               "event_location_google_maps",-- check for validity
               "event_location_open_street_map",-- check for validity
