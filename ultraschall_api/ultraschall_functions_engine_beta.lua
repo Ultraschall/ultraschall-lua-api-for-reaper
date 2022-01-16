@@ -1825,11 +1825,20 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "location_gps" - the gps-coordinates of the location
                          - "location_google_maps" - the coordinates as used in Google Maps
                          - "location_open_street_map" - the coordinates as used in Open Street Maps
-                         - "location_apple_maps" - the coordinates as used in Apple Maps
-                         - "content_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd
-                         - "content_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss
-                         - "content_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format
-                         - "cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
+                         - "location_apple_maps" - the coordinates as used in Apple Maps                         
+                         - "shownote_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd
+                         - "shownote_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss
+                         - "shownote_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format
+                         - "event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
+                         - "event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
+                         - "event_time_start" - the starttime of an event associated with the show; hh:mm:ss
+                         - "event_time_end" - the endtime of an event associated with the show; hh:mm:ss
+                         - "event_timezone" - the timezone of the event assocated with the show; UTC-format
+                         - "event_location_gps" - the gps-coordinates of the event-location
+                         - "event_location_google_maps" - the google-maps-coordinates of the event-location
+                         - "event_location_open_street_map" - the open-streetmap-coordinates of the event-location
+                         - "event_location_apple_maps" - the apple-maps-coordinates of the event-location
+                         - "quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
                          - "quote" - a quote from the cite_source
                          - "image_uri" - the uri of the image to store with the shownote(location on harddisk)
                          - "image_content" - the image-file itself as string, that you can store in the project; only png and jpg.
@@ -1865,10 +1874,19 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
               "location_google_maps",-- check for validity
               "location_open_street_map",-- check for validity
               "location_apple_maps",-- check for validity
-              "content_date",       -- check for validity
-              "content_time",       -- check for validity
-              "content_timezone",   -- check for validity
-              "cite_source", 
+              "shownote_date",       -- check for validity
+              "shownote_time",       -- check for validity
+              "shownote_timezone",   -- check for validity
+              "event_date_start",   -- check for validity
+              "event_date_end",     -- check for validity
+              "event_time_start",   -- check for validity
+              "event_time_end",     -- check for validity
+              "event_timezone",     -- check for validity
+              "event_location_gps",       -- check for validity
+              "event_location_google_maps",-- check for validity
+              "event_location_open_street_map",-- check for validity
+              "event_location_apple_maps",-- check for validity
+              "quote_cite_source", 
               "quote", 
               "image_uri",
               "image_content",      -- check for validity
@@ -1883,6 +1901,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
               "url_archived_copy_of_original_url",
               "wikidata_uri"
               }
+              
   local found=false
   for i=1, #tags do
     if attributename==tags[i] then
@@ -2384,19 +2403,28 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
   if retval==false then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "shownote_idx", "no such shownote", -7) return false end
   
   -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN GetSetShownoteMarker_Attributes() !!!
-  local Tags={"language",
-              "description", 
-              "location_gps", 
-              "location_google_maps", 
-              "location_open_street_map", 
-              "location_apple_maps", 
-              "content_date",
-              "content_time",
-              "content_timezone",
-              "cite_source", 
+  local Tags={"language",           -- check for validity ISO639
+              "description",
+              "location_gps",       -- check for validity
+              "location_google_maps",-- check for validity
+              "location_open_street_map",-- check for validity
+              "location_apple_maps",-- check for validity
+              "shownote_date",       -- check for validity
+              "shownote_time",       -- check for validity
+              "shownote_timezone",   -- check for validity
+              "event_date_start",   -- check for validity
+              "event_date_end",     -- check for validity
+              "event_time_start",   -- check for validity
+              "event_time_end",     -- check for validity
+              "event_timezone",     -- check for validity
+              "event_location_gps",       -- check for validity
+              "event_location_google_maps",-- check for validity
+              "event_location_open_street_map",-- check for validity
+              "event_location_apple_maps",-- check for validity
+              "quote_cite_source", 
               "quote", 
               "image_uri",
-              "image_content", 
+              "image_content",      -- check for validity
               "image_description",
               "image_source",
               "image_license",
@@ -3057,3 +3085,135 @@ function ultraschall.CommitChapter_ReaperMetadata(chapter_idx, chapter_index_in_
   
   return true, Chapter_String
 end
+
+function ultraschall.Commit4AllChapters_ReaperMetadata(start_time, end_time, offset, do_id3, do_vorbis, do_ape, do_ixml)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Commit4AllChapters_ReaperMetadata</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_chapters, array chapter_entries = ultraschall.Commit4AllChapters_ReaperMetadata(number start_time, number end_time, number offset, optional boolean do_id3, optional boolean do_vorbis, optional boolean do_ape, optional boolean do_ixml)</functioncall>
+  <description>
+    Commits the metadata of all chapters into Reaper's metadata-storage.
+    
+    The offset allows to offset the starttimes of a chapter-marker. 
+    For instance, for files that aren't rendered from projectstart but from position 33.44, this position should be passed as offset
+    so the chapter isn't at the wrong position.
+    
+    Also helpful for podcasts rendered using region-rendering.
+    
+    Note: uses metadata stored with "normal markers", as they are used by Ultraschall for chapter-markers
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    integer number_of_chapters - the number of added chapters
+    array chapter_entries - the individual chapter-entries
+  </retvals>
+  <parameters>
+    number start_time - the start-time of the range, from which to commit the chapters
+    number end_time - the end-time of the range, from which to commit the chapters
+    number offset - the offset in seconds to subtract from the chapter-positions(see description for details); set to 0 for no offset; must be 0 or higher
+    optional boolean do_id3 - true, commit to ID3-metadata-storage(MP3) of Reaper; false or nil, don't commit
+    optional boolean do_vorbis - true, commit to Vorbis-metadata-storage(Vorbis, Mp3, Flac, Ogg, Opus) of Reaper; false or nil, don't commit
+    optional boolean do_ape - true, commit to APE-metadata-storage(MP3, WavPack) of Reaper; false or nil, don't commit
+    optional boolean do_ixml - true, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false or nil, don't commit
+  </parameters>  
+  <chapter_context>
+     Rendering Projects
+     Ultraschall
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>marker management, commit, all, chapter, reaper metadata</tags>
+</US_DocBloc>
+]]
+
+  if type(start_time)~="number" then ultraschall.AddErrorMessage("Commit4AllChapters_ReaperMetadata", "start_time", "must be a number", -1) return -1 end
+  if start_time<0 then ultraschall.AddErrorMessage("Commit4AllChapters_ReaperMetadata", "start_time", "must be bigger than 0", -2) return -1 end
+  if type(end_time)~="number" then ultraschall.AddErrorMessage("Commit4AllChapters_ReaperMetadata", "end_time", "must be a number", -3) return -1 end
+  if start_time>end_time then ultraschall.AddErrorMessage("Commit4AllChapters_ReaperMetadata", "end_time", "must be bigger than 0", -4) return -1 end
+  
+  if type(offset)~="number" then ultraschall.AddErrorMessage("Commit4AllChapters_ReaperMetadata", "offset", "must be a number", -5) return -1 end
+  if offset<0 then ultraschall.AddErrorMessage("Commit4AllChapters_ReaperMetadata", "offset", "must be bigger than 0", -6) return -1 end
+  
+  local A={}
+  local counter=0
+  for i=1, ultraschall.CountNormalMarkers() do
+    local A1, A2, pos = ultraschall.EnumerateNormalMarkers(i)
+    if pos>=start_time and pos<=end_time then
+      counter=counter+1
+      retval, A[#A+1]=ultraschall.CommitChapter_ReaperMetadata(i, counter, offset, do_id3, do_vorbis, do_ape, do_ixml)
+    end
+  end
+  return #A, A
+end
+
+--A,B=ultraschall.Commit4AllChapters_ReaperMetadata(0, 1000, 0, true, true, true, true)
+--B=ultraschall.CountNormalMarkers()
+
+function ultraschall.RemoveAllChapters_ReaperMetaData(do_id3, do_vorbis, do_ape, do_ixml)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RemoveAllChapters_ReaperMetaData</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.RemoveAllChapters_ReaperMetaData(optional boolean do_id3, optional boolean do_vorbis, optional boolean do_ape, optional boolean do_ixml)</functioncall>
+  <description>
+    Deletes the metadata of all chapters in Reaper's metadata-storage, up until chapter #65000.
+
+    returns false in case of an error
+  </description>
+  <parameters>
+    optional boolean do_id3 - true, commit to ID3-metadata-storage(MP3) of Reaper; false or nil, don't commit
+    optional boolean do_vorbis - true, commit to Vorbis-metadata-storage(Vorbis, Mp3, Flac, Ogg, Opus) of Reaper; false or nil, don't commit
+    optional boolean do_ape - true, commit to APE-metadata-storage(MP3, WavPack) of Reaper; false or nil, don't commit
+    optional boolean do_ixml - true, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false or nil, don't commit
+  </parameters>  
+  <chapter_context>
+     Rendering Projects
+     Ultraschall
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>marker management, delete, chapter, reaper metadata</tags>
+</US_DocBloc>
+]]
+  for chapter_idx=0, 65000 do
+    if do_id3==true then
+      local A,B=reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Chapter_"..chapter_idx.."|", false)
+      if B~="" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Chapter_"..chapter_idx.."|", true)
+      end
+    end
+    
+    if do_vorbis==true then
+      local A,B=reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Chapter_"..chapter_idx.."|", false)
+      if B~="" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Chapter_"..chapter_idx.."|", true)
+      end
+    end
+    
+    if do_ape==true then
+      local A,B=reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Chapter_"..chapter_idx.."|", false)    
+      if B~="" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Chapter_"..chapter_idx.."|", true)
+      end
+    end
+    
+    if do_ixml==true then
+      local A,B=reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Chapter_"..chapter_idx.."|", false)
+      if B~="" then
+        reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Chapter_"..chapter_idx.."|", true)
+      end
+    end
+  end
+end
+
+--ultraschall.RemoveAllChapters_ReaperMetaData(true, true, true, true)
