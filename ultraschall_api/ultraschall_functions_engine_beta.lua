@@ -2456,8 +2456,10 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
     if temp==nil then 
       temp="" 
     else 
-      temp=string.gsub(temp, "\\", "\\\\")
-      temp=string.gsub(temp, "\"", "\\\"")
+      temp=string.gsub(temp, "\r", "")
+      temp=string.gsub(temp, "\n", "\"\n\t\t\"")--"\"\n\t\t\"")
+--      temp=string.gsub(temp, "\\", "\\\\")
+--      temp=string.gsub(temp, "\"", "\\\"")
       --temp=string.gsub(temp, "\r", "")
       --temp=string.gsub(temp, "\n", "\\n")
       temp="\n "..Tags[i]..":\""..temp.."\"" 
@@ -3062,8 +3064,12 @@ function ultraschall.CommitChapter_ReaperMetadata(chapter_idx, chapter_index_in_
     if temp==nil then 
       temp="" 
     else 
-      temp=string.gsub(temp, "\\", "\\\\")
-      temp=string.gsub(temp, "\"", "\\\"")
+      temp=string.gsub(temp, "\r", "")
+      temp=string.gsub(temp, "\n", "\"\n\t\t\"")--"\"\n\t\t\"")
+--      temp=string.gsub(temp, "\\", "\\\\")
+--      temp=string.gsub(temp, "\"", "\\\"")
+      --temp=string.gsub(temp, "\r", "")
+      --temp=string.gsub(temp, "\n", "\\n")
       temp="\n "..Tags[i]..":\""..temp.."\"" 
       temp=temp.." "
     end
