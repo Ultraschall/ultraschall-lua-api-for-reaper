@@ -423,16 +423,10 @@ Doesn't work on Windows 7???
         
         CommitShownote\_ReaperMetadata - new attribute: wikidata_uri
         GetSetChapterMarker\_Attributes - gets/sets additional attributes of a chapter-marker, 
-                                attribute: title
-                                           description
-                                           url
-                                           chapter_image
-                                           chapter_image_description
-                                           chapter_image_license
-                                           chapter_image_source
-                                           chapter_image_url
-                                           contributors(?)
+                                attribute:  contributors(?)
         CommitChapter\_ReaperMetadata - add additional chapter-attributes to metadata using PODCAST_CHAPTER_v1-standard(like shownote-standard) 
+        Episode-Metadata: 
+            new attributes: linked_episodes
 </TODO>
 
 
