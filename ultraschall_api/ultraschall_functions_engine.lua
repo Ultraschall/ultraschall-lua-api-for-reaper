@@ -1726,7 +1726,7 @@ function print(...)
   end
   if stringer:sub(-1,-1)=="\n" then stringer=stringer:sub(1,-2) end
   stringer=string.gsub(stringer, "\0", ".")
-  reaper.ShowConsoleMsg(stringer:sub(2,-1).."\n","Print",0)
+  reaper.ShowConsoleMsg(stringer:sub(2,-1).."\n")
 end
 
 

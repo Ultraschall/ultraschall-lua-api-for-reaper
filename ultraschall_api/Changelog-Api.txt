@@ -466,6 +466,7 @@ Has now 1423 functions, with XX new ones
   - TrackManagement: ConvertTrackstringToArray - returns all tracknumbers of a trackstring as an array
   
 #### Changes from 4.2.006 to 4.3    
+  - DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your system
   - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well
   - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "_Shownote:", "_Edit:" ,"_Custom"
