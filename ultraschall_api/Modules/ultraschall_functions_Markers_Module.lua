@@ -75,12 +75,12 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
   <retvals>
      integer marker_number  - the overall-marker-index, can be used for reaper's own marker-management functions
      string guid - the guid, associated with this marker
+     integer normal_marker_idx - the index of the normal marker
   </retvals>
   <parameters>
     number position - position in seconds.
     integer shown_number - the number, that will be shown within Reaper. Can be multiple times. Use -1 to let Reaper decide the number.
     string markertitle - the title of the marker
-    integer normal_marker_idx - the index of the new marker within all normal markers
   </parameters>
   <chapter_context>
     Markers
@@ -95,7 +95,36 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
   if type(position)~="number" then ultraschall.AddErrorMessage("AddNormalMarker", "position", "must be a number", -1) return -1 end
   if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("AddNormalMarker", "shown_number", "must be an integer", -2) return -1 end
   if markertitle==nil then markertitle="" end
+  
+  local AMarkers={}
+  for i=1, reaper.CountProjectMarkers(0) do
+    AMarkers[i]=ultraschall.GetGuidFromMarkerID(i)
+  end
 
+  local A,B=reaper.AddProjectMarker2(0, false, position, 0, markertitle, shown_number, 0)
+
+  local BMarkers={}
+  for i=1, reaper.CountProjectMarkers(0) do
+    BMarkers[i]=ultraschall.GetGuidFromMarkerID(i)
+  end
+
+  local Cduplicate_count, Cduplicate_array, Coriginalscount_array1, Coriginals_array1, Coriginalscount_array2, Coriginals_array2 = ultraschall.GetDuplicatesFromArrays(AMarkers, BMarkers)
+
+  -- Note: the guid of the newly created marker is hold by Coriginals_array2[1] 
+  
+  -- Another note: Reaper doesn't allow adding numerous markers at the same position, for whatever reason.
+  --               so we have to return with an error-message in that case.
+  -- Idea: maybe trying to add with an offset in that case, that I return as well, just in case?
+  --       so this function always creates markers. I just need to experiment, how to get the next "free offset"
+  --       to get it right....
+
+  local DIDX=ultraschall.GetNormalMarkerIDFromGuid(Coriginals_array2[1])
+  if DIDX==-1 then ultraschall.AddErrorMessage("AddNormalMarker", "position", "couldn't create marker, as a marker exists already at position(this is a Reaper limitation)", -3) return -1 end
+
+  return ultraschall.GetMarkerIDFromGuid(Coriginals_array2[1]), Coriginals_array2[1], DIDX
+
+--[[
+  old buggy code(for reference, until it's fixed in all add markers/regions-functions.
   local Aretval, Acount, Amarkersstring, Amarkersarray = ultraschall.IsMarkerAtPosition(position)
 
   -- create marker
@@ -103,20 +132,14 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
   if position>=0 then noteID=reaper.AddProjectMarker2(0, false, position, 0, markertitle, shown_number, 0)
   else noteID=-1
   end
+  --print2(noteID)
   local A1retval, Acount1, A1markersstring, A1markersarray = ultraschall.IsMarkerAtPosition(position)
-  local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(A1markersarray, Amarkersarray)
-  local retval, guid = reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..originals_array1[1]-1, "", false)
+  duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(A1markersarray, Amarkersarray)
+  local retval, guid = reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..originals_array1[1]-2, "", false)
   
-  local found=-1
-  for i=1, ultraschall.CountNormalMarkers() do
-    retnumber, retidxnum, position, markertitle, guid2 = ultraschall.EnumerateNormalMarkers(i)
-    if guid2==guid then
-        found=i
-        break
-    end
-  end
+  return originals_array1[1]-1, ultraschall.GetGuidFromMarkerID(noteID),  ultraschall.GetNormalMarkerIDFromGuid(ultraschall.GetGuidFromMarkerID(noteID))
+  --]]
   
-  return originals_array1[1]-1, guid, found
 end
 
 

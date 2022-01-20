@@ -427,6 +427,19 @@ Doesn't work on Windows 7???
         CommitChapter\_ReaperMetadata - add additional chapter-attributes to metadata using PODCAST_CHAPTER_v1-standard(like shownote-standard) 
         Episode-Metadata: 
             new attributes: linked_episodes
+            
+            
+        IMPORTANT!!!!
+            AddNormalMarker uses a new method to get the marker-idx and guid.
+                            Please add this to the other add-marker/regions-functions as well, as Reaper has some 
+                            odd ways to add markers/regions that could cause confusion.
+                            For instance AddProjectMarkersX: doesn't allow creating multiple markers on the same position, without giving feedback
+                                                             doesn't return the index within all markers and regions
+                                                        which makes getting the right idx and guid a little tricky.
+                            AddNormalMarker includes now a better workaround for this, so please add this to the other add-marker/regions-functions 
+                            as well, or all marker/regions-functions may not work properly in some cases, resulting in some bad behavior.
+                            
+                            Idea: maybe trying to add a slight offset to the marker, if it couldn't be created?
 </TODO>
 
 
@@ -449,6 +462,10 @@ Has now 1423 functions, with XX new ones
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
   - Markers: EnumerateShownoteMarkers - gets a shownote-marker  
   - Markers: SetShownoteMarker - sets an already existing shownote
+  - Markers: GetGuidFromNormalMarkerID - gets the guid of a normal marker by its index
+  - Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index
+  - Markers: GetNormalMarkerIDFromGuid - gets the index of a normal marker by its guid
+  - Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid
   - PodcastMetadata: Commit4AllChapters_ReaperMetadata - commits all chapter-metadata between start and endposition to Reaper's metadata-storage
   - PodcastMetadata: Commit4AllShownotes\_ReaperMetadata - commits all shownote-metadata between start and endposition to Reaper's metadata-storage  
   - PodcastMetadata: CommitChapter\_ReaperMetadata - commits chapters to Reaper's metadata-storage
@@ -469,7 +486,7 @@ Has now 1423 functions, with XX new ones
   - DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your system
   - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well
-  - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "_Shownote:", "_Edit:" ,"_Custom"
+  - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "_Shownote:", "_Edit:" ,"_Custom"); returned odd values, when trying to add a marker where one already exists(Reaper limitation) -> fixed
   - MarkerManagement: CountNormalMarkers - did count custom-markers as well -> fixed
   - MarkerManagement: CountNormalMarkers_NumGap - didn't count normal markers only, but rather all -> fixed
   - MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -> fixed

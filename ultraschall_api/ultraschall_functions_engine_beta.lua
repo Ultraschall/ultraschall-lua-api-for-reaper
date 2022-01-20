@@ -1752,7 +1752,7 @@ function ultraschall.EnumerateShownoteMarkers(idx)
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer marker_index, number pos, string name, integer shown_number, integer color, string guid = ultraschall.EnumerateShownoteMarkers(integer idx)</functioncall>
+  <functioncall>boolean retval, integer marker_index, number pos, string name, integer shown_number, string guid = ultraschall.EnumerateShownoteMarkers(integer idx)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will return a specific shownote-marker.
     
@@ -2403,7 +2403,7 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
   
   if type(offset)~="number" then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "must be a number", -5) return false end
   if offset<0 then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "offset", "must be bigger than 0", -6) return false end
-  local retval, marker_index, pos, name, shown_number, color, guid = ultraschall.EnumerateShownoteMarkers(shownote_idx)
+  local retval, marker_index, pos, name, shown_number, guid = ultraschall.EnumerateShownoteMarkers(shownote_idx)
   if retval==false then ultraschall.AddErrorMessage("CommitShownote_ReaperMetadata", "shownote_idx", "no such shownote", -7) return false end
   
   -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN GetSetShownoteMarker_Attributes() !!!
@@ -2459,7 +2459,7 @@ function ultraschall.CommitShownote_ReaperMetadata(shownote_idx, shownote_index_
       temp=string.gsub(temp, "\r", "")
       temp=string.gsub(temp, "\n", "\"\n\t\t\"")--"\"\n\t\t\"")
 --      temp=string.gsub(temp, "\\", "\\\\")
---      temp=string.gsub(temp, "\"", "\\\"")
+      temp=string.gsub(temp, "\"", "\\\"")
       --temp=string.gsub(temp, "\r", "")
       --temp=string.gsub(temp, "\n", "\\n")
       temp="\n "..Tags[i]..":\""..temp.."\"" 
@@ -3067,7 +3067,7 @@ function ultraschall.CommitChapter_ReaperMetadata(chapter_idx, chapter_index_in_
       temp=string.gsub(temp, "\r", "")
       temp=string.gsub(temp, "\n", "\"\n\t\t\"")--"\"\n\t\t\"")
 --      temp=string.gsub(temp, "\\", "\\\\")
---      temp=string.gsub(temp, "\"", "\\\"")
+      temp=string.gsub(temp, "\"", "\\\"")
       --temp=string.gsub(temp, "\r", "")
       --temp=string.gsub(temp, "\n", "\\n")
       temp="\n "..Tags[i]..":\""..temp.."\"" 
@@ -3229,3 +3229,172 @@ function ultraschall.RemoveAllChapters_ReaperMetaData(do_id3, do_vorbis, do_ape,
 end
 
 --ultraschall.RemoveAllChapters_ReaperMetaData(true, true, true, true)
+
+function ultraschall.GetGuidFromNormalMarkerID(idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetGuidFromNormalMarkerID</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string guid = ultraschall.GetGuidFromNormalMarkerID(integer index)</functioncall>
+  <description>
+    Gets the corresponding guid of a normal marker with a specific index 
+    
+    The index is for normal markers only
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the normal marker of the marker with a specific index
+  </retvals>
+  <parameters>
+    integer index - the index of the normal marker, whose guid you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, normal marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetGuidFromNormalMarkerID", "idx", "must be an integer", -1) return -1 end
+  local retnumber, retidxnum, position, markertitle, guid2 = ultraschall.EnumerateNormalMarkers(idx)
+  return guid2
+end
+
+
+--A=ultraschall.GetGuidFromNormalMarkerID(1)
+
+function ultraschall.GetNormalMarkerIDFromGuid(guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetNormalMarkerIDFromGuid</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetNormalMarkerIDFromGuid(string guid)</functioncall>
+  <description>
+    Gets the corresponding indexnumber of a normal-marker-guid
+    
+    The index is for all normal markers only.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer index - the index of the marker, whose guid you have passed to this function
+  </retvals>
+  <parameters>
+    string guid - the guid of the marker, whose index-number you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, normal marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if type(guid)~="string" then ultraschall.AddErrorMessage("GetNormalMarkerIDFromGuid", "guid", "must be a string", -1) return -1 end
+  for i=0, ultraschall.CountNormalMarkers() do
+    local retnumber, retidxnum, position, markertitle, guid2 = ultraschall.EnumerateNormalMarkers(i)
+    if guid2==guid then return i end
+  end
+  return guid2
+end
+
+--B=ultraschall.GetNormalMarkerIDFromGuid(A)
+
+
+
+function ultraschall.GetGuidFromShownoteMarkerID(idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetGuidFromShownoteMarkerID</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string guid = ultraschall.GetGuidFromShownoteMarkerID(integer index)</functioncall>
+  <description>
+    Gets the corresponding guid of a shownote marker with a specific index 
+    
+    The index is for _shownote:-markers only
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the shownote marker of the marker with a specific index
+  </retvals>
+  <parameters>
+    integer index - the index of the shownote marker, whose guid you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, shownote marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetGuidFromShownoteMarkerID", "idx", "must be an integer", -1) return -1 end
+  local retval, marker_index, pos, name, shown_number, guid2 = ultraschall.EnumerateShownoteMarkers(idx)
+
+  return guid2
+end
+
+
+--A=ultraschall.GetGuidFromShownoteMarkerID(1)
+--B={ultraschall.EnumerateShownoteMarkers(1)}
+--SLEM()
+
+function ultraschall.GetShownoteMarkerIDFromGuid(guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetShownoteMarkerIDFromGuid</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetShownoteMarkerIDFromGuid(string guid)</functioncall>
+  <description>
+    Gets the corresponding indexnumber of a shownote-marker-guid
+    
+    The index is for all _shownote:-markers only.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer index - the index of the shownote-marker, whose guid you have passed to this function
+  </retvals>
+  <parameters>
+    string guid - the guid of the shownote-marker, whose index-number you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, shownote marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if type(guid)~="string" then ultraschall.AddErrorMessage("GetShownoteMarkerIDFromGuid", "guid", "must be a string", -1) return -1 end  
+  for i=0, ultraschall.CountShownoteMarkers() do
+    local retval, marker_index, pos, name, shown_number, guid2 = ultraschall.EnumerateShownoteMarkers(i)
+    if guid2==guid then return i end
+  end
+  return guid2
+end
+
+--B=ultraschall.GetShownoteMarkerIDFromGuid(A)

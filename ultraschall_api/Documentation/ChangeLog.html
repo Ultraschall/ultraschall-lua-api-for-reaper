@@ -51,6 +51,10 @@
 <li>Markers: EnumerateShownoteMarkers - gets a shownote-marker<br />
 </li>
 <li>Markers: SetShownoteMarker - sets an already existing shownote</li>
+<li>Markers: GetGuidFromNormalMarkerID - gets the guid of a normal marker by its index</li>
+<li>Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index</li>
+<li>Markers: GetNormalMarkerIDFromGuid - gets the index of a normal marker by its guid</li>
+<li>Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid</li>
 <li>PodcastMetadata: Commit4AllChapters_ReaperMetadata - commits all chapter-metadata between start and endposition to Reaper's metadata-storage</li>
 <li>PodcastMetadata: Commit4AllShownotes_ReaperMetadata - commits all shownote-metadata between start and endposition to Reaper's metadata-storage<br />
 </li>
@@ -73,7 +77,7 @@
 <li>DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your system</li>
 <li>MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well</li>
 <li>MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well</li>
-<li>MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "<em>Shownote:", "</em>Edit:" ,"_Custom"</li>
+<li>MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "<em>Shownote:", "</em>Edit:" ,"_Custom"); returned odd values, when trying to add a marker where one already exists(Reaper limitation) -&gt; fixed</li>
 <li>MarkerManagement: CountNormalMarkers - did count custom-markers as well -&gt; fixed</li>
 <li>MarkerManagement: CountNormalMarkers_NumGap - didn't count normal markers only, but rather all -&gt; fixed</li>
 <li>MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -&gt; fixed</li>
