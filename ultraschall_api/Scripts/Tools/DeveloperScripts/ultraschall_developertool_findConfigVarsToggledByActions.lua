@@ -146,7 +146,7 @@ if Lotto==1 then
       if T~=-1 and CommandName=="nil" then O=O+1 break end
     end
   end
-    if a==0 then Section=0
+    if a==0 then Section=32063
     elseif a==1 then Section=100
     elseif a==2 then Section=32060
     elseif a==3 then Section=32061
@@ -158,10 +158,12 @@ if Lotto==1 then
     reaper.SetExtState("hack","count","Sec:"..tostring(Section).."_AID:"..tostring(I),true)
     if K>0 then 
       reaper.Main_OnCommand(I,0) 
+      --ultraschall.MediaExplorer_OnCommand(I)
       checkchanges(Section, I) 
       K=K+1 end --else I=I+1 end
     if K==0 and T~=-1 then 
       reaper.Main_OnCommand(I,0)
+      --ultraschall.MediaExplorer_OnCommand(I)
       checkchanges(Section, I)
       K=K+1 
       AnzahlToggleActions=AnzahlToggleActions+1 
