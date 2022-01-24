@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="50534.00" author="Meo Mespotine">
+      <version name="50560.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3./ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -473,7 +473,6 @@ New features in 4.3
 -   Markers: CountShownoteMarkers - counts shownote-markers in a project
 -   Markers: DeleteShownoteMarker - deletes a shownote-marker
 -   Markers: EnumerateShownoteMarkers - gets a shownote-marker
--   Markers: SetShownoteMarker - sets an already existing shownote
 -   Markers: GetGuidFromNormalMarkerID - gets the guid of a normal
     marker by its index
 -   Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote
@@ -482,6 +481,8 @@ New features in 4.3
     marker by its guid
 -   Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote
     marker by its guid
+-   Markers: SetShownoteMarker - sets an already existing
+    shownote-marker
 -   MediaExplorer: MediaExplorer_SetDeviceOutput - sets device-output of
     the Media Explorer
 -   MediaExplorer: MediaExplorer_SetPitch - sets the pitch of the Media
@@ -525,6 +526,10 @@ New features in 4.3
     metadata-storage
 -   PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores
     chaptermarkers after metadata-export during rendering
+-   Rendering: GetRenderCFG_Settings_MPEG1_Video - returns settings of
+    render-string for MPEG-1, when FFMPEG is installed
+-   Rendering: GetRenderCFG_Settings_MPEG2_Video - returns settings of
+    render-string for MPEG-2, when FFMPEG is installed
 -   TrackManagement: ConvertTrackstringToArray - returns all
     tracknumbers of a trackstring as an array
 
@@ -533,7 +538,7 @@ Changes from 4.2.006 to 4.3
 -   DeveloperTools: findConfigVarsToggledByActions - fixed dozens of
     bugs; supports now all config-vars; improved the layout of the
     output file; has now “do you really want to run me?”-question, as
-    this script could ruin your system
+    this script could ruin your Reaper installation
 -   MarkerManagement: AddCustomMarker - returns now the
     custom-region-index, within all custom regions only, as well
 -   MarkerManagement: AddCustomRegion - returns now the
@@ -554,8 +559,21 @@ Changes from 4.2.006 to 4.3
     a track had no item -> fixed(thnx to Distressor)
 -   ProjectManagement: GetProjectStateChunk - fixed edgecase, that
     prevented getting a ProjectStateChunk
--   RenderManagement: CreateRenderCFG_DDP - returned string was wrong
-    due typo -> fixed(thnx to loTrT)
+-   Rendering: GetRenderCFG_Settings_AVI_Video - added formats, that
+    need FFMPEG installed
+-   Rendering: GetRenderCFG_Settings_MKV_Video - added formats, that
+    need FFMPEG installed
+-   Rendering: GetRenderCFG_Settings_MOVMac_Video - didn’t work; was
+    missing the format-dropdownlist-settings -> fixed
+-   Rendering: GetRenderCFG_Settings_QTMOVMP4_Video - added
+    video-format-retval; added formats, that need FFMPEG installed
+-   Rendering: GetRenderCFG_Settings_WebMVideo - added formats, that
+    need FFMPEG installed
+-   Rendering: CreateRenderCFG_DDP - returned string was wrong due typo
+    -> fixed(thnx to loTrT)
+-   Rendering: CreateRenderCFG_MOVMAC_Video - was missing the
+    format-dropdownlist-settings; removed unused \0-byte at end of
+    render-string -> fixed
 -   TrackManagement: GetTrackLockState - didn’t return lock-state
     reliably -> fixed(thanx to Distressor)
 -   UserInterface: GetMediaExplorerHWND - didn’t work under certain
@@ -589,7 +607,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1464 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50534 from 21.01.2022 20:08:13).}
+a 1467 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50560 from 24.01.2022 16:39:30).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -603,7 +621,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1464 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1467 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -727,7 +745,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1464 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50534 from 21.01.2022 20:08:13).}
+a 1467 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50560 from 24.01.2022 16:39:30).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -741,7 +759,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1464 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1467 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

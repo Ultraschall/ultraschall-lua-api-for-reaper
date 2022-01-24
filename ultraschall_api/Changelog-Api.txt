@@ -460,12 +460,12 @@ Has now 1423 functions, with XX new ones
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
-  - Markers: EnumerateShownoteMarkers - gets a shownote-marker  
-  - Markers: SetShownoteMarker - sets an already existing shownote
+  - Markers: EnumerateShownoteMarkers - gets a shownote-marker    
   - Markers: GetGuidFromNormalMarkerID - gets the guid of a normal marker by its index
   - Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index
   - Markers: GetNormalMarkerIDFromGuid - gets the index of a normal marker by its guid
   - Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid
+  - Markers: SetShownoteMarker - sets an already existing shownote-marker
   - MediaExplorer: MediaExplorer\_SetDeviceOutput - sets device-output of the Media Explorer  
   - MediaExplorer: MediaExplorer\_SetPitch - sets the pitch of the Media Explorer  
   - MediaExplorer: MediaExplorer\_SetRate - sets the rate of the Media Explorer  
@@ -484,11 +484,13 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering
   - PodcastMetadata: RemoveAllShownotes\_ReaperMetaData - removes all currently stored shownotes-metadata-blocks from Reaper's metadata-storage
   - PodcastMetadata: RemoveAllChapters\_ReaperMetaData - removes all currently stored chapter-metadata-blocks from Reaper's metadata-storage
-  - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering
+  - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
+  - Rendering: GetRenderCFG\_Settings\_MPEG1\_Video - returns settings of render-string for MPEG-1, when FFMPEG is installed
+  - Rendering: GetRenderCFG\_Settings\_MPEG2\_Video - returns settings of render-string for MPEG-2, when FFMPEG is installed
   - TrackManagement: ConvertTrackstringToArray - returns all tracknumbers of a trackstring as an array
   
 #### Changes from 4.2.006 to 4.3    
-  - DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your system
+  - DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation
   - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well
   - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "_Shownote:", "_Edit:" ,"_Custom"); returned odd values, when trying to add a marker where one already exists(Reaper limitation) -> fixed
@@ -498,7 +500,13 @@ Has now 1423 functions, with XX new ones
   - MarkerManagement: SetNormalMarker - did set custom-markers as well -> fixed
   - MediaItemManagement: GetAllMediaItemsFromTrack - had problems, when a track had no item -> fixed(thnx to Distressor)
   - ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk
-  - RenderManagement: CreateRenderCFG\_DDP - returned string was wrong due typo -> fixed(thnx to loTrT)
+  - Rendering: GetRenderCFG\_Settings\_AVI\_Video - added formats, that need FFMPEG installed  
+  - Rendering: GetRenderCFG\_Settings\_MKV\_Video - added formats, that need FFMPEG installed  
+  - Rendering: GetRenderCFG\_Settings\_MOVMac\_Video - didn't work; was missing the format-dropdownlist-settings -> fixed
+  - Rendering: GetRenderCFG\_Settings\_QTMOVMP4_Video - added video-format-retval; added formats, that need FFMPEG installed
+  - Rendering: GetRenderCFG\_Settings\_WebMVideo - added formats, that need FFMPEG installed  
+  - Rendering: CreateRenderCFG\_DDP - returned string was wrong due typo -> fixed(thnx to loTrT)
+  - Rendering: CreateRenderCFG\_MOVMAC\_Video - was missing the format-dropdownlist-settings; removed unused \0-byte at end of render-string -> fixed
   - TrackManagement: GetTrackLockState - didn't return lock-state reliably -> fixed(thanx to Distressor)
   - UserInterface: GetMediaExplorerHWND - didn't work under certain circumstances -> fixed
   - WebRC: WebInterface\_GetInstalledInterfaces - could break, if html-pages had no title-tag in them -> fixed
@@ -518,7 +526,7 @@ Has now 1423 functions, with 17 new ones
   - **CAF-support**  
   CAF is now supported as well with rendering.
   
-  - **GFX_GetChar**  
+  - **GFX\_GetChar**  
   Gives you a more powerful version of gfx.getchar, which returns the characters and optionally a readable version of
   non-printable characters.  
   It also allows you managing the clipboard directly inside of it, so you don't need to code cmd+x/c yourself.  

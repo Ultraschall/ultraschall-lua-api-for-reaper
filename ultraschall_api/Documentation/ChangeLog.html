@@ -50,11 +50,11 @@
 <li>Markers: DeleteShownoteMarker - deletes a shownote-marker</li>
 <li>Markers: EnumerateShownoteMarkers - gets a shownote-marker<br />
 </li>
-<li>Markers: SetShownoteMarker - sets an already existing shownote</li>
 <li>Markers: GetGuidFromNormalMarkerID - gets the guid of a normal marker by its index</li>
 <li>Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index</li>
 <li>Markers: GetNormalMarkerIDFromGuid - gets the index of a normal marker by its guid</li>
 <li>Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid</li>
+<li>Markers: SetShownoteMarker - sets an already existing shownote-marker</li>
 <li>MediaExplorer: MediaExplorer_SetDeviceOutput - sets device-output of the Media Explorer<br />
 </li>
 <li>MediaExplorer: MediaExplorer_SetPitch - sets the pitch of the Media Explorer<br />
@@ -78,12 +78,15 @@
 <li>PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering</li>
 <li>PodcastMetadata: RemoveAllShownotes_ReaperMetaData - removes all currently stored shownotes-metadata-blocks from Reaper's metadata-storage</li>
 <li>PodcastMetadata: RemoveAllChapters_ReaperMetaData - removes all currently stored chapter-metadata-blocks from Reaper's metadata-storage</li>
-<li>PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering</li>
+<li>PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering<br />
+</li>
+<li>Rendering: GetRenderCFG_Settings_MPEG1_Video - returns settings of render-string for MPEG-1, when FFMPEG is installed</li>
+<li>Rendering: GetRenderCFG_Settings_MPEG2_Video - returns settings of render-string for MPEG-2, when FFMPEG is installed</li>
 <li>TrackManagement: ConvertTrackstringToArray - returns all tracknumbers of a trackstring as an array</li>
 </ul>
 <h4>Changes from 4.2.006 to 4.3</h4>
 <ul>
-<li>DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your system</li>
+<li>DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation</li>
 <li>MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well</li>
 <li>MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well</li>
 <li>MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "<em>Shownote:", "</em>Edit:" ,"_Custom"); returned odd values, when trying to add a marker where one already exists(Reaper limitation) -&gt; fixed</li>
@@ -93,7 +96,16 @@
 <li>MarkerManagement: SetNormalMarker - did set custom-markers as well -&gt; fixed</li>
 <li>MediaItemManagement: GetAllMediaItemsFromTrack - had problems, when a track had no item -&gt; fixed(thnx to Distressor)</li>
 <li>ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk</li>
-<li>RenderManagement: CreateRenderCFG_DDP - returned string was wrong due typo -&gt; fixed(thnx to loTrT)</li>
+<li>Rendering: GetRenderCFG_Settings_AVI_Video - added formats, that need FFMPEG installed<br />
+</li>
+<li>Rendering: GetRenderCFG_Settings_MKV_Video - added formats, that need FFMPEG installed<br />
+</li>
+<li>Rendering: GetRenderCFG_Settings_MOVMac_Video - didn't work; was missing the format-dropdownlist-settings -&gt; fixed</li>
+<li>Rendering: GetRenderCFG_Settings_QTMOVMP4_Video - added video-format-retval; added formats, that need FFMPEG installed</li>
+<li>Rendering: GetRenderCFG_Settings_WebMVideo - added formats, that need FFMPEG installed<br />
+</li>
+<li>Rendering: CreateRenderCFG_DDP - returned string was wrong due typo -&gt; fixed(thnx to loTrT)</li>
+<li>Rendering: CreateRenderCFG_MOVMAC_Video - was missing the format-dropdownlist-settings; removed unused \0-byte at end of render-string -&gt; fixed</li>
 <li>TrackManagement: GetTrackLockState - didn't return lock-state reliably -&gt; fixed(thanx to Distressor)</li>
 <li>UserInterface: GetMediaExplorerHWND - didn't work under certain circumstances -&gt; fixed</li>
 <li>WebRC: WebInterface_GetInstalledInterfaces - could break, if html-pages had no title-tag in them -&gt; fixed</li>
@@ -107,7 +119,7 @@
 The rendering-functions support now brickwall-rendering and the render-preset-functions the new possibility to store the rendering-path as well(as of Reaper 6.43)</p></li>
 <li><p><strong>CAF-support</strong><br />
 CAF is now supported as well with rendering.</p></li>
-<li><p>**GFX_GetChar**<br />
+<li><p><strong>GFX_GetChar</strong><br />
 Gives you a more powerful version of gfx.getchar, which returns the characters and optionally a readable version of non-printable characters.<br />
 It also allows you managing the clipboard directly inside of it, so you don't need to code cmd+x/c yourself.</p></li>
 <li><p><strong>New MetaData-functions added</strong><br />

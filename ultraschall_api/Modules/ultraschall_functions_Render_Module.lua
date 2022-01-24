@@ -1056,7 +1056,7 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
       Reaper=5.975
       Lua=5.3
     </requires>
-    <functioncall>integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_WebMVideo(string rendercfg)</functioncall>
+    <functioncall>integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, integer VideoCodec, integer AudioCodec = ultraschall.GetRenderCFG_Settings_WebMVideo(string rendercfg)</functioncall>
     <description>
       Returns the settings stored in a render-cfg-string for WEBM_Video.
       
@@ -1071,6 +1071,12 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
       integer HEIGHT -  the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
       boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+      integer VideoCodec - the video-codec used
+                         - 0, VP8
+                         - 1, VP9 (needs FFMPEG 4.1.3 installed)
+      integer AudioCodec - the video-codec used
+                         - 0, VORBIS
+                         - 1, OPUS (needs FFMPEG 4.1.3 installed)
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the webm-settings
@@ -1094,12 +1100,8 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
     ultraschall.AddErrorMessage("GetRenderCFG_Settings_WebMVideo", "rendercfg", "can't make out, which video format is chosen", -3) return nil
   end
   
-  --[[
-  if Decoded_string:len()==4 then
-    return 0, 1, 0, false, false
-  end
-  --]]
-  
+  VideoCodec=string.byte(Decoded_string:sub(9,9))  
+  AudioCodec=string.byte(Decoded_string:sub(17,17))
   num_integers, VidKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(13,16), 4)
   num_integers, AudKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(21,24), 4)
   num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
@@ -1108,7 +1110,7 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
-  return VidKBPS[1], AudKBPS[1], Width[1], Height[1], FPS, AspectRatio
+  return VidKBPS[1], AudKBPS[1], Width[1], Height[1], FPS, AspectRatio, VideoCodec, AudioCodec
 end
 
 
@@ -1119,7 +1121,7 @@ function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_MKV_Video</slug>
     <requires>
-      Ultraschall=4.2
+      Ultraschall=4.3
       Reaper=5.975
       Lua=5.3
     </requires>
@@ -1136,11 +1138,16 @@ function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
                           - 0, FFV1 (lossless)
                           - 1, Hufyuv (lossless)
                           - 2, MJPEG
-      integer MJPEG_quality - the MJPEG-quality of the MKV-video, if VIDEO_CODEC=2
+                          - 3, MPEG-2 (needs FFMPEG 4.1.3 installed)
+                          - 4, H.264 (needs FFMPEG 4.1.3 installed)
+                          - 5, XviD (needs FFMPEG 4.1.3 installed)
+      integer MJPEG_quality - the MJPEG-quality of the MKV-video, if VIDEO_CODEC=2 or when VIDEO_CODEC=4
       integer AUDIO_CODEC - the audio-codec of the MKV-video
                           - 0, 16 bit PCM
                           - 1, 24 bit PCM
                           - 2, 32 bit FP
+                          - 3, MP3 (needs FFMPEG 4.1.3 installed)
+                          - 4, AAC (needs FFMPEG 4.1.3 installed)
       integer WIDTH  - the width of the video in pixels
       integer HEIGHT - the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
@@ -1167,16 +1174,14 @@ function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
   if Decoded_string:len()==4 then
     ultraschall.AddErrorMessage("GetRenderCFG_Settings_MKV_Video", "rendercfg", "can't make out, which video format is chosen", -3) return nil
   end
-  
-  --[[
-  if Decoded_string:len()==4 then
-    return 0, 1, 0, false, false
-  end
-  --]]
-  
+   
   VideoCodec=string.byte(Decoded_string:sub(9,9))-2
+  if VideoCodec==-2 then VideoCodec=4 end
+  if VideoCodec==-1 then VideoCodec=5 end
   num_integers, MJPEG_quality= ultraschall.ConvertStringToIntegers(Decoded_string:sub(41,44), 4)
   AudioCodec=string.byte(Decoded_string:sub(17,17))-2
+  if AudioCodec==-2 then AudioCodec=3 end
+  if AudioCodec==-1 then AudioCodec=4 end
   num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
   num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
   num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
@@ -1192,7 +1197,7 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_AVI_Video</slug>
     <requires>
-      Ultraschall=4.2
+      Ultraschall=4.3
       Reaper=5.975
       Lua=5.3
     </requires>
@@ -1202,6 +1207,8 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
       
       You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
+      Some format-combinations only work with FFMPEG 4.1.3 installed!
+      
       Returns -1 in case of an error
     </description>
     <retvals>
@@ -1210,11 +1217,17 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
                           - 1, MJPEG
                           - 2, FFV1 (lossless)
                           - 3, Hufyuv (lossless)
-      integer MJPEG_quality - the MJPEG-quality of the AVI-video, if VIDEO_CODEC=1
+                          - 4, MPEG-2 (only with FFMPEG 4.1.3 installed)
+                          - 5, XVid (only with FFMPEG 4.1.3 installed)
+                          - 6, H.264 (only with FFMPEG 4.1.3 installed)
+      integer MJPEG_quality - the MJPEG-quality of the AVI-video, if VIDEO_CODEC=1 or VIDEO_CODEC=6
       integer AUDIO_CODEC - the audio-codec of the avi-video
                           - 0, 16 bit PCM
                           - 1, 24 bit PCM
                           - 2, 32 bit FP
+                          - 3, MP3 (only with FFMPEG 4.1.3 installed)
+                          - 4, AAC (only with FFMPEG 4.1.3 installed)
+                          - 5, AC3 (only with FFMPEG 4.1.3 installed)
       integer WIDTH  - the width of the video in pixels
       integer HEIGHT - the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
@@ -1242,15 +1255,14 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
     ultraschall.AddErrorMessage("GetRenderCFG_Settings_AVI_Video", "rendercfg", "can't make out, which video format is chosen", -3) return nil
   end
   
-  --[[
-  if Decoded_string:len()==4 then
-    return 0, 1, 0, false, false
-  end
-  --]]
-  
   VideoCodec=string.byte(Decoded_string:sub(9,9))-2
+  if VideoCodec==-2 then VideoCodec=5 end
+  if VideoCodec==-1 then VideoCodec=6 end
   num_integers, MJPEG_quality= ultraschall.ConvertStringToIntegers(Decoded_string:sub(41,44), 4)
   AudioCodec=string.byte(Decoded_string:sub(17,17))-3
+  if AudioCodec==-3 then AudioCodec=3 end
+  if AudioCodec==-2 then AudioCodec=4 end
+  if AudioCodec==-1 then AudioCodec=5 end
   num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
   num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
   num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
@@ -1261,12 +1273,13 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
 end
 
 
+
 function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_QTMOVMP4_Video</slug>
     <requires>
-      Ultraschall=4.2
+      Ultraschall=4.3
       Reaper=5.975
       Lua=5.3
     </requires>
@@ -1276,18 +1289,26 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
       
       You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
+      Note: some settings work only with FFMPEG 4.1.3 installed
+      
       Returns -1 in case of an error
     </description>
     <retvals>
-      integer MJPEG_quality - the MJPEG-quality of the video
+      integer MJPEG_quality - the MJPEG-quality of the video, when VIDEO_CODEC=0 or VIDEO_CODEC=2
       integer AUDIO_CODEC - the audio-codec of the video
                           - 0, 16 bit PCM
                           - 1, 24 bit PCM
                           - 2, 32 bit FP
+                          - 3, AAC(only with FFMPEG 4.1.3 installed)
+                          - 4, MP3(only with FFMPEG 4.1.3 installed)
       integer WIDTH  - the width of the video in pixels
       integer HEIGHT - the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
       boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+      integer VideoCodec - the video-codec
+                         - 0, H.264(only with FFMPEG 4.1.3 installed)
+                         - 1, MPEG-2(only with FFMPEG 4.1.3 installed)
+                         - 2, MJPEG
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the qt/mov/mp4-settings
@@ -1311,21 +1332,18 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
     ultraschall.AddErrorMessage("GetRenderCFG_Settings_QTMOVMP4_Video", "rendercfg", "can't make out, which video format is chosen", -3) return nil
   end
   
-  --[[
-  if Decoded_string:len()==4 then
-    return 0, 1, 0, false, false
-  end
-  --]]
-  
+  VideoCodec=string.byte(Decoded_string:sub(9,9))
   num_integers, MJPEG_quality= ultraschall.ConvertStringToIntegers(Decoded_string:sub(41,44), 4)
   AudioCodec=string.byte(Decoded_string:sub(17,17))-2
+  if AudioCodec==-2 then AudioCodec=3 end
+  if AudioCodec==-1 then AudioCodec=4 end
   num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
   num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
   num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
-  return MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio
+  return MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio, VideoCodec
 end
 
 
@@ -1860,11 +1878,11 @@ function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_MOVMac_Video</slug>
     <requires>
-      Ultraschall=4.2
+      Ultraschall=4.3
       Reaper=5.975
       Lua=5.3
     </requires>
-    <functioncall>integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MOVMac_Video(string rendercfg)</functioncall>
+    <functioncall>integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, integer Format = ultraschall.GetRenderCFG_Settings_MOVMac_Video(string rendercfg)</functioncall>
     <description>
       Returns the settings stored in a render-cfg-string for MOV for Mac_Video.
       This is MacOS-only.
@@ -1891,6 +1909,11 @@ function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
       integer HEIGHT -  the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
       boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+      integer Format - the format-dropdownlist
+                     - 0, MPEG-4 Video (streaming optimized)
+                     - 1, MPEG-4 Video
+                     - 2, Quicktime MOV
+                     - 3, MPEG-4 Audio
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the webm-settings
@@ -1908,7 +1931,7 @@ function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
   local Decoded_string
   local num_integers, VidKBPS, AudKBPS, Width, Height, FPS, AspectRatio, VideoCodec, AudioCodec, MJPEG_quality
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="FVAX" or string.byte(Decoded_string:sub(5,5))~=2 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MOVMac_Video", "rendercfg", "not a render-cfg-string of the format mov-for mac-video", -2) return -1 end
+  if Decoded_string:sub(1,4)~="FVAX" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MOVMac_Video", "rendercfg", "not a render-cfg-string of the format mov-for mac-video", -2) return -1 end
   
   if Decoded_string:len()==4 then
     ultraschall.AddErrorMessage("GetRenderCFG_Settings_MOVMac_Video", "rendercfg", "can't make out, which video format is chosen", -3) return nil
@@ -1921,14 +1944,16 @@ function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
   num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
   num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
   num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
+  
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   VideoCodec=string.byte(Decoded_string:sub(9,9))
   AudioCodec=string.byte(Decoded_string:sub(17,17))
   num_integers, MJPEG_quality = ultraschall.ConvertStringToIntegers(Decoded_string:sub(41,44), 4)
+  Format=string.byte(Decoded_string:sub(5,5))
   
 
-  return VideoCodec, VidKBPS[1], MJPEG_quality[1], AudioCodec, AudKBPS[1], Width[1], Height[1], FPS, AspectRatio
+  return VideoCodec, VidKBPS[1], MJPEG_quality[1], AudioCodec, AudKBPS[1], Width[1], Height[1], FPS, AspectRatio, Format
 end
 
 
@@ -2126,16 +2151,16 @@ function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectR
 end
 
 --integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio
-function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_quality, AudioCodec, AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio)
+function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_quality, AudioCodec, AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio, VideoFormat)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MOVMAC_Video</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.3
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MOVMAC_Video(integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MOVMAC_Video(integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, optional integer VideoFormat)</functioncall>
   <description>
     Returns the render-cfg-string for the MOV-Mac-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     Only available on MacOS!
@@ -2163,6 +2188,12 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
     integer HEIGHT -  the height of the video in pixels
     number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
     boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+    optional integer VideoFormat - the format-dropdownlist
+                                 - nil, default(uses Quicktime MOV)
+                                 - 0, MPEG-4 Video (streaming optimized)
+                                 - 1, MPEG-4 Video
+                                 - 2, Quicktime MOV
+                                 - 3, MPEG-4 Audio
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -2182,6 +2213,9 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
   if math.type(HEIGHT)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "HEIGHT", "Must be an integer!", -7) return nil end
   if type(FPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "FPS", "Must be a float-value with two digit precision (e.g. 29.97 or 25.00)!", -8) return nil end
   if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "AspectRatio", "Must be a boolean!", -9) return nil end
+  if VideoFormat~=nil and math.type(VideoFormat)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "VideoFormat", "Must be a nil or an integer!", -18) return nil end
+  if VideoFormat==nil then VideoFormat=2 end
+  if VideoFormat<0 or VideoFormat>3 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "VideoFormat", "Must be between 0 and 3!", -19) return nil end
   
   if VideoCodec<0 or VideoCodec>3 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "VideoCodec", "Must be between 0 and 3", -10) return nil end
   if AudioCodec<0 or AudioCodec>3 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "AudioCodec", "Must be between 0 and 3", -11) return nil end
@@ -2200,14 +2234,14 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
   local VIDKBPS=ultraschall.ConvertIntegerIntoString2(4, VIDKBPS)
   local AUDKBPS=ultraschall.ConvertIntegerIntoString2(4, AUDKBPS)
   local VideoCodec=string.char(VideoCodec)
-  local VideoFormat=string.char(2)
+  local VideoFormat=string.char(VideoFormat)
   local AudioCodec=string.char(AudioCodec)
   local MJPEGQuality=ultraschall.ConvertIntegerIntoString2(4, MJPEG_quality)
   
   if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
   
   return ultraschall.Base64_Encoder("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
-         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0")
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality)--, "FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality
 end
 
 --A,AA=reaper.EnumProjects(3, "")

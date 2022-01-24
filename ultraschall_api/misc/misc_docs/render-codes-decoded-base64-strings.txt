@@ -447,7 +447,7 @@ Video(ffmpeg/libav encoder)
     05: Format:
                 0, AVI
                 1, MPEG1(Windows; only with FFMPEG 4.1.3 installed)
-                1, MPEG2(Windows; only with FFMPEG 4.1.3 installed)
+                2, MPEG2(Windows; only with FFMPEG 4.1.3 installed)
                 3, QT/MOV/MP4
                 4, MKV
                 5, FLV(Windows; only with FFMPEG 4.1.3 installed)
