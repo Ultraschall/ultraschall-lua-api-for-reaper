@@ -466,6 +466,7 @@ Has now 1423 functions, with XX new ones
   - Markers: GetNormalMarkerIDFromGuid - gets the index of a normal marker by its guid
   - Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid
   - Markers: SetShownoteMarker - sets an already existing shownote-marker
+  - MediaExplorer: MediaExplorer\_SetAutoplay - sets the autoplay-checkbox
   - MediaExplorer: MediaExplorer\_SetDeviceOutput - sets device-output of the Media Explorer  
   - MediaExplorer: MediaExplorer\_SetPitch - sets the pitch of the Media Explorer  
   - MediaExplorer: MediaExplorer\_SetRate - sets the rate of the Media Explorer  
