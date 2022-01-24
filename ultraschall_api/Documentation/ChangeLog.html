@@ -83,6 +83,9 @@
 </li>
 <li>Rendering: GetRenderCFG_Settings_MPEG1_Video - returns settings of render-string for MPEG-1, when FFMPEG is installed</li>
 <li>Rendering: GetRenderCFG_Settings_MPEG2_Video - returns settings of render-string for MPEG-2, when FFMPEG is installed</li>
+<li>Rendering: CreateRenderCFG_FLV_Video - creates a render-string for flv export(with FFMPEG installed only)</li>
+<li>Rendering: CreateRenderCFG_MPEG1_Video - creates a render-string for mpeg-1 export(with FFMPEG installed only)</li>
+<li>Rendering: CreateRenderCFG_MPEG2_Video - creates a render-string for mpeg-2 export(with FFMPEG installed only)</li>
 <li>TrackManagement: ConvertTrackstringToArray - returns all tracknumbers of a trackstring as an array</li>
 </ul>
 <h4>Changes from 4.2.006 to 4.3</h4>
@@ -105,8 +108,12 @@
 <li>Rendering: GetRenderCFG_Settings_QTMOVMP4_Video - added video-format-retval; added formats, that need FFMPEG installed</li>
 <li>Rendering: GetRenderCFG_Settings_WebMVideo - added formats, that need FFMPEG installed<br />
 </li>
+<li>Rendering: CreateRenderCFG_AVI_Video - added formats that need FFMPEG installed</li>
 <li>Rendering: CreateRenderCFG_DDP - returned string was wrong due typo -&gt; fixed(thnx to loTrT)</li>
-<li>Rendering: CreateRenderCFG_MOVMAC_Video - was missing the format-dropdownlist-settings; removed unused \0-byte at end of render-string -&gt; fixed</li>
+<li>Rendering: CreateRenderCFG_MKV_Video - added formats that need FFMPEG installed</li>
+<li>Rendering: CreateRenderCFG_MOVMAC_Video - removed unused \0-byte at end of render-string -&gt; fixed</li>
+<li>Rendering: CreateRenderCFG_WebMVideo - added formats that need FFMPEG installed<br />
+</li>
 <li>TrackManagement: GetTrackLockState - didn't return lock-state reliably -&gt; fixed(thanx to Distressor)</li>
 <li>UserInterface: GetMediaExplorerHWND - didn't work under certain circumstances -&gt; fixed</li>
 <li>WebRC: WebInterface_GetInstalledInterfaces - could break, if html-pages had no title-tag in them -&gt; fixed</li>

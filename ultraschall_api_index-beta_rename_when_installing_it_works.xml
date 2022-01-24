@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="50561.00" author="Meo Mespotine">
+      <version name="50587.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3./ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -532,6 +532,12 @@ New features in 4.3
     render-string for MPEG-1, when FFMPEG is installed
 -   Rendering: GetRenderCFG_Settings_MPEG2_Video - returns settings of
     render-string for MPEG-2, when FFMPEG is installed
+-   Rendering: CreateRenderCFG_FLV_Video - creates a render-string for
+    flv export(with FFMPEG installed only)
+-   Rendering: CreateRenderCFG_MPEG1_Video - creates a render-string for
+    mpeg-1 export(with FFMPEG installed only)
+-   Rendering: CreateRenderCFG_MPEG2_Video - creates a render-string for
+    mpeg-2 export(with FFMPEG installed only)
 -   TrackManagement: ConvertTrackstringToArray - returns all
     tracknumbers of a trackstring as an array
 
@@ -571,11 +577,16 @@ Changes from 4.2.006 to 4.3
     video-format-retval; added formats, that need FFMPEG installed
 -   Rendering: GetRenderCFG_Settings_WebMVideo - added formats, that
     need FFMPEG installed
+-   Rendering: CreateRenderCFG_AVI_Video - added formats that need
+    FFMPEG installed
 -   Rendering: CreateRenderCFG_DDP - returned string was wrong due typo
     -> fixed(thnx to loTrT)
--   Rendering: CreateRenderCFG_MOVMAC_Video - was missing the
-    format-dropdownlist-settings; removed unused \0-byte at end of
-    render-string -> fixed
+-   Rendering: CreateRenderCFG_MKV_Video - added formats that need
+    FFMPEG installed
+-   Rendering: CreateRenderCFG_MOVMAC_Video - removed unused \0-byte at
+    end of render-string -> fixed
+-   Rendering: CreateRenderCFG_WebMVideo - added formats that need
+    FFMPEG installed
 -   TrackManagement: GetTrackLockState - didn’t return lock-state
     reliably -> fixed(thanx to Distressor)
 -   UserInterface: GetMediaExplorerHWND - didn’t work under certain
@@ -609,7 +620,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1467 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50561 from 24.01.2022 16:46:21).}
+a 1470 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50587 from 24.01.2022 18:45:08).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -623,7 +634,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1467 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1470 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -747,7 +758,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1467 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50561 from 24.01.2022 16:46:21).}
+a 1470 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50587 from 24.01.2022 18:45:08).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -761,7 +772,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1467 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1470 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
