@@ -1664,7 +1664,7 @@ function ultraschall.AddShownoteMarker(pos, name)
     integer markernumber - the indexnumber of the newly added shownotemarker within all regions and markers; 0-based
                          - use this for Reaper's regular marker-functions
     string guid - the guid of the shownotemarker
-    integer shownotemarker_index - the index of the shownote-marker within shownotes only; 0-based. 
+    integer shownotemarker_index - the index of the shownote-marker within shownotes only; 1-based. 
                                  - Use this for the other Ultraschall-API-shownote-functions!
   </retvals>
   <chapter_context>
@@ -1685,7 +1685,10 @@ function ultraschall.AddShownoteMarker(pos, name)
   else
     Color = 0x00A8A8|0x1000000
   end
-  local A={ultraschall.AddCustomMarker("Shownote", pos, name, Count+1, Color)}
+  local name2=reaper.genGuid("")..reaper.time_precise()..reaper.genGuid("")
+  local A={ultraschall.AddCustomMarker("Shownote", pos, name2, Count+1, Color)}  
+  A[4]=A[4]+1
+  ultraschall.SetShownoteMarker(A[4], pos, name)
   return table.unpack(A)
 end
 
@@ -1700,7 +1703,7 @@ function ultraschall.SetShownoteMarker(idx, pos, name)
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.SetShownoteMarker(number pos, string name)</functioncall>
+  <functioncall>boolean retval = ultraschall.SetShownoteMarker(integer idx, number pos, string name)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will set an already existing shownote-marker.
     
@@ -1711,6 +1714,7 @@ function ultraschall.SetShownoteMarker(idx, pos, name)
     returns false in case of an error
   </description>
   <parameters>
+    integer idx - the index of the shownote marker within all shownote-markers you want to set; 1-based
     number pos - the new position of the marker in seconds
     string name - the new name of the shownote-marker
   </parameters>
@@ -1729,6 +1733,7 @@ function ultraschall.SetShownoteMarker(idx, pos, name)
   if type(pos)~="number" then ultraschall.AddErrorMessage("SetShownoteMarker", "pos", "must be a number", -1) return false end
   if type(name)~="string" then ultraschall.AddErrorMessage("SetShownoteMarker", "name", "must be a string", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetShownoteMarker", "idx", "must be an integer", -3) return false end
+  idx=idx-1
   local retval, markerindex, pos2, name2, shown_number = ultraschall.EnumerateCustomMarkers("Shownote", idx)
   if retval==false then ultraschall.AddErrorMessage("SetShownoteMarker", "idx", "no such shownote-marker", -4) return false end
   
@@ -1763,7 +1768,7 @@ function ultraschall.EnumerateShownoteMarkers(idx)
     returns false in case of an error
   </description>
   <parameters>
-    integer idx - the index of the marker within all shownote-markers; 0, for the first shownote-marker
+    integer idx - the index of the marker within all shownote-markers; 1, for the first shownote-marker
   </parameters>
   <retvals>
     boolean retval - true, if the shownote-marker exists; false, if not or an error occurred
@@ -1783,9 +1788,10 @@ function ultraschall.EnumerateShownoteMarkers(idx)
 </US_DocBloc>
 ]]
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateShownoteMarkers", "idx", "must be an integer", -1) return false end
+  idx=idx-1
   local A = {ultraschall.EnumerateCustomMarkers("Shownote", idx)}
   if A[1]==false then ultraschall.AddErrorMessage("EnumerateShownoteMarkers", "idx", "no such shownote-marker", -2) return false end  
-  table.remove(A,6)
+  table.remove(A, 6)
   return table.unpack(A)
 end
 
@@ -1811,7 +1817,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   </description>
   <parameters>
     boolean is_set - true, set the attribute; false, retrieve the current content
-    integer idx - the index of the shownote, whose attribute you want to get
+    integer idx - the index of the shownote-marker, whose attribute you want to get; 1-based
     string attributename - the attributename you want to get/set
                          - supported attributes are:
                          - "description" - a more detailed description for this shownote
@@ -1864,7 +1870,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
 </US_DocBloc>
 ]]
   if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "is_set", "must be a boolean", -1) return false end  
-  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "idx", "must be an integer", -2) return false end  
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "idx", "must be an integer", -2) return false end    
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "attributename", "must be a string", -3) return false end  
   if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "must be a string", -4) return false end  
   
@@ -2027,7 +2033,7 @@ function ultraschall.DeleteShownoteMarker(idx)
     boolean retval - true, shownote deleted; false, shownote not deleted
   </retvals>
   <parameters>
-    integer idx - the index of the shownote to delete, within all shownotes; 0-based
+    integer idx - the index of the shownote to delete, within all shownotes; 1-based
   </parameters>
   <chapter_context>
     Markers
@@ -2039,6 +2045,7 @@ function ultraschall.DeleteShownoteMarker(idx)
 </US_DocBloc>
 ]]
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteShownoteMarker", "idx", "must be an integer", -1) return false end
+  idx=idx-1
   local A = {ultraschall.EnumerateCustomMarkers("Shownote", idx)}
   if A[1]==false then ultraschall.AddErrorMessage("DeleteShownoteMarker", "idx", "no such shownote-marker", -2) return false end  
   ultraschall.SetMarkerExtState(A[2], "", "")

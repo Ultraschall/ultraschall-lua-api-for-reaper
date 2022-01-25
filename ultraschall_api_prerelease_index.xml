@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="50587.00" author="Meo Mespotine">
+      <version name="50613.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3./ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -548,13 +548,18 @@ Changes from 4.2.006 to 4.3
     output file; has now “do you really want to run me?”-question, as
     this script could ruin your Reaper installation
 -   MarkerManagement: AddCustomMarker - returns now the
-    custom-region-index, within all custom regions only, as well
+    custom-region-index, within all custom regions only, as well; allows
+    now creating markers with the same name on the same
+    position(workaround for Reaper-limitation)
 -   MarkerManagement: AddCustomRegion - returns now the
     custom-region-index, within all custom regions only, as well
+-   MarkerManagement: AddEditMarker - returns now the edit-marker-index,
+    within all edit markers; allows now creating markers with the same
+    name on the same position(workaround for Reaper-limitation)
 -   MarkerManagement: AddNormalMarker - returns now the
-    normal-marker-index, within all normal markers(not
-    "_Shownote:“,”_Edit:" ,"_Custom"); returned odd values, when trying
-    to add a marker where one already exists(Reaper limitation) -> fixed
+    normal-marker-index, within all normal markers; allows now creating
+    markers with the same name on the same position(workaround for
+    Reaper-limitation) -> fixed
 -   MarkerManagement: CountNormalMarkers - did count custom-markers as
     well -> fixed
 -   MarkerManagement: CountNormalMarkers_NumGap - didn’t count normal
@@ -620,7 +625,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1470 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50587 from 24.01.2022 18:45:08).}
+a 1470 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50613 from 25.01.2022 10:30:27).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -758,7 +763,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1470 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50587 from 24.01.2022 18:45:08).}
+a 1470 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50613 from 25.01.2022 10:30:27).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

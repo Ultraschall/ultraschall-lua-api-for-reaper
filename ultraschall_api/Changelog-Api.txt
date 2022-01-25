@@ -495,9 +495,10 @@ Has now 1423 functions, with XX new ones
   
 #### Changes from 4.2.006 to 4.3    
   - DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation
-  - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well
+  - MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well
-  - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "_Shownote:", "_Edit:" ,"_Custom"); returned odd values, when trying to add a marker where one already exists(Reaper limitation) -> fixed
+  - MarkerManagement: AddEditMarker - returns now the edit-marker-index, within all edit markers; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)
+  - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers; allows now creating markers with the same name on the same position(workaround for Reaper-limitation) -> fixed
   - MarkerManagement: CountNormalMarkers - did count custom-markers as well -> fixed
   - MarkerManagement: CountNormalMarkers_NumGap - didn't count normal markers only, but rather all -> fixed
   - MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -> fixed

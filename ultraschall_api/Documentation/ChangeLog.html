@@ -91,9 +91,10 @@
 <h4>Changes from 4.2.006 to 4.3</h4>
 <ul>
 <li>DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation</li>
-<li>MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well</li>
+<li>MarkerManagement: AddCustomMarker - returns now the custom-region-index, within all custom regions only, as well; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)</li>
 <li>MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well</li>
-<li>MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers(not "<em>Shownote:", "</em>Edit:" ,"_Custom"); returned odd values, when trying to add a marker where one already exists(Reaper limitation) -&gt; fixed</li>
+<li>MarkerManagement: AddEditMarker - returns now the edit-marker-index, within all edit markers; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)</li>
+<li>MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers; allows now creating markers with the same name on the same position(workaround for Reaper-limitation) -&gt; fixed</li>
 <li>MarkerManagement: CountNormalMarkers - did count custom-markers as well -&gt; fixed</li>
 <li>MarkerManagement: CountNormalMarkers_NumGap - didn't count normal markers only, but rather all -&gt; fixed</li>
 <li>MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -&gt; fixed</li>
