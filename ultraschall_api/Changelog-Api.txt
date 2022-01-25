@@ -476,6 +476,8 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: Commit4AllShownotes\_ReaperMetadata - commits all shownote-metadata between start and endposition to Reaper's metadata-storage  
   - PodcastMetadata: CommitChapter\_ReaperMetadata - commits chapters to Reaper's metadata-storage
   - PodcastMetadata: CommitShownote\_ReaperMetadata - commits shownotes to Reaper's metadata-storage
+  - PodcastMetadata: GetPodcastEpisodeMetadataPreset\_Name - gets the name of an episode -metadata-preset
+  - PodcastMetadata: GetPodcastMetadataPreset\_Name - gets the name of a podcast-metadata-preset
   - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
   - PodcastMetadata: GetSetPodcast\_MetaData - gets/sets metadata-attributes of a podcast
   - PodcastMetadata: GetSetPodcastEpisode\_MetaData - gets/sets metadata-attributes of a podcast-episode
@@ -486,6 +488,8 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: RemoveAllShownotes\_ReaperMetaData - removes all currently stored shownotes-metadata-blocks from Reaper's metadata-storage
   - PodcastMetadata: RemoveAllChapters\_ReaperMetaData - removes all currently stored chapter-metadata-blocks from Reaper's metadata-storage
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
+  - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
+  - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset
   - Rendering: GetRenderCFG\_Settings\_MPEG1\_Video - returns settings of render-string for MPEG-1, when FFMPEG is installed
   - Rendering: GetRenderCFG\_Settings\_MPEG2\_Video - returns settings of render-string for MPEG-2, when FFMPEG is installed
   - Rendering: CreateRenderCFG\_FLV\_Video - creates a render-string for flv export(with FFMPEG installed only)

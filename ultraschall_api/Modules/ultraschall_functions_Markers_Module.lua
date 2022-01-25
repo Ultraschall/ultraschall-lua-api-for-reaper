@@ -2350,6 +2350,7 @@ function ultraschall.AddEditRegion(startposition, endposition, text)
   
   return originals_array1[1]-1, guid, DIDX
 end
+
 --A=ultraschall.AddEditRegion(10,26,"")
 
 function ultraschall.SetEditRegion(number, position, endposition, edittitle)
