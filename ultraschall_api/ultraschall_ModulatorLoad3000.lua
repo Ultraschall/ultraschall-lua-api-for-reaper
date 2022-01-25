@@ -2172,10 +2172,6 @@ else
     ultraschall.LM(17)
     return ultraschall.IsRegionPodrange(table.unpack({...}))
   end
-  function ultraschall.IsRegionEditRegion(...)
-    ultraschall.LM(17)
-    return ultraschall.IsRegionEditRegion(table.unpack({...}))
-  end
   function ultraschall.AddEditRegion(...)
     ultraschall.LM(17)
     return ultraschall.AddEditRegion(table.unpack({...}))

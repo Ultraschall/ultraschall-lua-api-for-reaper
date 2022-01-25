@@ -2273,60 +2273,16 @@ function ultraschall.IsRegionPodrange(markerid)
   return false
 end
 
-function ultraschall.IsRegionEditRegion(markerid)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>IsRegionEditRegion</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.IsRegionEditRegion(integer markerid)</functioncall>
-  <description>
-    returns true, if the marker is an Edit-region, false if not. Returns nil, if markerid is invalid.
-    Markerid is the marker-number for all markers, as used by marker-functions from Reaper.
-    
-    returns nil in case of an error
-  </description>
-  <retvals>
-    boolean retval - true, if it's an Edit-Region, false if not
-  </retvals>
-  <parameters>
-    integer markerid - the markerid of all markers in the project, beginning with 0 for the first marker
-  </parameters>
-  <chapter_context>
-    Markers
-    Edit Markers and Regions
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
-  <tags>markermanagement, navigation, check, edit region, edit, region</tags>
-</US_DocBloc>
-]]
-  if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsRegionEditRegion","markerid", "must be an integer", -1) return nil end
-  
-  local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
-  if retval>0 then
-    if isrgn==true then
-      if name:sub(1, 5)=="_Edit" then return true      
-      else return false
-      end
-    end
-  end
-  return false
-end
-
 function ultraschall.AddEditRegion(startposition, endposition, text)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddEditRegion</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=4.3
     Reaper=6.19
     Lua=5.3
   </requires>
-  <functioncall>integer markernr, string guid = ultraschall.AddEditRegion(number startposition, number endposition, string text)</functioncall>
+  <functioncall>integer markernr, string guid, integer edit_region_index  = ultraschall.AddEditRegion(number startposition, number endposition, string text)</functioncall>
   <description>
     Adds a new edit-region and returns index of the newly created edit-marker-region.
     
@@ -2335,6 +2291,7 @@ function ultraschall.AddEditRegion(startposition, endposition, text)
   <retvals>
     integer markernr - the number of the newly created region
     string guid - the guid, associated with this edit-region
+    integer edit_region_index - the index of the edit-region within all edit-regions
   </retvals>
   <parameters>
     number startposition - startposition in seconds
@@ -2376,16 +2333,23 @@ function ultraschall.AddEditRegion(startposition, endposition, text)
   
   local Aretval, Acount, Amarkersstring, Amarkersarray = ultraschall.IsRegionAtPosition(startposition)
   
-  noteID=reaper.AddProjectMarker2(0, 1, startposition, endposition, "_Edit:"..text, 0, color)
+  noteID=reaper.AddProjectMarker2(0, 1, startposition, endposition, "_Edit:"..text..reaper.genGuid()..reaper.time_precise()..reaper.genGuid(), 0, color)
   
   local A1retval, Acount1, A1markersstring, A1markersarray = ultraschall.IsRegionAtPosition(startposition)
   local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(A1markersarray, Amarkersarray)
   if originals_array1[1]==nil then ultraschall.AddErrorMessage("AddEditRegion", "startposition", "there is already an edit-region at this position", -6) return -1 end
   local retval, guid = reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..originals_array1[1]-1, "", false)
+  local DIDX
+  for i=1, ultraschall.CountEditRegions() do
+    local retval, position, endposition, title, rgnindexnumber, guid2 = ultraschall.EnumerateEditRegion(i)
+    if guid2==guid then
+      DIDX=i
+      ultraschall.SetEditRegion(i,  position, endposition, "_Edit:"..text, rgnindexnumber)
+    end
+  end
   
-  return originals_array1[1]-1, guid
+  return originals_array1[1]-1, guid, DIDX
 end
-
 --A=ultraschall.AddEditRegion(10,26,"")
 
 function ultraschall.SetEditRegion(number, position, endposition, edittitle)
@@ -4438,7 +4402,7 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddCustomRegion</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.3
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -4504,7 +4468,7 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
   
   local Aretval, Acount, Amarkersstring, Amarkersarray = ultraschall.IsRegionAtPosition(pos)
   
-  shown_number=reaper.AddProjectMarker2(0, true, pos, regionend, custom_region_name, shown_number, color)
+  shown_number=reaper.AddProjectMarker2(0, true, pos, regionend, custom_region_name..reaper.genGuid()..reaper.time_precise()..reaper.genGuid(), shown_number, color)
   
   local A1retval, Acount1, A1markersstring, A1markersarray = ultraschall.IsRegionAtPosition(pos)
   local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(A1markersarray, Amarkersarray)
@@ -4516,7 +4480,10 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
   if ocm~=nil then 
     for i=0, ultraschall.CountAllCustomRegions(ocm) do    
       local retval, markerindex, pos2, rgnend2, name2, shown_number, color, guid2 = ultraschall.EnumerateCustomRegions(ocm, i)
-      if guid2==guid then found_custommarker_idx=i end
+      if guid2==guid then 
+        found_custommarker_idx=i 
+        ultraschall.SetCustomRegion(ocm, found_custommarker_idx, pos, rgnend2, name, shown_number, color)
+       end
     end
   end
   return true, shown_number, originals_array1[1]-1, guid, found_custommarker_idx
