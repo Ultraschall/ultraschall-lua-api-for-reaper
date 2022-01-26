@@ -3641,13 +3641,15 @@ function ultraschall.MediaExplorer_SetVolume(value)
   <description>
     Sets the volume of the Media Explorer; works only with Media Explorer opened!
     
+    The volume is close, but not necessarily exactly the requested value.
+    
     returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, setting the value was successful; false, setting was unsuccessful
   </retvals>
   <parameters>
-    number value - the value to set the volume to
+    number value - the value to set the volume to; -127 to +12
   </parameters>
   <chapter_context>
     Media Explorer
@@ -3658,6 +3660,8 @@ function ultraschall.MediaExplorer_SetVolume(value)
 </US_DocBloc>
 --]]
   if type(value)~="number" then ultraschall.AddErrorMessage("MediaExplorer_SetVolume", "value", "must be a number", -1) return false end
+  if value<-127 then value=-127 end
+  if value>12 then value=12 end
   local A=reaper.GetToggleCommandState(50124)
   if A~=0 then 
     local dir=0
@@ -3667,17 +3671,33 @@ function ultraschall.MediaExplorer_SetVolume(value)
     if value==0 then reaper.JS_WindowMessage_Send(Fader, "WM_LBUTTONDBLCLK", 0, 0, 0, 0) return true end
 
     local Val=tonumber(reaper.JS_Window_GetTitle(Text):sub(1,-3))
+    if tonumber(Val)==nil then Val=-140 end
     if value<Val then dir=-1 elseif value>Val then dir=1 end
-    for i=0, 1000 do
-       reaper.JS_WindowMessage_Send(Fader, "WM_MOUSEWHEEL", 0, dir, 0, 0)
+    local oldmousewheelmode = reaper.SNM_GetIntConfigVar("mousewheelmode", -667)
+    reaper.SNM_SetIntConfigVar("mousewheelmode", 0)
+    for i=0, 3000 do
+       -- apply mousewheel in the desired direction, until the shown volume is closest 
+       -- to the desired value
        Val=tonumber(reaper.JS_Window_GetTitle(Text):sub(1,-3))
+       if tonumber(Val)==nil then Val=-140 end
        if dir==-1 then
-         if Val<=value then break end
+         --BBB=Val
+         if Val<=value then 
+           break 
+         else
+           reaper.JS_WindowMessage_Send(Fader, "WM_MOUSEWHEEL", 0, dir, 0, 0)
+         end
        end
        if dir==1 then
-         if Val>=value then break end
+         if Val>=value then 
+           break 
+         else
+           reaper.JS_WindowMessage_Send(Fader, "WM_MOUSEWHEEL", 0, dir, 0, 0)
+         end
        end
+       -- AAA=i
     end
+    reaper.SNM_SetIntConfigVar("mousewheelmode", oldmousewheelmode)
    
     return true
   else 
