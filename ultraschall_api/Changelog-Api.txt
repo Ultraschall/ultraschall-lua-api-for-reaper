@@ -440,6 +440,45 @@ Doesn't work on Windows 7???
                             as well, or all marker/regions-functions may not work properly in some cases, resulting in some bad behavior.
                             
                             Idea: maybe trying to add a slight offset to the marker, if it couldn't be created?
+                            
+Commit to Metadata-storage:                            
+--[[
+    This will be added to the Reaper-metadata schemes:
+       ID3(MP3) - stored in file as user-defined-frame "TXXX:"
+       Vorbis (Opus, Ogg, Wav, Flac)
+       IXML(FLAC, WAV, MP3) - <BWFXML><USER><Podcast_Shownote_XnumberX> shownote entry </Podcast_Shownote_XnumberX></USER></BWFXML>
+       APE(MP3, WavPak)
+       
+    optional boolean do_id3 - true, commit to ID3-metadata-storage(MP3) of Reaper; false or nil, don't commit
+    optional boolean do_vorbis - true, commit to Vorbis-metadata-storage(Vorbis, Mp3, Flac, Ogg, Opus) of Reaper; false or nil, don't commit
+    optional boolean do_ape - true, commit to APE-metadata-storage(MP3, WavPack) of Reaper; false or nil, don't commit
+    optional boolean do_ixml - true, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false or nil, don't commit
+    --]]
+    
+  if do_id3==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
+    --print2("ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String)
+  end
+  
+  if do_vorbis==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
+  end
+  
+  if do_ape==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
+  end
+
+  if do_ixml==true then
+    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
+  end
+  
+  
+  
+The _Metadata-functions must be checked, if the lines are correctly working. They seem to be inconsistent...
+  for i=1, #Tags do
+    retval, temp = ultraschall.GetSetShownoteMarker_Attributes(false, shownote_idx, Tags[i], "")
+    if temp==nil or retval==false then 
+      temp="" 
 </TODO>
 
 
@@ -472,11 +511,13 @@ Has now 1423 functions, with XX new ones
   - MediaExplorer: MediaExplorer\_SetRate - sets the rate of the Media Explorer  
   - MediaExplorer: MediaExplorer\_SetStartOnBar - sets the Start on bar-checkbox of the Media Explorer
   - MediaExplorer: MediaExplorer\_SetVolume - sets the volume of the Media Explorer  
-  - PodcastMetadata: Commit4AllChapters_ReaperMetadata - commits all chapter-metadata between start and endposition to Reaper's metadata-storage
-  - PodcastMetadata: Commit4AllShownotes\_ReaperMetadata - commits all shownote-metadata between start and endposition to Reaper's metadata-storage  
-  - PodcastMetadata: CommitChapter\_ReaperMetadata - commits chapters to Reaper's metadata-storage
-  - PodcastMetadata: CommitShownote\_ReaperMetadata - commits shownotes to Reaper's metadata-storage
+  - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
+  - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastChapter\_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastEpisode\_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcastEpisodeMetadataPreset\_Name - gets the name of an episode -metadata-preset
+  - PodcastMetadata: GetPodcastShownote\_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcastMetadataPreset\_Name - gets the name of a podcast-metadata-preset
   - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
   - PodcastMetadata: GetSetPodcast\_MetaData - gets/sets metadata-attributes of a podcast
@@ -485,8 +526,6 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall
   - PodcastMetadata: GetSetShownoteMarker\_Attributes - gets/sets additional attributes of a shownote-marker
   - PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering
-  - PodcastMetadata: RemoveAllShownotes\_ReaperMetaData - removes all currently stored shownotes-metadata-blocks from Reaper's metadata-storage
-  - PodcastMetadata: RemoveAllChapters\_ReaperMetaData - removes all currently stored chapter-metadata-blocks from Reaper's metadata-storage
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
   - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset

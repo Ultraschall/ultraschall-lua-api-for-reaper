@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="50666.00" author="Meo Mespotine">
+      <version name="50680.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3./ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -495,18 +495,25 @@ New features in 4.3
     bar-checkbox of the Media Explorer
 -   MediaExplorer: MediaExplorer_SetVolume - sets the volume of the
     Media Explorer
--   PodcastMetadata: Commit4AllChapters_ReaperMetadata - commits all
-    chapter-metadata between start and endposition to Reaper’s
-    metadata-storage
--   PodcastMetadata: Commit4AllShownotes_ReaperMetadata - commits all
-    shownote-metadata between start and endposition to Reaper’s
-    metadata-storage
--   PodcastMetadata: CommitChapter_ReaperMetadata - commits chapters to
-    Reaper’s metadata-storage
--   PodcastMetadata: CommitShownote_ReaperMetadata - commits shownotes
-    to Reaper’s metadata-storage
+-   PodcastMetadata: GetAllChapters_MetaDataEntry - gets all
+    chapter-metadata-entries between start and endposition according to
+    the PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all
+    shownote-metadata-entries between start and endposition according to
+    the PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast’s
+    metadata-entry according to the PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a
+    podcast’s chapter-metadata-entry according to the
+    PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the
+    podcast’s episode-related metadata-entry according to the
+    PODCAST_METADATA:“v1”-standard
 -   PodcastMetadata: GetPodcastEpisodeMetadataPreset_Name - gets the
     name of an episode -metadata-preset
+-   PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a
+    podcast’s shownote-metadata-entry according to the
+    PODCAST_METADATA:“v1”-standard
 -   PodcastMetadata: GetPodcastMetadataPreset_Name - gets the name of a
     podcast-metadata-preset
 -   PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets
@@ -524,12 +531,6 @@ New features in 4.3
     additional attributes of a shownote-marker
 -   PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares
     chaptermarkers for metadata-export during rendering
--   PodcastMetadata: RemoveAllShownotes_ReaperMetaData - removes all
-    currently stored shownotes-metadata-blocks from Reaper’s
-    metadata-storage
--   PodcastMetadata: RemoveAllChapters_ReaperMetaData - removes all
-    currently stored chapter-metadata-blocks from Reaper’s
-    metadata-storage
 -   PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores
     chaptermarkers after metadata-export during rendering
 -   PodcastMetadata: SetPodcastEpisodeMetadataPreset_Name - sets the
@@ -638,7 +639,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1473 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50666 from 26.01.2022 13:08:43).}
+a 1473 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50680 from 27.01.2022 20:55:49).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -776,7 +777,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1473 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50666 from 26.01.2022 13:08:43).}
+a 1473 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50680 from 27.01.2022 20:55:49).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
