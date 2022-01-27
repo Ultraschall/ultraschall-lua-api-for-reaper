@@ -479,6 +479,10 @@ The _Metadata-functions must be checked, if the lines are correctly working. The
     retval, temp = ultraschall.GetSetShownoteMarker_Attributes(false, shownote_idx, Tags[i], "")
     if temp==nil or retval==false then 
       temp="" 
+      
+      
+>GetPodcast_MetaDataEntry & GetPodcastEpisode_MetaDataEntry - create errors, due some attributes need additional attribute to work
+                                                            - needs to be inserted manually -_-
 </TODO>
 
 
@@ -529,11 +533,12 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
   - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset
-  - Rendering: GetRenderCFG\_Settings\_MPEG1\_Video - returns settings of render-string for MPEG-1, when FFMPEG is installed
-  - Rendering: GetRenderCFG\_Settings\_MPEG2\_Video - returns settings of render-string for MPEG-2, when FFMPEG is installed
+  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis, ape or ixml-metadata-schemes
   - Rendering: CreateRenderCFG\_FLV\_Video - creates a render-string for flv export(with FFMPEG installed only)
   - Rendering: CreateRenderCFG\_MPEG1\_Video - creates a render-string for mpeg-1 export(with FFMPEG installed only)
   - Rendering: CreateRenderCFG\_MPEG2\_Video - creates a render-string for mpeg-2 export(with FFMPEG installed only)
+  - Rendering: GetRenderCFG\_Settings\_MPEG1\_Video - returns settings of render-string for MPEG-1, when FFMPEG is installed
+  - Rendering: GetRenderCFG\_Settings\_MPEG2\_Video - returns settings of render-string for MPEG-2, when FFMPEG is installed
   - TrackManagement: ConvertTrackstringToArray - returns all tracknumbers of a trackstring as an array
   
 #### Changes from 4.2.006 to 4.3    
