@@ -199,12 +199,15 @@ Has now 1423 functions, with XX new ones
   - MediaExplorer: MediaExplorer\_SetVolume - sets the volume of the Media Explorer  
   - MediaItems: SetItemAllTakes - sets the all-takes-setting of an item or a mediaitem-statechunk
   - MediaItems: SetItemChanMode - sets the channel mode of an item or a mediaitem-statechunk
+  - MediaItems: SetItemFadeIn - sets fadein of an item or a mediaitem-statechunk
+  - MediaItems: SetItemFadeOut - sets fadeout of an item or a mediaitem-statechunk
   - MediaItems: SetItemGUID - sets the GUID of an item or a mediaitem-statechunk
   - MediaItems: SetItemIGUID - sets the IGUID of an item or a mediaitem-statechunk
   - MediaItems: SetItemIID - sets the IID of an item or a mediaitem-statechunk
   - MediaItems: SetItemLoop - sets the loop-source-state of an item or a mediaitem-statechunk
   - MediaItems: SetItemMute - sets mutestate of an item or a mediaitem-statechunk
   - MediaItems: SetItemName - sets name of the first take in an item or a mediaitem-statechunk
+  - MediaItems: SetItemPlayRate - sets the playrate-settings in an item or a mediaitem-statechunk
   - MediaItems: SetItemSampleOffset - sets the sample offset-state of an item or a mediaitem-statechunk
   - MediaItems: SetItemSelected - sets the selected-state of an item or a mediaitem-statechunk
   - MediaItems: SetItemVolPan - sets the volume and pan-values of an item or a mediaitem-statechunk

@@ -79,7 +79,7 @@ function ultraschall.GetItemPosition(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, position</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, position</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -130,7 +130,7 @@ function ultraschall.GetItemLength(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, length</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, length</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -179,7 +179,7 @@ function ultraschall.GetItemSnapOffset(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, snap, offset</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, snap, offset</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -230,7 +230,7 @@ function ultraschall.GetItemLoop(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, loop</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, loop</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -281,7 +281,7 @@ function ultraschall.GetItemAllTakes(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, alltakes, all, takes</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, alltakes, all, takes</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -308,11 +308,11 @@ function ultraschall.GetItemFadeIn(MediaItem, statechunk)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetItemFadeIn</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.3
+    Reaper=6.43
     Lua=5.3
   </requires>
-  <functioncall>number fadestate1, number fadestate2, number fadestate3, number fadestate4, integer fadestate5, number fadestate6 = ultraschall.GetItemFadeIn(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>number curvetype1, number fadein_length, number fadein_length2, number curvetype2, integer fadestate5, number curve, number fadestate7 = ultraschall.GetItemFadeIn(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the values of the FADEIN-entry of a MediaItem or MediaItemStateChunk.
     
@@ -324,11 +324,12 @@ function ultraschall.GetItemFadeIn(MediaItem, statechunk)
   </parameters>
   <retvals>
     number curvetype1 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype2
-    number fadein - fadein in seconds
-    number fadestate3 - fadeinstate entry as set in the rppxml-mediaitem-statechunk
+    number fadein_length - fadein in seconds
+    number fadein_length2 - the fadein-length in seconds; overrides fadein_length and will be moved to fadein_length when fadein-length changes(e.g. mouse-drag); might be autocrossfade-length
     number curvetype2 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype1
-    integer fadestate5 - fadeinstate entry as set in the rppxml-mediaitem-statechunk
+    integer fadestate5 - unknown, either 0 or 1; fadeinstate entry as set in the rppxml-mediaitem-statechunk
     number curve - curve -1 to 1
+    number fadestate7 - unknown
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -336,7 +337,7 @@ function ultraschall.GetItemFadeIn(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, fade in</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, fade in</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -370,11 +371,11 @@ function ultraschall.GetItemFadeOut(MediaItem, statechunk)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetItemFadeOut</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.3
+    Reaper=6.43
     Lua=5.3
   </requires>
-  <functioncall>number curvetype1, number fadeout_length, number fadeout_length2, number curvetype2, integer fadestate5, number curve = ultraschall.GetItemFadeOut(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>number curvetype1, number fadeout_length, number fadeout_length2, number curvetype2, integer fadestate5, number curve, number fadestate7 = ultraschall.GetItemFadeOut(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the values of the FADEOUT-entry of a MediaItem or MediaItemStateChunk.
     Returns nil in case of error.
@@ -388,8 +389,9 @@ function ultraschall.GetItemFadeOut(MediaItem, statechunk)
     number fadeout_length - the current fadeout-length in seconds
     number fadeout_length2 - the fadeout-length in seconds; overrides fadeout_length and will be moved to fadeout_length when fadeout-length changes(e.g. mouse-drag); might be autocrossfade-length
     number curvetype2 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype1
-    integer fadestate5 - unknown
+    integer fadestate5 - unknown, either 0 or 1; fadeinstate entry as set in the rppxml-mediaitem-statechunk
     number curve - curvation of the fadeout, -1 to 1
+    number fadestate7 - unknown
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -397,7 +399,7 @@ function ultraschall.GetItemFadeOut(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, fade out</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, fade out</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -457,7 +459,7 @@ function ultraschall.GetItemMute(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, fade out</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, fade out</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -514,7 +516,7 @@ function ultraschall.GetItemFadeFlag(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, autofade</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, autofade</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -574,7 +576,7 @@ function ultraschall.GetItemLock(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, lock</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, lock</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -634,7 +636,7 @@ function ultraschall.GetItemSelected(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, selected</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, selected</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -694,7 +696,7 @@ function ultraschall.GetItemGroup(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, group</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, group</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -750,7 +752,7 @@ function ultraschall.GetItemIGUID(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, guid, iguid</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, guid, iguid</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -805,7 +807,7 @@ function ultraschall.GetItemIID(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, iid</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, iid</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -865,7 +867,7 @@ function ultraschall.GetItemName(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, name</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, name</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -926,7 +928,7 @@ function ultraschall.GetItemVolPan(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, volume, pan</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, volume, pan</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -986,7 +988,7 @@ function ultraschall.GetItemSampleOffset(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, sample, offset</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, sample, offset</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -2676,9 +2678,9 @@ function ultraschall.GetItemPlayRate(MediaItem, statechunk)
   </parameters>
   <retvals>
     number playbackrate - 1 is 1x, 2 is 2x, 1.8 is 1.8x,etc
-    integer preserve_pitch - preserve pitch, 1 - preserve, 0 - don't preserve
+    integer preserve_pitch - preserve pitch; 1, preserve; 0, don't preserve
     number pitch_adjust - pitch_adjust(semitones); negative values allowed; 1.1=1.1 semitones higher, -0.3=0.3 semitones lower,etc
-    integer takepitch_timestretch_mode - - the item's pitchmode - 65536 for project-default
+    integer takepitch_timestretch_mode - the item's pitchmode - 65536 for project-default
     integer optimize_tonal_content - 2, checkbox for optimize-tonal-content is set on; 0, checkbox for optimize-tonal-content is set off
     number stretch_marker_fadesize - in milliseconds; negative values are allowed
   </retvals>
@@ -2688,7 +2690,7 @@ function ultraschall.GetItemPlayRate(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, playrate, pitch</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, playrate, pitch</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -2758,7 +2760,7 @@ function ultraschall.GetItemChanMode(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, channel, mode</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, channel, mode</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -2815,7 +2817,7 @@ function ultraschall.GetItemGUID(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, guid</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, guid</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -2863,7 +2865,7 @@ function ultraschall.GetItemRecPass(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, recpass</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, recpass</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -2925,7 +2927,7 @@ function ultraschall.GetItemBeat(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, beat, timebase</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, beat, timebase</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -2988,7 +2990,7 @@ function ultraschall.GetItemMixFlag(MediaItem, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, itemmix behavior</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, itemmix behavior</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -3046,7 +3048,7 @@ function ultraschall.GetItemUSTrackNumber_StateChunk(statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, track, tracknumber</tags>
+  <tags>mediaitemmanagement, get, tracks, media, item, statechunk, rppxml, state, chunk, track, tracknumber</tags>
 </US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
@@ -3088,7 +3090,7 @@ function ultraschall.SetItemUSTrackNumber_StateChunk(statechunk, tracknumber)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, track, tracknumber</tags>
+  <tags>mediaitemmanagement, set, tracks, media, item, statechunk, rppxml, state, chunk, track, tracknumber</tags>
 </US_DocBloc>
 ]]
   if ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1 end
@@ -3131,7 +3133,7 @@ function ultraschall.SetItemPosition(MediaItem, position, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, position</tags>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, position</tags>
 </US_DocBloc>
 ]]
   -- check parameters
@@ -3182,7 +3184,7 @@ function ultraschall.SetItemLength(MediaItem, length, statechunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, length</tags>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, length</tags>
 </US_DocBloc>
 ]]
   -- check parameters
@@ -3436,7 +3438,7 @@ function ultraschall.GetItemImage(MediaItem, MediaItemStateChunk)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, image, file</tags>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, image, file</tags>
 </US_DocBloc>
 ]]
   if MediaItem~=nil and ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetItemImage", "MediaItem", "must be a valid MediaItem or nil(when using MediaItemStateChunk instead)", -1) return nil end
@@ -3483,7 +3485,7 @@ function ultraschall.SetItemImage(MediaItem, MediaItemStateChunk, imagefilename)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, set, image, file</tags>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, set, image, file</tags>
 </US_DocBloc>
 ]]
   if MediaItem~=nil and ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("SetItemImage", "MediaItem", "must be a valid MediaItem or nil(when using MediaItemStateChunk instead)", -1) return nil end
