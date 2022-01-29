@@ -431,11 +431,11 @@ function ultraschall.GetItemMute(MediaItem, statechunk)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetItemMute</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.3
+    Reaper=6.43
     Lua=5.3
   </requires>
-  <functioncall>integer mutestate = ultraschall.GetItemMute(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>integer mutestate1, integer mutestate2 = ultraschall.GetItemMute(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns mutestate-entry of a MediaItem or MediaItemStateChunk.
     
@@ -448,7 +448,8 @@ function ultraschall.GetItemMute(MediaItem, statechunk)
     optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
   </parameters>
   <retvals>
-    integer mutestate - the mute-state; 1, mute is on; 0, mute is off
+    integer mutestate1 - actual mutestate, item solo overrides; 0, item is muted; 1, item is unmuted
+    integer mutestate2 - mutestate, ignores solo; 0, item is muted; 1, item is unmuted
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -905,6 +906,8 @@ function ultraschall.GetItemVolPan(MediaItem, statechunk)
     
     It's the VOLPAN-entry.
     
+    Use ultraschall.MKVOL2DB() to convert retval volume to dB.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -912,7 +915,7 @@ function ultraschall.GetItemVolPan(MediaItem, statechunk)
     optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
   </parameters>
   <retvals>
-    number volpan1 - unknown
+    number volpan1 - unknown; 0, seems to mute the item without using mute; 1, seems to keep the item unmuted
     number pan - from -1(100%L) to 1(100%R), 0 is center
     number volume - from 0(-inf) to 3.981072(+12db), 1 is 0db; higher numbers are allowed; negative means phase inverted
     number volpan4 - unknown
@@ -957,11 +960,11 @@ function ultraschall.GetItemSampleOffset(MediaItem, statechunk)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetItemSampleOffset</slug>
   <requires>
-    Ultraschall=4.00
-    Reaper=5.40
+    Ultraschall=4.3
+    Reaper=6.43
     Lua=5.3
   </requires>
-  <functioncall>number sampleoffset = ultraschall.GetItemSampleOffset(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>number sampleoffset, optional number sampleoffset2 = ultraschall.GetItemSampleOffset(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the sampleoffset-entry of a MediaItem or MediaItemStateChunk.
     
@@ -975,6 +978,7 @@ function ultraschall.GetItemSampleOffset(MediaItem, statechunk)
   </parameters>
   <retvals>
     number sampleoffset - sampleoffset in seconds
+    optional number sampleoffset2 - unknown
   </retvals>
   <chapter_context>
     MediaItem Management
