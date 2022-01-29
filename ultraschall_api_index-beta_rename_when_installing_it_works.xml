@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="50693.00" author="Meo Mespotine">
+      <version name="50719.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3./ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -495,6 +495,20 @@ New features in 4.3
     bar-checkbox of the Media Explorer
 -   MediaExplorer: MediaExplorer_SetVolume - sets the volume of the
     Media Explorer
+-   MediaItems: SetItemAllTakes - sets the all-takes-setting of an item
+    or a mediaitem-statechunk
+-   MediaItems: SetItemChanMode - sets the channel mode of an item or a
+    mediaitem-statechunk
+-   MediaItems: SetItemGUID - sets the GUID of an item or a
+    mediaitem-statechunk
+-   MediaItems: SetItemIGUID - sets the IGUID of an item or a
+    mediaitem-statechunk
+-   MediaItems: SetItemLoop - sets the loop-source-state of an item or a
+    mediaitem-statechunk
+-   MediaItems: SetItemName - sets name of the first take in an item or
+    a mediaitem-statechunk
+-   MediaItems: SetItemSelected - sets the selected-state of an item or
+    a mediaitem-statechunk
 -   PodcastMetadata: GetAllChapters_MetaDataEntry - gets all
     chapter-metadata-entries between start and endposition according to
     the PODCAST_METADATA:“v1”-standard
@@ -588,6 +602,12 @@ Changes from 4.2.006 to 4.3
     -> fixed
 -   MediaItemManagement: GetAllMediaItemsFromTrack - had problems, when
     a track had no item -> fixed(thnx to Distressor)
+-   MediaItemManagement: SetItemPosition - did return -1 in case of an
+    error, whereas it should return nil instead -> fixed
+-   MediaItemManagement: SetItemLength - did return -1 in case of an
+    error, whereas it should return nil instead -> fixed
+-   MediaItemManagement: SetItemImage - did return -1 in case of an
+    error, whereas it should return nil instead -> fixed
 -   ProjectManagement: GetProjectStateChunk - fixed edgecase, that
     prevented getting a ProjectStateChunk
 -   Rendering: GetRenderCFG_Settings_AVI_Video - added formats, that
@@ -643,7 +663,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1474 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50693 from 27.01.2022 23:26:06).}
+a 1481 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50719 from 29.01.2022 15:36:31).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -657,7 +677,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1474 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1481 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -781,7 +801,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1474 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50693 from 27.01.2022 23:26:06).}
+a 1481 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50719 from 29.01.2022 15:36:31).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -795,7 +815,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1474 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1481 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

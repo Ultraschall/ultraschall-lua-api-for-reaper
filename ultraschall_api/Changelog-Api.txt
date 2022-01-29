@@ -2,26 +2,7 @@
     -- SPectral Edit: supports takes, but do the functions support takes too?
 
     -- later releases
-        - Hilfsfunktionen für Lokasenna's GuiLib v2, wie automatisches übertragen der Höhe/Breite/Position-Werte in die entsprechenden Gui-Vals
-        - Set Metadata from Project - still missing
         - IsTakeEnvelopeVisible(könnt knifflig werden)
-        - Download files via Curl -> darf ich Curl mit ausliefern oder beisst sich das mit Lizenz? Auf Windows kann ich auch certutil nutzen.
-            function ultraschall.DownloadFile(fileurl, target)
-              -- certutil
-              Filename=fileurl:match(".*/(.*)")
-              if ultraschall.IsOS_Win()==true then
-                os.execute("certutil -urlcache -f \""..fileurl.."\" \""..target.."/"..Filename.."\" >NIL")
-              end
-
-              -- curl
-              BatchFile=[[
-            cd "]]..target..[[" >:NIL
-            ]]..reaper.GetResourcePath().."/UserPlugins/ultraschall_api/3rd_party_modules/curl/curl -s -O \""..fileurl..[[" >:NIL 
-              ]]
-              ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/Curl.Bat", BatchFile)
-              os.execute(ultraschall.API_TempPath.."/Curl.Bat")
-            end
-              - haben Linux und MacOS(speziell Catalina) curl?
 
         - MoveChildWithinParentHWND - hat wohl OffByOne error, wenn relative und width/height=0 gesetzt; tauchte bei Arrangeview auf
         - AddMediaItemStateChunk_in_TrackStateChunk
@@ -31,83 +12,6 @@
                         That way, it could be used as ultraschall.Defer()
 
     
-	How to get selection in category-list of Preferences?
-	Edgemeal's way:
-	
-	"Not sure if this helps, but this seems to work at least getting the index of the selected item in the preferences treeview...
-
-EDIT: Updated to select a node, combine previous code into one script.
-
-Code:
--- REAPER Preferences TreeView
--- Tested: Win10 x64, REAPER v6.10 x64, JS_API v1.002.
-
-function GetAllNodes(hwnd)
-  local nodes = {}
-  local hNode = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_ROOT, 0,0,0) -- first root node  
-  while(hNode > 0) do
-    nodes[#nodes+1] = hNode
-    local hChild = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_CHILD, 0,hNode,0) -- child node
-    while(hChild > 0) do
-      nodes[#nodes+1] = hChild
-      hChild = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_NEXT, 0,hChild,0) -- next child 
-    end
-    hNode = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_NEXT, 0,hNode,0) -- next root 
-  end 
-  return nodes
-end
-
-function CollapseExpandAllNodes(hwnd, tve)
-  local hNode = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_ROOT, 0,0,0) -- first root node
-  while(hNode > 0) do
-    reaper.JS_WindowMessage_Send(hwnd, TVM_EXPAND, tve,0, hNode,0) -- collapse/expand node
-    hNode = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_NEXT, 0,hNode,0) -- next root node
-  end 
-end
-
-function SelectItem(hwnd, hNode)
-  reaper.JS_WindowMessage_Send(hwnd, TVM_SELECTITEM, TVGN_CARET,0, hNode,0)
-end
- 
-function Main()
-  local pref_hwnd = reaper.JS_Window_FindTop("REAPER Preferences", true)
-  local tv_hwnd = reaper.JS_Window_FindChildByID(pref_hwnd, 0x456) 
-  if not tv_hwnd then return end
-
-  -- Collapse Nodes example,
-  CollapseExpandAllNodes(tv_hwnd, TVE_COLLAPSE)
-  -- Expand Nodes example,
-  --CollapseExpandAllNodes(tv_hwnd, TVE_EXPAND)
-   
-  local all_nodes = GetAllNodes(tv_hwnd) -- store handle of each node in a table
-  local sel_item = reaper.JS_WindowMessage_Send(tv_hwnd, TVM_GETNEXTITEM, TVGN_CARET, 0,0,0)  -- get handle of selected node
-
-  -- get selected item as index #
-  for i = 1, #all_nodes do
-    if all_nodes[i] == sel_item then
-     reaper.ShowConsoleMsg('Selected index = '..i-1 ..'\n')
-     break
-    end
-  end
-
-  -- example, select [Audio > MIDI devices] node
-  SelectItem(tv_hwnd, all_nodes[9])
-end
-
-TVM_EXPAND = "0x1102"
-TVM_GETNEXTITEM = "0x110A"
-TVM_SELECTITEM  = "0x110B"
-TVGN_ROOT = 0x0
-TVGN_NEXT = 0x1
-TVGN_CHILD = 0x4
-TVGN_CARET = 0x9
-TVE_COLLAPSE = 0x1
-TVE_EXPAND = 0x2
-
-Main()
-Have fun!"
-	
-
     GetProjectLength - should return the last envelope-point-position as well(how to do that for pooled items?)
     
     OpenURL muss noch url umwandeln auf Ansi Codepage 1252 auf Windows?. Also mit Bat-Datei arbeiten.
@@ -127,8 +31,6 @@ Have fun!"
         - TODO!! Event Manager: 
                         - Funktionen anstelle von Actions sollten auch hinzufügbar sein. Diese haben auch Zugriff auf den UserSpace
                           des Events.
-        - TODO!! XML-versions of the USDOCML-docsfiles
-        - TODO!! Text to XML-compatible characters-function, for < > & etc
         - TODO!! in the eventmanager-script: 
             - CheckEveryXSeconds: mach Wert 0 zu permanent und negative Werte zu EveryXDeferCycle-Werten für mehr Kontrolle darüber(letzteres Kür)
             - CheckForXSeconds: mach Wert 0 zu dauerhaft und evtl negative Werte für Anzahl Defer-Cycles, die gecheckt werden soll(letzteres Kür)
@@ -139,6 +41,7 @@ Have fun!"
                       tempfile2=string.gsub(tempfile2, " ", "%%20")
                       Notes: really tempfile2(!)? And, do I need to exchange only on source or also on target-file?
                       
+        - TODO: SetItemMixFlag is missing!
         - TODO!!  - Get/SetProject-functions for
                   StateChunks:
                   - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
@@ -176,13 +79,7 @@ Have fun!"
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
                       MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
-      TODO!! Default-Color-Theme-Colortables and loading ColorTable from Theme-functions
-              Originally Posted by mespotine  View Post
-              A second action focusing on only random-strong colors would be useful, I think. Should be scriptable as well though.
 
-              Regarding default color-values, IIRC they are stored in the .ReaperTheme-files, with the currently used stored in reaper.ini as well.
-              So how would one reset color palette in reaper without losing theme config otherwise? just colors.
-              needs more research
       TODO!! GetTrackPanLaw_Boost(tracknumber, sendidx, setstate)
                     setstate=true -> don't insert it
                     setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
@@ -194,25 +91,18 @@ Have fun!"
                                                                                     funfact - -1:U entry is pan_law, go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
                                                                          AUXRECV_WITHOUT_PANLAW_BOOST - if existing after a AUXRECV, pan_law has the Gain compensation (boost pans)-checkbox set
                                                                                                         go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
-      TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
-             produziert die API Fehler.
 
       TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
                                          something with ... ? Otherwise, new added parameters will break old scripts...
-      TODO!!  - create HTML-docs from all files in the functions-department of Ultraschall/3rd-party-functions
-      TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
-                - probably useless and tow slow
-      TODO!!  - ultraschall.gfx_getkey(integer buffer), allows pipe-ing of UserInput directly into a textbuffer. The textbuffer acts like a invisible textbox, which can be shown using drawstr or something
-                                                        must support arrow, bspc, enter, return, copynpaste as well
+
+
 
       TODO!!  - functions for native-colorstuff like, gradients, hue
             as well as the same functions for a colorarray, which has a number of colors inside of it, that can be contrasted, gradiented, etc
             they shall support gfx.init-color-values as output(boolean gfx.init-colorvalues (0 to 1)
             Already started with ColorTables for Colorpicker(!!!!)
       TODO!!  - GetAllTakesFromMediaItem - returns an array with all takes from an item, objects as well as info_values
-      TODO!!  - Get/SetProjectBay-functions
       TODO!!  - Envelope-StateChunk-functions
-      TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
 
 		
 		
@@ -229,168 +119,13 @@ Have fun!"
 TODO:
     - function for FXChain-entry MIDIPRESET: When using vst, click the +-button in FXChain and select Link to Midi Programchange
     - function for WAK, which allows setting "Send all keyboard input to plug-in"-setting(also in FXChain->+-Button-menu)   
-    - Markdown Converter: use 
-        A="Test[LULU[H[ULU](T\n\nudel)Kallo[Tudelu](Huch)"
-        B=A:match(".*(%[.-%]%(.-%))") -- URL-parsen!!!
-       to parse URLs
-    
-    - CreateRenderCFG-functions - support getting default format-settings(only ffia, evaw, etc as from GetProjectSettings_String?)
     - Button to install developer-tools in settings-window
-    
-    - Stretchmarkers
-    The problem is: SetTakeStretchMarkerSlope will set the beginning of the slope, according to the value of the end of the slope.
-    So: we would need to set the end of the slope correctly, THEN use SetTakeStretchMarkerSlope to set the beginning, THEN adjust the slope again by moving the next SM's position.
-    That way, we would have full control over beginning and end of it.
-    
-    -- Tracks can have rec-fxchains(click on Arm-button and on the bottom of the menu), who are stored beside the FXCHAIN-Statechunk.
-    -- Add them AND a trackindex to the inputfx-functions
-
-- IsItem/Track/Envelope/etc still existing-functions.
-
-function DoesItemExist(Item)
-  -- kannst auch Validate Pointer stattdessen für nehmen...
-  return pcall (reaper.IsMediaItemSelected, Item)
-end
-
-- Did any item change?
---dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-
-
-function AreThereAlteredItems()
-  if Items==nil then 
-    Items={} -- this stores all the item's statechunks, who hold all states of a 
-  end
-  if ItemsTracks==nil then
-    ItemsTracks={}
-  end
-
-  local Count=reaper.GetProjectStateChangeCount(0) -- get current count of changes in project
-  local ItemCount=reaper.CountMediaItems(0)        -- get current count of MediaItems to get item additions/deletions
-  local retval=false
-  local retval2
-  
-  if Count~=Items["OldCount"] then
-    -- if the change-count is different from the old one, check all items for changes
-    for i=0, reaper.CountMediaItems(0) do -- go through all items
-      local item=reaper.GetMediaItem(0,i) -- get the mediaitem
-      if item~=nil then             -- if at least an item exists, check for item's contents
-        -- check, if an item has moved from one track to another
-        if ItemsTracks[item]~=reaper.GetMediaItem_Track(item) then
-          ItemsTracks[item]=reaper.GetMediaItem_Track(item)
-          retval=true
-        end
-        
-        -- check, if states have changed.
-        local Aretval, statechunk = reaper.GetItemStateChunk(item, "", false) -- get the statechunk(who hold all item-states)
-        -- if the table Items holds this item, check, if the stored ItemStateChunk has changed(altered item) or not(no altered item)
-        if Items[item]~=statechunk then
-          retval=true
-          -- put the statechunk into the table, when it changed
-          Items[item]=statechunk
-        end
-      end
-    end
-    Items["OldCount"]=Count
-  end
-  -- check, if the number of items changed due deletion or addition of items
-  if ItemCount~=Items["OldItemCount"] then 
-    retval=true
-  end
-  Items["OldItemCount"]=ItemCount
-  return retval
-end
-
-function main()
-  retvals, item = AreThereAlteredItems()
-  if retvals==true then
-    reaper.ShowConsoleMsg("An Item has changed at: "..os.date().."\n")
-  end
-  reaper.defer(main)
-end
-
-main()
-
-No idea, whether this is a good idea.
-
-
-BGCopy: Adapt buffer-size automatically(prototyped for XRaym, but this could do the trick in the actual US-API as well:
-
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-
-ultraschall["CopyFiles_XRaym_Buffersize-MaxBuffer"]=16777216 -- set to maximum-buffer size of 16MB
-
-function XRayms_Buffer_Size_Manipulator3000()
-  if ultraschall["CopyFiles_XRaym_Buffersize-OldTime"]==nil then
-    ultraschall["CopyFiles_XRaym_Buffersize-OldTime"]=reaper.time_precise()
-  end
-  if ultraschall["CopyFiles_XRaym_Buffersize-NewTime"]==nil then
-    ultraschall["CopyFiles_XRaym_Buffersize-NewTime"]=reaper.time_precise()
-  end
-  if ultraschall["CopyFiles_XRaym_Buffersize-Counter"]==nil then
-    ultraschall["CopyFiles_XRaym_Buffersize-Counter"]=0
-  end
-  if ultraschall["CopyFiles_XRaym_Buffersize-MaxBuffer"]==nil then
-    ultraschall["CopyFiles_XRaym_Buffersize-MaxBuffer"]=16777216
-  end
-  
-  local Counter=ultraschall["CopyFiles_XRaym_Buffersize-Counter"]
-  local NewTime=ultraschall["CopyFiles_XRaym_Buffersize-NewTime"]
-  local OldTime=ultraschall["CopyFiles_XRaym_Buffersize-OldTime"]
-  local MaxBuffer=ultraschall["CopyFiles_XRaym_Buffersize-MaxBuffer"]
-  
-  local NewTime=reaper.time_precise()
-  Counter=Counter+1
-  
-  if OldTime+1<=NewTime then
-    -- A=Counter -- debug
-    OldTime=NewTime
-    
-    if Counter>=33 then
-      -- if the defer-loops perform nicely, add to the buffer size til maximum-buffer size by a factor of 2.2
-      local buffer_size = ultraschall.CopyFile_GetBufferSize()
-      -- B=buffer_size -- debug
-      if buffer_size<100 then buffer_size=100 end
-      if buffer_size>=MaxBuffer then 
-        buffer_size=MaxBuffer -- maximum buffer-size set to 16MB/defer-loop
-      else 
-        buffer_size=math.floor(buffer_size*2.2) 
-      end
-      ultraschall.CopyFile_SetBufferSize(buffer_size)
-    else
-      -- if the defer-loops lag, subtract from buffer size by a factor that depends on how few
-      -- defer-loops/second are done.
-      -- Minimum buffer is 100.
-      local buffer_size = ultraschall.CopyFile_GetBufferSize()
-      -- C=buffer_size -- debug
-      if buffer_size<100 then buffer_size=100 end
-      local factor=100/30*Counter/100
-      ultraschall.CopyFile_SetBufferSize(math.floor(buffer_size*factor))
-    end
-    Counter=0
-  end
-  
-  ultraschall["CopyFiles_XRaym_Buffersize-Counter"]=Counter
-  ultraschall["CopyFiles_XRaym_Buffersize-NewTime"]=NewTime
-  ultraschall["CopyFiles_XRaym_Buffersize-OldTime"]=OldTime
-end
-  
-function main()  
-  XRayms_Buffer_Size_Manipulator3000()
-  reaper.defer(main)
-end
-
-main()
-
-**Is Reaper Quitting??
-Ok, I'll add the EnumProjects-approach as "IsReaperQuitting()"-function to my API. I think it would be practical.
-Doesn't work on Windows 7???
-
-
-  - Rendering: CalculateLoudness - calculates loudness of tracks/items and returns its stats  
+    - Rendering: CalculateLoudness - calculates loudness of tracks/items and returns its stats  
  
   - Normalization in BatchConverter?
 
   - GetItemButtonsVisible/SetItemButtonsVisible - add "hide buttons when lane is less than x pixels"-feature to the parameters/retvals too
+  
   - Docs: mach mal Abstand zwischen retvals/params und der description kürzer, dafür aber evtl den Abstand ÜBER den retval/param-names etwas höher.
           Mach mal auch den Abstand zwischen <u>Return Values</u> und <u>Parameters</u> etwas kürzer, siehe ShowEnvelopePointMenu. Da ist zuviel Abstand dazwischen.
   
@@ -406,20 +141,12 @@ Doesn't work on Windows 7???
             location_description(für Ort), 
             location_google_earth(?)
 
-    - Shownote - index 1-based?
-
-    individual functions for:
+    - individual functions for:
         - "podcast_feed" - the feed-url of the podcast(see additional_attributes for more details)
 
         Donate?-
 
         Contributors.
-        
-        Introduction is missing the new file-format-functions for rendering, CAF.
-        
-        SetItemMixFlag is missing!
- 
-        Rendertable in introduction has brickwall in it?
         
         CommitShownote\_ReaperMetadata - new attribute: wikidata_uri
         GetSetChapterMarker\_Attributes - gets/sets additional attributes of a chapter-marker, 
@@ -427,54 +154,9 @@ Doesn't work on Windows 7???
         CommitChapter\_ReaperMetadata - add additional chapter-attributes to metadata using PODCAST_CHAPTER_v1-standard(like shownote-standard) 
         Episode-Metadata: 
             new attributes: linked_episodes
-            
-            
-        IMPORTANT!!!!
-            AddNormalMarker uses a new method to get the marker-idx and guid.
-                            Please add this to the other add-marker/regions-functions as well, as Reaper has some 
-                            odd ways to add markers/regions that could cause confusion.
-                            For instance AddProjectMarkersX: doesn't allow creating multiple markers on the same position, without giving feedback
-                                                             doesn't return the index within all markers and regions
-                                                        which makes getting the right idx and guid a little tricky.
-                            AddNormalMarker includes now a better workaround for this, so please add this to the other add-marker/regions-functions 
-                            as well, or all marker/regions-functions may not work properly in some cases, resulting in some bad behavior.
-                            
-                            Idea: maybe trying to add a slight offset to the marker, if it couldn't be created?
-                            
-Commit to Metadata-storage:                            
---[[
-    This will be added to the Reaper-metadata schemes:
-       ID3(MP3) - stored in file as user-defined-frame "TXXX:"
-       Vorbis (Opus, Ogg, Wav, Flac)
-       IXML(FLAC, WAV, MP3) - <BWFXML><USER><Podcast_Shownote_XnumberX> shownote entry </Podcast_Shownote_XnumberX></USER></BWFXML>
-       APE(MP3, WavPak)
-       
-    optional boolean do_id3 - true, commit to ID3-metadata-storage(MP3) of Reaper; false or nil, don't commit
-    optional boolean do_vorbis - true, commit to Vorbis-metadata-storage(Vorbis, Mp3, Flac, Ogg, Opus) of Reaper; false or nil, don't commit
-    optional boolean do_ape - true, commit to APE-metadata-storage(MP3, WavPack) of Reaper; false or nil, don't commit
-    optional boolean do_ixml - true, commit to IXML-metadata-storage(MP3, WAV, Flac) of Reaper; false or nil, don't commit
-    --]]
-    
-  if do_id3==true then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
-    --print2("ID3:TXXX:Podcast_Shownote_"..shownote_idx.."|"..Shownote_String)
-  end
+             
   
-  if do_vorbis==true then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
-  end
-  
-  if do_ape==true then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
-  end
-
-  if do_ixml==true then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Shownote_"..shownote_index_in_metadata.."|"..Shownote_String, true)
-  end
-  
-  
-  
-The _Metadata-functions must be checked, if the lines are correctly working. They seem to be inconsistent...
+>The _Metadata-functions must be checked, if the lines are correctly working. They seem to be inconsistent...
   for i=1, #Tags do
     retval, temp = ultraschall.GetSetShownoteMarker_Attributes(false, shownote_idx, Tags[i], "")
     if temp==nil or retval==false then 
@@ -515,6 +197,13 @@ Has now 1423 functions, with XX new ones
   - MediaExplorer: MediaExplorer\_SetRate - sets the rate of the Media Explorer  
   - MediaExplorer: MediaExplorer\_SetStartOnBar - sets the Start on bar-checkbox of the Media Explorer
   - MediaExplorer: MediaExplorer\_SetVolume - sets the volume of the Media Explorer  
+  - MediaItems: SetItemAllTakes - sets the all-takes-setting of an item or a mediaitem-statechunk
+  - MediaItems: SetItemChanMode - sets the channel mode of an item or a mediaitem-statechunk
+  - MediaItems: SetItemGUID - sets the GUID of an item or a mediaitem-statechunk
+  - MediaItems: SetItemIGUID - sets the IGUID of an item or a mediaitem-statechunk
+  - MediaItems: SetItemLoop - sets the loop-source-state of an item or a mediaitem-statechunk
+  - MediaItems: SetItemName - sets name of the first take in an item or a mediaitem-statechunk
+  - MediaItems: SetItemSelected - sets the selected-state of an item or a mediaitem-statechunk
   - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard
@@ -553,6 +242,9 @@ Has now 1423 functions, with XX new ones
   - MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -> fixed
   - MarkerManagement: SetNormalMarker - did set custom-markers as well -> fixed
   - MediaItemManagement: GetAllMediaItemsFromTrack - had problems, when a track had no item -> fixed(thnx to Distressor)
+  - MediaItemManagement: SetItemPosition - did return -1 in case of an error, whereas it should return nil instead -> fixed
+  - MediaItemManagement: SetItemLength - did return -1 in case of an error, whereas it should return nil instead -> fixed
+  - MediaItemManagement: SetItemImage - did return -1 in case of an error, whereas it should return nil instead -> fixed
   - ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk
   - Rendering: GetRenderCFG\_Settings\_AVI\_Video - added formats, that need FFMPEG installed  
   - Rendering: GetRenderCFG\_Settings\_MKV\_Video - added formats, that need FFMPEG installed  

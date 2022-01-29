@@ -63,7 +63,7 @@ function ultraschall.GetItemPosition(MediaItem, statechunk)
   </requires>
   <functioncall>number position = ultraschall.GetItemPosition(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
-    Returns position-entry of a MediaItem or MediaItemStateChunk.
+    Returns the values of the POSITION-entry of a MediaItem or MediaItemStateChunk.
     Returns nil in case of error.
   </description>
   <parameters>
@@ -114,7 +114,7 @@ function ultraschall.GetItemLength(MediaItem, statechunk)
   </requires>
   <functioncall>number length = ultraschall.GetItemLength(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
-    Returns length-entry of a MediaItem or MediaItemStateChunk.
+    Returns the values of the LENGTH-entry of a MediaItem or MediaItemStateChunk.
     Returns nil in case of error.
   </description>
   <parameters>
@@ -163,7 +163,7 @@ function ultraschall.GetItemSnapOffset(MediaItem, statechunk)
   </requires>
   <functioncall>number snapoffset = ultraschall.GetItemSnapOffset(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
-    Returns snapoffs-entry of a MediaItem or MediaItemStateChunk.
+    Returns the values of the SNAPOFFS-entry of a MediaItem or MediaItemStateChunk.
     Returns nil in case of error.
   </description>
   <parameters>
@@ -215,7 +215,7 @@ function ultraschall.GetItemLoop(MediaItem, statechunk)
   </requires>
   <functioncall>integer loopstate = ultraschall.GetItemLoop(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
-    Returns loopstate-entry of a MediaItem or MediaItemStateChunk.
+    Returns the values of the LOOP-entry of a MediaItem or MediaItemStateChunk.
     Returns nil in case of error.
   </description>
   <parameters>
@@ -264,7 +264,8 @@ function ultraschall.GetItemAllTakes(MediaItem, statechunk)
   </requires>
   <functioncall>integer alltakes = ultraschall.GetItemAllTakes(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
-    Returns alltakes-entry of a MediaItem or MediaItemStateChunk.
+    Returns the values of the ALLTAKES-entry of a MediaItem or MediaItemStateChunk.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -313,7 +314,8 @@ function ultraschall.GetItemFadeIn(MediaItem, statechunk)
   </requires>
   <functioncall>number fadestate1, number fadestate2, number fadestate3, number fadestate4, integer fadestate5, number fadestate6 = ultraschall.GetItemFadeIn(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
-    Returns fadein-entries of a MediaItem or MediaItemStateChunk.
+    Returns the values of the FADEIN-entry of a MediaItem or MediaItemStateChunk.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -374,7 +376,7 @@ function ultraschall.GetItemFadeOut(MediaItem, statechunk)
   </requires>
   <functioncall>number curvetype1, number fadeout_length, number fadeout_length2, number curvetype2, integer fadestate5, number curve = ultraschall.GetItemFadeOut(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
-    Returns fadeout-entries of a MediaItem or MediaItemStateChunk.
+    Returns the values of the FADEOUT-entry of a MediaItem or MediaItemStateChunk.
     Returns nil in case of error.
   </description>
   <parameters>
@@ -436,6 +438,9 @@ function ultraschall.GetItemMute(MediaItem, statechunk)
   <functioncall>integer mutestate = ultraschall.GetItemMute(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns mutestate-entry of a MediaItem or MediaItemStateChunk.
+    
+    It's the MUTE-entry.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -550,6 +555,9 @@ function ultraschall.GetItemLock(MediaItem, statechunk)
   <functioncall>integer lock_state = ultraschall.GetItemLock(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns itemlock-entry of a MediaItem or MediaItemStateChunk.
+    
+    It's the LOCK-entry.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -607,7 +615,9 @@ function ultraschall.GetItemSelected(MediaItem, statechunk)
   <functioncall>integer selected_state = ultraschall.GetItemSelected(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns item-selected-state-entry of a MediaItem or MediaItemStateChunk.
+    
     It's the SEL-entry.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -665,7 +675,9 @@ function ultraschall.GetItemGroup(MediaItem, statechunk)
   <functioncall>integer item_group = ultraschall.GetItemGroup(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns group of a MediaItem or MediaItemStateChunk, where the item belongs to.
+    
     It's the GROUP-entry
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -832,6 +844,11 @@ function ultraschall.GetItemName(MediaItem, statechunk)
   <functioncall>string name = ultraschall.GetItemName(MediaItem MediaItem, string MediaItemStateChunk)</functioncall>
   <description>
     Returns the name-entry of a MediaItem or MediaItemStateChunk.
+    
+    It's the NAME-entry.
+    
+    It is the name of the first take in the MediaItem!
+
     Returns nil in case of error.
   </description>
   <parameters>
@@ -885,6 +902,9 @@ function ultraschall.GetItemVolPan(MediaItem, statechunk)
   <functioncall>number volpan1, number pan, number volume, number volpan4 = ultraschall.GetItemVolPan(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the vol/pan-entries of a MediaItem or MediaItemStateChunk.
+    
+    It's the VOLPAN-entry.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -944,7 +964,9 @@ function ultraschall.GetItemSampleOffset(MediaItem, statechunk)
   <functioncall>number sampleoffset = ultraschall.GetItemSampleOffset(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the sampleoffset-entry of a MediaItem or MediaItemStateChunk.
+    
     It's the SOFFS-entry.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -1001,6 +1023,7 @@ function ultraschall.GetItemPlayRate(MediaItem, statechunk)
   <functioncall>number playbackrate, integer preserve_pitch, number pitch_adjust, integer takepitch_timestretch_mode, integer optimize_tonal_content, number stretch_marker_fadesize = ultraschall.GetItemPlayRate(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the playback-rate-entries of a MediaItem or MediaItemStateChunk.
+    
     It's the PLAYRATE-entry.
   
     takepitch_timestretch_mode can be 
@@ -2702,7 +2725,9 @@ function ultraschall.GetItemChanMode(MediaItem, statechunk)
   <functioncall>integer channelmode = ultraschall.GetItemChanMode(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the channelmode-entry of a MediaItem or MediaItemStateChunk.
+    
     It's the CHANMODE-entry
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -2770,6 +2795,7 @@ function ultraschall.GetItemGUID(MediaItem, statechunk)
   <functioncall>string GUID = ultraschall.GetItemGUID(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the GUID-entry of a MediaItem or MediaItemStateChunk.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -2817,6 +2843,7 @@ function ultraschall.GetItemRecPass(MediaItem, statechunk)
     It's the counter of the recorded item-takes within a project, ordered by the order of recording. Only displayed with recorded item-takes, not imported ones.
     
     It's the RECPASS-entry.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -2872,6 +2899,9 @@ function ultraschall.GetItemBeat(MediaItem, statechunk)
   <functioncall>integer beatstate = ultraschall.GetItemBeat(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the beatstate/timebase-entry of a MediaItem or MediaItemStateChunk.
+    
+    It's the BEAT-entry.
+    
     Returns -1 in case of error.
   </description>
   <parameters>
@@ -2932,6 +2962,9 @@ function ultraschall.GetItemMixFlag(MediaItem, statechunk)
   <functioncall>integer itemmix_state = ultraschall.GetItemMixFlag(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns the item-mix-behavior-entry of a MediaItemStateChunk.
+    
+    It's the MIXFLAG-entry.
+    
     Returns -1 in case of error.
   </description>
   <parameters>
@@ -3078,7 +3111,7 @@ function ultraschall.SetItemPosition(MediaItem, position, statechunk)
   <description>
     Sets position in a MediaItem or MediaItemStateChunk in seconds.
     It returns the modified MediaItemStateChunk.
-    Returns -1 in case of error.
+    Returns nil in case of error.
   </description>
   <parameters>
     MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
@@ -3100,10 +3133,10 @@ function ultraschall.SetItemPosition(MediaItem, position, statechunk)
   -- check parameters
   local _tudelu
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
-  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemPosition", "statechunk", "Must be a valid statechunk.", -1) return -1
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemPosition", "statechunk", "Must be a valid statechunk.", -1) return 
   end
-  if type(position)~="number" then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must be a number.", -2) return -1 end  
-  if position<0 then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must bigger than or equal 0.", -3) return -1 end
+  if type(position)~="number" then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must be a number.", -2) return end  
+  if position<0 then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must bigger than or equal 0.", -3) return end
   
   -- do the magic
   statechunk=statechunk:match("(<ITEM.-)POSITION").."POSITION "..position.."\n"..statechunk:match("POSITION.-%c(.*)")
@@ -3129,7 +3162,7 @@ function ultraschall.SetItemLength(MediaItem, length, statechunk)
   <description>
     Sets length in a MediaItem and MediaItemStateChunk in seconds.
     It returns the modified MediaItemStateChunk.
-    Returns -1 in case of error.
+    Returns nil in case of error.
   </description>
   <parameters>
     MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
@@ -3151,11 +3184,11 @@ function ultraschall.SetItemLength(MediaItem, length, statechunk)
   -- check parameters
   local _tudelu
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
-  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemLength", "statechunk", "Must be a valid statechunk.", -1) return -1
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemLength", "statechunk", "Must be a valid statechunk.", -1) return nil
   end
 --  reaper.MB(type(length),length,0)
-  if type(length)~="number" then ultraschall.AddErrorMessage("SetItemLength", "length", "Must be a number.", -2) return -1 end  
-  if length<0 then ultraschall.AddErrorMessage("SetItemLength", "length", "Must bigger than or equal 0.", -3) return -1 end
+  if type(length)~="number" then ultraschall.AddErrorMessage("SetItemLength", "length", "Must be a number.", -2) return nil end  
+  if length<0 then ultraschall.AddErrorMessage("SetItemLength", "length", "Must bigger than or equal 0.", -3) return nil end
   
   -- do the magic
   statechunk=statechunk:match("(<ITEM.-)LENGTH").."LENGTH "..length.."\n"..statechunk:match("LENGTH.-%c(.*)")
@@ -3219,6 +3252,8 @@ function ultraschall.GetItem_Video_IgnoreAudio(Item, take_index, StateChunk)
   <functioncall>boolean checked_state = ultraschall.GetItem_Video_IgnoreAudio(MediaItem Item, integer take_index, optional string StateChunk)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the "Ignore audio"-checkbox of a video-item-source in a specific MediaItem-take.
+    
+    It's the AUDIO-entry in the <SOURCE-statechunk of the take
     
     Returns nil in case of an error(no video source in take)
   </description>
@@ -3294,7 +3329,7 @@ function ultraschall.SetItem_Video_IgnoreAudio(Item, take_index, checkbox_state,
     Reaper=6.11
     Lua=5.3
   </requires>
-  <functioncall>string statechunk = ultraschall.GetItem_Video_IgnoreAudio(MediaItem Item, integer take_index, boolean checkbox_state, optional string StateChunk)</functioncall>
+  <functioncall>string statechunk = ultraschall.SetItem_Video_IgnoreAudio(MediaItem Item, integer take_index, boolean checkbox_state, optional string StateChunk)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets the "Ignore audio"-checkbox of a video-item-source in a specific MediaItem-take.
     

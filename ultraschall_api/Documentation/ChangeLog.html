@@ -65,6 +65,13 @@
 <li>MediaExplorer: MediaExplorer_SetStartOnBar - sets the Start on bar-checkbox of the Media Explorer</li>
 <li>MediaExplorer: MediaExplorer_SetVolume - sets the volume of the Media Explorer<br />
 </li>
+<li>MediaItems: SetItemAllTakes - sets the all-takes-setting of an item or a mediaitem-statechunk</li>
+<li>MediaItems: SetItemChanMode - sets the channel mode of an item or a mediaitem-statechunk</li>
+<li>MediaItems: SetItemGUID - sets the GUID of an item or a mediaitem-statechunk</li>
+<li>MediaItems: SetItemIGUID - sets the IGUID of an item or a mediaitem-statechunk</li>
+<li>MediaItems: SetItemLoop - sets the loop-source-state of an item or a mediaitem-statechunk</li>
+<li>MediaItems: SetItemName - sets name of the first take in an item or a mediaitem-statechunk</li>
+<li>MediaItems: SetItemSelected - sets the selected-state of an item or a mediaitem-statechunk</li>
 <li>PodcastMetadata: GetAllChapters_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
 <li>PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
 <li>PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
@@ -105,6 +112,9 @@
 <li>MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -&gt; fixed</li>
 <li>MarkerManagement: SetNormalMarker - did set custom-markers as well -&gt; fixed</li>
 <li>MediaItemManagement: GetAllMediaItemsFromTrack - had problems, when a track had no item -&gt; fixed(thnx to Distressor)</li>
+<li>MediaItemManagement: SetItemPosition - did return -1 in case of an error, whereas it should return nil instead -&gt; fixed</li>
+<li>MediaItemManagement: SetItemLength - did return -1 in case of an error, whereas it should return nil instead -&gt; fixed</li>
+<li>MediaItemManagement: SetItemImage - did return -1 in case of an error, whereas it should return nil instead -&gt; fixed</li>
 <li>ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk</li>
 <li>Rendering: GetRenderCFG_Settings_AVI_Video - added formats, that need FFMPEG installed<br />
 </li>
