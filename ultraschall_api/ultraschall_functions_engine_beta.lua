@@ -5132,3 +5132,381 @@ function ultraschall.SetItemPlayRate(MediaItem, statechunk, playbackrate, preser
   -- return
   return statechunk
 end
+
+ultraschall.WalterElements={"tcp.dragdropinfo",
+"tcp.env",
+"tcp.folder",
+"tcp.foldercomp",
+"tcp.fx",
+"tcp.fxbyp",
+"tcp.fxembed",
+"tcp.fxembedheader.color",
+"tcp.fxin",
+"tcp.fxparm",
+"tcp.fxparm.font",
+"tcp.fxparm.margin",
+"tcp.io",
+"tcp.label",
+"tcp.label.color",
+"tcp.label.font",
+"tcp.label.margin",
+"tcp.margin",
+"tcp.meter",
+"tcp.meter.inputlabel.color",
+"tcp.meter.inputlabelbox.color",
+"tcp.meter.readout.color",
+"tcp.meter.rmsreadout.color",
+"tcp.meter.scale.color.lit.bottom",
+"tcp.meter.scale.color.lit.top",
+"tcp.meter.scale.color.unlit.bottom",
+"tcp.meter.scale.color.unlit.top",
+"tcp.meter.vu.div",
+"tcp.mute",
+"tcp.pan",
+"tcp.pan.color",
+"tcp.pan.fadermode",
+"tcp.pan.label",
+"tcp.pan.label.color",
+"tcp.pan.label.font",
+"tcp.pan.label.margin",
+"tcp.phase",
+"tcp.recarm",
+"tcp.recinput",
+"tcp.recinput.color",
+"tcp.recinput.font",
+"tcp.recinput.margin",
+"tcp.recmode",
+"tcp.recmon",
+"tcp.sendlist",
+"tcp.sendlist.font",
+"tcp.sendlist.margin",
+"tcp.size",
+"tcp.solo",
+"tcp.trackidx",
+"tcp.trackidx.color",
+"tcp.trackidx.font",
+"tcp.trackidx.margin",
+"tcp.volume",
+"tcp.volume.color",
+"tcp.volume.fadermode",
+"tcp.volume.label",
+"tcp.volume.label.color",
+"tcp.volume.label.font",
+"tcp.volume.label.margin",
+"tcp.width",
+"tcp.width.color",
+"tcp.width.fadermode",
+"tcp.width.label",
+"tcp.width.label.color",
+"tcp.width.label.font",
+"tcp.width.label.margin",
+"master.tcp.env",
+"master.tcp.fx",
+"master.tcp.fxbyp",
+"master.tcp.fxembed",
+"master.tcp.fxembedheader.color",
+"master.tcp.fxparm",
+"master.tcp.fxparm.font",
+"master.tcp.fxparm.margin",
+"master.tcp.io",
+"master.tcp.label",
+"master.tcp.label.color",
+"master.tcp.label.font",
+"master.tcp.label.margin",
+"master.tcp.margin",
+"master.tcp.meter",
+"master.tcp.meter.readout.color",
+"master.tcp.meter.rmsreadout.color",
+"master.tcp.meter.scale.color.lit.bottom",
+"master.tcp.meter.scale.color.lit.top",
+"master.tcp.meter.scale.color.unlit.bottom",
+"master.tcp.meter.scale.color.unlit.top",
+"master.tcp.meter.vu.div",
+"master.tcp.mono",
+"master.tcp.mute",
+"master.tcp.pan",
+"master.tcp.pan.color",
+"master.tcp.pan.fadermode",
+"master.tcp.pan.label",
+"master.tcp.pan.label.color",
+"master.tcp.pan.label.font",
+"master.tcp.pan.label.margin",
+"master.tcp.sendlist",
+"master.tcp.sendlist.font",
+"master.tcp.sendlist.margin",
+"master.tcp.size",
+"master.tcp.solo",
+"master.tcp.volume",
+"master.tcp.volume.color",
+"master.tcp.volume.fadermode",
+"master.tcp.volume.label",
+"master.tcp.volume.label.color",
+"master.tcp.volume.label.font",
+"master.tcp.volume.label.margin",
+"master.tcp.width",
+"master.tcp.width.color",
+"master.tcp.width.fadermode",
+"master.tcp.width.label",
+"master.tcp.width.label.color",
+"master.tcp.width.label.font",
+"master.tcp.width.label.margin",
+"mcp.env",
+"mcp.extmixer.mode",
+"mcp.extmixer.position",
+"mcp.folder",
+"mcp.fx",
+"mcp.fxbyp",
+"mcp.fxin",
+"mcp.fxlist.font",
+"mcp.fxlist.margin",
+"mcp.fxparm.font",
+"mcp.fxparm.margin",
+"mcp.io",
+"mcp.label",
+"mcp.label.color",
+"mcp.label.font",
+"mcp.label.margin",
+"mcp.margin",
+"mcp.meter",
+"mcp.meter.inputlabel.color",
+"mcp.meter.inputlabelbox.color",
+"mcp.meter.readout.color",
+"mcp.meter.rmsreadout.color",
+"mcp.meter.scale.color.lit.bottom",
+"mcp.meter.scale.color.lit.top",
+"mcp.meter.scale.color.unlit.bottom",
+"mcp.meter.scale.color.unlit.top",
+"mcp.meter.vu.div",
+"mcp.mute",
+"mcp.pan",
+"mcp.pan.color",
+"mcp.pan.fadermode",
+"mcp.pan.label",
+"mcp.pan.label.color",
+"mcp.pan.label.font",
+"mcp.pan.label.margin",
+"mcp.phase",
+"mcp.recarm",
+"mcp.recinput",
+"mcp.recinput.color",
+"mcp.recinput.font",
+"mcp.recinput.margin",
+"mcp.recmode",
+"mcp.recmon",
+"mcp.sendlist.font",
+"mcp.sendlist.margin",
+"mcp.size",
+"mcp.solo",
+"mcp.trackidx",
+"mcp.trackidx.color",
+"mcp.trackidx.font",
+"mcp.trackidx.margin",
+"mcp.volume",
+"mcp.volume.color",
+"mcp.volume.fadermode",
+"mcp.volume.label",
+"mcp.volume.label.color",
+"mcp.volume.label.font",
+"mcp.volume.label.margin",
+"mcp.width",
+"mcp.width.color",
+"mcp.width.fadermode",
+"mcp.width.label",
+"mcp.width.label.color",
+"mcp.width.label.font",
+"mcp.width.label.margin",
+"master.mcp.env",
+"master.mcp.extmixer.mode",
+"master.mcp.extmixer.position",
+"master.mcp.fx",
+"master.mcp.fxbyp",
+"master.mcp.fxlist.font",
+"master.mcp.fxlist.margin",
+"master.mcp.fxparm.font",
+"master.mcp.fxparm.margin",
+"master.mcp.io",
+"master.mcp.label",
+"master.mcp.label.color",
+"master.mcp.label.font",
+"master.mcp.label.margin",
+"master.mcp.margin",
+"master.mcp.menubutton",
+"master.mcp.meter",
+"master.mcp.meter.readout.color",
+"master.mcp.meter.rmsreadout.color",
+"master.mcp.meter.scale.color.lit.bottom",
+"master.mcp.meter.scale.color.lit.top",
+"master.mcp.meter.scale.color.unlit.bottom",
+"master.mcp.meter.scale.color.unlit.top",
+"master.mcp.meter.vu.div",
+"master.mcp.meter.vu.rmsdiv",
+"master.mcp.mono",
+"master.mcp.mute",
+"master.mcp.pan",
+"master.mcp.pan.color",
+"master.mcp.pan.fadermode",
+"master.mcp.pan.label",
+"master.mcp.pan.label.color",
+"master.mcp.pan.label.font",
+"master.mcp.pan.label.margin",
+"master.mcp.sendlist.font",
+"master.mcp.sendlist.margin",
+"master.mcp.size",
+"master.mcp.solo",
+"master.mcp.volume",
+"master.mcp.volume.color",
+"master.mcp.volume.fadermode",
+"master.mcp.volume.label",
+"master.mcp.volume.label.color",
+"master.mcp.volume.label.font",
+"master.mcp.volume.label.margin",
+"master.mcp.width",
+"master.mcp.width.color",
+"master.mcp.width.fadermode",
+"master.mcp.width.label",
+"master.mcp.width.label.color",
+"master.mcp.width.label.font",
+"master.mcp.width.label.margin",
+"envcp.arm",
+"envcp.bypass",
+"envcp.fader",
+"envcp.fader.color",
+"envcp.fader.fadermode",
+"envcp.hide",
+"envcp.label",
+"envcp.label.color",
+"envcp.label.font",
+"envcp.label.margin",
+"envcp.learn",
+"envcp.margin",
+"envcp.mod",
+"envcp.size",
+"envcp.value",
+"envcp.value.color",
+"envcp.value.font",
+"envcp.value.margin",
+"trans.automode",
+"trans.bpm.edit",
+"trans.bpm.edit.color",
+"trans.bpm.edit.font",
+"trans.bpm.edit.margin",
+"trans.bpm.tap",
+"trans.bpm.tap.color",
+"trans.bpm.tap.font",
+"trans.bpm.tap.margin",
+"trans.curtimesig",
+"trans.curtimesig.color",
+"trans.curtimesig.font",
+"trans.fwd",
+"trans.margin",
+"trans.pause",
+"trans.play",
+"trans.rate",
+"trans.rate.color",
+"trans.rate.fader",
+"trans.rate.fader.color",
+"trans.rate.fader.fadermode",
+"trans.rate.font",
+"trans.rate.margin",
+"trans.rec",
+"trans.repeat",
+"trans.rew",
+"trans.sel",
+"trans.sel.color",
+"trans.sel.font",
+"trans.sel.margin",
+"trans.size",
+"trans.size.dockedheight",
+"trans.size.minmax",
+"trans.status",
+"trans.status.margin",
+"trans.stop"}
+
+function ultraschall.GetTrack_ThemeElementPositions(track)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTrack_ThemeElementPositions</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>table ThemeElements = ultraschall.GetTrack_ThemeElementPositions(MediaTrack track)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns a list of all theme-elements for a track
+    
+    the table ThemeElements is of the following format:
+    
+      ThemeLayoutNames[index]["element"] - the name of the theme-element 
+      ThemeLayoutNames[index]["x"] - the x-position of the theme-element
+      ThemeLayoutNames[index]["y"] - the y-position of the theme-element
+      ThemeLayoutNames[index]["w"] - the width of the theme-element
+      ThemeLayoutNames[index]["h"] - the height of the theme-element
+      ThemeLayoutNames[index]["visible"] - true, the theme element is visible; false, the theme-element is invisible(width and heigh=0)
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    table ThemeElements - a table with all walter-theme elements, their positions and their visibility-state
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, whose Walter-theme-element-positions you want to query
+  </parameters>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, all, track element positions, visibility</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("GetTrack_ThemeElementPositions", "track", "must be a MediaTrack", -1) return end
+  local WalterElements={}
+  for i=1, #ultraschall.WalterElements do
+    local Aretval, AstringNeedBig = reaper.GetSetMediaTrackInfo_String(track, "P_UI_RECT:"..ultraschall.WalterElements[i], "", false)
+    if Aretval==true then
+      WalterElements[#WalterElements+1]={}
+      WalterElements[#WalterElements]["element"]=ultraschall.WalterElements[i]
+      WalterElements[#WalterElements]["x"], WalterElements[#WalterElements]["y"], WalterElements[#WalterElements]["w"], WalterElements[#WalterElements]["h"]=AstringNeedBig:match("(.-) (.-) (.-) (.*)")
+      WalterElements[#WalterElements]["x"]=tonumber(WalterElements[#WalterElements]["x"])
+      WalterElements[#WalterElements]["y"]=tonumber(WalterElements[#WalterElements]["y"])
+      WalterElements[#WalterElements]["w"]=tonumber(WalterElements[#WalterElements]["w"])
+      WalterElements[#WalterElements]["h"]=tonumber(WalterElements[#WalterElements]["h"])
+      WalterElements[#WalterElements]["visible"]=(WalterElements[#WalterElements]["h"]~=0 or WalterElements[#WalterElements]["w"]~=0)
+    end
+  end
+  return WalterElements
+end
+
+function ultraschall.GetAllThemeElements()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllThemeElements</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>table ThemeElements = ultraschall.GetAllThemeElements()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns a list of all theme-element-names available
+
+    returns nil in case of an error
+  </description>
+  <retvals>
+    table ThemeElements - a table with all walter-theme elements-names available
+  </retvals>
+  <chapter_context>
+    Themeing
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
+  <tags>theme management, get, all, theme element, names</tags>
+</US_DocBloc>
+]]
+  local WalterElements={}
+  for i=1, #ultraschall.WalterElements do
+    WalterElements[i]=ultraschall.WalterElements[i]
+  end
+  return WalterElements
+end

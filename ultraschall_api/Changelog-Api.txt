@@ -236,6 +236,8 @@ Has now 1423 functions, with XX new ones
   - Rendering: GetRenderCFG\_Settings\_MPEG1\_Video - returns settings of render-string for MPEG-1, when FFMPEG is installed
   - Rendering: GetRenderCFG\_Settings\_MPEG2\_Video - returns settings of render-string for MPEG-2, when FFMPEG is installed
   - TrackManagement: ConvertTrackstringToArray - returns all tracknumbers of a trackstring as an array
+  - Themeing: GetAllThemeElements - returns a table with all Walter-theme-element-names available
+  - Themeing: GetTrack\_ThemeElementPositions - returns a table with all Walter-theme-elements of a track with names, position and visibility-states
   
 #### Changes from 4.2.006 to 4.3    
   - DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation
