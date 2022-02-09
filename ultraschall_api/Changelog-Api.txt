@@ -182,6 +182,7 @@ Has now 1423 functions, with XX new ones
 #### New features in 4.3  
   - DeveloperTools: Toggle\_Logging\_SetExtState\_SetProjExtState_access - logs set access to (proj)extstates while using US-API to the ReaScript console
   - ErrorMessagingSystem: DAEM - like ultraschall.DeleteAllErrorMessages(), just shorter
+  - GFX-Management: GFX\_GetTextLayout - returns the flag-value you can use for gfx.setfont, allowing different text-layouts
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker

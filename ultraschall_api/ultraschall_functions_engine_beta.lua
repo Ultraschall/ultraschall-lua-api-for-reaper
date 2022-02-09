@@ -5510,3 +5510,165 @@ function ultraschall.GetAllThemeElements()
   end
   return WalterElements
 end
+
+
+function ultraschall.GFX_GetTextLayout(bold, italic, underline, outline, nonaliased, inverse, rotate, rotate2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GFX_GetTextLayout</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer font_layout = ultraschall.GFX_GetTextLayout(optional boolean bold, optional boolean italic, optional boolean underline, optional boolean outline, optional boolean nonaliased, optional boolean inverse, optional boolean rotate, optional boolean rotate2)</functioncall>
+  <description>
+    Returns a font_layout-value that can be used for the parameter flags for the function gfx.drawstr.
+    
+    Note: as per limitation of Reaper, you can only have up to 4 font_layout-parameters at the same time.
+    
+    Some combinations do not work together, so you need to experiment.
+  </description>
+  <parameters>
+    optional boolean bold - true, sets the font_layout to bold; false, no boldness
+    optional boolean italic - true, sets the font_layout to italic; false, no italic
+    optional boolean underline - true, sets the font_layout to underline; false, no underlining
+    optional boolean outline - true, sets the font_layout to outline; false, no outline
+    optional boolean nonaliased - true, sets the font_layout to aliased; false, keep it antialiased
+    optional boolean inverse - true, sets the font_layout to inverse; false, not inversed
+    optional boolean rotate - true, sets the font_layout to rotate the font clockwise; false, don't rotate
+    optional boolean rotate2 - true, sets the font_layout to rotate the font counterclockwise; false, don't rotate
+  </parameters>
+  <retvals>
+    integer font_layout - the returned value you can use for gfx.drawstr for its flags-parameter
+  </retvals>
+  <chapter_context>
+    Blitting
+  </chapter_context>
+  <target_document>US_Api_GFX</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, get, text layout</tags>
+</US_DocBloc>
+]]
+  local Bold=66
+  local Italic=73
+  local Underline=85
+  local Outline=79
+  local NonAliased=77
+  local Inverse=86
+  local Rotated=89
+  local Rotated2=90
+  
+
+  local Layout=0
+  if bold==true then Layout=Bold Layout=Layout<<8 end
+  if italic==true then Layout=Layout+Italic Layout=Layout<<8 end
+  if underline==true then Layout=Layout+Underline Layout=Layout<<8 end
+  if outline==true then Layout=Layout+Outline Layout=Layout<<8 end
+  if nonaliased==true then Layout=Layout+NonAliased Layout=Layout<<8 end
+  if inverse==true then Layout=Layout+Inverse Layout=Layout<<8 end
+  
+  if rotate==true then Layout=Layout+Rotated Layout=Layout<<8 end
+  if rotate2==true then Layout=Layout+Rotated2 Layout=Layout<<8 end
+  
+  return Layout
+end
+
+
+function ultraschall.GFX_BlitBBCodeAsText(text)
+  -- example code, that parses and shows BBCode, with [b][i] and [u], even combined.
+  
+  -- missing: img, url, size, color
+  --      maybe: indent(?), lists(bullet only)
+  
+  -- blit-image-destinations
+  
+  -- return coordinates of blitted urls and images, so they can be checked for clickable-state/tooltips
+  -- by GFX_ManageBlitBBCodeElements
+  
+  gfx.set(1)
+  local ParsedStrings={}
+  local Link_Coordinates={} -- the coordinates of links currently shown
+                            -- so making them "clickable" is possible
+                            -- not yet filled, so this must be coded as well
+  
+  local step=0
+  local Temp, Offset
+  
+  while TestString~=nil do
+    step=step+1
+    Temp=TestString:match("(.-)%[")
+    if Temp==nil then break end
+    ParsedStrings[step]={}
+    ParsedStrings[step]["text"]=Temp
+    TestString=TestString:sub(Temp:len(), -1)
+    
+    Temp, Offset = TestString:match("%[(.-)%]()")
+  
+    ParsedStrings[step]["layout_element"]=Temp
+    TestString=TestString:sub(Offset, -1)
+
+  end
+  
+  Temp=TestString:match("(.*)")
+  ParsedStrings[step]={}
+  ParsedStrings[step]["text"]=Temp
+  ParsedStrings[step]["layout_element"]=""
+  
+  
+  ParsedStrings[1]["bold"]=false
+  ParsedStrings[1]["italic"]=false
+  ParsedStrings[1]["underlined"]=false
+  
+  for i=1, #ParsedStrings do
+    if ParsedStrings[i]["layout_element"]=="b" then
+      ParsedStrings[i+1]["bold"]=true
+      ParsedStrings[i+1]["italic"]=ParsedStrings[i]["italic"]
+      ParsedStrings[i+1]["underlined"]=ParsedStrings[i]["underlined"]
+    elseif ParsedStrings[i]["layout_element"]=="/b" then
+      ParsedStrings[i+1]["bold"]=false
+      ParsedStrings[i+1]["italic"]=ParsedStrings[i]["italic"]
+      ParsedStrings[i+1]["underlined"]=ParsedStrings[i]["underlined"]
+    elseif ParsedStrings[i]["layout_element"]=="i" then
+      ParsedStrings[i+1]["italic"]=true
+      ParsedStrings[i+1]["bold"]=ParsedStrings[i]["bold"]
+      ParsedStrings[i+1]["underlined"]=ParsedStrings[i]["underlined"]
+    elseif ParsedStrings[i]["layout_element"]=="/i" then
+      ParsedStrings[i+1]["italic"]=false
+      ParsedStrings[i+1]["bold"]=ParsedStrings[i]["bold"]
+      ParsedStrings[i+1]["underlined"]=ParsedStrings[i]["underlined"]
+    elseif ParsedStrings[i]["layout_element"]=="u" then
+      ParsedStrings[i+1]["underlined"]=true
+      ParsedStrings[i+1]["bold"]=ParsedStrings[i]["bold"]
+      ParsedStrings[i+1]["italic"]=ParsedStrings[i]["italic"]
+    elseif ParsedStrings[i]["layout_element"]=="/u" then
+      ParsedStrings[i+1]["underlined"]=false
+      ParsedStrings[i+1]["bold"]=ParsedStrings[i]["bold"]
+      ParsedStrings[i+1]["italic"]=ParsedStrings[i]["italic"]
+    end
+    ParsedStrings[i]["layout_element"]=""
+  end
+  
+  
+  for i=1, #ParsedStrings do
+    local layout=ultraschall.GFX_GetTextLayout(ParsedStrings[i]["bold"], ParsedStrings[i]["italic"], ParsedStrings[i]["underlined"], outline, nonaliased, inverse, rotate, rotate2)
+    gfx.setfont(1, "Tahoma", 40, layout)
+    if ParsedStrings[i]["text"]:match("\n")~=nil then
+      local A=ParsedStrings[i]["text"].."\n"
+      gfx.drawstr(A:match("(.-)\n"))
+      gfx.x=0
+      gfx.y=gfx.y+gfx.texth+2
+      gfx.drawstr(A:match("\n(.*)"))
+    else
+      gfx.drawstr(ParsedStrings[i]["text"])
+    end
+  end
+  --gfx.update()
+
+  return Link_Coordinates
+end  
+
+  
+--gfx.set(0.1)
+--gfx.rect(0,0,gfx.w,gfx.h,1)
+--ultraschall.GFX_BlitBBCodeAsText(TestString)
