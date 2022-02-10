@@ -8726,6 +8726,9 @@
            >&128=0, Brickwall-Limit-dropdownlist - Peak
            >&128=1, Brickwall-Limit-dropdownlist - True Peak
            
+           >&256=0, Only normalize that are too loud - unchecked 
+           >&256=1, Only normalize that are too loud - checked
+           
           See also [projrenderbrickwall](#projrenderbrickwall)
            
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
