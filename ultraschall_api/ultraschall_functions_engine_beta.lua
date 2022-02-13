@@ -4238,20 +4238,22 @@ function ultraschall.GetPodcast_MetaDataEntry()
 end
 
 
-function ultraschall.WritePodcastMetaData(start_time, end_time, offset, filename, do_id3, do_vorbis, do_ape, do_ixml)
+function ultraschall.WritePodcastMetaData(start_time, end_time, offset, filename, do_id3, do_vorbis, do_ape_deactivated, do_ixml_deactivated)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>WritePodcastMetaData</slug>
   <requires>
     Ultraschall=4.3
-    Reaper=6.43
+    Reaper=6.47
     Lua=5.3
   </requires>
-  <functioncall>string metadata_file = ultraschall.WritePodcastMetaData(number start_time, number end_time, number offset, optional string filename, optional boolean do_id3, optional boolean do_vorbis, optional boolean do_ape, optional boolean do_ixml)</functioncall>
+  <functioncall>string metadata_file = ultraschall.WritePodcastMetaData(number start_time, number end_time, number offset, optional string filename, optional boolean do_id3, optional boolean do_vorbis)</functioncall>
   <description>
     Creates and returns the metadata-file-entries according to PODCAST_METADATA:"v1"-standard and optionally stores it into a file and/or the accompanying metadata-schemes available.
     
     Includes shownotes and chapters as well as episode and podcast-general-metadata
+    
+    Note: needs Reaper 6.47 to work properly, as otherwise the metadata gets truncated to 1k!
     
     Returns nil in case of an error
   </description>
@@ -4265,8 +4267,6 @@ function ultraschall.WritePodcastMetaData(start_time, end_time, offset, filename
     optional string filename - the filename, to which to write the metadata-data as PODCAST_METADATA:"v1"-standard
     optional boolean do_id3 - add the metadata to id3(mp3)-tag-metadata scheme in Reaper's metadata-storage
     optional boolean do_vorbis - add the metadata to the vorbis(Mp3, Flac, Ogg, Opus)-metadata scheme in Reaper's metadata-storage
-    optional boolean do_ape - add the metadata to the ape(MP3, WavPack) -metadata scheme in Reaper's metadata-storage
-    optional boolean do_ixml - add the metadata to the ixml(MP3, WAV, Flac)-metadata scheme in Reaper's metadata-storage
   </parameters>
   <chapter_context>
      Rendering Projects
@@ -5799,4 +5799,81 @@ function ultraschall.SetParmLearn_Default(enable_state, softtakeover, ccmode)
   return retval
 end
 
+
+function ultraschall.GetSetTranscription_Attributes(is_set, idx, attributename, content)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetTranscription_Attributes</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string content = ultraschall.GetSetTranscription_Attributes(boolean is_set, integer idx, string attributename, string content)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will get/set additional attributes of a transcription.
+    
+    A podcast can have multiple transcriptions in multiple languages.
+    
+    Note: transcriptions are not created by Ultraschall, but can be included into the mediafile at export.
+          For this, the file must be present locally.
+    
+    Note too: all attributes must be set; though "url" can be set to "", which means, it's stored in the same location as the media file or the podcast-metadata-exchange-file
+              "transcript" is optional
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    boolean is_set - true, set the attribute; false, retrieve the current content
+    integer idx - the index of the transcript, whose attribute you want to get; 1-based
+    string attributename - the attributename you want to get/set
+                         - supported attributes are:
+                         - "language" - the language of the transcription
+                         - "description" - a more detailed description for this transcription
+                         - "url" - the url where the webvtt/srt-file is stored; can be relative to the podcast-metadata-exchange-file/mediafile
+                         - "transcript" - the actual transcript-content for inclusion into the metadata of the mediafile(only srt or webvtt!)
+                         - "type" - srt or webvtt
+    string content - the new contents to set the attribute with
+  </parameters>
+  <retvals>
+    boolean retval - true, if the attribute exists/could be set; false, if not or an error occurred
+    string content - the content of a specific attribute
+  </retvals>
+  <chapter_context>
+    Markers
+    Podcast Metadata
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, set, attribute, transcription</tags>
+</US_DocBloc>
+]]
+  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetTranscription_Attributes", "is_set", "must be a boolean", -1) return false end  
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetSetTranscription_Attributes", "idx", "must be an integer", -2) return false end    
+  if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetTranscription_Attributes", "attributename", "must be a string", -3) return false end  
+  if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetTranscription_Attributes", "content", "must be a string", -4) return false end  
+  
+  
+  -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN THE CODE OF CommitShownote_ReaperMetadata() !!!
+  local tags=ultraschall.TranscriptAttributes
+              
+  local found=false
+  for i=1, #tags do
+    if attributename==tags[i] then
+      found=true
+      break
+    end
+  end
+  
+  if found==false then ultraschall.AddErrorMessage("GetSetTranscription_Attributes", "attributename", "attributename not supported", -7) return false end
+  local Retval
+
+  if is_set==true then
+    Retval = reaper.SetProjExtState(0, "PodcastMetaData_Transcript_"..idx, attributename, content)
+    return true, content
+  else
+    Retval, content = reaper.GetProjExtState(0, "PodcastMetaData_Transcript_"..idx, attributename, content)
+    return true, content
+  end
+end
 

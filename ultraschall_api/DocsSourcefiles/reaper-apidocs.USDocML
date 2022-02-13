@@ -56186,8 +56186,7 @@ mespotine
         <parameters>
             ImGui_Context ctx -
         </parameters>                
-        <deprecated since_when="ReaImGui 0.5.10" alternative="ImGui_GetContentRegionAvail or local width = reaper.ImGui_GetWindowContentRegionMax(ctx) - 
-reaper.ImGui_GetWindowContentRegionMin(ctx)"/>
+        <deprecated since_when="ReaImGui 0.5.10" alternative="ImGui_GetContentRegionAvail or local width = reaper.ImGui_GetWindowContentRegionMax(ctx) - reaper.ImGui_GetWindowContentRegionMin(ctx)"/>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
