@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="50850.00" author="Meo Mespotine">
+      <version name="50877.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3.//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3./ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -597,8 +597,8 @@ New features in 4.3
     render-string for MPEG-1, when FFMPEG is installed
 -   Rendering: GetRenderCFG_Settings_MPEG2_Video - returns settings of
     render-string for MPEG-2, when FFMPEG is installed
--   TrackManagement: ConvertTrackstringToArray - returns all
-    tracknumbers of a trackstring as an array
+-   TrackManagement: ConvertTrackstringToArray - converts all
+    tracknumbers of a trackstring and returns them as an array
 -   Themeing: GetAllThemeElements - returns a table with all
     Walter-theme-element-names available
 -   Themeing: GetTrack_ThemeElementPositions - returns a table with all
@@ -611,7 +611,7 @@ Changes from 4.2.006 to 4.3
     bugs; supports now all config-vars; improved the layout of the
     output file; has now “do you really want to run me?”-question, as
     this script could ruin your Reaper installation
--   Docs: general - updated to Reaper 6.44, JS-extension 1.301, ReaImGui
+-   Docs: general - updated to Reaper 6.46, JS-extension 1.301, ReaImGui
     0.5.10, ReaBlink 0.4.4, SWS 2.13.0.0
 -   MarkerManagement: AddCustomMarker - returns now the
     custom-marker-index, within all custom markers only, as well; allows
@@ -702,7 +702,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1494 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50850 from 16.02.2022 03:33:32).}
+a 1494 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50877 from 16.02.2022 04:02:47).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -840,7 +840,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1494 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50850 from 16.02.2022 03:33:32).}
+a 1494 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 50877 from 16.02.2022 04:02:47).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

@@ -37831,10 +37831,20 @@ Mespotine
         <title>gfx_blit</title>
         <functioncall prog_lang="eel">integer src = gfx_blit(integer source, float scale, float rotation[, optional float srcx, optional float srcy, optional float srcw, optional float srch, optional integer destx, optional integer desty, optional integer destw, optional integer desth, optional float rotxoffs, optional float rotyoffs])</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.46
         </requires>
         <description indent="default">
-            srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default to image size), destx/desty/destw/desth specify dest rectangle (if not specified, these will default to reasonable defaults -- destw/desth default to srcw/srch * scale). 
+            Copies from source (-1 = main framebuffer, or an image from gfx_loadimg() etc), using current opacity and copy mode (set with gfx_a, gfx_mode).
+
+            If destx/desty are not specified, gfx_x/gfx_y will be used as the destination position.
+
+            scale (1.0 is unscaled) will be used only if destw/desth are not specified.
+
+            rotation is an angle in radians
+
+            srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default to image size)
+
+            destx/desty/destw/desth specify destination rectangle (if not specified destw/desth default to srcw/srch * scale).
         </description>
         <retvals>
             integer src - the blitted source
@@ -37865,35 +37875,6 @@ Mespotine
         </changelog>
     </US_DocBloc>
 
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
-        <slug>eel_gfx_blit</slug>
-        <title>gfx_blit</title>
-        <functioncall prog_lang="eel">integer src = gfx_blit(integer source, float scale, float rotation)</functioncall>
-        <requires>
-            Reaper=5.62
-        </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            If three parameters are specified, copies the entirity of the source bitmap to gfx\_x,gfx\_y using current opacity and copy mode (set with gfx\_a, gfx\_mode). You can specify scale (1.0 is unscaled) and rotation (0.0 is not rotated, angles are in radians).
-            For the "source" parameter specify -1 to use the main framebuffer as source, or an image index (see [gfx\_loadimg()](#eel_gfx_loadimg).
-        </description>
-        <retvals>
-            integer src - the blitted source
-        </retvals>
-        <parameters>
-            integer source - the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.
-            float scale - the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger
-                        - has no effect, when destx, desty, destw, desth are given
-            float rotation - the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            Additional EEL-Functions
-        </chapter_context>
-        <tags></tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_blitext</slug>
@@ -40607,12 +40588,22 @@ mespotine
         <title>gfx.blit</title>
         <functioncall prog_lang="lua">integer source = gfx.blit(integer source, number scale, number rotation, optional number srcx, optional number srcy, optional number srcw, optional number srch, optional integer destx, optional integer desty, optional integer destw, optional integer desth, optional integer rotxoffs,  optional integer rotyoffs)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.46
         </requires>
         <description indent="default">
             Blits(draws) the content of source-image to another source-image or an opened window.
+            
+            Copies from source (-1 = main framebuffer, or an image from gfx.loadimg() etc), using current opacity and copy mode (set with gfx.a, gfx.mode).
 
-            srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default to image size), destx/desty/destw/desth specify dest rectangle (if not specified, these will default to reasonable defaults -- destw/desth default to srcw/srch * scale). 
+            If destx/desty are not specified, gfx.x/gfx.y will be used as the destination position.
+            
+            scale (1.0 is unscaled) will be used only if destw/desth are not specified.
+            
+            rotation is an angle in radians
+            
+            srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default to image size)
+            
+            destx/desty/destw/desth specify destination rectangle (if not specified destw/desth default to srcw/srch * scale).
         </description>
         <parameters>
            integer source - the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.
