@@ -8720,7 +8720,7 @@
         <functioncall prog_lang="lua">number value = reaper.GetSetProjectInfo(ReaProject project, string desc, number value, boolean is_set)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetSetProjectInfo(ReaProject project, String desc, Float value, Boolean is_set)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=6.47
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get or set project information.
@@ -8736,7 +8736,7 @@
             RENDER\_TAILMS : tail length in ms to render (only used if RENDER\_BOUNDSFLAG and RENDER\_TAILFLAG are set)  
             RENDER\_ADDTOPROJ : &amp;1=add rendered files to project, &amp;2=Do not render files that are likely silent  
             RENDER\_DITHER : &amp;1=dither, &amp;2=noise shaping, &amp;4=dither stems, &amp;8=noise shaping on stems  
-            RENDER\_NORMALIZE: &amp;1=enable, (&amp;14==0)=LUFS-I, (&amp;14==2)=RMS, (&amp;14==4)=peak, (&amp;14==6)=true peak, (&amp;14==8)=LUFS-M max, (&amp;14==10)=LUFS-S max, &amp;32=normalize stems to common gain based on master, &amp;64=enable brickwall limit
+            RENDER\_NORMALIZE: &amp;1=enable, (&amp;14==0)=LUFS-I, (&amp;14==2)=RMS, (&amp;14==4)=peak, (&amp;14==6)=true peak, (&amp;14==8)=LUFS-M max, (&amp;14==10)=LUFS-S max, &amp;32=normalize stems to common gain based on master, &amp;64=enable brickwall limit, &amp;128=brickwall limit true peak, &amp;256=only normalize files that are too loud
             RENDER\_NORMALIZE\_TARGET: render normalization target as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc  
             RENDER\_BRICKWALL: render brickwall limit as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc
             PROJECT\_SRATE : samplerate (ignored unless PROJECT\_SRATE\_USE set)  
@@ -8758,6 +8758,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.47 - added new normalization-modes &128=brickwall limit true peak, &256=only normalize files that are too loud
         </changelog>
     </US_DocBloc>
 
@@ -8849,6 +8850,7 @@
         <tags></tags>
         <changelog>
             Reaper 6.43 - "caff" as render-outputformat for the CAF-format now supported
+            Reaper 6.47 - RENDER_METADATA supports now strings longer than 1024 bytes
         </changelog>
     </US_DocBloc>
 
@@ -13023,6 +13025,36 @@
         <changelog>
         </changelog>
     </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>midi_init</slug>
+        <title>midi_init</title>
+        <functioncall prog_lang="cpp">void midi_init(int force_reinit_input, int force_reinit_output)</functioncall>
+        <functioncall prog_lang="eel">midi_init(int force_reinit_input, int force_reinit_output)</functioncall>
+        <functioncall prog_lang="lua">reaper.midi_init(integer force_reinit_input, integer force_reinit_output)</functioncall>
+        <functioncall prog_lang="python">RPR_midi_init(Int force_reinit_input, Int force_reinit_output)</functioncall>
+        <requires>
+            Reaper=6.47
+        </requires>
+        <description prog_lang="*">
+            Opens MIDI devices as configured in preferences. 
+            
+            force_reinit_input and force_reinit_output force a particular device index to close/re-open (pass -1 to not force any devices to reopen).
+        </description>
+        <parameters>
+            integer force_reinit_input - 
+            integer force_reinit_output - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            MIDI Management
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            Reaper 6.47 - added to API
+        </changelog>
+    </US_DocBloc>
     
  
 
@@ -13141,7 +13173,7 @@
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-            Reset all MIDI devices
+            Reset (close and re-open) all MIDI devices
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -39395,7 +39427,7 @@ Mespotine
             Reaper=5.62
         </requires>
         <description indent="default">
-            Returns a psuedorandom real number between 0 and the parameter, inclusive. If the parameter is omitted or less than 1.0, 1.0 is used as a maximum instead.
+            Returns a pseudorandom real number between 0 and the parameter, inclusive. If the parameter is omitted or less than 1.0, 1.0 is used as a maximum instead.
         </description>
         <parameters>
             max - 
