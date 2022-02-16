@@ -21642,66 +21642,6 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>TakeFX_CopyToTake</slug>
-        <title>TakeFX_CopyToTake</title>
-        <functioncall prog_lang="cpp">void TakeFX_CopyToTake(MediaItem_Take* src_take, int src_fx, MediaItem_Take* dest_take, int dest_fx, bool is_move)</functioncall>
-        <functioncall prog_lang="eel">TakeFX_CopyToTake(MediaItem_Take src_take, int src_fx, MediaItem_Take dest_take, int dest_fx, bool is_move)</functioncall>
-        <functioncall prog_lang="lua">reaper.TakeFX_CopyToTake(MediaItem_Take src_take, integer src_fx, MediaItem_Take dest_take, integer dest_fx, boolean is_move)</functioncall>
-        <functioncall prog_lang="python">RPR_TakeFX_CopyToTake(MediaItem_Take src_take, Int src_fx, MediaItem_Take dest_take, Int dest_fx, Boolean is_move)</functioncall>
-        <requires>
-            Reaper=5.95
-        </requires>
-        <description prog_lang="*">
-            Copies (or moves) FX from src_take to dest_take. Can be used with src_track=dest_track to reorder. 
-        </description>
-        <parameters>
-            MediaItem_Take src_take - 
-            integer src_fx - 
-            MediaItem_Take dest_take - 
-            integer dest_fx - 
-            boolean is_move - 
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            FX Management
-        </chapter_context>
-        <tags></tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>TakeFX_CopyToTrack</slug>
-        <title>TakeFX_CopyToTrack</title>
-        <functioncall prog_lang="cpp">void TakeFX_CopyToTrack(MediaItem_Take* src_take, int src_fx, MediaTrack* dest_track, int dest_fx, bool is_move)</functioncall>
-        <functioncall prog_lang="eel">TakeFX_CopyToTrack(MediaItem_Take src_take, int src_fx, MediaTrack dest_track, int dest_fx, bool is_move)</functioncall>
-        <functioncall prog_lang="lua">reaper.TakeFX_CopyToTrack(MediaItem_Take src_take, integer src_fx, MediaTrack dest_track, integer dest_fx, boolean is_move)</functioncall>
-        <functioncall prog_lang="python">RPR_TakeFX_CopyToTrack(MediaItem_Take src_take, Int src_fx, MediaTrack dest_track, Int dest_fx, Boolean is_move)</functioncall>
-        <requires>
-            Reaper=5.95
-        </requires>
-        <description prog_lang="*">
-            Copies (or moves) FX from src_take to dest_track. dest_fx can have 0x1000000 set to reference input FX. 
-        </description>
-        <parameters>
-            MediaItem_Take src_take - 
-            integer src_fx - 
-            MediaTrack dest_track - 
-            integer dest_fx - 
-            boolean is_move - 
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            FX Management
-        </chapter_context>
-        <tags></tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_Delete</slug>
         <title>TrackFX_Delete</title>
         <functioncall prog_lang="cpp">bool TrackFX_Delete(MediaTrack* track, int fx)</functioncall>
@@ -25942,6 +25882,117 @@
         </changelog>
     </US_DocBloc>
 
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_ClearGlobalStartupAction</slug>
+        <title>NF_ClearGlobalStartupAction</title>
+        <functioncall prog_lang="cpp">bool NF_ClearGlobalStartupAction()</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_ClearGlobalStartupAction")</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.NF_ClearGlobalStartupAction()</functioncall>
+        <functioncall prog_lang="python">bool NF_ClearGlobalStartupAction()</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Returns true if global startup action was cleared successfully.
+        </description>        
+        <retvals>
+            boolean retval - 
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Configuration Settings
+        </chapter_context>
+        <tags>configuration, settings, startup action, clear</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_ClearProjectStartupAction</slug>
+        <title>NF_ClearProjectStartupAction</title>
+        <functioncall prog_lang="cpp">bool NF_ClearProjectStartupAction()</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_ClearProjectStartupAction")</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.NF_ClearProjectStartupAction()</functioncall>
+        <functioncall prog_lang="python">bool NF_ClearProjectStartupAction()</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Returns true if project startup action was cleared successfully.
+        </description>        
+        <retvals>
+            boolean retval - 
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Configuration Settings
+        </chapter_context>
+        <tags>configuration, settings, startup action, clear</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_ClearProjectTrackSelectionAction</slug>
+        <title>NF_ClearProjectTrackSelectionAction</title>
+        <functioncall prog_lang="cpp">bool NF_ClearProjectTrackSelectionAction()</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_ClearProjectTrackSelectionAction")</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.NF_ClearProjectTrackSelectionAction()</functioncall>
+        <functioncall prog_lang="python">bool NF_ClearProjectTrackSelectionAction()</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Returns true if project track selection action was cleared successfully.
+        </description>        
+        <retvals>
+            boolean retval - 
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Configuration Settings
+        </chapter_context>
+        <tags>configuration, settings, startup action, clear</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_GetGlobalStartupAction</slug>
+        <title>NF_GetGlobalStartupAction</title>
+        <functioncall prog_lang="cpp">bool NF_GetGlobalStartupAction(char* descOut, int descOut_sz, char* cmdIdOut, int cmdIdOut_sz)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_GetGlobalStartupAction", #desc, #cmdId)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string desc, string cmdId = reaper.NF_GetGlobalStartupAction()</functioncall>
+        <functioncall prog_lang="python">bool NF_GetGlobalStartupAction(char* descOut, int descOut_sz, char* cmdIdOut, int cmdIdOut_sz)</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Gets action description and command ID number (for native actions) or named command IDs / identifier strings (for extension actions /ReaScripts) if global startup action is set, otherwise empty string. Returns false on failure.
+        </description>        
+        <retvals>
+            boolean retval - 
+            string desc - 
+            string cmdId - 
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Configuration Settings
+        </chapter_context>
+        <tags>configuration, settings, startup action, get</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>NF_AnalyzeTakeLoudness2</slug>
         <title>NF_AnalyzeTakeLoudness2(SWS)</title>
@@ -26139,6 +26190,224 @@
         <changelog>
         </changelog>
     </US_DocBloc>
+
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_GetProjectStartupAction</slug>
+        <title>NF_GetProjectStartupAction</title>
+        <functioncall prog_lang="cpp">bool NF_GetProjectStartupAction(char* descOut, int descOut_sz, char* cmdIdOut, int cmdIdOut_sz)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_GetProjectStartupAction", #desc, #cmdId)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string desc, string cmdId = reaper.NF_GetProjectStartupAction()</functioncall>
+        <functioncall prog_lang="python">bool NF_GetProjectStartupAction(char* descOut, int descOut_sz, char* cmdIdOut, int cmdIdOut_sz)</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Gets action description and command ID number (for native actions) or named command IDs / identifier strings (for extension actions /ReaScripts) if project startup action is set, otherwise empty string. Returns false on failure.
+        </description>        
+        <retvals>
+            boolean retval - 
+            string desc - 
+            string cmdId - 
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Configuration Settings
+        </chapter_context>
+        <tags>configuration, settings, startup action, get</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_GetProjectTrackSelectionAction</slug>
+        <title>NF_GetProjectTrackSelectionAction</title>
+        <functioncall prog_lang="cpp">bool NF_GetProjectTrackSelectionAction(char* descOut, int descOut_sz, char* cmdIdOut, int cmdIdOut_sz)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_GetProjectTrackSelectionAction", #desc, #cmdId)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string desc, string cmdId = reaper.NF_GetProjectTrackSelectionAction()</functioncall>
+        <functioncall prog_lang="python">bool NF_GetProjectTrackSelectionAction(char* descOut, int descOut_sz, char* cmdIdOut, int cmdIdOut_sz)</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Gets action description and command ID number (for native actions) or named command IDs / identifier strings (for extension actions /ReaScripts) if project track selection action is set, otherwise empty string. Returns false on failure.
+        </description>        
+        <retvals>
+            boolean retval - 
+            string desc - 
+            string cmdId - 
+        </retvals>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Configuration Settings
+        </chapter_context>
+        <tags>configuration, settings, track selection action, get</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_ReadAudioFileBitrate</slug>
+        <title>NF_ReadAudioFileBitrate</title>
+        <functioncall prog_lang="cpp">int NF_ReadAudioFileBitrate(const char* fn)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("NF_ReadAudioFileBitrate", "fn")</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.NF_ReadAudioFileBitrate(string fn)</functioncall>
+        <functioncall prog_lang="python">int NF_ReadAudioFileBitrate(const char* fn)</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Returns the bitrate of an audio file in kb/s if available (0 otherwise). For supported filetypes see <a href="https://taglib.org/api/classTagLib_1_1AudioProperties.html#ae5b7650b50f8c8f8cc022f25cfee48c5">TagLib::AudioProperties::bitrate</a>.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            string fn -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+        </chapter_context>
+        <tags>audio management, read, audio, file, bitrate</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_SetGlobalStartupAction</slug>
+        <title>NF_SetGlobalStartupAction</title>
+        <functioncall prog_lang="cpp">bool NF_SetGlobalStartupAction(const char* str)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_SetGlobalStartupAction", "str")</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.NF_SetGlobalStartupAction(string str)</functioncall>
+        <functioncall prog_lang="python">bool NF_SetGlobalStartupAction(const char* str)</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Returns true if global startup action was set successfully (i.e. valid action ID). Note: For SWS / S&amp;M actions and macros / scripts, you must use identifier strings (e.g. "_SWS_ABOUT", "_f506bc780a0ab34b8fdedb67ed5d3649"), not command IDs (e.g. "47145").
+            Tip: to copy such identifiers, right-click the action in the Actions window &gt; Copy selected action cmdID / identifier string.
+            NOnly works for actions / scripts from Main action section.
+        </description>        
+        <retvals>
+            boolean retval - 
+        </retvals>        
+        <parameters>
+            string str -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Configuration Settings
+        </chapter_context>
+        <tags>configuration, settings, startup action, set</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_SetProjectStartupAction</slug>
+        <title>NF_SetProjectStartupAction</title>
+        <functioncall prog_lang="cpp">bool NF_SetProjectStartupAction(const char* str)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_SetProjectStartupAction", "str")</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.NF_SetProjectStartupAction(string str)</functioncall>
+        <functioncall prog_lang="python">bool NF_SetProjectStartupAction(const char* str)</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Returns true if project startup action was set successfully (i.e. valid action ID). Note: For SWS / S&amp;M actions and macros / scripts, you must use identifier strings (e.g. "_SWS_ABOUT", "_f506bc780a0ab34b8fdedb67ed5d3649"), not command IDs (e.g. "47145").
+            Tip: to copy such identifiers, right-click the action in the Actions window &gt; Copy selected action cmdID / identifier string.
+            Only works for actions / scripts from Main action section. Project must be saved after setting project startup action to be persistent.
+        </description>        
+        <retvals>
+            boolean retval - 
+        </retvals>        
+        <parameters>
+            string str -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Configuration Settings
+        </chapter_context>
+        <tags>configuration, settings, startup action, set</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_SetProjectTrackSelectionAction</slug>
+        <title>NF_SetProjectTrackSelectionAction</title>
+        <functioncall prog_lang="cpp">bool NF_SetProjectTrackSelectionAction(const char* str)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_SetProjectTrackSelectionAction", "str")</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.NF_SetProjectTrackSelectionAction(string str)</functioncall>
+        <functioncall prog_lang="python">bool NF_SetProjectTrackSelectionAction(const char* str)</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Returns true if project track selection action was set successfully (i.e. valid action ID). Note: For SWS / S&amp;M actions and macros / scripts, you must use identifier strings (e.g. "_SWS_ABOUT", "_f506bc780a0ab34b8fdedb67ed5d3649"), not command IDs (e.g. "47145").
+            Tip: to copy such identifiers, right-click the action in the Actions window &gt; Copy selected action cmdID / identifier string.
+            Only works for actions / scripts from Main action section. Project must be saved after setting project track selection action to be persistent.
+        </description>        
+        <retvals>
+            boolean retval - 
+        </retvals>        
+        <parameters>
+            string str -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Configuration Settings
+        </chapter_context>
+        <tags>configuration, settings, startup action, set</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_TakeFX_GetFXModuleName</slug>
+        <title>NF_TakeFX_GetFXModuleName</title>
+        <functioncall prog_lang="cpp">bool NF_TakeFX_GetFXModuleName(MediaItem* item, int fx, char* nameOut, int nameOut_sz)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_TakeFX_GetFXModuleName", MediaItem item, int fx, #name)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string name = reaper.NF_TakeFX_GetFXModuleName(MediaItem item, integer fx)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, MediaItem item, Int fx, String nameOut, Int nameOut_sz) = NF_TakeFX_GetFXModuleName(item, fx, nameOut, nameOut_sz)</functioncall>
+        <requires>
+            Reaper=6.23
+            SWS=2.13.0.0
+        </requires>
+        <description>            
+            Deprecated, see TakeFX_GetNamedConfigParm/'fx_ident' (v6.37+). See BR_TrackFX_GetFXModuleName. fx: counted consecutively across all takes (zero-based).
+        </description>        
+        <retvals>
+            boolean retval - 
+        </retvals>        
+        <parameters>
+            string str -
+        </parameters>
+        <deprecated since_when="SWS 2.13.0.0" alternative="TakeFX_GetNamedConfigParm/'fx_ident'(since at least Reaper 6.37"/>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags>fx management, get, fx module name</tags>
+        <changelog>
+            SWS 2.13.0.0 - function deprecated
+        </changelog>
+    </US_DocBloc>    
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>SNM_AddReceive</slug>
@@ -26959,6 +27228,37 @@
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
             Marker Management
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>SNM_SetStringConfigVar</slug>
+        <title>SNM_SetStringConfigVar(SWS)</title>
+        <functioncall prog_lang="cpp">bool SNM_SetStringConfigVar(const char* varname, const char* newvalue)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("SNM_SetStringConfigVar", "varname", "newvalue")</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.SNM_SetStringConfigVar(string varname, string newvalue)</functioncall>
+        <functioncall prog_lang="python">Boolean SNM_SetStringConfigVar(String varname, String newvalue)</functioncall>
+        <requires>
+            Reaper=6.02
+            SWS=2.13.0.0
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            [S&amp;M] Sets a string preference (general prefs only). Returns false if failed (e.g. varname not found or value too long). See get_config_var_string.
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            string varname - the name of the config-var
+            string newvalue - the new value to set the config variable with
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Api-Helper-Functions
         </chapter_context>
         <tags></tags>
         <changelog>
@@ -29286,6 +29586,36 @@
         </changelog>
     </US_DocBloc>
   
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_LICE_LoadJPGFromMemory</slug>
+        <title>JS_LICE_LoadJPGFromMemory(JS)</title>
+        <functioncall prog_lang="cpp">void* JS_LICE_LoadJPGFromMemory(const char* buffer, int bufsize)</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_LICE_LoadJPGFromMemory", "buffer", int bufsize)</functioncall>
+        <functioncall prog_lang="lua">identifier reaper.JS_LICE_LoadJPGFromMemory(string buffer, integer bufsize)</functioncall>
+        <functioncall prog_lang="python">void JS_LICE_LoadJPGFromMemory(String buffer, Int bufsize)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.301
+        </requires>
+        <description>
+            Returns a system LICE bitmap containing the JPEG.
+        </description>
+        <retvals>
+           identifier image - the bitmap, which holds the jpg
+        </retvals>
+        <parameters>
+            string buffer - the buffer which holds the jpg-file to load
+            integer bufsize - the size of the buffer to read
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
   
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_LICE_LoadPNG</slug>
@@ -29303,7 +29633,7 @@
 
         </description>
         <retvals>
-           identifier bitmap - 
+           identifier bitmap - the bitmap, which holds the png
         </retvals>
         <parameters>
            string filename - the filename with path of the png filename to load
@@ -29317,7 +29647,38 @@
         <changelog>
         </changelog>
     </US_DocBloc>
-  
+    
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_LICE_LoadPNGFromMemory</slug>
+        <title>JS_LICE_LoadPNGFromMemory(JS)</title>
+        <functioncall prog_lang="cpp">void* JS_LICE_LoadPNGFromMemory(const char* buffer, int bufsize)</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_LICE_LoadPNGFromMemory", "buffer", int bufsize)</functioncall>
+        <functioncall prog_lang="lua">identifier reaper.JS_LICE_LoadPNGFromMemory(string buffer, integer bufsize)</functioncall>
+        <functioncall prog_lang="python">void JS_LICE_LoadPNGFromMemory(String buffer, Int bufsize)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.301
+        </requires>
+        <description>
+            Returns a system LICE bitmap containing the PNG.
+        </description>
+        <retvals>
+           identifier bitmap - the bitmap, which holds the png
+        </retvals>
+        <parameters>
+           string buffer - the buffer of the png to load
+           integer bufsize - the size of the buffer to load
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_LICE_MeasureText</slug>
         <title>JS_LICE_MeasureText(JS)</title>
@@ -29620,7 +29981,7 @@
             JS=0.951
         </requires>
         <description>
-
+           Sets the color of the font background.
         </description>
         <parameters>
            identifier LICEFont - 
@@ -29650,7 +30011,34 @@
         <description>
 
         </description>
+        <parameters>
+           identifier LICEFont - 
+           integer color - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_LICE_SetFontFXColor</slug>
+        <title>JS_LICE_SetFontFXColor(JS)</title>
+        <functioncall prog_lang="cpp">void JS_LICE_SetFontFXColor(void* LICEFont, int color)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_LICE_SetFontFXColor", void* LICEFont, int color)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_LICE_SetFontFXColor(identifier LICEFont, integer color)</functioncall>
+        <functioncall prog_lang="python">JS_LICE_SetFontFXColor(void LICEFont, Int color)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.301
+        </requires>
+        <description>
+            Sets the color of font FX such as shadow.
+        </description>
         <parameters>
            identifier LICEFont - 
            integer color - 
@@ -29701,10 +30089,10 @@
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_LICE_WriteJPG</slug>
         <title>JS_LICE_WriteJPG(JS)</title>
-        <functioncall prog_lang="cpp">bool JS_LICE_WriteJPG(const char* filename, LICE_IBitmap* bitmap, int quality, bool* forceBaselineOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("JS_LICE_WriteJPG", "filename", LICE_IBitmap bitmap, int quality, bool forceBaselineOptional)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.JS_LICE_WriteJPG(string filename, LICE_IBitmap bitmap, integer quality, optional boolean forceBaseline)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, String filename, LICE_IBitmap bitmap, Int quality, Boolean forceBaselineOptional) = JS_LICE_WriteJPG(filename, bitmap, quality, forceBaselineOptional)</functioncall>
+        <functioncall prog_lang="cpp">bool JS_LICE_WriteJPG(const char* filename, void* bitmap, int quality, bool* forceBaselineOptional)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_LICE_WriteJPG", "filename", void* bitmap, int quality, unsupported forceBaselineOptional)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.JS_LICE_WriteJPG(string filename, identifier bitmap, integer quality, unsupported forceBaseline)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, String filename, void bitmap, Int quality, Boolean forceBaselineOptional) = JS_LICE_WriteJPG(filename, bitmap, quality, forceBaselineOptional)</functioncall>
         <requires>
             Reaper=5.974
             JS=1.215
@@ -29737,10 +30125,10 @@
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_LICE_WritePNG</slug>
         <title>JS_LICE_WritePNG(JS)</title>
-        <functioncall prog_lang="cpp">bool JS_LICE_WritePNG(const char* filename, LICE_IBitmap* bitmap, bool wantAlpha)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("JS_LICE_WritePNG", "filename", LICE_IBitmap bitmap, bool wantAlpha)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.JS_LICE_WritePNG(string filename, LICE_IBitmap bitmap, boolean wantAlpha)</functioncall>
-        <functioncall prog_lang="python">Boolean JS_LICE_WritePNG(String filename, LICE_IBitmap bitmap, Boolean wantAlpha)</functioncall>
+        <functioncall prog_lang="cpp">bool JS_LICE_WritePNG(const char* filename, void* bitmap, bool wantAlpha)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_LICE_WritePNG", "filename", void* bitmap, bool wantAlpha)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.JS_LICE_WritePNG(string filename, identifier bitmap, boolean wantAlpha)</functioncall>
+        <functioncall prog_lang="python">Boolean JS_LICE_WritePNG(String filename, void bitmap, Boolean wantAlpha)</functioncall>
         <requires>
             Reaper=5.974
             JS=1.215
@@ -32869,6 +33257,501 @@
     </US_DocBloc>
 
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Close</slug>
+        <title>JS_Zip_Close</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Close(const char* zipFile, void* zipHandleOptional)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Close", "zipFile", void* zipHandle)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_Close(string zipFile, identifier zipHandle)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Close(const char* zipFile, void* zipHandleOptional)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Closes the zip archive, using either the file name or the zip handle. Finalizes entries and releases resources.
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            string zipFile - 
+            identifier zipHandle -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_CountEntries</slug>
+        <title>JS_Zip_CountEntries</title>
+        <functioncall prog_lang="cpp">int JS_Zip_CountEntries(void* zipHandle)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_CountEntries", void* zipHandle)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_CountEntries(identifier zipHandle)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_CountEntries(void* zipHandle)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            identifier zipHandle -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_DeleteEntries</slug>
+        <title>JS_Zip_DeleteEntries</title>
+        <functioncall prog_lang="cpp">int JS_Zip_DeleteEntries(void* zipHandle, const char* entryNames, int entryNamesStrLen)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_DeleteEntries", void* zipHandle, "entryNames", int entryNamesStrLen)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_DeleteEntries(identifier zipHandle, string entryNames, integer entryNamesStrLen)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_DeleteEntries(void* zipHandle, const char* entryNames, int entryNamesStrLen)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Deletes the specified entries from an existing Zip file.
+            
+            entryNames is zero-separated and double-zero-terminated.
+            
+            Returns the number of deleted entries on success, negative number (&lt; 0) on error.
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            identifier zipHandle - 
+            string entryNames - 
+            integer entryNamesStrLen -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Entry_Close</slug>
+        <title>JS_Zip_Entry_Close</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Entry_Close(void* zipHandle)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Entry_Close", void* zipHandle)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_Entry_Close(identifier zipHandle)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Entry_Close(void* zipHandle)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Closes a zip entry, flushes buffer and releases resources. In WRITE mode, entries must be closed in order to apply and save changes.
+            
+            Returns 0 on success, negative number (&lt; 0) on error.
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            identifier zipHandle -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Entry_CompressFile</slug>
+        <title>JS_Zip_Entry_CompressFile</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Entry_CompressFile(void* zipHandle, const char* inputFile)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Entry_CompressFile", void* zipHandle, "inputFile")</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_Entry_CompressFile(identifier zipHandle, string inputFile)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Entry_CompressFile(void* zipHandle, const char* inputFile)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Compresses the specified file into the zip archive's open entry.
+            
+            Returns 0 on success, negative number (&lt; 0) on error.
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            identifier zipHandle - 
+            string inputFile -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Entry_CompressMemory</slug>
+        <title>JS_Zip_Entry_CompressMemory</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Entry_CompressMemory(void* zipHandle, const char* buf, int buf_size)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Entry_CompressMemory", void* zipHandle, "buf", int buf_size)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_Entry_CompressMemory(identifier zipHandle, string buf, integer buf_size)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Entry_CompressMemory(void* zipHandle, const char* buf, int buf_size)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Compresses the specified memory buffer into the zip archive's open entry.
+            
+            Returns 0 on success, negative number (&lt; 0) on error.
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            identifier zipHandle - 
+            string buf - 
+            integer buf_size -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Entry_ExtractToFile</slug>
+        <title>JS_Zip_Entry_ExtractToFile</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Entry_ExtractToFile(void* zipHandle, const char* outputFile)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Entry_ExtractToFile", void* zipHandle, "outputFile")</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_Entry_ExtractToFile(identifier zipHandle, string outputFile)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Entry_ExtractToFile(void* zipHandle, const char* outputFile)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Extracts the zip archive's open entry.
+            
+            Returns 0 on success, negative number (&lt; 0) on error.
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            identifier zipHandle - 
+            string outputFile -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Entry_ExtractToMemory</slug>
+        <title>JS_Zip_Entry_ExtractToMemory</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Entry_ExtractToMemory(void* zipHandle, char* contentsOutNeedBig, int contentsOutNeedBig_sz)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Entry_ExtractToMemory", void* zipHandle, #contents)</functioncall>
+        <functioncall prog_lang="lua">integer retval, string contents = reaper.JS_Zip_Entry_ExtractToMemory(identifier zipHandle)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Entry_ExtractToMemory(void* zipHandle, char* contentsOutNeedBig, int contentsOutNeedBig_sz)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Extracts and returns the zip archive's open entry.
+            
+            Returns the number of bytes extracted on success, negative number (&lt; 0) on error.
+        </description>        
+        <retvals>
+            integer retval - 
+            string contents -
+        </retvals>        
+        <parameters>
+            identifier zipHandle -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Entry_Info</slug>
+        <title>JS_Zip_Entry_Info</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Entry_Info(void* zipHandle, char* nameOutNeedBig, int nameOutNeedBig_sz, int* indexOut, int* isFolderOut, double* sizeOut, double* crc32Out)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Entry_Info", void* zipHandle, #name, int &amp;index, int &amp;isFolder, &amp;size, &amp;crc32)</functioncall>
+        <functioncall prog_lang="lua">integer retval, string name, integer index, integer isFolder, number size, number crc32 = reaper.JS_Zip_Entry_Info(identifier zipHandle)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Entry_Info(void* zipHandle, char* nameOutNeedBig, int nameOutNeedBig_sz, int* indexOut, int* isFolderOut, double* sizeOut, double* crc32Out)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Returns information about the zip archive's open entry.
+        </description>        
+        <retvals>
+            integer retval - 
+            string name - 
+            integer index - 
+            integer isFolder - 
+            number size - 
+            number crc32 -
+        </retvals>        
+        <parameters>
+            identifier zipHandle -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Entry_OpenByIndex</slug>
+        <title>JS_Zip_Entry_OpenByIndex</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Entry_OpenByIndex(void* zipHandle, int index)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Entry_OpenByIndex", void* zipHandle, int index)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_Entry_OpenByIndex(identifier zipHandle, integer index)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Entry_OpenByIndex(void* zipHandle, int index)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Opens a new entry by index in the zip archive.
+            
+            This function is only valid if zip archive was opened in 'r' (readonly) mode.
+            
+            Returns 0 on success, negative number on error.
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            identifier zipHandle - 
+            integer index -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Entry_OpenByName</slug>
+        <title>JS_Zip_Entry_OpenByName</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Entry_OpenByName(void* zipHandle, const char* entryName)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Entry_OpenByName", void* zipHandle, "entryName")</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_Entry_OpenByName(identifier zipHandle, string entryName)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Entry_OpenByName(void* zipHandle, const char* entryName)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Opens an entry by name in the zip archive.
+            
+            For zip archive opened in 'w' or 'a' mode the function will append a new entry. In readonly mode the function tries to locate an existing entry.
+            
+            Returns 0 on success, negative number (&lt; 0) on error.
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            identifier zipHandle - 
+            string entryName -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_ErrorString</slug>
+        <title>JS_Zip_ErrorString</title>
+        <functioncall prog_lang="cpp">void JS_Zip_ErrorString(int errorNum, char* errorStrOut, int errorStrOut_sz)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_Zip_ErrorString", int errorNum, #errorStr)</functioncall>
+        <functioncall prog_lang="lua">string errorStr = reaper.JS_Zip_ErrorString(integer errorNum)</functioncall>
+        <functioncall prog_lang="python">void JS_Zip_ErrorString(int errorNum, char* errorStrOut, int errorStrOut_sz)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Returns a descriptive string for the given error code.
+        </description>        
+        <retvals>
+            string errorStr -
+        </retvals>        
+        <parameters>
+            integer errorNum -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Extract</slug>
+        <title>JS_Zip_Extract</title>
+        <functioncall prog_lang="cpp">int JS_Zip_Extract(const char* zipFile, const char* outputFolder)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_Extract", "zipFile", "outputFolder")</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.JS_Zip_Extract(string zipFile, string outputFolder)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_Extract(const char* zipFile, const char* outputFolder)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Extracts an existing Zip file to the specified folder.
+            
+            Returns the number of extracted files on success, negative number (&lt; 0) on error.
+        </description>        
+        <retvals>
+            integer retval -
+        </retvals>        
+        <parameters>
+            string zipFile - 
+            string outputFolder -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_ListAllEntries</slug>
+        <title>JS_Zip_ListAllEntries</title>
+        <functioncall prog_lang="cpp">int JS_Zip_ListAllEntries(void* zipHandle, char* listOutNeedBig, int listOutNeedBig_sz)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_Zip_ListAllEntries", void* zipHandle, #list)</functioncall>
+        <functioncall prog_lang="lua">integer retval, string list = reaper.JS_Zip_ListAllEntries(identifier zipHandle)</functioncall>
+        <functioncall prog_lang="python">int JS_Zip_ListAllEntries(void* zipHandle, char* listOutNeedBig, int listOutNeedBig_sz)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            Returns the number of entries and a zero-separated and double-zero-terminated string of entry names.
+            
+            On error, returns a negative number (&lt; 0).
+        </description>        
+        <retvals>
+            integer retval - 
+            string list -
+        </retvals>        
+        <parameters>
+            identifier zipHandle -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Zip_Open</slug>
+        <title>JS_Zip_Open</title>
+        <functioncall prog_lang="cpp">void* JS_Zip_Open(const char* zipFile, const char* mode, int compressionLevel, int* retvalOut)</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_Zip_Open", "zipFile", "mode", int compressionLevel, int &amp;retval)</functioncall>
+        <functioncall prog_lang="lua">identifier retval, integer retval = reaper.JS_Zip_Open(string zipFile, string mode, integer compressionLevel)</functioncall>
+        <functioncall prog_lang="python">void* JS_Zip_Open(const char* zipFile, const char* mode, int compressionLevel, int* retvalOut)</functioncall>
+        <requires>
+            Reaper=6.23
+            JS=1.301
+        </requires>
+        <description>            
+            
+        </description>        
+        <retvals>
+            identifier retval - 
+            integer retval -
+        </retvals>        
+        <parameters>
+            string zipFile - 
+            string mode - 
+            integer compressionLevel -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags>js-extension, zip</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_Dialog_BrowseForFolder</slug>
         <title>JS_Dialog_BrowseForFolder(JS)</title>
@@ -33188,11 +34071,11 @@
         <functioncall prog_lang="python">Int JS_ListView_GetItemState(void listviewHWND, Int index)</functioncall>
         <requires>
             Reaper=5.974
-            JS=1.217
+            JS=1.301
         </requires>
         <description>
             State is a bitmask:
-            1 = selected, 2 = focused. On Windows only, cut-and-paste marked = 4, drag-and-drop highlighted = 8.
+            1 = focused, 2 = selected. On Windows only, cut-and-paste marked = 4, drag-and-drop highlighted = 8.
 
             Warning: this function uses the Win32 bitmask values, which differ from the values used by WDL/swell.
         </description>
@@ -33210,6 +34093,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            JS 1.301 - the bitmask-values 1 and 2 were switched in their meaning to focused(1) and selected(2); used to be the other way round
         </changelog>
     </US_DocBloc>
 
@@ -33385,12 +34269,12 @@
         <functioncall prog_lang="python">JS_ListView_SetItemState(void listviewHWND, Int index, Int state, Int mask)</functioncall>
         <requires>
             Reaper=5.974
-            JS=1.217
+            JS=1.301
         </requires>
         <description>
             The mask parameter specifies the state bits that must be set, and the state parameter specifies the new values for those bits.
 
-            1 = selected, 2 = focused. On Windows only, cut-and-paste marked = 4, drag-and-drop highlighted = 8.
+            1 = focused, 2 = selected. On Windows only, cut-and-paste marked = 4, drag-and-drop highlighted = 8.
 
             Warning: this function uses the Win32 bitmask values, which differ from the values used by WDL/swell.
         </description>
@@ -33407,6 +34291,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+           JS 1.301 - the bitmask-values 1 and 2 were switched in their meaning to focused(1) and selected(2); used to be the other way round
         </changelog>
     </US_DocBloc>
 
@@ -35509,38 +36394,7 @@
         <changelog>
         </changelog>
     </US_DocBloc>
-  
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>CF_SelectTrackFX</slug>
-        <title>CF_SelectTrackFX(SWS)</title>
-        <functioncall prog_lang="cpp">bool CF_SelectTrackFX(MediaTrack* track, int index)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("CF_SelectTrackFX", MediaTrack track, int index)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.CF_SelectTrackFX(MediaTrack track, integer index)</functioncall>
-        <functioncall prog_lang="python">Boolean CF_SelectTrackFX(MediaTrack track, Int index)</functioncall>
-        <requires>
-            Reaper=5.965
-            SWS=2.10.1.1
-        </requires>
-        <description prog_lang="*">
-            Set which track effect is active in the track's FX chain. The FX chain window does not have to be open.
-        </description>
-        <retvals>
-            boolean retval - 
-        </retvals>
-        <parameters>
-            MediaTrack track - the track, of which you want to set an fx active
-            integer index - the index of the fx that shall be active
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            FX Management
-        </chapter_context>
-        <tags></tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-  
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>CF_SelectTrackFX</slug>
         <title>CF_SelectTrackFX(SWS)</title>
@@ -36916,7 +37770,6 @@ Mespotine
                * gfx_dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
                * gfx_texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.
                * gfx_ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, this value will be updated to value greater than 1.0 (such as 2.0) if retina/hidpi. On macOS gfx_w/gfx_h/etc will be doubled, but on other systems gfx_w/gfx_h will remain the same and gfx_ext_retina is a scaling hint for drawing.
-               * gfx_ext_flags - &amp;1 if context is JSFX embedded in TCP or MCP.
                * mouse_x - current X coordinate of the mouse relative to the graphics window.
                * mouse_y - current Y coordinate of the mouse relative to the graphics window.
                * mouse_wheel - wheel position, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
@@ -39695,7 +40548,6 @@ mespotine
               * gfx.dest - destination for drawing operations, -1 is main framebuffer, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
               * gfx.texth - the (READ-ONLY) height of a line of text in the current font. Do not modify this variable.
               * gfx.ext_retina - to support hidpi/retina, callers should set to 1.0 on initialization, this value will be updated to value greater than 1.0 (such as 2.0) if retina/hidpi. On macOS gfx.w/gfx.h/etc will be doubled, but on other systems gfx.w/gfx.h will remain the same and gfx.ext_retina is a scaling hint for drawing.
-              * gfx.ext_flags - &amp;1 if context is JSFX embedded in TCP or MCP.
               * gfx.mouse_x - current X coordinate of the mouse relative to the graphics window.
               * gfx.mouse_y - current Y coordinate of the mouse relative to the graphics window.
               * gfx.mouse_wheel - wheel position, will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
@@ -46540,235 +47392,7 @@ mespotine
         <changelog>
         </changelog>
     </US_DocBloc>
-
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_AcceptDragDropPayload</slug>
-        <title>ImGui_AcceptDragDropPayload</title>
-        <functioncall prog_lang="cpp">bool ImGui_AcceptDragDropPayload(ImGui_Context* ctx, const char* type, char* payloadOutNeedBig, int payloadOutNeedBig_sz, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_AcceptDragDropPayload", ImGui_Context ctx, "type", #payload, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string payload = reaper.ImGui_AcceptDragDropPayload(ImGui_Context ctx, string type, string payload, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_AcceptDragDropPayload(ImGui_Context* ctx, const char* type, char* payloadOutNeedBig, int payloadOutNeedBig_sz, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Accept contents of a given type. If ImGui_DragDropFlags_AcceptBeforeDelivery is set you can peek into the payload before the mouse button is released.
-            
-            Default values: flags = ImGui_DragDropFlags_None
-        </description>        
-        <retvals>
-            boolean retval - 
-            string payload - 
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            string type - 
-            string payload - 
-            optional number flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_AcceptDragDropPayloadFiles</slug>
-        <title>ImGui_AcceptDragDropPayloadFiles</title>
-        <functioncall prog_lang="cpp">bool ImGui_AcceptDragDropPayloadFiles(ImGui_Context* ctx, int* countOut, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_AcceptDragDropPayloadFiles", ImGui_Context ctx, int &amp;count, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number count = reaper.ImGui_AcceptDragDropPayloadFiles(ImGui_Context ctx, number count, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_AcceptDragDropPayloadFiles(ImGui_Context* ctx, int* countOut, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Accept a list of dropped files. See <a href="#ImGui_AcceptDragDropPayload">ImGui_AcceptDragDropPayload</a> and ImGui_GetDragDropPayloadFile.
-            
-            Default values: flags = ImGui_DragDropFlags_None
-        </description>        
-        <retvals>
-            boolean retval - 
-            number count - 
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            number count - 
-            optional number flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_AcceptDragDropPayloadRGB</slug>
-        <title>ImGui_AcceptDragDropPayloadRGB</title>
-        <functioncall prog_lang="cpp">bool ImGui_AcceptDragDropPayloadRGB(ImGui_Context* ctx, int* rgbOut, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_AcceptDragDropPayloadRGB", ImGui_Context ctx, int &amp;rgb, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number rgb = reaper.ImGui_AcceptDragDropPayloadRGB(ImGui_Context ctx, number rgb, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_AcceptDragDropPayloadRGB(ImGui_Context* ctx, int* rgbOut, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Accept a RGB color. See <a href="#ImGui_AcceptDragDropPayload">ImGui_AcceptDragDropPayload</a>.
-            
-            Default values: flags = ImGui_DragDropFlags_None
-        </description>        
-        <retvals>
-            boolean retval - 
-            number rgb - 
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            number rgb - 
-            optional number flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_AcceptDragDropPayloadRGBA</slug>
-        <title>ImGui_AcceptDragDropPayloadRGBA</title>
-        <functioncall prog_lang="cpp">bool ImGui_AcceptDragDropPayloadRGBA(ImGui_Context* ctx, int* rgbaOut, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_AcceptDragDropPayloadRGBA", ImGui_Context ctx, int &amp;rgba, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, number rgba = reaper.ImGui_AcceptDragDropPayloadRGBA(ImGui_Context ctx, number rgba, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_AcceptDragDropPayloadRGBA(ImGui_Context* ctx, int* rgbaOut, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Accept a RGBA color. See <a href="#ImGui_AcceptDragDropPayload">ImGui_AcceptDragDropPayload</a>.
-            
-            Default values: flags = ImGui_DragDropFlags_None
-        </description>        
-        <retvals>
-            boolean retval - 
-            number rgba - 
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            number rgba - 
-            optional number flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_AlignTextToFramePadding</slug>
-        <title>ImGui_AlignTextToFramePadding</title>
-        <functioncall prog_lang="cpp">void ImGui_AlignTextToFramePadding(ImGui_Context* ctx)</functioncall>
-        <functioncall prog_lang="eel">extension_api("ImGui_AlignTextToFramePadding", ImGui_Context ctx)</functioncall>
-        <functioncall prog_lang="lua">reaper.ImGui_AlignTextToFramePadding(ImGui_Context ctx)</functioncall>
-        <functioncall prog_lang="python">void ImGui_AlignTextToFramePadding(ImGui_Context* ctx)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Vertically align upcoming text baseline to ImGui_StyleVar_FramePadding.y so that it will align properly to regularly framed items (call if you have text on a line before a framed item)
-        </description>        
-        <parameters>
-            ImGui_Context ctx -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_ArrowButton</slug>
-        <title>ImGui_ArrowButton</title>
-        <functioncall prog_lang="cpp">bool ImGui_ArrowButton(ImGui_Context* ctx, const char* str_id, int dir)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_ArrowButton", ImGui_Context ctx, "str_id", int dir)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_ArrowButton(ImGui_Context ctx, string str_id, integer dir)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_ArrowButton(ImGui_Context* ctx, const char* str_id, int dir)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Square button with an arrow shape.
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            string str_id - 
-            integer dir -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_AttachFont</slug>
-        <title>ImGui_AttachFont</title>
-        <functioncall prog_lang="cpp">void ImGui_AttachFont(ImGui_Context* ctx, ImGui_Font* font)</functioncall>
-        <functioncall prog_lang="eel">extension_api("ImGui_AttachFont", ImGui_Context ctx, ImGui_Font font)</functioncall>
-        <functioncall prog_lang="lua">reaper.ImGui_AttachFont(ImGui_Context ctxImGui_Font font)</functioncall>
-        <functioncall prog_lang="python">void ImGui_AttachFont(ImGui_Context* ctx, ImGui_Font* font)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Enable a font for use in the given context. Fonts must be attached as soon as possible after creating the context or on a new defer cycle.
-        </description>        
-        <parameters>
-            ImGui_Context ctxImGui_Font font -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
+                    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_Begin</slug>
         <title>ImGui_Begin</title>
@@ -46852,76 +47476,6 @@ mespotine
         </changelog>
     </US_DocBloc>
     
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginChildFrame</slug>
-        <title>ImGui_BeginChildFrame</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginChildFrame(ImGui_Context* ctx, const char* str_id, double size_w, double size_h, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginChildFrame", ImGui_Context ctx, "str_id", size_w, size_h, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_BeginChildFrame(ImGui_Context ctx, string str_id, number size_w, number size_h, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginChildFrame(ImGui_Context* ctx, const char* str_id, double size_w, double size_h, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Helper to create a child window / scrolling region that looks like a normal widget frame. See <a href="#ImGui_EndChildFrame">ImGui_EndChildFrame</a>.
-            
-            Default values: flags = ImGui_WindowFlags_None
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            string str_id - 
-            number size_w - 
-            number size_h - 
-            optional number flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginCombo</slug>
-        <title>ImGui_BeginCombo</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginCombo(ImGui_Context* ctx, const char* label, const char* preview_value, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginCombo", ImGui_Context ctx, "label", "preview_value", optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_BeginCombo(ImGui_Context ctx, string label, string preview_value, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginCombo(ImGui_Context* ctx, const char* label, const char* preview_value, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            The ImGui_BeginCombo/ImGui_EndCombo API allows you to manage your contents and selection state however you want it, by creating e.g. ImGui_Selectable items.
-            
-            Default values: flags = ImGui_ComboFlags_None
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            string label - 
-            string preview_value - 
-            optional number flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
  
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_BeginDisabled</slug>
@@ -46954,251 +47508,7 @@ mespotine
         <changelog>
         </changelog>
     </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginDragDropSource</slug>
-        <title>ImGui_BeginDragDropSource</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginDragDropSource(ImGui_Context* ctx, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginDragDropSource", ImGui_Context ctx, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_BeginDragDropSource(ImGui_Context ctx, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginDragDropSource(ImGui_Context* ctx, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Call when the current item is active. If this return true, you can call ImGui_SetDragDropPayload + ImGui_EndDragDropSource.
-            
-            If you stop calling BeginDragDropSource() the payload is preserved however it won't have a preview tooltip (we currently display a fallback "..." tooltip as replacement).
-            
-            Default values: flags = ImGui_DragDropFlags_None
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            optional number flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginDragDropTarget</slug>
-        <title>ImGui_BeginDragDropTarget</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginDragDropTarget(ImGui_Context* ctx)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginDragDropTarget", ImGui_Context ctx)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_BeginDragDropTarget(ImGui_Context ctx)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginDragDropTarget(ImGui_Context* ctx)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Call after submitting an item that may receive a payload. If this returns true, you can call ImGui_AcceptDragDropPayload + ImGui_EndDragDropTarget.
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginGroup</slug>
-        <title>ImGui_BeginGroup</title>
-        <functioncall prog_lang="cpp">void ImGui_BeginGroup(ImGui_Context* ctx)</functioncall>
-        <functioncall prog_lang="eel">extension_api("ImGui_BeginGroup", ImGui_Context ctx)</functioncall>
-        <functioncall prog_lang="lua">reaper.ImGui_BeginGroup(ImGui_Context ctx)</functioncall>
-        <functioncall prog_lang="python">void ImGui_BeginGroup(ImGui_Context* ctx)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Lock horizontal starting position. See <a href="#ImGui_EndGroup">ImGui_EndGroup</a>.
-        </description>        
-        <parameters>
-            ImGui_Context ctx -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginListBox</slug>
-        <title>ImGui_BeginListBox</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginListBox(ImGui_Context* ctx, const char* label, double* size_wInOptional, double* size_hInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginListBox", ImGui_Context ctx, "label", optional size_wIn, optional size_hIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_BeginListBox(ImGui_Context ctx, string label, optional number size_wIn, optional number size_hIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginListBox(ImGui_Context* ctx, const char* label, double* size_wInOptional, double* size_hInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Open a framed scrolling region.  This is essentially a thin wrapper to using ImGui_BeginChild/ImGui_EndChild with some stylistic changes.
-            
-            The ImGui_BeginListBox/ImGui_EndListBox API allows you to manage your contents and selection state however you want it, by creating e.g. ImGui_Selectable or any items.
-            
-            - Choose frame width:   width  &gt; 0.0: custom  /  width  &lt; 0.0 or -FLT_MIN: right-align   /  width  = 0.0 (default): use current ItemWidth
-            - Choose frame height:  height &gt; 0.0: custom  /  height &lt; 0.0 or -FLT_MIN: bottom-align  /  height = 0.0 (default): arbitrary default height which can fit ~7 items
-            
-            Default values: size_w = 0.0, size_h = 0.0
-            
-            See <a href="#ImGui_EndListBox">ImGui_EndListBox</a>.
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            string label - 
-            optional number size_wIn - 
-            optional number size_hIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginMenu</slug>
-        <title>ImGui_BeginMenu</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginMenu(ImGui_Context* ctx, const char* label, bool* enabledInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginMenu", ImGui_Context ctx, "label", optional bool enabledIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_BeginMenu(ImGui_Context ctx, string label, optional boolean enabledIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginMenu(ImGui_Context* ctx, const char* label, bool* enabledInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Create a sub-menu entry. only call ImGui_EndMenu if this returns true!
-            
-            Default values: enabled = true
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            string label - 
-            optional boolean enabledIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginMenuBar</slug>
-        <title>ImGui_BeginMenuBar</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginMenuBar(ImGui_Context* ctx)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginMenuBar", ImGui_Context ctx)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_BeginMenuBar(ImGui_Context ctx)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginMenuBar(ImGui_Context* ctx)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Append to menu-bar of current window (requires ImGui_WindowFlags_MenuBar flag set on parent window). See <a href="#ImGui_EndMenuBar">ImGui_EndMenuBar</a>.
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginPopup</slug>
-        <title>ImGui_BeginPopup</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginPopup(ImGui_Context* ctx, const char* str_id, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginPopup", ImGui_Context ctx, "str_id", optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_BeginPopup(ImGui_Context ctx, string str_id, optional number flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginPopup(ImGui_Context* ctx, const char* str_id, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.2
-        </requires>
-        <description>
-            Popups, Modals
-            
-            - They block normal mouse hovering detection (and therefore most mouse interactions) behind them.
-            - If not modal: they can be closed by clicking anywhere outside them, or by pressing ESCAPE.
-            - Their visibility state (~bool) is held internally instead of being held by the programmer as we are used to with regular Begin*() calls.
-            - The 3 properties above are related: we need to retain popup visibility state in the library because popups may be closed as any time.
-            - You can bypass the hovering restriction by using ImGui_HoveredFlags_AllowWhenBlockedByPopup when calling ImGui_IsItemHovered or ImGui_IsWindowHovered.
-            - IMPORTANT: Popup identifiers are relative to the current ID stack, so ImGui_OpenPopup and BeginPopup generally needs to be at the same level of the stack.
-            
-            Query popup state, if open start appending into the window. Call ImGui_EndPopup afterwards. ImGui_WindowFlags* are forwarded to the window.
-            
-            Return true if the popup is open, and you can start outputting to it.
-            
-            Default values: flags = ImGui_WindowFlags_None
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            string str_id - 
-            optional number flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-
+                        
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_AcceptDragDropPayload</slug>
         <title>ImGui_AcceptDragDropPayload</title>
@@ -47427,89 +47737,6 @@ mespotine
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_Begin</slug>
-        <title>ImGui_Begin</title>
-        <functioncall prog_lang="cpp">bool ImGui_Begin(ImGui_Context* ctx, const char* name, bool* p_openInOutOptional, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_Begin", ImGui_Context ctx, "name", optional bool &amp;p_open, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, optional boolean p_open = reaper.ImGui_Begin(ImGui_Context ctx, string name, optional boolean p_open, optional integer flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_Begin(ImGui_Context* ctx, const char* name, bool* p_openInOutOptional, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.8
-        </requires>
-        <description>
-            Push window to the stack and start appending to it. See <a href="#ImGui_End">ImGui_End</a>.
-            
-            - Passing true to 'p_open' shows a window-closing widget in the upper-right corner of the window, which clicking will set the boolean to false when returned.
-            - You may append multiple times to the same window during the same frame by calling Begin()/End() pairs multiple times. Some information such as 'flags' or 'open' will only be considered by the first call to Begin().
-            - Begin() return false to indicate the window is collapsed or fully clipped, so you may early out and omit submitting anything to the window.
-            - Note that the bottom of window stack always contains a window called "Debug".
-            
-            Default values: p_open = nil, flags = ImGui_WindowFlags_None
-        </description>        
-        <retvals>
-            boolean retval - 
-            optional boolean p_open - 
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            string name - 
-            optional boolean p_open - 
-            optional integer flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginChild</slug>
-        <title>ImGui_BeginChild</title>
-        <functioncall prog_lang="cpp">bool ImGui_BeginChild(ImGui_Context* ctx, const char* str_id, double* size_wInOptional, double* size_hInOptional, bool* borderInOptional, int* flagsInOptional)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ImGui_BeginChild", ImGui_Context ctx, "str_id", optional size_wIn, optional size_hIn, optional bool borderIn, optional int flagsIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval = reaper.ImGui_BeginChild(ImGui_Context ctx, string str_id, optional number size_wIn, optional number size_hIn, optional boolean borderIn, optional integer flagsIn)</functioncall>
-        <functioncall prog_lang="python">bool ImGui_BeginChild(ImGui_Context* ctx, const char* str_id, double* size_wInOptional, double* size_hInOptional, bool* borderInOptional, int* flagsInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.8
-        </requires>
-        <description>
-            Use child windows to begin into a self-contained independent scrolling/clipping regions within a host window. Child windows can embed their own child.
-            
-            - For each independent axis of 'size': ==0.0: use remaining host window size / &gt;0.0: fixed size / &lt;0.0: use remaining window size minus abs(size) / Each axis can use a different mode, e.g. size = 0x400.
-            - BeginChild() returns false to indicate the window is collapsed or fully clipped, so you may early out and omit submitting anything to the window.
-            
-            See <a href="#ImGui_EndChild">ImGui_EndChild</a>.
-            
-            Default values: size_w = 0.0, size_h = 0.0, border = false, flags = ImGui_WindowFlags_None
-        </description>        
-        <retvals>
-            boolean retval -
-        </retvals>        
-        <parameters>
-            ImGui_Context ctx - 
-            string str_id - 
-            optional number size_wIn - 
-            optional number size_hIn - 
-            optional boolean borderIn - 
-            optional integer flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_BeginChildFrame</slug>
         <title>ImGui_BeginChildFrame</title>
         <functioncall prog_lang="cpp">bool ImGui_BeginChildFrame(ImGui_Context* ctx, const char* str_id, double size_w, double size_h, int* flagsInOptional)</functioncall>
@@ -47569,38 +47796,6 @@ mespotine
             string label - 
             string preview_value - 
             optional integer flagsIn -
-        </parameters>                
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-            ReaImGui
-        </chapter_context>
-        <tags>reaimgui, gui, user interface</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_BeginDisabled</slug>
-        <title>ImGui_BeginDisabled</title>
-        <functioncall prog_lang="cpp">void ImGui_BeginDisabled(ImGui_Context* ctx, bool* disabledInOptional)</functioncall>
-        <functioncall prog_lang="eel">extension_api("ImGui_BeginDisabled", ImGui_Context ctx, optional bool disabledIn)</functioncall>
-        <functioncall prog_lang="lua">reaper.ImGui_BeginDisabled(ImGui_Context ctx, optional boolean disabledIn)</functioncall>
-        <functioncall prog_lang="python">void ImGui_BeginDisabled(ImGui_Context* ctx, bool* disabledInOptional)</functioncall>
-        <requires>
-            Reaper=6.23
-            ReaImGui=0.5.8
-        </requires>
-        <description>
-            Disable all user interactions and dim items visuals (applying ImGui_StyleVar_DisabledAlpha over current colors).
-            
-            ImGui_BeginDisabled(false) essentially does nothing useful but is provided to facilitate use of boolean expressions. If you can avoid calling ImGui_BeginDisabled(false)/ImGui_EndDisabled() best to avoid it.
-            
-            Default values: disabled = true
-        </description>        
-        <parameters>
-            ImGui_Context ctx - 
-            optional boolean disabledIn -
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -56543,18 +56738,18 @@ mespotine
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_FocusedFlags_DockHierarchy</slug>
-        <title>ImGui_FocusedFlags_DockHierarchy</title>
-        <functioncall prog_lang="cpp">int ImGui_FocusedFlags_DockHierarchy()</functioncall>
-        <functioncall prog_lang="eel">int extension_api("ImGui_FocusedFlags_DockHierarchy")</functioncall>
-        <functioncall prog_lang="lua">integer retval = reaper.ImGui_FocusedFlags_DockHierarchy()</functioncall>
-        <functioncall prog_lang="python">Int ImGui_FocusedFlags_DockHierarchy()</functioncall>
+        <slug>ImGui_HoveredFlags_DockHierarchy</slug>
+        <title>ImGui_HoveredFlags_DockHierarchy</title>
+        <functioncall prog_lang="cpp">int ImGui_HoveredFlags_DockHierarchy()</functioncall>
+        <functioncall prog_lang="eel">int extension_api("ImGui_HoveredFlags_DockHierarchy")</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.ImGui_HoveredFlags_DockHierarchy()</functioncall>
+        <functioncall prog_lang="python">Int ImGui_HoveredFlags_DockHierarchy()</functioncall>
         <requires>
             Reaper=6.23
             ReaImGui=0.5.10
         </requires>
         <description>
-            Consider docking hierarchy (treat dockspace host as parent of docked window) (when used with _ChildWindows or _RootWindow).
+            ImGui_IsWindowHovered only: Consider docking hierarchy (treat dockspace host as parent of docked window) (when used with _ChildWindows or _RootWindow).
         </description>        
         <retvals>
             integer retval -
@@ -56568,20 +56763,20 @@ mespotine
         <changelog>
         </changelog>
     </US_DocBloc>
-    
+
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_FocusedFlags_NoPopupHierarchy</slug>
-        <title>ImGui_FocusedFlags_NoPopupHierarchy</title>
-        <functioncall prog_lang="cpp">int ImGui_FocusedFlags_NoPopupHierarchy()</functioncall>
-        <functioncall prog_lang="eel">int extension_api("ImGui_FocusedFlags_NoPopupHierarchy")</functioncall>
-        <functioncall prog_lang="lua">integer retval = reaper.ImGui_FocusedFlags_NoPopupHierarchy()</functioncall>
-        <functioncall prog_lang="python">Int ImGui_FocusedFlags_NoPopupHierarchy()</functioncall>
+        <slug>ImGui_HoveredFlags_NoPopupHierarchy</slug>
+        <title>ImGui_HoveredFlags_NoPopupHierarchy</title>
+        <functioncall prog_lang="cpp">int ImGui_HoveredFlags_DockHierarchy()</functioncall>
+        <functioncall prog_lang="eel">int extension_api("ImGui_HoveredFlags_DockHierarchy")</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.ImGui_HoveredFlags_DockHierarchy()</functioncall>
+        <functioncall prog_lang="python">Int ImGui_HoveredFlags_DockHierarchy()</functioncall>
         <requires>
             Reaper=6.23
             ReaImGui=0.5.10
         </requires>
         <description>
-            Do not consider popup hierarchy (do not treat popup emitter as parent of popup) (when used with _ChildWindows or _RootWindow).
+            ImGui_IsWindowHovered only: Consider docking hierarchy (treat dockspace host as parent of docked window) (when used with _ChildWindows or _RootWindow).
         </description>        
         <retvals>
             integer retval -
@@ -56595,6 +56790,7 @@ mespotine
         <changelog>
         </changelog>
     </US_DocBloc>
+        
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ImGui_HoveredFlags_None</slug>
