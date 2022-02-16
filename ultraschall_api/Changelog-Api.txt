@@ -211,7 +211,9 @@ Has now 1423 functions, with XX new ones
   - MediaItems: SetItemPlayRate - sets the playrate-settings in an item or a mediaitem-statechunk
   - MediaItems: SetItemSampleOffset - sets the sample offset-state of an item or a mediaitem-statechunk
   - MediaItems: SetItemSelected - sets the selected-state of an item or a mediaitem-statechunk
-  - MediaItems: SetItemVolPan - sets the volume and pan-values of an item or a mediaitem-statechunk
+  - MediaItems: SetItemVolPan - sets the volume and pan-values of an item or a mediaitem-statechunk  
+  - MetaData: MetaDataTable\_Create - returns an empty metadatatable, which holds all possible metadata-entries
+  - MetaData: MetaDataTable\_GetProject - returns a metadatatable, which holds all metadata-entries of the current project
   - ParameterLearn: GetParmLearn\_Default - gets default-settings for the parameter-learn-dialog(requested by akademie)
   - ParameterLearn: SetParmLearn\_Default - sets default-settings for the parameter-learn-dialog(requested by akademie)
   - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
