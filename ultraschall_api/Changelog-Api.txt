@@ -252,7 +252,7 @@ Has now 1423 functions, with XX new ones
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well; allows now creating regions with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddEditMarker - returns now the edit-marker-index, within all edit markers; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddEditRegion - returns now the edit-region-index, within all edit regions; allows now creating regions with the same name on the same position(workaround for Reaper-limitation)
-  - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers; allows now creating markers with the same name on the same position(workaround for Reaper-limitation) -> fixed
+  - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers; improved automatic numbering; allows now creating markers with the same name on the same position(workaround for Reaper-limitation) -> fixed
   - MarkerManagement: CountNormalMarkers - did count custom-markers as well -> fixed
   - MarkerManagement: CountNormalMarkers_NumGap - didn't count normal markers only, but rather all -> fixed
   - MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -> fixed

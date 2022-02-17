@@ -23383,7 +23383,7 @@ returns -1 in case of an error
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> shown_number</td></tr>
-<tr><td class="ch2">the number, that will be shown within Reaper. Can be multiple times. Use -1 to let Reaper decide the number.</td></tr>
+<tr><td class="ch2">the number, that will be shown within Reaper. Can be multiple times. Use -1 to let Ultraschall-API add +1 to the highest number used.</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> markertitle</td></tr>
@@ -23797,23 +23797,20 @@ returns -1 if it fails.
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
 <img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>AddShownoteMarker</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> markernumber, <i>string</i> guid, <i>integer</i> shownotemarker_index = <em>ultraschall.AddShownoteMarker</em>(<i>number</i> pos, <i>string</i> name)</code></div>
+<div class="l">Lua: <code> <i>integer</i> markernumber, <i>string</i> guid, <i>integer</i> shownotemarker_index = <em>ultraschall.AddShownoteMarker</em>(<i>number</i> pos, <i>string</i> name)</code></div>
 </div><p>
 <div class="ch">
 <p>Will add new shownote-marker.</p>
 <p>A shownote-marker has the naming-scheme</p>
 <pre><code>_Shownote: name for this shownote</code></pre>
-<p>returns false in case of an error</p>
+<p>returns -1 in case of an error</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i> retval</td></tr>
-<tr><td class="ch2">true, if adding the shownote-marker was successful; false, if not or an error occurred</td></tr>
-</table>
-<table class="ch">
 <tr><td class="pr"><i>integer</i> markernumber</td></tr>
 <tr><td class="ch2">the indexnumber of the newly added shownotemarker within all regions and markers; 0-based<br/>
-use this for Reaper's regular marker-functions</td></tr>
+use this for Reaper's regular marker-functions<br/>
+-1 in case of an error</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> guid</td></tr>
@@ -24000,11 +23997,6 @@ supported attributes are:<br/>
 "event_location_apple_maps" - the apple-maps-coordinates of the event-location<br/>
 "quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite<br/>
 "quote" - a quote from the cite_source<br/>
-"image_uri" - the uri of the image to store with the shownote(location on harddisk)<br/>
-"image_content" - the image-file itself as string, that you can store in the project; only png and jpg.<br/>
-"image_description" - a description of the image for blind/visually impaired users<br/>
-"image_source" - the original source of the image(book+page or url)<br/>
-"image_license" - the user-license of the image(public domain, creative commons, etc)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br/>
 "wikidata_uri" - the uri to an entry to wikidata</td></tr>
 </table>
 <table class="ch">

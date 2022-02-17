@@ -1645,7 +1645,7 @@ function ultraschall.AddShownoteMarker(pos, name)
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer markernumber, string guid, integer shownotemarker_index = ultraschall.AddShownoteMarker(number pos, string name)</functioncall>
+  <functioncall>integer markernumber, string guid, integer shownotemarker_index = ultraschall.AddShownoteMarker(number pos, string name)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will add new shownote-marker.
     
@@ -1653,16 +1653,16 @@ function ultraschall.AddShownoteMarker(pos, name)
         
         _Shownote: name for this shownote
     
-    returns false in case of an error
+    returns -1 in case of an error
   </description>
   <parameters>
     number pos - the position of the marker in seconds
     string name - the name of the shownote-marker
   </parameters>
   <retvals>
-    boolean retval - true, if adding the shownote-marker was successful; false, if not or an error occurred
     integer markernumber - the indexnumber of the newly added shownotemarker within all regions and markers; 0-based
                          - use this for Reaper's regular marker-functions
+                         - -1 in case of an error
     string guid - the guid of the shownotemarker
     integer shownotemarker_index - the index of the shownote-marker within shownotes only; 1-based. 
                                  - Use this for the other Ultraschall-API-shownote-functions!
@@ -1676,8 +1676,8 @@ function ultraschall.AddShownoteMarker(pos, name)
   <tags>marker management, add, shownote, name, position, index, guid</tags>
 </US_DocBloc>
 ]]
-  if type(pos)~="number" then ultraschall.AddErrorMessage("AddShownoteMarker", "pos", "must be a number", -2) return false end
-  if type(name)~="string" then ultraschall.AddErrorMessage("AddShownoteMarker", "name", "must be a string", -3) return false end
+  if type(pos)~="number" then ultraschall.AddErrorMessage("AddShownoteMarker", "pos", "must be a number", -2) return -1 end
+  if type(name)~="string" then ultraschall.AddErrorMessage("AddShownoteMarker", "name", "must be a string", -3) return -1  end
   local Count = ultraschall.CountAllCustomMarkers("Shownote")
   local Color
   if reaper.GetOS():sub(1,3)=="Win" then
@@ -1689,6 +1689,8 @@ function ultraschall.AddShownoteMarker(pos, name)
   local A={ultraschall.AddCustomMarker("Shownote", pos, name2, Count+1, Color)}  
   A[4]=A[4]+1
   ultraschall.SetShownoteMarker(A[4], pos, name)
+  if A[1]==false then A[2]=-1 end
+  table.remove(A,1)
   return table.unpack(A)
 end
 
@@ -1817,11 +1819,11 @@ ultraschall.ShowNoteAttributes = {"language",           -- check for validity IS
               "event_location_apple_maps",-- check for validity
               "quote_cite_source", 
               "quote", 
-              "image_uri",
-              "image_content",      -- check for validity
-              "image_description",
-              "image_source",
-              "image_license",
+              --"image_uri",
+              --"image_content",      -- check for validity
+              --"image_description",
+              --"image_source",
+              --"image_license",
               "url", 
               "url_description",
               "url_retrieval_date",
@@ -1883,11 +1885,6 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "event_location_apple_maps" - the apple-maps-coordinates of the event-location
                          - "quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
                          - "quote" - a quote from the cite_source
-                         - "image_uri" - the uri of the image to store with the shownote(location on harddisk)
-                         - "image_content" - the image-file itself as string, that you can store in the project; only png and jpg.
-                         - "image_description" - a description of the image for blind/visually impaired users
-                         - "image_source" - the original source of the image(book+page or url)
-                         - "image_license" - the user-license of the image(public domain, creative commons, etc)                         
                          - "wikidata_uri" - the uri to an entry to wikidata
     string content - the new contents to set the attribute with
   </parameters>
@@ -2057,7 +2054,7 @@ end
 ultraschall.PodcastAttributes={"podcast_title", 
               "podcast_description", 
               --"podcast_feed",
-              "podcast_website", 
+              --"podcast_website", 
               "podcast_twitter",
               "podcast_facebook",
               "podcast_youtube",
@@ -2152,13 +2149,14 @@ function ultraschall.GetSetPodcast_MetaData(is_set, attributename, additional_at
        additional_attribute:lower()~="opus" and
        additional_attribute:lower()~="ogg" and
        additional_attribute:lower()~="flac"
-       then
+      then
       ultraschall.AddErrorMessage("GetSetPodcast_MetaData", "additional_attribute", "attributename \"podcast_feed\" needs content_attibute being set to the audioformat(mp3, ogg, opus, aac, flac)", -10) 
       return false 
     elseif additional_attribute~="" then
       additional_attribute="_"..additional_attribute
     end
   elseif attributename=="podcast_website" then
+    print(attributename.." "..tostring(math.tointeger(additional_attribute)).." "..additional_attribute)
     if math.tointeger(additional_attribute)==nil or math.tointeger(additional_attribute)<1 then
       ultraschall.AddErrorMessage("GetSetPodcast_MetaData", "additional_attribute", "attributename \"podcast_website\" needs content_attibute being set to an integer >=1(as counter for potentially multiple websites of the podcast)", -11) 
       return false 
@@ -2296,6 +2294,7 @@ function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additi
   local retval
   
   -- management additional additional attributes for some attributes(currently not used, so I keep some defaults in here)
+  --[[
   if attributename=="podcast_feed" then
     if additional_attribute:lower()~="mp3" and
        additional_attribute:lower()~="aac" and
@@ -2325,6 +2324,7 @@ function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additi
   else
     additional_attribute=""
   end
+  --]]
   
   if found==false then ultraschall.AddErrorMessage("GetSetPodcastEpisode_MetaData", "attributename", "attributename not supported", -7) return false end
   local presetcontent, _
@@ -2939,7 +2939,7 @@ function ultraschall.GetPodcastChapter_MetaDataEntry(chapter_idx, chapter_index_
   local temp, retval, gap
 
   for i=1, #Tags do
-    retval, temp = ultraschall.GetSetChapterMarker_Attributes(false, chapter_idx, Tags[i], "")
+    local retval, temp = ultraschall.GetSetChapterMarker_Attributes(false, chapter_idx, Tags[i], "")
     gap=""
     for a=0, Tags[i]:len() do
      gap=gap.." "
@@ -4165,14 +4165,18 @@ function ultraschall.GetPodcastEpisode_MetaDataEntry()
 
   for i=1, #Tags do
     local retval, temp = ultraschall.GetSetPodcastEpisode_MetaData(false, Tags[i], "", "")
-    if retval==false or temp=="" then 
+        gap=""
+    for a=0, Tags[i]:len() do
+     gap=gap.." "
+    end
+    if temp==nil then 
       temp="" 
     else 
       temp=string.gsub(temp, "\r", "")
       temp=string.gsub(temp, "\"", "\\\"")
-      temp=string.gsub(temp, "\n", "\"\n    \"")
-      
-      temp="\n "..Tags[i]..":\""..temp.."\"" 
+      temp=string.gsub(temp, "\n", "\"\n  "..gap.."\"")
+
+      temp="\n  "..Tags[i]..":\""..temp.."\"" 
       temp=temp.." "
     end
       
@@ -4217,17 +4221,21 @@ function ultraschall.GetPodcast_MetaDataEntry()
 
   for i=1, #Tags do
     local retval, temp = ultraschall.GetSetPodcast_MetaData(false, Tags[i], "", "")
-    if retval==false or temp=="" then 
+    gap=""
+    for a=0, Tags[i]:len() do
+     gap=gap.." "
+    end
+    if temp==nil then 
       temp="" 
     else 
       temp=string.gsub(temp, "\r", "")
       temp=string.gsub(temp, "\"", "\\\"")
-      temp=string.gsub(temp, "\n", "\"\n    \"")
-      
-      temp="\n "..Tags[i]..":\""..temp.."\"" 
+      temp=string.gsub(temp, "\n", "\"\n  "..gap.."\"")
+
+      temp="\n  "..Tags[i]..":\""..temp.."\"" 
       temp=temp.." "
     end
-      
+    
     Podcast_String=Podcast_String..temp
   end
 
@@ -4287,12 +4295,13 @@ function ultraschall.WritePodcastMetaData(start_time, end_time, offset, filename
   
   if filename~=nil and type(filename)~="string" then ultraschall.AddErrorMessage("WritePodcastMetaData", "filename", "must be nil or a string", -7) return end
   
+  local retval
   local PodcastGeneralMetadata=ultraschall.GetPodcast_MetaDataEntry()
   local PodcastEpisodeMetadata=ultraschall.GetPodcastEpisode_MetaDataEntry()
   local Chapter_Count,  Chapters = ultraschall.GetAllChapters_MetaDataEntry(start_time, end_time, offset)
   local Shownote_Count, Shownotes = ultraschall.GetAllShownotes_MetaDataEntry(start_time, end_time, offset)
   
-  PodcastMetadata="  "..PodcastGeneralMetadata.."\n\n"..PodcastEpisodeMetadata.."\n"
+  local PodcastMetadata="  "..PodcastGeneralMetadata.."\n\n"..PodcastEpisodeMetadata.."\n"
   
   for i=1, Chapter_Count do
     PodcastMetadata=PodcastMetadata.."\n"..Chapters[i].."\n"

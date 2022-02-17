@@ -79,7 +79,7 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
   </retvals>
   <parameters>
     number position - position in seconds.
-    integer shown_number - the number, that will be shown within Reaper. Can be multiple times. Use -1 to let Reaper decide the number.
+    integer shown_number - the number, that will be shown within Reaper. Can be multiple times. Use -1 to let Ultraschall-API add +1 to the highest number used.
     string markertitle - the title of the marker
   </parameters>
   <chapter_context>
@@ -101,7 +101,7 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
     AMarkers[i]=ultraschall.GetGuidFromMarkerID(i)
   end
 
-  local A,B=reaper.AddProjectMarker2(0, false, position, 0, reaper.genGuid("")..reaper.time_precise()..reaper.genGuid(""), shown_number, 0)
+  local A,B=reaper.AddProjectMarker2(0, false, position, 0, reaper.genGuid("")..reaper.time_precise()..reaper.genGuid(""), 0, 0)
 
   local BMarkers={}
   for i=1, reaper.CountProjectMarkers(0) do
@@ -114,7 +114,18 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
   local DIDX=ultraschall.GetNormalMarkerIDFromGuid(Coriginals_array2[1])
   
   local A1={ultraschall.EnumerateNormalMarkers(DIDX)}
-  ultraschall.SetNormalMarker(DIDX, A1[3], A1[2], markertitle)
+  
+  
+  if shown_number==-1 then 
+    for i=1, ultraschall.CountNormalMarkers() do
+       local a1, a2 = ultraschall.EnumerateNormalMarkers(i)
+       if a2>shown_number then
+         shown_number=a2
+       end
+    end
+  end
+  
+  ultraschall.SetNormalMarker(DIDX, A1[3], shown_number+1, markertitle)
   
   return ultraschall.GetMarkerIDFromGuid(Coriginals_array2[1]), Coriginals_array2[1], DIDX
 

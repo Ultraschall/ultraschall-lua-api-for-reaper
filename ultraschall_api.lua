@@ -58,7 +58,7 @@ end
 
 -- allow debugging of functions
     
-if ultraschall.temp_GetProjExtState~=nil then
+if reaper.GetExtState("ultraschall_api", "debug_extstate")=="true" then
     ultraschall.temp_GetProjExtState=reaper.GetProjExtState
     ultraschall.temp_SetProjExtState=reaper.SetProjExtState
 
