@@ -80,7 +80,6 @@ Devtools={
 "/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_envelope_under_mouse.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_selected_envelope.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_Find_Duplicated_Lines_In_Clipboard.lua",
-"/Tools/DeveloperScripts/ultraschall_developertool_findConfigVarsToggledByActions.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_GetPitchShiftModes.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_gfx_deltablit_displayer.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua",

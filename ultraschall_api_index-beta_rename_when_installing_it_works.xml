@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="50982.00" author="Meo Mespotine">
+      <version name="50995.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -478,7 +478,6 @@
 	<source main="true" file="/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_envelope_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_envelope_under_mouse.lua</source>
 	<source main="true" file="/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_selected_envelope.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_to_Clipboard_selected_envelope.lua</source>
 	<source main="true" file="/ultraschall_developertool_Find_Duplicated_Lines_In_Clipboard.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_Find_Duplicated_Lines_In_Clipboard.lua</source>
-	<source main="true" file="/ultraschall_developertool_findConfigVarsToggledByActions.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_findConfigVarsToggledByActions.lua</source>
 	<source main="true" file="/ultraschall_developertool_GetPitchShiftModes.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_GetPitchShiftModes.lua</source>
 	<source main="true" file="/ultraschall_developertool_gfx_deltablit_displayer.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 	<source main="true" file="/ultraschall_developertool_HWND-Displayer.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua</source>
