@@ -362,8 +362,8 @@ Has now 1423 functions, with 17 new ones
   - MetaData: Metadata\_IFF\_GetSet - gets/set metadata for iff  
   - MetaData: Metadata\_WAVEXT\_GetSet gets/set metadata for wavext
   - ParmAlias: GetParmAlias\_by\_FXParam\_FXStateChunk - gets the parmalias_id by fx-parameter, that you can use as parameter id for Set/Get/Delete-ParmAlias-functions
-  - ParmLearn: GetParmLearnID\_by\_FXParam\_FXStateChunk - gets the parmlearn_id by fx-parameter, that you can use as parmlearn_id for Set/Get/Delete-ParmLearn-functions(requested by TonE)
-  - ParmLFOLearn: GetParmLFOLearn\_by\_FXParam\_FXStateChunk - gets the parm_lfolearn_id by fx-parameter, that you can use as parameter id for Set/Get/Delete-ParmLFOLearn-functions  
+  - ParmLearn: GetParmLearnID\_by\_FXParam\_FXStateChunk - gets the parmlearn\_id by fx-parameter, that you can use as parmlearn\_id for Set/Get/Delete-ParmLearn-functions(requested by TonE)
+  - ParmLFOLearn: GetParmLFOLearn\_by\_FXParam\_FXStateChunk - gets the parm\_lfolearn\_id by fx-parameter, that you can use as parameter id for Set/Get/Delete-ParmLFOLearn-functions  
   - Render Management: GetRenderTargetFiles - returns the render-target and filenames of all render-files, if they would be rendered right now
   - Render Management: GetRenderCFG\_Settings\_CAF - gets settings of a render-string of the caf-format
   - Render Management: CreateRenderCFG\_CAF - creates a render-string for the CAF-format
