@@ -70,7 +70,7 @@ End of Header
 <a class="anch" id="Introduction"></a>
 <a href="#Introduction"> ^</a> <u><b>Introduction to Config Variables</b></u><br>			<p>
 <div class="ch">
-<p>List of all Config Variables as of Reaper 6.41 and probably are missing some, but should be fairly complete anyway.<br />
+<p>List of all Config Variables as of Reaper 6.48 and probably are missing some, but should be fairly complete anyway.<br />
 These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.<br />
 To change them, you can use the following ReaScript API-functions(requires SWS being installed):</p>
 <blockquote>
@@ -4141,8 +4141,7 @@ It is an integer</p>
 <a class="anch" id="help"></a>
 <a href="#help"> ^</a> <u><b>help</b></u><br>			<p>
 <div class="ch">
-<p>Stores the settings for the help-information-display under the TCP, as set in it's accompanying context-menu.<br />
-It is an integer/integer-bitfield.</p>
+<p>Stores the settings for the help-information-display under the TCP, as set in it's accompanying context-menu, as well the performance meter window-context menu. It is an integer/integer-bitfield.</p>
 <blockquote>
 <p>Only one of the following can be set:<br />
 0, No information display<br />
@@ -4155,6 +4154,9 @@ It is an integer/integer-bitfield.</p>
 <p>This one can be set all the times:<br />
 &amp;65536=0, Show mouse editing-help(on), checked<br />
 &amp;65536=1, Show mouse editing-help(off), unchecked</p>
+</blockquote>
+<blockquote>
+<p>Context-menu in performane meter display: &amp;131072=0, Display CPU utilization as 100% = all cores fully utilized &amp;131072=1, Display CPU utilization as 1.0c = 1 core fully utilized</p>
 </blockquote>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </div><br>

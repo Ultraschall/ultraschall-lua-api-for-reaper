@@ -45702,6 +45702,41 @@ mespotine
         <changelog>
         </changelog>
     </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
+        <slug>LICE_ThickFLine</slug>
+        <title>LICE_ThickFLine</title>
+        <functioncall prog_lang="cpp">void (*LICE_ThickFLine)(LICE_IBitmap* dest, double x1, double y1, double x2, double y2, LICE_pixel color, float alpha, int mode, int wid);</functioncall>
+        <requires>
+            Reaper=6.48
+        </requires>
+        <description indent="default">
+            LICE simple fill
+        </description>
+        <retvals>
+            void -
+        </retvals>
+        <parameters>
+            LICE_IBitmap* dest - 
+            double x1 - 
+            double y1 - 
+            double x2 - 
+            double y2 - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
+            int wid - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper_plugin.h</source_document>
+        <chapter_context>
+            Additional C++ Functions
+            reaper_plugin_functions.h
+        </chapter_context>
+        <tags>cpp, lice, thick, line</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
  
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>PCM_Source_CreateFromSimple</slug>

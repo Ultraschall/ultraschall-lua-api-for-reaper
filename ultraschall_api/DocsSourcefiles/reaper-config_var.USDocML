@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.41 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 6.48 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -4589,7 +4589,7 @@
       <slug>help</slug>  
       <title>help</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Stores the settings for the help-information-display under the TCP, as set in it's accompanying context-menu.  
+          Stores the settings for the help-information-display under the TCP, as set in it's accompanying context-menu, as well the performance meter window-context menu.
           It is an integer/integer-bitfield.  
           
            >Only one of the following can be set:  
@@ -4602,6 +4602,10 @@
            >This one can be set all the times:  
              &65536=0, Show mouse editing-help(on), checked  
              &65536=1, Show mouse editing-help(off), unchecked  
+           
+           > Context-menu in performane meter display:
+             &131072=0, Display CPU utilization as 100% = all cores fully utilized 
+             &131072=1, Display CPU utilization as 1.0c = 1 core fully utilized
             
                     
           Stored in reaper.ini under the same name in the section REAPER.  
