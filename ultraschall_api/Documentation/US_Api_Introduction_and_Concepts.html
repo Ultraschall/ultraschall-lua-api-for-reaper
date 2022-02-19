@@ -170,7 +170,7 @@ For more information on ReaPack and it's usage, refer <a href="https://reapack.c
 <p><strong>Manual Installation</strong>:</p>
 <p>If you can't or don't want to install ReaPack, you can also install it manually.</p>
 <ol>
-<li>Just download the zip-file of the current version from <a href="https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.2_003.zip">ultraschall_api4.2_003.zip</a>.<br />
+<li>Just download the zip-file of the current version from <a href="https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.3.zip">ultraschall_api4.3.zip</a>.<br />
 </li>
 <li>Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -&gt; Show REAPER resource path in explorer/finder...".<br />
 The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua after this step.<br />
@@ -519,6 +519,9 @@ This is mostly because, there are so many.</p>
                                              3, True Peak
                                              4, LUFS-M max
                                              5, LUFS-S max
+    RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
+                                                 - true, checkbox checked
+                                                 - false, checkbox unchecked
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target(common gain to stems)
                                               false, normalize each file individually
     RenderTable[&quot;Normalize_Target&quot;]       - the normalize-target as dB-value    

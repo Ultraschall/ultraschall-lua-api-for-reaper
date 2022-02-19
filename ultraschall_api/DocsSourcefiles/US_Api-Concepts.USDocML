@@ -107,7 +107,7 @@
             
             If you can't or don't want to install ReaPack, you can also install it manually.
             
-            1. Just download the zip-file of the current version from [ultraschall_api4.2\_003.zip](https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.2_003.zip).  
+            1. Just download the zip-file of the current version from [ultraschall_api4.3.zip](https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.3.zip).  
             2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".    
                The folder UserPlugins should contain the folder ultraschall\_api and the files ultraschall\_api\_readme.txt and ultraschall\_api.lua after this step.  
             3. Restart Reaper.
@@ -630,6 +630,9 @@
                                                              3, True Peak
                                                              4, LUFS-M max
                                                              5, LUFS-S max
+                    RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox
+                                                                 - true, checkbox checked
+                                                                 - false, checkbox unchecked
                     RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
                                                               false, normalize each file individually
                     RenderTable["Normalize_Target"]       - the normalize-target as dB-value	

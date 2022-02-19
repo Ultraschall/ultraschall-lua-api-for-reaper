@@ -223,7 +223,11 @@ Has now 1457 functions, with 34 new ones
   - **Rendering FFMPEG-only**  
   With FFMPEG-dll installed, you have access to more render-output-functions. You can now create render-strings for these formats as well.
   
-  - **Log SetProjExtState/SetExtState access**  
+  - **Developer Tools now automatically installed**  
+  To simplify working with devtools, they are now automatically installed with ReaPack-update.  
+  If you happen to have some of them duplicated, run the action "ultraschall\_Remove\_Developertools\_From\_Reaper.lua"  
+  
+  - **Dev Tool: Log SetProjExtState/SetExtState access**  
   You can log now, if (proj)extstates are set in the ReaScript-console. That way you can monitor, if setting them runs smoothly.  
   Just run the accompanying developer-tool for it.  
 

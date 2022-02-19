@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="50995.00" author="Meo Mespotine">
+      <version name="51022.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -528,7 +528,13 @@ new in this release:
     render-output-functions. You can now create render-strings for these
     formats as well.
 
--   Log SetProjExtState/SetExtState access
+-   Developer Tools now automatically installed
+    To simplify working with devtools, they are now automatically
+    installed with ReaPack-update.
+    If you happen to have some of them duplicated, run the action
+    “ultraschall_Remove_Developertools_From_Reaper.lua”
+
+-   Dev Tool: Log SetProjExtState/SetExtState access
     You can log now, if (proj)extstates are set in the
     ReaScript-console. That way you can monitor, if setting them runs
     smoothly.
