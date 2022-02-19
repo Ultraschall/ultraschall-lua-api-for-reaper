@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="51022.00" author="Meo Mespotine">
+      <version name="51023.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3/ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.3ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -519,7 +519,7 @@ new in this release:
     There were set item-function missing, though their get counterpart
     was there. So, I added more set functions.
 
--   ** Rendering - Only Normalize Files That Are Too Loud**
+-   Rendering - Only Normalize Files That Are Too Loud
     You can now choose, whether to normalize only files that are too
     loud
 

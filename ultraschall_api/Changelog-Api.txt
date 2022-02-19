@@ -217,7 +217,7 @@ Has now 1457 functions, with 34 new ones
   - **SetItem-functions**  
   There were set item-function missing, though their get counterpart was there. So, I added more set functions.  
   
-  - ** Rendering - Only Normalize Files That Are Too Loud**  
+  - **Rendering - Only Normalize Files That Are Too Loud**  
   You can now choose, whether to normalize only files that are too loud  
   
   - **Rendering FFMPEG-only**  
