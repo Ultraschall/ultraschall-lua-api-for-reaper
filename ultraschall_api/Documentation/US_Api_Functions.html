@@ -38996,7 +38996,7 @@ Returns nil in case of error.
 <hr>
 <a class="anch" id="GetProject_Render_Normalize"></a>
 <a href="#GetProject_Render_Normalize"> ^</a> 
-<img width="3%" src="gfx/reaper6.42.png" alt="Reaper version 6.42">
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetProject_Render_Normalize</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> render_normalize_mode, <i>number</i> normalize_target = <em>ultraschall.GetProject_Render_Normalize</em>(<i>string</i> projectfilename_with_path, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
@@ -39029,7 +39029,10 @@ returns nil in case of an error
 &nbsp;&nbsp;&nbsp;&nbsp;1, checked(on)<br/>
 &128, Brickwall-mode<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;0, Peak<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;1, True Peak</td></tr>
+&nbsp;&nbsp;&nbsp;&nbsp;1, True Peak<br/>
+&256, only normalize files that are too loud<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0, disabled<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;1, enabled</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> normalize_target</td></tr>
@@ -43400,7 +43403,7 @@ Returns -1 in case of error.
 <hr>
 <a class="anch" id="SetProject_Render_Normalize"></a>
 <a href="#SetProject_Render_Normalize"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
 <img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>SetProject_Render_Normalize</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> retval = <em>ultraschall.SetProject_Render_Normalize</em>(<i>string</i> projectfilename_with_path, <i>integer</i> render_normalize_method, <i>number</i> normalize_target, <i>optional</i> <i>string</i> ProjectStateChunk, <i>optional</i> <i>number</i> brickwall_target)</code></div>
@@ -43441,7 +43444,10 @@ Returns -1 in case of error.
 &nbsp;&nbsp;&nbsp;&nbsp;1, checked(on)<br/>
 &128, Brickwall-mode<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;0, Peak<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;1, True Peak</td></tr>
+&nbsp;&nbsp;&nbsp;&nbsp;1, True Peak<br/>
+&256, only normalize files that are too loud<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0, disabled<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;1, enabled</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> normalize_target</td></tr>
@@ -45646,10 +45652,10 @@ Returns -1 in case of an error
 <hr>
 <a class="anch" id="ApplyRenderTable_Project"></a>
 <a href="#ApplyRenderTable_Project"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/js_0.972.png" alt="JS version 0.972">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>ApplyRenderTable_Project</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>ApplyRenderTable_Project</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>boolean</i> dirty = <em>ultraschall.ApplyRenderTable_Project</em>(<i>table</i> RenderTable, <i>optional</i> <i>boolean</i> apply_rendercfg_string, <i>optional</i> <i>boolean</i> dirtyness)</code></div>
 </div><p>
@@ -45694,6 +45700,9 @@ Returns -1 in case of an error
                                              3, True Peak
                                              4, LUFS-M max
                                              5, LUFS-S max
+    RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
+                                                 - true, checkbox checked
+                                                 - false, checkbox unchecked
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target(common gain to stems)
                                                       false, normalize each file individually
     RenderTable[&quot;Normalize_Target&quot;]       - the normalize-target as dB-value    
@@ -45783,8 +45792,8 @@ Returns -1 in case of an error
 <hr>
 <a class="anch" id="ApplyRenderTable_ProjectFile"></a>
 <a href="#ApplyRenderTable_ProjectFile"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>ApplyRenderTable_ProjectFile</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>ApplyRenderTable_ProjectFile</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> ProjectStateChunk = <em>ultraschall.ApplyRenderTable_ProjectFile</em>(<i>table</i> RenderTable, <i>string</i> projectfilename_with_path, <i>optional</i> <i>boolean</i> apply_rendercfg_string, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
 </div><p>
@@ -45821,6 +45830,9 @@ Returns -1 in case of an error
     RenderTable[&quot;MultiChannelFiles&quot;]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
     RenderTable[&quot;Normalize_Enabled&quot;]   - true, normalization enabled; 
                                          false, normalization not enabled
+    RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
+                                                 - true, checkbox checked
+                                                 - false, checkbox unchecked
     RenderTable[&quot;Normalize_Method&quot;]    - the normalize-method-dropdownlist
                                              0, LUFS-I
                                              1, RMS-I
@@ -45967,10 +45979,10 @@ Returns -1 in case of an error
 <hr>
 <a class="anch" id="CreateNewRenderTable"></a>
 <a href="#CreateNewRenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>CreateNewRenderTable</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>CreateNewRenderTable</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.CreateNewRenderTable</em>(<i>optional</i> <i>integer</i> Source, <i>optional</i> <i>integer</i> Bounds, <i>optional</i> <i>number</i> Startposition, <i>optional</i> <i>number</i> Endposition, <i>optional</i> <i>integer</i> TailFlag, <i>optional</i> <i>integer</i> TailMS, <i>optional</i> <i>string</i> RenderFile, <i>optional</i> <i>string</i> RenderPattern, <i>optional</i> <i>integer</i> SampleRate, <i>optional</i> <i>integer</i> Channels, <i>optional</i> <i>integer</i> OfflineOnlineRendering, <i>optional</i> <i>boolean</i> ProjectSampleRateFXProcessing, <i>optional</i> <i>integer</i> RenderResample, <i>optional</i> <i>boolean</i> OnlyMonoMedia, <i>optional</i> <i>boolean</i> MultiChannelFiles, <i>optional</i> <i>integer</i> Dither, <i>optional</i> <i>string</i> RenderString, <i>optional</i> <i>boolean</i> SilentlyIncrementFilename, <i>optional</i> <i>boolean</i> AddToProj, <i>optional</i> <i>boolean</i> SaveCopyOfProject, <i>optional</i> <i>boolean</i> RenderQueueDelay, <i>optional</i> <i>integer</i> RenderQueueDelaySeconds, <i>optional</i> <i>boolean</i> CloseAfterRender, <i>optional</i> <i>boolean</i> EmbedStretchMarkers, <i>optional</i> <i>string</i> RenderString2, <i>optional</i> <i>boolean</i> EmbedTakeMarkers, <i>optional</i> <i>boolean</i> DoNotSilentRender, <i>optional</i> <i>boolean</i> EmbedMetadata, <i>optional</i> <i>boolean</i> Enable2ndPassRender, <i>optional</i> <i>boolean</i> Normalize_Enabled, <i>optional</i> <i>integer</i> Normalize_Method, <i>optional</i> <i>boolean</i> Normalize_Stems_to_Master_Target, <i>optional</i> <i>number</i> Normalize_Target, <i>optional</i> <i>boolean</i> Brickwall_Limiter_Enabled, <i>optional</i> <i>integer</i> Brickwall_Limiter_Method, <i>optional</i> <i>number</i> Brickwall_Limiter_Target)</code></div>
+<div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.CreateNewRenderTable</em>(<i>optional</i> <i>integer</i> Source, <i>optional</i> <i>integer</i> Bounds, <i>optional</i> <i>number</i> Startposition, <i>optional</i> <i>number</i> Endposition, <i>optional</i> <i>integer</i> TailFlag, <i>optional</i> <i>integer</i> TailMS, <i>optional</i> <i>string</i> RenderFile, <i>optional</i> <i>string</i> RenderPattern, <i>optional</i> <i>integer</i> SampleRate, <i>optional</i> <i>integer</i> Channels, <i>optional</i> <i>integer</i> OfflineOnlineRendering, <i>optional</i> <i>boolean</i> ProjectSampleRateFXProcessing, <i>optional</i> <i>integer</i> RenderResample, <i>optional</i> <i>boolean</i> OnlyMonoMedia, <i>optional</i> <i>boolean</i> MultiChannelFiles, <i>optional</i> <i>integer</i> Dither, <i>optional</i> <i>string</i> RenderString, <i>optional</i> <i>boolean</i> SilentlyIncrementFilename, <i>optional</i> <i>boolean</i> AddToProj, <i>optional</i> <i>boolean</i> SaveCopyOfProject, <i>optional</i> <i>boolean</i> RenderQueueDelay, <i>optional</i> <i>integer</i> RenderQueueDelaySeconds, <i>optional</i> <i>boolean</i> CloseAfterRender, <i>optional</i> <i>boolean</i> EmbedStretchMarkers, <i>optional</i> <i>string</i> RenderString2, <i>optional</i> <i>boolean</i> EmbedTakeMarkers, <i>optional</i> <i>boolean</i> DoNotSilentRender, <i>optional</i> <i>boolean</i> EmbedMetadata, <i>optional</i> <i>boolean</i> Enable2ndPassRender, <i>optional</i> <i>boolean</i> Normalize_Enabled, <i>optional</i> <i>integer</i> Normalize_Method, <i>optional</i> <i>boolean</i> Normalize_Stems_to_Master_Target, <i>optional</i> <i>number</i> Normalize_Target, <i>optional</i> <i>boolean</i> Brickwall_Limiter_Enabled, <i>optional</i> <i>integer</i> Brickwall_Limiter_Method, <i>optional</i> <i>number</i> Brickwall_Limiter_Target, <i>optional</i> <i>boolean</i> Normalize_Method)</code></div>
 </div><p>
 <div class="ch">
 Creates a new RenderTable.<br/>
@@ -45994,6 +46006,7 @@ Factory-Default will be set to these settings:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Endposition"]=0<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["MultiChannelFiles"]=false<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Normalize_Enabled"]=false<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Normalize_Only_Files_Too_Loud"]=false<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Normalize_Method"]=0<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Normalize_Stems_to_Master_Target"]=false<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Normalize_Target"]=-24<br/>
@@ -46219,6 +46232,10 @@ Include project filename in BWF unchecked, Do not include markers or regions, Em
 <tr><td class="pr"><i>optional</i> <i>number</i> Brickwall_Limiter_Target</td></tr>
 <tr><td class="ch2">the target of brickwall-limiter in dB</td></tr>
 </table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> Normalize_Only_Files_Too_Loud</td></tr>
+<tr><td class="ch2">only normalize files that are too loud; true, enabled; false, disabled</td></tr>
+</table>
 <br>
 </div>
 <div class="ch">
@@ -46265,10 +46282,10 @@ returns the last 12 used render-patterns, that have been used for rendering by a
 <hr>
 <a class="anch" id="GetRenderTable_Project"></a>
 <a href="#GetRenderTable_Project"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/js_0.972.png" alt="JS version 0.972">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetRenderTable_Project</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetRenderTable_Project</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderTable_Project</em>()</code></div>
 </div><p>
@@ -46307,6 +46324,9 @@ returns the last 12 used render-patterns, that have been used for rendering by a
                    3, True Peak
                    4, LUFS-M max
                    5, LUFS-S max
+    RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
+                                                 - true, checkbox checked
+                                                 - false, checkbox unchecked
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target(common gain to stems)
                                                       false, normalize each file individually
     RenderTable[&quot;Normalize_Target&quot;] - the normalize-target as dB-value
@@ -46378,8 +46398,8 @@ use 0, for the currently active project; 1, for the first project-tab; 2, for th
 <hr>
 <a class="anch" id="GetRenderTable_ProjectFile"></a>
 <a href="#GetRenderTable_ProjectFile"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetRenderTable_ProjectFile</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetRenderTable_ProjectFile</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderTable_ProjectFile</em>(<i>string</i> projectfilename_with_path)</code></div>
 </div><p>
@@ -46553,8 +46573,8 @@ Returns, if Reaper is currently rendering and the rendering position and project
 <hr>
 <a class="anch" id="IsValidRenderTable"></a>
 <a href="#IsValidRenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>IsValidRenderTable</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>IsValidRenderTable</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.IsValidRenderTable</em>(<i>table</i> RenderTable)</code></div>
 </div><p>
@@ -47873,8 +47893,8 @@ nil, VORBIS<br/>
 <hr>
 <a class="anch" id="AddRenderPreset"></a>
 <a href="#AddRenderPreset"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>AddRenderPreset</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>AddRenderPreset</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.AddRenderPreset</em>(<i>string</i> Bounds_Name, <i>string</i> Options_and_Format_Name, <i>table</i> RenderTable)</code></div>
 </div><p>
@@ -47947,6 +47967,9 @@ Options_and_Format_Name stores only:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &8, dither noise shaping stems<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["MultiChannelFiles"] - multichannel-files-checkbox<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Normalize_Enabled"] - true, normalization enabled; false, normalization not enabled<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- true, checkbox checked<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- false, checkbox unchecked<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Normalize_Method"] - the normalize-method-dropdownlist<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0, LUFS-I<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1, RMS-I<br/>
@@ -48090,8 +48113,8 @@ Returns all render-preset-names for a) Bounds and output pattern/filename b) Opt
 <hr>
 <a class="anch" id="GetRenderPreset_RenderTable"></a>
 <a href="#GetRenderPreset_RenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetRenderPreset_RenderTable</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetRenderPreset_RenderTable</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderPreset_RenderTable</em>(<i>string</i> Bounds_Name, <i>string</i> Options_and_Format_Name)</code></div>
 </div><p>
@@ -48129,6 +48152,9 @@ Returns all render-preset-names for a) Bounds and output pattern/filename b) Opt
    RenderTable[&quot;MultiChannelFiles&quot;]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
    RenderTable[&quot;Normalize_Enabled&quot;]   - true, normalization enabled; 
                                         false, normalization not enabled
+   RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
+                                                - true, checkbox checked
+                                                - false, checkbox unchecked
    RenderTable[&quot;Normalize_Method&quot;]    - the normalize-method-dropdownlist
                                             0, LUFS-I
                                             1, RMS-I
@@ -48215,8 +48241,8 @@ Returns all render-preset-names for a) Bounds and output pattern/filename b) Opt
 <hr>
 <a class="anch" id="SetRenderPreset"></a>
 <a href="#SetRenderPreset"> ^</a> 
-<img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>SetRenderPreset</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>SetRenderPreset</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.SetRenderPreset</em>(<i>string</i> Bounds_Name, <i>string</i> Options_and_Format_Name, <i>table</i> RenderTable)</code></div>
 </div><p>
@@ -48302,6 +48328,9 @@ Options_and_Format_Name stores only:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3, True Peak<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4, LUFS-M max<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5, LUFS-S max<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- true, checkbox checked<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- false, checkbox unchecked<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; false, normalize each file individually<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Normalize_Target"] - the normalize-target as dB-value<br/>
@@ -49191,10 +49220,10 @@ Default is an empty string.</td></tr>
 <hr>
 <a class="anch" id="RenderProject_RenderTable"></a>
 <a href="#RenderProject_RenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
+<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/js_0.972.png" alt="JS version 0.972">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>RenderProject_RenderTable</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>RenderProject_RenderTable</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> count, <i>array</i> MediaItemStateChunkArray, <i>array</i> Filearray = <em>ultraschall.RenderProject_RenderTable</em>(<i>optional</i> <i>string</i> projectfilename_with_path, <i>optional</i> <i>table</i> RenderTable, <i>optional</i> <i>boolean</i> AddToProj, <i>optional</i> <i>boolean</i> CloseAfterRender, <i>optional</i> <i>boolean</i> SilentlyIncrementFilename)</code></div>
 </div><p>
@@ -49235,6 +49264,9 @@ Default is an empty string.</td></tr>
                                              3, True Peak
                                              4, LUFS-M max
                                              5, LUFS-S max
+    RenderTable[&quot;Normalize_Only_Files_Too_Loud&quot;] - Only normalize files that are too loud,checkbox
+                                                 - true, checkbox checked
+                                                 - false, checkbox unchecked
     RenderTable[&quot;Normalize_Stems_to_Master_Target&quot;] - true, normalize-stems to master target(common gain to stems)
                                                       false, normalize each file individually
     RenderTable[&quot;Normalize_Target&quot;]       - the normalize-target as dB-value    

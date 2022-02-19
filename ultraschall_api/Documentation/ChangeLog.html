@@ -39,10 +39,14 @@
 <p>Has now 1457 functions, with 34 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><p><strong>Media Explorer stuff</strong><br />
+<li><p><strong>ParmLearn-dialog defaults</strong><br />
+You can now get/set the default settings for the Parm-Learn-dialog. So you can now reset it to your preferred settings before learning a new parameter.</p></li>
+<li><p><strong>Media Explorer features</strong><br />
 You can now get/set volume, rate, pitch and even output-channels of the media explorer and various checkboxes.</p></li>
 <li><p><strong>SetItem-functions</strong><br />
 There were set item-function missing, though their get counterpart was there. So, I added more set functions.</p></li>
+<li><p>** Rendering - Only Normalize Files That Are Too Loud**<br />
+You can now choose, whether to normalize only files that are too loud</p></li>
 <li><p><strong>Rendering FFMPEG-only</strong><br />
 With FFMPEG-dll installed, you have access to more render-output-functions. You can now create render-strings for these formats as well.</p></li>
 <li><p><strong>Log SetProjExtState/SetExtState access</strong><br />
@@ -100,7 +104,7 @@ as usual...</p></li>
 <h4>Changes from 4.2.006 to 4.3</h4>
 <ul>
 <li>DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation</li>
-<li>Docs: general - updated to Reaper 6.47, JS-extension 1.301, ReaImGui 0.5.10, ReaBlink 0.4.4, SWS 2.13.0.0</li>
+<li>Docs: Reaper Internals - updated to Reaper 6.47, JS-extension 1.301, ReaImGui 0.5.10, ReaBlink 0.4.4, SWS 2.13.0.0</li>
 <li>MarkerManagement: AddCustomMarker - returns now the custom-marker-index, within all custom markers only, as well; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)</li>
 <li>MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well; allows now creating regions with the same name on the same position(workaround for Reaper-limitation)</li>
 <li>MarkerManagement: AddEditMarker - returns now the edit-marker-index, within all edit markers; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)</li>
@@ -115,6 +119,17 @@ as usual...</p></li>
 <li>MediaItemManagement: SetItemLength - did return -1 in case of an error, whereas it should return nil instead -&gt; fixed</li>
 <li>MediaItemManagement: SetItemImage - did return -1 in case of an error, whereas it should return nil instead -&gt; fixed</li>
 <li>ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk</li>
+<li>ProjectManagement: GetProject_Render_Normalize - allows now normalize only files that are too loud-option</li>
+<li>ProjectManagement: SetProject_Render_Normalize - allows now normalize only files that are too loud-option</li>
+<li>Rendering: AddRenderPreset - allows now normalize only files that are too loud-option</li>
+<li>Rendering: ApplyRenderTable_Project - allows now normalize only files that are too loud-option</li>
+<li>Rendering: ApplyRenderTable_ProjectFile - allows now normalize only files that are too loud-option</li>
+<li>Rendering: CreateRenderCFG_AVI_Video - added formats that need FFMPEG installed</li>
+<li>Rendering: CreateRenderCFG_DDP - returned string was wrong due typo -&gt; fixed(thnx to loTrT)</li>
+<li>Rendering: CreateRenderCFG_MKV_Video - added formats that need FFMPEG installed</li>
+<li>Rendering: CreateRenderCFG_MOVMAC_Video - removed unused \0-byte at end of render-string -&gt; fixed</li>
+<li>Rendering: CreateRenderCFG_WebMVideo - added formats that need FFMPEG installed<br />
+</li>
 <li>Rendering: GetRenderCFG_Settings_AVI_Video - added formats, that need FFMPEG installed<br />
 </li>
 <li>Rendering: GetRenderCFG_Settings_MKV_Video - added formats, that need FFMPEG installed<br />
@@ -123,12 +138,12 @@ as usual...</p></li>
 <li>Rendering: GetRenderCFG_Settings_QTMOVMP4_Video - added video-format-retval; added formats, that need FFMPEG installed</li>
 <li>Rendering: GetRenderCFG_Settings_WebMVideo - added formats, that need FFMPEG installed<br />
 </li>
-<li>Rendering: CreateRenderCFG_AVI_Video - added formats that need FFMPEG installed</li>
-<li>Rendering: CreateRenderCFG_DDP - returned string was wrong due typo -&gt; fixed(thnx to loTrT)</li>
-<li>Rendering: CreateRenderCFG_MKV_Video - added formats that need FFMPEG installed</li>
-<li>Rendering: CreateRenderCFG_MOVMAC_Video - removed unused \0-byte at end of render-string -&gt; fixed</li>
-<li>Rendering: CreateRenderCFG_WebMVideo - added formats that need FFMPEG installed<br />
-</li>
+<li>Rendering: GetRenderPreset_RenderTable - allows now normalize only files that are too loud-option</li>
+<li>Rendering: GetRenderTable_Project - allows now normalize only files that are too loud-option</li>
+<li>Rendering: GetRenderTable_ProjectFile - allows now normalize only files that are too loud-option</li>
+<li>Rendering: IsValidRenderTable - allows now normalize only files that are too loud-option</li>
+<li>Rendering: RenderProject_RenderTable - allows now normalize only files that are too loud-option</li>
+<li>Rendering: SetRenderPreset - allows now normalize only files that are too loud-option</li>
 <li>TrackManagement: GetTrackLockState - didn't return lock-state reliably -&gt; fixed(thanx to Distressor)</li>
 <li>UserInterface: GetMediaExplorerHWND - didn't work under certain circumstances -&gt; fixed</li>
 <li>WebRC: WebInterface_GetInstalledInterfaces - could break, if html-pages had no title-tag in them -&gt; fixed</li>

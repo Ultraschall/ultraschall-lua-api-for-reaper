@@ -2326,8 +2326,8 @@ function ultraschall.GetRenderTable_Project()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRenderTable_Project</slug>
   <requires>
-    Ultraschall=4.2
-    Reaper=6.43
+    Ultraschall=4.3
+    Reaper=6.48
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -2369,6 +2369,9 @@ function ultraschall.GetRenderTable_Project()
                            3, True Peak
                            4, LUFS-M max
                            5, LUFS-S max
+            RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox
+                                                         - true, checkbox checked
+                                                         - false, checkbox unchecked
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
                                                               false, normalize each file individually
             RenderTable["Normalize_Target"] - the normalize-target as dB-value
@@ -2514,7 +2517,12 @@ function ultraschall.GetRenderTable_Project()
     RenderTable["Normalize_Target"]=-24
   end
   
-  
+  if RenderTable["Normalize_Method"]&256==0 then     
+    RenderTable["Normalize_Only_Files_Too_Loud"]=false
+  elseif RenderTable["Normalize_Method"]&256==256 then
+    RenderTable["Normalize_Only_Files_Too_Loud"]=true
+    RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-256
+  end
  
   if RenderTable["Normalize_Method"]&128==0 then     
     RenderTable["Brickwall_Limiter_Method"]=1    
@@ -2547,8 +2555,8 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRenderTable_ProjectFile</slug>
   <requires>
-    Ultraschall=4.2
-    Reaper=6.43
+    Ultraschall=4.3
+    Reaper=6.48
     Lua=5.3
   </requires>
   <functioncall>table RenderTable = ultraschall.GetRenderTable_ProjectFile(string projectfilename_with_path)</functioncall>
@@ -2738,21 +2746,28 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
     RenderTable["Normalize_Target"]=ultraschall.MKVOL2DB(RenderTable["Normalize_Target"])
     RenderTable["Normalize_Stems_to_Master_Target"]=RenderTable["Normalize_Method"]&32==32
   
-      if RenderTable["Normalize_Method"]&128==0 then     
-        RenderTable["Brickwall_Limiter_Method"]=1    
-      elseif RenderTable["Normalize_Method"]&128==128 then
-        RenderTable["Brickwall_Limiter_Method"]=2
-        RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-128
-      end
+    if RenderTable["Normalize_Method"]&256==0 then     
+      RenderTable["Normalize_Only_Files_Too_Loud"]=false
+    elseif RenderTable["Normalize_Method"]&256==256 then
+      RenderTable["Normalize_Only_Files_Too_Loud"]=true
+      RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-256
+    end
+  
+    if RenderTable["Normalize_Method"]&128==0 then     
+      RenderTable["Brickwall_Limiter_Method"]=1    
+    elseif RenderTable["Normalize_Method"]&128==128 then
+      RenderTable["Brickwall_Limiter_Method"]=2
+      RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-128
+    end
       
-      if RenderTable["Normalize_Method"]&64==64 then 
-        RenderTable["Brickwall_Limiter_Enabled"]=true
-        RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-64
-      elseif RenderTable["Normalize_Method"]&64==0 then 
-        RenderTable["Brickwall_Limiter_Enabled"]=false
-      end
+    if RenderTable["Normalize_Method"]&64==64 then 
+      RenderTable["Brickwall_Limiter_Enabled"]=true
+      RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-64
+    elseif RenderTable["Normalize_Method"]&64==0 then 
+      RenderTable["Brickwall_Limiter_Enabled"]=false
+    end
       
-      RenderTable["Brickwall_Limiter_Target"]=ultraschall.MKVOL2DB(RenderTable["Brickwall_Limiter_Target"])
+    RenderTable["Brickwall_Limiter_Target"]=ultraschall.MKVOL2DB(RenderTable["Brickwall_Limiter_Target"])
 
     if RenderTable["Normalize_Stems_to_Master_Target"]==true then 
       RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-32 
@@ -3212,8 +3227,8 @@ function ultraschall.IsValidRenderTable(RenderTable)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsValidRenderTable</slug>
   <requires>
-    Ultraschall=4.2
-    Reaper=6.43
+    Ultraschall=4.3
+    Reaper=6.48
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsValidRenderTable(table RenderTable)</functioncall>
@@ -3277,6 +3292,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
   if math.type(RenderTable["Brickwall_Limiter_Method"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Brickwall_Limiter_Method\"] must be an integer", -26) return false end
   if type(RenderTable["Brickwall_Limiter_Enabled"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Brickwall_Limiter_Enabled\"] must be a boolean", -27) return false end
   if type(RenderTable["Brickwall_Limiter_Target"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Brickwall_Limiter_Target\"] must be a number", -28) return false end
+  if type(RenderTable["Normalize_Only_Files_Too_Loud"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Normalize_Only_Files_Too_Loud\"] must be a boolean", -29) return false end
 
   return true
 end
@@ -3286,8 +3302,8 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderTable_Project</slug>
   <requires>
-    Ultraschall=4.2
-    Reaper=6.43
+    Ultraschall=4.3
+    Reaper=6.48
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -3337,6 +3353,9 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
                                                      3, True Peak
                                                      4, LUFS-M max
                                                      5, LUFS-S max
+            RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox
+                                                         - true, checkbox checked
+                                                         - false, checkbox unchecked
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
                                                               false, normalize each file individually
             RenderTable["Normalize_Target"]       - the normalize-target as dB-value    
@@ -3468,6 +3487,9 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   if RenderTable["Normalize_Enabled"]==true and normalize_method&1==0 then normalize_method=normalize_method+1 end
   if RenderTable["Normalize_Enabled"]==false and normalize_method&1==1 then normalize_method=normalize_method-1 end  
 
+  if RenderTable["Normalize_Only_Files_Too_Loud"]==true and normalize_method&256==0 then normalize_method=normalize_method+256 end
+  if RenderTable["Normalize_Only_Files_Too_Loud"]==false and normalize_method&256==1 then normalize_method=normalize_method-256 end 
+
   if RenderTable["Normalize_Stems_to_Master_Target"]==true and normalize_method&32==0 then normalize_method=normalize_method+32 end
   if RenderTable["Normalize_Stems_to_Master_Target"]==false and normalize_method&32==32 then normalize_method=normalize_method-32 end
   
@@ -3559,8 +3581,8 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderTable_ProjectFile</slug>
   <requires>
-    Ultraschall=4.2
-    Reaper=6.43
+    Ultraschall=4.3
+    Reaper=6.48
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string ProjectStateChunk = ultraschall.ApplyRenderTable_ProjectFile(table RenderTable, string projectfilename_with_path, optional boolean apply_rendercfg_string, optional string ProjectStateChunk)</functioncall>
@@ -3599,6 +3621,9 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["MultiChannelFiles"]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["Normalize_Enabled"]   - true, normalization enabled; 
                                                  false, normalization not enabled
+            RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox
+                                                         - true, checkbox checked
+                                                         - false, checkbox unchecked
             RenderTable["Normalize_Method"]    - the normalize-method-dropdownlist
                                                      0, LUFS-I
                                                      1, RMS-I
@@ -3755,6 +3780,9 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
   if RenderTable["Normalize_Enabled"]==true and normalize_method&1==0 then normalize_method=normalize_method+1 end
   if RenderTable["Normalize_Enabled"]==false and normalize_method&1==1 then normalize_method=normalize_method-1 end
   
+  if RenderTable["Normalize_Only_Files_Too_Loud"]==true and normalize_method&256==0 then normalize_method=normalize_method+256 end
+  if RenderTable["Normalize_Only_Files_Too_Loud"]==false and normalize_method&256==1 then normalize_method=normalize_method-256 end 
+  
   if RenderTable["Normalize_Stems_to_Master_Target"]==true and normalize_method&32==0 then normalize_method=normalize_method+32 end
   if RenderTable["Normalize_Stems_to_Master_Target"]==false and normalize_method&32==32 then normalize_method=normalize_method-32 end
   
@@ -3821,16 +3849,17 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject,
 RenderQueueDelay, RenderQueueDelaySeconds, CloseAfterRender, EmbedStretchMarkers, RenderString2, 
 EmbedTakeMarkers, DoNotSilentRender, EmbedMetadata, Enable2ndPassRender, 
 Normalize_Enabled, Normalize_Method, Normalize_Stems_to_Master_Target, Normalize_Target, 
-Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target)
+Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target,
+Normalize_Only_Files_Too_Loud)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateNewRenderTable</slug>
   <requires>
-    Ultraschall=4.2
-    Reaper=6.43
+    Ultraschall=4.3
+    Reaper=6.48
     Lua=5.3
   </requires>
-  <functioncall>table RenderTable = ultraschall.CreateNewRenderTable(optional integer Source, optional integer Bounds, optional number Startposition, optional number Endposition, optional integer TailFlag, optional integer TailMS, optional string RenderFile, optional string RenderPattern, optional integer SampleRate, optional integer Channels, optional integer OfflineOnlineRendering, optional boolean ProjectSampleRateFXProcessing, optional integer RenderResample, optional boolean OnlyMonoMedia, optional boolean MultiChannelFiles, optional integer Dither, optional string RenderString, optional boolean SilentlyIncrementFilename, optional boolean AddToProj, optional boolean SaveCopyOfProject, optional boolean RenderQueueDelay, optional integer RenderQueueDelaySeconds, optional boolean CloseAfterRender, optional boolean EmbedStretchMarkers, optional string RenderString2, optional boolean EmbedTakeMarkers, optional boolean DoNotSilentRender, optional boolean EmbedMetadata, optional boolean Enable2ndPassRender, optional boolean Normalize_Enabled, optional integer Normalize_Method, optional boolean Normalize_Stems_to_Master_Target, optional number Normalize_Target, optional boolean Brickwall_Limiter_Enabled, optional integer Brickwall_Limiter_Method, optional number Brickwall_Limiter_Target)</functioncall>
+  <functioncall>table RenderTable = ultraschall.CreateNewRenderTable(optional integer Source, optional integer Bounds, optional number Startposition, optional number Endposition, optional integer TailFlag, optional integer TailMS, optional string RenderFile, optional string RenderPattern, optional integer SampleRate, optional integer Channels, optional integer OfflineOnlineRendering, optional boolean ProjectSampleRateFXProcessing, optional integer RenderResample, optional boolean OnlyMonoMedia, optional boolean MultiChannelFiles, optional integer Dither, optional string RenderString, optional boolean SilentlyIncrementFilename, optional boolean AddToProj, optional boolean SaveCopyOfProject, optional boolean RenderQueueDelay, optional integer RenderQueueDelaySeconds, optional boolean CloseAfterRender, optional boolean EmbedStretchMarkers, optional string RenderString2, optional boolean EmbedTakeMarkers, optional boolean DoNotSilentRender, optional boolean EmbedMetadata, optional boolean Enable2ndPassRender, optional boolean Normalize_Enabled, optional integer Normalize_Method, optional boolean Normalize_Stems_to_Master_Target, optional number Normalize_Target, optional boolean Brickwall_Limiter_Enabled, optional integer Brickwall_Limiter_Method, optional number Brickwall_Limiter_Target, optional boolean Normalize_Method)</functioncall>
   <description>
     Creates a new RenderTable.
     
@@ -3853,6 +3882,7 @@ Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target)
               RenderTable["Endposition"]=0
               RenderTable["MultiChannelFiles"]=false
               RenderTable["Normalize_Enabled"]=false
+              RenderTable["Normalize_Only_Files_Too_Loud"]=false
               RenderTable["Normalize_Method"]=0
               RenderTable["Normalize_Stems_to_Master_Target"]=false
               RenderTable["Normalize_Target"]=-24
@@ -3967,6 +3997,7 @@ Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target)
     optional boolean Brickwall_Limiter_Enabled - true, enable brickwall-limiter
     optional integer Brickwall_Limiter_Method - the brickwall-limiter-method; 1, peak; 2, True Peak
     optional number Brickwall_Limiter_Target - the target of brickwall-limiter in dB
+    optional boolean Normalize_Only_Files_Too_Loud - only normalize files that are too loud; true, enabled; false, disabled
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -4020,6 +4051,9 @@ Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target)
   if Brickwall_Limiter_Enabled~=nil and type(Brickwall_Limiter_Enabled)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Brickwall_Limiter_Enabled", "#34: must be nil or a boolean", -35) return end
   if Brickwall_Limiter_Method~=nil and math.type(Brickwall_Limiter_Method)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Brickwall_Limiter_Method", "#35: must be nil or an integer", -36) return end
   if Brickwall_Limiter_Target~=nil and type(Brickwall_Limiter_Target)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Brickwall_Limiter_Target", "#36: must be nil or a number", -37) return end
+  
+  if Normalize_Only_Files_Too_Loud~=nil and type(Normalize_Only_Files_Too_Loud)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Normalize_Only_Files_Too_Loud", "#37: must be nil or boolean", -38) return end
+    
     
 
   -- create Reaper-vanilla default RenderTable
@@ -4061,6 +4095,7 @@ Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target)
   RenderTable["Brickwall_Limiter_Enabled"]=false
   RenderTable["Brickwall_Limiter_Method"]=1
   RenderTable["Brickwall_Limiter_Target"]=1
+  RenderTable["Normalize_Only_Files_Too_Loud"]=false
 
   -- set all attributes passed via parameters
   if AddToProj~=nil           then RenderTable["AddToProj"]=AddToProj end
@@ -4100,20 +4135,22 @@ Brickwall_Limiter_Enabled, Brickwall_Limiter_Method, Brickwall_Limiter_Target)
   if Brickwall_Limiter_Method~=nil then RenderTable["Brickwall_Limiter_Method"]=Brickwall_Limiter_Method end
   if Brickwall_Limiter_Target~=nil then RenderTable["Brickwall_Limiter_Target"]=Brickwall_Limiter_Target end
   
-  
-  
+  if Normalize_Only_Files_Too_Loud~=nil then RenderTable["Normalize_Only_Files_Too_Loud"]=Normalize_Only_Files_Too_Loud end
  
   return RenderTable
 end
 
 -- Für Dich zum Testen für zukünftige Parameters:
 
---[[A,B=ultraschall.CreateNewRenderTable(2, 0, 2, 22, 0,                        -- 5
+--[[
+A=ultraschall.CreateNewRenderTable(2, 0, 2, 22, 0,                          -- 5
                                      190, "aRenderFile", "apattern", 99, 3, -- 10
                                      3,    false,   2, false, false,        -- 15
                                      1, "", true, true, true,               -- 20
                                      true, 0, true, true, "",               -- 25
-                                     true, true, true, true)                     -- 30
+                                     true, true, true, true, true,          -- 30
+                                     1, true, 1, false, 1,                  -- 35
+                                     3, true)                               -- 40 Brickwall_Limiter_Target plus
                                      SLEM()
 --]]
 --Source, Bounds, Startposition, Endposition, TailFlag, TailMS, RenderFile, RenderPattern,
@@ -4578,8 +4615,8 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>GetRenderPreset_RenderTable</slug>
    <requires>
-     Ultraschall=4.2
-     Reaper=6.43
+     Ultraschall=4.3
+     Reaper=6.48
      Lua=5.3
    </requires>
    <functioncall>table RenderTable = ultraschall.GetRenderPreset_RenderTable(string Bounds_Name, string Options_and_Format_Name)</functioncall>
@@ -4622,6 +4659,9 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
             RenderTable["MultiChannelFiles"]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["Normalize_Enabled"]   - true, normalization enabled; 
                                                  false, normalization not enabled
+            RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox
+                                                         - true, checkbox checked
+                                                         - false, checkbox unchecked
             RenderTable["Normalize_Method"]    - the normalize-method-dropdownlist
                                                      0, LUFS-I
                                                      1, RMS-I
@@ -4867,6 +4907,14 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   else
     RenderTable["Brickwall_Limiter_Method"]=1
   end
+  
+  if Normalize_Method&256==0 then     
+    RenderTable["Normalize_Only_Files_Too_Loud"]=false
+  elseif Normalize_Method&256==256 then
+    RenderTable["Normalize_Only_Files_Too_Loud"]=true
+    Normalize_Method=Normalize_Method-256
+  end
+  
   RenderTable["Brickwall_Limiter_Target"]=ultraschall.MKVOL2DB(Brickwall_Target)
   
   RenderTable["Normalize_Method"]=math.tointeger(Normalize_Method/2)
@@ -4985,8 +5033,8 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>AddRenderPreset</slug>
    <requires>
-     Ultraschall=4.2
-     Reaper=6.43
+     Ultraschall=4.3
+     Reaper=6.48
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.AddRenderPreset(string Bounds_Name, string Options_and_Format_Name, table RenderTable)</functioncall>
@@ -5059,6 +5107,9 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       &8, dither noise shaping stems
               RenderTable["MultiChannelFiles"] - multichannel-files-checkbox
               RenderTable["Normalize_Enabled"] - true, normalization enabled; false, normalization not enabled
+              RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox
+                                             - true, checkbox checked
+                                             - false, checkbox unchecked
               RenderTable["Normalize_Method"] - the normalize-method-dropdownlist
                                                 0, LUFS-I
                                                 1, RMS-I
@@ -5165,9 +5216,10 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
       end
       local normalize_method=RenderTable["Normalize_Method"]*2
       if RenderTable["Normalize_Enabled"]==true then normalize_method=normalize_method+1 end
-      if RenderTable["Normalize_Stems_to_Master_Target"]==true then normalize_method=normalize_method+32 end
+      if RenderTable["Normalize_Stems_to_Master_Target"]==true then normalize_method=normalize_method+32 end      
       if RenderTable["Brickwall_Limiter_Enabled"]==true then normalize_method=normalize_method+64 end
       if RenderTable["Brickwall_Limiter_Method"]==2 then normalize_method=normalize_method+128 end
+      if RenderTable["Normalize_Only_Files_Too_Loud"]==true then normalize_method=normalize_method+256 end
       local brickwall_target=ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"])
       local normalize_target=ultraschall.DB2MKVOL(RenderTable["Normalize_Target"])
       local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target.." "..brickwall_target
@@ -5189,8 +5241,8 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>SetRenderPreset</slug>
    <requires>
-     Ultraschall=4.2
-     Reaper=6.43
+     Ultraschall=4.3
+     Reaper=6.48
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.SetRenderPreset(string Bounds_Name, string Options_and_Format_Name, table RenderTable)</functioncall>
@@ -5276,6 +5328,9 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                                 3, True Peak
                                                 4, LUFS-M max
                                                 5, LUFS-S max
+              RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox
+                                                           - true, checkbox checked
+                                                           - false, checkbox unchecked
               RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
                                                                 false, normalize each file individually
               RenderTable["Normalize_Target"] - the normalize-target as dB-value
@@ -5380,6 +5435,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
       if RenderTable["Normalize_Stems_to_Master_Target"]==true then normalize_method=normalize_method+32 end
       if RenderTable["Brickwall_Limiter_Enabled"]==true then normalize_method=normalize_method+64 end
       if RenderTable["Brickwall_Limiter_Method"]==2 then normalize_method=normalize_method+128 end
+      if RenderTable["Normalize_Only_Files_Too_Loud"]==true then normalize_method=normalize_method+256 end
       
       local brickwall_target=ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"])
       local normalize_target=ultraschall.DB2MKVOL(RenderTable["Normalize_Target"])
@@ -5412,8 +5468,8 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RenderProject_RenderTable</slug>
   <requires>
-    Ultraschall=4.2
-    Reaper=6.20
+    Ultraschall=4.3
+    Reaper=6.48
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -5458,6 +5514,9 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
                                                      3, True Peak
                                                      4, LUFS-M max
                                                      5, LUFS-S max
+            RenderTable["Normalize_Only_Files_Too_Loud"] - Only normalize files that are too loud,checkbox
+                                                         - true, checkbox checked
+                                                         - false, checkbox unchecked
             RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
                                                               false, normalize each file individually
             RenderTable["Normalize_Target"]       - the normalize-target as dB-value    

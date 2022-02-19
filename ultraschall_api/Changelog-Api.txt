@@ -208,11 +208,17 @@ Has now 1457 functions, with 34 new ones
 
 **new in this release:**  
 
-  - **Media Explorer stuff**  
+  - **ParmLearn-dialog defaults**  
+  You can now get/set the default settings for the Parm-Learn-dialog. So you can now reset it to your preferred settings before learning a new parameter.
+
+  - **Media Explorer features**  
   You can now get/set volume, rate, pitch and even output-channels of the media explorer and various checkboxes.
   
   - **SetItem-functions**  
   There were set item-function missing, though their get counterpart was there. So, I added more set functions.  
+  
+  - ** Rendering - Only Normalize Files That Are Too Loud**  
+  You can now choose, whether to normalize only files that are too loud  
   
   - **Rendering FFMPEG-only**  
   With FFMPEG-dll installed, you have access to more render-output-functions. You can now create render-strings for these formats as well.
@@ -265,14 +271,14 @@ Has now 1457 functions, with 34 new ones
   
 #### Changes from 4.2.006 to 4.3    
   - DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation
-  - Docs: general - updated to Reaper 6.47, JS-extension 1.301, ReaImGui 0.5.10, ReaBlink 0.4.4, SWS 2.13.0.0
+  - Docs: Reaper Internals - updated to Reaper 6.47, JS-extension 1.301, ReaImGui 0.5.10, ReaBlink 0.4.4, SWS 2.13.0.0
   - MarkerManagement: AddCustomMarker - returns now the custom-marker-index, within all custom markers only, as well; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well; allows now creating regions with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddEditMarker - returns now the edit-marker-index, within all edit markers; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddEditRegion - returns now the edit-region-index, within all edit regions; allows now creating regions with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers; improved automatic numbering; allows now creating markers with the same name on the same position(workaround for Reaper-limitation) -> fixed
   - MarkerManagement: CountNormalMarkers - did count custom-markers as well -> fixed
-  - MarkerManagement: CountNormalMarkers_NumGap - didn't count normal markers only, but rather all -> fixed
+  - MarkerManagement: CountNormalMarkers\_NumGap - didn't count normal markers only, but rather all -> fixed
   - MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -> fixed
   - MarkerManagement: SetNormalMarker - did set custom-markers as well -> fixed
   - MediaItemManagement: GetAllMediaItemsFromTrack - had problems, when a track had no item -> fixed(thnx to Distressor)
@@ -280,16 +286,27 @@ Has now 1457 functions, with 34 new ones
   - MediaItemManagement: SetItemLength - did return -1 in case of an error, whereas it should return nil instead -> fixed
   - MediaItemManagement: SetItemImage - did return -1 in case of an error, whereas it should return nil instead -> fixed
   - ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk
-  - Rendering: GetRenderCFG\_Settings\_AVI\_Video - added formats, that need FFMPEG installed  
-  - Rendering: GetRenderCFG\_Settings\_MKV\_Video - added formats, that need FFMPEG installed  
-  - Rendering: GetRenderCFG\_Settings\_MOVMac\_Video - didn't work; was missing the format-dropdownlist-settings -> fixed
-  - Rendering: GetRenderCFG\_Settings\_QTMOVMP4_Video - added video-format-retval; added formats, that need FFMPEG installed
-  - Rendering: GetRenderCFG\_Settings\_WebMVideo - added formats, that need FFMPEG installed  
+  - ProjectManagement: GetProject\_Render\_Normalize - allows now normalize only files that are too loud-option
+  - ProjectManagement: SetProject\_Render\_Normalize - allows now normalize only files that are too loud-option
+  - Rendering: AddRenderPreset - allows now normalize only files that are too loud-option
+  - Rendering: ApplyRenderTable\_Project - allows now normalize only files that are too loud-option
+  - Rendering: ApplyRenderTable\_ProjectFile - allows now normalize only files that are too loud-option
   - Rendering: CreateRenderCFG\_AVI\_Video - added formats that need FFMPEG installed
   - Rendering: CreateRenderCFG\_DDP - returned string was wrong due typo -> fixed(thnx to loTrT)
   - Rendering: CreateRenderCFG\_MKV\_Video - added formats that need FFMPEG installed
   - Rendering: CreateRenderCFG\_MOVMAC\_Video - removed unused \0-byte at end of render-string -> fixed
   - Rendering: CreateRenderCFG\_WebMVideo - added formats that need FFMPEG installed  
+  - Rendering: GetRenderCFG\_Settings\_AVI\_Video - added formats, that need FFMPEG installed  
+  - Rendering: GetRenderCFG\_Settings\_MKV\_Video - added formats, that need FFMPEG installed  
+  - Rendering: GetRenderCFG\_Settings\_MOVMac\_Video - didn't work; was missing the format-dropdownlist-settings -> fixed
+  - Rendering: GetRenderCFG\_Settings\_QTMOVMP4\_Video - added video-format-retval; added formats, that need FFMPEG installed
+  - Rendering: GetRenderCFG\_Settings\_WebMVideo - added formats, that need FFMPEG installed  
+  - Rendering: GetRenderPreset\_RenderTable - allows now normalize only files that are too loud-option
+  - Rendering: GetRenderTable\_Project - allows now normalize only files that are too loud-option
+  - Rendering: GetRenderTable\_ProjectFile - allows now normalize only files that are too loud-option
+  - Rendering: IsValidRenderTable - allows now normalize only files that are too loud-option
+  - Rendering: RenderProject\_RenderTable - allows now normalize only files that are too loud-option
+  - Rendering: SetRenderPreset - allows now normalize only files that are too loud-option
   - TrackManagement: GetTrackLockState - didn't return lock-state reliably -> fixed(thanx to Distressor)
   - UserInterface: GetMediaExplorerHWND - didn't work under certain circumstances -> fixed
   - WebRC: WebInterface\_GetInstalledInterfaces - could break, if html-pages had no title-tag in them -> fixed
