@@ -261,8 +261,8 @@ Has now 1457 functions, with 34 new ones
   - ParameterLearn: GetParmLearn\_Default - gets default-settings for the parameter-learn-dialog(requested by akademie)
   - ParameterLearn: SetParmLearn\_Default - sets default-settings for the parameter-learn-dialog(requested by akademie)
   - Rendering: CreateRenderCFG\_FLV\_Video - creates a render-string for flv export(with FFMPEG installed only)
-  - Rendering: CreateRenderCFG\_MPEG1\_Video - creates a render-string for mpeg-1 export(with FFMPEG installed only)
-  - Rendering: CreateRenderCFG\_MPEG2\_Video - creates a render-string for mpeg-2 export(with FFMPEG installed only)
+  - Rendering: CreateRenderCFG\_MPEG1\_Video - creates a render-string for MPEG-1 export(with FFMPEG installed only)
+  - Rendering: CreateRenderCFG\_MPEG2\_Video - creates a render-string for MPEG-2 export(with FFMPEG installed only)
   - Rendering: GetRenderCFG\_Settings\_MPEG1\_Video - returns settings of render-string for MPEG-1, when FFMPEG is installed
   - Rendering: GetRenderCFG\_Settings\_MPEG2\_Video - returns settings of render-string for MPEG-2, when FFMPEG is installed
   - TrackManagement: ConvertTrackstringToArray - converts all tracknumbers of a trackstring and returns them as an array
