@@ -4993,3 +4993,86 @@ end
 
 --A,B=ultraschall.GetAllCustomMarkerNames()
 
+function ultraschall.GetGuidFromNormalMarkerID(idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetGuidFromNormalMarkerID</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string guid = ultraschall.GetGuidFromNormalMarkerID(integer index)</functioncall>
+  <description>
+    Gets the corresponding guid of a normal marker with a specific index 
+    
+    The index is for normal markers only
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the normal marker of the marker with a specific index
+  </retvals>
+  <parameters>
+    integer index - the index of the normal marker, whose guid you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, normal marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetGuidFromNormalMarkerID", "idx", "must be an integer", -1) return -1 end
+  local retnumber, retidxnum, position, markertitle, guid2 = ultraschall.EnumerateNormalMarkers(idx)
+  return guid2
+end
+
+
+--A=ultraschall.GetGuidFromNormalMarkerID(1)
+
+function ultraschall.GetNormalMarkerIDFromGuid(guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetNormalMarkerIDFromGuid</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetNormalMarkerIDFromGuid(string guid)</functioncall>
+  <description>
+    Gets the corresponding indexnumber of a normal-marker-guid
+    
+    The index is for all normal markers only.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer index - the index of the marker, whose guid you have passed to this function
+  </retvals>
+  <parameters>
+    string guid - the guid of the marker, whose index-number you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, normal marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if type(guid)~="string" then ultraschall.AddErrorMessage("GetNormalMarkerIDFromGuid", "guid", "must be a string", -1) return -1 end
+  for i=0, ultraschall.CountNormalMarkers() do
+    local retnumber, retidxnum, position, markertitle, guid2 = ultraschall.EnumerateNormalMarkers(i)
+    if guid2==guid then return i end
+  end
+  return guid2
+end
+
+--B=ultraschall.GetNormalMarkerIDFromGuid(A)
+
+

@@ -3513,3 +3513,802 @@ function ultraschall.SetItemImage(MediaItem, MediaItemStateChunk, imagefilename)
   return MediaItemStateChunk
 end
 
+function ultraschall.SetItemAllTakes(MediaItem, statechunk, all_takes)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemAllTakes</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemAllTakes(MediaItem MediaItem, optional string MediaItemStateChunk, integer all_takes)</functioncall>
+  <description>
+    Sets position in a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    integer all_takes - play all takes-setting; 0, don't play all takes; 1, play all takes
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, play all takes</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemAllTakes", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if math.type(all_takes)~="integer" then ultraschall.AddErrorMessage("SetItemAllTakes", "all_takes", "Must be an integer.", -2) return nil end  
+  if all_takes~=0 and all_takes~=1 then ultraschall.AddErrorMessage("SetItemAllTakes", "all_takes", "Must be either 0 or 1.", -3) return nil end
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)ALLTAKES").."ALLTAKES "..all_takes.."\n"..statechunk:match("ALLTAKES.-%c(.*)")
+  
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemChanMode(MediaItem, statechunk, chanmode)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemChanMode</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemChanMode(MediaItem MediaItem, optional string MediaItemStateChunk, integer chanmode)</functioncall>
+  <description>
+    Sets channelmode in a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    integer chanmode - the channel-mode of the item; 0 and higher
+                     - 0, normal
+                     - 1, Mono (Mix L+R)
+                     - 2, Mono (Left)
+                     - 3, Mono (Right)
+                     - 4, Mono 3
+                     - ...
+                     - 66, Mono 64
+                     - 67, Stereo 1/2
+                     - 67, Stereo 2/3
+                     - ...
+                     - 129, Stereo 63/64
+                     - higher, (unknown)
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, chan mode</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemChanMode", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if math.type(chanmode)~="integer" then ultraschall.AddErrorMessage("SetItemChanMode", "chanmode", "Must be an integer.", -2) return nil end  
+  if chanmode<0 then ultraschall.AddErrorMessage("SetItemChanMode", "chanmode", "Must be 0 and higher", -3) return nil end
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)CHANMODE").."CHANMODE "..chanmode.."\n"..statechunk:match("CHANMODE.-%c(.*)")
+  
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemLoop(MediaItem, statechunk, loop)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemLoop</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemLoop(MediaItem MediaItem, optional string MediaItemStateChunk, integer loop)</functioncall>
+  <description>
+    Sets loop-source-setting in a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    integer loop - the loopstate of the item/item-statechunk; 0, loop is off; 1, loop is on
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, loop</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemLoop", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if math.type(loop)~="integer" then ultraschall.AddErrorMessage("SetItemLoop", "loop", "Must be an integer.", -2) return nil end  
+  if loop~=0 and loop~=1 then ultraschall.AddErrorMessage("SetItemLoop", "loop", "Must be 0 or 1", -3) return nil end
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)LOOP").."LOOP "..loop.."\n"..statechunk:match("LOOP.-%c(.*)")
+  
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemName(MediaItem, statechunk, name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemName</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemName(MediaItem MediaItem, optional string MediaItemStateChunk, string name)</functioncall>
+  <description>
+    Sets name of a MediaItem or MediaItemStateChunk.
+    
+    It is the name of the first take in the MediaItem!
+    
+    Note: No '-quotes in the name are allowed. This is due Reaper's complicated management of quotes in strings in statechunks.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of an error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    string name - the new name of the first take in the item
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, name, first take</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemName", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if type(name)~="string" then ultraschall.AddErrorMessage("SetItemName", "name", "Must be a string", -2) return nil end  
+  if name:match("\"")~=nil then ultraschall.AddErrorMessage("SetItemName", "name", "No \" are allowed!", -3) return nil end  
+
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)NAME").."NAME \""..name.."\"\n"..statechunk:match("NAME.-%c(.*)")
+  
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemSelected(MediaItem, statechunk, selected)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemSelected</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemSelected(MediaItem MediaItem, optional string MediaItemStateChunk, integer selected)</functioncall>
+  <description>
+    Sets selection of a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    integer selected - the selected state; 0, item is unselected; 1, item is selected
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, selected</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemSelected", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if math.type(selected)~="integer" then ultraschall.AddErrorMessage("SetItemSelected", "selected", "Must be an integer", -2) return nil end  
+  if selected~=0 and selected~=1 then ultraschall.AddErrorMessage("SetItemSelected", "selected", "Must be 0 or 1", -3) return nil end
+
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)SEL").."SEL "..selected.."\n"..statechunk:match("SEL.-%c(.*)")
+  
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+
+function ultraschall.SetItemGUID(MediaItem, statechunk, guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemGUID</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemGUID(MediaItem MediaItem, optional string MediaItemStateChunk, string guid)</functioncall>
+  <description>
+    Sets guid of a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    string guid - the new guid of the item
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, guid</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemGUID", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if type(guid)~="string" then ultraschall.AddErrorMessage("SetItemGUID", "guid", "Must be a string", -2) return nil end  
+  if ultraschall.IsValidGuid(guid, true)==false then ultraschall.AddErrorMessage("SetItemGUID", "guid", "Must be a valid guid", -3) return end
+
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)\nGUID").."\nGUID \""..guid.."\"\n"..statechunk:match("\nGUID.-%c(.*)")
+  
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemIGUID(MediaItem, statechunk, iguid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemGUID</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemIGUID(MediaItem MediaItem, optional string MediaItemStateChunk, string iguid)</functioncall>
+  <description>
+    Sets iguid of a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    string iguid - the new iguid of the item
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, iguid</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemIGUID", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if type(iguid)~="string" then ultraschall.AddErrorMessage("SetItemIGUID", "iguid", "Must be a string", -2) return nil end  
+  if ultraschall.IsValidGuid(iguid, true)==false then ultraschall.AddErrorMessage("SetItemIGUID", "iguid", "Must be a valid guid", -3) return end
+
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)\nIGUID").."\nIGUID \""..iguid.."\"\n"..statechunk:match("\nIGUID.-%c(.*)")
+  
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+
+
+function ultraschall.SetItemIID(MediaItem, statechunk, iid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemIID</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemIID(MediaItem MediaItem, optional string MediaItemStateChunk, integer iid)</functioncall>
+  <description>
+    Sets itemid-number of a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    integer iid - the new item-id; 1 and higher; function will not check, whether the iid is already in use!
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, iid</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemIID", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if math.type(iid)~="integer" then ultraschall.AddErrorMessage("SetItemIID", "iid", "Must be an integer", -2) return nil end  
+  if iid<1 then ultraschall.AddErrorMessage("SetItemIID", "iid", "Must be 0 or higher", -3) return nil end
+
+  
+  -- do the magic
+  local A1=statechunk:match("(<ITEM.-)IID")
+  local B1
+  if A1==nil then 
+    A1=statechunk:match("(<ITEM.-)NAME") 
+    B1=statechunk:match("(NAME.-%c.*)") 
+  else 
+    B1=statechunk:match("IID.-%c(.*)") 
+  end
+
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, A1.."IID "..iid.."\n"..B1, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemMute(MediaItem, statechunk, mutestate1, mutestate2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemMute</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemMute(MediaItem MediaItem, optional string MediaItemStateChunk, integer mutestate1, integer mutestate2)</functioncall>
+  <description>
+    Sets mutestate of a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    integer mutestate1 - actual mutestate, item solo overrides; 0, item is muted; 1, item is unmuted
+    integer mutestate2 - mutestate, ignores solo; 0, item is muted; 1, item is unmuted
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, mute</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemMute", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if math.type(mutestate1)~="integer" then ultraschall.AddErrorMessage("SetItemMute", "mutestate1", "Must be an integer", -2) return nil end  
+  if math.type(mutestate2)~="integer" then ultraschall.AddErrorMessage("SetItemMute", "mutestate2", "Must be an integer", -3) return nil end  
+  if mutestate1<0 or mutestate1>1 then ultraschall.AddErrorMessage("SetItemMute", "mutestate1", "Must be either 0 or 1", -4) return nil end  
+  if mutestate2<0 or mutestate2>1 then ultraschall.AddErrorMessage("SetItemMute", "mutestate2", "Must be either 0 or 1", -5) return nil end  
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)MUTE").."MUTE "..mutestate1.." "..mutestate2.."\n"..statechunk:match("MUTE.-%c(.*)")
+
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemSampleOffset(MediaItem, statechunk, soffs1, soffs2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemSampleOffset</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemSampleOffset(MediaItem MediaItem, optional string MediaItemStateChunk, number soffs1, number soffs2)</functioncall>
+  <description>
+    Sets sample-offset of a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    number soffs1 - the offset in seconds
+    optional number soffs2 - unknown, probably something with QN(?); seems to be set by Reaper automatically, when committing to a MediaItem
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, sample offset</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemSampleOffset", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if type(soffs1)~="number" then ultraschall.AddErrorMessage("SetItemSampleOffset", "soffs1", "Must be a number", -2) return nil end  
+  if soffs2~=nil and type(soffs2)~="number" then ultraschall.AddErrorMessage("SetItemSampleOffset", "soffs2", "Must be a number", -3) return nil end  
+  if soffs2==nil then soffs2="" end
+
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)SOFFS").."SOFFS "..soffs1.." "..soffs2.."\n"..statechunk:match("SOFFS.-%c(.*)")
+
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemVolPan(MediaItem, statechunk, volpan1, pan, volume, volpan4)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemVolPan</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemVolPan(MediaItem MediaItem, optional string MediaItemStateChunk, number volpan1, number pan, number volume, number volpan4)</functioncall>
+  <description>
+    Sets volume-pan-settings of a MediaItem or MediaItemStateChunk.
+    
+    Use ultraschall.DB2MKVOL() to convert dB to a value accepted by parameter volume.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    number volpan1 - unknown; 0, seems to mute the item without using mute; 1, seems to keep the item unmuted
+    number pan - from -1(100%L) to 1(100%R), 0 is center
+    number volume - from 0(-inf) to 3.981072(+12db), 1 is 0db; higher numbers are allowed; negative means phase inverted
+    number volpan4 - unknown
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, volume, pan</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemVolPan", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if type(volpan1)~="number" then ultraschall.AddErrorMessage("SetItemVolPan", "volpan1", "Must be a number", -2) return nil end  
+  if type(pan)~="number" then ultraschall.AddErrorMessage("SetItemVolPan", "pan", "Must be a number", -3) return nil end  
+  if type(volume)~="number" then ultraschall.AddErrorMessage("SetItemVolPan", "volume", "Must be a number", -4) return nil end  
+  if type(volpan4)~="number" then ultraschall.AddErrorMessage("SetItemVolPan", "volpan4", "Must be a number", -5) return nil end  
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)VOLPAN").."VOLPAN "..volpan1.." "..pan.." "..volume.." "..volpan4.."\n"..statechunk:match("VOLPAN.-%c(.*)")
+
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+
+
+function ultraschall.SetItemFadeIn(MediaItem, statechunk, curvetype1, fadein_length, fadein_length2, curvetype2, fadestate5, curve, fadestate7)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemFadeIn</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemFadeIn(MediaItem MediaItem, optional string MediaItemStateChunk, number curvetype1, number fadein_length, number fadein_length2, number curvetype2, integer fadestate5, number curve, number fadestate7)</functioncall>
+  <description>
+    Sets fade-in-settings of a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    number curvetype1 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype2
+    number fadein_length - the current fadein-length in seconds; minimum 0
+    number fadein_length2 - the fadein-length in seconds; overrides fadein_length and will be moved to fadein_length when fadein-length changes(e.g. mouse-drag); might be autocrossfade-length; minimum 0
+    number curvetype2 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype1
+    integer fadestate5 - unknown, either 0 or 1; fadeinstate entry as set in the rppxml-mediaitem-statechunk
+    number curve - curve -1 to 1
+    number fadestate7 - unknown
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, fadein, curve</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  
+  -- number curvetype1, number fadein_length, number fadein_length, number curvetype2, integer fadestate5, number curve
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemFadeIn", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if type(curvetype1)~="number" then ultraschall.AddErrorMessage("SetItemFadeIn", "curvetype1", "Must be a number", -2) return nil end  
+  if type(fadein_length)~="number" then ultraschall.AddErrorMessage("SetItemFadeIn", "fadein_length", "Must be a number", -3) return nil end  
+  if type(fadein_length2)~="number" then ultraschall.AddErrorMessage("SetItemFadeIn", "fadein_length2", "Must be a number", -4) return nil end  
+  if type(curvetype2)~="number" then ultraschall.AddErrorMessage("SetItemFadeIn", "curvetype2", "Must be a number", -5) return nil end  
+  if math.type(fadestate5)~="integer" then ultraschall.AddErrorMessage("SetItemFadeIn", "fadestate5", "Must be an integer", -6) return nil end  
+  if type(curve)~="number" then ultraschall.AddErrorMessage("SetItemFadeIn", "curve", "Must be a number", -7) return nil end  
+  if type(fadestate7)~="number" then ultraschall.AddErrorMessage("SetItemFadeIn", "fadestate7", "Must be a number", -8) return nil end  
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)FADEIN").."FADEIN "..curvetype1.." "..fadein_length.." "..fadein_length2.." "..curvetype2.." "..fadestate5.." "..curve.." "..fadestate7.."\n"..statechunk:match("FADEIN.-%c(.*)")
+
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemFadeOut(MediaItem, statechunk, curvetype1, fadeout_length, fadeout_length2, curvetype2, fadestate5, curve, fadestate7)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemFadeOut</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemFadeOut(MediaItem MediaItem, optional string MediaItemStateChunk, number curvetype1, number fadeout_length, number fadeout_length2, number curvetype2, integer fadestate5, number curve, number fadestate7)</functioncall>
+  <description>
+    Sets fade-out-settings of a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    number curvetype1 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype2
+    number fadeout_length - the current fadeout-length in seconds; minimum 0
+    number fadeout_length2 - the fadeout-length in seconds; overrides fadeout_length and will be moved to fadeout_length when fadeout-length changes(e.g. mouse-drag); might be autocrossfade-length; minimum 0
+    number curvetype2 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype1
+    integer fadestate5 - unknown, either 0 or 1; fadeoutstate entry as set in the rppxml-mediaitem-statechunk
+    number curve - curve -1 to 1
+    number fadestate7 - unknown
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, fadeout, curve</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  
+  -- number curvetype1, number fadein_length, number fadein_length, number curvetype2, integer fadestate5, number curve
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemFadeOut", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+
+  if type(curvetype1)~="number" then ultraschall.AddErrorMessage("SetItemFadeOut", "curvetype1", "Must be a number", -2) return nil end  
+  if type(fadeout_length)~="number" then ultraschall.AddErrorMessage("SetItemFadeOut", "fadeout_length", "Must be a number", -3) return nil end  
+  if type(fadeout_length2)~="number" then ultraschall.AddErrorMessage("SetItemFadeOut", "fadeout_length2", "Must be a number", -4) return nil end  
+  if type(curvetype2)~="number" then ultraschall.AddErrorMessage("SetItemFadeOut", "curvetype2", "Must be a number", -5) return nil end  
+  if math.type(fadestate5)~="integer" then ultraschall.AddErrorMessage("SetItemFadeOut", "fadestate5", "Must be an integer", -6) return nil end  
+  if type(curve)~="number" then ultraschall.AddErrorMessage("SetItemFadeOut", "curve", "Must be a number", -7) return nil end  
+  if type(fadestate7)~="number" then ultraschall.AddErrorMessage("SetItemFadeOut", "fadestate7", "Must be a number", -8) return nil end  
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)FADEOUT").."FADEOUT "..curvetype1.." "..fadeout_length.." "..fadeout_length2.." "..curvetype2.." "..fadestate5.." "..curve.." "..fadestate7.."\n"..statechunk:match("FADEOUT.-%c(.*)")
+
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+function ultraschall.SetItemPlayRate(MediaItem, statechunk, playbackrate, preserve_pitch, pitch_adjust, takepitch_timestretch_mode, optimize_tonal_content, stretch_marker_fadesize)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetItemPlayRate</slug>
+  <requires>
+    Ultraschall=4.3
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemPlayRate(MediaItem MediaItem, optional string MediaItemStateChunk, number playbackrate, integer preserve_pitch, number pitch_adjust, integer takepitch_timestretch_mode, integer optimize_tonal_content, number stretch_marker_fadesize)</functioncall>
+  <description>
+    Sets playrate-settings of a MediaItem or MediaItemStateChunk.
+    
+    It returns the modified MediaItemStateChunk.
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    number playbackrate - 1 is 1x, 2 is 2x, 1.8 is 1.8x,etc
+    integer preserve_pitch - preserve pitch; 1, preserve; 0, don't preserve
+    number pitch_adjust - pitch_adjust(semitones); negative values allowed; 1.1=1.1 semitones higher, -0.3=0.3 semitones lower,etc
+    integer takepitch_timestretch_mode - the item's pitchmode - 65536 for project-default
+    integer optimize_tonal_content - 2, checkbox for optimize-tonal-content is set on; 0, checkbox for optimize-tonal-content is set off
+    number stretch_marker_fadesize - in milliseconds; negative values are allowed
+  </parameters>
+  <retvals>
+    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Set MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, set, media, item, statechunk, rppxml, state, chunk, playrate, preserve pitch, pitch adjust, stretchmarker</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemPlayRate", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+
+  if type(playbackrate)~="number" then ultraschall.AddErrorMessage("SetItemPlayRate", "playbackrate", "Must be an integer", -2) return nil end  
+  if math.type(preserve_pitch)~="integer" then ultraschall.AddErrorMessage("SetItemPlayRate", "preserve_pitch", "Must be an integer", -3) return nil end  
+  if type(pitch_adjust)~="number" then ultraschall.AddErrorMessage("SetItemPlayRate", "pitch_adjust", "Must be a number", -4) return nil end  
+  if math.type(takepitch_timestretch_mode)~="integer" then ultraschall.AddErrorMessage("SetItemPlayRate", "takepitch_timestretch_mode", "Must be an integer", -5) return nil end  
+  if math.type(optimize_tonal_content)~="integer" then ultraschall.AddErrorMessage("SetItemPlayRate", "optimize_tonal_content", "Must be an integer", -6) return nil end  
+  if type(stretch_marker_fadesize)~="number" then ultraschall.AddErrorMessage("SetItemPlayRate", "stretch_marker_fadesize", "Must be a number", -7) return nil end  
+
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)PLAYRATE").."PLAYRATE "..playbackrate.." "..preserve_pitch.." "..pitch_adjust.." "..takepitch_timestretch_mode.." "..optimize_tonal_content.." "..stretch_marker_fadesize.."\n"..statechunk:match("PLAYRATE.-%c(.*)")
+
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
+  return statechunk
+end
+
+

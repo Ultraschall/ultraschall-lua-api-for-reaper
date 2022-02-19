@@ -46,9 +46,9 @@ normalize_mode - the normalize method set with the "Normalize"-button
                         0, disabled
                         1, enabled
                         
-normalize_target - the target as MKVOL-value. User ultraschall.MKVOL2DB to convert it to dB.
+normalize_target - the target as MKVOL-value. Use ultraschall.MKVOL2DB to convert it to dB.
 
-brickwall_target - the target as MKVOL-value. User ultraschall.MKVOL2DB to convert it to dB.
+brickwall_target - the target as MKVOL-value. Use ultraschall.MKVOL2DB to convert it to dB.
                  
 
 various_checkboxes - keeps various checkboxes in <RENDERPRESET

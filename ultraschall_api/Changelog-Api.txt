@@ -165,57 +165,18 @@ TODO:
       
 >GetPodcast_MetaDataEntry & GetPodcastEpisode_MetaDataEntry - create errors, due some attributes need additional attribute to work
                                                             - needs to be inserted manually -_-
-</TODO>
-
-
-## Ultraschall Framework - Changelog
-
-### 4.3 - "Eskobar - Someone New" - XX of XX 2022
-
-Has now 1423 functions, with XX new ones
-
-**new in this release:**  
-
-  - **Blabla**  
-  
-  
-#### New features in 4.3  
-  - DeveloperTools: Toggle\_Logging\_SetExtState\_SetProjExtState_access - logs set access to (proj)extstates while using US-API to the ReaScript console
-  - ErrorMessagingSystem: DAEM - like ultraschall.DeleteAllErrorMessages(), just shorter
-  - GFX-Management: GFX\_GetTextLayout - returns the flag-value you can use for gfx.setfont, allowing different text-layouts
+                                                            
+                                                            
+                                                            
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
   - Markers: EnumerateShownoteMarkers - gets a shownote-marker    
-  - Markers: GetGuidFromNormalMarkerID - gets the guid of a normal marker by its index
   - Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index
-  - Markers: GetNormalMarkerIDFromGuid - gets the index of a normal marker by its guid
   - Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid
   - Markers: SetShownoteMarker - sets an already existing shownote-marker
-  - MediaExplorer: MediaExplorer\_SetAutoplay - sets the autoplay-checkbox
-  - MediaExplorer: MediaExplorer\_SetDeviceOutput - sets device-output of the Media Explorer  
-  - MediaExplorer: MediaExplorer\_SetPitch - sets the pitch of the Media Explorer  
-  - MediaExplorer: MediaExplorer\_SetRate - sets the rate of the Media Explorer  
-  - MediaExplorer: MediaExplorer\_SetStartOnBar - sets the Start on bar-checkbox of the Media Explorer
-  - MediaExplorer: MediaExplorer\_SetVolume - sets the volume of the Media Explorer  
-  - MediaItems: SetItemAllTakes - sets the all-takes-setting of an item or a mediaitem-statechunk
-  - MediaItems: SetItemChanMode - sets the channel mode of an item or a mediaitem-statechunk
-  - MediaItems: SetItemFadeIn - sets fadein of an item or a mediaitem-statechunk
-  - MediaItems: SetItemFadeOut - sets fadeout of an item or a mediaitem-statechunk
-  - MediaItems: SetItemGUID - sets the GUID of an item or a mediaitem-statechunk
-  - MediaItems: SetItemIGUID - sets the IGUID of an item or a mediaitem-statechunk
-  - MediaItems: SetItemIID - sets the IID of an item or a mediaitem-statechunk
-  - MediaItems: SetItemLoop - sets the loop-source-state of an item or a mediaitem-statechunk
-  - MediaItems: SetItemMute - sets mutestate of an item or a mediaitem-statechunk
-  - MediaItems: SetItemName - sets name of the first take in an item or a mediaitem-statechunk
-  - MediaItems: SetItemPlayRate - sets the playrate-settings in an item or a mediaitem-statechunk
-  - MediaItems: SetItemSampleOffset - sets the sample offset-state of an item or a mediaitem-statechunk
-  - MediaItems: SetItemSelected - sets the selected-state of an item or a mediaitem-statechunk
-  - MediaItems: SetItemVolPan - sets the volume and pan-values of an item or a mediaitem-statechunk  
   - MetaData: MetaDataTable\_Create - returns an empty metadatatable, which holds all possible metadata-entries
   - MetaData: MetaDataTable\_GetProject - returns a metadatatable, which holds all metadata-entries of the current project
-  - ParameterLearn: GetParmLearn\_Default - gets default-settings for the parameter-learn-dialog(requested by akademie)
-  - ParameterLearn: SetParmLearn\_Default - sets default-settings for the parameter-learn-dialog(requested by akademie)
   - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard
@@ -236,6 +197,63 @@ Has now 1423 functions, with XX new ones
   - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes
+</TODO>
+
+
+## Ultraschall Framework - Changelog
+
+### 4.3 - "Eskobar - Someone New" - 22nd of February 2022
+
+Has now 1457 functions, with 34 new ones
+
+**new in this release:**  
+
+  - **Media Explorer stuff**  
+  You can now get/set volume, rate, pitch and even output-channels of the media explorer and various checkboxes.
+  
+  - **SetItem-functions**  
+  There were set item-function missing, though their get counterpart was there. So, I added more set functions.  
+  
+  - **Rendering FFMPEG-only**  
+  With FFMPEG-dll installed, you have access to more render-output-functions. You can now create render-strings for these formats as well.
+  
+  - **Log SetProjExtState/SetExtState access**  
+  You can log now, if (proj)extstates are set in the ReaScript-console. That way you can monitor, if setting them runs smoothly.  
+  Just run the accompanying developer-tool for it.  
+
+  - **Docs updates for Reaper Internals**
+
+  - **Bugfixes**  
+  as usual...  
+  
+#### New features in 4.3  
+  - DeveloperTools: Toggle\_Logging\_SetExtState\_SetProjExtState_access - logs set access to (proj)extstates while using US-API to the ReaScript console
+  - ErrorMessagingSystem: DAEM - like ultraschall.DeleteAllErrorMessages(), just shorter
+  - GFX-Management: GFX\_GetTextLayout - returns the flag-value you can use for gfx.setfont, allowing different text-layouts
+  - Markers: GetGuidFromNormalMarkerID - gets the guid of a normal marker by its index  
+  - Markers: GetNormalMarkerIDFromGuid - gets the index of a normal marker by its guid  
+  - MediaExplorer: MediaExplorer\_SetAutoplay - sets the autoplay-checkbox
+  - MediaExplorer: MediaExplorer\_SetDeviceOutput - sets device-output of the Media Explorer  
+  - MediaExplorer: MediaExplorer\_SetPitch - sets the pitch of the Media Explorer  
+  - MediaExplorer: MediaExplorer\_SetRate - sets the rate of the Media Explorer  
+  - MediaExplorer: MediaExplorer\_SetStartOnBar - sets the Start on bar-checkbox of the Media Explorer
+  - MediaExplorer: MediaExplorer\_SetVolume - sets the volume of the Media Explorer  
+  - MediaItems: SetItemAllTakes - sets the all-takes-setting of an item or a mediaitem-statechunk
+  - MediaItems: SetItemChanMode - sets the channel mode of an item or a mediaitem-statechunk
+  - MediaItems: SetItemFadeIn - sets fadein of an item or a mediaitem-statechunk
+  - MediaItems: SetItemFadeOut - sets fadeout of an item or a mediaitem-statechunk
+  - MediaItems: SetItemGUID - sets the GUID of an item or a mediaitem-statechunk
+  - MediaItems: SetItemIGUID - sets the IGUID of an item or a mediaitem-statechunk
+  - MediaItems: SetItemIID - sets the IID of an item or a mediaitem-statechunk
+  - MediaItems: SetItemLoop - sets the loop-source-state of an item or a mediaitem-statechunk
+  - MediaItems: SetItemMute - sets mutestate of an item or a mediaitem-statechunk
+  - MediaItems: SetItemName - sets name of the first take in an item or a mediaitem-statechunk
+  - MediaItems: SetItemPlayRate - sets the playrate-settings in an item or a mediaitem-statechunk
+  - MediaItems: SetItemSampleOffset - sets the sample offset-state of an item or a mediaitem-statechunk
+  - MediaItems: SetItemSelected - sets the selected-state of an item or a mediaitem-statechunk
+  - MediaItems: SetItemVolPan - sets the volume and pan-values of an item or a mediaitem-statechunk  
+  - ParameterLearn: GetParmLearn\_Default - gets default-settings for the parameter-learn-dialog(requested by akademie)
+  - ParameterLearn: SetParmLearn\_Default - sets default-settings for the parameter-learn-dialog(requested by akademie)
   - Rendering: CreateRenderCFG\_FLV\_Video - creates a render-string for flv export(with FFMPEG installed only)
   - Rendering: CreateRenderCFG\_MPEG1\_Video - creates a render-string for mpeg-1 export(with FFMPEG installed only)
   - Rendering: CreateRenderCFG\_MPEG2\_Video - creates a render-string for mpeg-2 export(with FFMPEG installed only)
