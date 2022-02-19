@@ -92,7 +92,6 @@ Devtools={
 "/Tools/DeveloperScripts/ultraschall_developertool_LangPack2Developer_langpack_converter.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_MonitorParmModulation.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_Project_State_Diffs_Monitor.lua",
-"/Tools/DeveloperScripts/ultraschall_developertool_ReaScript_DocFile_CheckForMissingAndDuplicateFunctions.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_SortLinesInClipboardText.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_StateInspector.lua",
 "/Tools/DeveloperScripts/ultraschall_developertool_Theme_Parameter_Monitor.lua",
@@ -555,7 +554,7 @@ for i=1, #Docs do
 end
 
 for i=1, #Devtools do
---  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Devtools[i].."\" type=\"script\">"..Url.."/ultraschall_api/Scripts/"..Devtools[i].."</source>\n"
+  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Devtools[i]:match(".*/(.*)").."\" type=\"script\">"..Url.."/ultraschall_api/Scripts/"..Devtools[i].."</source>\n"
 end
 
 --print2(XML_file:sub(1,2000))
