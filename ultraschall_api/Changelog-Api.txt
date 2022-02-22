@@ -168,6 +168,22 @@ TODO:
                                                             
                                                             
                                                             
+</TODO>
+
+
+## Ultraschall Framework - Changelog
+
+### 4.4 - "" - XX of XXXX 2022
+
+Has now 1457 functions, with XX new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  Bla
+
+  
+#### New features in 4.4  
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
@@ -196,11 +212,11 @@ TODO:
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
   - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset
-  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes
-</TODO>
+  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes  
+  
+#### Changes from 4.3 to 4.4    
 
-
-## Ultraschall Framework - Changelog
+---
 
 ### 4.3 - "Eskobar - Someone New" - 22nd of February 2022
 
