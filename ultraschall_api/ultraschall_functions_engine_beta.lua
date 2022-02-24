@@ -1375,7 +1375,8 @@ ultraschall.ShowNoteAttributes = {"shownote_language",           -- check for va
               "shownote_event_time_start",   -- check for validity
               "shownote_event_time_end",     -- check for validity
               "shownote_event_timezone",     -- check for validity
-              "shownote_event_name", 
+              "shownote_event_name",
+              "shownote_event_description",
               "shownote_event_url", 
               "shownote_event_location_gps",       -- check for validity
               "shownote_event_location_google_maps",-- check for validity
@@ -1444,6 +1445,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "shownote_event_time_end" - the endtime of an event associated with the show; hh:mm:ss
                          - "shownote_event_timezone" - the timezone of the event assocated with the show; UTC-format
                          - "shownote_event_name" - a name for the event
+                         - "shownote_event_description" - a description for the event
                          - "shownote_event_url" - an url of the event(for ticket sale or the general url for the event)
                          - "shownote_event_location_gps" - the gps-coordinates of the event-location
                          - "shownote_event_location_google_maps" - the google-maps-coordinates of the event-location
