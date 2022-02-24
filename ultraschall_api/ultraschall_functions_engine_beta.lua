@@ -1205,7 +1205,7 @@ function ultraschall.AddShownoteMarker(pos, name)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddShownoteMarker</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1265,7 +1265,7 @@ function ultraschall.SetShownoteMarker(idx, pos, name)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetShownoteMarker</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1319,7 +1319,7 @@ function ultraschall.EnumerateShownoteMarkers(idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateShownoteMarkers</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1361,40 +1361,41 @@ function ultraschall.EnumerateShownoteMarkers(idx)
   return table.unpack(A)
 end
 
-ultraschall.ShowNoteAttributes = {"language",           -- check for validity ISO639
-              "description",
-              "location_gps",       -- check for validity
-              "location_google_maps",-- check for validity
-              "location_open_street_map",-- check for validity
-              "location_apple_maps",-- check for validity
+ultraschall.ShowNoteAttributes = {"shownote_language",           -- check for validity ISO639
+              "shownote_description",
+              "shownote_location_gps",       -- check for validity
+              "shownote_location_google_maps",-- check for validity
+              "shownote_location_open_street_map",-- check for validity
+              "shownote_location_apple_maps",-- check for validity
               "shownote_date",       -- check for validity
               "shownote_time",       -- check for validity
               "shownote_timezone",   -- check for validity
-              "event_date_start",   -- check for validity
-              "event_date_end",     -- check for validity
-              "event_time_start",   -- check for validity
-              "event_time_end",     -- check for validity
-              "event_timezone",     -- check for validity
-              "event_name", 
-              "event_url", 
-              "event_location_gps",       -- check for validity
-              "event_location_google_maps",-- check for validity
-              "event_location_open_street_map",-- check for validity
-              "event_location_apple_maps",-- check for validity
-              "quote_cite_source", 
-              "quote", 
+              "shownote_event_date_start",   -- check for validity
+              "shownote_event_date_end",     -- check for validity
+              "shownote_event_time_start",   -- check for validity
+              "shownote_event_time_end",     -- check for validity
+              "shownote_event_timezone",     -- check for validity
+              "shownote_event_name", 
+              "shownote_event_url", 
+              "shownote_event_location_gps",       -- check for validity
+              "shownote_event_location_google_maps",-- check for validity
+              "shownote_event_location_open_street_map",-- check for validity
+              "shownote_event_location_apple_maps",-- check for validity
+              "shownote_quote_cite_source", 
+              "shownote_quote", 
               --"image_uri",
               --"image_content",      -- check for validity
               --"image_description",
               --"image_source",
               --"image_license",
-              "url", 
-              "url_description",
-              "url_retrieval_date",
-              "url_retrieval_time",
-              "url_retrieval_timezone_utc",
-              "url_archived_copy_of_original_url",
-              "wikidata_uri"
+              "shownote_url", 
+              "shownote_url_description",
+              "shownote_url_retrieval_date",
+              "shownote_url_retrieval_time",
+              "shownote_url_retrieval_timezone_utc",
+              "shownote_url_archived_copy_of_original_url",
+              "shownote_wikidata_uri",
+              "shownote_descriptive_tags"
               }
 
 function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename, content)
@@ -1402,7 +1403,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetShownoteMarker_Attributes</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1421,35 +1422,36 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     integer idx - the index of the shownote-marker, whose attribute you want to get; 1-based
     string attributename - the attributename you want to get/set
                          - supported attributes are:
-                         - "description" - a more detailed description for this shownote
-                         - "url" - the url you want to set
-                         - "url_description" - a short description of the url
-                         - "url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
-                         - "url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss
-                         - "url_retrieval_timezone_utc" - the timezone of the retrieval time as utc
-                         - "url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
-                         - "language" - the language of the content; Languagecode according to ISO639
-                         - "location_gps" - the gps-coordinates of the location
-                         - "location_google_maps" - the coordinates as used in Google Maps
-                         - "location_open_street_map" - the coordinates as used in Open Street Maps
-                         - "location_apple_maps" - the coordinates as used in Apple Maps                         
+                         - "shownote_description" - a more detailed description for this shownote
+                         - "shownote_descriptive_tags" - some tags, that describe the content of the shownote, separated with commas
+                         - "shownote_url" - the url you want to set
+                         - "shownote_url_description" - a short description of the url
+                         - "shownote_url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
+                         - "shownote_url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss
+                         - "shownote_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc
+                         - "shownote_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
+                         - "shownote_language" - the language of the content; Languagecode according to ISO639
+                         - "shownote_location_gps" - the gps-coordinates of the location
+                         - "shownote_location_google_maps" - the coordinates as used in Google Maps
+                         - "shownote_location_open_street_map" - the coordinates as used in Open Street Maps
+                         - "shownote_location_apple_maps" - the coordinates as used in Apple Maps                         
                          - "shownote_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd
                          - "shownote_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss
                          - "shownote_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format
-                         - "event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
-                         - "event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
-                         - "event_time_start" - the starttime of an event associated with the show; hh:mm:ss
-                         - "event_time_end" - the endtime of an event associated with the show; hh:mm:ss
-                         - "event_timezone" - the timezone of the event assocated with the show; UTC-format
-                         - "event_name" - a name for the event
-                         - "event_url" - an url of the event(for ticket sale or the general url for the event)
-                         - "event_location_gps" - the gps-coordinates of the event-location
-                         - "event_location_google_maps" - the google-maps-coordinates of the event-location
-                         - "event_location_open_street_map" - the open-streetmap-coordinates of the event-location
-                         - "event_location_apple_maps" - the apple-maps-coordinates of the event-location
-                         - "quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
-                         - "quote" - a quote from the cite_source
-                         - "wikidata_uri" - the uri to an entry to wikidata
+                         - "shownote_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
+                         - "shownote_event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
+                         - "shownote_event_time_start" - the starttime of an event associated with the show; hh:mm:ss
+                         - "shownote_event_time_end" - the endtime of an event associated with the show; hh:mm:ss
+                         - "shownote_event_timezone" - the timezone of the event assocated with the show; UTC-format
+                         - "shownote_event_name" - a name for the event
+                         - "shownote_event_url" - an url of the event(for ticket sale or the general url for the event)
+                         - "shownote_event_location_gps" - the gps-coordinates of the event-location
+                         - "shownote_event_location_google_maps" - the google-maps-coordinates of the event-location
+                         - "shownote_event_location_open_street_map" - the open-streetmap-coordinates of the event-location
+                         - "shownote_event_location_apple_maps" - the apple-maps-coordinates of the event-location
+                         - "shownote_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
+                         - "shownote_quote" - a quote from the cite_source
+                         - "shownote_wikidata_uri" - the uri to an entry to wikidata
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
@@ -1506,7 +1508,7 @@ DAEM=ultraschall.DeleteAllErrorMessages
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DAEM</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -1538,7 +1540,7 @@ function ultraschall.CountShownoteMarkers()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountShownoteMarkers</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1575,7 +1577,7 @@ function ultraschall.DeleteShownoteMarker(idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteShownoteMarker</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1626,7 +1628,8 @@ ultraschall.PodcastAttributes={"podcast_title",
               "podcast_tiktok",
               "podcast_mastodon",
               --"podcast_donate", 
-              "podcast_contact_email"
+              "podcast_contact_email",
+              "podcast_descriptive_tags"
               }
 
 function ultraschall.GetSetPodcast_MetaData(is_set, attributename, additional_attribute, content, preset_slot)
@@ -1634,7 +1637,7 @@ function ultraschall.GetSetPodcast_MetaData(is_set, attributename, additional_at
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcast_MetaData</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -1665,6 +1668,7 @@ function ultraschall.GetSetPodcast_MetaData(is_set, attributename, additional_at
                          - "podcast_instagram" - instagram-channel of the podcast
                          - "podcast_tiktok" - tiktok-channel of the podcast
                          - "podcast_mastodon" - mastodon-channel of the podcast
+                         - "podcast_descriptive_tags" - some tags, who describe the podcast, separated with commas
     string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
                                 - when attribute="podcast_website", set this to a number, 1 and higher, which will index possibly multiple websites you have for your podcast
                                 -                                 use 1 for the main-website
@@ -1778,6 +1782,7 @@ ultraschall.EpisodeAttributes={"episode_title",
               "episode_cover",
               "episode_language", 
               "episode_explicit",
+              "episode_descriptive_tags",
               "url"
               }
 
@@ -1786,7 +1791,7 @@ function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additi
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcastEpisode_MetaData</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     SWS=2.10.0.1
     Lua=5.3
@@ -1818,6 +1823,7 @@ function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additi
                          - "episode_cover" - the cover-image of the episode(path+filename)
                          - "episode_language" - the language of the episode; Languagecode according to ISO639
                          - "episode_explicit" - yes, if explicit; no, if not explicit
+                         - "episode_descriptive_tags" - some tags, that describe the content of the episode, separated with commas
     string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
     string content - the new contents to set the attribute
     optional integer preset_slot - the slot in the podcast-presets to get/set the value from/to; nil, no preset used
@@ -1925,7 +1931,7 @@ function ultraschall.GetPodcastShownote_MetaDataEntry(shownote_idx, shownote_ind
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastShownote_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2014,7 +2020,15 @@ function ultraschall.GetPodcastShownote_MetaDataEntry(shownote_idx, shownote_ind
   return true, Shownote_String
 end
 
-
+ultraschall.ChapterAttributes={"chapter_description",
+              "chapter_url",
+              "chapter_image",
+              "chapter_image_description",
+              "chapter_image_license",
+              "chapter_image_origin",
+              "chapter_image_url",
+              "chapter_descriptive_tags"
+              }
 
 
 function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, content)
@@ -2022,7 +2036,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetChapterMarker_Attributes</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -2038,12 +2052,13 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
     string attributename - the attributename you want to get/set
                          - supported attributes are:
                          - "chapter_url",
-                         - "chapter_description",
-                         - "chapter_image",
-                         - "chapter_image_description",
-                         - "chapter_image_license",
-                         - "chapter_image_source",
-                         - "chapter_image_url"
+                         - "chapter_description" - a description of the content of this chapter
+                         - "chapter_image" - the content of the chapter-image, either png or jpg
+                         - "chapter_image_description" - a description for the chapter-image
+                         - "chapter_image_license" - the license of the chapter-image
+                         - "chapter_image_origin" - the origin of the chapterimage, like an institution or similar 
+                         - "chapter_image_url" - the url that links to the chapter-image
+                         - "chapter_descriptive_tags" - some tags, that describe the chapter-content, separated with commas
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
@@ -2059,6 +2074,8 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
   <tags>marker management, get, set, attribute, chapter, url</tags>
 </US_DocBloc>
 ]]
+-- TODO: check for chapter-image-content, if it's png or jpg!!
+--       is the code still existing in shownote images so I can copy it?
   if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "is_set", "must be a boolean", -1) return false end  
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "idx", "must be an integer", -2) return false end  
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "must be a string", -3) return false end  
@@ -2089,7 +2106,7 @@ function ultraschall.PrepareChapterMarkers4ReaperExport()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>PrepareChapterMarkers4ReaperExport</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.20
     Lua=5.3
   </requires>
@@ -2124,7 +2141,7 @@ function ultraschall.RestoreChapterMarkersAfterReaperExport()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RestoreChapterMarkersAfterReaperExport</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.20
     Lua=5.3
   </requires>
@@ -2159,7 +2176,7 @@ function ultraschall.GetSetPodcastExport_Attributes_String(is_set, attribute, va
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcastExport_Attributes_String</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.20
     Lua=5.3
   </requires>
@@ -2252,7 +2269,7 @@ function ultraschall.GetSetPodcastExport_Attributes_Value(is_set, attribute, val
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcastExport_Attributes_Value</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.20
     Lua=5.3
   </requires>
@@ -2331,7 +2348,7 @@ function ultraschall.GetAllShownotes_MetaDataEntry(start_time, end_time, offset)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllShownotes_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2391,21 +2408,13 @@ end
 
 --ultraschall.RemoveAllShownotes_ReaperMetaData(true, true, true, true)
 
-ultraschall.ChapterAttributes={"chapter_description",
-              "chapter_url",
-              "chapter_image",
-              "chapter_image_description",
-              "chapter_image_license",
-              "chapter_image_source",
-              "chapter_image_url"
-              }
 
 function ultraschall.GetPodcastChapter_MetaDataEntry(chapter_idx, chapter_index_in_metadata, offset)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastShownote_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2497,7 +2506,7 @@ function ultraschall.GetAllChapters_MetaDataEntry(start_time, end_time, offset)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllChapters_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2566,7 +2575,7 @@ function ultraschall.GetGuidFromShownoteMarkerID(idx)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetGuidFromShownoteMarkerID</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -2609,7 +2618,7 @@ function ultraschall.GetShownoteMarkerIDFromGuid(guid)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetShownoteMarkerIDFromGuid</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -2653,7 +2662,7 @@ function ultraschall.SetPodcastMetadataPreset_Name(preset_slot, preset_name)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetPodcastMetadataPreset_Name</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -2698,7 +2707,7 @@ function ultraschall.GetPodcastMetadataPreset_Name(preset_slot)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastMetadataPreset_Name</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -2739,7 +2748,7 @@ function ultraschall.SetPodcastEpisodeMetadataPreset_Name(preset_slot, presetnam
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetPodcastEpisodeMetadataPreset_Name</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -2785,7 +2794,7 @@ function ultraschall.GetPodcastEpisodeMetadataPreset_Name(preset_slot)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastEpisodeMetadataPreset_Name</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -2826,7 +2835,7 @@ function ultraschall.GetPodcastEpisode_MetaDataEntry()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastEpisode_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2882,7 +2891,7 @@ function ultraschall.GetPodcast_MetaDataEntry()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcast_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2939,7 +2948,7 @@ function ultraschall.WritePodcastMetaData(start_time, end_time, offset, filename
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>WritePodcastMetaData</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.47
     Lua=5.3
   </requires>
@@ -3143,7 +3152,7 @@ function ultraschall.GetSetTranscription_Attributes(is_set, idx, attributename, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetTranscription_Attributes</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -3220,7 +3229,7 @@ function ultraschall.MetaDataTable_Create()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MetaDataTable_Create</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -3254,7 +3263,7 @@ function ultraschall.MetaDataTable_GetProject()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MetaDataTable_GetProject</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.02
     Lua=5.3
   </requires>

@@ -8551,7 +8551,7 @@ Returns the current count of errormessages in the system available.
 <a class="anch" id="DAEM"></a>
 <a href="#DAEM"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>DAEM</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>DAEM</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>DAEM</em>()</code></div>
 </div><p>
@@ -20833,7 +20833,7 @@ returns -1 in case of an error
 <a class="anch" id="GetGuidFromShownoteMarkerID"></a>
 <a href="#GetGuidFromShownoteMarkerID"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetGuidFromShownoteMarkerID</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetGuidFromShownoteMarkerID</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> guid = <em>ultraschall.GetGuidFromShownoteMarkerID</em>(<i>integer</i> index)</code></div>
 </div><p>
@@ -21088,7 +21088,7 @@ Can contain numerous regions, if there are more regions in one position.</td></t
 <a class="anch" id="GetShownoteMarkerIDFromGuid"></a>
 <a href="#GetShownoteMarkerIDFromGuid"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetShownoteMarkerIDFromGuid</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetShownoteMarkerIDFromGuid</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> index = <em>ultraschall.GetShownoteMarkerIDFromGuid</em>(<i>string</i> guid)</code></div>
 </div><p>
@@ -21423,7 +21423,7 @@ Keep in mind, that colors are differently interpreted on Mac compared to Windows
 <a class="anch" id="GetSetChapterMarker_Attributes"></a>
 <a href="#GetSetChapterMarker_Attributes"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetSetChapterMarker_Attributes</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetSetChapterMarker_Attributes</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetChapterMarker_Attributes</em>(<i>boolean</i> is_set, <i>integer</i> idx, <i>string</i> attributename, <i>string</i> content)</code></div>
 </div><p>
@@ -21455,12 +21455,13 @@ Keep in mind, that colors are differently interpreted on Mac compared to Windows
 <tr><td class="ch2">the attributename you want to get/set<br/>
 supported attributes are:<br/>
 "chapter_url",<br/>
-"chapter_description",<br/>
-"chapter_image",<br/>
-"chapter_image_description",<br/>
-"chapter_image_license",<br/>
-"chapter_image_source",<br/>
-"chapter_image_url"</td></tr>
+"chapter_description" - a description of the content of this chapter<br/>
+"chapter_image" - the content of the chapter-image, either png or jpg<br/>
+"chapter_image_description" - a description for the chapter-image<br/>
+"chapter_image_license" - the license of the chapter-image<br/>
+"chapter_image_origin" - the origin of the chapterimage, like an institution or similar <br/>
+"chapter_image_url" - the url that links to the chapter-image<br/>
+"chapter_descriptive_tags" - some tags, that describe the chapter-content, separated with commas</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> content</td></tr>
@@ -21473,7 +21474,7 @@ supported attributes are:<br/>
 <a class="anch" id="PrepareChapterMarkers4ReaperExport"></a>
 <a href="#PrepareChapterMarkers4ReaperExport"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>PrepareChapterMarkers4ReaperExport</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>PrepareChapterMarkers4ReaperExport</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <em>ultraschall.PrepareChapterMarkers4ReaperExport</em>()</code></div>
 </div><p>
@@ -21487,7 +21488,7 @@ supported attributes are:<br/>
 <a class="anch" id="RestoreChapterMarkersAfterReaperExport"></a>
 <a href="#RestoreChapterMarkersAfterReaperExport"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>RestoreChapterMarkersAfterReaperExport</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>RestoreChapterMarkersAfterReaperExport</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <em>ultraschall.RestoreChapterMarkersAfterReaperExport</em>()</code></div>
 </div><p>
@@ -23737,7 +23738,7 @@ returns -1 if it fails.
 <a class="anch" id="AddShownoteMarker"></a>
 <a href="#AddShownoteMarker"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>AddShownoteMarker</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>AddShownoteMarker</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> markernumber, <i>string</i> guid, <i>integer</i> shownotemarker_index = <em>ultraschall.AddShownoteMarker</em>(<i>number</i> pos, <i>string</i> name)</code></div>
 </div><p>
@@ -23780,7 +23781,7 @@ Use this for the other Ultraschall-API-shownote-functions!</td></tr>
 <a class="anch" id="CountShownoteMarkers"></a>
 <a href="#CountShownoteMarkers"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>CountShownoteMarkers</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>CountShownoteMarkers</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> num_shownotes = <em>ultraschall.CountShownoteMarkers</em>()</code></div>
 </div><p>
@@ -23801,7 +23802,7 @@ Use this for the other Ultraschall-API-shownote-functions!</td></tr>
 <a class="anch" id="DeleteShownoteMarker"></a>
 <a href="#DeleteShownoteMarker"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>DeleteShownoteMarker</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>DeleteShownoteMarker</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.DeleteShownoteMarker</em>(<i>integer</i> idx)</code></div>
 </div><p>
@@ -23830,7 +23831,7 @@ Use this for the other Ultraschall-API-shownote-functions!</td></tr>
 <a class="anch" id="EnumerateShownoteMarkers"></a>
 <a href="#EnumerateShownoteMarkers"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>EnumerateShownoteMarkers</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>EnumerateShownoteMarkers</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> marker_index, <i>number</i> pos, <i>string</i> name, <i>integer</i> shown_number, <i>string</i> guid = <em>ultraschall.EnumerateShownoteMarkers</em>(<i>integer</i> idx)</code></div>
 </div><p>
@@ -23878,7 +23879,7 @@ Use this for the other Ultraschall-API-shownote-functions!</td></tr>
 <a class="anch" id="GetSetShownoteMarker_Attributes"></a>
 <a href="#GetSetShownoteMarker_Attributes"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetSetShownoteMarker_Attributes</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetSetShownoteMarker_Attributes</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetShownoteMarker_Attributes</em>(<i>boolean</i> is_set, <i>integer</i> idx, <i>string</i> attributename, <i>string</i> content)</code></div>
 </div><p>
@@ -23911,35 +23912,36 @@ Use this for the other Ultraschall-API-shownote-functions!</td></tr>
 <tr><td class="pr"><i>string</i> attributename</td></tr>
 <tr><td class="ch2">the attributename you want to get/set<br/>
 supported attributes are:<br/>
-"description" - a more detailed description for this shownote<br/>
-"url" - the url you want to set<br/>
-"url_description" - a short description of the url<br/>
-"url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd<br/>
-"url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss<br/>
-"url_retrieval_timezone_utc" - the timezone of the retrieval time as utc<br/>
-"url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here<br/>
-"language" - the language of the content; Languagecode according to ISO639<br/>
-"location_gps" - the gps-coordinates of the location<br/>
-"location_google_maps" - the coordinates as used in Google Maps<br/>
-"location_open_street_map" - the coordinates as used in Open Street Maps<br/>
-"location_apple_maps" - the coordinates as used in Apple Maps&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br/>
+"shownote_description" - a more detailed description for this shownote<br/>
+"shownote_descriptive_tags" - some tags, that describe the content of the shownote, separated with commas<br/>
+"shownote_url" - the url you want to set<br/>
+"shownote_url_description" - a short description of the url<br/>
+"shownote_url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd<br/>
+"shownote_url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss<br/>
+"shownote_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc<br/>
+"shownote_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here<br/>
+"shownote_language" - the language of the content; Languagecode according to ISO639<br/>
+"shownote_location_gps" - the gps-coordinates of the location<br/>
+"shownote_location_google_maps" - the coordinates as used in Google Maps<br/>
+"shownote_location_open_street_map" - the coordinates as used in Open Street Maps<br/>
+"shownote_location_apple_maps" - the coordinates as used in Apple Maps&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br/>
 "shownote_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd<br/>
 "shownote_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss<br/>
 "shownote_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format<br/>
-"event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd<br/>
-"event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd<br/>
-"event_time_start" - the starttime of an event associated with the show; hh:mm:ss<br/>
-"event_time_end" - the endtime of an event associated with the show; hh:mm:ss<br/>
-"event_timezone" - the timezone of the event assocated with the show; UTC-format<br/>
-"event_name" - a name for the event<br/>
-"event_url" - an url of the event(for ticket sale or the general url for the event)<br/>
-"event_location_gps" - the gps-coordinates of the event-location<br/>
-"event_location_google_maps" - the google-maps-coordinates of the event-location<br/>
-"event_location_open_street_map" - the open-streetmap-coordinates of the event-location<br/>
-"event_location_apple_maps" - the apple-maps-coordinates of the event-location<br/>
-"quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite<br/>
-"quote" - a quote from the cite_source<br/>
-"wikidata_uri" - the uri to an entry to wikidata</td></tr>
+"shownote_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd<br/>
+"shownote_event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd<br/>
+"shownote_event_time_start" - the starttime of an event associated with the show; hh:mm:ss<br/>
+"shownote_event_time_end" - the endtime of an event associated with the show; hh:mm:ss<br/>
+"shownote_event_timezone" - the timezone of the event assocated with the show; UTC-format<br/>
+"shownote_event_name" - a name for the event<br/>
+"shownote_event_url" - an url of the event(for ticket sale or the general url for the event)<br/>
+"shownote_event_location_gps" - the gps-coordinates of the event-location<br/>
+"shownote_event_location_google_maps" - the google-maps-coordinates of the event-location<br/>
+"shownote_event_location_open_street_map" - the open-streetmap-coordinates of the event-location<br/>
+"shownote_event_location_apple_maps" - the apple-maps-coordinates of the event-location<br/>
+"shownote_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite<br/>
+"shownote_quote" - a quote from the cite_source<br/>
+"shownote_wikidata_uri" - the uri to an entry to wikidata</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> content</td></tr>
@@ -23952,7 +23954,7 @@ supported attributes are:<br/>
 <a class="anch" id="SetShownoteMarker"></a>
 <a href="#SetShownoteMarker"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>SetShownoteMarker</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>SetShownoteMarker</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.SetShownoteMarker</em>(<i>integer</i> idx, <i>number</i> pos, <i>string</i> name)</code></div>
 </div><p>
@@ -32075,7 +32077,7 @@ returns -1 in case of an error
 <a href="#GetPodcastEpisodeMetadataPreset_Name"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetPodcastEpisodeMetadataPreset_Name</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetPodcastEpisodeMetadataPreset_Name</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> preset_name = <em>ultraschall.GetPodcastEpisodeMetadataPreset_Name</em>(<i>integer</i> preset_slot)</code></div>
 </div><p>
@@ -32103,7 +32105,7 @@ returns -1 in case of an error
 <a href="#GetPodcastMetadataPreset_Name"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetPodcastMetadataPreset_Name</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetPodcastMetadataPreset_Name</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> preset_name = <em>ultraschall.GetPodcastMetadataPreset_Name</em>(<i>integer</i> preset_slot)</code></div>
 </div><p>
@@ -32131,7 +32133,7 @@ returns -1 in case of an error
 <a href="#GetSetPodcastEpisode_MetaData"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetSetPodcastEpisode_MetaData</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetSetPodcastEpisode_MetaData</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content, <i>optional</i> <i>string</i> presetcontent = <em>ultraschall.GetSetPodcastEpisode_MetaData</em>(<i>boolean</i> is_set, <i>string</i> attributename, <i>string</i> content, <i>optional</i> <i>integer</i> preset_slot)</code></div>
 </div><p>
@@ -32175,7 +32177,8 @@ supported attributes are:<br/>
 "episode_description" - the descriptionof the episode<br/>
 "episode_cover" - the cover-image of the episode(path+filename)<br/>
 "episode_language" - the language of the episode; Languagecode according to ISO639<br/>
-"episode_explicit" - yes, if explicit; no, if not explicit</td></tr>
+"episode_explicit" - yes, if explicit; no, if not explicit<br/>
+"episode_descriptive_tags" - some tags, that describe the content of the episode, separated with commas</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> additional_attribute</td></tr>
@@ -32197,7 +32200,7 @@ supported attributes are:<br/>
 <a href="#GetSetPodcast_MetaData"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetSetPodcast_MetaData</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetSetPodcast_MetaData</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content, <i>optional</i> <i>string</i> presetcontent = <em>ultraschall.GetSetPodcast_MetaData</em>(<i>boolean</i> is_set, <i>string</i> attributename, <i>string</i> content, <i>optional</i> <i>integer</i> preset_slot)</code></div>
 </div><p>
@@ -32240,7 +32243,8 @@ supported attributes are:<br/>
 "podcast_youtube" - youtube-channel of the podcast<br/>
 "podcast_instagram" - instagram-channel of the podcast<br/>
 "podcast_tiktok" - tiktok-channel of the podcast<br/>
-"podcast_mastodon" - mastodon-channel of the podcast</td></tr>
+"podcast_mastodon" - mastodon-channel of the podcast<br/>
+"podcast_descriptive_tags" - some tags, who describe the podcast, separated with commas</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> additional_attribute</td></tr>
@@ -32263,7 +32267,7 @@ when attribute="podcast_website", set this to a number, 1 and higher, which will
 <a class="anch" id="GetSetTranscription_Attributes"></a>
 <a href="#GetSetTranscription_Attributes"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetSetTranscription_Attributes</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetSetTranscription_Attributes</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetTranscription_Attributes</em>(<i>boolean</i> is_set, <i>integer</i> idx, <i>string</i> attributename, <i>string</i> content)</code></div>
 </div><p>
@@ -32315,7 +32319,7 @@ supported attributes are:<br/>
 <a href="#SetPodcastEpisodeMetadataPreset_Name"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>SetPodcastEpisodeMetadataPreset_Name</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>SetPodcastEpisodeMetadataPreset_Name</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.SetPodcastEpisodeMetadataPreset_Name</em>(<i>integer</i> preset_slot, <i>string</i> preset_name)</code></div>
 </div><p>
@@ -32347,7 +32351,7 @@ supported attributes are:<br/>
 <a href="#SetPodcastMetadataPreset_Name"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>SetPodcastMetadataPreset_Name</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>SetPodcastMetadataPreset_Name</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.SetPodcastMetadataPreset_Name</em>(<i>integer</i> preset_slot, <i>string</i> preset_name)</code></div>
 </div><p>
@@ -32378,7 +32382,7 @@ supported attributes are:<br/>
 <a class="anch" id="MetaDataTable_Create"></a>
 <a href="#MetaDataTable_Create"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>MetaDataTable_Create</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>MetaDataTable_Create</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> MetaDataTable = <em>ultraschall.MetaDataTable_Create</em>()</code></div>
 </div><p>
@@ -32397,7 +32401,7 @@ supported attributes are:<br/>
 <a class="anch" id="MetaDataTable_GetProject"></a>
 <a href="#MetaDataTable_GetProject"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>MetaDataTable_GetProject</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>MetaDataTable_GetProject</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> MetaDataTable = <em>ultraschall.MetaDataTable_GetProject</em>()</code></div>
 </div><p>
@@ -50657,7 +50661,7 @@ returns -1 in case of an error
 <a class="anch" id="GetAllChapters_MetaDataEntry"></a>
 <a href="#GetAllChapters_MetaDataEntry"> ^</a> 
 <img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetAllChapters_MetaDataEntry</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetAllChapters_MetaDataEntry</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> number_of_chapters, <i>array</i> chapter_entries = <em>ultraschall.GetAllChapters_MetaDataEntry</em>(<i>number</i> start_time, <i>number</i> end_time, <i>number</i> offset)</code></div>
 </div><p>
@@ -50704,7 +50708,7 @@ returns false in case of an error
 <a class="anch" id="GetAllShownotes_MetaDataEntry"></a>
 <a href="#GetAllShownotes_MetaDataEntry"> ^</a> 
 <img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetAllShownotes_MetaDataEntry</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetAllShownotes_MetaDataEntry</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> number_of_shownotes, <i>array</i> shownote_entries = <em>ultraschall.GetAllShownotes_MetaDataEntry</em>(<i>number</i> start_time, <i>number</i> end_time, <i>number</i> offset)</code></div>
 </div><p>
@@ -50749,7 +50753,7 @@ returns false in case of an error
 <a class="anch" id="GetPodcastEpisode_MetaDataEntry"></a>
 <a href="#GetPodcastEpisode_MetaDataEntry"> ^</a> 
 <img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetPodcastEpisode_MetaDataEntry</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetPodcastEpisode_MetaDataEntry</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> episode_entry = <em>ultraschall.GetPodcastEpisode_MetaDataEntry</em>()</code></div>
 </div><p>
@@ -50768,7 +50772,7 @@ Returns the podcast-metadata-standard-entry of an episode
 <a class="anch" id="GetPodcastShownote_MetaDataEntry"></a>
 <a href="#GetPodcastShownote_MetaDataEntry"> ^</a> 
 <img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetPodcastShownote_MetaDataEntry</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetPodcastShownote_MetaDataEntry</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> shownote_entry = <em>ultraschall.GetPodcastShownote_MetaDataEntry</em>(<i>integer</i> shownote_idx, <i>integer</i> shownote_index_in_metadata, <i>number</i> offset)</code></div>
 </div><p>
@@ -50819,7 +50823,7 @@ simply make shownote_idx=shownote_index_in_metadata</td></tr>
 <a class="anch" id="GetPodcastShownote_MetaDataEntry"></a>
 <a href="#GetPodcastShownote_MetaDataEntry"> ^</a> 
 <img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetPodcastShownote_MetaDataEntry</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetPodcastShownote_MetaDataEntry</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> shownote_entry = <em>ultraschall.GetPodcastShownote_MetaDataEntry</em>(<i>integer</i> shownote_idx, <i>integer</i> shownote_index_in_metadata, <i>number</i> offset)</code></div>
 </div><p>
@@ -50870,7 +50874,7 @@ simply make shownote_idx=shownote_index_in_metadata</td></tr>
 <a class="anch" id="GetPodcast_MetaDataEntry"></a>
 <a href="#GetPodcast_MetaDataEntry"> ^</a> 
 <img width="3%" src="gfx/reaper6.43.png" alt="Reaper version 6.43">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetPodcast_MetaDataEntry</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetPodcast_MetaDataEntry</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> podcast_entry = <em>ultraschall.GetPodcast_MetaDataEntry</em>()</code></div>
 </div><p>
@@ -50889,7 +50893,7 @@ Returns the podcast-metadata-standard-entry with the general podcast-attributes
 <a class="anch" id="GetSetPodcastExport_Attributes_String"></a>
 <a href="#GetSetPodcastExport_Attributes_String"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetSetPodcastExport_Attributes_String</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetSetPodcastExport_Attributes_String</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetPodcastExport_Attributes_String</em>(<i>boolean</i> is_set, <i>string</i> attributename, <i>string</i> content)</code></div>
 </div><p>
@@ -50938,7 +50942,7 @@ supported attributes are:<br/>
 <a class="anch" id="GetSetPodcastExport_Attributes_Value"></a>
 <a href="#GetSetPodcastExport_Attributes_Value"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>GetSetPodcastExport_Attributes_Value</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>GetSetPodcastExport_Attributes_Value</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>number</i> content = <em>ultraschall.GetSetPodcastExport_Attributes_Value</em>(<i>boolean</i> is_set, <i>string</i> attributename, <i>number</i> content)</code></div>
 </div><p>
@@ -50982,7 +50986,7 @@ supported attributes are:<br/>
 <a class="anch" id="WritePodcastMetaData"></a>
 <a href="#WritePodcastMetaData"> ^</a> 
 <img width="3%" src="gfx/reaper6.47.png" alt="Reaper version 6.47">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>WritePodcastMetaData</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>WritePodcastMetaData</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> metadata_file = <em>ultraschall.WritePodcastMetaData</em>(<i>number</i> start_time, <i>number</i> end_time, <i>number</i> offset, <i>optional</i> <i>string</i> filename, <i>optional</i> <i>boolean</i> do_id3, <i>optional</i> <i>boolean</i> do_vorbis)</code></div>
 </div><p>
