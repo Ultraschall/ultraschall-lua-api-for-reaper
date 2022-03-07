@@ -1361,42 +1361,42 @@ function ultraschall.EnumerateShownoteMarkers(idx)
   return table.unpack(A)
 end
 
-ultraschall.ShowNoteAttributes = {"shownote_language",           -- check for validity ISO639
-              "shownote_description",
-              "shownote_location_gps",       -- check for validity
-              "shownote_location_google_maps",-- check for validity
-              "shownote_location_open_street_map",-- check for validity
-              "shownote_location_apple_maps",-- check for validity
-              "shownote_date",       -- check for validity
-              "shownote_time",       -- check for validity
-              "shownote_timezone",   -- check for validity
-              "shownote_event_date_start",   -- check for validity
-              "shownote_event_date_end",     -- check for validity
-              "shownote_event_time_start",   -- check for validity
-              "shownote_event_time_end",     -- check for validity
-              "shownote_event_timezone",     -- check for validity
-              "shownote_event_name",
-              "shownote_event_description",
-              "shownote_event_url", 
-              "shownote_event_location_gps",       -- check for validity
-              "shownote_event_location_google_maps",-- check for validity
-              "shownote_event_location_open_street_map",-- check for validity
-              "shownote_event_location_apple_maps",-- check for validity
-              "shownote_quote_cite_source", 
-              "shownote_quote", 
+ultraschall.ShowNoteAttributes = {"shwn_language",           -- check for validity ISO639
+              "shwn_description",
+              "shwn_location_gps",       -- check for validity
+              "shwn_location_google_maps",-- check for validity
+              "shwn_location_open_street_map",-- check for validity
+              "shwn_location_apple_maps",-- check for validity
+              "shwn_date",       -- check for validity
+              "shwn_time",       -- check for validity
+              "shwn_timezone",   -- check for validity
+              "shwn_event_date_start",   -- check for validity
+              "shwn_event_date_end",     -- check for validity
+              "shwn_event_time_start",   -- check for validity
+              "shwn_event_time_end",     -- check for validity
+              "shwn_event_timezone",     -- check for validity
+              "shwn_event_name",
+              "shwn_event_description",
+              "shwn_event_url", 
+              "shwn_event_location_gps",       -- check for validity
+              "shwn_event_location_google_maps",-- check for validity
+              "shwn_event_location_open_street_map",-- check for validity
+              "shwn_event_location_apple_maps",-- check for validity
+              "shwn_quote_cite_source", 
+              "shwn_quote", 
               --"image_uri",
               --"image_content",      -- check for validity
               --"image_description",
               --"image_source",
               --"image_license",
-              "shownote_url", 
-              "shownote_url_description",
-              "shownote_url_retrieval_date",
-              "shownote_url_retrieval_time",
-              "shownote_url_retrieval_timezone_utc",
-              "shownote_url_archived_copy_of_original_url",
-              "shownote_wikidata_uri",
-              "shownote_descriptive_tags"
+              "shwn_url", 
+              "shwn_url_description",
+              "shwn_url_retrieval_date",
+              "shwn_url_retrieval_time",
+              "shwn_url_retrieval_timezone_utc",
+              "shwn_url_archived_copy_of_original_url",
+              "shwn_wikidata_uri",
+              "shwn_descriptive_tags"
               }
 
 function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename, content)
@@ -1423,37 +1423,37 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     integer idx - the index of the shownote-marker, whose attribute you want to get; 1-based
     string attributename - the attributename you want to get/set
                          - supported attributes are:
-                         - "shownote_description" - a more detailed description for this shownote
-                         - "shownote_descriptive_tags" - some tags, that describe the content of the shownote, separated with commas
-                         - "shownote_url" - the url you want to set
-                         - "shownote_url_description" - a short description of the url
-                         - "shownote_url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
-                         - "shownote_url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss
-                         - "shownote_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc
-                         - "shownote_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
-                         - "shownote_language" - the language of the content; Languagecode according to ISO639
-                         - "shownote_location_gps" - the gps-coordinates of the location
-                         - "shownote_location_google_maps" - the coordinates as used in Google Maps
-                         - "shownote_location_open_street_map" - the coordinates as used in Open Street Maps
-                         - "shownote_location_apple_maps" - the coordinates as used in Apple Maps                         
-                         - "shownote_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd
-                         - "shownote_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss
-                         - "shownote_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format
-                         - "shownote_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
-                         - "shownote_event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
-                         - "shownote_event_time_start" - the starttime of an event associated with the show; hh:mm:ss
-                         - "shownote_event_time_end" - the endtime of an event associated with the show; hh:mm:ss
-                         - "shownote_event_timezone" - the timezone of the event assocated with the show; UTC-format
-                         - "shownote_event_name" - a name for the event
-                         - "shownote_event_description" - a description for the event
-                         - "shownote_event_url" - an url of the event(for ticket sale or the general url for the event)
-                         - "shownote_event_location_gps" - the gps-coordinates of the event-location
-                         - "shownote_event_location_google_maps" - the google-maps-coordinates of the event-location
-                         - "shownote_event_location_open_street_map" - the open-streetmap-coordinates of the event-location
-                         - "shownote_event_location_apple_maps" - the apple-maps-coordinates of the event-location
-                         - "shownote_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
-                         - "shownote_quote" - a quote from the cite_source
-                         - "shownote_wikidata_uri" - the uri to an entry to wikidata
+                         - "shwn_description" - a more detailed description for this shownote
+                         - "shwn_descriptive_tags" - some tags, that describe the content of the shownote, separated with commas
+                         - "shwn_url" - the url you want to set
+                         - "shwn_url_description" - a short description of the url
+                         - "shwn_url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
+                         - "shwn_url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss
+                         - "shwn_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc
+                         - "shwn_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
+                         - "shwn_language" - the language of the content; Languagecode according to ISO639
+                         - "shwn_location_gps" - the gps-coordinates of the location
+                         - "shwn_location_google_maps" - the coordinates as used in Google Maps
+                         - "shwn_location_open_street_map" - the coordinates as used in Open Street Maps
+                         - "shwn_location_apple_maps" - the coordinates as used in Apple Maps                         
+                         - "shwn_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd
+                         - "shwn_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss
+                         - "shwn_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format
+                         - "shwn_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
+                         - "shwn_event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
+                         - "shwn_event_time_start" - the starttime of an event associated with the show; hh:mm:ss
+                         - "shwn_event_time_end" - the endtime of an event associated with the show; hh:mm:ss
+                         - "shwn_event_timezone" - the timezone of the event assocated with the show; UTC-format
+                         - "shwn_event_name" - a name for the event
+                         - "shwn_event_description" - a description for the event
+                         - "shwn_event_url" - an url of the event(for ticket sale or the general url for the event)
+                         - "shwn_event_location_gps" - the gps-coordinates of the event-location
+                         - "shwn_event_location_google_maps" - the google-maps-coordinates of the event-location
+                         - "shwn_event_location_open_street_map" - the open-streetmap-coordinates of the event-location
+                         - "shwn_event_location_apple_maps" - the apple-maps-coordinates of the event-location
+                         - "shwn_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
+                         - "shwn_quote" - a quote from the cite_source
+                         - "shwn_wikidata_uri" - the uri to an entry to wikidata
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
@@ -1619,19 +1619,19 @@ function ultraschall.DeleteShownoteMarker(idx)
   return retval
 end
 
-ultraschall.PodcastAttributes={"podcast_title", 
-              "podcast_description", 
-              --"podcast_feed",
-              --"podcast_website", 
-              "podcast_twitter",
-              "podcast_facebook",
-              "podcast_youtube",
-              "podcast_instagram",
-              "podcast_tiktok",
-              "podcast_mastodon",
-              --"podcast_donate", 
-              "podcast_contact_email",
-              "podcast_descriptive_tags"
+ultraschall.PodcastAttributes={"podc_title", 
+              "podc_description", 
+              --"podc_feed",
+              --"podc_website", 
+              "podc_twitter",
+              "podc_facebook",
+              "podc_youtube",
+              "podc_instagram",
+              "podc_tiktok",
+              "podc_mastodon",
+              --"podc_donate", 
+              "podc_contact_email",
+              "podc_descriptive_tags"
               }
 
 function ultraschall.GetSetPodcast_MetaData(is_set, attributename, additional_attribute, content, preset_slot)
@@ -1773,19 +1773,19 @@ function ultraschall.GetSetPodcast_MetaData(is_set, attributename, additional_at
   return true, content, presetcontent
 end
 
-ultraschall.EpisodeAttributes={"episode_title", 
-              "episode_number",
-              "episode_season", 
-              "episode_release_date",
-              "episode_release_time",
-              "episode_release_timezone",
-              "episode_tagline",
-              "episode_description",
-              "episode_cover",
-              "episode_language", 
-              "episode_explicit",
-              "episode_descriptive_tags",
-              "url"
+ultraschall.EpisodeAttributes={"epsd_title", 
+              "epsd_number",
+              "epsd_season", 
+              "epsd_release_date",
+              "epsd_release_time",
+              "epsd_release_timezone",
+              "epsd_tagline",
+              "epsd_description",
+              "epsd_cover",
+              "epsd_language", 
+              "epsd_explicit",
+              "epsd_descriptive_tags",
+              "epsd_url"
               }
 
 function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additional_attribute, content, preset_slot)
@@ -1814,18 +1814,18 @@ function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additi
     boolean is_set - true, set the attribute; false, retrieve the current content
     string attributename - the attributename you want to get/set
                          - supported attributes are:
-                         - "episode_title" - the title of the episode
-                         - "episode_number" - the number of the episode
-                         - "episode_season" - the season of the episode
-                         - "episode_release_date" - releasedate of the episode; yyyy-mm-dd
-                         - "episode_release_time" - releasedate of the episode; hh:mm:ss
-                         - "episode_release_timezone" - the time's timezone in UTC of the release-time
-                         - "episode_tagline" - the tagline of the episode
-                         - "episode_description" - the descriptionof the episode
-                         - "episode_cover" - the cover-image of the episode(path+filename)
-                         - "episode_language" - the language of the episode; Languagecode according to ISO639
-                         - "episode_explicit" - yes, if explicit; no, if not explicit
-                         - "episode_descriptive_tags" - some tags, that describe the content of the episode, separated with commas
+                         - "epsd_title" - the title of the episode
+                         - "epsd_number" - the number of the episode
+                         - "epsd_season" - the season of the episode
+                         - "epsd_release_date" - releasedate of the episode; yyyy-mm-dd
+                         - "epsd_release_time" - releasedate of the episode; hh:mm:ss
+                         - "epsd_release_timezone" - the time's timezone in UTC of the release-time
+                         - "epsd_tagline" - the tagline of the episode
+                         - "epsd_description" - the descriptionof the episode
+                         - "epsd_cover" - the cover-image of the episode(path+filename)
+                         - "epsd_language" - the language of the episode; Languagecode according to ISO639
+                         - "epsd_explicit" - yes, if explicit; no, if not explicit
+                         - "epsd_descriptive_tags" - some tags, that describe the content of the episode, separated with commas
     string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
     string content - the new contents to set the attribute
     optional integer preset_slot - the slot in the podcast-presets to get/set the value from/to; nil, no preset used
@@ -2022,14 +2022,14 @@ function ultraschall.GetPodcastShownote_MetaDataEntry(shownote_idx, shownote_ind
   return true, Shownote_String
 end
 
-ultraschall.ChapterAttributes={"chapter_description",
-              "chapter_url",
-              "chapter_image",
-              "chapter_image_description",
-              "chapter_image_license",
-              "chapter_image_origin",
-              "chapter_image_url",
-              "chapter_descriptive_tags"
+ultraschall.ChapterAttributes={"chap_description",
+              "chap_url",
+              "chap_image",
+              "chap_image_description",
+              "chap_image_license",
+              "chap_image_origin",
+              "chap_image_url",
+              "chap_descriptive_tags"
               }
 
 
@@ -2053,14 +2053,14 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
     integer idx - the index of the chapter-marker, whose attribute you want to get
     string attributename - the attributename you want to get/set
                          - supported attributes are:
-                         - "chapter_url",
-                         - "chapter_description" - a description of the content of this chapter
-                         - "chapter_image" - the content of the chapter-image, either png or jpg
-                         - "chapter_image_description" - a description for the chapter-image
-                         - "chapter_image_license" - the license of the chapter-image
-                         - "chapter_image_origin" - the origin of the chapterimage, like an institution or similar 
-                         - "chapter_image_url" - the url that links to the chapter-image
-                         - "chapter_descriptive_tags" - some tags, that describe the chapter-content, separated with commas
+                         - "chap_url",
+                         - "chap_description" - a description of the content of this chapter
+                         - "chap_image" - the content of the chapter-image, either png or jpg
+                         - "chap_image_description" - a description for the chapter-image
+                         - "chap_image_license" - the license of the chapter-image
+                         - "chap_image_origin" - the origin of the chapterimage, like an institution or similar 
+                         - "chap_image_url" - the url that links to the chapter-image
+                         - "chap_descriptive_tags" - some tags, that describe the chapter-content, separated with commas
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
