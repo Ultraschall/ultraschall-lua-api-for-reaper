@@ -1396,7 +1396,8 @@ ultraschall.ShowNoteAttributes = {"shwn_language",           -- check for validi
               "shwn_url_retrieval_timezone_utc",
               "shwn_url_archived_copy_of_original_url",
               "shwn_wikidata_uri",
-              "shwn_descriptive_tags"
+              "shwn_descriptive_tags",
+              "shwn_is_advertisement"
               }
 
 function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename, content)
@@ -1431,6 +1432,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "shwn_url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss
                          - "shwn_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc
                          - "shwn_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
+                         - "shwn_is_advertisement" - yes, if the shownote is an ad; "", to unset it
                          - "shwn_language" - the language of the content; Languagecode according to ISO639
                          - "shwn_location_gps" - the gps-coordinates of the location
                          - "shwn_location_google_maps" - the coordinates as used in Google Maps
@@ -1774,6 +1776,8 @@ function ultraschall.GetSetPodcast_MetaData(is_set, attributename, additional_at
 end
 
 ultraschall.EpisodeAttributes={"epsd_title", 
+              "epsd_sponsor",
+              "epsd_sponsor_url",
               "epsd_number",
               "epsd_season", 
               "epsd_release_date",
@@ -1826,6 +1830,8 @@ function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additi
                          - "epsd_language" - the language of the episode; Languagecode according to ISO639
                          - "epsd_explicit" - yes, if explicit; no, if not explicit
                          - "epsd_descriptive_tags" - some tags, that describe the content of the episode, separated with commas
+                         - "epsd_sponsor" - the name of the sponsor of this episode
+                         - "epsd_sponsor_url" - a link to the sponsor's website
     string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
     string content - the new contents to set the attribute
     optional integer preset_slot - the slot in the podcast-presets to get/set the value from/to; nil, no preset used
@@ -2029,7 +2035,8 @@ ultraschall.ChapterAttributes={"chap_description",
               "chap_image_license",
               "chap_image_origin",
               "chap_image_url",
-              "chap_descriptive_tags"
+              "chap_descriptive_tags",
+              "chap_is_advertisement"
               }
 
 
@@ -2055,6 +2062,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
                          - supported attributes are:
                          - "chap_url",
                          - "chap_description" - a description of the content of this chapter
+                         - "chap_is_advertisement" - yes, if this chapter is an ad; "", to unset it
                          - "chap_image" - the content of the chapter-image, either png or jpg
                          - "chap_image_description" - a description for the chapter-image
                          - "chap_image_license" - the license of the chapter-image
@@ -2092,6 +2100,8 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
       break
     end
   end
+  
+  if attributename=="chap_url" then attributename="url" end
   
   if found==false then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "attributename not supported", -7) return false end
   idx=ultraschall.EnumerateNormalMarkers(idx)
@@ -2470,6 +2480,7 @@ function ultraschall.GetPodcastChapter_MetaDataEntry(chapter_idx, chapter_index_
   
   -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN GetSetChapterMarker_Attributes() !!!
   local Tags=ultraschall.ChapterAttributes
+  
   pos=pos-offset
   if pos<0 then ultraschall.AddErrorMessage("GetPodcastChapter_MetaDataEntry", "offset", "chapter-position minus offset is smaller than 0", -8) return false end
   name=string.gsub(name, "\\", "\\\\")
@@ -2954,7 +2965,7 @@ function ultraschall.WritePodcastMetaData(start_time, end_time, offset, filename
     Reaper=6.47
     Lua=5.3
   </requires>
-  <functioncall>string metadata_file = ultraschall.WritePodcastMetaData(number start_time, number end_time, number offset, optional string filename, optional boolean do_id3, optional boolean do_vorbis)</functioncall>
+  <functioncall>string podcast_metadata = ultraschall.WritePodcastMetaData(number start_time, number end_time, number offset, optional string filename, optional boolean do_id3, optional boolean do_vorbis)</functioncall>
   <description>
     Creates and returns the metadata-file-entries according to PODCAST_METADATA:"v1"-standard and optionally stores it into a file and/or the accompanying metadata-schemes available.
     
@@ -2965,7 +2976,7 @@ function ultraschall.WritePodcastMetaData(start_time, end_time, offset, filename
     Returns nil in case of an error
   </description>
   <retvals>
-    string metadata_file - the created podcast-metadata-file, according to PODCAST_METADATA:"v1"-standard
+    string podcast_metadata - the created podcast-metadata, according to PODCAST_METADATA:"v1"-standard
   </retvals>
   <parameters>
     number start_time - the start-time of the project, from which to include chapters/shownotes

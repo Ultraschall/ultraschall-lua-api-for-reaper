@@ -21456,6 +21456,7 @@ Keep in mind, that colors are differently interpreted on Mac compared to Windows
 supported attributes are:<br/>
 "chap_url",<br/>
 "chap_description" - a description of the content of this chapter<br/>
+"chap_is_advertisement" - yes, if this chapter is an ad; "", to unset it<br/>
 "chap_image" - the content of the chapter-image, either png or jpg<br/>
 "chap_image_description" - a description for the chapter-image<br/>
 "chap_image_license" - the license of the chapter-image<br/>
@@ -23920,6 +23921,7 @@ supported attributes are:<br/>
 "shwn_url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss<br/>
 "shwn_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc<br/>
 "shwn_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here<br/>
+"shwn_is_advertisement" - yes, if the shownote is an ad; "", to unset it<br/>
 "shwn_language" - the language of the content; Languagecode according to ISO639<br/>
 "shwn_location_gps" - the gps-coordinates of the location<br/>
 "shwn_location_google_maps" - the coordinates as used in Google Maps<br/>
@@ -32179,7 +32181,9 @@ supported attributes are:<br/>
 "epsd_cover" - the cover-image of the episode(path+filename)<br/>
 "epsd_language" - the language of the episode; Languagecode according to ISO639<br/>
 "epsd_explicit" - yes, if explicit; no, if not explicit<br/>
-"epsd_descriptive_tags" - some tags, that describe the content of the episode, separated with commas</td></tr>
+"epsd_descriptive_tags" - some tags, that describe the content of the episode, separated with commas<br/>
+"epsd_sponsor" - the name of the sponsor of this episode<br/>
+"epsd_sponsor_url" - a link to the sponsor's website</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> additional_attribute</td></tr>
@@ -50989,7 +50993,7 @@ supported attributes are:<br/>
 <img width="3%" src="gfx/reaper6.47.png" alt="Reaper version 6.47">
 <img width="3%" src="gfx/ultraschall4.4.png" alt="Ultraschall version 4.4"><u><b>WritePodcastMetaData</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> metadata_file = <em>ultraschall.WritePodcastMetaData</em>(<i>number</i> start_time, <i>number</i> end_time, <i>number</i> offset, <i>optional</i> <i>string</i> filename, <i>optional</i> <i>boolean</i> do_id3, <i>optional</i> <i>boolean</i> do_vorbis)</code></div>
+<div class="l">Lua: <code> <i>string</i> podcast_metadata = <em>ultraschall.WritePodcastMetaData</em>(<i>number</i> start_time, <i>number</i> end_time, <i>number</i> offset, <i>optional</i> <i>string</i> filename, <i>optional</i> <i>boolean</i> do_id3, <i>optional</i> <i>boolean</i> do_vorbis)</code></div>
 </div><p>
 <div class="ch">
 Creates and returns the metadata-file-entries according to PODCAST_METADATA:"v1"-standard and optionally stores it into a file and/or the accompanying metadata-schemes available.<br/>
@@ -51002,8 +51006,8 @@ Returns nil in case of an error
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> metadata_file</td></tr>
-<tr><td class="ch2">the created podcast-metadata-file, according to PODCAST_METADATA:"v1"-standard</td></tr>
+<tr><td class="pr"><i>string</i> podcast_metadata</td></tr>
+<tr><td class="ch2">the created podcast-metadata, according to PODCAST_METADATA:"v1"-standard</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
