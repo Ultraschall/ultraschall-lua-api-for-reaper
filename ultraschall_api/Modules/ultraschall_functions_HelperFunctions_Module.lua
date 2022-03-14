@@ -5813,7 +5813,7 @@ function ultraschall.Benchmark_GetStartTime(slot)
   <functioncall>number starttime = ultraschall.Benchmark_GetStartTime(optional integer slot)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     This function is for benchmarking parts of your code.
-    It returns the starttime of the last benchmark-start.
+    It returns the starttime of the last benchmark-start, started by [Benchmark_MeasureTime](#Benchmark_MeasureTime).
     
     returns nil, if no benchmark has been made yet.
     

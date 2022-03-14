@@ -6979,7 +6979,7 @@ Draws the number n with ndigits of precision to gfx_x, gfx_y, and updates gfx_x 
 <p>* Ctrl/Cmd+A..Ctrl+Z as 1..26 * Ctrl/Cmd+Alt+A..Z as 257..282 * Alt+A..Z as 'A'+256..'Z'+256 * 27 for ESC * 13 for Enter * ' ' for space</p>
 <p>If the user typed in multiple characters, the character queue will hold them. So calling gfx_getchar multiple times, until it returns 0 or -1 will give you all typed keys.</p>
 <p>Typed characters between 256 and 1024(maybe higher?) seem to hint at multibyte-unicode characters. That means, you need to take the next character-value in the character-queue into consideration as well to get the current unicode-character!</p>
-<p>Note that calling gfx<em>getchar() at least once causes mouse</em>cap to reflect keyboard modifiers even when the mouse is not captured.</p>
+<p>Note that calling gfx_getchar() at least once causes mouse_cap to reflect keyboard modifiers even when the mouse is not captured.</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

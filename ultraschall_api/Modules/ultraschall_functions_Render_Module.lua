@@ -2326,7 +2326,7 @@ function ultraschall.GetRenderTable_Project()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRenderTable_Project</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.4
     Reaper=6.48
     SWS=2.10.0.1
     JS=0.972
@@ -2346,6 +2346,7 @@ function ultraschall.GetRenderTable_Project()
                                     3, Project regions; 
                                     4, Selected Media Items(in combination with Source 32); 
                                     5, Selected regions
+                                    6, Razor edit areas
             RenderTable["Channels"] - the number of channels in the rendered file; 
                                       1, mono; 
                                       2, stereo; 
@@ -2389,16 +2390,16 @@ function ultraschall.GetRenderTable_Project()
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                                0, Point Sampling (lowest quality, retro)
-                                                1, Linear Interpolation (low quality)
-                                                2, Linear Interpolation + IIR
-                                                3, Linear Interpolation + IIRx2
-                                                4, Sinc Interpolation: 16pt
-                                                5, Sinc Interpolation: 64pt (medium quality)
-                                                6, Sinc Interpolation: 192pt
-                                                7, Sinc Interpolation: 384pt
-                                                8, Sinc Interpolation: 512pt (slow)
-                                                9, Sinc Interpolation: 768pt (very slow)
+                                                0, Sinc Interpolation: 64pt (medium quality)
+                                                1, Linear Interpolation: (low quality)
+                                                2, Point Sampling (lowest quality, retro)
+                                                3, Sinc Interpolation: 192pt
+                                                4, Sinc Interpolation: 384pt
+                                                5, Linear Interpolation + IIR
+                                                6, Linear Interpolation + IIRx2
+                                                7, Sinc Interpolation: 16pt
+                                                8, Sinc Interpolation: 512pt(slow)
+                                                9, Sinc Interpolation: 768pt(very slow)
                                                 10, r8brain free (highest quality, fast)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
@@ -2414,6 +2415,8 @@ function ultraschall.GetRenderTable_Project()
                                     32, Selected media items; 
                                     64, selected media items via master; 
                                     128, selected tracks via master
+                                    4096, Razor edit areas
+                                    4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked
                                       &1, custom time bounds; 
@@ -2422,6 +2425,7 @@ function ultraschall.GetRenderTable_Project()
                                       &8, all project regions; 
                                       &16, selected media items; 
                                       &32, selected project regions
+                                      &64, razor edit areas
             RenderTable["TailMS"] - the amount of milliseconds of the tail
     
     Returns nil in case of an error
@@ -2429,17 +2433,13 @@ function ultraschall.GetRenderTable_Project()
   <retvals>
     table RenderTable - a table with all of the current project's render-settings
   </retvals>
-  <parameters>
-    ReaProject ReaProject - the project, whose render-settings you want; either a ReaProject-object or an integer, that signals the projecttab of the project
-                          - use 0, for the currently active project; 1, for the first project-tab; 2, for the second, etc; -1, for the currently rendering project
-  </parameters>
   <chapter_context>
     Rendering Projects
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
-  <tags>projectfiles, get, project, rendertable</tags>
+  <tags>render management, get, project, render, rendertable</tags>
 </US_DocBloc>
 ]]
   local _temp, ReaProject, hwnd, retval
@@ -2492,7 +2492,7 @@ function ultraschall.GetRenderTable_Project()
   _temp, RenderTable["RenderString"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", "", false)
   _temp, RenderTable["RenderString2"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT2", "", false)
             
-  if reaper.SNM_GetIntConfigVar("renderclosewhendone", -111)&16==0 then
+  if reaper.SNM_GetIntConfigVar("renderclosewhendone", -111)&1==0 then
     RenderTable["CloseAfterRender"]=false
   else
     RenderTable["CloseAfterRender"]=true
@@ -2573,6 +2573,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
                                     3, Project regions; 
                                     4, Selected Media Items(in combination with Source 32); 
                                     5, Selected regions
+                                    6, Razor edit areas
             RenderTable["Channels"] - the number of channels in the rendered file; 
                                       1, mono; 
                                       2, stereo; 
@@ -2613,16 +2614,16 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                                0, Point Sampling (lowest quality, retro)
-                                                1, Linear Interpolation (low quality)
-                                                2, Linear Interpolation + IIR
-                                                3, Linear Interpolation + IIRx2
-                                                4, Sinc Interpolation: 16pt
-                                                5, Sinc Interpolation: 64pt (medium quality)
-                                                6, Sinc Interpolation: 192pt
-                                                7, Sinc Interpolation: 384pt
-                                                8, Sinc Interpolation: 512pt (slow)
-                                                9, Sinc Interpolation: 768pt (very slow)
+                                                0, Sinc Interpolation: 64pt (medium quality)
+                                                1, Linear Interpolation: (low quality)
+                                                2, Point Sampling (lowest quality, retro)
+                                                3, Sinc Interpolation: 192pt
+                                                4, Sinc Interpolation: 384pt
+                                                5, Linear Interpolation + IIR
+                                                6, Linear Interpolation + IIRx2
+                                                7, Sinc Interpolation: 16pt
+                                                8, Sinc Interpolation: 512pt(slow)
+                                                9, Sinc Interpolation: 768pt(very slow)
                                                 10, r8brain free (highest quality, fast)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
@@ -2638,6 +2639,8 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
                                     32, Selected media items; 
                                     64, selected media items via master; 
                                     128, selected tracks via master
+                                    4096, Razor edit areas
+                                    4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked
                                       &1, custom time bounds; 
@@ -2646,6 +2649,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
                                       &8, all project regions; 
                                       &16, selected media items; 
                                       &32, selected project regions
+                                      &64, razor edit areas
             RenderTable["TailMS"] - the amount of milliseconds of the tail
                
     Returns nil in case of an error
@@ -3328,6 +3332,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
                                        3, Project regions; 
                                        4, Selected Media Items(in combination with Source 32); 
                                        5, Selected regions
+                                       6, Razor edit areas
             RenderTable["Channels"] - the number of channels in the rendered file; 
                                           1, mono; 
                                           2, stereo; 
@@ -3376,16 +3381,16 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                                0, Point Sampling (lowest quality, retro)
-                                                1, Linear Interpolation (low quality)
-                                                2, Linear Interpolation + IIR
-                                                3, Linear Interpolation + IIRx2
-                                                4, Sinc Interpolation: 16pt
-                                                5, Sinc Interpolation: 64pt (medium quality)
-                                                6, Sinc Interpolation: 192pt
-                                                7, Sinc Interpolation: 384pt
-                                                8, Sinc Interpolation: 512pt (slow)
-                                                9, Sinc Interpolation: 768pt (very slow)
+                                                0, Sinc Interpolation: 64pt (medium quality)
+                                                1, Linear Interpolation: (low quality)
+                                                2, Point Sampling (lowest quality, retro)
+                                                3, Sinc Interpolation: 192pt
+                                                4, Sinc Interpolation: 384pt
+                                                5, Linear Interpolation + IIR
+                                                6, Linear Interpolation + IIRx2
+                                                7, Sinc Interpolation: 16pt
+                                                8, Sinc Interpolation: 512pt(slow)
+                                                9, Sinc Interpolation: 768pt(very slow)
                                                 10, r8brain free (highest quality, fast)
             RenderTable["RenderString"]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
@@ -3404,6 +3409,8 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
                                     16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 64, selected media items via master; 
                                     128, selected tracks via master
+                                    4096, Razor edit areas
+                                    4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
                                         &1, custom time bounds; 
@@ -3412,6 +3419,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
                                         &8, all project regions; 
                                         &16, selected media items; 
                                         &32, selected project regions
+                                        &64, razor edit areas
             RenderTable["TailMS"] - the amount of milliseconds of the tail
             
     Returns false in case of an error
@@ -3603,6 +3611,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
                                        3, Project regions; 
                                        4, Selected Media Items(in combination with Source 32); 
                                        5, Selected regions
+                                       6, Razor edit areas
             RenderTable["Channels"] - the number of channels in the rendered file; 
                                           1, mono; 
                                           2, stereo; 
@@ -3651,16 +3660,16 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                                0, Point Sampling (lowest quality, retro)
-                                                1, Linear Interpolation (low quality)
-                                                2, Linear Interpolation + IIR
-                                                3, Linear Interpolation + IIRx2
-                                                4, Sinc Interpolation: 16pt
-                                                5, Sinc Interpolation: 64pt (medium quality)
-                                                6, Sinc Interpolation: 192pt
-                                                7, Sinc Interpolation: 384pt
-                                                8, Sinc Interpolation: 512pt (slow)
-                                                9, Sinc Interpolation: 768pt (very slow)
+                                                0, Sinc Interpolation: 64pt (medium quality)
+                                                1, Linear Interpolation: (low quality)
+                                                2, Point Sampling (lowest quality, retro)
+                                                3, Sinc Interpolation: 192pt
+                                                4, Sinc Interpolation: 384pt
+                                                5, Linear Interpolation + IIR
+                                                6, Linear Interpolation + IIRx2
+                                                7, Sinc Interpolation: 16pt
+                                                8, Sinc Interpolation: 512pt(slow)
+                                                9, Sinc Interpolation: 768pt(very slow)
                                                 10, r8brain free (highest quality, fast)
             RenderTable["RenderString"]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
@@ -3679,6 +3688,8 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
                                     16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 64, selected media items via master; 
                                     128, selected tracks via master
+                                    4096, Razor edit areas
+                                    4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
                                         &1, custom time bounds; 
@@ -3687,6 +3698,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
                                         &8, all project regions; 
                                         &16, selected media items; 
                                         &32, selected project regions
+                                        &64, razor edit areas
             RenderTable["TailMS"] - the amount of milliseconds of the tail
             
     Returns false in case of an error
@@ -3951,17 +3963,17 @@ Normalize_Only_Files_Too_Loud)
                                    - 4, Offline Render(Idle)
     optional boolean ProjectSampleRateFXProcessing - Use project sample rate for mixing and FX/synth processing-checkbox; true(default), checked; false, unchecked
     optional integer RenderResample - Resample mode-dropdownlist
-                                              - 0, Point Sampling (lowest quality, retro)
-                                              - 1, Linear Interpolation (low quality)
-                                              - 2, Linear Interpolation + IIR
-                                              - 3, Linear Interpolation + IIRx2
-                                              - 4, Sinc Interpolation: 16pt
-                                              - 5, Sinc Interpolation: 64pt (medium quality)
-                                              - 6, Sinc Interpolation: 192pt
-                                              - 7, Sinc Interpolation: 384pt
-                                              - 8, Sinc Interpolation: 512pt (slow)
-                                              - 9, Sinc Interpolation: 768pt (very slow)
-                                              - 10, r8brain free (highest quality, fast)
+                                               - 0, Sinc Interpolation: 64pt (medium quality)
+                                               - 1, Linear Interpolation: (low quality)
+                                               - 2, Point Sampling (lowest quality, retro)
+                                               - 3, Sinc Interpolation: 192pt
+                                               - 4, Sinc Interpolation: 384pt
+                                               - 5, Linear Interpolation + IIR
+                                               - 6, Linear Interpolation + IIRx2
+                                               - 7, Sinc Interpolation: 16pt
+                                               - 8, Sinc Interpolation: 512pt(slow)
+                                               - 9, Sinc Interpolation: 768pt(very slow)
+                                               - 10, r8brain free (highest quality, fast)
     optional boolean OnlyMonoMedia - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked(default)
     optional boolean MultiChannelFiles - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked(default)
     optional integer Dither - the Dither/Noise shaping-checkboxes; default=0
@@ -4641,6 +4653,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
                                        3, Project regions; 
                                        4, Selected Media Items(in combination with Source 32); 
                                        5, Selected regions
+                                       6, Razor edit areas
             RenderTable["Channels"] - the number of channels in the rendered file; 
                                           1, mono; 
                                           2, stereo; 
@@ -4691,16 +4704,16 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay; 
                                                      always 0, as this isn't stored in render-presets
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                                0, Point Sampling (lowest quality, retro)
-                                                1, Linear Interpolation (low quality)
-                                                2, Linear Interpolation + IIR
-                                                3, Linear Interpolation + IIRx2
-                                                4, Sinc Interpolation: 16pt
-                                                5, Sinc Interpolation: 64pt (medium quality)
-                                                6, Sinc Interpolation: 192pt
-                                                7, Sinc Interpolation: 384pt
-                                                8, Sinc Interpolation: 512pt (slow)
-                                                9, Sinc Interpolation: 768pt (very slow)
+                                                0, Sinc Interpolation: 64pt (medium quality)
+                                                1, Linear Interpolation: (low quality)
+                                                2, Point Sampling (lowest quality, retro)
+                                                3, Sinc Interpolation: 192pt
+                                                4, Sinc Interpolation: 384pt
+                                                5, Linear Interpolation + IIR
+                                                6, Linear Interpolation + IIRx2
+                                                7, Sinc Interpolation: 16pt
+                                                8, Sinc Interpolation: 512pt(slow)
+                                                9, Sinc Interpolation: 768pt(very slow)
                                                 10, r8brain free (highest quality, fast)
             RenderTable["RenderString"]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
@@ -4716,6 +4729,8 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
                                     16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 64, selected media items via master; 
                                     128, selected tracks via master
+                                    4096, Razor edit areas
+                                    4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
                                         &1, custom time bounds; 
@@ -4724,6 +4739,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
                                         &8, all project regions; 
                                         &16, selected media items; 
                                         &32, selected project regions
+                                        &64, razor edit areas
             RenderTable["TailMS"] - the amount of milliseconds of the tail; always 0, as this isn't stored in render-presets
 
      Returns nil in case of an error
@@ -5058,6 +5074,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       3, Project regions
                                       4, Selected Media Items(in combination with Source 32)
                                       5, Selected regions 
+                                      6, Razor edit areas
               RenderTable["Startposition"] - the startposition of the render
               RenderTable["Endposition"] - the endposition of the render
               RenderTable["Source"] - the source dropdownlist, includes 
@@ -5068,6 +5085,8 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       32, Selected media items
                                       64, selected media items via master
                                       128, selected tracks via master
+                                      4096, Razor edit areas
+                                      4224, Razor edit areas via master
               RenderTable["RenderPattern"] - the renderpattern, which hold also the wildcards
               RenderTable["RenderFile"] - the output-path
               RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
@@ -5089,16 +5108,16 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       4, Offline Render(Idle); 
               RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked 
               RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                                0, Point Sampling (lowest quality, retro)
-                                                1, Linear Interpolation (low quality)
-                                                2, Linear Interpolation + IIR
-                                                3, Linear Interpolation + IIRx2
-                                                4, Sinc Interpolation: 16pt
-                                                5, Sinc Interpolation: 64pt (medium quality)
-                                                6, Sinc Interpolation: 192pt
-                                                7, Sinc Interpolation: 384pt
-                                                8, Sinc Interpolation: 512pt (slow)
-                                                9, Sinc Interpolation: 768pt (very slow)
+                                                0, Sinc Interpolation: 64pt (medium quality)
+                                                1, Linear Interpolation: (low quality)
+                                                2, Point Sampling (lowest quality, retro)
+                                                3, Sinc Interpolation: 192pt
+                                                4, Sinc Interpolation: 384pt
+                                                5, Linear Interpolation + IIR
+                                                6, Linear Interpolation + IIRx2
+                                                7, Sinc Interpolation: 16pt
+                                                8, Sinc Interpolation: 512pt(slow)
+                                                9, Sinc Interpolation: 768pt(very slow)
                                                 10, r8brain free (highest quality, fast)
               RenderTable["Dither"] - the Dither/Noise shaping-checkboxes: 
                                       &1, dither master mix
@@ -5266,6 +5285,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       3, Project regions
                                       4, Selected Media Items(in combination with Source 32)
                                       5, Selected regions
+                                      6, Razor edit areas
               RenderTable["Startposition"] - the startposition of the render
               RenderTable["Endposition"] - the endposition of the render
               RenderTable["Source"]+RenderTable["MultiChannelFiles"]+RenderTable["OnlyMonoMedia"] - the source dropdownlist, includes 
@@ -5278,6 +5298,8 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       32, Selected media items
                                       64, selected media items via master
                                       128, selected tracks via master
+                                      4096, Razor edit areas
+                                      4224, Razor edit areas via master
               RenderTable["RenderPattern"] - the renderpattern, which hold also the wildcards
               RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
                                       &1, custom time bounds
@@ -5298,16 +5320,16 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       4, Offline Render(Idle); 
               RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked 
               RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                                0, Point Sampling (lowest quality, retro)
-                                                1, Linear Interpolation (low quality)
-                                                2, Linear Interpolation + IIR
-                                                3, Linear Interpolation + IIRx2
-                                                4, Sinc Interpolation: 16pt
-                                                5, Sinc Interpolation: 64pt (medium quality)
-                                                6, Sinc Interpolation: 192pt
-                                                7, Sinc Interpolation: 384pt
-                                                8, Sinc Interpolation: 512pt (slow)
-                                                9, Sinc Interpolation: 768pt (very slow)
+                                                0, Sinc Interpolation: 64pt (medium quality)
+                                                1, Linear Interpolation: (low quality)
+                                                2, Point Sampling (lowest quality, retro)
+                                                3, Sinc Interpolation: 192pt
+                                                4, Sinc Interpolation: 384pt
+                                                5, Linear Interpolation + IIR
+                                                6, Linear Interpolation + IIRx2
+                                                7, Sinc Interpolation: 16pt
+                                                8, Sinc Interpolation: 512pt(slow)
+                                                9, Sinc Interpolation: 768pt(very slow)
                                                 10, r8brain free (highest quality, fast)
               RenderTable["Dither"] - the Dither/Noise shaping-checkboxes: 
                                       &1, dither master mix
@@ -5489,6 +5511,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
                                        3, Project regions; 
                                        4, Selected Media Items(in combination with Source 32); 
                                        5, Selected regions
+                                       6, Razor edit areas
             RenderTable["Channels"] - the number of channels in the rendered file; 
                                           1, mono; 
                                           2, stereo; 
@@ -5537,16 +5560,16 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 
-                                                0, Point Sampling (lowest quality, retro)
-                                                1, Linear Interpolation (low quality)
-                                                2, Linear Interpolation + IIR
-                                                3, Linear Interpolation + IIRx2
-                                                4, Sinc Interpolation: 16pt
-                                                5, Sinc Interpolation: 64pt (medium quality)
-                                                6, Sinc Interpolation: 192pt
-                                                7, Sinc Interpolation: 384pt
-                                                8, Sinc Interpolation: 512pt (slow)
-                                                9, Sinc Interpolation: 768pt (very slow)
+                                                0, Sinc Interpolation: 64pt (medium quality)
+                                                1, Linear Interpolation: (low quality)
+                                                2, Point Sampling (lowest quality, retro)
+                                                3, Sinc Interpolation: 192pt
+                                                4, Sinc Interpolation: 384pt
+                                                5, Linear Interpolation + IIR
+                                                6, Linear Interpolation + IIRx2
+                                                7, Sinc Interpolation: 16pt
+                                                8, Sinc Interpolation: 512pt(slow)
+                                                9, Sinc Interpolation: 768pt(very slow)
                                                 10, r8brain free (highest quality, fast)
             RenderTable["RenderString"]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
             RenderTable["RenderString2"]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
@@ -5565,6 +5588,8 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
                                     16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 64, selected media items via master; 
                                     128, selected tracks via master
+                                    4096, Razor edit areas
+                                    4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
                                         &1, custom time bounds; 
@@ -5573,6 +5598,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
                                         &8, all project regions; 
                                         &16, selected media items; 
                                         &32, selected project regions
+                                        &64, razor edit areas
             RenderTable["TailMS"] - the amount of milliseconds of the tail
             
     Returns -1 in case of an error
@@ -7482,7 +7508,7 @@ function ultraschall.GetRender_ResampleMode()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRender_ResampleMode</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.3
     Reaper=5.975
     SWS=2.10.0.1
     JS=0.972
@@ -7494,16 +7520,17 @@ function ultraschall.GetRender_ResampleMode()
   </description>
   <retvals>
     integer mode - the mode, that is set
-                 -  0, Medium (64pt Sinc), 
-                 -  1, Low (Linear Interpolation), 
-                 -  2, Lowest (Point Sampling), 
-                 -  3, Good(192pt Sinc), 
-                 -  4, Better(384pt Sinc), 
-                 -  5, Fast (IIR + Linear Interpolation), 
-                 -  6, Fast (IIRx2 + Linear Interpolation), 
-                 -  7, Fast (16pt sinc) - Default, 
-                 -  8, HQ (512pt Sinc), 
-                 -  9, Extreme HQ (768pt HQ Sinc)
+                 - 0, Sinc Interpolation: 64pt (medium quality)
+                 - 1, Linear Interpolation: (low quality)
+                 - 2, Point Sampling (lowest quality, retro)
+                 - 3, Sinc Interpolation: 192pt
+                 - 4, Sinc Interpolation: 384pt
+                 - 5, Linear Interpolation + IIR
+                 - 6, Linear Interpolation + IIRx2
+                 - 7, Sinc Interpolation: 16pt
+                 - 8, Sinc Interpolation: 512pt(slow)
+                 - 9, Sinc Interpolation: 768pt(very slow)
+                 - 10, r8brain free (highest quality, fast)
   </retvals>
   <chapter_context>
     Rendering Projects
@@ -7518,8 +7545,19 @@ function ultraschall.GetRender_ResampleMode()
   
   local hwnd = ultraschall.GetRenderToFileHWND()
   if hwnd==nil then return reaper.SNM_GetIntConfigVar("projrenderresample", -1) end
+  
+  local mode=reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1000), "CB_GETCURSEL", 0,100,0,100)
+  
+  local majorversion, subversion = ultraschall.GetReaperAppVersion()
+  local version = tonumber(majorversion.."."..subversion)
+  local LookupTable_Old_ResampleModes_vs_New
+  if version<6.43 then
+    LookupTable_Old_ResampleModes_vs_New={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+  else
+    LookupTable_Old_ResampleModes_vs_New={2, 1, 5, 6, 7, 0, 3, 4, 8, 9, 10}
+  end
 
-  return reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1000), "CB_GETCURSEL", 0,100,0,100)
+  return LookupTable_Old_ResampleModes_vs_New[mode+1]
 end
 
 --A,B,C=ultraschall.GetRender_ResampleMode()
@@ -7529,7 +7567,7 @@ function ultraschall.SetRender_ResampleMode(mode)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetRender_ResampleMode</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.3
     Reaper=5.975
     SWS=2.10.0.1
     JS=0.972
@@ -7543,16 +7581,17 @@ function ultraschall.SetRender_ResampleMode(mode)
   </description>
   <parameters>
     integer mode - the mode, that is set
-                 -  0, Medium (64pt Sinc), 
-                 -  1, Low (Linear Interpolation), 
-                 -  2, Lowest (Point Sampling), 
-                 -  3, Good(192pt Sinc), 
-                 -  4, Better(384pt Sinc), 
-                 -  5, Fast (IIR + Linear Interpolation), 
-                 -  6, Fast (IIRx2 + Linear Interpolation), 
-                 -  7, Fast (16pt sinc) - Default, 
-                 -  8, HQ (512pt Sinc), 
-                 -  9, Extreme HQ (768pt HQ Sinc)
+                 - 0, Sinc Interpolation: 64pt (medium quality)
+                 - 1, Linear Interpolation: (low quality)
+                 - 2, Point Sampling (lowest quality, retro)
+                 - 3, Sinc Interpolation: 192pt
+                 - 4, Sinc Interpolation: 384pt
+                 - 5, Linear Interpolation + IIR
+                 - 6, Linear Interpolation + IIRx2
+                 - 7, Sinc Interpolation: 16pt
+                 - 8, Sinc Interpolation: 512pt(slow)
+                 - 9, Sinc Interpolation: 768pt(very slow)
+                 - 10, r8brain free (highest quality, fast)
   </parameters>
   <retvals>
     boolean retval - true, setting it was successful; false, setting it was unsuccessful
@@ -7567,24 +7606,37 @@ function ultraschall.SetRender_ResampleMode(mode)
 </US_DocBloc>
 ]]
   if math.type(mode)~="integer" then ultraschall.AddErrorMessage("SetRender_ResampleMode", "mode", "must be an integer", -1) return false end
-  if mode<0 or mode>9 then ultraschall.AddErrorMessage("SetRender_ResampleMode", "mode", "must be between 0 and 9", -2) return false end
+  if mode<0 or mode>10 then ultraschall.AddErrorMessage("SetRender_ResampleMode", "mode", "must be between 0 and 10", -2) return false end
   local oldfocus=reaper.JS_Window_GetFocus()
   
   local hwnd = ultraschall.GetRenderToFileHWND()
   if hwnd==nil then reaper.SNM_SetIntConfigVar("projrenderresample", mode) return end
 
-    -- select the new format-setting
-    if ultraschall.IsOS_Windows()==true then
-      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)   
-    elseif ultraschall.IsOS_Mac()==true then
-      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
-    else
-      -- ToDo: Check with Linux
-      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
-    end
+  local majorversion, subversion = ultraschall.GetReaperAppVersion()
+  local version = tonumber(majorversion.."."..subversion)
+  
+  local LookupTable_Old_ResampleModes_vs_New
+  
+  if version<6.43 then
+    LookupTable_Old_ResampleModes_vs_New={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+  else
+    LookupTable_Old_ResampleModes_vs_New={5, 1, 0, 6, 7, 2, 3, 4, 8, 9, 10}
+  end
 
-    reaper.JS_Window_SetFocus(oldfocus)    --]]
-    return true
+  local mode=LookupTable_Old_ResampleModes_vs_New[mode+1]
+
+  -- select the new format-setting
+  if ultraschall.IsOS_Windows()==true then
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)   
+  elseif ultraschall.IsOS_Mac()==true then
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
+  else
+    -- ToDo: Check with Linux
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
+  end
+
+  reaper.JS_Window_SetFocus(oldfocus)    --]]
+  return true
 end
 
 

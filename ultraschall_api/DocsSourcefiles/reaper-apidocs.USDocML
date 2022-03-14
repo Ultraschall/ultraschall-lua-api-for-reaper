@@ -38212,7 +38212,7 @@ Mespotine
             
             Typed characters between 256 and 1024(maybe higher?) seem to hint at multibyte-unicode characters. That means, you need to take the next character-value in the character-queue into consideration as well to get the current unicode-character!
             
-            Note that calling gfx_getchar() at least once causes mouse_cap to reflect keyboard modifiers even when the mouse is not captured.
+            Note that calling gfx\_getchar() at least once causes mouse\_cap to reflect keyboard modifiers even when the mouse is not captured.
         </description>
         <retvals>
             integer typed_character - the character that has been typed; -1, if no window is open

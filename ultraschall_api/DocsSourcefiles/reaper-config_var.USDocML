@@ -8869,10 +8869,14 @@
            >1, Master mix + stems  
            >3, Stems (selected tracks)  
            >8, Region render matrix  
+           >&16, Tracks with only Mono-Media to Mono Files; 
            >32, Selected media items  
+           >128, selected tracks via master
            >&256, "Embed stretch markers/transient guides"-checkbox; 0, unchecked; 1, checked  
            >&512, "Embed Metadata"-checkbox; 0, unchecked; 1, checked  
            >&1024, "Take Markers"-checkbox; 0, unchecked; 1, checked
+           >4096, Razor edit areas
+           >4224, Razor edit areas via master
            
            
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
@@ -10321,25 +10325,25 @@
            >&16=0, Silently increment filenames to avoid overwriting - unchecked  
            >&16=1, Silently increment filenames to avoid overwriting - checked  
            
-           >&32=0, Always embed title/date/time - unchecked
+           >&32=0, Always embed title/date/time - unchecked  
            >&32=1, Always embed title/date/time - checked
            
-           >&64=0, Always embed start offset (media position in project) - unchecked
+           >&64=0, Always embed start offset (media position in project) - unchecked  
            >&64=1, Always embed start offset (media position in project) - checked
            
-           >&128=0, Mark overs in render peaks display - checked
+           >&128=0, Mark overs in render peaks display - checked  
            >&128=1, Mark overs in render peaks display - unchecked
            
-           >&256=0, True Peak -> Calculate statistics when rendering-button - unchecked
+           >&256=0, True Peak -> Calculate statistics when rendering-button - unchecked  
            >&256=1, True Peak -> Calculate statistics when rendering-button - checked
            
            >&512=0, LUFS-I, LUFS-M(integrated loudness, momentary loudness) -> Calculate statistics when rendering-button - checked
            >&512=1, LUFS-I, LUFS-M(integrated loudness, momentary loudness) -> Calculate statistics when rendering-button - unchecked
            
-           >&1024=0, LRA, LUFS-S (loudness range, short-term loudness) -> Calculate statistics when rendering-button - checked
+           >&1024=0, LRA, LUFS-S (loudness range, short-term loudness) -> Calculate statistics when rendering-button - checked  
            >&1024=1, LRA, LUFS-S (loudness range, short-term loudness) -> Calculate statistics when rendering-button - unchecked
 
-           >&2048=0, Calculate and embed peak/loudness value-checkbox - unchecked
+           >&2048=0, Calculate and embed peak/loudness value-checkbox - unchecked  
            >&2048=0, Calculate and embed peak/loudness value-checkbox - checked
            
            >seems not to be available anymore as of Reaper 5.977:  

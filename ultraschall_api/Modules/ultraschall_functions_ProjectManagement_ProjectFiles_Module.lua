@@ -1742,10 +1742,13 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
     - &16, Tracks with only Mono-Media to Mono Files,  
     - 32, Selected Media Items(in combination with RENDER_RANGE->Bounds->4, refer to <a href="#GetProject_RenderRange">GetProject_RenderRange</a> to get RENDER_RANGE)
     - 64,  Selected media items via master
-    - 128, Selected tracks via master
+    - 128, Selected tracks via master    
     - &256, Embed stretch markers/transient guides-checkbox
+    - &512, Embed metadata-checkbox
     - &1024, Embed Take markers
     - &2048, enable second pass rendering
+    - 4096, Razor edit areas
+    - 4224, Razor edit areas via master
   </retvals>
   <chapter_context>
     Project-Management
@@ -6047,8 +6050,11 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
     - 64, Selected media items via master
     - 128, Selected tracks via master
     - &256, Embed stretch markers/transient guides-checkbox 
+    - &512, Embed metadata-checkbox
     - &1024, Embed Take markers
     - &2048, enable second pass rendering
+    - 4096, Razor edit areas
+    - 4224, Razor edit areas via master
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>

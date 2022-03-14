@@ -74,9 +74,16 @@ Bla</li>
 </li>
 <li>PodcastMetadata: SetPodcastEpisodeMetadataPreset_Name - sets the name of an episode-metadata-preset</li>
 <li>PodcastMetadata: SetPodcastMetadataPreset_Name - sets the name of a podcast-metadata-preset</li>
-<li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes</li>
+<li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes<br />
+</li>
+<li>Render: GetRenderTable_ProjectDefaults - returns a rendertable with all render settings of the project's defaults</li>
 </ul>
 <h4>Changes from 4.3 to 4.4</h4>
+<ul>
+<li>Render: GetRender_ResampleMode - didn't return correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -&gt; fixed</li>
+<li>Render: GetRenderTable_Project - didn't correctly return "CloseAfterRender" -&gt; fixed</li>
+<li>Render: SetRender_ResampleMode - didn't set correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -&gt; fixed</li>
+</ul>
 <hr />
 <h3>4.3 - "Eskobar - Someone New" - 22nd of February 2022</h3>
 <p>Has now 1457 functions, with 34 new ones</p>

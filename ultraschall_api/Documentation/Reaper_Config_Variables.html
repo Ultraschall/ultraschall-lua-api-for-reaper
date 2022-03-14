@@ -7486,10 +7486,10 @@ It is an integer</p>
 1, Master mix + stems<br />
 3, Stems (selected tracks)<br />
 8, Region render matrix<br />
-32, Selected media items<br />
-&amp;256, "Embed stretch markers/transient guides"-checkbox; 0, unchecked; 1, checked<br />
+&amp;16, Tracks with only Mono-Media to Mono Files; 32, Selected media items<br />
+128, selected tracks via master &amp;256, "Embed stretch markers/transient guides"-checkbox; 0, unchecked; 1, checked<br />
 &amp;512, "Embed Metadata"-checkbox; 0, unchecked; 1, checked<br />
-&amp;1024, "Take Markers"-checkbox; 0, unchecked; 1, checked</p>
+&amp;1024, "Take Markers"-checkbox; 0, unchecked; 1, checked 4096, Razor edit areas 4224, Razor edit areas via master</p>
 </blockquote>
 <p>Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.</p>
 </div><br>
@@ -8682,25 +8682,31 @@ It is an integer</p>
 &amp;16=1, Silently increment filenames to avoid overwriting - checked</p>
 </blockquote>
 <blockquote>
-<p>&amp;32=0, Always embed title/date/time - unchecked &amp;32=1, Always embed title/date/time - checked</p>
+<p>&amp;32=0, Always embed title/date/time - unchecked<br />
+&amp;32=1, Always embed title/date/time - checked</p>
 </blockquote>
 <blockquote>
-<p>&amp;64=0, Always embed start offset (media position in project) - unchecked &amp;64=1, Always embed start offset (media position in project) - checked</p>
+<p>&amp;64=0, Always embed start offset (media position in project) - unchecked<br />
+&amp;64=1, Always embed start offset (media position in project) - checked</p>
 </blockquote>
 <blockquote>
-<p>&amp;128=0, Mark overs in render peaks display - checked &amp;128=1, Mark overs in render peaks display - unchecked</p>
+<p>&amp;128=0, Mark overs in render peaks display - checked<br />
+&amp;128=1, Mark overs in render peaks display - unchecked</p>
 </blockquote>
 <blockquote>
-<p>&amp;256=0, True Peak -&gt; Calculate statistics when rendering-button - unchecked &amp;256=1, True Peak -&gt; Calculate statistics when rendering-button - checked</p>
+<p>&amp;256=0, True Peak -&gt; Calculate statistics when rendering-button - unchecked<br />
+&amp;256=1, True Peak -&gt; Calculate statistics when rendering-button - checked</p>
 </blockquote>
 <blockquote>
 <p>&amp;512=0, LUFS-I, LUFS-M(integrated loudness, momentary loudness) -&gt; Calculate statistics when rendering-button - checked &amp;512=1, LUFS-I, LUFS-M(integrated loudness, momentary loudness) -&gt; Calculate statistics when rendering-button - unchecked</p>
 </blockquote>
 <blockquote>
-<p>&amp;1024=0, LRA, LUFS-S (loudness range, short-term loudness) -&gt; Calculate statistics when rendering-button - checked &amp;1024=1, LRA, LUFS-S (loudness range, short-term loudness) -&gt; Calculate statistics when rendering-button - unchecked</p>
+<p>&amp;1024=0, LRA, LUFS-S (loudness range, short-term loudness) -&gt; Calculate statistics when rendering-button - checked<br />
+&amp;1024=1, LRA, LUFS-S (loudness range, short-term loudness) -&gt; Calculate statistics when rendering-button - unchecked</p>
 </blockquote>
 <blockquote>
-<p>&amp;2048=0, Calculate and embed peak/loudness value-checkbox - unchecked &amp;2048=0, Calculate and embed peak/loudness value-checkbox - checked</p>
+<p>&amp;2048=0, Calculate and embed peak/loudness value-checkbox - unchecked<br />
+&amp;2048=0, Calculate and embed peak/loudness value-checkbox - checked</p>
 </blockquote>
 <blockquote>
 <p>seems not to be available anymore as of Reaper 5.977:<br />

@@ -494,6 +494,7 @@ This is mostly because, there are so many.</p>
                                3, Project regions; 
                                4, Selected Media Items(in combination with Source 32); 
                                5, Selected regions
+                               6, Razor edit areas
     RenderTable[&quot;Channels&quot;] - the number of channels in the rendered file; 
                                   1, mono; 
                                   2, stereo; 
@@ -542,16 +543,16 @@ This is mostly because, there are so many.</p>
     RenderTable[&quot;RenderQueueDelay&quot;] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
     RenderTable[&quot;RenderQueueDelaySeconds&quot;] - the amount of seconds for the render-queue-delay
     RenderTable[&quot;RenderResample&quot;] - Resample mode-dropdownlist; 
-                                0, Point Sampling (lowest quality, retro)
-                                1, Linear Interpolation (low quality)
-                                2, Linear Interpolation + IIR
-                                3, Linear Interpolation + IIRx2
-                                4, Sinc Interpolation: 16pt
-                                5, Sinc Interpolation: 64pt (medium quality)
-                                6, Sinc Interpolation: 192pt
-                                7, Sinc Interpolation: 384pt
-                                8, Sinc Interpolation: 512pt (slow)
-                                9, Sinc Interpolation: 768pt (very slow)
+                                0, Sinc Interpolation: 64pt (medium quality)
+                                1, Linear Interpolation: (low quality)
+                                2, Point Sampling (lowest quality, retro)
+                                3, Sinc Interpolation: 192pt
+                                4, Sinc Interpolation: 384pt
+                                5, Linear Interpolation + IIR
+                                6, Linear Interpolation + IIRx2
+                                7, Sinc Interpolation: 16pt
+                                8, Sinc Interpolation: 512pt(slow)
+                                9, Sinc Interpolation: 768pt(very slow)
                                 10, r8brain free (highest quality, fast)
     RenderTable[&quot;RenderString&quot;]     - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
     RenderTable[&quot;RenderString2&quot;]    - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
@@ -570,6 +571,8 @@ This is mostly because, there are so many.</p>
                             16, Tracks with only Mono-Media to Mono Files; 
                             32, Selected media items; 64, selected media items via master; 
                             128, selected tracks via master
+                            4096, Razor edit areas
+                            4224, Razor edit areas via master
     RenderTable[&quot;Startposition&quot;] - the startposition of the rendering selection in seconds
     RenderTable[&quot;TailFlag&quot;] - in which bounds is the Tail-checkbox checked? 
                                 &amp;1, custom time bounds; 
@@ -578,6 +581,7 @@ This is mostly because, there are so many.</p>
                                 &amp;8, all project regions; 
                                 &amp;16, selected media items; 
                                 &amp;32, selected project regions
+                                &amp;64, razor edit areas
     RenderTable[&quot;TailMS&quot;] - the amount of milliseconds of the tail
     </code></pre>
 <p>This rendertable can be used by, e.g. <a href="US_Api_Functions.html#RenderProject_RenderTable">RenderProject_RenderTable</a></p>
