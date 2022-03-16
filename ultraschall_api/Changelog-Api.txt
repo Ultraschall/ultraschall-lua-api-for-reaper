@@ -217,6 +217,7 @@ Has now 1457 functions, with XX new ones
   - Render: GetRenderTable\_ProjectDefaults - returns a rendertable with all render settings of the project's defaults
   
 #### Changes from 4.3 to 4.4    
+  - ProjectManagement: GetProjecStateChunk - didn't work under certain circumstances -> fixed
   - Render: GetRender\_ResampleMode - didn't return correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -> fixed
   - Render: GetRenderTable\_Project - didn't correctly return "CloseAfterRender" -> fixed
   - Render: SetRender\_ResampleMode - didn't set correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -> fixed
