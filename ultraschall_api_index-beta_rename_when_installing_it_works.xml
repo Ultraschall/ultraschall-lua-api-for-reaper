@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="51155.00" author="Meo Mespotine">
+      <version name="51168.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -576,6 +576,21 @@ New features in 4.4
     writes it into a file or adds it to id3, vorbis-metadata-schemes
 -   Render: GetRenderTable_ProjectDefaults - returns a rendertable with
     all render settings of the project’s defaults
+-   SpectralView: SpectralPeak_GetColorAttributes - gets
+    noise-threshold, opacity and variance of the spectral view
+-   SpectralView: SpectralPeak_GetMaxColor - returns the maxmium color
+    of the spectral view
+-   SpectralView: SpectralPeak_GetMinColor - returns the minimum color
+    of the spectral peak view
+-   SpectralView: SpectralPeak_SetColorAttributes - sets
+    noise-threshold, opacity and variance of the spectral view
+-   SpectralView: SpectralPeak_SetMaxColor - sets the maximum color of
+    the spectral peak view
+-   SpectralView: SpectralPeak_SetMaxColor_Relative - sets the spectrum
+    color of the spectral peak view, relative to the minimum
+    spectral-view color
+-   SpectralView: SpectralPeak_SetMinColor - sets the minimum color of
+    the spectral peak view
 
 Changes from 4.3 to 4.4
 
@@ -614,7 +629,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1495 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 51155 from 16.03.2022 14:03:50).}
+a 1495 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 51168 from 20.03.2022 03:14:36).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -752,7 +767,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1495 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 51155 from 16.03.2022 14:03:50).}
+a 1495 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 51168 from 20.03.2022 03:14:36).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
