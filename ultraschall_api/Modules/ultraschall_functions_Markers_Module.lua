@@ -125,7 +125,7 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
     end
   end
   
-  ultraschall.SetNormalMarker(DIDX, A1[3], shown_number+1, markertitle)
+  ultraschall.SetNormalMarker(DIDX, A1[3], shown_number, markertitle)
   
   return ultraschall.GetMarkerIDFromGuid(Coriginals_array2[1]), Coriginals_array2[1], DIDX
 
@@ -4386,7 +4386,7 @@ function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number
   if math.type(color)~="integer" then ultraschall.AddErrorMessage("AddCustomMarker", "color", "must be an integer; 0, for default color", -5) return false end  
   
   local ocm=custom_marker_name
-  local found_custommarker_idx
+  local found_custommarker_idx=-99999
   if custom_marker_name==nil then custom_marker_name=name else custom_marker_name="_"..custom_marker_name..": "..name end
   
   local Aretval, Acount, Amarkersstring, Amarkersarray = ultraschall.IsMarkerAtPosition(pos)

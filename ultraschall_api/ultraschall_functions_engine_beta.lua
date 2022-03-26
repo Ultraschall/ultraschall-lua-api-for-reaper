@@ -1250,7 +1250,7 @@ function ultraschall.AddShownoteMarker(pos, name)
     Color = 0x00A8A8|0x1000000
   end
   local name2=reaper.genGuid("")..reaper.time_precise()..reaper.genGuid("")
-  local A={ultraschall.AddCustomMarker("Shownote", pos, name2, Count+1, Color)}  
+  A={ultraschall.AddCustomMarker("Shownote", pos, name2, Count+1, Color)}  
   A[4]=A[4]+1
   ultraschall.SetShownoteMarker(A[4], pos, name)
   if A[1]==false then A[2]=-1 end
@@ -1382,6 +1382,7 @@ ultraschall.ShowNoteAttributes = {"shwn_language",           -- check for validi
               "shwn_event_location_google_maps",-- check for validity
               "shwn_event_location_open_street_map",-- check for validity
               "shwn_event_location_apple_maps",-- check for validity
+              "shwn_event_ics_data",
               "shwn_quote_cite_source", 
               "shwn_quote", 
               --"image_uri",
@@ -1425,7 +1426,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     string attributename - the attributename you want to get/set
                          - supported attributes are:
                          - "shwn_description" - a more detailed description for this shownote
-                         - "shwn_descriptive_tags" - some tags, that describe the content of the shownote, separated with commas
+                         - "shwn_descriptive_tags" - some tags, that describe the content of the shownote, must separated by newlines
                          - "shwn_url" - the url you want to set
                          - "shwn_url_description" - a short description of the url
                          - "shwn_url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
@@ -1453,6 +1454,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "shwn_event_location_google_maps" - the google-maps-coordinates of the event-location
                          - "shwn_event_location_open_street_map" - the open-streetmap-coordinates of the event-location
                          - "shwn_event_location_apple_maps" - the apple-maps-coordinates of the event-location
+                         - "shwn_event_ics_data" - the event as ics-data-format; will NOT set other event-attributes; will not be checked for validity!
                          - "shwn_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
                          - "shwn_quote" - a quote from the cite_source
                          - "shwn_wikidata_uri" - the uri to an entry to wikidata
@@ -1496,11 +1498,13 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
 
   if is_set==true then
     if attributename=="image_content" and content:sub(1,6)~="ÿØÿ" and content:sub(2,4)~="PNG" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "image_content: only png and jpg are supported", -6) return false end    
+    if attributename=="shwn_event_ics_data" then content=ultraschall.Base64_Encoder(content) end
     Retval = ultraschall.SetMarkerExtState(A[2]+1, attributename, content)
     if Retval==-1 then Retval=false else Retval=true end
-    B=content
+    B=content    
   else
     B=ultraschall.GetMarkerExtState(A[2]+1, attributename, content)
+    if attributename=="shwn_event_ics_data" then B=ultraschall.Base64_Decoder(B) end
     if B==nil then Retval=false else Retval=true end
   end
   return Retval, B
@@ -1624,7 +1628,7 @@ end
 ultraschall.PodcastAttributes={"podc_title", 
               "podc_description", 
               --"podc_feed",
-              --"podc_website", 
+              "podc_website", 
               "podc_twitter",
               "podc_facebook",
               "podc_youtube",
@@ -1652,6 +1656,18 @@ function ultraschall.GetSetPodcast_MetaData(is_set, attributename, additional_at
     
     This is about the podcast globally, NOT the individual episodes.
     
+         "podc_title" - the title of the podcast
+         "podc_description" - a description for your podcast
+         "podc_website" - either one url or a list of website-urls of the podcast,separated by newlines
+         "podc_contact_email" - an email-address that can be used to contact the podcasters
+         "podc_twitter" - twitter-profile of the podcast
+         "podc_facebook" - facebook-page of the podcast
+         "podc_youtube" - youtube-channel of the podcast
+         "podc_instagram" - instagram-channel of the podcast
+         "podc_tiktok" - tiktok-channel of the podcast
+         "podc_mastodon" - mastodon-channel of the podcast
+         "podc_descriptive_tags" - some tags, who describe the podcast, must separated by newlines
+    
     For episode's-metadata, use [GetSetPodcastEpisode\_MetaData](#GetSetPodcastEpisode_MetaData)
     
     preset-values will be stored into ressourcepath/ultraschall_podcast_presets.ini
@@ -1661,18 +1677,6 @@ function ultraschall.GetSetPodcast_MetaData(is_set, attributename, additional_at
   <parameters>
     boolean is_set - true, set the attribute; false, retrieve the current content
     string attributename - the attributename you want to get/set
-                         - supported attributes are:
-                         - "podcast_title" - the title of the podcast
-                         - "podcast_description" - a description for your podcast
-                         - "podcast_website" - the url of the website(s) of the podcast(see additional_attributes for more details)
-                         - "podcast_contact_email" - an email-address that can be used to contact the podcasters
-                         - "podcast_twitter" - twitter-profile of the podcast
-                         - "podcast_facebook" - facebook-page of the podcast
-                         - "podcast_youtube" - youtube-channel of the podcast
-                         - "podcast_instagram" - instagram-channel of the podcast
-                         - "podcast_tiktok" - tiktok-channel of the podcast
-                         - "podcast_mastodon" - mastodon-channel of the podcast
-                         - "podcast_descriptive_tags" - some tags, who describe the podcast, separated with commas
     string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
                                 - when attribute="podcast_website", set this to a number, 1 and higher, which will index possibly multiple websites you have for your podcast
                                 -                                 use 1 for the main-website
@@ -1789,7 +1793,8 @@ ultraschall.EpisodeAttributes={"epsd_title",
               "epsd_language", 
               "epsd_explicit",
               "epsd_descriptive_tags",
-              "epsd_url"
+              "epsd_content_notification_tags",
+              "epsd_url",
               }
 
 function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additional_attribute, content, preset_slot)
@@ -1829,9 +1834,10 @@ function ultraschall.GetSetPodcastEpisode_MetaData(is_set, attributename, additi
                          - "epsd_cover" - the cover-image of the episode(path+filename)
                          - "epsd_language" - the language of the episode; Languagecode according to ISO639
                          - "epsd_explicit" - yes, if explicit; no, if not explicit
-                         - "epsd_descriptive_tags" - some tags, that describe the content of the episode, separated with commas
+                         - "epsd_descriptive_tags" - some tags, that describe the content of the episode, must separated by newlines
                          - "epsd_sponsor" - the name of the sponsor of this episode
                          - "epsd_sponsor_url" - a link to the sponsor's website
+                         - "epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by newlines!
     string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
     string content - the new contents to set the attribute
     optional integer preset_slot - the slot in the podcast-presets to get/set the value from/to; nil, no preset used
@@ -2036,7 +2042,8 @@ ultraschall.ChapterAttributes={"chap_description",
               "chap_image_origin",
               "chap_image_url",
               "chap_descriptive_tags",
-              "chap_is_advertisement"
+              "chap_is_advertisement",
+              "chap_content_notification_tags"
               }
 
 
@@ -2068,7 +2075,8 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
                          - "chap_image_license" - the license of the chapter-image
                          - "chap_image_origin" - the origin of the chapterimage, like an institution or similar 
                          - "chap_image_url" - the url that links to the chapter-image
-                         - "chap_descriptive_tags" - some tags, that describe the chapter-content, separated with commas
+                         - "chap_descriptive_tags" - some tags, that describe the chapter-content, must separated by newlines
+                         - "chap_content_notification_tags" - some tags, that warn of specific content; must be separated by newlines!
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
@@ -3587,4 +3595,1016 @@ function ultraschall.GetRenderTable_ProjectDefaults()
   end
   
   return RenderTable
+end
+
+function ultraschall.SpectralPeak_GetMinColor()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SpectralPeak_GetMinColor</slug>
+    <requires>
+      Ultraschall=4.3
+      Reaper=6.22
+      SWS=2.8.8
+      Lua=5.3
+    </requires>
+    <functioncall>number min_color = ultraschall.SpectralPeak_GetMinColor()</functioncall>
+    <description>
+      returns the minimum value of the spectral peak-view in Media Items, which is the lowest-frequency-color.
+      
+      The color is encoded, so that:
+        0 = red
+        1 = green
+        2 = blue
+        3 = red again
+    </description>
+    <retvals>
+      number min_color - the minimum color of the spectral peak
+    </retvals>
+    <chapter_context>
+      MediaItem Management
+      Spectral Peak
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+    <tags>mediaitemmanagement, get, min color, spectral peak view</tags>
+  </US_DocBloc>
+  --]]
+  return reaper.SNM_GetDoubleConfigVar("specpeak_huel", -11111)*3
+end
+
+--A=ultraschall.SpectralPeak_GetMinColor()
+
+function ultraschall.SpectralPeak_SetMinColor(color, update_arrange)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SpectralPeak_SetMinColor</slug>
+    <requires>
+      Ultraschall=4.3
+      Reaper=6.22
+      SWS=2.8.8
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.SpectralPeak_SetMinColor(number min_color, optional boolean update_arrange)</functioncall>
+    <description>
+      sets the minimum value of the spectral peak-view in Media Items, which is the lowest-frequency-color.
+      
+      The color is encoded, so that:
+        0 = red
+        1 = green
+        2 = blue
+        3 = red again, etc
+        
+      return false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, setting was successful; false, setting was unsuccessful
+    </retvals>
+    <parameters>
+      number min_color - the minimum color of the spectral peak
+      optional boolean update_arrange - true, update arrange; false or nil, don't update arrange
+    </parameters>
+    <chapter_context>
+      MediaItem Management
+      Spectral Peak
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+    <tags>mediaitemmanagement, set, min color, spectral peak view</tags>
+  </US_DocBloc>
+  --]]
+  if type(color)~="number" then ultraschall.AddErrorMessage("SpectralPeak_SetMinColor", "color", "must be a number", -1) return false end
+  color=color/3
+  reaper.SNM_SetDoubleConfigVar("specpeak_huel", color)
+  if update_arrange==true then
+    reaper.UpdateArrange()
+  end
+  return true
+end
+
+--ultraschall.SpectralPeak_SetMinColor(0, true)
+
+function ultraschall.SpectralPeak_GetMaxColor()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SpectralPeak_GetMaxColor</slug>
+    <requires>
+      Ultraschall=4.3
+      Reaper=6.22
+      SWS=2.8.8
+      Lua=5.3
+    </requires>
+    <functioncall>number max_color = ultraschall.SpectralPeak_GetMaxColor()</functioncall>
+    <description>
+      returns the maximum value of the spectral peak-view in Media Items, which is the highest-frequency-color.
+      
+      The color is encoded, so that:
+        0 = red
+        1 = green
+        2 = blue
+        3 = red again
+        
+      Max-color should be higher than min-color.
+    </description>
+    <retvals>
+      number max_color - the maximum color of the spectral peak
+    </retvals>
+    <chapter_context>
+      MediaItem Management
+      Spectral Peak
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+    <tags>mediaitemmanagement, get, max color, spectral peak view</tags>
+  </US_DocBloc>
+  --]]
+  return reaper.SNM_GetDoubleConfigVar("specpeak_hueh", -1111)*3
+end
+
+--A=ultraschall.SpectralPeak_GetMaxColor()
+
+function ultraschall.SpectralPeak_SetMaxColor(color, update_arrange)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SpectralPeak_SetMaxColor</slug>
+    <requires>
+      Ultraschall=4.3
+      Reaper=6.22
+      SWS=2.8.8
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.SpectralPeak_SetMaxColor(number color, optional boolean update_arrange)</functioncall>
+    <description>
+      sets the maximum value of the spectral peak-view in Media Items.
+      
+      The color is encoded, so that:
+        0 = red
+        1 = green
+        2 = blue
+        3 = red again, etc
+
+        Max-color should be higher than min-color.
+        
+      return false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, setting was successful; false, setting was unsuccessful
+    </retvals>
+    <parameters>
+      number color - the maximum color of the spectral peak
+      optional boolean update_arrange - true, update arrange; false or nil, don't update arrange
+    </parameters>
+    <chapter_context>
+      MediaItem Management
+      Spectral Peak
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+    <tags>mediaitemmanagement, set, max color, spectral peak view</tags>
+  </US_DocBloc>
+  --]]
+  if type(color)~="number" then ultraschall.AddErrorMessage("SpectralPeak_SetMaxColor", "color", "must be a number", -1) return false end
+  color=(color/3)+1
+  reaper.SNM_SetDoubleConfigVar("specpeak_hueh", color)
+  if update_arrange==true then
+    reaper.UpdateArrange()
+  end
+end
+
+function ultraschall.SpectralPeak_SetMaxColor_Relative(color, update_arrange)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SpectralPeak_SetMaxColor_Relative</slug>
+    <requires>
+      Ultraschall=4.3
+      Reaper=6.22
+      SWS=2.8.8
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.SpectralPeak_SetMaxColor_Relative(number color, optional boolean update_arrange)</functioncall>
+    <description>
+      sets the maximum value of the spectral peak-view in Media Items relative to the minimum color.
+      
+      This will set the shown spectrum relative to the minimum-color set.
+      
+      To set it to the whole spectrum, pass 3 as color.
+      To set it to a third of the spectrum, pass 1 as color.
+      To set it to two times the spectrum, set color to 6.
+        
+      return false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, setting was successful; false, setting was unsuccessful
+    </retvals>
+    <parameters>
+      number color - the maximum spectrum of the spectral peak relative to the minimum color
+      optional boolean update_arrange - true, update arrange; false or nil, don't update arrange
+    </parameters>
+    <chapter_context>
+      MediaItem Management
+      Spectral Peak
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+    <tags>mediaitemmanagement, set, max color, relative, spectral peak view</tags>
+  </US_DocBloc>
+  --]]
+  if type(color)~="number" then ultraschall.AddErrorMessage("SpectralPeak_SetMaxColor_Relative", "color", "must be a number", -1) return false end
+  color=(color/3)+reaper.SNM_GetDoubleConfigVar("specpeak_huel", color)
+  reaper.SNM_SetDoubleConfigVar("specpeak_hueh", color)
+  if update_arrange==true then
+    reaper.UpdateArrange()
+  end
+  return true
+end
+
+--ultraschall.SpectralPeak_SetMaxColor_Relative(6, true)
+
+function ultraschall.SpectralPeak_SetColorAttributes(noise_threshold, variance, opacity)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SpectralPeak_SetColorAttributes</slug>
+    <requires>
+      Ultraschall=4.3
+      Reaper=6.22
+      SWS=2.8.8
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.SpectralPeak_SetColorAttributes(optional number noise_threshold, optional number variance, optional number opacity)</functioncall>
+    <description>
+      sets the noise_threshold, variance and opacity of the spectral peak-view in Media Items.
+
+      return false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, setting was successful; false, setting was unsuccessful
+    </retvals>
+    <parameters>
+      optional number noise_threshold - the noise threshold, between 0.25 and 8.00
+      optional number variance - the variance of the spectrum, between 0 and 1
+      optional number opacity - the opacity of the spectrum, between 0 and 1.33; 1, for default
+    </parameters>
+    <chapter_context>
+      MediaItem Management
+      Spectral Peak
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+    <tags>mediaitemmanagement, set, noise threshold, variance, alpha, opacity, spectral peak view</tags>
+  </US_DocBloc>
+  --]]
+  if noise_threshold~=nil and type(noise_threshold)~="number" then ultraschall.AddErrorMessage("SpectralPeak_SetColorAttributes", "noise_threshold", "must be a number", -1) return false end
+  if variance~=nil and type(variance)~="number" then ultraschall.AddErrorMessage("SpectralPeak_SetColorAttributes", "variance", "must be a number between 0 and 1", -2) return false end
+  if opacity~=nil and type(opacity)~="number" then ultraschall.AddErrorMessage("SpectralPeak_SetColorAttributes", "opacity", "must be a number between 0 and 1", -3) return false end
+  
+  
+  if noise_threshold~=nil then
+    if noise_threshold<0.25 or noise_threshold>8.00 then ultraschall.AddErrorMessage("SpectralPeak_SetColorAttributes", "noise_threshold", "must be a number between 0 and 1", -4) return false end
+    local LookUpTable={} -- ugly workaround...please fiddle out the math behind this...
+    LookUpTable[25]=16
+    LookUpTable[26]=15.548989744238
+    LookUpTable[27]=14.96735650067
+    LookUpTable[28]=14.545454545455
+    LookUpTable[29]=14.001360038635
+    LookUpTable[30]=13.349772995397
+    LookUpTable[31]=13.097709199531
+    LookUpTable[32]=12.488175726571
+    LookUpTable[33]=12.252380183218
+    LookUpTable[34]=11.90700836321
+    LookUpTable[35]=11.571371932756
+    LookUpTable[36]=11.245196469324
+    LookUpTable[37]=10.928215285841
+    LookUpTable[38]=10.620169212648
+    LookUpTable[39]=10.320806385595
+    LookUpTable[40]=10.125934035717
+    LookUpTable[41]=9.8405027795123
+    LookUpTable[42]=9.5631172997986
+    LookUpTable[43]=9.3825512596322
+    LookUpTable[44]=9.1180745819253
+    LookUpTable[45]=8.9459116177384
+    LookUpTable[46]=8.7769993492957
+    LookUpTable[47]=8.5295920542111
+    LookUpTable[48]=8.3685405253863
+    LookUpTable[49]=8.2105298916913
+    LookUpTable[50]=8.0555027364517
+    LookUpTable[51]=7.9034027271063
+    LookUpTable[52]=7.7541745947374
+    LookUpTable[53]=7.6077641139876
+    LookUpTable[54]=7.4641180833557
+    LookUpTable[55]=7.3231843058652
+    LookUpTable[56]=7.1849115700966
+    LookUpTable[57]=7.0492496315794
+    LookUpTable[58]=6.9161491945341
+    LookUpTable[59]=6.7855618939597
+    LookUpTable[60]=6.7211958059643
+    LookUpTable[61]=6.5942895186293
+    LookUpTable[62]=6.4697794129011
+    LookUpTable[63]=6.3476202452663
+    LookUpTable[64]=6.2874083586674
+    LookUpTable[65]=6.1686926308725
+    LookUpTable[66]=6.0522184345993
+    LookUpTable[67]=5.9948086532994
+    LookUpTable[68]=5.8816176480919
+    LookUpTable[69]=5.770563859333
+    LookUpTable[70]=5.7158257806067
+    LookUpTable[71]=5.6616069331611
+    LookUpTable[72]=5.5547072776564
+    LookUpTable[73]=5.5020167587267
+    LookUpTable[74]=5.3981304057826
+    LookUpTable[75]=5.346925134629
+    LookUpTable[76]=5.2962055834556
+    LookUpTable[77]=5.196205255097
+    LookUpTable[78]=5.1469153937828
+    LookUpTable[79]=5.0497338887786
+    LookUpTable[80]=5.0018334170242
+    LookUpTable[81]=4.9543873167764
+    LookUpTable[82]=4.9073912779842
+    LookUpTable[83]=4.814732348596
+    LookUpTable[84]=4.769061040771
+    LookUpTable[85]=4.7238229591791
+    LookUpTable[86]=4.634630075787
+    LookUpTable[87]=4.5906671716169
+    LookUpTable[88]=4.5471212882038
+    LookUpTable[89]=4.5039884697967
+    LookUpTable[90]=4.4612647981674
+    LookUpTable[91]=4.4189463922554
+    LookUpTable[92]=4.3355100370646
+    LookUpTable[93]=4.2943845083446
+    LookUpTable[94]=4.2536490857709
+    LookUpTable[95]=4.2133000688973
+    LookUpTable[96]=4.173333792379
+    LookUpTable[97]=4.1337466256399
+    LookUpTable[98]=4.0945349725424
+    LookUpTable[99]=4.0556952710613
+    LookUpTable[100]=4.0172239929594
+    LookUpTable[101]=3.9554078605272
+    LookUpTable[102]=3.917887882906
+    LookUpTable[103]=3.8807238101043
+    LookUpTable[104]=3.8439122661009
+    LookUpTable[105]=3.8074499068986
+    LookUpTable[106]=3.7713334202207
+    LookUpTable[107]=3.7355595252095
+    LookUpTable[108]=3.7001249721291
+    LookUpTable[109]=3.6650265420695
+    LookUpTable[110]=3.6302610466545
+    LookUpTable[111]=3.595825327752
+    LookUpTable[112]=3.5617162571873
+    LookUpTable[113]=3.5279307364585
+    LookUpTable[114]=3.4944656964554
+    LookUpTable[116]=3.4613180971806
+    LookUpTable[117]=3.4284849274733
+    LookUpTable[118]=3.3959632047359
+    LookUpTable[119]=3.3637499746628
+    LookUpTable[120]=3.3318423109722
+    LookUpTable[121]=3.3002373151404
+    LookUpTable[122]=3.2689321161382
+    LookUpTable[124]=3.2379238701703
+    LookUpTable[125]=3.2072097604168
+    LookUpTable[126]=3.1767869967776  
+    LookUpTable[127]=3.1466528156187  
+    LookUpTable[128]=3.1168044795212
+    LookUpTable[130]=3.0872392770326
+    LookUpTable[131]=3.0579545224207
+    LookUpTable[132]=3.0289475554293  
+    LookUpTable[133]=3.0002157410367
+    LookUpTable[135]=2.9717564692165
+    LookUpTable[136]=2.9435671547002  
+    LookUpTable[137]=2.9156452367425
+    LookUpTable[139]=2.8879881788887
+    LookUpTable[140]=2.8605934687443
+    LookUpTable[141]=2.8334586177465
+    LookUpTable[143]=2.8065811609388
+    LookUpTable[144]=2.7799586567461
+    LookUpTable[145]=2.7535886867539
+    LookUpTable[147]=2.727468855488
+    LookUpTable[148]=2.7015967901969
+    LookUpTable[149]=2.6759701406366
+    LookUpTable[151]=2.6505865788568  
+    LookUpTable[152]=2.6254437989898
+    LookUpTable[154]=2.6005395170403
+    LookUpTable[155]=2.5758714706787
+    LookUpTable[157]=2.5514374190352
+    LookUpTable[158]=2.5272351424965
+    LookUpTable[160]=2.5032624425036
+    LookUpTable[161]=2.4795171413527
+    LookUpTable[163]=2.4559970819971
+    LookUpTable[164]=2.4327001278514
+    LookUpTable[166]=2.4096241625971
+    LookUpTable[168]=2.3867670899907
+    LookUpTable[169]=2.364126833673
+    LookUpTable[171]=2.3417013369806
+    LookUpTable[172]=2.3194885627593
+    LookUpTable[174]=2.2974864931786
+    LookUpTable[176]=2.2756931295487
+    LookUpTable[177]=2.2541064921388
+    LookUpTable[179]=2.2327246199974
+    LookUpTable[181]=2.211545570774
+    LookUpTable[183]=2.1905674205429
+    LookUpTable[184]=2.1697882636279
+    LookUpTable[186]=2.14920621243
+    LookUpTable[188]=2.1288193972551
+    LookUpTable[190]=2.1086259661448
+    LookUpTable[192]=2.0886240847078
+    LookUpTable[193]=2.0688119359534
+    LookUpTable[195]=2.0491877201262
+    LookUpTable[197]=2.0297496545431
+    LookUpTable[199]=2.0104959734309
+    LookUpTable[201]=1.9914249277662
+    LookUpTable[203]=1.9725347851163
+    LookUpTable[205]=1.9538238294818
+    LookUpTable[207]=1.935290361141
+    LookUpTable[209]=1.9169326964953
+    LookUpTable[211]=1.8987491679162
+    LookUpTable[213]=1.880738123594
+    LookUpTable[215]=1.8628979273874
+    LookUpTable[217]=1.8452269586755
+    LookUpTable[219]=1.8277236122099
+    LookUpTable[221]=1.8103862979693
+    LookUpTable[223]=1.7932134410148
+    LookUpTable[225]=1.7762034813471
+    LookUpTable[227]=1.7593548737646
+    LookUpTable[230]=1.742666087723
+    LookUpTable[232]=1.7261356071965
+    LookUpTable[234]=1.70976193054  
+    LookUpTable[236]=1.6935435703522
+    LookUpTable[238]=1.6774790533414
+    LookUpTable[241]=1.6615669201909
+    LookUpTable[243]=1.6458057254266
+    LookUpTable[245]=1.6301940372862
+    LookUpTable[248]=1.6147304375883
+    LookUpTable[250]=1.5994135216041
+    LookUpTable[252]=1.58424189793
+    LookUpTable[255]=1.5692141883605
+    LookUpTable[257]=1.5543290277636
+    LookUpTable[260]=1.5395850639566
+    LookUpTable[262]=1.5249809575831
+    LookUpTable[265]=1.5105153819917
+    LookUpTable[267]=1.4961870231151
+    LookUpTable[270]=1.4819945793511
+    LookUpTable[272]=1.4679367614439
+    LookUpTable[275]=1.4540122923674  
+    LookUpTable[278]=1.4402199072091
+    LookUpTable[280]=1.426558353055
+    LookUpTable[283]=1.413026388876
+    LookUpTable[286]=1.3996227854151
+    LookUpTable[289]=1.3863463250755
+    LookUpTable[291]=1.3731958018106
+    LookUpTable[294]=1.3601700210137
+    LookUpTable[297]=1.3472677994101
+    LookUpTable[300]=1.334487964949
+    LookUpTable[303]=1.3218293566976
+    LookUpTable[306]=1.3092908247355
+    LookUpTable[308]=1.29687123005
+    LookUpTable[311]=1.2845694444327
+    LookUpTable[314]=1.2723843503773
+    LookUpTable[317]=1.2603148409778
+    LookUpTable[320]=1.2483598198278
+    LookUpTable[323]=1.2365182009216
+    LookUpTable[327]=1.2247889085546
+    LookUpTable[330]=1.2131708772263
+    LookUpTable[333]=1.2016630515433
+    LookUpTable[336]=1.1902643861232
+    LookUpTable[339]=1.1789738455
+    LookUpTable[343]=1.1677904040298
+    LookUpTable[346]=1.1567130457976
+    LookUpTable[349]=1.1457407645252
+    LookUpTable[352]=1.1348725634799
+    LookUpTable[356]=1.1241074553833
+    LookUpTable[359]=1.1134444623224
+    LookUpTable[363]=1.1028826156603
+    LookUpTable[366]=1.0924209559485
+    LookUpTable[370]=1.0820585328393
+    LookUpTable[373]=1.071794405
+    LookUpTable[377]=1.061627640027
+    LookUpTable[380]=1.0515573143614
+    LookUpTable[384]=1.0415825132048
+    LookUpTable[388]=1.0317023304362
+    LookUpTable[391]=1.0219158685302
+    LookUpTable[395]=1.0122222384749
+    LookUpTable[399]=1.0026205596912
+    LookUpTable[403]=0.99310995995314
+    LookUpTable[407]=0.98368957530844
+    LookUpTable[411]=0.97435855
+    LookUpTable[414]=0.96511603638822
+    LookUpTable[418]=0.95596119487402
+    LookUpTable[422]=0.94689319382251
+    LookUpTable[426]=0.93791120948748
+    LookUpTable[431]=0.92901442593658
+    LookUpTable[435]=0.92020203497716
+    LookUpTable[439]=0.9114732360829
+    LookUpTable[443]=0.90282723632104
+    LookUpTable[447]=0.8942632502804
+    LookUpTable[452]=0.8857805
+    LookUpTable[456]=0.87737821489839
+    LookUpTable[460]=0.86905563170366
+    LookUpTable[465]=0.8608119943841
+    LookUpTable[469]=0.85264655407953
+    LookUpTable[474]=0.84455856903325
+    LookUpTable[478]=0.83654730452469
+    LookUpTable[483]=0.82861203280263
+    LookUpTable[487]=0.82075203301913
+    LookUpTable[492]=0.812966591164
+    LookUpTable[497]=0.805255
+    LookUpTable[501]=0.79761655899853
+    LookUpTable[506]=0.79005057427605
+    LookUpTable[511]=0.782556358531
+    LookUpTable[516]=0.77513323098139
+    LookUpTable[521]=0.76778051730296
+    LookUpTable[526]=0.7604975495679
+    LookUpTable[531]=0.75328366618421
+    LookUpTable[536]=0.74613821183557
+    LookUpTable[541]=0.73906053742182
+    LookUpTable[546]=0.73205
+    LookUpTable[552]=0.72510596272594
+    LookUpTable[557]=0.71822779479641
+    LookUpTable[562]=0.71141487139182
+    LookUpTable[568]=0.70466657361945
+    LookUpTable[573]=0.69798228845723
+    LookUpTable[579]=0.69136140869809
+    LookUpTable[584]=0.68480333289474
+    LookUpTable[590]=0.67830746530506
+    LookUpTable[595]=0.67187321583802
+    LookUpTable[601]=0.6655
+    LookUpTable[607]=0.65918723884176
+    LookUpTable[613]=0.65293435890583
+    LookUpTable[618]=0.64674079217438
+    LookUpTable[624]=0.64060597601768
+    LookUpTable[630]=0.63452935314294
+    LookUpTable[636]=0.62851037154372
+    LookUpTable[643]=0.62254848444976
+    LookUpTable[649]=0.61664315027733
+    LookUpTable[655]=0.61079383258002
+    LookUpTable[661]=0.605
+    LookUpTable[667]=0.59926112621978
+    LookUpTable[674]=0.59357668991439
+    LookUpTable[680]=0.58794617470398
+    LookUpTable[687]=0.58236906910698
+    LookUpTable[693]=0.57684486649358
+    LookUpTable[700]=0.57137306503975
+    LookUpTable[707]=0.5659531676816
+    LookUpTable[714]=0.5605846820703
+    LookUpTable[720]=0.55526712052729
+    LookUpTable[727]=0.55
+    LookUpTable[734]=0.54478284201799
+    LookUpTable[741]=0.53961517264944
+    LookUpTable[748]=0.53449652245817
+    LookUpTable[756]=0.52942642646089
+    LookUpTable[763]=0.52440442408507
+    LookUpTable[770]=0.51943005912704
+    LookUpTable[777]=0.51450287971055
+    LookUpTable[785]=0.50962243824573
+    LookUpTable[792]=0.50478829138844
+    LookUpTable[800]=0.5
+    local temp=16
+    for i=25, 800 do
+      if LookUpTable[i]~=nil then
+        temp=LookUpTable[i]
+      else
+        LookUpTable[i]=temp
+      end
+    end
+    noise_threshold = ultraschall.LimitFractionOfFloat(noise_threshold, 2)
+    reaper.SNM_SetDoubleConfigVar("specpeak_na", LookUpTable[noise_threshold*100])
+  end
+  
+  if variance~=nil then
+    if variance<0 or variance>1 then ultraschall.AddErrorMessage("SpectralPeak_SetColorAttributes", "variance", "must be a number between 0 and 1", -5) return false end
+    reaper.SNM_SetIntConfigVar("specpeak_bv", math.floor(variance*255))
+  end
+
+  if opacity~=nil then
+    if opacity<0 or opacity>1.33 then ultraschall.AddErrorMessage("SpectralPeak_SetColorAttributes", "opacity", "must be a number between 0 and 1", -6) return false end
+    reaper.SNM_SetIntConfigVar("specpeak_alpha", math.floor((opacity*255)/1.328125))
+  end
+  return true
+end
+
+--ultraschall.SpectralPeak_SetColorAttributes(0.25, nil, 1.33)
+--SLEM()
+
+function ultraschall.SpectralPeak_GetColorAttributes()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SpectralPeak_GetColorAttributes</slug>
+    <requires>
+      Ultraschall=4.3
+      Reaper=6.22
+      SWS=2.8.8
+      Lua=5.3
+    </requires>
+    <functioncall>number noise_threshold, number variance, number opacity = ultraschall.SpectralPeak_GetColorAttributes()</functioncall>
+    <description>
+      returns the noise_threshold, variance and opacity of the spectral peak-view in Media Items.
+    </description>
+    <retvals>
+      number noise_threshold - the noise threshold, between 0.25 and 8.00
+      number variance - the variance of the spectrum, between 0 and 1
+      number opacity - the opacity of the spectrum, between 0 and 1.33; 1, for default
+    </retvals>
+    <chapter_context>
+      MediaItem Management
+      Spectral Peak
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+    <tags>mediaitemmanagement, get, noise threshold, variance, alpha, opacity, spectral peak view</tags>
+  </US_DocBloc>
+  --]]
+  local LookUpTable={} -- ugly workaround...please fiddle out the math behind this...
+  LookUpTable[25]=16
+  LookUpTable[26]=15.548989744238
+  LookUpTable[27]=14.96735650067
+  LookUpTable[28]=14.545454545455
+  LookUpTable[29]=14.001360038635
+  LookUpTable[30]=13.349772995397
+  LookUpTable[31]=13.097709199531
+  LookUpTable[32]=12.488175726571
+  LookUpTable[33]=12.252380183218
+  LookUpTable[34]=11.90700836321
+  LookUpTable[35]=11.571371932756
+  LookUpTable[36]=11.245196469324
+  LookUpTable[37]=10.928215285841
+  LookUpTable[38]=10.620169212648
+  LookUpTable[39]=10.320806385595
+  LookUpTable[40]=10.125934035717
+  LookUpTable[41]=9.8405027795123
+  LookUpTable[42]=9.5631172997986
+  LookUpTable[43]=9.3825512596322
+  LookUpTable[44]=9.1180745819253
+  LookUpTable[45]=8.9459116177384
+  LookUpTable[46]=8.7769993492957
+  LookUpTable[47]=8.5295920542111
+  LookUpTable[48]=8.3685405253863
+  LookUpTable[49]=8.2105298916913
+  LookUpTable[50]=8.0555027364517
+  LookUpTable[51]=7.9034027271063
+  LookUpTable[52]=7.7541745947374
+  LookUpTable[53]=7.6077641139876
+  LookUpTable[54]=7.4641180833557
+  LookUpTable[55]=7.3231843058652
+  LookUpTable[56]=7.1849115700966
+  LookUpTable[57]=7.0492496315794
+  LookUpTable[58]=6.9161491945341
+  LookUpTable[59]=6.7855618939597
+  LookUpTable[60]=6.7211958059643
+  LookUpTable[61]=6.5942895186293
+  LookUpTable[62]=6.4697794129011
+  LookUpTable[63]=6.3476202452663
+  LookUpTable[64]=6.2874083586674
+  LookUpTable[65]=6.1686926308725
+  LookUpTable[66]=6.0522184345993
+  LookUpTable[67]=5.9948086532994
+  LookUpTable[68]=5.8816176480919
+  LookUpTable[69]=5.770563859333
+  LookUpTable[70]=5.7158257806067
+  LookUpTable[71]=5.6616069331611
+  LookUpTable[72]=5.5547072776564
+  LookUpTable[73]=5.5020167587267
+  LookUpTable[74]=5.3981304057826
+  LookUpTable[75]=5.346925134629
+  LookUpTable[76]=5.2962055834556
+  LookUpTable[77]=5.196205255097
+  LookUpTable[78]=5.1469153937828
+  LookUpTable[79]=5.0497338887786
+  LookUpTable[80]=5.0018334170242
+  LookUpTable[81]=4.9543873167764
+  LookUpTable[82]=4.9073912779842
+  LookUpTable[83]=4.814732348596
+  LookUpTable[84]=4.769061040771
+  LookUpTable[85]=4.7238229591791
+  LookUpTable[86]=4.634630075787
+  LookUpTable[87]=4.5906671716169
+  LookUpTable[88]=4.5471212882038
+  LookUpTable[89]=4.5039884697967
+  LookUpTable[90]=4.4612647981674
+  LookUpTable[91]=4.4189463922554
+  LookUpTable[92]=4.3355100370646
+  LookUpTable[93]=4.2943845083446
+  LookUpTable[94]=4.2536490857709
+  LookUpTable[95]=4.2133000688973
+  LookUpTable[96]=4.173333792379
+  LookUpTable[97]=4.1337466256399
+  LookUpTable[98]=4.0945349725424
+  LookUpTable[99]=4.0556952710613
+  LookUpTable[100]=4.0172239929594
+  LookUpTable[101]=3.9554078605272
+  LookUpTable[102]=3.917887882906
+  LookUpTable[103]=3.8807238101043
+  LookUpTable[104]=3.8439122661009
+  LookUpTable[105]=3.8074499068986
+  LookUpTable[106]=3.7713334202207
+  LookUpTable[107]=3.7355595252095
+  LookUpTable[108]=3.7001249721291
+  LookUpTable[109]=3.6650265420695
+  LookUpTable[110]=3.6302610466545
+  LookUpTable[111]=3.595825327752
+  LookUpTable[112]=3.5617162571873
+  LookUpTable[113]=3.5279307364585
+  LookUpTable[114]=3.4944656964554
+  LookUpTable[116]=3.4613180971806
+  LookUpTable[117]=3.4284849274733
+  LookUpTable[118]=3.3959632047359
+  LookUpTable[119]=3.3637499746628
+  LookUpTable[120]=3.3318423109722
+  LookUpTable[121]=3.3002373151404
+  LookUpTable[122]=3.2689321161382
+  LookUpTable[124]=3.2379238701703
+  LookUpTable[125]=3.2072097604168
+  LookUpTable[126]=3.1767869967776  
+  LookUpTable[127]=3.1466528156187  
+  LookUpTable[128]=3.1168044795212
+  LookUpTable[130]=3.0872392770326
+  LookUpTable[131]=3.0579545224207
+  LookUpTable[132]=3.0289475554293  
+  LookUpTable[133]=3.0002157410367
+  LookUpTable[135]=2.9717564692165
+  LookUpTable[136]=2.9435671547002  
+  LookUpTable[137]=2.9156452367425
+  LookUpTable[139]=2.8879881788887
+  LookUpTable[140]=2.8605934687443
+  LookUpTable[141]=2.8334586177465
+  LookUpTable[143]=2.8065811609388
+  LookUpTable[144]=2.7799586567461
+  LookUpTable[145]=2.7535886867539
+  LookUpTable[147]=2.727468855488
+  LookUpTable[148]=2.7015967901969
+  LookUpTable[149]=2.6759701406366
+  LookUpTable[151]=2.6505865788568  
+  LookUpTable[152]=2.6254437989898
+  LookUpTable[154]=2.6005395170403
+  LookUpTable[155]=2.5758714706787
+  LookUpTable[157]=2.5514374190352
+  LookUpTable[158]=2.5272351424965
+  LookUpTable[160]=2.5032624425036
+  LookUpTable[161]=2.4795171413527
+  LookUpTable[163]=2.4559970819971
+  LookUpTable[164]=2.4327001278514
+  LookUpTable[166]=2.4096241625971
+  LookUpTable[168]=2.3867670899907
+  LookUpTable[169]=2.364126833673
+  LookUpTable[171]=2.3417013369806
+  LookUpTable[172]=2.3194885627593
+  LookUpTable[174]=2.2974864931786
+  LookUpTable[176]=2.2756931295487
+  LookUpTable[177]=2.2541064921388
+  LookUpTable[179]=2.2327246199974
+  LookUpTable[181]=2.211545570774
+  LookUpTable[183]=2.1905674205429
+  LookUpTable[184]=2.1697882636279
+  LookUpTable[186]=2.14920621243
+  LookUpTable[188]=2.1288193972551
+  LookUpTable[190]=2.1086259661448
+  LookUpTable[192]=2.0886240847078
+  LookUpTable[193]=2.0688119359534
+  LookUpTable[195]=2.0491877201262
+  LookUpTable[197]=2.0297496545431
+  LookUpTable[199]=2.0104959734309
+  LookUpTable[201]=1.9914249277662
+  LookUpTable[203]=1.9725347851163
+  LookUpTable[205]=1.9538238294818
+  LookUpTable[207]=1.935290361141
+  LookUpTable[209]=1.9169326964953
+  LookUpTable[211]=1.8987491679162
+  LookUpTable[213]=1.880738123594
+  LookUpTable[215]=1.8628979273874
+  LookUpTable[217]=1.8452269586755
+  LookUpTable[219]=1.8277236122099
+  LookUpTable[221]=1.8103862979693
+  LookUpTable[223]=1.7932134410148
+  LookUpTable[225]=1.7762034813471
+  LookUpTable[227]=1.7593548737646
+  LookUpTable[230]=1.742666087723
+  LookUpTable[232]=1.7261356071965
+  LookUpTable[234]=1.70976193054  
+  LookUpTable[236]=1.6935435703522
+  LookUpTable[238]=1.6774790533414
+  LookUpTable[241]=1.6615669201909
+  LookUpTable[243]=1.6458057254266
+  LookUpTable[245]=1.6301940372862
+  LookUpTable[248]=1.6147304375883
+  LookUpTable[250]=1.5994135216041
+  LookUpTable[252]=1.58424189793
+  LookUpTable[255]=1.5692141883605
+  LookUpTable[257]=1.5543290277636
+  LookUpTable[260]=1.5395850639566
+  LookUpTable[262]=1.5249809575831
+  LookUpTable[265]=1.5105153819917
+  LookUpTable[267]=1.4961870231151
+  LookUpTable[270]=1.4819945793511
+  LookUpTable[272]=1.4679367614439
+  LookUpTable[275]=1.4540122923674  
+  LookUpTable[278]=1.4402199072091
+  LookUpTable[280]=1.426558353055
+  LookUpTable[283]=1.413026388876
+  LookUpTable[286]=1.3996227854151
+  LookUpTable[289]=1.3863463250755
+  LookUpTable[291]=1.3731958018106
+  LookUpTable[294]=1.3601700210137
+  LookUpTable[297]=1.3472677994101
+  LookUpTable[300]=1.334487964949
+  LookUpTable[303]=1.3218293566976
+  LookUpTable[306]=1.3092908247355
+  LookUpTable[308]=1.29687123005
+  LookUpTable[311]=1.2845694444327
+  LookUpTable[314]=1.2723843503773
+  LookUpTable[317]=1.2603148409778
+  LookUpTable[320]=1.2483598198278
+  LookUpTable[323]=1.2365182009216
+  LookUpTable[327]=1.2247889085546
+  LookUpTable[330]=1.2131708772263
+  LookUpTable[333]=1.2016630515433
+  LookUpTable[336]=1.1902643861232
+  LookUpTable[339]=1.1789738455
+  LookUpTable[343]=1.1677904040298
+  LookUpTable[346]=1.1567130457976
+  LookUpTable[349]=1.1457407645252
+  LookUpTable[352]=1.1348725634799
+  LookUpTable[356]=1.1241074553833
+  LookUpTable[359]=1.1134444623224
+  LookUpTable[363]=1.1028826156603
+  LookUpTable[366]=1.0924209559485
+  LookUpTable[370]=1.0820585328393
+  LookUpTable[373]=1.071794405
+  LookUpTable[377]=1.061627640027
+  LookUpTable[380]=1.0515573143614
+  LookUpTable[384]=1.0415825132048
+  LookUpTable[388]=1.0317023304362
+  LookUpTable[391]=1.0219158685302
+  LookUpTable[395]=1.0122222384749
+  LookUpTable[399]=1.0026205596912
+  LookUpTable[403]=0.99310995995314
+  LookUpTable[407]=0.98368957530844
+  LookUpTable[411]=0.97435855
+  LookUpTable[414]=0.96511603638822
+  LookUpTable[418]=0.95596119487402
+  LookUpTable[422]=0.94689319382251
+  LookUpTable[426]=0.93791120948748
+  LookUpTable[431]=0.92901442593658
+  LookUpTable[435]=0.92020203497716
+  LookUpTable[439]=0.9114732360829
+  LookUpTable[443]=0.90282723632104
+  LookUpTable[447]=0.8942632502804
+  LookUpTable[452]=0.8857805
+  LookUpTable[456]=0.87737821489839
+  LookUpTable[460]=0.86905563170366
+  LookUpTable[465]=0.8608119943841
+  LookUpTable[469]=0.85264655407953
+  LookUpTable[474]=0.84455856903325
+  LookUpTable[478]=0.83654730452469
+  LookUpTable[483]=0.82861203280263
+  LookUpTable[487]=0.82075203301913
+  LookUpTable[492]=0.812966591164
+  LookUpTable[497]=0.805255
+  LookUpTable[501]=0.79761655899853
+  LookUpTable[506]=0.79005057427605
+  LookUpTable[511]=0.782556358531
+  LookUpTable[516]=0.77513323098139
+  LookUpTable[521]=0.76778051730296
+  LookUpTable[526]=0.7604975495679
+  LookUpTable[531]=0.75328366618421
+  LookUpTable[536]=0.74613821183557
+  LookUpTable[541]=0.73906053742182
+  LookUpTable[546]=0.73205
+  LookUpTable[552]=0.72510596272594
+  LookUpTable[557]=0.71822779479641
+  LookUpTable[562]=0.71141487139182
+  LookUpTable[568]=0.70466657361945
+  LookUpTable[573]=0.69798228845723
+  LookUpTable[579]=0.69136140869809
+  LookUpTable[584]=0.68480333289474
+  LookUpTable[590]=0.67830746530506
+  LookUpTable[595]=0.67187321583802
+  LookUpTable[601]=0.6655
+  LookUpTable[607]=0.65918723884176
+  LookUpTable[613]=0.65293435890583
+  LookUpTable[618]=0.64674079217438
+  LookUpTable[624]=0.64060597601768
+  LookUpTable[630]=0.63452935314294
+  LookUpTable[636]=0.62851037154372
+  LookUpTable[643]=0.62254848444976
+  LookUpTable[649]=0.61664315027733
+  LookUpTable[655]=0.61079383258002
+  LookUpTable[661]=0.605
+  LookUpTable[667]=0.59926112621978
+  LookUpTable[674]=0.59357668991439
+  LookUpTable[680]=0.58794617470398
+  LookUpTable[687]=0.58236906910698
+  LookUpTable[693]=0.57684486649358
+  LookUpTable[700]=0.57137306503975
+  LookUpTable[707]=0.5659531676816
+  LookUpTable[714]=0.5605846820703
+  LookUpTable[720]=0.55526712052729
+  LookUpTable[727]=0.55
+  LookUpTable[734]=0.54478284201799
+  LookUpTable[741]=0.53961517264944
+  LookUpTable[748]=0.53449652245817
+  LookUpTable[756]=0.52942642646089
+  LookUpTable[763]=0.52440442408507
+  LookUpTable[770]=0.51943005912704
+  LookUpTable[777]=0.51450287971055
+  LookUpTable[785]=0.50962243824573
+  LookUpTable[792]=0.50478829138844
+  LookUpTable[800]=0.5
+  local temp=16
+  for i=25, 800 do
+    if LookUpTable[i]~=nil then
+      temp=LookUpTable[i]
+    else
+      LookUpTable[i]=nil
+    end
+  end
+  local curval=reaper.SNM_GetDoubleConfigVar("specpeak_na", -99999)
+  local curval = ultraschall.LimitFractionOfFloat(curval, 2)
+  local found=0
+  for i=25, 800 do
+    if LookUpTable[i]~=nil and LookUpTable[i]>=curval then
+      found=i
+    end
+  end
+  
+  local variance=reaper.SNM_GetIntConfigVar("specpeak_bv", -9999)/255
+  variance = ultraschall.LimitFractionOfFloat(variance, 2)
+
+  local alpha=(reaper.SNM_GetIntConfigVar("specpeak_alpha", -9999)/255)*1.328125
+  alpha = ultraschall.LimitFractionOfFloat(alpha, 2)
+  
+  return found/100, variance, alpha
+end
+
+
+function ultraschall.AddProjectMarker(proj, isrgn, pos, rgnend, name, wantidx, color)
+--[[
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>AddProjectMarker</slug>
+        <title>AddProjectMarker</title>
+        <functioncall>integer index = ultraschall.AddProjectMarker2(ReaProject proj, boolean isrgn, number pos, number rgnend, string name, integer wantidx, integer color)</functioncall>
+        <requires>
+            Ultraschall=4.3
+            Reaper=6.22
+        </requires>
+        <description>
+            Creates a new projectmarker/region and returns the shown number, index and guid of the created marker/region. 
+            
+            Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000
+            
+            Returns -1 in case of an error
+        </description>
+        <retvals>
+            integer index - the shown-number of the newly created marker/region
+            integer marker_region_index - the index of the newly created marker/region within all markers/regions
+            string guid - the guid of the newly created marker/region
+        </retvals>
+        <linked_to desc="see:">
+            inline:ColorToNative
+                   to convert color-value to a native(Mac, Win, Linux) colors
+        </linked_to>
+        <parameters>
+            ReaProject proj - the project, in which to add the new marker; use 0 for the current project; 
+            boolean isrgn - true, if it shall be a region; false, if a normal marker
+            number pos - the position of the newly created marker/region in seconds
+            number rgnend - if the marker is a region, this is the end of the region in seconds
+            string name - the shown name of the marker
+            integer wantidx - the shown number of the marker/region. Markers can have the same shown marker multiple times. Regions will get another number, if wantidx is already given.
+            integer color - the color of the marker
+        </parameters>
+        <target_document>US_Api_Functions</target_document>
+        <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+        <chapter_context>
+            Marker Management
+            Project Markers
+        </chapter_context>
+        <tags>markermanagement, region, marker, name, shownnumber, pos, project, add, guid</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+--]]
+  if ultraschall.IsValidReaProject(proj)==false then ultraschall.AddErrorMessage("AddProjectMarker", "proj", "not a valid project", -1) return -1 end
+  if type(isrgn)~="boolean" then ultraschall.AddErrorMessage("AddProjectMarker", "isrgn", "must be a boolean", -2) return -1 end
+  if type(pos)~="number" then ultraschall.AddErrorMessage("AddProjectMarker", "pos", "must be a number", -3) return -1 end
+  if type(rgnend)~="number" then ultraschall.AddErrorMessage("AddProjectMarker", "rgnend", "must be a number", -4) return -1 end
+  if type(name)~="string" then ultraschall.AddErrorMessage("AddProjectMarker", "name", "must be a string", -5) return -1 end
+  if math.type(wantidx)~="integer" then ultraschall.AddErrorMessage("AddProjectMarker", "wantidx", "must be an integer", -6) return -1 end
+  if math.type(color)~="integer" then ultraschall.AddErrorMessage("AddProjectMarker", "color", "must be an integer", -7) return -1 end
+
+  -- get attributes of the last marker in the project
+  local LastMarker={reaper.EnumProjectMarkers3(proj, reaper.CountProjectMarkers(proj)-1)}
+  
+  -- add a marker AFTER the current last marker(makes finding Guid for it faster)
+  local shown_number=reaper.AddProjectMarker2(proj, isrgn, LastMarker[3]+100, LastMarker[4]+100, name, wantidx, color)
+  
+  --if shown_number==-1 then ultraschall.AddErrorMessage("AddProjectMarker", "wantidx", "index already in use by a region", -10) return -1 end
+  -- get the guid of the new last marker
+  local retval, Guid = reaper.GetSetProjectInfo_String(proj, "MARKER_GUID:"..reaper.CountProjectMarkers(proj)-1, "", false)
+
+  -- change position to the actual position of the marker
+  local LastMarker2={reaper.EnumProjectMarkers3(proj, reaper.CountProjectMarkers(proj)-1)} -- get the current shown marker-number
+  reaper.SetProjectMarkerByIndex2(proj, reaper.CountProjectMarkers(proj)-1, isrgn, pos, rgnend, LastMarker2[6], name, color, 0)
+  
+  -- find the index-position of the marker by its Guid
+  local found_marker_index="Buggy" -- debugline, hope it never gets triggered
+  for i=0, reaper.CountProjectMarkers() do
+    local retval2, Guid2 = reaper.GetSetProjectInfo_String(proj, "MARKER_GUID:"..i, "", false)
+    if Guid2==Guid then found_marker_index=i break end
+  end
+  
+  return shown_number, found_marker_index, Guid
 end

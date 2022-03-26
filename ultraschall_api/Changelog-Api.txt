@@ -188,6 +188,25 @@ Podcast_Metadata_Episode and Chapter:
                 Chapters should have content_warning too, but I'm not sure, if it should just show that it contains trigger(easier to implement) 
                 or the actual triggers discussed(better in practice to use).
                 Probably the latter...even though it's complicated...
+
+
+Bug with INI-Files-read-functions:
+    Cannot read keys with multiple lines(probably limitation of standard), so you need to rewrite your 
+    GetIni-Parser....
+    Otherwise ini-files and podcast-presets break.
+    
+Buggy: 
+    AddCustomMarker - has problems returning correct index
+    AddNormalMarker - creates wrong shown number for some reasons...
+    
+Schreib mal ALLE Add Marker-Funktionen neu. Da sind lauter Edgecase-Clusterfuck-Bugs drin, die mal auftauchen
+und mal nicht.
+Das ist Scheiße.
+
+Bei der Gelegenheit kannste das Ganze auch gleich mal ordentlich strukturieren, weil das zu debuggen ist auch scheiß.
+Und eventuell schneller machen, weil langsam ist der derzeitige Scheiß halt auch.
+
+
 </TODO>
 
 
@@ -204,6 +223,8 @@ Has now 1457 functions, with XX new ones
 
   
 #### New features in 4.4  
+  - DeveloperTools: Display All Marker Region Guids - monitors all marker/region-guids in the ReaScript-console
+  - Markers: AddProjectMarker - an alternative to Reaper's own function, that covers some edgecases and returns guid and actual marker/region-index as well
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
@@ -248,7 +269,7 @@ Has now 1457 functions, with XX new ones
   - Render: GetRender\_ResampleMode - didn't return correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -> fixed
   - Render: GetRenderTable\_Project - didn't correctly return "CloseAfterRender" -> fixed
   - Render: SetRender\_ResampleMode - didn't set correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -> fixed
-  
+  - ProjectManagement: IsValidReaProject - didn't return true when parameter was 0, though it being a valid project -> fixed
 
 ---
 

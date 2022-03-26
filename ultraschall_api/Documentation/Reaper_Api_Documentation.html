@@ -16946,6 +16946,9 @@ If track envelope, gets the track from the envelope. If FX, indexOut set to FX i
 <div class="p">Python: <code> <i>TrackEnvelope</i> <em>RPR_GetTrackEnvelope</em>(<i>MediaTrack</i> track, <i>Int</i> envidx)</code></div>
 </div><p>
 <div class="ch">
+Gets an envelope of a track.<br/>
+<br/>
+Note: to create an FX-envelope, use GetFXEnvelope with parameter create=true              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16977,6 +16980,8 @@ If track envelope, gets the track from the envelope. If FX, indexOut set to FX i
 </div><p>
 <div class="ch">
 Gets a built-in track envelope by configuration chunk name, e.g. "&lt;VOLENV" or GUID string, like "{B577250D-146F-B544-9B34-F24FBE488F1F}".<br/>
+<br/>
+Note: to create an FX-envelope, use GetFXEnvelope with parameter create=true              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -17007,6 +17012,9 @@ Gets a built-in track envelope by configuration chunk name, e.g. "&lt;VOLENV" or
 <div class="p">Python: <code> <i>TrackEnvelope</i> <em>RPR_GetTrackEnvelopeByName</em>(<i>MediaTrack</i> track, <i>String</i> envname)</code></div>
 </div><p>
 <div class="ch">
+Gets a TrackEnvelope by its name.<br/>
+<br/>
+Note: to create an FX-envelope, use GetFXEnvelope with parameter create=true              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -29063,7 +29071,9 @@ Enumerate which tracks will be rendered within this region when using the region
 </div><p>
 <div class="ch">
 Creates a new Projectmarker/Region.<br/>
-Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use.              
+Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use.<br/>
+<br/>
+It will not create a marker, when at the same position is a marker with the exact name(a bug maybe?)              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -29110,7 +29120,9 @@ Returns the index of the created marker/region, or -1 on failure. Supply wantidx
 <div class="p">Python: <code> <i>Int</i> <em>RPR_AddProjectMarker2</em>(<i>ReaProject</i> proj, <i>Boolean</i> isrgn, <i>Float</i> pos, <i>Float</i> rgnend, <i>String</i> name, <i>Int</i> wantidx, <i>Int</i> color)</code></div>
 </div><p>
 <div class="ch">
-Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000              
+Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000<br/>
+<br/>
+It will not create a marker, when at the same position is a marker with the exact name(a bug maybe?)              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

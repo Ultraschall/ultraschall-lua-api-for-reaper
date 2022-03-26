@@ -8473,46 +8473,6 @@ function ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path, Pro
   return MarkerCount, NumMarker, NumRegions, MarkerArray
 end
 
-function ultraschall.IsValidReaProject(ReaProject)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>IsValidReaProject</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.IsValidReaProject(ReaProject ReaProject)</functioncall>
-  <description>
-    Returns, if parameter ReaProject is a valid ReaProject(means, an existing opened project) or not.
-    
-    returns false in case of an error
-  </description>
-  <retvals>
-    boolean retval - true, if parameter ReaProject is a valid ReaProject; false, if parameter ReaProject isn't a valid ReaProject
-  </retvals>
-  <parameters>
-    ReaProject ReaProject - the object that you want to check for being a valid ReaProject
-  </parameters>
-  <chapter_context>
-    Project-Management
-    Helper functions
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source_document>
-  <tags>projectmanagement, check, reaproject, project, object, valid</tags>
-</US_DocBloc>
-]]
-  if ReaProject==nil or type(ReaProject)=="number" then return false end
-  local count=0
-  while reaper.EnumProjects(count,"")~=nil do
-    if reaper.EnumProjects(count,"")==ReaProject then return true end
-    count=count+1
-  end
-  return false
-end
-
---K=ultraschall.IsValidReaProject(reaper.EnumProjects(0,""))
 
 
 function ultraschall.NewProjectTab(switch_to_new_tab)

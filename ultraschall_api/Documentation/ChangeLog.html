@@ -44,6 +44,8 @@ Bla</li>
 </ul>
 <h4>New features in 4.4</h4>
 <ul>
+<li>DeveloperTools: Display All Marker Region Guids - monitors all marker/region-guids in the ReaScript-console</li>
+<li>Markers: AddProjectMarker - an alternative to Reaper's own function, that covers some edgecases and returns guid and actual marker/region-index as well</li>
 <li>Markers: AddShownoteMarker - adds a shownote-marker</li>
 <li>Markers: CountShownoteMarkers - counts shownote-markers in a project</li>
 <li>Markers: DeleteShownoteMarker - deletes a shownote-marker</li>
@@ -92,6 +94,7 @@ Bla</li>
 <li>Render: GetRender_ResampleMode - didn't return correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -&gt; fixed</li>
 <li>Render: GetRenderTable_Project - didn't correctly return "CloseAfterRender" -&gt; fixed</li>
 <li>Render: SetRender_ResampleMode - didn't set correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -&gt; fixed</li>
+<li>ProjectManagement: IsValidReaProject - didn't return true when parameter was 0, though it being a valid project -&gt; fixed</li>
 </ul>
 <hr />
 <h3>4.3 - "Eskobar - Someone New" - 22nd of February 2022</h3>

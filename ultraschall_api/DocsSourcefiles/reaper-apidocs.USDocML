@@ -302,6 +302,8 @@
         <description>
             Creates a new Projectmarker/Region.
             Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use.
+            
+            It will not create a marker, when at the same position is a marker with the exact name(a bug maybe?)
         </description>
         <retvals>
             integer index - the shown-number of the newly created marker/region
@@ -337,6 +339,8 @@
         </requires>
         <description>
             Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000
+            
+            It will not create a marker, when at the same position is a marker with the exact name(a bug maybe?)
         </description>
         <retvals>
             integer index - the shown-number of the newly created marker/region
@@ -10017,7 +10021,9 @@
             Reaper=5.62
         </requires>
         <description prog_lang="*">
-
+            Gets an envelope of a track.
+            
+            Note: to create an FX-envelope, use GetFXEnvelope with parameter create=true
         </description>
         <retvals>
             TrackEnvelope env - 
@@ -10050,6 +10056,7 @@
         <description prog_lang="*">
             Gets a built-in track envelope by configuration chunk name, e.g. "&lt;VOLENV" or GUID string, like "{B577250D-146F-B544-9B34-F24FBE488F1F}".
 
+            Note: to create an FX-envelope, use GetFXEnvelope with parameter create=true
         </description>
         <retvals>
             TrackEnvelope env - 
@@ -10080,7 +10087,9 @@
             Reaper=5.62
         </requires>
         <description prog_lang="*">
- 
+            Gets a TrackEnvelope by its name.
+            
+            Note: to create an FX-envelope, use GetFXEnvelope with parameter create=true
         </description>
         <retvals>
             TrackEnvelope env - 

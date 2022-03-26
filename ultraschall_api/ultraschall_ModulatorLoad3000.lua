@@ -1992,6 +1992,10 @@ else
     ultraschall.LM(13)
     return ultraschall.MediaExplorer_SetVolume(table.unpack({...}))
   end
+  function ultraschall.IsValidReaProject(...)
+    ultraschall.LM(13)
+    return ultraschall.IsValidReaProject(table.unpack({...}))
+  end
   function ultraschall.ResizePNG(...)
     ultraschall.LM(14)
     return ultraschall.ResizePNG(table.unpack({...}))
@@ -3667,10 +3671,6 @@ else
   function ultraschall.GetProject_MarkersAndRegions(...)
     ultraschall.LM(24)
     return ultraschall.GetProject_MarkersAndRegions(table.unpack({...}))
-  end
-  function ultraschall.IsValidReaProject(...)
-    ultraschall.LM(24)
-    return ultraschall.IsValidReaProject(table.unpack({...}))
   end
   function ultraschall.NewProjectTab(...)
     ultraschall.LM(24)
