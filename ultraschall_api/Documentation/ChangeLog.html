@@ -51,6 +51,10 @@ Bla</li>
 <li>Markers: DeleteShownoteMarker - deletes a shownote-marker</li>
 <li>Markers: EnumerateShownoteMarkers - gets a shownote-marker<br />
 </li>
+<li>Markers: GetEditMarkerIDFromGuid - gets an edit-marker id by its guid</li>
+<li>Markers: GetEditRegionIDFromGuid - gets an edit-marker id by its guid</li>
+<li>Markers: GetGuidFromEditMarkerID - gets the guid of an edit-marker</li>
+<li>Markers: GetGuidFromEditRegionID - gets the guid of an edit-marker</li>
 <li>Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index</li>
 <li>Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid</li>
 <li>Markers: SetShownoteMarker - sets an already existing shownote-marker</li>
@@ -91,6 +95,13 @@ Bla</li>
 <ul>
 <li>DeveloperTools: Config Var Displayer - crashed, when double-value is NaN -&gt; fixed</li>
 <li>Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.52</li>
+<li>Markers: AddCustomMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -&gt; fixed</li>
+<li>Markers: AddCustomRegion - reworked code so it's faster now; sometimes, the returned guid could be wrong -&gt; fixed</li>
+<li>Markers: AddEditMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -&gt; fixed</li>
+<li>Markers: AddEditRegion - reworked code so it's faster now; sometimes, the returned guid could be wrong -&gt; fixed</li>
+<li>Markers: AddNormalMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -&gt; fixed</li>
+<li>Markers: GetGuidFromNormalMarkerID - returned -1 in case of an error, though this makes no sense -&gt; returns nil now</li>
+<li>Markers: GetNormalMarkerIDFromGuid - returned nil or guid when no normal marker was found instead of -1 -&gt; fixed</li>
 <li>ProjectManagement: GetProjecStateChunk - didn't work under certain circumstances -&gt; fixed</li>
 <li>ProjectManagement: IsValidReaProject - didn't return true when parameter was 0, though it being a valid project -&gt; fixed</li>
 <li>Render: GetRender_ResampleMode - didn't return correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -&gt; fixed</li>

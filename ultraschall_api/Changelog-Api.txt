@@ -221,7 +221,6 @@ Has now 1457 functions, with XX new ones
   - **Bla**  
   Bla
 
-  
 #### New features in 4.4  
   - DeveloperTools: Display All Marker Region Guids - monitors all marker/region-guids in the ReaScript-console
   - Markers: AddProjectMarker - an alternative to Reaper's own function, that covers some edgecases and returns guid and actual marker/region-index as well
@@ -229,6 +228,10 @@ Has now 1457 functions, with XX new ones
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
   - Markers: EnumerateShownoteMarkers - gets a shownote-marker    
+  - Markers: GetEditMarkerIDFromGuid - gets an edit-marker id by its guid
+  - Markers: GetEditRegionIDFromGuid - gets an edit-marker id by its guid
+  - Markers: GetGuidFromEditMarkerID - gets the guid of an edit-marker
+  - Markers: GetGuidFromEditRegionID - gets the guid of an edit-marker
   - Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index
   - Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid
   - Markers: SetShownoteMarker - sets an already existing shownote-marker
@@ -266,6 +269,13 @@ Has now 1457 functions, with XX new ones
 #### Changes from 4.3 to 4.4    
   - DeveloperTools: Config Var Displayer - crashed, when double-value is NaN -> fixed
   - Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.52
+  - Markers: AddCustomMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
+  - Markers: AddCustomRegion - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
+  - Markers: AddEditMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
+  - Markers: AddEditRegion - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
+  - Markers: AddNormalMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
+  - Markers: GetGuidFromNormalMarkerID - returned -1 in case of an error, though this makes no sense -> returns nil now
+  - Markers: GetNormalMarkerIDFromGuid - returned nil or guid when no normal marker was found instead of -1 -> fixed
   - ProjectManagement: GetProjecStateChunk - didn't work under certain circumstances -> fixed
   - ProjectManagement: IsValidReaProject - didn't return true when parameter was 0, though it being a valid project -> fixed
   - Render: GetRender\_ResampleMode - didn't return correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -> fixed
