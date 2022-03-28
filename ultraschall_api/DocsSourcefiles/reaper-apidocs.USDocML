@@ -12151,6 +12151,44 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Main_SaveProjectEx</slug>
+        <title>Main_SaveProjectEx</title>
+        <functioncall prog_lang="cpp">void Main_SaveProjectEx(ReaProject* proj, const char* filename, int options)</functioncall>
+        <functioncall prog_lang="eel">Main_SaveProjectEx(ReaProject proj, "filename", int options)</functioncall>
+        <functioncall prog_lang="lua">reaper.Main_SaveProjectEx(ReaProject proj, string filename, integer options)</functioncall>
+        <functioncall prog_lang="python">RPR_Main_SaveProjectEx(ReaProject proj, String filename, Int options)</functioncall>
+        <requires>
+            Reaper=6.53
+        </requires>
+        <description prog_lang="*">
+            Save the project and allows passing a filename.
+        </description>
+        <parameters>
+            ReaProject proj - the project-number. 0 for the current project. 
+            string filename - the filename of the project
+            integer options - options to save with:
+                            - &1, save selected tracks as track template
+                            - &2, include media with track templates 
+                            - &4, include envelopes with track template
+        </parameters>
+        <linked_to desc="see also:">
+            inline: Main_openProject
+                    for opening a project
+            inline: Main_SaveProject
+                    for saving a project already saved
+        </linked_to>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Project Management
+            Misc
+        </chapter_context>
+        <tags>projectmanagement, save, project, save dialog, filename</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Main_UpdateLoopInfo</slug>
         <title>Main_UpdateLoopInfo</title>
         <functioncall prog_lang="cpp">void Main_UpdateLoopInfo(int ignoremask)</functioncall>
@@ -17293,7 +17331,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.SetThemeColor(string ini_key, integer color, integer flags)</functioncall>
         <functioncall prog_lang="python">Int RPR_SetThemeColor(String ini_key, Int color, Int flagsOptional)</functioncall>
         <requires>
-            Reaper=6.44
+            Reaper=6.53
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Temporarily updates the theme color to the color specified (or the theme default color if -1 is specified). Returns -1 on failure, otherwise returns the color (or transformed-color). Note that the UI is not updated by this, the caller should call [UpdateArrange()](#UpdateArrange) etc as necessary. If the low bit of flags is set, any color transformations are bypassed. To read a value see [GetThemeColor](#GetThemeColor).
@@ -17526,6 +17564,8 @@
              * col\_explorer\_sel : Media explorer selection 
              * col\_explorer\_seldm : Media explorer selection mode 
              * col\_explorer\_seledge : Media explorer selection edge 
+             * explorer\_grid : Media explorer grid, markers
+             * explorer\_pitchtext : Media explorer pitch detection text
              * docker\_shadow : Tab control shadow 
              * docker\_selface : Tab control selected tab 
              * docker\_unselface : Tab control unselected tab 
