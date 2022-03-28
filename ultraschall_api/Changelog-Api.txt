@@ -264,13 +264,14 @@ Has now 1457 functions, with XX new ones
   - SpectralView: SpectralPeak\_SetMinColor - sets the minimum color of the spectral peak view
   
 #### Changes from 4.3 to 4.4    
-  - Docs: Reaper API-docs - restructured the index into more useful categories
+  - DeveloperTools: Config Var Displayer - crashed, when double-value is NaN -> fixed
+  - Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.52
   - ProjectManagement: GetProjecStateChunk - didn't work under certain circumstances -> fixed
+  - ProjectManagement: IsValidReaProject - didn't return true when parameter was 0, though it being a valid project -> fixed
   - Render: GetRender\_ResampleMode - didn't return correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -> fixed
   - Render: GetRenderTable\_Project - didn't correctly return "CloseAfterRender" -> fixed
   - Render: SetRender\_ResampleMode - didn't set correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -> fixed
-  - ProjectManagement: IsValidReaProject - didn't return true when parameter was 0, though it being a valid project -> fixed
-
+  
 ---
 
 ### 4.3 - "Eskobar - Someone New" - 22nd of February 2022

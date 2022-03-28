@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.48 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 6.52 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -4682,6 +4682,26 @@
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>ide_font_face</slug>  
+      <title>ide_font_face</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The currently used font in Reaper's IDE.
+          It is a string  
+          
+          When storing a new font, use "" to use the default-IDE-font.
+          
+          Keep in mind, that only mono-spaced-fonts will look good. Other fonts might have artifacts.
+           
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>insertmtrack</slug>  
       <title>insertmtrack</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
@@ -8199,6 +8219,73 @@
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
   
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projmasterpanlaw</slug>  
+      <title>projmasterpanlaw</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The Pan-Law value, as MKVOL-value
+          Use ultraschall.MKVOL2DB() and ultraschall.DB2MKVOL to convert from/to dB
+          It is a double-float.  
+          
+           >Defaults:
+           >+0.0dB = 1
+           >-2.5dB = 0.74989420933246
+           >-3.0dB = 0.70794578438414
+           >-4.5dB = 0.59566214352901
+           >-6.0dB = 0.50118723362727
+           >-6.02dB= 0.5
+            
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>    
+ 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projmasterpanlawflags</slug>  
+      <title>projmasterpanlawflags</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+       
+          It is an integer  
+          
+           >&1=0, Linear scale above -3dB pan law - unchecked
+           >&1=1, Linear scale above -3dB pan law - checked
+            
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projmasterpanmode</slug>  
+      <title>projmasterpanmode</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The pan-mode of the project master's pan-law.
+          It is an integer  
+          
+           >-1, project default
+           >3, Stereo balance / mono pan (default)
+           >5, Stereo Pan
+           >6, Dual Pan
+           >0, REAPER 3.x balance(deprecated)
+            
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+ 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>projmastervuflags</slug>  
       <title>projmastervuflags</title>  
