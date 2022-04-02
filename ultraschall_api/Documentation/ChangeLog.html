@@ -59,7 +59,8 @@ Bla</li>
 <li>Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid</li>
 <li>Markers: SetShownoteMarker - sets an already existing shownote-marker</li>
 <li>MetaData: MetaDataTable_Create - returns an empty metadatatable, which holds all possible metadata-entries</li>
-<li>MetaData: MetaDataTable_GetProject - returns a metadatatable, which holds all metadata-entries of the current project</li>
+<li>MetaData: MetaDataTable_GetProject - returns a metadatatable, which holds all metadata-entries of the current project<br />
+</li>
 <li>PodcastMetadata: GetAllChapters_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
 <li>PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
 <li>PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
@@ -82,6 +83,7 @@ Bla</li>
 <li>PodcastMetadata: SetPodcastMetadataPreset_Name - sets the name of a podcast-metadata-preset</li>
 <li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes<br />
 </li>
+<li>Projects: Main_SaveProject - saves a project and allows giving it a filename</li>
 <li>Render: GetRenderTable_ProjectDefaults - returns a rendertable with all render settings of the project's defaults</li>
 <li>SpectralView: SpectralPeak_GetColorAttributes - gets noise-threshold, opacity and variance of the spectral view</li>
 <li>SpectralView: SpectralPeak_GetMaxColor - returns the maxmium color of the spectral view</li>
@@ -94,7 +96,8 @@ Bla</li>
 <h4>Changes from 4.3 to 4.4</h4>
 <ul>
 <li>DeveloperTools: Config Var Displayer - crashed, when double-value is NaN -&gt; fixed</li>
-<li>Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.52</li>
+<li>Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.53</li>
+<li>FileManagement: CreateValidTempFile - raised number of potential temp-file-variants to 2147483648</li>
 <li>Markers: AddCustomMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -&gt; fixed</li>
 <li>Markers: AddCustomRegion - reworked code so it's faster now; sometimes, the returned guid could be wrong -&gt; fixed</li>
 <li>Markers: AddEditMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -&gt; fixed</li>

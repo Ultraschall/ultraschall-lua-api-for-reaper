@@ -1244,13 +1244,13 @@ function ultraschall.CreateValidTempFile(filename_with_path, create, suffix, ret
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateValidTempFile</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.4
     Reaper=5.40
     Lua=5.3
   </requires>
   <functioncall>string tempfilename = ultraschall.CreateValidTempFile(string filename_with_path, boolean create, string suffix, boolean retainextension)</functioncall>
   <description>
-    Tries to determine a valid temporary filename. Will check filename_with_path with an included number between 0 and 16384 to create such a filename.
+    Tries to determine a valid temporary filename. Will check filename_with_path with an included number between 0 and 2147483648 to create such a filename.
     You can also add your own suffix to the filename.
     
     The pattern is: filename_with_path$Suffix~$number.ext (when retainextension is set to true!)
@@ -1286,7 +1286,7 @@ function ultraschall.CreateValidTempFile(filename_with_path, create, suffix, ret
   local extension, tempfilename, A
   if retainextension==true then extension=filename_with_path:match(".*(%..*)") end
   if extension==nil then extension="" end
-  for i=0, 16384 do
+  for i=0, 2147483648 do
     tempfilename=filename_with_path..suffix.."~"..i..extension
     if reaper.file_exists(tempfilename)==false then
       if create==true then 

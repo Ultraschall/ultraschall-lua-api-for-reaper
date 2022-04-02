@@ -236,7 +236,7 @@ Has now 1457 functions, with XX new ones
   - Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid
   - Markers: SetShownoteMarker - sets an already existing shownote-marker
   - MetaData: MetaDataTable\_Create - returns an empty metadatatable, which holds all possible metadata-entries
-  - MetaData: MetaDataTable\_GetProject - returns a metadatatable, which holds all metadata-entries of the current project
+  - MetaData: MetaDataTable\_GetProject - returns a metadatatable, which holds all metadata-entries of the current project  
   - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard
@@ -257,6 +257,7 @@ Has now 1457 functions, with XX new ones
   - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes  
+  - Projects: Main\_SaveProject - saves a project and allows giving it a filename
   - Render: GetRenderTable\_ProjectDefaults - returns a rendertable with all render settings of the project's defaults
   - SpectralView: SpectralPeak\_GetColorAttributes - gets noise-threshold, opacity and variance of the spectral view
   - SpectralView: SpectralPeak\_GetMaxColor - returns the maxmium color of the spectral view
@@ -268,7 +269,8 @@ Has now 1457 functions, with XX new ones
   
 #### Changes from 4.3 to 4.4    
   - DeveloperTools: Config Var Displayer - crashed, when double-value is NaN -> fixed
-  - Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.52
+  - Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.53
+  - FileManagement: CreateValidTempFile - raised number of potential temp-file-variants to 2147483648
   - Markers: AddCustomMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
   - Markers: AddCustomRegion - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
   - Markers: AddEditMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
