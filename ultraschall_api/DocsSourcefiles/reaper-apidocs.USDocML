@@ -338,7 +338,7 @@
             Reaper=5.62
         </requires>
         <description>
-            Returns the index of the created marker/region, or -1 on failure. Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000
+            Returns the shown-number of the created marker/region, or -1 on failure. Supply wantidx>=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000
             
             It will not create a marker, when at the same position is a marker with the exact name(a bug maybe?)
         </description>
@@ -381,7 +381,7 @@
         </requires>
         <description>
             Adds a ReaScript (returns the new command ID, or 0 if failed) or removes a ReaScript
-            Returns &gt;0 on success. 
+            Returns >0 on success. 
             Use commit==true when adding/removing a single script. 
             When bulk adding/removing multiple scripts, you can optimize the n-1 first calls with commit==false and commit==true for the last call.
             The commandID returned, might change, when adding this script into another Reaper-installation. 
@@ -788,11 +788,13 @@
             Returns true if the underlying samples (track or media item take) have changed, but does not update the audio accessor, so the user can selectively call AudioAccessorValidateState only when needed. 
         </description>
         <linked_to desc="see:">
+            inline:AudioAccessorStateChanged
+                   returns, if audioaccessor has changed
             inline:AudioAccessorValidateState
                    to get validation-state of an AudioAccessor
             inline:CreateTakeAudioAccessor
                    to create an AudioAccessor for take
-            inline:CreateTakeAudioAccessor
+            inline:CreateTrackAudioAccessor
                    to create an AudioAccessor for track
             inline:DestroyAudioAccessor
                    to destroy an AudioAccessor
@@ -1201,12 +1203,10 @@
         </requires>
         <description>
             Returns the number of points in the envelope.
-            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
-            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
             even if the automation item is trimmed so that not all points are visible.
             Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
-
-            See [GetEnvelopePointEx](#GetEnvelopePointEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             integer count_envpoints - the number of envelope-points in the envelopeobject envelope
@@ -1758,8 +1758,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Create a send/receive (desttrInOptional!=NULL), or a hardware output (desttrInOptional==NULL) with default properties, return &gt;=0 on success (== new send/receive index). See [RemoveTrackSend](#RemoveTrackSend), [GetSetTrackSendInfo](#GetSetTrackSendInfo), [GetTrackSendInfo\_Value](#GetTrackSendInfo_Value), [SetTrackSendInfo\_Value](#SetTrackSendInfo_Value).
+        <description>
+            Create a send/receive (desttrInOptional!=NULL), or a hardware output (desttrInOptional==NULL) with default properties, return >=0 on success (== new send/receive index).
 
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         </description>
@@ -1772,6 +1772,20 @@
                                 - a MediaTrack-object, creates a new send to tr from MediaTrack-object; 
                                 - nil(or no MediaTrack-object), creates a new hardware-output
         </parameters>
+        <linked_to desc="see:">
+            inline: GetTrackNumSends
+                    get number of send of a track
+            inline: GetSetTrackSendInfo
+                    gets and sets attributes for a track-send
+            inline: GetSetTrackSendInfo_String
+                    gets sets additional string-attributes for metadata of track-sends
+            inline: GetTrackSendInfo_Value
+                    gets attributes of a track-send
+            inline: RemoveTrackSend
+                    removes a track-send
+            inline: SetTrackSendInfo_Value
+                    sets attributes of a track-send
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -2223,8 +2237,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
-            Toggles between pause and play or when recording has started between pause and rec. Unlike [CSurf\_OnPlay()](#CSurf_OnPlay) it toggles pause first, then plays.
+        <description>
+            Toggles between pause and play or when recording has started between pause and rec. Unlike CSurf_OnPlay it toggles pause first, then plays.
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -2246,8 +2260,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
-            Toggles between play and pause or, when recording, rec and pause. Unlike [CSurf\_OnPause()](#CSurf_OnPause) it toggles play first, then pauses.
+        <description>
+            Toggles between play and pause or, when recording, rec and pause. Unlike CSurf_OnPause it toggles play first, then pauses.
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -2420,10 +2434,10 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             Sets/alters the volume-value of a received track. Will also change volume in the accompanying send-track!
 
-            Note: You can't(!) use SLIDER2DB or DB2SLIDER for getting the volume-values, you want to set here! Use [mkvolstr](#mkvolstr) instead.
+            Note: You can't(!) use SLIDER2DB or DB2SLIDER for getting the volume-values, you want to set here! Use mkvolstr instead.
         </description>
         <retvals>
             number new_recv_pan_val - the new receive-volume-value
@@ -2434,6 +2448,10 @@
             number volume - the volume-level of the receive; 0, -inf; 1, 0dB; 4, ca +12 db; higher values are possible, though fader will not reflect them. but higher values will still be applied.
             boolean relative - false, set volume to new value; true, alter volume by new value
         </parameters>
+        <linked_to desc="see:">
+            inline: mkvolstr
+                    converts the volume-level for this function
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -2791,10 +2809,10 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             Sets or alters volume of a track to a new value.
 
-            Use [DB2SLIDER](#DB2SLIDER) to convert dB-value to fitting numbers of the volume-parameter.
+            Use DB2SLIDER to convert dB-value to fitting numbers of the volume-parameter.
         </description>
         <retvals>
             number volume_value - the new volume-value
@@ -2804,6 +2822,12 @@
             number volume - volume-value; 3.1622776601684e-008(minimum) to 3.981071705535(maximum). Higher values are possible to set but are out of fader-range.
             boolean relative - false, set volume to new value; true, alter volume by new value
         </parameters>
+        <linked_to desc="see:">
+            inline: DB2SLIDER
+                    converts a dB-value into the volume-level for this function
+            inline: SLIDER2DB
+                    converts a volume-level into a dB-value
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -2825,10 +2849,10 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             Sets or alters volume of a track to a new value. If MediaTrack is selected, among others, and allowgang is set to true, the new state will be set to them as well.
 
-            Use [DB2SLIDER](#DB2SLIDER) to convert dB-value to fitting numbers of the volume-parameter.
+            Use DB2SLIDER to convert dB-value to fitting numbers of the volume-parameter.
         </description>
         <retvals>
             number volume_value - the new volume-value
@@ -2839,6 +2863,12 @@
             boolean relative - false, set volume to new value; true, alter volume by new value
             boolean allowgang - true, if trackid is selected with other tracks, set new state to them as well; false, set new state only to trackid 
         </parameters>
+        <linked_to desc="see:">
+            inline: DB2SLIDER
+                    converts a dB-value into the volume-level for this function
+            inline: SLIDER2DB
+                    converts a volume-level into a dB-value
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -3378,14 +3408,12 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             Delete an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done.
-            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
-            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
             even if the automation item is trimmed so that not all points are visible.
             Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
-
-            See [CountEnvelopePointsEx](#CountEnvelopePointsEx), [GetEnvelopePointEx](#GetEnvelopePointEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx).
         </description>
         <retvals>
             boolean retval - true, deleting was successful; false, deleting was unsuccessful
@@ -3399,6 +3427,16 @@
                                  - Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
             integer ptidx - the envelope-point to delete
         </parameters>
+        <linked_to desc="see:">
+            inline: CountEnvelopePointsEx
+                    count envelope-points in envelopes and automation-items
+            inline: GetEnvelopePointEx
+                    get envelope-points of envelopes and automation-items
+            inline: SetEnvelopePointEx
+                    sets envelope-points of envelopes and automation-items
+            inline: InsertEnvelopePointEx
+                    inserts an envelope-point into envelopes and automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -3420,10 +3458,8 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             Delete a range of envelope points. 
-
-            See [DeleteEnvelopePointRangeEx](#DeleteEnvelopePointRangeEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             boolean retval - true, if it succeeded
@@ -3433,6 +3469,12 @@
             number time_start - the starttime of the deletionrange in seconds
             number time_end - the endtime of the deletionrange in seconds
         </parameters>
+        <linked_to desc="see:">
+            inline: DeleteEnvelopePointRangeEx
+                    deletes a range of envelope-points within envelopes and automation items
+            inline: DeleteEnvelopePointEx
+                    deletes an envelope-point within an envelope and automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -3487,15 +3529,22 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Delete the extended state value for a specific section and key. persist=true means the value should remain deleted the next time REAPER is opened. If persistent, the value will be deleted from the file reaper-extstate.ini in the ressources-folder.
-            See [SetExtState](#SetExtState), [GetExtState](#GetExtState), [HasExtState](#HasExtState).
         </description>
         <parameters>
             string section - the section, in which the value is stored
             string key - the key, with which the value is stored
             boolean persist - true, the value shall be deleted permanently; false, delete it only temporarily.
         </parameters>
+        <linked_to desc="see:">
+            inline: SetExtState
+                    sets an extstate to store information for your script
+            inline: GetExtState
+                    gets an extstate that stores information for your script
+            inline: HasExtState
+                    checks, if an extstate exists
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -3551,9 +3600,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Differs from DeleteProjectMarker only in that markrgnidx is 0 for the first marker/region in the project, 1 for the next, etc, rather than representing the displayed marker/region ID number.
-            See [EnumProjectMarkers3](#EnumProjectMarkers3)) and [SetProjectMarker4](#SetProjectMarker4).
         </description>
         <retvals>
             boolean retval - true, deleting was successful; false, deleting was unsuccessful.
@@ -3562,6 +3610,12 @@
             ReaProject proj - the project-number. 0 for the current project. 
             integer markrgnidx - the id of the marker within the project, 0 for the first, 1 for the second, etc. Ignores the shown marker-index!
         </parameters>
+        <linked_to desc="see:">
+            inline: EnumProjectMarkers3
+                    gets attributes of a marker/region
+            inline: SetProjectMarker4
+                    sets attributes of a marker/region
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -3583,9 +3637,8 @@
         <requires>
             Reaper=6.09
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Delete a take marker. Note that idx will change for all following take markers. 
-            See [GetNumTakeMarkers](#GetNumTakeMarkers)), [GetTakeMarker](#GetTakeMarker) and [SetTakeMarker](#SetTakeMarker).
         </description>
         <retvals>
             boolean retval - true, deleting was successful; false, deleting was unsuccessful.
@@ -3594,6 +3647,14 @@
             MediaItem_Take take - the take, whose take-marker you want to delete
             integer idx - the id of the marker within the take, 0 for the first, 1 for the second, etc.
         </parameters>
+        <linked_to desc="see:">
+            inline: GetNumTakeMarkers
+                    gets the number of take-markers of a take
+            inline: GetTakeMarker
+                    gets attributes of a take-marker of a take
+            inline: SetTakeMarker
+                    sets attributes of a takemarker of a take
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -3647,18 +3708,26 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Delete a tempo/time signature marker. 
-
-            See [CountTempoTimeSigMarkers](#CountTempoTimeSigMarkers), [GetTempoTimeSigMarker](#GetTempoTimeSigMarker), [SetTempoTimeSigMarker](#SetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker).
         </description>
         <retvals>
-            boolean retval - 
+            boolean retval - true, deleting was successful; false, deleting wasn't successful
         </retvals>
         <parameters>
             ReaProject project - the project-number. 0 for the current project. 
-            integer markerindex - 
+            integer markerindex - the index of the marker, that you want to delete
         </parameters>
+        <linked_to desc="see:">
+            inline: AddTempoTimeSigMarker
+                    adds a tempo/time signature marker
+            inline: CountTempoTimeSigMarkers
+                    counte the number of tempo/time signature markers
+            inline: GetTempoTimeSigMarker
+                    gets attributes of a tempo/time-signature-marker
+            inline: SetTempoTimeSigMarker
+                    sets attributes of a tempo/time-signature-marker
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -3738,12 +3807,28 @@
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Destroy an audio accessor. Must only call from the main thread. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples). 
+        <description> 
+            Destroy an audio accessor. Must only call from the main thread. 
         </description>
         <parameters>
             AudioAccessor accessor - the AudioAccessor to be destroyed
         </parameters>
+        <linked_to desc="see:">
+            inline:AudioAccessorStateChanged
+                   returns, if audioaccessor has changed
+            inline:AudioAccessorValidateState
+                   to get validation-state of an AudioAccessor
+            inline:CreateTakeAudioAccessor
+                   to create an AudioAccessor for take
+            inline:CreateTrackAudioAccessor
+                   to create an AudioAccessor for track
+            inline:GetAudioAccessorStartTime
+                   gets the starttime of an audioaccessor
+            inline:GetAudioAccessorEndTime
+                   to get endtime of an AudioAccessor
+            inline:GetAudioAccessorSamples
+                   to get samples of an AudioAccessor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -4092,8 +4177,8 @@
         <requires>
             Reaper=6.20
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            List the files in the "path" directory. Returns NULL/nil when all files have been listed. Use fileindex = -1 to force re-read of directory (invalidate cache). See [EnumerateSubdirectories](#EnumerateSubdirectories)
+        <description>
+            List the files in the "path" directory. Returns NULL/nil when all files have been listed. Use fileindex = -1 to force re-read of directory (invalidate cache). 
         </description>
         <retvals>
             string filename_with_path - the filename in path, with index fileindex
@@ -4102,6 +4187,10 @@
             string path - the path, where the filenames will be read from
             integer fileindex - the number of the file, with 0 the first file. Ordered by first letter in ascending order.
         </parameters>
+        <linked_to desc="see:">
+            inline:EnumerateSubdirectories
+                   enumerates the directories in a directory
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -4122,8 +4211,8 @@
         <requires>
             Reaper=6.20
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            List the subdirectories in the "path" directory. Use subdirindex = -1 to force re-read of directory (invalidate cache). Returns NULL/nil when all subdirectories have been listed. See [EnumerateFiles](#EnumerateFiles)
+        <description>
+            List the subdirectories in the "path" directory. Use subdirindex = -1 to force re-read of directory (invalidate cache). Returns NULL/nil when all subdirectories have been listed. 
         </description>
         <retvals>
             string filename_with_path - the filename in path
@@ -4132,6 +4221,10 @@
             string path - the path, where the directorynames will be read from
             integer subdirindex - the number of the directory, with 0 the first directory. Ordered by first letter in ascending order.
         </parameters>
+        <linked_to desc="see:">
+            inline:EnumerateFiles
+                   enumerate files in a directory
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -4336,11 +4429,9 @@
         <requires>
             Reaper=5.982
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             Get ReaProject-object and filename of a project.
             idx=-1 for current project,projfn can be NULL if not interested in filename. use idx 0x40000000 for currently rendering project, if any.
-
-            If you need the path to the recording-folder, use [GetProjectPath](#GetProjectPath) instead.
         </description>
         <retvals>
             ReaProject retval - a ReaProject-object of the project you requested
@@ -4349,6 +4440,10 @@
         <parameters>
             integer idx - -1 for current project; 0 and higher for the projects; 0x40000000 for currently rendering project, if any.
         </parameters>
+        <linked_to desc="see:">
+            inline:GetProjectPath
+                   get recording path of a current project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -4370,8 +4465,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Enumerate the data stored with the project for a specific extname. Returns false when there is no more data. See [SetProjExtState](#SetProjExtState), [GetProjExtState](#GetProjExtState).
+        <description>
+            Enumerate the data stored with the project for a specific extname. Returns false when there is no more data.
         </description>
         <retvals>
             boolean retval - true, key and value to this section exist; false, no such key and value exists
@@ -4383,6 +4478,12 @@
             string extname - the section of the extended-states
             integer idx - the id of the entry within "extname"-section to be returned; 0 for the first, 1 for the second, etc.
         </parameters>
+        <linked_to desc="see:">
+            inline:GetProjExtState
+                   gets an ext-state that stored data for your project
+            inline:SetProjExtState
+                   sets an ext-state to store data for your project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -4501,7 +4602,7 @@
         <requires>
             Reaper=6.43
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get the effective envelope value at a given time position. 
 
             samplesRequested is how long the caller expects until the next call to Envelope_Evaluate (often, the buffer block size). 
@@ -4509,8 +4610,6 @@
             The return value is how many samples beyond that time position that the returned values are valid. 
 
             dVdS is the change in value per sample (first derivative), ddVdS is the second derivative, dddVdS is the third derivative. 
-
-            See [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
         </description>
         <retvals>
             integer retval - 
@@ -4525,6 +4624,12 @@
             number samplerate - 
             integer samplesRequested - 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetEnvelopeScalingMode
+                   get the scaling more of an envelope
+            inline:Envelope_Evaluate
+                   get effective envelope value at a time position 
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -4656,8 +4761,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Sort envelope points by time. See [SetEnvelopePoint](#SetEnvelopePoint), [InsertEnvelopePoint](#InsertEnvelopePoint).
+        <description>
+            Sort envelope points by time.
         </description>
         <retvals>
             boolean retval - 
@@ -4665,6 +4770,16 @@
         <parameters>
             TrackEnvelope envelope - 
         </parameters>
+        <linked_to desc="see:">
+            inline:InsertEnvelopePoint
+                   inserts an envelope-point into envelopes
+            inline:InsertEnvelopePointEx
+                   inserts an envelope-point into envelopes and automation-items
+            inline:SetEnvelopePoint
+                   sets envelope-points in envelopes
+            inline:SetEnvelopePointEx
+                   sets envelope-points in envelopes and automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -4686,8 +4801,8 @@
         <requires>
             Reaper=5.975
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Sort envelope points by time. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [SetEnvelopePoint](#SetEnvelopePoint), [InsertEnvelopePoint](#InsertEnvelopePoint).
+        <description>
+            Sort envelope points by time. autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. 
         </description>
         <retvals>
             boolean retval - 
@@ -4696,6 +4811,16 @@
             TrackEnvelope envelope - 
             integer autoitem_idx - 
         </parameters>
+        <linked_to desc="see:">
+            inline:InsertEnvelopePoint
+                   inserts an envelope-point into envelopes
+            inline:InsertEnvelopePointEx
+                   inserts an envelope-point into envelopes and automation-items
+            inline:SetEnvelopePoint
+                   sets envelope-points in envelopes
+            inline:SetEnvelopePointEx
+                   sets envelope-points in envelopes and automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -4831,8 +4956,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Creates a timestring and formats it as hh:mm:ss.sss. See [format\_timestr_pos](#format_timestr_pos), [format\_timestr_len](#format_timestr_len).
+        <description>
+            Creates a timestring and formats it as hh:mm:ss.sss. 
         </description>
         <retvals>
             string formatted_time - the formatted timestring
@@ -4841,6 +4966,12 @@
             number tpos - the position in seconds, that you want to have formatted
             string buf - needed by Reaper, just set it to ""
         </parameters>
+        <linked_to desc="see:">
+            inline:format_timestr_pos
+                   creates a timestring and formats with overrides
+            inline:format_timestr_len
+                   creates a timestring and formats with overrides and offset for length
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -4863,6 +4994,8 @@
             Reaper=5.62
         </requires>
         <description prog_lang="*">
+            creates a timestring and formats with overrides and offset for a time-length
+            
             time formatting mode overrides: -1=proj default.
             0=time
             1=measures.beats + time
@@ -4970,10 +5103,10 @@
         <requires>
             Reaper=5.972
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             gets ini configuration variable value as string
 
-            see the [configuration-variable documentation](Reaper_Config_Variables.html) for more details
+            see the <a href="Reaper_Config_Variables.html">configuration-variable documentation</a> for more details
         </description>
         <retvals>
             boolean retval - true, the configuration-variable is a valid string variable
@@ -4982,6 +5115,18 @@
         <parameters>
             string name - the config-var, whose value you want
         </parameters>
+        <linked_to desc="see:">
+            inline:SNM_GetIntConfigVar
+                   gets value of integer-config variables
+            inline:SNM_SetIntConfigVar
+                   sets value of integer-config variables
+            inline:SNM_GetDoubleConfigVar
+                   gets value of double-float-config variables
+            inline:SNM_SetDoubleConfigVar
+                   sets value of double-float-config variables
+            inline:SNM_SetStringConfigVar
+                   sets value of string-config variables
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5119,8 +5264,8 @@
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the end time of the audio that can be returned from this accessor. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+        <description>
+            Get the end time of the audio that can be returned from this accessor.
         </description>
         <retvals>
             number length - the length of the AudioAccessor
@@ -5128,6 +5273,22 @@
         <parameters>
             AudioAccessor accessor - the AudioAccessor, whose end-time you want to have
         </parameters>
+        <linked_to desc="see:">
+            inline:AudioAccessorStateChanged
+                   returns, if audioaccessor has changed
+            inline:AudioAccessorValidateState
+                   to get validation-state of an AudioAccessor
+            inline:CreateTakeAudioAccessor
+                   to create an AudioAccessor for take
+            inline:CreateTrackAudioAccessor
+                   to create an AudioAccessor for track
+            inline:DestroyAudioAccessor
+                   to destroy an AudioAccessor
+            inline:GetAudioAccessorStartTime
+                   gets the starttime of an audioaccessor
+            inline:GetAudioAccessorSamples
+                   to get samples of an AudioAccessor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5149,10 +5310,10 @@
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get a short hash string (128 chars or less) that will change only if the underlying samples change. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+        <description>
+            Get a short hash string (128 chars or less) that will change only if the underlying samples change.
 
-            Deprecated. See [AudioAccessorStateChanged](#AudioAccessorStateChanged) instead.            
+            Deprecated.
         </description>
         <deprecated since_when="Reaper 5.97" alternative="AudioAccessorStateChanged(available since at least Reaper 5.97)"/>
         <retvals>
@@ -5162,6 +5323,24 @@
             AudioAccessor accessor - 
             string hashNeed128 - 
         </parameters>
+        <linked_to desc="see:">
+            inline:AudioAccessorStateChanged
+                   returns, if audioaccessor has changed
+            inline:AudioAccessorValidateState
+                   to get validation-state of an AudioAccessor
+            inline:CreateTakeAudioAccessor
+                   to create an AudioAccessor for take
+            inline:CreateTrackAudioAccessor
+                   to create an AudioAccessor for track
+            inline:DestroyAudioAccessor
+                   to destroy an AudioAccessor
+            inline:GetAudioAccessorStartTime
+                   gets the starttime of an audioaccessor
+            inline:GetAudioAccessorEndTime
+                   to get endtime of an AudioAccessor
+            inline:GetAudioAccessorSamples
+                   to get samples of an AudioAccessor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5183,11 +5362,13 @@
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get a block of samples from the audio accessor. Samples are extracted immediately pre-FX, and returned interleaved (first sample of first channel, first sample of second channel...). Returns 0 if no audio, 1 if audio, -1 on error. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime).
+        <description>
+            Get a block of samples from the audio accessor. Samples are extracted immediately pre-FX, and returned interleaved (first sample of first channel, first sample of second channel...). Returns 0 if no audio, 1 if audio, -1 on error.
 
-            This function has special handling in Python, and only returns two objects, the API function return value, and the sample buffer. Example usage:
-
+            This function has special handling in Python, and only returns two objects, the API function return value, and the sample buffer. 
+            
+            Example usage:
+                <pre><code>
                         tr = RPR_GetTrack(0, 0)
                         aa = RPR_CreateTrackAudioAccessor(tr)
                         buf = list([0]*2*1024) # 2 channels, 1024 samples each, initialized to zero
@@ -5195,7 +5376,7 @@
                         (ret, buf) = GetAudioAccessorSamples(aa, 44100, 2, pos, 1024, buf)
                         # buf now holds the first 2*1024 audio samples from the track.
                         # typically GetAudioAccessorSamples() would be called within a loop, increasing pos each time.
-
+                </code></pre>
         </description>
         <retvals>
             integer samples - 
@@ -5208,6 +5389,22 @@
             integer numsamplesperchannel - 
             reaper.array samplebuffer - 
         </parameters>
+        <linked_to desc="see:">
+            inline:AudioAccessorStateChanged
+                   returns, if audioaccessor has changed
+            inline:AudioAccessorValidateState
+                   to get validation-state of an AudioAccessor
+            inline:CreateTakeAudioAccessor
+                   to create an AudioAccessor for take
+            inline:CreateTrackAudioAccessor
+                   to create an AudioAccessor for track
+            inline:DestroyAudioAccessor
+                   to destroy an AudioAccessor
+            inline:GetAudioAccessorStartTime
+                   gets the starttime of an audioaccessor
+            inline:GetAudioAccessorEndTime
+                   to get endtime of an AudioAccessor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5229,8 +5426,8 @@
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the start time of the audio that can be returned from this accessor. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+        <description>
+            Get the start time of the audio that can be returned from this accessor.
         </description>
         <retvals>
             number audio_start_time - 
@@ -5238,6 +5435,22 @@
         <parameters>
             AudioAccessor accessor - 
         </parameters>
+        <linked_to desc="see:">
+            inline:AudioAccessorStateChanged
+                   returns, if audioaccessor has changed
+            inline:AudioAccessorValidateState
+                   to get validation-state of an AudioAccessor
+            inline:CreateTakeAudioAccessor
+                   to create an AudioAccessor for take
+            inline:CreateTrackAudioAccessor
+                   to create an AudioAccessor for track
+            inline:DestroyAudioAccessor
+                   to destroy an AudioAccessor
+            inline:GetAudioAccessorEndTime
+                   to get endtime of an AudioAccessor
+            inline:GetAudioAccessorSamples
+                   to get samples of an AudioAccessor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -10519,6 +10732,22 @@
             MediaTrack tr - the MediaTrack, whose number of sends/receives/hardware outputs you want to know
             integer category - &lt;0 for receives; 0=sends; &gt;0 for hardware outputs
         </parameters>
+        <linked_to desc="see:">
+            inline: CreateTrackSend
+                    creates a track-send
+            inline: GetTrackNumSends
+                    get number of send of a track
+            inline: GetSetTrackSendInfo
+                    gets and sets attributes for a track-send
+            inline: GetSetTrackSendInfo_String
+                    gets sets additional string-attributes for metadata of track-sends
+            inline: GetTrackSendInfo_Value
+                    gets attributes of a track-send
+            inline: RemoveTrackSend
+                    removes a track-send
+            inline: SetTrackSendInfo_Value
+                    sets attributes of a track-send
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -10638,29 +10867,27 @@
         <requires>
             Reaper=6.30
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get send/receive/hardware output numerical-value attributes.
-            category is &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
+            category is <0 for receives, 0=sends, >0 for hardware outputs
             parameter names:
 
-              B\_MUTE : bool \*
-              B\_PHASE : bool \* : true to flip phase
-              B\_MONO : bool \*
-              D\_VOL : double \* : 1.0 = +0dB etc
-              D\_PAN : double \* : -1..+1
-              D\_PANLAW : double \* : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
-              I\_SENDMODE : int \* : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
-              I\_AUTOMODE : int \* : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-              I\_SRCCHAN : int \* : index,&amp;1024=mono, -1 for none
-              I\_DSTCHAN : int \* : index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
-              I\_MIDIFLAGS : int \* : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanP_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
-              P\_DESTTRACK : MediaTrack * : destination track, only applies for sends/recvs (read-only)
-              P\_SRCTRACK : MediaTrack * : source track, only applies for sends/recvs (read-only)
-              P\_ENV:&amp;envchunkname : TrackEnvelope * : call with :&amp;VOLENV, :&amp;PANENV, etc appended (read-only)
+              B_MUTE : bool *
+              B_PHASE : bool * : true to flip phase
+              B_MONO : bool *
+              D_VOL : double * : 1.0 = +0dB etc
+              D_PAN : double * : -1..+1
+              D_PANLAW : double * : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
+              I_SENDMODE : int * : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
+              I_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
+              I_SRCCHAN : int * : index,&1024=mono, -1 for none
+              I_DSTCHAN : int * : index, &1024=mono, otherwise stereo pair, hwout:&512=rearoute
+              I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanP_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
+              P_DESTTRACK : MediaTrack * : destination track, only applies for sends/recvs (read-only)
+              P_SRCTRACK : MediaTrack * : source track, only applies for sends/recvs (read-only)
+              P_ENV:&envchunkname : TrackEnvelope * : call with :&VOLENV, :&PANENV, etc appended (read-only)
 
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
-
-            See [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
         </description>
         <retvals>
             number value - 
@@ -10671,6 +10898,20 @@
             integer sendidx - 
             string parmname - 
         </parameters>
+        <linked_to desc="see:">
+            inline: CreateTrackSend
+                    creates a track-send
+            inline: GetTrackNumSends
+                    get number of send of a track
+            inline: GetSetTrackSendInfo
+                    gets and sets attributes for a track-send
+            inline: GetSetTrackSendInfo_String
+                    gets sets additional string-attributes for metadata of track-sends
+            inline: RemoveTrackSend
+                    removes a track-send
+            inline: SetTrackSendInfo_Value
+                    sets attributes of a track-send
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -15761,8 +16002,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Remove a send/receive/hardware output. See [CreateTrackSend](#CreateTrackSend), [GetSetTrackSendInfo](#GetSetTrackSendInfo), [GetTrackSendInfo\_Value](#GetTrackSendInfo_Value), [SetTrackSendInfo\_Value](#SetTrackSendInfo_Value), [GetTrackNumSends](#GetTrackNumSends).
+        <description>
+            Remove a send/receive/hardware output.
 
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
         </description>
@@ -15774,6 +16015,20 @@
             integer category - less than 0, receives; 0, sends; greater than 0, hardware outputs
             integer sendidx - the idx of the send/receive/hwoutput to remove. 0, the first; 1 for the second, etc
         </parameters>
+        <linked_to desc="see:">
+            inline: CreateTrackSend
+                    creates a track-send
+            inline: GetTrackNumSends
+                    get number of send of a track
+            inline: GetSetTrackSendInfo_String
+                    gets sets additional string-attributes for metadata of track-sends
+            inline: GetSetTrackSendInfo
+                    gets and sets attributes for a track-send
+            inline: GetTrackSendInfo_Value
+                    gets attributes of a track-send
+            inline: SetTrackSendInfo_Value
+                    sets attributes of a track-send
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -18052,38 +18307,50 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Set send/receive/hardware output numerical-value attributes, return true on success.
-            category is &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
+            category is <0 for receives, 0=sends, >0 for hardware outputs
             parameter names:
 
-               B\_MUTE : bool \*
-               B\_PHASE : bool \* : true to flip phase
-               B\_MONO : bool \*
-               D\_VOL : double \* : 1.0 = +0dB etc
-               D\_PAN : double \* : -1..+1
-               D\_PANLAW : double \* : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
-               I\_SENDMODE : int \* : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
-               I\_AUTOMODE : int \* : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-               I\_SRCCHAN : int \* : index,&amp;1024=mono, -1 for none
-               I\_DSTCHAN : int \* : index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
-               I\_MIDIFLAGS : int \* : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanSee [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
+               B_MUTE : bool *
+               B_PHASE : bool * : true to flip phase
+               B_MONO : bool *
+               D_VOL : double * : 1.0 = +0dB etc
+               D_PAN : double * : -1..+1
+               D_PANLAW : double * : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
+               I_SENDMODE : int * : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
+               I_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
+               I_SRCCHAN : int * : index,&1024=mono, -1 for none
+               I_DSTCHAN : int * : index, &1024=mono, otherwise stereo pair, hwout:&512=rearoute
+               I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chan 
 
 
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
-
-            See [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
         </description>
         <retvals>
             boolean retval - true, setting value was successful; false, setting value was unsuccessful
         </retvals>
         <parameters>
             MediaTrack tr - the track, whose routing-attribute you want to set
-            integer category - the category of the routing to set; &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
+            integer category - the category of the routing to set; <0 for receives, 0=sends, >0 for hardware outputs
             integer sendidx - the index of the routing-entry that you want to set
             string parmname - the name of the parameter, that you want to set
             number newvalue - the new value to set
         </parameters>
+        <linked_to desc="see:">
+            inline: CreateTrackSend
+                    creates a track-send
+            inline: GetTrackNumSends
+                    get number of send of a track
+            inline: GetSetTrackSendInfo_String
+                    gets sets additional string-attributes for metadata of track-sends
+            inline: GetSetTrackSendInfo
+                    gets and sets attributes for a track-send
+            inline: GetTrackSendInfo_Value
+                    gets attributes of a track-send
+            inline: RemoveTrackSend
+                    removes a track-send
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -23371,6 +23638,20 @@
             string stringNeedBig - the value of the attribute
             boolean setNewValue - true, set a new value; false, get the currently saved value
         </parameters>
+        <linked_to desc="see:">
+            inline: CreateTrackSend
+                    creates a track-send
+            inline: GetTrackNumSends
+                    get number of send of a track
+            inline: GetSetTrackSendInfo
+                    gets and sets attributes for a track-send
+            inline: GetTrackSendInfo_Value
+                    gets attributes of a track-send
+            inline: RemoveTrackSend
+                    removes a track-send
+            inline: SetTrackSendInfo_Value
+                    sets attributes of a track-send
+        </linked_to>
         <retvals>
             boolean retval - true, getting/setting was successful; false, getting/setting was unsuccessful
             string stringNeedBig - the currently stored value
@@ -27352,13 +27633,13 @@
             Reaper=5.62
             SWS=2.12.1
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[S&amp;M\] Returns a floating-point preference (look in project prefs first, then in general prefs). Returns errvalue if failed (e.g. varname not found).
+        <description>
+            [S&M] Returns a floating-point preference (look in project prefs first, then in general prefs). Returns errvalue if failed (e.g. varname not found).
 
             The settings can be from the Preferences, Project settings and Render-dialog, as well as numerous other settings, as e.g. set in the context menu of the transport-area.
             Some variables are bitfields, where each bit represents e.g a checkbox in the preferences.
 
-            see [Reaper Config Variables](Reaper_Config_Variables.html) for valid config-vars
+            see <a ="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid config-vars
         </description>
         <retvals>
             number retval - the returned number/doublefloat-value of varname
@@ -27367,6 +27648,18 @@
             string varname - the name of the config-variable to be read; not case sensitive
             number errvalue - the errorvalue that will be returned, if varname isn't a valid one
         </parameters>
+        <linked_to desc="see:">
+            inline:SNM_GetIntConfigVar
+                   gets value of integer-config variables
+            inline:SNM_SetIntConfigVar
+                   sets value of integer-config variables
+            inline:SNM_SetDoubleConfigVar
+                   sets value of double-float-config variables
+            inline:get_config_var_string
+                   gets value of string-config variables
+            inline:SNM_SetStringConfigVar
+                   sets value of string-config variables
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -27451,13 +27744,13 @@
             Reaper=5.80
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[S&amp;M\] Returns an integer preference (look in project prefs first, then in general prefs). Returns errvalue if failed (e.g. varname not found).
+        <description>
+            [S&M] Returns an integer preference (look in project prefs first, then in general prefs). Returns errvalue if failed (e.g. varname not found).
 
             The settings can be from the Preferences, Project settings and Render-dialog, as well as numerous other settings, as e.g. set in the context menu of the transport-area.
             Some variables are bitfields, where each bit represents e.g a checkbox in the preferences.
 
-            see [Reaper Config Variables](Reaper_Config_Variables.html) for valid config-vars
+            see <a href="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid config-vars
         </description>
         <retvals>
             integer retval - the returned integer-value of varname
@@ -27466,6 +27759,18 @@
             string varname - the name of the config-variable to be read; not case sensitive
             integer errvalue - the errorvalue that will be returned, if varname isn't a valid one
         </parameters>
+        <linked_to desc="see:">
+            inline:SNM_SetIntConfigVar
+                   sets value of integer-config variables
+            inline:SNM_GetDoubleConfigVar
+                   gets value of double-float-config variables
+            inline:SNM_SetDoubleConfigVar
+                   sets value of double-float-config variables
+            inline:get_config_var_string
+                   gets value of string-config variables
+            inline:SNM_SetStringConfigVar
+                   sets value of string-config variables
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -27889,15 +28194,15 @@
             Reaper=5.62
             SWS=2.12.1
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[S&amp;M\] Sets a floating-point preference (look in project prefs first, then in general prefs). Returns false if failed (e.g. varname not found or newvalue out of range).
+        <description>
+            [S&M] Sets a floating-point preference (look in project prefs first, then in general prefs). Returns false if failed (e.g. varname not found or newvalue out of range).
 
             The settings can be from the Preferences, Project settings and Render-dialog, as well as numerous other settings, as e.g. set in the context menu of the transport-area.
             Some variables are bitfields, where each bit represents e.g a checkbox in the preferences.
 
             The changed settings are usually only changed within the running Reaper, but not stored in the config-files, so you need to do it manually or they get lost after Reaper is closed!
 
-            see [Reaper Config Variables](Reaper_Config_Variables.html) for valid config-vars
+            see <a hre="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid config-vars
          </description>
         <retvals>
             boolean retval - true, if setting was successful; false, if not 
@@ -27906,6 +28211,18 @@
             string varname - the name of the config-variable to be read; not case sensitive
             number newvalue - the new value to be set into varname
         </parameters>
+        <linked_to desc="see:">
+            inline:SNM_GetIntConfigVar
+                   gets value of integer-config variables
+            inline:SNM_SetIntConfigVar
+                   sets value of integer-config variables
+            inline:SNM_GetDoubleConfigVar
+                   gets value of double-float-config variables
+            inline:get_config_var_string
+                   gets value of string-config variables
+            inline:SNM_SetStringConfigVar
+                   sets value of string-config variables
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -27960,13 +28277,13 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[S&amp;M\] Sets an integer preference (look in project prefs first, then in general prefs). Returns false if failed (e.g. varname not found).
+        <description>
+            [S&M] Sets an integer preference (look in project prefs first, then in general prefs). Returns false if failed (e.g. varname not found).
 
             Some variables are bitfields, where each bit represents e.g a checkbox in the preferences.
             The changed settings are usually only changed within the running Reaper, but not stored in the config-files, so you need to do it manually or they get lost after Reaper is closed!
 
-            see [Reaper Config Variables](Reaper_Config_Variables.html) for valid config-vars
+            see <a href="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid config-vars
         </description>
         <retvals>
             boolean retval - true, if setting was successful, false if not
@@ -27975,6 +28292,18 @@
             string varname - the name of the config-variable to be read; not case sensitive
             integer newvalue - the newly set value for varname
         </parameters>
+        <linked_to desc="see:">
+            inline:SNM_GetIntConfigVar
+                   gets value of integer-config variables
+            inline:SNM_GetDoubleConfigVar
+                   gets value of double-float-config variables
+            inline:SNM_SetDoubleConfigVar
+                   sets value of double-float-config variables
+            inline:get_config_var_string
+                   gets value of string-config variables
+            inline:SNM_SetStringConfigVar
+                   sets value of string-config variables
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -28073,16 +28402,30 @@
             Reaper=6.02
             SWS=2.13.0.0
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [S&amp;M] Sets a string preference (general prefs only). Returns false if failed (e.g. varname not found or value too long). See get_config_var_string.
+        <description>
+            [S&M] Sets a string preference (general prefs only). Returns false if failed (e.g. varname not found or value too long).
+            
+            see <a ="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid config-vars
         </description>
         <retvals>
-            boolean retval - 
+            boolean retval - true, setting was successful; false, setting was unsuccessful
         </retvals>
         <parameters>
             string varname - the name of the config-var
             string newvalue - the new value to set the config variable with
         </parameters>
+        <linked_to desc="see:">
+            inline:SNM_GetIntConfigVar
+                   gets value of integer-config variables
+            inline:SNM_SetIntConfigVar
+                   sets value of integer-config variables
+            inline:SNM_GetDoubleConfigVar
+                   gets value of double-float-config variables
+            inline:SNM_SetDoubleConfigVar
+                   sets value of double-float-config variables
+            inline:get_config_var_string
+                   gets value of string-config variables
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -28417,7 +28760,6 @@
         </requires>
         <description>
             Returns the unsigned byte at address[offset]. Offset is added as steps of 1 byte each.
-
         </description>
         <retvals>
            integer byte - 
@@ -43654,6 +43996,8 @@ mespotine
             is a stable sorting function with an API similar to qsort().
             HOWEVER, it requires some temporary space, equal to the size of the data being sorted, so you can pass it as the last parameter,
             or NULL and it will allocate and free space internally. 
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -43669,7 +44013,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, sort, qsort</tags>
         <changelog>
@@ -43686,6 +44030,8 @@ mespotine
         </requires>
         <description indent="default">
             Adds customizable menu.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -43700,7 +44046,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Menus
         </chapter_context>
         <tags>cpp, add, customizable, menu</tags>
         <changelog>
@@ -43717,6 +44063,8 @@ mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Add an Extensions main menu, which the extension can populate/modify with [plugin\_register("hookcustommenu")](#plugin_register)
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -43725,7 +44073,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Menus
         </chapter_context>
         <tags>cpp, extension, menu, add</tags>
         <changelog>
@@ -43784,6 +44132,8 @@ mespotine
              you can also register command IDs for actions, register with "command_id", parameter is a unique string with only A-Z, 0-9, returns command ID (or 0 if not supported/out of actions)
 
              register("command_id_lookup", unique_string) will look up the integer ID of the named action without registering the string if it doesn't already exist.
+             
+             Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -43796,7 +44146,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, plugin, register, command, actioncommandid</tags>
         <changelog>
@@ -43812,6 +44162,8 @@ mespotine
         </requires>
         <description indent="default">
             Registers Audio Hardware-Hook.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -43824,7 +44176,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, register, hardware, hook</tags>
         <changelog>
@@ -43840,6 +44192,8 @@ mespotine
         </requires>
         <description indent="default">
             Calculates Peaks.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -43852,7 +44206,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, calculate, peaks</tags>
         <changelog>
@@ -43868,6 +44222,8 @@ mespotine
         </requires>
         <description indent="default">
             Calculates Peaks.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -43880,7 +44236,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, calculate, peaks</tags>
         <changelog>
@@ -43899,6 +44255,8 @@ mespotine
             See [GetActionShortcutDesc](#GetActionShortcutDesc), [DeleteActionShortcut](#DeleteActionShortcut), [DoActionShortcutDialog](#DoActionShortcutDialog).
 
             Use [NamedCommandLookup](#NamedCommandLookup) if you want to have the right commandID of an action, that is registered with an ActionCommandID-string.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -43917,7 +44275,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Shortcuts
         </chapter_context>
         <tags>cpp, count, actions, shortcuts</tags>
         <changelog>
@@ -43933,6 +44291,8 @@ mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             callback is a function pointer: void (\*callback)(void\* obj, const char\* msg, int msglen), which handles OSC messages sent from REAPER. The function return is a local osc handler. See [SendLocalOscMessage](#SendLocalOscMessage), [DestroyOscHandler](#DestroyOscHandler).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -43945,7 +44305,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            OSC
         </chapter_context>
         <tags>cpp, create, osc, handler, local</tags>
         <changelog>
@@ -43961,6 +44321,8 @@ mespotine
         </requires>
         <description indent="default">
             Can only reliably create midi access for devices not already opened in prefs/MIDI, suitable for control surfaces etc.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             midi_Input* retval - 
@@ -43972,7 +44334,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Midi
         </chapter_context>
         <tags>cpp, create, midi, input</tags>
         <changelog>
@@ -43988,6 +44350,8 @@ mespotine
         </requires>
         <description indent="default">
             Can only reliably create midi access for devices not already opened in prefs/MIDI, suitable for control surfaces etc. 
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             midi_Output* retval -
@@ -44001,7 +44365,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Midi
         </chapter_context>
         <tags>cpp, midi, output, create</tags>
         <changelog>
@@ -44017,6 +44381,8 @@ mespotine
         </requires>
         <description indent="default">
             On OSC Control Message.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <parameters>
             const char* msg -  
@@ -44026,7 +44392,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            OSC
         </chapter_context>
         <tags>cpp, control, surface, osc, message</tags>
         <changelog>
@@ -44043,6 +44409,8 @@ mespotine
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Delete the specific shortcut for the given command ID.
             See [CountActionShortcuts](#CountActionShortcuts), [GetActionShortcutDesc](#GetActionShortcutDesc), [DoActionShortcutDialog](#DoActionShortcutDialog).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval - 
@@ -44062,7 +44430,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Shortcuts
         </chapter_context>
         <tags>cpp, shortcut, actions, delete</tags>
         <changelog>
@@ -44078,6 +44446,8 @@ mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             See [CreateLocalOscHandler](#CreateLocalOscHandler), [SendLocalOscMessage](#SendLocalOscMessage).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <parameters>
             void* local_osc_handler - 
@@ -44086,7 +44456,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            OSC
         </chapter_context>
         <tags>cpp, osc, destroy, local, handler</tags>
         <changelog>
@@ -44104,6 +44474,8 @@ mespotine
             Open the action shortcut dialog to edit or add a shortcut for the given command ID. 
             If (shortcutidx >= 0 &amp;&amp; shortcutidx &lt; CountActionShortcuts()), that specific shortcut will be replaced, otherwise a new shortcut will be added.
             See [CountActionShortcuts](#CountActionShortcuts), [GetActionShortcutDesc](#GetActionShortcutDesc), [DeleteActionShortcut](#DeleteActionShortcut). 
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -44118,7 +44490,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Shortcuts
         </chapter_context>
         <tags>cpp, actions, commandid, shortcut, add, dialog</tags>
         <changelog>
@@ -44134,6 +44506,8 @@ mespotine
         </requires>
         <description indent="default">
             Populate destmenu with all the entries and submenus found in srcmenu.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -44146,7 +44520,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Menus
         </chapter_context>
         <tags>cpp, menu, duplicate, customizeable</tags>
         <changelog>
@@ -44163,6 +44537,8 @@ mespotine
         </requires>
         <description indent="default">
             free heap memory returned from a Reaper API function
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <parameters>
             void* ptr - 
@@ -44171,7 +44547,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, pointer, free, heap</tags>
         <changelog>
@@ -44190,6 +44566,8 @@ mespotine
             gets config var
 
             see [Reaper\_Config\_Variables.html](Reaper_Config_Variables.html) for valid config-vars
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -44202,7 +44580,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Config Vars
         </chapter_context>
         <tags>cpp, config, var, get</tags>
         <changelog>
@@ -44219,6 +44597,8 @@ mespotine
         </requires>
         <description indent="default">
             Deprecated.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <deprecated since_when="Reaper 5.62"/>
         <retvals>
@@ -44232,7 +44612,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Config Vars
         </chapter_context>
         <tags>cpp, get, midi, config, var</tags>
         <changelog>
@@ -44250,6 +44630,8 @@ mespotine
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the text description of a specific shortcut for the given command ID.
             See [CountActionShortcuts](#CountActionShortcuts),[DeleteActionShortcut](#DeleteActionShortcut),[DoActionShortcutDialog](#DoActionShortcutDialog).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -44271,7 +44653,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Menus
         </chapter_context>
         <tags>cpp, get, shortcut, description, section, command, commandid</tags>
         <changelog>
@@ -44288,6 +44670,8 @@ mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Deprecated, see [GetColorThemeStruct](#GetColorThemeStruct).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <deprecated since_when="Reaper 5.62" alternative="GetColorThemeStruct(available since at least Reaper 5.62)"/>
         <retvals>
@@ -44301,7 +44685,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Theme
         </chapter_context>
         <tags>cpp, color, theme, get</tags>
         <changelog>
@@ -44318,6 +44702,8 @@ mespotine
         </requires>
         <description indent="default">
             returns the whole color theme (icontheme.h) and the size
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -44329,7 +44715,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Theme
         </chapter_context>
         <tags>cpp, get, color, theme, struct</tags>
         <changelog>
@@ -44346,6 +44732,8 @@ mespotine
         </requires>
         <description indent="default">
             gets context menus. submenu 0:trackctl, 1:mediaitems, 2:ruler, 3:empty track area 
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             HMENU retval -
@@ -44357,7 +44745,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Menus
         </chapter_context>
         <tags>cpp, get, context, menu</tags>
         <changelog>
@@ -44374,6 +44762,8 @@ mespotine
         </requires>
         <description indent="default">
             returns a named icontheme entry
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -44385,7 +44775,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Theme
         </chapter_context>
         <tags>cpp, get, icon, theme, pointer</tags>
         <changelog>
@@ -44404,6 +44794,8 @@ mespotine
 
             Note: the return value should not be stored, it should be queried at each paint! 
             Querying name=NULL returns the start of the structure
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -44416,7 +44808,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Theme
         </chapter_context>
         <tags>cpp, get, icon, theme, pointer, dpi</tags>
         <changelog>
@@ -44434,6 +44826,8 @@ mespotine
         </requires>
         <description indent="default">
             returns a pointer to the icon theme (icontheme.h) and the size of that struct.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -44445,7 +44839,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Theme
         </chapter_context>
         <tags>cpp, get, icon, theme, struct</tags>
         <changelog>
@@ -44462,6 +44856,8 @@ mespotine
         </requires>
         <description indent="default">
             See note in reaper_plugin.h about PCM_source_peaktransfer_t::samplerate
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -44477,7 +44873,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, peaks, bitmap</tags>
         <changelog>
@@ -44494,6 +44890,8 @@ mespotine
         </requires>
         <description indent="default">
             Gets user configured preferred disk read mode. mode/nb/bs are all parameters that should be passed to WDL_FileRead, see for more information.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -44507,7 +44905,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Files
         </chapter_context>
         <tags>cpp, get, preferred, diskread, mode</tags>
         <changelog>
@@ -44524,6 +44922,8 @@ mespotine
         </requires>
         <description indent="default">
             Gets user configured preferred disk read mode for use when building peaks. mode/nb/bs are all parameters that should be passed to WDL_FileRead, see for more information.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -44537,7 +44937,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Files
         </chapter_context>
         <tags>cpp, get, preferred, diskread, mode, peak</tags>
         <changelog>
@@ -44553,6 +44953,8 @@ mespotine
         </requires>
         <description indent="default">
             Gets user configured preferred disk write mode. nb will receive two values, the initial and maximum write buffer counts. mode/nb/bs are all parameters that should be passed to WDL_FileWrite, see for more information.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -44566,7 +44968,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Files
         </chapter_context>
         <tags>cpp, get, preferred, diskwrite, mode</tags>
         <changelog>
@@ -44582,6 +44984,8 @@ mespotine
         </requires>
         <description indent="default">
             Gets/Sets Media Item Take-parameters. Works like GetMediaItemTakeInfo_Value and SetMediaItemTakeInfo_Value but has more parameters.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -44613,7 +45017,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            MediaItem Take
         </chapter_context>
         <tags>cpp, get, set, mediaitem, take, info</tags>
         <changelog>
@@ -44689,6 +45093,8 @@ mespotine
                  -F_TCP_FXPARM_SCALE : float * : scale of TCP parameter area when TCP FX are embedded (0=min allowed, default, 1=max allowed)
                  -I_PLAY_OFFSET_FLAG : int * : track media playback offset state, &amp;1=bypassed, &amp;2=offset value is measured in samples (otherwise measured in seconds)
                  -D_PLAY_OFFSET : double * : track media playback offset, units depend on I_PLAY_OFFSET_FLAG
+                 
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -44702,7 +45108,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Media Track
         </chapter_context>
         <tags>cpp, get, set, track, parameters, info</tags>
         <changelog>
@@ -44720,6 +45126,8 @@ mespotine
             get or set the state of a {track,item,envelope} as an RPPXML chunk
             str="" to get the chunk string returned (must call [FreeHeapPtr](#FreeHeapPtr) when done)
             supply str to set the state (returns zero)
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             char* retval -
@@ -44732,7 +45140,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, get, set, object, state, rppxml, statechunk</tags>
         <changelog>
@@ -44748,6 +45156,8 @@ mespotine
         </requires>
         <description indent="default">
             get or set the state of a {track,item,envelope} as an RPPXML chunk
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             char* retval -
@@ -44761,7 +45171,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, get, set, object, state, rppxml, statechunk</tags>
         <changelog>
@@ -44780,6 +45190,8 @@ mespotine
             "which" must be 1. 
 
             If fn != NULL, a new track MIDI storage file will be set; otherwise the existing track MIDI storage file will be returned. 
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             const char* retval -
@@ -44798,7 +45210,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Midi
         </chapter_context>
         <tags>cpp, get, set, midi, support, file</tags>
         <changelog>
@@ -44816,18 +45228,20 @@ mespotine
             Get or set send/receive/hardware output attributes.
 
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
         </retvals>
         <parameters>
             MediaTrack* tr - the MediaTrack object for the track to be gotten or set
-            int category - &lt;0 for receives, 0=sends, &gt;0 for hardware outputs 
+            int category - <0 for receives, 0=sends, >0 for hardware outputs 
             int sendidx - 0..n (to enumerate, iterate over sendidx until it returns NULL) 
             const char* parmname - the parameter to get/set
                  -P_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
                  -P_SRCTRACK : read only, returns MediaTrack *, source track, only applies for sends/recvs
-                 -P_ENV : read only, returns TrackEnvelope *, setNewValue=&lt;VOLENV, &lt;PANENV, etc
+                 -P_ENV : read only, returns TrackEnvelope *, setNewValue=<VOLENV, <PANENV, etc
                  -B_MUTE : returns bool *
                  -B_PHASE : returns bool *, true to flip phase
                  -B_MONO : returns bool *
@@ -44836,16 +45250,30 @@ mespotine
                  -D_PANLAW : returns double *,1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
                  -I_SENDMODE : returns int *, 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
                  -I_AUTOMODE : returns int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-                 -I_SRCCHAN : returns int *, index,&amp;1024=mono, -1 for none
-                 -I_DSTCHAN : returns int *, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
+                 -I_SRCCHAN : returns int *, index,&1024=mono, -1 for none
+                 -I_DSTCHAN : returns int *, index, &1024=mono, otherwise stereo pair, hwout:&512=rearoute
                  -I_MIDIFLAGS : returns int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chan
             void* setNewValue - the new value to be set
         </parameters>
+        <linked_to desc="see:">
+            inline: CreateTrackSend
+                    creates a track-send
+            inline: GetTrackNumSends
+                    get number of send of a track
+            inline: GetSetTrackSendInfo_String
+                    gets sets additional string-attributes for metadata of track-sends
+            inline: GetTrackSendInfo_Value
+                    gets attributes of a track-send
+            inline: RemoveTrackSend
+                    removes a track-send
+            inline: SetTrackSendInfo_Value
+                    sets attributes of a track-send
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Routing
         </chapter_context>
         <tags>cpp, get, set, send, receive, hardware, output</tags>
         <changelog>
@@ -44861,6 +45289,8 @@ mespotine
         </requires>
         <description indent="default">
             Returns the state of an action via extension plugins' hooks.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -44879,7 +45309,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, get, set, toggle, comand, state, hooks</tags>
         <changelog>
@@ -44895,6 +45325,8 @@ mespotine
         </requires>
         <description indent="default">
             Hires peaks from source.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -44907,7 +45339,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, hires, peaks, source</tags>
         <changelog>
@@ -44923,6 +45355,8 @@ mespotine
         </requires>
         <description indent="default">
             Are we in a realtime audio thread (between OnAudioBuffer calls,not in some worker/anticipative FX thread)? threadsafe
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -44931,7 +45365,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, realtime, audio, thread</tags>
         <changelog>
@@ -44947,6 +45381,8 @@ mespotine
         </requires>
         <description indent="default">
             get whether a take will be played (active take, unmuted, etc)
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval - 
@@ -44959,7 +45395,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            MediaItem Take
         </chapter_context>
         <tags>cpp, mediaitem, take, check, played, active, unmute</tags>
         <changelog>
@@ -44975,6 +45411,8 @@ mespotine
         </requires>
         <description indent="default">
             Returns true if dealing with REAPER, returns false for ReaMote, etc
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -44983,7 +45421,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, reaper, reamote, check</tags>
         <changelog>
@@ -44999,6 +45437,8 @@ mespotine
         </requires>
         <description indent="default">
             Enumerates actions.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -45018,7 +45458,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, actions, section, enumerate</tags>
         <changelog>
@@ -45034,6 +45474,8 @@ mespotine
         </requires>
         <description indent="default">
             Format keyname
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45046,7 +45488,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, keyname, format</tags>
         <changelog>
@@ -45063,6 +45505,8 @@ mespotine
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Get the string of a key assigned to command "cmd" in a section.
             This function is poorly named as it doesn't return the command's name, see [kbd\_getTextFromCmd](#kbd_getTextFromCmd).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45082,7 +45526,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, get, key, assigned, command</tags>
         <changelog>
@@ -45098,6 +45542,8 @@ mespotine
         </requires>
         <description indent="default">
             Get text from Command
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             const char* -
@@ -45116,7 +45562,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, get, text, command</tags>
         <changelog>
@@ -45132,6 +45578,8 @@ mespotine
         </requires>
         <description indent="default">
             On Midi Event. Can be called from anywhere (threadsafe)
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45144,7 +45592,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Midi
         </chapter_context>
         <tags>cpp, on, midi, event</tags>
         <changelog>
@@ -45160,6 +45608,8 @@ mespotine
         </requires>
         <description indent="default">
             On MIDI List. Can be called from anywhere (threadsafe)
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void - 
@@ -45172,7 +45622,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Midi
         </chapter_context>
         <tags>cpp, on, midi, list</tags>
         <changelog>
@@ -45188,6 +45638,8 @@ mespotine
         </requires>
         <description indent="default">
             Process actions-menu.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45206,7 +45658,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Menus
         </chapter_context>
         <tags>cpp, process, actions, menu</tags>
         <changelog>
@@ -45222,6 +45674,8 @@ mespotine
         </requires>
         <description indent="default">
             Process Midi Event Action
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -45241,7 +45695,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, process, midi, event, action, ex</tags>
         <changelog>
@@ -45257,6 +45711,8 @@ mespotine
         </requires>
         <description indent="default">
             Reprocess a menu recursively, setting key assignments to what their command IDs are mapped to.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45275,7 +45731,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Menus
         </chapter_context>
         <tags>cpp, reprocess, menu</tags>
         <changelog>
@@ -45291,6 +45747,8 @@ mespotine
         </requires>
         <description indent="default">
             Run command through hooks. actioncommandID may get modified.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -45313,7 +45771,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, run, command, hooks, action, commandid, section</tags>
         <changelog>
@@ -45328,9 +45786,11 @@ mespotine
             Reaper=5.62
         </requires>
         <description indent="default">
-            Pass in the HWND to receive commands, a MSG of a key command,  and a valid section,
+            Pass in the HWND to receive commands, a MSG of a key command, and a valid section,
             and kbd_translateAccelerator() will process it looking for any keys bound to it, and send the messages off.
             Returns 1 if processed, 0 if no key binding found.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -45350,7 +45810,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, translate, accelerator, message, key, section, keybinding</tags>
         <changelog>
@@ -45366,6 +45826,8 @@ mespotine
         </requires>
         <description indent="default">
             Translate mouse.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -45378,7 +45840,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, translate, mouse, midi, message, windows</tags>
         <changelog>
@@ -45395,6 +45857,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE destroy.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45406,7 +45870,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, destroy</tags>
         <changelog>
@@ -45422,6 +45886,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE destroy-font.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45433,7 +45899,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, font, destroy</tags>
         <changelog>
@@ -45449,6 +45915,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE draw text.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -45465,7 +45933,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, draw, text</tags>
         <changelog>
@@ -45481,6 +45949,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE get bits.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -45492,7 +45962,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, get, bits, bitmap</tags>
         <changelog>
@@ -45507,7 +45977,7 @@ mespotine
             Reaper=5.62
         </requires>
         <description indent="default">
-            Translate mouse.
+            LICE__GetDC
         </description>
         <retvals>
             HDC retval -
@@ -45519,7 +45989,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, get, dc, bitmap</tags>
         <changelog>
@@ -45535,6 +46005,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE get height
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -45546,7 +46018,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, get, height</tags>
         <changelog>
@@ -45562,6 +46034,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE get row span.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -45573,7 +46047,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, get, row, span</tags>
         <changelog>
@@ -45589,6 +46063,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE get width.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -45600,7 +46076,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, get, width</tags>
         <changelog>
@@ -45616,6 +46092,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE is flipped
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -45627,7 +46105,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, is, flipped</tags>
         <changelog>
@@ -45643,6 +46121,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE resize
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -45656,7 +46136,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, resize</tags>
         <changelog>
@@ -45672,6 +46152,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE set bk color
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             LICE_pixel retval -
@@ -45684,7 +46166,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, set, bk, color</tags>
         <changelog>
@@ -45700,6 +46182,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE set from h-font
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45713,7 +46197,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, translate, lice, set, from, hfont</tags>
         <changelog>
@@ -45729,6 +46213,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE set text color
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             LICE_pixel retval -
@@ -45741,7 +46227,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, set, text, color</tags>
         <changelog>
@@ -45757,6 +46243,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE set text combine mode
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45770,7 +46258,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, set, text, combine, mode</tags>
         <changelog>
@@ -45786,6 +46274,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE arc
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45806,7 +46296,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, arc</tags>
         <changelog>
@@ -45822,6 +46312,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE blit
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45842,7 +46334,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, blit</tags>
         <changelog>
@@ -45858,6 +46350,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE blur
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45876,7 +46370,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, blur</tags>
         <changelog>
@@ -45892,6 +46386,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE bordered rect.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45911,7 +46407,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, bordered, rect</tags>
         <changelog>
@@ -45927,6 +46423,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE circle
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45945,7 +46443,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, circle</tags>
         <changelog>
@@ -45961,6 +46459,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE clear
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -45973,7 +46473,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, clear</tags>
         <changelog>
@@ -45989,6 +46489,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE clear rect
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46006,7 +46508,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, clear, rect</tags>
         <changelog>
@@ -46022,6 +46524,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE copy
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46034,7 +46538,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, copy</tags>
         <changelog>
@@ -46050,6 +46554,8 @@ mespotine
         </requires>
         <description indent="default">
             Create a new bitmap. this is like calling new LICE_MemBitmap (mode=0) or new LICE_SysBitmap (mode=1).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             LICE_IBitmap* retval -
@@ -46063,7 +46569,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, create, bitmap</tags>
         <changelog>
@@ -46079,6 +46585,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE create font
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             LICE_IFont* retval -
@@ -46087,7 +46595,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, create, font</tags>
         <changelog>
@@ -46103,6 +46611,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE draw char
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46120,7 +46630,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, draw, char</tags>
         <changelog>
@@ -46136,6 +46646,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE draw glyph
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46155,7 +46667,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, draw, glyph</tags>
         <changelog>
@@ -46171,6 +46683,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE Draw C Bezier
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46195,7 +46709,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, draw, bezier</tags>
         <changelog>
@@ -46211,6 +46725,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE draw rect
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46229,7 +46745,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, draw, rectangle</tags>
         <changelog>
@@ -46245,6 +46761,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE draw text
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46262,7 +46780,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, draw, text</tags>
         <changelog>
@@ -46278,6 +46796,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE Fill CBezier
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46303,7 +46823,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, fill, bezier</tags>
         <changelog>
@@ -46320,6 +46840,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE fill circle
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46338,7 +46860,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, fill, circle</tags>
         <changelog>
@@ -46354,6 +46876,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE fill convex polygon
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46371,7 +46895,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, fill, convex, polygon</tags>
         <changelog>
@@ -46387,6 +46911,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE fill rect
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46405,7 +46931,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, fill, rect</tags>
         <changelog>
@@ -46421,6 +46947,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE fill trapezoid
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46441,7 +46969,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, fill, trapezoid</tags>
         <changelog>
@@ -46457,6 +46985,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE fill triangle
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46477,7 +47007,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, fill, triangle</tags>
         <changelog>
@@ -46493,6 +47023,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE get pixel
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             LICE_pixel retval -
@@ -46506,7 +47038,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, get, pixel</tags>
         <changelog>
@@ -46522,6 +47054,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE grad rect
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46550,7 +47084,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, grad, rectangle</tags>
         <changelog>
@@ -46566,6 +47100,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE line
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46585,7 +47121,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, line</tags>
         <changelog>
@@ -46601,6 +47137,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE line int
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46620,7 +47158,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, line, int</tags>
         <changelog>
@@ -46636,6 +47174,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE load png
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             LICE_IBitmap* retval -
@@ -46648,7 +47188,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, load, png, file, graphic</tags>
         <changelog>
@@ -46664,6 +47204,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE load png from resource
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             LICE_IBitmap* retval -
@@ -46677,7 +47219,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, load, png, resource, hinstance</tags>
         <changelog>
@@ -46693,6 +47235,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE measure text
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46706,7 +47250,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, measure, text</tags>
         <changelog>
@@ -46722,6 +47266,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE multiplay add rect
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46745,7 +47291,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, multiply, add, rectangle</tags>
         <changelog>
@@ -46761,6 +47307,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE put pixel
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46777,7 +47325,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, put, pixel</tags>
         <changelog>
@@ -46793,6 +47341,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE rotate blit. These coordinates are offset from the center of the image,in source pixel coordinates.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46819,7 +47369,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, rotate, blit</tags>
         <changelog>
@@ -46835,6 +47385,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE round rect
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46855,7 +47407,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, round, rectangle</tags>
         <changelog>
@@ -46871,6 +47423,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE scaled blit.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46893,7 +47447,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, scaled, blit</tags>
         <changelog>
@@ -46909,6 +47463,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE simple fill
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46925,7 +47481,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, simple, fill</tags>
         <changelog>
@@ -46941,6 +47497,8 @@ mespotine
         </requires>
         <description indent="default">
             LICE simple fill
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -46960,7 +47518,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, lice, thick, line</tags>
         <changelog>
@@ -46976,6 +47534,8 @@ mespotine
         </requires>
         <description indent="default">
             PCM_Source create from simple
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             PCM_source* retval -
@@ -46988,7 +47548,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, pcm, source, create</tags>
         <changelog>
@@ -47004,6 +47564,8 @@ mespotine
         </requires>
         <description indent="default">
             Peak build create
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             REAPER_PeakBuild_Interface*  retval -
@@ -47018,7 +47580,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, peak, build, create</tags>
         <changelog>
@@ -47034,6 +47596,8 @@ mespotine
         </requires>
         <description indent="default">
             Peakbuild create-ex. flags&amp;1 for FP support
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             REAPER_PeakBuild_Interface* retval -
@@ -47049,7 +47613,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, peak, ex, create</tags>
         <changelog>
@@ -47065,6 +47629,8 @@ mespotine
         </requires>
         <description indent="default">
             Peak get create.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             REAPER_PeakGet_Interface* retval -
@@ -47078,7 +47644,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, peak, create, get</tags>
         <changelog>
@@ -47094,6 +47660,8 @@ mespotine
         </requires>
         <description indent="default">
             Play preview. Return nonzero on success.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47105,7 +47673,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Preview
         </chapter_context>
         <tags>cpp, play, preview</tags>
         <changelog>
@@ -47127,6 +47695,8 @@ mespotine
             &amp;2 = treat length changes in source as varispeed and adjust internal state accordingly if buffering.
 
             measure_align&lt;0=play immediately, &gt;0=align playback with measure start
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47140,7 +47710,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Preview
         </chapter_context>
         <tags>cpp, play, preview, ex</tags>
         <changelog>
@@ -47156,6 +47726,8 @@ mespotine
         </requires>
         <description indent="default">
             Play track preview. Returns nonzero on success,in these,m_out_chan is a track index (0-n).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47167,7 +47739,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Preview
         </chapter_context>
         <tags>cpp, play, track, preview</tags>
         <changelog>
@@ -47183,6 +47755,8 @@ mespotine
         </requires>
         <description indent="default">
             Play track preview. Return nonzero on success,in these,m_out_chan is a track index (0-n).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47195,7 +47769,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Preview
         </chapter_context>
         <tags>cpp, play, track, preview</tags>
         <changelog>
@@ -47211,6 +47785,8 @@ mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             return nonzero on success,in these,m_out_chan is a track index (0-n). for flags see [PlayPreviewEx](#PlayPreviewEx) bufflags
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47225,7 +47801,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Preview
         </chapter_context>
         <tags>cpp, play, track, preview, ex</tags>
         <changelog>
@@ -47241,6 +47817,8 @@ mespotine
         </requires>
         <description indent="default">
             Plugin get api.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -47252,7 +47830,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, plugin, get, api</tags>
         <changelog>
@@ -47268,6 +47846,8 @@ mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Plugin get filter list. Returns a double-NULL terminated list of importable media files, suitable for passing to [GetOpenFileName()](#GetOpenFileName) etc. Includes *.* (All files).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             const char* retval -
@@ -47276,7 +47856,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, get, filter, list, plugin</tags>
         <changelog>
@@ -47292,6 +47872,8 @@ mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Plugin get importable project filter list. Returns a double-NULL terminated list of importable project files, suitable for passing to [GetOpenFileName()](#GetOpenFileName) etc. Includes *.* (All files). 
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             const char* retval -
@@ -47300,7 +47882,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, plugin, get, importable, project, filter, list, file</tags>
         <changelog>
@@ -47318,6 +47900,8 @@ mespotine
             Project config var addr.
 
             see [Reaper\_Config\_Variables.html](Reaper_Config_Variables.html) for valid config-vars
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -47330,7 +47914,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Config Vars
         </chapter_context>
         <tags>cpp, project, config, var, addr</tags>
         <changelog>
@@ -47345,9 +47929,11 @@ mespotine
             Reaper=5.62
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns offset to pass to projectconfig_var_addr() to get project-config var of name. szout gets size of object.
+            Returns offset to pass to projectconfig\_var\_addr() to get project-config var of name. szout gets size of object.
 
             see [Reaper\_Config\_Variables.html](Reaper_Config_Variables.html) for valid config-vars
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47360,7 +47946,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Config Vars
         </chapter_context>
         <tags>cpp, project, config, var, getoffs, offset</tags>
         <changelog>
@@ -47376,6 +47962,8 @@ mespotine
         </requires>
         <description indent="default">
             version must be REAPER_PITCHSHIFT_API_VER
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             IReaperPitchShift* retval -
@@ -47387,7 +47975,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, reaper, pitch, shift, api</tags>
         <changelog>
@@ -47403,6 +47991,8 @@ mespotine
         </requires>
         <description indent="default">
             Resampler create
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             REAPER_Resample_Interface* retval -
@@ -47411,7 +48001,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, resampler, create, interface</tags>
         <changelog>
@@ -47427,6 +48017,8 @@ mespotine
         </requires>
         <description indent="default">
             Resolve a wildcard pattern into a set of nul-separated, double-nul terminated render target filenames. Returns the length of the string buffer needed for the returned file list. Call with path=NULL to suppress filtering out illegal pathnames, call with targets=NULL to get just the string buffer length.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47442,7 +48034,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, resampler, create, interface</tags>
         <changelog>
@@ -47458,6 +48050,8 @@ mespotine
         </requires>
         <description indent="default">
             Screenset register.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -47471,7 +48065,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Screensets
         </chapter_context>
         <tags>cpp, screenset, register</tags>
         <changelog>
@@ -47487,6 +48081,8 @@ mespotine
         </requires>
         <description indent="default">
             Screenset register new.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -47500,7 +48096,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Screensets
         </chapter_context>
         <tags>cpp, screenset, register, new</tags>
         <changelog>
@@ -47516,6 +48112,8 @@ mespotine
         </requires>
         <description indent="default">
             Screenset unregister.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -47527,7 +48125,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Screensets
         </chapter_context>
         <tags>cpp, screenset, unregister</tags>
         <changelog>
@@ -47543,6 +48141,7 @@ mespotine
         </requires>
         <description indent="default">
             Screenset unregister by param
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -47554,7 +48153,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Screensets
         </chapter_context>
         <tags>cpp, screenset, unregister, param</tags>
         <changelog>
@@ -47569,7 +48168,9 @@ mespotine
             Reaper=5.62
         </requires>
         <description indent="default">
-            LICE simple fill
+            screenset_updateLastFocus
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -47581,7 +48182,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Screensets
         </chapter_context>
         <tags>cpp, screenset, update, focus</tags>
         <changelog>
@@ -47597,6 +48198,8 @@ mespotine
         </requires>
         <description indent="default">
             Section from unique ID.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             KbdSectionInfo* retval -
@@ -47608,7 +48211,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, section, unique, id</tags>
         <changelog>
@@ -47624,6 +48227,8 @@ mespotine
         </requires>
         <description indent="default">
             Set render last error.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -47635,7 +48240,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, set, render, error</tags>
         <changelog>
@@ -47651,6 +48256,7 @@ mespotine
         </requires>
         <description indent="default">
             Stop preview.
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47662,7 +48268,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Preview
         </chapter_context>
         <tags>cpp, stop, preview</tags>
         <changelog>
@@ -47678,6 +48284,8 @@ mespotine
         </requires>
         <description indent="default">
             Stop track preview. Return nonzero on success.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47689,7 +48297,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Preview
         </chapter_context>
         <tags>cpp, stop, track, preview</tags>
         <changelog>
@@ -47706,6 +48314,8 @@ mespotine
         </requires>
         <description indent="default">
             Stop track preview2.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47718,7 +48328,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Preview
         </chapter_context>
         <tags>cpp, stop, track, preview, ex</tags>
         <changelog>
@@ -47736,6 +48346,8 @@ mespotine
         <description indent="default">
             Updates disk I/O statistics with bytes transferred since last call. 
             Notify REAPER of a write error by calling with readamt=0, writeamt=-101010110 for unknown or -101010111 for disk full
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -47748,7 +48360,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Files
         </chapter_context>
         <tags>cpp, update, disk, counters, statistics, bytes, transferred</tags>
         <changelog>
@@ -47765,6 +48377,8 @@ mespotine
         </requires>
         <description indent="default">
             WDL virtualwnd scale blit bg.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             bool retval -
@@ -47787,7 +48401,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            GFX
         </chapter_context>
         <tags>cpp, set, error</tags>
         <changelog>
@@ -47803,6 +48417,8 @@ mespotine
         </requires>
         <description indent="default">
             Get/Set Media Item Info
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void* -
@@ -47848,7 +48464,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            MediaItems
         </chapter_context>
         <tags>cpp, mediaitem, parameters, get, set, info</tags>
         <changelog>
@@ -47864,6 +48480,8 @@ mespotine
         </requires>
         <description indent="default">
             Get Toggle Command State 2
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47882,7 +48500,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, get, toggle, command, state, section, commandid</tags>
         <changelog>
@@ -47898,6 +48516,8 @@ mespotine
         </requires>
         <description indent="default">
             Gets track info (returns name).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             const char* retval -
@@ -47917,7 +48537,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Media Track
         </chapter_context>
         <tags>cpp, get, track, info, flag</tags>
         <changelog>
@@ -47933,6 +48553,8 @@ mespotine
         </requires>
         <description indent="default">
             val/valhw are used for midi stuff.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -47949,7 +48571,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Actions
         </chapter_context>
         <tags>cpp, midi, command, value, relmode, main, action</tags>
         <changelog>
@@ -47965,6 +48587,8 @@ mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Create a MIDI_eventlist object. The returned object must be deleted with [MIDI\_eventlist\_destroy()](#MIDI_eventlist_destroy).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             MIDI_eventlist* retval -
@@ -47973,7 +48597,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Midi
         </chapter_context>
         <tags>cpp, midi, event, list, create</tags>
         <changelog>
@@ -47989,6 +48613,8 @@ mespotine
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Destroy a MIDI_eventlist object that was created using [MIDI\_eventlist\_Create()](#MIDI_eventlist_Create).
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -48000,7 +48626,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Midi
         </chapter_context>
         <tags>cpp, midi, event, list, destroy</tags>
         <changelog>
@@ -48016,6 +48642,8 @@ mespotine
         </requires>
         <description indent="default">
             PCM sink create
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             PCM_sink* retval -
@@ -48032,7 +48660,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, pcm, sink, create, filename</tags>
         <changelog>
@@ -48048,6 +48676,8 @@ mespotine
         </requires>
         <description indent="default">
             PCM sink create ex.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             PCM_sink* retval -
@@ -48065,7 +48695,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Audio
         </chapter_context>
         <tags>cpp, pcm, sink, create, filename, ex</tags>
         <changelog>
@@ -48081,6 +48711,8 @@ mespotine
         </requires>
         <description indent="default">
             PCM sink create MIDI file.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             PCM_sink* retval -
@@ -48096,7 +48728,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Midi
         </chapter_context>
         <tags>cpp, pcm, sink, create, midi, filename</tags>
         <changelog>
@@ -48112,6 +48744,8 @@ mespotine
         </requires>
         <description indent="default">
             PCM sink create MIDI file ex
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             PCM_sink* retval -
@@ -48128,7 +48762,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Midi
         </chapter_context>
         <tags>cpp, pcm, sink, create, midi, filename, ex</tags>
         <changelog>
@@ -48144,6 +48778,8 @@ mespotine
         </requires>
         <description indent="default">
             Send local Osc message.
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             void -
@@ -48157,7 +48793,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            OSC
         </chapter_context>
         <tags>cpp, send, local, osc, message</tags>
         <changelog>
@@ -48174,6 +48810,8 @@ mespotine
         </requires>
         <description indent="default">
             menu to select/modify pitch shifter submode, returns new value (or old value if no item selected)
+            
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval -
@@ -48189,7 +48827,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, pitch, shift, sub, mode, menu</tags>
         <changelog>
@@ -48214,6 +48852,8 @@ mespotine
               2) one file should #define REAPERAPI_IMPLEMENT before including this file.
               3) the plug-in should call REAPERAPI_LoadAPI(rec->GetFunc) from REAPER_PLUGIN_ENTRYPOINT
                  and check the return value for errors (REAPERAPI_LoadAPI will return 0 on success).
+                 
+            Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             int retval - 0, if a function exists
@@ -48225,7 +48865,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, check, function, plugin, api</tags>
         <changelog>
@@ -48241,6 +48881,8 @@ mespotine
         </requires>
         <description indent="default">
              special use for NeedBig script API functions - reallocates a NeedBig buffer and updates its size, returns false on error
+             
+             Stored in reaper_plugin_functions.h
         </description>
         <retvals>
             boolean retval - 
@@ -48254,7 +48896,7 @@ mespotine
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>
             C++-only functions
-            reaper_plugin_functions.h
+            Misc
         </chapter_context>
         <tags>cpp, check, function, plugin, api</tags>
         <changelog>
