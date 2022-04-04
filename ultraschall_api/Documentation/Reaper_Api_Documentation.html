@@ -2771,7 +2771,7 @@ Generates a GUID.
 <div class="p">Python: <code> <em>RPR_ClearConsole</em>()</code></div>
 </div><p>
 <div class="ch">
-<p>Clear the ReaScript console. See <a href="#ShowConsoleMsg">ShowConsoleMsg</a></p>
+Clear the ReaScript console.              
 </div><br>
 </div>
 <div class="ch">
@@ -3442,8 +3442,9 @@ converts project QN position to time.
 <div class="p">Python: <code> (<i>Int</i> col, <i>Int</i> rOut, <i>Int</i> gOut, <i>Int</i> bOut) = <em>RPR_ColorFromNative</em>(col, rOut, gOut, bOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Extract RGB values from an OS dependent color. See <a href="#ColorToNative">ColorToNative</a>.</p>
-<p>As Reaper treats colors differently on Mac and Windows, you should always use <a href="#ColorFromNative">ColorFromNative</a> and <a href="#ColorToNative">ColorToNative</a>.</p>
+Extract RGB values from an OS dependent color.<br/>
+<br/>
+As Reaper treats colors differently on Mac and Windows, you should always use ColorFromNative and ColorToNative.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -3478,8 +3479,10 @@ converts project QN position to time.
 <div class="p">Python: <code> <i>Int</i> <em>RPR_ColorToNative</em>(<i>Int</i> r, <i>Int</i> g, <i>Int</i> b)</code></div>
 </div><p>
 <div class="ch">
-<p>Make an OS dependent color from RGB values (e.g. RGB() macro on Windows). r,g and b are in [0..255]. See <a href="#ColorFromNative">ColorFromNative</a> As Reaper treats colors differently on Mac and Windows, you should always use <a href="#ColorFromNative">ColorFromNative</a> and <a href="ColorToNative">ColorToNative</a>.</p>
-<p>When using the returned colorvalue, you need to add |0x1000000 at the end of it, like ColorToNative(20,30,40)|0x1000000.</p>
+Make an OS dependent color from RGB values (e.g. RGB() macro on Windows). r,g and b are in [0..255]. <br/>
+As Reaper treats colors differently on Mac and Windows, you should always use ColorFromNative and ColorToNative.<br/>
+<br/>
+When using the returned colorvalue, you need to add |0x1000000 at the end of it, like ColorToNative(20,30,40)|0x1000000.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -14698,7 +14701,7 @@ Compares strings giving up after maxlen characters, ignoring case, returning 0 i
 <div class="p">Python: <code> <i>Int</i> <em>RPR_CountAutomationItems</em>(<i>TrackEnvelope</i> env)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the number of automation items on this envelope. See <a href="#GetSetAutomationItemInfo">GetSetAutomationItemInfo</a>.</p>
+Returns the number of automation items on this envelope.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15052,7 +15055,7 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <div class="p">Python: <code> <i>Int</i> <em>RPR_CountEnvelopePoints</em>(<i>TrackEnvelope</i> envelope)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the number of points in the envelope. See <a href="#CountEnvelopePointsEx">#CountEnvelopePointsEx</a></p>
+Returns the number of points in the envelope.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15079,8 +15082,13 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data
 <div class="p">Python: <code> <i>Int</i> <em>RPR_CountEnvelopePointsEx</em>(<i>TrackEnvelope</i> envelope, <i>Int</i> autoitem_idx)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the number of points in the envelope. autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration, even if the automation item is trimmed so that not all points are visible. Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.</p>
-<p>See <a href="#GetEnvelopePointEx">GetEnvelopePointEx</a>, <a href="#SetEnvelopePointEx">SetEnvelopePointEx</a>, <a href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a>, <a href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a>.</p>
+Returns the number of points in the envelope.<br/>
+autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.<br/>
+For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,<br/>
+even if the automation item is trimmed so that not all points are visible.<br/>
+Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.<br/>
+<br/>
+See [GetEnvelopePointEx](#GetEnvelopePointEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16884,7 +16892,7 @@ If take envelope, gets the take from the envelope. If FX, indexOut set to FX ind
 <div class="p">Python: <code> <i>Int</i> <em>RPR_CountTrackEnvelopes</em>(<i>MediaTrack</i> track)</code></div>
 </div><p>
 <div class="ch">
-<p>Counts the number of track-envelopes of a certain track. see <a href="#GetTrackEnvelope">GetTrackEnvelope</a></p>
+Counts the number of track-envelopes of a certain track.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -22357,8 +22365,7 @@ Returns true if the underlying samples (track or media item take) have changed, 
 <div class="p">Python: <code> <em>RPR_AudioAccessorUpdate</em>(<i>AudioAccessor</i> accessor)</code></div>
 </div><p>
 <div class="ch">
-<p>Force the accessor to reload its state from the underlying track or media item take.</p>
-<p>See <a href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a>, <a href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a>, <a href="#DestroyAudioAccessor">DestroyAudioAccessor</a>, <a href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a>, <a href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a>, <a href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a>, <a href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a>.</p>
+Force the accessor to reload its state from the underlying track or media item take.               
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>AudioAccessor</i> accessor</td></tr>
@@ -22405,8 +22412,7 @@ Validates the current state of the audio accessor -- must ONLY call this from th
 <div class="p">Python: <code> <i>AudioAccessor</i> <em>RPR_CreateTakeAudioAccessor</em>(<i>MediaItem_Take</i> take)</code></div>
 </div><p>
 <div class="ch">
-<p>Create an audio accessor object for this take. Must only call from the main thread.</p>
-<p>See <a href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a>, <a href="#DestroyAudioAccessor">DestroyAudioAccessor</a>, <a href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a>, <a href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a>, <a href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a>, <a href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a>.</p>
+Create an audio accessor object for this take. Must only call from the main thread.               
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -22433,7 +22439,7 @@ Validates the current state of the audio accessor -- must ONLY call this from th
 <div class="p">Python: <code> <i>AudioAccessor</i> <em>RPR_CreateTrackAudioAccessor</em>(<i>MediaTrack</i> track)</code></div>
 </div><p>
 <div class="ch">
-<p>Create an audio accessor object for this track. Must only call from the main thread. See <a href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a>, <a href="#DestroyAudioAccessor">DestroyAudioAccessor</a>, <a href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a>, <a href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a>, <a href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a>, <a href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a>.</p>
+Create an audio accessor object for this track. Must only call from the main thread.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -30421,7 +30427,7 @@ Find the tempo/time signature marker that falls at or before this time position 
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_AddTempoTimeSigMarker</em>(<i>ReaProject</i> proj, <i>Float</i> timepos, <i>Float</i> bpm, <i>Int</i> timesig_num, <i>Int</i> timesig_denom, <i>Boolean</i> lineartempochange)</code></div>
 </div><p>
 <div class="ch">
-<p>Deprecated. Use <a href="#SetTempoTimeSigMarker">SetTempoTimeSigMarker</a> with ptidx=-1.</p>
+Deprecated. Use SetTempoTimeSigMarker with ptidx=-1.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -30468,7 +30474,7 @@ Find the tempo/time signature marker that falls at or before this time position 
 <div class="p">Python: <code> <i>Int</i> <em>RPR_CountTempoTimeSigMarkers</em>(<i>ReaProject</i> proj)</code></div>
 </div><p>
 <div class="ch">
-<p>Count the number of tempo/time signature markers in the project. See <a href="#GetTempoTimeSigMarker">GetTempoTimeSigMarker</a>, <a href="#SetTempoTimeSigMarker">SetTempoTimeSigMarker</a>, <a href="#AddTempoTimeSigMarker">AddTempoTimeSigMarker</a>, <a href="#DeleteTempoTimeSigMarker">DeleteTempoTimeSigMarker</a>.</p>
+Count the number of tempo/time signature markers in the project.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -32417,7 +32423,7 @@ creates a new take in an item
 <div class="p">Python: <code> <i>Int</i> <em>RPR_CountTakeEnvelopes</em>(<i>MediaItem_Take</i> take)</code></div>
 </div><p>
 <div class="ch">
-<p>See <a href="#GetTakeEnvelope">GetTakeEnvelope</a></p>
+Counts take-envelopes.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -58118,7 +58124,8 @@ Clears all armed states of all tracks.
 <div class="p">Python: <code> <i>Int</i> <em>RPR_CountSelectedTracks</em>(<i>ReaProject</i> proj)</code></div>
 </div><p>
 <div class="ch">
-<p>Count the number of selected tracks in the project. This function ignores the master track, see <a href="#CountSelectedTracks2">CountSelectedTracks2</a></p>
+Count the number of selected tracks in the project. <br/>
+This function ignores the master track, see CountSelectedTracks2.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

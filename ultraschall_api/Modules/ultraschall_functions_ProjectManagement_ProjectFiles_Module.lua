@@ -1268,7 +1268,7 @@ function ultraschall.GetProject_RecordCFG(projectfilename_with_path, ProjectStat
     optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
   </parameters>
   <retvals>
-    recording_cfg_string - the record-configuration as encoded string
+    string recording_cfg_string - the record-configuration as encoded string
   </retvals>
   <chapter_context>
     Project-Management

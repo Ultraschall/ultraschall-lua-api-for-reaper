@@ -271,6 +271,8 @@ Has now 1457 functions, with XX new ones
   - DeveloperTools: Config Var Displayer - crashed, when double-value is NaN -> fixed
   - Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.53
   - FileManagement: CreateValidTempFile - raised number of potential temp-file-variants to 2147483648
+  - HelperFunctions: Main\_OnCommandByFilename - didn't remove temporary scripts sometimes due Reaper bug -> fixed
+  - HelperFunctions: MIDI\_OnCommandByFilename - didn't remove temporary scripts sometimes, partially due Reaper bug -> fixed  
   - Markers: AddCustomMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
   - Markers: AddCustomRegion - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed
   - Markers: AddEditMarker - reworked code so it's faster now; sometimes, the returned guid could be wrong -> fixed

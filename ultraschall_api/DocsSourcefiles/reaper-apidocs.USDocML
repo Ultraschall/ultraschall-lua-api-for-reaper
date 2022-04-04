@@ -464,10 +464,10 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
-            Deprecated. Use [SetTempoTimeSigMarker](#SetTempoTimeSigMarker) with ptidx=-1.
+        <description>
+            Deprecated. Use SetTempoTimeSigMarker with ptidx=-1.
         </description>
-        <deprecated since_when="Reaper 5.62" alternative="SetTempoTimeSigMarker(available since at least Reaper 5.62)"/>
+        <deprecated since_when="Reaper 5.62" alternative="SetTempoTimeSigMarker with ptidx=-1(available since at least Reaper 5.62)"/>
         <retvals>
             boolean retval - true, if adding was successful; false, if not
         </retvals>
@@ -828,14 +828,28 @@
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Force the accessor to reload its state from the underlying track or media item take. 
-
-            See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
         </description>
         <parameters>
             AudioAccessor accessor - 
         </parameters>
+        <linked_to desc="see:">
+            inline: CreateTakeAudioAccessor
+                    for creating a take-audio-accessor
+            inline: CreateTrackAudioAccessor
+                    for creating a track-audio-accessor
+            inline: DestroyAudioAccessor
+                    to destroy an audio-accessor
+            inline: AudioAccessorStateChanged
+                    to get, if an audioaccessor has changed
+            inline: GetAudioAccessorStartTime
+                    to get the audioaccessor-starttime
+            inline: GetAudioAccessorEndTime
+                    to get the audioaccessor-endtime
+            inline: GetAudioAccessorSamples
+                    to get the audioaccessor-samples
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -979,11 +993,15 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Clear the ReaScript console. See [ShowConsoleMsg](#ShowConsoleMsg)
+        <description>
+            Clear the ReaScript console.
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
+        <linked_to desc="see:">
+            inline: ShowConsoleMsg
+                    for printing messages into the ReaScript-console
+        </linked_to>
         <chapter_context>
             Api-Helper-Functions
             ReaScript Console
@@ -1027,10 +1045,10 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Extract RGB values from an OS dependent color. See [ColorToNative](#ColorToNative).
+        <description>
+            Extract RGB values from an OS dependent color.
 
-            As Reaper treats colors differently on Mac and Windows, you should always use [ColorFromNative](#ColorFromNative) and [ColorToNative](#ColorToNative).
+            As Reaper treats colors differently on Mac and Windows, you should always use ColorFromNative and ColorToNative.
         </description>
         <retvals>
             integer r - the value for red, from 0 to 255
@@ -1040,6 +1058,10 @@
         <parameters>
             integer col - the colorvalue to convert from
         </parameters>
+        <linked_to desc="see:">
+            inline: ColorToNative
+                    for converting r-g-b-values to a native-color value
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1061,9 +1083,9 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Make an OS dependent color from RGB values (e.g. RGB() macro on Windows). r,g and b are in [0..255]. See [ColorFromNative](#ColorFromNative)
-            As Reaper treats colors differently on Mac and Windows, you should always use [ColorFromNative](#ColorFromNative) and [ColorToNative](ColorToNative).
+        <description>
+            Make an OS dependent color from RGB values (e.g. RGB() macro on Windows). r,g and b are in [0..255]. 
+            As Reaper treats colors differently on Mac and Windows, you should always use ColorFromNative and ColorToNative.
 
             When using the returned colorvalue, you need to add |0x1000000 at the end of it, like ColorToNative(20,30,40)|0x1000000.
         </description>
@@ -1075,6 +1097,10 @@
             integer g - the value for green, from 0 to 255
             integer b - the value for blue, from 0 to 255
         </parameters>
+        <linked_to desc="see:">
+            inline: ColorFromNative
+                    for converting a native color-calue into its r-g-b-representation
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1096,8 +1122,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns the number of automation items on this envelope. See [GetSetAutomationItemInfo](#GetSetAutomationItemInfo).
+        <description>
+            Returns the number of automation items on this envelope.
         </description>
         <retvals>
             integer ai_count - number of automation items
@@ -1105,6 +1131,10 @@
         <parameters>
             TrackEnvelope env - the envelope-object for the envelope-lane
         </parameters>
+        <linked_to desc="see:">
+            inline: GetSetAutomationItemInfo
+                    for setting attributes of an automation-item
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1126,8 +1156,8 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns the number of points in the envelope. See [#CountEnvelopePointsEx](#CountEnvelopePointsEx)
+        <description>
+            Returns the number of points in the envelope.
         </description>
         <retvals>
             integer count_envpoints - the number of envelope-points in the envelopeobject envelope
@@ -1135,6 +1165,19 @@
         <parameters>
             TrackEnvelope envelope - the TrackEnvelope-object, in which to count for the envelope-points
         </parameters>
+        <linked_to desc="see:">
+            inline: CountEnvelopePointsEx
+                    to count envelope-points of envelopes and automation-items
+                    see it for other functions managing envelope-points in automation-items 
+            inline: GetEnvelopePoint
+                    to get envelope-points in envelopes only
+            inline: SetEnvelopePoint
+                    to set envelope-points in envelopes only
+            inline: InsertEnvelopePoint
+                    to insert an envelope-point into envelopes only
+            inline: DeleteEnvelopePoint
+                    to delete an envelope-point into envelopes only
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1156,7 +1199,7 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Returns the number of points in the envelope.
             autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
             For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
@@ -1172,6 +1215,18 @@
             TrackEnvelope envelope - the TrackEnvelope-object, in which to count for the envelope-points
             integer autoitem_idx - -1, for the underlying envelope, 0, for the first automation item on the envelope, etc.
         </parameters>
+        <linked_to desc="see:">
+            inline: CountEnvelopePoints
+                    to count envelope-points of envelopes only
+            inline: GetEnvelopePointEx
+                    to get envelope-points in envelopes and automation-items
+            inline: SetEnvelopePointEx
+                    to set envelope-points in envelopes and automation-items
+            inline: InsertEnvelopePointEx
+                    to insert an envelope-point into envelopes and automation-items
+            inline: DeleteEnvelopePointEx
+                    to delete an envelope-point into envelopes and automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1286,9 +1341,9 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Count the number of selected tracks in the project. 
-            This function ignores the master track, see [CountSelectedTracks2](#CountSelectedTracks2)
+            This function ignores the master track, see CountSelectedTracks2.
         </description>
         <retvals>
             integer count_sel_tracks - the number of selected tracks in the project
@@ -1296,6 +1351,10 @@
         <parameters>
             ReaProject proj - the project in which to count the selected tracks; 0 for current project. 
         </parameters>
+        <linked_to desc="see:">
+            inline: CountSelectedTracks2
+                    to count selected tracks including the master track
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1349,8 +1408,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [GetTakeEnvelope](#GetTakeEnvelope)
+        <description>
+            Counts take-envelopes.
         </description>
         <retvals>
             integer count_take_env - number of envelopes of this take of a mediaitem
@@ -1358,6 +1417,10 @@
         <parameters>
             MediaItem_Take take - the mediaitem-object for a certain take
         </parameters>
+        <linked_to desc="see:">
+            inline: GetTakeEnvelope
+                    to get take-envelopes
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1440,8 +1503,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Count the number of tempo/time signature markers in the project. See [GetTempoTimeSigMarker](#GetTempoTimeSigMarker), [SetTempoTimeSigMarker](#SetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker), [DeleteTempoTimeSigMarker](#DeleteTempoTimeSigMarker).
+        <description>
+            Count the number of tempo/time signature markers in the project.
         </description>
         <retvals>
             integer count_tempo_markers - the number of tempo/time-signature markers in the project.
@@ -1449,6 +1512,16 @@
         <parameters>
             ReaProject proj - project number; 0 for the current project. 
         </parameters>
+        <linked_to desc="see:">
+            inline: GetTempoTimeSigMarker
+                    to get a tempo/time-signature marker
+            inline: SetTempoTimeSigMarker
+                    sets a tempo/time-signature-marker
+            inline: AddTempoTimeSigMarker
+                    adds a new tempo/time-signature marker
+            inline: DeleteTempoTimeSigMarker
+                    deletes a tempo/time-signature-marker
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1470,9 +1543,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Counts the number of track-envelopes of a certain track.
-            see [GetTrackEnvelope](#GetTrackEnvelope)
         </description>
         <retvals>
             integer count_track_envs - the number of track-envelopes in a track
@@ -1480,6 +1552,10 @@
         <parameters>
             MediaTrack track - the object of the track to count it's envelopes
         </parameters>
+        <linked_to desc="see:">
+            inline: GetTrackEnvelope
+                    to get a track-envelope
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1594,10 +1670,8 @@
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Create an audio accessor object for this take. Must only call from the main thread. 
-
-            See [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
         </description>
         <retvals>
             AudioAccessor acc - the newly created AudioAccessor
@@ -1605,6 +1679,20 @@
         <parameters>
             MediaItem_Take take - the take from a MediaItem-object, of which you want to create a new AudioAccessor
         </parameters>
+        <linked_to desc="see:">
+            inline: CreateTrackAudioAccessor
+                    gets a track audioaccessor
+            inline: DestroyAudioAccessor
+                    destroys an audioaccessor
+            inline: AudioAccessorStateChanged
+                    gets the state-change of an audioaccessor
+            inline: GetAudioAccessorStartTime
+                    get audioaccessor-starttime
+            inline: GetAudioAccessorEndTime
+                    get audioaccessor-endtime
+            inline: GetAudioAccessorSamples
+                    get audioaccessor-samples
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -1626,8 +1714,8 @@
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Create an audio accessor object for this track. Must only call from the main thread. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+        <description>
+            Create an audio accessor object for this track. Must only call from the main thread.
         </description>
         <retvals>
             AudioAccessor acc - the newly created AudioAccessor for this MediaTrack
@@ -1635,6 +1723,20 @@
         <parameters>
             MediaTrack track - the MediaTrack, of which you want to create an AudioAccessor
         </parameters>
+        <linked_to desc="see:">
+            inline: CreateTakeAudioAccessor
+                    create a take audioaccessor
+            inline: DestroyAudioAccessor
+                    destroys an audioaccessor
+            inline: AudioAccessorStateChanged
+                    gets the state-change of an audioaccessor
+            inline: GetAudioAccessorStartTime
+                    get audioaccessor-starttime
+            inline: GetAudioAccessorEndTime
+                    get audioaccessor-endtime
+            inline: GetAudioAccessorSamples
+                    get audioaccessor-samples
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -12185,6 +12287,7 @@
         </chapter_context>
         <tags>projectmanagement, save, project, save dialog, filename</tags>
         <changelog>
+            Reaper 6.53 - added to API
         </changelog>
     </US_DocBloc>
 
@@ -17701,6 +17804,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.53 - new theme-colors explorer\_grid and explorer\_pitchtext
             Reaper 6.44 - new theme-color col\_nodarkmodemiscwnd added
         </changelog>
     </US_DocBloc>

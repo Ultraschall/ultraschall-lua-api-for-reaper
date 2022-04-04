@@ -3163,7 +3163,7 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Main_OnCommandByFilename</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.4
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -3198,6 +3198,13 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
   -- check parameters
   if type(filename)~="string" then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "Must be a string.", -1) return false end
   if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "File does not exist.", -2) return false end
+  
+  if ultraschall.IsOS_Win()==true then    
+    filename=string.gsub(filename, "/", "\\")
+    --print2("", filename)
+  else
+    filename=string.gsub(filename, "\\", "/")
+  end
   
   -- create temporary copy of the scriptfile, with a guid in its name  
   local filename2
@@ -3242,7 +3249,7 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MIDI_OnCommandByFilename</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.4
     Reaper=5.965
     JS=0.962
     Lua=5.3
@@ -3284,6 +3291,13 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
     if pcall(reaper.JS_Window_GetTitle(MIDIEditor_HWND, ""):match("MIDI"))==false then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "MIDIEditor_HWND", "Not a valid MIDI-Editor-HWND.", -4) return false end
   end  
 
+  if ultraschall.IsOS_Win()==true then    
+    filename=string.gsub(filename, "/", "\\")
+    --print2("", filename)
+  else
+    filename=string.gsub(filename, "\\", "/")
+  end
+
   -- create temporary scriptcopy with a guid in its filename
   local filename2
   if filename:sub(-4,-1)==".lua" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".lua"
@@ -3307,6 +3321,10 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
     if A2==false then 
       ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "MIDIEditor_HWND", "No last focused MIDI-Editor open.", -6) 
       ultraschall.GetScriptParameters(string.gsub("ScriptIdentifier:"..filename2, "\\", "/"), true)
+      reaper.AddRemoveReaScript(false, 32060, filename2, true)
+      reaper.AddRemoveReaScript(false, 32061, filename2, true)
+      reaper.AddRemoveReaScript(false, 32062, filename2, true)
+      os.remove(filename2)
       return false 
     end
   end
