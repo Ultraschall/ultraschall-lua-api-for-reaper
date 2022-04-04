@@ -1806,7 +1806,7 @@ Delete the extended state value for a specific section and key. persist=true mea
 <div class="p">Python: <code> <i>String</i> <em>RPR_GetExtState</em>(<i>String</i> section, <i>String</i> key)</code></div>
 </div><p>
 <div class="ch">
-<p>Get the extended state value for a specific section and key. See <a href="#SetExtState">SetExtState</a>, <a href="#DeleteExtState">DeleteExtState</a>, <a href="#HasExtState">HasExtState</a>.</p>
+Get the extended state value for a specific section and key.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -1837,22 +1837,22 @@ Delete the extended state value for a specific section and key. persist=true mea
 <div class="p">Python: <code> <i>Boolean</i> <em>RPR_HasExtState</em>(<i>String</i> section, <i>String</i> key)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns true if there exists an extended state value for a specific section and key. See <a href="#SetExtState">SetExtState</a>, <a href="#GetExtState">GetExtState</a>, <a href="#DeleteExtState">DeleteExtState</a>.</p>
+Returns true if there exists an extended state value for a specific section and key.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">true, extstate exists; false, extstate does not exist</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> section</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the section of the extstate</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> key</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the key of the extstate</td></tr>
 </table>
 <br>
 </div>
@@ -1868,9 +1868,13 @@ Delete the extended state value for a specific section and key. persist=true mea
 <div class="p">Python: <code> <em>RPR_SetExtState</em>(<i>String</i> section, <i>String</i> key, <i>String</i> value, <i>Boolean</i> persist)</code></div>
 </div><p>
 <div class="ch">
-<p>Set the extended state value for a specific section and key.</p>
-<p>Persistant states are stored into the reaper-extstate.ini in the resources-folder.</p>
-<p>See <a href="#GetExtState">GetExtState</a>, <a href="#DeleteExtState">DeleteExtState</a>, <a href="#HasExtState">HasExtState</a>.</p>
+Set the extended state value for a specific section and key. <br/>
+<br/>
+Persistant states are stored into the reaper-extstate.ini in the resources-folder.<br/>
+<br/>
+Note: Do not use newlines in extstates, as they might be cut when rereading them using GetExtState!<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find workarounds, like \n -> \\n to store and \\n -> \n to get them again.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is due limitations of the ini-file-format.              
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> section</td></tr>
@@ -15594,7 +15598,7 @@ Sort envelope points by time. autoitem_idx=-1 for the underlying envelope, 0 for
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> ptidx, <i>Float</i> timeOut, <i>Float</i> valueOut, <i>Int</i> shapeOut, <i>Float</i> tensionOut, <i>Boolean</i> selectedOut) = <em>RPR_GetEnvelopePoint</em>(envelope, ptidx, timeOut, valueOut, shapeOut, tensionOut, selectedOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Get the attributes of an envelope point. See <a href="#GetEnvelopePointEx">GetEnvelopePointEx</a></p>
+Get the attributes of an envelope point.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15645,8 +15649,7 @@ Sort envelope points by time. autoitem_idx=-1 for the underlying envelope, 0 for
 <div class="p">Python: <code> <i>Int</i> <em>RPR_GetEnvelopePointByTime</em>(<i>TrackEnvelope</i> envelope, <i>Float</i> time)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the envelope point at or immediately prior to the given time position.</p>
-<p>See <a href="#GetEnvelopePointByTimeEx">GetEnvelopePointByTimeEx</a></p>
+Returns the envelope point at or immediately prior to the given time position.               
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15677,8 +15680,11 @@ Sort envelope points by time. autoitem_idx=-1 for the underlying envelope, 0 for
 <div class="p">Python: <code> <i>Int</i> <em>RPR_GetEnvelopePointByTimeEx</em>(<i>TrackEnvelope</i> envelope, <i>Int</i> autoitem_idx, <i>Float</i> time)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the envelope point at or immediately prior to the given time position. autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration, even if the automation item is trimmed so that not all points are visible. Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.</p>
-<p>See <a href="#GetEnvelopePointEx">GetEnvelopePointEx</a>, <a href="#SetEnvelopePointEx">SetEnvelopePointEx</a>, <a href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a>, <a href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a>.</p>
+Returns the envelope point at or immediately prior to the given time position.<br/>
+autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.<br/>
+For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,<br/>
+even if the automation item is trimmed so that not all points are visible.<br/>
+Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15713,8 +15719,11 @@ Sort envelope points by time. autoitem_idx=-1 for the underlying envelope, 0 for
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> autoitem_idx, <i>Int</i> ptidx, <i>Float</i> timeOut, <i>Float</i> valueOut, <i>Int</i> shapeOut, <i>Float</i> tensionOut, <i>Boolean</i> selectedOut) = <em>RPR_GetEnvelopePointEx</em>(envelope, autoitem_idx, ptidx, timeOut, valueOut, shapeOut, tensionOut, selectedOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Get the attributes of an envelope point. autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration, even if the automation item is trimmed so that not all points are visible. Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.</p>
-<p>See <a href="#CountEnvelopePointsEx">CountEnvelopePointsEx</a>, <a href="#SetEnvelopePointEx">SetEnvelopePointEx</a>, <a href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a>, <a href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a>.</p>
+Get the attributes of an envelope point.<br/>
+autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.<br/>
+For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,<br/>
+even if the automation item is trimmed so that not all points are visible.<br/>
+Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16531,12 +16540,16 @@ see description for the attributes you can use for more details</td></tr>
 <div class="p">Python: <code> <i>Int</i> <em>RPR_GetEnvelopeScalingMode</em>(<i>TrackEnvelope</i> env)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the envelope scaling mode: 0=no scaling, 1=fader scaling. All API functions deal with raw envelope point values, to convert raw from/to scaled values see <a href="#ScaleFromEnvelopeMode">ScaleFromEnvelopeMode</a>, <a href="#ScaleToEnvelopeMode">ScaleToEnvelopeMode</a>.</p>
+Returns the envelope scaling mode: 0=no scaling, 1=fader scaling. <br/>
+<br/>
+Note: All API functions deal with raw envelope point values, to convert raw from/to scaled values see ScaleFromEnvelopeMode, ScaleToEnvelopeMode.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> scaling_mode</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the sscaling mode of the envelope<br/>
+0, no scaling<br/>
+1, fader scaling</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -17411,9 +17424,11 @@ Return a handle to the currently focused FX chain window.<br/>
 <div class="p">Python: <code> (<i>Int</i> retval, <i>Int</i> tracknumberOut, <i>Int</i> itemnumberOut, <i>Int</i> fxnumberOut) = <em>RPR_GetFocusedFX</em>(tracknumberOut, itemnumberOut, fxnumberOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Get focused FX.</p>
-<p>!!Deprecated, use <a href="#GetFocusedFX2">GetFocusedFX2</a> instead</p>
-<p>See <a href="#GetLastTouchedFX">GetLastTouchedFX</a>.</p>
+Get focused FX. <br/>
+<br/>
+!!Deprecated, use GetFocusedFX2 instead<br/>
+<br/>
+See GetLastTouchedFX              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -17448,9 +17463,9 @@ Return a handle to the currently focused FX chain window.<br/>
 <div class="p">Python: <code> (<i>Int</i> retval, <i>Int</i> tracknumberOut, <i>Int</i> itemnumberOut, <i>Int</i> fxnumberOut) = <em>RPR_GetFocusedFX2</em>(tracknumberOut, itemnumberOut, fxnumberOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Return value has 1 set if track FX, 2 if take/item FX, &amp;4 is set if FX is no longer focused but still open.</p>
-<p>tracknumber==0 means the master track, 1 means track 1, etc. itemnumber is zero-based (or -1 if not an item).</p>
-<p>For interpretation of fxnumber, see <a href="#GetLastTouchedFX">GetLastTouchedFX</a>.</p>
+Return value has 1 set if track FX, 2 if take/item FX, &4 is set if FX is no longer focused but still open. <br/>
+<br/>
+tracknumber==0 means the master track, 1 means track 1, etc. itemnumber is zero-based (or -1 if not an item).               
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -31146,18 +31161,18 @@ this does not reflect tempo envelopes but is purely what is set in the project s
 <div class="p">Python: <code> <i>Int</i> <em>RPR_GetDisplayedMediaItemColor</em>(<i>MediaItem</i> item)</code></div>
 </div><p>
 <div class="ch">
-<p>see <a href="#GetDisplayedMediaItemColor2">GetDisplayedMediaItemColor2</a>.</p>
+gets the color of a MediaItem              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> color</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the native color-value of the MediaItem</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaItem</i> item</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the MediaItem, whose color you want to get</td></tr>
 </table>
 <br>
 </div>
@@ -34111,7 +34126,7 @@ Enumerate the data stored with the project for a specific extname. Returns false
 <div class="p">Python: <code> (<i>Int</i> retval, <i>ReaProject</i> proj, <i>String</i> extname, <i>String</i> key, <i>String</i> valOutNeedBig, <i>Int</i> valOutNeedBig_sz) = <em>RPR_GetProjExtState</em>(proj, extname, key, valOutNeedBig, valOutNeedBig_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Get the value previously associated with this extname and key, the last time the project was saved or the value was changed. See <a href="#SetProjExtState">SetProjExtState</a>, <a href="#EnumProjExtState">EnumProjExtState</a>.</p>
+Get the value previously associated with this extname and key, the last time the project was saved or the value was changed.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -34150,7 +34165,7 @@ Enumerate the data stored with the project for a specific extname. Returns false
 <div class="p">Python: <code> <i>Int</i> <em>RPR_SetProjExtState</em>(<i>ReaProject</i> proj, <i>String</i> extname, <i>String</i> key, <i>String</i> value)</code></div>
 </div><p>
 <div class="ch">
-<p>Save a key/value pair for a specific extension, to be restored the next time this specific project is loaded. Typically extname will be the name of a reascript or extension section. If key is NULL or "", all extended data for that extname will be deleted. If val is NULL or "", the data previously associated with that key will be deleted. Returns the size of the state for this extname. See <a href="#GetProjExtState">GetProjExtState</a>, <a href="#EnumProjExtState">EnumProjExtState</a>.</p>
+Save a key/value pair for a specific extension, to be restored the next time this specific project is loaded. Typically extname will be the name of a reascript or extension section. If key is NULL or "", all extended data for that extname will be deleted. If val is NULL or "", the data previously associated with that key will be deleted. Returns the size of the state for this extname.               
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

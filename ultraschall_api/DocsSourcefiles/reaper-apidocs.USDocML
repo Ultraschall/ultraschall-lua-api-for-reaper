@@ -5689,15 +5689,19 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            see [GetDisplayedMediaItemColor2](#GetDisplayedMediaItemColor2).
+        <description>
+           gets the color of a MediaItem
         </description>
         <retvals>
-            integer color - 
+            integer color - the native color-value of the MediaItem
         </retvals>
         <parameters>
-            MediaItem item - 
+            MediaItem item - the MediaItem, whose color you want to get
         </parameters>
+        <linked_to desc="see:">
+            inline:GetDisplayedMediaItemColor2
+                   to get the color of a MediaTrack, MediaItem and/or Take
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5729,6 +5733,14 @@
             MediaItem item - 
             MediaItem_Take take - 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetDisplayedMediaItemColor
+                   to get the color of a MediaItem
+            inline:ColorToNative
+                   for converting r-g-b-values to a native-color value
+            inline:ColorFromNative
+                   for converting a native color-calue into its r-g-b-representation
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5825,8 +5837,8 @@
         <requires>
             Reaper=6.43
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the attributes of an envelope point. See [GetEnvelopePointEx](#GetEnvelopePointEx)
+        <description>
+            Get the attributes of an envelope point.
         </description>
         <retvals>
             boolean retval - 
@@ -5840,6 +5852,10 @@
             TrackEnvelope envelope - 
             integer ptidx - 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetEnvelopePointEx
+                   gets an envelopepoint from envelopes or automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5866,10 +5882,8 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Returns the envelope point at or immediately prior to the given time position. 
-
-            See [GetEnvelopePointByTimeEx](#GetEnvelopePointByTimeEx)
         </description>
         <retvals>
             integer envelope_index - 
@@ -5878,6 +5892,10 @@
             TrackEnvelope envelope - 
             number time - 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetEnvelopePointByTimeEx
+                   gets an envelope-point by time in envelopes or automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5899,14 +5917,12 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Returns the envelope point at or immediately prior to the given time position.
-            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
-            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
             even if the automation item is trimmed so that not all points are visible.
             Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
-
-            See [GetEnvelopePointEx](#GetEnvelopePointEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             integer envelope_index - 
@@ -5916,6 +5932,16 @@
             integer autoitem_idx - 
             number time - 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetEnvelopePointEx
+                   gets an envelope-point from envelopes or automation-items
+            inline:SetEnvelopePointEx
+                   sets an envelope-point in envelopes or automation-items
+            inline:InsertEnvelopePointEx
+                   inserts envelope-points in envelopes or automation-items
+            inline:DeleteEnvelopePointEx
+                   deletes envelope-points in envelopes or automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5937,14 +5963,12 @@
         <requires>
             Reaper=6.43
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get the attributes of an envelope point.
-            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
-            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
             even if the automation item is trimmed so that not all points are visible.
             Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
-
-            See [CountEnvelopePointsEx](#CountEnvelopePointsEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             boolean retval - 
@@ -5959,6 +5983,16 @@
             integer autoitem_idx - 
             integer ptidx - 
         </parameters>
+        <linked_to desc="see:">
+            inline:CountEnvelopePointsEx
+                   counts envelope-points in envelopes or automation-items
+            inline:SetEnvelopePointEx
+                   sets an envelope-point in envelopes or automation-items
+            inline:InsertEnvelopePointEx
+                   inserts envelope-points in envelopes or automation-items
+            inline:DeleteEnvelopePointEx
+                   deletes envelope-points in envelopes or automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -5985,15 +6019,25 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns the envelope scaling mode: 0=no scaling, 1=fader scaling. All API functions deal with raw envelope point values, to convert raw from/to scaled values see [ScaleFromEnvelopeMode](#ScaleFromEnvelopeMode), [ScaleToEnvelopeMode](#ScaleToEnvelopeMode).
+        <description>
+            Returns the envelope scaling mode: 0=no scaling, 1=fader scaling. 
+            
+            Note: All API functions deal with raw envelope point values, to convert raw from/to scaled values see ScaleFromEnvelopeMode, ScaleToEnvelopeMode.
         </description>
         <retvals>
-            integer scaling_mode - 
+            integer scaling_mode - the sscaling mode of the envelope
+                                 - 0, no scaling
+                                 - 1, fader scaling
         </retvals>
         <parameters>
             TrackEnvelope env - 
         </parameters>
+        <linked_to desc="see:">
+            inline:ScaleFromEnvelopeMode
+                   scales a value from an envelope-mode
+            inline:ScaleToEnvelopeMode
+                   scales a value to an envelope-mode
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -6075,8 +6119,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the extended state value for a specific section and key. See [SetExtState](#SetExtState), [DeleteExtState](#DeleteExtState), [HasExtState](#HasExtState).
+        <description>
+            Get the extended state value for a specific section and key.
         </description>
         <retvals>
             string extstate_value - the value of the extstate
@@ -6085,6 +6129,14 @@
             string section - the section, in which the key and value is stored 
             string key - the key, that contains the value
         </parameters>
+        <linked_to desc="see:">
+            inline: SetExtState
+                    sets an extstate to store information for your script
+            inline: DeleteExtState
+                    deleted an extstate that stores information for your script
+            inline: HasExtState
+                    checks, if an extstate exists
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -6106,12 +6158,12 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get focused FX. 
 
-            !!Deprecated, use [GetFocusedFX2](#GetFocusedFX2) instead
+            !!Deprecated, use GetFocusedFX2 instead
 
-            See [GetLastTouchedFX](#GetLastTouchedFX).
+            See GetLastTouchedFX
         </description>
         <deprecated since_when="Reaper 5.979" alternative="GetFocusedFX2(available since at least Reaper 6.16)"/>
         <retvals>
@@ -6122,6 +6174,12 @@
             integer itemnumber - -1, if it's a track-fx; 0 and higher, the mediaitem-number
             integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index
         </retvals>
+        <linked_to desc="see:">
+            inline:GetFocusedFX2
+                   gets the focused/opened fx and if it's item/track fx
+            inline:GetLastTouchedFX
+                   gets the last fx that was touched by the user
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -6143,12 +6201,10 @@
         <requires>
             Reaper=6.16
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Return value has 1 set if track FX, 2 if take/item FX, &4 is set if FX is no longer focused but still open. 
 
             tracknumber==0 means the master track, 1 means track 1, etc. itemnumber is zero-based (or -1 if not an item). 
-
-            For interpretation of fxnumber, see [GetLastTouchedFX](#GetLastTouchedFX).
         </description>
         <retvals>
             integer retval - 0, if no FX window has focus
@@ -6159,6 +6215,10 @@
             integer itemnumber - -1, if it's a track-fx; 0 and higher, the mediaitem-number
             integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index
         </retvals>
+        <linked_to desc="see:">
+            inline:GetLastTouchedFX
+                   gets the last fx that was touched by the user
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -8501,8 +8561,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the value previously associated with this extname and key, the last time the project was saved or the value was changed. See [SetProjExtState](#SetProjExtState), [EnumProjExtState](#EnumProjExtState).
+        <description>
+            Get the value previously associated with this extname and key, the last time the project was saved or the value was changed.
         </description>
         <retvals>
             integer retval - 0, no such extstate; 1, extstate exists and is returned
@@ -8513,6 +8573,12 @@
             string extname - the section, in which the key requested is stored
             string key - the key, in which the requested value is stored
         </parameters>
+        <linked_to desc="see:">
+            inline:SetProjExtState
+                   sets an ext-state to store data for your project
+            inline:EnumProjExtState
+                   enumerates an ext-state that stores data for your project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -11500,16 +11566,24 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns true if there exists an extended state value for a specific section and key. See [SetExtState](#SetExtState), [GetExtState](#GetExtState), [DeleteExtState](#DeleteExtState).
+        <description>
+            Returns true if there exists an extended state value for a specific section and key.
         </description>
         <retvals>
-            boolean retval - 
+            boolean retval - true, extstate exists; false, extstate does not exist
         </retvals>
         <parameters>
-            string section - 
-            string key - 
+            string section - the section of the extstate
+            string key - the key of the extstate
         </parameters>
+        <linked_to desc="see:">
+            inline: SetExtState
+                    sets an extstate to store information for your script
+            inline: GetExtState
+                    gets an extstate that stores information for your script
+            inline: DeleteExtState
+                    deleted an extstate that stores information for your script
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -16664,12 +16738,14 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Set the extended state value for a specific section and key. 
 
             Persistant states are stored into the reaper-extstate.ini in the resources-folder.
-
-            See [GetExtState](#GetExtState), [DeleteExtState](#DeleteExtState), [HasExtState](#HasExtState).
+            
+            Note: Do not use newlines in extstates, as they might be cut when rereading them using GetExtState!
+                  Find workarounds, like \n -> \\n to store and \\n -> \n to get them again.
+                  This is due limitations of the ini-file-format.
         </description>
         <parameters>
             string section - the section, in which the key-value is stored
@@ -16677,6 +16753,14 @@
             string value - the new value to be set
             boolean persist - true, means the value should be stored and reloaded the next time REAPER is opened
         </parameters>
+        <linked_to desc="see:">
+            inline: GetExtState
+                    gets an extstate that stores information for your script
+            inline: HasExtState
+                    checks, if an extstate exists
+            inline: DeleteExtState
+                    deleted an extstate that stores information for your script
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -17484,8 +17568,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Save a key/value pair for a specific extension, to be restored the next time this specific project is loaded. Typically extname will be the name of a reascript or extension section. If key is NULL or "", all extended data for that extname will be deleted. If val is NULL or "", the data previously associated with that key will be deleted. Returns the size of the state for this extname. See [GetProjExtState](#GetProjExtState), [EnumProjExtState](#EnumProjExtState).
+        <description>
+            Save a key/value pair for a specific extension, to be restored the next time this specific project is loaded. Typically extname will be the name of a reascript or extension section. If key is NULL or "", all extended data for that extname will be deleted. If val is NULL or "", the data previously associated with that key will be deleted. Returns the size of the state for this extname. 
         </description>
         <retvals>
             integer retval - the number of key/value-pairs in the extname
@@ -17496,6 +17580,12 @@
             string key - the key, that stores the value
             string value - the value, that's stored in the key
         </parameters>
+        <linked_to desc="see:">
+            inline:GetProjExtState
+                   gets an ext-state that stored data for your project
+            inline:EnumProjExtState
+                   enumerates an ext-state that stores data for your project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
