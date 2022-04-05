@@ -416,11 +416,11 @@ function ultraschall.Metadata_ID3_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_ID3_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored ID3-metadata-tag into the current project(for Wav or MP3).
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
-    Note: APIC\_TYPE allows only specific values, as listed below!
+    Note: APIC_TYPE allows only specific values, as listed below!
     
     Supported tags are:
       TIT2 - Title
@@ -447,8 +447,8 @@ function ultraschall.Metadata_ID3_GetSet(Tag, Value)
       TRCK - Track number
       TSRC - International Standard Recording Code
       TCOP - Copyright Message
-      COMM\_LANG - Comment language, 3-character code like "eng"
-      APIC\_TYPE - the type of the cover-image, which can be of the following:
+      COMM_LANG - Comment language, 3-character code like "eng"
+      APIC_TYPE - the type of the cover-image, which can be of the following:
       
         "", unset
         0, Other
@@ -473,8 +473,8 @@ function ultraschall.Metadata_ID3_GetSet(Tag, Value)
         19, Band/Artist logotype
         20, Publisher/Studiotype
     
-    APIC\_DESC - the description of the cover-image
-    APIC\_FILE - the filename+absolute path of the cover-image; must be either png or jpg
+    APIC_DESC - the description of the cover-image
+    APIC_FILE - the filename+absolute path of the cover-image; must be either png or jpg
     
     Note: Chapters are added via marker with the name: "CHAP=chaptername"
     
@@ -526,7 +526,7 @@ function ultraschall.Metadata_BWF_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_BWF_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored BWF-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -576,7 +576,7 @@ function ultraschall.Metadata_IXML_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_IXML_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored IXML-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -633,7 +633,7 @@ function ultraschall.Metadata_INFO_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_INFO_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored INFO-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -695,7 +695,7 @@ function ultraschall.Metadata_CART_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_CART_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored CART-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -762,7 +762,7 @@ function ultraschall.Metadata_AIFF_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_AIFF_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored AIFF-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -820,7 +820,7 @@ function ultraschall.Metadata_XMP_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_XMP_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored XMP-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -879,7 +879,7 @@ function ultraschall.Metadata_VORBIS_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_VORBIS_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored VORBIS-metadata-tag into the current project.
     This is for OPUS and OGG-VORBIS-files.
     
@@ -970,7 +970,7 @@ function ultraschall.Metadata_CUE_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_CUE_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored CUE-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -1026,7 +1026,7 @@ function ultraschall.Metadata_APE_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_APE_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored APE-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -1114,7 +1114,7 @@ function ultraschall.Metadata_ASWG_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_ASWG_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored ASWG-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -1257,7 +1257,7 @@ function ultraschall.Metadata_AXML_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_AXML_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored ASWG-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -1303,7 +1303,7 @@ function ultraschall.Metadata_CAFINFO_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_CAFINFO_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored CAFINFO-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -1383,7 +1383,7 @@ function ultraschall.Metadata_FLACPIC_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_FLACPIC_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored FLACPIC-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -1391,9 +1391,9 @@ function ultraschall.Metadata_FLACPIC_GetSet(Tag, Value)
     Supported tags are:
     
     Binary:
-    APIC\_TYPE - Image Type
-    APIC\_DESC - Image Description
-    APIC\_FILE - Image File
+    APIC_TYPE - Image Type
+    APIC_DESC - Image Description
+    APIC_FILE - Image File
 
     Returns nil in case of an error
   </description>
@@ -1431,7 +1431,7 @@ function ultraschall.Metadata_IFF_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_IFF_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored IFF-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value
@@ -1484,7 +1484,7 @@ function ultraschall.Metadata_WAVEXT_GetSet(Tag, Value)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.Metadata_WAVEXT_GetSet(string Tag, optional string Value)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets/Sets a stored WAVEXT-metadata-tag into the current project.
     
     To get a value, set parameter Value to nil; to set a value, set the parameter Value to the desired value

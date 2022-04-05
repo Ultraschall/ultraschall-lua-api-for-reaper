@@ -187,7 +187,7 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
     Lua=5.3
   </requires>
   <functioncall>MediaItem MediaItem, MediaItem_Take MediaItem_Take, MediaItem MediaItem_unlocked, boolean Item_moved, number StartDiffTime, number EndDiffTime, number LengthDiffTime, number OffsetDiffTime = ultraschall.get_action_context_MediaItemDiff(optional boolean exlude_mousecursorsize, optional integer x, optional integer y)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the currently clicked MediaItem, Take as well as the difference of position, end, length and startoffset since last time calling this function.
     Good for implementing ripple-drag/editing-functions, whose position depends on changes in the currently clicked MediaItem.
     Repeatedly call this (e.g. in a defer-cycle) to get all changes made, during dragging position, length or offset of the MediaItem underneath mousecursor.
@@ -340,7 +340,7 @@ function ultraschall.GetTrackEnvelope_ClickStates()
     Lua=5.3
   </requires>
   <functioncall>boolean clickstate, number position, MediaTrack track, TrackEnvelope envelope, integer EnvelopePointIDX = ultraschall.GetTrackEnvelope_ClickState()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the currently clicked Envelopepoint and TrackEnvelope, as well as the current timeposition.
     
     Works only, if the mouse is above the EnvelopePoint while having it clicked!
@@ -745,7 +745,7 @@ function ultraschall.GetTakeEnvelopeUnderMouseCursor()
       Lua=5.3
     </requires>
     <functioncall>TakeEnvelope env, MediaItem_Take take, number projectposition = ultraschall.GetTakeEnvelopeUnderMouseCursor()</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       returns the take-envelope underneath the mouse
     </description>
     <retvals>
@@ -1210,7 +1210,7 @@ function ultraschall.AddShownoteMarker(pos, name)
     Lua=5.3
   </requires>
   <functioncall>integer markernumber, string guid, integer shownotemarker_index = ultraschall.AddShownoteMarker(number pos, string name)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will add new shownote-marker.
     
     A shownote-marker has the naming-scheme 
@@ -1270,7 +1270,7 @@ function ultraschall.SetShownoteMarker(idx, pos, name)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetShownoteMarker(integer idx, number pos, string name)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will set an already existing shownote-marker.
     
     A shownote-marker has the naming-scheme 
@@ -1324,7 +1324,7 @@ function ultraschall.EnumerateShownoteMarkers(idx)
     Lua=5.3
   </requires>
   <functioncall>boolean retval, integer marker_index, number pos, string name, integer shown_number, string guid = ultraschall.EnumerateShownoteMarkers(integer idx)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will return a specific shownote-marker.
     
     A shownote-marker has the naming-scheme 
@@ -1411,7 +1411,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string content = ultraschall.GetSetShownoteMarker_Attributes(boolean is_set, integer idx, string attributename, string content)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will get/set additional attributes of a shownote-marker.
     
     A shownote-marker has the naming-scheme 
@@ -1553,7 +1553,7 @@ function ultraschall.CountShownoteMarkers()
     Lua=5.3
   </requires>
   <functioncall>integer num_shownotes = ultraschall.CountShownoteMarkers()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns count of all shownotes
     
     A shownote-marker has the naming-scheme 
@@ -1590,7 +1590,7 @@ function ultraschall.DeleteShownoteMarker(idx)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.DeleteShownoteMarker(integer idx)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Deletes a shownotes
     
     A shownote-marker has the naming-scheme 
@@ -2057,7 +2057,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string content = ultraschall.GetSetChapterMarker_Attributes(boolean is_set, integer idx, string attributename, string content)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will get/set additional attributes of a chapter-marker.
         
     returns false in case of an error
@@ -2131,7 +2131,7 @@ function ultraschall.PrepareChapterMarkers4ReaperExport()
     Lua=5.3
   </requires>
   <functioncall>ultraschall.PrepareChapterMarkers4ReaperExport()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will add CHAP= to the beginning of each chapter-marker name. This will let Reaper embed this marker into the exported
     media-file as metadata, when rendering.
     
@@ -2166,7 +2166,7 @@ function ultraschall.RestoreChapterMarkersAfterReaperExport()
     Lua=5.3
   </requires>
   <functioncall>ultraschall.RestoreChapterMarkersAfterReaperExport()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will remove CHAP= at the beginning of each chapter-marker name, so you have the original marker-names back after render-export.
     
     Will remove only CHAP= from chapter-markers and leave the rest untouched.
@@ -2201,7 +2201,7 @@ function ultraschall.GetSetPodcastExport_Attributes_String(is_set, attribute, va
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string content = ultraschall.GetSetPodcastExport_Attributes_String(boolean is_set, string attributename, string content)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will get/set attributes for podcast-export.
     
     Unset-values will be returned as "" when is_set=false
@@ -2294,7 +2294,7 @@ function ultraschall.GetSetPodcastExport_Attributes_Value(is_set, attribute, val
     Lua=5.3
   </requires>
   <functioncall>boolean retval, number content = ultraschall.GetSetPodcastExport_Attributes_Value(boolean is_set, string attributename, number content)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will get/set attributes for podcast-export.
     
     Unset-values will be returned as -1 when is_set=false
@@ -2692,7 +2692,7 @@ function ultraschall.SetPodcastMetadataPreset_Name(preset_slot, preset_name)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets the name of a podcast-metadata-preset
         
-    Note, this sets only the presetname for the podcast-metadata-preset. To set the name of the podcast-episode-metadata-preset, see: [SetPodcastEpisodeMetadataPreset\_Name}(#SetPodcastEpisodeMetadataPreset_Name)
+    Note, this sets only the presetname for the podcast-metadata-preset. To set the name of the podcast-episode-metadata-preset, see: [SetPodcastEpisodeMetadataPreset\_Name](#SetPodcastEpisodeMetadataPreset_Name)
         
     returns false in case of an error
   </description>
@@ -2737,7 +2737,7 @@ function ultraschall.GetPodcastMetadataPreset_Name(preset_slot)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the name of a podcast-metadata-preset
         
-    Note, this gets only the presetname for the podcast-metadata-preset. To get the name of the podcast-episode-metadata-preset, see: [GetPodcastEpisodeMetadataPreset\_Name}(#GetPodcastEpisodeMetadataPreset_Name)
+    Note, this gets only the presetname for the podcast-metadata-preset. To get the name of the podcast-episode-metadata-preset, see: [GetPodcastEpisodeMetadataPreset\_Name](#GetPodcastEpisodeMetadataPreset_Name)
         
     returns false in case of an error
   </description>
@@ -2778,7 +2778,7 @@ function ultraschall.SetPodcastEpisodeMetadataPreset_Name(preset_slot, presetnam
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets the name of a podcast-episode-metadata-preset
     
-    Note, this sets only the presetname for the episode-metadata-preset. To set the name of the podcast-metadata-preset, see: [SetPodcastMetadataPreset\_Name}(#SetPodcastMetadataPreset_Name)
+    Note, this sets only the presetname for the episode-metadata-preset. To set the name of the podcast-metadata-preset, see: [SetPodcastMetadataPreset\_Name](#SetPodcastMetadataPreset_Name)
     
     returns false in case of an error
   </description>
@@ -2824,7 +2824,7 @@ function ultraschall.GetPodcastEpisodeMetadataPreset_Name(preset_slot)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the name of a podcast-metadata-preset
         
-    Note, this gets only the presetname for the episode-metadata-preset. To get the name of the podcast-metadata-preset, see: [GetPodcastMetadataPreset\_Name}(#GetPodcastMetadataPreset_Name)
+    Note, this gets only the presetname for the episode-metadata-preset. To get the name of the podcast-metadata-preset, see: [GetPodcastMetadataPreset\_Name](#GetPodcastMetadataPreset_Name)
         
     returns false in case of an error
   </description>
@@ -3178,7 +3178,7 @@ function ultraschall.GetSetTranscription_Attributes(is_set, idx, attributename, 
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string content = ultraschall.GetSetTranscription_Attributes(boolean is_set, integer idx, string attributename, string content)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will get/set additional attributes of a transcription.
     
     A podcast can have multiple transcriptions in multiple languages.
@@ -3255,7 +3255,7 @@ function ultraschall.MetaDataTable_Create()
     Lua=5.3
   </requires>
   <functioncall>table MetaDataTable = ultraschall.MetaDataTable_Create()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns an empty MetaDataTable for all possible metadata, in which metadata can be set.
   </description> 
   <retvals>
@@ -3289,7 +3289,7 @@ function ultraschall.MetaDataTable_GetProject()
     Lua=5.3
   </requires>
   <functioncall>table MetaDataTable = ultraschall.MetaDataTable_GetProject()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns a MetaDataTable for all possible metadata, in which metadata can be set.
     
     All metadata currently set in the active project will be set in the MetaDataTable.
@@ -4863,3 +4863,175 @@ function ultraschall.Main_SaveProject(proj, filename_with_path, options, overwri
 end
 
 --A,B=ultraschall.Main_SaveProject(0, "c:\\pudel2.rpp", 0, false, true)
+
+
+function ultraschall.GetBatchConverter_FXStateChunk()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetBatchConverter_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.GetBatchConverter_FXStateChunk()</functioncall>
+  <description>
+    Returns the FXStateChunk stored and used by the BatchConverter.
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem or inputFX.
+  </description>
+  <retvals>
+    string FXStateChunk - the FXStateChunk of the BatchConverter
+  </retvals>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, fxstatechunk, batchconverter</tags>
+</US_DocBloc>
+]]
+  local FXStateChunk=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-convertfx.ini")
+  FXStateChunk=string.gsub(FXStateChunk, "\n", "\n  ")..">"
+  return "<FXCHAIN\n  "..FXStateChunk:sub(1,-3)..">"
+end
+
+--A=ultraschall.GetBatchConverterFXStateChunk()
+
+function ultraschall.SetBatchConverter_FXStateChunk(FXStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetBatchConverter_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string OldFXStateChunk = ultraschall.GetBatchConverter_FXStateChunk(string FXStateChunk)</functioncall>
+  <description>
+    Sets the FXStateChunk used by the BatchConverter. Returns the previously used FXStateChunk.
+    
+    The BatchConverter uses this FXStateChunk when it's opened the next time.
+    So if you want to use different FXStateChunks with the BatchConverter, set it first, then (re-)open the BatchConverter.
+    
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem or inputFX.
+    
+    Returns false in case of an error.
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+    string FXStateChunk - the FXStateChunk of the BatchConverter
+  </retvals>
+  <parameters>
+    string FXStateChunk - the new FXStateChunk to us with the BatchConverter
+  </parameters>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, set, fxstatechunk, batchconverter</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetBatchConverter_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return false end
+  local OldFXStateChunk=ultraschall.GetBatchConverterFXStateChunk()
+  FXStateChunk=string.gsub(FXStateChunk, "\n  ", "\n"):match(".-\n(.*)\n.->")
+
+  local retval=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-convertfx.ini", FXStateChunk)
+  return retval==1, OldFXStateChunk
+end
+
+--B,C=ultraschall.SetBatchConverterFXStateChunk(A)
+--A=ultraschall.IsValidFXStateChunk()
+
+function ultraschall.GetBatchConverter_NotifyWhenFinished()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetBatchConverter_NotifyWhenFinished</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=6.50
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.GetBatchConverter_NotifyWhenFinished()</functioncall>
+  <description>
+    Returns, the state of the "notify when finished"-checkbox in the BatchConverter.
+  </description>
+  <retvals>
+    boolean retval - true, notify when finished; false, don't notify when finished
+  </retvals>
+  <chapter_context>
+    Batch Converter
+    Misc
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>batchconverter, notify when finished, checkbox, get</tags>
+</US_DocBloc>
+]]
+  local A,B=reaper.BR_Win32_GetPrivateProfileString("REAPER", "convertopts", "", reaper.get_ini_file())
+  return tonumber(B)&1==0
+end
+
+function ultraschall.SetBatchConverter_NotifyWhenFinished(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetBatchConverter_NotifyWhenFinished</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=6.50
+    SWS=2.10.0.1
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetBatchConverter_NotifyWhenFinished()</functioncall>
+  <description>
+    Sets, the state of the "notify when finished"-checkbox in the BatchConverter.
+    
+    Works also, with BatchConverter opened.
+    
+    return false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Batch Converter
+    Misc
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>batchconverter, notify when finished, checkbox, get</tags>
+</US_DocBloc>
+]]
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetBatchConverter_NotifyWhenFinished", "state", "must be a boolean", -1) return false end
+  local HWND = ultraschall.GetBatchFileItemConverterHWND()
+  if HWND==nil then
+    if state==true then state=0 else state=1 end
+    local A,Old=reaper.BR_Win32_GetPrivateProfileString("REAPER", "convertopts", "", reaper.get_ini_file())
+    Old=tonumber(Old)
+    if Old&1==state then return true else
+      if Old&1==1 and state==0 then 
+        Old=Old-1
+      elseif Old&1==0 and state==1 then
+        Old=Old+1
+      end
+      reaper.BR_Win32_WritePrivateProfileString("REAPER", "convertopts", Old, reaper.get_ini_file())
+    end
+  else
+    if state==true then state=1 else state=0 end
+    local HWND2=reaper.JS_Window_FindChildByID(HWND, 1182)
+    local Old=reaper.JS_WindowMessage_Send(HWND2, "BM_GETCHECK", 0,0,0,0)
+    if (Old==0 and state==1) or (Old==1 and state==0) then 
+--      reaper.JS_WindowMessage_Send(HWND2, "BM_SETCHECK", state,0,0,0)
+      reaper.JS_WindowMessage_Send(HWND2, "WM_LBUTTONDOWN", 1,0,0,0)
+      reaper.JS_WindowMessage_Post(HWND2, "WM_LBUTTONUP", 1,0,0,0)
+    end
+  end
+  return true
+end
+
+--AAA=ultraschall.GetBatchConverter_NotifyWhenFinished()
+--A=ultraschall.SetBatchConverter_NotifyWhenFinished(false)

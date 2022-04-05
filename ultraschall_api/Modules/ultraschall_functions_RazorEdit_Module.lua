@@ -63,7 +63,7 @@ function ultraschall.RazorEdit_ProjectHasRazorEdit()
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.RazorEdit_ProjectHasRazorEdit()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns, if the project has any razor-edits available.
   </description>
   <retvals>

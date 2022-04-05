@@ -105,10 +105,10 @@ function ultraschall.SetVerticalZoom(vertical_zoom_factor)
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.SetVerticalZoom(integer vertical_zoom_factor)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the vertical zoom factor.
 
-    To set it relative to the current vertical-zoom-value, use Reaper's own API-function [CSurf_OnZoom](Reaper_Api_Documentation.html#CSurf_OnZoom)
+    To set it relative to the current vertical-zoom-value, use Reaper's own API-function CSurf_OnZoom
     
     Returns -1 in case of error.
   </description>
@@ -813,7 +813,7 @@ function ultraschall.IsValidHWND(HWND)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsValidHWND(HWND hwnd)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Checks, if a HWND-handler is a valid one.
     
     Returns false in case of an error
@@ -853,7 +853,7 @@ function ultraschall.BrowseForOpenFiles(windowTitle, initialFolder, initialFile,
     Lua=5.3
   </requires>
   <functioncall>string path, integer number_of_files, array filearray = ultraschall.BrowseForOpenFiles(string windowTitle, string initialFolder, string initialFile, string extensionList, boolean allowMultiple)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens a filechooser-dialog which optionally allows selection of multiple files.
     Unlike Reaper's own GetUserFileNameForRead, this dialog allows giving non-existant files as well(for saving operations).
     
@@ -2372,7 +2372,7 @@ function ultraschall.GetBatchFileItemConverterHWND()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetBatchFileItemConverterHWND</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.4
     Reaper=5.965
     JS=0.963
     Lua=5.3
@@ -2396,20 +2396,19 @@ function ultraschall.GetBatchFileItemConverterHWND()
 </US_DocBloc>
 --]]
   local translation=reaper.JS_Localize("Batch File/Item Converter", "DLG_444")
-  local find_shortcut=reaper.JS_Localize("Use source file directory", "DLG_444")
+  local SourceFileDir=reaper.JS_Localize("Use source file directory", "DLG_444")
   local add=reaper.JS_Localize("Open...", "DLG_444")
-  local new=reaper.JS_Localize("Convert all", "DLG_444")
-  local run_close=reaper.JS_Localize("Output format:", "DLG_444")
+  local convert_all=reaper.JS_Localize("Convert all", "DLG_444")
+  --run_close=reaper.JS_Localize("Output format:", "DLG_444")
   
   local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
   if count_hwnds==0 then return nil
   else
     for i=count_hwnds, 1, -1 do
       if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
-                                            find_shortcut.."\0"
-                                            ..add.."\0"
-                                            ..new.."\0"
-                                            ..run_close
+                                            SourceFileDir.."\0"..
+                                            add.."\0"..
+                                            convert_all
                                             )==true then return hwnd_array[i] end
     end
   end
@@ -2430,7 +2429,7 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.SetReaScriptConsole_FontStyle(integer style)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       If the ReaScript-console is opened, you can change the font-style of it.
       You can choose between 19 different styles, with 3 being of fixed character length. It will change the next time you output text to the ReaScriptConsole.
       
@@ -2503,7 +2502,7 @@ function ultraschall.MoveChildWithinParentHWND(parenthwnd, childhwnd, relative, 
       Lua=5.3
     </requires>
     <functioncall>integer newxpos, integer newypos, integer newrightpos, integer newbottompos, integer newrelativeleft, integer newrelativetop, integer newwidth, integer newheight = ultraschall.MoveChildWithinParentHWND(hwnd parenthwnd, hwnd childhwnd, boolean relative, integer left, integer top, integer width, integer height)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Moves a childhwnd within the coordinates of its parenthwnd.
       Good for moving gui-elements around without having to deal with screen-coordinates.
       
@@ -2587,7 +2586,7 @@ function ultraschall.GetChildSizeWithinParentHWND(parenthwnd, childhwnd)
       Lua=5.3
     </requires>
     <functioncall>integer xpos, integer ypos, integer width, integer height = ultraschall.GetChildSizeWithinParentHWND(hwnd parenthwnd, hwnd childhwnd)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the position, height and width of a childhwnd, relative to the position of parenthwnd
       
       Returns nil in case of an error
@@ -2633,7 +2632,7 @@ function ultraschall.GetCheckboxState(hwnd)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetCheckboxState(HWND hwnd)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the checked-state of a checkbox-hwnd.
     This function will not check, whether the hwnd is an actual checkbox!
     
@@ -2670,7 +2669,7 @@ function ultraschall.SetCheckboxState(hwnd, state)
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.SetCheckboxState(HWND hwnd, boolean state)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the checked-state of a checkbox-hwnd.
     This function will not check, whether the hwnd is an actual checkbox!
     
@@ -2712,7 +2711,7 @@ function ultraschall.GetRenderingToFileHWND()
     Lua=5.3
   </requires>
   <functioncall>HWND rendertofile_dialog = ultraschall.GetRenderingToFileHWND()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the HWND of the Rendering to File-dialog, which is displayed while Reaper is rendering.
     
     returns nil in case of an error
@@ -2995,7 +2994,7 @@ function ultraschall.GetTimeByMouseXPosition(xmouseposition)
     Lua=5.3
   </requires>
   <functioncall>number position = ultraschall.GetTimeByMouseXPosition(integer xposition)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the projectposition at x-mouseposition.
     
     Returns nil in case of an error
@@ -3033,7 +3032,7 @@ function ultraschall.ShowTrackInputMenu(x, y, MediaTrack, HWNDParent)
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.ShowTrackInputMenu(integer x, integer y, optional MediaTrack MediaTrack, optional HWND HWNDParent)</functioncall>
-   <description markup_type="markdown" markup_version="1.0.1" indent="default">
+   <description>
      Opens a TrackInput-context menu
      
      Returns false in case of error.
@@ -3077,7 +3076,7 @@ function ultraschall.ShowTrackPanelMenu(x, y, MediaTrack, HWNDParent)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ShowTrackPanelMenu(integer x, integer y, optional MediaTrack MediaTrack, optional HWND HWNDParent)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens a TrackPanel-context menu
     
     Returns false in case of error.
@@ -3122,7 +3121,7 @@ function ultraschall.ShowTrackAreaMenu(x, y, HWNDParent)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ShowTrackAreaMenu(integer x, integer y, optional HWND HWNDParent)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens a TrackArea-context menu
     
     Returns false in case of error.
@@ -3165,7 +3164,7 @@ function ultraschall.ShowTrackRoutingMenu(x, y, MediaTrack, HWNDParent)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ShowTrackRoutingMenu(integer x, integer y, optional MediaTrack MediaTrack, optional HWND HWNDParent)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens a TrackRouting-context menu
     
     Returns false in case of error.
@@ -3211,7 +3210,7 @@ function ultraschall.ShowRulerMenu(x, y, HWNDParent)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ShowRulerMenu(integer x, integer y, optional HWND HWNDParent)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens a Ruler-context menu
     
     Returns false in case of error.
@@ -3255,7 +3254,7 @@ function ultraschall.ShowMediaItemMenu(x, y, MediaItem, HWNDParent)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ShowMediaItemMenu(integer x, integer y, optional MediaItem MediaItem, optional HWND HWNDParent)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens a MediaItem-context menu
     
     Returns false in case of error.
@@ -3300,7 +3299,7 @@ function ultraschall.ShowEnvelopeMenu(x, y, TrackEnvelope, HWNDParent)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ShowEnvelopeMenu(integer x, integer y, optional TrackEnvelope TrackEnvelope, optional HWND HWNDParent)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens a Track/TakeEnvelope-context menu
     
     Returns false in case of error.
@@ -3346,7 +3345,7 @@ function ultraschall.ShowEnvelopePointMenu(x, y, Pointidx, Trackenvelope, HWNDPa
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ShowEnvelopePointMenu(integer x, integer y, integer Pointidx, optional TrackEnvelope TrackEnvelope, optional HWND HWNDParent)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens a Track/TakeEnvelope-Point-context menu
     
     Returns false in case of error.
@@ -3394,7 +3393,7 @@ function ultraschall.ShowEnvelopePointMenu_AutomationItem(x, y, Pointidx, Automa
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ShowEnvelopePointMenu_AutomationItem(integer x, integer y, integer Pointidx, integer AutomationIDX, optional TrackEnvelope TrackEnvelope, optional HWND HWNDParent)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens a Track/TakeEnvelope-Point-context menu for AutomationItems
     
     Returns false in case of error.
@@ -3446,7 +3445,7 @@ function ultraschall.ShowAutomationItemMenu(x, y, AutomationIDX, Trackenvelope, 
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ShowAutomationItemMenu(integer x, integer y, integer AutomationIDX, optional TrackEnvelope TrackEnvelope, optional HWND HWNDParent)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Opens an AutomationItem-context menu
     
     Returns false in case of error.
@@ -3727,8 +3726,8 @@ function ultraschall.VideoWindow_FullScreenToggle(toggle)
       Lua=5.3
     </requires>
     <functioncall>boolean fullscreenstate = ultraschall.VideoWindow_FullScreenToggle(optional boolean toggle)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      toggles fullscree-state of Reaper's video-processor-window 
+    <description>
+      toggles fullscreen-state of Reaper's video-processor-window 
         
       returns nil in case of error
     </description>
@@ -3886,7 +3885,7 @@ function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMi
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetItemButtonsVisible(optional boolean Volume, optional integer Locked, optional integer Mute, optional integer Notes, optional boolean PooledMidi, optional boolean GroupedItems, optional integer PerTakeFX, optional integer Properties, optional integer AutomationEnvelopes)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     allows setting, which item-buttons shall be shown
   
     returns false in case of an error
@@ -4016,7 +4015,7 @@ function ultraschall.GetItemButtonsVisible()
     Lua=5.3
   </requires>
   <functioncall>boolean Volume, integer Locked, integer Mute, integer Notes, boolean PooledMidi, boolean GroupedItems, integer PerTakeFX, integer Properties, integer AutomationEnvelopes = ultraschall.GetItemButtonsVisible()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     gets, which item-buttons are be shown
   </description>
   <retvals>
@@ -4317,7 +4316,7 @@ function ultraschall.ReturnAllChildHWND(hwnd)
     Lua=5.3
   </requires>
   <functioncall>integer count_of_hwnds, table hwnds = ultraschall.ReturnAllChildHWND(HWND hwnd)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns all child-window-handler of hwnd.
     
     Returns -1 in case of an error

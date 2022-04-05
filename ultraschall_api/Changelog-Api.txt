@@ -222,7 +222,11 @@ Has now 1457 functions, with XX new ones
   Bla
 
 #### New features in 4.4  
-  - DeveloperTools: Display All Marker Region Guids - monitors all marker/region-guids in the ReaScript-console
+  - BatchConverter: GetBatchConverter\_NotifyWhenFinished - gets the state of the "notify when finished"-checkbox 
+  - BatchConverter: SetBatchConverter\_NotifyWhenFinished - sets the state of the "notify when finished"-checkbox 
+  - DeveloperTools: Display All Marker Region Guids - monitors all marker/region-guids in the ReaScript-console  
+  - FXManagement: GetBatchConverter\_FXStateChunk - gets the FXChain currently used by the BatchConverter
+  - FXManagement: SetBatchConverter\_FXStateChunk - sets the FXChain used by the BatchConverter  
   - Markers: AddProjectMarker - an alternative to Reaper's own function, that covers some edgecases and returns guid and actual marker/region-index as well
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
@@ -285,6 +289,7 @@ Has now 1457 functions, with XX new ones
   - Render: GetRender\_ResampleMode - didn't return correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -> fixed
   - Render: GetRenderTable\_Project - didn't correctly return "CloseAfterRender" -> fixed
   - Render: SetRender\_ResampleMode - didn't set correct resample-mode when Render to File-Dialog was open(Reaper 6.43+) -> fixed
+  - UserInterface: GetBatchFileItemConverterHWND - didn't return hwnd of batch-converter anymore -> fixed
   
 ---
 
@@ -362,19 +367,27 @@ Has now 1457 functions, with 34 new ones
 #### Changes from 4.2.006 to 4.3    
   - DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation
   - Docs: Reaper Internals - updated to Reaper 6.47, JS-extension 1.301, ReaImGui 0.5.10, ReaBlink 0.4.4, SWS 2.13.0.0
+  - HelperFunctions: RunBackgroundHelperFeatures - deprecated
   - MarkerManagement: AddCustomMarker - returns now the custom-marker-index, within all custom markers only, as well; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well; allows now creating regions with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddEditMarker - returns now the edit-marker-index, within all edit markers; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddEditRegion - returns now the edit-region-index, within all edit regions; allows now creating regions with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddNormalMarker - returns now the normal-marker-index, within all normal markers; improved automatic numbering; allows now creating markers with the same name on the same position(workaround for Reaper-limitation) -> fixed
+  - MarkerManagement: AddPodRangeRegion - deprecated
   - MarkerManagement: CountNormalMarkers - did count custom-markers as well -> fixed
   - MarkerManagement: CountNormalMarkers\_NumGap - didn't count normal markers only, but rather all -> fixed
+  - MarkerManagement: DeletePodRangeRegion - deprecated
   - MarkerManagement: EnumerateNormalMarkers - did include custom-markers as well -> fixed
+  - MarkerManagement: GetPodRangeRegion - deprecated
+  - MarkerManagement: IsRegionPodrange - deprecated
   - MarkerManagement: SetNormalMarker - did set custom-markers as well -> fixed
   - MediaItemManagement: GetAllMediaItemsFromTrack - had problems, when a track had no item -> fixed(thnx to Distressor)
   - MediaItemManagement: SetItemPosition - did return -1 in case of an error, whereas it should return nil instead -> fixed
   - MediaItemManagement: SetItemLength - did return -1 in case of an error, whereas it should return nil instead -> fixed
   - MediaItemManagement: SetItemImage - did return -1 in case of an error, whereas it should return nil instead -> fixed
+  - Navigation: GetLastCursorPosition - deprecated
+  - Navigation: GetLastPlayState - deprecated
+  - Navigation: GetLastLoopState - deprecated
   - ProjectManagement: GetProjectStateChunk - fixed edgecase, that prevented getting a ProjectStateChunk
   - ProjectManagement: GetProject\_Render\_Normalize - allows now normalize only files that are too loud-option
   - ProjectManagement: SetProject\_Render\_Normalize - allows now normalize only files that are too loud-option

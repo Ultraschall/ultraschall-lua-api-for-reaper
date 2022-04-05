@@ -3703,7 +3703,7 @@ function ultraschall.GetAllCustomMarkers(custom_marker_name)
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
                               - "" will return all custom marker
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     integer count - the number of found markers; -1, in case of an error
     table marker_array - an array with all found custom-markers. It follows the scheme:
                        -
@@ -3784,7 +3784,7 @@ function ultraschall.GetAllCustomRegions(custom_region_name)
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
                               - "" will return all custom-regions
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     integer count - the number of found regions; -1, in case of an error
     table region_array - an array with all found custom-markers. It follows the scheme:
                        -
@@ -3866,7 +3866,7 @@ function ultraschall.CountAllCustomMarkers(custom_marker_name)
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
                               - "" counts all custom markers, regardless of their name
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     integer count - the number of found markers; -1, in case of an error
   </retvals>
   <chapter_context>
@@ -3930,7 +3930,7 @@ function ultraschall.CountAllCustomRegions(custom_region_name)
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
                               - "" will count all custom-regions, regardless of their names
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     integer count - the number of found regions; -1, in case of an error
   </retvals>
   <chapter_context>
@@ -3995,7 +3995,7 @@ function ultraschall.EnumerateCustomMarkers(custom_marker_name, idx)
                               - "" will enumerate over all existing custom-markers
     integer idx - the index of the marker within all same-named custom-markers; 0, for the first custom-marker
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, if the custom-marker exists; false, if not or an error occurred
     integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 1 for the second, etc
     number pos - the position of the marker in seconds
@@ -4069,7 +4069,7 @@ function ultraschall.EnumerateCustomRegions(custom_region_name, idx)
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
     integer idx - the index of the region within all same-named custom-regions; 0, for the first custom-region
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, if the custom-region exists; false, if not or an error occurred
     integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 1 for the second, etc
     number pos - the position of the region in seconds
@@ -4144,7 +4144,7 @@ function ultraschall.DeleteCustomMarkers(custom_marker_name, idx)
                               - "" will delete over all custom-markers available, regardless of their name
     integer idx - the index of the marker within all same-named custom-markers; 0, for the first custom-marker    
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, if the custom-marker exists; false, if not or an error occurred
     integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 1 for the second, etc
     number pos - the position of the marker in seconds
@@ -4220,7 +4220,7 @@ function ultraschall.DeleteCustomRegions(custom_region_name, idx)
                               - "" will delete over all custom-regions available, regardless of their name
     integer idx - the index of the region within all same-named custom-regions; 0, for the first custom-region
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, if the custom-region exists; false, if not or an error occurred
     integer marker_index - the index of the region within all custom regions, by position in the project, with 0 for the first, 1 for the second, etc
     number pos - the position of the region in seconds
@@ -4297,7 +4297,7 @@ function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number
     integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
     integer color - the color of the marker
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, if adding the custom-marker was successful; false, if not or an error occurred
     integer markernumber - the indexnumber of the newly added custommarker within all regions and markers; 0-based
                          - use this for Reaper's own marker-management-functions
@@ -4376,7 +4376,7 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
     integer shown_number - the regionnumber, that is displayed in the timeline of the arrangeview
     integer color - the color of the marker
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, if adding the custom-region was successful; false, if not or an error occurred
     integer shown_number - if the desired shown_number is already used by another region, this will hold the alternative number for the new custom-region
     integer markernumber - the indexnumber of the newly added customregion within all regions and markers; 0-based
@@ -4460,7 +4460,7 @@ function ultraschall.SetCustomMarker(custom_marker_name, idx, pos, name, shown_n
     integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
     integer color - the color of the marker
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, if setting the new attributes of the custom-marker was successful; false, if not or an error occurred
   </retvals>
   <chapter_context>
@@ -4531,7 +4531,7 @@ function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, na
     integer shown_number - the regionnumber, that is displayed in the timeline of the arrangeview
     integer color - the color of the marker
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, if adding the region was successful; false, if not or an error occurred
                    - false could be an indicator, that there's already a region using the number passed over in shown_number
     integer shown_number - if the desired shown_number is already used by another region, this will hold the alternative number for the new custom-region
@@ -4577,7 +4577,7 @@ function ultraschall.GetNextFreeRegionIndex()
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     returns the next unused region-index-number, beginning with 0.
   </description>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     integer free_shown_number - the next free/unused region-index-number
   </retvals>
   <chapter_context>
@@ -4619,7 +4619,7 @@ function ultraschall.IsMarkerValidCustomMarker(custom_marker_name, markeridx)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsMarkerValidCustomMarker(string custom_marker_name, integer markeridx)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     returns true, if the marker with id markeridx is a valid custom-marker of the type custom_marker_name
     
     markeridx is the index of all markers and regions!
@@ -4631,7 +4631,7 @@ function ultraschall.IsMarkerValidCustomMarker(custom_marker_name, markeridx)
                               - "" checks, whether a marker is custom-marker in general, regardless of their name
     integer markeridx - the index of the marker to check; this is the index of all markers and regions!
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, marker is a valid custom-marker of type custom_marker_name; false, it is not or an error occurred
   </retvals>
   <chapter_context>
@@ -4666,7 +4666,7 @@ function ultraschall.IsRegionValidCustomRegion(custom_region_name, markeridx)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsRegionValidCustomRegion(string custom_region_name, integer markeridx)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     returns true, if the marker with id markeridx is a valid custom-region of the type custom_region_name
     
     markeridx is the index of all markers and regions!
@@ -4678,7 +4678,7 @@ function ultraschall.IsRegionValidCustomRegion(custom_region_name, markeridx)
                               - "" checks, whether a region is custom-region in general, regardless of their name
     integer markeridx - the index of the marker to check; this is the index of all markers and regions!
   </parameters>
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     boolean retval - true, marker is a valid custom-region of type custom_region_name; false, it is not or an error occurred
   </retvals>
   <chapter_context>
@@ -4841,7 +4841,7 @@ function ultraschall.GetAllCustomMarkerNames()
   <description>
     Will return all names of all available custom-markers.
   </description>  
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     integer count - the number of found markers; -1, in case of an error
     table custom_marker_names - a table with all found custom-markernames. 
   </retvals>
@@ -4881,7 +4881,7 @@ function ultraschall.GetAllCustomRegionNames()
   <description>
     Will return all names of all available custom-regions.
   </description>  
-  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+  <retvals>
     integer count - the number of found markers; -1, in case of an error
     table custom_region_names - a table with all found custom-regionnames. 
   </retvals>

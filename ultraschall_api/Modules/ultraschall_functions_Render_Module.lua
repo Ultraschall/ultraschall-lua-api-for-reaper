@@ -63,10 +63,10 @@ function ultraschall.GetRenderCFG_Settings_FLAC(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer encoding_depth, integer compression = ultraschall.GetRenderCFG_Settings_FLAC(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for flac.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -119,10 +119,10 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer bitdepth, boolean EmbedBeatLength = ultraschall.GetRenderCFG_Settings_AIFF(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for aiff.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -175,10 +175,10 @@ function ultraschall.GetRenderCFG_Settings_AudioCD(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer trackmode, boolean use_markers_hashes, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burn_cd_after_render = ultraschall.GetRenderCFG_Settings_AudioCD(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for AudioCD.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -239,10 +239,10 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer Mode, integer enc_quality, integer vbr_quality, integer abr_bitrate, integer cbr_bitrate, boolean no_joint_stereo, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for MP3.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -328,10 +328,10 @@ function ultraschall.GetRenderCFG_Settings_MP3MaxQuality(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer retval, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3MaxQuality(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for MP3 with maximum quality-settings.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -371,10 +371,10 @@ function ultraschall.GetRenderCFG_Settings_MP3CBR(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer cbr_bitrate, integer enc_quality, boolean no_joint_stereo, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3CBR(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for MP3 CBR.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -440,10 +440,10 @@ function ultraschall.GetRenderCFG_Settings_MP3VBR(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer vbr_bitrate, integer enc_quality, boolean no_joint_stereo, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3VBR(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for MP3 VBR.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -509,10 +509,10 @@ function ultraschall.GetRenderCFG_Settings_MP3ABR(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer bitrate, integer enc_quality, boolean no_joint_stereo, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3ABR(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for MP3 ABR.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -593,10 +593,10 @@ function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer Mode, integer VBR_quality, integer CBR_KBPS, integer ABR_KBPS, integer ABR_KBPS_MIN, integer ABR_KBPS_MAX = ultraschall.GetRenderCFG_Settings_OGG(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for OGG.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -660,10 +660,10 @@ function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer Mode, integer Bitrate, integer Complexity, boolean channel_audio, boolean per_channel = ultraschall.GetRenderCFG_Settings_OPUS(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for Opus.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -726,10 +726,10 @@ function ultraschall.GetRenderCFG_Settings_GIF(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer Width, integer Height, number MaxFramerate, boolean PreserveAspectRatio, integer IgnoreLowBits, boolean Transparency = ultraschall.GetRenderCFG_Settings_GIF(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for Gif.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -788,10 +788,10 @@ function ultraschall.GetRenderCFG_Settings_LCF(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer Width, integer Height, number MaxFramerate, boolean PreserveAspectRatio, string TweakSettings = ultraschall.GetRenderCFG_Settings_LCF(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for LCF.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -851,10 +851,10 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo = ultraschall.GetRenderCFG_Settings_WAV(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for WAV.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -971,10 +971,10 @@ function ultraschall.GetRenderCFG_Settings_WAVPACK(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer Mode, integer Bitdepth, integer Writemarkers, boolean WriteBWFChunk, boolean IncludeFilenameBWF = ultraschall.GetRenderCFG_Settings_WAVPACK(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for WAVPACK.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -1126,10 +1126,10 @@ function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MKV_Video(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for MKV-Video.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -1284,10 +1284,10 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for QT/MOV/MP4-video.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Note: some settings work only with FFMPEG 4.1.3 installed
       
@@ -1357,10 +1357,10 @@ function ultraschall.GetRenderCFG_Settings_DDP(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.GetRenderCFG_Settings_DDP(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns, if a renderstring is a valid DDP-render-string
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -3236,7 +3236,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsValidRenderTable(table RenderTable)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     returns, if the table RenderTable is a valid RenderTable.
     
     Returns false in case of an error; the error-message contains the faulty table-entry.
@@ -4193,7 +4193,7 @@ function ultraschall.GetRender_SaveCopyOfProject()
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetRender_SaveCopyOfProject()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
     
     Returns false in case of an error
@@ -4237,7 +4237,7 @@ function ultraschall.SetRender_QueueDelay(state, length)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_QueueDelay(boolean state, integer length)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
     
     Returns false in case of an error
@@ -4286,7 +4286,7 @@ function ultraschall.SetRender_SaveCopyOfProject(state)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_SaveCopyOfProject(boolean state)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the "Save copy of project to outfile.wav.RPP"-checkbox of the Render to File-dialog.
     
     Returns false in case of an error
@@ -4340,7 +4340,7 @@ function ultraschall.GetRender_QueueDelay()
     Lua=5.3
   </requires>
   <functioncall>boolean retval, integer length = ultraschall.GetRender_QueueDelay()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the current checkstate of the "Delay queued render to allow samples to load"-checkbox from the Render to File-dialog,
     as well as the length of the queue-render-delay.
   </description>
@@ -4388,7 +4388,7 @@ function ultraschall.SetRender_ProjectSampleRateForMix(state)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_ProjectSampleRateForMix(boolean state)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the "Use project sample rate for mixing and FX/synth processing"-checkbox of the Render to File-dialog.
     
     Returns false in case of an error
@@ -4435,7 +4435,7 @@ function ultraschall.GetRender_ProjectSampleRateForMix()
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetRender_ProjectSampleRateForMix()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog.
   </description>
   <retvals>
@@ -4475,7 +4475,7 @@ function ultraschall.SetRender_AutoIncrementFilename(state)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_AutoIncrementFilename(boolean state)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog.
     
     Returns false in case of an error
@@ -4523,7 +4523,7 @@ function ultraschall.GetRender_AutoIncrementFilename()
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetRender_AutoIncrementFilename()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog.
   </description>
   <retvals>
@@ -5892,7 +5892,7 @@ function ultraschall.GetRenderQueuedProjects()
     Lua=5.3
   </requires>
   <functioncall>integer Filecount, array Filearray = ultraschall.GetRenderQueuedProjects()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the number and names of files currently in the render-queue
   </description>
   <retvals>
@@ -5933,7 +5933,7 @@ function ultraschall.AddProjectFileToRenderQueue(projectfilename_with_path)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.AddProjectFileToRenderQueue(string projectfilename_with_path)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Adds a projectfile or the current active project to the render-queue
     
     returns false in case of an error
@@ -6374,7 +6374,7 @@ function ultraschall.AddSelectedItemsToRenderQueue(render_items_individually, re
     Lua=5.3
   </requires>
   <functioncall>boolean retval, integer num_queued_projects = ultraschall.AddSelectedItemsToRenderQueue(optional boolean render_items_individually, optional boolean render_items_through_master, optional table RenderTable)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Adds the selected MediaItems to the render-queue.
     
     returns false in case of an error
@@ -7085,7 +7085,7 @@ function ultraschall.GetRender_EmbedStretchMarkers()
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetRender_EmbedStretchMarkers()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the current state of the "Embed stretch markers/transient guides"-checkbox from the Render to File-dialog.
   </description>
   <retvals>
@@ -7125,7 +7125,7 @@ function ultraschall.SetRender_EmbedStretchMarkers(state)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_EmbedStretchMarkers(boolean state)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the new state of the "Embed stretch markers/transient guides"-checkbox from the Render to File-dialog.
     
     Returns false in case of an error
@@ -7293,7 +7293,7 @@ function ultraschall.GetRender_EmbedMetaData()
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetRender_EmbedMetaData()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the current state of the "Embed metadata"-checkbox from the Render to File-dialog.
   </description>
   <retvals>
@@ -7333,7 +7333,7 @@ function ultraschall.SetRender_EmbedMetaData(state)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_EmbedMetaData(boolean state)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the new state of the "Embed metadata"-checkbox from the Render to File-dialog.
     
     Returns false in case of an error
@@ -7853,7 +7853,7 @@ function ultraschall.AreRenderTablesEqual(RenderTable1, RenderTable2)
     Lua=5.3
   </requires>
   <functioncall>boolean retval, optional integer count_differentEntries1, optional table differentEntries1, optional integer count_differentEntries2, optional table differentEntries2 = ultraschall.AreRenderTablesEqual(table RenderTable1, table RenderTable2)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     compares two RenderTables and returns true, if they are equal.
     
     Returns false in case of an error
@@ -7917,10 +7917,10 @@ function ultraschall.GetRenderCFG_Settings_CAF(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer bitdepth, boolean EmbedTempo, integer include_markers = ultraschall.GetRenderCFG_Settings_CAF(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for CAF.
 
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>

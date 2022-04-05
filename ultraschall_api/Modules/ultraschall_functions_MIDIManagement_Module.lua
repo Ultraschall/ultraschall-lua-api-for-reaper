@@ -199,7 +199,7 @@ function ultraschall.MIDI_SendMidiNote(Channel, Note, Velocity, Mode)
       Lua=5.3
     </requires>
     <functioncall>ultraschall.MIDI_SendMidiNote(integer Channel, integer Note, integer Velocity, optional integer Mode)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Sends a MIDI-note to a specific channel with a specific velocity.
     </description>
     <parameters>
@@ -247,7 +247,7 @@ function ultraschall.MIDI_SendMidiCC(Channel, Note, Velocity, Mode)
       Lua=5.3
     </requires>
     <functioncall>ultraschall.MIDI_SendMidiCC(integer Channel, integer Note, integer Velocity, optional integer Mode)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Sends a MIDI-CC-message to a specific channel with a specific velocity.
     </description>
     <parameters>
@@ -295,7 +295,7 @@ function ultraschall.MIDI_SendMidiPC(Channel, Note, Velocity, Mode)
       Lua=5.3
     </requires>
     <functioncall>ultraschall.MIDI_SendMidiPC(integer Channel, integer Note, integer Velocity, optional integer Mode)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Sends a MIDI-PC-message to a specific channel with a specific velocity.
     </description>
     <parameters>
@@ -343,7 +343,7 @@ function ultraschall.MIDI_SendMidiPitch(Channel, Pitch, Mode)
       Lua=5.3
     </requires>
     <functioncall>ultraschall.MIDI_SendMidiPitch(integer Channel, integer Pitch, optional integer Mode)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Sends a MIDI-Pitch-message to a specific channel with a specific velocity.
     </description>
     <parameters>
@@ -388,7 +388,7 @@ function ultraschall.QueryMIDIMessageNameByID(modifier, key)
     Lua=5.3
   </requires>
   <functioncall>string midimessage_name = ultraschall.QueryMIDIMessageNameByID(integer modifier, integer key)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the name of the MIDI-message, as used by Reaper's function StuffMIDIMessage.
     
     Just pass over the first and second value. The last one is always velocity, which is ~=0 for it to be accepted.

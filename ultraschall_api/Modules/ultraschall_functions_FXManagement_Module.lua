@@ -8934,7 +8934,7 @@ function ultraschall.GetParmLearn_Default()
     Lua=5.3
   </requires>
   <functioncall>integer enable_state, boolean softtakeover, integer ccmode = ultraschall.GetParmLearn_Default()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     allows getting the current default-settings for the parmlearn-dialog
   </description>
   <retvals>
@@ -8990,7 +8990,7 @@ function ultraschall.SetParmLearn_Default(enable_state, softtakeover, ccmode)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetParmLearn_Default(integer enable_state, boolean softtakeover, integer ccmode)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     allows setting the current default-settings for the parmlearn-dialog
     
     set to 0, false, 0 for the factory defaults

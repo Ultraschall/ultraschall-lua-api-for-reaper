@@ -11747,7 +11747,7 @@ function ultraschall.SetProject_MasterPanMode(projectfilename_with_path, panmode
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.SetProject_MasterPanMode(string projectfilename_with_path, integer panmode, optional string ProjectStateChunk)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the panmode for the master-track of an rpp-projectfile or a ProjectStateChunk.
     
     It's the entry MASTER_PANMODE 
@@ -11952,7 +11952,7 @@ function ultraschall.SetProject_Render_Normalize(projectfilename_with_path, rend
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.SetProject_Render_Normalize(string projectfilename_with_path, integer render_normalize_method, number normalize_target, optional string ProjectStateChunk, optional number brickwall_target)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the panmode for the master-track of an rpp-projectfile or a ProjectStateChunk.
     
     It's the entry RENDER_NORMALIZE

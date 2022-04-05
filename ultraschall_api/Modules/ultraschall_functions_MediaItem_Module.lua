@@ -3878,7 +3878,7 @@ function ultraschall.ApplyActionToMediaItem(MediaItem, actioncommandid, repeat_a
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ApplyActionToMediaItem(MediaItem MediaItem, string actioncommandid, integer repeat_action, boolean midi, optional HWND MIDI_hwnd)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Applies an action to a MediaItem, in either main or MIDI-Editor section-context.
     The action given must support applying itself to selected items.    
     
@@ -4797,7 +4797,7 @@ function ultraschall.CopyMediaItemToDestinationTrack(MediaItem, MediaTrack_desti
       Lua=5.3
     </requires>
     <functioncall>MediaItem newMediaItem, MediaItemStateChunk statechunk = ultraschall.CopyMediaItemToDestinationTrack(MediaItem MediaItem, MediaTrack MediaTrack_destination, number position)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Copies MediaItem to MediaTrack_destination at position.
       
       Returns nil in case of an error
@@ -4943,7 +4943,7 @@ function ultraschall.GetItem_HighestRecCounter()
     Lua=5.3
   </requires>
   <functioncall>integer highest_item_reccount, integer found = ultraschall.GetItem_HighestRecCounter()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Takes the RECPASS-counters of all items and takes and returns the highest one, which usually means, the number of items, who have been recorded since the project has been created.
     
     Note: a RECPASS-entry can also be part of a copy of a recorded item, so multiple items/takes can share the same RECPASS-entries with the same counter.
@@ -4991,7 +4991,7 @@ function ultraschall.GetItem_ClickState(mouse_button)
     Lua=5.3
   </requires>
   <functioncall>boolean clickstate, number position, MediaItem item, MediaItem_Take take = ultraschall.GetItem_ClickState(integer mouse_button)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the currently clicked item and take, as well as the current timeposition.
     
     Mostly useful in defer-scripts.
@@ -5051,7 +5051,7 @@ function ultraschall.GetEndOfItem(MediaItem)
     Lua=5.3
   </requires>
   <functioncall>number end_of_item_position = ultraschall.GetEndOfItem(MediaItem MediaItem)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the endposition of MediaItem
     
     returns nil in case of an error
@@ -5467,7 +5467,7 @@ function ultraschall.GetTake_ReverseState(MediaItem, takenumber)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetTake_ReverseState(MediaItem item, integer takenumber)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     returns, if the chosen take of the MediaItem is reversed
   
     returns false in case of an error
@@ -5517,7 +5517,7 @@ function ultraschall.IsItemVisible(item, completely_visible)
       Lua=5.3
     </requires>
     <functioncall>boolean visible, boolean parent_track_visible, boolean within_start_and_endtime  = ultraschall.IsItemVisible(MediaItem item, boolean completely_visible)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       returns if n item is currently visible in arrangeview
 
       Note: Items who start above and end below the visible arrangeview will be treated as not completely visible!
@@ -5580,7 +5580,7 @@ function ultraschall.ApplyActionToMediaItemTake(MediaItemTake, actioncommandid, 
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ApplyActionToMediaItemTake(MediaItem MediaItem, integer takeid, string actioncommandid, integer repeat_action)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Applies an action to a MediaItemTake, in the main section-context.
     The action given must support applying itself to selected item-takes, other actions might do weird things.    
     

@@ -1004,7 +1004,7 @@ function ultraschall.GetLastEnvelopePoint_TrackEnvelope(Envelope)
     Lua=5.3
   </requires>
   <functioncall>boolean retval, optional integer envpointidx, optional number time, optional number value, optional integer shape, optional number tension, optional boolean selected =  ultraschall.GetLastEnvelopePoint_TrackEnvelope(TrackEnvelope Envelope)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the values of the last envelope-point in TrackEnvelope/MediaItemEnvelope.
     
     Note: there's a "hidden" last envelopepoint in every Envelope, which will be ignored by this function. It will return the last visible envelope-point instead!
@@ -1155,7 +1155,7 @@ function ultraschall.GetTrackEnvelope_ClickState(mouse_button)
     Lua=5.3
   </requires>
   <functioncall>boolean clickstate, number position, MediaTrack track, TrackEnvelope envelope, integer EnvelopePointIDX = ultraschall.GetTrackEnvelope_ClickState(integer mouse_button)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the currently clicked Envelopepoint and TrackEnvelope, as well as the current timeposition.
     
     Works only, if the mouse is above the EnvelopePoint while having it clicked!
@@ -1880,7 +1880,7 @@ function ultraschall.SetEnvelopeState_Vis(TrackEnvelope, visibility, lane, unkno
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string EnvelopeStateChunk = ultraschall.SetEnvelopeState_Vis(TrackEnvelope env, integer visibility, integer lane, integer unknown, optional string EnvelopeStateChunk)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
       sets the current visibility-state of a TrackEnvelope-object or EnvelopeStateChunk.
       
       It is the state entry VIS
@@ -1934,7 +1934,7 @@ function ultraschall.SetEnvelopeState_Act(TrackEnvelope, act, automation_setting
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetEnvelopeState_Act(TrackEnvelope env, integer act, integer automation_settings, optional string EnvelopeStateChunk)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
       sets the current bypass and automation-items-settings-state of a TrackEnvelope-object or EnvelopeStateChunk.
       
       It is the state entry ACT
@@ -1994,7 +1994,7 @@ function ultraschall.SetEnvelopeState_DefShape(TrackEnvelope, shape, pitch_custo
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string EnvelopeStateChunk = ultraschall.SetEnvelopeState_DefShape(TrackEnvelope env, integer shape, integer pitch_custom_envelope_range, integer pitch_snap_values, optional string EnvelopeStateChunk)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
       sets the current default-shape-states and pitch-snap-settings of a TrackEnvelope-object or EnvelopeStateChunk.
       
       It is the state entry DEFSHAPE
@@ -2064,7 +2064,7 @@ function ultraschall.SetEnvelopeState_LaneHeight(TrackEnvelope, height, compacte
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string EnvelopeStateChunk = ultraschall.SetEnvelopeState_LaneHeight(TrackEnvelope env, integer height, integer compacted, optional string EnvelopeStateChunk)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
       sets the current height-states and compacted-settings of a TrackEnvelope-object or EnvelopeStateChunk.
       
       It is the state entry LANEHEIGHT
@@ -2105,7 +2105,7 @@ function ultraschall.ActivateEnvelope(Envelope, visible, bypass)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ActivateEnvelope(TrackEnvelope env, optional boolean visible, optional boolean bypass)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Activates an envelope, so it can be displayed in the arrange-view.
     
     Will add an envelope-point at position 0 in the envelope, if no point is in the envelope yet
@@ -2163,7 +2163,7 @@ function ultraschall.ActivateTrackVolumeEnv(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackVolumeEnv(integer track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a volume-envelope of a track
         
       returns false in case of error
@@ -2208,7 +2208,7 @@ function ultraschall.ActivateTrackVolumeEnv_TrackObject(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackVolumeEnv_TrackObject(MediaTrack track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a volume-envelope of a MediaTrack-object
         
       returns false in case of error
@@ -2251,7 +2251,7 @@ function ultraschall.ActivateTrackPanEnv(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackPanEnv(integer track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a pan-envelope of a track
         
       returns false in case of error
@@ -2296,7 +2296,7 @@ function ultraschall.ActivateTrackPanEnv_TrackObject(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackPanEnv_TrackObject(MediaTrack track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a pan-envelope of a MediaTrack-object
         
       returns false in case of error
@@ -2339,7 +2339,7 @@ function ultraschall.ActivateTrackPreFXPanEnv(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackPreFXPanEnv(integer track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a preFX-pan-envelope of a track
         
       returns false in case of error
@@ -2384,7 +2384,7 @@ function ultraschall.ActivateTrackPreFXPanEnv_TrackObject(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackPreFXPanEnv_TrackObject(MediaTrack track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a preFX-pan-envelope of a MediaTrack-object
         
       returns false in case of error
@@ -2427,7 +2427,7 @@ function ultraschall.ActivateTrackPreFXVolumeEnv(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackPreFXVolumeEnv(integer track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a preFX-volume-envelope of a track
         
       returns false in case of error
@@ -2472,7 +2472,7 @@ function ultraschall.ActivateTrackPreFXVolumeEnv_TrackObject(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackPreFXVolumeEnv_TrackObject(MediaTrack track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a preFX-volume-envelope of a MediaTrack-object
         
       returns false in case of error
@@ -2515,7 +2515,7 @@ function ultraschall.ActivateTrackTrimVolumeEnv(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackTrimVolumeEnv(integer track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a trim-volume-envelope of a track
         
       returns false in case of error
@@ -2560,7 +2560,7 @@ function ultraschall.ActivateTrackTrimVolumeEnv_TrackObject(track)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.ActivateTrackTrimVolumeEnv_TrackObject(MediaTrack track)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       activates a trim-volume-envelope of a MediaTrack-object
         
       returns false in case of error
@@ -2604,7 +2604,7 @@ function ultraschall.GetTakeEnvelopeUnderMouseCursor()
       Lua=5.3
     </requires>
     <functioncall>TakeEnvelope env, MediaItem_Take take, number projectposition = ultraschall.GetTakeEnvelopeUnderMouseCursor()</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       returns the take-envelope underneath the mouse
     </description>
     <retvals>
@@ -2643,7 +2643,7 @@ function ultraschall.IsAnyNamedEnvelopeVisible(name)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.IsAnyMuteEnvelopeVisible(string name)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       returns, if any mute-envelopes are currently set to visible in the current project
       
       Visible=true does include mute-envelopes, who are scrolled outside of the arrangeview
@@ -2690,7 +2690,7 @@ function ultraschall.IsEnvelope_Track(TrackEnvelope)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.IsEnvelope_Track(TrackEnvelope env)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       returns, if the envelope is a track envelope(true) or a take-envelope(false)
       
       returns nil in case of an error
@@ -2724,7 +2724,7 @@ function ultraschall.IsTrackEnvelopeVisible_ArrangeView(TrackEnvelope)
       Lua=5.3
     </requires>
     <functioncall>boolean retval = ultraschall.IsTrackEnvelopeVisible_ArrangeView(TrackEnvelope env)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       returns, if the envelope is currently visible within arrange-view
       
       returns nil in case of an error

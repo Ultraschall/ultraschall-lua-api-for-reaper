@@ -411,15 +411,23 @@ v - inverse</td></tr>
 <div class="l">Lua: <code> <i>integer</i> first_typed_character, <i>integer</i> num_characters, <i>table</i> character_queue = <em>ultraschall.GFX_GetChar</em>(<i>optional</i> <i>integer</i> character, <i>optional</i> <i>boolean</i> manage_clipboard, <i>optional</i> <i>string</i> to_clipboard, <i>optional</i> <i>boolean</i> readable_characters)</code></div>
 </div><p>
 <div class="ch">
-<p>gets all characters from the keyboard-queue of gfx.getchar as a handy table.</p>
-<p>the returned table character_queue is of the following format:</p>
-<pre><code>character_queue[index][&quot;Code&quot;] - the character-code
-character_queue[index][&quot;Ansi&quot;] - the character-code converted into Ansi
-character_queue[index][&quot;UTF8&quot;] - the character-code converted into UTF8</code></pre>
-<p>When readable<em>characters=true, the entries of the character</em>queue for Ansi and UTF8 will hold readable strings for non-printable characters, like: "ins ", "del ", "home", "F1 "-"F12 ", "tab ", "esc ", "pgup", "pgdn", "up ", "down", "left", "rght", "bspc", "ente"</p>
-<p>You can optionally let this function manage clipboard. So hitting Ctrl+V will get put the content of the clipboard into the character<em>queue of Ansi/UTF8 in the specific position of the character-queue, while hitting Ctrl+C will put the contents of the parameter to</em>clipboard into the clipboard in this case.</p>
-<p>Retval first<em>typed</em>character behaves basically like the returned character of Reaper's native function gfx.getchar()</p>
-<p>returns -2 in case of an error</p>
+gets all characters from the keyboard-queue of gfx.getchar as a handy table.<br/>
+<br/>
+the returned table character_queue is of the following format:<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;character_queue[index]["Code"] - the character-code<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;character_queue[index]["Ansi"] - the character-code converted into Ansi<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;character_queue[index]["UTF8"] - the character-code converted into UTF8<br/>
+&nbsp;&nbsp;<br/>
+When readable_characters=true, the entries of the character_queue for Ansi and UTF8 will hold readable strings for non-printable characters, like:<br/>
+&nbsp;&nbsp;"ins ", "del ", "home", "F1&nbsp;&nbsp;"-"F12 ", "tab ", "esc ", "pgup", "pgdn", "up&nbsp;&nbsp;", "down", "left", "rght", "bspc", "ente"<br/>
+&nbsp;&nbsp;<br/>
+You can optionally let this function manage clipboard. So hitting Ctrl+V will get put the content of the clipboard into the character_queue of Ansi/UTF8 in the specific position of the character-queue,<br/>
+while hitting Ctrl+C will put the contents of the parameter to_clipboard into the clipboard in this case.<br/>
+<br/>
+Retval first_typed_character behaves basically like the returned character of Reaper's native function gfx.getchar()<br/>
+<br/>
+returns -2 in case of an error              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -561,10 +569,15 @@ You can find the documentation for it <a href="../3rd_party_modules/Lokasenna_GU
 <div class="l">Lua: <code> <i>boolean</i> changed, <i>integer</i> num_dropped_files, <i>array</i> dropped_files, <i>integer</i> drop_mouseposition_x, <i>integer</i> drop_mouseposition_y = <em>ultraschall.GFX_GetDropFile</em>()</code></div>
 </div><p>
 <div class="ch">
-<p>returns the files drag'n'dropped into a gfx-window, including the mouseposition within the gfx-window, where the files have been dropped.</p>
-<p>if changed==true, then the filelist is updated, otherwise this function returns the last dropped files again. Note: when the same files will be dropped, changed==true will also be dropped with only the mouse-position updated. That way, dropping the same files in differen places is recognised by this function.</p>
-<p>Call repeatedly in every defer-cycle to get the latest files and coordinates.</p>
-<p>Important: Don't use Reaper's own gfx.dropfile while using this, as this could intefere with this function.</p>
+returns the files drag'n'dropped into a gfx-window, including the mouseposition within the gfx-window, where the files have been dropped.<br/>
+<br/>
+if changed==true, then the filelist is updated, otherwise this function returns the last dropped files again.<br/>
+Note: when the same files will be dropped, changed==true will also be dropped with only the mouse-position updated.<br/>
+That way, dropping the same files in differen places is recognised by this function.<br/>
+<br/>
+Call repeatedly in every defer-cycle to get the latest files and coordinates.<br/>
+<br/>
+Important: Don't use Reaper's own gfx.dropfile while using this, as this could intefere with this function.              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -599,7 +612,8 @@ You can find the documentation for it <a href="../3rd_party_modules/Lokasenna_GU
 <div class="l">Lua: <code> <i>HWND</i> hwnd = <em>ultraschall.GFX_GetWindowHWND</em>()</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the HWND of the currently opened gfx-window. You need to use <a href="#GFX_Init">ultraschall.GFX_Init()</a>, otherwise it will contain the message "Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window."</p>
+Returns the HWND of the currently opened gfx-window. You need to use ultraschall.GFX_Init(), otherwise <br/>
+it will contain the message "Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window."              
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

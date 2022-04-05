@@ -543,7 +543,7 @@ function ultraschall.GetRecentProjects()
     Lua=5.3
   </requires>
   <functioncall>integer count_of_RecentProjects, array RecentProjectsFilenamesWithPath = ultraschall.GetRecentProjects()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     returns all available recent projects, as listed in the File -> Recent projects-menu
   </description>
   <retvals>
