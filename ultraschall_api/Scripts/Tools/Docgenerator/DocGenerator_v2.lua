@@ -375,7 +375,7 @@ function convertMarkdown(start, stop)
     --end
 
     if AllUSDocBloc_Header[i]["markup_type"]=="plaintext" then
-      AllUSDocBloc_Header[i][6]=ultraschall.Docs_ConvertPlainTextToHTML(Description)
+      AllUSDocBloc_Header[i][6]=ultraschall.Docs_ConvertPlainTextToHTML(Description, false, true)
     else
       ultraschall.WriteValueToFile(Tempfile.."1.md", "\n\n    TUDELU "..i.." "..AllUSDocBloc_Header[i][1].."\n\n"..Description.."\n\n---\n\n    TUDELUS \n\n---\n\n", nil, true)
 
