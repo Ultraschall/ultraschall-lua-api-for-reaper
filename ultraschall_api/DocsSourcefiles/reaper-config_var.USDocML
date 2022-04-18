@@ -5049,7 +5049,24 @@
             
                     
           Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>itemlane_minheight</slug>  
+      <title>itemlane_minheight</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          Collapse free item positioning when track height is less than-inputbox, as set in Preferences -> Media Item Positioning
+          It is an integer  
+          
+            >0 to 2147483647; in pixels
             
+          Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>
          Config Variables  
@@ -5124,6 +5141,25 @@
       <source_document>reaper-config_var.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>    
+  
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>itemoverlap_offspct</slug>  
+      <title>itemoverlap_offspct</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          Offset by xx precentage of item height and Draw as opaque-checkbox, as set in Preferences -> Media Item Positioning  
+          It is an integer  
+            
+            >0 to 255; add 256 to set the Draw as opaque-checkbox
+            
+          Stored in reaper.ini under the same name in the section REAPER.
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc> 
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>itemprops</slug>  
@@ -7570,6 +7606,29 @@
       <source_document>reaper-config_var.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>peaks_minheight</slug>  
+      <title>peaks_minheight</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The minimum height-inputbox as set in Preferences -> Appearances -> Peaks/Waveforms.  
+          It is an integer
+          
+            >0 to 999 pixels
+           
+          For other settings set in Preferences -> Media, see [itemlabel\_minheight](#itemlabel_minheight), [labelitems2](#labelitems2), [itemicons](#itemicons), [itemicons\_minheight](#itemicons_minheight), [itemvolmode](#itemvolmode)  
+          For other settings in Preferences -> Peaks/Waveforms, see [envlanes](#envlanes), [sampleedges](#sampleedges), [selitem\_tintalpha](#selitem_tintalpha), [showpeaks](#showpeaks),   
+                                                 [unselitem\_tintalpha](#unselitem_tintalpha), [tinttcp](#tinttcp)  
+                    
+          Stored in reaper.ini under the same name in the section REAPER.  
+            
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>pitchenvrange</slug>  
@@ -7579,12 +7638,12 @@
           It is an integer  
           
            >1 to 2147483647;   
-             add 256 for 1 semitone-snap,  
-             add 512 for 50 cent-snap,  
-             add 768 for 25 cent-snap,  
-             add 1024 for 10 cent-snap,  
-             add 1280 for 5 cent-snap,  
-             add 1537 for 1 cent-snap.  
+           >add 256 for 1 semitone-snap,  
+           >add 512 for 50 cent-snap,  
+           >add 768 for 25 cent-snap,  
+           >add 1024 for 10 cent-snap,  
+           >add 1280 for 5 cent-snap,  
+           >add 1537 for 1 cent-snap.  
             
           For other settings as set in Preferences -> Envelope Display, see [volenvrange](#volenvrange), [tempoenvmax](#tempoenvmax), [tempoenvmin](#tempoenvmin), [env\_deffoc](#env_deffoc), [env\_ol\_minh](#env_ol_minh),   
                                                    [env\_reduce](#env_reduce), [envclicksegmode](#envclicksegmode), [envlanes](#envlanes), [envtranstime](#envtranstime), [pooledenvs](#pooledenvs)  

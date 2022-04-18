@@ -383,7 +383,13 @@
             Adds a ReaScript (returns the new command ID, or 0 if failed) or removes a ReaScript
             Returns >0 on success. 
             Use commit==true when adding/removing a single script. 
-            When bulk adding/removing multiple scripts, you can optimize the n-1 first calls with commit==false and commit==true for the last call.
+            Committing means, that Reaper stores the Reascript-information into the reaper-kb.ini for permanent use. 
+            It will be committed at Reaper's exit as well, but if Reaper crashes before exiting properly, your added
+            script might get lost. When adding many Reascripts to Reaper, setting commit to false might help prevail 
+            ressources, as you don't rewrite the reaper-kb.ini file over and over again. However, if you only add a 
+            few scripts, this might not be of importance to you.
+            So when bulk adding/removing multiple scripts, you can optimize the n-1 first calls with commit==false and commit==true for the last call.
+            
             The commandID returned, might change, when adding this script into another Reaper-installation. 
             To be sure to use the right command-id, use ReverseNamedCommandLookup() to get the ActionCommandID, which will never change, until you remove the script.
 
@@ -399,19 +405,14 @@
         <parameters>
             boolean add - true, if it shall be added, false if it shall be removed
             integer sectionID - the section, in which this script shall appear(e.g. in the Show Actions-Dialog)
-            -   0, Main
-            -   100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
-            -   32060, MIDI Editor
-            -   32061, MIDI Event List Editor
-            -   32062, MIDI Inline Editor
-            -   32063, Media Explorer
+                              -   0, Main
+                              -   100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                              -   32060, MIDI Editor
+                              -   32061, MIDI Event List Editor
+                              -   32062, MIDI Inline Editor
+                              -   32063, Media Explorer
             string scriptfn - the filename of the Reascript to be added
             boolean commit - true, if it shall be committed, false, if you want to add new scripts first. 
-                - Committing means, that Reaper stores the Reascript-information into the reaper-kb.ini for permanent use. 
-                - It will be committed at Reaper's exit as well, but if Reaper crashes before exiting properly, your added
-                - script might get lost. When adding many Reascripts to Reaper, setting commit to false might help prevail 
-                - ressources, as you don't rewrite the reaper-kb.ini file over and over again. However, if you only add a 
-                - few scripts, this might not be of importance to you.
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -421,6 +422,7 @@
         </chapter_context>
         <tags>helperfunctions, reascript, lua, python, eel, add, remove, commandid</tags>
         <changelog>
+            Reaper 6.54 - fixed bug, were scripts could be added but not removed when using / as separator
         </changelog>
     </US_DocBloc>
 
@@ -1170,7 +1172,6 @@
         <linked_to desc="see:">
             inline: CountEnvelopePointsEx
                     to count envelope-points of envelopes and automation-items
-                    see it for other functions managing envelope-points in automation-items 
             inline: GetEnvelopePoint
                     to get envelope-points in envelopes only
             inline: SetEnvelopePoint
@@ -1343,7 +1344,7 @@
         </requires>
         <description>
             Count the number of selected tracks in the project. 
-            This function ignores the master track, see CountSelectedTracks2.
+            This function ignores the master track, see CountSelectedTracks2 if you need master-track as well.
         </description>
         <retvals>
             integer count_sel_tracks - the number of selected tracks in the project
@@ -6452,12 +6453,10 @@
         <requires>
             Reaper=5.975
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Returns the first item at the screen coordinates specified. If allow_locked is false, locked items are ignored. If takeOutOptional specified, returns the take hit(in Lua, this function simply returns the take as additional return-value).
 
             Note: You can not get the item at screen-coordinates, where it is hidden by other windows.
-            
-            See [GetThingFromPoint](#GetThingFromPoint)
         </description>
         <retvals>
             MediaItem item - the MediaItem at the position
@@ -6468,6 +6467,10 @@
             integer screen_y - the y-position in pixels
             boolean allow_locked - true, allow getting locked items as well; false, don't get locked items
         </parameters>
+        <linked_to desc="see:">
+            inline:GetThingFromPoint
+                   returns, various elements at specific coordinates(arrange, mcp, fxchain, etc)
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -6578,9 +6581,9 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get the last project marker before time, and/or the project region that includes time. 
-            markeridx and regionidx are returned not necessarily as the displayed marker/region index, but as the index that can be passed to EnumProjectMarkers. Either or both of markeridx and regionidx may be NULL. See [EnumProjectMarkers](#EnumProjectMarkers).
+            markeridx and regionidx are returned not necessarily as the displayed marker/region index, but as the index that can be passed to EnumProjectMarkers. Either or both of markeridx and regionidx may be NULL. 
         </description>
         <retvals>
             integer markeridx retval - the last marker-number(not shown number!) before parameter time
@@ -6590,6 +6593,10 @@
             ReaProject proj - the project-number. 0 for the current project. 
             number time - the position to check in seconds
         </parameters>
+        <linked_to desc="see:">
+            inline:EnumProjectMarkers
+                   returns, the attributes of a project marker
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -6611,12 +6618,10 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Returns the last touched track, it's last touched parameter and tracknumber.
 
             The low word of tracknumber is the 1-based track index -- 0 means the master track, 1 means track 1, etc. 
-
-            See [GetFocusedFX2](#GetFocusedFX2).
         </description>
         <retvals>
             boolean retval - true, if last touched FX parameter is valid; false, if otherwise
@@ -6627,6 +6632,10 @@
                              - For item FX, the low word defines the FX index in the chain, and the high word defines the take number. 
             integer paramnumber - the id of the last parameter touched, zero-based
         </retvals>
+        <linked_to desc="see:">
+            inline:GetFocusedFX2
+                   gets the focused/open fx
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -6760,14 +6769,18 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the visibility of the master-track in mixer and track-control-panel. See [SetMasterTrackVisibility](#SetMasterTrackVisibility).
+        <description>
+            Get the visibility of the master-track in mixer and track-control-panel.
         </description>
         <retvals>
             integer master_visibility - state of visibility of the master-track
                                       - &1 - 1, master track visible in tcp; 0, master track invisible in mixer
                                       - &2 - 2, master track invisible in mixer; 0, master track visible in mixer
         </retvals>
+        <linked_to desc="see:">
+            inline:SetMasterTrackVisibility
+                   sets the visibility of the master track in mcp/tcp
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -7348,8 +7361,8 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Copies the media source filename to filenamebuf. Note that in-project MIDI media sources have no associated filename. See [GetMediaSourceParent](#GetMediaSourceParent).
+        <description>
+            Copies the media source filename to filenamebuf. Note that in-project MIDI media sources have no associated filename. 
         </description>
         <retvals>
             string filenamebuf - the filename of the source-file
@@ -7357,6 +7370,10 @@
         <parameters>
             PCM_source source - the source, whose source-filename you want to retrieve
         </parameters>
+        <linked_to desc="see:">
+            inline:GetMediaSourceParent
+                   returns, the parent-source of a source
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -7527,7 +7544,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
-            Reaper=6.38
+            Reaper=6.54
         </requires>
         <description prog_lang="*">
             Get track numerical-value attributes.
@@ -7575,7 +7592,7 @@
             B_MAINSEND : bool * : track sends audio to parent
             C_MAINSEND_OFFS : char * : channel offset of track send to parent
             C_MAINSEND_NCH : char * : channel count of track send to parent (0=use all child track channels, 1=use one channel only)
-            B_FREEMODE : bool * : track free item positioning enabled (call UpdateTimeline() after changing)
+            I_FREEMODE : int * : 1=track free item positioning enabled, 2=track fixed lanes enabled (call UpdateTimeline() after changing)
             C_BEATATTACHMODE : char * : track timebase, -1=project default, 0=time, 1=beats (position, length, rate), 2=beats (position only)
             F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0=minimum allowed, 1=maximum allowed)
             F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
@@ -7601,6 +7618,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.54 - attribute "I_FREEMODE" includes new value 2=track fixed lanes enabled
         </changelog>
     </US_DocBloc>
 
@@ -7705,11 +7723,10 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get the current mouse modifier assignment for a specific modifier key assignment, in a specific context.
             action will be filled in with the command ID number for a built-in mouse modifier
             or built-in REAPER command ID, or the custom action ID string.
-            See [SetMouseModifier](#SetMouseModifier) for more information.
         </description>
         <retvals>
             string action - the associated action with the mouse-modifier within the specific context
@@ -7718,6 +7735,10 @@
             string context - the context of the mouse-modifier
             integer modifier_flag - the modifier-flag, whose action you want to retrieve
         </parameters>
+        <linked_to desc="see:">
+            inline:SetMouseModifier
+                   sets a mouse-modifier
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -7875,9 +7896,8 @@
         <requires>
             Reaper=6.09
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Returns number of take markers.
-            See [DeleteTakeMarker](#DeleteTakeMarker)), [GetTakeMarker](#GetTakeMarker) and [SetTakeMarker](#SetTakeMarker).
         </description>
         <retvals>
             integer retval - the number of found take-markers
@@ -7885,6 +7905,14 @@
         <parameters>
             MediaItem_Take take - the take, whose take-markers you want to count
         </parameters>
+        <linked_to desc="see:">
+            inline: GetTakeMarker
+                    gets attributes of a take-marker of a take
+            inline: SetTakeMarker
+                    sets attributes of a takemarker of a take
+            inline: DeleteTakeMarker
+                    deletes a take marker
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -8380,14 +8408,18 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             Get the path of the project. Will return the defaults project-path's recording-folder, when the project hasn't been saved yet; when the project has been saved, it will return the path to the recording-folder.
 
-            If you need the filename of the path+projectfile itself, use [EnumProjects](#EnumProjects) instead.
+            If you need the filename of the path+projectfile itself, use EnumProjects instead.
         </description>
         <retvals>
             string project_path - the returned path
         </retvals>
+        <linked_to desc="see:">
+            inline:EnumProjects
+                   enumerates the project(tabs) and their projectfiles with path; returns currently rendering project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -8600,14 +8632,18 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             returns path where ini files are stored, other things are in subdirectories.
 
-            When resourcepath is equal to app-path(see [GetExePath](#GetExePath)), it is an indicator that Reaper is installed as portable installation.
+            When resourcepath is equal to app-path(see GetExePath), it is an indicator that Reaper is installed as portable installation.
         </description>
         <retvals>
             string resource_path - the path to the resource-folder
         </retvals>
+        <linked_to desc="see:">
+            inline:GetExePath
+                   returns the path of the reaper.exe/reaper.app
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -8659,9 +8695,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             get a selected item by selected item count (zero-based)
-            See [CountSelectedMediaItems](#CountSelectedMediaItems).
         </description>
         <retvals>
             MediaItem sel_item - the requested MediaItem as a MediaItem-object
@@ -8670,6 +8705,10 @@
             ReaProject proj - the project-number. 0 for the current project. 
             integer selitem - the id of the selected MediaItem, as multiple items can be selected.
         </parameters>
+        <linked_to desc="see:">
+            inline:CountSelectedMediaItems
+                   returns the count of selected media items in a project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -8691,9 +8730,9 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get a selected track from a project by selected track count (zero-based). 
-            This function ignores the master track, see [GetSelectedTrack2](#GetSelectedTrack2) and [CountSelectedTracks](#CountSelectedTracks).
+            This function ignores the master track, see GetSelectedTrack2 and CountSelectedTracks.
         </description>
         <retvals>
             MediaTrack sel_tr - the requested, selected MediaTrack
@@ -8702,6 +8741,14 @@
             ReaProject proj - the project-number. 0 for the current project. 
             integer seltrackidx - the idx of within the selected tracks, zero based, as multiple tracks can be selected by the user. 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetSelectedTrack
+                   gets the selected tracks, including master track
+            inline:GetSelectedTrack2
+                   gets the selected tracks, including master track
+            inline:CountSelectedTracks
+                   returns the number of selected tracks
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9023,7 +9070,7 @@
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            deprecated -- see [SetEnvelopeStateChunk](#SetEnvelopeStateChunk), [GetEnvelopeStateChunk](#GetEnvelopeStateChunk)
+            deprecated -- see SetEnvelopeStateChunk, GetEnvelopeStateChunk
         </description>
         <deprecated since_when="Reaper 5.62" alternative="SetEnvelopeStateChunk and GetEnvelopeStateChunk(available since at leaste Reaper 5.40)"/>
         <retvals>
@@ -9034,6 +9081,12 @@
             TrackEnvelope env - the envelope, of which you want to get/set the value
             string str - the new value to set
         </parameters>
+        <linked_to desc="see:">
+            inline:GetEnvelopeStateChunk
+                   returns, an EnvelopeStateChunk, which holds all attributes-information of an envelope
+            inline:SetEnvelopeStateChunk
+                   sets an EnvelopeStateChunk, to replace all attributes-information of an envelope
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9055,8 +9108,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            deprecated -- see [SetEnvelopeStateChunk](#SetEnvelopeStateChunk), [GetEnvelopeStateChunk](#GetEnvelopeStateChunk)
+        <description>
+            deprecated -- see SetEnvelopeStateChunk, GetEnvelopeStateChunk
         </description>
         <deprecated since_when="Reaper 5.62" alternative="SetEnvelopeStateChunk and GetEnvelopeStateChunk(available since at least Reaper 5.40)"/>
         <retvals>
@@ -9068,6 +9121,12 @@
             string str - the new value to set
             boolean isundo - true, undo; false, don't undo
         </parameters>
+         <linked_to desc="see:">
+            inline:GetEnvelopeStateChunk
+                   returns, an EnvelopeStateChunk, which holds all attributes-information of an envelope
+            inline:SetEnvelopeStateChunk
+                   sets an EnvelopeStateChunk, to replace all attributes-information of an envelope
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9089,8 +9148,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            deprecated -- see [SetItemStateChunk](#SetItemStateChunk), [GetItemStateChunk](#GetItemStateChunk)
+        <description>
+            deprecated -- see SetItemStateChunk, GetItemStateChunk
         </description>
         <deprecated since_when="Reaper 5.62" alternative="SetItemStateChunk and GetItemStateChunk(available since at least Reaper 5.40)"/>
         <retvals>
@@ -9101,6 +9160,12 @@
             MediaItem item - 
             string str - 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetItemStateChunk
+                   returns, an ItemStateChunk, which holds all attributes-information of a MediaItem
+            inline:SetItemStateChunk
+                   sets an ItemStateChunk, to replace all attributes-information of a MediaItem
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9122,8 +9187,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            deprecated -- see [SetItemStateChunk](#SetItemStateChunk), [GetItemStateChunk](#GetItemStateChunk)
+        <description>
+            deprecated -- see SetItemStateChunk, GetItemStateChunk
         </description>
         <deprecated since_when="Reaper 5.62" alternative="SetItemStateChunk and GetItemStateChunk(available since at least Reaper 5.40)"/>
         <retvals>
@@ -9135,6 +9200,12 @@
             string str - the new value to set
             boolean isundo - true, undo; false, don't undo
         </parameters>
+        <linked_to desc="see:">
+            inline:GetItemStateChunk
+                   returns, an ItemStateChunk, which holds all attributes-information of a MediaItem
+            inline:SetItemStateChunk
+                   sets an ItemStateChunk, to replace all attributes-information of a MediaItem
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9228,7 +9299,7 @@
         <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetMediaTrackInfo_String(MediaTrack tr, string parmname, string stringNeedBig, boolean setnewvalue)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack tr, String parmname, String stringNeedBig, Boolean setnewvalue) = RPR_GetSetMediaTrackInfo_String(tr, parmname, stringNeedBig, setnewvalue)</functioncall>
         <requires>
-            Reaper=6.36
+            Reaper=6.54
         </requires>
         <description prog_lang="*">
             Get or set track string attributes.
@@ -9239,6 +9310,9 @@
                 Passing the guid sets selection within the envelope; not passing the guid sets the selection within the track itself.
                 Example: "0.00 1.00 \"\" 0.00 1.00 "{xyz-...}"
                 Set stringNeedBig="" and setnewvalue=false to query the currently set razor-edits on this track.
+            P_RAZOREDITS_EXT : const char * : list of razor edit areas, as comma-separated sets of space-separated tuples of start time, end time, optional envelope GUID string, optional fixed/fipm top y-position, optional fixed/fipm bottom y-position(fipm means fixed item positioning).
+                Example: "0.0 1.0,0.0 1.0 "{xyz-...}",1.0 2.0 "" 0.25 0.5"
+                see P_RAZOREDITS above for more details
             P_TCP_LAYOUT : const char * : layout name
             P_EXT:xyz : char * : extension-specific persistent data
             P_UI_RECT:tcp.mute : char * : read-only, allows querying screen position + size of track WALTER elements (tcp.size queries screen position and size of entire TCP, etc).
@@ -9262,6 +9336,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.54 - added attribute "P_RAZOREDITS_EXT", which has extended support for razor-edits with track-lanes/free item positioning
         </changelog>
     </US_DocBloc>
 
@@ -9345,25 +9420,25 @@
         <requires>
             Reaper=6.47
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get or set project information.
  
-            RENDER\_SETTINGS : &(1|2)=0:master mix, &1=stems+master mix, &2=stems only, &4=multichannel tracks to multichannel files, &8=use render matrix, &16=tracks with only mono media to mono files, &32=selected media items, &64=selected media items via master, & 128=Selected tracks via master, &256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &512=Embed Metadata, if format supports is, &1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master); &2048=2nd pass render  
-            OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using [GetSetProjectInfo\_String](#GetSetProjectInfo_String).  
-            RENDER\_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions  
-            RENDER\_CHANNELS : number of channels in rendered file  
-            RENDER\_SRATE : sample rate of rendered file (or 0 for project sample rate)  
-            RENDER\_STARTPOS : render start time when RENDER\_BOUNDSFLAG=0  
-            RENDER\_ENDPOS : render end time when RENDER\_BOUNDSFLAG=0  
-            RENDER\_TAILFLAG : apply render tail setting when rendering: &1=custom time bounds, &2=entire project, &4=time selection, &8=all project regions, &16=selected media items, &32=selected project regions  
-            RENDER\_TAILMS : tail length in ms to render (only used if RENDER\_BOUNDSFLAG and RENDER\_TAILFLAG are set)  
-            RENDER\_ADDTOPROJ : &1=add rendered files to project, &2=Do not render files that are likely silent  
-            RENDER\_DITHER : &1=dither, &2=noise shaping, &4=dither stems, &8=noise shaping on stems  
-            RENDER\_NORMALIZE: &1=enable, (&14==0)=LUFS-I, (&14==2)=RMS, (&14==4)=peak, (&14==6)=true peak, (&14==8)=LUFS-M max, (&14==10)=LUFS-S max, &32=normalize stems to common gain based on master, &64=enable brickwall limit, &128=brickwall limit true peak, &256=only normalize files that are too loud
-            RENDER\_NORMALIZE\_TARGET: render normalization target as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc  
-            RENDER\_BRICKWALL: render brickwall limit as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc
-            PROJECT\_SRATE : samplerate (ignored unless PROJECT\_SRATE\_USE set)  
-            PROJECT\_SRATE\_USE : set to 1 if project samplerate is used  
+            RENDER_SETTINGS : &(1|2)=0:master mix, &1=stems+master mix, &2=stems only, &4=multichannel tracks to multichannel files, &8=use render matrix, &16=tracks with only mono media to mono files, &32=selected media items, &64=selected media items via master, & 128=Selected tracks via master, &256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &512=Embed Metadata, if format supports is, &1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master); &2048=2nd pass render  
+            OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using GetSetProjectInfo_String.  
+            RENDER_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions  
+            RENDER_CHANNELS : number of channels in rendered file  
+            RENDER_SRATE : sample rate of rendered file (or 0 for project sample rate)  
+            RENDER_STARTPOS : render start time when RENDER_BOUNDSFLAG=0  
+            RENDER_ENDPOS : render end time when RENDER_BOUNDSFLAG=0  
+            RENDER_TAILFLAG : apply render tail setting when rendering: &1=custom time bounds, &2=entire project, &4=time selection, &8=all project regions, &16=selected media items, &32=selected project regions  
+            RENDER_TAILMS : tail length in ms to render (only used if RENDER_BOUNDSFLAG and RENDER_TAILFLAG are set)  
+            RENDER_ADDTOPROJ : &1=add rendered files to project, &2=Do not render files that are likely silent  
+            RENDER_DITHER : &1=dither, &2=noise shaping, &4=dither stems, &8=noise shaping on stems  
+            RENDER_NORMALIZE: &1=enable, (&14==0)=LUFS-I, (&14==2)=RMS, (&14==4)=peak, (&14==6)=true peak, (&14==8)=LUFS-M max, (&14==10)=LUFS-S max, &32=normalize stems to common gain based on master, &64=enable brickwall limit, &128=brickwall limit true peak, &256=only normalize files that are too loud
+            RENDER_NORMALIZE_TARGET: render normalization target as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc  
+            RENDER_BRICKWALL: render brickwall limit as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc
+            PROJECT_SRATE : samplerate (ignored unless PROJECT_SRATE_USE set)  
+            PROJECT_SRATE_USE : set to 1 if project samplerate is used  
         </description>
         <retvals>
             number value - the new/current value set with this attribute
@@ -9374,6 +9449,10 @@
             number value - if is_set==true, this is the new value to set; if is_set==false, set this to 0
             boolean is_set - true, set a new value; false, get the current value
         </parameters>
+        <linked_to desc="see:">
+            inline:GetSetProjectInfo_String
+                   sets additional attributes for the project as string instead of numbers
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9396,29 +9475,29 @@
         <requires>
             Reaper=6.43
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get or set project information.  
 
-            PROJECT\_NAME: project file name (read-only, is\_set will be ignored)  
-            PROJECT\_TITLE: title field from Project Settings/Notes dialog  
-            PROJECT\_AUTHOR: author field from Project Settings/Notes dialog  
-            TRACK\_GROUP\_NAME:X: track group name, X should be 1..64  
-            MARKER\_GUID:X: get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number  
-            RECORD\_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)  
-            RECORD\_PATH\_SECONDARY: secondary recording directory  
-            RENDER\_FILE: render directory  
-            RENDER\_PATTERN: render file name (may contain wildcards)  
-            RENDER\_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is\_set=false to get a semicolon-separated list of defined project metadata identifiers.  
-            RENDER\_TARGETS: semicolon separated list of files that would be written if the project is rendered using the most recent render settings  
-            RENDER\_STATS: (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.  
-            RENDER\_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.  
-            RENDER\_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.  
-            see [render-code-documentation](render-codes-decoded-base64-strings.txt) for how the unencoded RENDER\_FORMAT-string is structured.  
+            PROJECT_NAME: project file name (read-only, is_set will be ignored)  
+            PROJECT_TITLE: title field from Project Settings/Notes dialog  
+            PROJECT_AUTHOR: author field from Project Settings/Notes dialog  
+            TRACK_GROUP_NAME:X: track group name, X should be 1..64  
+            MARKER_GUID:X: get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number  
+            RECORD_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)  
+            RECORD_PATH_SECONDARY: secondary recording directory  
+            RENDER_FILE: render directory  
+            RENDER_PATTERN: render file name (may contain wildcards)  
+            RENDER_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is_set=false to get a semicolon-separated list of defined project metadata identifiers.  
+            RENDER_TARGETS: semicolon separated list of files that would be written if the project is rendered using the most recent render settings  
+            RENDER_STATS: (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.  
+            RENDER_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.  
+            RENDER_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.  
+            see <a href="render-codes-decoded-base64-strings.txt">render-codes-decoded-base64-strings.txt</a> for how the unencoded RENDER_FORMAT-string is structured.  
 
             To just use the 4-byte-string, you can use: 
             "wave" for wave, "aiff" for aiff, "caff" for caf, "iso " for audio-cd, "ddp " for ddp, "flac" for flac, "mp3l" for mp3, "oggv" for ogg, "OggS" for Opus, "FFMP" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, "GIF " for Gif, "LCF " for LCF, "wvpk" for wavepack
 
-            RENDER\_METADATA: get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: Uses common ID3-tagcodes like TALB(album), TPE1(Artist), etc.
+            RENDER_METADATA: get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: Uses common ID3-tagcodes like TALB(album), TPE1(Artist), etc.
             To get album tag, use "ID3:TALB", to set album tag, use "ID3:TALB|my album name".  
 
             Examples in Lua:  
@@ -9430,9 +9509,9 @@
 
                     retval, albumame_new = reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TALB|New album name", true)
 
-            Supported tags-codes are: TIT2(Title), TPE1(Artist), TPE2(Albumartist), TALB(Album), TRCK(Track), TCON(Genre), TYER(Year), TDRC(Recording time: YYYY-MM-DD), TKEY(Key), TBPM(Tempo), TSRC(International Standard Recording Code), COMM(Comment), COMM\_LANG(Comment language), APIC\_TYPE(Image type), APIC\_DESC(Image description), APIC\_FILE(Image file)  
+            Supported tags-codes are: TIT2(Title), TPE1(Artist), TPE2(Albumartist), TALB(Album), TRCK(Track), TCON(Genre), TYER(Year), TDRC(Recording time: YYYY-MM-DD), TKEY(Key), TBPM(Tempo), TSRC(International Standard Recording Code), COMM(Comment), COMM_LANG(Comment language), APIC_TYPE(Image type), APIC_DESC(Image description), APIC_FILE(Image file)  
 
-            APIC\_TYPE can have be of the following:  
+            APIC_TYPE can have be of the following:  
 
             0: Other  
             1: 32x32 pixel file icon (PNG only)  
@@ -9466,6 +9545,10 @@
              string valuestrNeedBig - if is_set==true, this is the new value to set
              boolean is_set - true, set a new value; false, just get the current one
         </parameters>
+        <linked_to desc="see:">
+            inline:GetSetProjectInfo
+                   sets additional attributes for the project as number instead of string
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9644,8 +9727,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            deprecated -- see [SetTrackStateChunk](#SetTrackStateChunk), [GetTrackStateChunk](#GetTrackStateChunk)
+        <description>
+            deprecated -- see SetTrackStateChunk, GetTrackStateChunk
         </description>
         <deprecated since_when="Reaper 5.62" alternative="GetTrackStateChunk and SetTrackStateChunk(available since at least Reaper 5.40)"/>
         <retvals>
@@ -9656,6 +9739,12 @@
             MediaTrack track - 
             string str - 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetTrackStateChunk
+                   returns, an TrackStateChunk, which holds all attributes-information of a MediaTrack
+            inline:SetTrackStateChunk
+                   sets an TrackStateChunk, to replace all attributes-information of a MediaTrack
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9678,7 +9767,7 @@
             Reaper=5.62
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            deprecated -- see [SetTrackStateChunk](#SetTrackStateChunk), [GetTrackStateChunk](#GetTrackStateChunk)
+            deprecated -- see SetTrackStateChunk, GetTrackStateChunk
         </description>
         <deprecated since_when="5.62" alternative="GetTrackStateChunk and SetTrackStateChunk(available since at least Reaper 5.40)"/>
         <retvals>
@@ -9690,6 +9779,12 @@
             string str - 
             boolean isundo - 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetTrackStateChunk
+                   returns, an TrackStateChunk, which holds all attributes-information of a MediaTrack
+            inline:SetTrackStateChunk
+                   sets an TrackStateChunk, to replace all attributes-information of a MediaTrack
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9834,10 +9929,8 @@
         <requires>
             Reaper=6.09
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get information about a take marker. Returns the position in media item source time, or -1 if the take marker does not exist.
-
-            See [GetNumTakeMarkers](#GetNumTakeMarkers)), [DeleteTakeMarker](#DeleteTakeMarker) and [SetTakeMarker](#SetTakeMarker).
         </description>
         <retvals>
             number position - the position of the takemarker within the take in seconds
@@ -9848,6 +9941,14 @@
             MediaItem_Take take - the take, whose take-marker you want to get
             integer idx - the id of the marker within the take, 0 for the first, 1 for the second, etc.
         </parameters>
+        <linked_to desc="see:">
+            inline: GetNumTakeMarkers
+                    gets the number of take-markers of a take
+            inline: SetTakeMarker
+                    sets attributes of a takemarker of a take
+            inline: DeleteTakeMarker
+                    deletes a take marker
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -9970,8 +10071,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [SetTakeStretchMarkerSlope](#SetTakeStretchMarkerSlope)
+        <description>
+            See SetTakeStretchMarkerSlope
         </description>
         <retvals>
             number take_marker_slope - 
@@ -9980,6 +10081,10 @@
             MediaItem_Take take - 
             integer idx - 
         </parameters>
+        <linked_to desc="see:">
+            inline:SetTakeStretchMarkerSlope
+                   sets a take/stretch-marker slope
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -10160,6 +10265,8 @@
         </chapter_context>
         <tags>miscellaneous, get, thing, from point</tags>
         <changelog>
+            Reaper 6.54 - hidden envelopes can now be found correctly
+                        
         </changelog>
     </US_DocBloc>
 
@@ -12579,6 +12686,12 @@
         </requires>
         <description prog_lang="*">
             Save the project and allows passing a filename.
+            
+            If project can not be saved, it will show an errordialog to the user.
+            
+            If the projectfilename already exists, it might create an alternative project-file with the extension rpp-TEMP.
+            
+            Will obey backup-file-settings, so a file using the extension rpp-bak might be created.
         </description>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
@@ -17103,7 +17216,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.SetMediaTrackInfo_Value(MediaTrack tr, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaTrackInfo_Value(MediaTrack tr, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=6.39
+            Reaper=6.54
         </requires>
         <description>
             Set track numerical-value attributes.
@@ -17151,7 +17264,7 @@
             B_MAINSEND : bool * : track sends audio to parent
             C_MAINSEND_OFFS : char * : channel offset of track send to parent
             C_MAINSEND_NCH : char * : channel count of track send to parent (0=use all child track channels, 1=use one channel only)
-            B_FREEMODE : bool * : track free item positioning enabled (call UpdateTimeline() after changing)
+            I_FREEMODE : int * : 1=track free item positioning enabled, 2=track fixed lanes enabled (call UpdateTimeline() after changing)
             C_BEATATTACHMODE : char * : track timebase, -1=project default, 0=time, 1=beats (position, length, rate), 2=beats (position only)
             F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0=minimum allowed, 1=maximum allowed)
             F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
@@ -17168,6 +17281,9 @@
             string parmname - the attribute, that you want to set; refer description for possible attributes
             number newvalue - the new value, that you want to set to the attribute
         </parameters>
+        <changelog>
+            Reaper 6.54 - attribute "I_FREEMODE" includes new value 2=track fixed lanes enabled
+        </changelog>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -17607,10 +17723,10 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Add (addorremove > 0) or remove (addorremove < 0) a track from this region when using the region render matrix.
             
-            see [TrackList\_AdjustWindows](#TrackList_AdjustWindows) to refresh the region-render-matrix
+            see TrackList_AdjustWindows to refresh the region-render-matrix
         </description>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
@@ -17618,6 +17734,10 @@
             MediaTrack track - the MediaTrack to add to the render-matrix for this region
             integer addorremove - greater than 0, add; lower than 0, remove from the render-matrix
         </parameters>
+        <linked_to desc="see:">
+            inline:TrackList_AdjustWindows
+                   refreshes ui of the region render matrix
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -17639,12 +17759,10 @@
         <requires>
             Reaper=6.09
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Inserts or updates a take marker. If idx<0, a take marker will be added, otherwise an existing take marker will be updated. Returns the index of the new or updated take marker (which may change if srcPos is updated).
 
             When inserting a new takemarker, parameter srcposIn must be given!
-
-            See [GetNumTakeMarkers](#GetNumTakeMarkers)), [GetTakeMarker](#GetTakeMarker) and [DeleteTakeMarker](#DeleteTakeMarker).
         </description>
         <retvals>
             integer index - index of the new or update take-marker
@@ -17656,6 +17774,14 @@
             optional number srcposIn - the position of the takemarker; omit if you want to keep the old position; must be given, when inserting a new takemarker
             optional integer colorIn - the color of the takemarker
         </parameters>
+        <linked_to desc="see:">
+            inline: GetNumTakeMarkers
+                    gets the number of take-markers of a take
+            inline: GetTakeMarker
+                    gets attributes of a take-marker of a take
+            inline: DeleteTakeMarker
+                    deletes a take marker
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -17781,358 +17907,372 @@
         <requires>
             Reaper=6.53
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Temporarily updates the theme color to the color specified (or the theme default color if -1 is specified). Returns -1 on failure, otherwise returns the color (or transformed-color). Note that the UI is not updated by this, the caller should call [UpdateArrange()](#UpdateArrange) etc as necessary. If the low bit of flags is set, any color transformations are bypassed. To read a value see [GetThemeColor](#GetThemeColor).
+        <description>
+            Temporarily updates the theme color to the color specified (or the theme default color if -1 is specified). 
+            Returns -1 on failure, otherwise returns the color (or transformed-color). 
+            
+            Note that the UI is not updated by this, the caller should call UpdateArrange etc as necessary. 
+            
+            If the low bit of flags is set, any color transformations are bypassed. 
+            To read a value see GetThemeColor
 
-             * col\_main\_bg2 : Main window/transport background 
-             * col\_main\_text2 : Main window/transport text 
-             * col\_main\_textshadow : Main window text shadow (ignored if too close to text color) 
-             * col\_main\_3dhl : Main window 3D highlight 
-             * col\_main\_3dsh : Main window 3D shadow 
-             * col\_main\_resize2 : Main window pane resize mouseover 
-             * col\_main\_text : Themed Window text 
-             * col\_main\_bg : Themed Window background 
-             * col\_main\_editbk : Themed Window edit background 
-             * col\_nodarkmodemiscwnd : Do not use window theming on macOS dark mode
-             * col\_transport\_editbk : Transport edit background 
-             * col\_toolbar\_text : Toolbar button text 
-             * col\_toolbar\_text\_on : Toolbar button enabled text 
-             * col\_toolbar\_frame : Toolbar frame when floating or docked 
-             * toolbararmed\_color : Toolbar button armed color 
-             * toolbararmed\_drawmode : Toolbar button armed fill mode 
-             * io\_text : I/O window text 
-             * io\_3dhl : I/O window 3D highlight 
-             * io\_3dsh : I/O window 3D shadow 
-             * genlist\_bg : Window list background 
-             * genlist\_fg : Window list text 
-             * genlist\_grid : Window list grid lines 
-             * genlist\_selbg : Window list selected row 
-             * genlist\_selfg : Window list selected text 
-             * genlist\_seliabg : Window list selected row (inactive) 
-             * genlist\_seliafg : Window list selected text (inactive) 
-             * genlist\_hilite : Window list highlighted text 
-             * genlist\_hilite\_sel : Window list highlighted selected text 
-             * col\_buttonbg : Button background 
-             * col\_tcp\_text : Track panel text 
-             * col\_tcp\_textsel : Track panel (selected) text 
-             * col\_seltrack : Selected track control panel background 
-             * col\_seltrack2 : Unselected track control panel background (enabled with a checkbox above) 
-             * tcplocked\_color : Locked track control panel overlay color 
-             * tcplocked\_drawmode : Locked track control panel fill mode 
-             * col\_tracklistbg : Empty track list area 
-             * col\_mixerbg : Empty mixer list area 
-             * col\_arrangebg : Empty arrange view area 
-             * arrange\_vgrid : Empty arrange view area vertical grid shading 
-             * col\_fadearm : Fader background when automation recording 
-             * col\_fadearm2 : Fader background when automation playing 
-             * col\_fadearm3 : Fader background when in inactive touch/latch 
-             * col\_tl\_fg : Timeline foreground 
-             * col\_tl\_fg2 : Timeline foreground (secondary markings) 
-             * col\_tl\_bg : Timeline background 
-             * col\_tl\_bgsel : Time selection color 
-             * timesel\_drawmode : Time selection fill mode 
-             * col\_tl\_bgsel2 : Timeline background (in loop points) 
-             * col\_trans\_bg : Transport status background 
-             * col\_trans\_fg : Transport status text 
-             * playrate\_edited : Project play rate control when not 1.0 
-             * col\_mi\_label : Media item label 
-             * col\_mi\_label\_sel : Media item label (selected) 
-             * col\_mi\_label\_float : Floating media item label 
-             * col\_mi\_label\_float\_sel : Floating media item label (selected) 
-             * col\_mi\_bg : Media item background (odd tracks) 
-             * col\_mi\_bg2 : Media item background (even tracks) 
-             * col\_tr1\_itembgsel : Media item background selected (odd tracks) 
-             * col\_tr2\_itembgsel : Media item background selected (even tracks) 
-             * itembg\_drawmode : Media item background fill mode 
-             * col\_tr1\_peaks : Media item peaks (odd tracks) 
-             * col\_tr2\_peaks : Media item peaks (even tracks) 
-             * col\_tr1\_ps2 : Media item peaks when selected (odd tracks) 
-             * col\_tr2\_ps2 : Media item peaks when selected (even tracks) 
-             * col\_peaksedge : Media item peaks edge highlight (odd tracks) 
-             * col\_peaksedge2 : Media item peaks edge highlight (even tracks) 
-             * col\_peaksedgesel : Media item peaks edge highlight when selected (odd tracks) 
-             * col\_peaksedgesel2 : Media item peaks edge highlight when selected (even tracks) 
-             * cc\_chase\_drawmode : Media item MIDI CC peaks fill mode 
-             * col\_peaksfade : Media item peaks when active in crossfade editor (fade-out) 
-             * col\_peaksfade2 : Media item peaks when active in crossfade editor (fade-in) 
-             * col\_mi\_fades : Media item fade/volume controls 
-             * fadezone\_color : Media item fade quiet zone fill color 
-             * fadezone\_drawmode : Media item fade quiet zone fill mode 
-             * fadearea\_color : Media item fade full area fill color 
-             * fadearea\_drawmode : Media item fade full area fill mode 
-             * col\_mi\_fade2 : Media item edges of controls 
-             * col\_mi\_fade2\_drawmode : Media item edges of controls blend mode 
-             * item\_grouphl : Media item edge when selected via grouping 
-             * col\_offlinetext : Media item "offline" text 
-             * col\_stretchmarker : Media item stretch marker line 
-             * col\_stretchmarker\_h0 : Media item stretch marker handle (1x) 
-             * col\_stretchmarker\_h1 : Media item stretch marker handle (>1x) 
-             * col\_stretchmarker\_h2 : Media item stretch marker handle (<1x) 
-             * col\_stretchmarker\_b : Media item stretch marker handle edge 
-             * col\_stretchmarkerm : Media item stretch marker blend mode 
-             * col\_stretchmarker\_text : Media item stretch marker text 
-             * col\_stretchmarker\_tm : Media item transient guide handle 
-             * take\_marker : Media item take marker 
-             * selitem\_tag : Selected media item bar color 
-             * activetake\_tag : Active media item take bar color 
-             * col\_tr1\_bg : Track background (odd tracks) 
-             * col\_tr2\_bg : Track background (even tracks) 
-             * selcol\_tr1\_bg : Selected track background (odd tracks) 
-             * selcol\_tr2\_bg : Selected track background (even tracks) 
-             * col\_tr1\_divline : Track divider line (odd tracks) 
-             * col\_tr2\_divline : Track divider line (even tracks) 
-             * col\_envlane1\_divline : Envelope lane divider line (odd tracks) 
-             * col\_envlane2\_divline : Envelope lane divider line (even tracks) 
-             * marquee\_fill : Marquee fill 
-             * marquee\_drawmode : Marquee fill mode 
-             * marquee\_outline : Marquee outline 
-             * marqueezoom\_fill : Marquee zoom fill 
-             * marqueezoom\_drawmode : Marquee zoom fill mode 
-             * marqueezoom\_outline : Marquee zoom outline 
-             * areasel\_fill : Razor edit area fill 
-             * areasel\_drawmode : Razor edit area fill mode 
-             * areasel\_outline : Razor edit area outline 
-             * areasel\_outlinemode : Razor edit area outline mode 
-             * col\_cursor : Edit cursor 
-             * col\_cursor2 : Edit cursor (alternate) 
-             * playcursor\_color : Play cursor 
-             * playcursor\_drawmode : Play cursor fill mode 
-             * col\_gridlines2 : Grid lines (start of measure) 
-             * col\_gridlines2dm : Grid lines (start of measure) - draw mode 
-             * col\_gridlines3 : Grid lines (start of beats) 
-             * col\_gridlines3dm : Grid lines (start of beats) - draw mode 
-             * col\_gridlines : Grid lines (in between beats) 
-             * col\_gridlines1dm : Grid lines (in between beats) - draw mode 
-             * guideline\_color : Editing guide line color 
-             * guideline\_drawmode : Editing guide fill mode 
+             * col_main_bg2 : Main window/transport background 
+             * col_main_text2 : Main window/transport text 
+             * col_main_textshadow : Main window text shadow (ignored if too close to text color) 
+             * col_main_3dhl : Main window 3D highlight 
+             * col_main_3dsh : Main window 3D shadow 
+             * col_main_resize2 : Main window pane resize mouseover 
+             * col_main_text : Themed Window text 
+             * col_main_bg : Themed Window background 
+             * col_main_editbk : Themed Window edit background 
+             * col_nodarkmodemiscwnd : Do not use window theming on macOS dark mode
+             * col_transport_editbk : Transport edit background 
+             * col_toolbar_text : Toolbar button text 
+             * col_toolbar_text_on : Toolbar button enabled text 
+             * col_toolbar_frame : Toolbar frame when floating or docked 
+             * toolbararmed_color : Toolbar button armed color 
+             * toolbararmed_drawmode : Toolbar button armed fill mode 
+             * io_text : I/O window text 
+             * io_3dhl : I/O window 3D highlight 
+             * io_3dsh : I/O window 3D shadow 
+             * genlist_bg : Window list background 
+             * genlist_fg : Window list text 
+             * genlist_grid : Window list grid lines 
+             * genlist_selbg : Window list selected row 
+             * genlist_selfg : Window list selected text 
+             * genlist_seliabg : Window list selected row (inactive) 
+             * genlist_seliafg : Window list selected text (inactive) 
+             * genlist_hilite : Window list highlighted text 
+             * genlist_hilite_sel : Window list highlighted selected text 
+             * col_buttonbg : Button background 
+             * col_tcp_text : Track panel text 
+             * col_tcp_textsel : Track panel (selected) text 
+             * col_seltrack : Selected track control panel background 
+             * col_seltrack2 : Unselected track control panel background (enabled with a checkbox above) 
+             * tcplocked_color : Locked track control panel overlay color 
+             * tcplocked_drawmode : Locked track control panel fill mode 
+             * col_tracklistbg : Empty track list area 
+             * col_mixerbg : Empty mixer list area 
+             * col_arrangebg : Empty arrange view area 
+             * arrange_vgrid : Empty arrange view area vertical grid shading 
+             * col_fadearm : Fader background when automation recording 
+             * col_fadearm2 : Fader background when automation playing 
+             * col_fadearm3 : Fader background when in inactive touch/latch 
+             * col_tl_fg : Timeline foreground 
+             * col_tl_fg2 : Timeline foreground (secondary markings) 
+             * col_tl_bg : Timeline background 
+             * col_tl_bgsel : Time selection color 
+             * timesel_drawmode : Time selection fill mode 
+             * col_tl_bgsel2 : Timeline background (in loop points) 
+             * col_trans_bg : Transport status background 
+             * col_trans_fg : Transport status text 
+             * playrate_edited : Project play rate control when not 1.0 
+             * col_mi_label : Media item label 
+             * col_mi_label_sel : Media item label (selected) 
+             * col_mi_label_float : Floating media item label 
+             * col_mi_label_float_sel : Floating media item label (selected) 
+             * col_mi_bg : Media item background (odd tracks) 
+             * col_mi_bg2 : Media item background (even tracks) 
+             * col_tr1_itembgsel : Media item background selected (odd tracks) 
+             * col_tr2_itembgsel : Media item background selected (even tracks) 
+             * itembg_drawmode : Media item background fill mode 
+             * col_tr1_peaks : Media item peaks (odd tracks) 
+             * col_tr2_peaks : Media item peaks (even tracks) 
+             * col_tr1_ps2 : Media item peaks when selected (odd tracks) 
+             * col_tr2_ps2 : Media item peaks when selected (even tracks) 
+             * col_peaksedge : Media item peaks edge highlight (odd tracks) 
+             * col_peaksedge2 : Media item peaks edge highlight (even tracks) 
+             * col_peaksedgesel : Media item peaks edge highlight when selected (odd tracks) 
+             * col_peaksedgesel2 : Media item peaks edge highlight when selected (even tracks) 
+             * cc_chase_drawmode : Media item MIDI CC peaks fill mode 
+             * col_peaksfade : Media item peaks when active in crossfade editor (fade-out) 
+             * col_peaksfade2 : Media item peaks when active in crossfade editor (fade-in) 
+             * col_mi_fades : Media item fade/volume controls 
+             * fadezone_color : Media item fade quiet zone fill color 
+             * fadezone_drawmode : Media item fade quiet zone fill mode 
+             * fadearea_color : Media item fade full area fill color 
+             * fadearea_drawmode : Media item fade full area fill mode 
+             * col_mi_fade2 : Media item edges of controls 
+             * col_mi_fade2_drawmode : Media item edges of controls blend mode 
+             * item_grouphl : Media item edge when selected via grouping 
+             * col_offlinetext : Media item "offline" text 
+             * col_stretchmarker : Media item stretch marker line 
+             * col_stretchmarker_h0 : Media item stretch marker handle (1x) 
+             * col_stretchmarker_h1 : Media item stretch marker handle (>1x) 
+             * col_stretchmarker_h2 : Media item stretch marker handle (<1x) 
+             * col_stretchmarker_b : Media item stretch marker handle edge 
+             * col_stretchmarkerm : Media item stretch marker blend mode 
+             * col_stretchmarker_text : Media item stretch marker text 
+             * col_stretchmarker_tm : Media item transient guide handle 
+             * take_marker : Media item take marker 
+             * selitem_tag : Selected media item bar color 
+             * activetake_tag : Active media item take bar color 
+             * col_tr1_bg : Track background (odd tracks) 
+             * col_tr2_bg : Track background (even tracks) 
+             * selcol_tr1_bg : Selected track background (odd tracks) 
+             * selcol_tr2_bg : Selected track background (even tracks) 
+             * track_lane_tabcol : Track fixed lane label
+             * track_lanesolo_tabcol : Track fixed lane label when only this lane plays
+             * track_lane_gutter : Track fixed lane add area
+             * track_lane_gutter_drawmode : Track fixed lane add fill mode
+             * col_tr1_divline : Track divider line (odd tracks) 
+             * col_tr2_divline : Track divider line (even tracks) 
+             * col_envlane1_divline : Envelope lane divider line (odd tracks) 
+             * col_envlane2_divline : Envelope lane divider line (even tracks) 
+             * mute_overlay_col : Muted/unsoloed/inactive track/take overlay color
+             * mute_overlay_mode : Muted/unsoloed/inactive track/take overlay mode
+             * locked_overlay_col : Locked track/item overlay color
+             * locked_overlay_mode : Locked track/item overlay mode
+             * marquee_fill : Marquee fill 
+             * marquee_drawmode : Marquee fill mode 
+             * marquee_outline : Marquee outline 
+             * marqueezoom_fill : Marquee zoom fill 
+             * marqueezoom_drawmode : Marquee zoom fill mode 
+             * marqueezoom_outline : Marquee zoom outline 
+             * areasel_fill : Razor edit area fill 
+             * areasel_drawmode : Razor edit area fill mode 
+             * areasel_outline : Razor edit area outline 
+             * areasel_outlinemode : Razor edit area outline mode 
+             * col_cursor : Edit cursor 
+             * col_cursor2 : Edit cursor (alternate) 
+             * playcursor_color : Play cursor 
+             * playcursor_drawmode : Play cursor fill mode 
+             * col_gridlines2 : Grid lines (start of measure) 
+             * col_gridlines2dm : Grid lines (start of measure) - draw mode 
+             * col_gridlines3 : Grid lines (start of beats) 
+             * col_gridlines3dm : Grid lines (start of beats) - draw mode 
+             * col_gridlines : Grid lines (in between beats) 
+             * col_gridlines1dm : Grid lines (in between beats) - draw mode 
+             * guideline_color : Editing guide line color 
+             * guideline_drawmode : Editing guide fill mode 
              * region : Regions 
-             * region\_lane\_bg : Region lane background 
-             * region\_lane\_text : Region lane text 
+             * region_lane_bg : Region lane background 
+             * region_lane_text : Region lane text 
              * marker : Markers 
-             * marker\_lane\_bg : Marker lane background 
-             * marker\_lane\_text : Marker lane text 
-             * col\_tsigmark : Time signature change marker 
-             * ts\_lane\_bg : Time signature lane background 
-             * ts\_lane\_text : Time signature lane text 
-             * timesig\_sel\_bg : Time signature marker selected background 
-             * col\_routinghl1 : Routing matrix row highlight 
-             * col\_routinghl2 : Routing matrix column highlight 
-             * col\_vudoint : Theme has interlaced VU meters 
-             * col\_vuclip : VU meter clip indicator 
-             * col\_vutop : VU meter top 
-             * col\_vumid : VU meter middle 
-             * col\_vubot : VU meter bottom 
-             * col\_vuintcol : VU meter interlace/edge color 
-             * col\_vumidi : VU meter midi activity 
-             * col\_vuind1 : VU (indicator) - no signal 
-             * col\_vuind2 : VU (indicator) - low signal 
-             * col\_vuind3 : VU (indicator) - med signal 
-             * col\_vuind4 : VU (indicator) - hot signal 
-             * mcp\_sends\_normal : Sends text: normal 
-             * mcp\_sends\_muted : Sends text: muted 
-             * mcp\_send\_midihw : Sends text: MIDI hardware 
-             * mcp\_sends\_levels : Sends level 
-             * mcp\_fx\_normal : FX insert text: normal 
-             * mcp\_fx\_bypassed : FX insert text: bypassed 
-             * mcp\_fx\_offlined : FX insert text: offline 
-             * mcp\_fxparm\_normal : FX parameter text: normal 
-             * mcp\_fxparm\_bypassed : FX parameter text: bypassed 
-             * mcp\_fxparm\_offlined : FX parameter text: offline 
-             * tcp\_list\_scrollbar : List scrollbar (track panel) 
-             * tcp\_list\_scrollbar\_mode : List scrollbar (track panel) - draw mode 
-             * tcp\_list\_scrollbar\_mouseover : List scrollbar mouseover (track panel) 
-             * tcp\_list\_scrollbar\_mouseover\_mode : List scrollbar mouseover (track panel) - draw mode 
-             * mcp\_list\_scrollbar : List scrollbar (mixer panel) 
-             * mcp\_list\_scrollbar\_mode : List scrollbar (mixer panel) - draw mode 
-             * mcp\_list\_scrollbar\_mouseover : List scrollbar mouseover (mixer panel) 
-             * mcp\_list\_scrollbar\_mouseover\_mode : List scrollbar mouseover (mixer panel) - draw mode 
-             * midi\_rulerbg : MIDI editor ruler background 
-             * midi\_rulerfg : MIDI editor ruler text 
-             * midi\_grid2 : MIDI editor grid line (start of measure) 
-             * midi\_griddm2 : MIDI editor grid line (start of measure) - draw mode 
-             * midi\_grid3 : MIDI editor grid line (start of beats) 
-             * midi\_griddm3 : MIDI editor grid line (start of beats) - draw mode 
-             * midi\_grid1 : MIDI editor grid line (between beats) 
-             * midi\_griddm1 : MIDI editor grid line (between beats) - draw mode 
-             * midi\_trackbg1 : MIDI editor background color (naturals) 
-             * midi\_trackbg2 : MIDI editor background color (sharps/flats) 
-             * midi\_trackbg\_outer1 : MIDI editor background color, out of bounds (naturals) 
-             * midi\_trackbg\_outer2 : MIDI editor background color, out of bounds (sharps/flats) 
-             * midi\_selpitch1 : MIDI editor background color, selected pitch (naturals) 
-             * midi\_selpitch2 : MIDI editor background color, selected pitch (sharps/flats) 
-             * midi\_selbg : MIDI editor time selection color 
-             * midi\_selbg\_drawmode : MIDI editor time selection fill mode 
-             * midi\_gridhc : MIDI editor CC horizontal center line 
-             * midi\_gridhcdm : MIDI editor CC horizontal center line - draw mode 
-             * midi\_gridh : MIDI editor CC horizontal line 
-             * midi\_gridhdm : MIDI editor CC horizontal line - draw mode 
-             * midi\_ccbut : MIDI editor CC lane add/remove buttons 
-             * midi\_ccbut\_text : MIDI editor CC lane button text 
-             * midi\_ccbut\_arrow : MIDI editor CC lane button arrow 
+             * marker_lane_bg : Marker lane background 
+             * marker_lane_text : Marker lane text 
+             * col_tsigmark : Time signature change marker 
+             * ts_lane_bg : Time signature lane background 
+             * ts_lane_text : Time signature lane text 
+             * timesig_sel_bg : Time signature marker selected background 
+             * col_routinghl1 : Routing matrix row highlight 
+             * col_routinghl2 : Routing matrix column highlight 
+             * col_vudoint : Theme has interlaced VU meters 
+             * col_vuclip : VU meter clip indicator 
+             * col_vutop : VU meter top 
+             * col_vumid : VU meter middle 
+             * col_vubot : VU meter bottom 
+             * col_vuintcol : VU meter interlace/edge color 
+             * col_vumidi : VU meter midi activity 
+             * col_vuind1 : VU (indicator) - no signal 
+             * col_vuind2 : VU (indicator) - low signal 
+             * col_vuind3 : VU (indicator) - med signal 
+             * col_vuind4 : VU (indicator) - hot signal 
+             * mcp_sends_normal : Sends text: normal 
+             * mcp_sends_muted : Sends text: muted 
+             * mcp_send_midihw : Sends text: MIDI hardware 
+             * mcp_sends_levels : Sends level 
+             * mcp_fx_normal : FX insert text: normal 
+             * mcp_fx_bypassed : FX insert text: bypassed 
+             * mcp_fx_offlined : FX insert text: offline 
+             * mcp_fxparm_normal : FX parameter text: normal 
+             * mcp_fxparm_bypassed : FX parameter text: bypassed 
+             * mcp_fxparm_offlined : FX parameter text: offline 
+             * tcp_list_scrollbar : List scrollbar (track panel) 
+             * tcp_list_scrollbar_mode : List scrollbar (track panel) - draw mode 
+             * tcp_list_scrollbar_mouseover : List scrollbar mouseover (track panel) 
+             * tcp_list_scrollbar_mouseover_mode : List scrollbar mouseover (track panel) - draw mode 
+             * mcp_list_scrollbar : List scrollbar (mixer panel) 
+             * mcp_list_scrollbar_mode : List scrollbar (mixer panel) - draw mode 
+             * mcp_list_scrollbar_mouseover : List scrollbar mouseover (mixer panel) 
+             * mcp_list_scrollbar_mouseover_mode : List scrollbar mouseover (mixer panel) - draw mode 
+             * midi_rulerbg : MIDI editor ruler background 
+             * midi_rulerfg : MIDI editor ruler text 
+             * midi_grid2 : MIDI editor grid line (start of measure) 
+             * midi_griddm2 : MIDI editor grid line (start of measure) - draw mode 
+             * midi_grid3 : MIDI editor grid line (start of beats) 
+             * midi_griddm3 : MIDI editor grid line (start of beats) - draw mode 
+             * midi_grid1 : MIDI editor grid line (between beats) 
+             * midi_griddm1 : MIDI editor grid line (between beats) - draw mode 
+             * midi_trackbg1 : MIDI editor background color (naturals) 
+             * midi_trackbg2 : MIDI editor background color (sharps/flats) 
+             * midi_trackbg_outer1 : MIDI editor background color, out of bounds (naturals) 
+             * midi_trackbg_outer2 : MIDI editor background color, out of bounds (sharps/flats) 
+             * midi_selpitch1 : MIDI editor background color, selected pitch (naturals) 
+             * midi_selpitch2 : MIDI editor background color, selected pitch (sharps/flats) 
+             * midi_selbg : MIDI editor time selection color 
+             * midi_selbg_drawmode : MIDI editor time selection fill mode 
+             * midi_gridhc : MIDI editor CC horizontal center line 
+             * midi_gridhcdm : MIDI editor CC horizontal center line - draw mode 
+             * midi_gridh : MIDI editor CC horizontal line 
+             * midi_gridhdm : MIDI editor CC horizontal line - draw mode 
+             * midi_ccbut : MIDI editor CC lane add/remove buttons 
+             * midi_ccbut_text : MIDI editor CC lane button text 
+             * midi_ccbut_arrow : MIDI editor CC lane button arrow 
              * midioct : MIDI editor octave line color 
-             * midi\_inline\_trackbg1 : MIDI inline background color (naturals) 
-             * midi\_inline\_trackbg2 : MIDI inline background color (sharps/flats) 
-             * midioct\_inline : MIDI inline octave line color 
-             * midi\_endpt : MIDI editor end marker 
-             * midi\_notebg : MIDI editor note, unselected (midi\_note\_colormap overrides) 
-             * midi\_notefg : MIDI editor note, selected (midi\_note\_colormap overrides) 
-             * midi\_notemute : MIDI editor note, muted, unselected (midi\_note\_colormap overrides) 
-             * midi\_notemute\_sel : MIDI editor note, muted, selected (midi\_note\_colormap overrides) 
-             * midi\_itemctl : MIDI editor note controls 
-             * midi\_ofsn : MIDI editor note (offscreen) 
-             * midi\_ofsnsel : MIDI editor note (offscreen, selected) 
-             * midi\_editcurs : MIDI editor cursor 
-             * midi\_pkey1 : MIDI piano key color (naturals background, sharps/flats text) 
-             * midi\_pkey2 : MIDI piano key color (sharps/flats background, naturals text) 
-             * midi\_pkey3 : MIDI piano key color (selected) 
-             * midi\_noteon\_flash : MIDI piano key note-on flash 
-             * midi\_leftbg : MIDI piano pane background 
-             * midifont\_col\_light\_unsel : MIDI editor note text and control color, unselected (light) 
-             * midifont\_col\_dark\_unsel : MIDI editor note text and control color, unselected (dark) 
-             * midifont\_mode\_unsel : MIDI editor note text and control mode, unselected 
-             * midifont\_col\_light : MIDI editor note text and control color (light) 
-             * midifont\_col\_dark : MIDI editor note text and control color (dark) 
-             * midifont\_mode : MIDI editor note text and control mode 
-             * score\_bg : MIDI notation editor background 
-             * score\_fg : MIDI notation editor staff/notation/text 
-             * score\_sel : MIDI notation editor selected staff/notation/text 
-             * score\_timesel : MIDI notation editor time selection 
-             * score\_loop : MIDI notation editor loop points, selected pitch 
-             * midieditorlist\_bg : MIDI list editor background 
-             * midieditorlist\_fg : MIDI list editor text 
-             * midieditorlist\_grid : MIDI list editor grid lines 
-             * midieditorlist\_selbg : MIDI list editor selected row 
-             * midieditorlist\_selfg : MIDI list editor selected text 
-             * midieditorlist\_seliabg : MIDI list editor selected row (inactive) 
-             * midieditorlist\_seliafg : MIDI list editor selected text (inactive) 
-             * midieditorlist\_bg2 : MIDI list editor background (secondary) 
-             * midieditorlist\_fg2 : MIDI list editor text (secondary) 
-             * midieditorlist\_selbg2 : MIDI list editor selected row (secondary) 
-             * midieditorlist\_selfg2 : MIDI list editor selected text (secondary) 
-             * col\_explorer\_sel : Media explorer selection 
-             * col\_explorer\_seldm : Media explorer selection mode 
-             * col\_explorer\_seledge : Media explorer selection edge 
-             * explorer\_grid : Media explorer grid, markers
-             * explorer\_pitchtext : Media explorer pitch detection text
-             * docker\_shadow : Tab control shadow 
-             * docker\_selface : Tab control selected tab 
-             * docker\_unselface : Tab control unselected tab 
-             * docker\_text : Tab control text 
-             * docker\_text\_sel : Tab control text selected tab 
-             * docker\_bg : Tab control background 
-             * windowtab\_bg : Tab control background in windows 
-             * auto\_item\_unsel : Envelope: Unselected automation item 
-             * col\_env1 : Envelope: Volume (pre-FX) 
-             * col\_env2 : Envelope: Volume 
-             * env\_trim\_vol : Envelope: Trim Volume 
-             * col\_env3 : Envelope: Pan (pre-FX) 
-             * col\_env4 : Envelope: Pan 
-             * env\_track\_mute : Envelope: Mute 
-             * col\_env5 : Envelope: Master playrate 
-             * col\_env6 : Envelope: Master tempo 
-             * col\_env7 : Envelope: Send volume 
-             * col\_env8 : Envelope: Send pan 
-             * col\_env9 : Envelope: Send volume 2 
-             * col\_env10 : Envelope: Send pan 2 
-             * env\_sends\_mute : Envelope: Send mute 
-             * col\_env11 : Envelope: Audio hardware output volume 
-             * col\_env12 : Envelope: Audio hardware output pan 
-             * col\_env13 : Envelope: FX parameter 1 
-             * col\_env14 : Envelope: FX parameter 2 
-             * col\_env15 : Envelope: FX parameter 3 
-             * col\_env16 : Envelope: FX parameter 4 
-             * env\_item\_vol : Envelope: Item take volume 
-             * env\_item\_pan : Envelope: Item take pan 
-             * env\_item\_mute : Envelope: Item take mute 
-             * env\_item\_pitch : Envelope: Item take pitch 
-             * wiring\_grid2 : Wiring: Background 
-             * wiring\_grid : Wiring: Background grid lines 
-             * wiring\_border : Wiring: Box border 
-             * wiring\_tbg : Wiring: Box background 
-             * wiring\_ticon : Wiring: Box foreground 
-             * wiring\_recbg : Wiring: Record section background 
-             * wiring\_recitem : Wiring: Record section foreground 
-             * wiring\_media : Wiring: Media 
-             * wiring\_recv : Wiring: Receives 
-             * wiring\_send : Wiring: Sends 
-             * wiring\_fader : Wiring: Fader 
-             * wiring\_parent : Wiring: Master/Parent 
-             * wiring\_parentwire\_border : Wiring: Master/Parent wire border 
-             * wiring\_parentwire\_master : Wiring: Master/Parent to master wire 
-             * wiring\_parentwire\_folder : Wiring: Master/Parent to parent folder wire 
-             * wiring\_pin\_normal : Wiring: Pins normal 
-             * wiring\_pin\_connected : Wiring: Pins connected 
-             * wiring\_pin\_disconnected : Wiring: Pins disconnected 
-             * wiring\_horz\_col : Wiring: Horizontal pin connections 
-             * wiring\_sendwire : Wiring: Send hanging wire 
-             * wiring\_hwoutwire : Wiring: Hardware output wire 
-             * wiring\_recinputwire : Wiring: Record input wire 
-             * wiring\_hwout : Wiring: System hardware outputs 
-             * wiring\_recinput : Wiring: System record inputs 
-             * group\_0 : Group #1 
-             * group\_1 : Group #2 
-             * group\_2 : Group #3 
-             * group\_3 : Group #4 
-             * group\_4 : Group #5 
-             * group\_5 : Group #6 
-             * group\_6 : Group #7 
-             * group\_7 : Group #8 
-             * group\_8 : Group #9 
-             * group\_9 : Group #10 
-             * group\_10 : Group #11 
-             * group\_11 : Group #12 
-             * group\_12 : Group #13 
-             * group\_13 : Group #14 
-             * group\_14 : Group #15 
-             * group\_15 : Group #16 
-             * group\_16 : Group #17 
-             * group\_17 : Group #18 
-             * group\_18 : Group #19 
-             * group\_19 : Group #20 
-             * group\_20 : Group #21 
-             * group\_21 : Group #22 
-             * group\_22 : Group #23 
-             * group\_23 : Group #24 
-             * group\_24 : Group #25 
-             * group\_25 : Group #26 
-             * group\_26 : Group #27 
-             * group\_27 : Group #28 
-             * group\_28 : Group #29 
-             * group\_29 : Group #30 
-             * group\_30 : Group #31 
-             * group\_31 : Group #32 
-             * group\_32 : Group #33 
-             * group\_33 : Group #34 
-             * group\_34 : Group #35 
-             * group\_35 : Group #36 
-             * group\_36 : Group #37 
-             * group\_37 : Group #38 
-             * group\_38 : Group #39 
-             * group\_39 : Group #40 
-             * group\_40 : Group #41 
-             * group\_41 : Group #42 
-             * group\_42 : Group #43 
-             * group\_43 : Group #44 
-             * group\_44 : Group #45 
-             * group\_45 : Group #46 
-             * group\_46 : Group #47 
-             * group\_47 : Group #48 
-             * group\_48 : Group #49 
-             * group\_49 : Group #50 
-             * group\_50 : Group #51 
-             * group\_51 : Group #52 
-             * group\_52 : Group #53 
-             * group\_53 : Group #54 
-             * group\_54 : Group #55 
-             * group\_55 : Group #56 
-             * group\_56 : Group #57 
-             * group\_57 : Group #58 
-             * group\_58 : Group #59 
-             * group\_59 : Group #60 
-             * group\_60 : Group #61 
-             * group\_61 : Group #62 
-             * group\_62 : Group #63 
-             * group\_63 : Group #64 
+             * midi_inline_trackbg1 : MIDI inline background color (naturals) 
+             * midi_inline_trackbg2 : MIDI inline background color (sharps/flats) 
+             * midioct_inline : MIDI inline octave line color 
+             * midi_endpt : MIDI editor end marker 
+             * midi_notebg : MIDI editor note, unselected (midi_note_colormap overrides) 
+             * midi_notefg : MIDI editor note, selected (midi_note_colormap overrides) 
+             * midi_notemute : MIDI editor note, muted, unselected (midi_note_colormap overrides) 
+             * midi_notemute_sel : MIDI editor note, muted, selected (midi_note_colormap overrides) 
+             * midi_itemctl : MIDI editor note controls 
+             * midi_ofsn : MIDI editor note (offscreen) 
+             * midi_ofsnsel : MIDI editor note (offscreen, selected) 
+             * midi_editcurs : MIDI editor cursor 
+             * midi_pkey1 : MIDI piano key color (naturals background, sharps/flats text) 
+             * midi_pkey2 : MIDI piano key color (sharps/flats background, naturals text) 
+             * midi_pkey3 : MIDI piano key color (selected) 
+             * midi_noteon_flash : MIDI piano key note-on flash 
+             * midi_leftbg : MIDI piano pane background 
+             * midifont_col_light_unsel : MIDI editor note text and control color, unselected (light) 
+             * midifont_col_dark_unsel : MIDI editor note text and control color, unselected (dark) 
+             * midifont_mode_unsel : MIDI editor note text and control mode, unselected 
+             * midifont_col_light : MIDI editor note text and control color (light) 
+             * midifont_col_dark : MIDI editor note text and control color (dark) 
+             * midifont_mode : MIDI editor note text and control mode 
+             * score_bg : MIDI notation editor background 
+             * score_fg : MIDI notation editor staff/notation/text 
+             * score_sel : MIDI notation editor selected staff/notation/text 
+             * score_timesel : MIDI notation editor time selection 
+             * score_loop : MIDI notation editor loop points, selected pitch 
+             * midieditorlist_bg : MIDI list editor background 
+             * midieditorlist_fg : MIDI list editor text 
+             * midieditorlist_grid : MIDI list editor grid lines 
+             * midieditorlist_selbg : MIDI list editor selected row 
+             * midieditorlist_selfg : MIDI list editor selected text 
+             * midieditorlist_seliabg : MIDI list editor selected row (inactive) 
+             * midieditorlist_seliafg : MIDI list editor selected text (inactive) 
+             * midieditorlist_bg2 : MIDI list editor background (secondary) 
+             * midieditorlist_fg2 : MIDI list editor text (secondary) 
+             * midieditorlist_selbg2 : MIDI list editor selected row (secondary) 
+             * midieditorlist_selfg2 : MIDI list editor selected text (secondary) 
+             * col_explorer_sel : Media explorer selection 
+             * col_explorer_seldm : Media explorer selection mode 
+             * col_explorer_seledge : Media explorer selection edge 
+             * explorer_grid : Media explorer grid, markers
+             * explorer_pitchtext : Media explorer pitch detection text
+             * docker_shadow : Tab control shadow 
+             * docker_selface : Tab control selected tab 
+             * docker_unselface : Tab control unselected tab 
+             * docker_text : Tab control text 
+             * docker_text_sel : Tab control text selected tab 
+             * docker_bg : Tab control background 
+             * windowtab_bg : Tab control background in windows 
+             * auto_item_unsel : Envelope: Unselected automation item 
+             * col_env1 : Envelope: Volume (pre-FX) 
+             * col_env2 : Envelope: Volume 
+             * env_trim_vol : Envelope: Trim Volume 
+             * col_env3 : Envelope: Pan (pre-FX) 
+             * col_env4 : Envelope: Pan 
+             * env_track_mute : Envelope: Mute 
+             * col_env5 : Envelope: Master playrate 
+             * col_env6 : Envelope: Master tempo 
+             * col_env7 : Envelope: Send volume 
+             * col_env8 : Envelope: Send pan 
+             * col_env9 : Envelope: Send volume 2 
+             * col_env10 : Envelope: Send pan 2 
+             * env_sends_mute : Envelope: Send mute 
+             * col_env11 : Envelope: Audio hardware output volume 
+             * col_env12 : Envelope: Audio hardware output pan 
+             * col_env13 : Envelope: FX parameter 1 
+             * col_env14 : Envelope: FX parameter 2 
+             * col_env15 : Envelope: FX parameter 3 
+             * col_env16 : Envelope: FX parameter 4 
+             * env_item_vol : Envelope: Item take volume 
+             * env_item_pan : Envelope: Item take pan 
+             * env_item_mute : Envelope: Item take mute 
+             * env_item_pitch : Envelope: Item take pitch 
+             * wiring_grid2 : Wiring: Background 
+             * wiring_grid : Wiring: Background grid lines 
+             * wiring_border : Wiring: Box border 
+             * wiring_tbg : Wiring: Box background 
+             * wiring_ticon : Wiring: Box foreground 
+             * wiring_recbg : Wiring: Record section background 
+             * wiring_recitem : Wiring: Record section foreground 
+             * wiring_media : Wiring: Media 
+             * wiring_recv : Wiring: Receives 
+             * wiring_send : Wiring: Sends 
+             * wiring_fader : Wiring: Fader 
+             * wiring_parent : Wiring: Master/Parent 
+             * wiring_parentwire_border : Wiring: Master/Parent wire border 
+             * wiring_parentwire_master : Wiring: Master/Parent to master wire 
+             * wiring_parentwire_folder : Wiring: Master/Parent to parent folder wire 
+             * wiring_pin_normal : Wiring: Pins normal 
+             * wiring_pin_connected : Wiring: Pins connected 
+             * wiring_pin_disconnected : Wiring: Pins disconnected 
+             * wiring_horz_col : Wiring: Horizontal pin connections 
+             * wiring_sendwire : Wiring: Send hanging wire 
+             * wiring_hwoutwire : Wiring: Hardware output wire 
+             * wiring_recinputwire : Wiring: Record input wire 
+             * wiring_hwout : Wiring: System hardware outputs 
+             * wiring_recinput : Wiring: System record inputs 
+             * group_0 : Group #1 
+             * group_1 : Group #2 
+             * group_2 : Group #3 
+             * group_3 : Group #4 
+             * group_4 : Group #5 
+             * group_5 : Group #6 
+             * group_6 : Group #7 
+             * group_7 : Group #8 
+             * group_8 : Group #9 
+             * group_9 : Group #10 
+             * group_10 : Group #11 
+             * group_11 : Group #12 
+             * group_12 : Group #13 
+             * group_13 : Group #14 
+             * group_14 : Group #15 
+             * group_15 : Group #16 
+             * group_16 : Group #17 
+             * group_17 : Group #18 
+             * group_18 : Group #19 
+             * group_19 : Group #20 
+             * group_20 : Group #21 
+             * group_21 : Group #22 
+             * group_22 : Group #23 
+             * group_23 : Group #24 
+             * group_24 : Group #25 
+             * group_25 : Group #26 
+             * group_26 : Group #27 
+             * group_27 : Group #28 
+             * group_28 : Group #29 
+             * group_29 : Group #30 
+             * group_30 : Group #31 
+             * group_31 : Group #32 
+             * group_32 : Group #33 
+             * group_33 : Group #34 
+             * group_34 : Group #35 
+             * group_35 : Group #36 
+             * group_36 : Group #37 
+             * group_37 : Group #38 
+             * group_38 : Group #39 
+             * group_39 : Group #40 
+             * group_40 : Group #41 
+             * group_41 : Group #42 
+             * group_42 : Group #43 
+             * group_43 : Group #44 
+             * group_44 : Group #45 
+             * group_45 : Group #46 
+             * group_46 : Group #47 
+             * group_47 : Group #48 
+             * group_48 : Group #49 
+             * group_49 : Group #50 
+             * group_50 : Group #51 
+             * group_51 : Group #52 
+             * group_52 : Group #53 
+             * group_53 : Group #54 
+             * group_54 : Group #55 
+             * group_55 : Group #56 
+             * group_56 : Group #57 
+             * group_57 : Group #58 
+             * group_58 : Group #59 
+             * group_59 : Group #60 
+             * group_60 : Group #61 
+             * group_61 : Group #62 
+             * group_62 : Group #63 
+             * group_63 : Group #64 
         </description>
         <retvals>
             integer retval - 
@@ -18142,6 +18282,12 @@
             integer color - 
             integer flags - 
         </parameters>
+        <linked_to desc="see:">
+            inline:GetThemeColor
+                   gets a certain theme-color
+            inline:UpdateArrange
+                   updates the arrangeview, so theme-color changes are applied
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -18149,8 +18295,9 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-            Reaper 6.53 - new theme-colors explorer\_grid and explorer\_pitchtext
-            Reaper 6.44 - new theme-color col\_nodarkmodemiscwnd added
+            Reaper 6.54 - new theme colors: track_lane_tabcol, track_lanesolo_tabcol, track_lane_gutter, track_lane_gutter_drawmode, mute_overlay_col, mute_overlay_mode, locked_overlay_col, locked_overlay_mode
+            Reaper 6.53 - new theme-colors: explorer_grid and explorer_pitchtext
+            Reaper 6.44 - new theme-color: col_nodarkmodemiscwnd added
         </changelog>
     </US_DocBloc>
 
@@ -23001,6 +23148,8 @@
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Updates the TCP and optionally the MCP. Helpful, when setting a new trackheight using I\_HEIGHTOVERRIDE in [SetMediaTrackInfo\_Value](#SetMediaTrackInfo_Value).
+            
+            This also updates the Region Render Matrix.
         </description>
         <parameters>
             boolean isMinor - false, updates only TCP; true, updates TCP and MCP
@@ -45119,7 +45268,7 @@ mespotine
         <title>GetSetMediaTrackInfo</title>
         <functioncall prog_lang="cpp">void* (*GetSetMediaTrackInfo)(MediaTrack* tr, const char* parmname, void* setNewValue)</functioncall>
         <requires>
-            Reaper=6.36
+            Reaper=6.54
         </requires>
         <description indent="default">
             Gets/Sets MediaTrack-parameters. Works like GetMediaTrackInfo_Value and SetMediaTrackInfo_Value but has more parameters.
@@ -45131,6 +45280,8 @@ mespotine
                  -P_MCP_LAYOUT : const char * : layout name
                  -P_RAZOREDITS : const char * : list of razor edit areas, as space-separated triples of start time, end time, and envelope GUID string.
                    -Example: "0.00 1.00 \"\" 0.00 1.00 "{xyz-...}"
+                 P_RAZOREDITS_EXT : const char * : list of razor edit areas, as comma-separated sets of space-separated tuples of start time, end time, optional envelope GUID string, optional fixed/fipm top y-position, optional fixed/fipm bottom y-position(fipm means fixed item positioning).
+                  - Example: "0.0 1.0,0.0 1.0 "{xyz-...}",1.0 2.0 "" 0.25 0.5"
                  -P_TCP_LAYOUT : const char * : layout name
                  -P_EXT:xyz : char * : extension-specific persistent data
                  -P_UI_RECT:tcp.mute : char * : read-only, allows querying screen position + size of track WALTER elements (tcp.size queries screen position and size of entire TCP, etc).
@@ -45175,7 +45326,7 @@ mespotine
                  -B_SHOWINTCP : bool * : track control panel visible in arrange view (do not use on master track)
                  -B_MAINSEND : bool * : track sends audio to parent
                  -C_MAINSEND_OFFS : char * : channel offset of track send to parent
-                 -B_FREEMODE : bool * : track free item positioning enabled (call UpdateTimeline() after changing)
+                 -I_FREEMODE : int * : 1=track free item positioning enabled, 2=track fixed lanes enabled (call UpdateTimeline() after changing)
                  -C_BEATATTACHMODE : char * : track timebase, -1=project default, 0=time, 1=beats (position, length, rate), 2=beats (position only)
                  -F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0=minimum allowed, 1=maximum allowed)
                  -F_MCP_FXPARM_SCALE : float * : scale of fx parameter area in MCP (0=minimum allowed, 1=maximum allowed)
@@ -48558,6 +48709,7 @@ mespotine
         </chapter_context>
         <tags>cpp, mediaitem, parameters, get, set, info</tags>
         <changelog>
+            Reaper 6.54 - fix GetSetMediaItemInfo with F_FREEMODE_Y, F_FREEMODE_H
         </changelog>
     </US_DocBloc>
 
@@ -49242,17 +49394,17 @@ mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ReaPack_GetEntryInfo</slug>
         <title>ReaPack_GetEntryInfo(ReaPack)</title>
-        <functioncall prog_lang="cpp">bool ReaPack_GetEntryInfo(PackageEntry* entry, char* repoOut, int repoOut_sz, char* catOut, int catOut_sz, char* pkgOut, int pkgOut_sz, char* descOut, int descOut_sz, int* typeOut, char* verOut, int verOut_sz, char* authorOut, int authorOut_sz, bool* pinnedOut, int* fileCountOut)</functioncall>
-        <functioncall prog_lang="eel">bool extension_api("ReaPack_GetEntryInfo", PackageEntry entry, #repo, #cat, #pkg, #desc, int &type, #ver, #author, bool &pinned, int &fileCount)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string repo, string cat, string pkg, string desc, integer type, string ver, string author, boolean pinned, integer fileCount = reaper.ReaPack_GetEntryInfo(PackageEntry entry)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, PackageEntry entry, String repoOut, Int repoOut_sz, String catOut, Int catOut_sz, String pkgOut, Int pkgOut_sz, String descOut, Int descOut_sz, Int typeOut, String verOut, Int verOut_sz, String authorOut, Int authorOut_sz, Boolean pinnedOut, Int fileCountOut) = ReaPack_GetEntryInfo(entry, repoOut, repoOut_sz, catOut, catOut_sz, pkgOut, pkgOut_sz, descOut, descOut_sz, typeOut, verOut, verOut_sz, authorOut, authorOut_sz, pinnedOut, fileCountOut)</functioncall>
+        <functioncall prog_lang="cpp">bool ReaPack_GetEntryInfo(PackageEntry* entry, char* repoOut, int repoOut_sz, char* catOut, int catOut_sz, char* pkgOut, int pkgOut_sz, char* descOut, int descOut_sz, int* typeOut, char* verOut, int verOut_sz, char* authorOut, int authorOut_sz, int* flagsOut, int* fileCountOut)</functioncall>
+        <functioncall prog_lang="eel">bool ReaPack_GetEntryInfo(PackageEntry entry, #repo, #cat, #pkg, #desc, int &type, #ver, #author, int &flags, int &fileCount)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string repo, string cat, string pkg, string desc, integer type, string ver, string author, integer flags, integer fileCount = reaper.ReaPack_GetEntryInfo(PackageEntry entry)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, PackageEntry entry, String repoOut, Int repoOut_sz, String catOut, Int catOut_sz, String pkgOut, Int pkgOut_sz, String descOut, Int descOut_sz, Int typeOut, String verOut, Int verOut_sz, String authorOut, Int authorOut_sz, Int flagsOut, Int fileCountOut) = ReaPack_GetEntryInfo(entry, repoOut, repoOut_sz, catOut, catOut_sz, pkgOut, pkgOut_sz, descOut, descOut_sz, typeOut, verOut, verOut_sz, authorOut, authorOut_sz, flagsOut, fileCountOut)</functioncall>
         <requires>
             Reaper=5.965
-            ReaPack=1.2.2
+            ReaPack=1.2.4
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the repository name, category, package name, package description, package type, the currently installed version, author name, pinned status and how many files are owned by the given package entry.
-
+            Get the repository name, category, package name, package description, package type, the currently installed version, author name, flags (&1=Pinned, &2=BleedingEdge) and how many files are owned by the given package entry.
+            
             see [ReaPack\_GetOwner](#ReaPack_GetOwner) to get value for parameter entry
         </description>
         <retvals>
@@ -49271,7 +49423,9 @@ mespotine
                         -  7, webinterface
             string ver - the currently installed version of this package
             string author - the author of this package
-            boolean pinned - the pinned-status of this package
+            integer flags - the pinned-status of this package
+                          - &1=Pinned
+                          - &2=BleedingEdge
             integer fileCount - the number of files of this package
         </retvals>
         <parameters>
@@ -49284,6 +49438,7 @@ mespotine
         </chapter_context>
         <tags>reapack, get, entry, info, packageentry, package</tags>
         <changelog>
+            ReaPack 1.2.4 - retval pinned changed from boolean to integer and renamed flag; supports now bleeding edge-flag
         </changelog>
     </US_DocBloc>
 

@@ -1439,8 +1439,8 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "shwn_location_google_maps" - the coordinates as used in Google Maps
                          - "shwn_location_open_street_map" - the coordinates as used in Open Street Maps
                          - "shwn_location_apple_maps" - the coordinates as used in Apple Maps                         
-                         - "shwn_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd
-                         - "shwn_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss
+                         - "shwn_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd; use XX or XXXX, for when day/month/year is unknown or irrelevant
+                         - "shwn_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss; use XX for when hour/minute/second is unknown or irrelevant
                          - "shwn_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format
                          - "shwn_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
                          - "shwn_event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
