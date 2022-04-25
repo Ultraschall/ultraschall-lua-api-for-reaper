@@ -207,6 +207,8 @@ Bei der Gelegenheit kannste das Ganze auch gleich mal ordentlich strukturieren, 
 Und eventuell schneller machen, weil langsam ist der derzeitige Scheiß halt auch.
 
 
+ - Docs: API - rename parameters of EEL/Python/CPP to their Lua-counterparts
+
 </TODO>
 
 
@@ -225,6 +227,7 @@ Has now 1457 functions, with XX new ones
   - BatchConverter: GetBatchConverter\_NotifyWhenFinished - gets the state of the "notify when finished"-checkbox 
   - BatchConverter: SetBatchConverter\_NotifyWhenFinished - sets the state of the "notify when finished"-checkbox 
   - DeveloperTools: Display All Marker Region Guids - monitors all marker/region-guids in the ReaScript-console  
+  - Docs: Reaper Internals - added ReaLim 0.3.0 and ReaFab 0.3.10
   - FXManagement: GetBatchConverter\_FXStateChunk - gets the FXChain currently used by the BatchConverter
   - FXManagement: SetBatchConverter\_FXStateChunk - sets the FXChain used by the BatchConverter  
   - Markers: AddProjectMarker - an alternative to Reaper's own function, that covers some edgecases and returns guid and actual marker/region-index as well
@@ -273,7 +276,7 @@ Has now 1457 functions, with XX new ones
   
 #### Changes from 4.3 to 4.4    
   - DeveloperTools: Config Var Displayer - crashed, when double-value is NaN -> fixed
-  - Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.53
+  - Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.54, ReaImGui 0.6.1 and ReaPack 1.2.4
   - FileManagement: CreateValidTempFile - raised number of potential temp-file-variants to 2147483648
   - HelperFunctions: Main\_OnCommandByFilename - didn't remove temporary scripts sometimes due Reaper bug -> fixed
   - HelperFunctions: MIDI\_OnCommandByFilename - didn't remove temporary scripts sometimes, partially due Reaper bug -> fixed  
@@ -368,7 +371,7 @@ Has now 1457 functions, with 34 new ones
   - DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation
   - DeveloperTools: CheckForNewConfigVars - shows now the current values of the newly found config-vars
   - DocEngine: Docs_ConvertPlainTextToHTML - new option for keeping tabs and whitespaces untouched and for omitting <br> betweem <pre> and </pre>-tags in source-string
-  - Docs: Reaper Internals - updated to Reaper 6.54, JS-extension 1.301, ReaImGui 0.5.10, ReaBlink 0.4.4, SWS 2.13.0.0, ReaPack 2.1.4
+  - Docs: Reaper Internals - updated to Reaper 6.47, JS-extension 1.301, ReaImGui 0.5.10, ReaBlink 0.4.4, SWS 2.13.0.0
   - HelperFunctions: RunBackgroundHelperFeatures - deprecated
   - MarkerManagement: AddCustomMarker - returns now the custom-marker-index, within all custom markers only, as well; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)
   - MarkerManagement: AddCustomRegion - returns now the custom-region-index, within all custom regions only, as well; allows now creating regions with the same name on the same position(workaround for Reaper-limitation)

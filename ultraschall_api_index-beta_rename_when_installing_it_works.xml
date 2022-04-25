@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52140.00" author="Meo Mespotine">
+      <version name="52167.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -528,6 +528,7 @@ New features in 4.4
     state of the “notify when finished”-checkbox
 -   DeveloperTools: Display All Marker Region Guids - monitors all
     marker/region-guids in the ReaScript-console
+-   Docs: Reaper Internals - added ReaLim 0.3.0 and ReaFab 0.3.10
 -   FXManagement: GetBatchConverter_FXStateChunk - gets the FXChain
     currently used by the BatchConverter
 -   FXManagement: SetBatchConverter_FXStateChunk - sets the FXChain used
@@ -628,7 +629,7 @@ Changes from 4.3 to 4.4
 -   DeveloperTools: Config Var Displayer - crashed, when double-value is
     NaN -> fixed
 -   Docs: Reaper API-docs - restructured the index into more useful
-    categories; updated to Reaper 6.53
+    categories; updated to Reaper 6.54, ReaImGui 0.6.1 and ReaPack 1.2.4
 -   FileManagement: CreateValidTempFile - raised number of potential
     temp-file-variants to 2147483648
 -   HelperFunctions: Main_OnCommandByFilename - didn’t remove temporary
@@ -688,7 +689,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1512 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52140 from 18.04.2022 17:34:35).}
+a 1512 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52167 from 26.04.2022 01:22:24).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -826,7 +827,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1512 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52140 from 18.04.2022 17:34:35).}
+a 1512 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52167 from 26.04.2022 01:22:24).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
