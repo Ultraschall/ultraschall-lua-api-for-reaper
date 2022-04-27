@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52195.00" author="Meo Mespotine">
+      <version name="52208.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -324,6 +324,8 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-Config-Vars.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-Config-Vars.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-ConfigFile-Entries.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display-Altered-ConfigFile-Entries.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display_All_Marker_Region_Guids.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display_All_Marker_Region_Guids.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display_ExtStateSectionsOfScriptsInFolder.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display_ExtStateSectionsOfScriptsInFolder.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display_ProjExtStateSectionsOfScriptsInFolder.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Display_ProjExtStateSectionsOfScriptsInFolder.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Env_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Env_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_from_Clipboard_envelope_to_under_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_from_Clipboard_envelope_to_under_mouse.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_from_Clipboard_to_selected_envelope.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_EnvelopeStateChunk_from_Clipboard_to_selected_envelope.lua</source>
@@ -428,6 +430,8 @@
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts_Examples/US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua</source>
 	<source file="/ultraschall_api/misc/Launchpad_functions.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/misc/Launchpad_functions.lua</source>
+	<source file="/ultraschall_api/misc/List_of_ReaTeam_Used_ExtState_Sections.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/misc/List_of_ReaTeam_Used_ExtState_Sections.txt</source>
+	<source file="/ultraschall_api/misc/List_of_ReaTeam_Used_ProjExtState_Sections.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/misc/List_of_ReaTeam_Used_ProjExtState_Sections.txt</source>
 	<source file="/ultraschall_api/misc/Markdown_Newspeak-1.0-draft" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/misc/Markdown_Newspeak-1.0-draft</source>
 	<source file="/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/misc/USDocML-Specs1_0.txt</source>
@@ -533,6 +537,10 @@ new in this release:
 -   Docs
     Added functions of the new extensions ReaLim and ReaFab and updated
     the functions of all other extensions and Reaper itself.
+    SetProjExtState and SetExtState-descriptions also include now a list
+    of sections, used by scripts/extensions. That way, you can prevent
+    naming conflicts and therefore accidentally overwritten
+    configs/data.
 
 -   Marker-Functions
     Rewritten, so they are much faster now, especially adding markers.
@@ -554,6 +562,11 @@ New features in 4.4
     state of the “notify when finished”-checkbox
 -   DeveloperTools: Display All Marker Region Guids - monitors all
     marker/region-guids in the ReaScript-console
+-   DeveloperTools: Display_ExtStateSectionsOfScriptsInFolder - displays
+    all set-extstate-sections used in scripts within a folder
+-   DeveloperTools: Display_ProjExtStateSectionsOfScriptsInFolder -
+    displays all set-projextstate-sections used in scripts within a
+    folder
 -   Docs: Reaper Internals - added ReaLim 0.3.0 and ReaFab 0.3.10
 -   FXManagement: GetBatchConverter_FXStateChunk - gets the FXChain
     currently used by the BatchConverter

@@ -1891,9 +1891,99 @@ Set the extended state value for a specific section and key. <br>
 <br>
 Persistant states are stored into the reaper-extstate.ini in the resources-folder.<br>
 <br>
+Important: always use a section-name, that is unique to you. For instance, add your name into the section-name, <br>
+so it's less likely, that somebody else uses the same section and accidentally overwrites your keys.<br>
+Something like: "mespotine_MyCoolScript.lua"<br>
+<br>
 Note: Do not use newlines in extstates, as they might be cut when rereading them using GetExtState!<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Find workarounds, like \n -> \\n to store and \\n -> \n to get them again.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is due limitations of the ini-file-format.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+Here are some of the sections used by ReaTeam-scripts and extensions. Don't use to avoid possible name-conflicts.<br>
+If your section is missing, contact me and I'll add it too:<br>
+<br>
+"_Slicer_"<br>
+"(Un)Collapse envelope lanes"<br>
+"+"<br>
+"amagalma_Chunk Viewer-Editor"<br>
+"amagalma_Grid Settings"<br>
+"amagalma_Horizontal zoom presets"<br>
+"amagalma_NormalizeTracks"<br>
+"amagalma_Take_Vol_in_TS"<br>
+"amagalma_Vertical zoom presets"<br>
+"amagalma_backup_limit"<br>
+"APIhelp"<br>
+"babag_copy_paste_item_params"<br>
+"BR_SPK_GlueTools"<br>
+"brso_articulate"<br>
+"BuyOne_Check length of custom action(s).lua"<br>
+"BuyOne_Cycle through focused FX presets backwards (guide inside).lua"<br>
+"BuyOne_Cycle through focused FX presets forward (guide inside).lua"<br>
+"BuyOne_Exclusive dummy toggle"<br>
+"BuyOne_Exclusive dummy toggles.lua"<br>
+"BuyOne_Link two FX parameters via parameter modulation (guide inside).lua"<br>
+"cfillion_copy_paste_markers"<br>
+"cfillion_ireascript"<br>
+"cfillion_ramp_envelope_points"<br>
+"cfillion_show_nudge_settings"<br>
+"cfillion_song_switcher"<br>
+"cfillion_stepRecordReplace"<br>
+"cfillion_underrun_monitor"<br>
+"colswatch"<br>
+"com.timtam.AccessiChord"<br>
+"cool_MK Slicer.lua"<br>
+"cool_MK_Shaper/Stutter.lua"<br>
+"copy_paste"<br>
+"Default_6.0 theme adjuster"<br>
+"Dfk Project Map"<br>
+"Edgemeal_fx_float"<br>
+"Edit Groups"<br>
+"Edit Groups"<br>
+"GoToTimecode_AZ"<br>
+"js_Draw LFO"<br>
+"js_Draw ramp"<br>
+"js_Insert ramps"<br>
+"js_Mouse actions"<br>
+"js_Mouse actions"<br>
+"js_Multi Tool"<br>
+"js_Step pattern"<br>
+"js_Thumbnails"<br>
+"LFO generator"<br>
+"Lokasenna"<br>
+"Lokasenna's Script Compiler"<br>
+"Lokasenna's Theory Helper"<br>
+"Lokasenna_CC Ryder"<br>
+"Lokasenna_Copy values from selected MIDI notes"<br>
+"Lokasenna_Debug mode"<br>
+"Lokasenna_GUI"<br>
+"Lokasenna_Pedal Steel"<br>
+"Mespotine"<br>
+"MFX-list"<br>
+"MIDI Inspector"<br>
+"MK Slicer (80icio MOD).lua"<br>
+"osara"<br>
+"Play-Stop with memory"<br>
+"Preset Velocity"<br>
+"RODILAB_Color_palette"<br>
+"RODILAB_Match_criteria"<br>
+"RODILAB_Track_name_groups"<br>
+"ReaL_Comps"<br>
+"ReaNoir"<br>
+"savegrid"<br>
+"Select CC lanes to show"<br>
+"SmartSplit_AZ"<br>
+"solger_ReaLauncher"<br>
+"solger_ReaLauncher"<br>
+"Source time position v2"<br>
+"spk77_velocity_tool"<br>
+"take_envelope_source"<br>
+"talagan_Distribute MIDI notes evenly"<br>
+"ToggleWet"<br>
+"Track-Item Name Manipulation"<br>
+"Track-Item Name Manipulation"<br>
+"ultraschall_api"<br>
+"vo_pomodoro"<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> section</td></tr>
@@ -34256,6 +34346,39 @@ Get the value previously associated with this extname and key, the last time the
 </div><p>
 <div class="ch">
 Save a key/value pair for a specific extension, to be restored the next time this specific project is loaded. Typically extname will be the name of a reascript or extension section. If key is NULL or "", all extended data for that extname will be deleted. If val is NULL or "", the data previously associated with that key will be deleted. Returns the size of the state for this extname. <br>
+<br>
+Important: always use a section-name, that is unique to you. For instance, add your name into the section-name, <br>
+so it's less likely, that somebody else uses the same section and accidentally overwrites your keys.<br>
+Something like: "mespotine_MyCoolScript.lua"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+Here are some of the sections used by ReaTeam-scripts and extensions. Don't use to avoid possible name-conflicts.<br>
+If your section is missing, contact me and I'll add it too:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"ABLM2 Toggle"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"ABLM2 Toggle"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"AB_LM Toggle"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"Edit Groups"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"FindReplaceStorage"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"LFO Generator"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"Live_Inst_"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"RODILAB_Hide_tracks_with_no_items_in_time_selection"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"RODILAB_Track_name_groups"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"ReaL_Comps"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"RegionRenderMatrixState"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"Smart Zoom"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"TrackBasedItems"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"ak5k"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"ak5k_Drums to MIDI"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"com.pandabot.ChordGun"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"com.pandabot.CopyAndPasteRhythm"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"com.pandabot.CopyAndPasteRhythm"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"com.pandabot.selectEveryNItemsWithinSelection"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"com.pandabot.selectEveryNNotesWithinSelection"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"com.pandabot.selectEveryNTracksWithinSelection"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"com.timtam.AccessiChord"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"js_Thumbnails"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"practice_coach"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"spk77 Track Tags"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"time"<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

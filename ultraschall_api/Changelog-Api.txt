@@ -252,6 +252,8 @@ Has now 1477 functions, with 20 new ones
   
   - **Docs**  
   Added functions of the new extensions ReaLim and ReaFab and updated the functions of all other extensions and Reaper itself.
+  SetProjExtState and SetExtState-descriptions also include now a list of sections, used by scripts/extensions. That way, you 
+  can prevent naming conflicts and therefore accidentally overwritten configs/data.
   
   - **Marker-Functions**  
   Rewritten, so they are much faster now, especially adding markers.  
@@ -267,6 +269,8 @@ Has now 1477 functions, with 20 new ones
   - BatchConverter: GetBatchConverter\_NotifyWhenFinished - gets the state of the "notify when finished"-checkbox 
   - BatchConverter: SetBatchConverter\_NotifyWhenFinished - sets the state of the "notify when finished"-checkbox 
   - DeveloperTools: Display All Marker Region Guids - monitors all marker/region-guids in the ReaScript-console  
+  - DeveloperTools: Display_ExtStateSectionsOfScriptsInFolder - displays all set-extstate-sections used in scripts within a folder
+  - DeveloperTools: Display_ProjExtStateSectionsOfScriptsInFolder - displays all set-projextstate-sections used in scripts within a folder
   - Docs: Reaper Internals - added ReaLim 0.3.0 and ReaFab 0.3.10
   - FXManagement: GetBatchConverter\_FXStateChunk - gets the FXChain currently used by the BatchConverter
   - FXManagement: SetBatchConverter\_FXStateChunk - sets the FXChain used by the BatchConverter  
