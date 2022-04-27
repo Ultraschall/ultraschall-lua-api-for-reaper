@@ -195,11 +195,25 @@ Bug with INI-Files-read-functions:
     GetIni-Parser....
     Otherwise ini-files and podcast-presets break.
 
-
+ - Podcast/Episode-Presets have problems with newlines when stored into ini-file -> find a workaround
 
  - Docs: API - rename parameters of EEL/Python/CPP to their Lua-counterparts
 
- 
+</TODO>
+
+
+## Ultraschall Framework - Changelog
+
+### 4.5 - "" - XX of XXXX 2022
+
+Has now 1477 functions, with XX new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  Bla
+
+#### New features in 4.5  
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
@@ -226,13 +240,11 @@ Bug with INI-Files-read-functions:
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
   - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset
-  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes  
-
-
-</TODO>
-
-
-## Ultraschall Framework - Changelog
+  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes    
+  
+#### Changes from 4.4 to 4.5  
+  
+---
 
 ### 4.4 - "Dispatch - Open Up" - 27 of April 2022
 
