@@ -35,12 +35,25 @@
       
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.4 - "" - XX of XXXX 2022</h3>
-<p>Has now 1457 functions, with XX new ones</p>
+<h3>4.4 - "Dispatch - Open Up" - 27 of April 2022</h3>
+<p>Has now 1477 functions, with 20 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><strong>Bla</strong><br />
-Bla</li>
+<li><p><strong>SpectralPeak-View-functions</strong><br />
+You can now set the options for the spectral-peak-view of MediaItems.</p></li>
+<li><p><strong>AddProjectMarker</strong><br />
+This is an alternative to Reaper's own AddProjectMarker-function. It returns the GUID, the index of the added marker<br />
+and fixes some edge-case-issues with the original function.</p></li>
+<li><p><strong>BatchConverter-FXStateChunk</strong><br />
+You can get and set the FXChain of the BatchConverter programmatically, now using FXStateChunks.</p></li>
+<li><p><strong>Docs</strong><br />
+Added functions of the new extensions ReaLim and ReaFab and updated the functions of all other extensions and Reaper itself.</p></li>
+<li><p><strong>Marker-Functions</strong><br />
+Rewritten, so they are much faster now, especially adding markers.</p></li>
+<li><p><strong>DevTool: Marker Guid Displayer</strong><br />
+This one displays the index, guid and name of all markers/regions in the current project.<br />
+This way, you can monitor, if your marker-functions get the correct guids from a marker.</p></li>
+<li><p><strong>Bugfixes</strong> Per tradition...</p></li>
 </ul>
 <h4>New features in 4.4</h4>
 <ul>
@@ -53,42 +66,12 @@ Bla</li>
 <li>FXManagement: SetBatchConverter_FXStateChunk - sets the FXChain used by the BatchConverter<br />
 </li>
 <li>Markers: AddProjectMarker - an alternative to Reaper's own function, that covers some edgecases and returns guid and actual marker/region-index as well</li>
-<li>Markers: AddShownoteMarker - adds a shownote-marker</li>
-<li>Markers: CountShownoteMarkers - counts shownote-markers in a project</li>
-<li>Markers: DeleteShownoteMarker - deletes a shownote-marker</li>
-<li>Markers: EnumerateShownoteMarkers - gets a shownote-marker<br />
-</li>
 <li>Markers: GetEditMarkerIDFromGuid - gets an edit-marker id by its guid</li>
 <li>Markers: GetEditRegionIDFromGuid - gets an edit-marker id by its guid</li>
 <li>Markers: GetGuidFromEditMarkerID - gets the guid of an edit-marker</li>
 <li>Markers: GetGuidFromEditRegionID - gets the guid of an edit-marker</li>
-<li>Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index</li>
-<li>Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid</li>
-<li>Markers: SetShownoteMarker - sets an already existing shownote-marker</li>
 <li>MetaData: MetaDataTable_Create - returns an empty metadatatable, which holds all possible metadata-entries</li>
 <li>MetaData: MetaDataTable_GetProject - returns a metadatatable, which holds all metadata-entries of the current project<br />
-</li>
-<li>PodcastMetadata: GetAllChapters_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastEpisodeMetadataPreset_Name - gets the name of an episode -metadata-preset</li>
-<li>PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastMetadataPreset_Name - gets the name of a podcast-metadata-preset</li>
-<li>PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)</li>
-<li>PodcastMetadata: GetSetPodcast_MetaData - gets/sets metadata-attributes of a podcast</li>
-<li>PodcastMetadata: GetSetPodcastEpisode_MetaData - gets/sets metadata-attributes of a podcast-episode</li>
-<li>PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets string attributes for podcast-export in Ultraschall</li>
-<li>PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets number attributes for podcast-export in Ultraschall</li>
-<li>PodcastMetadata: GetSetShownoteMarker_Attributes - gets/sets additional attributes of a shownote-marker</li>
-<li>PodcastMetadata: GetSetTranscription_Attributes gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)</li>
-<li>PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering</li>
-<li>PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering<br />
-</li>
-<li>PodcastMetadata: SetPodcastEpisodeMetadataPreset_Name - sets the name of an episode-metadata-preset</li>
-<li>PodcastMetadata: SetPodcastMetadataPreset_Name - sets the name of a podcast-metadata-preset</li>
-<li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes<br />
 </li>
 <li>Projects: Main_SaveProject - saves a project and allows giving it a filename</li>
 <li>Render: GetRenderTable_ProjectDefaults - returns a rendertable with all render settings of the project's defaults</li>

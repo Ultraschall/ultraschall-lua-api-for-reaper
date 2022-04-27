@@ -9051,3 +9051,82 @@ function ultraschall.SetParmLearn_Default(enable_state, softtakeover, ccmode)
 end
 
 
+function ultraschall.GetBatchConverter_FXStateChunk()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetBatchConverter_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.GetBatchConverter_FXStateChunk()</functioncall>
+  <description>
+    Returns the FXStateChunk stored and used by the BatchConverter.
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem or inputFX.
+  </description>
+  <retvals>
+    string FXStateChunk - the FXStateChunk of the BatchConverter
+  </retvals>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, get, fxstatechunk, batchconverter</tags>
+</US_DocBloc>
+]]
+  local FXStateChunk=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-convertfx.ini")
+  FXStateChunk=string.gsub(FXStateChunk, "\n", "\n  ")..">"
+  return "<FXCHAIN\n  "..FXStateChunk:sub(1,-3)..">"
+end
+
+--A=ultraschall.GetBatchConverterFXStateChunk()
+
+function ultraschall.SetBatchConverter_FXStateChunk(FXStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetBatchConverter_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string OldFXStateChunk = ultraschall.GetBatchConverter_FXStateChunk(string FXStateChunk)</functioncall>
+  <description>
+    Sets the FXStateChunk used by the BatchConverter. Returns the previously used FXStateChunk.
+    
+    The BatchConverter uses this FXStateChunk when it's opened the next time.
+    So if you want to use different FXStateChunks with the BatchConverter, set it first, then (re-)open the BatchConverter.
+    
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem or inputFX.
+    
+    Returns false in case of an error.
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+    string FXStateChunk - the FXStateChunk of the BatchConverter
+  </retvals>
+  <parameters>
+    string FXStateChunk - the new FXStateChunk to us with the BatchConverter
+  </parameters>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, set, fxstatechunk, batchconverter</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetBatchConverter_FXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return false end
+  local OldFXStateChunk=ultraschall.GetBatchConverterFXStateChunk()
+  FXStateChunk=string.gsub(FXStateChunk, "\n  ", "\n"):match(".-\n(.*)\n.->")
+
+  local retval=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-convertfx.ini", FXStateChunk)
+  return retval==1, OldFXStateChunk
+end
+
+--B,C=ultraschall.SetBatchConverterFXStateChunk(A)
+--A=ultraschall.IsValidFXStateChunk()

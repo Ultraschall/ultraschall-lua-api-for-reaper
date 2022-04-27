@@ -208,42 +208,14 @@ Und eventuell schneller machen, weil langsam ist der derzeitige Scheiß halt auc
 
 
  - Docs: API - rename parameters of EEL/Python/CPP to their Lua-counterparts
-
-</TODO>
-
-
-## Ultraschall Framework - Changelog
-
-### 4.4 - "" - XX of XXXX 2022
-
-Has now 1457 functions, with XX new ones
-
-**new in this release:**  
-
-  - **Bla**  
-  Bla
-
-#### New features in 4.4  
-  - BatchConverter: GetBatchConverter\_NotifyWhenFinished - gets the state of the "notify when finished"-checkbox 
-  - BatchConverter: SetBatchConverter\_NotifyWhenFinished - sets the state of the "notify when finished"-checkbox 
-  - DeveloperTools: Display All Marker Region Guids - monitors all marker/region-guids in the ReaScript-console  
-  - Docs: Reaper Internals - added ReaLim 0.3.0 and ReaFab 0.3.10
-  - FXManagement: GetBatchConverter\_FXStateChunk - gets the FXChain currently used by the BatchConverter
-  - FXManagement: SetBatchConverter\_FXStateChunk - sets the FXChain used by the BatchConverter  
-  - Markers: AddProjectMarker - an alternative to Reaper's own function, that covers some edgecases and returns guid and actual marker/region-index as well
+ 
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
   - Markers: EnumerateShownoteMarkers - gets a shownote-marker    
-  - Markers: GetEditMarkerIDFromGuid - gets an edit-marker id by its guid
-  - Markers: GetEditRegionIDFromGuid - gets an edit-marker id by its guid
-  - Markers: GetGuidFromEditMarkerID - gets the guid of an edit-marker
-  - Markers: GetGuidFromEditRegionID - gets the guid of an edit-marker
   - Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index
   - Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid
   - Markers: SetShownoteMarker - sets an already existing shownote-marker
-  - MetaData: MetaDataTable\_Create - returns an empty metadatatable, which holds all possible metadata-entries
-  - MetaData: MetaDataTable\_GetProject - returns a metadatatable, which holds all metadata-entries of the current project  
   - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard
@@ -264,6 +236,56 @@ Has now 1457 functions, with XX new ones
   - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes  
+
+
+</TODO>
+
+
+## Ultraschall Framework - Changelog
+
+### 4.4 - "Dispatch - Open Up" - 27 of April 2022
+
+Has now 1477 functions, with 20 new ones
+
+**new in this release:**  
+
+  - **SpectralPeak-View-functions**  
+  You can now set the options for the spectral-peak-view of MediaItems.  
+
+  - **AddProjectMarker**  
+  This is an alternative to Reaper's own AddProjectMarker-function. It returns the GUID, the index of the added marker  
+  and fixes some edge-case-issues with the original function.  
+
+  - **BatchConverter-FXStateChunk**  
+  You can get and set the FXChain of the BatchConverter programmatically, now using FXStateChunks.  
+  
+  - **Docs**  
+  Added functions of the new extensions ReaLim and ReaFab and updated the functions of all other extensions and Reaper itself.
+  
+  - **Marker-Functions**  
+  Rewritten, so they are much faster now, especially adding markers.  
+  
+  - **DevTool: Marker Guid Displayer**  
+  This one displays the index, guid and name of all markers/regions in the current project.  
+  This way, you can monitor, if your marker-functions get the correct guids from a marker.
+  
+  - **Bugfixes**
+  Per tradition...
+
+#### New features in 4.4  
+  - BatchConverter: GetBatchConverter\_NotifyWhenFinished - gets the state of the "notify when finished"-checkbox 
+  - BatchConverter: SetBatchConverter\_NotifyWhenFinished - sets the state of the "notify when finished"-checkbox 
+  - DeveloperTools: Display All Marker Region Guids - monitors all marker/region-guids in the ReaScript-console  
+  - Docs: Reaper Internals - added ReaLim 0.3.0 and ReaFab 0.3.10
+  - FXManagement: GetBatchConverter\_FXStateChunk - gets the FXChain currently used by the BatchConverter
+  - FXManagement: SetBatchConverter\_FXStateChunk - sets the FXChain used by the BatchConverter  
+  - Markers: AddProjectMarker - an alternative to Reaper's own function, that covers some edgecases and returns guid and actual marker/region-index as well
+  - Markers: GetEditMarkerIDFromGuid - gets an edit-marker id by its guid
+  - Markers: GetEditRegionIDFromGuid - gets an edit-marker id by its guid
+  - Markers: GetGuidFromEditMarkerID - gets the guid of an edit-marker
+  - Markers: GetGuidFromEditRegionID - gets the guid of an edit-marker
+  - MetaData: MetaDataTable\_Create - returns an empty metadatatable, which holds all possible metadata-entries
+  - MetaData: MetaDataTable\_GetProject - returns a metadatatable, which holds all metadata-entries of the current project    
   - Projects: Main\_SaveProject - saves a project and allows giving it a filename
   - Render: GetRenderTable\_ProjectDefaults - returns a rendertable with all render settings of the project's defaults
   - SpectralView: SpectralPeak\_GetColorAttributes - gets noise-threshold, opacity and variance of the spectral view

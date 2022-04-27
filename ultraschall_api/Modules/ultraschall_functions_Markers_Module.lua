@@ -4991,3 +4991,243 @@ end
 --B=ultraschall.GetNormalMarkerIDFromGuid(A)
 
 
+function ultraschall.AddProjectMarker(proj, isrgn, pos, rgnend, name, wantidx, color)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>AddProjectMarker</slug>
+    <title>AddProjectMarker</title>
+    <functioncall>integer index, integer marker_region_index, string guid = ultraschall.AddProjectMarker2(ReaProject proj, boolean isrgn, number pos, number rgnend, string name, integer wantidx, integer color)</functioncall>
+    <requires>
+        Ultraschall=4.4
+        Reaper=6.22
+    </requires>
+    <description>
+        Creates a new projectmarker/region and returns the shown number, index and guid of the created marker/region. 
+        
+        Supply wantidx&gt;=0 if you want a particular index number, but you'll get a different index number a region and wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000
+        
+        Returns -1 in case of an error
+    </description>
+    <retvals>
+        integer index - the shown-number of the newly created marker/region
+        integer marker_region_index - the index of the newly created marker/region within all markers/regions
+        string guid - the guid of the newly created marker/region
+    </retvals>
+    <linked_to desc="see:">
+        inline:ColorToNative
+               to convert color-value to a native(Mac, Win, Linux) colors
+    </linked_to>
+    <parameters>
+        ReaProject proj - the project, in which to add the new marker; use 0 for the current project; 
+        boolean isrgn - true, if it shall be a region; false, if a normal marker
+        number pos - the position of the newly created marker/region in seconds
+        number rgnend - if the marker is a region, this is the end of the region in seconds
+        string name - the shown name of the marker
+        integer wantidx - the shown number of the marker/region. Markers can have the same shown marker multiple times. Regions will get another number, if wantidx is already given.
+        integer color - the color of the marker
+    </parameters>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+    <chapter_context>
+        Marker Management
+        Project Markers
+    </chapter_context>
+    <tags>markermanagement, region, marker, name, shownnumber, pos, project, add, guid</tags>
+    <changelog>
+    </changelog>
+  </US_DocBloc>
+--]]
+  if ultraschall.IsValidReaProject(proj)==false then ultraschall.AddErrorMessage("AddProjectMarker", "proj", "not a valid project", -1) return -1 end
+  if type(isrgn)~="boolean" then ultraschall.AddErrorMessage("AddProjectMarker", "isrgn", "must be a boolean", -2) return -1 end
+  if type(pos)~="number" then ultraschall.AddErrorMessage("AddProjectMarker", "pos", "must be a number", -3) return -1 end
+  if type(rgnend)~="number" then ultraschall.AddErrorMessage("AddProjectMarker", "rgnend", "must be a number", -4) return -1 end
+  if type(name)~="string" then ultraschall.AddErrorMessage("AddProjectMarker", "name", "must be a string", -5) return -1 end
+  if math.type(wantidx)~="integer" then ultraschall.AddErrorMessage("AddProjectMarker", "wantidx", "must be an integer", -6) return -1 end
+  if math.type(color)~="integer" then ultraschall.AddErrorMessage("AddProjectMarker", "color", "must be an integer", -7) return -1 end
+
+  -- add a marker AFTER the current last marker(makes finding Guid for it faster)
+  local shown_number=reaper.AddProjectMarker2(proj, isrgn, reaper.GetProjectLength()+100, reaper.GetProjectLength()+100, name, wantidx, color)
+  
+  -- get the guid of the new last marker
+  local retval, Guid = reaper.GetSetProjectInfo_String(proj, "MARKER_GUID:"..reaper.CountProjectMarkers(proj)-1, "", false)
+
+  -- change position to the actual position of the marker
+  local LastMarker2={reaper.EnumProjectMarkers3(proj, reaper.CountProjectMarkers(proj)-1)} -- get the current shown marker-number
+  reaper.SetProjectMarkerByIndex2(proj, reaper.CountProjectMarkers(proj)-1, isrgn, pos, rgnend, LastMarker2[6], name, color, 0)
+  
+  -- find the index-position of the marker by its Guid
+  local found_marker_index="Buggy" -- debugline, hope it never gets triggered
+  for i=0, reaper.CountProjectMarkers() do
+    local retval2, Guid2 = reaper.GetSetProjectInfo_String(proj, "MARKER_GUID:"..i, "", false)
+    if Guid2==Guid then found_marker_index=i break end
+  end
+  
+  return shown_number, found_marker_index, Guid
+end
+
+
+function ultraschall.GetEditMarkerIDFromGuid(guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEditMarkerIDFromGuid</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetEditMarkerIDFromGuid(string guid)</functioncall>
+  <description>
+    Gets the corresponding indexnumber of an edit-marker-guid
+    
+    The index is for all _edit:-markers or _edit-markers only.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer index - the index of the edit-marker, whose guid you have passed to this function
+  </retvals>
+  <parameters>
+    string guid - the guid of the edit-marker, whose index-number you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, edit marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if type(guid)~="string" then ultraschall.AddErrorMessage("GetEditMarkerIDFromGuid", "guid", "must be a string", -1) return -1 end  
+  for i=1, ultraschall.CountEditMarkers() do
+    local retval, marker_index, pos, name, guid2 = ultraschall.EnumerateEditMarkers(i)
+    if guid2==guid then return i end
+  end
+  return -1
+end
+
+--A=ultraschall.GetEditMarkerIDFromGuid("{2C501E21-FD5E-47A0-B8A5-0D1A3BEFC7B9}")
+
+
+function ultraschall.GetGuidFromEditMarkerID(idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetGuidFromEditMarkerID</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string guid = ultraschall.GetGuidFromEditMarkerID(integer index)</functioncall>
+  <description>
+    Gets the corresponding guid of an edit-marker with a specific index 
+    
+    The index is for _edit:-markers and _edit-markers only
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the edit marker with a specific index
+  </retvals>
+  <parameters>
+    integer index - the index of the edit marker, whose guid you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, edit marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetGuidFromEditMarkerID", "idx", "must be an integer", -1) return end
+  local retval, marker_index, pos, name, guid2 = ultraschall.EnumerateEditMarkers(idx)
+
+  return guid2
+end
+
+function ultraschall.GetEditRegionIDFromGuid(guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEditRegionIDFromGuid</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetEditRegionIDFromGuid(string guid)</functioncall>
+  <description>
+    Gets the corresponding indexnumber of an edit-region-guid
+    
+    The index is for all _edit:-regions or _edit-regions only.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer index - the index of the edit-region, whose guid you have passed to this function
+  </retvals>
+  <parameters>
+    string guid - the guid of the edit-region, whose index-number you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, edit region, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if type(guid)~="string" then ultraschall.AddErrorMessage("GetEditRegionIDFromGuid", "guid", "must be a string", -1) return -1 end  
+  for i=0, ultraschall.CountEditRegions() do
+    local retval, marker_index, pos, name, color, guid2 = ultraschall.EnumerateEditRegion(i)
+    if guid2==guid then return i end
+  end
+  return -1
+end
+
+--A=ultraschall.GetEditRegionIDFromGuid("{3AA001F1-0D79-4BBF-8F46-AD84F9003682}")
+
+
+function ultraschall.GetGuidFromEditRegionID(idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetGuidFromEditRegionID</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string guid = ultraschall.GetGuidFromEditRegionID(integer index)</functioncall>
+  <description>
+    Gets the corresponding guid of an edit-region with a specific index 
+    
+    The index is for _edit:-regions and _edit-regions only
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the edit region with a specific index
+  </retvals>
+  <parameters>
+    integer index - the index of the edit region, whose guid you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, edit region, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetGuidFromEditRegionID", "idx", "must be an integer", -1) return -1 end
+  local retval, marker_index, pos, name, color, guid2 = ultraschall.EnumerateEditRegion(idx)
+
+  return guid2
+end
+
+
+--A=ultraschall.GetGuidFromEditRegionID(1)
+

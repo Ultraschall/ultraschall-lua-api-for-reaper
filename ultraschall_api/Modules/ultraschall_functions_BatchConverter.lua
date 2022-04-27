@@ -93,7 +93,7 @@ function ultraschall.BatchConvertFiles(inputfilelist, outputfilelist, RenderTabl
     Misc
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_FileManagement_Module.lua</source_document>
+  <source_document>Modules/ultraschall_functions_BatchConverter.lua</source_document>
   <tags>batch converter, convert, files, rendertable, fxchain</tags>
 </US_DocBloc>
 --]]
@@ -184,3 +184,95 @@ function ultraschall.BatchConvertFiles(inputfilelist, outputfilelist, RenderTabl
   
   return true
 end
+
+
+function ultraschall.GetBatchConverter_NotifyWhenFinished()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetBatchConverter_NotifyWhenFinished</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=6.50
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.GetBatchConverter_NotifyWhenFinished()</functioncall>
+  <description>
+    Returns, the state of the "notify when finished"-checkbox in the BatchConverter.
+  </description>
+  <retvals>
+    boolean retval - true, notify when finished; false, don't notify when finished
+  </retvals>
+  <chapter_context>
+    Batch Converter
+    Misc
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_BatchConverter.lua</source_document>
+  <tags>batchconverter, notify when finished, checkbox, get</tags>
+</US_DocBloc>
+]]
+  local A,B=reaper.BR_Win32_GetPrivateProfileString("REAPER", "convertopts", "", reaper.get_ini_file())
+  return tonumber(B)&1==0
+end
+
+function ultraschall.SetBatchConverter_NotifyWhenFinished(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetBatchConverter_NotifyWhenFinished</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=6.50
+    SWS=2.10.0.1
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetBatchConverter_NotifyWhenFinished()</functioncall>
+  <description>
+    Sets, the state of the "notify when finished"-checkbox in the BatchConverter.
+    
+    Works also, with BatchConverter opened.
+    
+    return false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Batch Converter
+    Misc
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_BatchConverter.lua</source_document>
+  <tags>batchconverter, notify when finished, checkbox, get</tags>
+</US_DocBloc>
+]]
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetBatchConverter_NotifyWhenFinished", "state", "must be a boolean", -1) return false end
+  local HWND = ultraschall.GetBatchFileItemConverterHWND()
+  if HWND==nil then
+    if state==true then state=0 else state=1 end
+    local A,Old=reaper.BR_Win32_GetPrivateProfileString("REAPER", "convertopts", "", reaper.get_ini_file())
+    Old=tonumber(Old)
+    if Old&1==state then return true else
+      if Old&1==1 and state==0 then 
+        Old=Old-1
+      elseif Old&1==0 and state==1 then
+        Old=Old+1
+      end
+      reaper.BR_Win32_WritePrivateProfileString("REAPER", "convertopts", Old, reaper.get_ini_file())
+    end
+  else
+    if state==true then state=1 else state=0 end
+    local HWND2=reaper.JS_Window_FindChildByID(HWND, 1182)
+    local Old=reaper.JS_WindowMessage_Send(HWND2, "BM_GETCHECK", 0,0,0,0)
+    if (Old==0 and state==1) or (Old==1 and state==0) then 
+--      reaper.JS_WindowMessage_Send(HWND2, "BM_SETCHECK", state,0,0,0)
+      reaper.JS_WindowMessage_Send(HWND2, "WM_LBUTTONDOWN", 1,0,0,0)
+      reaper.JS_WindowMessage_Post(HWND2, "WM_LBUTTONUP", 1,0,0,0)
+    end
+  end
+  return true
+end
+
+--AAA=ultraschall.GetBatchConverter_NotifyWhenFinished()
+--A=ultraschall.SetBatchConverter_NotifyWhenFinished(false)
