@@ -114,7 +114,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.54<br>"Banjo Telemark"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.56<br>"Banjo Telemark"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -21453,6 +21453,7 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <p>[BR] Equivalent to win32 API WritePrivateProfileString(). For example, you can use this to write to REAPER.ini</p>
 <p>If you have multiple sections in that file with the same name, only the first one will be used, the rest will be ignored by Reaper. If you have multiple keys with the same name within a section, only the first one will be used, the rest will be ignored by Reaper. You can get the paths using <a href="#GetExePath">GetExePath</a> for the Reaper-application-folder, <a href="#GetResourcePath">GetResourcePath</a> for the ressources-folder or <a href="#get_ini_file">get_ini_file</a> for the path+filename of the Reaper.ini-file.</p>
 <p>You can pass an empty string as value to delete a key.</p>
+<p>Important: Don't use \n in parameter value, or the reread-value might be incomplete!</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

@@ -70,7 +70,7 @@ End of Header
 <a class="anch" id="Introduction"></a>
 <a href="#Introduction"> ^</a> <u><b>Introduction to Config Variables</b></u><br>			<p>
 <div class="ch">
-<p>List of all Config Variables as of Reaper 6.54 and probably are missing some, but should be fairly complete anyway.<br />
+<p>List of all Config Variables as of Reaper 6.56 and probably are missing some, but should be fairly complete anyway.<br />
 These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.<br />
 To change them, you can use the following ReaScript API-functions(requires SWS being installed):</p>
 <blockquote>
@@ -746,6 +746,9 @@ It is an integer-bitfield.</p>
 <blockquote>
 <p>&amp;4=0, Removing trailing numbers - checked<br />
 &amp;4=1, Removing trailing numbers - unchecked</p>
+</blockquote>
+<blockquote>
+<p>&amp;8=0, Allow drag-import to insert tracks - unchecked &amp;8=1, Allow drag-import to insert tracks - checked</p>
 </blockquote>
 <p>For other settings, set in the preferences -&gt; Media, see <a href="#showpeaksbuild">showpeaksbuild</a>, <a href="#relativeedges">relativeedges</a>, <a href="#applyfxtail">applyfxtail</a>, <a href="#itemfxtail">itemfxtail</a>, <a href="#peakcachegenmode">peakcachegenmode</a>, <a href="#opencopyprompt">opencopyprompt</a><br />
 <a href="#altpeaks">altpeaks</a>, <a href="#showpeaks">showpeaks</a>, <a href="#peakcachegenrs">peakcachegenrs</a>, <a href="#offlineinact">offlineinact</a>, <a href="#insertmtrack">insertmtrack</a></p>
@@ -3984,6 +3987,9 @@ It is an integer-bitfield.</p>
 </blockquote>
 <blockquote>
 <p>&amp;65536=0, Do not create undo points when closing FX windows-checkbox - unchecked &amp;65536=1, Do not create undo points when closing FX windows-checkbox - checked</p>
+</blockquote>
+<blockquote>
+<p>&amp;524288=0, Hide FXChain until added - checked &amp;524288=1, Hide FXChain until added - unchecked</p>
 </blockquote>
 <p>For other settings in Preferences -&gt; Plugins, see <a href="#fxresize">fxresize</a> and <a href="#maxrecentfx">maxrecentfx</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>

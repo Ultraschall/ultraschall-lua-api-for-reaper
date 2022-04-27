@@ -53,7 +53,8 @@ Rewritten, so they are much faster now, especially adding markers.</p></li>
 <li><p><strong>DevTool: Marker Guid Displayer</strong><br />
 This one displays the index, guid and name of all markers/regions in the current project.<br />
 This way, you can monitor, if your marker-functions get the correct guids from a marker.</p></li>
-<li><p><strong>Bugfixes</strong> Per tradition...</p></li>
+<li><p><strong>Bugfixes</strong><br />
+Per tradition...</p></li>
 </ul>
 <h4>New features in 4.4</h4>
 <ul>
@@ -86,7 +87,7 @@ This way, you can monitor, if your marker-functions get the correct guids from a
 <h4>Changes from 4.3 to 4.4</h4>
 <ul>
 <li>DeveloperTools: Config Var Displayer - crashed, when double-value is NaN -&gt; fixed</li>
-<li>Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.54, ReaImGui 0.6.1 and ReaPack 1.2.4</li>
+<li>Docs: Reaper API-docs - restructured the index into more useful categories; updated to Reaper 6.56, ReaImGui 0.6.1 and ReaPack 1.2.4</li>
 <li>FileManagement: CreateValidTempFile - raised number of potential temp-file-variants to 2147483648</li>
 <li>HelperFunctions: Main_OnCommandByFilename - didn't remove temporary scripts sometimes due Reaper bug -&gt; fixed</li>
 <li>HelperFunctions: MIDI_OnCommandByFilename - didn't remove temporary scripts sometimes, partially due Reaper bug -&gt; fixed<br />
@@ -179,7 +180,7 @@ as usual...</p></li>
 <ul>
 <li>DeveloperTools: findConfigVarsToggledByActions - fixed dozens of bugs; supports now all config-vars; improved the layout of the output file; has now "do you really want to run me?"-question, as this script could ruin your Reaper installation</li>
 <li>DeveloperTools: CheckForNewConfigVars - shows now the current values of the newly found config-vars</li>
-<li>DocEngine: Docs_ConvertPlainTextToHTML - new option for keeping tabs and whitespaces untouched and for omitting <br> betweem <pre> and </pre>-tags in source-string</li>
+<li>DocEngine: Docs_ConvertPlainTextToHTML - new option for keeping tabs and whitespaces untouched and for omitting &lt; br &gt; between &lt; pre &gt; and &lt; /pre &gt;-tags in source-string</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.47, JS-extension 1.301, ReaImGui 0.5.10, ReaBlink 0.4.4, SWS 2.13.0.0</li>
 <li>HelperFunctions: RunBackgroundHelperFeatures - deprecated</li>
 <li>MarkerManagement: AddCustomMarker - returns now the custom-marker-index, within all custom markers only, as well; allows now creating markers with the same name on the same position(workaround for Reaper-limitation)</li>

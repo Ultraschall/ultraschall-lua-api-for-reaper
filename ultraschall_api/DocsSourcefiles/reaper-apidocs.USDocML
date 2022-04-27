@@ -26105,6 +26105,8 @@
             You can get the paths using [GetExePath](#GetExePath) for the Reaper-application-folder, [GetResourcePath](#GetResourcePath) for the ressources-folder or [get\_ini\_file](#get_ini_file) for the path+filename of the Reaper.ini-file.
             
             You can pass an empty string as value to delete a key.
+            
+            Important: Don't use \n in parameter value, or the reread-value might be incomplete!
         </description>
         <retvals>
             boolean retval - true, if it worked; false, if not

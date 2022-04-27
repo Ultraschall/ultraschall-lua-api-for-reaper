@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52180.00" author="Meo Mespotine">
+      <version name="52195.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.4/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -543,7 +543,8 @@ new in this release:
     This way, you can monitor, if your marker-functions get the correct
     guids from a marker.
 
--   Bugfixes Per tradition…
+-   Bugfixes
+    Per tradition…
 
 New features in 4.4
 
@@ -596,7 +597,7 @@ Changes from 4.3 to 4.4
 -   DeveloperTools: Config Var Displayer - crashed, when double-value is
     NaN -> fixed
 -   Docs: Reaper API-docs - restructured the index into more useful
-    categories; updated to Reaper 6.54, ReaImGui 0.6.1 and ReaPack 1.2.4
+    categories; updated to Reaper 6.56, ReaImGui 0.6.1 and ReaPack 1.2.4
 -   FileManagement: CreateValidTempFile - raised number of potential
     temp-file-variants to 2147483648
 -   HelperFunctions: Main_OnCommandByFilename - didn’t remove temporary

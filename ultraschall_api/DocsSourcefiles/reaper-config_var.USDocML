@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.54 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 6.56 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -931,6 +931,9 @@
            
            >&4=0, Removing trailing numbers - checked  
            >&4=1, Removing trailing numbers - unchecked  
+           
+           >&8=0, Allow drag-import to insert tracks - unchecked
+           >&8=1, Allow drag-import to insert tracks - checked
            
           For other settings, set in the preferences -> Media, see [showpeaksbuild](#showpeaksbuild), [relativeedges](#relativeedges), [applyfxtail](#applyfxtail), [itemfxtail](#itemfxtail), [peakcachegenmode](#peakcachegenmode), [opencopyprompt](#opencopyprompt)  
                                                 [altpeaks](#altpeaks), [showpeaks](#showpeaks), [peakcachegenrs](#peakcachegenrs), [offlineinact](#offlineinact), [insertmtrack](#insertmtrack)  
@@ -4364,6 +4367,8 @@
            >&65536=0, Do not create undo points when closing FX windows-checkbox - unchecked
            >&65536=1, Do not create undo points when closing FX windows-checkbox - checked
            
+           >&524288=0, Hide FXChain until added - checked
+           >&524288=1, Hide FXChain until added - unchecked
            
             
           For other settings in Preferences -> Plugins, see [fxresize](#fxresize) and [maxrecentfx](#maxrecentfx)  
