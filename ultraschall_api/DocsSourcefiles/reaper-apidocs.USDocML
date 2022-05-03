@@ -10825,8 +10825,8 @@
         <requires>
             Reaper=5.92
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get note/CC name. pitch 128 for CC0 name, 129 for CC1 name, etc. See [SetTrackMIDINoteNameEx](#SetTrackMIDINoteNameEx)
+        <description>
+            Get note/CC name. pitch 128 for CC0 name, 129 for CC1 name, etc. See SetTrackMIDINoteNameEx
         </description>
         <retvals>
             string midi_notename - 
@@ -10837,6 +10837,10 @@
             integer pitch - 
             integer chan - 
         </parameters>
+        <linked_to desc="see:">
+            inline:SetTrackMIDINoteNameEx
+                   sets track-midi-note attributes by project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -10991,24 +10995,34 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetTrackReceiveName</slug>
         <title>GetTrackReceiveName</title>
-        <functioncall prog_lang="cpp">bool GetTrackReceiveName(MediaTrack* track, int recv_index, char* bufOut, int bufOut_sz)</functioncall>
-        <functioncall prog_lang="eel">bool GetTrackReceiveName(MediaTrack track, int recv_index, #buf)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string buf = reaper.GetTrackReceiveName(MediaTrack track, integer recv_index)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int recv_index, String bufOut, Int bufOut_sz) = RPR_GetTrackReceiveName(track, recv_index, bufOut, bufOut_sz)</functioncall>
+        <functioncall prog_lang="cpp">bool GetTrackReceiveName(MediaTrack* track, int recv_index, char* bufOut, int receive_trackname_sz)</functioncall>
+        <functioncall prog_lang="eel">bool GetTrackReceiveName(MediaTrack track, int recv_index, #receive_trackname)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string receive_trackname = reaper.GetTrackReceiveName(MediaTrack track, integer recv_index)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int recv_index, String receive_trackname, Int receive_trackname_sz) = RPR_GetTrackReceiveName(track, recv_index, receive_trackname, receive_trackname_sz)</functioncall>
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [GetTrackSendName](#GetTrackSendName).
+        <description>
+            Gets the name of a track, that MediaTrack is receiving.
+            
+            If the track has no name, the name will be something like "Track 2".
+            
+            See GetTrackSendName.
         </description>
         <retvals>
-            boolean retval - 
-            string buf - 
+            boolean retval - true, receive is existing; false, receive is not existing
+            string receive_trackname - the name of the track, MediaTrack is receiving
         </retvals>
         <parameters>
-            MediaTrack track - 
-            integer recv_index - 
+            MediaTrack track - the MediaTrack, whose receive-trackname you want to get
+            integer recv_index - the index of the received track; 0-based
         </parameters>
+        <linked_to desc="see:">
+            inline:GetTrackSendName
+                   returns the name of a track, that MediaTrack is sending to
+            inline:GetSetMediaTrackInfo_String
+                   sets various track-attributes, including trackname
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -11031,17 +11045,23 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [GetTrackSendUIMute](#GetTrackSendUIMute).
+        <description>
+            Returns the mute-state of a track, that MediaTrack is receiving.
+            
+            See GetTrackSendUIMute.
         </description>
         <retvals>
-            boolean retval - 
-            boolean mute - 
+            boolean retval - true, receive exists; false, receive doesn't exist
+            boolean mute - true, receive is muted; false, receive is not muted
         </retvals>
         <parameters>
-            MediaTrack track - 
-            integer recv_index - 
+            MediaTrack track - the MediaTrack, whose receive-mutestate you want to get
+            integer recv_index - the index of the received track; 0-based
         </parameters>
+        <linked_to desc="see:">
+            inline:GetTrackSendUIMute
+                   returns the mute-state of a send-track
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -11063,18 +11083,26 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            See [GetTrackSendUIVolPan](#GetTrackSendUIVolPan).
+        <description>
+            Returns the pan and volume-values of a track that MediaTrack is receiving.
+            
+            Note: convert the volumevalue to dB using in Lua: dB_volume = math.log(volume)*8.68588963806
+            
+            See GetTrackSendUIVolPan
         </description>
         <retvals>
-            boolean retval - 
-            number volume - 
-            number pan - 
+            MediaTrack track - the MediaTrack, whose receive-mutestate you want to get
+            number volume - the volume as mkvol-value(see description for how to convert it to dB)
+            number pan - the pan-value; -1(L), 0(center), 1(R)
         </retvals>
         <parameters>
-            MediaTrack track - 
-            integer recv_index - 
+            MediaTrack track - the MediaTrack, whose receive-vol-pan-value you want to get
+            integer recv_index - the index of the received track; 0-based
         </parameters>
+        <linked_to desc="see:">
+            inline:GetTrackSendUIVolPan
+                   returns the volume and pan-values of a send-track
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -11117,15 +11145,17 @@
               P_ENV:&envchunkname : TrackEnvelope * : call with :&VOLENV, :&PANENV, etc appended (read-only)
 
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
+            
+            Note: convert the D_VOL-volume to dB using in Lua: dB_volume = math.log(volume)*8.68588963806
         </description>
         <retvals>
-            number value - 
+            number value - the value of the parmname-attribute; see description for value-ranges
         </retvals>
         <parameters>
-            MediaTrack tr - 
-            integer category - 
-            integer sendidx - 
-            string parmname - 
+            MediaTrack tr - the MediaTrack, whose atributes of a send/receives/hwouts you want to get
+            integer category - <0 to index receives, 0, to index sends; >0, to index hardware-outs
+            integer sendidx - the index of the receive/send/hwout; 0-based
+            string parmname - the parameter-name(see description for more details)
         </parameters>
         <linked_to desc="see:">
             inline:CreateTrackSend
@@ -11155,24 +11185,33 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetTrackSendName</slug>
         <title>GetTrackSendName</title>
-        <functioncall prog_lang="cpp">bool GetTrackSendName(MediaTrack* track, int send_index, char* bufOut, int bufOut_sz)</functioncall>
-        <functioncall prog_lang="eel">bool GetTrackSendName(MediaTrack track, int send_index, #buf)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string buf = reaper.GetTrackSendName(MediaTrack track, integer send_index)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int send_index, String bufOut, Int bufOut_sz) = RPR_GetTrackSendName(track, send_index, bufOut, bufOut_sz)</functioncall>
+        <functioncall prog_lang="cpp">bool GetTrackSendName(MediaTrack* track, int send_index, char* send_name, int send_name_sz)</functioncall>
+        <functioncall prog_lang="eel">bool GetTrackSendName(MediaTrack track, int send_index, #send_name)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string send_name = reaper.GetTrackSendName(MediaTrack track, integer send_index)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int send_index, String send_name, Int send_name_sz) = RPR_GetTrackSendName(track, send_index, send_name, send_name_sz)</functioncall>
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            send\_idx>=0 for hw outputs, >=nb\_of\_hw\_outputs for sends. See [GetTrackReceiveName](#GetTrackReceiveName).
+        <description>
+            gets the name of a track, that MediaTrack is sending to
+            send_idx>=0 for hw outputs, >=nb_of_hw_outputs for sends. 
+            
+            If the send-track has no name, send_name can be something like "Track 2"
+            
+            See GetTrackReceiveName
         </description>
         <retvals>
             boolean retval - 
-            string buf - 
+            string send_name - the name of the track to which you send
         </retvals>
         <parameters>
-            MediaTrack track - 
-            integer send_index - 
+            MediaTrack track - the MediaTrack, whose track-send-name you want to get
+            integer send_index - the index of the track-send
         </parameters>
+        <linked_to desc="see:">
+            inline:GetTrackReceiveName
+                   returns, if audioaccessor has changed
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -11228,6 +11267,8 @@
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             send\_idx>=0 for hw outputs, >=nb\_of\_hw\_outputs for sends. See [GetTrackReceiveUIVolPan](#GetTrackReceiveUIVolPan).
+            
+            Note: convert the volumevalue to dB using in Lua: dB_volume = math.log(volume)*8.68588963806
         </description>
         <retvals>
             boolean retval - 
@@ -18750,8 +18791,9 @@
                I_DSTCHAN : int * : index, &1024=mono, otherwise stereo pair, hwout:&512=rearoute
                I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chan 
 
-
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
+            
+            Note: convert a dB_volume-value to the value expected by D_VOL in Lua, using: math.exp(db_value/8.68588963806)
         </description>
         <retvals>
             boolean retval - true, setting value was successful; false, setting value was unsuccessful
@@ -18833,6 +18875,8 @@
         </requires>
         <description prog_lang="*">
             send_idx<0 for receives, >=0 for hw ouputs, >=nb_of_hw_ouputs for sends. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.
+            
+            Note: convert a dB_volume-value to the value expected by parameter vol in Lua, using: math.exp(db_value/8.68588963806)
         </description>
         <retvals>
             boolean retval - 

@@ -49,9 +49,13 @@ Bla</li>
 <li>Markers: DeleteShownoteMarker - deletes a shownote-marker</li>
 <li>Markers: EnumerateShownoteMarkers - gets a shownote-marker<br />
 </li>
-<li>Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index</li>
+<li>Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index<br />
+</li>
 <li>Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid</li>
+<li>Markers: GetTemporaryMarker - retrieves temporarily stored markers/regions for later use</li>
+<li>Markers: IsMarkerShownote - returns, if a marker is a shownote</li>
 <li>Markers: SetShownoteMarker - sets an already existing shownote-marker</li>
+<li>Markers: StoreTemporaryMarker - temporarily stores markers/regions for later use</li>
 <li>PodcastMetadata: GetAllChapters_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
 <li>PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
 <li>PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
@@ -72,9 +76,16 @@ Bla</li>
 </li>
 <li>PodcastMetadata: SetPodcastEpisodeMetadataPreset_Name - sets the name of an episode-metadata-preset</li>
 <li>PodcastMetadata: SetPodcastMetadataPreset_Name - sets the name of a podcast-metadata-preset</li>
-<li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes</li>
+<li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes<br />
+</li>
+<li>TrackStates: GetTrackPlayOffsState - get the Media Playback Offset-entry of a track</li>
+<li>TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track</li>
 </ul>
 <h4>Changes from 4.4 to 4.5</h4>
+<ul>
+<li>HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum dB-value -&gt; fixed</li>
+<li>TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner codebase(hopefully future proof)</li>
+</ul>
 <hr />
 <h3>4.4 - "Dispatch - Open Up" - 27 of April 2022</h3>
 <p>Has now 1477 functions, with 20 new ones</p>

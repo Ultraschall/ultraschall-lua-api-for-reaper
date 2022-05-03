@@ -198,6 +198,9 @@ Bug with INI-Files-read-functions:
  - Podcast/Episode-Presets have problems with newlines when stored into ini-file -> find a workaround
 
  - Docs: API - rename parameters of EEL/Python/CPP to their Lua-counterparts
+ 
+ - DeveloperTools: get all default-factory-shortcuts: löschen eines Shortcuts für ne Action.
+                   wenn kb.ini einen neuen Eintrag bekommt für KEY mit 0 als action, dann loggen
 
 </TODO>
 
@@ -218,9 +221,12 @@ Has now 1477 functions, with XX new ones
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
   - Markers: EnumerateShownoteMarkers - gets a shownote-marker    
-  - Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index
+  - Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index  
   - Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid
+  - Markers: GetTemporaryMarker - retrieves temporarily stored markers/regions for later use
+  - Markers: IsMarkerShownote - returns, if a marker is a shownote
   - Markers: SetShownoteMarker - sets an already existing shownote-marker
+  - Markers: StoreTemporaryMarker - temporarily stores markers/regions for later use
   - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard
@@ -241,8 +247,12 @@ Has now 1477 functions, with XX new ones
   - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes    
+  - TrackStates: GetTrackPlayOffsState - get the Media Playback Offset-entry of a track
+  - TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track
   
 #### Changes from 4.4 to 4.5  
+  - HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum dB-value -> fixed
+  - TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner codebase(hopefully future proof)
   
 ---
 

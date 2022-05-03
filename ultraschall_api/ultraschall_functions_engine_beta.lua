@@ -3244,3 +3244,253 @@ function ultraschall.GetSetTranscription_Attributes(is_set, idx, attributename, 
     return true, content
   end
 end
+
+
+function ultraschall.GetTrackPlayOffsState(tracknumber, str)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTrackPlayOffsState</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>number offset, integer media_playback_flags = ultraschall.GetTrackPlayOffsState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <description>
+    returns state of Media playback offset
+    
+    It's the entry PLAYOFFS
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    number offset - common values settable via UI are: -0.5(-500ms) to 0.5(500ms) or -8192 to 8192(samples) 
+    integer media_playback_flags - flags for Media playback offset-settings
+                                 - &1=0, Media playback offset-checkbox is on; &1=1, Media playback offset-checkbox is off
+                                 - &2=0, value is in milliseconds; &2=2, value is in samples
+  </retvals>
+  <parameters>
+    integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
+    optional string TrackStateChunk - a TrackStateChunk that you want to use, instead of a given track
+  </parameters>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua</source_document>
+  <tags>trackmanagement, media playback offset, milliseconds, samples, state, get, trackstatechunk</tags>
+</US_DocBloc>
+--]]
+  local retval
+  if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end
+  local A,B=ultraschall.GetTrackState_NumbersOnly("PLAYOFFS", str, "GetTrackMuteSoloState", true)
+  --if PLAYOFFS doesn't exist as value in statechunk, return defaults (offset=0 and media_playback_flags=0)
+  if A==nil then A=0 B=0 end
+  return A,B
+end
+
+
+function ultraschall.SetTrackPlayOffsState(tracknumber, TrackStateChunk, offset, media_playback_flags)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetTrackPlayOffsState</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackPlayOffsState(integer tracknumber, optional string TrackStateChunk, number offset, integer media_playback_flags)</functioncall>
+  <description>
+    Set the AutoRecArmState for a track or a TrackStateChunk.
+    
+    It's the entry PLAYOFFS
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval  - true, if successful, false if unsuccessful
+    string TrackStateChunk - the altered TrackStateChunk
+  </retvals>
+  <parameters>
+    integer tracknumber - number of the track, beginning with 1; 0 for master-track; -1 if you want to use parameter TrackStateChunk
+    optional string TrackStateChunk - use a trackstatechunk instead of a track; only used when tracknumber is -1
+    number offset - common values settable via UI are: -0.5(-500ms) to 0.5(500ms) or -8192 to 8192(samples) 
+    integer media_playback_flags - flags for Media playback offset-settings
+                                 - &1=0, Media playback offset-checkbox is on; &1=1, Media playback offset-checkbox is off
+                                 - &2=0, value is in milliseconds; &2=2, value is in samples
+  </parameters>
+  <chapter_context>
+    Track Management
+    Set Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua</source_document>
+  <tags>trackmanagement, media playback offset, track, set, state, trackstatechunk</tags>
+</US_DocBloc>
+--]]
+  -- check parameters
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("SetTrackPlayOffsState", "tracknumber", "must be an integer", -1) return false end
+  if tracknumber<-1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("SetTrackPlayOffsState", "tracknumber", "no such track in the project", -2) return false end
+  if type(offset)~="number" then ultraschall.AddErrorMessage("SetTrackPlayOffsState", "offset", "must be a number", -3) return false end
+  if math.type(media_playback_flags)~="integer" then ultraschall.AddErrorMessage("SetTrackPlayOffsState", "media_playback_flags", "must be an integer", -4) return false end
+  
+  -- get trackstatechunk
+  local Mediatrack, StateChunk, A
+  if tracknumber~=-1 then
+    if tracknumber==0 then Mediatrack=reaper.GetMasterTrack(0)
+    else
+      Mediatrack=reaper.GetTrack(0,tracknumber-1)
+    end
+    A, StateChunk=ultraschall.GetTrackStateChunk(Mediatrack, str ,false)
+  else
+    if type(TrackStateChunk)~="string" then ultraschall.AddErrorMessage("SetTrackPlayOffsState", "TrackStateChunk", "must be a string", -5) return false end
+    StateChunk=TrackStateChunk
+  end
+  
+  -- replace Statechunk-entry with undocumented helper function(can be found in functions-engine.lua)
+  StateChunk = ultraschall.Statechunk_ReplaceEntry(StateChunk, "PLAYOFFS", "IPHASE", nil, {offset, media_playback_flags})
+  
+  -- set-trackstatechunk, if requested
+  if tracknumber~=-1 then
+    reaper.SetTrackStateChunk(Mediatrack, StateChunk, false)
+  end  
+  
+  -- remove entry, with default values, as Reaper needs the PLAYOFFS-entry added into the statechunk for
+  -- it to be removed with default values
+  -- So we need to remove them from the statechunk right now, or it's inconsistent.
+  if offset==0 and media_playback_flags==0 then
+    return true, string.gsub(StateChunk, "PLAYOFFS.-\n", "")
+  else
+    return true, StateChunk
+  end
+end
+
+--A,B=ultraschall.SetTrackPlayOffsState(1, TrackStateChunk, 100, 2)
+
+
+function ultraschall.StoreTemporaryMarker(marker_id, index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>StoreTemporaryMarker</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.StoreTemporaryMarker(integer marker_id, optional integer index)</functioncall>
+  <description>
+    Stores a marker/region temporarily for later use.
+    
+    See GetTemporaryMarker to get the index of the marker, which will also keep in mind, if scripts or the user change the order of the markers/regions in the meantime.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, storing temporary marker was successful; false, storing temporary marker was unsuccessful
+  </retvals>
+  <parameters>
+    integer marker_id - the index of the marker/region within all markers and regions, that you want to temporarily store
+    optional integer index - a numerical index, if you want to temporarily store multiple markers/regions; default is 1
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, store, temporary marker, guid</tags>
+</US_DocBloc>
+--]]  
+  if math.type(marker_id)~="integer" then ultraschall.AddErrorMessage("StoreTemporaryMarker", "marker_id", "must be an integer", -1) return false end
+  if index~=nil and math.type(index)~="integer" then ultraschall.AddErrorMessage("StoreTemporaryMarker", "index", "must be an integer", -2) return false end
+  local Guid = ultraschall.GetGuidFromMarkerID(marker_id)
+  if Guid==-1 then ultraschall.AddErrorMessage("StoreTemporaryMarker", "marker_id", "no such marker", -3) return false end
+  if index==nil then index=1 end
+  reaper.SetExtState("ultraschall_api", "Temporary_Marker_"..index, Guid, false)
+  return true
+end
+
+function ultraschall.GetTemporaryMarker(index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTemporaryMarker</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer marker_id = ultraschall.GetTemporaryMarker(optional integer index)</functioncall>
+  <description>
+    returns a temporarily stored marker/region.
+    
+    See SetTemporaryMarker to set temporary markers/regions.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer marker_id - the current id of the stored marker/region; -1, in case of an error
+  </retvals>
+  <parameters>
+    optional integer index - a numerical index, if you stored multiple temporary markers/regions; default is 1
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, get, temporary marker, guid</tags>
+</US_DocBloc>
+--]]  
+  if index~=nil and math.type(index)~="integer" then ultraschall.AddErrorMessage("GetTemporaryMarker", "index", "must be an integer", -1) return false end
+  if index==nil then index=1 end
+  local marker=reaper.GetExtState("ultraschall_api", "Temporary_Marker_"..index)
+  if marker=="" then return -1 else return ultraschall.GetMarkerIDFromGuid(marker) end
+end
+
+--index=1
+--A=ultraschall.SetTemporaryMarker(4, index)
+--B=ultraschall.GetTemporaryMarker(index)
+
+
+function ultraschall.IsMarkerShownote(marker_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsMarkerShownote</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsMarkerShownote(integer markerid)</functioncall>
+  <description>
+    returns true, if the marker is a shownote-marker, false if not. Returns nil, if markerid is invalid.
+    Markerid is the marker-number for all markers, as used by marker-functions from Reaper.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if it's an shownote-marker, false if not
+  </retvals>
+  <parameters>
+    integer markerid - the markerid of all markers in the project, beginning with 0 for the first marker
+  </parameters>
+  <chapter_context>
+    Markers
+    ShowNote Marker
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, navigation, check, shownote marker, normal</tags>
+</US_DocBloc>
+]]
+  if math.type(marker_id)~="integer" then ultraschall.AddErrorMessage("IsMarkerShownote", "marker_id", "must be an integer", -1) return false end
+  for i=1, ultraschall.CountShownoteMarkers() do
+    local retval, marker_index, pos, name, shown_number, guid = ultraschall.EnumerateShownoteMarkers(i)
+    if marker_index==marker_id then
+      return true
+    end
+  end
+  return false
+end

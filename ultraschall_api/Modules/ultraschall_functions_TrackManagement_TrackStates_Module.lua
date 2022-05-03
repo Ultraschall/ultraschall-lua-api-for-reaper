@@ -2222,13 +2222,15 @@ function ultraschall.SetTrackAutoRecArmState(tracknumber, autorecarmstate, Track
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackAutoRecArmState</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.5
     Reaper=5.40
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackAutoRecArmState(integer tracknumber, integer autorecarmstate, optional string TrackStateChunk)</functioncall>
   <description>
     Set the AutoRecArmState for a track or a TrackStateChunk.
+    
+    It's the entry AUTO_RECARM
     
     returns false in case of an error
   </description>
@@ -2238,7 +2240,7 @@ function ultraschall.SetTrackAutoRecArmState(tracknumber, autorecarmstate, Track
   </retvals>
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master-track; -1 if you want to use parameter TrackStateChunk
-    integer autorecarmstate - autorecarmstate - 1 - autorecarm on, <> than 1 - off
+    integer autorecarmstate - the autorecarmstate; 1, autorecarm on; 0, autorecarm off
     optional string TrackStateChunk - use a trackstatechunk instead of a track; only used when tracknumber is -1
   </parameters>
   <chapter_context>
@@ -2255,36 +2257,28 @@ function ultraschall.SetTrackAutoRecArmState(tracknumber, autorecarmstate, Track
   if tracknumber<-1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("SetTrackAutoRecArmState", "tracknumber", "no such track in the project", -2) return false end
   if math.type(autorecarmstate)~="integer" then ultraschall.AddErrorMessage("SetTrackAutoRecArmState", "autorecarmstate", "must be an integer", -3) return false end
   
-  local str=""
-  
-  -- create state-entry
-  if autorecarmstate==1 then str="AUTO_RECARM "..autorecarmstate end
+  -- create state-entry; remove if recarmstate==1
+  if autorecarmstate~=1 then autorecarmstate=0 end
   
   -- get trackstatechunk
-  local Mediatrack, A, AA, B
+  local Mediatrack, StateChunk, A
   if tracknumber~=-1 then
-    if tracknumber==0 then Mediatrack=reaper.GetMasterTrack(0)
-    else
-      Mediatrack=reaper.GetTrack(0,tracknumber-1)
-    end
-    A,AA=ultraschall.GetTrackStateChunk(Mediatrack,str,false)
+    if tracknumber==0 then Mediatrack=reaper.GetMasterTrack(0) else Mediatrack=reaper.GetTrack(0,tracknumber-1) end
+    A, StateChunk=ultraschall.GetTrackStateChunk(Mediatrack, "" ,false)
   else
-    if type(TrackStateChunk)~="string" then ultraschall.AddErrorMessage("SetTrackAutoRecArmState", "TrackStateChunk", "must be a string", -4) return false end
-    AA=TrackStateChunk
+    if type(TrackStateChunk)~="string" then ultraschall.AddErrorMessage("SetTrackPlayOffsState", "TrackStateChunk", "must be a string", -5) return false end
+    StateChunk=TrackStateChunk
   end
   
   -- remove old state from trackstatechunk
-  local B1=AA:match("(.-)AUTO_RECARM")
-  local B3=AA:match("AUTO_RECARM.-%c(.*)")
+  StateChunk = ultraschall.Statechunk_ReplaceEntry(StateChunk, "AUTO_RECARM", "REC", nil, {autorecarmstate}, {0})
   
-  -- set trackstatechunk and include new-state
-  if B1==nil then B1=AA:match("(.-TRACK)") B3=AA:match(".-TRACK(.*)") end
+  -- set-trackstatechunk, if requested
   if tracknumber~=-1 then
-    B=reaper.SetTrackStateChunk(Mediatrack,B1.."\n"..str.."\n"..B3,false)
-  else
-    B=true
+    reaper.SetTrackStateChunk(Mediatrack, StateChunk, false)
   end  
-  return B, B1.."\n"..str.."\n"..B3
+  
+  return true, StateChunk
 end
 
 function ultraschall.SetTrackMuteSoloState(tracknumber, Mute, Solo, SoloDefeat, TrackStateChunk)

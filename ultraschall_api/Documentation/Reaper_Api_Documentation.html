@@ -27441,7 +27441,7 @@ see GetTrackMIDINoteNameEx<br>
 <div class="p">Python: <code> <i>String</i> retval = <em>RPR_GetTrackMIDINoteNameEx</em>(<i>ReaProject</i> proj, <i>MediaTrack</i> track, <i>Int</i> pitch, <i>Int</i> chan)</code></div>
 </div><p>
 <div class="ch">
-<p>Get note/CC name. pitch 128 for CC0 name, 129 for CC1 name, etc. See <a href="#SetTrackMIDINoteNameEx">SetTrackMIDINoteNameEx</a></p>
+Get note/CC name. pitch 128 for CC0 name, 129 for CC1 name, etc. See SetTrackMIDINoteNameEx<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -62524,32 +62524,36 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <a href="#GetTrackReceiveName"> ^</a> 
 <img width="3%" src="gfx/reaper6.37.png" alt="Reaper version 6.37"><u><b>GetTrackReceiveName</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>GetTrackReceiveName</em>(<i>MediaTrack*</i>  track, <i>int</i> recv_index, <i>char*</i> bufOut, <i>int</i> bufOut_sz)</code></div>
-<div class="e">EEL2: <code> <i>bool</i> <em>GetTrackReceiveName</em>(<i>MediaTrack</i> track, <i>int</i> recv_index, #buf)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.GetTrackReceiveName</em>(<i>MediaTrack</i> track, <i>integer</i> recv_index)</code></div>
-<div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> recv_index, <i>String</i> bufOut, <i>Int</i> bufOut_sz) = <em>RPR_GetTrackReceiveName</em>(track, recv_index, bufOut, bufOut_sz)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>GetTrackReceiveName</em>(<i>MediaTrack*</i>  track, <i>int</i> recv_index, <i>char*</i> bufOut, <i>int</i> receive_trackname_sz)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> <em>GetTrackReceiveName</em>(<i>MediaTrack</i> track, <i>int</i> recv_index, #receive_trackname)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> receive_trackname = <em>reaper.GetTrackReceiveName</em>(<i>MediaTrack</i> track, <i>integer</i> recv_index)</code></div>
+<div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> recv_index, <i>String</i> receive_trackname, <i>Int</i> receive_trackname_sz) = <em>RPR_GetTrackReceiveName</em>(track, recv_index, receive_trackname, receive_trackname_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>See <a href="#GetTrackSendName">GetTrackSendName</a>.</p>
+Gets the name of a track, that MediaTrack is receiving.<br>
+<br>
+If the track has no name, the name will be something like "Track 2".<br>
+<br>
+See GetTrackSendName.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">true, receive is existing; false, receive is not existing</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>string</i> buf</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> receive_trackname</td></tr>
+<tr><td class="ch2">the name of the track, MediaTrack is receiving</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaTrack</i> track</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the MediaTrack, whose receive-trackname you want to get</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> recv_index</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the index of the received track; 0-based</td></tr>
 </table>
 <br>
 </div>
@@ -62565,26 +62569,28 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> recv_index, <i>Boolean</i> muteOut) = <em>RPR_GetTrackReceiveUIMute</em>(track, recv_index, muteOut)</code></div>
 </div><p>
 <div class="ch">
-<p>See <a href="#GetTrackSendUIMute">GetTrackSendUIMute</a>.</p>
+Returns the mute-state of a track, that MediaTrack is receiving.<br>
+<br>
+See GetTrackSendUIMute.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">true, receive exists; false, receive doesn't exist</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> mute</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">true, receive is muted; false, receive is not muted</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaTrack</i> track</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the MediaTrack, whose receive-mutestate you want to get</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> recv_index</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the index of the received track; 0-based</td></tr>
 </table>
 <br>
 </div>
@@ -62600,30 +62606,34 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> recv_index, <i>Float</i> volumeOut, <i>Float</i> panOut) = <em>RPR_GetTrackReceiveUIVolPan</em>(track, recv_index, volumeOut, panOut)</code></div>
 </div><p>
 <div class="ch">
-<p>See <a href="#GetTrackSendUIVolPan">GetTrackSendUIVolPan</a>.</p>
+Returns the pan and volume-values of a track that MediaTrack is receiving.<br>
+<br>
+Note: convert the volumevalue to dB using in Lua: dB_volume = math.log(volume)*8.68588963806<br>
+<br>
+See GetTrackSendUIVolPan<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
+<tr><td class="ch2">the MediaTrack, whose receive-mutestate you want to get</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> volume</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the volume as mkvol-value(see description for how to convert it to dB)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> pan</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the pan-value; -1(L), 0(center), 1(R)</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaTrack</i> track</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the MediaTrack, whose receive-vol-pan-value you want to get</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> recv_index</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the index of the received track; 0-based</td></tr>
 </table>
 <br>
 </div>
@@ -62659,29 +62669,31 @@ parameter names:<br>
 &nbsp;&nbsp;P_ENV:&envchunkname : TrackEnvelope * : call with :&VOLENV, :&PANENV, etc appended (read-only)<br>
 <br>
 For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).<br>
+<br>
+Note: convert the D_VOL-volume to dB using in Lua: dB_volume = math.log(volume)*8.68588963806<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>number</i> value</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the value of the parmname-attribute; see description for value-ranges</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaTrack</i> tr</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the MediaTrack, whose atributes of a send/receives/hwouts you want to get</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> category</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2"><0 to index receives, 0, to index sends; >0, to index hardware-outs</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> sendidx</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the index of the receive/send/hwout; 0-based</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> parmname</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the parameter-name(see description for more details)</td></tr>
 </table>
 <br>
 </div>
@@ -62691,13 +62703,18 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <a href="#GetTrackSendName"> ^</a> 
 <img width="3%" src="gfx/reaper6.37.png" alt="Reaper version 6.37"><u><b>GetTrackSendName</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>GetTrackSendName</em>(<i>MediaTrack*</i>  track, <i>int</i> send_index, <i>char*</i> bufOut, <i>int</i> bufOut_sz)</code></div>
-<div class="e">EEL2: <code> <i>bool</i> <em>GetTrackSendName</em>(<i>MediaTrack</i> track, <i>int</i> send_index, #buf)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.GetTrackSendName</em>(<i>MediaTrack</i> track, <i>integer</i> send_index)</code></div>
-<div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> send_index, <i>String</i> bufOut, <i>Int</i> bufOut_sz) = <em>RPR_GetTrackSendName</em>(track, send_index, bufOut, bufOut_sz)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>GetTrackSendName</em>(<i>MediaTrack*</i>  track, <i>int</i> send_index, <i>char*</i> send_name, <i>int</i> send_name_sz)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> <em>GetTrackSendName</em>(<i>MediaTrack</i> track, <i>int</i> send_index, #send_name)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> send_name = <em>reaper.GetTrackSendName</em>(<i>MediaTrack</i> track, <i>integer</i> send_index)</code></div>
+<div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> send_index, <i>String</i> send_name, <i>Int</i> send_name_sz) = <em>RPR_GetTrackSendName</em>(track, send_index, send_name, send_name_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>send_idx&gt;=0 for hw outputs, &gt;=nb_of_hw_outputs for sends. See <a href="#GetTrackReceiveName">GetTrackReceiveName</a>.</p>
+gets the name of a track, that MediaTrack is sending to<br>
+send_idx>=0 for hw outputs, >=nb_of_hw_outputs for sends. <br>
+<br>
+If the send-track has no name, send_name can be something like "Track 2"<br>
+<br>
+See GetTrackReceiveName<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -62705,18 +62722,18 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>string</i> buf</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> send_name</td></tr>
+<tr><td class="ch2">the name of the track to which you send</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaTrack</i> track</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the MediaTrack, whose track-send-name you want to get</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> send_index</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the index of the track-send</td></tr>
 </table>
 <br>
 </div>
@@ -62768,6 +62785,7 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 </div><p>
 <div class="ch">
 <p>send_idx&gt;=0 for hw outputs, &gt;=nb_of_hw_outputs for sends. See <a href="#GetTrackReceiveUIVolPan">GetTrackReceiveUIVolPan</a>.</p>
+<p>Note: convert the volumevalue to dB using in Lua: dB_volume = math.log(volume)*8.68588963806</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -62959,8 +62977,9 @@ parameter names:<br>
 &nbsp;&nbsp; I_DSTCHAN : int * : index, &1024=mono, otherwise stereo pair, hwout:&512=rearoute<br>
 &nbsp;&nbsp; I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chan <br>
 <br>
-<br>
 For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).<br>
+<br>
+Note: convert a dB_volume-value to the value expected by D_VOL in Lua, using: math.exp(db_value/8.68588963806)<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -63043,6 +63062,8 @@ send_idx<0 for receives, >=0 for hw ouputs, >=nb_of_hw_ouputs for sends. isend=1
 </div><p>
 <div class="ch">
 send_idx<0 for receives, >=0 for hw ouputs, >=nb_of_hw_ouputs for sends. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.<br>
+<br>
+Note: convert a dB_volume-value to the value expected by parameter vol in Lua, using: math.exp(db_value/8.68588963806)<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

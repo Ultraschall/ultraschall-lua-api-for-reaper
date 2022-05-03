@@ -4307,7 +4307,7 @@ function ultraschall.MKVOL2DB(mkvol_value)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MKVOL2DB</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.5
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -4339,7 +4339,7 @@ function ultraschall.MKVOL2DB(mkvol_value)
 </US_DocBloc>
 --]]
   if type(mkvol_value)~="number" then ultraschall.AddErrorMessage("MKVOL2DB", "mkvol_value", "must be a number" ,-1) return nil end
-  if mkvol_value < 0.00000002980232 then return -44 end
+  if mkvol_value < 0.00000002980232 then return -144 end
   mkvol_value = math.log(mkvol_value)*8.68588963806
   return mkvol_value
 end
