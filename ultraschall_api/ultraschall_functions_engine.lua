@@ -303,6 +303,8 @@ function ultraschall.DoubleToInt(float, selector)
   return String
 end
 
+
+
 function ultraschall.SuppressErrorMessages(flag)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -779,6 +781,36 @@ function ultraschall.DeleteAllErrorMessages()
     return true
   end
 end
+
+DAEM=ultraschall.DeleteAllErrorMessages
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DAEM</slug>
+  <requires>
+    Ultraschall=4.4
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = DAEM()</functioncall>
+  <description>
+    Deletes all error-messages and returns a boolean value.
+    
+    this is like ultraschall.DeleteAllErrorMessages(), just shorter
+    
+    returns false in case of failure
+  </description>
+  <retvals>
+    boolean retval - true, if it worked; false if it didn't
+  </retvals>
+  <chapter_context>
+    Developer
+    Error Handling
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>developer, error, delete, message</tags>
+</US_DocBloc>
+]]
 
 function ultraschall.GetLastErrorMessage2(count,setread)
 --[[

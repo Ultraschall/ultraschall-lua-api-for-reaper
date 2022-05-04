@@ -300,7 +300,9 @@ function contentindex()
     -- Header for each category
     local Top=HeaderList[i]:match("(.-),")
     local Second=HeaderList[i]:match(".-,(.-),")
+    if Second~=nil and Second:sub(1,1)==" " then Second=Second:sub(2,-1) end
     local Third=HeaderList[i]:match(".-,.-,(.-),")
+    if Third~=nil and Third:sub(1,1)==" " then Second=Second:sub(2,-1) end
     
     local Counts, Slugs=ultraschall.SplitStringAtLineFeedToArray(HeaderList[i]:match(".-\n(.*)\n"))
     slugs=""

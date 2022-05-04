@@ -232,20 +232,20 @@ Has now 1477 functions, with XX new ones
   - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcastChapter\_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcastEpisode\_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastEpisodeMetadataPreset\_Name - gets the name of an episode -metadata-preset
+  - PodcastMetadata: GetPodcastEpisodeAttrbutesPreset\_Name - gets the name of an episode -metadata-preset
   - PodcastMetadata: GetPodcastShownote\_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastMetadataPreset\_Name - gets the name of a podcast-metadata-preset
+  - PodcastMetadata: GetPodcastAttrbutesPreset\_Name - gets the name of a podcast-metadata-preset
   - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
-  - PodcastMetadata: GetSetPodcast\_MetaData - gets/sets metadata-attributes of a podcast
-  - PodcastMetadata: GetSetPodcastEpisode\_MetaData - gets/sets metadata-attributes of a podcast-episode
+  - PodcastMetadata: GetSetPodcast\_Attributes - gets/sets metadata-attributes of a podcast
+  - PodcastMetadata: GetSetPodcastEpisode\_Attributes - gets/sets metadata-attributes of a podcast-episode
   - PodcastMetadata: GetSetPodcastExport\_Attributes\_String - gets/sets string attributes for podcast-export in Ultraschall
   - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall
   - PodcastMetadata: GetSetShownoteMarker\_Attributes - gets/sets additional attributes of a shownote-marker
   - PodcastMetadata: GetSetTranscription\_Attributes  gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)
   - PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
-  - PodcastMetadata: SetPodcastEpisodeMetadataPreset\_Name - sets the name of an episode-metadata-preset
-  - PodcastMetadata: SetPodcastMetadataPreset\_Name - sets the name of a podcast-metadata-preset
+  - PodcastMetadata: SetPodcastEpisodeAttrbutesPreset\_Name - sets the name of an episode-metadata-preset
+  - PodcastMetadata: SetPodcastAttrbutesPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes    
   - TrackStates: GetTrackPlayOffsState - get the Media Playback Offset-entry of a track
   - TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track
