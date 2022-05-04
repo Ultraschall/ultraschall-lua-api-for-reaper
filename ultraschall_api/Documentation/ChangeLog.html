@@ -44,6 +44,11 @@ Bla</li>
 </ul>
 <h4>New features in 4.5</h4>
 <ul>
+<li>AutomationItems: AutomationItem_DeselectAllInTrack - deselects all automation-items in a TrackEnvelope</li>
+<li>AutomationItems: AutomationItem_DeselectAllSelectStates - deselects all automation-items in all TrackEnvelopes</li>
+<li>AutomationItems: AutomationItem_GetAllSelectStates - get all automationitem-selection-states in all TrackEnvelopes</li>
+<li>AutomationItems: AutomationItem_GetSelectStates - get all automationitem-selection-states in a TrackEnvelope</li>
+<li>AutomationItems: AutomationItem_SelectMultiple - sets selection-state multiple automation-items in a TrackEnvelope</li>
 <li>Markers: AddShownoteMarker - adds a shownote-marker</li>
 <li>Markers: CountShownoteMarkers - counts shownote-markers in a project</li>
 <li>Markers: DeleteShownoteMarker - deletes a shownote-marker</li>
@@ -83,6 +88,8 @@ Bla</li>
 </ul>
 <h4>Changes from 4.4 to 4.5</h4>
 <ul>
+<li>AutomationItem_Delete - did also delete selected automation-items in other TrackEnvelopes -&gt; fixed(thnx to X-Raym)</li>
+<li>AutomationItem_Split - did also split automation-items in other TrackEnvelopes under certain conditions -&gt; fixed(thnx to X-Raym)</li>
 <li>HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum dB-value -&gt; fixed</li>
 <li>TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner codebase(hopefully future proof)</li>
 </ul>

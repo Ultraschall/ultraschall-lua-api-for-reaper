@@ -1424,6 +1424,8 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   <description>
     Returns the HWND-Reaper-Windowhandler for the tracklist- and timeline-area in the arrange-view 
     
+    Note: in later versions of Reaper, TracklistWindow and arrange_view became the same.
+    
     returns nil in case of an error. Please report such an error, which means, that you should use ultraschall.ShowLastErrorMessage() to show that error and report the information requested(fruitful bugreports lead to a handwritten postcard as reward :) )
   </description>
   <retvals>

@@ -171,25 +171,6 @@ ConfigVarDisplayer - Layout sometimes break, with too short double-values; pad t
                    -- example: in Peak Display Settings, set noise threshold to 1.86, which leads to specpeak_na being 2.14920621243, which breaks "\tDifference to old value:"
 
 
-Podcast_Metadata_Episode and Chapter:
-                Come up with a standardized system, that allows setting Content Notifications.
-                Maybe a CSV with numbers associated with certain cn-names(for internationalization).
-                
-                Like: 1=Suicide, 2=Racism, 3=Transpobia
-                Stored as 
-                    content_warning="1,3,5,additional CNs not standardized, another CN not standardized"
-                
-                That can be used by Podcast_Clients to warn of content of specific episodes beforehand,
-                including a way to filter out some trigger-words, none of them or all of them for 
-                user-specific-defineable warnings.
-                (How to deal with additional non-standardized cn's containing commas (,) ?)
-                Maybe separating the individual CN's with a |-symbol instead?
-                
-                Chapters should have content_warning too, but I'm not sure, if it should just show that it contains trigger(easier to implement) 
-                or the actual triggers discussed(better in practice to use).
-                Probably the latter...even though it's complicated...
-
-
 Bug with INI-Files-read-functions:
     Cannot read keys with multiple lines(probably limitation of standard), so you need to rewrite your 
     GetIni-Parser....
@@ -201,7 +182,7 @@ Bug with INI-Files-read-functions:
  
  - DeveloperTools: get all default-factory-shortcuts: löschen eines Shortcuts für ne Action.
                    wenn kb.ini einen neuen Eintrag bekommt für KEY mit 0 als action, dann loggen
-
+ 
 </TODO>
 
 
@@ -217,6 +198,11 @@ Has now 1477 functions, with XX new ones
   Bla
 
 #### New features in 4.5  
+  - AutomationItems: AutomationItem\_DeselectAllInTrack - deselects all automation-items in a TrackEnvelope
+  - AutomationItems: AutomationItem\_DeselectAllSelectStates - deselects all automation-items in all TrackEnvelopes
+  - AutomationItems: AutomationItem\_GetAllSelectStates - get all automationitem-selection-states in all TrackEnvelopes
+  - AutomationItems: AutomationItem\_GetSelectStates - get all automationitem-selection-states in a TrackEnvelope
+  - AutomationItems: AutomationItem\_SelectMultiple - sets selection-state multiple automation-items in a TrackEnvelope
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
@@ -251,6 +237,8 @@ Has now 1477 functions, with XX new ones
   - TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track
   
 #### Changes from 4.4 to 4.5  
+  - AutomationItem\_Delete - did also delete selected automation-items in other TrackEnvelopes -> fixed(thnx to X-Raym)
+  - AutomationItem\_Split - did also split automation-items in other TrackEnvelopes under certain conditions -> fixed(thnx to X-Raym)
   - HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum dB-value -> fixed
   - TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner codebase(hopefully future proof)
   

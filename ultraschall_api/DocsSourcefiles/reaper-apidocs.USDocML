@@ -30307,6 +30307,37 @@
         <changelog>
         </changelog>
     </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_Header_GetItemCount</slug>
+        <title>JS_Header_GetItemCount(JS)</title>
+        <functioncall prog_lang="cpp">int count = JS_Header_GetItemCount(void* headerHWND)</functioncall>
+        <functioncall prog_lang="eel">int count = extension_api("JS_Header_GetItemCount", void* headerHWND)</functioncall>
+        <functioncall prog_lang="lua">integer count = reaper.JS_Header_GetItemCount(identifier headerHWND)</functioncall>
+        <functioncall prog_lang="python">Int count = JS_Header_GetItemCount(void headerHWND)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.310
+        </requires>
+        <description>
+            returns the number of item of the listview
+        </description>
+        <parameters>
+           identifier headerHWND - 
+        </parameters>
+        <retvals>
+            integer count - 
+        </retvals>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            User Interface
+            List Views
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
   
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_Int</slug>
@@ -30321,10 +30352,9 @@
         </requires>
         <description>
             Returns the 4-byte signed integer at address[offset]. Offset is added as steps of 4 bytes each.
-
         </description>
         <retvals>
-           integer int   - 
+           integer int - 
         </retvals>
         <parameters>
            identifier address - 
@@ -32218,24 +32248,29 @@
         <functioncall prog_lang="python">identifier mouse_cursor = JS_Mouse_LoadCursorFromFile(String pathAndFileName, Boolean forceNewLoadOptional)</functioncall>
         <requires>
             Reaper=5.974
-            JS=0.964
+            JS=1.310
         </requires>
-        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Loads a cursor from a .cur file.
 
-            If omitted or false, and if the .cur file has already been loaded previously during the REAPER session, the file will not be re-loaded, and the previous handle will be returned, thereby (slightly) improving speed and (slighty) lowering memory usage.
-            If true, the file will be re-loaded and a new handle will be returned.
-
-            If successful, returns a handle to the cursor, which can be used in [JS\_Mouse\_SetCursor](#JS_Mouse_SetCursor).
             forceNewLoad is an optional boolean parameter:
+            * If omitted or false, and if the cursor file has already been loaded previously during the REAPER session by any script, the file will not be re-loaded, and the existing handle will be returned.
+            * If true, the file will be re-loaded and a new handle will be returned.
+            * WARNING: Each time that a cursor file is re-loaded, the number of GDI objects increases for the entire duration of the REAPER session.
+
+            If successful, returns a handle to the cursor, which can be used in JS_Mouse_SetCursor.
         </description>
         <retvals>
-           identifier mouse_cursor - 
+           identifier mouse_cursor - a handle for the mouse-cursor
         </retvals>
         <parameters>
-           string pathAndFileName - 
-           optional boolean forceNewLoad - 
+           string pathAndFileName - the filename with path to the .cur-cursor-file
+           optional boolean forceNewLoad - true, force reloading the cursor; false or nil, don't reload the cursor
         </parameters>
+        <linked_to desc="see:">
+            inline:JS_Mouse_SetCursor
+                   show the mouse-cursor you've loaded with JS_Mouse_LoadCursorFromFile
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -35784,6 +35819,36 @@
         </changelog>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_ListView_GetHeader</slug>
+        <title>JS_ListView_GetHeader(JS)</title>
+        <functioncall prog_lang="cpp">void* JS_ListView_GetHeader(void* listviewHWND)</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_ListView_GetHeader", void* listviewHWND)</functioncall>
+        <functioncall prog_lang="lua">identifier index = reaper.JS_ListView_GetHeader(identifier listviewHWND)</functioncall>
+        <functioncall prog_lang="python">void JS_ListView_GetHeader(void listviewHWND)</functioncall>
+        <requires>
+            Reaper=5.974
+            JS=1.310
+        </requires>
+        <description>
+            Returns the index and text of the focused item, if any.
+        </description>
+        <parameters>
+           identifier listviewHWND - 
+        </parameters>
+        <retvals>
+           identifier index - 
+        </retvals>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            User Interface
+            List Views
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_ListView_GetItem</slug>

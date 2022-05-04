@@ -233,7 +233,7 @@ function ultraschall.AutomationItem_Delete(TrackEnvelope, automationitem_idx, pr
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AutomationItem_Delete</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=4.5
     Reaper=6.05
     Lua=5.3
   </requires>
@@ -272,8 +272,12 @@ function ultraschall.AutomationItem_Delete(TrackEnvelope, automationitem_idx, pr
     ultraschall.SetEnvelopeState_Vis(TrackEnvelope, 1, lane, unknown)
   end
   
-  local AutomationItems_selectionstate={}
-  local AutomationItems_selectioncount=0
+  -- preserve automation-item-selection-state in all other envelopes
+  local A=ultraschall.AutomationItem_GetAllSelectStates(TrackEnvelope)
+  local B=ultraschall.AutomationItem_DeselectAllSelectStates(TrackEnvelope)
+
+  AutomationItems_selectionstate={}
+  AutomationItems_selectioncount=0
   
   for i=1, reaper.CountAutomationItems(TrackEnvelope) do
     AutomationItems_selectionstate[i]=reaper.GetSetAutomationItemInfo(TrackEnvelope, i-1, "D_UISEL", 1, false)
@@ -293,6 +297,11 @@ function ultraschall.AutomationItem_Delete(TrackEnvelope, automationitem_idx, pr
     reaper.GetSetAutomationItemInfo(TrackEnvelope, i-1, "D_UISEL", AutomationItems_selectionstate[i], true)
   end
   
+  -- restore automation-item-selection-state of all other envelopes
+  for i=1, #A do
+    ultraschall.AutomationItem_SelectMultiple(A[i][1], A[i][2])  
+  end
+  
   if visible==0 then 
     visible = ultraschall.SetEnvelopeState_Vis(TrackEnvelope, 0, lane, unknown)
   end
@@ -300,6 +309,7 @@ function ultraschall.AutomationItem_Delete(TrackEnvelope, automationitem_idx, pr
 
   reaper.Undo_EndBlock("Deleted Automation Item", -1)
   return true
+  --]]
 end
 
 
@@ -356,7 +366,7 @@ function ultraschall.AutomationItem_Split(Env, position, index, selected)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AutomationItem_Split</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=4.5
     Reaper=6.10
     Lua=5.3
   </requires>
@@ -399,11 +409,17 @@ function ultraschall.AutomationItem_Split(Env, position, index, selected)
     return false
   end
 
+
+
   index=index+1
   local Selections={}
   for i=0, reaper.CountAutomationItems(Env)-1 do
     Selections[i]=reaper.GetSetAutomationItemInfo(Env, i, "D_UISEL", 0, false)
   end
+  -- preserve automation-item-selection-state in all other envelopes
+  local A=ultraschall.AutomationItem_GetAllSelectStates(TrackEnvelope)
+  local B=ultraschall.AutomationItem_DeselectAllSelectStates(TrackEnvelope)
+  
   if selected==2 then selected=Selections[index-1] end
   table.insert(Selections, index, selected)
   reaper.PreventUIRefresh(1)
@@ -414,14 +430,21 @@ function ultraschall.AutomationItem_Split(Env, position, index, selected)
       reaper.GetSetAutomationItemInfo(Env, i, "D_UISEL", 1, true)
     end
   end  
+  
   local oldpos=reaper.GetCursorPosition()
   reaper.SetEditCurPos(position, false, false)
   reaper.Main_OnCommand(42087, 0)
   reaper.SetEditCurPos(oldpos, false, false)
+  
+  -- restore automation-item-selection-state of all other envelopes
+  for i=1, #A do
+    ultraschall.AutomationItem_SelectMultiple(A[i][1], A[i][2])  
+  end
+  
   for i=0, reaper.CountAutomationItems(Env)-1 do
     reaper.GetSetAutomationItemInfo(Env, i, "D_UISEL", Selections[i], true)
   end 
-  reaper.PreventUIRefresh(0)
+  reaper.PreventUIRefresh(-1)
   return true
 end
 

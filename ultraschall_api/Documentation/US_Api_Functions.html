@@ -83,7 +83,7 @@ Ultraschall API Functions
 </td></tr><tr><td class="tdsm"><a href="#Create2DTable">Create2DTable</a></td><td class="tdsm"><a href="#Create3DTable">Create3DTable</a></td><td class="tdsm"><a href="#CreateMultiDimTable">CreateMultiDimTable</a></td></tr><td class="tdsm"><a href="#GetApiVersion">GetApiVersion</a></td><td class="tdsm"><a href="#GetOS">GetOS</a></td><td class="tdsm"><a href="#GetReaperAppVersion">GetReaperAppVersion</a></td></tr><td class="tdsm"><a href="#OpenURL">OpenURL</a></td><td class="tdsm"><a href="#PreventCreatingUndoPoint">PreventCreatingUndoPoint</a></td><td class="tdsm"><a href="#ReturnReaperExeFile_With_Path">ReturnReaperExeFile_With_Path</a></td></tr><td class="tdsm"><a href="#ReturnsMinusOneInCaseOfError_Arzala">ReturnsMinusOneInCaseOfError_Arzala</a></td><td class="tdsm"><a href="#RunBackgroundHelperFeatures">RunBackgroundHelperFeatures</a></td><td class="tdsm"><a href="#TimeToMeasures">TimeToMeasures</a></td></tr><td class="tdsm"><a href="#get_action_context_MediaItemDiff">get_action_context_MediaItemDiff</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="API-Variables"><a href="#API-Variables">^</a></a><strong> <u>API-Variables</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#API_TempPath">API_TempPath</a></td><td class="tdsm"><a href="#Api_InstallPath">Api_InstallPath</a></td><td class="tdsm"><a href="#Api_Path">Api_Path</a></td></tr><td class="tdsm"><a href="#Euro">Euro</a></td><td class="tdsm"><a href="#Separator">Separator</a></td><td class="tdsm"><a href="#StartTime">StartTime</a></td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Audio Management"><a href="#Audio Management">^</a></a><strong> <u>Audio Management</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#GetHWInputs_Aliasnames">GetHWInputs_Aliasnames</a></td><td class="tdsm"><a href="#GetHWOutputs_Aliasnames">GetHWOutputs_Aliasnames</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Automation Items"><a href="#Automation Items">^</a></a><strong> <u>Automation Items</u></strong><br><br>
-</td></tr><tr><td class="tdsm"><a href="#AutomationItem_Delete">AutomationItem_Delete</a></td><td class="tdsm"><a href="#AutomationItem_Split">AutomationItem_Split</a></td><td class="tdsm"><a href="#AutomationItems_GetAll">AutomationItems_GetAll</a></td></tr><td class="tdsm"><a href="#AutomationItems_GetByTime">AutomationItems_GetByTime</a></td><td class="tdsm"><a href="#GetProject_AutomationItemStateChunk">GetProject_AutomationItemStateChunk</a></td><td class="tdsm"><a href="#GetProject_CountAutomationItems">GetProject_CountAutomationItems</a></td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Batch Converter"><a href="#Batch Converter">^</a></a><strong> <u>Batch Converter</u></strong><br><br>
+</td></tr><tr><td class="tdsm"><a href="#AutomationItem_Delete">AutomationItem_Delete</a></td><td class="tdsm"><a href="#AutomationItem_DeselectAllInTrack">AutomationItem_DeselectAllInTrack</a></td><td class="tdsm"><a href="#AutomationItem_DeselectAllSelectStates">AutomationItem_DeselectAllSelectStates</a></td></tr><td class="tdsm"><a href="#AutomationItem_GetAllSelectStates">AutomationItem_GetAllSelectStates</a></td><td class="tdsm"><a href="#AutomationItem_GetSelectStates">AutomationItem_GetSelectStates</a></td><td class="tdsm"><a href="#AutomationItem_SelectMultiple">AutomationItem_SelectMultiple</a></td></tr><td class="tdsm"><a href="#AutomationItem_Split">AutomationItem_Split</a></td><td class="tdsm"><a href="#AutomationItems_GetAll">AutomationItems_GetAll</a></td><td class="tdsm"><a href="#AutomationItems_GetByTime">AutomationItems_GetByTime</a></td></tr><td class="tdsm"><a href="#GetProject_AutomationItemStateChunk">GetProject_AutomationItemStateChunk</a></td><td class="tdsm"><a href="#GetProject_CountAutomationItems">GetProject_CountAutomationItems</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Batch Converter"><a href="#Batch Converter">^</a></a><strong> <u>Batch Converter</u></strong><br><br>
 <b style="font-size:small;"><br><a class="inpad" id="Misc"><a href="#Misc">^</a></a> Misc</b>
 </td></tr><tr><td class="tdsm"><a href="#BatchConvertFiles">BatchConvertFiles</a></td><td class="tdsm"><a href="#GetBatchConverter_NotifyWhenFinished">GetBatchConverter_NotifyWhenFinished</a></td><td class="tdsm"><a href="#SetBatchConverter_NotifyWhenFinished">SetBatchConverter_NotifyWhenFinished</a></td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Clipboard Functions"><a href="#Clipboard Functions">^</a></a><strong> <u>Clipboard Functions</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#FromClip">FromClip</a></td><td class="tdsm"><a href="#GetMediaItemsFromClipboard">GetMediaItemsFromClipboard</a></td><td class="tdsm"><a href="#GetStringFromClipboard_SWS">GetStringFromClipboard_SWS</a></td></tr><td class="tdsm"><a href="#PutMediaItemsToClipboard_MediaItemArray">PutMediaItemsToClipboard_MediaItemArray</a></td><td class="tdsm"><a href="#ToClip">ToClip</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Color Management"><a href="#Color Management">^</a></a><strong> <u>Color Management</u></strong><br><br>
@@ -5158,7 +5158,7 @@ The returned table is of the format<br>
 <a class="anch" id="AutomationItem_Delete"></a>
 <a href="#AutomationItem_Delete"> ^</a> 
 <img width="3%" src="gfx/reaper6.05.png" alt="Reaper version 6.05">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>AutomationItem_Delete</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.5.png" alt="Ultraschall version 4.5"><u><b>AutomationItem_Delete</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.AutomationItem_Delete</em>(<i>TrackEnvelope</i> env, <i>integer</i> automationitem_idx, <i>optional</i> <i>boolean</i> preservepoints)</code></div>
 </div><p>
@@ -5190,10 +5190,179 @@ returns false in case of an error<br>
 </div>
 <div class="ch">
 <hr>
+<a class="anch" id="AutomationItem_DeselectAllInTrack"></a>
+<a href="#AutomationItem_DeselectAllInTrack"> ^</a> 
+<img width="3%" src="gfx/reaper6.05.png" alt="Reaper version 6.05">
+<img width="3%" src="gfx/ultraschall4.5.png" alt="Ultraschall version 4.5"><u><b>AutomationItem_DeselectAllInTrack</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>integer</i> number_of_automationitems, <i>table</i> old_automationitem_selection = <em>ultraschall.AutomationItem_DeselectAllInTrack</em>(<i>TrackEnvelope</i> env)</code></div>
+</div><p>
+<div class="ch">
+Deselects alls automation-items in a TrackEnvelope. Returns the previous selection-states of all automation-items in TrackEnvelope.<br>
+<br>
+returns -1 in case of an error<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> number_of_automationitems</td></tr>
+<tr><td class="ch2">the number of automation-items that were deselected</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>table</i> old_automationitem_selection</td></tr>
+<tr><td class="ch2">a table with all previous selection-states</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>TrackEnvelope</i> env</td></tr>
+<tr><td class="ch2">the TrackEnvelope, in which the automation-items shall be deselected</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="AutomationItem_DeselectAllSelectStates"></a>
+<a href="#AutomationItem_DeselectAllSelectStates"> ^</a> 
+<img width="3%" src="gfx/reaper6.05.png" alt="Reaper version 6.05">
+<img width="3%" src="gfx/ultraschall4.5.png" alt="Ultraschall version 4.5"><u><b>AutomationItem_DeselectAllSelectStates</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.AutomationItem_DeselectAllSelectStates</em>(<i>optional</i> <i>TrackEnvelope</i> omit_envelope)</code></div>
+</div><p>
+<div class="ch">
+Deselects all automation-items in all TrackEnvelopes.<br>
+<br>
+You can omit a TrackEnvelope, whose automation-items will not be deselected<br>
+<br>
+returns false in case of an error<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, deselecting was successful; false, deselection was unsuccessful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>TrackEnvelope</i> omit_envelope</td></tr>
+<tr><td class="ch2">the TrackEnvelope, whose automation-items you DON'T want to deselect; nil, to deselect all</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="AutomationItem_GetAllSelectStates"></a>
+<a href="#AutomationItem_GetAllSelectStates"> ^</a> 
+<img width="3%" src="gfx/reaper6.05.png" alt="Reaper version 6.05">
+<img width="3%" src="gfx/ultraschall4.5.png" alt="Ultraschall version 4.5"><u><b>AutomationItem_GetAllSelectStates</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>table</i> automationitem_selection = <em>ultraschall.AutomationItem_GetAllSelectStates</em>(<i>optional</i> <i>TrackEnvelope</i> omit_envelope)</code></div>
+</div><p>
+<div class="ch">
+Returns the current selection-states of all automation-items in all TrackEnvelope.<br>
+<br>
+The returned table is of the format:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;automationitem_selection[envelope_index][1]=envelope<br>
+&nbsp;&nbsp;&nbsp;&nbsp;automationitem_selection[envelope_index][2]=automationitem_selection(like the one returned by AutomationItem_GetSelectStates)<br>
+<br>
+You can omit a TrackEnvelope to not get its automation-item-selections.<br>
+<br>
+returns nil in case of an error<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>table</i> automationitem_selection</td></tr>
+<tr><td class="ch2">a table with all selection-states of all automation-items in all TrackEnvelopes</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>TrackEnvelope</i> omit_envelope</td></tr>
+<tr><td class="ch2">the TrackEnvelope, whose automation-items you DON'T want to get; nil, to get all</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="AutomationItem_GetSelectStates"></a>
+<a href="#AutomationItem_GetSelectStates"> ^</a> 
+<img width="3%" src="gfx/reaper6.05.png" alt="Reaper version 6.05">
+<img width="3%" src="gfx/ultraschall4.5.png" alt="Ultraschall version 4.5"><u><b>AutomationItem_GetSelectStates</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>integer</i> number_of_automationitems, <i>table</i> automationitem_selection = <em>ultraschall.AutomationItem_GetSelectStates</em>(<i>TrackEnvelope</i> env)</code></div>
+</div><p>
+<div class="ch">
+Returns the current selection-states of all automation-items in TrackEnvelope.<br>
+<br>
+You can use the returned table with ultraschall.AutomationItem_SelectMultiple() as well, to change selection-states.<br>
+<br>
+returns -1 in case of an error<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> number_of_automationitems</td></tr>
+<tr><td class="ch2">the number of automation-items in TrackEnvelope</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>table</i> automationitem_selection</td></tr>
+<tr><td class="ch2">a table with all current selection-states of automation-items in TrackEnvelope</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>TrackEnvelope</i> env</td></tr>
+<tr><td class="ch2">the TrackEnvelope, of whose automation-items you want to get the selection state</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="AutomationItem_SelectMultiple"></a>
+<a href="#AutomationItem_SelectMultiple"> ^</a> 
+<img width="3%" src="gfx/reaper6.05.png" alt="Reaper version 6.05">
+<img width="3%" src="gfx/ultraschall4.5.png" alt="Ultraschall version 4.5"><u><b>AutomationItem_SelectMultiple</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.AutomationItem_SelectMultiple</em>(<i>TrackEnvelope</i> env, <i>table</i> automationitem_selected_table)</code></div>
+</div><p>
+<div class="ch">
+Sets the automation-item-selection state of AutomationItems in a TrackEnvelope.<br>
+<br>
+You provide a table with each index being either 0(deselected) or 1(selected) for the AutomationItem in question.<br>
+You can omit entries by setting them to nil to retain current selection state.<br>
+Format is: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;automationitem_selected_table[automation-item-index]=selection_state<br>
+<br>
+Example for automationitem_selected_table, that sets selection-state for automation-item 1,3 and 4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;automationitem_selected_table[1]=0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;automationitem_selected_table[3]=1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;automationitem_selected_table[4]=0<br>
+<br>
+Keep in mind, that the index is 1-based, with index 1 for automation-item 1.<br>
+<br>
+returns false in case of an error<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, setting was successful; false, setting was unsuccessful</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>TrackEnvelope</i> env</td></tr>
+<tr><td class="ch2">the TrackEnvelope, of whose automation-items you want to get the selection state</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>table</i> automationitem_selection</td></tr>
+<tr><td class="ch2">a table with all the selection-states to set</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
 <a class="anch" id="AutomationItem_Split"></a>
 <a href="#AutomationItem_Split"> ^</a> 
 <img width="3%" src="gfx/reaper6.10.png" alt="Reaper version 6.10">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>AutomationItem_Split</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.5.png" alt="Ultraschall version 4.5"><u><b>AutomationItem_Split</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.AutomationItem_Split</em>(<i>TrackEnvelope</i> Env, <i>number</i> position, <i>integer</i> index, <i>integer</i> selected)</code></div>
 </div><p>
@@ -63119,6 +63288,8 @@ returns nil if the "Export Project MIDI"-dialog is closed<br>
 <div class="ch">
 Returns the HWND-Reaper-Windowhandler for the tracklist- and timeline-area in the arrange-view <br>
 <br>
+Note: in later versions of Reaper, TracklistWindow and arrange_view became the same.<br>
+<br>
 returns nil in case of an error. Please report such an error, which means, that you should use ultraschall.ShowLastErrorMessage() to show that error and report the information requested(fruitful bugreports lead to a handwritten postcard as reward :) )<br>
 </div><br>      
 <u>Returnvalues:</u>
@@ -64276,7 +64447,7 @@ Will return Reaper's default ones(resources-folder/Plugins/reaper_www_root/) as 
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.5  - 1486 elements available <br></td></table>
+          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.5  - 1491 elements available <br></td></table>
         <hr>
       </div>
       <br>
