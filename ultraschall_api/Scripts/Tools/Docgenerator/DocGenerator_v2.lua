@@ -264,6 +264,7 @@ function contentindex()
     for i=1, count2 do
       if HeaderList[i]:match("(.-\n)")==temp then 
             HeaderList[i]=HeaderList[i]..Slug.."\n"
+            --print2(HeaderList[i])
             break 
       end
     end    

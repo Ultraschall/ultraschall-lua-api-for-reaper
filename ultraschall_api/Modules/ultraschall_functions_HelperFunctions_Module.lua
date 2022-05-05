@@ -6036,11 +6036,11 @@ function ultraschall.Create2DTable(maxx, maxy, defval)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Create2DTable</slug>
     <requires>
-      Ultraschall=4.1
+      Ultraschall=4.5
       Reaper=6.10
       Lua=5.3
     </requires>
-    <functioncall>table 2dtable = ultraschall.Create2DTable(integer maxx, integer maxy, optional anytype defval)</functioncall>
+    <functioncall>table Two_D_table = ultraschall.Create2DTable(integer maxx, integer maxy, optional anytype defval)</functioncall>
     <description>
        creates a 2-dimensional table with x-lines and y-rows, of which all entries are indexable right away.
        
@@ -6049,7 +6049,7 @@ function ultraschall.Create2DTable(maxx, maxy, defval)
        returns nil in case of an error
     </description>
     <retvals>
-      table 2dtable - the 2d-table you've created
+      table Two_D_table - the 2d-table you've created
     </retvals>
     <parameters>
         integer maxx - the number of rows in the table(x-dimension)
@@ -6075,7 +6075,7 @@ function ultraschall.Create2DTable(maxx, maxy, defval)
   for x=1, maxx do
     Table[x]={}
     for y=1, maxy do
-      Table[x][y]={defval}
+      Table[x][y]=defval
     end
   end
   
@@ -6096,11 +6096,11 @@ function ultraschall.Create3DTable(maxx, maxy, maxz, defval)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Create3DTable</slug>
     <requires>
-      Ultraschall=4.1
+      Ultraschall=4.5
       Reaper=6.10
       Lua=5.3
     </requires>
-    <functioncall>table 3dtable = ultraschall.Create3DTable(integer maxx, integer maxy, integer maxz, optional anytype defval)</functioncall>
+    <functioncall>table ThreeD_table = ultraschall.Create3DTable(integer maxx, integer maxy, integer maxz, optional anytype defval)</functioncall>
     <description>
        creates a 3-dimensional table with x-lines and y-rows and z-depths, of which all entries are indexable right away.
        
@@ -6109,7 +6109,7 @@ function ultraschall.Create3DTable(maxx, maxy, maxz, defval)
        returns nil in case of an error
     </description>
     <retvals>
-      table 3dtable - the 3d-table you've created
+      table ThreeD_table - the 3d-table you've created
     </retvals>
     <parameters>
         integer maxx - the number of rows in the table(x-dimension)
@@ -6141,7 +6141,7 @@ function ultraschall.Create3DTable(maxx, maxy, maxz, defval)
     for y=1, maxy do
       Table[x][y]={}
       for z=1, maxz do
-        Table[x][y][z]={defval}
+        Table[x][y][z]=defval
       end
     end
   end

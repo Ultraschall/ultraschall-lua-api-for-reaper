@@ -183,6 +183,74 @@ Bug with INI-Files-read-functions:
  - DeveloperTools: get all default-factory-shortcuts: löschen eines Shortcuts für ne Action.
                    wenn kb.ini einen neuen Eintrag bekommt für KEY mit 0 als action, dann loggen
  
+-- Docs: the index is still sorted the wrong way and should be alphabetically downwards, not sidewards
+Use this function to do the sorting of slugs for variable HeaderList[i] in line 273 of docgenerator_v2(before the sorting happens with table.sort())
+
+NOTE: check, if the resulting string has the same amount of lines as the one I passed over to it and output an error-message, if it doesn't.
+Otherwise, you might miss missing functions in the index, if the code is buggy...
+
+function ConvertIndexToAlphabeticalRows(A, columns)
+  local FinalString, B_count, B, Row1, Row2, Row3, Row_Count, Offset, D
+  if columns==1 then return A end
+  if columns>1 then
+    B_count, B = ultraschall.CSV2IndividualLinesAsArray(A, "\n")
+    if columns==2 then
+      Row1={}
+      Row2={}
+      Row_Count=0
+      for i=1, #B, 2 do
+        Row_Count=Row_Count+1
+        Row1[Row_Count]=B[i]
+        Row2[Row_Count]=B[i+1]
+      end
+      
+      for i=1, #Row1 do
+        Row1[i]=B[i]
+      end
+      for i=0, #Row2 do
+        Row2[i+1]=B[i+#Row1+1]
+      end
+      FinalString=""
+      for i=1, #Row1 do
+        if Row1[i]~=nil then FinalString=FinalString..Row1[i].."\n" end
+        if Row2[i]~=nil then FinalString=FinalString..Row2[i].."\n" end
+      end
+    elseif columns==3 then
+      Row1={}
+      Row2={}
+      Row3={}
+      Row_Count=0
+      for i=1, #B, 3 do
+        Row_Count=Row_Count+1
+        Row1[Row_Count]=B[i]
+        Row2[Row_Count]=B[i+1]
+        Row3[Row_Count]=B[i+2]
+      end
+      
+      for i=1, #Row1 do
+        Row1[i]=B[i]
+      end
+      for i=0, #Row2 do
+        Row2[i+1]=B[i+#Row1+1]
+      end
+      Offset=0
+      D=B_count%3
+      if B_count%3==0 then Offset=-1 
+      elseif B_count%3==2 then Offset=-1 end
+      for i=1, #Row3 do
+        Row3[i]=B[i+#Row1+#Row2+Offset]
+      end
+      FinalString=""
+      for i=1, #Row1 do
+        if Row1[i]~=nil then FinalString=FinalString..Row1[i].."\n" end
+        if Row2[i]~=nil then FinalString=FinalString..Row2[i].."\n" end
+        if Row3[i]~=nil then FinalString=FinalString..Row3[i].."\n" end
+      end
+    end
+  end
+  return FinalString
+end
+
 </TODO>
 
 
@@ -216,13 +284,13 @@ Has now 1477 functions, with XX new ones
   - Markers: IsMarkerShownote - returns, if a marker is a shownote
   - Markers: SetShownoteMarker - sets an already existing shownote-marker
   - Markers: StoreTemporaryMarker - temporarily stores markers/regions for later use
-  - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
-  - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastChapter\_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastEpisode\_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST_METADATA:"v1"-standard
+  - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastChapter\_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastEpisode\_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST\_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcastEpisodeAttrbutesPreset\_Name - gets the name of an episode -metadata-preset
-  - PodcastMetadata: GetPodcastShownote\_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastShownote\_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST\_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcastAttrbutesPreset\_Name - gets the name of a podcast-metadata-preset
   - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
   - PodcastMetadata: GetSetPodcast\_Attributes - gets/sets metadata-attributes of a podcast
@@ -235,7 +303,7 @@ Has now 1477 functions, with XX new ones
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
   - PodcastMetadata: SetPodcastEpisodeAttrbutesPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastAttrbutesPreset\_Name - sets the name of a podcast-metadata-preset
-  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes    
+  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes    
   - RazorEdit: RazorEdit\_GetRazorEdits\_Track - returns all razor-edit-areas of a track
   - RazorEdit: RazorEdit\_Nudge - nudges the razor-edit-areas of a track, its envelopes or both
   - RazorEdit: RazorEdit\_Nudge\_Envelope - nudges the razor-edit-areas of a specific envelope
@@ -249,6 +317,8 @@ Has now 1477 functions, with XX new ones
   - AutomationItem\_Delete - did also delete selected automation-items in other TrackEnvelopes -> fixed(thnx to X-Raym)
   - AutomationItem\_Split - did also split automation-items in other TrackEnvelopes under certain conditions -> fixed(thnx to X-Raym)
   - Docs: general - anchors in the index of documents didn't scroll correctly -> fixed
+  - HelperFunctions: Create2DTable - did create a 3d-table instead, when using default-values -> fixed
+  - HelperFunctions: Create3DTable - did create a 4d-table instead, when using default-values -> fixed
   - HelperFunctions: EditReaScript - has new parameter that allows setting default-lines into a newly created script; returns now, if script had been created or already existed; always uses the last edited script as set in reaper.ini when filename==nil
   - HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum dB-value -> fixed
   - RazorEdit: RazorEdit\_GetAllRazorEdits - allows now excluding track and/or envelope-razoredit-areas from the list
