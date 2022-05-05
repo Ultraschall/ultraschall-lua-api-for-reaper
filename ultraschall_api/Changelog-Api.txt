@@ -239,6 +239,9 @@ Has now 1477 functions, with XX new ones
   - RazorEdit: RazorEdit\_GetRazorEdits\_Track - returns all razor-edit-areas of a track
   - RazorEdit: RazorEdit\_Nudge - nudges the razor-edit-areas of a track, its envelopes or both
   - RazorEdit: RazorEdit\_Nudge\_Envelope - nudges the razor-edit-areas of a specific envelope
+  - RazorEdit: RazorEdit\_Remove - removes all razor-edit-areas of a track including its envelopes
+  - RazorEdit: RazorEdit\_RemoveFromEnvelope - removes all razor-edit-areas of a TrackEnvelope
+  - RazorEdit: RazorEdit\_RemoveFromTrack - removes all razor-edit-areas of a track, leaving envelopes untouched
   - TrackStates: GetTrackPlayOffsState - get the Media Playback Offset-entry of a track
   - TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track
   
