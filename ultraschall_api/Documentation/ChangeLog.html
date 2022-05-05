@@ -86,6 +86,9 @@ Bla</li>
 <li>PodcastMetadata: SetPodcastAttrbutesPreset_Name - sets the name of a podcast-metadata-preset</li>
 <li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes<br />
 </li>
+<li>RazorEdit: RazorEdit_GetRazorEdits_Track - returns all razor-edit-areas of a track</li>
+<li>RazorEdit: RazorEdit_Nudge - nudges the razor-edit-areas of a track, its envelopes or both</li>
+<li>RazorEdit: RazorEdit_Nudge_Envelope - nudges the razor-edit-areas of a specific envelope</li>
 <li>TrackStates: GetTrackPlayOffsState - get the Media Playback Offset-entry of a track</li>
 <li>TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track</li>
 </ul>
@@ -93,8 +96,10 @@ Bla</li>
 <ul>
 <li>AutomationItem_Delete - did also delete selected automation-items in other TrackEnvelopes -&gt; fixed(thnx to X-Raym)</li>
 <li>AutomationItem_Split - did also split automation-items in other TrackEnvelopes under certain conditions -&gt; fixed(thnx to X-Raym)</li>
+<li>Docs: general - anchors in the index of documents didn't scroll correctly -&gt; fixed</li>
 <li>HelperFunctions: EditReaScript - has new parameter that allows setting default-lines into a newly created script; returns now, if script had been created or already existed; always uses the last edited script as set in reaper.ini when filename==nil</li>
 <li>HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum dB-value -&gt; fixed</li>
+<li>RazorEdit: RazorEdit_GetAllRazorEdits - allows now excluding track and/or envelope-razoredit-areas from the list</li>
 <li>TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner codebase(hopefully future proof)</li>
 </ul>
 <hr />

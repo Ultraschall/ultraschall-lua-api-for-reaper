@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52452.00" author="Meo Mespotine">
+      <version name="52466.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -611,6 +611,12 @@ New features in 4.5
 -   PodcastMetadata: WritePodcastMetaData - creates metadata-entries
     according to the PODCAST_METADATA:“v1”-standard and optionally
     writes it into a file or adds it to id3, vorbis-metadata-schemes
+-   RazorEdit: RazorEdit_GetRazorEdits_Track - returns all
+    razor-edit-areas of a track
+-   RazorEdit: RazorEdit_Nudge - nudges the razor-edit-areas of a track,
+    its envelopes or both
+-   RazorEdit: RazorEdit_Nudge_Envelope - nudges the razor-edit-areas of
+    a specific envelope
 -   TrackStates: GetTrackPlayOffsState - get the Media Playback
     Offset-entry of a track
 -   TrackStates: SetTrackPlayOffsState - sets the Media Playback
@@ -622,12 +628,16 @@ Changes from 4.4 to 4.5
     other TrackEnvelopes -> fixed(thnx to X-Raym)
 -   AutomationItem_Split - did also split automation-items in other
     TrackEnvelopes under certain conditions -> fixed(thnx to X-Raym)
+-   Docs: general - anchors in the index of documents didn’t scroll
+    correctly -> fixed
 -   HelperFunctions: EditReaScript - has new parameter that allows
     setting default-lines into a newly created script; returns now, if
     script had been created or already existed; always uses the last
     edited script as set in reaper.ini when filename==nil
 -   HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum
     dB-value -> fixed
+-   RazorEdit: RazorEdit_GetAllRazorEdits - allows now excluding track
+    and/or envelope-razoredit-areas from the list
 -   TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner
     codebase(hopefully future proof)
 ]]>
@@ -657,7 +667,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1522 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52452 from 05.05.2022 17:41:07).}
+a 1525 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52466 from 05.05.2022 18:47:38).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -671,7 +681,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1522 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1525 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -795,7 +805,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1522 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52452 from 05.05.2022 17:41:07).}
+a 1525 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52466 from 05.05.2022 18:47:38).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -809,7 +819,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1522 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1525 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

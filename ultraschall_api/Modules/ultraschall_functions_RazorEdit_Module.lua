@@ -89,18 +89,18 @@ end
 
 --A=ultraschall.RazorEdit_ProjectHasRazorEdit()
 
-function ultraschall.RazorEdit_GetAllRazorEdits()
+function ultraschall.RazorEdit_GetAllRazorEdits(exclude_envelope, exclude_track)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RazorEdit_GetAllRazorEdits</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=4.5
     Reaper=6.24
     Lua=5.3
   </requires>
-  <functioncall>integer number_razor_edits, table RazorEditTable = ultraschall.RazorEdit_GetAllRazorEdits()</functioncall>
+  <functioncall>integer number_razor_edits, table RazorEditTable = ultraschall.RazorEdit_GetAllRazorEdits(optional boolean exclude_envelope, optional boolean exclude_track)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the number of Razor Edits available and all its entries as a handy table.concat
+    Returns the number of Razor Edits available and all its entries as a handy table.
     
     The table is of the following format(index is the index of all available razor-edits):        
     
@@ -119,6 +119,10 @@ function ultraschall.RazorEdit_GetAllRazorEdits()
     integer number_razor_edits - the number of razor_edits available in the current project; 0, if none
     table RazorEditTable - a table with all attributes of all Razor-Edits available
   </retvals>
+  <parameters>
+    optional boolean exclude_envelope - true, exclude the envelope-razor-edit-areas from the list; false or nil, include envelope-razor-edit-areas
+    optional boolean exclude_track - true, exclude the track-razor-edit-areas from the list; false or nil, include track-razor-edit-areas
+  </parameters>
   <chapter_context>
     Razor Edit
   </chapter_context>
@@ -151,6 +155,22 @@ function ultraschall.RazorEdit_GetAllRazorEdits()
         RazorEdit[RazorEdit_count]["Start"]=tonumber(individual_values[i])
         RazorEdit[RazorEdit_count]["End"]=tonumber(individual_values[i+1])
         RazorEdit[RazorEdit_count]["Envelope_guid"]=individual_values[i+2]:sub(2,-2)
+      end
+    end
+  end
+  
+    if exclude_envelope==true then
+    for i=#RazorEdit, 1, -1 do
+      if RazorEdit[i]["IsTrack"]==false then 
+        table.remove(RazorEdit, i)
+      end
+    end
+  end
+  
+  if exclude_track==true then
+    for i=#RazorEdit, 1, -1 do
+      if RazorEdit[i]["IsTrack"]==true then 
+        table.remove(RazorEdit, i)
       end
     end
   end
