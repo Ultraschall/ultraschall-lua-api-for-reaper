@@ -270,7 +270,7 @@ function contentindex()
     end    
     count=count+1
   end
-  
+    
   if DontSort==nil then
     table.sort(HeaderList)
   end
@@ -282,11 +282,11 @@ function contentindex()
 
     local A2, AA2, AAA2 = ultraschall.SplitStringAtLineFeedToArray(slugs)
     if DontSort==nil then
-      table.sort(AA2)
+      table.sort(AA2)      
     end
     slugs=""
     for i=1, A2 do
-      slugs=slugs..AA2[i].."\n"
+      slugs=slugs..AA2[i].."\n"      
     end
     HeaderList[i]=chapter..slugs
   end

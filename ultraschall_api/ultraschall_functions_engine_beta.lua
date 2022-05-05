@@ -3813,18 +3813,18 @@ function ultraschall.RazorEdit_GetRazorEdits_Track(track, exclude_envelope, excl
   return RazorEdit_count, RazorEdit
 end
 
-function ultraschall.RazorEdit_Nudge(track, nudge_delta, exclude_envelope, exclude_track)
+function ultraschall.RazorEdit_Nudge_Track(track, nudge_delta, index)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RazorEdit_Nudge</slug>
+  <slug>RazorEdit_Nudge_Track</slug>
   <requires>
     Ultraschall=4.5
     Reaper=6.24
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.RazorEdit_Nudge(MediaTrack track, number nudge_delta, optional boolean exclude_envelope, optional boolean exclude_track)</functioncall>
+  <functioncall>boolean retval = ultraschall.RazorEdit_Nudge_Track(MediaTrack track, number nudge_delta, optional integer index)</functioncall>
   <description>
-    Nudges razor-edits of a track. You can choose, whether to just nudge envelopes, tracks or both.
+    Nudges razor-edits of a track, leaving the envelopes untouched.
     
     To nudge razor-edit-areas of a specific TrackEnvelope, use RazorEdit_Nudge_Envelope instead.
     
@@ -3836,8 +3836,7 @@ function ultraschall.RazorEdit_Nudge(track, nudge_delta, exclude_envelope, exclu
   <parameters>
     MediaTrack track - the track, whose razor-edits you want to nudge
     number nudge_delta - the amount to nudge the razor-edit-areas, negative, left; positive, right
-    optional boolean exclude_envelope - true, exclude nudging of razor-edits in envelopes; false or nil, nudge razor edits in envelopes as well
-    optional boolean exclude_track - true, exclude nudging of razor-edits in the track; false or nil, nudge razor edits in track as well
+    optional integer index - allows to nudge only the n-th razor-edit-area in the track; nil, to nudge all in the track(except envelope)
   </parameters>
   <linked_to desc="see:">
       inline:RazorEdit_Nudge_Envelope
@@ -3851,23 +3850,36 @@ function ultraschall.RazorEdit_Nudge(track, nudge_delta, exclude_envelope, exclu
   <tags>razor edit, nudge, track, envelope</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_Nudge", "track", "must be a valid MediaTrack", -1) return false end
-  if type(nudge_delta)~="number" then ultraschall.AddErrorMessage("RazorEdit_Nudge", "nudge_delta", "must be a number", -2) return false end
-  if exclude_track~=nil and type(exclude_track)~="boolean" then ultraschall.AddErrorMessage("RazorEdit_Nudge", "exclude_track", "must be nil or a boolean", -3) return false end
-  if exclude_envelope~=nil and type(exclude_envelope)~="boolean" then ultraschall.AddErrorMessage("RazorEdit_Nudge", "exclude_envelope", "must be nil or a boolean", -4) return false end
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_Nudge_Track", "track", "must be a valid MediaTrack", -1) return false end
+  if type(nudge_delta)~="number" then ultraschall.AddErrorMessage("RazorEdit_Nudge_Track", "nudge_delta", "must be a number", -2) return false end
+  if exclude_track~=nil and type(exclude_track)~="boolean" then ultraschall.AddErrorMessage("RazorEdit_Nudge_Track", "exclude_track", "must be nil or a boolean", -3) return false end
+  if exclude_envelope~=nil and type(exclude_envelope)~="boolean" then ultraschall.AddErrorMessage("RazorEdit_Nudge_Track", "exclude_envelope", "must be nil or a boolean", -4) return false end
   local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)  
   local B=B.." "
   local newstring=""
+  local count=0
+  local exclude_envelope=true
   for a,b,c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
+    count=count+1
     a=tonumber(a)
     b=tonumber(b)
     C=c
     if c~="\"\"" and exclude_envelope~=true then
-      a=a+nudge_delta
-      b=b+nudge_delta
+      if index~=nil and count==index then
+        a=a+nudge_delta
+        b=b+nudge_delta
+      elseif index==nil then
+        a=a+nudge_delta
+        b=b+nudge_delta
+      end
     elseif c=="\"\"" and exclude_track~=true then
-      a=a+nudge_delta
-      b=b+nudge_delta
+      if index~=nil and count==index then
+        a=a+nudge_delta
+        b=b+nudge_delta
+      elseif index==nil then
+        a=a+nudge_delta
+        b=b+nudge_delta
+      end
     end
     newstring=newstring..a.." "..b.." "..c.." "
   end
@@ -3876,9 +3888,9 @@ function ultraschall.RazorEdit_Nudge(track, nudge_delta, exclude_envelope, exclu
   return true
 end
 
---ultraschall.RazorEdit_Nudge(reaper.GetTrack(0,0), 10)
+--ultraschall.RazorEdit_Nudge(reaper.GetTrack(0,0), 10, nil)
 
-function ultraschall.RazorEdit_Nudge_Envelope(TrackEnvelope, nudge_delta)
+function ultraschall.RazorEdit_Nudge_Envelope(TrackEnvelope, nudge_delta, index)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RazorEdit_Nudge_Envelope</slug>
@@ -3887,7 +3899,7 @@ function ultraschall.RazorEdit_Nudge_Envelope(TrackEnvelope, nudge_delta)
     Reaper=6.24
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.RazorEdit_Nudge_Envelope(TrackEnvelope TrackEnvelope, number nudge_delta)</functioncall>
+  <functioncall>boolean retval = ultraschall.RazorEdit_Nudge_Envelope(TrackEnvelope TrackEnvelope, number nudge_delta, optional integer index)</functioncall>
   <description>
     Nudges razor-edits of a specific TrackEnvelope
     
@@ -3899,6 +3911,7 @@ function ultraschall.RazorEdit_Nudge_Envelope(TrackEnvelope, nudge_delta)
   <parameters>
     TrackEnvelope TrackEnvelope - the envelope, whose razor-edit-areas you want to nudge
     number nudge_delta - the amount to nudge the razor-edit-areas, negative, left; positive, right
+    optional integer index - allows to nudge only the n-th razor-edit-area in the envelope; nil, to nudge all in the envelope
   </parameters>
   <chapter_context>
     Razor Edit
@@ -3916,18 +3929,25 @@ function ultraschall.RazorEdit_Nudge_Envelope(TrackEnvelope, nudge_delta)
   local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)  
   local B=B.." "
   local newstring=""
+  local count=0
   for a,b,c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
     a=tonumber(a)
     b=tonumber(b)
     C=c
     if c=="\""..Guid.."\"" then
-      a=a+nudge_delta
-      b=b+nudge_delta
+      count=count+1
+      if index~=nil and count==index then
+        a=a+nudge_delta
+        b=b+nudge_delta
+      elseif index==nil then
+        a=a+nudge_delta
+        b=b+nudge_delta
+      end
     end
     newstring=newstring..a.." "..b.." "..c.." "
   end
 
-  local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", newstring, true)  
+  local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", newstring, true)
   return true
 end
 

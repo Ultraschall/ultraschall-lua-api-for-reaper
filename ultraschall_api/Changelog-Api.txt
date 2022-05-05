@@ -251,6 +251,8 @@ function ConvertIndexToAlphabeticalRows(A, columns)
   return FinalString
 end
 
+Note: Doesn't fucking work...
+
 </TODO>
 
 
@@ -306,8 +308,10 @@ Has now 1477 functions, with XX new ones
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes    
   - RazorEdit: RazorEdit\_Add\_Envelope - adds a razor-edit-area to a TrackEnvelope
   - RazorEdit: RazorEdit\_Add\_Track - adds a razor-edit-area to a Track
+  - RazorEdit: RazorEdit\_CountAreas\_Envelope - counts the number of razor-edit-areas in a specific envelope
+  - RazorEdit: RazorEdit\_CountAreas\_Track - counts the number of razor-edit-areas in a track(excluding envelopes)
   - RazorEdit: RazorEdit\_GetRazorEdits\_Track - returns all razor-edit-areas of a track
-  - RazorEdit: RazorEdit\_Nudge - nudges the razor-edit-areas of a track, its envelopes or both
+  - RazorEdit: RazorEdit\_Nudge\_Track - nudges the razor-edit-areas of a track
   - RazorEdit: RazorEdit\_Nudge\_Envelope - nudges the razor-edit-areas of a specific envelope
   - RazorEdit: RazorEdit\_Remove - removes all razor-edit-areas of a track including its envelopes
   - RazorEdit: RazorEdit\_Remove\_Envelope - removes a razor-edit-area from a TrackEnvelope
@@ -318,8 +322,8 @@ Has now 1477 functions, with XX new ones
   - TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track
   
 #### Changes from 4.4 to 4.5  
-  - AutomationItem\_Delete - did also delete selected automation-items in other TrackEnvelopes -> fixed(thnx to X-Raym)
-  - AutomationItem\_Split - did also split automation-items in other TrackEnvelopes under certain conditions -> fixed(thnx to X-Raym)
+  - AutomationItem\_Delete - did also delete selected automation-items in other TrackEnvelopes -> fixed(thanx to X-Raym)
+  - AutomationItem\_Split - did also split automation-items in other TrackEnvelopes under certain conditions -> fixed(thanx to X-Raym)
   - Docs: general - anchors in the index of documents didn't scroll correctly -> fixed
   - HelperFunctions: Create2DTable - did create a 3d-table instead, when using default-values -> fixed
   - HelperFunctions: Create3DTable - did create a 4d-table instead, when using default-values -> fixed
