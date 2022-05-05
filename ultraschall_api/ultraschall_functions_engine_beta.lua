@@ -4365,3 +4365,137 @@ function ultraschall.RazorEdit_Remove_Envelope(envelope, start_position, end_pos
   A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
   return B
 end
+
+function ultraschall.RazorEdit_CountAreas_Envelope(TrackEnvelope)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_CountAreas_Envelope</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>integer razor_edit_area_count = ultraschall.RazorEdit_CountAreas_Envelope(TrackEnvelope TrackEnvelope)</functioncall>
+  <description>
+    Counts razor-edit-areas of a specific TrackEnvelope
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer razor_edit_area_count - the number of razor-edit-areas in this envelope; -1, in case of an error
+  </retvals>
+  <parameters>
+    TrackEnvelope TrackEnvelope - the envelope, whose razor-edit-areas you want to count
+  </parameters>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, count, envelope, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_CountAreas_Envelope", "TrackEnvelope", "must be a valid TrackEnvelope", -1) return -1 end
+
+  local track=reaper.Envelope_GetParentTrack(TrackEnvelope)
+  local retval, Guid = reaper.GetSetEnvelopeInfo_String(TrackEnvelope, "GUID", "", false)
+  local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)  
+  local B=B.." "
+  local newstring=""
+  local count=0
+  for a,b,c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
+    if c=="\""..Guid.."\"" then
+      count=count+1
+    end
+  end
+  return count
+end
+
+
+--A=ultraschall.RazorEdit_CountAreas_Envelope(reaper.GetSelectedEnvelope(0))
+
+
+function ultraschall.RazorEdit_CountAreas_Track(track)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_CountAreas_Track</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>integer razor_edit_area_count = ultraschall.RazorEdit_CountAreas_Track(MediaTrack track)</functioncall>
+  <description>
+    Counts razor-edit-areas of a track(excluding envelopes).
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer razor_edit_area_count - the number of razor-edit-areas in this track; -1, in case of an error
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, whose razor-edit-areas you want to count
+  </parameters>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, count, track, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_CountAreas_Track", "track", "must be a valid MediaTrack", -1) return -1 end
+
+  local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)  
+  local B=B.." "
+  local newstring=""
+  local count=0
+  for a,b,c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
+    if c=="\"\"" then
+      count=count+1
+    end
+  end
+  return count
+end
+
+--A=ultraschall.RazorEdit_CountAreas_Track(reaper.GetTrack(0,0))
+
+function ultraschall.RazorEdit_Remove(track)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_Remove</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.RazorEdit_Remove(MediaTrack track)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    removes all Razor Edits from a MediaTrack including its envelopes.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, removing was successful; false, removing was unsuccessful
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, whose razor-edits you want to remove(including its envelopes)
+  </parameters>
+  <linked_to desc="see:">
+      inline:RazorEdit_RemoveFromTrack
+             removes the razor-edit areas of a track
+      inline:RazorEdit_RemoveFromEnvelope
+             removes the razor-edit areas of a specific TrackEnvelope
+  </linked_to>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, remove, track, envelopes</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_Remove", "track", "must be a valid MediaTrack", -1) return false end
+  
+  local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", true)  
+end

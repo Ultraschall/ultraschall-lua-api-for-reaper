@@ -1,5 +1,5 @@
 <TODO>
-    -- SPectral Edit: supports takes, but do the functions support takes too?
+    -- SPectral Edit: supports takes, but do the functions support takes too? Answer: NO, not yet...
 
     -- later releases
         - IsTakeEnvelopeVisible(könnt knifflig werden)
