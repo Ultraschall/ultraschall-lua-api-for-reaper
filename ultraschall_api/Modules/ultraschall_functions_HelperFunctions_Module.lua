@@ -6854,3 +6854,48 @@ function ultraschall.IsValidReaProject(ReaProject)
 end
 
 --K=ultraschall.IsValidReaProject(reaper.EnumProjects(0,""))
+
+function ultraschall.GetSetIDEAutocompleteSuggestions(is_set, value)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetSetIDEAutocompleteSuggestions</slug>
+    <requires>
+      Ultraschall=4.5
+      Reaper=6.20
+      SWS=2.10.01
+      Lua=5.3
+    </requires>
+    <functioncall>integer suggestions = ultraschall.GetSetIDEAutocompleteSuggestions(boolean is_set, integer value)</functioncall>
+    <description>
+      gets/sets the number of shown suggestions for autocomplete in the IDE
+      
+      affects all IDEs immediately
+      
+      Returns nil in case of an error
+    </description>
+    <retvals>
+      integer suggestions - the number of shown suggestions
+    </retvals>
+    <parameters>
+      boolean is_set - true, set a new value; false, get the current one
+      integer value - the new value, must be between 0 and 2147483647; default is 50
+    </parameters>
+    <chapter_context>
+      API-Helper functions
+      Various
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+    <tags>ide, get, set, autocomplete, suggestions</tags>
+  </US_DocBloc>
+  ]]
+  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetIDEAutocompleteSuggestions", "is_set", "must be a boolean", -1) return end
+  if math.type(value)~="integer" then ultraschall.AddErrorMessage("GetSetIDEAutocompleteSuggestions", "value", "must be an integer", -2) return end
+  if value<0 then value=0 end
+  if value>2147483647 then value=2147483647 end
+  if is_set~=true then
+    return reaper.SNM_GetIntConfigVar("edit_sug", -111)
+  end
+  reaper.SNM_SetIntConfigVar("edit_sug", value)
+  return value
+end

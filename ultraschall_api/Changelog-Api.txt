@@ -123,8 +123,6 @@ TODO:
     - Rendering: CalculateLoudness - calculates loudness of tracks/items and returns its stats  
  
   - Normalization in BatchConverter?
-
-  - GetItemButtonsVisible/SetItemButtonsVisible - add "hide buttons when lane is less than x pixels"-feature to the parameters/retvals too
   
   - Docs: mach mal Abstand zwischen retvals/params und der description kürzer, dafür aber evtl den Abstand ÜBER den retval/param-names etwas höher.
           Mach mal auch den Abstand zwischen <u>Return Values</u> und <u>Parameters</u> etwas kürzer, siehe ShowEnvelopePointMenu. Da ist zuviel Abstand dazwischen.
@@ -253,39 +251,15 @@ end
 
 Note: Doesn't fucking work...
 
-</TODO>
-
-
-## Ultraschall Framework - Changelog
-
-### 4.5 - "" - XX of XXXX 2022
-
-Has now 1477 functions, with XX new ones
-
-**new in this release:**  
-
-  - **Bla**  
-  Bla
-
-#### New features in 4.5  
-  - AutomationItems: AutomationItem\_DeselectAllInTrack - deselects all automation-items in a TrackEnvelope
-  - AutomationItems: AutomationItem\_DeselectAllSelectStates - deselects all automation-items in all TrackEnvelopes
-  - AutomationItems: AutomationItem\_GetAllSelectStates - get all automationitem-selection-states in all TrackEnvelopes
-  - AutomationItems: AutomationItem\_GetSelectStates - get all automationitem-selection-states in a TrackEnvelope
-  - AutomationItems: AutomationItem\_SelectMultiple - sets selection-state multiple automation-items in a TrackEnvelope
-  - DeveloperTools: Create New Temporary Unlisted Lua ReaScript - creates a new temporary script, that isn't listed in the actionlist
-  - DeveloperTools: Open Last ReaScript - opens the last edited ReaScript
-  - DeveloperTools: Open A ReaScript with Dialog - opens a ReaScript, with a file-chooser-dialog
+readd in next version:
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
   - Markers: EnumerateShownoteMarkers - gets a shownote-marker    
   - Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index  
   - Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid
-  - Markers: GetTemporaryMarker - retrieves temporarily stored markers/regions for later use
   - Markers: IsMarkerShownote - returns, if a marker is a shownote
   - Markers: SetShownoteMarker - sets an already existing shownote-marker
-  - Markers: StoreTemporaryMarker - temporarily stores markers/regions for later use
   - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
   - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST\_METADATA:"v1"-standard
@@ -306,6 +280,58 @@ Has now 1477 functions, with XX new ones
   - PodcastMetadata: SetPodcastEpisodeAttrbutesPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastAttrbutesPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes    
+
+</TODO>
+
+
+## Ultraschall Framework - Changelog
+
+### 4.5 - "Frank Zappa - Help I'm a Rock" - 6th of May 2022
+
+Has now 1500 functions, with 23 new ones
+
+**new in this release:**  
+
+  - **Celebration Time**  
+  Because, I reached 1500 functions for Ultraschall-API. In the beginning, I was sure, that I would maybe have potential for 
+  300 functions.
+  I somehow overdid it, did I? XD
+  
+  - **Razor Edit**  
+  I gave Razor Edit some love, so you can nudge, add and remove razor-edit-areas much easier for tracks or individual TrackEnvelopes.  
+  
+  - **AutomationItems**  
+  As I needed to bugfix the split and delete-functions for Automation Items, I added some functions to mass-set the select states of automation-items.  
+  
+  - **Developer Actions for ReaScripts**  
+  Need to quickly reopen the last edited script? Or want to open up another and you're too lazy to open up the 
+  actionlist?
+  Behold, new developer-functions do this for you.  
+  And if you need to open up quickly a new temporary-script to write some small test-code-snippet, you can do it as well.
+  
+  - **EditReaScript**  
+  Always bothered, that the newly opened script doesn't immediately hold, what you need to start working right away?  
+  Well, EditReaScript can now automatically add some default-lines into a newly created script. So if you need to 
+  add your ReaPack-index-information time and again, use this new parameter to make stuff easier for you.  
+  
+  - **Bugfixes**  
+  You're used to it, aren't you?
+  
+  ...up to the next 1500 functions, as soon as my overtyped numb fingers can type again... XD
+  
+
+#### New features in 4.5  
+  - AutomationItems: AutomationItem\_DeselectAllInTrack - deselects all automation-items in a TrackEnvelope
+  - AutomationItems: AutomationItem\_DeselectAllSelectStates - deselects all automation-items in all TrackEnvelopes
+  - AutomationItems: AutomationItem\_GetAllSelectStates - get all automationitem-selection-states in all TrackEnvelopes
+  - AutomationItems: AutomationItem\_GetSelectStates - get all automationitem-selection-states in a TrackEnvelope
+  - AutomationItems: AutomationItem\_SelectMultiple - sets selection-state multiple automation-items in a TrackEnvelope
+  - DeveloperTools: Create New Temporary Unlisted Lua ReaScript - creates a new temporary script, that isn't listed in the actionlist
+  - DeveloperTools: Open Last ReaScript - opens the last edited ReaScript
+  - DeveloperTools: Open A ReaScript with Dialog - opens a ReaScript, with a file-chooser-dialog
+  - HelperFunctions: GetSetIDEAutocompleteSuggestions - gets/sets the number of suggestions in the IDE for autocomplete
+  - Markers: GetTemporaryMarker - retrieves temporarily stored markers/regions for later use
+  - Markers: StoreTemporaryMarker - temporarily stores markers/regions for later use
   - RazorEdit: RazorEdit\_Add\_Envelope - adds a razor-edit-area to a TrackEnvelope
   - RazorEdit: RazorEdit\_Add\_Track - adds a razor-edit-area to a Track
   - RazorEdit: RazorEdit\_CountAreas\_Envelope - counts the number of razor-edit-areas in a specific envelope
@@ -318,6 +344,7 @@ Has now 1477 functions, with XX new ones
   - RazorEdit: RazorEdit\_RemoveFromEnvelope - removes all razor-edit-areas of a TrackEnvelope
   - RazorEdit: RazorEdit\_RemoveFromTrack - removes all razor-edit-areas of a track, leaving envelopes untouched
   - RazorEdit: RazorEdit\_Remove\_Track - removes a razor-edit-area from a Track
+  - Rendering: GetSetRenderBlocksize - gets/sets the render-blocksize
   - TrackStates: GetTrackPlayOffsState - get the Media Playback Offset-entry of a track
   - TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track
   
@@ -331,6 +358,8 @@ Has now 1477 functions, with XX new ones
   - HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum dB-value -> fixed
   - RazorEdit: RazorEdit\_GetAllRazorEdits - allows now excluding track and/or envelope-razoredit-areas from the list
   - TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner codebase(hopefully future proof)
+  - UserInterface: GetItemButtonsVisible - added "hide when take is less than xx pixel"-option
+  - UserInterface: SetItemButtonsVisible - added "hide when take is less than xx pixel"-option; optional parameter weren't optional -> fixed
   
 ---
 

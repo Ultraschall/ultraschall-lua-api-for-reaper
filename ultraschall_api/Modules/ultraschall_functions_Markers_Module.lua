@@ -5231,3 +5231,94 @@ end
 
 --A=ultraschall.GetGuidFromEditRegionID(1)
 
+
+
+function ultraschall.StoreTemporaryMarker(marker_id, index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>StoreTemporaryMarker</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.StoreTemporaryMarker(integer marker_id, optional integer index)</functioncall>
+  <description>
+    Stores a marker/region temporarily for later use.
+    
+    See GetTemporaryMarker to get the index of the marker, which will also keep in mind, if scripts or the user change the order of the markers/regions in the meantime.
+    
+    It's good practice to remove a temporary marker you don't need anymore, using marker_id=-1, Otherwise you might accidentally mess around with a temporary marker, that you forgot about but was still stored.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, storing temporary marker was successful; false, storing temporary marker was unsuccessful
+  </retvals>
+  <parameters>
+    integer marker_id - the index of the marker/region within all markers and regions, that you want to temporarily store; -1, to remove this temporary marker
+    optional integer index - a numerical index, if you want to temporarily store multiple markers/regions; default is 1
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, store, temporary marker, guid</tags>
+</US_DocBloc>
+--]]  
+  if math.type(marker_id)~="integer" then ultraschall.AddErrorMessage("StoreTemporaryMarker", "marker_id", "must be an integer", -1) return false end
+  if index~=nil and math.type(index)~="integer" then ultraschall.AddErrorMessage("StoreTemporaryMarker", "index", "must be an integer", -2) return false end
+  if index==nil then index=1 end
+  if marker_id==-1 then 
+    reaper.DeleteExtState("ultraschall_api", "Temporary_Marker_"..index, false)
+    return true
+  end
+  local Guid = ultraschall.GetGuidFromMarkerID(marker_id)
+  if Guid==-1 then ultraschall.AddErrorMessage("StoreTemporaryMarker", "marker_id", "no such marker", -3) return false end
+  
+  reaper.SetExtState("ultraschall_api", "Temporary_Marker_"..index, Guid, false)  
+  return true
+end
+
+function ultraschall.GetTemporaryMarker(index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTemporaryMarker</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer marker_id, string guid = ultraschall.GetTemporaryMarker(optional integer index)</functioncall>
+  <description>
+    returns a temporarily stored marker/region.
+    
+    See SetTemporaryMarker to set temporary markers/regions.
+    
+    It is good practice to "clear" the temporary marker, if not needed anymore, by using SetTemporaryMarker with marker_id=-1
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer marker_id - the current id of the stored marker/region; -1, in case of an error
+    string guid - the guid of the marker
+  </retvals>
+  <parameters>
+    optional integer index - a numerical index, if you stored multiple temporary markers/regions; default is 1
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, get, temporary marker, guid</tags>
+</US_DocBloc>
+--]]  
+  if index~=nil and math.type(index)~="integer" then ultraschall.AddErrorMessage("GetTemporaryMarker", "index", "must be an integer", -1) return false end
+  if index==nil then index=1 end
+  local marker=reaper.GetExtState("ultraschall_api", "Temporary_Marker_"..index)
+  if marker=="" then return -1 else return ultraschall.GetMarkerIDFromGuid(marker), marker end
+end

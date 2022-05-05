@@ -8797,3 +8797,46 @@ function ultraschall.GetRenderTable_ProjectDefaults()
 end
 
 
+function ultraschall.GetSetRenderBlocksize(is_set, value)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetSetRenderBlocksize</slug>
+    <requires>
+      Ultraschall=4.5
+      Reaper=6.20
+      SWS=2.10.01
+      Lua=5.3
+    </requires>
+    <functioncall>integer blocksize = ultraschall.GetSetRenderBlocksize(boolean is_set, integer value)</functioncall>
+    <description>
+      gets/sets the blocksize for rendering
+      
+      Returns nil in case of an error
+    </description>
+    <retvals>
+      integer blocksize - the blocksize 
+    </retvals>
+    <parameters>
+      boolean is_set - true, set a new value; false, get the current one
+      integer value - the new value, must be between 4 and 2147483647; lower for auto
+    </parameters>
+    <chapter_context>
+      Rendering Projects
+      Assistance functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+    <tags>render management, get, set, render blocksize</tags>
+  </US_DocBloc>
+  ]]
+  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetRenderBlocksize", "is_set", "must be a boolean", -1) return end
+  if math.type(value)~="integer" then ultraschall.AddErrorMessage("GetSetRenderBlocksize", "value", "must be an integer", -2) return end
+  if value<4 then value=0 end
+  if value>2147483647 then value=2147483647 end
+  if is_set~=true then
+    return reaper.SNM_GetIntConfigVar("renderbsnew", -111)
+  end
+  reaper.SNM_SetIntConfigVar("renderbsnew", value)
+  return value
+end
+

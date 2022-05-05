@@ -117,6 +117,26 @@ else
     ultraschall.LM(3)
     return ultraschall.AutomationItem_Split(table.unpack({...}))
   end
+  function ultraschall.AutomationItem_DeselectAllInTrack(...)
+    ultraschall.LM(3)
+    return ultraschall.AutomationItem_DeselectAllInTrack(table.unpack({...}))
+  end
+  function ultraschall.AutomationItem_GetSelectStates(...)
+    ultraschall.LM(3)
+    return ultraschall.AutomationItem_GetSelectStates(table.unpack({...}))
+  end
+  function ultraschall.AutomationItem_SelectMultiple(...)
+    ultraschall.LM(3)
+    return ultraschall.AutomationItem_SelectMultiple(table.unpack({...}))
+  end
+  function ultraschall.AutomationItem_GetAllSelectStates(...)
+    ultraschall.LM(3)
+    return ultraschall.AutomationItem_GetAllSelectStates(table.unpack({...}))
+  end
+  function ultraschall.AutomationItem_DeselectAllSelectStates(...)
+    ultraschall.LM(3)
+    return ultraschall.AutomationItem_DeselectAllSelectStates(table.unpack({...}))
+  end
   function ultraschall.BatchConvertFiles(...)
     ultraschall.LM(4)
     return ultraschall.BatchConvertFiles(table.unpack({...}))
@@ -2013,6 +2033,10 @@ else
     ultraschall.LM(14)
     return ultraschall.IsValidReaProject(table.unpack({...}))
   end
+  function ultraschall.GetSetIDEAutocompleteSuggestions(...)
+    ultraschall.LM(14)
+    return ultraschall.GetSetIDEAutocompleteSuggestions(table.unpack({...}))
+  end
   function ultraschall.ResizePNG(...)
     ultraschall.LM(15)
     return ultraschall.ResizePNG(table.unpack({...}))
@@ -2424,6 +2448,14 @@ else
   function ultraschall.GetGuidFromEditRegionID(...)
     ultraschall.LM(18)
     return ultraschall.GetGuidFromEditRegionID(table.unpack({...}))
+  end
+  function ultraschall.StoreTemporaryMarker(...)
+    ultraschall.LM(18)
+    return ultraschall.StoreTemporaryMarker(table.unpack({...}))
+  end
+  function ultraschall.GetTemporaryMarker(...)
+    ultraschall.LM(18)
+    return ultraschall.GetTemporaryMarker(table.unpack({...}))
   end
   function ultraschall.GetItemPosition(...)
     ultraschall.LM(19)
@@ -4005,6 +4037,58 @@ else
     ultraschall.LM(26)
     return ultraschall.RazorEdit_GetAllRazorEdits(table.unpack({...}))
   end
+  function ultraschall.RazorEdit_GetRazorEdits_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_GetRazorEdits_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Nudge_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Nudge_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Nudge_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Nudge_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_RemoveAllFromTrack(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_RemoveAllFromTrack(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_RemoveAllFromEnvelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_RemoveAllFromEnvelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_RemoveAllFromTrackAndEnvelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_RemoveAllFromTrackAndEnvelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Add_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Add_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Add_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Add_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Remove_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Remove_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Remove_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Remove_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_CountAreas_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_CountAreas_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_CountAreas_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_CountAreas_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Remove(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Remove(table.unpack({...}))
+  end
   function ultraschall.AutoSearchReaMoteClients(...)
     ultraschall.LM(27)
     return ultraschall.AutoSearchReaMoteClients(table.unpack({...}))
@@ -4728,6 +4812,10 @@ else
   function ultraschall.GetRenderTable_ProjectDefaults(...)
     ultraschall.LM(29)
     return ultraschall.GetRenderTable_ProjectDefaults(table.unpack({...}))
+  end
+  function ultraschall.GetSetRenderBlocksize(...)
+    ultraschall.LM(29)
+    return ultraschall.GetSetRenderBlocksize(table.unpack({...}))
   end
   function ultraschall.GetAllThemeLayoutNames(...)
     ultraschall.LM(30)
@@ -5532,6 +5620,14 @@ else
   function ultraschall.ConvertTrackstringToArray(...)
     ultraschall.LM(33)
     return ultraschall.ConvertTrackstringToArray(table.unpack({...}))
+  end
+  function ultraschall.GetTrackPlayOffsState(...)
+    ultraschall.LM(33)
+    return ultraschall.GetTrackPlayOffsState(table.unpack({...}))
+  end
+  function ultraschall.SetTrackPlayOffsState(...)
+    ultraschall.LM(33)
+    return ultraschall.SetTrackPlayOffsState(table.unpack({...}))
   end
   function ultraschall.TrackManager_ClearFilter(...)
     ultraschall.LM(34)

@@ -3876,7 +3876,7 @@ function ultraschall.GetPreventUIRefreshCount()
 end
 
 
-function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMidi, GroupedItems, PerTakeFX, Properties, AutomationEnvelopes)
+function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMidi, GroupedItems, PerTakeFX, Properties, AutomationEnvelopes, hide_when_take_less_than_px)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetItemButtonsVisible</slug>
@@ -3886,7 +3886,7 @@ function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMi
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.SetItemButtonsVisible(optional boolean Volume, optional integer Locked, optional integer Mute, optional integer Notes, optional boolean PooledMidi, optional boolean GroupedItems, optional integer PerTakeFX, optional integer Properties, optional integer AutomationEnvelopes)</functioncall>
+  <functioncall>boolean retval = ultraschall.SetItemButtonsVisible(optional boolean Volume, optional integer Locked, optional integer Mute, optional integer Notes, optional boolean PooledMidi, optional boolean GroupedItems, optional integer PerTakeFX, optional integer Properties, optional integer AutomationEnvelopes, optional integer hide_when_take_less_than_px)</functioncall>
   <description>
     allows setting, which item-buttons shall be shown
   
@@ -3934,6 +3934,7 @@ function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMi
                                         - 1, show active envelope-button only
                                         - 2, show non active envelope-button only
                                         - 3, show active and nonactive envelope-button
+    optional integer hide_when_take_less_than_px - the value to hide when take is less than x pixels; 0 to 2147483647
   </parameters>
   <chapter_context>
     User Interface
@@ -3944,16 +3945,17 @@ function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMi
   <tags>user interface, set, media items, show, buttons</tags>
 </US_DocBloc>
 --]]
-  if type(Volume)~="boolean" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Volume", "must be a boolean" , -1) return false end
-  if math.type(Locked)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Locked", "must be an integer" , -2) return false end
-  if math.type(Mute)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Mute", "must be an integer" , -3) return false end
-  if math.type(Notes)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Notes", "must be an integer" , -4) return false end
+  if Volume~=nil and type(Volume)~="boolean" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Volume", "must be nil or a boolean" , -1) return false end
+  if Locked~=nil and math.type(Locked)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Locked", "must be nil or an integer" , -2) return false end
+  if Mute~=nil and math.type(Mute)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Mute", "must be nil or an integer" , -3) return false end
+  if Notes~=nil and math.type(Notes)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Notes", "must be nil or an integer" , -4) return false end
   
-  if type(PooledMidi)~="boolean" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "PooledMidi", "must be a boolean" , -5) return false end
-  if type(GroupedItems)~="boolean" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "GroupedItems", "must be a boolean" , -6) return false end
-  if math.type(PerTakeFX)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "PerTakeFX", "must be an integer" , -7) return false end
-  if math.type(Properties)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Properties", "must be an integer" , -8) return false end
-  if math.type(AutomationEnvelopes)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "AutomationEnvelopes", "must be an integer" , -9) return false end
+  if PooledMidi~=nil and type(PooledMidi)~="boolean" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "PooledMidi", "must be nil or a boolean" , -5) return false end
+  if GroupedItems~=nil and type(GroupedItems)~="boolean" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "GroupedItems", "must be nil or a boolean" , -6) return false end
+  if PerTakeFX~=nil and math.type(PerTakeFX)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "PerTakeFX", "must be nil or an integer" , -7) return false end
+  if Properties~=nil and math.type(Properties)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "Properties", "must be nil or an integer" , -8) return false end
+  if AutomationEnvelopes~=nil and math.type(AutomationEnvelopes)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "AutomationEnvelopes", "must be nil or an integer" , -9) return false end
+  if hide_when_take_less_than_px~=nil and math.type(hide_when_take_less_than_px)~="integer" then ultraschall.AddErrorMessage("SetItemButtonsVisible", "hide_when_take_less_than_px", "must be nil or an integer" , -10) return false end
 
   local State = reaper.SNM_GetIntConfigVar("itemicons", -99)
   if Locked~=nil then
@@ -4001,6 +4003,9 @@ function ultraschall.SetItemButtonsVisible(Volume, Locked, Mute, Notes, PooledMi
     if AutomationEnvelopes&2==0 and State&524288~=0 then State=State+524288 elseif AutomationEnvelopes&2~=0 and State&524288==0 then State=State-524288 end
   end  
   
+  if hide_when_take_less_than_px~=nil then
+    reaper.SNM_SetIntConfigVar("itemicons_minheight", hide_when_take_less_than_px)
+  end
   reaper.SNM_SetIntConfigVar("itemicons", State)
   reaper.UpdateArrange()
   return true
@@ -4011,12 +4016,12 @@ function ultraschall.GetItemButtonsVisible()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetItemButtonsVisible</slug>
   <requires>
-    Ultraschall=4.1
+    Ultraschall=4.5
     Reaper=6.10
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>boolean Volume, integer Locked, integer Mute, integer Notes, boolean PooledMidi, boolean GroupedItems, integer PerTakeFX, integer Properties, integer AutomationEnvelopes = ultraschall.GetItemButtonsVisible()</functioncall>
+  <functioncall>boolean Volume, integer Locked, integer Mute, integer Notes, boolean PooledMidi, boolean GroupedItems, integer PerTakeFX, integer Properties, integer AutomationEnvelopes, integer hide_when_take_less_than_px = ultraschall.GetItemButtonsVisible()</functioncall>
   <description>
     gets, which item-buttons are be shown
   </description>
@@ -4053,6 +4058,7 @@ function ultraschall.GetItemButtonsVisible()
                                         - 1, shows active envelope-button only
                                         - 2, shows non active envelope-button only
                                         - 3, shows active and nonactive envelope-button
+    integer hide_when_take_less_than_px - the value to hide when take is less than x pixels; 0 to 2147483647
   </retvals>
   <chapter_context>
     User Interface
@@ -4064,6 +4070,8 @@ function ultraschall.GetItemButtonsVisible()
 </US_DocBloc>
 --]]
   local State = reaper.SNM_GetIntConfigVar("itemicons", -99)
+  local State2 = reaper.SNM_GetIntConfigVar("itemicons_minheight", -99)
+  
   local Volume, Locked, Mute, Notes, PooledMidi, GroupedItems, PerTakeFX, Properties, AutomationEnvelopes=false,0,0,0,false,false,0,0,0
   if State&1~=0 then Locked=Locked+1 end
   if State&2~=0 then Locked=Locked+2 end

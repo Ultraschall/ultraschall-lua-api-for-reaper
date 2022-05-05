@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52644.00" author="Meo Mespotine">
+      <version name="52657.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -521,14 +521,47 @@
 	<source main="true" file="/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5//ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.5 - "" - XX of XXXX 2022
+4.5 - “Frank Zappa - Help I’m a Rock” - 6th of May 2022
 
-Has now 1477 functions, with XX new ones
+Has now 1500 functions, with 23 new ones
 
 new in this release:
 
--   Bla
-    Bla
+-   Celebration Time
+    Because, I reached 1500 functions for Ultraschall-API. In the
+    beginning, I was sure, that I would maybe have potential for 300
+    functions. I somehow overdid it, did I? XD
+
+-   Razor Edit
+    I gave Razor Edit some love, so you can nudge, add and remove
+    razor-edit-areas much easier for tracks or individual
+    TrackEnvelopes.
+
+-   AutomationItems
+    As I needed to bugfix the split and delete-functions for Automation
+    Items, I added some functions to mass-set the select states of
+    automation-items.
+
+-   Developer Actions for ReaScripts
+    Need to quickly reopen the last edited script? Or want to open up
+    another and you’re too lazy to open up the actionlist? Behold, new
+    developer-functions do this for you.
+    And if you need to open up quickly a new temporary-script to write
+    some small test-code-snippet, you can do it as well.
+
+-   EditReaScript
+    Always bothered, that the newly opened script doesn’t immediately
+    hold, what you need to start working right away?
+    Well, EditReaScript can now automatically add some default-lines
+    into a newly created script. So if you need to add your
+    ReaPack-index-information time and again, use this new parameter to
+    make stuff easier for you.
+
+-   Bugfixes
+    You’re used to it, aren’t you?
+
+…up to the next 1500 functions, as soon as my overtyped numb fingers can
+type again… XD
 
 New features in 4.5
 
@@ -548,69 +581,12 @@ New features in 4.5
     ReaScript
 -   DeveloperTools: Open A ReaScript with Dialog - opens a ReaScript,
     with a file-chooser-dialog
--   Markers: AddShownoteMarker - adds a shownote-marker
--   Markers: CountShownoteMarkers - counts shownote-markers in a project
--   Markers: DeleteShownoteMarker - deletes a shownote-marker
--   Markers: EnumerateShownoteMarkers - gets a shownote-marker
--   Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote
-    marker by its index
--   Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote
-    marker by its guid
+-   HelperFunctions: GetSetIDEAutocompleteSuggestions - gets/sets the
+    number of suggestions in the IDE for autocomplete
 -   Markers: GetTemporaryMarker - retrieves temporarily stored
     markers/regions for later use
--   Markers: IsMarkerShownote - returns, if a marker is a shownote
--   Markers: SetShownoteMarker - sets an already existing
-    shownote-marker
 -   Markers: StoreTemporaryMarker - temporarily stores markers/regions
     for later use
--   PodcastMetadata: GetAllChapters_MetaDataEntry - gets all
-    chapter-metadata-entries between start and endposition according to
-    the PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all
-    shownote-metadata-entries between start and endposition according to
-    the PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast’s
-    metadata-entry according to the PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a
-    podcast’s chapter-metadata-entry according to the
-    PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the
-    podcast’s episode-related metadata-entry according to the
-    PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastEpisodeAttrbutesPreset_Name - gets the
-    name of an episode -metadata-preset
--   PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a
-    podcast’s shownote-metadata-entry according to the
-    PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastAttrbutesPreset_Name - gets the name of a
-    podcast-metadata-preset
--   PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets
-    metadata-attributes of a chapter-marker(using Ultraschall 4+
-    methods)
--   PodcastMetadata: GetSetPodcast_Attributes - gets/sets
-    metadata-attributes of a podcast
--   PodcastMetadata: GetSetPodcastEpisode_Attributes - gets/sets
-    metadata-attributes of a podcast-episode
--   PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets
-    string attributes for podcast-export in Ultraschall
--   PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets
-    number attributes for podcast-export in Ultraschall
--   PodcastMetadata: GetSetShownoteMarker_Attributes - gets/sets
-    additional attributes of a shownote-marker
--   PodcastMetadata: GetSetTranscription_Attributes gets/sets
-    transcriptions for the podcast(needs either srt or webvtt-files
-    created externally…)
--   PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares
-    chaptermarkers for metadata-export during rendering
--   PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores
-    chaptermarkers after metadata-export during rendering
--   PodcastMetadata: SetPodcastEpisodeAttrbutesPreset_Name - sets the
-    name of an episode-metadata-preset
--   PodcastMetadata: SetPodcastAttrbutesPreset_Name - sets the name of a
-    podcast-metadata-preset
--   PodcastMetadata: WritePodcastMetaData - creates metadata-entries
-    according to the PODCAST_METADATA:“v1”-standard and optionally
-    writes it into a file or adds it to id3, vorbis-metadata-schemes
 -   RazorEdit: RazorEdit_Add_Envelope - adds a razor-edit-area to a
     TrackEnvelope
 -   RazorEdit: RazorEdit_Add_Track - adds a razor-edit-area to a Track
@@ -634,6 +610,7 @@ New features in 4.5
     of a track, leaving envelopes untouched
 -   RazorEdit: RazorEdit_Remove_Track - removes a razor-edit-area from a
     Track
+-   Rendering: GetSetRenderBlocksize - gets/sets the render-blocksize
 -   TrackStates: GetTrackPlayOffsState - get the Media Playback
     Offset-entry of a track
 -   TrackStates: SetTrackPlayOffsState - sets the Media Playback
@@ -661,6 +638,10 @@ Changes from 4.4 to 4.5
     and/or envelope-razoredit-areas from the list
 -   TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner
     codebase(hopefully future proof)
+-   UserInterface: GetItemButtonsVisible - added “hide when take is less
+    than xx pixel”-option
+-   UserInterface: SetItemButtonsVisible - added “hide when take is less
+    than xx pixel”-option; optional parameter weren’t optional -> fixed
 ]]>
 </changelog>
       </version>
@@ -688,7 +669,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1535 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52644 from 05.05.2022 23:43:36).}
+a 1500 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -702,7 +683,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1535 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1500 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -826,7 +807,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1535 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52644 from 05.05.2022 23:43:36).}
+a 1500 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -840,7 +821,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1535 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1500 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

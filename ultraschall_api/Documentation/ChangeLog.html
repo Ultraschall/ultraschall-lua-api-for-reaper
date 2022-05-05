@@ -35,13 +35,26 @@
       
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.5 - "" - XX of XXXX 2022</h3>
-<p>Has now 1477 functions, with XX new ones</p>
+<h3>4.5 - "Frank Zappa - Help I'm a Rock" - 6th of May 2022</h3>
+<p>Has now 1500 functions, with 23 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><strong>Bla</strong><br />
-Bla</li>
+<li><p><strong>Celebration Time</strong><br />
+Because, I reached 1500 functions for Ultraschall-API. In the beginning, I was sure, that I would maybe have potential for 300 functions. I somehow overdid it, did I? XD</p></li>
+<li><p><strong>Razor Edit</strong><br />
+I gave Razor Edit some love, so you can nudge, add and remove razor-edit-areas much easier for tracks or individual TrackEnvelopes.</p></li>
+<li><p><strong>AutomationItems</strong><br />
+As I needed to bugfix the split and delete-functions for Automation Items, I added some functions to mass-set the select states of automation-items.</p></li>
+<li><p><strong>Developer Actions for ReaScripts</strong><br />
+Need to quickly reopen the last edited script? Or want to open up another and you're too lazy to open up the actionlist? Behold, new developer-functions do this for you.<br />
+And if you need to open up quickly a new temporary-script to write some small test-code-snippet, you can do it as well.</p></li>
+<li><p><strong>EditReaScript</strong><br />
+Always bothered, that the newly opened script doesn't immediately hold, what you need to start working right away?<br />
+Well, EditReaScript can now automatically add some default-lines into a newly created script. So if you need to add your ReaPack-index-information time and again, use this new parameter to make stuff easier for you.</p></li>
+<li><p><strong>Bugfixes</strong><br />
+You're used to it, aren't you?</p></li>
 </ul>
+<p>...up to the next 1500 functions, as soon as my overtyped numb fingers can type again... XD</p>
 <h4>New features in 4.5</h4>
 <ul>
 <li>AutomationItems: AutomationItem_DeselectAllInTrack - deselects all automation-items in a TrackEnvelope</li>
@@ -52,40 +65,9 @@ Bla</li>
 <li>DeveloperTools: Create New Temporary Unlisted Lua ReaScript - creates a new temporary script, that isn't listed in the actionlist</li>
 <li>DeveloperTools: Open Last ReaScript - opens the last edited ReaScript</li>
 <li>DeveloperTools: Open A ReaScript with Dialog - opens a ReaScript, with a file-chooser-dialog</li>
-<li>Markers: AddShownoteMarker - adds a shownote-marker</li>
-<li>Markers: CountShownoteMarkers - counts shownote-markers in a project</li>
-<li>Markers: DeleteShownoteMarker - deletes a shownote-marker</li>
-<li>Markers: EnumerateShownoteMarkers - gets a shownote-marker<br />
-</li>
-<li>Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote marker by its index<br />
-</li>
-<li>Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid</li>
+<li>HelperFunctions: GetSetIDEAutocompleteSuggestions - gets/sets the number of suggestions in the IDE for autocomplete</li>
 <li>Markers: GetTemporaryMarker - retrieves temporarily stored markers/regions for later use</li>
-<li>Markers: IsMarkerShownote - returns, if a marker is a shownote</li>
-<li>Markers: SetShownoteMarker - sets an already existing shownote-marker</li>
 <li>Markers: StoreTemporaryMarker - temporarily stores markers/regions for later use</li>
-<li>PodcastMetadata: GetAllChapters_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastEpisodeAttrbutesPreset_Name - gets the name of an episode -metadata-preset</li>
-<li>PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastAttrbutesPreset_Name - gets the name of a podcast-metadata-preset</li>
-<li>PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)</li>
-<li>PodcastMetadata: GetSetPodcast_Attributes - gets/sets metadata-attributes of a podcast</li>
-<li>PodcastMetadata: GetSetPodcastEpisode_Attributes - gets/sets metadata-attributes of a podcast-episode</li>
-<li>PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets string attributes for podcast-export in Ultraschall</li>
-<li>PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets number attributes for podcast-export in Ultraschall</li>
-<li>PodcastMetadata: GetSetShownoteMarker_Attributes - gets/sets additional attributes of a shownote-marker</li>
-<li>PodcastMetadata: GetSetTranscription_Attributes gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)</li>
-<li>PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering</li>
-<li>PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering<br />
-</li>
-<li>PodcastMetadata: SetPodcastEpisodeAttrbutesPreset_Name - sets the name of an episode-metadata-preset</li>
-<li>PodcastMetadata: SetPodcastAttrbutesPreset_Name - sets the name of a podcast-metadata-preset</li>
-<li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes<br />
-</li>
 <li>RazorEdit: RazorEdit_Add_Envelope - adds a razor-edit-area to a TrackEnvelope</li>
 <li>RazorEdit: RazorEdit_Add_Track - adds a razor-edit-area to a Track</li>
 <li>RazorEdit: RazorEdit_CountAreas_Envelope - counts the number of razor-edit-areas in a specific envelope</li>
@@ -98,6 +80,7 @@ Bla</li>
 <li>RazorEdit: RazorEdit_RemoveFromEnvelope - removes all razor-edit-areas of a TrackEnvelope</li>
 <li>RazorEdit: RazorEdit_RemoveFromTrack - removes all razor-edit-areas of a track, leaving envelopes untouched</li>
 <li>RazorEdit: RazorEdit_Remove_Track - removes a razor-edit-area from a Track</li>
+<li>Rendering: GetSetRenderBlocksize - gets/sets the render-blocksize</li>
 <li>TrackStates: GetTrackPlayOffsState - get the Media Playback Offset-entry of a track</li>
 <li>TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track</li>
 </ul>
@@ -112,6 +95,8 @@ Bla</li>
 <li>HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum dB-value -&gt; fixed</li>
 <li>RazorEdit: RazorEdit_GetAllRazorEdits - allows now excluding track and/or envelope-razoredit-areas from the list</li>
 <li>TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner codebase(hopefully future proof)</li>
+<li>UserInterface: GetItemButtonsVisible - added "hide when take is less than xx pixel"-option</li>
+<li>UserInterface: SetItemButtonsVisible - added "hide when take is less than xx pixel"-option; optional parameter weren't optional -&gt; fixed</li>
 </ul>
 <hr />
 <h3>4.4 - "Dispatch - Open Up" - 27 of April 2022</h3>
