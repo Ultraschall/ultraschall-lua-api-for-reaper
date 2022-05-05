@@ -3931,16 +3931,16 @@ function ultraschall.RazorEdit_Nudge_Envelope(TrackEnvelope, nudge_delta)
   return true
 end
 
-function ultraschall.RazorEdit_RemoveFromTrack(track)
+function ultraschall.RazorEdit_RemoveAllFromTrack(track)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RazorEdit_RemoveFromTrack</slug>
+  <slug>RazorEdit_RemoveAllFromTrack</slug>
   <requires>
     Ultraschall=4.5
     Reaper=6.24
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.RazorEdit_RemoveFromTrack(MediaTrack track)</functioncall>
+  <functioncall>boolean retval = ultraschall.RazorEdit_RemoveAllFromTrack(MediaTrack track)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     removes all Razor Edits from a MediaTrack(leaves razor-edit-areas of envelopes untouched!)
     
@@ -3953,7 +3953,7 @@ function ultraschall.RazorEdit_RemoveFromTrack(track)
     MediaTrack track - the track, whose razor-edits you want to remove
   </parameters>
   <linked_to desc="see:">
-      inline:RazorEdit_RemoveFromEnvelope
+      inline:RazorEdit_RemoveAllFromEnvelope
              removes the razor-edit areas of a specific TrackEnvelope
   </linked_to>
   <chapter_context>
@@ -3964,7 +3964,7 @@ function ultraschall.RazorEdit_RemoveFromTrack(track)
   <tags>razor edit, remove, track</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_RemoveFromTrack", "track", "must be a valid MediaTrack", -1) return false end
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_RemoveAllFromTrack", "track", "must be a valid MediaTrack", -1) return false end
   
   local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)  
   local B=B.." "
@@ -3983,18 +3983,18 @@ function ultraschall.RazorEdit_RemoveFromTrack(track)
   return true
 end
 
---ultraschall.RazorEdit_RemoveFromTrack(reaper.GetTrack(0,0))
+--ultraschall.RazorEdit_RemoveAllFromTrack(reaper.GetTrack(0,0))
 
-function ultraschall.RazorEdit_RemoveFromEnvelope(TrackEnvelope)
+function ultraschall.RazorEdit_RemoveAllFromEnvelope(TrackEnvelope)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RazorEdit_RemoveFromEnvelope</slug>
+  <slug>RazorEdit_RemoveAllFromEnvelope</slug>
   <requires>
     Ultraschall=4.5
     Reaper=6.24
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.RazorEdit_RemoveFromEnvelope(TrackEnvelope TrackEnvelope)</functioncall>
+  <functioncall>boolean retval = ultraschall.RazorEdit_RemoveAllFromEnvelope(TrackEnvelope TrackEnvelope)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     removes all Razor Edits from a TrackEnvelope
     
@@ -4018,7 +4018,7 @@ function ultraschall.RazorEdit_RemoveFromEnvelope(TrackEnvelope)
   <tags>razor edit, remove, envelope</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_RemoveFromEnvelope", "TrackEnvelope", "must be a valid TrackEnvelope", -1) return false end
+  if ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_RemoveAllFromEnvelope", "TrackEnvelope", "must be a valid TrackEnvelope", -1) return false end
 
   local track=reaper.Envelope_GetParentTrack(TrackEnvelope)
   local retval, Guid = reaper.GetSetEnvelopeInfo_String(TrackEnvelope, "GUID", "", false)
@@ -4039,16 +4039,16 @@ function ultraschall.RazorEdit_RemoveFromEnvelope(TrackEnvelope)
   return true
 end
 
-function ultraschall.RazorEdit_Remove(track)
+function ultraschall.RazorEdit_RemoveAllFromTrackAndEnvelope(track)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RazorEdit_Remove</slug>
+  <slug>RazorEdit_RemoveAllFromTrackAndEnvelope</slug>
   <requires>
     Ultraschall=4.5
     Reaper=6.24
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.RazorEdit_Remove(MediaTrack track)</functioncall>
+  <functioncall>boolean retval = ultraschall.RazorEdit_RemoveAllFromTrackAndEnvelope(MediaTrack track)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     removes all Razor Edits from a MediaTrack including its envelopes.
     
@@ -4061,9 +4061,9 @@ function ultraschall.RazorEdit_Remove(track)
     MediaTrack track - the track, whose razor-edits you want to remove(including its envelopes)
   </parameters>
   <linked_to desc="see:">
-      inline:RazorEdit_RemoveFromTrack
+      inline:RazorEdit_RemoveAllFromTrack
              removes the razor-edit areas of a track
-      inline:RazorEdit_RemoveFromEnvelope
+      inline:RazorEdit_RemoveAllFromEnvelope
              removes the razor-edit areas of a specific TrackEnvelope
   </linked_to>
   <chapter_context>
@@ -4074,7 +4074,274 @@ function ultraschall.RazorEdit_Remove(track)
   <tags>razor edit, remove, track, envelopes</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_Remove", "track", "must be a valid MediaTrack", -1) return false end
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_RemoveAllFromTrackAndEnvelope", "track", "must be a valid MediaTrack", -1) return false end
   
   local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", true)  
+end
+
+function ultraschall.RazorEdit_Add_Track(track, start_position, end_position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_Add_Track</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>string altered_razor_edit_string = ultraschall.RazorEdit_Add_Track(MediaTrack track, number start_position, number end_position)</functioncall>
+  <description>
+    adds razor-edit-areas to a track(leaves all of its envelopes untouched)
+    
+    added razor-edit-areas might be combined into other ones, so this function returns the changed razor-edit-string for later reference
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string altered_razor_edit_string - the altered razor-edit-areas that are now stored in the track, as used by GetSetMediaTrackInfo_String
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, to which you want to add razor-edits
+    number start_position - the start-position, from which to add the razor-edit
+    number end_position - the end-position, to which to add the razor-edit
+  </parameters>
+  <linked_to desc="see:">
+      inline:RazorEdit_Add_Envelope
+             adds razor-edit areas to a specific TrackEnvelope
+  </linked_to>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, add, track</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_Add_Track", "track", "must be a MediaTrack", -1) return end
+  if type(start_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Add_Track", "start_position", "must be a number", -2) return end
+  if type(end_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Add_Track", "end_position", "must be a number", -3) return end
+  local A,B
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", B.." "..start_position.." "..end_position.." \"\"", true)
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  return B
+end
+  
+--ultraschall.RazorEdit_AddArea(reaper.GetTrack(0,0), 20, 130)
+
+function ultraschall.RazorEdit_Add_Envelope(envelope, start_position, end_position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_Add_Envelope</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>string altered_razor_edit_string = ultraschall.RazorEdit_Add_Envelope(TrackEnvelope envelope, number start_position, number end_position)</functioncall>
+  <description>
+    adds razor-edit-areas to a TrackEnvelope only
+    
+    added razor-edit-areas might be combined into other ones, so this function returns the changed razor-edit-string for later reference
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string altered_razor_edit_string - the altered razor-edit-areas that are now stored in the track, as used by GetSetMediaTrackInfo_String
+  </retvals>
+  <parameters>
+    TrackEnvelope envelope - the envelope, to which you want to add razor-edits
+    number start_position - the start-position, from which to add the razor-edit
+    number end_position - the end-position, to which to add the razor-edit
+  </parameters>
+  <linked_to desc="see:">
+      inline:RazorEdit_Add_Track
+             adds razor-edit areas to a specific track
+  </linked_to>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, add, envelope</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(envelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_Add_Envelope", "envelope", "must be a valid TrackEnvelope", -1) return end
+  if type(start_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Add_Envelope", "start_position", "must be a number", -2) return end
+  if type(end_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Add_Envelope", "end_position", "must be a number", -3) return end
+  
+  local track=reaper.Envelope_GetParentTrack(envelope)
+  local retval, Guid = reaper.GetSetEnvelopeInfo_String(envelope, "GUID", "", false)
+  local A,B
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", B.." "..start_position.." "..end_position.." \""..Guid.."\"", true)
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  return B
+end
+
+--print3(ultraschall.RazorEdit_Add_Envelope(reaper.GetSelectedEnvelope(0), 5, 15))
+
+function ultraschall.RazorEdit_Remove_Track(track, start_position, end_position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_Remove_Track</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>string altered_razor_edit_string = ultraschall.RazorEdit_Remove_Track(MediaTrack track, number start_position, number end_position)</functioncall>
+  <description>
+    removes razor-edit-areas from a track(leaves all of its envelopes untouched)
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string altered_razor_edit_string - the altered razor-edit-areas that are now stored in the track, as used by GetSetMediaTrackInfo_String
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, from which you want to remove razor-edit-areas
+    number start_position - the start-position, from which to remove razor-edit-areas
+    number end_position - the end-position, to which to which to remove the razor-edit-areas
+  </parameters>
+  <linked_to desc="see:">
+      inline:RazorEdit_Remove_Envelope
+             removes razor-edit areas from a specific TrackEnvelope
+  </linked_to>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, remove, track</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_Remove_Track", "track", "must be a MediaTrack", -1) return end
+  if type(start_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Remove_Track", "start_position", "must be a number", -2) return end
+  if type(end_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Remove_Track", "end_position", "must be a number", -3) return end
+  
+  local A,B=reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", "", false)
+  B=B.." "
+  local newstring=""
+  for a, b, c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
+    if c=="\"\"" then
+      a=tonumber(a)
+      b=tonumber(b)
+      if a>end_position and b>end_position then -- after selection
+        --print2("A")
+        newstring=newstring..a.." "..b.." "..c.." "
+      elseif a<start_position and b<start_position then -- before selection
+        --print2("B")
+        newstring=newstring..a.." "..b.." "..c.." "
+      elseif a<=start_position and b>=start_position and b<=end_position then -- reaching in from the left -> shorten
+        --print2("1")
+        b=start_position
+        newstring=newstring..a.." "..b.." "..c.." "
+      elseif a>=start_position and b>=end_position then -- reaching out to the right -> shorten
+        --print2("2")
+        a=end_position
+        newstring=newstring..a.." "..b.." "..c.." "
+      elseif a>start_position and b<end_position then -- completely enclosed by selection -> remove
+        --print2("3")
+      elseif a<start_position and b>end_position then -- selection is within -> split into two
+        --print2("4")
+        newstring=newstring..a.." "..start_position.." "..c.." "
+        newstring=newstring..end_position.." "..b.." "..c.." "
+      end
+    else -- keep the rest
+      --print2("5")
+      newstring=newstring..a.." "..b.." "..c.." "
+    end
+
+    
+  end
+  reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", newstring, true)
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  return B
+end
+--A,B=reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", "30.000000 174.000000 \"\"", true)
+
+--ultraschall.RazorEdit_Remove_Track(reaper.GetTrack(0,0), 60, 80)
+
+function ultraschall.RazorEdit_Remove_Envelope(envelope, start_position, end_position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_Remove_Envelope</slug>
+  <requires>
+    Ultraschall=4.5
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>string altered_razor_edit_string = ultraschall.RazorEdit_Remove_Envelope(TrackEnvelope envelope, number start_position, number end_position)</functioncall>
+  <description>
+    removes razor-edit-areas from a TrackEnvelope only
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string altered_razor_edit_string - the altered razor-edit-areas that are now stored in the track, as used by GetSetMediaTrackInfo_String
+  </retvals>
+  <parameters>
+    TrackEnvelope envelope - the envelope, from which you want to remove razor-edit-areas
+    number start_position - the start-position, from which to remove razor-edit-areas
+    number end_position - the end-position, to which to remove the razor-edit-areas
+  </parameters>
+  <linked_to desc="see:">
+      inline:RazorEdit_Remove_Envelope
+             removes razor-edit areas from a specific track
+  </linked_to>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, remove, envelope</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(envelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_Remove_Envelope", "envelope", "must be a valid TrackEnvelope", -1) return end
+  if type(start_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Remove_Envelope", "start_position", "must be a number", -2) return end
+  if type(end_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Remove_Envelope", "end_position", "must be a number", -3) return end
+
+  local track=reaper.Envelope_GetParentTrack(envelope)
+  local retval, Guid = reaper.GetSetEnvelopeInfo_String(envelope, "GUID", "", false)
+  
+  local A,B=reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", "", false)
+  B=B.." "
+  local newstring=""
+  for a, b, c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
+    if c=="\""..Guid.."\"" then
+      a=tonumber(a)
+      b=tonumber(b)
+      if a>end_position and b>end_position then -- after selection
+        --print2("A")
+        newstring=newstring..a.." "..b.." "..c.." "
+      elseif a<start_position and b<start_position then -- before selection
+        --print2("B")
+        newstring=newstring..a.." "..b.." "..c.." "
+      elseif a<=start_position and b>=start_position and b<=end_position then -- reaching in from the left -> shorten
+        --print2("1")
+        b=start_position
+        newstring=newstring..a.." "..b.." "..c.." "
+      elseif a>=start_position and b>=end_position then -- reaching out to the right -> shorten
+        --print2("2")
+        a=end_position
+        newstring=newstring..a.." "..b.." "..c.." "
+      elseif a>start_position and b<end_position then -- completely enclosed by selection -> remove
+        --print2("3")
+      elseif a<start_position and b>end_position then -- selection is within -> split into two
+        --print2("4")
+        newstring=newstring..a.." "..start_position.." "..c.." "
+        newstring=newstring..end_position.." "..b.." "..c.." "
+      end
+    else -- keep the rest
+      --print2("5")
+      newstring=newstring..a.." "..b.." "..c.." "
+    end
+    
+  end
+  reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", newstring, true)
+  
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  return B
 end
