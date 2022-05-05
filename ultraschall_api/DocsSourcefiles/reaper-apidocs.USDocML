@@ -64809,26 +64809,26 @@ mespotine
         </changelog>
     </US_DocBloc>
 
-
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ImGui_ListClipper_Begin</slug>
-        <title>ImGui_ListClipper_Begin</title>
-        <functioncall prog_lang="cpp">void ImGui_ListClipper_Begin(ImGui_ListClipper* clipper, int items_count, double* items_heightInOptional)</functioncall>
-        <functioncall prog_lang="eel">extension_api("ImGui_ListClipper_Begin", ImGui_ListClipper clipper, int items_count, optional items_heightIn)</functioncall>
-        <functioncall prog_lang="lua">reaper.ImGui_ListClipper_Begin(ImGui_ListClipper clipper, integer items_count, optional number items_heightIn)</functioncall>
-        <functioncall prog_lang="python">ImGui_ListClipper_Begin(ImGui_ListClipper* clipper, int items_count, double* items_heightInOptional)</functioncall>
+        <slug>ImGui_ListClipper_ForceDisplayRangeByIndices</slug>
+        <title>ImGui_ListClipper_ForceDisplayRangeByIndices(ReaImGui)</title>
+        <functioncall prog_lang="cpp">void ImGui_ListClipper_ForceDisplayRangeByIndices(ImGui_ListClipper* clipper, int item_min, int item_max)</functioncall>
+        <functioncall prog_lang="eel">extension_api("ImGui_ListClipper_ForceDisplayRangeByIndices", ImGui_ListClipper clipper, int item_min, int item_max)</functioncall>
+        <functioncall prog_lang="lua">reaper.ImGui_ListClipper_ForceDisplayRangeByIndices(ImGui_ListClipper clipper, integer item_min, integer item_max)</functioncall>
+        <functioncall prog_lang="python">ImGui_ListClipper_ForceDisplayRangeByIndices(ImGui_ListClipper clipper, Int item_min, Int item_max)</functioncall>
         <requires>
             Reaper=6.23
             ReaImGui=0.6.1
         </requires>
-        <description>            
-            items_count: Use INT_MAX if you don't know how many items you have (in which case the cursor won't be advanced in the final step)
-            items_height: Use -1.0 to be calculated automatically on first step. Otherwise pass in the distance between your items, typically ImGui_GetTextLineHeightWithSpacing or ImGui_GetFrameHeightWithSpacing.
+        <description>
+            Call ImGui_ListClipper_ForceDisplayRangeByIndices before first call to ImGui_ListClipper_Step if you need a range of items to be displayed regardless of visibility.
+
+            item_max is exclusive e.g. use (42, 42+1) to make item 42 always visible BUT due to alignment/padding of certain items it is likely that an extra item may be included on either end of the display range.
         </description>        
         <parameters>
             ImGui_ListClipper clipper - 
-            integer items_count - 
-            optional number items_heightIn -
+            integer item_min - 
+            integer item_max - 
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -64837,7 +64837,6 @@ mespotine
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
         <changelog>
-          ReaImGui 0.6.1 - added as new function
         </changelog>
     </US_DocBloc>
     

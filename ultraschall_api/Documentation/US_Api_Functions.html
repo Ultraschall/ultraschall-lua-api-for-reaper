@@ -9494,9 +9494,9 @@ Displays a message to show, which parts of the Ultraschall-API are turned on and
 <a class="anch" id="EditReaScript"></a>
 <a href="#EditReaScript"> ^</a> 
 <img width="3%" src="gfx/reaper6.10.png" alt="Reaper version 6.10">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>EditReaScript</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.5.png" alt="Ultraschall version 4.5"><u><b>EditReaScript</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> command_id = <em>ultraschall.EditReaScript</em>(<i>optional</i> <i>string</i> filename, <i>optional</i> <i>boolean</i> add_ultraschall_api, <i>optional</i> <i>integer</i> add_to_actionlist_section, <i>optional</i> <i>integer</i> x_pos, <i>optional</i> <i>integer</i> y_pos, <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> showstate, <i>optional</i> <i>integer</i> watchlist_size, <i>optional</i> <i>integer</i> watchlist_size_row1, <i>optional</i> <i>integer</i> watchlist_size_row2)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>optional</i> command_id, <i>boolean</i> created_new_script = <em>ultraschall.EditReaScript</em>(<i>optional</i> <i>string</i> filename, <i>optional</i> <i>boolean</i> add_ultraschall_api, <i>optional</i> <i>integer</i> add_to_actionlist_section, <i>optional</i> <i>integer</i> x_pos, <i>optional</i> <i>integer</i> y_pos, <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> showstate, <i>optional</i> <i>integer</i> watchlist_size, <i>optional</i> <i>integer</i> watchlist_size_row1, <i>optional</i> <i>integer</i> watchlist_size_row2, <i>optional</i> <i>string</i> default_script_content)</code></div>
 </div><p>
 <div class="ch">
 Opens a script in Reaper's ReaScript-IDE.<br>
@@ -9514,7 +9514,11 @@ returns false in case of an error<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>integer</i> command_id</td></tr>
-<tr><td class="ch2">the command-id of the script, when it gets newly created</td></tr>
+<tr><td class="ch2">the command-id of the script, when it gets newly created; nil, if script wasn't added</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> created_new_script</td></tr>
+<tr><td class="ch2">true, a new script had been created; false, the script already existed</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -9571,6 +9575,10 @@ nil, don't add, only open the script in IDE<br/>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>integer</i> watchlist_size_row2</td></tr>
 <tr><td class="ch2">sets the size of the Value-row in the watchlist</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> default_script_content</td></tr>
+<tr><td class="ch2">a string that shall be added to the beginning of the new script, when a script is newly created</td></tr>
 </table>
 <br>
 </div>

@@ -2518,16 +2518,16 @@ function ultraschall.BringReaScriptConsoleToFront()
   end
 end
 
-function ultraschall.EditReaScript(filename, add_ultraschall_api, add_to_actionlist_section, x_pos, y_pos, width, height, showstate, watchlist_size, watchlist_size_row1, watchlist_size_row2)
+function ultraschall.EditReaScript(filename, add_ultraschall_api, add_to_actionlist_section, x_pos, y_pos, width, height, showstate, watchlist_size, watchlist_size_row1, watchlist_size_row2, default_script_content)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EditReaScript</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=4.5
     Reaper=6.10
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional command_id = ultraschall.EditReaScript(optional string filename, optional boolean add_ultraschall_api, optional integer add_to_actionlist_section, optional integer x_pos, optional integer y_pos, optional integer width, optional integer height, optional integer showstate, optional integer watchlist_size, optional integer watchlist_size_row1, optional integer watchlist_size_row2)</functioncall>
+  <functioncall>boolean retval, optional command_id, boolean created_new_script = ultraschall.EditReaScript(optional string filename, optional boolean add_ultraschall_api, optional integer add_to_actionlist_section, optional integer x_pos, optional integer y_pos, optional integer width, optional integer height, optional integer showstate, optional integer watchlist_size, optional integer watchlist_size_row1, optional integer watchlist_size_row2, optional string default_script_content)</functioncall>
   <description>
     Opens a script in Reaper's ReaScript-IDE.
     
@@ -2559,10 +2559,12 @@ function ultraschall.EditReaScript(filename, add_ultraschall_api, add_to_actionl
     optional integer watchlist_size - sets the size of the watchlist, from 80 to screenwidth-80
     optional integer watchlist_size_row1 - sets the size of the Name-row in the watchlist
     optional integer watchlist_size_row2 - sets the size of the Value-row in the watchlist
+    optional string default_script_content - a string that shall be added to the beginning of the new script, when a script is newly created
   </parameters>
   <retvals>
     boolean retval - true, opening was successful; false, opening was unsuccessful
-    optional integer command_id - the command-id of the script, when it gets newly created
+    optional integer command_id - the command-id of the script, when it gets newly created; nil, if script wasn't added
+    boolean created_new_script - true, a new script had been created; false, the script already existed
   </retvals>
   <chapter_context>
     Developer
@@ -2582,17 +2584,20 @@ function ultraschall.EditReaScript(filename, add_ultraschall_api, add_to_actionl
   if watchlist_size~=nil and math.type(watchlist_size)~="integer" then ultraschall.AddErrorMessage("EditReaScript", "watchlist_size", "must be nil or an integer", -7) return false end
   if watchlist_size_row1~=nil and math.type(watchlist_size_row1)~="integer" then ultraschall.AddErrorMessage("EditReaScript", "watchlist_size_row1", "must be nil or an integer", -8) return false end  
   if watchlist_size_row2~=nil and math.type(watchlist_size_row2)~="integer" then ultraschall.AddErrorMessage("EditReaScript", "watchlist_size_row2", "must be nil or an integer", -9) return false end
+  if default_script_content~=nil and type(default_script_content)~="string" then ultraschall.AddErrorMessage("EditReaScript", "watchlist_size_row2", "must be nil or an integer", -10) return false end
+  if default_script_content==nil then default_script_content="" end
   
   if filename==nil then 
     -- when user has not set a filename, use the last edited on(with this function) or 
     -- the last created one(using the action-list-dialog), checked in that order
-    filename=reaper.GetExtState("ultraschall_api", "last_edited_script") 
-    if filename=="" then 
-        filename=ultraschall.GetUSExternalState("REAPER", "lastscript", "reaper.ini")
-    end
+    --filename=reaper.GetExtState("ultraschall_api", "last_edited_script") 
+    --if filename=="" then 
+      filename=ultraschall.GetUSExternalState("REAPER", "lastscript", "reaper.ini")
+    --end
   end
   
   local command_id
+  local created_new_script=false
   
   if reaper.file_exists(filename)==false and ultraschall.DirectoryExists2(ultraschall.GetPath(filename))==false then
     -- if path does not exist, create filename in the scripts-folder
@@ -2601,13 +2606,14 @@ function ultraschall.EditReaScript(filename, add_ultraschall_api, add_to_actionl
   end
   if reaper.file_exists(filename)==false then
     -- create new file if not yet existing
-    local content  
+    local content=default_script_content
+    if content~="" then content=content.."\n" end
     if add_ultraschall_api==true then 
-      content="dofile(reaper.GetResourcePath()..\"/UserPlugins/ultraschall_api.lua\")\n\n"
+      content=content.."dofile(reaper.GetResourcePath()..\"/UserPlugins/ultraschall_api.lua\")\n\n"
     else
-      content=""
+      content=content
     end
-  
+    created_new_script=reaper.file_exists(filename)
     ultraschall.WriteValueToFile(filename, content)
   end
   
@@ -2689,7 +2695,7 @@ end
   reaper.Main_OnCommand(41931,0)
 
   -- reset old edited script in reaper.ini
-  C=ultraschall.SetUSExternalState("REAPER", "lastscript", A, "reaper.ini")
+  --C=ultraschall.SetUSExternalState("REAPER", "lastscript", A, "reaper.ini")
   
   -- reset old IDE-window-position in reaper.ini
   if x_pos~=nil then
@@ -2727,7 +2733,7 @@ end
   -- store last created/edited file using this function, so it can be opened with filename=nil
   reaper.SetExtState("ultraschall_api", "last_edited_script", filename, true)
 
-  return true, command_id
+  return true, command_id, created_new_script
 end
 
 function SFEM(dunk, target, message_type)

@@ -203,6 +203,9 @@ Has now 1477 functions, with XX new ones
   - AutomationItems: AutomationItem\_GetAllSelectStates - get all automationitem-selection-states in all TrackEnvelopes
   - AutomationItems: AutomationItem\_GetSelectStates - get all automationitem-selection-states in a TrackEnvelope
   - AutomationItems: AutomationItem\_SelectMultiple - sets selection-state multiple automation-items in a TrackEnvelope
+  - DeveloperTools: Create New Temporary Unlisted Lua ReaScript - creates a new temporary script, that isn't listed in the actionlist
+  - DeveloperTools: Open Last ReaScript - opens the last edited ReaScript
+  - DeveloperTools: Open A ReaScript with Dialog - opens a ReaScript, with a file-chooser-dialog
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
@@ -239,6 +242,7 @@ Has now 1477 functions, with XX new ones
 #### Changes from 4.4 to 4.5  
   - AutomationItem\_Delete - did also delete selected automation-items in other TrackEnvelopes -> fixed(thnx to X-Raym)
   - AutomationItem\_Split - did also split automation-items in other TrackEnvelopes under certain conditions -> fixed(thnx to X-Raym)
+  - HelperFunctions: EditReaScript - has new parameter that allows setting default-lines into a newly created script; returns now, if script had been created or already existed; always uses the last edited script as set in reaper.ini when filename==nil
   - HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum dB-value -> fixed
   - TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner codebase(hopefully future proof)
   
