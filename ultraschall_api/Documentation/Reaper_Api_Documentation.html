@@ -114,7 +114,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.56<br>"Banjo Telemark"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.57<br>""</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -60823,7 +60823,7 @@ Open a different installed theme.<br>
 <hr>
 <a class="anch" id="SetThemeColor"></a>
 <a href="#SetThemeColor"> ^</a> 
-<img width="3%" src="gfx/reaper6.53.png" alt="Reaper version 6.53"><u><b>SetThemeColor</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.57.png" alt="Reaper version 6.57"><u><b>SetThemeColor</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>SetThemeColor</em>(<i>const</i> <i>char*</i> ini_key, <i>int</i> color, <i>int</i> flagsOptional)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>SetThemeColor</em>("ini_key", <i>int</i> color, <i>int</i> flags)</code></div>
@@ -60942,8 +60942,10 @@ To read a value see GetThemeColor<br>
 * col_tr2_divline : Track divider line (even tracks) <br>
 * col_envlane1_divline : Envelope lane divider line (odd tracks) <br>
 * col_envlane2_divline : Envelope lane divider line (even tracks) <br>
-* mute_overlay_col : Muted/unsoloed/inactive track/take overlay color<br>
-* mute_overlay_mode : Muted/unsoloed/inactive track/take overlay mode<br>
+* mute_overlay_col : Muted/unsoloed track/item overlay color <br>
+* mute_overlay_mode : Muted/unsoloed track/item overlay mode<br>
+* inactive_take_overlay_col : Inactive take overlay color<br>
+* inactive_take_overlay_mode : Inactive take overlay mode<br>
 * locked_overlay_col : Locked track/item overlay color<br>
 * locked_overlay_mode : Locked track/item overlay mode<br>
 * marquee_fill : Marquee fill <br>
@@ -64274,29 +64276,29 @@ GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">true, getting/setting the value was successful; false, it was unsuccessful</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> stringNeedBig</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the resulting/returned value</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaTrack</i> tr</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the track, whose string-attributes you want to get/set</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> parmname</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the attribute that you want to get/set(see description for details)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> stringNeedBig</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the new value; make "" when getting</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> setnewvalue</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">true, set a new value; false, get a value</td></tr>
 </table>
 <br>
 </div>

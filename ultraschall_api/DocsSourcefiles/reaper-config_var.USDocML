@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.56 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 6.57 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -5041,10 +5041,31 @@
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>itemlabel_hideheight</slug>  
+      <title>itemlabel_hideheight</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          Hide labels when media item height is less than-inputbox, as set in Preferences -> Media  
+          This is not(!) located in Preferences -> Appearances-Media!  
+          It is an integer  
+          
+           >0 to 2147483647; in pixels  
+           
+          For other settings set in Preferences -> Media, see [labelitems2](#labelitems2), [peaksedges](#peaksedges), [itemicons](#itemicons), [itemicons\_minheight](#itemicons_minheight), [itemvolmode](#itemvolmode)  
+            
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>itemlabel_minheight</slug>  
       <title>itemlabel_minheight</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Hide labels when media item take lane height is less than-inputbox, as set in Preferences -> Media  
+          Hide buttons when take height is less than-inputbox, as set in Preferences -> Media  
           This is not(!) located in Preferences -> Appearances-Media!  
           It is an integer  
           

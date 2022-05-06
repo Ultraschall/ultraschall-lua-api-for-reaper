@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52657.00" author="Meo Mespotine">
+      <version name="52671.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -234,6 +234,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.52.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Documentation/gfx/reaper6.52.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.53.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Documentation/gfx/reaper6.53.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.54.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Documentation/gfx/reaper6.54.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.57.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Documentation/gfx/reaper6.57.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.965.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Documentation/gfx/reaper6.965.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.10.0.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Documentation/gfx/sws2.10.0.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.10.1.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Documentation/gfx/sws2.10.1.1.png</source>
@@ -345,6 +346,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Item_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Item_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_LangPack2Developer_langpack_converter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_LangPack2Developer_langpack_converter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorParmModulation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorParmModulation.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorRenderString_Diff.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorRenderString_Diff.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_A_ReaScript_with_Dialog.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_A_ReaScript_with_Dialog.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_Last_ReaScript.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_Last_ReaScript.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Project_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Project_State_Diffs_Monitor.lua</source>
@@ -521,127 +523,85 @@
 	<source main="true" file="/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.5//ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.5 - “Frank Zappa - Help I’m a Rock” - 6th of May 2022
+4.6 - " - " - XX of XXXX 2022
 
-Has now 1500 functions, with 23 new ones
+Has now 1500 functions, with XX new ones
 
 new in this release:
 
--   Celebration Time
-    Because, I reached 1500 functions for Ultraschall-API. In the
-    beginning, I was sure, that I would maybe have potential for 300
-    functions. I somehow overdid it, did I? XD
+-   Bla
+    Blah
 
--   Razor Edit
-    I gave Razor Edit some love, so you can nudge, add and remove
-    razor-edit-areas much easier for tracks or individual
-    TrackEnvelopes.
+New features in 4.6
 
--   AutomationItems
-    As I needed to bugfix the split and delete-functions for Automation
-    Items, I added some functions to mass-set the select states of
-    automation-items.
+-   DeveloperTools: MonitorRenderString_Diff - monitors the diffs of the
+    render-string, when setting them in the RenderToFile-dialog and hit
+    Save Settings
+-   Markers: AddShownoteMarker - adds a shownote-marker
+-   Markers: CountShownoteMarkers - counts shownote-markers in a project
+-   Markers: DeleteShownoteMarker - deletes a shownote-marker
+-   Markers: EnumerateShownoteMarkers - gets a shownote-marker
+-   Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote
+    marker by its index
+-   Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote
+    marker by its guid
+-   Markers: IsMarkerShownote - returns, if a marker is a shownote
+-   Markers: SetShownoteMarker - sets an already existing
+    shownote-marker
+-   PodcastMetadata: GetAllChapters_MetaDataEntry - gets all
+    chapter-metadata-entries between start and endposition according to
+    the PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all
+    shownote-metadata-entries between start and endposition according to
+    the PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast’s
+    metadata-entry according to the PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a
+    podcast’s chapter-metadata-entry according to the
+    PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the
+    podcast’s episode-related metadata-entry according to the
+    PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastEpisodeAttrbutesPreset_Name - gets the
+    name of an episode -metadata-preset
+-   PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a
+    podcast’s shownote-metadata-entry according to the
+    PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastAttributesPreset_Name - gets the name of
+    a podcast-metadata-preset
+-   PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets
+    metadata-attributes of a chapter-marker(using Ultraschall 4+
+    methods)
+-   PodcastMetadata: GetSetPodcast_Attributes - gets/sets
+    metadata-attributes of a podcast
+-   PodcastMetadata: GetSetPodcastEpisode_Attributes - gets/sets
+    metadata-attributes of a podcast-episode
+-   PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets
+    string attributes for podcast-export in Ultraschall
+-   PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets
+    number attributes for podcast-export in Ultraschall
+-   PodcastMetadata: GetSetShownoteMarker_Attributes - gets/sets
+    additional attributes of a shownote-marker
+-   PodcastMetadata: GetSetTranscription_Attributes gets/sets
+    transcriptions for the podcast(needs either srt or webvtt-files
+    created externally…)
+-   PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares
+    chaptermarkers for metadata-export during rendering
+-   PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores
+    chaptermarkers after metadata-export during rendering
+-   PodcastMetadata: SetPodcastEpisodeAttrbutesPreset_Name - sets the
+    name of an episode-metadata-preset
+-   PodcastMetadata: SetPodcastAttrbutesPreset_Name - sets the name of a
+    podcast-metadata-preset
+-   PodcastMetadata: WritePodcastMetaData - creates metadata-entries
+    according to the PODCAST_METADATA:“v1”-standard and optionally
+    writes it into a file or adds it to id3, vorbis-metadata-schemes
+-   Rendering: CreateRenderCFG_WMF_Video - creates the format-settings
+    of the windows media foundation-formats(wma, wmv, MPEG-4)
+-   Rendering: GetRenderCFG_Settings_WMF - gets the format-settings of
+    the windows media foundation-formats(wma, wmv, MPEG-4)
 
--   Developer Actions for ReaScripts
-    Need to quickly reopen the last edited script? Or want to open up
-    another and you’re too lazy to open up the actionlist? Behold, new
-    developer-functions do this for you.
-    And if you need to open up quickly a new temporary-script to write
-    some small test-code-snippet, you can do it as well.
-
--   EditReaScript
-    Always bothered, that the newly opened script doesn’t immediately
-    hold, what you need to start working right away?
-    Well, EditReaScript can now automatically add some default-lines
-    into a newly created script. So if you need to add your
-    ReaPack-index-information time and again, use this new parameter to
-    make stuff easier for you.
-
--   Bugfixes
-    You’re used to it, aren’t you?
-
-…up to the next 1500 functions, as soon as my overtyped numb fingers can
-type again… XD
-
-New features in 4.5
-
--   AutomationItems: AutomationItem_DeselectAllInTrack - deselects all
-    automation-items in a TrackEnvelope
--   AutomationItems: AutomationItem_DeselectAllSelectStates - deselects
-    all automation-items in all TrackEnvelopes
--   AutomationItems: AutomationItem_GetAllSelectStates - get all
-    automationitem-selection-states in all TrackEnvelopes
--   AutomationItems: AutomationItem_GetSelectStates - get all
-    automationitem-selection-states in a TrackEnvelope
--   AutomationItems: AutomationItem_SelectMultiple - sets
-    selection-state multiple automation-items in a TrackEnvelope
--   DeveloperTools: Create New Temporary Unlisted Lua ReaScript -
-    creates a new temporary script, that isn’t listed in the actionlist
--   DeveloperTools: Open Last ReaScript - opens the last edited
-    ReaScript
--   DeveloperTools: Open A ReaScript with Dialog - opens a ReaScript,
-    with a file-chooser-dialog
--   HelperFunctions: GetSetIDEAutocompleteSuggestions - gets/sets the
-    number of suggestions in the IDE for autocomplete
--   Markers: GetTemporaryMarker - retrieves temporarily stored
-    markers/regions for later use
--   Markers: StoreTemporaryMarker - temporarily stores markers/regions
-    for later use
--   RazorEdit: RazorEdit_Add_Envelope - adds a razor-edit-area to a
-    TrackEnvelope
--   RazorEdit: RazorEdit_Add_Track - adds a razor-edit-area to a Track
--   RazorEdit: RazorEdit_CountAreas_Envelope - counts the number of
-    razor-edit-areas in a specific envelope
--   RazorEdit: RazorEdit_CountAreas_Track - counts the number of
-    razor-edit-areas in a track(excluding envelopes)
--   RazorEdit: RazorEdit_GetRazorEdits_Track - returns all
-    razor-edit-areas of a track
--   RazorEdit: RazorEdit_Nudge_Track - nudges the razor-edit-areas of a
-    track
--   RazorEdit: RazorEdit_Nudge_Envelope - nudges the razor-edit-areas of
-    a specific envelope
--   RazorEdit: RazorEdit_Remove - removes all razor-edit-areas of a
-    track including its envelopes
--   RazorEdit: RazorEdit_Remove_Envelope - removes a razor-edit-area
-    from a TrackEnvelope
--   RazorEdit: RazorEdit_RemoveFromEnvelope - removes all
-    razor-edit-areas of a TrackEnvelope
--   RazorEdit: RazorEdit_RemoveFromTrack - removes all razor-edit-areas
-    of a track, leaving envelopes untouched
--   RazorEdit: RazorEdit_Remove_Track - removes a razor-edit-area from a
-    Track
--   Rendering: GetSetRenderBlocksize - gets/sets the render-blocksize
--   TrackStates: GetTrackPlayOffsState - get the Media Playback
-    Offset-entry of a track
--   TrackStates: SetTrackPlayOffsState - sets the Media Playback
-    Offset-entry of a track
-
-Changes from 4.4 to 4.5
-
--   AutomationItem_Delete - did also delete selected automation-items in
-    other TrackEnvelopes -> fixed(thanx to X-Raym)
--   AutomationItem_Split - did also split automation-items in other
-    TrackEnvelopes under certain conditions -> fixed(thanx to X-Raym)
--   Docs: general - anchors in the index of documents didn’t scroll
-    correctly -> fixed
--   HelperFunctions: Create2DTable - did create a 3d-table instead, when
-    using default-values -> fixed
--   HelperFunctions: Create3DTable - did create a 4d-table instead, when
-    using default-values -> fixed
--   HelperFunctions: EditReaScript - has new parameter that allows
-    setting default-lines into a newly created script; returns now, if
-    script had been created or already existed; always uses the last
-    edited script as set in reaper.ini when filename==nil
--   HelperFunctions: MKVOL2DB - returned -44 instead of -144 as minimum
-    dB-value -> fixed
--   RazorEdit: RazorEdit_GetAllRazorEdits - allows now excluding track
-    and/or envelope-razoredit-areas from the list
--   TrackStates: SetTrackAutoRecArmState - reimplemented with a cleaner
-    codebase(hopefully future proof)
--   UserInterface: GetItemButtonsVisible - added “hide when take is less
-    than xx pixel”-option
--   UserInterface: SetItemButtonsVisible - added “hide when take is less
-    than xx pixel”-option; optional parameter weren’t optional -> fixed
+Changes from 4.5 to 4.6
 ]]>
 </changelog>
       </version>
@@ -669,7 +629,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1500 Lua-functions library for Reaper.}
+a 1539 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52671 from 07.05.2022 01:40:56).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -683,7 +643,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1500 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1539 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -807,7 +767,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1500 Lua-functions library for Reaper.}
+a 1539 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52671 from 07.05.2022 01:40:56).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -821,7 +781,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1500 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1539 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

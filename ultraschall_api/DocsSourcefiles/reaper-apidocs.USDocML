@@ -7622,6 +7622,12 @@
             Track Management
             Track States
         </chapter_context>
+        <linked_to desc="see:">
+            inline:GetSetMediaTrackInfo_String
+                   gets/sets a string value of a MediaTrack-attribute
+            inline:SetMediaTrackInfo_Value
+                   sets a numerical value of a MediaTrack-attribute
+        </linked_to>
         <tags></tags>
         <changelog>
             Reaper 6.54 - attribute "I_FREEMODE" includes new value 2=track fixed lanes enabled
@@ -9325,14 +9331,14 @@
             GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
         </description>
         <retvals>
-            boolean retval - 
-            string stringNeedBig - 
+            boolean retval - true, getting/setting the value was successful; false, it was unsuccessful
+            string stringNeedBig - the resulting/returned value
         </retvals>
         <parameters>
-            MediaTrack tr - 
-            string parmname - 
-            string stringNeedBig - 
-            boolean setnewvalue - 
+            MediaTrack tr - the track, whose string-attributes you want to get/set
+            string parmname - the attribute that you want to get/set(see description for details)
+            string stringNeedBig - the new value; make "" when getting
+            boolean setnewvalue - true, set a new value; false, get a value
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -9340,8 +9346,15 @@
             Track Management
             Track States
         </chapter_context>
+        <linked_to desc="see:">
+            inline:GetMediaTrackInfo_Value
+                   get a numerical value of a MediaTrack-attribute
+            inline:SetMediaTrackInfo_Value
+                   sets a numerical value of a MediaTrack-attribute
+        </linked_to>
         <tags></tags>
         <changelog>
+            Reaper 6.57 - higher precision for the razor-edit start and end-positions
             Reaper 6.54 - added attribute "P_RAZOREDITS_EXT", which has extended support for razor-edits with track-lanes/free item positioning
         </changelog>
     </US_DocBloc>
@@ -17468,6 +17481,12 @@
             string parmname - the attribute, that you want to set; refer description for possible attributes
             number newvalue - the new value, that you want to set to the attribute
         </parameters>
+        <linked_to desc="see:">
+            inline:GetSetMediaTrackInfo_String
+                   gets/sets a string value of a MediaTrack-attribute
+            inline:GetMediaTrackInfo_Value
+                   returns a numerical value of a MediaTrack-attribute
+        </linked_to>
         <changelog>
             Reaper 6.54 - attribute "I_FREEMODE" includes new value 2=track fixed lanes enabled
         </changelog>
@@ -18135,7 +18154,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.SetThemeColor(string ini_key, integer color, integer flags)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_SetThemeColor(String ini_key, Int color, Int flagsOptional)</functioncall>
         <requires>
-            Reaper=6.53
+            Reaper=6.57
         </requires>
         <description>
             Temporarily updates the theme color to the color specified (or the theme default color if -1 is specified). 
@@ -18249,8 +18268,10 @@
              * col_tr2_divline : Track divider line (even tracks) 
              * col_envlane1_divline : Envelope lane divider line (odd tracks) 
              * col_envlane2_divline : Envelope lane divider line (even tracks) 
-             * mute_overlay_col : Muted/unsoloed/inactive track/take overlay color
-             * mute_overlay_mode : Muted/unsoloed/inactive track/take overlay mode
+             * mute_overlay_col : Muted/unsoloed track/item overlay color 
+             * mute_overlay_mode : Muted/unsoloed track/item overlay mode
+             * inactive_take_overlay_col : Inactive take overlay color
+             * inactive_take_overlay_mode : Inactive take overlay mode
              * locked_overlay_col : Locked track/item overlay color
              * locked_overlay_mode : Locked track/item overlay mode
              * marquee_fill : Marquee fill 
@@ -18525,6 +18546,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.57 - new theme-colors: inactive_take_overlay_col, inactive_take_overlay_mode; mute_overlay_col, mute_overlay_mode doesn't work on inactive takes anymore, but rather on items
             Reaper 6.54 - new theme colors: track_lane_tabcol, track_lanesolo_tabcol, track_lane_gutter, track_lane_gutter_drawmode, mute_overlay_col, mute_overlay_mode, locked_overlay_col, locked_overlay_mode
             Reaper 6.53 - new theme-colors: explorer_grid and explorer_pitchtext
             Reaper 6.44 - new theme-color: col_nodarkmodemiscwnd added

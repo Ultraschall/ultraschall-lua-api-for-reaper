@@ -252,6 +252,25 @@ end
 Note: Doesn't fucking work...
 
 readd in next version:
+  
+
+</TODO>
+
+
+## Ultraschall Framework - Changelog
+
+### 4.6 - " - " - XX of XXXX 2022
+
+Has now 1500 functions, with XX new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  Blah
+  
+
+#### New features in 4.6  
+  - DeveloperTools: MonitorRenderString_Diff - monitors the diffs of the render-string, when setting them in the RenderToFile-dialog and hit Save Settings
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
@@ -267,7 +286,7 @@ readd in next version:
   - PodcastMetadata: GetPodcastEpisode\_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST\_METADATA:"v1"-standard
   - PodcastMetadata: GetPodcastEpisodeAttrbutesPreset\_Name - gets the name of an episode -metadata-preset
   - PodcastMetadata: GetPodcastShownote\_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastAttrbutesPreset\_Name - gets the name of a podcast-metadata-preset
+  - PodcastMetadata: GetPodcastAttributesPreset\_Name - gets the name of a podcast-metadata-preset
   - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
   - PodcastMetadata: GetSetPodcast\_Attributes - gets/sets metadata-attributes of a podcast
   - PodcastMetadata: GetSetPodcastEpisode\_Attributes - gets/sets metadata-attributes of a podcast-episode
@@ -279,12 +298,13 @@ readd in next version:
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
   - PodcastMetadata: SetPodcastEpisodeAttrbutesPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastAttrbutesPreset\_Name - sets the name of a podcast-metadata-preset
-  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes    
+  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes      
+  - Rendering: CreateRenderCFG\_WMF\_Video - creates the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
+  - Rendering: GetRenderCFG\_Settings\_WMF - gets the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
+  
+#### Changes from 4.5 to 4.6  
 
-</TODO>
-
-
-## Ultraschall Framework - Changelog
+---
 
 ### 4.5 - "Frank Zappa - Help I'm a Rock" - 6th of May 2022
 
