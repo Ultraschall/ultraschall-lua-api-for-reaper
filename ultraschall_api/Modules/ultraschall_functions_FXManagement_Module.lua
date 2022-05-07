@@ -5217,7 +5217,7 @@ function ultraschall.InputFX_GetOffline(fxindex, tracknumber)
     Reaper=6.05
     Lua=5.3
   </requires>
-  <functioncall>boolean is_offline = ultraschall.InputFX_GetOffline(integer fxindex)</functioncall>
+  <functioncall>boolean is_offline = ultraschall.InputFX_GetOffline(integer fxindex, optional integer tracknumber)</functioncall>
   <description>
     returns the offline-state of a monitoring-fx
     

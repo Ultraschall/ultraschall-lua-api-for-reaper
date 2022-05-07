@@ -301,6 +301,9 @@ Has now 1500 functions, with XX new ones
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes      
   - Rendering: CreateRenderCFG\_WMF\_Video - creates the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
   - Rendering: GetRenderCFG\_Settings\_WMF - gets the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
+  - TrackManagement: InputFX\_JSFX\_Reload - reloads a jsfx in inputfx, when you've changed the jsfx-source-file
+  - TrackManagement: TakeFX\_JSFX\_Reload - reloads a jsfx in a take, when you've changed the jsfx-source-file
+  - TrackManagement: TrackFX\_JSFX\_Reload - reloads a jsfx in a track, when you've changed the jsfx-source-file  
   
 #### Changes from 4.5 to 4.6  
 

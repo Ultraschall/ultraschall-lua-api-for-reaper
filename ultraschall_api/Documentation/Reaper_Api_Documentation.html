@@ -17491,10 +17491,10 @@ Note: to create an FX-envelope, use GetFXEnvelope with parameter create=true<br>
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1"><u><b>CF_EnumSelectedFX(SWS)</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> <em>CF_EnumSelectedFX</em>(FxChain* hwnd, <i>int</i> index)</code></div>
-<div class="e">EEL2: <code> <i>int</i> extension_api("<em>CF_EnumSelectedFX</em>", FxChain hwnd, <i>int</i> index)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.CF_EnumSelectedFX</em>(FxChain hwnd, <i>integer</i> index)</code></div>
-<div class="p">Python: <code> <i>Int</i> retval = <em>CF_EnumSelectedFX</em>(FxChain hwnd, <i>Int</i> index)</code></div>
+<div class="c">C: <code> <i>int</i> <em>CF_EnumSelectedFX</em>(<i>FxChain</i> * hwnd, <i>int</i> index)</code></div>
+<div class="e">EEL2: <code> <i>int</i> extension_api("<em>CF_EnumSelectedFX</em>", <i>FxChain</i>  hwnd, <i>int</i> index)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.CF_EnumSelectedFX</em>(<i>FxChain</i>  hwnd, <i>integer</i> index)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>CF_EnumSelectedFX</em>(<i>FxChain</i>  hwnd, <i>Int</i> index)</code></div>
 </div><p>
 <div class="ch">
 Return the index of the next selected effect in the given FX chain. Start index should be -1. Returns -1 if there are no more selected effects.<br>
@@ -17508,7 +17508,7 @@ Return the index of the next selected effect in the given FX chain. Start index 
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr">FxChain hwnd</td></tr>
+<tr><td class="pr"><i>FxChain</i>  hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -17524,9 +17524,9 @@ Return the index of the next selected effect in the given FX chain. Start index 
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1"><u><b>CF_GetFocusedFXChain(SWS)</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> FxChain* <em>CF_GetFocusedFXChain</em>()</code></div>
-<div class="e">EEL2: <code> FxChain extension_api("<em>CF_GetFocusedFXChain</em>")</code></div>
-<div class="l">Lua: <code> FxChain hwnd = <em>reaper.CF_GetFocusedFXChain</em>()</code></div>
+<div class="c">C: <code> <i>FxChain</i> * <em>CF_GetFocusedFXChain</em>()</code></div>
+<div class="e">EEL2: <code> <i>FxChain</i>  extension_api("<em>CF_GetFocusedFXChain</em>")</code></div>
+<div class="l">Lua: <code> <i>FxChain</i>  hwnd = <em>reaper.CF_GetFocusedFXChain</em>()</code></div>
 <div class="p">Python: <code> FXChain retval = <em>CF_GetFocusedFXChain</em>()</code></div>
 </div><p>
 <div class="ch">
@@ -17535,7 +17535,7 @@ Return a handle to the currently focused FX chain window.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">FxChain hwnd</td></tr>
+<tr><td class="pr"><i>FxChain</i>  hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -17746,9 +17746,9 @@ For item FX, the low word defines the FX index in the chain, and the high word d
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1"><u><b>CF_GetTakeFXChain(SWS)</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> FxChain* <em>CF_GetTakeFXChain</em>(<i>MediaItem_Take*</i> take)</code></div>
-<div class="e">EEL2: <code> FxChain extension_api("<em>CF_GetTakeFXChain</em>", <i>MediaItem_Take</i> take)</code></div>
-<div class="l">Lua: <code> FxChain hwnd = <em>reaper.CF_GetTakeFXChain</em>(<i>MediaItem_Take</i> take)</code></div>
+<div class="c">C: <code> <i>FxChain</i> * <em>CF_GetTakeFXChain</em>(<i>MediaItem_Take*</i> take)</code></div>
+<div class="e">EEL2: <code> <i>FxChain</i>  extension_api("<em>CF_GetTakeFXChain</em>", <i>MediaItem_Take</i> take)</code></div>
+<div class="l">Lua: <code> <i>FxChain</i>  hwnd = <em>reaper.CF_GetTakeFXChain</em>(<i>MediaItem_Take</i> take)</code></div>
 <div class="p">Python: <code> FXChain retval = <em>CF_GetTakeFXChain</em>(<i>MediaItem_Take</i> take)</code></div>
 </div><p>
 <div class="ch">
@@ -17756,7 +17756,7 @@ Return a handle to the given take FX chain window. HACK: This temporarily rename
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">FxChain hwnd</td></tr>
+<tr><td class="pr"><i>FxChain</i>  hwnd</td></tr>
 <tr><td class="ch2">the hwnd-window-handler of the FX-chain of the item</td></tr>
 </table>
 <br>
@@ -19392,9 +19392,9 @@ showflag=0 for hidechain, =1 for show chain(index valid), =2 for hide floating w
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1"><u><b>CF_GetTrackFXChain(SWS)</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> FxChain* <em>CF_GetTrackFXChain</em>(<i>MediaTrack*</i>  track)</code></div>
-<div class="e">EEL2: <code> FxChain extension_api("<em>CF_GetTrackFXChain</em>", <i>MediaTrack</i> track)</code></div>
-<div class="l">Lua: <code> FxChain hwnd = <em>reaper.CF_GetTrackFXChain</em>(<i>MediaTrack</i> track)</code></div>
+<div class="c">C: <code> <i>FxChain</i> * <em>CF_GetTrackFXChain</em>(<i>MediaTrack*</i>  track)</code></div>
+<div class="e">EEL2: <code> <i>FxChain</i>  extension_api("<em>CF_GetTrackFXChain</em>", <i>MediaTrack</i> track)</code></div>
+<div class="l">Lua: <code> <i>FxChain</i>  hwnd = <em>reaper.CF_GetTrackFXChain</em>(<i>MediaTrack</i> track)</code></div>
 <div class="p">Python: <code> FXChain retval = <em>CF_GetTrackFXChain</em>(<i>MediaTrack</i> track)</code></div>
 </div><p>
 <div class="ch">
@@ -19402,7 +19402,7 @@ Return a handle to the given track FX chain window.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">FxChain hwnd</td></tr>
+<tr><td class="pr"><i>FxChain</i>  hwnd</td></tr>
 <tr><td class="ch2">the hwnd-window-handler of the FX-chain of the track</td></tr>
 </table>
 <br>
@@ -71190,9 +71190,9 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
 <img width="3%" src="gfx/sws2.13.0.0.png" alt="SWS version 2.13.0.0"><u><b>CF_GetTrackFXChainEx(SWS)</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> FxChain* <em>CF_GetTrackFXChainEx</em>(<i>ReaProject*</i> project, <i>MediaTrack*</i>  track, <i>bool</i> wantInputChain)</code></div>
-<div class="e">EEL2: <code> FxChain extension_api("<em>CF_GetTrackFXChainEx</em>", <i>ReaProject</i> project, <i>MediaTrack</i> track, <i>bool</i> wantInputChain)</code></div>
-<div class="l">Lua: <code> FxChain fxchain = <em>reaper.CF_GetTrackFXChainEx</em>(<i>ReaProject</i> project, <i>MediaTrack</i> track, <i>boolean</i> wantInputChain)</code></div>
+<div class="c">C: <code> <i>FxChain</i> * <em>CF_GetTrackFXChainEx</em>(<i>ReaProject*</i> project, <i>MediaTrack*</i>  track, <i>bool</i> wantInputChain)</code></div>
+<div class="e">EEL2: <code> <i>FxChain</i>  extension_api("<em>CF_GetTrackFXChainEx</em>", <i>ReaProject</i> project, <i>MediaTrack</i> track, <i>bool</i> wantInputChain)</code></div>
+<div class="l">Lua: <code> <i>FxChain</i>  fxchain = <em>reaper.CF_GetTrackFXChainEx</em>(<i>ReaProject</i> project, <i>MediaTrack</i> track, <i>boolean</i> wantInputChain)</code></div>
 <div class="p">Python: <code> FXChain retval = <em>CF_GetTrackFXChainEx</em>(<i>ReaProject</i> project, <i>MediaTrack</i> track, <i>Boolean</i> wantInputChain)</code></div>
 </div><p>
 <div class="ch">
@@ -71200,7 +71200,7 @@ Return a handle to the given track FX chain window. Set wantInputChain to get th
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">FxChain fxchain</td></tr>
+<tr><td class="pr"><i>FxChain</i>  fxchain</td></tr>
 <tr><td class="ch2">the fxchain you requested</td></tr>
 </table>
 <br>

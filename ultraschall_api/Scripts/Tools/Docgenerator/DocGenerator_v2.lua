@@ -139,6 +139,8 @@ function ultraschall.ColorateDatatypes(String)
   String=string.gsub(String, " MediaItem ", " <i>MediaItem</i> ")
   String=string.gsub(String, " MediaTrack ", " <i>MediaTrack</i> ")
   String=string.gsub(String, " MediaTrack%*", " <i>MediaTrack*</i> ")
+  
+  
   String=string.gsub(String, " AudioAccessor ", " <i>AudioAccessor</i> ")
   String=string.gsub(String, " AudioAccessor%* ", " <i>AudioAccessor*</i> ")
   String=string.gsub(String, " BR_Envelope ", " <i>BR_Envelope</i> ")
@@ -190,6 +192,7 @@ function ultraschall.ColorateDatatypes(String)
   String=string.gsub(String, " optional ", " <i>optional</i> ")  
   String=string.gsub(String, " table ", " <i>table</i> ")  
   String=string.gsub(String, " array ", " <i>array</i> ")  
+  String=string.gsub(String, " FxChain", " <i>FxChain</i> ")
   
   String=string.gsub(String, "%( ", "(")
   String=string.gsub(String, "%[ ", "[")
