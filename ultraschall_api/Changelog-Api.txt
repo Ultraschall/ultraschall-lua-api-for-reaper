@@ -306,7 +306,7 @@ Has now 1500 functions, with XX new ones
   - TrackManagement: TrackFX\_JSFX\_Reload - reloads a jsfx in a track, when you've changed the jsfx-source-file  
   
 #### Changes from 4.5 to 4.6  
-
+  - Docs: Reaper Internals - updated to Reaper 6.57
 ---
 
 ### 4.5 - "Frank Zappa - Help I'm a Rock" - 6th of May 2022
