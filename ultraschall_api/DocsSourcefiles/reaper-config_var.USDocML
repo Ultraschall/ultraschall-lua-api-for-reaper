@@ -8,7 +8,8 @@
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
             >For Integer-values, use [SNM\_GetIntConfigVar()](Reaper_Api_Documentation.html#SNM_GetIntConfigVar), [SNM\_SetIntConfigVar()](Reaper_Api_Documentation.html#SNM_SetIntConfigVar),  
-             For Double/Float-values, use [SNM\_GetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetIntConfigVar) and [SNM\_SetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetDoubleConfigVar), 
+             For Double/Float-values, use [SNM\_GetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetIntConfigVar) and [SNM\_SetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetDoubleConfigVar),  
+             For String-values, use [get\_config\_var\_string()](Reaper_Api_Documentation.html#get_config_var_string) and [SNM\_SetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetStringConfigVar)
 
          as well as the C++-only API-functions:
          
@@ -24,7 +25,7 @@
          Some variables are string-variables, but they can be accessed with get\_config\_var\_string(), which is available in pre-releases of Reaper only, at the time of writing(I tried to document them as well anyway).  
          They can also be accessed as integer, but only have the first 8 bytes available(64bits)  
           
-         Integer-variables are usually 32bits, only those who can be accessed as string-variable can be read as up to 64bits-integers as well.  
+         Integer-variables are usually 32bits, only those who can be accessed as string-variable can be read as integer as well up to 64bits-integers.  
           
          I documented bitfields differently than you usually use them. That means, &16384=1 is actually &16384=16384, while &16384=0 is &16384=0. This is only for better readability of the document, not for any technical reasons.  
          Some bitfields are documented as "unknown", though it's uncertain if they're unknown or just unused.  
@@ -38,7 +39,7 @@
          Setting some of the variables results in a different behavior, as you might expect them to behave.   
          Such example is [mastermutesolo](#mastermutesolo), where you can set the master's mute and solo-states successfully, however, the UserInterface of Reaper will NOT reflect that. It rather will show the old mute-solo-state instead.  
          Another such example is [reccfg](#reccfg), where you can set another recording-audio-format, but setting it to Video, GIF or AudioCD will result in strange behavior of the Project Settings-dialog, even though you can successfully record in these formats as well.  
-         So doublecheck them twice for any side-effects. These sideeffects aren't documented much in here(too much work for one young fellow like me ;) )  
+         So doublecheck them twice for any side-effects. These sideeffects aren't documented much in here(too much work for one young gal like me ;) )  
           
          I also document limitations with variables within this textfile. These are not taken from actually setting these variables, but rather taken from the limitations imposed by setting-dialogs. So, even if I write about limitations, 
          other values may be possible as well, though I would say, this could lead to unpredictable behavior of Reaper.  
@@ -54,12 +55,12 @@
             >If you change settings, these changes might not be stored in Reaper's setting-files, so they may get lost, when Reaper is exited.  
             >If you want to retain settings, you need to set them in the corresponding ini-files as well(usually the reaper.ini) 
             >with BR\_Win32\_WritePrivateProfileString()
-            >Only exception I know of it is [edit\_fontsize](#edit_fontsize), which sets the fontsize in Reaper's IDE. Changing this makes this setting immediately persisting.
+            >Only exception I know of is [edit\_fontsize](#edit_fontsize), which sets the fontsize in Reaper's IDE. Changing this makes this setting immediately persisting.
           
             >Project-settings should be stored the next time a project is saved, but doublecheck that, if storing projectsettings into a projectfile is a must in your script!  
             >Some project-settings can be stored into the reaper.ini as default-project-settings. I documented that as well, when I could find that out.  
           
-         documented by Meo Mespotine mespotine.de for the [ultraschall.fm](http://www.ultraschall.fm)-project  
+         documented by Meo-Ada Mespotine mespotine.de for the [ultraschall.fm](http://www.ultraschall.fm)-project  
          some of the variable-names were collected by various users in the Reaper-forums, thanx for that :)  
          This document is licensed under creative-commons cc-by-sa-nc license. More information about Creative Commons, at [creativecommons.org](http://www.creativecommons.org)  
           

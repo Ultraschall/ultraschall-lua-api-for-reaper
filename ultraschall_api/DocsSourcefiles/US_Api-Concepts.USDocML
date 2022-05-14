@@ -48,7 +48,7 @@
              
                 Happy coding and let's see, what you can do with it :D
                    
-                Meo Mespotine (mespotine.de) (ultraschall.fm/api)
+                Meo-Ada Mespotine (mespotine.de) (ultraschall.fm/api)
                 
                 For more information about Ultraschall itself, see [ultraschall.fm](http://www.ultraschall.fm) and if you want to support us, see [ultraschall.fm/danke](http://www.ultraschall.fm/danke) for donating to us.
                 
@@ -236,7 +236,7 @@
 
             The SWS-logo has been taken from the SWS-extension-project, which can be found at [sws-extension.org](http://www.sws-extension.org)
             
-            Ultraschall-API written by Meo Mespotine [mespotine.de](http://www.mespotine.de) with contributions from [Udo Sauer](https://twitter.com/fernsehmuell) and [Ralf Stockmann](https://twitter.com/rstockm)
+            Ultraschall-API written by Meo-Ada Mespotine [mespotine.de](http://www.mespotine.de) with contributions from [Udo Sauer](https://twitter.com/fernsehmuell) and [Ralf Stockmann](https://twitter.com/rstockm)
             
             If you want to donate to our project, head over to [ultraschall.fm/danke](http://www.ultraschall.fm/danke).
             
@@ -3073,7 +3073,7 @@
             
             Such a script could look like this:
             
-                    -- Ultraschall-API demoscript by Meo Mespotine 26.02.2019
+                    -- Ultraschall-API demoscript by Meo-Ada Mespotine 26.02.2019
                     -- 
                     -- a simple event-manager, that employs background-helper-scripts for listening for statechanges and
                     -- the Defer-functions in Ultraschall-API, who allow you to control, how often the deferred code
@@ -6834,7 +6834,7 @@
             
             I go to sleep now. I think, I deserved it :)
             
-            Meo Mespotine, Leipzig(Germany) 30th of November 2018
+            Meo-Ada Mespotine, Leipzig(Germany) 30th of November 2018
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>

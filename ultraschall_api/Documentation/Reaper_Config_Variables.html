@@ -75,7 +75,8 @@ These can be used to set configuration-stuff in the preferences, the project-set
 To change them, you can use the following ReaScript API-functions(requires SWS being installed):</p>
 <blockquote>
 <p>For Integer-values, use <a href="Reaper_Api_Documentation.html#SNM_GetIntConfigVar">SNM_GetIntConfigVar()</a>, <a href="Reaper_Api_Documentation.html#SNM_SetIntConfigVar">SNM_SetIntConfigVar()</a>,<br />
-For Double/Float-values, use <a href="Reaper_Api_Documentation.html#SNM_SetIntConfigVar">SNM_GetDoubleConfigVar()</a> and <a href="Reaper_Api_Documentation.html#SNM_SetDoubleConfigVar">SNM_SetDoubleConfigVar()</a>,</p>
+For Double/Float-values, use <a href="Reaper_Api_Documentation.html#SNM_SetIntConfigVar">SNM_GetDoubleConfigVar()</a> and <a href="Reaper_Api_Documentation.html#SNM_SetDoubleConfigVar">SNM_SetDoubleConfigVar()</a>,<br />
+For String-values, use <a href="Reaper_Api_Documentation.html#get_config_var_string">get_config_var_string()</a> and <a href="Reaper_Api_Documentation.html#SNM_SetStringConfigVar">SNM_SetDoubleConfigVar()</a></p>
 </blockquote>
 <p>as well as the C++-only API-functions:</p>
 <blockquote>
@@ -88,7 +89,7 @@ For Project-configuration, use <a href="Reaper_Api_Documentation.html#projectcon
 That said: one variable may contain the settings for up to 32(or more?) settings at once.<br />
 Some variables are string-variables, but they can be accessed with get_config_var_string(), which is available in pre-releases of Reaper only, at the time of writing(I tried to document them as well anyway).<br />
 They can also be accessed as integer, but only have the first 8 bytes available(64bits)</p>
-<p>Integer-variables are usually 32bits, only those who can be accessed as string-variable can be read as up to 64bits-integers as well.</p>
+<p>Integer-variables are usually 32bits, only those who can be accessed as string-variable can be read as integer as well up to 64bits-integers.</p>
 <p>I documented bitfields differently than you usually use them. That means, &amp;16384=1 is actually &amp;16384=16384, while &amp;16384=0 is &amp;16384=0. This is only for better readability of the document, not for any technical reasons.<br />
 Some bitfields are documented as "unknown", though it's uncertain if they're unknown or just unused.</p>
 <p>Sometimes, variables seem not be existing and valid until they've been set somehow. So if you discover a variable as not functioning, keep in mind it might not be set(yet) and therefore not be available. Just set it and it should appear as existing.</p>
@@ -97,7 +98,7 @@ So test this out beforehand, if you need to get/set a specific variable in your 
 <p>Setting some of the variables results in a different behavior, as you might expect them to behave.<br />
 Such example is <a href="#mastermutesolo">mastermutesolo</a>, where you can set the master's mute and solo-states successfully, however, the UserInterface of Reaper will NOT reflect that. It rather will show the old mute-solo-state instead.<br />
 Another such example is <a href="#reccfg">reccfg</a>, where you can set another recording-audio-format, but setting it to Video, GIF or AudioCD will result in strange behavior of the Project Settings-dialog, even though you can successfully record in these formats as well.<br />
-So doublecheck them twice for any side-effects. These sideeffects aren't documented much in here(too much work for one young fellow like me ;) )</p>
+So doublecheck them twice for any side-effects. These sideeffects aren't documented much in here(too much work for one young gal like me ;) )</p>
 <p>I also document limitations with variables within this textfile. These are not taken from actually setting these variables, but rather taken from the limitations imposed by setting-dialogs. So, even if I write about limitations, other values may be possible as well, though I would say, this could lead to unpredictable behavior of Reaper.<br />
 It is unclear, if the SWS-functions (or the underlying C++ function get_config_var) are checking for valid values to reject them, if invalid(and prevent possible crashes, etc).<br />
 So, be better on the safe side and stay within the boundaries I document.</p>
@@ -106,13 +107,13 @@ So, be better on the safe side and stay within the boundaries I document.</p>
 <p>Keep in mind:</p>
 <blockquote>
 <p>If you change settings, these changes might not be stored in Reaper's setting-files, so they may get lost, when Reaper is exited.<br />
-If you want to retain settings, you need to set them in the corresponding ini-files as well(usually the reaper.ini) with BR_Win32_WritePrivateProfileString() Only exception I know of it is <a href="#edit_fontsize">edit_fontsize</a>, which sets the fontsize in Reaper's IDE. Changing this makes this setting immediately persisting.</p>
+If you want to retain settings, you need to set them in the corresponding ini-files as well(usually the reaper.ini) with BR_Win32_WritePrivateProfileString() Only exception I know of is <a href="#edit_fontsize">edit_fontsize</a>, which sets the fontsize in Reaper's IDE. Changing this makes this setting immediately persisting.</p>
 </blockquote>
 <blockquote>
 <p>Project-settings should be stored the next time a project is saved, but doublecheck that, if storing projectsettings into a projectfile is a must in your script!<br />
 Some project-settings can be stored into the reaper.ini as default-project-settings. I documented that as well, when I could find that out.</p>
 </blockquote>
-<p>documented by Meo Mespotine mespotine.de for the <a href="http://www.ultraschall.fm">ultraschall.fm</a>-project<br />
+<p>documented by Meo-Ada Mespotine mespotine.de for the <a href="http://www.ultraschall.fm">ultraschall.fm</a>-project<br />
 some of the variable-names were collected by various users in the Reaper-forums, thanx for that :)<br />
 This document is licensed under creative-commons cc-by-sa-nc license. More information about Creative Commons, at <a href="http://www.creativecommons.org">creativecommons.org</a></p>
 <p>If you want, you can thank me for this work at <a href="http://www.ultraschall.fm/danke">ultraschall.fm/danke</a>, where you can find my Amazon-wishlist(hint hint, nudge nudge ;) )</p>

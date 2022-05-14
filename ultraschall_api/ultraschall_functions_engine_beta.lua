@@ -3578,3 +3578,155 @@ end
 
 
 --A,B=ultraschall.InputFX_JSFX_Reload(reaper.GetTrack(0,0), 1)
+
+function ultraschall.RazorEdit_IsAtPosition_Track(track, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_IsAtPosition_Track</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional number start_pos, optional number end_pos = ultraschall.RazorEdit_IsAtPosition_Track(MediaTrack track, number position)</functioncall>
+  <description>
+    returns, if there's a razor-edit in a track at a given position or if there's a gap.
+    
+    It also returns the start/end-position of the razor-edit or razor-edit-gap.
+    
+    Gaps will be seen as either within two razor-edit-areas or from project-start to first razoredit or from last razor-edit to end of project.
+    
+    If the position is before 0 or after ProjectLength, the function will only return false
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, there's a razor-edit at position; false, there's no razor-edit at position; nil, an error occurred
+    optional number start_pos - the start of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
+    optional number end_pos - the end of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, whose razor-edit-areas/gaps you want to check for
+    number position - the position, at which to look for a razor-edit-area or a gap of it
+  </parameters>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, is at position, gap, get, track, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Track", "track", "must be a valid MediaTrack", -1) return end
+  if type(position)~="number" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Track", "position", "must be a number", -2) return end
+  if position<0 then return false end
+  if position>reaper.GetProjectLength(0) then return false end
+  local retval, RazorEdits = reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  local GUID=""
+  local RazorEdits="0 0 \""..GUID.."\" "..RazorEdits.." "
+  
+  local found=false
+  local tempstart=0
+  local tempend=reaper.GetProjectLength(0)
+  
+  for a,b,c in string.gmatch(RazorEdits, "(.-) (.-) (.-) ") do
+    if c:sub(2,-2)==GUID then
+      if position>=tonumber(a) and position<=tonumber(b) then
+        -- if within razor-edit-area, return this
+        tempstart=tonumber(a)
+        tempend=tonumber(b)
+        found=true
+        break
+      end
+      if tonumber(b)<=position and tonumber(b)>=tempstart then
+        -- find razor-edit-area-gap-start
+        tempstart=tonumber(b)
+        found=false
+      end
+      if tonumber(a)>=position and tonumber(a)<=tempend then
+        -- find razor-edit-area-gap-end
+        tempend=tonumber(a)
+        found=false
+      end
+    end
+  end
+
+  return found, tempstart, tempend
+end  
+
+function ultraschall.RazorEdit_IsAtPosition_Envelope(envelope, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_IsAtPosition_Envelope</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional number start_pos, optional number end_pos = ultraschall.RazorEdit_IsAtPosition_Envelope(TrackEnvelope envelope, number position)</functioncall>
+  <description>
+    returns, if there's a razor-edit in a TrackEnvelope at a given position or if there's a gap.
+    
+    It also returns the start/end-position of the razor-edit or razor-edit-gap.
+    
+    Gaps will be seen as either within two razor-edit-areas or from project-start to first razoredit or from last razor-edit to end of project.
+    
+    If the position is before 0 or after ProjectLength, the function will only return false
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, there's a razor-edit at position; false, there's no razor-edit at position; nil, an error occurred
+    optional number start_pos - the start of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
+    optional number end_pos - the end of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
+  </retvals>
+  <parameters>
+    TrackEnvelope envelope - the envelope, whose razor-edit-areas/gaps you want to check for
+    number position - the position, at which to look for a razor-edit-area or a gap of it
+  </parameters>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, is at position, gap, get, envelope, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(envelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Envelope", "envelope", "must be a valid TrackEnvelope", -1) return end
+  if type(position)~="number" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Envelope", "position", "must be a number", -2) return end
+
+  if position<0 then return false end
+  if position>reaper.GetProjectLength(0) then return false end
+  local track=reaper.GetEnvelopeInfo_Value(envelope, "P_TRACK")
+  local retval, RazorEdits = reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  local retval, GUID = reaper.GetSetEnvelopeInfo_String(TrackEnvelope, "GUID", "", false)
+  local RazorEdits="0 0 \""..GUID.."\" "..RazorEdits.." "
+  
+  local found=false
+  local tempstart=0
+  local tempend=reaper.GetProjectLength(0)
+  
+  for a,b,c in string.gmatch(RazorEdits, "(.-) (.-) (.-) ") do
+    if c:sub(2,-2)==GUID then
+      if position>=tonumber(a) and position<=tonumber(b) then
+        -- if within razor-edit-area, return this
+        tempstart=tonumber(a)
+        tempend=tonumber(b)
+        found=true
+        break
+      end
+      if tonumber(b)<=position and tonumber(b)>=tempstart then
+        -- find razor-edit-area-gap-start
+        tempstart=tonumber(b)
+        found=false
+      end
+      if tonumber(a)>=position and tonumber(a)<=tempend then
+        -- find razor-edit-area-gap-end
+        tempend=tonumber(a)
+        found=false
+      end
+    end
+  end
+
+  return found, tempstart, tempend
+end

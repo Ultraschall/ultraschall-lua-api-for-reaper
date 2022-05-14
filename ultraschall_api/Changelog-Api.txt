@@ -299,6 +299,8 @@ Has now 1500 functions, with XX new ones
   - PodcastMetadata: SetPodcastEpisodeAttrbutesPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastAttrbutesPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes      
+  - RazorEdit: RazorEdit\_IsAtPosition\_Envelope - checks, if track has a razor-edit-area at position; also returns the position of the razor-edit-area or gap at position
+  - RazorEdit: RazorEdit\_IsAtPosition\_Track - checks, if envelope has a razor-edit-area at position; also returns the position of the razor-edit-area or gap at position
   - Rendering: CreateRenderCFG\_WMF\_Video - creates the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
   - Rendering: GetRenderCFG\_Settings\_WMF - gets the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
   - TrackManagement: InputFX\_JSFX\_Reload - reloads a jsfx in inputfx, when you've changed the jsfx-source-file
