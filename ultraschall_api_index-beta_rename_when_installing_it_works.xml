@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52724.00" author="Meo Mespotine">
+      <version name="52737.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -523,7 +523,7 @@
 	<source main="true" file="/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.6 - " - " - XX of XXXX 2022
+4.6 - “Can - Halleluwah” - XX of XXXX 2022
 
 Has now 1500 functions, with XX new ones
 
@@ -537,6 +537,12 @@ New features in 4.6
 -   DeveloperTools: MonitorRenderString_Diff - monitors the diffs of the
     render-string, when setting them in the RenderToFile-dialog and hit
     Save Settings
+-   FXManagement: InputFX_JSFX_Reload - reloads a jsfx in inputfx, when
+    you’ve changed the jsfx-source-file
+-   FXManagement: TakeFX_JSFX_Reload - reloads a jsfx in a take, when
+    you’ve changed the jsfx-source-file
+-   FXManagement: TrackFX_JSFX_Reload - reloads a jsfx in a track, when
+    you’ve changed the jsfx-source-file
 -   Markers: AddShownoteMarker - adds a shownote-marker
 -   Markers: CountShownoteMarkers - counts shownote-markers in a project
 -   Markers: DeleteShownoteMarker - deletes a shownote-marker
@@ -597,21 +603,15 @@ New features in 4.6
     according to the PODCAST_METADATA:“v1”-standard and optionally
     writes it into a file or adds it to id3, vorbis-metadata-schemes
 -   RazorEdit: RazorEdit_IsAtPosition_Envelope - checks, if track has a
-    razor-edit-area at position; also returns the position of the
-    razor-edit-area or gap at position
+    razor-edit-area or a gap at position; also returns the position of
+    the razor-edit-area or gap at position
 -   RazorEdit: RazorEdit_IsAtPosition_Track - checks, if envelope has a
-    razor-edit-area at position; also returns the position of the
-    razor-edit-area or gap at position
+    razor-edit-area or a gap at position; also returns the position of
+    the razor-edit-area or gap at position
 -   Rendering: CreateRenderCFG_WMF_Video - creates the format-settings
     of the windows media foundation-formats(wma, wmv, MPEG-4)
 -   Rendering: GetRenderCFG_Settings_WMF - gets the format-settings of
     the windows media foundation-formats(wma, wmv, MPEG-4)
--   TrackManagement: InputFX_JSFX_Reload - reloads a jsfx in inputfx,
-    when you’ve changed the jsfx-source-file
--   TrackManagement: TakeFX_JSFX_Reload - reloads a jsfx in a take, when
-    you’ve changed the jsfx-source-file
--   TrackManagement: TrackFX_JSFX_Reload - reloads a jsfx in a track,
-    when you’ve changed the jsfx-source-file
 
 Changes from 4.5 to 4.6
 
@@ -643,7 +643,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1544 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52724 from 14.05.2022 12:01:27).}
+a 1544 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52737 from 14.05.2022 12:14:54).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -781,7 +781,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1544 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52724 from 14.05.2022 12:01:27).}
+a 1544 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52737 from 14.05.2022 12:14:54).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

@@ -259,7 +259,7 @@ readd in next version:
 
 ## Ultraschall Framework - Changelog
 
-### 4.6 - " - " - XX of XXXX 2022
+### 4.6 - "Can - Halleluwah" - XX of XXXX 2022
 
 Has now 1500 functions, with XX new ones
 
@@ -271,6 +271,9 @@ Has now 1500 functions, with XX new ones
 
 #### New features in 4.6  
   - DeveloperTools: MonitorRenderString_Diff - monitors the diffs of the render-string, when setting them in the RenderToFile-dialog and hit Save Settings
+  - FXManagement: InputFX\_JSFX\_Reload - reloads a jsfx in inputfx, when you've changed the jsfx-source-file
+  - FXManagement: TakeFX\_JSFX\_Reload - reloads a jsfx in a take, when you've changed the jsfx-source-file
+  - FXManagement: TrackFX\_JSFX\_Reload - reloads a jsfx in a track, when you've changed the jsfx-source-file  
   - Markers: AddShownoteMarker - adds a shownote-marker
   - Markers: CountShownoteMarkers - counts shownote-markers in a project
   - Markers: DeleteShownoteMarker - deletes a shownote-marker
@@ -299,13 +302,11 @@ Has now 1500 functions, with XX new ones
   - PodcastMetadata: SetPodcastEpisodeAttrbutesPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastAttrbutesPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes      
-  - RazorEdit: RazorEdit\_IsAtPosition\_Envelope - checks, if track has a razor-edit-area at position; also returns the position of the razor-edit-area or gap at position
-  - RazorEdit: RazorEdit\_IsAtPosition\_Track - checks, if envelope has a razor-edit-area at position; also returns the position of the razor-edit-area or gap at position
+  - RazorEdit: RazorEdit\_IsAtPosition\_Envelope - checks, if track has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position
+  - RazorEdit: RazorEdit\_IsAtPosition\_Track - checks, if envelope has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position
   - Rendering: CreateRenderCFG\_WMF\_Video - creates the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
   - Rendering: GetRenderCFG\_Settings\_WMF - gets the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
-  - TrackManagement: InputFX\_JSFX\_Reload - reloads a jsfx in inputfx, when you've changed the jsfx-source-file
-  - TrackManagement: TakeFX\_JSFX\_Reload - reloads a jsfx in a take, when you've changed the jsfx-source-file
-  - TrackManagement: TrackFX\_JSFX\_Reload - reloads a jsfx in a track, when you've changed the jsfx-source-file  
+  
   
 #### Changes from 4.5 to 4.6  
   - Docs: Reaper Internals - updated to Reaper 6.57
