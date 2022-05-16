@@ -695,7 +695,7 @@ function ultraschall.RazorEdit_Remove_Track(track, start_position, end_position)
   if type(start_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Remove_Track", "start_position", "must be a number", -2) return end
   if type(end_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_Remove_Track", "end_position", "must be a number", -3) return end
   
-  local A,B=reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", "", false)
+  local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
   B=B.." "
   local newstring=""
   for a, b, c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
@@ -780,7 +780,7 @@ function ultraschall.RazorEdit_Remove_Envelope(envelope, start_position, end_pos
   local track=reaper.Envelope_GetParentTrack(envelope)
   local retval, Guid = reaper.GetSetEnvelopeInfo_String(envelope, "GUID", "", false)
   
-  local A,B=reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", "", false)
+  local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
   B=B.." "
   local newstring=""
   for a, b, c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
@@ -814,7 +814,7 @@ function ultraschall.RazorEdit_Remove_Envelope(envelope, start_position, end_pos
     end
     
   end
-  reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", newstring, true)
+  reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", newstring, true)
   
   A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
   return B
@@ -1048,7 +1048,7 @@ function ultraschall.RazorEdit_RemoveByIndex_Track(track, razor_edit_area_index)
   if math.type(razor_edit_area_index)~="integer" then ultraschall.AddErrorMessage("RazorEdit_RemoveByIndex_Track", "razor_edit_area_index", "must be an integer", -2) return end
 
   
-  local A,B=reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", "", false)
+  local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
   B=B.." "
   local newstring=""
   count=0
@@ -1107,7 +1107,7 @@ function ultraschall.RazorEdit_RemoveByIndex_Envelope(envelope, razor_edit_area_
   local track=reaper.Envelope_GetParentTrack(envelope)
   local retval, Guid = reaper.GetSetEnvelopeInfo_String(envelope, "GUID", "", false)
     
-  local A,B=reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", "", false)
+  local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
   B=B.." "
   local newstring=""
   count=0

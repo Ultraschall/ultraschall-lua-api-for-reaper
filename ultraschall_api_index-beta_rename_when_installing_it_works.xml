@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52792.00" author="Meo Mespotine">
+      <version name="52795.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -554,6 +554,9 @@ new in this release:
     A new marker-type, that allows storing shownotes. Will be enhanced
     within the next few releases for additional metadata.
 
+-   User Interface functions for HWND
+    More comfortable functions for getting Transport, Arrange and TCP.
+
 New features in 4.6
 
 -   DeveloperTools: MonitorRenderString_Diff - monitors the diffs of the
@@ -614,6 +617,8 @@ New features in 4.6
 Changes from 4.5 to 4.6
 
 -   Docs: Reaper Internals - updated to Reaper 6.58, SWS 2.13.1.0
+-   RazorEdit: RazorEdit_Remove_Envelope - accidentally removed items on
+    first track -> fixed
 -   RazorEdit: RazorEdit_Remove_Track - accidentally removed items on
     first track -> fixed
 ]]>

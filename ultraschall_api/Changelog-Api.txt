@@ -300,6 +300,9 @@ Has now 1527 functions, with 27 new ones
   - **Shownotes for podcasts**  
   A new marker-type, that allows storing shownotes. Will be enhanced within the next few releases for additional metadata.   
 
+  - **User Interface functions for HWND**  
+  More comfortable functions for getting Transport, Arrange and TCP.  
+
 #### New features in 4.6  
   - DeveloperTools: MonitorRenderString\_Diff - monitors the diffs of the render-string, when setting them in the RenderToFile-dialog and hit Save Settings
   - Envelopes: GetAllActiveEnvelopes\_Take - returns all active take-envelopes
@@ -332,6 +335,7 @@ Has now 1527 functions, with 27 new ones
   
 #### Changes from 4.5 to 4.6  
   - Docs: Reaper Internals - updated to Reaper 6.58, SWS 2.13.1.0
+  - RazorEdit: RazorEdit\_Remove\_Envelope - accidentally removed items on first track -> fixed
   - RazorEdit: RazorEdit\_Remove\_Track - accidentally removed items on first track -> fixed
   
 ---
