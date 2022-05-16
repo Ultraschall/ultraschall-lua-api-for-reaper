@@ -730,7 +730,7 @@ function ultraschall.RazorEdit_Remove_Track(track, start_position, end_position)
 
     
   end
-  reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", newstring, true)
+      reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", newstring, true)
   A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
   return B
 end
@@ -955,3 +955,334 @@ function ultraschall.RazorEdit_Remove(track)
 end
 
 
+function ultraschall.RazorEdit_GetFromPoint(x,y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_GetFromPoint</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>integer razor_edit_index, number start_position, number end_position, MediaTrack track, optional TrackEnvelope envelope = ultraschall.RazorEdit_GetFromPoint(integer x, integer y)</functioncall>
+  <description>
+    gets a razor-edit area by coordinate in pixels
+    
+    returns -1 in case of an error with no additional return-values returned
+  </description>
+  <retvals>
+    integer razor_edit_index - the index of the found razor-edit area; -1, if it's a gap within razor-edits
+    number start_position - the start-position of the razor-edit-area/gap
+    number end_position - the end-position of the razor-edit-area/gap
+    MediaTrack track - the track, in which the razor-edit-area has been found
+    optional TrackEnvelope envelope - the envelope, in which a razor-edit-area has been found; nil, if not in an envelope but rather in the track
+  </retvals>
+  <parameters>
+    integer x - the x-position in pixels, at which to look for razor-edit-areas
+    integer y - the y-position in pixels, at which to look for razor-edit-areas
+  </parameters>  
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, get, from point, track, razor edit area, envelope</tags>
+</US_DocBloc>
+]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("RazorEdit_GetFromPoint", "x", "must be an integer", -1) return -1 end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("RazorEdit_GetFromPoint", "y", "must be an integer", -2) return -1 end
+  local track = reaper.GetTrackFromPoint(x,y)
+  ultraschall.SuppressErrorMessages(true)
+  local env=ultraschall.GetTrackEnvelopeFromPoint(x,y)
+  ultraschall.SuppressErrorMessages(false)
+  reaper.BR_GetMouseCursorContext()
+  local pos=reaper.BR_GetMouseCursorContext_Position()
+  local A, start, endpos, index
+  if env~=nil then
+    A, start, endpos, index=ultraschall.RazorEdit_IsAtPosition_Envelope(env, pos)
+  else
+    A, start, endpos, index=ultraschall.RazorEdit_IsAtPosition_Track(track, pos)
+  end
+  if A==true then
+    return index, start, endpos, track, env
+  else
+    return -1, start, endpos, track, env
+  end
+end
+
+function ultraschall.RazorEdit_RemoveByIndex_Track(track, razor_edit_area_index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_RemoveByIndex_Track</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>string altered_razor_edit_string = ultraschall.RazorEdit_RemoveByIndex_Track(MediaTrack track, integer razor_edit_area_index)</functioncall>
+  <description>
+    removes razor-edit-areas from a track by its index(leaves all of its envelopes untouched)
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string altered_razor_edit_string - the altered razor-edit-areas that are now stored in the track, as used by GetSetMediaTrackInfo_String
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, from which you want to remove razor-edit-areas
+    integer razor_edit_area_index - the index of the razor-edit-area that you want to remove
+  </parameters>
+  <linked_to desc="see:">
+      inline:RazorEdit_RemoveByIndex_Envelope
+             removes razor-edit areas from a specific TrackEnvelope by index
+  </linked_to>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, remove, track, by index</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_RemoveByIndex_Track", "track", "must be a MediaTrack", -1) return end
+  if math.type(razor_edit_area_index)~="integer" then ultraschall.AddErrorMessage("RazorEdit_RemoveByIndex_Track", "razor_edit_area_index", "must be an integer", -2) return end
+
+  
+  local A,B=reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", "", false)
+  B=B.." "
+  local newstring=""
+  count=0
+  for a, b, c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
+    if c=="\"\"" then
+      count=count+1
+      if count~=razor_edit_area_index then
+        newstring=newstring..a.." "..b.." "..c.." "
+      end
+    else
+      newstring=newstring..a.." "..b.." "..c.." "
+    end
+  end
+  reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", newstring, true)
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  return B
+end
+
+function ultraschall.RazorEdit_RemoveByIndex_Envelope(envelope, razor_edit_area_index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_RemoveByIndex_Envelope</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>string altered_razor_edit_string = ultraschall.RazorEdit_RemoveByIndex_Envelope(TrackEnvelope envelope, integer razor_edit_area_index)</functioncall>
+  <description>
+    removes razor-edit-areas from a track by its index(leaves all of its envelopes untouched)
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string altered_razor_edit_string - the altered razor-edit-areas that are now stored in the track, as used by GetSetMediaTrackInfo_String
+  </retvals>
+  <parameters>
+    TrackEnvelope envelope - the envelope, from which you want to remove razor-edit-areas
+    integer razor_edit_area_index - the index of the razor-edit-area that you want to remove
+  </parameters>
+  <linked_to desc="see:">
+      inline:RazorEdit_RemoveByIndex_Track
+             removes razor-edit areas from a specific track by index
+  </linked_to>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, remove, envelope, by index</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(envelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_RemoveByIndex_Envelope", "envelope", "must be a valid TrackEnvelope", -1) return end
+  if type(razor_edit_area_index)~="number" then ultraschall.AddErrorMessage("RazorEdit_RemoveByIndex_Envelope", "razor_edit_area_index", "must be a number", -2) return end
+
+  local track=reaper.Envelope_GetParentTrack(envelope)
+  local retval, Guid = reaper.GetSetEnvelopeInfo_String(envelope, "GUID", "", false)
+    
+  local A,B=reaper.GetSetMediaTrackInfo_String(reaper.GetTrack(0,0), "P_RAZOREDITS", "", false)
+  B=B.." "
+  local newstring=""
+  count=0
+  for a, b, c in string.gmatch(B, "(.-) (.-) (\".-\") ") do
+    if c=="\""..Guid.."\"" then
+      count=count+1
+      if count~=razor_edit_area_index then
+        newstring=newstring..a.." "..b.." "..c.." "
+      end
+    else
+      newstring=newstring..a.." "..b.." "..c.." "
+    end
+  end
+  reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", newstring, true)
+  A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  return B
+end
+
+function ultraschall.RazorEdit_IsAtPosition_Track(track, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_IsAtPosition_Track</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional number start_pos, optional number end_pos, optional integer razor_area_index  = ultraschall.RazorEdit_IsAtPosition_Track(MediaTrack track, number position)</functioncall>
+  <description>
+    returns, if there's a razor-edit in a track at a given position or if there's a gap.
+    
+    It also returns the start/end-position of the razor-edit or razor-edit-gap.
+    
+    Gaps will be seen as either within two razor-edit-areas or from project-start to first razoredit or from last razor-edit to end of project.
+    
+    If the position is before 0, the function will only return false
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, there's a razor-edit at position; false, there's no razor-edit at position; nil, an error occurred
+    optional number start_pos - the start of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
+    optional number end_pos - the end of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
+    optional integer razor_area_index - the index of the found razor-edit-area; 1-based; -1, if it's a gap
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, whose razor-edit-areas/gaps you want to check for
+    number position - the position, at which to look for a razor-edit-area or a gap of it
+  </parameters>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, is at position, gap, get, track, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Track", "track", "must be a valid MediaTrack", -1) return end
+  if type(position)~="number" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Track", "position", "must be a number", -2) return end
+  if position<0 then return false end
+  --if position>reaper.GetProjectLength(0) then return false end
+  local retval, RazorEdits = reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  local GUID=""
+  local RazorEdits="0 0 \""..GUID.."\" "..RazorEdits.." "
+  
+  local found=false
+  local tempstart=0
+  local tempend=reaper.GetProjectLength(0)
+  local count=-1
+
+  for a,b,c in string.gmatch(RazorEdits, "(.-) (.-) (.-) ") do
+    if c:sub(2,-2)==GUID then
+      count=count+1
+      if position>=tonumber(a) and position<=tonumber(b) then
+        -- if within razor-edit-area, return this
+        tempstart=tonumber(a)
+        tempend=tonumber(b)
+        found=true
+        break
+      end
+      if tonumber(b)<=position and tonumber(b)>=tempstart then
+        -- find razor-edit-area-gap-start
+        tempstart=tonumber(b)
+        found=false
+      end
+      if tonumber(a)>=position and tonumber(a)<=tempend then
+        -- find razor-edit-area-gap-end
+        tempend=tonumber(a)
+        found=false
+      end
+    end
+  end
+  
+  if found==false then count=-1 end
+
+  return found, tempstart, tempend, count
+end  
+
+function ultraschall.RazorEdit_IsAtPosition_Envelope(envelope, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_IsAtPosition_Envelope</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional number start_pos, optional number end_pos, optional integer razor_area_index = ultraschall.RazorEdit_IsAtPosition_Envelope(TrackEnvelope envelope, number position)</functioncall>
+  <description>
+    returns, if there's a razor-edit in a TrackEnvelope at a given position or if there's a gap.
+    
+    It also returns the start/end-position of the razor-edit or razor-edit-gap.
+    
+    Gaps will be seen as either within two razor-edit-areas or from project-start to first razoredit or from last razor-edit to end of project.
+    
+    If the position is before 0, the function will only return false
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, there's a razor-edit at position; false, there's no razor-edit at position; nil, an error occurred
+    optional number start_pos - the start of the razor-edit or razor-edit gap; nil if position is before 0
+    optional number end_pos - the end of the razor-edit or razor-edit gap; nil if position is before 0
+    optional integer razor_area_index - the index of the found razor-edit-area; 1-based; -1, if it's a gap
+  </retvals>
+  <parameters>
+    TrackEnvelope envelope - the envelope, whose razor-edit-areas/gaps you want to check for
+    number position - the position, at which to look for a razor-edit-area or a gap of it
+  </parameters>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, is at position, gap, get, envelope, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(envelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Envelope", "envelope", "must be a valid TrackEnvelope", -1) return end
+  if type(position)~="number" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Envelope", "position", "must be a number", -2) return end
+
+  if position<0 then return false end
+  local track=reaper.GetEnvelopeInfo_Value(envelope, "P_TRACK")
+  local retval, RazorEdits = reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+
+  local retval, GUID = reaper.GetSetEnvelopeInfo_String(envelope, "GUID", "", false)
+  local RazorEdits="0 0 \""..GUID.."\" "..RazorEdits.." "
+  local found=false
+  local tempstart=0
+  local tempend=reaper.GetProjectLength(0)
+  local count=-1
+  
+  for a,b,c in string.gmatch(RazorEdits, "(.-) (.-) (.-) ") do
+    if c:sub(2,-2)==GUID then
+      count=count+1
+      if position>=tonumber(a) and position<=tonumber(b) then
+        -- if within razor-edit-area, return this
+        tempstart=tonumber(a)
+        tempend=tonumber(b)
+        found=true
+        break
+      end
+      if tonumber(b)<=position and tonumber(b)>=tempstart then
+        -- find razor-edit-area-gap-start
+        tempstart=tonumber(b)
+        found=false
+      end
+      if tonumber(a)>=position and tonumber(a)<=tempend then
+        -- find razor-edit-area-gap-end
+        tempend=tonumber(a)
+        found=false
+      end
+    end
+  end
+
+  if found==false then count=-1 end
+
+  return found, tempstart, tempend, count
+end

@@ -4430,3 +4430,154 @@ function ultraschall.GetUIScale()
 --]]
   return reaper.SNM_GetDoubleConfigVar("uiscale", -1)
 end
+
+function ultraschall.GetHWND_Transport()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetHWND_Transport</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=5.965
+    SWS=2.10.0.1
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>integer transport_position, boolean floating, boolean hidden, HWND transport_hwnd, integer x, integer y, integer right, integer bottom = ultraschall.GetHWND_Transport()</functioncall>
+  <description>
+    returns the HWND of the Transport-area and its visible position/docking-state
+  </description>
+  <retvals>
+    integer transport_position - the position of the transport-area
+                               - -1, transport is docked in docker
+                               - 1, transport is top of main
+                               - 2, transport is at the bottom
+                               - 3, transport is above the ruler
+                               - 4, transport is below arrange
+    boolean floating - true, transport is floating; false, transport is docked in main-window or docker
+    boolean hidden - true, transport is hidden(its hwnd might still be available); false, transport is visible
+    HWND transport_hwnd - the window-handler of transport
+    integer x - x-position of transport in pixels
+    integer y - y-position of transport in pixels
+    integer right - right position of transport in pixels
+    integer bottom - bottom position of transport in pixels
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, window, transport, position, docking-state, hwnd, get</tags>
+</US_DocBloc>
+--]]
+  local transport=reaper.JS_Localize("Transport", "DLG_188")
+  local status=reaper.JS_Localize("status", "DLG_188")
+  local HWND=reaper.GetMainHwnd()
+  local transport_position
+  if reaper.GetToggleCommandState(41608)==1 then
+    transport_position=-1 -- docker
+  elseif reaper.GetToggleCommandState(41606)==1 then
+    transport_position=1 -- top of main
+  elseif reaper.GetToggleCommandState(41605)==1 then
+    transport_position=2 -- bottom of main
+  elseif reaper.GetToggleCommandState(41604)==1 then
+    transport_position=3 -- above ruler of main
+  elseif reaper.GetToggleCommandState(41603)==1 then
+    transport_position=4 -- below arrange of main
+  end
+  local floating=false
+  local Transport=reaper.JS_Window_FindChild(HWND, transport, true)
+  if Transport==nil then
+    Transport=reaper.JS_Window_Find(transport, true)
+    transport_position=-1
+    floating=true
+  end
+  local retval,x,y,w,h
+  if ultraschall.HasHWNDChildWindowNames(Transport, status)==true then
+    retval,x,y,w,h = reaper.JS_Window_GetRect(Transport)
+  end
+  
+  local retval, hidden = reaper.BR_Win32_GetPrivateProfileString("REAPER", "transport_vis", "", reaper.get_ini_file())
+  
+  if tonumber(hidden)==0 then 
+    hidden=true 
+  else 
+    hidden=false
+  end
+  
+  return transport_position, floating, hidden, Transport, x, y, w, h
+end
+
+
+function ultraschall.GetHWND_TCP()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetHWND_TCP</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND tcp_hwnd, boolean tcp_right, integer x, integer y, integer right, integer bottom = ultraschall.GetHWND_TCP()</functioncall>
+  <description>
+    returns the HWND of the TrackControlPanel and its visible area including right or left of arrange-view
+  </description>
+  <retvals>
+    HWND tcp_hwnd - the window-handler of tcp
+    boolean tcp_right - true, tcp is on right side of arrange view; false, tcp is on left side of the arrange view
+    integer x - x-position of tcp in pixels
+    integer y - y-position of tcp in pixels
+    integer right - right position of tcp in pixels
+    integer bottom - bottom position of tcp in pixels
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, window, tcp, track control panel, is right, position, hwnd, get</tags>
+</US_DocBloc>
+--]]
+  local arrange_view, timeline, TrackControlPanel, TrackListWindow = ultraschall.GetHWND_ArrangeViewAndTimeLine()
+  local tcp_right=reaper.GetToggleCommandState(42373)==1
+  local retval, x2, y2, w2, h2 = reaper.JS_Window_GetClientRect(TrackControlPanel)
+  return TrackControlPanel, tcp_right, x2, y2, w2, h2
+end
+
+function ultraschall.GetHWND_ArrangeView()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetHWND_ArrangeView</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND arrange_view_hwnd, integer x, integer y, integer right, integer bottom = ultraschall.GetHWND_ArrangeView()</functioncall>
+  <description>
+    returns the HWND of the ArrangeView and its visible area
+  </description>
+  <retvals>
+    HWND arrange_view_hwnd - the window-handler of arrange-view
+    integer x - x-position of arrange-view in pixels
+    integer y - y-position of arrange-view in pixels
+    integer right - right position of arrange-view in pixels
+    integer bottom - bottom position of arrange-view in pixels
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, window, arrange-view, position, hwnd, get</tags>
+</US_DocBloc>
+--]]
+  local Hwnd=reaper.GetMainHwnd()
+  local arrange=reaper.JS_Window_FindChildByID(Hwnd, 1000)
+  local retval, x2, y2, w2, h2 = reaper.JS_Window_GetClientRect(arrange)
+  return arrange, x2, y2, w2, h2
+end

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52751.00" author="Meo Mespotine">
+      <version name="52792.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -235,6 +235,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.53.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/reaper6.53.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.54.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/reaper6.54.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.57.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/reaper6.57.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.58.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/reaper6.58.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.965.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/reaper6.965.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.10.0.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/sws2.10.0.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.10.1.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/sws2.10.1.1.png</source>
@@ -243,6 +244,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/sws2.12.1.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/sws2.12.1.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.12.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/sws2.12.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.13.0.0.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/sws2.13.0.0.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/sws2.13.1.0.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/sws2.13.1.0.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.8.8.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/sws2.8.8.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.9.6.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/sws2.9.6.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.9.7.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/Documentation/gfx/sws2.9.7.png</source>
@@ -525,14 +527,32 @@
 	<source main="true" file="/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.6 - “Can - Halleluwah” - XX of XXXX 2022
+4.6 - “Can - Halleluwah” - 19th of May 2022
 
-Has now 1500 functions, with XX new ones
+Has now 1527 functions, with 27 new ones
 
 new in this release:
 
--   Bla
-    Blah
+-   FromPoint-functions
+    You can get now Razor-Edits, TrackEnvelopes and TakeEnvelopes by
+    their coordinates.
+
+-   Razor-Edit-specials
+    New Razor-Edit functions in general. Remove now by index and get, if
+    at a specific position is a razor-edit or a gap between them.
+
+-   JSFX-reload
+    If you develop JSFX in an external editor and would like to update
+    them in a project to use the latest version, you get functions to do
+    so.
+    This should speed up developing and testing jsfx a little better.
+    Allows track, take and inputfx!
+
+-   Windows Media Foundation support, as added per Reaper 6.57
+
+-   Shownotes for podcasts
+    A new marker-type, that allows storing shownotes. Will be enhanced
+    within the next few releases for additional metadata.
 
 New features in 4.6
 
@@ -564,54 +584,10 @@ New features in 4.6
 -   Markers: IsMarkerShownote - returns, if a marker is a shownote
 -   Markers: SetShownoteMarker - sets an already existing
     shownote-marker
--   PodcastMetadata: GetAllChapters_MetaDataEntry - gets all
-    chapter-metadata-entries between start and endposition according to
-    the PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all
-    shownote-metadata-entries between start and endposition according to
-    the PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast’s
-    metadata-entry according to the PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a
-    podcast’s chapter-metadata-entry according to the
-    PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the
-    podcast’s episode-related metadata-entry according to the
-    PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastEpisodeAttrbutesPreset_Name - gets the
-    name of an episode -metadata-preset
--   PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a
-    podcast’s shownote-metadata-entry according to the
-    PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastAttributesPreset_Name - gets the name of
-    a podcast-metadata-preset
--   PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets
-    metadata-attributes of a chapter-marker(using Ultraschall 4+
-    methods)
--   PodcastMetadata: GetSetPodcast_Attributes - gets/sets
-    metadata-attributes of a podcast
--   PodcastMetadata: GetSetPodcastEpisode_Attributes - gets/sets
-    metadata-attributes of a podcast-episode
--   PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets
-    string attributes for podcast-export in Ultraschall
--   PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets
-    number attributes for podcast-export in Ultraschall
--   PodcastMetadata: GetSetShownoteMarker_Attributes - gets/sets
-    additional attributes of a shownote-marker
--   PodcastMetadata: GetSetTranscription_Attributes gets/sets
-    transcriptions for the podcast(needs either srt or webvtt-files
-    created externally…)
 -   PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares
     chaptermarkers for metadata-export during rendering
 -   PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores
     chaptermarkers after metadata-export during rendering
--   PodcastMetadata: SetPodcastEpisodeAttrbutesPreset_Name - sets the
-    name of an episode-metadata-preset
--   PodcastMetadata: SetPodcastAttrbutesPreset_Name - sets the name of a
-    podcast-metadata-preset
--   PodcastMetadata: WritePodcastMetaData - creates metadata-entries
-    according to the PODCAST_METADATA:“v1”-standard and optionally
-    writes it into a file or adds it to id3, vorbis-metadata-schemes
 -   RazorEdit: RazorEdit_GetFromPoint - gets a razor-edit-area/gap by
     coordinate
 -   RazorEdit: RazorEdit_IsAtPosition_Envelope - checks, if track has a
@@ -620,6 +596,10 @@ New features in 4.6
 -   RazorEdit: RazorEdit_IsAtPosition_Track - checks, if envelope has a
     razor-edit-area or a gap at position; also returns the position of
     the razor-edit-area or gap at position
+-   RazorEdit: RazorEdit_RemoveByIndex_Envelope - removes a
+    razor-edit-area by its index from an envelope
+-   RazorEdit: RazorEdit_RemoveByIndex_Track - removes a razor-edit-area
+    by its index from a track(envelopes stay untouched)
 -   Rendering: CreateRenderCFG_WMF_Video - creates the format-settings
     of the windows media foundation-formats(wma, wmv, MPEG-4)
 -   Rendering: GetRenderCFG_Settings_WMF - gets the format-settings of
@@ -630,12 +610,12 @@ New features in 4.6
     panel, its visible area and right of arrange-state
 -   UserInterface: GetHWND_Transport - returns hwnd, position, float,
     dock and hidden-state of transport
--   UserInterface: GetReaperWindow_Position - returns the
-    Reaper-window-position and various of its elements
 
 Changes from 4.5 to 4.6
 
--   Docs: Reaper Internals - updated to Reaper 6.57
+-   Docs: Reaper Internals - updated to Reaper 6.58, SWS 2.13.1.0
+-   RazorEdit: RazorEdit_Remove_Track - accidentally removed items on
+    first track -> fixed
 ]]>
 </changelog>
       </version>
@@ -663,7 +643,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1553 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52751 from 16.05.2022 16:30:22).}
+a 1527 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -677,7 +657,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1553 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1527 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -801,7 +781,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1553 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52751 from 16.05.2022 16:30:22).}
+a 1527 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -815,7 +795,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1553 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1527 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

@@ -9130,3 +9130,157 @@ end
 
 --B,C=ultraschall.SetBatchConverterFXStateChunk(A)
 --A=ultraschall.IsValidFXStateChunk()
+
+function ultraschall.TrackFX_JSFX_Reload(track, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>TrackFX_JSFX_Reload</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.TrackFX_JSFX_Reload(MediaTrack track, integer fxindex)</functioncall>
+  <description>
+    Updates a jsfx in a track.
+    
+    if the desc-line in the jsfx changes, it will not update the name of the jsfx in the fx-chain-list
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, fx has been updated; false, fx has not been updated
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, whose jsfx you want to update
+    integer fxindex - the index of the track-jsfx, that you want to refresh
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, update, jsfx, trackfx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("TrackFX_JSFX_Reload", "track", "must be a valid MediaTrack", -1) return false end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("TrackFX_JSFX_Reload", "fx_id", "must be an integer", -2) return false end
+  fx_id=fx_id-1
+  local Aretval, Abuf = reaper.TrackFX_GetFXName(track, fx_id)
+  if Abuf:sub(1,4)~="JS: " then ultraschall.AddErrorMessage("TrackFX_JSFX_Reload", "fx_id", "fx is not jsfx-fx", -3) return false end
+  local Aretval2, Abuf2 = reaper.TrackFX_GetNamedConfigParm(track, fx_id, "fx_ident")
+  reaper.PreventUIRefresh(1)
+  local retval = reaper.TrackFX_Delete(track, fx_id)
+  local count=reaper.TrackFX_GetCount(track)
+  local retval = reaper.TrackFX_AddByName(track, Abuf2, false, 1)
+  reaper.TrackFX_CopyToTrack(track, count, track, fx_id, true)
+  reaper.PreventUIRefresh(-1)
+  return true
+end
+
+--A,B=ultraschall.TrackFX_JSFX_Reload(reaper.GetTrack(0,0), 1)
+
+function ultraschall.TakeFX_JSFX_Reload(take, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>TakeFX_JSFX_Reload</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.TakeFX_JSFX_Reload(MediaItem_take take, integer fxindex)</functioncall>
+  <description>
+    Updates a jsfx in a take.
+    
+    if the desc-line in the jsfx changes, it will not update the name of the jsfx in the fx-chain-list
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, fx has been updated; false, fx has not been updated
+  </retvals>
+  <parameters>
+    MediaItem_take - the take, whose jsfx you want to update
+    integer fxindex - the index of the take-jsfx, that you want to refresh
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, update, jsfx, takefx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(take)~="MediaItem_Take" then ultraschall.AddErrorMessage("TakeFX_JSFX_Reload", "track", "must be a valid MediaTrack", -1) return false end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("TakeFX_JSFX_Reload", "fx_id", "must be an integer", -2) return false end
+  fx_id=fx_id-1
+  local Aretval, Abuf = reaper.TakeFX_GetFXName(take, fx_id)
+  if Abuf:sub(1,4)~="JS: " then ultraschall.AddErrorMessage("TakeFX_JSFX_Reload", "fx_id", "fx is not jsfx-fx", -3) return false end
+  local Aretval2, Abuf2 = reaper.TakeFX_GetNamedConfigParm(take, fx_id, "fx_ident")
+  reaper.PreventUIRefresh(1)
+  local retval = reaper.TakeFX_Delete(take, fx_id)
+  local count=reaper.TakeFX_GetCount(take)
+  local retval = reaper.TakeFX_AddByName(take, Abuf2, 1)
+  reaper.TakeFX_CopyToTake(take, count, take, fx_id, true)
+  reaper.PreventUIRefresh(-1)
+  return true
+end
+
+--item=reaper.GetMediaItem(0,0)
+--take=reaper.GetMediaItemTake(item, 0)
+--A=ultraschall.TakeFX_JSFX_Reload(take, 1)
+
+
+function ultraschall.InputFX_JSFX_Reload(track, fx_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InputFX_JSFX_Reload</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.InputFX_JSFX_Reload(MediaTrack track, integer fxindex)</functioncall>
+  <description>
+    Updates a jsfx in monitoring-fx/rec-input-fx
+    
+    if the desc-line in the jsfx changes, it will not update the name of the jsfx in the fx-chain-list
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, fx has been updated; false, fx has not been updated
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, whose rec-inputfx-jsfx you want to update; use master track to update within input-monitoring-fx 
+    integer fxindex - the index of the track-jsfx, that you want to refresh
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_FXManagement_Module.lua</source_document>
+  <tags>fxmanagement, update, jsfx, monitoring fx, rec input fx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("InputFX_JSFX_Reload", "track", "must be a valid MediaTrack", -1) return false end
+  if math.type(fx_id)~="integer" then ultraschall.AddErrorMessage("InputFX_JSFX_Reload", "fx_id", "must be an integer", -2) return false end
+  fx_id=fx_id-1
+  local Aretval, Abuf = reaper.TrackFX_GetFXName(track, fx_id|0x1000000)
+  if Abuf:sub(1,4)~="JS: " then ultraschall.AddErrorMessage("InputFX_JSFX_Reload", "fx_id", "fx is not jsfx-fx", -3) return false end
+  local Aretval2, Abuf2 = reaper.TrackFX_GetNamedConfigParm(track, fx_id|0x1000000, "fx_ident")
+  reaper.PreventUIRefresh(1)
+  local retval = reaper.TrackFX_Delete(track, fx_id|0x1000000)
+  local count=reaper.TrackFX_GetRecCount(track)
+  local retval = reaper.TrackFX_AddByName(track, Abuf2, true, 1)
+  reaper.TrackFX_CopyToTrack(track, count|0x1000000, track, fx_id|0x1000000, true)
+  reaper.PreventUIRefresh(-1)
+  return true
+end
+
+
+--A,B=ultraschall.InputFX_JSFX_Reload(reaper.GetTrack(0,0), 1)

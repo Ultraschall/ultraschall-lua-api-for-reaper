@@ -8840,3 +8840,154 @@ function ultraschall.GetSetRenderBlocksize(is_set, value)
   return value
 end
 
+function ultraschall.GetRenderCFG_Settings_WMF(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_WMF</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.57
+      Lua=5.3
+    </requires>
+    <functioncall>integer OutputFormat, integer VIDEO_CODEC, integer VideoBitrate, integer AUDIO_CODEC, integer AudioBitrate, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_WMF(string rendercfg)</functioncall>
+    <description>
+      Returns the settings stored in a render-cfg-string for Windows Media Foundation-formats (WMA, WMV, MPEG-4).
+      
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer OutputFormat - the used OutputFormat
+                           - 0, MPEG-4 video
+                           - 1, MPEG-4 audio
+      integer VIDEO_CODEC - the used VideoCodec for the AVI-video
+                          - 0, H.264
+                          - 255, no video
+      integer VideoBitrate - in kbps; 0 to 2147483647
+      integer AUDIO_CODEC - the audio-codec of the avi-video
+                          - 0, AAC
+      integer AudioBitrate - in kbps; 0 to 2147483647
+      integer WIDTH  - the width of the video in pixels
+      integer HEIGHT - the height of the video in pixels
+      number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+      boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the wmf-settings
+    </parameters>
+    <chapter_context>
+      Rendering Projects
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, aac, wmv, wmf, windows media foundation, mpeg-4, audio, video</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WMF", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, VideoCodec, MJPEG_quality, AudioCodec, Width, Height, FPS, AspectRatio, VideoBitrate, AudioBitrate, OutputFormat
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string==nil or Decoded_string:sub(1,4)~=" FMW" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WMF", "rendercfg", "not a render-cfg-string of the format windows-media-foundation", -2) return -1 end
+  
+  if Decoded_string:len()==4 then
+    ultraschall.AddErrorMessage("GetRenderCFG_Settings_WMF", "rendercfg", "can't make out, which video format is chosen", -3) return nil
+  end
+  
+  OutputFormat=string.byte(Decoded_string:sub(5,5))
+  VideoCodec=string.byte(Decoded_string:sub(9,9))
+  AudioCodec=string.byte(Decoded_string:sub(17,17))
+
+  num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
+  num_integers, VideoBitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(13,16), 4)
+  num_integers, AudioBitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(21,24), 4)
+  num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
+  FPS=ultraschall.IntToDouble(FPS[1])
+  AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
+  
+  return OutputFormat, VideoCodec, VideoBitrate[1], AudioCodec, AudioBitrate[1], Width[1], Height[1], FPS, AspectRatio
+end
+
+function ultraschall.CreateRenderCFG_WMF_Video(OutputFormat, VideoCodec, VideoBitrate, AudioCodec, AudioBitrate, WIDTH, HEIGHT, FPS, AspectRatio)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_WMF_Video</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.57
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_WMF_Video(integer VideoFormat, integer VideoCodec, integer VideoBitrate, integer AudioCodec, integer AudioBitrate, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
+  <description>
+    Returns the render-cfg-string for the WMF-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected wmf-Video-settings
+  </retvals>
+  <parameters>
+      integer OutputFormat - the used OutputFormat
+                           - 0, MPEG-4 video
+                           - 1, MPEG-4 audio
+      integer VIDEO_CODEC - the used VideoCodec for the AVI-video
+                          - 0, H.264
+                          - 255, no video
+      integer VideoBitrate - in kbps; 0 to 2147483647
+      integer AUDIO_CODEC - the audio-codec of the avi-video
+                          - 0, AAC
+      integer AudioBitrate - in kbps; 0 to 2147483647
+      integer WIDTH  - the width of the video in pixels
+      integer HEIGHT - the height of the video in pixels
+      number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+      boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, create, render, outputformat, wmf</tags>
+</US_DocBloc>
+]]
+  if math.type(OutputFormat)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "OutputFormat", "Must be an integer!", -1) return nil end
+  if math.type(VideoCodec)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "VideoCodec", "Must be an integer!", -2) return nil end
+  if math.type(AudioCodec)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AudioCodec", "Must be an integer!", -3) return nil end
+  if math.type(WIDTH)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "WIDTH", "Must be an integer!", -4) return nil end
+  if math.type(HEIGHT)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "HEIGHT", "Must be an integer!", -5) return nil end
+  if type(FPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "FPS", "Must be a float-value with two digit precision (e.g. 29.97 or 25.00)!", -6) return nil end
+  if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AspectRatio", "Must be a boolean!", -7) return nil end
+  
+  if VideoCodec<0 or VideoCodec>0 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "VideoCodec", "Must be 0", -8) return nil end
+
+  if AudioCodec<0 or AudioCodec>0 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AudioCodec", "Must be 0", -9) return nil end
+  
+  if VideoBitrate~=nil and math.type(VideoBitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "VideoBitrate", "Must be an integer!", -10) return nil end
+  if AudioBitrate~=nil and math.type(AudioBitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AudioBitrate", "Must be an integer!", -11) return nil end  
+  if VideoBitrate==nil then VideoBitrate=2048 end
+  if AudioBitrate==nil then AudioBitrate=128 end
+  if VideoBitrate<1 or VideoBitrate>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "VideoBitrate", "Must be between 1 and 2147483647.", -12) return nil end
+  if AudioBitrate<1 or AudioBitrate>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AudioBitrate", "Must be between 1 and 2147483647.", -13) return nil end
+
+  if WIDTH<1 or WIDTH>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "WIDTH", "Must be between 1 and 2147483647.", -14) return nil end
+  if HEIGHT<1 or HEIGHT>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "HEIGHT", "Must be between 1 and 2147483647.", -15) return nil end
+  if FPS<0.01 or FPS>2000.00 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "FPS", "Ultraschall-API supports only fps-values between 0.01 and 2000.00, sorry.", -16) return nil end
+
+  WIDTH=ultraschall.ConvertIntegerIntoString2(4, WIDTH)
+  HEIGHT=ultraschall.ConvertIntegerIntoString2(4, HEIGHT)
+  FPS = ultraschall.ConvertIntegerIntoString2(4, ultraschall.DoubleToInt(FPS))  
+
+  local VIDKBPS=ultraschall.ConvertIntegerIntoString2(4, VideoBitrate)
+  local AUDKBPS=ultraschall.ConvertIntegerIntoString2(4, AudioBitrate)
+  local VideoCodec=string.char(VideoCodec)
+  local OutputFormat=string.char(OutputFormat)
+  local AudioCodec=string.char(AudioCodec)
+  
+  if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
+  
+  return ultraschall.Base64_Encoder(" FMW"..OutputFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0\0\0\0\0\0")
+end

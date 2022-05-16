@@ -35,12 +35,21 @@
       
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.6 - "Can - Halleluwah" - XX of XXXX 2022</h3>
-<p>Has now 1500 functions, with XX new ones</p>
+<h3>4.6 - "Can - Halleluwah" - 19th of May 2022</h3>
+<p>Has now 1527 functions, with 27 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><strong>Bla</strong><br />
-Blah</li>
+<li><p><strong>FromPoint-functions</strong><br />
+You can get now Razor-Edits, TrackEnvelopes and TakeEnvelopes by their coordinates.</p></li>
+<li><p><strong>Razor-Edit-specials</strong><br />
+New Razor-Edit functions in general. Remove now by index and get, if at a specific position is a razor-edit or a gap between them.</p></li>
+<li><p><strong>JSFX-reload</strong><br />
+If you develop JSFX in an external editor and would like to update them in a project to use the latest version, you get functions to do so.<br />
+This should speed up developing and testing jsfx a little better.<br />
+Allows track, take and inputfx!</p></li>
+<li><p><strong>Windows Media Foundation support, as added per Reaper 6.57</strong></p></li>
+<li><p><strong>Shownotes for podcasts</strong><br />
+A new marker-type, that allows storing shownotes. Will be enhanced within the next few releases for additional metadata.</p></li>
 </ul>
 <h4>New features in 4.6</h4>
 <ul>
@@ -63,43 +72,27 @@ Blah</li>
 <li>Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid</li>
 <li>Markers: IsMarkerShownote - returns, if a marker is a shownote</li>
 <li>Markers: SetShownoteMarker - sets an already existing shownote-marker</li>
-<li>PodcastMetadata: GetAllChapters_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastEpisodeAttrbutesPreset_Name - gets the name of an episode -metadata-preset</li>
-<li>PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
-<li>PodcastMetadata: GetPodcastAttributesPreset_Name - gets the name of a podcast-metadata-preset</li>
-<li>PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)</li>
-<li>PodcastMetadata: GetSetPodcast_Attributes - gets/sets metadata-attributes of a podcast</li>
-<li>PodcastMetadata: GetSetPodcastEpisode_Attributes - gets/sets metadata-attributes of a podcast-episode</li>
-<li>PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets string attributes for podcast-export in Ultraschall</li>
-<li>PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets number attributes for podcast-export in Ultraschall</li>
-<li>PodcastMetadata: GetSetShownoteMarker_Attributes - gets/sets additional attributes of a shownote-marker</li>
-<li>PodcastMetadata: GetSetTranscription_Attributes gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)</li>
 <li>PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering</li>
 <li>PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering<br />
-</li>
-<li>PodcastMetadata: SetPodcastEpisodeAttrbutesPreset_Name - sets the name of an episode-metadata-preset</li>
-<li>PodcastMetadata: SetPodcastAttrbutesPreset_Name - sets the name of a podcast-metadata-preset</li>
-<li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes<br />
 </li>
 <li>RazorEdit: RazorEdit_GetFromPoint - gets a razor-edit-area/gap by coordinate</li>
 <li>RazorEdit: RazorEdit_IsAtPosition_Envelope - checks, if track has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position</li>
 <li>RazorEdit: RazorEdit_IsAtPosition_Track - checks, if envelope has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position<br />
 </li>
+<li>RazorEdit: RazorEdit_RemoveByIndex_Envelope - removes a razor-edit-area by its index from an envelope</li>
+<li>RazorEdit: RazorEdit_RemoveByIndex_Track - removes a razor-edit-area by its index from a track(envelopes stay untouched)</li>
 <li>Rendering: CreateRenderCFG_WMF_Video - creates the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)</li>
 <li>Rendering: GetRenderCFG_Settings_WMF - gets the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)</li>
 <li>UserInterface: GetHWND_ArrangeView - returns hwnd of the arrangeview, its visible area and right of arrange-state</li>
 <li>UserInterface: GetHWND_TCP - returns hwnd of the track control panel, its visible area and right of arrange-state</li>
 <li>UserInterface: GetHWND_Transport - returns hwnd, position, float, dock and hidden-state of transport</li>
-<li>UserInterface: GetReaperWindow_Position - returns the Reaper-window-position and various of its elements</li>
 </ul>
 <h4>Changes from 4.5 to 4.6</h4>
 <ul>
-<li><h2>Docs: Reaper Internals - updated to Reaper 6.57</h2></li>
+<li>Docs: Reaper Internals - updated to Reaper 6.58, SWS 2.13.1.0</li>
+<li>RazorEdit: RazorEdit_Remove_Track - accidentally removed items on first track -&gt; fixed</li>
 </ul>
+<hr />
 <h3>4.5 - "Frank Zappa - Help I'm a Rock" - 6th of May 2022</h3>
 <p>Has now 1500 functions, with 23 new ones</p>
 <p><strong>new in this release:</strong></p>

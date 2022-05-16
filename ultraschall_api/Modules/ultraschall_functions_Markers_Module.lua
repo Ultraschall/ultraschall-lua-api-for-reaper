@@ -5322,3 +5322,443 @@ function ultraschall.GetTemporaryMarker(index)
   local marker=reaper.GetExtState("ultraschall_api", "Temporary_Marker_"..index)
   if marker=="" then return -1 else return ultraschall.GetMarkerIDFromGuid(marker), marker end
 end
+
+
+function ultraschall.AddShownoteMarker(pos, name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddShownoteMarker</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer markernumber, string guid, integer shownotemarker_index = ultraschall.AddShownoteMarker(number pos, string name)</functioncall>
+  <description>
+    Will add new shownote-marker.
+    
+    A shownote-marker has the naming-scheme 
+        
+        _Shownote: name for this shownote
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    number pos - the position of the marker in seconds
+    string name - the name of the shownote-marker
+  </parameters>
+  <retvals>
+    integer markernumber - the indexnumber of the newly added shownotemarker within all regions and markers; 0-based
+                         - use this for Reaper's regular marker-functions
+                         - -1 in case of an error
+    string guid - the guid of the shownotemarker
+    integer shownotemarker_index - the index of the shownote-marker within shownotes only; 1-based. 
+                                 - Use this for the other Ultraschall-API-shownote-functions!
+  </retvals>
+  <chapter_context>
+    Markers
+    ShowNote Markers
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, add, shownote, name, position, index, guid</tags>
+</US_DocBloc>
+]]
+  if type(pos)~="number" then ultraschall.AddErrorMessage("AddShownoteMarker", "pos", "must be a number", -2) return -1 end
+  if type(name)~="string" then ultraschall.AddErrorMessage("AddShownoteMarker", "name", "must be a string", -3) return -1  end
+  local Count = ultraschall.CountAllCustomMarkers("Shownote")
+  local Color
+  if reaper.GetOS():sub(1,3)=="Win" then
+    Color = 0xA8A800|0x1000000
+  else
+    Color = 0x00A8A8|0x1000000
+  end
+  local name2=reaper.genGuid("")..reaper.time_precise()..reaper.genGuid("")
+  local A={ultraschall.AddCustomMarker("Shownote", pos, name2, Count+1, Color)}  
+  A[4]=A[4]+1
+  ultraschall.SetShownoteMarker(A[4], pos, name)
+  if A[1]==false then A[2]=-1 end
+  table.remove(A,1)
+  return table.unpack(A)
+end
+
+
+
+function ultraschall.SetShownoteMarker(idx, pos, name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetShownoteMarker</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetShownoteMarker(integer idx, number pos, string name)</functioncall>
+  <description>
+    Will set an already existing shownote-marker.
+    
+    A shownote-marker has the naming-scheme 
+        
+        _Shownote: name for this shownote
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    integer idx - the index of the shownote marker within all shownote-markers you want to set; 1-based
+    number pos - the new position of the marker in seconds
+    string name - the new name of the shownote-marker
+  </parameters>
+  <retvals>
+    boolean retval - true, if setting the shownote-marker was successful; false, if not or an error occurred
+  </retvals>
+  <chapter_context>
+    Markers
+    ShowNote Markers
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, set, shownote, name, position, index</tags>
+</US_DocBloc>
+]]
+  if type(pos)~="number" then ultraschall.AddErrorMessage("SetShownoteMarker", "pos", "must be a number", -1) return false end
+  if type(name)~="string" then ultraschall.AddErrorMessage("SetShownoteMarker", "name", "must be a string", -2) return false end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetShownoteMarker", "idx", "must be an integer", -3) return false end
+  idx=idx-1
+  local retval, markerindex, pos2, name2, shown_number = ultraschall.EnumerateCustomMarkers("Shownote", idx)
+  if retval==false then ultraschall.AddErrorMessage("SetShownoteMarker", "idx", "no such shownote-marker", -4) return false end
+  
+  local Count = ultraschall.CountAllCustomMarkers("Shownote")
+  local Color
+  if reaper.GetOS():sub(1,3)=="Win" then
+    Color = 0xA8A800|0x1000000
+  else
+    Color = 0x00A8A8|0x1000000
+  end
+  local A={ultraschall.SetCustomMarker("Shownote", idx, pos, name, shown_number, Color)}
+  return table.unpack(A)
+end
+
+function ultraschall.EnumerateShownoteMarkers(idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EnumerateShownoteMarkers</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer marker_index, number pos, string name, integer shown_number, string guid = ultraschall.EnumerateShownoteMarkers(integer idx)</functioncall>
+  <description>
+    Will return a specific shownote-marker.
+    
+    A shownote-marker has the naming-scheme 
+        
+        _Shownote: name for this marker
+        
+    returns false in case of an error
+  </description>
+  <parameters>
+    integer idx - the index of the marker within all shownote-markers; 1, for the first shownote-marker
+  </parameters>
+  <retvals>
+    boolean retval - true, if the shownote-marker exists; false, if not or an error occurred
+    integer marker_index - the index of the shownote-marker within all markers and regions, as positioned in the project, with 0 for the first, 1 for the second, etc
+    number pos - the position of the shownote in seconds
+    string name - the name of the shownote
+    integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
+    string guid - the guid of the shownote-marker
+  </retvals>
+  <chapter_context>
+    Markers
+    ShowNote Markers
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, enumerate, custom markers, name, position, shown_number, index, guid</tags>
+</US_DocBloc>
+]]
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateShownoteMarkers", "idx", "must be an integer", -1) return false end
+  idx=idx-1
+  local A = {ultraschall.EnumerateCustomMarkers("Shownote", idx)}
+  if A[1]==false then ultraschall.AddErrorMessage("EnumerateShownoteMarkers", "idx", "no such shownote-marker", -2) return false end  
+  table.remove(A, 6)
+  return table.unpack(A)
+end
+
+function ultraschall.CountShownoteMarkers()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountShownoteMarkers</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_shownotes = ultraschall.CountShownoteMarkers()</functioncall>
+  <description>
+    Returns count of all shownotes
+    
+    A shownote-marker has the naming-scheme 
+        
+        _Shownote: name for this marker
+
+  </description>
+  <retvals>
+    integer num_shownotes - the number of shownotes in the current project
+  </retvals>
+  <chapter_context>
+    Markers
+    ShowNote Markers
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, count, shownote</tags>
+</US_DocBloc>
+]]
+  return ultraschall.CountAllCustomMarkers("Shownote")
+end
+--Kuddel=FromClip()
+--A,B,C=ultraschall.GetSetShownoteMarker_Attributes(false, 1, "image_content", "kuchen")
+--SLEM()
+
+
+function ultraschall.DeleteShownoteMarker(idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteShownoteMarker</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.DeleteShownoteMarker(integer idx)</functioncall>
+  <description>
+    Deletes a shownotes
+    
+    A shownote-marker has the naming-scheme 
+        
+        _Shownote: name for this marker
+
+    will also delete all stored additional attributes with the shownote!
+
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, shownote deleted; false, shownote not deleted
+  </retvals>
+  <parameters>
+    integer idx - the index of the shownote to delete, within all shownotes; 1-based
+  </parameters>
+  <chapter_context>
+    Markers
+    ShowNote Markers
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, delete, shownote</tags>
+</US_DocBloc>
+]]
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteShownoteMarker", "idx", "must be an integer", -1) return false end
+  idx=idx-1
+  local A = {ultraschall.EnumerateCustomMarkers("Shownote", idx)}
+  if A[1]==false then ultraschall.AddErrorMessage("DeleteShownoteMarker", "idx", "no such shownote-marker", -2) return false end  
+  ultraschall.SetMarkerExtState(A[2], "", "")
+  local retval, marker_index, pos, name, shown_number, color = ultraschall.DeleteCustomMarkers("Shownote", idx)
+  return retval
+end
+
+
+function ultraschall.PrepareChapterMarkers4ReaperExport()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>PrepareChapterMarkers4ReaperExport</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.PrepareChapterMarkers4ReaperExport()</functioncall>
+  <description>
+    Will add CHAP= to the beginning of each chapter-marker name. This will let Reaper embed this marker into the exported
+    media-file as metadata, when rendering.
+    
+    Will add CHAP= only to chapter-markers, who do not already have that in their name.
+  </description>
+  <chapter_context>
+    Markers
+    Chapter Marker
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, prepare, chapter, export</tags>
+</US_DocBloc>
+]]
+  local A,B=ultraschall.GetAllNormalMarkers()
+  for i=1, A do
+    if B[i][1]:sub(1,5)~="CHAP=" then
+      ultraschall.SetNormalMarker(i, B[i][0], B[i][3], "CHAP="..B[i][1])
+    end
+  end
+end
+
+--ultraschall.PrepareChapterMarkers4ReaperExport()
+
+function ultraschall.RestoreChapterMarkersAfterReaperExport()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RestoreChapterMarkersAfterReaperExport</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.RestoreChapterMarkersAfterReaperExport()</functioncall>
+  <description>
+    Will remove CHAP= at the beginning of each chapter-marker name, so you have the original marker-names back after render-export.
+    
+    Will remove only CHAP= from chapter-markers and leave the rest untouched.
+  </description>
+  <chapter_context>
+    Markers
+    Chapter Marker
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, restore, chapter, export</tags>
+</US_DocBloc>
+]]
+  local A,B=ultraschall.GetAllNormalMarkers()
+  for i=1, A do
+    if B[i][1]:sub(1,5)=="CHAP=" then
+      ultraschall.SetNormalMarker(i, B[i][0], B[i][3], B[i][1]:sub(6,-1))
+    end
+  end
+end
+
+--ultraschall.RestoreChapterMarkersAfterReaperExport()
+
+function ultraschall.GetGuidFromShownoteMarkerID(idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetGuidFromShownoteMarkerID</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string guid = ultraschall.GetGuidFromShownoteMarkerID(integer index)</functioncall>
+  <description>
+    Gets the corresponding guid of a shownote marker with a specific index 
+    
+    The index is for _shownote:-markers only
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the shownote marker with a specific index
+  </retvals>
+  <parameters>
+    integer index - the index of the shownote marker, whose guid you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, shownote marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetGuidFromShownoteMarkerID", "idx", "must be an integer", -1) return end
+  local retval, marker_index, pos, name, shown_number, guid2 = ultraschall.EnumerateShownoteMarkers(idx)
+
+  return guid2
+end
+
+
+--A=ultraschall.GetGuidFromShownoteMarkerID(1)
+--B={ultraschall.EnumerateShownoteMarkers(1)}
+--SLEM()
+
+function ultraschall.GetShownoteMarkerIDFromGuid(guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetShownoteMarkerIDFromGuid</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetShownoteMarkerIDFromGuid(string guid)</functioncall>
+  <description>
+    Gets the corresponding indexnumber of a shownote-marker-guid
+    
+    The index is for all _shownote:-markers only.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer index - the index of the shownote-marker, whose guid you have passed to this function
+  </retvals>
+  <parameters>
+    string guid - the guid of the shownote-marker, whose index-number you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>marker management, get, shownote marker, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if type(guid)~="string" then ultraschall.AddErrorMessage("GetShownoteMarkerIDFromGuid", "guid", "must be a string", -1) return -1 end  
+  for i=0, ultraschall.CountShownoteMarkers() do
+    local retval, marker_index, pos, name, shown_number, guid2 = ultraschall.EnumerateShownoteMarkers(i)
+    if guid2==guid then return i end
+  end
+  return -1
+end
+
+--B=ultraschall.GetShownoteMarkerIDFromGuid(A)
+
+function ultraschall.IsMarkerShownote(marker_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsMarkerShownote</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.43
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsMarkerShownote(integer markerid)</functioncall>
+  <description>
+    returns true, if the marker is a shownote-marker, false if not. Returns nil, if markerid is invalid.
+    Markerid is the marker-number for all markers, as used by marker-functions from Reaper.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if it's an shownote-marker, false if not
+  </retvals>
+  <parameters>
+    integer markerid - the markerid of all markers in the project, beginning with 0 for the first marker
+  </parameters>
+  <chapter_context>
+    Markers
+    ShowNote Markers
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, navigation, check, shownote marker, normal</tags>
+</US_DocBloc>
+]]
+  if math.type(marker_id)~="integer" then ultraschall.AddErrorMessage("IsMarkerShownote", "marker_id", "must be an integer", -1) return false end
+  for i=1, ultraschall.CountShownoteMarkers() do
+    local retval, marker_index, pos, name, shown_number, guid = ultraschall.EnumerateShownoteMarkers(i)
+    if marker_index==marker_id then
+      return true
+    end
+  end
+  return false
+end

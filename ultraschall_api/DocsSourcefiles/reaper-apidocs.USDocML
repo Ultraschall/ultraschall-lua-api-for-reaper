@@ -9492,7 +9492,7 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetProjectInfo_String(ReaProject project, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject project, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetProjectInfo_String(project, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=6.43
+            Reaper=6.48
         </requires>
         <description>
             Get or set project information.  
@@ -9514,7 +9514,7 @@
             see <a href="render-codes-decoded-base64-strings.txt">render-codes-decoded-base64-strings.txt</a> for how the unencoded RENDER_FORMAT-string is structured.  
 
             To just use the 4-byte-string, you can use: 
-            "wave" for wave, "aiff" for aiff, "caff" for caf, "iso " for audio-cd, "ddp " for ddp, "flac" for flac, "mp3l" for mp3, "oggv" for ogg, "OggS" for Opus, "FFMP" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, "GIF " for Gif, "LCF " for LCF, "wvpk" for wavepack
+            "wave" for wave, "aiff" for aiff, "caff" for caf, "iso " for audio-cd, "ddp " for ddp, "flac" for flac, "mp3l" for mp3, "oggv" for ogg, "OggS" for Opus, "FFMP" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, "GIF " for Gif, "LCF " for LCF, "WMF" for Windows Media Foundation(mp4, m4a), "wvpk" for wavepack
 
             RENDER_METADATA: get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: Uses common ID3-tagcodes like TALB(album), TPE1(Artist), etc.
             To get album tag, use "ID3:TALB", to set album tag, use "ID3:TALB|my album name".  
@@ -9576,8 +9576,9 @@
         </chapter_context>
         <tags></tags>
         <changelog>
-            Reaper 6.43 - "caff" as render-outputformat for the CAF-format now supported
+            Reaper 6.48 - "wmf" added as new render-output-format
             Reaper 6.47 - RENDER_METADATA supports now strings longer than 1024 bytes
+            Reaper 6.43 - "caff" as render-outputformat for the CAF-format now supported
         </changelog>
     </US_DocBloc>
 
@@ -10760,7 +10761,7 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.GetTrackMIDILyrics(MediaTrack track, integer flag)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int flag, String bufOutWantNeedBig, Int bufOutWantNeedBig_sz) = RPR_GetTrackMIDILyrics(track, flag, bufOutWantNeedBig, bufOutWantNeedBig_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=6.58
         </requires>
         <description>
             Get all MIDI lyrics on the track. Lyrics will be returned as one string with tabs between each word. 
@@ -10768,7 +10769,7 @@
             flag&1: double tabs at the end of each measure and triple tabs when skipping measures, 
             flag&2: each lyric is preceded by its beat position in the project 
             
-            (example with flag=2: "1.1.2\tLyric for measure 1 beat 2\t.1.1\tLyric for measure 2 beat 1   "). 
+            example with flag=2: "1.1.2\tLyric for measure 1 beat 2\t2.1.1\tLyric for measure 2 beat 1 ").
             
             See SetTrackMIDILyrics
         </description>
@@ -18261,10 +18262,6 @@
              * col_tr2_bg : Track background (even tracks) 
              * selcol_tr1_bg : Selected track background (odd tracks) 
              * selcol_tr2_bg : Selected track background (even tracks) 
-             * track_lane_tabcol : Track fixed lane label
-             * track_lanesolo_tabcol : Track fixed lane label when only this lane plays
-             * track_lane_gutter : Track fixed lane add area
-             * track_lane_gutter_drawmode : Track fixed lane add fill mode
              * col_tr1_divline : Track divider line (odd tracks) 
              * col_tr2_divline : Track divider line (even tracks) 
              * col_envlane1_divline : Envelope lane divider line (odd tracks) 
@@ -18669,10 +18666,18 @@
         <functioncall prog_lang="lua">boolean retval = reaper.SetTrackMIDILyrics(MediaTrack track, integer flag, string str)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_SetTrackMIDILyrics(MediaTrack track, Int flag, String str)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.58
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Set all MIDI lyrics on the track. Lyrics will be stuffed into any MIDI items found in range. Flag is unused at present. str is passed in as beat position, tab, text, tab (example with flag=2: "1.1.2\tLyric for measure 1 beat 2\t.1.1\tLyric for measure 2 beat 1    "). See [GetTrackMIDILyrics](#GetTrackMIDILyrics)
+            Set all MIDI lyrics on the track. Lyrics will be stuffed into any MIDI items found in range. 
+            
+            Flag is unused at present. 
+            
+            str is passed in as beat position, tab, text, tab 
+            
+            example with flag=2: "1.1.2\tLyric for measure 1 beat 2\t2.1.1\tLyric for measure 2 beat 1 "
+            
+            See [GetTrackMIDILyrics](#GetTrackMIDILyrics)
         </description>
         <retvals>
             boolean retval - 
@@ -25910,18 +25915,32 @@
         <functioncall prog_lang="python">BR_SetMediaItemImageResource(MediaItem item, String imageIn, Int imageFlags)</functioncall>
         <requires>
             Reaper=5.974
-            SWS=2.11.0
+            SWS=2.13.1.0
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[BR\] Set image resource and its flags for a given item. To clear current image resource, pass imageIn as "".
-            imageFlags: &1=0: don't display image, &1: center / tile, &3: stretch, &5: full height (REAPER 5.974+).
-            To get image resource, see [BR\_GetMediaItemImageResource](#BR_GetMediaItemImageResource).
+        <description>
+            \[BR\] Set image resource and its flags for a given item. 
+            
+            To clear current image resource, pass imageIn as "".
+            
+            imageFlags: 
+            &1=0: don't display image, 
+            &1: center / tile, 
+            &3: stretch, 
+            &5: full height (REAPER 5.974+).
+            
+            Can also be used to display existing text in empty items unstretched (pass imageIn = "", imageFlags = 0) or stretched (pass imageIn = "". imageFlags = 3).
+            
+            To get image resource, see BR_GetMediaItemImageResource
         </description>
         <parameters>
             MediaItem item - 
             string imageIn - 
             integer imageFlags - 
         </parameters>
+        <linked_to desc="see:">
+            inline:BR_GetMediaItemImageResource
+                   get the image resource of a MediaItem
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -27416,10 +27435,10 @@
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Boolean analyzeTruePeak, Float lufsIntegratedOut, Float rangeOut, Float truePeakOut, Float truePeakPosOut, Float shortTermMaxOut, Float momentaryMaxOut) = NF_AnalyzeTakeLoudness(take, analyzeTruePeak, lufsIntegratedOut, rangeOut, truePeakOut, truePeakPosOut, shortTermMaxOut, momentaryMaxOut)</functioncall>
         <requires>
             Reaper=5.62
-            SWS=2.9.7
+            SWS=2.13.1.0
         </requires>
         <description prog_lang="*">
-            Full loudness analysis. retval: returns true on successful analysis, false on MIDI take or when analysis failed for some reason. analyzeTruePeak=true: Also do true peak analysis. Returns true peak value and true peak position (relative to item position). Considerably slower than without true peak analysis (since it uses oversampling). Note: Short term uses a time window of 3 sec. for calculation. So for items shorter than this shortTermMaxOut can't be calculated correctly. Momentary uses a time window of 0.4 sec.
+            Full loudness analysis. retval: returns true on successful analysis, false on MIDI take or when analysis failed for some reason. analyzeTruePeak=true: Also do true peak analysis. Returns true peak value in dBTP and true peak position (relative to item position). Considerably slower than without true peak analysis (since it uses oversampling). Note: Short term uses a time window of 3 sec. for calculation. So for items shorter than this shortTermMaxOut can't be calculated correctly. Momentary uses a time window of 0.4 sec.
         </description>
         <retvals>
             boolean retval - 
@@ -27644,7 +27663,7 @@
             SWS=2.9.7
         </requires>
         <description prog_lang="*">
-            Returns the average overall (non-windowed) RMS level of active channels of an audio item active take, post item gain, post take volume envelope, post-fade, pre fader, pre item FX. 
+            Returns the average overall (non-windowed) dB RMS level of active channels of an audio item active take, post item gain, post take volume envelope, post-fade, pre fader, pre item FX. 
             Returns -150.0 if MIDI take or empty item.
         </description>
         <retvals>
@@ -27676,7 +27695,7 @@
             SWS=2.9.7
         </requires>
         <description prog_lang="*">
-            Returns the greatest max. peak value of all active channels of an audio item active take, post item gain, post take volume envelope, post-fade, pre fader, pre item FX. 
+            Returns the greatest max. peak value in dBFS of all active channels of an audio item active take, post item gain, post take volume envelope, post-fade, pre fader, pre item FX. 
             Returns -150.0 if MIDI take or empty item.
         </description>
         <retvals>
@@ -27708,7 +27727,7 @@
             SWS=2.9.7
         </requires>
         <description prog_lang="*">
-            Returns the greatest overall (non-windowed) RMS peak level of all active channels of an audio item active take, post item gain, post take volume envelope, post-fade, pre fader, pre item FX. 
+            Returns the greatest overall (non-windowed) dB RMS peak level of all active channels of an audio item active take, post item gain, post take volume envelope, post-fade, pre fader, pre item FX. 
             Returns -150.0 if MIDI take or empty item.
         </description>
         <retvals>
@@ -27740,7 +27759,7 @@
             SWS=2.9.7
         </requires>
         <description prog_lang="*">
-            Returns the average RMS peak level of all active channels of an audio item active take, post item gain, post take volume envelope, post-fade, pre fader, pre item FX. 
+            Returns the average dB RMS peak level of all active channels of an audio item active take, post item gain, post take volume envelope, post-fade, pre fader, pre item FX. 
             Obeys 'Window size for peak RMS' setting in 'SWS: Set RMS analysis/normalize options' for calculation. Returns -150.0 if MIDI take or empty item.
         </description>
         <retvals>
@@ -73910,6 +73929,135 @@ mespotine
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
         <changelog>
+        </changelog>
+    </US_DocBloc>
+
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_GetCustomColor</slug>
+        <title>CF_GetCustomColor</title>
+        <functioncall prog_lang="cpp">int CF_GetCustomColor(int index)</functioncall>
+        <functioncall prog_lang="eel">int  CF_GetCustomColor(int index) </functioncall>
+        <functioncall prog_lang="lua">integer reaper.CF_GetCustomColor(integer index)</functioncall>
+        <functioncall prog_lang="python">Int  CF_GetCustomColor(Int index)</functioncall>
+        <requires>
+            Reaper=6.58            SWS=2.13.1.0            JS=1.31            ReaImGui=0.6.1        </requires>
+        <description>
+
+
+            
+            Get one of 16 SWS custom colors (0xBBGGRR on Windows, 0xRRGGBB everyhwere else). Index is zero-based.
+            
+            
+        </description>
+        <retvals>
+            
+        </retvals>
+        <parameters>
+            
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+          SWS 2.13.1.0 - new function added
+        </changelog>
+    </US_DocBloc>
+
+
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_GetCustomColor</slug>
+        <title>CF_GetCustomColor(SWS)</title>
+        <functioncall prog_lang="cpp">int retval = CF_GetCustomColor(int index)</functioncall>
+        <functioncall prog_lang="eel">int retval = CF_GetCustomColor(int index)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.CF_GetCustomColor(integer index)</functioncall>
+        <functioncall prog_lang="python">Int retval = CF_GetCustomColor(Int index)</functioncall>
+        <requires>
+            Reaper=6.20
+            SWS=2.13.1.0
+        </requires>
+        <description>
+            Get one of 16 SWS custom colors (0xBBGGRR on Windows, 0xRRGGBB everyhwere else). Index is zero-based.
+        </description>
+        <retvals>
+             integer retval - the color-value of the chosen custom-color
+        </retvals>
+        <parameters>
+             integer index - the index of the SWS-custom-color
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            SWS
+            Miscellaneous
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+          SWS 2.13.1.0 - new function added
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_SetCustomColor</slug>
+        <title>CF_SetCustomColor(SWS)</title>
+        <functioncall prog_lang="cpp">void retval = CF_SetCustomColor(int index, int color)</functioncall>
+        <functioncall prog_lang="eel">CF_SetCustomColor(int index, int color)</functioncall>
+        <functioncall prog_lang="lua">reaper.CF_SetCustomColor(integer index, integer color)</functioncall>
+        <functioncall prog_lang="python">CF_SetCustomColor(Int index, Int color)</functioncall>
+        <requires>
+            Reaper=6.20
+            SWS=2.13.1.0
+        </requires>
+        <description>
+            Set one of 16 SWS custom colors (0xBBGGRR on Windows, 0xRRGGBB everyhwere else). Index is zero-based. 
+        </description>
+        <parameters>
+             integer index - the index of the SWS-color to set
+             integer color - the new color-value for this SWS-custom-color
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            SWS
+            Miscellaneous
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+          SWS 2.13.1.0 - new function added
+        </changelog>
+    </US_DocBloc>
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_DeleteTakeFromItem</slug>
+        <title>NF_DeleteTakeFromItem(SWS)</title>
+        <functioncall prog_lang="cpp">bool retval = NF_DeleteTakeFromItem(MediaItem* item, int takeIdx)</functioncall>
+        <functioncall prog_lang="eel">bool retval = NF_DeleteTakeFromItem(MediaItem item, int takeIdx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.NF_DeleteTakeFromItem(MediaItem item, integer takeIdx)</functioncall>
+        <functioncall prog_lang="python">Boolean retval = NF_DeleteTakeFromItem(MediaItem item, Int takeIdx)</functioncall>
+        <requires>
+            Reaper=6.20
+            SWS=2.13.1.0
+        </requires>
+        <description>
+            Deletes a take from an item. takeIdx is zero-based. Returns true on success.
+        </description>
+        <retvals>
+             boolean retval -  true, deleting was successful; false, deleting was unsuccessful
+        </retvals>
+        <parameters>
+             MediaItem item - the item, whose take you want to remove
+             integer takeIdx - the take of the item, that you want to remove
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            Mediaitem Take Management
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+          SWS 2.13.1.0 - new function added
         </changelog>
     </US_DocBloc>
 

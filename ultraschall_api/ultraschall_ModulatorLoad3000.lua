@@ -673,6 +673,22 @@ else
     ultraschall.LM(10)
     return ultraschall.IsTrackEnvelopeVisible_ArrangeView(table.unpack({...}))
   end
+  function ultraschall.GetAllActiveEnvelopes_Track(...)
+    ultraschall.LM(10)
+    return ultraschall.GetAllActiveEnvelopes_Track(table.unpack({...}))
+  end
+  function ultraschall.GetAllActiveEnvelopes_Take(...)
+    ultraschall.LM(10)
+    return ultraschall.GetAllActiveEnvelopes_Take(table.unpack({...}))
+  end
+  function ultraschall.GetTrackEnvelopeFromPoint(...)
+    ultraschall.LM(10)
+    return ultraschall.GetTrackEnvelopeFromPoint(table.unpack({...}))
+  end
+  function ultraschall.GetTakeEnvelopeFromPoint(...)
+    ultraschall.LM(10)
+    return ultraschall.GetTakeEnvelopeFromPoint(table.unpack({...}))
+  end
   function ultraschall.EventManager_EnumerateStartupEvents(...)
     ultraschall.LM(11)
     return ultraschall.EventManager_EnumerateStartupEvents(table.unpack({...}))
@@ -1356,6 +1372,18 @@ else
   function ultraschall.GetBatchConverter_FXStateChunk(...)
     ultraschall.LM(12)
     return ultraschall.GetBatchConverter_FXStateChunk(table.unpack({...}))
+  end
+  function ultraschall.TrackFX_JSFX_Reload(...)
+    ultraschall.LM(12)
+    return ultraschall.TrackFX_JSFX_Reload(table.unpack({...}))
+  end
+  function ultraschall.TakeFX_JSFX_Reload(...)
+    ultraschall.LM(12)
+    return ultraschall.TakeFX_JSFX_Reload(table.unpack({...}))
+  end
+  function ultraschall.InputFX_JSFX_Reload(...)
+    ultraschall.LM(12)
+    return ultraschall.InputFX_JSFX_Reload(table.unpack({...}))
   end
   function ultraschall.ReadFullFile(...)
     ultraschall.LM(13)
@@ -2456,6 +2484,46 @@ else
   function ultraschall.GetTemporaryMarker(...)
     ultraschall.LM(18)
     return ultraschall.GetTemporaryMarker(table.unpack({...}))
+  end
+  function ultraschall.AddShownoteMarker(...)
+    ultraschall.LM(18)
+    return ultraschall.AddShownoteMarker(table.unpack({...}))
+  end
+  function ultraschall.SetShownoteMarker(...)
+    ultraschall.LM(18)
+    return ultraschall.SetShownoteMarker(table.unpack({...}))
+  end
+  function ultraschall.EnumerateShownoteMarkers(...)
+    ultraschall.LM(18)
+    return ultraschall.EnumerateShownoteMarkers(table.unpack({...}))
+  end
+  function ultraschall.CountShownoteMarkers(...)
+    ultraschall.LM(18)
+    return ultraschall.CountShownoteMarkers(table.unpack({...}))
+  end
+  function ultraschall.DeleteShownoteMarker(...)
+    ultraschall.LM(18)
+    return ultraschall.DeleteShownoteMarker(table.unpack({...}))
+  end
+  function ultraschall.PrepareChapterMarkers4ReaperExport(...)
+    ultraschall.LM(18)
+    return ultraschall.PrepareChapterMarkers4ReaperExport(table.unpack({...}))
+  end
+  function ultraschall.RestoreChapterMarkersAfterReaperExport(...)
+    ultraschall.LM(18)
+    return ultraschall.RestoreChapterMarkersAfterReaperExport(table.unpack({...}))
+  end
+  function ultraschall.GetGuidFromShownoteMarkerID(...)
+    ultraschall.LM(18)
+    return ultraschall.GetGuidFromShownoteMarkerID(table.unpack({...}))
+  end
+  function ultraschall.GetShownoteMarkerIDFromGuid(...)
+    ultraschall.LM(18)
+    return ultraschall.GetShownoteMarkerIDFromGuid(table.unpack({...}))
+  end
+  function ultraschall.IsMarkerShownote(...)
+    ultraschall.LM(18)
+    return ultraschall.IsMarkerShownote(table.unpack({...}))
   end
   function ultraschall.GetItemPosition(...)
     ultraschall.LM(19)
@@ -4089,6 +4157,26 @@ else
     ultraschall.LM(26)
     return ultraschall.RazorEdit_Remove(table.unpack({...}))
   end
+  function ultraschall.RazorEdit_GetFromPoint(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_GetFromPoint(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_RemoveByIndex_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_RemoveByIndex_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_RemoveByIndex_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_RemoveByIndex_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_IsAtPosition_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_IsAtPosition_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_IsAtPosition_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_IsAtPosition_Envelope(table.unpack({...}))
+  end
   function ultraschall.AutoSearchReaMoteClients(...)
     ultraschall.LM(27)
     return ultraschall.AutoSearchReaMoteClients(table.unpack({...}))
@@ -4412,6 +4500,18 @@ else
   function ultraschall.GetUIScale(...)
     ultraschall.LM(28)
     return ultraschall.GetUIScale(table.unpack({...}))
+  end
+  function ultraschall.GetHWND_Transport(...)
+    ultraschall.LM(28)
+    return ultraschall.GetHWND_Transport(table.unpack({...}))
+  end
+  function ultraschall.GetHWND_TCP(...)
+    ultraschall.LM(28)
+    return ultraschall.GetHWND_TCP(table.unpack({...}))
+  end
+  function ultraschall.GetHWND_ArrangeView(...)
+    ultraschall.LM(28)
+    return ultraschall.GetHWND_ArrangeView(table.unpack({...}))
   end
   function ultraschall.GetRenderCFG_Settings_FLAC(...)
     ultraschall.LM(29)
@@ -4816,6 +4916,14 @@ else
   function ultraschall.GetSetRenderBlocksize(...)
     ultraschall.LM(29)
     return ultraschall.GetSetRenderBlocksize(table.unpack({...}))
+  end
+  function ultraschall.GetRenderCFG_Settings_WMF(...)
+    ultraschall.LM(29)
+    return ultraschall.GetRenderCFG_Settings_WMF(table.unpack({...}))
+  end
+  function ultraschall.CreateRenderCFG_WMF_Video(...)
+    ultraschall.LM(29)
+    return ultraschall.CreateRenderCFG_WMF_Video(table.unpack({...}))
   end
   function ultraschall.GetAllThemeLayoutNames(...)
     ultraschall.LM(30)

@@ -2770,3 +2770,194 @@ function ultraschall.IsTrackEnvelopeVisible_ArrangeView(TrackEnvelope)
 end
 
 
+function ultraschall.GetAllActiveEnvelopes_Track(track)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetAllActiveEnvelopes_Track</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>integer number_of_active_envelopes, table found_envelopes = ultraschall.GetAllActiveEnvelopes_Track(MediaTrack track)</functioncall>
+    <description>
+      returns all active track-envelopes and their state of visibility and if they are on their own lane.
+      
+      the returned table is of the following format:
+      
+        found_envelopes[envelope_idx][1] - the envelope
+        found_envelopes[envelope_idx][2] - the visibility of the envelope; 1, visible; 0, invisible
+        found_envelopes[envelope_idx][3] - is the envelope on its own lane; 1, on it's own lane; 0, on the media-lane
+        
+      returns -1 in case of an error
+    </description>
+    <retvals>
+      integer number_of_active_envelopes - the number of active envelopes; -1, in case of an error
+      table found_envelopes - the found envelopes(see description for more details)
+    </retvals>
+    <parameters>
+      MediaTrack track - the track, whose active envelopes you want to get
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, track envelope, active envelopes</tags>
+  </US_DocBloc>
+  --]] 
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("GetAllActiveEnvelopes_Track", "track", "must be a valid MediaTrack", -1) return -1 end
+  local TrackEnvelopes={}
+  for i=0, reaper.CountTrackEnvelopes(track)-1 do
+    local act, automation_settings = ultraschall.GetEnvelopeState_Act(reaper.GetTrackEnvelope(track, i))
+    TrackEnvelopes[#TrackEnvelopes+1]={}
+    TrackEnvelopes[#TrackEnvelopes][1] = reaper.GetTrackEnvelope(track, i)
+    TrackEnvelopes[#TrackEnvelopes][2], TrackEnvelopes[#TrackEnvelopes][3] = ultraschall.GetEnvelopeState_Vis(reaper.GetTrackEnvelope(track, i))
+  end
+  return #TrackEnvelopes, TrackEnvelopes
+end
+
+
+--A,B=ultraschall.GetAllActiveEnvelopes(reaper.GetTrack(0,0))
+
+function ultraschall.GetAllActiveEnvelopes_Take(take)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetAllActiveEnvelopes_Take</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>integer number_of_active_envelopes, table found_envelopes = ultraschall.GetAllActiveEnvelopes_Take(MediaItem_Take take)</functioncall>
+    <description>
+      returns all active take-envelopes and their state of visibility and if they are on their own lane.
+      
+      the returned table is of the following format:
+      
+        found_envelopes[envelope_idx][1] - the envelope
+        found_envelopes[envelope_idx][2] - the visibility of the envelope; 1, visible; 0, invisible
+        found_envelopes[envelope_idx][3] - is the envelope on its own lane; 1, on it's own lane; 0, on the media-lane
+        
+      returns -1 in case of an error
+    </description>
+    <retvals>
+      integer number_of_active_envelopes - the number of active envelopes; -1, in case of an error
+      table found_envelopes - the found envelopes(see description for more details)
+    </retvals>
+    <parameters>
+      MediaItem_Take take - the take, whose active envelopes you want to get
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, take envelope, active envelopes</tags>
+  </US_DocBloc>
+  --]] 
+  if ultraschall.type(take)~="MediaItem_Take" then ultraschall.AddErrorMessage("GetAllActiveEnvelopes_Take", "take", "must be a valid MediaItem_Take", -1) return -1 end
+  local TakeEnvelopes={}
+  for i=0, reaper.CountTakeEnvelopes(take)-1 do
+    local act, automation_settings = ultraschall.GetEnvelopeState_Act(reaper.GetTakeEnvelope(take, i))
+    TakeEnvelopes[#TakeEnvelopes+1]={}
+    TakeEnvelopes[#TakeEnvelopes][1] = reaper.GetTakeEnvelope(take, i)
+    TakeEnvelopes[#TakeEnvelopes][2], TakeEnvelopes[#TakeEnvelopes][3] = ultraschall.GetEnvelopeState_Vis(reaper.GetTakeEnvelope(take, i))
+  end
+  return #TakeEnvelopes, TakeEnvelopes
+end
+
+function ultraschall.GetTrackEnvelopeFromPoint(x,y)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetTrackEnvelopeFromPoint</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>TrackEnvelope envelope = ultraschall.GetTrackEnvelopeFromPoint(integer x, integer y)</functioncall>
+    <description>
+      returns the TrackEnvelope at position x,y if existing
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      TrackEnvelope envelope - the envelope found at position x and y
+    </retvals>
+    <parameters>
+      integer x - the x-position in pixels, at which to look for envelopes
+      integer y - the y-position in pixels, at which to look for envelopes
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, track envelope, from point</tags>
+  </US_DocBloc>
+  --]] 
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("GetTrackEnvelopeFromPoint", "x", "must be an integer", -1) return end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("GetTrackEnvelopeFromPoint", "y", "must be an integer", -2) return end
+  local track, envelope=reaper.GetThingFromPoint(x,y)
+  local envid=tonumber(envelope:match("envelope (%d*)"))
+  if envid==nil then
+    envid=tonumber(envelope:match("envcp.- (%d*)"))
+  end
+  if envid~=nil then
+    local found, envs = ultraschall.GetAllActiveEnvelopes_Track(track)
+    return envs[envid+1][1]
+  end
+  ultraschall.AddErrorMessage("GetTrackEnvelopeFromPoint", "", "no envelope found at position", -3)
+end
+
+function ultraschall.GetTakeEnvelopeFromPoint(x,y)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetTakeEnvelopeFromPoint</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.10
+      SWS=2.8.8
+      Lua=5.3
+    </requires>
+    <functioncall>TakeEnvelope env, MediaItem_Take take, number projectposition = ultraschall.GetTakeEnvelopeFromPoint(integer x, integer y)</functioncall>
+    <description>
+      returns the take-envelope at positon x and y in pixels, if existing
+    </description>
+    <retvals>
+      TakeEnvelope env - the take-envelope found unterneath the mouse; nil, if none has been found
+      MediaItem_Take take - the take from which the take-envelope is
+      number projectposition - the project-position
+    </retvals>
+    <parameters>
+      integer x - the x-position in pixels, at which to look for envelopes
+      integer y - the y-position in pixels, at which to look for envelopes
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Envelopes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, take, envelope, from point, position</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("GetTakeEnvelopeFromPoint", "x", "must be an integer", -1) return end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("GetTakeEnvelopeFromPoint", "y", "must be an integer", -2) return end
+  local x2,y2=reaper.GetMousePosition()
+  reaper.JS_Mouse_SetPosition(x, y)
+  local Awindow, Asegment, Adetails = reaper.BR_GetMouseCursorContext()
+  local retval, takeEnvelope = reaper.BR_GetMouseCursorContext_Envelope()
+  reaper.JS_Mouse_SetPosition(x2, y2)  
+  if takeEnvelope==true then 
+    return retval, reaper.BR_GetMouseCursorContext_Position(), reaper.BR_GetMouseCursorContext_Item()
+  else
+    return nil, reaper.BR_GetMouseCursorContext_Position()
+  end
+end
+
+
