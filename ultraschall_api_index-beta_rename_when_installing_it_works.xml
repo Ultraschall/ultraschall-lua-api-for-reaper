@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52737.00" author="Meo Mespotine">
+      <version name="52750.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -537,6 +537,14 @@ New features in 4.6
 -   DeveloperTools: MonitorRenderString_Diff - monitors the diffs of the
     render-string, when setting them in the RenderToFile-dialog and hit
     Save Settings
+-   Envelopes: GetAllActiveEnvelopes_Take - returns all active
+    take-envelopes
+-   Envelopes: GetAllActiveEnvelopes_Track - returns all active
+    track-envelopes
+-   Envelopes: GetTakeEnvelopeFromPoint - returns the take-envelope at a
+    certain coordinate
+-   Envelopes: GetTrackEnvelopeFromPoint - returns the track-envelope at
+    a certain coordinate
 -   FXManagement: InputFX_JSFX_Reload - reloads a jsfx in inputfx, when
     you’ve changed the jsfx-source-file
 -   FXManagement: TakeFX_JSFX_Reload - reloads a jsfx in a take, when
@@ -602,6 +610,8 @@ New features in 4.6
 -   PodcastMetadata: WritePodcastMetaData - creates metadata-entries
     according to the PODCAST_METADATA:“v1”-standard and optionally
     writes it into a file or adds it to id3, vorbis-metadata-schemes
+-   RazorEdit: RazorEdit_GetFromPoint - gets a razor-edit-area/gap by
+    coordinate
 -   RazorEdit: RazorEdit_IsAtPosition_Envelope - checks, if track has a
     razor-edit-area or a gap at position; also returns the position of
     the razor-edit-area or gap at position
@@ -612,6 +622,14 @@ New features in 4.6
     of the windows media foundation-formats(wma, wmv, MPEG-4)
 -   Rendering: GetRenderCFG_Settings_WMF - gets the format-settings of
     the windows media foundation-formats(wma, wmv, MPEG-4)
+-   UserInterface: GetHWND_ArrangeView - returns hwnd of the
+    arrangeview, its visible area and right of arrange-state
+-   UserInterface: GetHWND_TCP - returns hwnd of the track control
+    panel, its visible area and right of arrange-state
+-   UserInterface: GetHWND_Transport - returns hwnd, position, float,
+    dock and hidden-state of transport
+-   UserInterface: GetReaperWindow_Position - returns the
+    Reaper-window-position and various of its elements
 
 Changes from 4.5 to 4.6
 
@@ -643,7 +661,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1544 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52737 from 14.05.2022 12:14:54).}
+a 1553 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52750 from 16.05.2022 16:22:57).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -657,7 +675,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1544 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1553 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -781,7 +799,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1544 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52737 from 14.05.2022 12:14:54).}
+a 1553 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52750 from 16.05.2022 16:22:57).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -795,7 +813,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1544 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1553 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

@@ -2176,6 +2176,7 @@ function ultraschall.ActivateTrackVolumeEnv(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2221,6 +2222,7 @@ function ultraschall.ActivateTrackVolumeEnv_TrackObject(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2264,6 +2266,7 @@ function ultraschall.ActivateTrackPanEnv(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2309,6 +2312,7 @@ function ultraschall.ActivateTrackPanEnv_TrackObject(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2352,6 +2356,7 @@ function ultraschall.ActivateTrackPreFXPanEnv(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2397,6 +2402,7 @@ function ultraschall.ActivateTrackPreFXPanEnv_TrackObject(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2440,6 +2446,7 @@ function ultraschall.ActivateTrackPreFXVolumeEnv(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2485,6 +2492,7 @@ function ultraschall.ActivateTrackPreFXVolumeEnv_TrackObject(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2528,6 +2536,7 @@ function ultraschall.ActivateTrackTrimVolumeEnv(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2573,6 +2582,7 @@ function ultraschall.ActivateTrackTrimVolumeEnv_TrackObject(track)
     </parameters>
     <chapter_context>
       Envelope Management
+      Helper functions
     </chapter_context>
     <target_document>US_Api_Functions</target_document>
     <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
@@ -2599,8 +2609,9 @@ function ultraschall.GetTakeEnvelopeUnderMouseCursor()
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetTakeEnvelopeUnderMouseCursor</slug>
     <requires>
-      Ultraschall=4.1
+      Ultraschall=4.1 
       Reaper=6.10
+      SWS=2.8.8
       Lua=5.3
     </requires>
     <functioncall>TakeEnvelope env, MediaItem_Take take, number projectposition = ultraschall.GetTakeEnvelopeUnderMouseCursor()</functioncall>

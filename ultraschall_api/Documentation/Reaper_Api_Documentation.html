@@ -69656,6 +69656,7 @@ Get the leftmost track visible in the mixer<br>
 </div><p>
 <div class="ch">
 Hit tests a point in screen coordinates. Updates infoOut with information such as "arrange", "fx_chain", "fx_0" (first FX in chain, floating) or Walter-elements. <br>
+When hovering above a track, info is "arrange", while over envelopes, it is "envelope x" where x is the number of the active(!) envelope.<br>
 If a track panel is hit, string will begin with "tcp" or "mcp" or "tcp.mute" etc (future versions may append additional information). <br>
 <br>
 May return NULL with valid info string to indicate non-track thing.<br>

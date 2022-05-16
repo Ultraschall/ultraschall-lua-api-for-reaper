@@ -10282,6 +10282,7 @@
         </requires>
         <description>
             Hit tests a point in screen coordinates. Updates infoOut with information such as "arrange", "fx_chain", "fx_0" (first FX in chain, floating) or Walter-elements. 
+            When hovering above a track, info is "arrange", while over envelopes, it is "envelope x" where x is the number of the active(!) envelope.
             If a track panel is hit, string will begin with "tcp" or "mcp" or "tcp.mute" etc (future versions may append additional information). 
             
             May return NULL with valid info string to indicate non-track thing.

@@ -271,6 +271,10 @@ Has now 1500 functions, with XX new ones
 
 #### New features in 4.6  
   - DeveloperTools: MonitorRenderString_Diff - monitors the diffs of the render-string, when setting them in the RenderToFile-dialog and hit Save Settings
+  - Envelopes: GetAllActiveEnvelopes\_Take - returns all active take-envelopes
+  - Envelopes: GetAllActiveEnvelopes\_Track - returns all active track-envelopes
+  - Envelopes: GetTakeEnvelopeFromPoint - returns the take-envelope at a certain coordinate
+  - Envelopes: GetTrackEnvelopeFromPoint - returns the track-envelope at a certain coordinate
   - FXManagement: InputFX\_JSFX\_Reload - reloads a jsfx in inputfx, when you've changed the jsfx-source-file
   - FXManagement: TakeFX\_JSFX\_Reload - reloads a jsfx in a take, when you've changed the jsfx-source-file
   - FXManagement: TrackFX\_JSFX\_Reload - reloads a jsfx in a track, when you've changed the jsfx-source-file  
@@ -302,11 +306,15 @@ Has now 1500 functions, with XX new ones
   - PodcastMetadata: SetPodcastEpisodeAttrbutesPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastAttrbutesPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes      
+  - RazorEdit: RazorEdit\_GetFromPoint - gets a razor-edit-area/gap by coordinate
   - RazorEdit: RazorEdit\_IsAtPosition\_Envelope - checks, if track has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position
-  - RazorEdit: RazorEdit\_IsAtPosition\_Track - checks, if envelope has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position
+  - RazorEdit: RazorEdit\_IsAtPosition\_Track - checks, if envelope has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position  
   - Rendering: CreateRenderCFG\_WMF\_Video - creates the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
   - Rendering: GetRenderCFG\_Settings\_WMF - gets the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)
-  
+  - UserInterface: GetHWND\_ArrangeView - returns hwnd of the arrangeview, its visible area and right of arrange-state
+  - UserInterface: GetHWND\_TCP - returns hwnd of the track control panel, its visible area and right of arrange-state
+  - UserInterface: GetHWND\_Transport - returns hwnd, position, float, dock and hidden-state of transport
+  - UserInterface: GetReaperWindow\_Position - returns the Reaper-window-position and various of its elements
   
 #### Changes from 4.5 to 4.6  
   - Docs: Reaper Internals - updated to Reaper 6.57
@@ -373,6 +381,7 @@ Has now 1500 functions, with 23 new ones
   - Rendering: GetSetRenderBlocksize - gets/sets the render-blocksize
   - TrackStates: GetTrackPlayOffsState - get the Media Playback Offset-entry of a track
   - TrackStates: SetTrackPlayOffsState - sets the Media Playback Offset-entry of a track
+  
   
 #### Changes from 4.4 to 4.5  
   - AutomationItem\_Delete - did also delete selected automation-items in other TrackEnvelopes -> fixed(thanx to X-Raym)

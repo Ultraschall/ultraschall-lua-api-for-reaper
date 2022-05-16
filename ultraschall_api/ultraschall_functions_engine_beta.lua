@@ -866,7 +866,7 @@ function ultraschall.DeleteParmLearn2_FXStateChunk(FXStateChunk, fxid, parmidx)
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmLearn2_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Deletes a ParmLearn-entry from an FXStateChunk, by parameter index.
     
     Unlike [DeleteParmLearn\_FXStateChunk](#DeleteParmLearn_FXStateChunk), this indexes the parameters not the already existing parmlearns.
@@ -1623,7 +1623,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string content, optional string presetcontent = ultraschall.GetSetPodcast_Attributes(boolean is_set, string attributename, string content, optional integer preset_slot)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will get/set metadata-attributes for a podcast.
     
     This is about the podcast globally, NOT the individual episodes.
@@ -1780,7 +1780,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string content, optional string presetcontent = ultraschall.GetSetPodcastEpisode_Attributes(boolean is_set, string attributename, string content, optional integer preset_slot)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Will get/set metadata-attributes for a podcast-episode.
     
     This is about the individual podcast-episode, NOT the global podcast itself..
@@ -2661,7 +2661,7 @@ function ultraschall.SetPodcastAttributesPreset_Name(preset_slot, preset_name)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetPodcastAttributesPreset_Name(integer preset_slot, string preset_name)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the name of a podcast-metadata-preset
         
     Note, this sets only the presetname for the podcast-metadata-preset. To set the name of the podcast-episode-metadata-preset, see: [SetPodcastEpisodeAttributesPreset\_Name](#SetPodcastEpisodeAttributesPreset_Name)
@@ -2706,7 +2706,7 @@ function ultraschall.GetPodcastAttributesPreset_Name(preset_slot)
     Lua=5.3
   </requires>
   <functioncall>string preset_name = ultraschall.GetPodcastAttributesPreset_Name(integer preset_slot)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the name of a podcast-metadata-preset
         
     Note, this gets only the presetname for the podcast-metadata-preset. To get the name of the podcast-episode-metadata-preset, see: [GetPodcastEpisodeAttributesPreset\_Name](#GetPodcastEpisodeAttributesPreset_Name)
@@ -2747,7 +2747,7 @@ function ultraschall.SetPodcastEpisodeAttributesPreset_Name(preset_slot, presetn
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetPodcastEpisodeAttributesPreset_Name(integer preset_slot, string preset_name)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Sets the name of a podcast-episode-metadata-preset
     
     Note, this sets only the presetname for the episode-metadata-preset. To set the name of the podcast-metadata-preset, see: [SetPodcastAttributesPreset\_Name](#SetPodcastAttributesPreset_Name)
@@ -2793,7 +2793,7 @@ function ultraschall.GetPodcastEpisodeAttributesPreset_Name(preset_slot)
     Lua=5.3
   </requires>
   <functioncall>string preset_name = ultraschall.GetPodcastEpisodeAttributesPreset_Name(integer preset_slot)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Gets the name of a podcast-metadata-preset
         
     Note, this gets only the presetname for the episode-metadata-preset. To get the name of the podcast-metadata-preset, see: [GetPodcastAttributesPreset\_Name](#GetPodcastAttributesPreset_Name)
@@ -3588,7 +3588,7 @@ function ultraschall.RazorEdit_IsAtPosition_Track(track, position)
     Reaper=6.24
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional number start_pos, optional number end_pos = ultraschall.RazorEdit_IsAtPosition_Track(MediaTrack track, number position)</functioncall>
+  <functioncall>boolean retval, optional number start_pos, optional number end_pos, optional integer razor_area_index  = ultraschall.RazorEdit_IsAtPosition_Track(MediaTrack track, number position)</functioncall>
   <description>
     returns, if there's a razor-edit in a track at a given position or if there's a gap.
     
@@ -3596,7 +3596,7 @@ function ultraschall.RazorEdit_IsAtPosition_Track(track, position)
     
     Gaps will be seen as either within two razor-edit-areas or from project-start to first razoredit or from last razor-edit to end of project.
     
-    If the position is before 0 or after ProjectLength, the function will only return false
+    If the position is before 0, the function will only return false
     
     returns nil in case of an error
   </description>
@@ -3604,6 +3604,7 @@ function ultraschall.RazorEdit_IsAtPosition_Track(track, position)
     boolean retval - true, there's a razor-edit at position; false, there's no razor-edit at position; nil, an error occurred
     optional number start_pos - the start of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
     optional number end_pos - the end of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
+    optional integer razor_area_index - the index of the found razor-edit-area; 1-based; -1, if it's a gap
   </retvals>
   <parameters>
     MediaTrack track - the track, whose razor-edit-areas/gaps you want to check for
@@ -3620,7 +3621,7 @@ function ultraschall.RazorEdit_IsAtPosition_Track(track, position)
   if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Track", "track", "must be a valid MediaTrack", -1) return end
   if type(position)~="number" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Track", "position", "must be a number", -2) return end
   if position<0 then return false end
-  if position>reaper.GetProjectLength(0) then return false end
+  --if position>reaper.GetProjectLength(0) then return false end
   local retval, RazorEdits = reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
   local GUID=""
   local RazorEdits="0 0 \""..GUID.."\" "..RazorEdits.." "
@@ -3628,9 +3629,11 @@ function ultraschall.RazorEdit_IsAtPosition_Track(track, position)
   local found=false
   local tempstart=0
   local tempend=reaper.GetProjectLength(0)
-  
+  local count=-1
+
   for a,b,c in string.gmatch(RazorEdits, "(.-) (.-) (.-) ") do
     if c:sub(2,-2)==GUID then
+      count=count+1
       if position>=tonumber(a) and position<=tonumber(b) then
         -- if within razor-edit-area, return this
         tempstart=tonumber(a)
@@ -3650,8 +3653,10 @@ function ultraschall.RazorEdit_IsAtPosition_Track(track, position)
       end
     end
   end
+  
+  if found==false then count=-1 end
 
-  return found, tempstart, tempend
+  return found, tempstart, tempend, count
 end  
 
 function ultraschall.RazorEdit_IsAtPosition_Envelope(envelope, position)
@@ -3663,7 +3668,7 @@ function ultraschall.RazorEdit_IsAtPosition_Envelope(envelope, position)
     Reaper=6.24
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional number start_pos, optional number end_pos = ultraschall.RazorEdit_IsAtPosition_Envelope(TrackEnvelope envelope, number position)</functioncall>
+  <functioncall>boolean retval, optional number start_pos, optional number end_pos, optional integer razor_area_index = ultraschall.RazorEdit_IsAtPosition_Envelope(TrackEnvelope envelope, number position)</functioncall>
   <description>
     returns, if there's a razor-edit in a TrackEnvelope at a given position or if there's a gap.
     
@@ -3671,14 +3676,15 @@ function ultraschall.RazorEdit_IsAtPosition_Envelope(envelope, position)
     
     Gaps will be seen as either within two razor-edit-areas or from project-start to first razoredit or from last razor-edit to end of project.
     
-    If the position is before 0 or after ProjectLength, the function will only return false
+    If the position is before 0, the function will only return false
     
     returns nil in case of an error
   </description>
   <retvals>
     boolean retval - true, there's a razor-edit at position; false, there's no razor-edit at position; nil, an error occurred
-    optional number start_pos - the start of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
-    optional number end_pos - the end of the razor-edit or razor-edit gap; nil if position is before 0 or after project-length
+    optional number start_pos - the start of the razor-edit or razor-edit gap; nil if position is before 0
+    optional number end_pos - the end of the razor-edit or razor-edit gap; nil if position is before 0
+    optional integer razor_area_index - the index of the found razor-edit-area; 1-based; -1, if it's a gap
   </retvals>
   <parameters>
     TrackEnvelope envelope - the envelope, whose razor-edit-areas/gaps you want to check for
@@ -3696,18 +3702,19 @@ function ultraschall.RazorEdit_IsAtPosition_Envelope(envelope, position)
   if type(position)~="number" then ultraschall.AddErrorMessage("RazorEdit_IsAtPosition_Envelope", "position", "must be a number", -2) return end
 
   if position<0 then return false end
-  if position>reaper.GetProjectLength(0) then return false end
   local track=reaper.GetEnvelopeInfo_Value(envelope, "P_TRACK")
   local retval, RazorEdits = reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
-  local retval, GUID = reaper.GetSetEnvelopeInfo_String(TrackEnvelope, "GUID", "", false)
+
+  local retval, GUID = reaper.GetSetEnvelopeInfo_String(envelope, "GUID", "", false)
   local RazorEdits="0 0 \""..GUID.."\" "..RazorEdits.." "
-  
   local found=false
   local tempstart=0
   local tempend=reaper.GetProjectLength(0)
+  local count=-1
   
   for a,b,c in string.gmatch(RazorEdits, "(.-) (.-) (.-) ") do
     if c:sub(2,-2)==GUID then
+      count=count+1
       if position>=tonumber(a) and position<=tonumber(b) then
         -- if within razor-edit-area, return this
         tempstart=tonumber(a)
@@ -3728,5 +3735,478 @@ function ultraschall.RazorEdit_IsAtPosition_Envelope(envelope, position)
     end
   end
 
-  return found, tempstart, tempend
+  if found==false then count=-1 end
+
+  return found, tempstart, tempend, count
+end
+
+function ultraschall.GetHWND_Transport()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetHWND_Transport</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=5.965
+    SWS=2.10.0.1
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>integer transport_position, boolean floating, boolean hidden, HWND transport_hwnd, integer x, integer y, integer right, integer bottom = ultraschall.GetHWND_Transport()</functioncall>
+  <description>
+    returns the HWND of the Transport-area and its visible position/docking-state
+  </description>
+  <retvals>
+    integer transport_position - the position of the transport-area
+                               - -1, transport is docked in docker
+                               - 1, transport is top of main
+                               - 2, transport is at the bottom
+                               - 3, transport is above the ruler
+                               - 4, transport is below arrange
+    boolean floating - true, transport is floating; false, transport is docked in main-window or docker
+    boolean hidden - true, transport is hidden(its hwnd might still be available); false, transport is visible
+    HWND transport_hwnd - the window-handler of transport
+    integer x - x-position of transport in pixels
+    integer y - y-position of transport in pixels
+    integer right - right position of transport in pixels
+    integer bottom - bottom position of transport in pixels
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, window, transport, position, docking-state, hwnd, get</tags>
+</US_DocBloc>
+--]]
+  local transport=reaper.JS_Localize("Transport", "DLG_188")
+  local status=reaper.JS_Localize("status", "DLG_188")
+  local HWND=reaper.GetMainHwnd()
+  local transport_position
+  if reaper.GetToggleCommandState(41608)==1 then
+    transport_position=-1 -- docker
+  elseif reaper.GetToggleCommandState(41606)==1 then
+    transport_position=1 -- top of main
+  elseif reaper.GetToggleCommandState(41605)==1 then
+    transport_position=2 -- bottom of main
+  elseif reaper.GetToggleCommandState(41604)==1 then
+    transport_position=3 -- above ruler of main
+  elseif reaper.GetToggleCommandState(41603)==1 then
+    transport_position=4 -- below arrange of main
+  end
+  local floating=false
+  local Transport=reaper.JS_Window_FindChild(HWND, transport, true)
+  if Transport==nil then
+    Transport=reaper.JS_Window_Find(transport, true)
+    transport_position=-1
+    floating=true
+  end
+  local retval,x,y,w,h
+  if ultraschall.HasHWNDChildWindowNames(Transport, status)==true then
+    retval,x,y,w,h = reaper.JS_Window_GetRect(Transport)
+  end
+  
+  local retval, hidden = reaper.BR_Win32_GetPrivateProfileString("REAPER", "transport_vis", "", reaper.get_ini_file())
+  
+  if tonumber(hidden)==0 then 
+    hidden=true 
+  else 
+    hidden=false
+  end
+  
+  return transport_position, floating, hidden, Transport, x, y, w, h
+end
+
+
+function ultraschall.GetHWND_TCP()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetHWND_TCP</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND tcp_hwnd, boolean tcp_right, integer x, integer y, integer right, integer bottom = ultraschall.GetHWND_TCP()</functioncall>
+  <description>
+    returns the HWND of the TrackControlPanel and its visible area including right or left of arrange-view
+  </description>
+  <retvals>
+    HWND tcp_hwnd - the window-handler of tcp
+    boolean tcp_right - true, tcp is on right side of arrange view; false, tcp is on left side of the arrange view
+    integer x - x-position of tcp in pixels
+    integer y - y-position of tcp in pixels
+    integer right - right position of tcp in pixels
+    integer bottom - bottom position of tcp in pixels
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, window, tcp, track control panel, is right, position, hwnd, get</tags>
+</US_DocBloc>
+--]]
+  local arrange_view, timeline, TrackControlPanel, TrackListWindow = ultraschall.GetHWND_ArrangeViewAndTimeLine()
+  local tcp_right=reaper.GetToggleCommandState(42373)==1
+  local retval, x2, y2, w2, h2 = reaper.JS_Window_GetClientRect(TrackControlPanel)
+  return TrackControlPanel, tcp_right, x2, y2, w2, h2
+end
+
+function ultraschall.GetHWND_ArrangeView()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetHWND_ArrangeView</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND arrange_view_hwnd, integer x, integer y, integer right, integer bottom = ultraschall.GetHWND_ArrangeView()</functioncall>
+  <description>
+    returns the HWND of the ArrangeView and its visible area
+  </description>
+  <retvals>
+    HWND arrange_view_hwnd - the window-handler of arrange-view
+    integer x - x-position of arrange-view in pixels
+    integer y - y-position of arrange-view in pixels
+    integer right - right position of arrange-view in pixels
+    integer bottom - bottom position of arrange-view in pixels
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, window, arrange-view, position, hwnd, get</tags>
+</US_DocBloc>
+--]]
+  local Hwnd=reaper.GetMainHwnd()
+  local arrange=reaper.JS_Window_FindChildByID(Hwnd, 1000)
+  local retval, x2, y2, w2, h2 = reaper.JS_Window_GetClientRect(arrange)
+  return arrange, x2, y2, w2, h2
+end
+
+function ultraschall.GetReaperWindow_Position()
+-- TODO: CHECK ON LINUX AND MAC!!!
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetReaperWindow_Position</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=5.965
+    SWS=2.10.0.1
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean maximized_window, integer x, integer y, integer right, integer bottom, integer height_main_toolbar, integer height_top_docker, integer width_left_docker, integer width_right_docker, integer height_bottom_docker = ultraschall.GetReaperWindow_Position()</functioncall>
+  <description>
+    returns the dimensions of the reaper-window and dimensions of various elements like docker.
+  </description>
+  <retvals>
+    boolean maximized_window - true, window is maximized; false, window is not maximized
+    integer x - x-position of reaper-window in pixels
+    integer y - y-position of reaper-window in pixels
+    integer right - right position of reaper-window in pixels
+    integer bottom - bottom position of reaper-window in pixels
+    integer height_main_toolbar - the height of the main-toolbar in pixels
+    integer height_top_docker - the height of the top-docker in pixels
+    integer width_left_docker - the width of the left-docker in pixels
+    integer width_right_docker - the width of the right-docker in pixels
+    integer height_bottom_docker - the height of the bottom-docker in pixels
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper Main Window
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, window, arrange-view, position, hwnd, get</tags>
+</US_DocBloc>
+--]]
+  local retval, left_dock = reaper.BR_Win32_GetPrivateProfileString("REAPER", "dockheight_l", "", reaper.get_ini_file())
+  local retval, bottom_dock = reaper.BR_Win32_GetPrivateProfileString("REAPER", "dockheight", "", reaper.get_ini_file())
+  local retval, top_dock = reaper.BR_Win32_GetPrivateProfileString("REAPER", "dockheight_t", "", reaper.get_ini_file())
+  local retval, right_dock = reaper.BR_Win32_GetPrivateProfileString("REAPER", "dockheight_r", "", reaper.get_ini_file())
+  local retval, main_toolbar = reaper.BR_Win32_GetPrivateProfileString("REAPER", "toppane", "", reaper.get_ini_file())
+  local retval, tcp_width = reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.get_ini_file())
+  local Hwnd=reaper.GetMainHwnd()
+  local arrange=reaper.JS_Window_FindChildByID(Hwnd, 1000)
+  local retval, x2, y2, w2, h2 = reaper.JS_Window_GetClientRect(arrange)
+
+  local maximized
+  local retval, x, y, w, h = reaper.JS_Window_GetRect(Hwnd) 
+  if x==-4 and y==-4 then
+    x=x+4
+    y=y+4
+    w=w-4
+    maximized=true
+  else
+    maximized=false
+    x=x+1
+    y=y+1
+    w=w-4
+  end
+  
+  return maximized,
+         x, -- x-position of Reaper
+         y, -- y-position of Reaper
+         w, -- x2-position of right of Reaper
+         h, -- y2-position of bottom of Reaper
+         
+         math.tointeger(main_toolbar),-- height of the main_toolbar
+         math.tointeger(top_dock),    -- height of top_docker(above Main ToolBar)
+         math.tointeger(left_dock),   -- width of left docker
+         math.tointeger(right_dock),  -- width of right docker
+         math.tointeger(bottom_dock) -- height of the bottom docker
+end
+
+function ultraschall.GetAllActiveEnvelopes_Track(track)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetAllActiveEnvelopes_Track</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>integer number_of_active_envelopes, table found_envelopes = ultraschall.GetAllActiveEnvelopes_Track(MediaTrack track)</functioncall>
+    <description>
+      returns all active track-envelopes and their state of visibility and if they are on their own lane.
+      
+      the returned table is of the following format:
+      
+        found_envelopes[envelope_idx][1] - the envelope
+        found_envelopes[envelope_idx][2] - the visibility of the envelope; 1, visible; 0, invisible
+        found_envelopes[envelope_idx][3] - is the envelope on its own lane; 1, on it's own lane; 0, on the media-lane
+        
+      returns -1 in case of an error
+    </description>
+    <retvals>
+      integer number_of_active_envelopes - the number of active envelopes; -1, in case of an error
+      table found_envelopes - the found envelopes(see description for more details)
+    </retvals>
+    <parameters>
+      MediaTrack track - the track, whose active envelopes you want to get
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, track envelope, active envelopes</tags>
+  </US_DocBloc>
+  --]] 
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("GetAllActiveEnvelopes_Track", "track", "must be a valid MediaTrack", -1) return -1 end
+  local TrackEnvelopes={}
+  for i=0, reaper.CountTrackEnvelopes(track)-1 do
+    local act, automation_settings = ultraschall.GetEnvelopeState_Act(reaper.GetTrackEnvelope(track, i))
+    TrackEnvelopes[#TrackEnvelopes+1]={}
+    TrackEnvelopes[#TrackEnvelopes][1] = reaper.GetTrackEnvelope(track, i)
+    TrackEnvelopes[#TrackEnvelopes][2], TrackEnvelopes[#TrackEnvelopes][3] = ultraschall.GetEnvelopeState_Vis(reaper.GetTrackEnvelope(track, i))
+  end
+  return #TrackEnvelopes, TrackEnvelopes
+end
+
+
+--A,B=ultraschall.GetAllActiveEnvelopes(reaper.GetTrack(0,0))
+
+function ultraschall.GetAllActiveEnvelopes_Take(take)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetAllActiveEnvelopes_Take</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>integer number_of_active_envelopes, table found_envelopes = ultraschall.GetAllActiveEnvelopes_Take(MediaItem_Take take)</functioncall>
+    <description>
+      returns all active take-envelopes and their state of visibility and if they are on their own lane.
+      
+      the returned table is of the following format:
+      
+        found_envelopes[envelope_idx][1] - the envelope
+        found_envelopes[envelope_idx][2] - the visibility of the envelope; 1, visible; 0, invisible
+        found_envelopes[envelope_idx][3] - is the envelope on its own lane; 1, on it's own lane; 0, on the media-lane
+        
+      returns -1 in case of an error
+    </description>
+    <retvals>
+      integer number_of_active_envelopes - the number of active envelopes; -1, in case of an error
+      table found_envelopes - the found envelopes(see description for more details)
+    </retvals>
+    <parameters>
+      MediaItem_Take take - the take, whose active envelopes you want to get
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, take envelope, active envelopes</tags>
+  </US_DocBloc>
+  --]] 
+  if ultraschall.type(take)~="MediaItem_Take" then ultraschall.AddErrorMessage("GetAllActiveEnvelopes_Take", "take", "must be a valid MediaItem_Take", -1) return -1 end
+  local TakeEnvelopes={}
+  for i=0, reaper.CountTakeEnvelopes(take)-1 do
+    local act, automation_settings = ultraschall.GetEnvelopeState_Act(reaper.GetTakeEnvelope(take, i))
+    TakeEnvelopes[#TakeEnvelopes+1]={}
+    TakeEnvelopes[#TakeEnvelopes][1] = reaper.GetTakeEnvelope(take, i)
+    TakeEnvelopes[#TakeEnvelopes][2], TakeEnvelopes[#TakeEnvelopes][3] = ultraschall.GetEnvelopeState_Vis(reaper.GetTakeEnvelope(take, i))
+  end
+  return #TakeEnvelopes, TakeEnvelopes
+end
+
+function ultraschall.GetTrackEnvelopeFromPoint(x,y)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetTrackEnvelopeFromPoint</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>TrackEnvelope envelope = ultraschall.GetTrackEnvelopeFromPoint(integer x, integer y)</functioncall>
+    <description>
+      returns the TrackEnvelope at position x,y if existing
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      TrackEnvelope envelope - the envelope found at position x and y
+    </retvals>
+    <parameters>
+      integer x - the x-position in pixels, at which to look for envelopes
+      integer y - the y-position in pixels, at which to look for envelopes
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, track envelope, from point</tags>
+  </US_DocBloc>
+  --]] 
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("GetTrackEnvelopeFromPoint", "x", "must be an integer", -1) return end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("GetTrackEnvelopeFromPoint", "y", "must be an integer", -2) return end
+  local track, envelope=reaper.GetThingFromPoint(x,y)
+  local envid=tonumber(envelope:match("envelope (%d*)"))
+  if envid==nil then
+    envid=tonumber(envelope:match("envcp.- (%d*)"))
+  end
+  if envid~=nil then
+    local found, envs = ultraschall.GetAllActiveEnvelopes_Track(track)
+    return envs[envid+1][1]
+  end
+  ultraschall.AddErrorMessage("GetTrackEnvelopeFromPoint", "", "no envelope found at position", -3)
+end
+
+function ultraschall.GetTakeEnvelopeFromPoint(x,y)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetTakeEnvelopeFromPoint</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.10
+      SWS=2.8.8
+      Lua=5.3
+    </requires>
+    <functioncall>TakeEnvelope env, MediaItem_Take take, number projectposition = ultraschall.GetTakeEnvelopeFromPoint(integer x, integer y)</functioncall>
+    <description>
+      returns the take-envelope at positon x and y in pixels, if existing
+    </description>
+    <retvals>
+      TakeEnvelope env - the take-envelope found unterneath the mouse; nil, if none has been found
+      MediaItem_Take take - the take from which the take-envelope is
+      number projectposition - the project-position
+    </retvals>
+    <parameters>
+      integer x - the x-position in pixels, at which to look for envelopes
+      integer y - the y-position in pixels, at which to look for envelopes
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Envelopes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, get, take, envelope, from point, position</tags>
+  </US_DocBloc>
+  --]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("GetTakeEnvelopeFromPoint", "x", "must be an integer", -1) return end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("GetTakeEnvelopeFromPoint", "y", "must be an integer", -2) return end
+  local x2,y2=reaper.GetMousePosition()
+  reaper.JS_Mouse_SetPosition(x, y)
+  local Awindow, Asegment, Adetails = reaper.BR_GetMouseCursorContext()
+  local retval, takeEnvelope = reaper.BR_GetMouseCursorContext_Envelope()
+  reaper.JS_Mouse_SetPosition(x2, y2)  
+  if takeEnvelope==true then 
+    return retval, reaper.BR_GetMouseCursorContext_Position(), reaper.BR_GetMouseCursorContext_Item()
+  else
+    return nil, reaper.BR_GetMouseCursorContext_Position()
+  end
+end
+
+
+function ultraschall.RazorEdit_GetFromPoint(x,y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_GetFromPoint</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>integer razor_edit_index, number start_position, number end_position, MediaTrack track, optional TrackEnvelope envelope = ultraschall.RazorEdit_GetFromPoint(integer x, integer y)</functioncall>
+  <description>
+    gets a razor-edit area by coordinate in pixels
+    
+    returns -1 in case of an error with no additional return-values returned
+  </description>
+  <retvals>
+    integer razor_edit_index - the index of the found razor-edit area; -1, if it's a gap within razor-edits
+    number start_position - the start-position of the razor-edit-area/gap
+    number end_position - the end-position of the razor-edit-area/gap
+    MediaTrack track - the track, in which the razor-edit-area has been found
+    optional TrackEnvelope envelope - the envelope, in which a razor-edit-area has been found; nil, if not in an envelope but rather in the track
+  </retvals>
+  <parameters>
+    integer x - the x-position in pixels, at which to look for razor-edit-areas
+    integer y - the y-position in pixels, at which to look for razor-edit-areas
+  </parameters>  
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, get, from point, track, razor edit area, envelope</tags>
+</US_DocBloc>
+]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("RazorEdit_GetFromPoint", "x", "must be an integer", -1) return -1 end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("RazorEdit_GetFromPoint", "y", "must be an integer", -2) return -1 end
+  local track = reaper.GetTrackFromPoint(x,y)
+  ultraschall.SuppressErrorMessages(true)
+  local env=ultraschall.GetTrackEnvelopeFromPoint(x,y)
+  ultraschall.SuppressErrorMessages(false)
+  reaper.BR_GetMouseCursorContext()
+  local pos=reaper.BR_GetMouseCursorContext_Position()
+  local A, start, endpos, index
+  if env~=nil then
+    A, start, endpos, index=ultraschall.RazorEdit_IsAtPosition_Envelope(env, pos)
+  else
+    A, start, endpos, index=ultraschall.RazorEdit_IsAtPosition_Track(track, pos)
+  end
+  if A==true then
+    return index, start, endpos, track, env
+  else
+    return -1, start, endpos, track, env
+  end
 end
