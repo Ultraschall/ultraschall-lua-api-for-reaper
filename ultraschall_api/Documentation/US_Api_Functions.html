@@ -136,7 +136,7 @@ Ultraschall API Functions
 </td></tr><tr><td class="tdsm"><a href="#CaptureScreenAreaAsPNG">CaptureScreenAreaAsPNG</a></td><td class="tdsm"><a href="#CaptureWindowAsPNG">CaptureWindowAsPNG</a></td><td class="tdsm"><a href="#ConvertJPG2PNG">ConvertJPG2PNG</a></td></tr><td class="tdsm"><a href="#ConvertPNG2JPG">ConvertPNG2JPG</a></td><td class="tdsm"><a href="#ResizeJPG">ResizeJPG</a></td><td class="tdsm"><a href="#ResizePNG">ResizePNG</a></td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Localization"><a href="#Localization">^</a></a><strong> <u>Localization</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#Localize">Localize</a></td><td class="tdsm"><a href="#Localize_RefreshFile">Localize_RefreshFile</a></td><td class="tdsm"><a href="#Localize_UseFile">Localize_UseFile</a></td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="MIDI Management"><a href="#MIDI Management">^</a></a><strong> <u>MIDI Management</u></strong><br><br>
 <b style="font-size:small;"><br><a class="inpad" id="MIDI Editor"><a href="#MIDI Editor">^</a></a> MIDI Editor</b>
-</td></tr><tr><td class="tdsm"><a href="#OpenItemInMidiEditor">OpenItemInMidiEditor</a></td><td class="tdsm"><a href="#ZoomHorizontal_MidiEditor">ZoomHorizontal_MidiEditor</a></td><td class="tdsm"><a href="#ZoomVertical_MidiEditor">ZoomVertical_MidiEditor</a></td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Notes"><a href="#Notes">^</a></a> Notes</b>
+</td></tr><tr><td class="tdsm"><a href="#MidiEditor_GetFixOverlapState">MidiEditor_GetFixOverlapState</a></td><td class="tdsm"><a href="#MidiEditor_SetFixOverlapState">MidiEditor_SetFixOverlapState</a></td><td class="tdsm"><a href="#OpenItemInMidiEditor">OpenItemInMidiEditor</a></td></tr><td class="tdsm"><a href="#ZoomHorizontal_MidiEditor">ZoomHorizontal_MidiEditor</a></td><td class="tdsm"><a href="#ZoomVertical_MidiEditor">ZoomVertical_MidiEditor</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Notes"><a href="#Notes">^</a></a> Notes</b>
 </td></tr><tr><td class="tdsm"><a href="#MIDI_SendMidiCC">MIDI_SendMidiCC</a></td><td class="tdsm"><a href="#MIDI_SendMidiNote">MIDI_SendMidiNote</a></td><td class="tdsm"><a href="#MIDI_SendMidiPC">MIDI_SendMidiPC</a></td></tr><td class="tdsm"><a href="#MIDI_SendMidiPitch">MIDI_SendMidiPitch</a></td><td class="tdsm"><a href="#QueryMIDIMessageNameByID">QueryMIDIMessageNameByID</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Manipulate Files"><a href="#Manipulate Files">^</a></a><strong> <u>Manipulate Files</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#MoveFileOrFolder">MoveFileOrFolder</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Marker Management"><a href="#Marker Management">^</a></a><strong> <u>Marker Management</u></strong><br><br>
 <b style="font-size:small;"><br><a class="inpad" id="Project Markers"><a href="#Project Markers">^</a></a> Project Markers</b>
@@ -20881,6 +20881,64 @@ fr, french<br/>
 de, german<br/>
 jp, japanese<br/>
 etc</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="MidiEditor_GetFixOverlapState"></a>
+<a href="#MidiEditor_GetFixOverlapState"> ^</a> 
+<img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
+<img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
+<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>MidiEditor_GetFixOverlapState</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>boolean</i> newstate = <em>ultraschall.MidiEditor_GetFixOverlapState</em>(<i>optional</i> <i>boolean</i> state)</code></div>
+</div><p>
+<div class="ch">
+Gets the Automatically Correct Overlapping Notes-option, as set in the Midi-Editor -> Options-menu<br>
+<br>
+Note: For API-limitations, this will flash up shortly a new Midi-Editor, if none is opened yet!<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> newstate</td></tr>
+<tr><td class="ch2">the new state of the toggled option</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> state</td></tr>
+<tr><td class="ch2">true, set the option checked; false, set the option unchecked; nil, toggle option</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="MidiEditor_SetFixOverlapState"></a>
+<a href="#MidiEditor_SetFixOverlapState"> ^</a> 
+<img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
+<img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
+<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>MidiEditor_SetFixOverlapState</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>boolean</i> newstate = <em>ultraschall.MidiEditor_SetFixOverlapState</em>(<i>boolean</i> state)</code></div>
+</div><p>
+<div class="ch">
+Sets the Automatically Correct Overlapping Notes-option, as set in the Midi-Editor -> Options-menu<br>
+<br>
+Note: For API-limitations, this will flash up shortly a new Midi-Editor, if none is opened yet!<br>
+<br>
+Returns nil in case of an error<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> newstate</td></tr>
+<tr><td class="ch2">the new state of the toggled option</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> state</td></tr>
+<tr><td class="ch2">true, set the option checked; false, set the option unchecked</td></tr>
 </table>
 <br>
 </div>
@@ -64401,7 +64459,7 @@ Will return Reaper's default ones(resources-folder/Plugins/reaper_www_root/) as 
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.6  - 1496 elements available <br></td></table>
+          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.6  - 1498 elements available <br></td></table>
         <hr>
       </div>
       <br>

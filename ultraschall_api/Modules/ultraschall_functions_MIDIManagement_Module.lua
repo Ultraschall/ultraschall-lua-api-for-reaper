@@ -419,3 +419,118 @@ function ultraschall.QueryMIDIMessageNameByID(modifier, key)
   local length_of_value, value = ultraschall.GetIniFileValue("All_StuffMIDIMessage_Messages_english_windows", modifier.."_"..key.."_1", -1, ultraschall.Api_Path.."/IniFiles/StuffMidiMessage-AllMessages_Englisch_Windows.ini")
   return value
 end
+
+function ultraschall.MidiEditor_SetFixOverlapState(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MidiEditor_SetFixOverlapState</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean newstate = ultraschall.MidiEditor_SetFixOverlapState(boolean state)</functioncall>
+  <description>
+    Sets the Automatically Correct Overlapping Notes-option, as set in the Midi-Editor -> Options-menu
+    
+    Note: For API-limitations, this will flash up shortly a new Midi-Editor, if none is opened yet!
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    boolean newstate - the new state of the toggled option
+  </retvals>
+  <parameters>
+    boolean state - true, set the option checked; false, set the option unchecked
+  </parameters>
+  <chapter_context>
+    MIDI Management
+    MIDI Editor
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
+  <tags>midi editor, option, set, correct overlapping state</tags>
+</US_DocBloc>
+]]
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("MidiEditor_SetFixOverlapState", "state", "must be a boolean", -1) return end
+  local retval, value = reaper.BR_Win32_GetPrivateProfileString("midiedit", "fixnoteoverlaps", "", reaper.get_ini_file())
+  if state==nil then 
+    if value=="1" then
+      state=false
+    else
+      state=true
+    end
+  end
+  local count, MIDIEditor, MediaItemArray
+  if state==true then state=1 else state=0 end
+  if tonumber(value)==state then return state==1 end
+  reaper.PreventUIRefresh(1)
+
+  local MidiEditor, count, MediaItemarray, Item, retval
+  local MIDIEditor0=reaper.MIDIEditor_GetActive()
+  if MIDIEditor0==nil then 
+    count, MediaItemArray = ultraschall.GetAllSelectedMediaItemsBetween(0, reaper.GetProjectLength(),  ultraschall.CreateTrackString_AllTracks(), true)
+
+    for i=1, #MediaItemArray do
+      reaper.SetMediaItemInfo_Value(MediaItemArray[i], "B_UISEL", 0)
+    end
+    Item=reaper.CreateNewMIDIItemInProj(reaper.GetTrack(0,0), reaper.GetProjectLength(), reaper.GetProjectLength()+1)
+    reaper.SetMediaItemSelected(Item, true)
+    reaper.Main_OnCommand(40153, 0) 
+    MIDIEditor=reaper.MIDIEditor_GetActive()
+    reaper.MIDIEditor_OnCommand(MIDIEditor, 40681)
+  else
+    MIDIEditor=reaper.MIDIEditor_GetActive() 
+    reaper.MIDIEditor_OnCommand(MIDIEditor, 40681)
+  end
+  
+  
+  if MIDIEditor0==nil then 
+    ultraschall.DeleteMediaItem(Item)
+    for i=1, #MediaItemArray do
+      reaper.SetMediaItemSelected(MediaItemArray[i], true)
+    end
+    reaper.JS_Window_Destroy(MIDIEditor)
+  end
+  reaper.UpdateArrange()
+
+  reaper.PreventUIRefresh(-1)
+  return state==1
+end
+
+
+function ultraschall.MidiEditor_GetFixOverlapState()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MidiEditor_GetFixOverlapState</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean newstate = ultraschall.MidiEditor_GetFixOverlapState(optional boolean state)</functioncall>
+  <description>
+    Gets the Automatically Correct Overlapping Notes-option, as set in the Midi-Editor -> Options-menu
+    
+    Note: For API-limitations, this will flash up shortly a new Midi-Editor, if none is opened yet!
+  </description>
+  <retvals>
+    boolean newstate - the new state of the toggled option
+  </retvals>
+  <parameters>
+    optional boolean state - true, set the option checked; false, set the option unchecked; nil, toggle option
+  </parameters>
+  <chapter_context>
+    MIDI Management
+    MIDI Editor
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
+  <tags>midi editor, option, get, correct overlapping state</tags>
+</US_DocBloc>
+]]
+  local retval, value = reaper.BR_Win32_GetPrivateProfileString("midiedit", "fixnoteoverlaps", "", reaper.get_ini_file())
+  if value=="0" then return false else return true end
+end

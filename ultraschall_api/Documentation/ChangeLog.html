@@ -36,7 +36,7 @@
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.6 - "Can - Halleluwah" - 19th of May 2022</h3>
-<p>Has now 1527 functions, with 27 new ones</p>
+<p>Has now 1529 functions, with 29 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><p><strong>FromPoint-functions</strong><br />
@@ -74,6 +74,8 @@ More comfortable functions for getting Transport, Arrange and TCP.</p></li>
 <li>Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote marker by its guid</li>
 <li>Markers: IsMarkerShownote - returns, if a marker is a shownote</li>
 <li>Markers: SetShownoteMarker - sets an already existing shownote-marker</li>
+<li>MidiEditor: MidiEditor_GetFixOverlapState - gets the Automatically Correct Overlapping Notes-option, as set in the Midi-Editor -&gt; Options-menu</li>
+<li>MidiEditor: MidiEditor_SetFixOverlapState - sets the Automatically Correct Overlapping Notes-option, as set in the Midi-Editor -&gt; Options-menu</li>
 <li>PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering</li>
 <li>PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering<br />
 </li>
@@ -96,7 +98,8 @@ More comfortable functions for getting Transport, Arrange and TCP.</p></li>
 <li>MediaItems: ApplyActionToMediaItem - doesn't create an undo point anymore</li>
 <li>MediaItems: ApplyActionToMediaItemArray2 - doesn't create an undo point anymore</li>
 <li>MediaItems: GetAllMediaItemsInTimeSelection - doesn't create an undo point anymore</li>
-<li>MediaItems: SetMediaItemsSelected_TimeSelection - doesn't create an undo point anymore; has now parameter for only items that are completely inside the time-selection</li>
+<li>MediaItems: SetMediaItemsSelected_TimeSelection - doesn't create an undo point anymore; has now parameter for only items that are completely inside the time-selection<br />
+</li>
 <li>RazorEdit: RazorEdit_Remove_Envelope - accidentally removed items on first track -&gt; fixed</li>
 <li>RazorEdit: RazorEdit_Remove_Track - accidentally removed items on first track -&gt; fixed</li>
 <li>Rendering: AddSelectedItemsToRenderQueue - had inner variable exposed; could potentially create undo-points -&gt; fixed</li>

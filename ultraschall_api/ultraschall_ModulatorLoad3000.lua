@@ -2133,6 +2133,14 @@ else
     ultraschall.LM(17)
     return ultraschall.QueryMIDIMessageNameByID(table.unpack({...}))
   end
+  function ultraschall.MidiEditor_SetFixOverlapState(...)
+    ultraschall.LM(17)
+    return ultraschall.MidiEditor_SetFixOverlapState(table.unpack({...}))
+  end
+  function ultraschall.MidiEditor_GetFixOverlapState(...)
+    ultraschall.LM(17)
+    return ultraschall.MidiEditor_GetFixOverlapState(table.unpack({...}))
+  end
   function ultraschall.AddNormalMarker(...)
     ultraschall.LM(18)
     return ultraschall.AddNormalMarker(table.unpack({...}))
