@@ -532,7 +532,7 @@ function ultraschall.DeleteMediaItem(MediaItemObject)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteMediaItem</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.6
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -3635,19 +3635,22 @@ end
 
 --A,B=ultraschall.GetAllSelectedMediaItems()
 
-function ultraschall.SetMediaItemsSelected_TimeSelection()
+function ultraschall.SetMediaItemsSelected_TimeSelection(inside)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetMediaItemsSelected_TimeSelection</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.6
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>ultraschall.SetMediaItemsSelected_TimeSelection()</functioncall>
+  <functioncall>ultraschall.SetMediaItemsSelected_TimeSelection(optional boolean inside)</functioncall>
   <description>
     Sets all MediaItems selected, that are within the time-selection.
   </description>
+  <parameters>
+    optional boolean inside - true, select only items completely inside the time-selection; false or nil, include also items, that are partially inside the time-selection
+  </parameters>
   <chapter_context>
     MediaItem Management
     Selected Items
@@ -3656,8 +3659,21 @@ function ultraschall.SetMediaItemsSelected_TimeSelection()
   <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
   <tags>mediaitemmanagement, set, selected, item, mediaitem, timeselection</tags>
 </US_DocBloc>
-]]
-  reaper.Main_OnCommand(40717,0)
+]]  
+  --reaper.Main_OnCommand(40717,0)
+  local startpos, endpos = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
+  for i=0, reaper.CountMediaItems(0)-1 do
+    local pos=reaper.GetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "D_POSITION")
+    local len=reaper.GetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "D_LENGTH")
+    if pos>=startpos and pos+len<=endpos then
+      reaper.SetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "B_UISEL", 1)
+    elseif inside==false and pos+len>=startpos and pos+len<=endpos then
+      reaper.SetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "B_UISEL", 1)
+    elseif inside==false and pos>=startpos and pos<=endpos then
+      reaper.SetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "B_UISEL", 1)
+    end
+  end
+  reaper.UpdateArrange()
 end
 
 function ultraschall.GetParentTrack_MediaItem(MediaItem)
@@ -3873,7 +3889,7 @@ function ultraschall.ApplyActionToMediaItem(MediaItem, actioncommandid, repeat_a
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyActionToMediaItem</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.6
     Reaper=5.77
     Lua=5.3
   </requires>
@@ -3913,7 +3929,9 @@ function ultraschall.ApplyActionToMediaItem(MediaItem, actioncommandid, repeat_a
   -- get old item-selection, delete item selection, select MediaItem
   reaper.PreventUIRefresh(1)
   local oldcount, oldselection = ultraschall.GetAllSelectedMediaItems()
-  reaper.SelectAllMediaItems(0, false)
+  for i=1, #oldselection do
+    reaper.SetMediaItemInfo_Value(oldselection[i], "B_UISEL", 0)
+  end
   reaper.SetMediaItemSelected(MediaItem, true)
   if type(actioncommandid)=="string" then actioncommandid=reaper.NamedCommandLookup(actioncommandid) end -- get command-id-number from named actioncommandid
 
@@ -3926,7 +3944,9 @@ function ultraschall.ApplyActionToMediaItem(MediaItem, actioncommandid, repeat_a
     end
   end
   -- restore old item-selection
-  reaper.SelectAllMediaItems(0, false)
+  for i=1, reaper.CountMediaItems(0)-1 do
+    reaper.SetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "B_UISEL", 0)
+  end
   ultraschall.SelectMediaItems_MediaItemArray(oldselection)
   reaper.PreventUIRefresh(-1)
   reaper.UpdateArrange()
@@ -4006,7 +4026,7 @@ function ultraschall.GetAllMediaItemsInTimeSelection(trackstring, inside)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllMediaItemsInTimeSelection</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.6
     Reaper=5.77
     Lua=5.3
   </requires>
@@ -4041,30 +4061,37 @@ function ultraschall.GetAllMediaItemsInTimeSelection(trackstring, inside)
   local starttime, endtime = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
   
   -- Do the selection
-  reaper.PreventUIRefresh(1)
-  reaper.SelectAllMediaItems(0, false) -- deselect all
-  ultraschall.SetMediaItemsSelected_TimeSelection() -- select only within time-selection
+reaper.PreventUIRefresh(1)
+
+  local oldcount, oldselection = ultraschall.GetAllSelectedMediaItems()
+  for i=1, #oldselection do
+    reaper.SetMediaItemInfo_Value(oldselection[i], "B_UISEL", 0)
+  end
+  
+  ultraschall.SetMediaItemsSelected_TimeSelection(inside) -- select only within time-selection
+
   local count, MediaItemArray=ultraschall.GetAllSelectedMediaItems() -- get all selected items
-  local count2
-  if MediaItemArray[1]== nil then count2=0 
+  
+  if MediaItemArray[1]==nil then 
   else   
     -- check, whether the item is in a track, as demanded by trackstring
     for i=count, 1, -1 do
-      if ultraschall.IsItemInTrack3(MediaItemArray[i], trackstring)==false then table.remove(MediaItemArray, i) count=count-1 end
-    end
-    
-    -- remove all items, that aren't properly within time-selection(like items partially in selection)
-    if MediaItemArray[1]==nil then count2=0 
-    else count2, MediaItemArray=ultraschall.OnlyItemsInTracksAndTimerange(MediaItemArray, trackstring, starttime, endtime, inside) 
+      if ultraschall.IsItemInTrack3(MediaItemArray[i], trackstring)==false then 
+        table.remove(MediaItemArray, i) 
+        count=count-1 
+      end
     end
   end
     
   -- reset old selection, redraw arrange and return what has been found
-  reaper.SelectAllMediaItems(0, false)
+  for i=1, reaper.CountMediaItems(0)-1 do
+    reaper.SetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "B_UISEL", 0)
+  end
   ultraschall.SelectMediaItems_MediaItemArray(oldselection)
   reaper.PreventUIRefresh(-1)
   reaper.UpdateArrange()
-  return count2, MediaItemArray
+  
+  return #MediaItemArray, MediaItemArray
 end
 
 --A,B=ultraschall.GetAllMediaItemsInTimeSelection("2", false)
@@ -4550,7 +4577,7 @@ function ultraschall.ApplyActionToMediaItemArray2(MediaItemArray, actioncommandi
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyActionToMediaItemArray2</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.6
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -4591,12 +4618,18 @@ function ultraschall.ApplyActionToMediaItemArray2(MediaItemArray, actioncommandi
   
   reaper.PreventUIRefresh(1)
   local count, MediaItemArray_selected = ultraschall.GetAllSelectedMediaItems() -- get old selection
-  reaper.SelectAllMediaItems(0, false) -- deselect all MediaItems
+  for i=1, #MediaItemArray_selected do
+    reaper.SetMediaItemInfo_Value(MediaItemArray_selected[i], "B_UISEL", 0)
+  end
+  
   local retval = ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray) -- select to-be-processed-MediaItems
   for i=1, repeat_action do
     ultraschall.RunCommand(actioncommandid,0) -- apply the action
   end
-  reaper.SelectAllMediaItems(0, false) -- deselect all MediaItems
+
+  for i=1, reaper.CountMediaItems(0)-1 do
+    reaper.SetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "B_UISEL", 0)
+  end
   local retval = ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray_selected) -- select the MediaItems formerly selected
   reaper.PreventUIRefresh(-1)
   reaper.UpdateArrange()

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52795.00" author="Meo Mespotine">
+      <version name="52808.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -604,9 +604,9 @@ New features in 4.6
 -   RazorEdit: RazorEdit_RemoveByIndex_Track - removes a razor-edit-area
     by its index from a track(envelopes stay untouched)
 -   Rendering: CreateRenderCFG_WMF_Video - creates the format-settings
-    of the windows media foundation-formats(wma, wmv, MPEG-4)
+    of the windows media foundation-formats(MPEG-4, mp4, m4a)
 -   Rendering: GetRenderCFG_Settings_WMF - gets the format-settings of
-    the windows media foundation-formats(wma, wmv, MPEG-4)
+    the windows media foundation-formats(MPEG-4, mp4, m4a)
 -   UserInterface: GetHWND_ArrangeView - returns hwnd of the
     arrangeview, its visible area and right of arrange-state
 -   UserInterface: GetHWND_TCP - returns hwnd of the track control
@@ -616,11 +616,24 @@ New features in 4.6
 
 Changes from 4.5 to 4.6
 
+-   Clipboard: PutMediaItemsToClipboard_MediaItemArray - could
+    potentially create an undo-point -> fixed
 -   Docs: Reaper Internals - updated to Reaper 6.58, SWS 2.13.1.0
+-   MediaItems: ApplyActionToMediaItem - doesn’t create an undo point
+    anymore
+-   MediaItems: ApplyActionToMediaItemArray2 - doesn’t create an undo
+    point anymore
+-   MediaItems: GetAllMediaItemsInTimeSelection - doesn’t create an undo
+    point anymore
+-   MediaItems: SetMediaItemsSelected_TimeSelection - doesn’t create an
+    undo point anymore; has now parameter for only items that are
+    completely inside the time-selection
 -   RazorEdit: RazorEdit_Remove_Envelope - accidentally removed items on
     first track -> fixed
 -   RazorEdit: RazorEdit_Remove_Track - accidentally removed items on
     first track -> fixed
+-   Rendering: AddSelectedItemsToRenderQueue - had inner variable
+    exposed; could potentially create undo-points -> fixed
 ]]>
 </changelog>
       </version>

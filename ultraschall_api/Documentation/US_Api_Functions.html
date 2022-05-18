@@ -5557,7 +5557,7 @@ Returns the content of the clipboard as a string. Uses the SWS-function reaper.C
 <a class="anch" id="PutMediaItemsToClipboard_MediaItemArray"></a>
 <a href="#PutMediaItemsToClipboard_MediaItemArray"> ^</a> 
 <img width="3%" src="gfx/reaper5.95.png" alt="Reaper version 5.95">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>PutMediaItemsToClipboard_MediaItemArray</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>PutMediaItemsToClipboard_MediaItemArray</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.PutMediaItemsToClipboard_MediaItemArray</em>(MediaItemArray MediaItemArray)</code></div>
 </div><p>
@@ -24971,7 +24971,7 @@ returns false if Media Explorer is closed<br>
 <a class="anch" id="ApplyActionToMediaItem"></a>
 <a href="#ApplyActionToMediaItem"> ^</a> 
 <img width="3%" src="gfx/reaper5.77.png" alt="Reaper version 5.77">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>ApplyActionToMediaItem</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>ApplyActionToMediaItem</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.ApplyActionToMediaItem</em>(<i>MediaItem</i> MediaItem, <i>string</i> actioncommandid, <i>integer</i> repeat_action, <i>boolean</i> midi, <i>optional</i> <i>HWND</i> MIDI_hwnd)</code></div>
 </div><p>
@@ -25058,7 +25058,7 @@ Returns false in case of an error<br>
 <a class="anch" id="ApplyActionToMediaItemArray2"></a>
 <a href="#ApplyActionToMediaItemArray2"> ^</a> 
 <img width="3%" src="gfx/reaper5.95.png" alt="Reaper version 5.95">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>ApplyActionToMediaItemArray2</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>ApplyActionToMediaItemArray2</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.ApplyActionToMediaItemArray2</em>(MediaItemArray MediaItemArray, <i>string</i> actioncommandid, <i>integer</i> repeat_action, <i>boolean</i> midi, <i>optional</i> <i>HWND</i> MIDI_hwnd)</code></div>
 </div><p>
@@ -26234,7 +26234,7 @@ Stops any playing preview of a MediaItem.<br>
 <a class="anch" id="DeleteMediaItem"></a>
 <a href="#DeleteMediaItem"> ^</a> 
 <img width="3%" src="gfx/reaper5.95.png" alt="Reaper version 5.95">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>DeleteMediaItem</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>DeleteMediaItem</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> MediaItemStateChunk = <em>ultraschall.DeleteMediaItem</em>(<i>MediaItem</i> MediaItem)</code></div>
 </div><p>
@@ -29437,7 +29437,7 @@ returns -1 in case of error<br>
 <a class="anch" id="GetAllMediaItemsInTimeSelection"></a>
 <a href="#GetAllMediaItemsInTimeSelection"> ^</a> 
 <img width="3%" src="gfx/reaper5.77.png" alt="Reaper version 5.77">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetAllMediaItemsInTimeSelection</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>GetAllMediaItemsInTimeSelection</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> count, <i>array</i> MediaItemArray = <em>ultraschall.GetAllMediaItemsInTimeSelection</em>(<i>string</i> trackstring, <i>boolean</i> inside)</code></div>
 </div><p>
@@ -30879,13 +30879,18 @@ returns -1 in case of error<br>
 <a class="anch" id="SetMediaItemsSelected_TimeSelection"></a>
 <a href="#SetMediaItemsSelected_TimeSelection"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>SetMediaItemsSelected_TimeSelection</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>SetMediaItemsSelected_TimeSelection</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <em>ultraschall.SetMediaItemsSelected_TimeSelection</em>()</code></div>
+<div class="l">Lua: <code> <em>ultraschall.SetMediaItemsSelected_TimeSelection</em>(<i>optional</i> <i>boolean</i> inside)</code></div>
 </div><p>
 <div class="ch">
 Sets all MediaItems selected, that are within the time-selection.<br>
-</div><br>
+</div><br>          <u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> inside</td></tr>
+<tr><td class="ch2">true, select only items completely inside the time-selection; false or nil, include also items, that are partially inside the time-selection</td></tr>
+</table>
+<br>
 </div>
 <div class="ch">
 <hr>
@@ -52039,7 +52044,7 @@ returns false in case of an error<br>
 <a class="anch" id="AddSelectedItemsToRenderQueue"></a>
 <a href="#AddSelectedItemsToRenderQueue"> ^</a> 
 <img width="3%" src="gfx/reaper5.979.png" alt="Reaper version 5.979">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>AddSelectedItemsToRenderQueue</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>AddSelectedItemsToRenderQueue</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> num_queued_projects = <em>ultraschall.AddSelectedItemsToRenderQueue</em>(<i>optional</i> <i>boolean</i> render_items_individually, <i>optional</i> <i>boolean</i> render_items_through_master, <i>optional</i> <i>table</i> RenderTable)</code></div>
 </div><p>

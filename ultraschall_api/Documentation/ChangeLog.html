@@ -83,17 +83,23 @@ More comfortable functions for getting Transport, Arrange and TCP.</p></li>
 </li>
 <li>RazorEdit: RazorEdit_RemoveByIndex_Envelope - removes a razor-edit-area by its index from an envelope</li>
 <li>RazorEdit: RazorEdit_RemoveByIndex_Track - removes a razor-edit-area by its index from a track(envelopes stay untouched)</li>
-<li>Rendering: CreateRenderCFG_WMF_Video - creates the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)</li>
-<li>Rendering: GetRenderCFG_Settings_WMF - gets the format-settings of the windows media foundation-formats(wma, wmv, MPEG-4)</li>
+<li>Rendering: CreateRenderCFG_WMF_Video - creates the format-settings of the windows media foundation-formats(MPEG-4, mp4, m4a)</li>
+<li>Rendering: GetRenderCFG_Settings_WMF - gets the format-settings of the windows media foundation-formats(MPEG-4, mp4, m4a)</li>
 <li>UserInterface: GetHWND_ArrangeView - returns hwnd of the arrangeview, its visible area and right of arrange-state</li>
 <li>UserInterface: GetHWND_TCP - returns hwnd of the track control panel, its visible area and right of arrange-state</li>
 <li>UserInterface: GetHWND_Transport - returns hwnd, position, float, dock and hidden-state of transport</li>
 </ul>
 <h4>Changes from 4.5 to 4.6</h4>
 <ul>
+<li>Clipboard: PutMediaItemsToClipboard_MediaItemArray - could potentially create an undo-point -&gt; fixed</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.58, SWS 2.13.1.0</li>
+<li>MediaItems: ApplyActionToMediaItem - doesn't create an undo point anymore</li>
+<li>MediaItems: ApplyActionToMediaItemArray2 - doesn't create an undo point anymore</li>
+<li>MediaItems: GetAllMediaItemsInTimeSelection - doesn't create an undo point anymore</li>
+<li>MediaItems: SetMediaItemsSelected_TimeSelection - doesn't create an undo point anymore; has now parameter for only items that are completely inside the time-selection</li>
 <li>RazorEdit: RazorEdit_Remove_Envelope - accidentally removed items on first track -&gt; fixed</li>
 <li>RazorEdit: RazorEdit_Remove_Track - accidentally removed items on first track -&gt; fixed</li>
+<li>Rendering: AddSelectedItemsToRenderQueue - had inner variable exposed; could potentially create undo-points -&gt; fixed</li>
 </ul>
 <hr />
 <h3>4.5 - "Frank Zappa - Help I'm a Rock" - 6th of May 2022</h3>

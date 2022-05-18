@@ -6369,7 +6369,7 @@ function ultraschall.AddSelectedItemsToRenderQueue(render_items_individually, re
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddSelectedItemsToRenderQueue</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.6
     Reaper=5.979
     Lua=5.3
   </requires>
@@ -6413,13 +6413,16 @@ function ultraschall.AddSelectedItemsToRenderQueue(render_items_individually, re
   RenderTable["Bounds"]=4
   RenderTable["RenderFile"]="c:\\temp\\"
   local retval = ultraschall.ApplyRenderTable_Project(RenderTable, true)
+  local count
   
   if render_items_individually~=true then
     reaper.Main_OnCommand(41823,0)
     count=1
   else
     count, MediaItemArray = ultraschall.GetAllSelectedMediaItems()
-    reaper.SelectAllMediaItems(0, false)
+    for i=1, reaper.CountMediaItems(0)-1 do
+        reaper.SetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "B_UISEL", 0)
+    end
     for i=1, count do
       reaper.SetMediaItemSelected(MediaItemArray[i], true)
       reaper.Main_OnCommand(41823,0)
