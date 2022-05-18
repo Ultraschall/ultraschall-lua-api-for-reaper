@@ -2961,3 +2961,44 @@ function ultraschall.GetTakeEnvelopeFromPoint(x,y)
 end
 
 
+function ultraschall.IsEnvelopeTrackEnvelope(Envelope)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>IsEnvelopeTrackEnvelope</slug>
+    <requires>
+      Ultraschall=4.6
+      Reaper=6.10
+      Lua=5.3
+    </requires>
+    <functioncall>boolean is_track_envelope = ultraschall.IsEnvelopeTrackEnvelope(TrackEnvelope Envelope)</functioncall>
+    <description>
+      checks, whether the passed envelope is a TrackEnvelope
+      
+      returns nil in case of an error
+    </description>
+    <retvals>
+      boolean is_track_envelope - true, envelope is a TrackEnvelope; false, envelope is not TakeEnvelope
+    </retvals>
+    <parameters>
+      TrackEnvelope Envelope - the envelope to check, if it's a TrackEnvelope
+    </parameters>
+    <chapter_context>
+      Envelope Management
+      Envelopes
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+    <tags>envelope management, check, track, envelope</tags>
+  </US_DocBloc>
+  --]]
+  if ultraschall.type(Envelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("IsEnvelopeTrackEnvelope", "Envelope", "must be a valid TrackEnvelope", -1) return end
+  for i=0, reaper.CountTracks(0,0)-1 do
+    for a=0, reaper.CountTrackEnvelopes(reaper.GetTrack(0,i)) do
+      local env=reaper.GetTrackEnvelope(reaper.GetTrack(0,i),a)
+      if env==Envelope then
+        return true
+      end
+    end
+  end
+  return false
+end

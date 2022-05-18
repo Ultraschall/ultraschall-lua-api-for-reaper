@@ -36,13 +36,14 @@
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.6 - "Can - Halleluwah" - 19th of May 2022</h3>
-<p>Has now 1529 functions, with 29 new ones</p>
+<p>Has now 1532 functions, with 32 new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
 <li><p><strong>FromPoint-functions</strong><br />
 You can get now Razor-Edits, TrackEnvelopes and TakeEnvelopes by their coordinates.</p></li>
 <li><p><strong>Razor-Edit-specials</strong><br />
-New Razor-Edit functions in general. Remove now by index and get, if at a specific position is a razor-edit or a gap between them.</p></li>
+New Razor-Edit functions in general. Remove now by index and get, if at a specific position is a razor-edit or a gap between them.<br />
+You can also check, whether a certain area overlaps with already existing razor-edit-areas.</p></li>
 <li><p><strong>JSFX-reload</strong><br />
 If you develop JSFX in an external editor and would like to update them in a project to use the latest version, you get functions to do so.<br />
 This should speed up developing and testing jsfx a little better.<br />
@@ -60,6 +61,7 @@ More comfortable functions for getting Transport, Arrange and TCP.</p></li>
 <li>Envelopes: GetAllActiveEnvelopes_Track - returns all active track-envelopes</li>
 <li>Envelopes: GetTakeEnvelopeFromPoint - returns the take-envelope at a certain coordinate</li>
 <li>Envelopes: GetTrackEnvelopeFromPoint - returns the track-envelope at a certain coordinate</li>
+<li>Envelopes: IsEnvelopeTrackEnvelope - checks, whether an Envelope is a TrackEnvelope</li>
 <li>FXManagement: InputFX_JSFX_Reload - reloads a jsfx in inputfx, when you've changed the jsfx-source-file</li>
 <li>FXManagement: TakeFX_JSFX_Reload - reloads a jsfx in a take, when you've changed the jsfx-source-file</li>
 <li>FXManagement: TrackFX_JSFX_Reload - reloads a jsfx in a track, when you've changed the jsfx-source-file<br />
@@ -79,6 +81,8 @@ More comfortable functions for getting Transport, Arrange and TCP.</p></li>
 <li>PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering</li>
 <li>PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering<br />
 </li>
+<li>RazorEdit: RazorEdit_CheckForPossibleOverlap_Envelope - checks, whether a certain area overlaps with already existing razor-edit-areas of an envelope</li>
+<li>RazorEdit: RazorEdit_CheckForPossibleOverlap_Track - checks, whether a certain area overlaps with already existing razor-edit-areas of a track</li>
 <li>RazorEdit: RazorEdit_GetFromPoint - gets a razor-edit-area/gap by coordinate</li>
 <li>RazorEdit: RazorEdit_IsAtPosition_Envelope - checks, if track has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position</li>
 <li>RazorEdit: RazorEdit_IsAtPosition_Track - checks, if envelope has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position<br />

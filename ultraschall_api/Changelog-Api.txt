@@ -251,6 +251,9 @@ end
 
 Note: Doesn't fucking work...
 
+- IsEnvelopeTakeFXEnvelope, IsEnvelopeTrackFXEnvelope, IsEnvelopeInputFXEnvelope, IsEnvelopeTakeEnvelope
+
+
 readd in next version:
   
   - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
@@ -280,7 +283,7 @@ readd in next version:
 
 ### 4.6 - "Can - Halleluwah" - 19th of May 2022
 
-Has now 1529 functions, with 29 new ones
+Has now 1532 functions, with 32 new ones
 
 **new in this release:**  
 
@@ -289,6 +292,7 @@ Has now 1529 functions, with 29 new ones
   
   - **Razor-Edit-specials**  
   New Razor-Edit functions in general. Remove now by index and get, if at a specific position is a razor-edit or a gap between them.  
+  You can also check, whether a certain area overlaps with already existing razor-edit-areas.  
   
   - **JSFX-reload**  
   If you develop JSFX in an external editor and would like to update them in a project to use the latest version, you get functions to do so.  
@@ -309,6 +313,7 @@ Has now 1529 functions, with 29 new ones
   - Envelopes: GetAllActiveEnvelopes\_Track - returns all active track-envelopes
   - Envelopes: GetTakeEnvelopeFromPoint - returns the take-envelope at a certain coordinate
   - Envelopes: GetTrackEnvelopeFromPoint - returns the track-envelope at a certain coordinate
+  - Envelopes: IsEnvelopeTrackEnvelope - checks, whether an Envelope is a TrackEnvelope
   - FXManagement: InputFX\_JSFX\_Reload - reloads a jsfx in inputfx, when you've changed the jsfx-source-file
   - FXManagement: TakeFX\_JSFX\_Reload - reloads a jsfx in a take, when you've changed the jsfx-source-file
   - FXManagement: TrackFX\_JSFX\_Reload - reloads a jsfx in a track, when you've changed the jsfx-source-file  
@@ -324,6 +329,8 @@ Has now 1529 functions, with 29 new ones
   - MidiEditor: MidiEditor\_SetFixOverlapState - sets the Automatically Correct Overlapping Notes-option, as set in the Midi-Editor -> Options-menu
   - PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares chaptermarkers for metadata-export during rendering
   - PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores chaptermarkers after metadata-export during rendering  
+  - RazorEdit: RazorEdit\_CheckForPossibleOverlap\_Envelope - checks, whether a certain area overlaps with already existing razor-edit-areas of an envelope
+  - RazorEdit: RazorEdit\_CheckForPossibleOverlap\_Track - checks, whether a certain area overlaps with already existing razor-edit-areas of a track
   - RazorEdit: RazorEdit\_GetFromPoint - gets a razor-edit-area/gap by coordinate
   - RazorEdit: RazorEdit\_IsAtPosition\_Envelope - checks, if track has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position
   - RazorEdit: RazorEdit\_IsAtPosition\_Track - checks, if envelope has a razor-edit-area or a gap at position; also returns the position of the razor-edit-area or gap at position  

@@ -1537,7 +1537,7 @@
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetSetStates_Project_Track_Item_Env_001_Introduction</slug>
-        <title>Get/Set States for Project, Tracks and Items</title>
+        <title>Get/Set States for Project, Tracks and Items(including StateChunks)</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             One of the long-term-goals of the Ultraschall-API is full access to all states within projects, tracks, items, envelopes, including all states only available in StateChunks.  
             As of the current version, all track-states and many project and item-states are get and settable.
@@ -1575,7 +1575,7 @@
                         boolean retval, string TrackStateChunk = ultraschall.SetTrackLockState(integer tracknumber, integer LockedState, optional string TrackStateChunk) 
             
             StateChunks can be gotten using reaper.GetTrackStateChunk(), reaper.SetTrackStateChunk(), reaper.GetItemStateChunk(), reaper.SetItemStateChunk(), reaper.GetEnvelopeStateChunk(), reaper.SetEnvelopeStateChunk().  
-            To get ProjectStateChunks, you need to read the rpp-file, as currently there's no Get/SetProjectStateChunk-function in Reaper's own API.
+            
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document>US_Api-Concepts.USDocML</source_document>

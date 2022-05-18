@@ -1286,3 +1286,148 @@ function ultraschall.RazorEdit_IsAtPosition_Envelope(envelope, position)
 
   return found, tempstart, tempend, count
 end
+
+
+function ultraschall.RazorEdit_CheckForPossibleOverlap_Track(track, startposition, endposition)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_CheckForPossibleOverlap_Track</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string position, number start_position, number end_position = ultraschall.RazorEdit_CheckForPossibleOverlap_Track(MediaTrack track, number startposition, number endposition)</functioncall>
+  <description>
+    Checks, whether an area overlaps with already existing razor-edit-areas of a MediaTrack.
+    
+    It returns the first razor-edit-area, that creates overlap. That means, if start-position overlaps with razor-edit-area #1 and endposition with razor-edit-area #4, it will only return razor-edit-area #1
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, there's an overlap; false, there's no overlap
+    string position - "startposition", the startposition overlaps; "endposition", the endposition overlaps; "start/endposition", it overlaps with both
+    number start_position - the startposition of the razor-edit-area, where it overlaps
+    number end_position - the endposition of the razor-edit-area, where it overlaps
+  </retvals>
+  <parameters>
+    MediaTrack track - the MediaTrack, where you want to check, if start-position and end-position overlap with any existing razor-edits
+    number startposition - the start-position, to check, whether it overlaps
+    number endposition - the end-position to check, whether it overlaps
+  </parameters>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, check, overlap, startposition, endposition, track, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_CheckForPossibleOverlap_Track", "track", "must be a valid MediaTrack", -1) return end
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("RazorEdit_CheckForPossibleOverlap_Track", "startposition", "must be a number", -2) return end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("RazorEdit_CheckForPossibleOverlap_Track", "endposition", "must be a number", -3) return end
+  local found=false
+  local A, B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  B=B.." "
+  local pos
+  for a,b,c in string.gmatch(B, "(.-) (.-) (.-) ") do
+    a=tonumber(a)
+    b=tonumber(b)
+    if c=="\"\"" then
+      if startposition>=a and endposition<=b then
+        found=true
+        pos="start/endposition"
+        startposition=a
+        endposition=b
+      elseif startposition>=a and startposition<=b then
+        found=true
+        pos="startposition"
+        startposition=a
+        endposition=b
+        break
+      elseif endposition>=a and endposition<=b then
+        found=true
+        pos="endposition"
+        startposition=a
+        endposition=b
+        break
+      end
+    end
+  end
+  return found, pos, startposition, endposition
+end
+
+--AAA=ultraschall.RazorEdit_CheckForPossibleOverlap_Track(reaper.GetTrack(0,0), 67, 68)
+
+function ultraschall.RazorEdit_CheckForPossibleOverlap_Envelope(envelope, startposition, endposition)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_CheckForPossibleOverlap_Envelope</slug>
+  <requires>
+    Ultraschall=4.6
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string position, number start_position, number end_position = ultraschall.RazorEdit_CheckForPossibleOverlap_Envelope(TrackEnvelope envelope, number startposition, number endposition)</functioncall>
+  <description>
+    Checks, whether an area overlaps with already existing razor-edit-areas of an envelope
+    
+    It returns the first razor-edit-area, that creates overlap. That means, if start-position overlaps with razor-edit-area #1 and endposition with razor-edit-area #4, it will only return razor-edit-area #1
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, there's an overlap; false, there's no overlap
+    string position - "startposition", the startposition overlaps; "endposition", the endposition overlaps; "start/endposition", it overlaps with both
+    number start_position - the startposition of the razor-edit-area, where it overlaps
+    number end_position - the endposition of the razor-edit-area, where it overlaps
+  </retvals>
+  <parameters>
+    TrackEnvelope envelope - the TrackEnvelope, where you want to check, if start-position and end-position overlap with any existing razor-edits
+    number startposition - the start-position, to check, whether it overlaps
+    number endposition - the end-position to check, whether it overlaps
+  </parameters>
+  <chapter_context>
+    Razor Edit
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, check, overlap, startposition, endposition, envelope, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(envelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_CheckForPossibleOverlap_Envelope", "envelope", "must be a valid TrackEnvelope", -1) return end
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("RazorEdit_CheckForPossibleOverlap_Envelope", "startposition", "must be a number", -2) return end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("RazorEdit_CheckForPossibleOverlap_Envelope", "endposition", "must be a number", -3) return end
+  local found=false
+  local track=reaper.GetEnvelopeInfo_Value(envelope, "P_TRACK")
+  local retval, guid=reaper.GetSetEnvelopeInfo_String(envelope, "GUID", "", false)
+  local A, B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  B=B.." "
+  for a,b,c in string.gmatch(B, "(.-) (.-) (.-) ") do
+    a=tonumber(a)
+    b=tonumber(b)
+    --print2(a,b,c, guid)
+    if c=="\""..guid.."\"" then
+      if startposition>=a and endposition<=b then
+        found=true
+        pos="start/endposition"
+        startposition=a
+        endposition=b
+      elseif startposition>=a and startposition<=b then
+        found=true
+        pos="startposition"
+        startposition=a
+        endposition=b
+        break
+      elseif endposition>=a and endposition<=b then
+        found=true
+        pos="endposition"
+        startposition=a
+        endposition=b
+        break
+      end
+    end
+  end
+  return found,pos, startposition, endposition
+end

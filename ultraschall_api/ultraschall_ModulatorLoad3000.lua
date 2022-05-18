@@ -689,6 +689,10 @@ else
     ultraschall.LM(10)
     return ultraschall.GetTakeEnvelopeFromPoint(table.unpack({...}))
   end
+  function ultraschall.IsEnvelopeTrackEnvelope(...)
+    ultraschall.LM(10)
+    return ultraschall.IsEnvelopeTrackEnvelope(table.unpack({...}))
+  end
   function ultraschall.EventManager_EnumerateStartupEvents(...)
     ultraschall.LM(11)
     return ultraschall.EventManager_EnumerateStartupEvents(table.unpack({...}))
@@ -4184,6 +4188,14 @@ else
   function ultraschall.RazorEdit_IsAtPosition_Envelope(...)
     ultraschall.LM(26)
     return ultraschall.RazorEdit_IsAtPosition_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_CheckForPossibleOverlap_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_CheckForPossibleOverlap_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_CheckForPossibleOverlap_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_CheckForPossibleOverlap_Envelope(table.unpack({...}))
   end
   function ultraschall.AutoSearchReaMoteClients(...)
     ultraschall.LM(27)
