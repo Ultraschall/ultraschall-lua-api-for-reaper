@@ -24,10 +24,6 @@
   ################################################################################
   --]]
 
---dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-
---ultraschall.OpenURL("file://"..ultraschall.Api_Path .."Documentation/Lua_5_3_Reference_Manual.html")
-
 
 function OpenURL(url)
   local OS=reaper.GetOS()

@@ -24,7 +24,11 @@
   ################################################################################
   --]]
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
 
 filecount, files = ultraschall.GetAllFilenamesInPath(ultraschall.Api_Path.."/Scripts/Tools/DeveloperScripts")
 
@@ -37,5 +41,5 @@ for i=1, filecount do
   print(O.." - "..files[i]:match(".*/(.*)"))
 end
 
-reaper.AddRemoveReaScript(true, 0, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/Lokasenna_GUI Builder.lua", true)
+reaper.AddRemoveReaScript(true, 0, ultraschall.Api_Path.."3rd_party_modules/Lokasenna_GUI v2/Developer Tools/GUI Builder/Lokasenna_GUI Builder.lua", true)
 

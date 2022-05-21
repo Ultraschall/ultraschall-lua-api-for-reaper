@@ -24,7 +24,6 @@
   ################################################################################
   --]]
 
---dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 --A=ultraschall.OpenURL("file://"..ultraschall.Api_Path .."Documentation/Reaper_API_Video_Documentation.html")
 

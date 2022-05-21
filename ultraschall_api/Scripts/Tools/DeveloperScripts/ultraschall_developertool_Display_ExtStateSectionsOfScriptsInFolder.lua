@@ -24,14 +24,15 @@
   ################################################################################
   --]]
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
 
---path1=reaper.GetExtState("ultraschall_api", "ExtStateAnalyzer_LastPath")
---path1=string.gsub(path1, "/", "\\")
 
 retval, path = reaper.JS_Dialog_BrowseForFolder("Choose Script Folder", "")
 if retval~=1 then return end
---reaper.SetExtState("ultraschall_api", "ExtStateAnalyzer_LastPath", path, true)
 
 found_dirs, dirs_array, found_files, files_array = 
 ultraschall.GetAllRecursiveFilesAndSubdirectories(path)

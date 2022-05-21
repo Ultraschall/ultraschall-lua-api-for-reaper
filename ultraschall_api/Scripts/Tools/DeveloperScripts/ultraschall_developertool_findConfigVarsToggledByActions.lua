@@ -33,7 +33,11 @@
 
 -- comment January 2022 - sorry for this crappy code. It gets its job done but, holy crap...
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
 
 Answer=reaper.MB("Warning: Running this WILL DESTROY your config, as it will run ALL actions.\n\nAre you sure, that you want to continue?", "WARNING!", 4)
 
@@ -51,7 +55,7 @@ ultraschall.WriteValueToFile(Outputfile, "#ConfigVars triggered by Reaper's acti
 
  
   function Docs_GetAllConfigVars()
-    local A2=ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML")
+    local A2=ultraschall.ReadFullFile(ultraschall.Api_Path.."DocsSourcefiles/reaper-config_var.USDocML")
     if A2==nil then A2="" end
     
     local Acount=0

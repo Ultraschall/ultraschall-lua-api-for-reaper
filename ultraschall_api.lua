@@ -45,7 +45,7 @@ ultraschall={}
 ultraschall.temp, ultraschall.Script_Context=reaper.get_action_context()
 
 -- include beta-functions(true) or not(false)
-ultraschall.US_BetaFunctions=false
+ultraschall.US_BetaFunctions=true
 
 -- get the current system's separator
 if reaper.GetOS():sub(1,3) == "Win" then ultraschall.Separator = "\\" else ultraschall.Separator = "/" end
@@ -56,7 +56,7 @@ ultraschall.Script_Context=string.gsub(ultraschall.Script_Context, "\\", "/")
 if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
   ultraschall.Api_Path=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/"
 else
-  ultraschall.Api_Path=reaper.GetResourcePath().."/Scripts/ReaperInternals_Helpfiles/ultraschall_api/"
+  ultraschall.Api_Path=reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api/"
 end
 
 ultraschall.Api_InstallPath=ultraschall.Api_Path
@@ -91,11 +91,11 @@ end
 
 
 -- include the individual parts of the framework, if set to ON
-ultraschall.US_Functions_Engine = dofile(ultraschall.Api_Path .. "ultraschall_functions_engine.lua")
-if ultraschall.US_GFX_Engine~="OFF" then ultraschall.US_GFX_Engine = dofile(ultraschall.Api_Path .. "ultraschall_gfx_engine.lua") end
-if ultraschall.US_Video_Engine~="OFF" then ultraschall.US_Video_Engine = dofile(ultraschall.Api_Path .. "ultraschall_video_engine.lua") end
-if ultraschall.US_Doc_Engine~="OFF" then ultraschall.US_Doc_Engine = dofile(ultraschall.Api_Path .. "ultraschall_doc_engine.lua") end
-if ultraschall.US_Tag_Engine~="OFF" then ultraschall.US_Tag_Engine = dofile(ultraschall.Api_Path .. "ultraschall_tag_engine.lua") end
+dofile(ultraschall.Api_Path .. "ultraschall_functions_engine.lua")
+dofile(ultraschall.Api_Path .. "ultraschall_gfx_engine.lua")
+dofile(ultraschall.Api_Path .. "ultraschall_video_engine.lua")
+dofile(ultraschall.Api_Path .. "ultraschall_doc_engine.lua")
+dofile(ultraschall.Api_Path .. "ultraschall_tag_engine.lua")
 
 
 
@@ -103,27 +103,15 @@ if ultraschall.US_Tag_Engine~="OFF" then ultraschall.US_Tag_Engine = dofile(ultr
 -- Functions, that are in both, the "normal" parts of the framework as well as in the beta-part, will use the beta-version,
 -- if betafunctions are set to ON
 if ultraschall.US_BetaFunctions==true then
-  if reaper.file_exists(ultraschall.Api_Path.."ultraschall_functions_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_functions_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_functions_engine_beta.lua") end
+  if reaper.file_exists(ultraschall.Api_Path.."ultraschall_functions_engine_beta.lua")==true 
+  and ultraschall.Script_Context:match("ultraschall_functions_engine_beta")==nil then 
+    dofile(ultraschall.Api_Path .. "ultraschall_functions_engine_beta.lua") 
+  end
 end
 
 
 function ultraschall.ApiTest()
-    -- show "Api Part-Engine"-messages, when calling ultraschall.ApiTest()
-    ultraschall.ApiFunctionTest()
-    ultraschall.ApiVideoTest()
-    
-    ultraschall.ApiDocTest()
-    ultraschall.ApiTagTest()
-
-
-    ultraschall.ApiBetaFunctionsTest()
-    ultraschall.ApiBetaVideoTest()
-    ultraschall.ApiBetaDocTest()
-    ultraschall.ApiBetaTagTest()
-    
-    ultraschall.network_works="off"    
-    
-    reaper.MB("Ultraschall-API works successfully","Ultraschall API-TEST",0)
+  reaper.MB("Ultraschall-API works successfully","Ultraschall API-TEST", 0)
 end
 
 -- allow debugging of functions

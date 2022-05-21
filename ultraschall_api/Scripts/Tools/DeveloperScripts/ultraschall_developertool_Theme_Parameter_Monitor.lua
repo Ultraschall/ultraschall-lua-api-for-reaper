@@ -29,7 +29,12 @@
 --
 -- Meo-Ada Mespotine 27th of June 2020
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
+
 fontsize=12
 gfx.setfont(2, "arial", fontsize)
 gfx.setfont(3, "arial", fontsize, 73)

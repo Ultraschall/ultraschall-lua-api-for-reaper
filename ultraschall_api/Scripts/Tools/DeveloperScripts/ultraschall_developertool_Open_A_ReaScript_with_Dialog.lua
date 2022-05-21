@@ -2,7 +2,11 @@
 -- Lets you choose a script to load in the ReaScript-IDE, using a file-dialog.
 -- the script will NOT be added to the actionlist, but can be edited and run anyway.
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
 
 
 filename=ultraschall.GetUSExternalState("REAPER", "lastscript", "reaper.ini")

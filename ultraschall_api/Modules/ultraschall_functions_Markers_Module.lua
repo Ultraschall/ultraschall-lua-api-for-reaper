@@ -1786,7 +1786,7 @@ function ultraschall.GetMarkerByTime(position)
       elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
       elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
       end 
-      local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+      local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.get_ini_file())
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
       local Bx=AAx-Ax
       if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name end      
@@ -1938,7 +1938,7 @@ function ultraschall.GetRegionByTime(position)
       elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
       elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
       end
-      local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+      local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.get_ini_file())
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
       local Bx=AAx-Ax
       if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n"
@@ -2074,7 +2074,7 @@ function ultraschall.GetTimeSignaturesByTime(position)
   for i=0, timeretval-1 do
     local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
     temp=one    
-    local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+    local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.get_ini_file())
     local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
     local Bx=AAx-Ax
     if Bx+timepos>=position and timepos<=position then retstring=retstring..i.."\n"..timepos.."\n" end

@@ -24,10 +24,15 @@
   ################################################################################
   --]]
   
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
+
 reaper.ClearConsole()
 
-A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourcefiles/reaper-apidocs.USDocML")
+A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/DocsSourcefiles/reaper-apidocs.USDocML")
 --B=FromClip()
 Filename="d:/Users/Meo-Ada Mespotine/AppData/Local/Temp/reascripthelp.html"
 B=ultraschall.ReadFullFile(Filename)

@@ -2206,7 +2206,7 @@ function ultraschall.KBIniGetAllShortcuts(exclude_factory_default, lang)
   local one, two, section, aid
   
   if exclude_factory_default~=true then 
-    local AB=ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.aidfile")
+    local AB=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.aidfile")
      
     for k in string.gmatch(AB.."\n", "(.-)\n") do
       one, two, section, aid=k:match("(.-)_(.-)_(.-)=(.*)")

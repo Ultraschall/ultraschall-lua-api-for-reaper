@@ -26,7 +26,11 @@
 
 -- Gets all pitchshiftmodes and their corresponding id-number, as used in configvar defpitchcfg as well as in
 -- ProjectStateChunks(entry DEFPITCHMODE) and ItemStateChunks(entry PLAYRATE) and puts them into the clipboard
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
 
 P=""
 

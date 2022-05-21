@@ -52,15 +52,12 @@ if B==nil then
   B=tonumber(A:match("(.-%.%d*)"))
 end
 
-if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==false 
-or reaper.CF_SetClipboard==nil 
-or reaper.JS_Window_Find==nil
-or B<6.20 then 
-  reaper.MB("Sorry, needs at least\n\n  Reaper 6.20\n  Ultraschall-API 4.3\n  SWS2.10.0.1\n  JS-Extension 0.986\n\ninstalled to run.\n\nExiting now.","Can't run script...",0)
-  return
-end
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
 
 A,B,C,D=ultraschall.ReadFullFile(ultraschall.Api_Path.."/DocsSourcefiles/reaper-config_var.USDocML")
 
@@ -130,7 +127,6 @@ function Update_ConfigVars()
        if ConsoleToggle==true then
          A1=A-ConfigVarsInt[i]
          if tonumber(B)~=nil and tonumber(ConfigVarsDouble[i])~=nil then
-           --print_update(B, type(B), tostring(ConfigVarsDouble[i]))
            B1=B-ConfigVarsDouble[i]
          else
            B1="-1.#QNAN"
@@ -150,8 +146,6 @@ function Update_ConfigVars()
          print(ConfigVars[i]["configvar"])
          print(INT)
          print(DOUBLE)
---         print("       int    \t: "..A.."\t\t(Difference to old value: "..A1..")")
---         print("       double\t: "..B.."\t\t(Difference to old value: "..B1..")")
          print("       strings\t: \""..C.."\"")
        end
        ConfigVarsInt[i]=A

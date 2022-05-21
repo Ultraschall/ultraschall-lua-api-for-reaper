@@ -236,7 +236,7 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetProjectStateChunk</slug>
     <requires>
-      Ultraschall=4.2
+      Ultraschall=4.7
       Reaper=6.20
       SWS=2.10.0.1
       JS=0.972
@@ -306,7 +306,7 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
   
   -- get all filenames currently in the render-queue
   local oldbounds, oldstartpos, oldendpos, prep_changes, files, files2, filecount, filecount2    
-  filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
+  filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/QueuedRenders")
       
   -- if Projectlength=0 or CountofTracks==0, set render-settings for empty projects(workaround for that edgecase)
   -- old settings will be restored later

@@ -2732,8 +2732,8 @@ end
 function ultraschall.GetReaperWindowPosition_Left()
 -- Due to Api-limitations: when the reaper-window is too small, it returns a wrong value, up to 72 pixels too high!
 
-  local temp,Technopop=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
-  local temp,ElectricCafe=ultraschall.GetIniFileValue("REAPER", "dockheight_l", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+  local temp,Technopop=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.get_ini_file())
+  local temp,ElectricCafe=ultraschall.GetIniFileValue("REAPER", "dockheight_l", "", reaper.get_ini_file())
 
   local C,D,E,F,G,H,I,J,K,L=reaper.my_getViewport(1,2,3,4,5,6,7,8, true)
   local A1x,A2x= reaper.GetSet_ArrangeView2(0, false, 0,0)
@@ -2752,7 +2752,7 @@ end
 function ultraschall.GetReaperWindowPosition_Right()
 -- Due to Api-limitations: when the reaper-window is too small, it returns a wrong value, up to 72 pixels too high!
 
-  local temp,Technopop=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+  local temp,Technopop=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.get_ini_file())
 
   local C,D,E,F,G,H,I,J,K,L=reaper.my_getViewport(1,2,3,4,5,6,7,8, true)
   local A1x,A2x= reaper.GetSet_ArrangeView2(0, false, 0,0)

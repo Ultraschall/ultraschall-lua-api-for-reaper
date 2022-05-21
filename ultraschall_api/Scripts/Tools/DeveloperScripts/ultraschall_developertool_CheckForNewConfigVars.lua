@@ -24,7 +24,12 @@
   ################################################################################
   --]]
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
+
 -- This checks, whether any string, stored in reaper.exe, is a valid config-var
 -- after that, it will put a string into clipboard with all found strings.
 -- This looks for configvars, who can be either int, double or string.
@@ -42,7 +47,7 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 print_update("Checking for new config-var-names.\n\n")
 print("Read known config-var-names")
-A2=ultraschall.ReadFullFile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML")
+A2=ultraschall.ReadFullFile(ultraschall.Api_Path.."/DocsSourcefiles/reaper-config_var.USDocML")
 if A2==nil then A2="" end
 
 

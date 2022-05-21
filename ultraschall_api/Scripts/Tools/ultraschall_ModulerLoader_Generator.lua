@@ -1,13 +1,9 @@
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-
---[[
-A=reaper.time_precise()
-for i=1, 100 do
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
 end
-B=reaper.time_precise()
-C=B-A
---]]
+
 Path=ultraschall.Api_Path.."Modules"
 
 A1=type(Path)
@@ -79,9 +75,9 @@ if ultraschall.US_BetaFunctions==true then
   local filecount=0
   local file=""
   while file~=nil do
-    local file=reaper.EnumerateFiles(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Modules/",filecount)
+    local file=reaper.EnumerateFiles(ultraschall.Api_Path.."/Modules/",filecount)
     if file==nil then break end
-    file=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Modules/"..file
+    file=ultraschall.Api_Path.."/Modules/"..file
     found_files=filecount+1
     files_array2[filecount+1]=file
     filecount=filecount+1

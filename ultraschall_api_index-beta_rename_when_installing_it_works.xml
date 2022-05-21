@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52866.00" author="Meo Mespotine">
+      <version name="52885.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -523,129 +523,21 @@
 	<source main="true" file="/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.6//ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.6 - “Can - Halleluwah” - 19th of May 2022
+4.7 - “Can - Halleluwah” - XX of XXXX 2022
 
-Has now 1532 functions, with 32 new ones
+Has now 1532 functions, with XX new ones
 
 new in this release:
 
--   FromPoint-functions
-    You can get now Razor-Edits, TrackEnvelopes and TakeEnvelopes by
-    their coordinates.
+-   Bla
+    Bla
 
--   Razor-Edit-specials
-    New Razor-Edit functions in general. Remove now by index and get, if
-    at a specific position is a razor-edit or a gap between them.
-    You can also check, whether a certain area overlaps with already
-    existing razor-edit-areas.
+New features in 4.7
 
--   JSFX-reload
-    If you develop JSFX in an external editor and would like to update
-    them in a project to use the latest version, you get functions to do
-    so.
-    This should speed up developing and testing jsfx a little better.
-    Allows track, take and inputfx!
+Changes from 4.6 to 4.7
 
--   Windows Media Foundation support, as added per Reaper 6.57
-
--   Shownotes for podcasts
-    A new marker-type, that allows storing shownotes. Will be enhanced
-    within the next few releases for additional metadata.
-
--   User Interface functions for HWND
-    More comfortable functions for getting Transport, Arrange and TCP.
-
-New features in 4.6
-
--   DeveloperTools: MonitorRenderString_Diff - monitors the diffs of the
-    render-string, when setting them in the RenderToFile-dialog and hit
-    Save Settings
--   Envelopes: GetAllActiveEnvelopes_Take - returns all active
-    take-envelopes
--   Envelopes: GetAllActiveEnvelopes_Track - returns all active
-    track-envelopes
--   Envelopes: GetTakeEnvelopeFromPoint - returns the take-envelope at a
-    certain coordinate
--   Envelopes: GetTrackEnvelopeFromPoint - returns the track-envelope at
-    a certain coordinate
--   Envelopes: IsEnvelopeTrackEnvelope - checks, whether an Envelope is
-    a TrackEnvelope
--   FXManagement: InputFX_JSFX_Reload - reloads a jsfx in inputfx, when
-    you’ve changed the jsfx-source-file
--   FXManagement: TakeFX_JSFX_Reload - reloads a jsfx in a take, when
-    you’ve changed the jsfx-source-file
--   FXManagement: TrackFX_JSFX_Reload - reloads a jsfx in a track, when
-    you’ve changed the jsfx-source-file
--   Markers: AddShownoteMarker - adds a shownote-marker
--   Markers: CountShownoteMarkers - counts shownote-markers in a project
--   Markers: DeleteShownoteMarker - deletes a shownote-marker
--   Markers: EnumerateShownoteMarkers - gets a shownote-marker
--   Markers: GetGuidFromShownoteMarkerID - gets the guid of a shownote
-    marker by its index
--   Markers: GetShownoteMarkerIDFromGuid - gets the index of a shownote
-    marker by its guid
--   Markers: IsMarkerShownote - returns, if a marker is a shownote
--   Markers: SetShownoteMarker - sets an already existing
-    shownote-marker
--   MidiEditor: MidiEditor_GetFixOverlapState - gets the Automatically
-    Correct Overlapping Notes-option, as set in the Midi-Editor ->
-    Options-menu
--   MidiEditor: MidiEditor_SetFixOverlapState - sets the Automatically
-    Correct Overlapping Notes-option, as set in the Midi-Editor ->
-    Options-menu
--   PodcastMetadata: PrepareChapterMarkers4ReaperExport - prepares
-    chaptermarkers for metadata-export during rendering
--   PodcastMetadata: RestoreChapterMarkersAfterReaperExport - restores
-    chaptermarkers after metadata-export during rendering
--   RazorEdit: RazorEdit_CheckForPossibleOverlap_Envelope - checks,
-    whether a certain area overlaps with already existing
-    razor-edit-areas of an envelope
--   RazorEdit: RazorEdit_CheckForPossibleOverlap_Track - checks, whether
-    a certain area overlaps with already existing razor-edit-areas of a
-    track
--   RazorEdit: RazorEdit_GetFromPoint - gets a razor-edit-area/gap by
-    coordinate
--   RazorEdit: RazorEdit_IsAtPosition_Envelope - checks, if track has a
-    razor-edit-area or a gap at position; also returns the position of
-    the razor-edit-area or gap at position
--   RazorEdit: RazorEdit_IsAtPosition_Track - checks, if envelope has a
-    razor-edit-area or a gap at position; also returns the position of
-    the razor-edit-area or gap at position
--   RazorEdit: RazorEdit_RemoveByIndex_Envelope - removes a
-    razor-edit-area by its index from an envelope
--   RazorEdit: RazorEdit_RemoveByIndex_Track - removes a razor-edit-area
-    by its index from a track(envelopes stay untouched)
--   Rendering: CreateRenderCFG_WMF_Video - creates the format-settings
-    of the windows media foundation-formats(MPEG-4, mp4, m4a)
--   Rendering: GetRenderCFG_Settings_WMF - gets the format-settings of
-    the windows media foundation-formats(MPEG-4, mp4, m4a)
--   UserInterface: GetHWND_ArrangeView - returns hwnd of the
-    arrangeview, its visible area and right of arrange-state
--   UserInterface: GetHWND_TCP - returns hwnd of the track control
-    panel, its visible area and right of arrange-state
--   UserInterface: GetHWND_Transport - returns hwnd, position, float,
-    dock and hidden-state of transport
-
-Changes from 4.5 to 4.6
-
--   Clipboard: PutMediaItemsToClipboard_MediaItemArray - could
-    potentially create an undo-point -> fixed
--   Docs: Reaper Internals - updated to Reaper 6.58, SWS 2.13.1.0
--   MediaItems: ApplyActionToMediaItem - doesn’t create an undo point
-    anymore
--   MediaItems: ApplyActionToMediaItemArray2 - doesn’t create an undo
-    point anymore
--   MediaItems: GetAllMediaItemsInTimeSelection - doesn’t create an undo
-    point anymore
--   MediaItems: SetMediaItemsSelected_TimeSelection - doesn’t create an
-    undo point anymore; has now parameter for only items that are
-    completely inside the time-selection
--   RazorEdit: RazorEdit_Remove_Envelope - accidentally removed items on
-    first track -> fixed
--   RazorEdit: RazorEdit_Remove_Track - accidentally removed items on
-    first track -> fixed
--   Rendering: AddSelectedItemsToRenderQueue - had inner variable
-    exposed; could potentially create undo-points -> fixed
+-   ProjectManagement: GetProjectStateChunk - didn’t work under certain
+    circumstances on Linux/Mac.
 ]]>
 </changelog>
       </version>
@@ -673,7 +565,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1532 Lua-functions library for Reaper.}
+a 1560 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52885 from 21.05.2022 21:16:19).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -687,7 +579,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1532 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1560 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -811,7 +703,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1532 Lua-functions library for Reaper.}
+a 1560 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52885 from 21.05.2022 21:16:19).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -825,7 +717,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1532 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1560 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

@@ -1,7 +1,11 @@
 -- RenderString-tracker, shows diffs of the render-string(first render-format)
 -- Meo-Ada Mespotine - licensed under MIT-license
 
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+else
+  dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
+end
 
 function main()
   A,B = reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", "", false)

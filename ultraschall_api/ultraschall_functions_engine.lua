@@ -1139,8 +1139,6 @@ function progresscounter(state)
 
 if ultraschall.US_BetaFunctions==true then
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gfx_engine_beta.lua")
-  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_video_engine_beta.lua")
 end
   A=A.."function ultraschall."
   A=A:match("function ultraschall%..*")
