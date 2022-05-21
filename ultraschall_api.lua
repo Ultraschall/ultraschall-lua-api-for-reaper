@@ -53,66 +53,33 @@ if reaper.GetOS():sub(1,3) == "Win" then ultraschall.Separator = "\\" else ultra
 -- get script-path for later use
 ultraschall.Script_Context=string.gsub(ultraschall.Script_Context, "\\", "/")
 
+-- get ultraschall-api-path
 if reaper.file_exists(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")==true then
   ultraschall.Api_Path=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/"
 else
   ultraschall.Api_Path=reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api/"
 end
 
-ultraschall.Api_InstallPath=ultraschall.Api_Path
+ultraschall.Api_InstallPath=ultraschall.Api_Path:sub(1,-2):match("(.*)/")
 ultraschall.API_TempPath=ultraschall.Api_Path.."/temp/"
-
 ultraschall.Api_ScriptPath=ultraschall.Api_Path.."/Scripts"
 
 
-ultraschall.ApiFunctionTest=function()
-  ultraschall.functions_works="off"
-end
-
-ultraschall.ApiGFXTest=function()
-  ultraschall.gfx_works="off"
-end
-
-ultraschall.ApiVideoTest=function()
-  ultraschall.video_works="off"
-end
-
-ultraschall.ApiDocTest=function()
-  ultraschall.doc_works="off"
-end
-
-ultraschall.ApiTagTest=function()
-  ultraschall.tag_works="off"
-end
-
-ultraschall.ApiBetaFunctionsTest=function()
-  ultraschall.functions_beta_works="off"
-end
-
-
--- include the individual parts of the framework, if set to ON
+-- load the individual parts of the framework, if set to ON
 dofile(ultraschall.Api_Path .. "ultraschall_functions_engine.lua")
 dofile(ultraschall.Api_Path .. "ultraschall_gfx_engine.lua")
 dofile(ultraschall.Api_Path .. "ultraschall_video_engine.lua")
 dofile(ultraschall.Api_Path .. "ultraschall_doc_engine.lua")
 dofile(ultraschall.Api_Path .. "ultraschall_tag_engine.lua")
 
-
-
 -- if BETA-functions are available and usage of beta-functions is set to ON, include them. 
 -- Functions, that are in both, the "normal" parts of the framework as well as in the beta-part, will use the beta-version,
 -- if betafunctions are set to ON
 if ultraschall.US_BetaFunctions==true then
-  if reaper.file_exists(ultraschall.Api_Path.."ultraschall_functions_engine_beta.lua")==true 
-  and ultraschall.Script_Context:match("ultraschall_functions_engine_beta")==nil then 
-    dofile(ultraschall.Api_Path .. "ultraschall_functions_engine_beta.lua") 
-  end
+  if reaper.file_exists(ultraschall.Api_Path.."ultraschall_functions_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_functions_engine_beta")==nil then     dofile(ultraschall.Api_Path .. "ultraschall_functions_engine_beta.lua")   end
 end
 
-
-function ultraschall.ApiTest()
-  reaper.MB("Ultraschall-API works successfully","Ultraschall API-TEST", 0)
-end
+function ultraschall.ApiTest() reaper.MB("Ultraschall-API works successfully","Ultraschall API-TEST", 0) end
 
 -- allow debugging of functions
     -- show in ReaScript-console SetExtState and SetProjExtState-changes
@@ -122,7 +89,6 @@ if reaper.GetExtState("ultraschall_api", "debug_extstate")=="true" then
 
     ultraschall.temp_GetExtState=reaper.GetExtState
     ultraschall.temp_SetExtState=reaper.SetExtState
-
 
     function reaper.SetExtState(extname, key, value, persist)
       if ultraschall.temp_GetExtState("ultraschall_api", "debug_extstate")=="true" then 

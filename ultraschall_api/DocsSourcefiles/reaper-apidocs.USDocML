@@ -73932,40 +73932,6 @@ mespotine
         </changelog>
     </US_DocBloc>
 
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>CF_GetCustomColor</slug>
-        <title>CF_GetCustomColor</title>
-        <functioncall prog_lang="cpp">int CF_GetCustomColor(int index)</functioncall>
-        <functioncall prog_lang="eel">int  CF_GetCustomColor(int index) </functioncall>
-        <functioncall prog_lang="lua">integer reaper.CF_GetCustomColor(integer index)</functioncall>
-        <functioncall prog_lang="python">Int  CF_GetCustomColor(Int index)</functioncall>
-        <requires>
-            Reaper=6.58            SWS=2.13.1.0            JS=1.31            ReaImGui=0.6.1        </requires>
-        <description>
-
-
-            
-            Get one of 16 SWS custom colors (0xBBGGRR on Windows, 0xRRGGBB everyhwere else). Index is zero-based.
-            
-            
-        </description>
-        <retvals>
-            
-        </retvals>
-        <parameters>
-            
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper-apidocs.USDocML</source_document>
-        <chapter_context>
-
-        </chapter_context>
-        <tags></tags>
-        <changelog>
-          SWS 2.13.1.0 - new function added
-        </changelog>
-    </US_DocBloc>
-
 
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>CF_GetCustomColor</slug>

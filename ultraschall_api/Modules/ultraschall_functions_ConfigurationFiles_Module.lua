@@ -2047,7 +2047,7 @@ function ultraschall.CharacterCodes_ReverseLookup(byte1, byte2, byte3, lang, smm
     -- get the character
     CharacterSet1=byte1&1
     CharacterSet2=byte3
-    Character=ultraschall.GetUSExternalState("Codes_"..lang, CharacterSet1.."_"..(byte2).."_"..CharacterSet2, "UserPlugins/ultraschall_api/IniFiles/StuffMidiMessage-CharacterCodes.ini")
+    Character=ultraschall.GetUSExternalState("Codes_"..lang, CharacterSet1.."_"..(byte2).."_"..CharacterSet2, ultraschall.Api_Path.."/IniFiles/StuffMidiMessage-CharacterCodes.ini")
     Character=ultraschall.ConvertHex2Ascii(Character)
     return Character, false, Shift, Control, Alt, Win, Opt, Cmd
   end

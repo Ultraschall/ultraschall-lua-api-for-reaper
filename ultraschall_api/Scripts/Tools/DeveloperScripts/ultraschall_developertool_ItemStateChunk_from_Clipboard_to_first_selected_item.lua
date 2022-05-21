@@ -39,4 +39,4 @@ end
 
 Item=reaper.GetSelectedMediaItem(0,0)
 if Item==nil then return end
-retval, TrackStateChunk = reaper.SetItemStateChunk(Item, FromClip(), false)
+reaper.SetItemStateChunk(Item, FromClip(), false)

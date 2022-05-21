@@ -191,7 +191,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  local retval, BuildNumber = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  local retval, BuildNumber = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", ultraschall.Api_Path.."IniFiles/ultraschall_api.ini")
   return 470, "4.7","XX of XXXX 2022", "",  "\" - \"", "xx of xxxx xxxx", BuildNumber..".00"
 end
 
@@ -231,7 +231,7 @@ function ultraschall.IntToDouble(integer, selector)
     -- convert integer-value to 14f-float, by reading it from the double_to_int_24bit-inifile
     integer=integer-4000000 -- subtract the value I haven't stored in double_to_int_24bit-inifile as it was redundant
     -- read through the whole file to get the correct entry and return the entry
-    for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini") do
+    for c in io.lines(ultraschall.Api_Path.."IniFiles/double_to_int_24bit.ini") do
       if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
     end  
   end
@@ -276,7 +276,7 @@ function ultraschall.DoubleToInt(float, selector)
     return found --return the integer-value.
   else
     -- for 14f-floats, use this file and read it like any regular ini-file
-    retval, String = reaper.BR_Win32_GetPrivateProfileString("OpusFloatsInt", math.tointeger(float), "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini")
+    retval, String = reaper.BR_Win32_GetPrivateProfileString("OpusFloatsInt", math.tointeger(float), "-1", ultraschall.Api_Path.."IniFiles/double_to_int_24bit.ini")
     -- add an offset(I removed it from the ini-file, as it was redundant. So I need to readd that value again in here)
     String=tonumber(String)+4000000
   end
@@ -1132,7 +1132,7 @@ function progresscounter(state)
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gfx_engine.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_video_engine.lua")
   
-  local filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Modules/")
+  local filecount, files = ultraschall.GetAllFilenamesInPath(ultraschall.Api_Path.."/Modules/")
   for i=1, filecount do
     A=A..ultraschall.ReadFullFile(files[i]).."\n"
   end

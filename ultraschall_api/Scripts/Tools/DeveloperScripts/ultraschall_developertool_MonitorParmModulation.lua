@@ -78,7 +78,7 @@ function main()
     for i=1, #ParmTable do
       gfx.x=0
       gfx.y=gfx.y+gfx.texth+3
-      if ParmModulationTable~=nil and ParmModulationTable[ParmTable[i]]~=OldParmModulationTable[ParmTable[i]] then
+      if ParmModulationTable~=nil and OldParmModulationTable~=nil and ParmModulationTable[ParmTable[i]]~=OldParmModulationTable[ParmTable[i]] then
         gfx.set(1,0,1)
       else
         gfx.set(1)

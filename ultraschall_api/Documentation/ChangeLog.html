@@ -43,8 +43,36 @@
 Bla</li>
 </ul>
 <h4>New features in 4.7</h4>
+<ul>
+<li>PodcastMetadata: GetAllChapters_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
+<li>PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
+<li>PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
+<li>PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
+<li>PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
+<li>PodcastMetadata: GetPodcastEpisodeAttributesPreset_Name - gets the name of an episode -metadata-preset</li>
+<li>PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
+<li>PodcastMetadata: GetPodcastAttributesPreset_Name - gets the name of a podcast-metadata-preset</li>
+<li>PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)</li>
+<li>PodcastMetadata: GetSetPodcast_Attributes - gets/sets metadata-attributes of a podcast</li>
+<li>PodcastMetadata: GetSetPodcastEpisode_Attributes - gets/sets metadata-attributes of a podcast-episode</li>
+<li>PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets string attributes for podcast-export in Ultraschall</li>
+<li>PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets number attributes for podcast-export in Ultraschall</li>
+<li>PodcastMetadata: GetSetShownoteMarker_Attributes - gets/sets additional attributes of a shownote-marker</li>
+<li>PodcastMetadata: GetSetTranscription_Attributes gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)</li>
+<li>PodcastMetadata: SetPodcastEpisodeAttributesPreset_Name - sets the name of an episode-metadata-preset</li>
+<li>PodcastMetadata: SetPodcastAttributesPreset_Name - sets the name of a podcast-metadata-preset</li>
+<li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes<br />
+</li>
+<li>UserInterface: GetReaperWindow_Position - returns the Reaper-window-position and various of its elements</li>
+</ul>
 <h4>Changes from 4.6 to 4.7</h4>
 <ul>
+<li>DeveloperTools: GetPitchShiftModes - improved layout; crashed in my parser due addition of Rrreeeaaa -&gt; fixed</li>
+<li>DeveloperTools: ItemStateChunk from Clipboard to item under mouse - copied statechunk into clipboard instead of setting it oooppsss -&gt; fixed</li>
+<li>DeveloperTools: LangPack2Developer_langpack_converter - shows now conversion progress in ReaScript-console</li>
+<li>DeveloperTools: MonitorParmModulation - did crash, when a parameter-modulation was added after monitoring started -&gt; fixed</li>
+<li>DeveloperTools: Theme Parameter Monitor - updates now the list immediately, when the current theme is changed</li>
+<li>DeveloperTools: Trackstatechunk from clip to track under mouse - copied trackstatechunk into clipboard instead of setting it -&gt; fixed</li>
 <li>ProjectManagement: GetProjectStateChunk - didn't work under certain circumstances on Linux/Mac.</li>
 </ul>
 <hr />

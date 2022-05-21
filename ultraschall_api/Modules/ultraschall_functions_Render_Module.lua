@@ -617,6 +617,7 @@ function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
   
   num_integers, VBR_quality = ultraschall.ConvertStringToIntegers(Decoded_string:sub(5,8), 4)
   VBR_quality = ultraschall.IntToDouble(VBR_quality[1])
+  
   Mode=string.byte(Decoded_string:sub(9,9))
   num_integers, CBR_Bitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(10,13), 4)
   num_integers, ABR_Bitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(14,17), 4)
@@ -682,6 +683,7 @@ function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
   end
   
   num_integers, Bitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(6,8), 3)
+  OOO=Bitrate[1]
   Bitrate = ultraschall.IntToDouble((Bitrate[1]),1)-1
   Mode=string.byte(Decoded_string:sub(9,9))
   Complexity=string.byte(Decoded_string:sub(10,10))

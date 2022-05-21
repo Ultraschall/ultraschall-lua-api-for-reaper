@@ -37,7 +37,6 @@ else
   dofile(reaper.GetResourcePath().."/Scripts/Reaper_Internals/ultraschall_api.lua")
 end
 
-x,y=reaper.GetMousePosition()
-Item=reaper.GetItemFromPoint(x,y, true)
-if Item==nil then return end
-retval, TrackStateChunk = reaper.SetItemStateChunk(Item, FromClip(), false)
+Track=reaper.GetSelectedTrack(0,0)
+if Track==nil then return end
+retval, TrackStateChunk = reaper.SetTrackStateChunk(Track, FromClip(), false)

@@ -40,6 +40,6 @@ end
 x,y=reaper.GetMousePosition()
 Track=reaper.GetTrackFromPoint(x,y)
 if Track==nil then return end
-retval, TrackStateChunk = reaper.GetTrackStateChunk(Track, "", false)
+retval, TrackStateChunk = reaper.SetTrackStateChunk(Track, FromClip(), false)
 
-print3(ultraschall.StateChunkLayouter(TrackStateChunk))
+

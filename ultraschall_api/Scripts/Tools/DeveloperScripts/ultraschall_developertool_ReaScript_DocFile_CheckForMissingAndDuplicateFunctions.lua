@@ -35,12 +35,18 @@ reaper.ClearConsole()
 A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/DocsSourcefiles/reaper-apidocs.USDocML")
 --B=FromClip()
 Filename="d:/Users/Meo-Ada Mespotine/AppData/Local/Temp/reascripthelp.html"
+if reaper.file_exists("d:/Users/Meo-Ada Mespotine/AppData/Local/Temp/reascripthelp.html")==false then
+  print2("No ReaScript.html file in temp-folder...")
+  return
+end
 B=ultraschall.ReadFullFile(Filename)
+
 B=B:match("</table></code>\n<br><br>(.*)")
 Func={}
 
 
 -- check for duplicate functions in Reaper-API USDocML
+print("Duplicates:")
 for k in string.gmatch(A, "<slug>(.-)</slug>") do
   kk=k:match("(.-)%(")
   if kk==nil then kk=k end
@@ -49,6 +55,7 @@ for k in string.gmatch(A, "<slug>(.-)</slug>") do
 end
 
 -- check for missing functions in Reaper-API USDocML from reascript.html in temp
+print("\nMissing:")
 for k in string.gmatch(B, "<a name=\"(.-)\"><hr></a><br>") do
   if Func[k]==nil then 
     print(k)

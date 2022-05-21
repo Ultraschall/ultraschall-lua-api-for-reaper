@@ -120,7 +120,7 @@ function checkchanges(SECTION, AID)
         A=reaper.GetExtState("hack","count")
         --CommandName=tostring(reaper.ReverseNamedCommandLookup(AID))
         CommandName=reaper.CF_GetCommandText(SECTION, AID)
-        if CommandName==nil or CommandName=="" then CommandName="unknown?" end
+        if CommandName==nil or CommandName=="" then CommandName="unknown command name?" end
         --print(CommandName, reaper.ReverseNamedCommandLookup(AID), AID)
         
         if A~=OldA then space="\n"..CommandName.."\n" else space="" end

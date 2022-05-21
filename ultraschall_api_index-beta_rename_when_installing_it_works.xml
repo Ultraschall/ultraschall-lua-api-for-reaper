@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="52912.00" author="Meo Mespotine">
+      <version name="52966.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -343,7 +343,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_GetPitchShiftModes.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_GetPitchShiftModes.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_HWND-Displayer.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_first_selected_item.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_first_selected_item.lua</source>
-	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_item_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_item_mouse.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_item_under_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_from_Clipboard_to_item_under_mouse.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_to_Clipboard_first_selected_item.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_to_Clipboard_first_selected_item.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_to_Clipboard_item_under_mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_ItemStateChunk_to_Clipboard_item_under_mouse.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Item_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Item_State_Diffs_Monitor.lua</source>
@@ -466,6 +466,7 @@
 	<source file="/ultraschall_api/misc/tempproject.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/misc/tempproject.RPP</source>
 	<source file="/ultraschall_api/misc/ultraschall_translation_file_format.USLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/misc/ultraschall_translation_file_format.USLangPack</source>
 	<source file="/ultraschall_api/ultraschall_ModulatorLoad3000.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/ultraschall_ModulatorLoad3000.lua</source>
+	<source file="/ultraschall_api/ultraschall_ModulatorLoad3000.lua-" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/ultraschall_ModulatorLoad3000.lua-</source>
 	<source file="/ultraschall_api/ultraschall_doc_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/ultraschall_doc_engine.lua</source>
 	<source file="/ultraschall_api/ultraschall_functions_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/ultraschall_functions_engine.lua</source>
 	<source file="/ultraschall_api/ultraschall_functions_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/ultraschall_functions_engine_beta.lua</source>
@@ -533,8 +534,70 @@ new in this release:
 
 New features in 4.7
 
+-   PodcastMetadata: GetAllChapters_MetaDataEntry - gets all
+    chapter-metadata-entries between start and endposition according to
+    the PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all
+    shownote-metadata-entries between start and endposition according to
+    the PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast’s
+    metadata-entry according to the PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a
+    podcast’s chapter-metadata-entry according to the
+    PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the
+    podcast’s episode-related metadata-entry according to the
+    PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastEpisodeAttributesPreset_Name - gets the
+    name of an episode -metadata-preset
+-   PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a
+    podcast’s shownote-metadata-entry according to the
+    PODCAST_METADATA:“v1”-standard
+-   PodcastMetadata: GetPodcastAttributesPreset_Name - gets the name of
+    a podcast-metadata-preset
+-   PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets
+    metadata-attributes of a chapter-marker(using Ultraschall 4+
+    methods)
+-   PodcastMetadata: GetSetPodcast_Attributes - gets/sets
+    metadata-attributes of a podcast
+-   PodcastMetadata: GetSetPodcastEpisode_Attributes - gets/sets
+    metadata-attributes of a podcast-episode
+-   PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets
+    string attributes for podcast-export in Ultraschall
+-   PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets
+    number attributes for podcast-export in Ultraschall
+-   PodcastMetadata: GetSetShownoteMarker_Attributes - gets/sets
+    additional attributes of a shownote-marker
+-   PodcastMetadata: GetSetTranscription_Attributes gets/sets
+    transcriptions for the podcast(needs either srt or webvtt-files
+    created externally…)
+-   PodcastMetadata: SetPodcastEpisodeAttributesPreset_Name - sets the
+    name of an episode-metadata-preset
+-   PodcastMetadata: SetPodcastAttributesPreset_Name - sets the name of
+    a podcast-metadata-preset
+-   PodcastMetadata: WritePodcastMetaData - creates metadata-entries
+    according to the PODCAST_METADATA:“v1”-standard and optionally
+    writes it into a file or adds it to id3, vorbis-metadata-schemes
+-   UserInterface: GetReaperWindow_Position - returns the
+    Reaper-window-position and various of its elements
+
 Changes from 4.6 to 4.7
 
+-   API: Modulator3000 - readded api-load-speedup after I found out how
+    to circumvent a bug in Reaper’s Lua-implementation
+-   DeveloperTools: GetPitchShiftModes - improved layout; crashed in my
+    parser due addition of Rrreeeaaa -> fixed
+-   DeveloperTools: ItemStateChunk from Clipboard to item under mouse -
+    copied statechunk into clipboard instead of setting it oooppsss ->
+    fixed
+-   DeveloperTools: LangPack2Developer_langpack_converter - shows now
+    conversion progress in ReaScript-console
+-   DeveloperTools: MonitorParmModulation - did crash, when a
+    parameter-modulation was added after monitoring started -> fixed
+-   DeveloperTools: Theme Parameter Monitor - updates now the list
+    immediately, when the current theme is changed
+-   DeveloperTools: Trackstatechunk from clip to track under mouse -
+    copied trackstatechunk into clipboard instead of setting it -> fixed
 -   ProjectManagement: GetProjectStateChunk - didn’t work under certain
     circumstances on Linux/Mac.
 ]]>
@@ -564,7 +627,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1560 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52912 from 21.05.2022 21:29:12).}
+a 1560 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52966 from 22.05.2022 00:03:40).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -702,7 +765,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1560 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52912 from 21.05.2022 21:29:12).}
+a 1560 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 52966 from 22.05.2022 00:03:40).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
