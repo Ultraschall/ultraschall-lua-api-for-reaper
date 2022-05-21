@@ -36426,7 +36426,7 @@
         </retvals>
         <parameters>
            PCM_source source - a PCM_source-created using a mediafile/item 
-           number gain - the volume of the previewed pcm_source
+           number gain - the volume of the previewed pcm_source; 0, no sound; 10, maximum volume
            boolean loop - true, loop the PCM_source; false, play only once
            optional integer outputchanindexIn - the output channel; for multichannel files, this is the first hardware-output-channel for e.g. left channel of a stereo file
         </parameters>

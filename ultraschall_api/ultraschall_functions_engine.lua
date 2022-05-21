@@ -28,26 +28,6 @@
 --- ULTRASCHALL - API - FUNCTIONS ---
 -------------------------------------
 
-if type(ultraschall)~="table" then 
-  -- update buildnumber and add ultraschall as a table, when programming within this file
-  local retval, String = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "Functions-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  local retval, string2 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  if String=="" then string=10000 
-  else 
-    String=tonumber(String) 
-    String=String+1
-  end
-  if string2=="" then string2=10000 
-  else 
-    string2=tonumber(string2)
-    string2=string2+1
-  end 
-  reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "Functions-Build", string, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")  
-  ultraschall={} 
-  
-  ultraschall.API_TempPath=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/temp/"
-end
 
 -- deprecated stuff
   runcommand = ultraschall.RunCommand
@@ -3386,12 +3366,12 @@ ultraschall.WalterElements={"tcp.dragdropinfo",
 -- Load ModulatorLoad3000
 
 if ultraschall.US_BetaFunctions==false then
-  dofile(script_path.."ultraschall_ModulatorLoad3000.lua")
+  dofile(ultraschall.Api_Path.."ultraschall_ModulatorLoad3000.lua")
 else
   for i=0, 1024 do
-    file=reaper.EnumerateFiles(script_path.."/Modules/", i)
-    if file==nil then break end
-    dofile(script_path.."/Modules/"..file)
+    ultraschall.temp_file=reaper.EnumerateFiles(ultraschall.Api_Path.."/Modules/", i)
+    if ultraschall.temp_file==nil then break end
+    dofile(ultraschall.Api_Path.."/Modules/"..ultraschall.temp_file)
   end
 end
 ultraschall.ShowLastErrorMessage()
