@@ -294,6 +294,7 @@ Has now 1532 functions, with XX new ones
   - UserInterface: GetReaperWindow\_Position - returns the Reaper-window-position and various of its elements  
   
 #### Changes from 4.6 to 4.7  
+  - API: cleanup - a lot of cleanup in codebase and improvements in stability for future enhancements
   - API: Modulator3000 - readded api-load-speedup after I found out how to circumvent a bug in Reaper's Lua-implementation
   - DeveloperTools: GetPitchShiftModes - improved layout; crashed in my parser due addition of Rrreeeaaa -> fixed
   - DeveloperTools: ItemStateChunk from Clipboard to item under mouse - copied statechunk into clipboard instead of setting it oooppsss -> fixed

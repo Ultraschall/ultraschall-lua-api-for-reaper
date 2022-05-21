@@ -1207,7 +1207,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetShownoteMarker_Attributes</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1333,7 +1333,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcast_Attributes</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -1420,7 +1420,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
       additional_attribute="_"..additional_attribute
     end
   elseif attributename=="podcast_website" then
-    print(attributename.." "..tostring(math.tointeger(additional_attribute)).." "..additional_attribute)
+    --print(attributename.." "..tostring(math.tointeger(additional_attribute)).." "..additional_attribute)
     if math.tointeger(additional_attribute)==nil or math.tointeger(additional_attribute)<1 then
       ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "additional_attribute", "attributename \"podcast_website\" needs content_attibute being set to an integer >=1(as counter for potentially multiple websites of the podcast)", -11) 
       return false 
@@ -1445,7 +1445,8 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
   if is_set==true then
     -- set state
     if preset_slot~=nil then
-      retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, attributename..additional_attribute, content, "ultraschall_podcast_presets.ini")
+      content=string.gsub(content, "\r", "")
+      retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, attributename..additional_attribute, string.gsub(content, "\n", "\\n"), "ultraschall_podcast_presets.ini")
       if retval==false then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "", "can not write to ultraschall_podcast_presets.ini", -8) return false end
       presetcontent=content
     else
@@ -1461,6 +1462,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
         ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "", "can not retrieve value from ultraschall_podcast_presets.ini", -9)
         return false
       end
+      presetcontent=string.gsub(presetcontent, "\\n", "\n")
     end
     _, content=reaper.GetProjExtState(0, "PodcastMetaData", attributename)
   end
@@ -1490,7 +1492,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcastEpisode_Attributes</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.02
     SWS=2.10.0.1
     Lua=5.3
@@ -1605,7 +1607,8 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
   if is_set==true then
     -- set state
     if preset_slot~=nil then
-      retval = ultraschall.SetUSExternalState("EpisodeMetaData_"..preset_slot, attributename..additional_attribute, content, "ultraschall_podcast_presets.ini")
+      content=string.gsub(content, "\r", "")
+      retval = ultraschall.SetUSExternalState("EpisodeMetaData_"..preset_slot, attributename..additional_attribute, string.gsub(content, "\n", "\\n"), "ultraschall_podcast_presets.ini")
       if retval==false then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "", "can not write to ultraschall_podcast_presets.ini", -8) return false end
       presetcontent=content
     else
@@ -1621,6 +1624,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
         ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "", "can not retrieve value from ultraschall_podcast_presets.ini", -9)
         return false
       end
+      presetcontent=string.gsub(presetcontent, "\\n", "\n")
     end
     _, content=reaper.GetProjExtState(0, "EpisodeMetaData", attributename)
   end
@@ -1633,7 +1637,7 @@ function ultraschall.GetPodcastShownote_MetaDataEntry(shownote_idx, shownote_ind
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastShownote_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -1740,7 +1744,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetChapterMarker_Attributes</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -1817,7 +1821,7 @@ function ultraschall.GetSetPodcastExport_Attributes_String(is_set, attribute, va
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcastExport_Attributes_String</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.20
     Lua=5.3
   </requires>
@@ -1910,7 +1914,7 @@ function ultraschall.GetSetPodcastExport_Attributes_Value(is_set, attribute, val
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcastExport_Attributes_Value</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.20
     Lua=5.3
   </requires>
@@ -1989,7 +1993,7 @@ function ultraschall.GetAllShownotes_MetaDataEntry(start_time, end_time, offset)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllShownotes_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2055,7 +2059,7 @@ function ultraschall.GetPodcastChapter_MetaDataEntry(chapter_idx, chapter_index_
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastShownote_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2148,7 +2152,7 @@ function ultraschall.GetAllChapters_MetaDataEntry(start_time, end_time, offset)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllChapters_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2220,7 +2224,7 @@ function ultraschall.SetPodcastAttributesPreset_Name(preset_slot, preset_name)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetPodcastAttributesPreset_Name</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -2265,7 +2269,7 @@ function ultraschall.GetPodcastAttributesPreset_Name(preset_slot)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastAttributesPreset_Name</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -2306,7 +2310,7 @@ function ultraschall.SetPodcastEpisodeAttributesPreset_Name(preset_slot, presetn
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetPodcastEpisodeAttributesPreset_Name</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -2352,7 +2356,7 @@ function ultraschall.GetPodcastEpisodeAttributesPreset_Name(preset_slot)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastEpisodeAttributesPreset_Name</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -2393,7 +2397,7 @@ function ultraschall.GetPodcastEpisode_MetaDataEntry()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcastEpisode_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2449,7 +2453,7 @@ function ultraschall.GetPodcast_MetaDataEntry()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodcast_MetaDataEntry</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.43
     Lua=5.3
   </requires>
@@ -2506,7 +2510,7 @@ function ultraschall.WritePodcastMetaData(start_time, end_time, offset, filename
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>WritePodcastMetaData</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.47
     Lua=5.3
   </requires>
@@ -2710,7 +2714,7 @@ function ultraschall.GetSetTranscription_Attributes(is_set, idx, attributename, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetTranscription_Attributes</slug>
   <requires>
-    Ultraschall=4.5
+    Ultraschall=4.7
     Reaper=6.02
     Lua=5.3
   </requires>
