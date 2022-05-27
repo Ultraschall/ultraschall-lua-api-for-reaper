@@ -30,8 +30,13 @@
 
 
 -- deprecated stuff
-  runcommand = ultraschall.RunCommand
-  Msg=ultraschall.Msg
+  if runcommand==nil then
+    runcommand = ultraschall.RunCommand
+  end
+  
+  if Msg==nil then
+    Msg=ultraschall.Msg
+  end
 
 -- initialize some used variables
 ultraschall.ErrorCounter=0
@@ -40,9 +45,6 @@ ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
 ultraschall.tempfilename=string.gsub(ultraschall.tempfilename,"\n","")
 ultraschall.tempfilename=string.gsub(ultraschall.tempfilename,"\r","")  
 ultraschall.Dump, ultraschall.ScriptFileName=reaper.get_action_context()
-
--- create the right separator for the current system
-if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then ultraschall.Separator = "\\" else ultraschall.Separator = "/" end
 
 -- Let's create a unique script-identifier for childscripts
 ultraschall.dump=ultraschall.tempfilename:match("%-%{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}")
@@ -68,11 +70,7 @@ ultraschall.snowoldgfx=gfx.update
 
 -- lets initialize some API-Variables
 ultraschall.StartTime=os.clock()
---ultraschall.Script_Path = reaper.GetResourcePath().."/Scripts/"
-local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api"..ultraschall.Separator
---ultraschall.Api_Path="HH"..script_path
---ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
---ultraschall.Api_InstallPath=reaper.GetResourcePath().."/UserPlugins/"
+
 
 function ultraschall.CountProjectTabs()
 --[[
@@ -754,7 +752,7 @@ function ultraschall.DeleteAllErrorMessages()
   <tags>developer, error, delete, message</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.ErrorCounter==0 then ultraschall.AddErrorMessage("DeleteAllErrorMessages","","No Error Message available!",-1) return false
+  if ultraschall.ErrorCounter==0 then return false
   else
     ultraschall.ErrorCounter=0
     ultraschall.ErrorMessage={}
