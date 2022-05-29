@@ -6862,7 +6862,7 @@
         <functioncall prog_lang="lua">integer retval, string buf = reaper.GetMediaFileMetadata(PCM_source mediaSource, string identifier)</functioncall>
         <functioncall prog_lang="python">(Int retval, PCM_source mediaSource, String identifier, String bufOutNeedBig, Int bufOutNeedBig_sz) = RPR_GetMediaFileMetadata(mediaSource, identifier, bufOutNeedBig, bufOutNeedBig_sz)</functioncall>
         <requires>
-            Reaper=6.19
+            Reaper=6.59
         </requires>
         <description prog_lang="*">
             Get text-based metadata from a media file for a given identifier. Call with identifier="" to list all identifiers contained in the file, separated by newlines. May return "[Binary data]" for metadata that REAPER doesn't handle.
@@ -6882,6 +6882,7 @@
         </chapter_context>
         <tags>filemanagement, get, metadata</tags>
         <changelog>
+            Reaper 6.59 - supports now getting any BPM-metadata, with identifier being "Generic:BPM"
         </changelog>
     </US_DocBloc>
 
@@ -18533,7 +18534,7 @@
              * env_track_mute : Envelope: Mute 
              * col_env5 : Envelope: Master playrate 
              * col_env6 : Envelope: Master tempo 
-             * col_env7 : Envelope: Send volume 
+             * col_env7 : Envelope: Width/Send volume 
              * col_env8 : Envelope: Send pan 
              * col_env9 : Envelope: Send volume 2 
              * col_env10 : Envelope: Send pan 2 
@@ -18658,6 +18659,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.59 - changes with color: col_env7 added width to it
             Reaper 6.57 - new theme-colors: inactive_take_overlay_col, inactive_take_overlay_mode; mute_overlay_col, mute_overlay_mode doesn't work on inactive takes anymore, but rather on items
             Reaper 6.54 - new theme colors: track_lane_tabcol, track_lanesolo_tabcol, track_lane_gutter, track_lane_gutter_drawmode, mute_overlay_col, mute_overlay_mode, locked_overlay_col, locked_overlay_mode
             Reaper 6.53 - new theme-colors: explorer_grid and explorer_pitchtext
@@ -53254,10 +53256,10 @@ mespotine
         <functioncall prog_lang="python">Int retval = ImGui_ColorConvertNative(int rgb)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.8
+            ReaImGui=0.6.2
         </requires>
         <description>
-            Convert native colors coming from REAPER. This swaps the red and blue channels of the specified 0xRRGGBB color on Windows.
+            Convert a native colors coming from REAPER or 0xRRGGBB to native. This swaps the red and blue channels of the specified 0xRRGGBB color on Windows.
         </description>        
         <retvals>
             integer retval -
@@ -56569,10 +56571,10 @@ mespotine
         <functioncall prog_lang="python">ImGui_DrawList_AddTextEx(ImGui_DrawList* draw_list, ImGui_Font* font, double font_size, double pos_x, double pos_y, int col_rgba, const char* text, double* wrap_widthInOptional, double* cpu_fine_clip_rect_xInOptional, double* cpu_fine_clip_rect_yInOptional, double* cpu_fine_clip_rect_wInOptional, double* cpu_fine_clip_rect_hInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.8
+            ReaImGui=0.6.2
         </requires>
         <description>
-            The default font is used if font = nil. cpu_fine_clip_rect_* only takes effect if all four are non-nil.
+            The last pushed font is used if font is nil. The size of the last pushed font is used if font_size is 0. cpu_fine_clip_rect_* only takes effect if all four are non-nil.
             
             Default values: wrap_width = 0.0, cpu_fine_clip_rect_x = nil, cpu_fine_clip_rect_y = nil, cpu_fine_clip_rect_w = nil, cpu_fine_clip_rect_h = nil
         </description>        
@@ -56588,7 +56590,10 @@ mespotine
             optional number cpu_fine_clip_rect_yIn - 
             optional number cpu_fine_clip_rect_wIn - 
             optional number cpu_fine_clip_rect_hIn -
-        </parameters>                
+        </parameters>
+        <changelog>
+            ReaImGui 0.6.2 - reverted to "Fix DrawList_AddTextEx not using the default bitmap font when font == nil" from 0.6
+        </changelog>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -56676,7 +56681,7 @@ mespotine
         <functioncall prog_lang="python">ImGui_DrawList_PathArcTo(ImGui_DrawList* draw_list, double center_x, double center_y, double radius, double a_min, double a_max, int* num_segmentsInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaImGui=0.5.8
+            ReaImGui=0.6.2
         </requires>
         <description>
             Default values: num_segments = 0
@@ -56697,6 +56702,7 @@ mespotine
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
         <changelog>
+            ReaImGui 0.6.2 - fix of incorrect default-value when parameter num_segments is omitted
         </changelog>
     </US_DocBloc>
     

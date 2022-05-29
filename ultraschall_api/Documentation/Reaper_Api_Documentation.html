@@ -114,7 +114,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.58<br>"Now With More Phlogiston"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.59<br>"Now With More Phlogiston"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -21670,7 +21670,7 @@ List the subdirectories in the "path" directory. Use subdirindex = -1 to force r
 <hr>
 <a class="anch" id="GetMediaFileMetadata"></a>
 <a href="#GetMediaFileMetadata"> ^</a> 
-<img width="3%" src="gfx/reaper6.19.png" alt="Reaper version 6.19"><u><b>GetMediaFileMetadata</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.59.png" alt="Reaper version 6.59"><u><b>GetMediaFileMetadata</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>GetMediaFileMetadata</em>(<i>PCM_source*</i> mediaSource, <i>const</i> <i>char*</i> identifier, <i>char*</i> bufOutNeedBig, <i>int</i> bufOutNeedBig_sz)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>GetMediaFileMetadata</em>(<i>PCM_source</i> mediaSource, "identifier", #buf)</code></div>
@@ -40294,7 +40294,7 @@ Default values: alpha = nil<br>
 <a class="anch" id="ImGui_ColorConvertNative"></a>
 <a href="#ImGui_ColorConvertNative"> ^</a> 
 <img width="3%" src="gfx/reaper6.23.png" alt="Reaper version 6.23">
-<img width="3%" src="gfx/reaimgui0.5.8.png" alt="ReaImGui version 0.5.8"><u><b>ImGui_ColorConvertNative(ReaImGui)</b></u><br>			<p>
+<img width="3%" src="gfx/reaimgui0.6.2.png" alt="ReaImGui version 0.6.2"><u><b>ImGui_ColorConvertNative(ReaImGui)</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>ImGui_ColorConvertNative</em>(<i>int</i> rgb)</code></div>
 <div class="e">EEL2: <code> <i>int</i> extension_api("<em>ImGui_ColorConvertNative</em>", <i>int</i> rgb)</code></div>
@@ -40302,7 +40302,7 @@ Default values: alpha = nil<br>
 <div class="p">Python: <code> <i>Int</i> retval = <em>ImGui_ColorConvertNative</em>(<i>int</i> rgb)</code></div>
 </div><p>
 <div class="ch">
-Convert native colors coming from REAPER. This swaps the red and blue channels of the specified 0xRRGGBB color on Windows.<br>
+Convert a native colors coming from REAPER or 0xRRGGBB to native. This swaps the red and blue channels of the specified 0xRRGGBB color on Windows.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -43853,7 +43853,7 @@ Default values: rounding = 0.0, flags = ImGui_DrawFlags_None<br>
 <a class="anch" id="ImGui_DrawList_AddTextEx"></a>
 <a href="#ImGui_DrawList_AddTextEx"> ^</a> 
 <img width="3%" src="gfx/reaper6.23.png" alt="Reaper version 6.23">
-<img width="3%" src="gfx/reaimgui0.5.8.png" alt="ReaImGui version 0.5.8"><u><b>ImGui_DrawList_AddTextEx(ReaImGui)</b></u><br>			<p>
+<img width="3%" src="gfx/reaimgui0.6.2.png" alt="ReaImGui version 0.6.2"><u><b>ImGui_DrawList_AddTextEx(ReaImGui)</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>ImGui_DrawList_AddTextEx</em>(ImGui_DrawList* draw_list, ImGui_Font* font, <i>double</i> font_size, <i>double</i> pos_x, <i>double</i> pos_y, <i>int</i> col_rgba, <i>const</i> <i>char*</i> text, <i>double*</i> wrap_widthInOptional, <i>double*</i> cpu_fine_clip_rect_xInOptional, <i>double*</i> cpu_fine_clip_rect_yInOptional, <i>double*</i> cpu_fine_clip_rect_wInOptional, <i>double*</i> cpu_fine_clip_rect_hInOptional)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>ImGui_DrawList_AddTextEx</em>", <i>ImGui_DrawList</i> draw_list, ImGui_Font font, font_size, pos_x, pos_y, <i>int</i> col_rgba, "text", <i>optional</i> wrap_widthIn, <i>optional</i> cpu_fine_clip_rect_xIn, <i>optional</i> cpu_fine_clip_rect_yIn, <i>optional</i> cpu_fine_clip_rect_wIn, <i>optional</i> cpu_fine_clip_rect_hIn)</code></div>
@@ -43861,7 +43861,7 @@ Default values: rounding = 0.0, flags = ImGui_DrawFlags_None<br>
 <div class="p">Python: <code> <em>ImGui_DrawList_AddTextEx</em>(ImGui_DrawList* draw_list, ImGui_Font* font, <i>double</i> font_size, <i>double</i> pos_x, <i>double</i> pos_y, <i>int</i> col_rgba, <i>const</i> <i>char*</i> text, <i>double*</i> wrap_widthInOptional, <i>double*</i> cpu_fine_clip_rect_xInOptional, <i>double*</i> cpu_fine_clip_rect_yInOptional, <i>double*</i> cpu_fine_clip_rect_wInOptional, <i>double*</i> cpu_fine_clip_rect_hInOptional)</code></div>
 </div><p>
 <div class="ch">
-The default font is used if font = nil. cpu_fine_clip_rect_* only takes effect if all four are non-nil.<br>
+The last pushed font is used if font is nil. The size of the last pushed font is used if font_size is 0. cpu_fine_clip_rect_* only takes effect if all four are non-nil.<br>
 <br>
 Default values: wrap_width = 0.0, cpu_fine_clip_rect_x = nil, cpu_fine_clip_rect_y = nil, cpu_fine_clip_rect_w = nil, cpu_fine_clip_rect_h = nil<br>
 </div><br>          <u>Parameters:</u>
@@ -44018,7 +44018,7 @@ Default values: thickness = 1.0<br>
 <a class="anch" id="ImGui_DrawList_PathArcTo"></a>
 <a href="#ImGui_DrawList_PathArcTo"> ^</a> 
 <img width="3%" src="gfx/reaper6.23.png" alt="Reaper version 6.23">
-<img width="3%" src="gfx/reaimgui0.5.8.png" alt="ReaImGui version 0.5.8"><u><b>ImGui_DrawList_PathArcTo(ReaImGui)</b></u><br>			<p>
+<img width="3%" src="gfx/reaimgui0.6.2.png" alt="ReaImGui version 0.6.2"><u><b>ImGui_DrawList_PathArcTo(ReaImGui)</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>ImGui_DrawList_PathArcTo</em>(ImGui_DrawList* draw_list, <i>double</i> center_x, <i>double</i> center_y, <i>double</i> radius, <i>double</i> a_min, <i>double</i> a_max, <i>int*</i> num_segmentsInOptional)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>ImGui_DrawList_PathArcTo</em>", <i>ImGui_DrawList</i> draw_list, center_x, center_y, radius, a_min, a_max, <i>optional</i> <i>int</i> num_segmentsIn)</code></div>
@@ -61286,7 +61286,7 @@ To read a value see GetThemeColor<br>
 * env_track_mute : Envelope: Mute <br>
 * col_env5 : Envelope: Master playrate <br>
 * col_env6 : Envelope: Master tempo <br>
-* col_env7 : Envelope: Send volume <br>
+* col_env7 : Envelope: Width/Send volume <br>
 * col_env8 : Envelope: Send pan <br>
 * col_env9 : Envelope: Send volume 2 <br>
 * col_env10 : Envelope: Send pan 2 <br>

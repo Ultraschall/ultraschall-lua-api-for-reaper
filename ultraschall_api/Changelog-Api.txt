@@ -297,13 +297,16 @@ Has now 1532 functions, with XX new ones
   
 #### Changes from 4.6 to 4.7  
   - API: cleanup - a lot of cleanup in codebase and improvements in stability for future enhancements
-  - API: Modulator3000 - readded api-load-speedup after I found out how to circumvent a bug in Reaper's Lua-implementation
+  - API: Modulator3000 - readded api-load-speedup after I found out how to circumvent a bug in Reaper's Lua-implementation  
   - DeveloperTools: GetPitchShiftModes - improved layout; crashed in my parser due addition of Rrreeeaaa -> fixed
   - DeveloperTools: ItemStateChunk from Clipboard to item under mouse - copied statechunk into clipboard instead of setting it oooppsss -> fixed
   - DeveloperTools: LangPack2Developer\_langpack\_converter - shows now conversion progress in ReaScript-console
   - DeveloperTools: MonitorParmModulation - did crash, when a parameter-modulation was added after monitoring started -> fixed
   - DeveloperTools: Theme Parameter Monitor - updates now the list immediately, when the current theme is changed
   - DeveloperTools: Trackstatechunk from clip to track under mouse - copied trackstatechunk into clipboard instead of setting it -> fixed
+  - Docs: Reaper Internals - updated to Reaper 6.59 and ReaImGui 0.6.2
+  - Docs: render-strings - updated to Reaper 6.59(includes wmf now)
+  - Docs: misc\_docs-folder/Reaper-Render-Strings-docs\_Jul2018.txt - removed, due being outdated
   - ProjectManagement: GetProjectStateChunk - didn't work under certain circumstances on Linux/Mac.
   - Rendering: CreateRenderCFG\_WMF\_Video - renamed to CreateRenderCFG\_WMF (old functionname is still available, though
 

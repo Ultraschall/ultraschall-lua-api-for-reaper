@@ -746,6 +746,7 @@ WMF:
     11: Video Codec
     12: Video Codec:
                 255 255 255 255, no VideoCodec
+                  1   0   0   0,  no video (Reaper 6.59)
                   0   0   0   0, H.264
     13: Video Bitrate(0 to 2147483647) - lowest byte
     14: Video Bitrate(0 to 2147483647)
@@ -753,6 +754,7 @@ WMF:
     16: Video Bitrate(0 to 2147483647) - highest byte
     17: Audio Codec:
                 0, AAC
+                2, no audio
     18: unused - value 0
     19: unused - value 0
     20: unused - value 0

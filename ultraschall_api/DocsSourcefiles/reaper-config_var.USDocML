@@ -137,16 +137,30 @@
       <slug>actionmenu</slug>  
       <title>actionmenu</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Show recent actions-entry, as set in the Actions-menu and Preferences -> General.  
+          Show recent actions-entry, as set in the Actions-menu and Preferences -> General as well as
+          some entries beind the context menu in Preferences -> General -> Recent project list display-button
           It is an integer  
             
            >&1=0, don't show recent actions - unchecked  
            >&1=1, show recent actions - checked  
            
-           >&2=0, Preferences -> General - show file part before path(unchecked)
-           >&2=1, Preferences -> General - show file part before path(checked)
+           >&2 &8, Display filename / path
+             0  0, Display full path
+             1  0, Display file name and full path
+             1  1, Display file name
            
-                    
+           >&4=0, Display project title (as set in Project Settings / Notes) - unchecked
+           >&4=1, Display project title (as set in Project Settings / Notes) - checked
+           
+           >&16=0, Add to recent list when loading projects - checked
+           >&16=1, Add to recent list when loading projects - unchecked
+           
+           >&32=0, Remove old projects from recent list when using 'Save new version of project' - unchecked
+           >&32=1, Remove old projects from recent list when using 'Save new version of project' - checked
+           
+           >&64=0, Add to recent list when using 'Save copy of project' - checked
+           >&64=1, Add to recent list when using 'Save copy of project' - unchecked
+           
           Stored in reaper.ini under the same name in the section REAPER.  
             
       </description>  
