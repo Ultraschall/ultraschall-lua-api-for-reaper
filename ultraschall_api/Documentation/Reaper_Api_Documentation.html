@@ -712,7 +712,9 @@ See NamedCommandLookup() for the correct command_id.<br>
 <div class="p">Python: <code> <em>RPR_Main_OnCommand</em>(<i>Int</i> command, <i>Int</i> flag)</code></div>
 </div><p>
 <div class="ch">
-<p>Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see <a href="#NamedCommandLookup">NamedCommandLookup</a>(). See <a href="#Main_OnCommandEx">Main_OnCommandEx</a>.</p>
+Performs an action belonging to the main action section. <br>
+To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see NamedCommandLookup().<br>
+See Main_OnCommandEx.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> command</td></tr>
@@ -736,7 +738,7 @@ See NamedCommandLookup() for the correct command_id.<br>
 <div class="p">Python: <code> <em>RPR_Main_OnCommandEx</em>(<i>Int</i> command, <i>Int</i> flag, <i>ReaProject</i> proj)</code></div>
 </div><p>
 <div class="ch">
-<p>Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see <a href="#NamedCommandLookup">NamedCommandLookup</a>().</p>
+Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see NamedCommandLookup().<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> command</td></tr>
@@ -744,7 +746,7 @@ See NamedCommandLookup() for the correct command_id.<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> flag</td></tr>
-<tr><td class="ch2">0</td></tr>
+<tr><td class="ch2">unknown, use 0</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>ReaProject</i> proj</td></tr>
@@ -1694,7 +1696,7 @@ see <a href="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>SNM_SetLongConfigVar</em>(<i>String</i> varname, <i>Int</i> newHighValue, <i>Int</i> newLowValue)</code></div>
 </div><p>
 <div class="ch">
-<p>[S&amp;M] Sets a 64-bit integer preference from two 32-bit integers (look in project prefs first, then in general prefs). Returns false if failed (e.g. varname not found).</p>
+<p>[S&amp;M] Sets a 64-bit integer preference from two 32-bit integers (looks in project prefs first, then in general prefs). Returns false if failed (e.g. varname not found).</p>
 <p>Some variables are bitfields, where each bit represents e.g a checkbox in the preferences. The changed settings are usually only changed within the running Reaper, but not stored in the config-files, so you need to do it manually or they get lost after Reaper is closed!</p>
 <p>see <a href="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid config-vars</p>
 </div><br>      
@@ -12102,13 +12104,16 @@ Draws a circle, optionally filling/antialiasing<br>
 <div class="e">EEL2: <code> <em>gfx_clienttoscreen</em>(<i>integer</i> x, <i>integer</i> y)</code></div>
 </div><p>
 <div class="ch">
-<p>Converts client coordinates x,y to screen coordinates.</p>
-<p>Use variables for x and y, as the returned values will be put back into them:</p>
-<pre><code>gfx_init(&quot;&quot;); // open window
-x=10; // the client x-coordinate
-y=20; // the client y-coordinate
+Converts client coordinates x,y to screen coordinates.<br>
+<br>
+Use variables for x and y, as the returned values will be put back into them:<br>
+<pre><code>
+&nbsp;&nbsp;&nbsp;&nbsp;gfx_init(""); // open window
+&nbsp;&nbsp;&nbsp;&nbsp;x=10; // the client x-coordinate
+&nbsp;&nbsp;&nbsp;&nbsp;y=20; // the client y-coordinate
 
-gfx_clienttoscreen(x,y); // x and y hold now the converted screen-coordinates</code></pre>
+&nbsp;&nbsp;&nbsp;&nbsp;gfx_clienttoscreen(x,y); // x and y hold now the converted screen-coordinates
+</code></pre><br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> x</td></tr>
@@ -14130,32 +14135,28 @@ Evaluates count once, and then executes expression count, but not more than 1048
 <div class="e">EEL2: <code> <em>match</em>(needle,haystack[, ...])</code></div>
 </div><p>
 <div class="ch">
-<p>Searches for the first parameter in the second parameter, using a simplified regular expression syntax.</p>
-<ul>
-<li><ul>
-<li>= match 0 or more characters</li>
-</ul></li>
-<li>*? = match 0 or more characters, lazy</li>
-<li><ul>
-<li>= match 1 or more characters</li>
-</ul></li>
-<li>+? = match 1 or more characters, lazy</li>
-<li>? = match one character</li>
-</ul>
-<p>You can also use format specifiers to match certain types of data, and optionally put that into a variable:</p>
-<ul>
-<li>%s means 1 or more chars</li>
-<li>%0s means 0 or more chars</li>
-<li>%5s means exactly 5 chars</li>
-<li>%5-s means 5 or more chars</li>
-<li>%-10s means 1-10 chars</li>
-<li>%3-5s means 3-5 chars</li>
-<li>%0-5s means 0-5 chars</li>
-<li>%x, %d, %u, and %f are available for use similarly</li>
-<li>%c can be used, but can't take any length modifiers</li>
-<li>Use uppercase (%S, %D, etc) for lazy matching</li>
-</ul>
-<p>See also sprintf() for other notes, including specifying direct variable references via {}.</p>
+Searches for the first parameter in the second parameter, using a simplified regular expression syntax.<br>
+<br>
+* * = match 0 or more characters<br>
+* *? = match 0 or more characters, lazy<br>
+* + = match 1 or more characters<br>
+* +? = match 1 or more characters, lazy<br>
+* ? = match one character<br>
+<br>
+You can also use format specifiers to match certain types of data, and optionally put that into a variable:<br>
+<br>
+* %s means 1 or more chars<br>
+* %0s means 0 or more chars<br>
+* %5s means exactly 5 chars<br>
+* %5-s means 5 or more chars<br>
+* %-10s means 1-10 chars<br>
+* %3-5s means 3-5 chars<br>
+* %0-5s means 0-5 chars<br>
+* %x, %d, %u, and %f are available for use similarly<br>
+* %c can be used, but can't take any length modifiers<br>
+* Use uppercase (%S, %D, etc) for lazy matching<br>
+<br>
+See also sprintf() for other notes, including specifying direct variable references via {}.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr">needle</td></tr>
@@ -14466,13 +14467,15 @@ Sets the parameter (or a temporary buffer if omitted) to a system-local timestam
 <div class="e">EEL2: <code> <i>integer</i> retval = <em>while</em>(code expression)</code></div>
 </div><p>
 <div class="ch">
-<p>Executes expression until expression evaluates to zero, or until 1048576 iterations occur. An alternate and more useful syntax is while (expression) ( statements ), which evaluates statements after every non-zero evaluation of expression.</p>
-<pre><code>A=0; // set A to 0
+Executes expression until expression evaluates to zero, or until 1048576 iterations occur. An alternate and more useful syntax is while (expression) ( statements ), which evaluates statements after every non-zero evaluation of expression.<br>
+<pre><code>
+&nbsp;&nbsp;&nbsp;&nbsp;A=0; // set A to 0
 
-// while A is still less than 10, add 1 to A
-while(A&lt;10)(
-  A=A+1;
-);</code></pre>
+&nbsp;&nbsp;&nbsp;&nbsp;// while A is still less than 10, add 1 to A
+&nbsp;&nbsp;&nbsp;&nbsp;while(A<10)(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A=A+1;
+&nbsp;&nbsp;&nbsp;&nbsp;);
+</code></pre><br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -14772,8 +14775,24 @@ Deletes len characters at offset pos from #str, and returns #str.<br>
 <div class="e">EEL2: <code> <em>str_getchar</em>(str,offset[,type])</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the data at byte-offset offset of str. If offset is negative, position is relative to end of string.type defaults to signed char, but can be specified to read raw binary data in other formats (note the single quotes, these are single/multi-byte characters):</p>
-<p>* 'c' - signed char * 'cu' - unsigned char * 's' - signed short * 'S' - signed short, big endian * 'su' - unsigned short * 'Su' - unsigned short, big endian * 'i' - signed int * 'I' - signed int, big endian * 'iu' - unsigned int * 'Iu' - unsigned int, big endian * 'f' - float * 'F' - float, big endian * 'd' - double * 'D' - double, big endian</p>
+Returns the data at byte-offset offset of str. <br>
+If offset is negative, position is relative to end of string.type defaults to signed char, but can be specified to read raw binary data in other formats <br>
+(note the single quotes, these are single/multi-byte characters):<br>
+<br>
+* 'c' - signed char<br>
+* 'cu' - unsigned char<br>
+* 's' - signed short<br>
+* 'S' - signed short, big endian<br>
+* 'su' - unsigned short<br>
+* 'Su' - unsigned short, big endian<br>
+* 'i' - signed int<br>
+* 'I' - signed int, big endian<br>
+* 'iu' - unsigned int<br>
+* 'Iu' - unsigned int, big endian<br>
+* 'f' - float<br>
+* 'F' - float, big endian<br>
+* 'd' - double<br>
+* 'D' - double, big endian<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr">str</td></tr>
@@ -15261,7 +15280,14 @@ P_POOL_EXT:xyz : char * : extension-specific persistent data<br>
 <div class="p">Python: <code> <i>Int</i> retval = <em>RPR_InsertAutomationItem</em>(<i>TrackEnvelope</i> env, <i>Int</i> pool_id, <i>Float</i> position, <i>Float</i> length)</code></div>
 </div><p>
 <div class="ch">
-<p>Insert a new automation item. pool_id &lt; 0 collects existing envelope points into the automation item; if pool_id is &gt;= 0 the automation item will be a new instance of that pool (which will be created as an empty instance if it does not exist). Returns the index of the item, suitable for passing to other automation item API functions. See <a href="#GetSetAutomationItemInfo">GetSetAutomationItemInfo</a>.</p>
+Insert a new automation item. <br>
+<br>
+pool_id < 0 collects existing envelope points into the automation item<br>
+if pool_id is >= 0 the automation item will be a new instance of that pool (which will be created as an empty instance if it does not exist). <br>
+<br>
+Returns the index of the item, suitable for passing to other automation item API functions. <br>
+<br>
+See GetSetAutomationItemInfo.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15902,7 +15928,9 @@ Otherwise, ptidx will be based on the number of visible points in the automation
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Float</i> time, <i>Float</i> value, <i>Int</i> shape, <i>Float</i> tension, <i>Boolean</i> selected, <i>Boolean</i> noSortInOptional) = <em>RPR_InsertEnvelopePoint</em>(envelope, time, value, shape, tension, selected, noSortInOptional)</code></div>
 </div><p>
 <div class="ch">
-<p>Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done. See <a href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a>.</p>
+Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done. <br>
+<br>
+See InsertEnvelopePointEx.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15953,8 +15981,13 @@ Otherwise, ptidx will be based on the number of visible points in the automation
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>TrackEnvelope</i> envelope, <i>Int</i> autoitem_idx, <i>Float</i> time, <i>Float</i> value, <i>Int</i> shape, <i>Float</i> tension, <i>Boolean</i> selected, <i>Boolean</i> noSortInOptional) = <em>RPR_InsertEnvelopePointEx</em>(envelope, autoitem_idx, time, value, shape, tension, selected, noSortInOptional)</code></div>
 </div><p>
 <div class="ch">
-<p>Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done. autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration, even if the automation item is trimmed so that not all points are visible. Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.</p>
-<p>See <a href="#CountEnvelopePointsEx">CountEnvelopePointsEx</a>, <a href="#GetEnvelopePointEx">GetEnvelopePointEx</a>, <a href="#SetEnvelopePointEx">SetEnvelopePointEx</a>, <a href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a>.</p>
+Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done.<br>
+autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.<br>
+For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,<br>
+even if the automation item is trimmed so that not all points are visible.<br>
+Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.<br>
+<br>
+See CountEnvelopePointsEx, GetEnvelopePointEx, SetEnvelopePointEx, DeleteEnvelopePointEx.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -23750,10 +23783,15 @@ deprecated<br>
 <div class="p">Python: <code> <i>Int</i> retval = <em>JS_VKeys_Intercept</em>(<i>Int</i> keyCode, <i>Int</i> intercept)</code></div>
 </div><p>
 <div class="ch">
-<p>Intercepting (blocking) virtual keys work similar to the native function PreventUIRefresh: Each key has a (non-negative) intercept state, and the key is passed through as usual if the state equals 0, or blocked if the state is greater than 0.</p>
-<p>keyCode: The virtual key code of the key, or -1 to change the state of all keys.</p>
-<p>intercept: A script can increase the intercept state by passing +1, or lower the state by passing -1. Multiple scripts can block the same key, and the intercept state may reach up to 255. If zero is passed, the intercept state is not changed, but the current state is returned.</p>
-<p>Returns: If keyCode refers to a single key, the intercept state of that key is returned. If keyCode = -1, the state of the key that is most strongly blocked (highest intercept state) is returned.</p>
+Intercepting (blocking) virtual keys work similar to the native function PreventUIRefresh: Each key has a (non-negative) intercept state, and the key is passed through as usual if the state equals 0, or blocked if the state is greater than 0.<br>
+<br>
+keyCode: The virtual key code of the key, or -1 to change the state of all keys.<br>
+<br>
+intercept: A script can increase the intercept state by passing +1, or lower the state by passing -1. <br>
+Multiple scripts can block the same key, and the intercept state may reach up to 255. <br>
+If zero is passed, the intercept state is not changed, but the current state is returned.<br>
+<br>
+Returns: If keyCode refers to a single key, the intercept state of that key is returned. If keyCode = -1, the state of the key that is most strongly blocked (highest intercept state) is returned.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -25172,8 +25210,9 @@ When the parameter character is given and not 0, charactercode is either <br/>
 <div class="l">Lua: <code> <i>integer</i> fontindex, <i>string</i> fontface = <em>gfx.getfont</em>()</code></div>
 </div><p>
 <div class="ch">
-<p>Returns current font index, and the actual font face used by this font (if available).</p>
-<p>Use <a href="#lua_gfx.setfont">gfx.setfont</a> to set a font for a specific index.</p>
+Returns current font index, and the actual font face used by this font (if available).<br>
+<br>
+Use gfx.setfont to set a font for a specific index.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -25327,11 +25366,15 @@ Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect
 <div class="l">Lua: <code> <i>integer</i> retval = <em>gfx.init</em>(<i>string</i> "name", <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> dockstate, <i>optional</i> <i>integer</i> xpos, <i>optional</i> <i>integer</i> ypos)</code></div>
 </div><p>
 <div class="ch">
-<p>Initializes the graphics window with title name. Suggested width and height can be specified.Once the graphics window is open, gfx.update() should be called periodically.</p>
-<p>Only one graphics-window can be opened per script! Calling gfx.ini after a window has been opened has no effect.</p>
-<p>To resize/reposition the window, call gfx.init again and pass an empty string as name-parameter.</p>
-<p>To retitle the window, run gfx.init again with the new title as parameter name.</p>
-<p>To get the current window-states, dimensions, etc, you can use <a href="#lua_gfx.dock">gfx.dock</a>.</p>
+Initializes the graphics window with title name. Suggested width and height can be specified.Once the graphics window is open, gfx.update() should be called periodically. <br>
+<br>
+Only one graphics-window can be opened per script! Calling gfx.ini after a window has been opened has no effect.<br>
+<br>
+To resize/reposition the window, call gfx.init again and pass an empty string as name-parameter.<br>
+<br>
+To retitle the window, run gfx.init again with the new title as parameter name.<br>
+<br>
+To get the current window-states, dimensions, etc, you can use gfx.dock).<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -25461,7 +25504,9 @@ Load image from filename into slot 0..1024-1 specified by image. Returns the ima
 <div class="l">Lua: <code> <i>integer</i> width, <i>integer</i> height = <em>gfx.measurechar</em>(<i>integer</i> char)</code></div>
 </div><p>
 <div class="ch">
-<p>Measures the drawing dimensions of a character with the current font (as set by <a href="#lua_gfx.setfont">gfx.setfont</a>). Returns width and height of character.</p>
+Measures the drawing dimensions of a character with the current font (as set by gfx.setfont). <br>
+<br>
+Returns width and height of character.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -25489,7 +25534,9 @@ Load image from filename into slot 0..1024-1 specified by image. Returns the ima
 <div class="l">Lua: <code> <i>integer</i> width, <i>integer</i> height = <em>gfx.measurestr</em>(<i>string</i> str)</code></div>
 </div><p>
 <div class="ch">
-<p>Measures the drawing dimensions of a string with the current font (as set by <a href="#lua_gfx.setfont">gfx.setfont</a>). Returns width and height of string.</p>
+Measures the drawing dimensions of a string with the current font (as set by gfx.setfont). <br>
+<br>
+Returns width and height of string.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -26263,8 +26310,9 @@ returns nil if not available<br>
 <div class="l">Lua: <code> <em>reaper.gmem_write</em>(<i>integer</i> index, <i>number</i> value)</code></div>
 </div><p>
 <div class="ch">
-<p>Write (number) value to shared memory attached-to by gmem_attach(). index can be [0..1&lt;&lt;25).</p>
-<p>Before you can write into a currently unused variable with index "index", you must call <a href="#lua_gmem_attach">gmem_attach</a> first!</p>
+Write (number) value to shared memory attached-to by gmem_attach(). index can be [0..1<<25).<br>
+<br>
+Before you can write into a currently unused variable with index "index", you must call gmem_attach first!<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> index</td></tr>
@@ -28106,10 +28154,17 @@ Returns the index of the next selected MIDI text/sysex event after textsyxidx (-
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>String</i> bufOutNeedBig, <i>Int</i> bufOutNeedBig_sz) = <em>RPR_MIDI_GetAllEvts</em>(take, bufOutNeedBig, bufOutNeedBig_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Get all MIDI data. MIDI buffer is returned as a list of { int offset, char flag, int msglen, unsigned char msg[] }.</p>
-<p>offset: MIDI ticks from previous event flag: &amp;1=selected &amp;2=muted flag high 4 bits for CC shape: &amp;16=linear, &amp;32=slow start/end, &amp;16|32=fast start, &amp;64=fast end, &amp;64|16=bezier msg: the MIDI message.</p>
-<p>A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float. For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.</p>
-<p>See <a href="#MIDI_SetAllEvts">MIDI_SetAllEvts</a>.</p>
+Get all MIDI data. MIDI buffer is returned as a list of { int offset, char flag, int msglen, unsigned char msg[] }.<br>
+<br>
+&nbsp;&nbsp; offset: MIDI ticks from previous event<br>
+&nbsp;&nbsp; flag: &1=selected &2=muted<br>
+&nbsp;&nbsp; flag high 4 bits for CC shape: &16=linear, &32=slow start/end, &16|32=fast start, &64=fast end, &64|16=bezier<br>
+&nbsp;&nbsp; msg: the MIDI message.<br>
+<br>
+A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float.<br>
+For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.<br>
+<br>
+See MIDI_SetAllEvts.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28199,7 +28254,9 @@ Get MIDI CC event properties.<br>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> ccidx, <i>Int</i> shapeOut, <i>Float</i> beztensionOut) = <em>RPR_MIDI_GetCCShape</em>(take, ccidx, shapeOut, beztensionOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Get CC shape and bezier tension. See <a href="#MIDI_GetCC">MIDI_GetCC</a>, <a href="#MIDI_SetCCShape">MIDI_SetCCShape</a></p>
+Get CC shape and bezier tension. <br>
+<br>
+See MIDI_GetCC, MIDI_SetCCShape<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28238,7 +28295,7 @@ Get MIDI CC event properties.<br>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> evtidx, <i>Boolean</i> selectedOut, <i>Boolean</i> mutedOut, <i>Float</i> ppqposOut, <i>String</i> msgOut, <i>Int</i> msgOut_sz) = <em>RPR_MIDI_GetEvt</em>(take, evtidx, selectedOut, mutedOut, ppqposOut, msgOut, msgOut_sz)</code></div>
 </div><p>
 <div class="ch">
-Get MIDI event properties.<br>
+Get MIDI event properties of a take.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28320,7 +28377,11 @@ Returns the most recent MIDI editor grid size for this MIDI take, in QN. Swing i
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Boolean</i> notesonly, <i>String</i> hashOut, <i>Int</i> hashOut_sz) = <em>RPR_MIDI_GetHash</em>(take, notesonly, hashOut, hashOut_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. See <a href="#MIDI_GetTrackHash">MIDI_GetTrackHash</a></p>
+Get a string that only changes when the MIDI data changes. <br>
+<br>
+If notesonly==true, then the string changes only when the MIDI notes change. <br>
+<br>
+See [MIDI\_GetTrackHash](#MIDI_GetTrackHash)<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28639,8 +28700,9 @@ Get the active scale in the media source, if any. root 0=C, 1=C#, etc. scale &0x
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> textsyxevtidx, <i>Boolean</i> selectedOutOptional, <i>Boolean</i> mutedOutOptional, <i>Float</i> ppqposOutOptional, <i>Int</i> typeOutOptional, <i>String</i> msgOptional, <i>Int</i> msgOptional_sz) = <em>RPR_MIDI_GetTextSysexEvt</em>(take, textsyxevtidx, selectedOutOptional, mutedOutOptional, ppqposOutOptional, typeOutOptional, msgOptional, msgOptional_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Get MIDI meta-event properties. Allowable types are -1:sysex (msg should not include bounding F0..F7), 1-14:MIDI text event types, 15=REAPER notation event. For all other meta-messages, type is returned as -2 and msg returned as all zeroes.</p>
-<p>See <a href="#MIDI_GetEvt">MIDI_GetEvt</a>.</p>
+Get MIDI meta-event properties. Allowable types are -1:sysex (msg should not include bounding F0..F7), 1-14:MIDI text event types, 15=REAPER notation event. For all other meta-messages, type is returned as -2 and msg returned as all zeroes. <br>
+<br>
+See MIDI_GetEvt.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28711,7 +28773,9 @@ Get the active scale in the media source, if any. root 0=C, 1=C#, etc. scale &0x
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Boolean</i> notesonly, <i>String</i> hashOut, <i>Int</i> hashOut_sz) = <em>RPR_MIDI_GetTrackHash</em>(track, notesonly, hashOut, hashOut_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. See <a href="#MIDI_GetHash">MIDI_GetHash</a></p>
+Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. <br>
+<br>
+See MIDI_GetHash<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -28974,10 +29038,17 @@ Select or deselect all MIDI content.<br>
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>RPR_MIDI_SetAllEvts</em>(<i>MediaItem_Take</i> take, <i>String</i> buf, <i>Int</i> buf_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Set all MIDI data. MIDI buffer is passed in as a list of { int offset, char flag, int msglen, unsigned char msg[] }.</p>
-<p>offset: MIDI ticks from previous event flag: &amp;1=selected &amp;2=muted flag high 4 bits for CC shape: &amp;16=linear, &amp;32=slow start/end, &amp;16|32=fast start, &amp;64=fast end, &amp;64|16=bezier msg: the MIDI message.</p>
-<p>A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float. For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.</p>
-<p>See <a href="#MIDI_GetAllEvts">MIDI_GetAllEvts</a>.</p>
+Set all MIDI data. MIDI buffer is passed in as a list of { int offset, char flag, int msglen, unsigned char msg[] }.<br>
+<br>
+&nbsp;&nbsp; offset: MIDI ticks from previous event<br>
+&nbsp;&nbsp; flag: &1=selected &2=muted<br>
+&nbsp;&nbsp; flag high 4 bits for CC shape: &16=linear, &32=slow start/end, &16|32=fast start, &64=fast end, &64|16=bezier<br>
+&nbsp;&nbsp; msg: the MIDI message.<br>
+<br>
+A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float.<br>
+For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.<br>
+<br>
+See MIDI_GetAllEvts.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -32457,7 +32528,7 @@ mode: <br>
 Example:<br>
 To insert an item at a specific trackindex, use:<br>
 <pre><code>
-&nbsp;&nbsp;&nbsp;&nbsp;TrackIndex=3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- set this to the track you wanto
+&nbsp;&nbsp;&nbsp;&nbsp;TrackIndex=3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- set this to the track you want
 &nbsp;&nbsp;&nbsp;&nbsp;TrackIndex=TrackIndex<<16 -- move the index to high-word-destination for further use
 &nbsp;&nbsp;&nbsp;&nbsp;reaper.InsertMedia("C:\\test3.mp3", 0+512+TrackIndex) -- insert at track; it is important to add 512 in this to mode!
 </code></pre><br>
@@ -32492,7 +32563,7 @@ Note: will always return 1, when mode=0 or mode=1, even if the file does not exi
 <div class="p">Python: <code> <i>Int</i> retval = <em>RPR_InsertMediaSection</em>(<i>String</i> file, <i>Int</i> mode, <i>Float</i> startpct, <i>Float</i> endpct, <i>Float</i> pitchshift)</code></div>
 </div><p>
 <div class="ch">
-<p>see <a href="#InsertMedia">InsertMedia</a></p>
+see InsertMedia for more details<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -36033,8 +36104,10 @@ So you can control them individually, when you've unlinked them with this functi
 <div class="p">Python: <code> <em>RPR_GoToMarker</em>(<i>ReaProject</i> proj, <i>Int</i> marker_index, <i>Boolean</i> use_timeline_order)</code></div>
 </div><p>
 <div class="ch">
-<p>Go to marker. Move Editcursor to a given marker. When playing, the playcursor moves to the marker as well.</p>
-<p>For Regions, use <a href="#GoToRegion">GoToRegion</a>.</p>
+Go to marker. <br>
+Move Editcursor to a given marker. When playing, the playcursor moves to the marker as well.<br>
+<br>
+For Regions, use GoToRegion.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>ReaProject</i> proj</td></tr>
@@ -56741,12 +56814,18 @@ Set cell background color (top-most color).<br>
 <div class="p">Python: <code> <i>Int</i> retval = <em>ImGui_TableBgTarget_None</em>()</code></div>
 </div><p>
 <div class="ch">
-<p>Enum: A color target for TableSetBgColor()</p>
-<p>Background colors are rendering in 3 layers:</p>
-<pre><code>- Layer 0: draw with RowBg0 color if set, otherwise draw with ColumnBg0 if set.
-- Layer 1: draw with RowBg1 color if set, otherwise draw with ColumnBg1 if set.
-- Layer 2: draw with CellBg color if set.</code></pre>
-<p>The purpose of the two row/columns layers is to let you decide if a background color changes should override or blend with the existing color. When using ImGui_TableFlags_RowBg on the table, each row has the RowBg0 color automatically set for odd/even rows. If you set the color of RowBg0 target, your color will override the existing RowBg0 color. If you set the color of RowBg1 or ColumnBg1 target, your color will blend over the RowBg0 color.</p>
+Enum: A color target for TableSetBgColor()<br>
+<br>
+Background colors are rendering in 3 layers:<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- Layer 0: draw with RowBg0 color if set, otherwise draw with ColumnBg0 if set.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- Layer 1: draw with RowBg1 color if set, otherwise draw with ColumnBg1 if set.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- Layer 2: draw with CellBg color if set.<br>
+<br>
+The purpose of the two row/columns layers is to let you decide if a background color changes should override or blend with the existing color.<br>
+When using ImGui_TableFlags_RowBg on the table, each row has the RowBg0 color automatically set for odd/even rows.<br>
+If you set the color of RowBg0 target, your color will override the existing RowBg0 color.<br>
+If you set the color of RowBg1 or ColumnBg1 target, your color will blend over the RowBg0 color.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -60296,8 +60375,10 @@ Display a dot next to the title. When used in a tab/docking context, tab is sele
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>ReaPack_AboutInstalledPackage</em>(<i>PackageEntry</i> entry)</code></div>
 </div><p>
 <div class="ch">
-<p>Show the about dialog of the given package entry. The repository index is downloaded asynchronously if the cached copy doesn't exist or is older than one week.</p>
-<p>see <a href="#ReaPack_GetOwner">ReaPack_GetOwner</a> to get this parameter</p>
+Show the about dialog of the given package entry.<br>
+The repository index is downloaded asynchronously if the cached copy doesn't exist or is older than one week.<br>
+<br>
+see ReaPack_GetOwner to get this parameter<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -60352,8 +60433,11 @@ The repository index is downloaded asynchronously if the cached copy doesn't exi
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>String</i> name, <i>String</i> url, <i>Boolean</i> enable, <i>Int</i> autoInstall, <i>String</i> errorOut, <i>Int</i> errorOut_sz) = <em>ReaPack_AddSetRepository</em>(name, url, enable, autoInstall, errorOut, errorOut_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Add or modify a repository. Set url to nullptr (or empty string in Lua) to keep the existing URL. Call <a href="#ReaPack_ProcessQueue">ReaPack_ProcessQueue(true)</a> when done to process the new list and update the GUI.</p>
-<p>autoInstall: usually set to 2 (obey user setting).</p>
+Add or modify a repository. Set url to nullptr (or empty string in Lua) to keep the existing URL. <br>
+<br>
+Call ReaPack_ProcessQueue(true) when done to process the new list and update the GUI.<br>
+<br>
+autoInstall: usually set to 2 (obey user setting).<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -60457,9 +60541,13 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>PackageEntry</i> entry, <i>Int</i> index, <i>String</i> pathOut, <i>Int</i> pathOut_sz, <i>Int</i> sectionsOut, <i>Int</i> typeOut) = <em>ReaPack_EnumOwnedFiles</em>(entry, index, pathOut, pathOut_sz, sectionsOut, typeOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Enumerate the files owned by the given package. Returns false when there is no more data.</p>
-<p>sections: 0=not in action list, &amp;1=main, &amp;2=midi editor, &amp;4=midi inline editor type: see <a href="#ReaPack_GetEntryInfo">ReaPack_GetEntryInfo</a>.</p>
-<p>see <a href="#ReaPack_GetOwner">ReaPack_GetOwner</a> to get the value for the parameter entry</p>
+Enumerate the files owned by the given package. Returns false when there is no more data.<br>
+<br>
+&nbsp;&nbsp; sections: 0=not in action list, &1=main, &2=midi editor, &4=midi inline editor<br>
+&nbsp;&nbsp; type: see ReaPack_GetEntryInfo.<br>
+<br>
+&nbsp;&nbsp; see ReaPack_GetOwner to get the value for the parameter entry<br>
+<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -60513,7 +60601,9 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>ReaPack_FreeEntry</em>(<i>PackageEntry</i> entry)</code></div>
 </div><p>
 <div class="ch">
-<p>Free resources allocated for the given package entry. Must be used to free PackageEntry-objects created by <a href="#ReaPack_GetOwner">ReaPack_GetOwner</a>.</p>
+Free resources allocated for the given package entry. <br>
+<br>
+Must be used to free PackageEntry-objects created by ReaPack_GetOwner.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -60540,8 +60630,9 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>PackageEntry</i> entry, <i>String</i> repoOut, <i>Int</i> repoOut_sz, <i>String</i> catOut, <i>Int</i> catOut_sz, <i>String</i> pkgOut, <i>Int</i> pkgOut_sz, <i>String</i> descOut, <i>Int</i> descOut_sz, <i>Int</i> typeOut, <i>String</i> verOut, <i>Int</i> verOut_sz, <i>String</i> authorOut, <i>Int</i> authorOut_sz, <i>Int</i> flagsOut, <i>Int</i> fileCountOut) = <em>ReaPack_GetEntryInfo</em>(entry, repoOut, repoOut_sz, catOut, catOut_sz, pkgOut, pkgOut_sz, descOut, descOut_sz, typeOut, verOut, verOut_sz, authorOut, authorOut_sz, flagsOut, fileCountOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Get the repository name, category, package name, package description, package type, the currently installed version, author name, flags (&amp;1=Pinned, &amp;2=BleedingEdge) and how many files are owned by the given package entry.</p>
-<p>see <a href="#ReaPack_GetOwner">ReaPack_GetOwner</a> to get value for parameter entry</p>
+Get the repository name, category, package name, package description, package type, the currently installed version, author name, flags (&1=Pinned, &2=BleedingEdge) and how many files are owned by the given package entry.<br>
+<br>
+see ReaPack_GetOwner to get value for parameter entry<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -60613,7 +60704,8 @@ Returns 0 if both versions are equal, a positive value if ver1 is higher than ve
 <div class="p">Python: <code> (<i>PackageEntry</i> retval, <i>String</i> fn, <i>String</i> errorOut, <i>Int</i> errorOut_sz) = <em>ReaPack_GetOwner</em>(fn, errorOut, errorOut_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the package entry owning the given file. Delete the returned object from memory after use with <a href="#ReaPack_FreeEntry">ReaPack_FreeEntry</a>.</p>
+Returns the package entry owning the given file.<br>
+Delete the returned object from memory after use with ReaPack_FreeEntry.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -62041,7 +62133,7 @@ Get the number of MediaItems of a MediaTrack<br>
 <div class="p">Python: <code> <em>RPR_InsertTrackAtIndex</em>(<i>Int</i> idx, <i>Boolean</i> wantDefaults)</code></div>
 </div><p>
 <div class="ch">
-<p>inserts a track at idx,of course this will be clamped to 0..<a href="#GetNumTracks">GetNumTracks</a>().</p>
+inserts a track at idx,of course this will be clamped to 0..GetNumTracks().<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> idx</td></tr>
@@ -62853,7 +62945,9 @@ See GetTrackReceiveName<br>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> send_index, <i>Boolean</i> muteOut) = <em>RPR_GetTrackSendUIMute</em>(track, send_index, muteOut)</code></div>
 </div><p>
 <div class="ch">
-<p>send_idx&gt;=0 for hw outputs, &gt;=nb_of_hw_outputs for sends. See <a href="#GetTrackReceiveUIMute">GetTrackReceiveUIMute</a>.</p>
+send_idx>=0 for hw outputs, >=nb_of_hw_outputs for sends. <br>
+<br>
+See GetTrackReceiveUIMute.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -62888,8 +62982,11 @@ See GetTrackReceiveName<br>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> send_index, <i>Float</i> volumeOut, <i>Float</i> panOut) = <em>RPR_GetTrackSendUIVolPan</em>(track, send_index, volumeOut, panOut)</code></div>
 </div><p>
 <div class="ch">
-<p>send_idx&gt;=0 for hw outputs, &gt;=nb_of_hw_outputs for sends. See <a href="#GetTrackReceiveUIVolPan">GetTrackReceiveUIVolPan</a>.</p>
-<p>Note: convert the volumevalue to dB using in Lua: dB_volume = math.log(volume)*8.68588963806</p>
+send_idx>=0 for hw outputs, >=nb_of_hw_outputs for sends. <br>
+<br>
+See GetTrackReceiveUIVolPan<br>
+<br>
+Note: convert the volumevalue to dB using in Lua: dB_volume = math.log(volume)*8.68588963806<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -65627,26 +65724,51 @@ examples:<br/>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>String</i> title, <i>Int</i> num_inputs, <i>String</i> captions_csv, <i>String</i> retvals_csv, <i>Int</i> retvals_csv_sz) = <em>RPR_GetUserInputs</em>(title, num_inputs, captions_csv, retvals_csv, retvals_csv_sz)</code></div>
 </div><p>
 <div class="ch">
-<p>Opens a window with input-fields to get values from the user. If a caption begins with *, for example "*password", the edit field will not display the input text. Maximum fields is 16. Values are returned as a comma/custom separator-separated string. Returns false if the user canceled the dialog.</p>
-<p>You can supply special extra information via additional caption fields: extrawidth=XXX to increase text field width, separator=X to use a different separator for returned fields(separator=\n is recommended).</p>
-<p>Example:</p>
-<pre><code>retval, retvals_csv = reaper.GetUserInputs(&quot;Title&quot;, 2, &quot;Hello,World, separator=\n&quot;, &quot;defaultvalue1\ndefaultvalue2&quot;)</code></pre>
-<p>will return the values input by the user, separated by a newline.</p>
-<p>\n is recommended, as this allows the user entering everything, a one-lined-inputbox can handle.</p>
-<p>Important: the separator-field in the captions has no effect on how captions in parameter captions_csv are separated from each other. They still need to be separated by commas!</p>
-<p>Note: the parameter retvals_csv follows undisclosed csv rules. This is important when you want to set the default-captions for multiple input-field. For instance every entry for each input-field:</p>
-<ul>
-<li>must contain an even number of quotes/single quotes</li>
-<li>every ( or must be closed by with )</li>
-</ul>
-<p>otherwise the separator will be ignored and the default-retvals will show in the wrong fields.</p>
-<p>Example:</p>
-<p>a retval<em>csv of </em>I'm enlightened,I am too_</p>
-<p>with one singlequote in it (the one in I'm) will NOT be shown in two fields</p>
-<p><em>I'm enlightened</em> <em>I am too</em></p>
-<p>but rather in one field as</p>
-<p><em>I'm enlightened,I am too</em></p>
-<p>These can't be escaped due Reaper's API-limitation. Keep this in mind!</p>
+Opens a window with input-fields to get values from the user.<br>
+If a caption begins with *, for example "*password", the edit field will not display the input text.<br>
+Maximum fields is 16. Values are returned as a comma/custom separator-separated string. <br>
+Returns false if the user canceled the dialog. <br>
+<br>
+You can supply special extra information via additional caption fields: extrawidth=XXX to increase text field width, separator=X to use a different separator for returned fields(separator=\n is recommended).<br>
+<br>
+Example:<br>
+<br>
+<pre><code>
+&nbsp;&nbsp;&nbsp;&nbsp;retval, retvals_csv = reaper.GetUserInputs("Title", 2, "Hello,World, separator=\n", "defaultvalue1\ndefaultvalue2")
+</code></pre><br>
+<br>
+will return the values input by the user, separated by a newline.<br>
+<br>
+\n is recommended, as this allows the user entering everything, a one-lined-inputbox can handle.<br>
+<br>
+Important: the separator-field in the captions has no effect on how captions in parameter captions_csv are separated from each other. They still need to be separated by commas!<br>
+<br>
+Note: the parameter retvals_csv follows undisclosed csv rules. This is important when you want to set the default-captions for multiple input-field.<br>
+For instance every entry for each input-field: <br>
+<br>
+- must contain an even number of quotes/single quotes<br>
+- every ( or must be closed by with )<br>
+<br>
+otherwise the separator will be ignored and the default-retvals will show in the wrong fields.<br>
+<br>
+Example:<br>
+<pre><code>
+a retval_csv of I'm enlightened,I am too
+</code></pre><br>
+with one singlequote in it (the one in I'm) will NOT be shown in two fields<br>
+<br>
+<pre><code>
+I'm enlightened
+I am too
+</code></pre><br>
+<br>
+but rather in one field as <br>
+<br>
+<pre><code>
+I'm enlightened,I am too
+</code></pre><br>
+<br>
+These can't be escaped due Reaper's API-limitation. Keep this in mind!<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -69839,8 +69961,10 @@ Displays an information in the help and information-display, underneath the TCP(
 <div class="p">Python: <code> <i>Int</i> retval = <em>NF_Win32_GetSystemMetrics</em>(<i>Int</i> nIndex)</code></div>
 </div><p>
 <div class="ch">
-<p>This function allows you to get various information about your display.</p>
-<p>Equivalent to <a href="https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getsystemmetrics">win32 API GetSystemMetrics()</a>.</p>
+This function allows you to get various information about your display.<br>
+<br>
+Equivalent to win32 API GetSystemMetrics()<br>
+see: https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getsystemmetrics.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -72594,9 +72718,11 @@ WARNING: May not be fully implemented on MacOS and Linux.<br>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>void</i> windowHWND, <i>Int</i> leftOut, <i>Int</i> topOut, <i>Int</i> rightOut, <i>Int</i> bottomOut) = <em>JS_Window_GetClientRect</em>(windowHWND, leftOut, topOut, rightOut, bottomOut)</code></div>
 </div><p>
 <div class="ch">
-<p>Retrieves the coordinates of the client area rectangle of the specified window. The dimensions are given in screen coordinates relative to the upper-left corner of the screen.</p>
-<p>NOTE 1: Unlike the C++ function GetClientRect, this function returns the actual coordinates, not the width and height.</p>
-<p>NOTE 2: The pixel at (right, bottom) lies immediately outside the rectangle.</p>
+Retrieves the coordinates of the client area rectangle of the specified window. The dimensions are given in screen coordinates relative to the upper-left corner of the screen.<br>
+<br>
+NOTE 1: Unlike the C++ function GetClientRect, this function returns the actual coordinates, not the width and height.<br>
+<br>
+NOTE 2: The pixel at (right, bottom) lies immediately outside the rectangle.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -72755,9 +72881,17 @@ Retrieves a HWND to the top-level foreground window (the window with which the u
 <div class="p">Python: <code> <i>identifier</i> long_ptr = <em>JS_Window_GetLongPtr</em>(<i>void</i> windowHWND, <i>String</i> info)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns information about the specified window.</p>
-<p>info: "USERDATA", "WNDPROC", "DLGPROC", "ID", "EXSTYLE" or "STYLE".</p>
-<p>For documentation about the types of information returned, refer to the Win32 function GetWindowLongPtr. The values returned by "DLGPROC" and "WNDPROC" are typically used as-is, as pointers, whereas the others should first be converted to integers.</p>
+Returns information about the specified window.<br>
+<br>
+<br>
+<br>
+info: "USERDATA", "WNDPROC", "DLGPROC", "ID", "EXSTYLE" or "STYLE".<br>
+<br>
+<br>
+<br>
+For documentation about the types of information returned, refer to the Win32 function GetWindowLongPtr.<br>
+The values returned by "DLGPROC" and "WNDPROC" are typically used as-is, as pointers, whereas the others should first be converted to integers.<br>
+<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -72865,9 +72999,11 @@ NOTE: The pixel at (right, bottom) lies immediately outside the rectangle.<br>
 <div class="p">Python: <code> <i>identifier</i> hwnd = <em>JS_Window_GetRelated</em>(<i>void</i> windowHWND, <i>String</i> relation)</code></div>
 </div><p>
 <div class="ch">
-<p>Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.</p>
-<p>relation: "LAST", "NEXT", "PREV", "OWNER" or "CHILD".</p>
-<p>(Refer to documentation for Win32 C++ function GetWindow.)</p>
+Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.<br>
+<br>
+relation: "LAST", "NEXT", "PREV", "OWNER" or "CHILD".<br>
+<br>
+(Refer to documentation for Win32 C++ function GetWindow.)<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

@@ -8827,8 +8827,8 @@ function ultraschall.GetRenderCFG_Settings_WMF(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_WMF</slug>
     <requires>
-      Ultraschall=4.6
-      Reaper=6.57
+      Ultraschall=4.7
+      Reaper=6.59
       Lua=5.3
     </requires>
     <functioncall>integer OutputFormat, integer VIDEO_CODEC, integer VideoBitrate, integer AUDIO_CODEC, integer AudioBitrate, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_WMF(string rendercfg)</functioncall>
@@ -8841,14 +8841,15 @@ function ultraschall.GetRenderCFG_Settings_WMF(rendercfg)
     </description>
     <retvals>
       integer OutputFormat - the used OutputFormat
-                           - 0, MPEG-4 video
-                           - 1, MPEG-4 audio
-      integer VIDEO_CODEC - the used VideoCodec for the AVI-video
+                           - 0, MPEG-4
+      integer VIDEO_CODEC - the used VideoCodec for the mp4-video
                           - 0, H.264
-                          - 255, no video
+                          - 1, no video(Reaper 6.59+)
+                          - 255, no video(before Reaper 6.59)
       integer VideoBitrate - in kbps; 0 to 2147483647
-      integer AUDIO_CODEC - the audio-codec of the avi-video
+      integer AUDIO_CODEC - the audio-codec of the mp4-video
                           - 0, AAC
+                          - 2, no audio(Reaper 6.59+)
       integer AudioBitrate - in kbps; 0 to 2147483647
       integer WIDTH  - the width of the video in pixels
       integer HEIGHT - the height of the video in pixels
@@ -8889,19 +8890,21 @@ function ultraschall.GetRenderCFG_Settings_WMF(rendercfg)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
+
+  
   return OutputFormat, VideoCodec, VideoBitrate[1], AudioCodec, AudioBitrate[1], Width[1], Height[1], FPS, AspectRatio
 end
 
-function ultraschall.CreateRenderCFG_WMF_Video(OutputFormat, VideoCodec, VideoBitrate, AudioCodec, AudioBitrate, WIDTH, HEIGHT, FPS, AspectRatio)
+function ultraschall.CreateRenderCFG_WMF(OutputFormat, VideoCodec, VideoBitrate, AudioCodec, AudioBitrate, WIDTH, HEIGHT, FPS, AspectRatio)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CreateRenderCFG_WMF_Video</slug>
+  <slug>CreateRenderCFG_WMF</slug>
   <requires>
-    Ultraschall=4.6
-    Reaper=6.57
+    Ultraschall=4.7
+    Reaper=6.59
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_WMF_Video(integer VideoFormat, integer VideoCodec, integer VideoBitrate, integer AudioCodec, integer AudioBitrate, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_WMF(integer VideoFormat, integer VideoCodec, integer VideoBitrate, integer AudioCodec, integer AudioBitrate, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio)</functioncall>
   <description>
     Returns the render-cfg-string for the WMF-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -8912,14 +8915,14 @@ function ultraschall.CreateRenderCFG_WMF_Video(OutputFormat, VideoCodec, VideoBi
   </retvals>
   <parameters>
       integer OutputFormat - the used OutputFormat
-                           - 0, MPEG-4 video
-                           - 1, MPEG-4 audio
-      integer VIDEO_CODEC - the used VideoCodec for the AVI-video
+                           - 0, MPEG-4
+      integer VIDEO_CODEC - the used VideoCodec for the mp4-video
                           - 0, H.264
-                          - 255, no video
+                          - 1, no video
       integer VideoBitrate - in kbps; 0 to 2147483647
-      integer AUDIO_CODEC - the audio-codec of the avi-video
+      integer AUDIO_CODEC - the audio-codec of the mp4-video
                           - 0, AAC
+                          - 2, no audio
       integer AudioBitrate - in kbps; 0 to 2147483647
       integer WIDTH  - the width of the video in pixels
       integer HEIGHT - the height of the video in pixels
@@ -8935,28 +8938,28 @@ function ultraschall.CreateRenderCFG_WMF_Video(OutputFormat, VideoCodec, VideoBi
   <tags>render management, create, render, outputformat, wmf</tags>
 </US_DocBloc>
 ]]
-  if math.type(OutputFormat)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "OutputFormat", "Must be an integer!", -1) return nil end
-  if math.type(VideoCodec)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "VideoCodec", "Must be an integer!", -2) return nil end
-  if math.type(AudioCodec)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AudioCodec", "Must be an integer!", -3) return nil end
-  if math.type(WIDTH)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "WIDTH", "Must be an integer!", -4) return nil end
-  if math.type(HEIGHT)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "HEIGHT", "Must be an integer!", -5) return nil end
-  if type(FPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "FPS", "Must be a float-value with two digit precision (e.g. 29.97 or 25.00)!", -6) return nil end
-  if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AspectRatio", "Must be a boolean!", -7) return nil end
+  if math.type(OutputFormat)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "OutputFormat", "Must be an integer!", -1) return nil end
+  if math.type(VideoCodec)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "VideoCodec", "Must be an integer!", -2) return nil end
+  if math.type(AudioCodec)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "AudioCodec", "Must be an integer!", -3) return nil end
+  if math.type(WIDTH)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "WIDTH", "Must be an integer!", -4) return nil end
+  if math.type(HEIGHT)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "HEIGHT", "Must be an integer!", -5) return nil end
+  if type(FPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "FPS", "Must be a float-value with two digit precision (e.g. 29.97 or 25.00)!", -6) return nil end
+  if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "AspectRatio", "Must be a boolean!", -7) return nil end
   
-  if VideoCodec<0 or VideoCodec>0 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "VideoCodec", "Must be 0", -8) return nil end
+  if VideoCodec<0 or VideoCodec>0 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "VideoCodec", "Must be 0", -8) return nil end
 
-  if AudioCodec<0 or AudioCodec>0 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AudioCodec", "Must be 0", -9) return nil end
+  if AudioCodec<0 or AudioCodec>0 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "AudioCodec", "Must be 0", -9) return nil end
   
-  if VideoBitrate~=nil and math.type(VideoBitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "VideoBitrate", "Must be an integer!", -10) return nil end
-  if AudioBitrate~=nil and math.type(AudioBitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AudioBitrate", "Must be an integer!", -11) return nil end  
+  if VideoBitrate~=nil and math.type(VideoBitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "VideoBitrate", "Must be an integer!", -10) return nil end
+  if AudioBitrate~=nil and math.type(AudioBitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "AudioBitrate", "Must be an integer!", -11) return nil end  
   if VideoBitrate==nil then VideoBitrate=2048 end
   if AudioBitrate==nil then AudioBitrate=128 end
-  if VideoBitrate<1 or VideoBitrate>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "VideoBitrate", "Must be between 1 and 2147483647.", -12) return nil end
-  if AudioBitrate<1 or AudioBitrate>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "AudioBitrate", "Must be between 1 and 2147483647.", -13) return nil end
+  if VideoBitrate<1 or VideoBitrate>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "VideoBitrate", "Must be between 1 and 2147483647.", -12) return nil end
+  if AudioBitrate<1 or AudioBitrate>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "AudioBitrate", "Must be between 1 and 2147483647.", -13) return nil end
 
-  if WIDTH<1 or WIDTH>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "WIDTH", "Must be between 1 and 2147483647.", -14) return nil end
-  if HEIGHT<1 or HEIGHT>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "HEIGHT", "Must be between 1 and 2147483647.", -15) return nil end
-  if FPS<0.01 or FPS>2000.00 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF_Video", "FPS", "Ultraschall-API supports only fps-values between 0.01 and 2000.00, sorry.", -16) return nil end
+  if WIDTH<1 or WIDTH>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "WIDTH", "Must be between 1 and 2147483647.", -14) return nil end
+  if HEIGHT<1 or HEIGHT>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "HEIGHT", "Must be between 1 and 2147483647.", -15) return nil end
+  if FPS<0.01 or FPS>2000.00 then ultraschall.AddErrorMessage("CreateRenderCFG_WMF", "FPS", "Ultraschall-API supports only fps-values between 0.01 and 2000.00, sorry.", -16) return nil end
 
   WIDTH=ultraschall.ConvertIntegerIntoString2(4, WIDTH)
   HEIGHT=ultraschall.ConvertIntegerIntoString2(4, HEIGHT)
@@ -8973,3 +8976,5 @@ function ultraschall.CreateRenderCFG_WMF_Video(OutputFormat, VideoCodec, VideoBi
   return ultraschall.Base64_Encoder(" FMW"..OutputFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
          WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0\0\0\0\0\0")
 end
+
+CreateRenderCFG_WMF_Video=CreateRenderCFG_WMF -- look above for the actual function!!

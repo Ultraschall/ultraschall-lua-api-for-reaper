@@ -35,7 +35,7 @@
       
           <div class="ch"><p></p>
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.7 - "Can - Halleluwah" - XX of XXXX 2022</h3>
+<h3>4.7 - " - " - XX of XXXX 2022</h3>
 <p>Has now 1532 functions, with XX new ones</p>
 <p><strong>new in this release:</strong></p>
 <ul>
@@ -44,7 +44,8 @@ Bla</li>
 </ul>
 <h4>New features in 4.7</h4>
 <ul>
-<li>MediaItem_Takes: GetTakeSourcePosByProjectPos - gets the source-position of a take by the project-position</li>
+<li>MediaItem_Takes: GetProjectPosByTakeSourcePos - gets the project-position of a take's source-position, obeying stretch-markers, offset, etc</li>
+<li>MediaItem_Takes: GetTakeSourcePosByProjectPos - gets the source-position of a take by the project-position, obeying stretch-markers, offset, etc</li>
 <li>PodcastMetadata: GetAllChapters_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
 <li>PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST_METADATA:"v1"-standard</li>
 <li>PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST_METADATA:"v1"-standard</li>
@@ -77,6 +78,7 @@ Bla</li>
 <li>DeveloperTools: Theme Parameter Monitor - updates now the list immediately, when the current theme is changed</li>
 <li>DeveloperTools: Trackstatechunk from clip to track under mouse - copied trackstatechunk into clipboard instead of setting it -&gt; fixed</li>
 <li>ProjectManagement: GetProjectStateChunk - didn't work under certain circumstances on Linux/Mac.</li>
+<li>Rendering: CreateRenderCFG_WMF_Video - renamed to CreateRenderCFG_WMF (old functionname is still available, though</li>
 </ul>
 <hr />
 <h3>4.6 - "Can - Halleluwah" - 19th of May 2022</h3>

@@ -4941,9 +4941,9 @@ else
     ultraschall.LM(29)
     return ultraschall.GetRenderCFG_Settings_WMF(table.unpack({...}))
   end
-  function ultraschall.CreateRenderCFG_WMF_Video(...)
+  function ultraschall.CreateRenderCFG_WMF(...)
     ultraschall.LM(29)
-    return ultraschall.CreateRenderCFG_WMF_Video(table.unpack({...}))
+    return ultraschall.CreateRenderCFG_WMF(table.unpack({...}))
   end
   function ultraschall.GetAllThemeLayoutNames(...)
     ultraschall.LM(30)

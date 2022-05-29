@@ -284,7 +284,7 @@
         <changelog>
         </changelog>
         <linked_to desc="see:">
-            inline:SetMediaItemInfo_Value
+            Reaper:SetMediaItemInfo_Value
                    for setting attributes of new item, like length, position
         </linked_to>
     </US_DocBloc>
@@ -346,7 +346,7 @@
             integer index - the shown-number of the newly created marker/region
         </retvals>
         <linked_to desc="see:">
-            inline:ColorToNative
+            Reaper:ColorToNative
                    to convert color-value to a native(Mac, Win, Linux) colors
         </linked_to>
         <parameters>
@@ -396,7 +396,7 @@
             If you want to add a script to several sections, you need to add them individually, by calling the function again with the changed section-number.
         </description>
         <linked_to desc="see:">
-            inline:ReverseNamedCommandLookup
+            Reaper:ReverseNamedCommandLookup
                    to get ActionCommandID-string of the script
         </linked_to>
         <retvals>
@@ -482,13 +482,13 @@
             boolean lineartempochange - true, linear tempo change, false not
         </parameters>
         <linked_to desc="see:">
-            inline:CountTempoTimeSigMarkers
+            Reaper:CountTempoTimeSigMarkers
                    counts the number of tempo/time signature markers
-            inline:DeleteTempoTimeSigMarker
+            Reaper:DeleteTempoTimeSigMarker
                    removes a tempo/time signature-marker
-            inline:GetTempoTimeSigMarker
+            Reaper:GetTempoTimeSigMarker
                    gets the attributes of a tempo/time signature-marker
-            inline:SetTempoTimeSigMarker
+            Reaper:SetTempoTimeSigMarker
                    adds/sets a tempo/time signature marker
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -800,19 +800,19 @@
             Returns true if the underlying samples (track or media item take) have changed, but does not update the audio accessor, so the user can selectively call AudioAccessorValidateState only when needed. 
         </description>
         <linked_to desc="see:">
-            inline:AudioAccessorStateChanged
+            Reaper:AudioAccessorStateChanged
                    returns, if audioaccessor has changed
-            inline:AudioAccessorValidateState
+            Reaper:AudioAccessorValidateState
                    to get validation-state of an AudioAccessor
-            inline:CreateTakeAudioAccessor
+            Reaper:CreateTakeAudioAccessor
                    to create an AudioAccessor for take
-            inline:CreateTrackAudioAccessor
+            Reaper:CreateTrackAudioAccessor
                    to create an AudioAccessor for track
-            inline:DestroyAudioAccessor
+            Reaper:DestroyAudioAccessor
                    to destroy an AudioAccessor
-            inline:GetAudioAccessorEndTime
+            Reaper:GetAudioAccessorEndTime
                    to get endtime of an AudioAccessor
-            inline:GetAudioAccessorSamples
+            Reaper:GetAudioAccessorSamples
                    to get samples of an AudioAccessor
         </linked_to>
         <retvals>
@@ -849,19 +849,19 @@
             AudioAccessor accessor - 
         </parameters>
         <linked_to desc="see:">
-            inline:CreateTakeAudioAccessor
+            Reaper:CreateTakeAudioAccessor
                    for creating a take-audio-accessor
-            inline:CreateTrackAudioAccessor
+            Reaper:CreateTrackAudioAccessor
                    for creating a track-audio-accessor
-            inline:DestroyAudioAccessor
+            Reaper:DestroyAudioAccessor
                    to destroy an audio-accessor
-            inline:AudioAccessorStateChanged
+            Reaper:AudioAccessorStateChanged
                    to get, if an audioaccessor has changed
-            inline:GetAudioAccessorStartTime
+            Reaper:GetAudioAccessorStartTime
                    to get the audioaccessor-starttime
-            inline:GetAudioAccessorEndTime
+            Reaper:GetAudioAccessorEndTime
                    to get the audioaccessor-endtime
-            inline:GetAudioAccessorSamples
+            Reaper:GetAudioAccessorSamples
                    to get the audioaccessor-samples
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1013,7 +1013,7 @@
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <linked_to desc="see:">
-            inline:ShowConsoleMsg
+            Reaper:ShowConsoleMsg
                    for printing messages into the ReaScript-console
         </linked_to>
         <chapter_context>
@@ -1073,7 +1073,7 @@
             integer col - the colorvalue to convert from
         </parameters>
         <linked_to desc="see:">
-            inline:ColorToNative
+            Reaper:ColorToNative
                    for converting r-g-b-values to a native-color value
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1112,7 +1112,7 @@
             integer b - the value for blue, from 0 to 255
         </parameters>
         <linked_to desc="see:">
-            inline:ColorFromNative
+            Reaper:ColorFromNative
                    for converting a native color-calue into its r-g-b-representation
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1146,7 +1146,7 @@
             TrackEnvelope env - the envelope-object for the envelope-lane
         </parameters>
         <linked_to desc="see:">
-            inline:GetSetAutomationItemInfo
+            Reaper:GetSetAutomationItemInfo
                    for setting attributes of an automation-item
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1180,15 +1180,15 @@
             TrackEnvelope envelope - the TrackEnvelope-object, in which to count for the envelope-points
         </parameters>
         <linked_to desc="see:">
-            inline:CountEnvelopePointsEx
+            Reaper:CountEnvelopePointsEx
                    to count envelope-points of envelopes and automation-items
-            inline:GetEnvelopePoint
+            Reaper:GetEnvelopePoint
                    to get envelope-points in envelopes only
-            inline:SetEnvelopePoint
+            Reaper:SetEnvelopePoint
                    to set envelope-points in envelopes only
-            inline:InsertEnvelopePoint
+            Reaper:InsertEnvelopePoint
                    to insert an envelope-point into envelopes only
-            inline:DeleteEnvelopePoint
+            Reaper:DeleteEnvelopePoint
                    to delete an envelope-point into envelopes only
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1227,15 +1227,15 @@
             integer autoitem_idx - -1, for the underlying envelope, 0, for the first automation item on the envelope, etc.
         </parameters>
         <linked_to desc="see:">
-            inline:CountEnvelopePoints
+            Reaper:CountEnvelopePoints
                    to count envelope-points of envelopes only
-            inline:GetEnvelopePointEx
+            Reaper:GetEnvelopePointEx
                    to get envelope-points in envelopes and automation-items
-            inline:SetEnvelopePointEx
+            Reaper:SetEnvelopePointEx
                    to set envelope-points in envelopes and automation-items
-            inline:InsertEnvelopePointEx
+            Reaper:InsertEnvelopePointEx
                    to insert an envelope-point into envelopes and automation-items
-            inline:DeleteEnvelopePointEx
+            Reaper:DeleteEnvelopePointEx
                    to delete an envelope-point into envelopes and automation-items
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1363,7 +1363,7 @@
             ReaProject proj - the project in which to count the selected tracks; 0 for current project. 
         </parameters>
         <linked_to desc="see:">
-            inline:CountSelectedTracks2
+            Reaper:CountSelectedTracks2
                    to count selected tracks including the master track
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1429,7 +1429,7 @@
             MediaItem_Take take - the mediaitem-object for a certain take
         </parameters>
         <linked_to desc="see:">
-            inline:GetTakeEnvelope
+            Reaper:GetTakeEnvelope
                    to get take-envelopes
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1524,11 +1524,11 @@
             ReaProject proj - project number; 0 for the current project. 
         </parameters>
         <linked_to desc="see:">
-            inline:GetTempoTimeSigMarker
+            Reaper:GetTempoTimeSigMarker
                    to get a tempo/time-signature marker
-            inline:SetTempoTimeSigMarker
+            Reaper:SetTempoTimeSigMarker
                    sets a tempo/time-signature-marker
-            inline:DeleteTempoTimeSigMarker
+            Reaper:DeleteTempoTimeSigMarker
                    deletes a tempo/time-signature-marker
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1562,7 +1562,7 @@
             MediaTrack track - the object of the track to count it's envelopes
         </parameters>
         <linked_to desc="see:">
-            inline:GetTrackEnvelope
+            Reaper:GetTrackEnvelope
                    to get a track-envelope
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1689,17 +1689,17 @@
             MediaItem_Take take - the take from a MediaItem-object, of which you want to create a new AudioAccessor
         </parameters>
         <linked_to desc="see:">
-            inline:CreateTrackAudioAccessor
+            Reaper:CreateTrackAudioAccessor
                    gets a track audioaccessor
-            inline:DestroyAudioAccessor
+            Reaper:DestroyAudioAccessor
                    destroys an audioaccessor
-            inline:AudioAccessorStateChanged
+            Reaper:AudioAccessorStateChanged
                    gets the state-change of an audioaccessor
-            inline:GetAudioAccessorStartTime
+            Reaper:GetAudioAccessorStartTime
                    get audioaccessor-starttime
-            inline:GetAudioAccessorEndTime
+            Reaper:GetAudioAccessorEndTime
                    get audioaccessor-endtime
-            inline:GetAudioAccessorSamples
+            Reaper:GetAudioAccessorSamples
                    get audioaccessor-samples
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1733,17 +1733,17 @@
             MediaTrack track - the MediaTrack, of which you want to create an AudioAccessor
         </parameters>
         <linked_to desc="see:">
-            inline:CreateTakeAudioAccessor
+            Reaper:CreateTakeAudioAccessor
                    create a take audioaccessor
-            inline:DestroyAudioAccessor
+            Reaper:DestroyAudioAccessor
                    destroys an audioaccessor
-            inline:AudioAccessorStateChanged
+            Reaper:AudioAccessorStateChanged
                    gets the state-change of an audioaccessor
-            inline:GetAudioAccessorStartTime
+            Reaper:GetAudioAccessorStartTime
                    get audioaccessor-starttime
-            inline:GetAudioAccessorEndTime
+            Reaper:GetAudioAccessorEndTime
                    get audioaccessor-endtime
-            inline:GetAudioAccessorSamples
+            Reaper:GetAudioAccessorSamples
                    get audioaccessor-samples
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -1782,17 +1782,17 @@
                                 - nil(or no MediaTrack-object), creates a new hardware-output
         </parameters>
         <linked_to desc="see:">
-            inline:GetTrackNumSends
+            Reaper:GetTrackNumSends
                    get number of send of a track
-            inline:GetSetTrackSendInfo
+            Reaper:GetSetTrackSendInfo
                    gets and sets attributes for a track-send
-            inline:GetSetTrackSendInfo_String
+            Reaper:GetSetTrackSendInfo_String
                    gets sets additional string-attributes for metadata of track-sends
-            inline:GetTrackSendInfo_Value
+            Reaper:GetTrackSendInfo_Value
                    gets attributes of a track-send
-            inline:RemoveTrackSend
+            Reaper:RemoveTrackSend
                    removes a track-send
-            inline:SetTrackSendInfo_Value
+            Reaper:SetTrackSendInfo_Value
                    sets attributes of a track-send
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -2458,7 +2458,7 @@
             boolean relative - false, set volume to new value; true, alter volume by new value
         </parameters>
         <linked_to desc="see:">
-            inline:mkvolstr
+            Reaper:mkvolstr
                    converts the volume-level for this function
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -2832,9 +2832,9 @@
             boolean relative - false, set volume to new value; true, alter volume by new value
         </parameters>
         <linked_to desc="see:">
-            inline:DB2SLIDER
+            Reaper:DB2SLIDER
                    converts a dB-value into the volume-level for this function
-            inline:SLIDER2DB
+            Reaper:SLIDER2DB
                    converts a volume-level into a dB-value
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -2873,9 +2873,9 @@
             boolean allowgang - true, if trackid is selected with other tracks, set new state to them as well; false, set new state only to trackid 
         </parameters>
         <linked_to desc="see:">
-            inline:DB2SLIDER
+            Reaper:DB2SLIDER
                    converts a dB-value into the volume-level for this function
-            inline:SLIDER2DB
+            Reaper:SLIDER2DB
                    converts a volume-level into a dB-value
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -3437,13 +3437,13 @@
             integer ptidx - the envelope-point to delete
         </parameters>
         <linked_to desc="see:">
-            inline:CountEnvelopePointsEx
+            Reaper:CountEnvelopePointsEx
                    count envelope-points in envelopes and automation-items
-            inline:GetEnvelopePointEx
+            Reaper:GetEnvelopePointEx
                    get envelope-points of envelopes and automation-items
-            inline:SetEnvelopePointEx
+            Reaper:SetEnvelopePointEx
                    sets envelope-points of envelopes and automation-items
-            inline:InsertEnvelopePointEx
+            Reaper:InsertEnvelopePointEx
                    inserts an envelope-point into envelopes and automation-items
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -3479,9 +3479,9 @@
             number time_end - the endtime of the deletionrange in seconds
         </parameters>
         <linked_to desc="see:">
-            inline:DeleteEnvelopePointRangeEx
+            Reaper:DeleteEnvelopePointRangeEx
                    deletes a range of envelope-points within envelopes and automation items
-            inline:DeleteEnvelopePointEx
+            Reaper:DeleteEnvelopePointEx
                    deletes an envelope-point within an envelope and automation-items
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -3547,11 +3547,11 @@
             boolean persist - true, the value shall be deleted permanently; false, delete it only temporarily.
         </parameters>
         <linked_to desc="see:">
-            inline:SetExtState
+            Reaper:SetExtState
                    sets an extstate to store information for your script
-            inline:GetExtState
+            Reaper:GetExtState
                    gets an extstate that stores information for your script
-            inline:HasExtState
+            Reaper:HasExtState
                    checks, if an extstate exists
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -3620,9 +3620,9 @@
             integer markrgnidx - the id of the marker within the project, 0 for the first, 1 for the second, etc. Ignores the shown marker-index!
         </parameters>
         <linked_to desc="see:">
-            inline:EnumProjectMarkers3
+            Reaper:EnumProjectMarkers3
                    gets attributes of a marker/region
-            inline:SetProjectMarker4
+            Reaper:SetProjectMarker4
                    sets attributes of a marker/region
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -3657,11 +3657,11 @@
             integer idx - the id of the marker within the take, 0 for the first, 1 for the second, etc.
         </parameters>
         <linked_to desc="see:">
-            inline:GetNumTakeMarkers
+            Reaper:GetNumTakeMarkers
                    gets the number of take-markers of a take
-            inline:GetTakeMarker
+            Reaper:GetTakeMarker
                    gets attributes of a take-marker of a take
-            inline:SetTakeMarker
+            Reaper:SetTakeMarker
                    sets attributes of a takemarker of a take
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -3728,11 +3728,11 @@
             integer markerindex - the index of the marker, that you want to delete
         </parameters>
         <linked_to desc="see:">
-            inline:CountTempoTimeSigMarkers
+            Reaper:CountTempoTimeSigMarkers
                    counte the number of tempo/time signature markers
-            inline:GetTempoTimeSigMarker
+            Reaper:GetTempoTimeSigMarker
                    gets attributes of a tempo/time-signature-marker
-            inline:SetTempoTimeSigMarker
+            Reaper:SetTempoTimeSigMarker
                    adds/sets a tempo/time signature marker
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -3821,19 +3821,19 @@
             AudioAccessor accessor - the AudioAccessor to be destroyed
         </parameters>
         <linked_to desc="see:">
-            inline:AudioAccessorStateChanged
+            Reaper:AudioAccessorStateChanged
                    returns, if audioaccessor has changed
-            inline:AudioAccessorValidateState
+            Reaper:AudioAccessorValidateState
                    to get validation-state of an AudioAccessor
-            inline:CreateTakeAudioAccessor
+            Reaper:CreateTakeAudioAccessor
                    to create an AudioAccessor for take
-            inline:CreateTrackAudioAccessor
+            Reaper:CreateTrackAudioAccessor
                    to create an AudioAccessor for track
-            inline:GetAudioAccessorStartTime
+            Reaper:GetAudioAccessorStartTime
                    gets the starttime of an audioaccessor
-            inline:GetAudioAccessorEndTime
+            Reaper:GetAudioAccessorEndTime
                    to get endtime of an AudioAccessor
-            inline:GetAudioAccessorSamples
+            Reaper:GetAudioAccessorSamples
                    to get samples of an AudioAccessor
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -4195,7 +4195,7 @@
             integer fileindex - the number of the file, with 0 the first file. Ordered by first letter in ascending order.
         </parameters>
         <linked_to desc="see:">
-            inline:EnumerateSubdirectories
+            Reaper:EnumerateSubdirectories
                    enumerates the directories in a directory
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -4229,7 +4229,7 @@
             integer subdirindex - the number of the directory, with 0 the first directory. Ordered by first letter in ascending order.
         </parameters>
         <linked_to desc="see:">
-            inline:EnumerateFiles
+            Reaper:EnumerateFiles
                    enumerate files in a directory
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -4448,7 +4448,7 @@
             integer idx - -1 for current project; 0 and higher for the projects; 0x40000000 for currently rendering project, if any.
         </parameters>
         <linked_to desc="see:">
-            inline:GetProjectPath
+            Reaper:GetProjectPath
                    get recording path of a current project
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -4486,9 +4486,9 @@
             integer idx - the id of the entry within "extname"-section to be returned; 0 for the first, 1 for the second, etc.
         </parameters>
         <linked_to desc="see:">
-            inline:GetProjExtState
+            Reaper:GetProjExtState
                    gets an ext-state that stored data for your project
-            inline:SetProjExtState
+            Reaper:SetProjExtState
                    sets an ext-state to store data for your project
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -4632,9 +4632,9 @@
             integer samplesRequested - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetEnvelopeScalingMode
+            Reaper:GetEnvelopeScalingMode
                    get the scaling more of an envelope
-            inline:Envelope_Evaluate
+            Reaper:Envelope_Evaluate
                    get effective envelope value at a time position 
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -4778,13 +4778,13 @@
             TrackEnvelope envelope - 
         </parameters>
         <linked_to desc="see:">
-            inline:InsertEnvelopePoint
+            Reaper:InsertEnvelopePoint
                    inserts an envelope-point into envelopes
-            inline:InsertEnvelopePointEx
+            Reaper:InsertEnvelopePointEx
                    inserts an envelope-point into envelopes and automation-items
-            inline:SetEnvelopePoint
+            Reaper:SetEnvelopePoint
                    sets envelope-points in envelopes
-            inline:SetEnvelopePointEx
+            Reaper:SetEnvelopePointEx
                    sets envelope-points in envelopes and automation-items
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -4819,13 +4819,13 @@
             integer autoitem_idx - 
         </parameters>
         <linked_to desc="see:">
-            inline:InsertEnvelopePoint
+            Reaper:InsertEnvelopePoint
                    inserts an envelope-point into envelopes
-            inline:InsertEnvelopePointEx
+            Reaper:InsertEnvelopePointEx
                    inserts an envelope-point into envelopes and automation-items
-            inline:SetEnvelopePoint
+            Reaper:SetEnvelopePoint
                    sets envelope-points in envelopes
-            inline:SetEnvelopePointEx
+            Reaper:SetEnvelopePointEx
                    sets envelope-points in envelopes and automation-items
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -4974,9 +4974,9 @@
             string buf - needed by Reaper, just set it to ""
         </parameters>
         <linked_to desc="see:">
-            inline:format_timestr_pos
+            Reaper:format_timestr_pos
                    creates a timestring and formats with overrides
-            inline:format_timestr_len
+            Reaper:format_timestr_len
                    creates a timestring and formats with overrides and offset for length
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5123,16 +5123,18 @@
             string name - the config-var, whose value you want
         </parameters>
         <linked_to desc="see:">
-            inline:SNM_GetIntConfigVar
+            SWS:SNM_GetIntConfigVar
                    gets value of integer-config variables
-            inline:SNM_SetIntConfigVar
+            SWS:SNM_SetIntConfigVar
                    sets value of integer-config variables
-            inline:SNM_GetDoubleConfigVar
+            SWS:SNM_GetDoubleConfigVar
                    gets value of double-float-config variables
-            inline:SNM_SetDoubleConfigVar
+            SWS:SNM_SetDoubleConfigVar
                    sets value of double-float-config variables
-            inline:SNM_SetStringConfigVar
+            SWS:SNM_SetStringConfigVar
                    sets value of string-config variables
+            www:Reaper_Config_Variables.html
+                a list of config-variables as used in Reaper
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -5281,19 +5283,19 @@
             AudioAccessor accessor - the AudioAccessor, whose end-time you want to have
         </parameters>
         <linked_to desc="see:">
-            inline:AudioAccessorStateChanged
+            Reaper:AudioAccessorStateChanged
                    returns, if audioaccessor has changed
-            inline:AudioAccessorValidateState
+            Reaper:AudioAccessorValidateState
                    to get validation-state of an AudioAccessor
-            inline:CreateTakeAudioAccessor
+            Reaper:CreateTakeAudioAccessor
                    to create an AudioAccessor for take
-            inline:CreateTrackAudioAccessor
+            Reaper:CreateTrackAudioAccessor
                    to create an AudioAccessor for track
-            inline:DestroyAudioAccessor
+            Reaper:DestroyAudioAccessor
                    to destroy an AudioAccessor
-            inline:GetAudioAccessorStartTime
+            Reaper:GetAudioAccessorStartTime
                    gets the starttime of an audioaccessor
-            inline:GetAudioAccessorSamples
+            Reaper:GetAudioAccessorSamples
                    to get samples of an AudioAccessor
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5331,21 +5333,21 @@
             string hashNeed128 - 
         </parameters>
         <linked_to desc="see:">
-            inline:AudioAccessorStateChanged
+            Reaper:AudioAccessorStateChanged
                    returns, if audioaccessor has changed
-            inline:AudioAccessorValidateState
+            Reaper:AudioAccessorValidateState
                    to get validation-state of an AudioAccessor
-            inline:CreateTakeAudioAccessor
+            Reaper:CreateTakeAudioAccessor
                    to create an AudioAccessor for take
-            inline:CreateTrackAudioAccessor
+            Reaper:CreateTrackAudioAccessor
                    to create an AudioAccessor for track
-            inline:DestroyAudioAccessor
+            Reaper:DestroyAudioAccessor
                    to destroy an AudioAccessor
-            inline:GetAudioAccessorStartTime
+            Reaper:GetAudioAccessorStartTime
                    gets the starttime of an audioaccessor
-            inline:GetAudioAccessorEndTime
+            Reaper:GetAudioAccessorEndTime
                    to get endtime of an AudioAccessor
-            inline:GetAudioAccessorSamples
+            Reaper:GetAudioAccessorSamples
                    to get samples of an AudioAccessor
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5397,19 +5399,19 @@
             reaper.array samplebuffer - 
         </parameters>
         <linked_to desc="see:">
-            inline:AudioAccessorStateChanged
+            Reaper:AudioAccessorStateChanged
                    returns, if audioaccessor has changed
-            inline:AudioAccessorValidateState
+            Reaper:AudioAccessorValidateState
                    to get validation-state of an AudioAccessor
-            inline:CreateTakeAudioAccessor
+            Reaper:CreateTakeAudioAccessor
                    to create an AudioAccessor for take
-            inline:CreateTrackAudioAccessor
+            Reaper:CreateTrackAudioAccessor
                    to create an AudioAccessor for track
-            inline:DestroyAudioAccessor
+            Reaper:DestroyAudioAccessor
                    to destroy an AudioAccessor
-            inline:GetAudioAccessorStartTime
+            Reaper:GetAudioAccessorStartTime
                    gets the starttime of an audioaccessor
-            inline:GetAudioAccessorEndTime
+            Reaper:GetAudioAccessorEndTime
                    to get endtime of an AudioAccessor
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5443,19 +5445,19 @@
             AudioAccessor accessor - 
         </parameters>
         <linked_to desc="see:">
-            inline:AudioAccessorStateChanged
+            Reaper:AudioAccessorStateChanged
                    returns, if audioaccessor has changed
-            inline:AudioAccessorValidateState
+            Reaper:AudioAccessorValidateState
                    to get validation-state of an AudioAccessor
-            inline:CreateTakeAudioAccessor
+            Reaper:CreateTakeAudioAccessor
                    to create an AudioAccessor for take
-            inline:CreateTrackAudioAccessor
+            Reaper:CreateTrackAudioAccessor
                    to create an AudioAccessor for track
-            inline:DestroyAudioAccessor
+            Reaper:DestroyAudioAccessor
                    to destroy an AudioAccessor
-            inline:GetAudioAccessorEndTime
+            Reaper:GetAudioAccessorEndTime
                    to get endtime of an AudioAccessor
-            inline:GetAudioAccessorSamples
+            Reaper:GetAudioAccessorSamples
                    to get samples of an AudioAccessor
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5706,7 +5708,7 @@
             MediaItem item - the MediaItem, whose color you want to get
         </parameters>
         <linked_to desc="see:">
-            inline:GetDisplayedMediaItemColor2
+            Reaper:GetDisplayedMediaItemColor2
                    to get the color of a MediaTrack, MediaItem and/or Take
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5741,11 +5743,11 @@
             MediaItem_Take take - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetDisplayedMediaItemColor
+            Reaper:GetDisplayedMediaItemColor
                    to get the color of a MediaItem
-            inline:ColorToNative
+            Reaper:ColorToNative
                    for converting r-g-b-values to a native-color value
-            inline:ColorFromNative
+            Reaper:ColorFromNative
                    for converting a native color-calue into its r-g-b-representation
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5860,7 +5862,7 @@
             integer ptidx - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetEnvelopePointEx
+            Reaper:GetEnvelopePointEx
                    gets an envelopepoint from envelopes or automation-items
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5900,7 +5902,7 @@
             number time - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetEnvelopePointByTimeEx
+            Reaper:GetEnvelopePointByTimeEx
                    gets an envelope-point by time in envelopes or automation-items
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5940,13 +5942,13 @@
             number time - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetEnvelopePointEx
+            Reaper:GetEnvelopePointEx
                    gets an envelope-point from envelopes or automation-items
-            inline:SetEnvelopePointEx
+            Reaper:SetEnvelopePointEx
                    sets an envelope-point in envelopes or automation-items
-            inline:InsertEnvelopePointEx
+            Reaper:InsertEnvelopePointEx
                    inserts envelope-points in envelopes or automation-items
-            inline:DeleteEnvelopePointEx
+            Reaper:DeleteEnvelopePointEx
                    deletes envelope-points in envelopes or automation-items
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -5991,13 +5993,13 @@
             integer ptidx - 
         </parameters>
         <linked_to desc="see:">
-            inline:CountEnvelopePointsEx
+            Reaper:CountEnvelopePointsEx
                    counts envelope-points in envelopes or automation-items
-            inline:SetEnvelopePointEx
+            Reaper:SetEnvelopePointEx
                    sets an envelope-point in envelopes or automation-items
-            inline:InsertEnvelopePointEx
+            Reaper:InsertEnvelopePointEx
                    inserts envelope-points in envelopes or automation-items
-            inline:DeleteEnvelopePointEx
+            Reaper:DeleteEnvelopePointEx
                    deletes envelope-points in envelopes or automation-items
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -6040,9 +6042,9 @@
             TrackEnvelope env - 
         </parameters>
         <linked_to desc="see:">
-            inline:ScaleFromEnvelopeMode
+            Reaper:ScaleFromEnvelopeMode
                    scales a value from an envelope-mode
-            inline:ScaleToEnvelopeMode
+            Reaper:ScaleToEnvelopeMode
                    scales a value to an envelope-mode
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -6137,11 +6139,11 @@
             string key - the key, that contains the value
         </parameters>
         <linked_to desc="see:">
-            inline:SetExtState
+            Reaper:SetExtState
                    sets an extstate to store information for your script
-            inline:DeleteExtState
+            Reaper:DeleteExtState
                    deleted an extstate that stores information for your script
-            inline:HasExtState
+            Reaper:HasExtState
                    checks, if an extstate exists
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -6182,9 +6184,9 @@
             integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index
         </retvals>
         <linked_to desc="see:">
-            inline:GetFocusedFX2
+            Reaper:GetFocusedFX2
                    gets the focused/opened fx and if it's item/track fx
-            inline:GetLastTouchedFX
+            Reaper:GetLastTouchedFX
                    gets the last fx that was touched by the user
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -6223,7 +6225,7 @@
             integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index
         </retvals>
         <linked_to desc="see:">
-            inline:GetLastTouchedFX
+            Reaper:GetLastTouchedFX
                    gets the last fx that was touched by the user
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -6474,7 +6476,7 @@
             boolean allow_locked - true, allow getting locked items as well; false, don't get locked items
         </parameters>
         <linked_to desc="see:">
-            inline:GetThingFromPoint
+            Reaper:GetThingFromPoint
                    returns, various elements at specific coordinates(arrange, mcp, fxchain, etc)
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -6600,7 +6602,7 @@
             number time - the position to check in seconds
         </parameters>
         <linked_to desc="see:">
-            inline:EnumProjectMarkers
+            Reaper:EnumProjectMarkers
                    returns, the attributes of a project marker
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -6639,7 +6641,7 @@
             integer paramnumber - the id of the last parameter touched, zero-based
         </retvals>
         <linked_to desc="see:">
-            inline:GetFocusedFX2
+            Reaper:GetFocusedFX2
                    gets the focused/open fx
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -6784,7 +6786,7 @@
                                       - &2 - 2, master track invisible in mixer; 0, master track visible in mixer
         </retvals>
         <linked_to desc="see:">
-            inline:SetMasterTrackVisibility
+            Reaper:SetMasterTrackVisibility
                    sets the visibility of the master track in mcp/tcp
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -7377,7 +7379,7 @@
             PCM_source source - the source, whose source-filename you want to retrieve
         </parameters>
         <linked_to desc="see:">
-            inline:GetMediaSourceParent
+            Reaper:GetMediaSourceParent
                    returns, the parent-source of a source
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -7623,9 +7625,9 @@
             Track States
         </chapter_context>
         <linked_to desc="see:">
-            inline:GetSetMediaTrackInfo_String
+            Reaper:GetSetMediaTrackInfo_String
                    gets/sets a string value of a MediaTrack-attribute
-            inline:SetMediaTrackInfo_Value
+            Reaper:SetMediaTrackInfo_Value
                    sets a numerical value of a MediaTrack-attribute
         </linked_to>
         <tags></tags>
@@ -7748,7 +7750,7 @@
             integer modifier_flag - the modifier-flag, whose action you want to retrieve
         </parameters>
         <linked_to desc="see:">
-            inline:SetMouseModifier
+            Reaper:SetMouseModifier
                    sets a mouse-modifier
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -7918,11 +7920,11 @@
             MediaItem_Take take - the take, whose take-markers you want to count
         </parameters>
         <linked_to desc="see:">
-            inline:GetTakeMarker
+            Reaper:GetTakeMarker
                    gets attributes of a take-marker of a take
-            inline:SetTakeMarker
+            Reaper:SetTakeMarker
                    sets attributes of a takemarker of a take
-            inline:DeleteTakeMarker
+            Reaper:DeleteTakeMarker
                    deletes a take marker
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -8429,7 +8431,7 @@
             string project_path - the returned path
         </retvals>
         <linked_to desc="see:">
-            inline:EnumProjects
+            Reaper:EnumProjects
                    enumerates the project(tabs) and their projectfiles with path; returns currently rendering project
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -8618,9 +8620,9 @@
             string key - the key, in which the requested value is stored
         </parameters>
         <linked_to desc="see:">
-            inline:SetProjExtState
+            Reaper:SetProjExtState
                    sets an ext-state to store data for your project
-            inline:EnumProjExtState
+            Reaper:EnumProjExtState
                    enumerates an ext-state that stores data for your project
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -8653,7 +8655,7 @@
             string resource_path - the path to the resource-folder
         </retvals>
         <linked_to desc="see:">
-            inline:GetExePath
+            Reaper:GetExePath
                    returns the path of the reaper.exe/reaper.app
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -8718,7 +8720,7 @@
             integer selitem - the id of the selected MediaItem, as multiple items can be selected.
         </parameters>
         <linked_to desc="see:">
-            inline:CountSelectedMediaItems
+            Reaper:CountSelectedMediaItems
                    returns the count of selected media items in a project
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -8754,11 +8756,11 @@
             integer seltrackidx - the idx of within the selected tracks, zero based, as multiple tracks can be selected by the user. 
         </parameters>
         <linked_to desc="see:">
-            inline:GetSelectedTrack
+            Reaper:GetSelectedTrack
                    gets the selected tracks, including master track
-            inline:GetSelectedTrack2
+            Reaper:GetSelectedTrack2
                    gets the selected tracks, including master track
-            inline:CountSelectedTracks
+            Reaper:CountSelectedTracks
                    returns the number of selected tracks
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -9094,9 +9096,9 @@
             string str - the new value to set
         </parameters>
         <linked_to desc="see:">
-            inline:GetEnvelopeStateChunk
+            Reaper:GetEnvelopeStateChunk
                    returns, an EnvelopeStateChunk, which holds all attributes-information of an envelope
-            inline:SetEnvelopeStateChunk
+            Reaper:SetEnvelopeStateChunk
                    sets an EnvelopeStateChunk, to replace all attributes-information of an envelope
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -9134,9 +9136,9 @@
             boolean isundo - true, undo; false, don't undo
         </parameters>
          <linked_to desc="see:">
-            inline:GetEnvelopeStateChunk
+            Reaper:GetEnvelopeStateChunk
                    returns, an EnvelopeStateChunk, which holds all attributes-information of an envelope
-            inline:SetEnvelopeStateChunk
+            Reaper:SetEnvelopeStateChunk
                    sets an EnvelopeStateChunk, to replace all attributes-information of an envelope
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -9173,9 +9175,9 @@
             string str - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetItemStateChunk
+            Reaper:GetItemStateChunk
                    returns, an ItemStateChunk, which holds all attributes-information of a MediaItem
-            inline:SetItemStateChunk
+            Reaper:SetItemStateChunk
                    sets an ItemStateChunk, to replace all attributes-information of a MediaItem
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -9213,9 +9215,9 @@
             boolean isundo - true, undo; false, don't undo
         </parameters>
         <linked_to desc="see:">
-            inline:GetItemStateChunk
+            Reaper:GetItemStateChunk
                    returns, an ItemStateChunk, which holds all attributes-information of a MediaItem
-            inline:SetItemStateChunk
+            Reaper:SetItemStateChunk
                    sets an ItemStateChunk, to replace all attributes-information of a MediaItem
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -9347,9 +9349,9 @@
             Track States
         </chapter_context>
         <linked_to desc="see:">
-            inline:GetMediaTrackInfo_Value
+            Reaper:GetMediaTrackInfo_Value
                    get a numerical value of a MediaTrack-attribute
-            inline:SetMediaTrackInfo_Value
+            Reaper:SetMediaTrackInfo_Value
                    sets a numerical value of a MediaTrack-attribute
         </linked_to>
         <tags></tags>
@@ -9469,7 +9471,7 @@
             boolean is_set - true, set a new value; false, get the current value
         </parameters>
         <linked_to desc="see:">
-            inline:GetSetProjectInfo_String
+            Reaper:GetSetProjectInfo_String
                    sets additional attributes for the project as string instead of numbers
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -9565,7 +9567,7 @@
              boolean is_set - true, set a new value; false, just get the current one
         </parameters>
         <linked_to desc="see:">
-            inline:GetSetProjectInfo
+            Reaper:GetSetProjectInfo
                    sets additional attributes for the project as number instead of string
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -9760,9 +9762,9 @@
             string str - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetTrackStateChunk
+            Reaper:GetTrackStateChunk
                    returns, an TrackStateChunk, which holds all attributes-information of a MediaTrack
-            inline:SetTrackStateChunk
+            Reaper:SetTrackStateChunk
                    sets an TrackStateChunk, to replace all attributes-information of a MediaTrack
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -9800,9 +9802,9 @@
             boolean isundo - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetTrackStateChunk
+            Reaper:GetTrackStateChunk
                    returns, an TrackStateChunk, which holds all attributes-information of a MediaTrack
-            inline:SetTrackStateChunk
+            Reaper:SetTrackStateChunk
                    sets an TrackStateChunk, to replace all attributes-information of a MediaTrack
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -9962,11 +9964,11 @@
             integer idx - the id of the marker within the take, 0 for the first, 1 for the second, etc.
         </parameters>
         <linked_to desc="see:">
-            inline:GetNumTakeMarkers
+            Reaper:GetNumTakeMarkers
                    gets the number of take-markers of a take
-            inline:SetTakeMarker
+            Reaper:SetTakeMarker
                    sets attributes of a takemarker of a take
-            inline:DeleteTakeMarker
+            Reaper:DeleteTakeMarker
                    deletes a take marker
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10102,7 +10104,7 @@
             integer idx - 
         </parameters>
         <linked_to desc="see:">
-            inline:SetTakeStretchMarkerSlope
+            Reaper:SetTakeStretchMarkerSlope
                    sets a take/stretch-marker slope
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10140,7 +10142,7 @@
             integer index - 
         </parameters>
         <linked_to desc="see:">
-            inline:CountTCPFXParms
+            Reaper:CountTCPFXParms
                    returns the number of tcp-fx parameters
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10217,11 +10219,11 @@
             integer ptidx - 
         </parameters>
         <linked_to desc="see:">
-            inline:CountTempoTimeSigMarkers
+            Reaper:CountTempoTimeSigMarkers
                    counts the number of tempo/time signature markers
-            inline:DeleteTempoTimeSigMarker
+            Reaper:DeleteTempoTimeSigMarker
                    removes a tempo/time signature-marker
-            inline:SetTempoTimeSigMarker
+            Reaper:SetTempoTimeSigMarker
                    adds/sets a tempo/time signature marker
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10258,7 +10260,7 @@
             integer flags - 
         </parameters>
         <linked_to desc="see:">
-            inline:SetThemeColor
+            Reaper:SetThemeColor
                    sets a theme-color to a new color-value
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10335,9 +10337,9 @@
             integer command_id - the command_id, whose toggle-state you want to know.
         </parameters>
         <linked_to desc="see:">
-            inline:GetToggleCommandStateEx
+            Reaper:GetToggleCommandStateEx
                    get the toggle state of commands, including those in other sections
-            inline:NamedCommandLookup
+            Reaper:NamedCommandLookup
                    get the named action-command-id by command-id-number
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10386,9 +10388,9 @@
             integer command_id - the command_id, whose toggle-state you want to know.
         </parameters>
         <linked_to desc="see:">
-            inline:GetToggleCommandState
+            Reaper:GetToggleCommandState
                    get the toggle state of commands in the main-section only
-            inline:NamedCommandLookup
+            Reaper:NamedCommandLookup
                    get the named action-command-id by command-id-number
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10677,7 +10679,7 @@
             integer screen_y - the y-position in pixels, from which you want to get the underlying track
         </parameters>
         <linked_to desc="see:">
-            inline:GetThingFromPoint
+            Reaper:GetThingFromPoint
                    returns, which element can be found at a certain coordinate
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10782,7 +10784,7 @@
             integer flag - 
         </parameters>
         <linked_to desc="see:">
-            inline:SetTrackMIDILyrics
+            Reaper:SetTrackMIDILyrics
                    sets MIDI-lyrics of a MediaTrack, pushed into all MediaItems on the track
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10817,7 +10819,7 @@
             integer chan - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetTrackMIDINoteNameEx
+            Reaper:GetTrackMIDINoteNameEx
                    gets the name of a midi-note from a track in a ReaProject
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10853,7 +10855,7 @@
             integer chan - 
         </parameters>
         <linked_to desc="see:">
-            inline:SetTrackMIDINoteNameEx
+            Reaper:SetTrackMIDINoteNameEx
                    sets track-midi-note attributes by project
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -10981,19 +10983,19 @@
             integer category - <0 for receives; 0=sends; >0 for hardware outputs
         </parameters>
         <linked_to desc="see:">
-            inline:CreateTrackSend
+            Reaper:CreateTrackSend
                    creates a track-send
-            inline:GetTrackNumSends
+            Reaper:GetTrackNumSends
                    get number of send of a track
-            inline:GetSetTrackSendInfo
+            Reaper:GetSetTrackSendInfo
                    gets and sets attributes for a track-send
-            inline:GetSetTrackSendInfo_String
+            Reaper:GetSetTrackSendInfo_String
                    gets sets additional string-attributes for metadata of track-sends
-            inline:GetTrackSendInfo_Value
+            Reaper:GetTrackSendInfo_Value
                    gets attributes of a track-send
-            inline:RemoveTrackSend
+            Reaper:RemoveTrackSend
                    removes a track-send
-            inline:SetTrackSendInfo_Value
+            Reaper:SetTrackSendInfo_Value
                    sets attributes of a track-send
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11033,9 +11035,9 @@
             integer recv_index - the index of the received track; 0-based
         </parameters>
         <linked_to desc="see:">
-            inline:GetTrackSendName
+            Reaper:GetTrackSendName
                    returns the name of a track, that MediaTrack is sending to
-            inline:GetSetMediaTrackInfo_String
+            Reaper:GetSetMediaTrackInfo_String
                    sets various track-attributes, including trackname
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11074,7 +11076,7 @@
             integer recv_index - the index of the received track; 0-based
         </parameters>
         <linked_to desc="see:">
-            inline:GetTrackSendUIMute
+            Reaper:GetTrackSendUIMute
                    returns the mute-state of a send-track
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11115,7 +11117,7 @@
             integer recv_index - the index of the received track; 0-based
         </parameters>
         <linked_to desc="see:">
-            inline:GetTrackSendUIVolPan
+            Reaper:GetTrackSendUIVolPan
                    returns the volume and pan-values of a send-track
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11173,17 +11175,17 @@
             string parmname - the parameter-name(see description for more details)
         </parameters>
         <linked_to desc="see:">
-            inline:CreateTrackSend
+            Reaper:CreateTrackSend
                    creates a track-send
-            inline:GetTrackNumSends
+            Reaper:GetTrackNumSends
                    get number of send of a track
-            inline:GetSetTrackSendInfo
+            Reaper:GetSetTrackSendInfo
                    gets and sets attributes for a track-send
-            inline:GetSetTrackSendInfo_String
+            Reaper:GetSetTrackSendInfo_String
                    gets sets additional string-attributes for metadata of track-sends
-            inline:RemoveTrackSend
+            Reaper:RemoveTrackSend
                    removes a track-send
-            inline:SetTrackSendInfo_Value
+            Reaper:SetTrackSendInfo_Value
                    sets attributes of a track-send
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11224,7 +11226,7 @@
             integer send_index - the index of the track-send
         </parameters>
         <linked_to desc="see:">
-            inline:GetTrackReceiveName
+            Reaper:GetTrackReceiveName
                    returns, if audioaccessor has changed
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11248,8 +11250,10 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            send\_idx>=0 for hw outputs, >=nb\_of\_hw\_outputs for sends. See [GetTrackReceiveUIMute](#GetTrackReceiveUIMute).
+        <description>
+            send_idx>=0 for hw outputs, >=nb_of_hw_outputs for sends. 
+            
+            See GetTrackReceiveUIMute.
         </description>
         <retvals>
             boolean retval - 
@@ -11259,6 +11263,10 @@
             MediaTrack track - 
             integer send_index - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:GetTrackReceiveUIMute
+                   returns the mute-state of a track-receive
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -11280,8 +11288,10 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            send\_idx>=0 for hw outputs, >=nb\_of\_hw\_outputs for sends. See [GetTrackReceiveUIVolPan](#GetTrackReceiveUIVolPan).
+        <description>
+            send_idx>=0 for hw outputs, >=nb_of_hw_outputs for sends. 
+            
+            See GetTrackReceiveUIVolPan
             
             Note: convert the volumevalue to dB using in Lua: dB_volume = math.log(volume)*8.68588963806
         </description>
@@ -11294,6 +11304,10 @@
             MediaTrack track - 
             integer send_index - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:GetTrackReceiveUIVolPan
+                   get the vol-pan-states of a track receive
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -11561,9 +11575,9 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Opens a window with input-fields to get values from the user.
-            If a caption begins with \*, for example "\*password", the edit field will not display the input text.
+            If a caption begins with *, for example "*password", the edit field will not display the input text.
             Maximum fields is 16. Values are returned as a comma/custom separator-separated string. 
             Returns false if the user canceled the dialog. 
 
@@ -11571,15 +11585,17 @@
 
             Example:
 
+            <pre><code>
                 retval, retvals_csv = reaper.GetUserInputs("Title", 2, "Hello,World, separator=\n", "defaultvalue1\ndefaultvalue2")
-
+            </code></pre>
+            
             will return the values input by the user, separated by a newline.
 
             \n is recommended, as this allows the user entering everything, a one-lined-inputbox can handle.
 
-            Important: the separator-field in the captions has no effect on how captions in parameter captions\_csv are separated from each other. They still need to be separated by commas!
+            Important: the separator-field in the captions has no effect on how captions in parameter captions_csv are separated from each other. They still need to be separated by commas!
 
-            Note: the parameter retvals\_csv follows undisclosed csv rules. This is important when you want to set the default-captions for multiple input-field.
+            Note: the parameter retvals_csv follows undisclosed csv rules. This is important when you want to set the default-captions for multiple input-field.
             For instance every entry for each input-field: 
 
             - must contain an even number of quotes/single quotes
@@ -11588,18 +11604,22 @@
             otherwise the separator will be ignored and the default-retvals will show in the wrong fields.
 
             Example:
-
-            a retval_csv of _I'm enlightened,I am too_
-
+            <pre><code>
+            a retval_csv of I'm enlightened,I am too
+            </code></pre>
             with one singlequote in it (the one in I'm) will NOT be shown in two fields
-
-            _I'm enlightened_
-            _I am too_
-
+            
+            <pre><code>
+            I'm enlightened
+            I am too
+            </code></pre>
+            
             but rather in one field as 
-
-            _I'm enlightened,I am too_
-
+            
+            <pre><code>
+            I'm enlightened,I am too
+            </code></pre>
+            
             These can't be escaped due Reaper's API-limitation. Keep this in mind!
         </description>
         <retvals>
@@ -11633,17 +11653,21 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             Go to marker. 
             Move Editcursor to a given marker. When playing, the playcursor moves to the marker as well.
 
-            For Regions, use [GoToRegion](#GoToRegion).
+            For Regions, use GoToRegion.
         </description>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
             integer marker_index - the markerindex, where you want to go to.
             boolean use_timeline_order - false, use the shown-markernumber as marker_index; true, use markers in timelineorder, ignoring the shown-markernumber
         </parameters>
+        <linked_to desc="see:">
+            Reaper:GoToRegion
+                   goes to a region, instead of a marker
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -11796,11 +11820,11 @@
             string key - the key of the extstate
         </parameters>
         <linked_to desc="see:">
-            inline:SetExtState
+            Reaper:SetExtState
                    sets an extstate to store information for your script
-            inline:GetExtState
+            Reaper:GetExtState
                    gets an extstate that stores information for your script
-            inline:DeleteExtState
+            Reaper:DeleteExtState
                    deleted an extstate that stores information for your script
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11942,8 +11966,15 @@
         <requires>
             Reaper=5.96
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Insert a new automation item. pool\_id < 0 collects existing envelope points into the automation item; if pool\_id is >= 0 the automation item will be a new instance of that pool (which will be created as an empty instance if it does not exist). Returns the index of the item, suitable for passing to other automation item API functions. See [GetSetAutomationItemInfo](#GetSetAutomationItemInfo).
+        <description>
+            Insert a new automation item. 
+            
+            pool_id < 0 collects existing envelope points into the automation item
+            if pool_id is >= 0 the automation item will be a new instance of that pool (which will be created as an empty instance if it does not exist). 
+            
+            Returns the index of the item, suitable for passing to other automation item API functions. 
+            
+            See GetSetAutomationItemInfo.
         </description>
         <retvals>
             integer retval - 
@@ -11954,6 +11985,10 @@
             number position - 
             number length - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:GetSetAutomationItemInfo
+                   gets/sets additional attributes of an automation item
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -11975,8 +12010,10 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done. See [InsertEnvelopePointEx](#InsertEnvelopePointEx).
+        <description>
+            Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done. 
+            
+            See InsertEnvelopePointEx.
         </description>
         <retvals>
             boolean retval - 
@@ -11990,6 +12027,12 @@
             boolean selected - 
             optional boolean noSortIn - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:Envelope_SortPoints
+                   sorts the envelope-points, after you are finished with modifying them
+            Reaper:InsertEnvelopePointEx
+                   allows inserting envelope-points to envelopes as well as automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -12011,14 +12054,14 @@
         <requires>
             Reaper=5.979
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done.
-            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
-            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
             even if the automation item is trimmed so that not all points are visible.
             Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
 
-            See [CountEnvelopePointsEx](#CountEnvelopePointsEx), [GetEnvelopePointEx](#GetEnvelopePointEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
+            See CountEnvelopePointsEx, GetEnvelopePointEx, SetEnvelopePointEx, DeleteEnvelopePointEx.
         </description>
         <retvals>
             boolean retval - 
@@ -12033,6 +12076,18 @@
             boolean selected - 
             optional boolean noSortIn - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:Envelope_SortPoints
+                   sorts the envelope-points, after you are finished with modifying them
+            Reaper:CountEnvelopePointsEx
+                   counts envelope-points in envelopes as well as automation-items
+            Reaper:GetEnvelopePointEx
+                   gets envelope-points from envelopes as well as automation-items
+            Reaper:SetEnvelopePointEx
+                   sets envelope-points in envelopes as well as automation-items
+            Reaper:DeleteEnvelopePointEx
+                   deletes envelope-points from envelopes as well as automation-items
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -12075,7 +12130,7 @@
             Example:
             To insert an item at a specific trackindex, use:
             <pre><code>
-                TrackIndex=3              -- set this to the track you wanto
+                TrackIndex=3              -- set this to the track you want
                 TrackIndex=TrackIndex<<16 -- move the index to high-word-destination for further use
                 reaper.InsertMedia("C:\\test3.mp3", 0+512+TrackIndex) -- insert at track; it is important to add 512 in this to mode!
             </code></pre>
@@ -12109,8 +12164,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
-            see [InsertMedia](#InsertMedia)
+        <description>
+            see InsertMedia for more details
         </description>
         <retvals>
             integer retval - 
@@ -12122,6 +12177,10 @@
             number endpct - 
             number pitchshift - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:InsertMedia
+                   inserts mediafiles into a project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -12143,13 +12202,17 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
-            inserts a track at idx,of course this will be clamped to 0..[GetNumTracks](#GetNumTracks)().
+        <description>
+            inserts a track at idx,of course this will be clamped to 0..GetNumTracks().
         </description>
         <parameters>
             integer idx - the index, in which to insert the track; 0, insert before the first track.
             boolean wantDefaults - true, default envelopes/FX; false, no enabled FX/envelopes
         </parameters>
+        <linked_to desc="see:">
+            Reaper:GetNumTracks
+                   gets the number of tracks
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -12672,14 +12735,23 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see [NamedCommandLookup](#NamedCommandLookup)().
-            See [Main\_OnCommandEx](#Main_OnCommandEx).
+        <description>
+            Performs an action belonging to the main action section. 
+            To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see NamedCommandLookup().
+            See Main_OnCommandEx.
         </description>
         <parameters>
             integer command -  the command-id of the action, you want to run
             integer flag - set to 0
         </parameters>
+        <linked_to desc="see:">
+            Reaper:NamedCommandLookup
+                   gets the numerical representation of an action-command-id of scripts or named actions(by SWS, etc)
+            Reaper:ReverseNamedCommandLookup
+                   gets the action-command-id by its numerical representation
+            Reaper:Main_OnCommandEx
+                   runs an action of main-context towards another project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -12701,14 +12773,22 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see [NamedCommandLookup](#NamedCommandLookup)().
+        <description>
+            Performs an action belonging to the main action section. To perform non-native actions (ReaScripts, custom or extension plugins' actions) safely, see NamedCommandLookup().
         </description>
         <parameters>
             integer command -  the command-id of the action, you want to run
-            integer flag - 0
+            integer flag - unknown, use 0
             ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:NamedCommandLookup
+                   gets the numerical representation of an action-command-id of scripts or named actions(by SWS, etc)
+            Reaper:ReverseNamedCommandLookup
+                   gets the action-command-id by its numerical representation
+            Reaper:Main_OnCommand
+                   runs an action of main-context
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -12814,9 +12894,9 @@
                             - &4, include envelopes with track template
         </parameters>
         <linked_to desc="see also:">
-            inline:Main_openProject
+            Reaper:Main_openProject
                    for opening a project
-            inline:Main_SaveProject
+            Reaper:Main_SaveProject
                    for saving a project already saved
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -13442,7 +13522,7 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get all MIDI data. MIDI buffer is returned as a list of { int offset, char flag, int msglen, unsigned char msg[] }.
 
                offset: MIDI ticks from previous event
@@ -13453,7 +13533,7 @@
             A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float.
             For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.
 
-            See [MIDI\_SetAllEvts](#MIDI_SetAllEvts).
+            See MIDI_SetAllEvts.
         </description>
         <retvals>
             boolean retval - 
@@ -13462,6 +13542,10 @@
         <parameters>
             MediaItem_Take take - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDI_SetAllEvts
+                   sets all midi-events of a take
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -13519,8 +13603,10 @@
         <requires>
             Reaper=6.00
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get CC shape and bezier tension. See [MIDI\_GetCC](#MIDI_GetCC), [MIDI\_SetCCShape](#MIDI_SetCCShape)
+        <description>
+            Get CC shape and bezier tension. 
+            
+            See MIDI_GetCC, MIDI_SetCCShape
         </description>
         <retvals>
             boolean retval - 
@@ -13531,6 +13617,12 @@
             MediaItem_Take take - 
             integer ccidx - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDI_GetCC
+                   gets midi-cc-events properties in a take
+            Reaper:MIDI_SetCCShape
+                   sets shape and bezier-tension of a midi-cc in a take
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -13552,7 +13644,7 @@
             Reaper=6.37
         </requires>
         <description prog_lang="*">
-            Get MIDI event properties.
+            Get MIDI event properties of a take.
         </description>
         <retvals>
             boolean retval - 
@@ -13616,8 +13708,12 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. See [MIDI\_GetTrackHash](#MIDI_GetTrackHash)
+        <description>
+            Get a string that only changes when the MIDI data changes. 
+            
+            If notesonly==true, then the string changes only when the MIDI notes change. 
+            
+            See [MIDI\_GetTrackHash](#MIDI_GetTrackHash)
         </description>
         <retvals>
             boolean retval - 
@@ -13627,6 +13723,10 @@
             MediaItem_Take take - 
             boolean notesonly - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDI_GetTrackHash
+                   gets a hash-string that only changes, when the track's midi-data changes
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -13942,10 +14042,10 @@
         <requires>
             Reaper=6.00
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get MIDI meta-event properties. Allowable types are -1:sysex (msg should not include bounding F0..F7), 1-14:MIDI text event types, 15=REAPER notation event. For all other meta-messages, type is returned as -2 and msg returned as all zeroes. 
 
-            See [MIDI\_GetEvt](#MIDI_GetEvt).
+            See MIDI_GetEvt.
         </description>
         <retvals>
             boolean retval - 
@@ -13964,6 +14064,10 @@
             optional integer type - 
             optional string msg - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDI_GetEvt
+                   get midi-events of a take
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -13984,8 +14088,10 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. See [MIDI\_GetHash](#MIDI_GetHash)
+        <description>
+            Get a string that only changes when the MIDI data changes. If notesonly==true, then the string changes only when the MIDI notes change. 
+            
+            See MIDI_GetHash
         </description>
         <retvals>
             boolean retval - 
@@ -13995,6 +14101,10 @@
             MediaTrack track - 
             boolean notesonly - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDI_GetHash
+                   gets a hash-string that only changes, when the take's midi-data changes
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -14239,7 +14349,7 @@
         <requires>
             Reaper=6.00
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Set all MIDI data. MIDI buffer is passed in as a list of { int offset, char flag, int msglen, unsigned char msg[] }.
 
                offset: MIDI ticks from previous event
@@ -14250,7 +14360,7 @@
             A meta-event of type 0xF followed by 'CCBZ ' and 5 more bytes represents bezier curve data for the previous MIDI event: 1 byte for the bezier type (usually 0) and 4 bytes for the bezier tension as a float.
             For tick intervals longer than a 32 bit word can represent, zero-length meta events may be placed between valid events.
 
-            See [MIDI\_GetAllEvts](#MIDI_GetAllEvts).
+            See MIDI_GetAllEvts.
         </description>
         <retvals>
             boolean retval - 
@@ -14259,6 +14369,10 @@
             MediaItem_Take take - 
             string buf - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDI_GetAllEvts
+                   gets all midi-events of a take
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -16315,17 +16429,17 @@
             integer sendidx - the idx of the send/receive/hwoutput to remove. 0, the first; 1 for the second, etc
         </parameters>
         <linked_to desc="see:">
-            inline:CreateTrackSend
+            Reaper:CreateTrackSend
                    creates a track-send
-            inline:GetTrackNumSends
+            Reaper:GetTrackNumSends
                    get number of send of a track
-            inline:GetSetTrackSendInfo_String
+            Reaper:GetSetTrackSendInfo_String
                    gets sets additional string-attributes for metadata of track-sends
-            inline:GetSetTrackSendInfo
+            Reaper:GetSetTrackSendInfo
                    gets and sets attributes for a track-send
-            inline:GetTrackSendInfo_Value
+            Reaper:GetTrackSendInfo_Value
                    gets attributes of a track-send
-            inline:SetTrackSendInfo_Value
+            Reaper:SetTrackSendInfo_Value
                    sets attributes of a track-send
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -17069,11 +17183,11 @@
             boolean persist - true, means the value should be stored and reloaded the next time REAPER is opened
         </parameters>
         <linked_to desc="see:">
-            inline:GetExtState
+            Reaper:GetExtState
                    gets an extstate that stores information for your script
-            inline:HasExtState
+            Reaper:HasExtState
                    checks, if an extstate exists
-            inline:DeleteExtState
+            Reaper:DeleteExtState
                    deleted an extstate that stores information for your script
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -17484,9 +17598,9 @@
             number newvalue - the new value, that you want to set to the attribute
         </parameters>
         <linked_to desc="see:">
-            inline:GetSetMediaTrackInfo_String
+            Reaper:GetSetMediaTrackInfo_String
                    gets/sets a string value of a MediaTrack-attribute
-            inline:GetMediaTrackInfo_Value
+            Reaper:GetMediaTrackInfo_Value
                    returns a numerical value of a MediaTrack-attribute
         </linked_to>
         <changelog>
@@ -17938,9 +18052,9 @@
             string value - the value, that's stored in the key
         </parameters>
         <linked_to desc="see:">
-            inline:GetProjExtState
+            Reaper:GetProjExtState
                    gets an ext-state that stored data for your project
-            inline:EnumProjExtState
+            Reaper:EnumProjExtState
                    enumerates an ext-state that stores data for your project
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -17976,7 +18090,7 @@
             integer addorremove - greater than 0, add; lower than 0, remove from the render-matrix
         </parameters>
         <linked_to desc="see:">
-            inline:TrackList_AdjustWindows
+            Reaper:TrackList_AdjustWindows
                    refreshes ui of the region render matrix
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -18016,11 +18130,11 @@
             optional integer colorIn - the color of the takemarker
         </parameters>
         <linked_to desc="see:">
-            inline:GetNumTakeMarkers
+            Reaper:GetNumTakeMarkers
                    gets the number of take-markers of a take
-            inline:GetTakeMarker
+            Reaper:GetTakeMarker
                    gets attributes of a take-marker of a take
-            inline:DeleteTakeMarker
+            Reaper:DeleteTakeMarker
                    deletes a take marker
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -18130,11 +18244,11 @@
             boolean lineartempo - 
         </parameters>
         <linked_to desc="see:">
-            inline:CountTempoTimeSigMarkers
+            Reaper:CountTempoTimeSigMarkers
                    counts the number of tempo/time signature markers
-            inline:DeleteTempoTimeSigMarker
+            Reaper:DeleteTempoTimeSigMarker
                    removes a tempo/time signature-marker
-            inline:GetTempoTimeSigMarker
+            Reaper:GetTempoTimeSigMarker
                    gets the attributes of a tempo/time signature-marker
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -18532,9 +18646,9 @@
             integer flags - 
         </parameters>
         <linked_to desc="see:">
-            inline:GetThemeColor
+            Reaper:GetThemeColor
                    gets a certain theme-color
-            inline:UpdateArrange
+            Reaper:UpdateArrange
                    updates the arrangeview, so theme-color changes are applied
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -18834,17 +18948,17 @@
             number newvalue - the new value to set
         </parameters>
         <linked_to desc="see:">
-            inline:CreateTrackSend
+            Reaper:CreateTrackSend
                    creates a track-send
-            inline:GetTrackNumSends
+            Reaper:GetTrackNumSends
                    get number of send of a track
-            inline:GetSetTrackSendInfo_String
+            Reaper:GetSetTrackSendInfo_String
                    gets sets additional string-attributes for metadata of track-sends
-            inline:GetSetTrackSendInfo
+            Reaper:GetSetTrackSendInfo
                    gets and sets attributes for a track-send
-            inline:GetTrackSendInfo_Value
+            Reaper:GetTrackSendInfo_Value
                    gets attributes of a track-send
-            inline:RemoveTrackSend
+            Reaper:RemoveTrackSend
                    removes a track-send
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -24139,17 +24253,17 @@
             boolean setNewValue - true, set a new value; false, get the currently saved value
         </parameters>
         <linked_to desc="see:">
-            inline:CreateTrackSend
+            Reaper:CreateTrackSend
                    creates a track-send
-            inline:GetTrackNumSends
+            Reaper:GetTrackNumSends
                    get number of send of a track
-            inline:GetSetTrackSendInfo
+            Reaper:GetSetTrackSendInfo
                    gets and sets attributes for a track-send
-            inline:GetTrackSendInfo_Value
+            Reaper:GetTrackSendInfo_Value
                    gets attributes of a track-send
-            inline:RemoveTrackSend
+            Reaper:RemoveTrackSend
                    removes a track-send
-            inline:SetTrackSendInfo_Value
+            Reaper:SetTrackSendInfo_Value
                    sets attributes of a track-send
         </linked_to>
         <retvals>
@@ -25938,7 +26052,7 @@
             integer imageFlags - 
         </parameters>
         <linked_to desc="see:">
-            inline:BR_GetMediaItemImageResource
+            SWS:BR_GetMediaItemImageResource
                    get the image resource of a MediaItem
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -28154,16 +28268,18 @@
             number errvalue - the errorvalue that will be returned, if varname isn't a valid one
         </parameters>
         <linked_to desc="see:">
-            inline:SNM_GetIntConfigVar
+            SWS:SNM_GetIntConfigVar
                    gets value of integer-config variables
-            inline:SNM_SetIntConfigVar
+            SWS:SNM_SetIntConfigVar
                    sets value of integer-config variables
-            inline:SNM_SetDoubleConfigVar
+            SWS:SNM_SetDoubleConfigVar
                    sets value of double-float-config variables
-            inline:get_config_var_string
+            SWS:get_config_var_string
                    gets value of string-config variables
-            inline:SNM_SetStringConfigVar
+            SWS:SNM_SetStringConfigVar
                    sets value of string-config variables
+            www:Reaper_Config_Variables.html
+                a list of config-variables as used in Reaper
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -28265,16 +28381,18 @@
             integer errvalue - the errorvalue that will be returned, if varname isn't a valid one
         </parameters>
         <linked_to desc="see:">
-            inline:SNM_SetIntConfigVar
+            SWS:SNM_SetIntConfigVar
                    sets value of integer-config variables
-            inline:SNM_GetDoubleConfigVar
+            SWS:SNM_GetDoubleConfigVar
                    gets value of double-float-config variables
-            inline:SNM_SetDoubleConfigVar
+            SWS:SNM_SetDoubleConfigVar
                    sets value of double-float-config variables
-            inline:get_config_var_string
+            SWS:get_config_var_string
                    gets value of string-config variables
-            inline:SNM_SetStringConfigVar
+            SWS:SNM_SetStringConfigVar
                    sets value of string-config variables
+            www:Reaper_Config_Variables.html
+                a list of config-variables as used in Reaper
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -28717,16 +28835,18 @@
             number newvalue - the new value to be set into varname
         </parameters>
         <linked_to desc="see:">
-            inline:SNM_GetIntConfigVar
+            SWS:SNM_GetIntConfigVar
                    gets value of integer-config variables
-            inline:SNM_SetIntConfigVar
+            SWS:SNM_SetIntConfigVar
                    sets value of integer-config variables
-            inline:SNM_GetDoubleConfigVar
+            SWS:SNM_GetDoubleConfigVar
                    gets value of double-float-config variables
-            inline:get_config_var_string
+            SWS:get_config_var_string
                    gets value of string-config variables
-            inline:SNM_SetStringConfigVar
+            SWS:SNM_SetStringConfigVar
                    sets value of string-config variables
+            www:Reaper_Config_Variables.html
+                a list of config-variables as used in Reaper
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -28798,16 +28918,18 @@
             integer newvalue - the newly set value for varname
         </parameters>
         <linked_to desc="see:">
-            inline:SNM_GetIntConfigVar
+            SWS:SNM_GetIntConfigVar
                    gets value of integer-config variables
-            inline:SNM_GetDoubleConfigVar
+            SWS:SNM_GetDoubleConfigVar
                    gets value of double-float-config variables
-            inline:SNM_SetDoubleConfigVar
+            SWS:SNM_SetDoubleConfigVar
                    sets value of double-float-config variables
-            inline:get_config_var_string
+            SWS:get_config_var_string
                    gets value of string-config variables
-            inline:SNM_SetStringConfigVar
+            SWS:SNM_SetStringConfigVar
                    sets value of string-config variables
+            www:Reaper_Config_Variables.html
+                a list of config-variables as used in Reaper
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -28832,7 +28954,7 @@
             SWS=2.12.1
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            \[S&M\] Sets a 64-bit integer preference from two 32-bit integers (look in project prefs first, then in general prefs). Returns false if failed (e.g. varname not found).
+            \[S&M\] Sets a 64-bit integer preference from two 32-bit integers (looks in project prefs first, then in general prefs). Returns false if failed (e.g. varname not found).
 
             Some variables are bitfields, where each bit represents e.g a checkbox in the preferences.
             The changed settings are usually only changed within the running Reaper, but not stored in the config-files, so you need to do it manually or they get lost after Reaper is closed!
@@ -28920,16 +29042,18 @@
             string newvalue - the new value to set the config variable with
         </parameters>
         <linked_to desc="see:">
-            inline:SNM_GetIntConfigVar
+            SWS:SNM_GetIntConfigVar
                    gets value of integer-config variables
-            inline:SNM_SetIntConfigVar
+            SWS:SNM_SetIntConfigVar
                    sets value of integer-config variables
-            inline:SNM_GetDoubleConfigVar
+            SWS:SNM_GetDoubleConfigVar
                    gets value of double-float-config variables
-            inline:SNM_SetDoubleConfigVar
+            SWS:SNM_SetDoubleConfigVar
                    sets value of double-float-config variables
-            inline:get_config_var_string
+            SWS:get_config_var_string
                    gets value of string-config variables
+            www:Reaper_Config_Variables.html
+                a list of config-variables as used in Reaper
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -32310,7 +32434,7 @@
            optional boolean forceNewLoad - true, force reloading the cursor; false or nil, don't reload the cursor
         </parameters>
         <linked_to desc="see:">
-            inline:JS_Mouse_SetCursor
+            JS:JS_Mouse_SetCursor
                    show the mouse-cursor you've loaded with JS_Mouse_LoadCursorFromFile
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -32654,7 +32778,7 @@
             Reaper=5.974
             JS=0.980
         </requires>
-        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Intercepting (blocking) virtual keys work similar to the native function PreventUIRefresh: Each key has a (non-negative) intercept state, and the key is passed through as usual if the state equals 0, or blocked if the state is greater than 0.
 
             keyCode: The virtual key code of the key, or -1 to change the state of all keys.
@@ -33794,7 +33918,7 @@
             Reaper=5.974
             JS=0.951
         </requires>
-        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Retrieves the coordinates of the client area rectangle of the specified window. The dimensions are given in screen coordinates relative to the upper-left corner of the screen.
 
             NOTE 1: Unlike the C++ function GetClientRect, this function returns the actual coordinates, not the width and height.
@@ -33959,7 +34083,7 @@
             Reaper=5.974
             JS=1.010
         </requires>
-        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
            Returns information about the specified window.
 
 
@@ -34071,7 +34195,7 @@
             Reaper=5.974
             JS=0.951
         </requires>
-        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.
 
             relation: "LAST", "NEXT", "PREV", "OWNER" or "CHILD".
@@ -38906,10 +39030,11 @@
             Reaper=5.965
             SWS=2.12.0
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             This function allows you to get various information about your display.
 
-            Equivalent to [win32 API GetSystemMetrics()](https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getsystemmetrics).
+            Equivalent to win32 API GetSystemMetrics()
+            see: https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getsystemmetrics.
         </description>
         <retvals>
             integer retval - the returned value
@@ -38934,6 +39059,10 @@
                            - 0x2003, slate state of laptop; 0, slate mode; non-zero, otherwise
                            - etc.
         </parameters>
+        <linked_to desc="see:">
+            www:https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getsystemmetrics
+                more information about, which metrics you can get with this function
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -40083,16 +40212,17 @@ Mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Converts client coordinates x,y to screen coordinates.
             
             Use variables for x and y, as the returned values will be put back into them:
-            
+            <pre><code>
                 gfx_init(""); // open window
                 x=10; // the client x-coordinate
                 y=20; // the client y-coordinate
 
                 gfx_clienttoscreen(x,y); // x and y hold now the converted screen-coordinates
+            </code></pre>
         </description>
         <parameters>
             integer x - the x coordinate within(!) the gfx_init()-window, that shall be converted to screen-coordinates
@@ -41288,11 +41418,11 @@ Mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Searches for the first parameter in the second parameter, using a simplified regular expression syntax.
 
             * * = match 0 or more characters
-            * \*? = match 0 or more characters, lazy
+            * *? = match 0 or more characters, lazy
             * + = match 1 or more characters
             * +? = match 1 or more characters, lazy
             * ? = match one character
@@ -41924,23 +42054,25 @@ Mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns the data at byte-offset offset of str. If offset is negative, position is relative to end of string.type defaults to signed char, but can be specified to read raw binary data in other formats (note the single quotes, these are single/multi-byte characters):
+        <description>
+            Returns the data at byte-offset offset of str. 
+            If offset is negative, position is relative to end of string.type defaults to signed char, but can be specified to read raw binary data in other formats 
+            (note the single quotes, these are single/multi-byte characters):
 
-            \* 'c' - signed char
-            \* 'cu' - unsigned char
-            \* 's' - signed short
-            \* 'S' - signed short, big endian
-            \* 'su' - unsigned short
-            \* 'Su' - unsigned short, big endian
-            \* 'i' - signed int
-            \* 'I' - signed int, big endian
-            \* 'iu' - unsigned int
-            \* 'Iu' - unsigned int, big endian
-            \* 'f' - float
-            \* 'F' - float, big endian
-            \* 'd' - double
-            \* 'D' - double, big endian
+            * 'c' - signed char
+            * 'cu' - unsigned char
+            * 's' - signed short
+            * 'S' - signed short, big endian
+            * 'su' - unsigned short
+            * 'Su' - unsigned short, big endian
+            * 'i' - signed int
+            * 'I' - signed int, big endian
+            * 'iu' - unsigned int
+            * 'Iu' - unsigned int, big endian
+            * 'f' - float
+            * 'F' - float, big endian
+            * 'd' - double
+            * 'D' - double, big endian
         </description>
         <parameters>
             str - 
@@ -42591,16 +42723,16 @@ mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Executes expression until expression evaluates to zero, or until 1048576 iterations occur. An alternate and more useful syntax is while (expression) ( statements ), which evaluates statements after every non-zero evaluation of expression.
-            
+            <pre><code>
                 A=0; // set A to 0
 
                 // while A is still less than 10, add 1 to A
                 while(A<10)(
                   A=A+1;
                 );
-                
+            </code></pre>
         </description>
         <retvals>
             integer retval - 0
@@ -43269,15 +43401,19 @@ mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Returns current font index, and the actual font face used by this font (if available).
 
-            Use [gfx.setfont](#lua_gfx.setfont) to set a font for a specific index.
+            Use gfx.setfont to set a font for a specific index.
         </description>
         <retvals>
             integer fontindex - the index of the font used. 
             string fontface - the font-face(fontname) of the currently used font
         </retvals>
+        <linked_to desc="see:">
+            Reaper:lua_gfx.setfont
+                   sets a font, used by the gfx-functions
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -43390,7 +43526,7 @@ mespotine
         <requires>
             Reaper=6.40
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Initializes the graphics window with title name. Suggested width and height can be specified.Once the graphics window is open, gfx.update() should be called periodically. 
 
             Only one graphics-window can be opened per script! Calling gfx.ini after a window has been opened has no effect.
@@ -43399,7 +43535,7 @@ mespotine
             
             To retitle the window, run gfx.init again with the new title as parameter name.
 
-            To get the current window-states, dimensions, etc, you can use [gfx.dock](#lua_gfx.dock).
+            To get the current window-states, dimensions, etc, you can use gfx.dock).
         </description>
         <retvals>
             number retval - 1.0, if window is opened
@@ -43412,6 +43548,12 @@ mespotine
             optional integer xpos - x-position of the window in pixels; minimum is -80
             optional integer ypos - y-position of the window in pixels; minimum is -15
         </parameters>
+        <linked_to desc="see:">
+            Reaper:lua_gfx.update
+                   updates the gfx-window
+            Reaper:lua_gfx.dock
+                   docks the gfx-window
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -43512,8 +43654,10 @@ mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Measures the drawing dimensions of a character with the current font (as set by [gfx.setfont](#lua_gfx.setfont)). Returns width and height of character.
+        <description>
+            Measures the drawing dimensions of a character with the current font (as set by gfx.setfont). 
+            
+            Returns width and height of character.
         </description>
         <retvals>
             integer width - the width of the character in pixels
@@ -43522,6 +43666,10 @@ mespotine
         <parameters>
             integer char - ASCII-Code of the character to measure
         </parameters>
+        <linked_to desc="see:">
+            Reaper:lua_gfx.setfont
+                   sets a font, used by the gfx-functions
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -43540,8 +43688,10 @@ mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Measures the drawing dimensions of a string with the current font (as set by [gfx.setfont](#lua_gfx.setfont)). Returns width and height of string.
+        <description>
+            Measures the drawing dimensions of a string with the current font (as set by gfx.setfont). 
+            
+            Returns width and height of string.
         </description>
         <retvals>
             integer width - the width of the drawing dimensions of str in pixels
@@ -43550,6 +43700,10 @@ mespotine
         <parameters>
             string str - the string, whose drawing dimensions you want to know
         </parameters>
+        <linked_to desc="see:">
+            Reaper:lua_gfx.setfont
+                   sets a font, used by the gfx-functions
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -44120,6 +44274,12 @@ mespotine
         <parameters>
             string sharedMemoryName - the name of the shared memory
         </parameters>
+        <linked_to desc="see:">
+            Reaper:lua_gmem_read
+                   reads values from a global shared memory(gmem)
+            Reaper:lua_gmem_write
+                   writes values from a global shared memory(gmem) that can be accessed
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -44149,6 +44309,12 @@ mespotine
         <parameters>
             integer index - the index of the memory-variable to read from; index must be 0 and higher
         </parameters>
+        <linked_to desc="see:">
+            Reaper:lua_gmem_attach
+                   attaches a global shared memory(gmem) that can be accessed
+            Reaper:lua_gmem_write
+                   writes values from a global shared memory(gmem) that can be accessed
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -44168,15 +44334,21 @@ mespotine
         <requires>
             Reaper=5.97
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Write (number) value to shared memory attached-to by gmem_attach(). index can be \[0..1<<25).
+        <description>
+            Write (number) value to shared memory attached-to by gmem_attach(). index can be [0..1<<25).
 
-            Before you can write into a currently unused variable with index "index", you must call [gmem\_attach](#lua_gmem_attach) first!
+            Before you can write into a currently unused variable with index "index", you must call gmem_attach first!
         </description>
         <parameters>
             integer index - the index of the memory-variable to write to; index must be 0 and higher
             number value - a number, either integer or float
         </parameters>
+        <linked_to desc="see:">
+            Reaper:lua_gmem_attach
+                   attaches a global shared memory(gmem) that can be accessed
+            Reaper:lua_gmem_read
+                   reads values from a global shared memory(gmem)
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -45924,17 +46096,17 @@ mespotine
             void* setNewValue - the new value to be set
         </parameters>
         <linked_to desc="see:">
-            inline:CreateTrackSend
+            Reaper:CreateTrackSend
                    creates a track-send
-            inline:GetTrackNumSends
+            Reaper:GetTrackNumSends
                    get number of send of a track
-            inline:GetSetTrackSendInfo_String
+            Reaper:GetSetTrackSendInfo_String
                    gets sets additional string-attributes for metadata of track-sends
-            inline:GetTrackSendInfo_Value
+            Reaper:GetTrackSendInfo_Value
                    gets attributes of a track-send
-            inline:RemoveTrackSend
+            Reaper:RemoveTrackSend
                    removes a track-send
-            inline:SetTrackSendInfo_Value
+            Reaper:SetTrackSendInfo_Value
                    sets attributes of a track-send
         </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -49583,11 +49755,11 @@ mespotine
             Reaper=5.965
             ReaPack=1.2.2
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
+        <description>
             Show the about dialog of the given package entry.
             The repository index is downloaded asynchronously if the cached copy doesn't exist or is older than one week.
 
-            see [ReaPack\_GetOwner](#ReaPack_GetOwner) to get this parameter
+            see ReaPack_GetOwner to get this parameter
         </description>
         <retvals>
             boolean retval - true, if the dialog is shown
@@ -49595,6 +49767,10 @@ mespotine
         <parameters>
             PackageEntry entry - the installed Reapack-package, whose about dialog you want to show
         </parameters>
+        <linked_to desc="see:">
+            ReaPack:ReaPack_GetOwner
+                    returns the package, that owns a certain installed file
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -49647,8 +49823,10 @@ mespotine
             Reaper=5.965
             ReaPack=1.2.2
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Add or modify a repository. Set url to nullptr (or empty string in Lua) to keep the existing URL. Call [ReaPack\_ProcessQueue(true)](#ReaPack_ProcessQueue) when done to process the new list and update the GUI.
+        <description>
+            Add or modify a repository. Set url to nullptr (or empty string in Lua) to keep the existing URL. 
+            
+            Call ReaPack_ProcessQueue(true) when done to process the new list and update the GUI.
 
             autoInstall: usually set to 2 (obey user setting).
         </description>
@@ -49665,6 +49843,10 @@ mespotine
                                 -    1, autoinstall new packages when synchronizing
                                 -    2, use user-settings
         </parameters>
+        <linked_to desc="see:">
+            ReaPack:ReaPack_ProcessQueue
+                    processes the new list and updates the gui of ReaPack
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -49748,13 +49930,13 @@ mespotine
             Reaper=5.965
             ReaPack=1.2.2
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Enumerate the files owned by the given package. Returns false when there is no more data.
 
                sections: 0=not in action list, &1=main, &2=midi editor, &4=midi inline editor
-               type: see [ReaPack\_GetEntryInfo](#ReaPack_GetEntryInfo).
+               type: see ReaPack_GetEntryInfo.
 
-               see [ReaPack\_GetOwner](#ReaPack_GetOwner) to get the value for the parameter entry
+               see ReaPack_GetOwner to get the value for the parameter entry
 
         </description>
         <retvals>
@@ -49778,6 +49960,12 @@ mespotine
             PackageEntry entry - the installed Reapack-package, whose file you want to enumerate
             integer index - the index of the file of this ReaPack-package with 0 for the first file
         </parameters>
+        <linked_to desc="see:">
+            ReaPack:ReaPack_GetOwner
+                    returns the package, that owns a certain installed file
+            ReaPack:ReaPack_GetEntryInfo
+                    returns the attributes of an installed repository, like name, package description, etc
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -49799,8 +49987,10 @@ mespotine
             Reaper=5.965
             ReaPack=1.2.2
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Free resources allocated for the given package entry. Must be used to free PackageEntry-objects created by [ReaPack\_GetOwner](#ReaPack_GetOwner).
+        <description>
+            Free resources allocated for the given package entry. 
+            
+            Must be used to free PackageEntry-objects created by ReaPack_GetOwner.
         </description>
         <retvals>
             boolean retval - true, if freeing was successful; false, if no
@@ -49808,6 +49998,10 @@ mespotine
         <parameters>
             PackageEntry entry - the installed Reapack-package, whose ressources you want to free
         </parameters>
+        <linked_to desc="see:">
+            ReaPack:ReaPack_GetOwner
+                   returns the package, that owns a certain installed file
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -49829,10 +50023,10 @@ mespotine
             Reaper=5.965
             ReaPack=1.2.4
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get the repository name, category, package name, package description, package type, the currently installed version, author name, flags (&1=Pinned, &2=BleedingEdge) and how many files are owned by the given package entry.
             
-            see [ReaPack\_GetOwner](#ReaPack_GetOwner) to get value for parameter entry
+            see ReaPack_GetOwner to get value for parameter entry
         </description>
         <retvals>
             boolean retval - true, if getting the info worked
@@ -49858,6 +50052,10 @@ mespotine
         <parameters>
             PackageEntry entry - the installed Reapack-package, whose package-infos you want
         </parameters>
+        <linked_to desc="see:">
+            ReaPack:ReaPack_GetOwner
+                   returns the package, that owns a certain installed file
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -49880,9 +50078,9 @@ mespotine
             Reaper=5.965
             ReaPack=1.2.2
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Returns the package entry owning the given file.
-            Delete the returned object from memory after use with [ReaPack\_FreeEntry](#ReaPack_FreeEntry).
+            Delete the returned object from memory after use with ReaPack_FreeEntry.
         </description>
         <retvals>
             PackageEntry retval - the installed Reapack-package, who is owner of this file
@@ -49891,6 +50089,10 @@ mespotine
         <parameters>
             string fn - filename with path to a file, of which you want to know, whose package owns it
         </parameters>
+        <linked_to desc="see:">
+            ReaPack:ReaPack_FreeEntry
+                   deletes a PackageEntry, when you have no use for it anymore
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
@@ -69940,7 +70142,7 @@ mespotine
             Reaper=6.23
             ReaImGui=0.5.8
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Enum: A color target for TableSetBgColor()
             
             Background colors are rendering in 3 layers:
@@ -69950,13 +70152,17 @@ mespotine
                 - Layer 2: draw with CellBg color if set.
             
             The purpose of the two row/columns layers is to let you decide if a background color changes should override or blend with the existing color.
-            When using ImGui\_TableFlags\_RowBg on the table, each row has the RowBg0 color automatically set for odd/even rows.
+            When using ImGui_TableFlags_RowBg on the table, each row has the RowBg0 color automatically set for odd/even rows.
             If you set the color of RowBg0 target, your color will override the existing RowBg0 color.
             If you set the color of RowBg1 or ColumnBg1 target, your color will blend over the RowBg0 color.
         </description>       
         <retvals>
             integer retval -
-        </retvals>                
+        </retvals>
+        <linked_to desc="see:">
+            ReaImGui:TableSetBgColor
+                   changes color of a cell, row or columns of a table
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
         <chapter_context>
