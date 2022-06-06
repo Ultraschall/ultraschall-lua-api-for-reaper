@@ -6130,6 +6130,8 @@
         </requires>
         <description>
             Get the extended state value for a specific section and key.
+            
+            Note: section and key are not case-sensitive
         </description>
         <retvals>
             string extstate_value - the value of the extstate
@@ -17082,6 +17084,8 @@
             Set the extended state value for a specific section and key. 
 
             Persistant states are stored into the reaper-extstate.ini in the resources-folder.
+            
+            Note: section and key are not case-sensitive
             
             Important: always use a section-name, that is unique to you. For instance, add your name into the section-name, 
             so it's less likely, that somebody else uses the same section and accidentally overwrites your keys.

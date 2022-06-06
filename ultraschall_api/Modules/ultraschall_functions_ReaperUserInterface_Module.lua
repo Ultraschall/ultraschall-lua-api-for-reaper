@@ -693,7 +693,7 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ShowMenu</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.7
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -766,12 +766,13 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
     gfx.y=-25
     ownwindow=true
   else
-    convx, convy = gfx.screentoclient(x, y)
+    local convx, convy = gfx.screentoclient(x, y)
     gfx.x=convx
     gfx.y=convy
   end
+  
   local selection=gfx.showmenu("#"..Title.."||"..Entries)
-  if ownwindow==true then gfx.quit() end
+  if ownwindow==true then gfx.quit() gfx.w=0 gfx.h=0 end
   return math.floor(selection)-1
 end
 
