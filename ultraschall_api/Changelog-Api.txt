@@ -315,6 +315,7 @@ Has now 1532 functions, with XX new ones
   - MarkerManagement: IsMarkerShownote - returns now the shownote-index as well
   - ProjectManagement: GetProjectStateChunk - didn't work under certain circumstances on Linux/Mac.
   - Rendering: CreateRenderCFG\_WMF\_Video - renamed to CreateRenderCFG\_WMF (old functionname is still available, though
+  - UltraschallConfigFiles: GetUSExternalState - did return nil when file did not exist, though docs claimed "" -> fixed
   - UserInterface: ShowMenu - did only open once in a script though it should open multiple times -> fixed
 
 ---
