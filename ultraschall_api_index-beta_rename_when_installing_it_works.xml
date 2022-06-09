@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="53159.00" author="Meo Mespotine">
+      <version name="53198.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -419,6 +419,7 @@
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Reaper_ConfigVars_Documentation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/ultraschall_Help_Reaper_ConfigVars_Documentation.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Ultraschall_Api_Functions_Reference.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/ultraschall_Help_Ultraschall_Api_Functions_Reference.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Ultraschall_Api_Introduction_and_Concepts.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/ultraschall_Help_Ultraschall_Api_Introduction_and_Concepts.lua</source>
+	<source file="/ultraschall_api/Scripts/ultraschall_Marker_Menu.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/ultraschall_Marker_Menu.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_OpenFolder_Api_Documentation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/ultraschall_OpenFolder_Api_Documentation.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_OpenFolder_Api_ExampleScripts.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/ultraschall_OpenFolder_Api_ExampleScripts.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
@@ -540,6 +541,13 @@ New features in 4.7
     through a selected file and checks, whether its strings are
     currently used extstates
 -   MarkerManagement: GetMarkerType - returns the type of a marker
+-   MarkerManagement: MarkerMenu_Debug - shows in the ReaScript-console
+    debug-messages like the right-clicked-marker-type, when using the
+    marker/region-hijack-script(see MarkerMenu_Start)
+-   MarkerManagement: MarkerMenu_Start - starts a background-script that
+    hijacks the marker-context-menu when rightclicking markers/regions
+-   MarkerManagement: MarkerMenu_Stop - stops the background-script that
+    hijacks the marker-context-menu when rightclicking markers/regions
 -   MediaItem_Takes: GetProjectPosByTakeSourcePos - gets the
     project-position of a take’s source-position, obeying
     stretch-markers, offset, etc
@@ -664,7 +672,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1564 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53159 from 09.06.2022 05:44:06).}
+a 1567 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53198 from 09.06.2022 14:22:16).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -678,7 +686,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1564 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1567 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -802,7 +810,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1564 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53159 from 09.06.2022 05:44:06).}
+a 1567 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53198 from 09.06.2022 14:22:16).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -816,7 +824,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1564 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1567 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
