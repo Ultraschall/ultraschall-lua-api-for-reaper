@@ -253,7 +253,7 @@ Note: Doesn't fucking work...
 
 - IsEnvelopeTakeFXEnvelope, IsEnvelopeTrackFXEnvelope, IsEnvelopeInputFXEnvelope, IsEnvelopeTakeEnvelope
 
-- add ChapterPlaylists, that allow setting a playlist-order of chapters to play after another; a playlist name is possible
+- add ChapterPlaylists-functions, that allow setting a playlist-order of chapters to play one after another; a playlist name is possible
   I had this added as chapter-attribute, but I think, that this should be an episode-attribute instead, with 
     playlist_1_name="playlist name"
     playlist_1_chapterindex="1, 2, 4, 7, 3"
@@ -261,6 +261,10 @@ Note: Doesn't fucking work...
     playlist_2_chapterindex="1, 5, 9, 6, 10"
     
    the chapterindex are the numbers of chapters in timeline-order, that shall be played one after another
+
+- marker-menu-hijack-script: 
+    functions to add/remove menu-entries?
+
     
 readd in next version:
   
