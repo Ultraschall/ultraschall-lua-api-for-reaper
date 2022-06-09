@@ -1739,8 +1739,7 @@ ultraschall.ChapterAttributes={
               "chap_content_notification_tags",
               "chap_next_chapter_numbers",
               "chap_previous_chapter_numbers",
-              "chap_default_next_chapter",
-              "chap_default_previous_chapter"
+              "chap_playlists"
               }
 
 
@@ -1775,17 +1774,21 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
                          - "chap_descriptive_tags" - some tags, that describe the chapter-content, must separated by newlines
                          - "chap_content_notification_tags" - some tags, that warn of specific content; must be separated by newlines!
                          - "chap_next_chapter_numbers" - decide, which chapter could be the next after this one; 
-                         -                               format is: "chap_number:path_name:description\nchap_number:description\n"
-                         -                               multiple chapters can be set as the next chapter; chap_number is 0-based
-                         -                               path_name is a name for a path through the podcast(no : allowed!). For instance, a podcast about Apollo 11 can have a path called "technical stuff", which allows to just listen to all chapters about technical stuff and leave out the rest.
-                         -                               this can be used for non-linear podcasts, like "choose your own adventure"
-                         - "chap_previous_chapter_numbers" - decide, which chapter could be the previous before this one; 
-                         -                               format is: "chap_number:path_name:description\nchap_number:description\n"
-                         -                               multiple chapters can be set as the previous chapters; chap_number is 0-based
-                         -                               path_name is a name for a path through the podcast(no : allowed!). For instance, a podcast about Apollo 11 can have a path called "technical stuff", which allows to just listen to all chapters about technical stuff and leave out the rest.
-                         -                               this can be used for non-linear podcasts, like "choose your own adventure"
-                         - "chap_default_next_chapter" - the number of the next chapter, that shall follow the current one when listening to the podcast in linear fashion; when not given, the timeline order shall be used
-                         - "chap_default_previous_chapter" - the number of the previous chapter, that shall be seen as before the current one when listening to the podcast in linear fashion; when not given, the timeline order shall be used
+                                                       - format is: "chap_number:description\nchap_number:description\n"
+                                                       - chap_number is the number of the chapter in timeline-order
+                                                       - it's possible to set multiple chapters as the next chapters; chap_number is 0-based
+                                                       - this can be used for non-linear podcasts, like "choose your own adventure"
+                         - "chap_previous_chapter_numbers" - decide, which chapter could be the previous before this one
+                                                       - format is: "chap_number:description\nchap_number:description\n"
+                                                       - chap_number is the number of the chapter in timeline-order
+                                                       - it's possible to set multiple chapters as the previous chapters; chap_number is 0-based
+                                                       - this can be used for non-linear podcasts, like "choose your own adventure"
+                         - "chap_playlists" - adds this chapter to one or more chapter-playlists within the podcast, that follow sub-topics of the podcast, leaving out the rest
+                                            - the format is "position_within_playlist:playlistname1\nposition_within_playlist:playlistname2\n" etc
+                                            - the playlistname is a descriptive name for a certain chapter-playlist, like "astronauts", where only podcast-chapters about astronauts are played in a certain order.
+                                            - the position_within_playlist gives the position of this chapter within a certain playlist. 
+                                            - If the position_within_playlist is 1, this chapter is the first in a certain playlist, and 2, if it's the second in a certain playlist, etc.
+                                            - you can add the chapter to multiple playlists, but only once per playlist!
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
