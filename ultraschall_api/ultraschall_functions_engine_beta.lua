@@ -1726,7 +1726,8 @@ function ultraschall.GetPodcastShownote_MetaDataEntry(shownote_idx, shownote_ind
   return true, Shownote_String
 end
 
-ultraschall.ChapterAttributes={"chap_description",
+ultraschall.ChapterAttributes={
+              "chap_description",
               "chap_url",
               "chap_image",
               "chap_image_description",
@@ -1735,7 +1736,11 @@ ultraschall.ChapterAttributes={"chap_description",
               "chap_image_url",
               "chap_descriptive_tags",
               "chap_is_advertisement",
-              "chap_content_notification_tags"
+              "chap_content_notification_tags",
+              "chap_next_chapter_numbers",
+              "chap_previous_chapter_numbers",
+              "chap_default_next_chapter",
+              "chap_default_previous_chapter"
               }
 
 
@@ -1769,6 +1774,16 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
                          - "chap_image_url" - the url that links to the chapter-image
                          - "chap_descriptive_tags" - some tags, that describe the chapter-content, must separated by newlines
                          - "chap_content_notification_tags" - some tags, that warn of specific content; must be separated by newlines!
+                         - "chap_next_chapter_numbers" - decide, which chapter could be the next after this one; 
+                         -                               format is: "chap_number:description\nchap_number:description\n"
+                         -                               multiple chapters can be set as the next chapter; chap_number is 0-based
+                         -                               this can be used for non-linear podcasts, like "choose your own adventure"
+                         - "chap_previous_chapter_numbers" - decide, which chapter could be the previous before this one; 
+                         -                               format is: "chap_number:description\nchap_number:description\n"
+                         -                               multiple chapters can be set as the previous chapters; chap_number is 0-based
+                         -                               this can be used for non-linear podcasts, like "choose your own adventure"
+                         - "chap_default_next_chapter" - the number of the next chapter, that shall follow the current one when listening to the podcast in linear fashion; when not given, the timeline order shall be used
+                         - "chap_default_previous_chapter" - the number of the previous chapter, that shall be seen as before the current one when listening to the podcast in linear fashion; when not given, the timeline order shall be used
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
