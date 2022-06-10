@@ -262,6 +262,8 @@ Note: Doesn't fucking work...
     
    the chapterindex are the numbers of chapters in timeline-order, that shall be played one after another
 
+- add spoiler=yes-Attribute to Chapter_Attributes
+
 - marker-menu-hijack-script: 
     functions to add/remove menu-entries?
 

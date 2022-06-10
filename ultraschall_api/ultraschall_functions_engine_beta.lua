@@ -1739,6 +1739,7 @@ ultraschall.ChapterAttributes={
               "chap_content_notification_tags",
               "chap_next_chapter_numbers",
               "chap_previous_chapter_numbers",
+              "chap_spoiler_warning"
               }
 
 
@@ -1782,6 +1783,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
                                                        - chap_number is the number of the chapter in timeline-order
                                                        - it's possible to set multiple chapters as the previous chapters; chap_number is 0-based
                                                        - this can be used for non-linear podcasts, like "choose your own adventure"
+                        - "chap_spoiler_warning" - set this to true, if this chapter contains/is spoiler; otherwise set to ""
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
