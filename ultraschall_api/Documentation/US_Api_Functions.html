@@ -24770,7 +24770,7 @@ Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in th
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
 <img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>GetSetChapterMarker_Attributes</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetChapterMarker_Attributes</em>(<i>boolean</i> is_set, <i>integer</i> idx, <i>string</i> attributename, <i>string</i> content)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetChapterMarker_Attributes</em>(<i>boolean</i> is_set, <i>integer</i> idx, <i>string</i> attributename, <i>string</i> content, <i>optional</i> <i>boolean</i> planned)</code></div>
 </div><p>
 <div class="ch">
 Will get/set additional attributes of a chapter-marker.<br>
@@ -24824,6 +24824,10 @@ this can be used for non-linear podcasts, like "choose your own adventure"</td><
 <table class="ch">
 <tr><td class="pr"><i>string</i> content</td></tr>
 <tr><td class="ch2">the new contents to set the attribute with</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> planned</td></tr>
+<tr><td class="ch2">true, get/set this attribute with planned marker; false or nil, get/set this attribute with normal marker(chapter marker)</td></tr>
 </table>
 <br>
 </div>

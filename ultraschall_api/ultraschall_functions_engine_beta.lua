@@ -1742,7 +1742,7 @@ ultraschall.ChapterAttributes={
               }
 
 
-function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, content)
+function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, content, planned)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetChapterMarker_Attributes</slug>
@@ -1751,7 +1751,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string content = ultraschall.GetSetChapterMarker_Attributes(boolean is_set, integer idx, string attributename, string content)</functioncall>
+  <functioncall>boolean retval, string content = ultraschall.GetSetChapterMarker_Attributes(boolean is_set, integer idx, string attributename, string content, optional boolean planned)</functioncall>
   <description>
     Will get/set additional attributes of a chapter-marker.
         
@@ -1783,6 +1783,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
                                                        - it's possible to set multiple chapters as the previous chapters; chap_number is 0-based
                                                        - this can be used for non-linear podcasts, like "choose your own adventure"
     string content - the new contents to set the attribute with
+    optional boolean planned - true, get/set this attribute with planned marker; false or nil, get/set this attribute with normal marker(chapter marker)
   </parameters>
   <retvals>
     boolean retval - true, if the attribute exists/could be set; false, if not or an error occurred
@@ -1805,6 +1806,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
   if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "content", "must be a string", -4) return false end  
   
   local tags=ultraschall.ChapterAttributes
+  local retval
   
   local found=false
   for i=1, #tags do
@@ -1817,7 +1819,13 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
   if attributename=="chap_url" then attributename="url" end
   
   if found==false then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "attributename not supported", -7) return false end
-  idx=ultraschall.EnumerateNormalMarkers(idx)
+  if planned~=true then
+    idx=ultraschall.EnumerateNormalMarkers(idx)
+  else
+    retval, idx=ultraschall.EnumerateCustomMarkers("Planned", idx-1)
+    idx=idx+1
+  end
+    
   
   if is_set==false then
     local B=ultraschall.GetMarkerExtState(idx, attributename)  
