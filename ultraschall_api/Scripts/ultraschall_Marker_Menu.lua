@@ -67,13 +67,13 @@ function main()
   if HWND_Focus==HWND_timeline and MouseState~=0 and MouseState&16~=16 then
     local start_time, end_time = reaper.GetSet_ArrangeView2(0, false, X, X)
     reaper.BR_GetMouseCursorContext()
-    local Marker, Marker2 = ultraschall.GetMarkerByScreenCoordinates(X)
-    globalMarker2=Marker2
+    local Marker, Marker2 = ultraschall.GetMarkerByScreenCoordinates(X)    
     if Marker=="" then
       Marker, Marker2 = ultraschall.GetRegionByScreenCoordinates(X)
     end
     if Marker~="" then
       Marker2=tonumber(Marker2:match("(.-)\n"))
+      globalMarker2=Marker2
       MarkerType, MarkerTypeIndex=ultraschall.GetMarkerType(Marker2)
       MarkerMenu, MarkerActions=GetMarkerMenu(MarkerType, MouseState, Marker2)
       if MarkerMenu~=nil then        
