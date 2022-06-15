@@ -1,7 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- ToDo:
--- Versuchen das Gfx-Fenster auf Größe 0 zu setzen...
+-- Auf Mac und Linux ohne Fenster arbeiten, weil gfx.showmenu dort wohl ohne funzt... 
 
 arrange_view, HWND_timeline, TrackControlPanel, TrackListWindow = ultraschall.GetHWND_ArrangeViewAndTimeLine()
 
@@ -47,8 +47,18 @@ end
 
 
 function main()
-  if Retval~=-1 and Retval~=nil then     
+  if Retval~=-1 and Retval~=nil then
+    reaper.PreventUIRefresh(1)
+    local position=reaper.GetCursorPosition()
+    reaper.MoveEditCursor(-position, false)
+    local A={reaper.EnumProjectMarkers3(0, globalMarker2)}
+    reaper.MoveEditCursor(A[3], false)
+    
     reaper.Main_OnCommand(MarkerActions[Retval], 0)
+    
+    reaper.MoveEditCursor(-A[3], false)
+    reaper.MoveEditCursor(position, false)
+    reaper.PreventUIRefresh(-1)
   end
   Retval=nil
   local X,Y=reaper.GetMousePosition()
@@ -58,6 +68,7 @@ function main()
     local start_time, end_time = reaper.GetSet_ArrangeView2(0, false, X, X)
     reaper.BR_GetMouseCursorContext()
     local Marker, Marker2 = ultraschall.GetMarkerByScreenCoordinates(X)
+    globalMarker2=Marker2
     if Marker=="" then
       Marker, Marker2 = ultraschall.GetRegionByScreenCoordinates(X)
     end
@@ -90,6 +101,7 @@ end
 reaper.atexit(atexit)
 
 reaper.SetExtState("ultraschall_api", "markermenu_started", "started", false)
+
 main()
 
 

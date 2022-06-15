@@ -263,7 +263,7 @@ Note: Doesn't fucking work...
    the chapterindex are the numbers of chapters in timeline-order, that shall be played one after another
 
 - marker-menu-hijack-script: 
-    - functions to remove menu-entries?
+    - set edit-cursor to selected marker temporarily, before running Main_OnCommand, then reset it to previous position, to allow Reaper's edit-marker-actions to work with the menu
     - add submenus, whose entries can be generated with "generate entries"-functions(e.g. current files in a preset-files-folder (project Templates))
 
     
