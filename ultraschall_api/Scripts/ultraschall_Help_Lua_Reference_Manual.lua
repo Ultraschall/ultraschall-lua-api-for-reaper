@@ -2,7 +2,7 @@
   ################################################################################
   # 
   # Copyright (c) 2014-2020 Ultraschall (http://ultraschall.fm)
-  # 
+  #
   # Permission is hereby granted, free of charge, to any person obtaining a copy
   # of this software and associated documentation files (the "Software"), to deal
   # in the Software without restriction, including without limitation the rights
@@ -24,27 +24,8 @@
   ################################################################################
   --]]
 
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+filename=ultraschall.Api_Path.."/Documentation/Lua_5_3_Reference_Manual.html"
 
-function OpenURL(url)
-  local OS=reaper.GetOS()
-  url="\""..url.."\""
-  if OS=="OSX32" or OS=="OSX64" or OS=="macOS-arm64" then
-    os.execute("open ".. url)
-  elseif OS=="Other" then
-    os.execute("xdg-open "..url)
-  else
-    B="start \"Ultraschall-URL\" /B ".. url
-    os.execute("start \"Ultraschall-URL\" /B ".. url)
-  end
-  return true
-end
+reaper.CF_ShellExecute(filename)
 
-_,filename=reaper.get_action_context()
-
-Sep=package.config:sub(1,1)
-
-filename=filename:match("(.*)[\\/]"):sub(1,-2)
-filename=filename:match("(.*)[\\/]")..Sep.."Documentation"..Sep.."Lua_5_3_Reference_Manual.html"
-
-
-OpenURL("file:///"..string.gsub(filename, "\\", "/"))

@@ -23,7 +23,9 @@ function GetMarkerMenu(MarkerType, clicktype, Markernr)
     ShowMarkerType_In_Menu=false
   end
   local aid = ultraschall.GetUSExternalState(MarkerType.."_"..clicktype, "StartUpAction", "ultraschall_marker_menu.ini")
-  ultraschall.RunCommand(aid)
+  reaper.DeleteExtState("ultraschall_api", "markermenu_started", false)
+  pcall(ultraschall.RunCommand, aid)
+  reaper.SetExtState("ultraschall_api", "markermenu_started", "started", false)    
   if ShowMarkerType_In_Menu==true then actions[1]=0 end
   local menuentry=""
   local menu2={}
@@ -75,8 +77,6 @@ function GetMarkerMenu(MarkerType, clicktype, Markernr)
     print(Markernr..":\""..MarkerType.."_"..clicktype.."\"")
   end
   if menuentry=="" then return nil end
---  table.remove(menu2, 1)
---  table.remove(menu3, 1)
   return menuentry:sub(1,-2), actions, menu2, menu3, menu4
 end
 
@@ -84,15 +84,19 @@ end
 function main()
   if Retval~=-1 and Retval~=nil then
     reaper.PreventUIRefresh(1)
-    local position=reaper.GetCursorPosition()
+    local start_time, end_time = reaper.GetSet_ArrangeView2(0, false, 0, 0, 0, 0)
+    local position=reaper.GetCursorPosition()    
     reaper.MoveEditCursor(-position, false)
     local A={reaper.EnumProjectMarkers3(0, globalMarker2)}
     reaper.MoveEditCursor(A[3], false)
     
-    reaper.Main_OnCommand(MarkerActions[Retval], 0)
+    reaper.DeleteExtState("ultraschall_api", "markermenu_started", false)
+    pcall(reaper.Main_OnCommand, MarkerActions[Retval], 0)
+    reaper.SetExtState("ultraschall_api", "markermenu_started", "started", false)    
     
     reaper.MoveEditCursor(-A[3], false)
     reaper.MoveEditCursor(position, false)
+    reaper.GetSet_ArrangeView2(0, true, 0, 0, start_time, end_time)
     reaper.PreventUIRefresh(-1)
   end
   Retval=nil
