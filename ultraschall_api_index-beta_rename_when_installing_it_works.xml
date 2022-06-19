@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="53421.00" author="Meo Mespotine">
+      <version name="53448.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -550,11 +550,6 @@ New features in 4.7
     through a selected file and checks, whether its strings are
     currently used extstates
 -   MarkerManagement: GetMarkerType - returns the type of a marker
--   MarkerManagement: MarkerMenu_AddStartupAction - adds a
-    startup-action in the markermenu for a specific custom marker/region
--   MarkerManagement: MarkerMenu_AddStartupAction_DefaultMarkers - adds
-    a startup-action in the markermenu for a certain
-    default-marker/region-type from Ultraschall
 -   MarkerManagement: MarkerMenu_CountEntries - counts the number of
     entries in the markermenu for a specific custom marker/region
 -   MarkerManagement: MarkerMenu_CountEntries_DefaultMarkers - counts
@@ -590,6 +585,11 @@ New features in 4.7
     custom-marker/region-type
 -   MarkerManagement: MarkerMenu_SetEntry_DefaultMarkers - sets the
     action and description of a marker-entry for a certain
+    default-marker/region-type from Ultraschall
+-   MarkerManagement: MarkerMenu_SetStartupAction - sets a
+    startup-action in the markermenu for a specific custom marker/region
+-   MarkerManagement: MarkerMenu_SetStartupAction_DefaultMarkers - sets
+    a startup-action in the markermenu for a certain
     default-marker/region-type from Ultraschall
 -   MarkerManagement: MarkerMenu_Start - starts a background-script that
     hijacks the marker-context-menu when rightclicking markers/regions
@@ -755,7 +755,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1587 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53421 from 17.06.2022 01:33:45).}
+a 1587 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53448 from 19.06.2022 15:50:59).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -893,7 +893,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1587 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53421 from 17.06.2022 01:33:45).}
+a 1587 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53448 from 19.06.2022 15:50:59).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

@@ -24,6 +24,7 @@ function GetMarkerMenu(MarkerType, clicktype, Markernr)
   end
   local aid = ultraschall.GetUSExternalState(MarkerType.."_"..clicktype, "StartUpAction", "ultraschall_marker_menu.ini")
   reaper.DeleteExtState("ultraschall_api", "markermenu_started", false)
+  ultraschall.StoreTemporaryMarker(Marker2) 
   pcall(ultraschall.RunCommand, aid)
   reaper.SetExtState("ultraschall_api", "markermenu_started", "started", false)    
   if ShowMarkerType_In_Menu==true then actions[1]=0 end
@@ -131,6 +132,8 @@ function main()
           reaper.SetExtState("ultraschall_api", "MarkerMenu_EntryNumber", MenuEntry_Nr[Retval], false)
           reaper.SetExtState("ultraschall_api", "MarkerMenu_Entry_AdditionalData", MenuEntries_Data[Retval], false)
           ultraschall.StoreTemporaryMarker(Marker2) 
+        else
+          ultraschall.StoreTemporaryMarker(-1)
         end
       end
     end

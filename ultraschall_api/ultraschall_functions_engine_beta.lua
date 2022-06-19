@@ -3966,16 +3966,26 @@ function ultraschall.MarkerMenu_RemoveEntry(marker_name, is_marker_region, click
   for i=entry_nr, 65536 do
     local aid = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_ActionCommandID", "ultraschall_marker_menu.ini")
     if aid=="" then 
-      local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_ActionCommandID", "", "ultraschall_marker_menu.ini")
+      local retval  = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_ActionCommandID", "", "ultraschall_marker_menu.ini")
       local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Description", "", "ultraschall_marker_menu.ini")
       local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_AdditionalData", "", "ultraschall_marker_menu.ini")
+      local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_SubMenu", "", "ultraschall_marker_menu.ini")
+      local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Greyed", "", "ultraschall_marker_menu.ini")
+      local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Checked", "", "ultraschall_marker_menu.ini")
       break 
     end
     local description = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Description", "ultraschall_marker_menu.ini")  
     local additional_data= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_AdditionalData", "ultraschall_marker_menu.ini")
+    local greyed = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Greyed", "ultraschall_marker_menu.ini")
+    local checked = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Checked", "ultraschall_marker_menu.ini")
+    local submenu = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_SubMenu", "ultraschall_marker_menu.ini")
+    
     local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_ActionCommandID", aid, "ultraschall_marker_menu.ini")
     local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Description", description, "ultraschall_marker_menu.ini")
     local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_AdditionalData", additional_data, "ultraschall_marker_menu.ini")
+    local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Greyed", greyed, "ultraschall_marker_menu.ini")
+    local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Checked", checked, "ultraschall_marker_menu.ini")
+    local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_SubMenu", submenu, "ultraschall_marker_menu.ini")
   end
   return true
 end
@@ -3983,14 +3993,14 @@ end
 function ultraschall.MarkerMenu_RemoveEntry_DefaultMarkers(marker_type, clicktype, entry_nr)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MarkerMenu_RemoveEntry</slug>
+  <slug>MarkerMenu_RemoveEntry_DefaultMarkers</slug>
   <requires>
     Ultraschall=4.7
     Reaper=6.02
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MarkerMenu_RemoveEntry(integer marker_type, integer clicktype, integer entry_nr)</functioncall>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_RemoveEntry_DefaultMarkers(integer marker_type, integer clicktype, integer entry_nr)</functioncall>
   <description>
     removes a menu-entry in the marker-menu, associated with a certain default marker/region from Ultraschall
     
@@ -4065,16 +4075,26 @@ function ultraschall.MarkerMenu_RemoveEntry_DefaultMarkers(marker_type, clicktyp
   for i=entry_nr, 65536 do
     local aid = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_ActionCommandID", "ultraschall_marker_menu.ini")
     if aid=="" then 
-      local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_ActionCommandID", "", "ultraschall_marker_menu.ini")
+      local retval  = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_ActionCommandID", "", "ultraschall_marker_menu.ini")
       local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Description", "", "ultraschall_marker_menu.ini")
       local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_AdditionalData", "", "ultraschall_marker_menu.ini")
+      local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_SubMenu", "", "ultraschall_marker_menu.ini")
+      local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Greyed", "", "ultraschall_marker_menu.ini")
+      local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Checked", "", "ultraschall_marker_menu.ini")
       break 
     end
     local description = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Description", "ultraschall_marker_menu.ini")  
     local additional_data= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_AdditionalData", "ultraschall_marker_menu.ini")
+    local greyed = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Greyed", "ultraschall_marker_menu.ini")
+    local checked = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Checked", "ultraschall_marker_menu.ini")
+    local submenu = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i+1).."_SubMenu", "ultraschall_marker_menu.ini")
+    
     local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_ActionCommandID", aid, "ultraschall_marker_menu.ini")
     local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Description", description, "ultraschall_marker_menu.ini")
     local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_AdditionalData", additional_data, "ultraschall_marker_menu.ini")
+    local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Greyed", greyed, "ultraschall_marker_menu.ini")
+    local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_Checked", checked, "ultraschall_marker_menu.ini")
+    local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..i.."_SubMenu", submenu, "ultraschall_marker_menu.ini")
   end
   return true
 end
@@ -4373,7 +4393,7 @@ function ultraschall.MarkerMenu_CountEntries_DefaultMarkers(marker_type, clickty
   return -1
 end
 
-function ultraschall.MarkerMenu_InsertEntry(marker_name, is_marker_region, clicktype, entry_nr, action, description, additional_data)
+function ultraschall.MarkerMenu_InsertEntry(marker_name, is_marker_region, clicktype, entry_nr, action, description, additional_data, submenu, greyed, checked)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MarkerMenu_InsertEntry</slug>
@@ -4383,7 +4403,7 @@ function ultraschall.MarkerMenu_InsertEntry(marker_name, is_marker_region, click
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MarkerMenu_InsertEntry(string marker_name, boolean is_marker_region, integer clicktype, integer entry_nr, string action, string description, string additional_data)</functioncall>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_InsertEntry(string marker_name, boolean is_marker_region, integer clicktype, integer entry_nr, string action, string description, string additional_data, integer submenu, boolean greyed, optional boolean checked)</functioncall>
   <description>
     inserts a menu-entry into the marker-menu, associated with a certain default custom marker/region and moves all others one up
     
@@ -4400,6 +4420,11 @@ function ultraschall.MarkerMenu_InsertEntry(marker_name, is_marker_region, click
     string action - the action-command-id for this new marker-entry
     string description - the description for this new marker-entry; "", entry is a separator
     string additional_data - additional data, that will be sent by the marker-menu, when clicking this menuentry
+    integer submenu - 0, entry is no submenu; 1, entry is start of submenu, 2, entry if last entry in the submenu
+    boolean greyed - true, the entry is greyed(if it's a submenu, its entries will NOT show!); false, the entry is shown normally
+    optional boolean checked - true, the entry will show a checkmark
+                             - false, the entry will show no checkmark
+                             - nil, the entry will show a checkmark depending on the toggle-command-state of the action for this menuentry
   </parameters>
   <linked_to desc="see:">
       Ultraschall:MarkerMenu_Start
@@ -4437,6 +4462,10 @@ function ultraschall.MarkerMenu_InsertEntry(marker_name, is_marker_region, click
   if type(action)~="string" and math.type(action)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry", "action", "must be an integer or a string beginning with _", -5) return false end
   if type(description)~="string" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry", "description", "must be a string", -6) return false end
   if type(additional_data)~="string" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry", "description", "must be a string", -7) return false end
+  if type(greyed)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry", "greyed", "must be a boolean", -8) return false end
+  if type(checked)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry", "checked", "must be a boolean", -9) return false end
+  if math.type(submenu)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry", "submenu", "must be an integer", -10) return false end
+
   
   local name_of_marker=""
   if is_marker_region==true then
@@ -4447,9 +4476,13 @@ function ultraschall.MarkerMenu_InsertEntry(marker_name, is_marker_region, click
   if clicktype==0 then
     name_of_marker=name_of_marker.."_RightClck"
   else
-    ultraschall.AddErrorMessage("MarkerMenu_InsertEntry", "clicktype", "no such clicktype", -8)
+    ultraschall.AddErrorMessage("MarkerMenu_InsertEntry", "clicktype", "no such clicktype", -11)
     return false
   end
+  
+  if greyed==true then greyed="yes" elseif greyed==false then greyed="no" else greyed="" end
+  if checked==true then checked="yes" elseif checked==false then checked="no" else checked="" end
+  if submenu==1 then submenu="start" elseif submenu==2 then submenu="end" else submenu="" end
   
   for i=ultraschall.MarkerMenu_CountEntries(marker_name, is_marker_region, clicktype), entry_nr-1, -1 do
     local aid = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_ActionCommandID", "ultraschall_marker_menu.ini")
@@ -4457,35 +4490,48 @@ function ultraschall.MarkerMenu_InsertEntry(marker_name, is_marker_region, click
       local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_ActionCommandID", "", "ultraschall_marker_menu.ini")
       local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Description", "", "ultraschall_marker_menu.ini")
       local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_AdditionalData", "", "ultraschall_marker_menu.ini")
+      local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Greyed", "", "ultraschall_marker_menu.ini")
+      local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Checked", "", "ultraschall_marker_menu.ini")
+      local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_SubMenu", "", "ultraschall_marker_menu.ini")
     end
     local description = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_Description", "ultraschall_marker_menu.ini")  
     local additional_data= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_AdditionalData", "ultraschall_marker_menu.ini")
+    local greyed= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_Checked", "ultraschall_marker_menu.ini")
+    local checked= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_Greyed", "ultraschall_marker_menu.ini")
+    local submenu= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_SubMenu", "ultraschall_marker_menu.ini")
     local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_ActionCommandID", aid, "ultraschall_marker_menu.ini")
     local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Description", description, "ultraschall_marker_menu.ini")
     local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_AdditionalData", additional_data, "ultraschall_marker_menu.ini")
+    local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Greyed", greyed, "ultraschall_marker_menu.ini")
+    local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Checked", checked, "ultraschall_marker_menu.ini")
+    local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_SubMenu", submenu, "ultraschall_marker_menu.ini")
   end
   local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_ActionCommandID", action, "ultraschall_marker_menu.ini")
   local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_Description", description, "ultraschall_marker_menu.ini")
   local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_AdditionalData", additional_data, "ultraschall_marker_menu.ini")
+  local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_Greyed", greyed, "ultraschall_marker_menu.ini")
+  local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_Checked", checked, "ultraschall_marker_menu.ini")
+  local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_SubMenu", submenu, "ultraschall_marker_menu.ini")
+  
   return true
 end
 
 --ultraschall.MarkerMenu_Start()
 --ultraschall.MarkerMenu_InsertEntry("CustomRegion", true, 0, 1, 1007, "HudelDudel"..os.date(), "More Data"..reaper.time_precise())
-SLEM()
+--SLEM()
 
 
-function ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(marker_type, clicktype, entry_nr, action, description, additional_data)
+function ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(marker_type, clicktype, entry_nr, action, description, additional_data, submenu, greyed, checked)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MarkerMenu_InsertEntry</slug>
+  <slug>MarkerMenu_InsertEntry_DefaultMarkers</slug>
   <requires>
     Ultraschall=4.7
     Reaper=6.02
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MarkerMenu_InsertEntry(string marker_name, integer clicktype, integer entry_nr, string action, string description, string additional_data)</functioncall>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(string marker_name, integer clicktype, integer entry_nr, string action, string description, string additional_data, integer submenu, boolean greyed, optional boolean checked)</functioncall>
   <description>
     inserts a menu-entry into the marker-menu, associated with a certain default marker/region as in Ultraschall and moves all others one up
     
@@ -4502,6 +4548,11 @@ function ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(marker_type, clicktyp
     string action - the action-command-id for this new marker-entry
     string description - the description for this new marker-entry; "", entry is a separator
     string additional_data - additional data, that will be sent by the marker-menu, when clicking this menuentry
+    integer submenu - 0, entry is no submenu; 1, entry is start of submenu, 2, entry if last entry in the submenu
+    boolean greyed - true, the entry is greyed(if it's a submenu, its entries will NOT show!); false, the entry is shown normally
+    optional boolean checked - true, the entry will show a checkmark
+                             - false, the entry will show no checkmark
+                             - nil, the entry will show a checkmark depending on the toggle-command-state of the action for this menuentry
   </parameters>
   <linked_to desc="see:">
       Ultraschall:MarkerMenu_Start
@@ -4538,6 +4589,9 @@ function ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(marker_type, clicktyp
   if type(action)~="string" and math.type(action)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "action", "must be an integer or a string beginning with _", -4) return false end
   if type(description)~="string" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "description", "must be a string", -5) return false end
   if type(additional_data)~="string" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "description", "must be a string", -6) return false end
+  if type(greyed)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "greyed", "must be a boolean", -7) return false end
+  if type(checked)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "checked", "must be a boolean", -8) return false end
+  if math.type(submenu)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "submenu", "must be an integer", -9) return false end
   
   local name_of_marker
   if marker_type==0 then name_of_marker="normal"
@@ -4547,16 +4601,20 @@ function ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(marker_type, clicktyp
   elseif marker_type==4 then name_of_marker="region"
   elseif marker_type==5 then name_of_marker="actionmarker"
   else
-    ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "marker_type", "no such markertype", -7)
+    ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "marker_type", "no such markertype", -10)
     return false
   end
   
   if clicktype==0 then
     name_of_marker=name_of_marker.."_RightClck"
   else
-    ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "clicktype", "no such clicktype", -8)
+    ultraschall.AddErrorMessage("MarkerMenu_InsertEntry_DefaultMarkers", "clicktype", "no such clicktype", -11)
     return false
   end
+
+  if greyed==true then greyed="yes" elseif greyed==false then greyed="no" else greyed="" end
+  if checked==true then checked="yes" elseif checked==false then checked="no" else checked="" end
+  if submenu==1 then submenu="start" elseif submenu==2 then submenu="end" else submenu="" end
   
   for i=ultraschall.MarkerMenu_CountEntries_DefaultMarkers(marker_type, clicktype), entry_nr-1, -1 do
     local aid = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_ActionCommandID", "ultraschall_marker_menu.ini")
@@ -4564,30 +4622,43 @@ function ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(marker_type, clicktyp
       local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_ActionCommandID", "", "ultraschall_marker_menu.ini")
       local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Description", "", "ultraschall_marker_menu.ini")
       local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_AdditionalData", "", "ultraschall_marker_menu.ini")
+      local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Greyed", "", "ultraschall_marker_menu.ini")
+      local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Checked", "", "ultraschall_marker_menu.ini")
+      local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_SubMenu", "", "ultraschall_marker_menu.ini")
     end
     local description = ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_Description", "ultraschall_marker_menu.ini")  
     local additional_data= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_AdditionalData", "ultraschall_marker_menu.ini")
+    local greyed= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_Checked", "ultraschall_marker_menu.ini")
+    local checked= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_Greyed", "ultraschall_marker_menu.ini")
+    local submenu= ultraschall.GetUSExternalState(name_of_marker, "Entry_"..(i).."_SubMenu", "ultraschall_marker_menu.ini")
     local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_ActionCommandID", aid, "ultraschall_marker_menu.ini")
     local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Description", description, "ultraschall_marker_menu.ini")
     local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_AdditionalData", additional_data, "ultraschall_marker_menu.ini")
+    local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Greyed", greyed, "ultraschall_marker_menu.ini")
+    local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_Checked", checked, "ultraschall_marker_menu.ini")
+    local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(i+1).."_SubMenu", submenu, "ultraschall_marker_menu.ini")
   end
   local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_ActionCommandID", action, "ultraschall_marker_menu.ini")
   local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_Description", description, "ultraschall_marker_menu.ini")
   local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_AdditionalData", additional_data, "ultraschall_marker_menu.ini")
+  local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_Greyed", greyed, "ultraschall_marker_menu.ini")
+  local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_Checked", checked, "ultraschall_marker_menu.ini")
+  local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..(entry_nr).."_SubMenu", submenu, "ultraschall_marker_menu.ini")
+  
   return true
 end
 
-function ultraschall.MarkerMenu_AddStartupAction(marker_name, is_marker_region, clicktype, action)
+function ultraschall.MarkerMenu_SetStartupAction(marker_name, is_marker_region, clicktype, action)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MarkerMenu_AddStartupAction</slug>
+  <slug>MarkerMenu_SetStartupAction</slug>
   <requires>
     Ultraschall=4.7
     Reaper=6.02
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MarkerMenu_AddStartupAction(string marker_name, boolean is_marker_region, integer clicktype, string action)</functioncall>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_SetStartupAction(string marker_name, boolean is_marker_region, integer clicktype, string action)</functioncall>
   <description>
     adds a startup-action into the marker-menu, associated with a certain default custom marker/region
     
@@ -4630,13 +4701,13 @@ function ultraschall.MarkerMenu_AddStartupAction(marker_name, is_marker_region, 
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
-  <tags>markermanagement, add, startup action, entry, markermenu, custom marker, custom region</tags>
+  <tags>markermanagement, set, startup action, entry, markermenu, custom marker, custom region</tags>
 </US_DocBloc>
 ]]
-  if type(marker_name)~="string" then ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction", "marker_name", "must be a string", -1) return false end
-  if type(is_marker_region)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction", "is_marker_region", "must be a boolean", -2) return false end
-  if math.type(clicktype)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction", "clicktype", "must be an integer", -3) return false end
-  if type(action)~="string" and math.type(action)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction", "action", "must be an integer or a string beginning with _", -4) return false end
+  if type(marker_name)~="string" then ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction", "marker_name", "must be a string", -1) return false end
+  if type(is_marker_region)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction", "is_marker_region", "must be a boolean", -2) return false end
+  if math.type(clicktype)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction", "clicktype", "must be an integer", -3) return false end
+  if type(action)~="string" and math.type(action)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction", "action", "must be an integer or a string beginning with _", -4) return false end
 
   
   local name_of_marker=""
@@ -4648,7 +4719,7 @@ function ultraschall.MarkerMenu_AddStartupAction(marker_name, is_marker_region, 
   if clicktype==0 then
     name_of_marker=name_of_marker.."_RightClck"
   else
-    ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction", "clicktype", "no such clicktype", -5)
+    ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction", "clicktype", "no such clicktype", -5)
     return false
   end
   
@@ -4661,20 +4732,20 @@ end
 
 --ultraschall.MarkerMenu_Start()
 --ultraschall.MarkerMenu_InsertEntry("CustomRegion", true, 0, 1, 1007, "HudelDudel"..os.date(), "More Data"..reaper.time_precise())
-SLEM()
+--SLEM()
 
 
-function ultraschall.MarkerMenu_AddStartupAction_DefaultMarkers(marker_type, clicktype, action)
+function ultraschall.MarkerMenu_SetStartupAction_DefaultMarkers(marker_type, clicktype, action)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MarkerMenu_AddStartupAction_DefaultMarkers</slug>
+  <slug>MarkerMenu_SetStartupAction_DefaultMarkers</slug>
   <requires>
     Ultraschall=4.7
     Reaper=6.02
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MarkerMenu_AddStartupAction_DefaultMarkers(integer marker_type, integer clicktype, string action)</functioncall>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_SetStartupAction_DefaultMarkers(integer marker_type, integer clicktype, string action)</functioncall>
   <description>
     adds a startup-action into the marker-menu, associated with a certain default marker/region as in Ultraschall and moves all others one up
     
@@ -4722,12 +4793,12 @@ function ultraschall.MarkerMenu_AddStartupAction_DefaultMarkers(marker_type, cli
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
-  <tags>entries, add, startup action, markermenu, shownote, edit marker, normal marker, region, planned chapter marker, action marker</tags>
+  <tags>entries, set, startup action, markermenu, shownote, edit marker, normal marker, region, planned chapter marker, action marker</tags>
 </US_DocBloc>
 ]]
-  if math.type(marker_type)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction_DefaultMarkers", "marker_type", "must be an integer", -1) return false end
-  if math.type(clicktype)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction_DefaultMarkers", "clicktype", "must be an integer", -2) return false end
-  if type(action)~="string" and math.type(action)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction_DefaultMarkers", "action", "must be an integer or a string beginning with _", -3) return false end
+  if math.type(marker_type)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction_DefaultMarkers", "marker_type", "must be an integer", -1) return false end
+  if math.type(clicktype)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction_DefaultMarkers", "clicktype", "must be an integer", -2) return false end
+  if type(action)~="string" and math.type(action)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction_DefaultMarkers", "action", "must be an integer or a string beginning with _", -3) return false end
   
   local name_of_marker
   if marker_type==0 then name_of_marker="normal"
@@ -4737,14 +4808,14 @@ function ultraschall.MarkerMenu_AddStartupAction_DefaultMarkers(marker_type, cli
   elseif marker_type==4 then name_of_marker="region"
   elseif marker_type==5 then name_of_marker="actionmarker"
   else
-    ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction_DefaultMarkers", "marker_type", "no such markertype", -7)
+    ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction_DefaultMarkers", "marker_type", "no such markertype", -7)
     return false
   end
   
   if clicktype==0 then
     name_of_marker=name_of_marker.."_RightClck"
   else
-    ultraschall.AddErrorMessage("MarkerMenu_AddStartupAction_DefaultMarkers", "clicktype", "no such clicktype", -8)
+    ultraschall.AddErrorMessage("MarkerMenu_SetStartupAction_DefaultMarkers", "clicktype", "no such clicktype", -8)
     return false
   end
   
@@ -4752,7 +4823,7 @@ function ultraschall.MarkerMenu_AddStartupAction_DefaultMarkers(marker_type, cli
   return true
 end
 
--- finished, only docs missing...
+
 function ultraschall.GetNextClosestItemStart(trackstring, time_position)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
