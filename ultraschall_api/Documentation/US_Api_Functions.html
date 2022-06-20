@@ -24557,7 +24557,7 @@ The table is of the following format:<br>
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>MarkerMenu_GetEntry</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> description, <i>string</i> action_command_id, <i>string</i> additional_data = <em>ultraschall.MarkerMenu_GetEntry</em>(<i>string</i> marker_name, <i>boolean</i> is_marker_region, <i>integer</i> clicktype, <i>integer</i> entry_nr)</code></div>
+<div class="l">Lua: <code> <i>string</i> description, <i>string</i> action_command_id, <i>string</i> additional_data, <i>integer</i> submenu, <i>boolean</i> greyed, <i>optional</i> <i>boolean</i> checked = <em>ultraschall.MarkerMenu_GetEntry</em>(<i>string</i> marker_name, <i>boolean</i> is_marker_region, <i>integer</i> clicktype, <i>integer</i> entry_nr)</code></div>
 </div><p>
 <div class="ch">
 gets the description and action-command-id for a menu-entry in the marker-menu, associated with a certain custom marker/region<br>
@@ -24575,7 +24575,19 @@ returns nil in case of an error<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> additional_data</td></tr>
-<tr><td class="ch2">potential additional data, stored with this menu-entry</td></tr>
+<tr><td class="ch2">potential additional data, stored with this menu-entry&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> submenu</td></tr>
+<tr><td class="ch2">0, entry is no submenu(but can be within a submenu!); 1, entry is start of a submenu; 2, entry is last entry in a submenu</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> greyed</td></tr>
+<tr><td class="ch2">true, entry is greyed(submenu-entries will not be accessible!); false, entry is not greyed and therefore selectable</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> checked</td></tr>
+<tr><td class="ch2">true, entry has a checkmark; false, entry has no checkmark; nil, entry will show checkmark depending on toggle-state of action_command_id</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -24605,7 +24617,7 @@ returns nil in case of an error<br>
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>MarkerMenu_GetEntry_DefaultMarkers</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> description, <i>string</i> action_command_id, <i>string</i> additional_data = <em>ultraschall.MarkerMenu_GetEntry_DefaultMarkers</em>(<i>integer</i> marker_type, <i>integer</i> clicktype, <i>integer</i> entry_nr)</code></div>
+<div class="l">Lua: <code> <i>string</i> description, <i>string</i> action_command_id, <i>string</i> additional_data, <i>integer</i> submenu, <i>boolean</i> greyed, <i>optional</i> <i>boolean</i> checked = <em>ultraschall.MarkerMenu_GetEntry_DefaultMarkers</em>(<i>integer</i> marker_type, <i>integer</i> clicktype, <i>integer</i> entry_nr)</code></div>
 </div><p>
 <div class="ch">
 gets the description and action-command-id for a menu-entry in the marker-menu, associated with a certain default marker/region from Ultraschall<br>
@@ -24624,6 +24636,18 @@ returns nil in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> additional_data</td></tr>
 <tr><td class="ch2">potentially stored additional data with this menuentry</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> submenu</td></tr>
+<tr><td class="ch2">0, entry is no submenu(but can be within a submenu!); 1, entry is start of a submenu; 2, entry is last entry in a submenu</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> greyed</td></tr>
+<tr><td class="ch2">true, entry is greyed(submenu-entries will not be accessible!); false, entry is not greyed and therefore selectable</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> checked</td></tr>
+<tr><td class="ch2">true, entry has a checkmark; false, entry has no checkmark; nil, entry will show checkmark depending on toggle-state of action_command_id</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
