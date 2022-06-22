@@ -5069,3 +5069,166 @@ function ultraschall.GetNextClosestItemEnd(trackstring, time_position)
   if pos==reaper.GetProjectLength(0)+1 then pos=-1 end
   return pos, found_item
 end
+
+
+function ultraschall.MarkerMenu_RemoveSubMenu(marker_name, is_marker_region, clicktype, entry_nr)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MarkerMenu_RemoveSubMenu</slug>
+  <requires>
+    Ultraschall=4.7
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_RemoveSubMenu(string marker_name, boolean is_marker_region, integer clicktype, integer entry_nr)</functioncall>
+  <description>
+    removes a submenu from the markermenu of a specific custom marker.
+    
+    Will also remove nested submenus. 
+    If the number of starts of submenus and ends of submenus mismatch, this could cause weird behavior. So keep the starts and ends of submenu-entries consistent!
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, removing submenu worked; false, removing of submenus didn't work
+  </retvals>
+  <parameters>
+    string marker_name - the name of the custom-marker/region, whose sub-menu-entry you want to remove
+    boolean is_marker_region - true, the custom-marker is a region; false, the custom-marker is not a region
+    integer clicktype - the clicktype; 0, right-click
+    integer entry_nr - the entry-number, that is the first entry in the submenu
+  </parameters>
+  <linked_to desc="see:">
+      Ultraschall:MarkerMenu_Start
+                  starts the marker-menu-script
+      Ultraschall:MarkerMenu_Stop
+                  stops the marker-menu-script
+      Ultraschall:MarkerMenu_Debug
+                  set marker-menu-script to output debug messages
+      Ultraschall:MarkerMenu_GetEntry
+                  gets a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_RemoveEntry
+                  removes a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_RemoveEntry_DefaultMarkers
+                  removes a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_SetEntry
+                  sets a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_SetEntry_DefaultMarkers
+                  sets a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_GetAvailableTypes
+                  get all currently available markers from the Marker-Menu
+  </linked_to>
+  <chapter_context>
+    Markers
+    Marker Menu
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, remove, submenu, markermenu, custom marker, custom region</tags>
+</US_DocBloc>
+]]
+  if type(marker_name)~="string" then ultraschall.AddErrorMessage("MarkerMenu_RemoveSubMenu", "marker_name", "must be a string", -1) return false end
+  if type(is_marker_region)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_RemoveSubMenu", "is_marker_region", "must be a boolean", -2) return false end
+  if math.type(clicktype)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_RemoveSubMenu", "clicktype", "must be an integer", -3) return false end
+  if math.type(entry_nr)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_RemoveSubMenu", "entry_nr", "must be an integer", -4) return false end
+  
+  local NumEntries=ultraschall.MarkerMenu_CountEntries(marker_name, is_marker_region, clicktype)
+  local Entry={ultraschall.MarkerMenu_GetEntry(marker_name, is_marker_region, clicktype, entry_nr)}
+  if Entry[4]~=1 then ultraschall.AddErrorMessage("MarkerMenu_RemoveSubMenu", "entry_nr", "is not a start of a submenu", -5) return false end
+
+  local num_submenus=0
+  for i=1, NumEntries do
+    Entry={ultraschall.MarkerMenu_GetEntry(marker_name, is_marker_region, clicktype, entry_nr)}
+    if Entry[4]==1 then num_submenus=num_submenus+1 end
+    if Entry[4]==2 then num_submenus=num_submenus-1 end
+    ultraschall.MarkerMenu_RemoveEntry(marker_name, is_marker_region, clicktype, entry_nr)
+    if num_submenus==0 and Entry[4]==2 then return true end
+  end
+  return true
+end
+
+--A1=ultraschall.MarkerMenu_RemoveSubMenu("Time", false, 0, 3)
+
+
+function ultraschall.MarkerMenu_RemoveSubMenu_DefaultMarkers(marker_type, clicktype, entry_nr)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MarkerMenu_RemoveSubMenu_DefaultMarkers</slug>
+  <requires>
+    Ultraschall=4.7
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_RemoveSubMenu_DefaultMarkers(integer marker_type, integer clicktype, integer entry_nr)</functioncall>
+  <description>
+    removes a submenu from the markermenu of a specific default marker/region.
+    
+    Will also remove nested submenus. 
+    If the number of starts of submenus and ends of submenus mismatch, this could cause weird behavior. So keep the starts and ends of submenu-entries consistent!
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, removing submenu worked; false, removing of submenus didn't work
+  </retvals>
+  <parameters>
+    integer marker_type - the marker_type, whose sub-menu-entry you want to remove
+                        - 0, normal(chapter) markers
+                        - 1, planned markers (Custom markers whose name is _Planned:)
+                        - 2, edit (Custom markers, whose name is _Edit: or _Edit)
+                        - 3, shownote
+                        - 4, region
+                        - 5, action marker
+    integer clicktype - the clicktype; 0, right-click
+    integer entry_nr - the entry-number, that is the first entry in the submenu
+  </parameters>
+  <linked_to desc="see:">
+      Ultraschall:MarkerMenu_Start
+                  starts the marker-menu-script
+      Ultraschall:MarkerMenu_Stop
+                  stops the marker-menu-script
+      Ultraschall:MarkerMenu_Debug
+                  set marker-menu-script to output debug messages
+      Ultraschall:MarkerMenu_GetEntry
+                  gets a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_RemoveEntry
+                  removes a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_RemoveEntry_DefaultMarkers
+                  removes a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_SetEntry
+                  sets a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_SetEntry_DefaultMarkers
+                  sets a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_GetAvailableTypes
+                  get all currently available markers from the Marker-Menu
+  </linked_to>
+  <chapter_context>
+    Markers
+    Marker Menu
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, remove, submenu, markermenu, shownote, edit marker, normal marker, region, planned chapter marker, action marker</tags>
+</US_DocBloc>
+]]
+  if math.type(marker_type)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_RemoveSubMenu_DefaultMarkers", "marker_type", "must be an integer", -1) return false end
+  if math.type(clicktype)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_RemoveSubMenu_DefaultMarkers", "clicktype", "must be an integer", -2) return false end
+  if math.type(entry_nr)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_RemoveSubMenu_DefaultMarkers", "entry_nr", "must be an integer", -3) return false end
+  
+  local NumEntries=ultraschall.MarkerMenu_CountEntries_DefaultMarkers(marker_type, clicktype)
+  local Entry={ultraschall.MarkerMenu_GetEntry_DefaultMarkers(marker_type, clicktype, entry_nr)}
+  if Entry[4]~=1 then ultraschall.AddErrorMessage("MarkerMenu_RemoveSubMenu_DefaultMarkers", "entry_nr", "is not a start of a submenu", -4) return false end
+
+  local num_submenus=0
+  for i=1, NumEntries do
+    Entry={ultraschall.MarkerMenu_GetEntry_DefaultMarkers(marker_type, clicktype, entry_nr)}
+    if Entry[4]==1 then num_submenus=num_submenus+1 end
+    if Entry[4]==2 then num_submenus=num_submenus-1 end
+    ultraschall.MarkerMenu_RemoveEntry_DefaultMarkers(marker_type, clicktype, entry_nr)
+
+    if num_submenus==0 and Entry[4]==2 then return true end
+  end
+  return true
+end
