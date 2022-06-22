@@ -24929,7 +24929,7 @@ returns false in case of an error<br>
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>MarkerMenu_SetEntry</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.MarkerMenu_SetEntry</em>(<i>string</i> marker_name, <i>boolean</i> is_marker_region, <i>integer</i> clicktype, <i>integer</i> entry_nr, <i>string</i> action, <i>string</i> description, <i>string</i> additional_data)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.MarkerMenu_SetEntry</em>(<i>string</i> marker_name, <i>boolean</i> is_marker_region, <i>integer</i> clicktype, <i>integer</i> entry_nr, <i>string</i> action, <i>string</i> description, <i>string</i> additional_data, <i>integer</i> submenu, <i>boolean</i> greyed, <i>optional</i> <i>boolean</i> checked)</code></div>
 </div><p>
 <div class="ch">
 sets the description and action-command-id for a menu-entry in the marker-menu, associated with a certain custom marker/region<br>
@@ -24971,6 +24971,20 @@ returns false in case of an error<br>
 <tr><td class="pr"><i>string</i> additional_data</td></tr>
 <tr><td class="ch2">additional data, that will be sent by the marker-menu, when clicking this menuentry</td></tr>
 </table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> submenu</td></tr>
+<tr><td class="ch2">0, entry is no submenu; 1, entry is start of submenu, 2, entry if last entry in the submenu</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> greyed</td></tr>
+<tr><td class="ch2">true, the entry is greyed(if it's a submenu, its entries will NOT show!); false, the entry is shown normally</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> checked</td></tr>
+<tr><td class="ch2">true, the entry will show a checkmark<br/>
+false, the entry will show no checkmark<br/>
+nil, the entry will show a checkmark depending on the toggle-command-state of the action for this menuentry</td></tr>
+</table>
 <br>
 </div>
 <div class="ch">
@@ -24981,7 +24995,7 @@ returns false in case of an error<br>
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>MarkerMenu_SetEntry_DefaultMarkers</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.MarkerMenu_SetEntry_DefaultMarkers</em>(<i>integer</i> marker_type, <i>integer</i> clicktype, <i>integer</i> entry_nr, <i>string</i> action, <i>string</i> description, <i>string</i> additional_data)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.MarkerMenu_SetEntry_DefaultMarkers</em>(<i>integer</i> marker_type, <i>integer</i> clicktype, <i>integer</i> entry_nr, <i>string</i> action, <i>string</i> description, <i>string</i> additional_data, <i>integer</i> submenu, <i>boolean</i> greyed, <i>optional</i> <i>boolean</i> checked)</code></div>
 </div><p>
 <div class="ch">
 sets the description and action-command-id for a menu-entry in the marker-menu, associated with a certain default marker/region from Ultraschall<br>
@@ -25024,6 +25038,20 @@ returns false in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> additional_data</td></tr>
 <tr><td class="ch2">optional additional data, that will be passed over by the marker-menu, when this menu-entry has been clicked; "", if not needed</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> submenu</td></tr>
+<tr><td class="ch2">0, entry is no submenu; 1, entry is start of submenu, 2, entry if last entry in the submenu</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> greyed</td></tr>
+<tr><td class="ch2">true, the entry is greyed(if it's a submenu, its entries will NOT show!); false, the entry is shown normally</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> checked</td></tr>
+<tr><td class="ch2">true, the entry will show a checkmark<br/>
+false, the entry will show no checkmark<br/>
+nil, the entry will show a checkmark depending on the toggle-command-state of the action for this menuentry</td></tr>
 </table>
 <br>
 </div>

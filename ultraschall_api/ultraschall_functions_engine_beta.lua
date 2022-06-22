@@ -3551,6 +3551,7 @@ function ultraschall.MarkerMenu_GetEntry(marker_name, is_marker_region, clicktyp
   if submenu=="start" then submenu=1 elseif submenu=="end" then submenu=2 else submenu=0 end
   greyed=greyed=="yes"
   if checked=="yes" then checked=true elseif checked=="no" then checked=false else checked=nil end
+  if tonumber(aid)~=nil then aid=tonumber(aid) end
   
   return description, aid, additional_data, submenu, greyed, checked
 end
@@ -3558,7 +3559,7 @@ end
 --A,B=ultraschall.MarkerMenu_GetEntry("HuchTuch", true, 0, 1)
 --SLEM()
 
-function ultraschall.MarkerMenu_SetEntry(marker_name, is_marker_region, clicktype, entry_nr, action, description, additional_data)
+function ultraschall.MarkerMenu_SetEntry(marker_name, is_marker_region, clicktype, entry_nr, action, description, additional_data, submenu, greyed, checked)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MarkerMenu_SetEntry</slug>
@@ -3568,7 +3569,7 @@ function ultraschall.MarkerMenu_SetEntry(marker_name, is_marker_region, clicktyp
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MarkerMenu_SetEntry(string marker_name, boolean is_marker_region, integer clicktype, integer entry_nr, string action, string description, string additional_data)</functioncall>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_SetEntry(string marker_name, boolean is_marker_region, integer clicktype, integer entry_nr, string action, string description, string additional_data, integer submenu, boolean greyed, optional boolean checked)</functioncall>
   <description>
     sets the description and action-command-id for a menu-entry in the marker-menu, associated with a certain custom marker/region
     
@@ -3585,6 +3586,11 @@ function ultraschall.MarkerMenu_SetEntry(marker_name, is_marker_region, clicktyp
     string action - the new action-command-id for this marker-entry
     string description - the new description for this marker-entry; "", entry is a separator
     string additional_data - additional data, that will be sent by the marker-menu, when clicking this menuentry
+    integer submenu - 0, entry is no submenu; 1, entry is start of submenu, 2, entry if last entry in the submenu
+    boolean greyed - true, the entry is greyed(if it's a submenu, its entries will NOT show!); false, the entry is shown normally
+    optional boolean checked - true, the entry will show a checkmark
+                             - false, the entry will show no checkmark
+                             - nil, the entry will show a checkmark depending on the toggle-command-state of the action for this menuentry
   </parameters>
   <linked_to desc="see:">
       Ultraschall:MarkerMenu_Start
@@ -3622,6 +3628,12 @@ function ultraschall.MarkerMenu_SetEntry(marker_name, is_marker_region, clicktyp
   if type(action)~="string" and math.type(action)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry", "action", "must be an integer or a string beginning with _", -5) return false end
   if type(description)~="string" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry", "description", "must be a string", -6) return false end
   if type(additional_data)~="string" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "description", "must be a string", -7) return false end
+  if type(greyed)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "greyed", "must be a boolean", -8) return false end
+  if type(checked)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "checked", "must be a boolean", -9) return false end
+  if math.type(submenu)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "submenu", "must be an integer", -10) return false end
+  if greyed==true then greyed="yes" elseif greyed==false then greyed="no" else greyed="" end
+  if checked==true then checked="yes" elseif checked==false then checked="no" else checked="" end
+  if submenu==1 then submenu="start" elseif submenu==2 then submenu="end" else submenu="" end
   
   local name_of_marker=""
   if is_marker_region==true then
@@ -3632,13 +3644,17 @@ function ultraschall.MarkerMenu_SetEntry(marker_name, is_marker_region, clicktyp
   if clicktype==0 then
     name_of_marker=name_of_marker.."_RightClck"
   else
-    ultraschall.AddErrorMessage("MarkerMenu_SetEntry", "clicktype", "no such clicktype", -8)
+    ultraschall.AddErrorMessage("MarkerMenu_SetEntry", "clicktype", "no such clicktype", -11)
     return false
   end
   additional_data=string.gsub(additional_data, "\n", "\\n")
   local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_ActionCommandID", action, "ultraschall_marker_menu.ini")
   local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_Description", description, "ultraschall_marker_menu.ini")
   local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_AdditionalData", additional_data, "ultraschall_marker_menu.ini")
+  local retval4 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_Greyed", greyed, "ultraschall_marker_menu.ini")
+  local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_Checked", checked, "ultraschall_marker_menu.ini")
+  local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_SubMenu", submenu, "ultraschall_marker_menu.ini")
+  
   return retval
 end
 
@@ -3814,13 +3830,14 @@ function ultraschall.MarkerMenu_GetEntry_DefaultMarkers(marker_type, clicktype, 
   if submenu=="start" then submenu=1 elseif submenu=="end" then submenu=2 else submenu=0 end
   greyed=greyed=="yes"
   if checked=="yes" then checked=true elseif checked=="no" then checked=false else checked=nil end
+  if tonumber(aid)~=nil then aid=tonumber(aid) end
   
   return description, aid, additional_data, submenu, greyed, checked
 end
 
 --A,B=ultraschall.MarkerMenu_GetEntry_DefaultMarkers(0, 0, 1)
 
-function ultraschall.MarkerMenu_SetEntry_DefaultMarkers(marker_type, clicktype, entry_nr, action, description, additional_data)
+function ultraschall.MarkerMenu_SetEntry_DefaultMarkers(marker_type, clicktype, entry_nr, action, description, additional_data, submenu, greyed, checked)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MarkerMenu_SetEntry_DefaultMarkers</slug>
@@ -3830,7 +3847,7 @@ function ultraschall.MarkerMenu_SetEntry_DefaultMarkers(marker_type, clicktype, 
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MarkerMenu_SetEntry_DefaultMarkers(integer marker_type, integer clicktype, integer entry_nr, string action, string description, string additional_data)</functioncall>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_SetEntry_DefaultMarkers(integer marker_type, integer clicktype, integer entry_nr, string action, string description, string additional_data, integer submenu, boolean greyed, optional boolean checked)</functioncall>
   <description>
     sets the description and action-command-id for a menu-entry in the marker-menu, associated with a certain default marker/region from Ultraschall
     
@@ -3852,6 +3869,11 @@ function ultraschall.MarkerMenu_SetEntry_DefaultMarkers(marker_type, clicktype, 
     string action - the new action-command-id for this marker-entry
     string description - the new description for this marker-entry; "", entry is a separator
     string additional_data - optional additional data, that will be passed over by the marker-menu, when this menu-entry has been clicked; "", if not needed
+    integer submenu - 0, entry is no submenu; 1, entry is start of submenu, 2, entry if last entry in the submenu
+    boolean greyed - true, the entry is greyed(if it's a submenu, its entries will NOT show!); false, the entry is shown normally
+    optional boolean checked - true, the entry will show a checkmark
+                             - false, the entry will show no checkmark
+                             - nil, the entry will show a checkmark depending on the toggle-command-state of the action for this menuentry
   </parameters>
   <linked_to desc="see:">
       Ultraschall:MarkerMenu_Start
@@ -3888,6 +3910,13 @@ function ultraschall.MarkerMenu_SetEntry_DefaultMarkers(marker_type, clicktype, 
   if type(action)~="string" and math.type(action)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "action", "must be an integer or a string beginning with _", -4) return false end
   if type(description)~="string" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "description", "must be a string", -5) return false end
   if type(additional_data)~="string" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "description", "must be a string", -6) return false end
+  if type(greyed)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "greyed", "must be a boolean", -7) return false end
+  if type(checked)~="boolean" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "checked", "must be a boolean", -8) return false end
+  if math.type(submenu)~="integer" then ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "submenu", "must be an integer", -9) return false end
+  if greyed==true then greyed="yes" elseif greyed==false then greyed="no" else greyed="" end
+  if checked==true then checked="yes" elseif checked==false then checked="no" else checked="" end
+  if submenu==1 then submenu="start" elseif submenu==2 then submenu="end" else submenu="" end
+  
   local name_of_marker
   if marker_type==0 then name_of_marker="normal"
   elseif marker_type==1 then name_of_marker="planned"
@@ -3896,20 +3925,25 @@ function ultraschall.MarkerMenu_SetEntry_DefaultMarkers(marker_type, clicktype, 
   elseif marker_type==4 then name_of_marker="region"
   elseif marker_type==5 then name_of_marker="actionmarker"
   else
-    ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "marker_type", "no such markertype", -7)
+    ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "marker_type", "no such markertype", -10)
     return false
   end
   
   if clicktype==0 then
     name_of_marker=name_of_marker.."_RightClck"
   else
-    ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "clicktype", "no such clicktype", -8)
+    ultraschall.AddErrorMessage("MarkerMenu_SetEntry_DefaultMarkers", "clicktype", "no such clicktype", -11)
     return false
   end
   additional_data=string.gsub(additional_data, "\n", "\\n")
+  
+  
   local retval = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_ActionCommandID", action, "ultraschall_marker_menu.ini")
   local retval2 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_Description", description, "ultraschall_marker_menu.ini")
   local retval3 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_AdditionalData", additional_data, "ultraschall_marker_menu.ini")
+  local retval4 =  ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_Greyed", greyed, "ultraschall_marker_menu.ini")
+  local retval5 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_Checked", checked, "ultraschall_marker_menu.ini")
+  local retval6 = ultraschall.SetUSExternalState(name_of_marker, "Entry_"..entry_nr.."_SubMenu", submenu, "ultraschall_marker_menu.ini")
   return retval
 end
 
