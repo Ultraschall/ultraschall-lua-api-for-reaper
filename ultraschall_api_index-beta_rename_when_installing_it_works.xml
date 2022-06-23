@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="53513.00" author="Meo Mespotine">
+      <version name="53552.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -706,6 +706,8 @@ Changes from 4.6 to 4.7
 -   Docs: render-strings - updated to Reaper 6.59(includes wmf now)
 -   Docs: misc_docs-folder/Reaper-Render-Strings-docs_Jul2018.txt -
     removed, due being outdated
+-   HelperFunctions: ConvertAscii2Hex - sped up massively for longer
+    strings
 -   Helperfunctions: OpenURL - did return true in case of success,
     though the docs state integer should be returned -> fixed now,
     returns 1
@@ -724,6 +726,10 @@ Changes from 4.6 to 4.7
     shown_number of a shownote as well
 -   MarkerManagement: StoreTemporaryMarker - marker_id should be 0-based
     -> fixed
+-   MetaData: GetGuidExtState - didn’t store extstates, when not using a
+    guid as key -> fixed
+-   MetaData: SetGuidExtState - didn’t store extstates, when not using a
+    guid as key -> fixed
 -   ProjectManagement: GetProjectStateChunk - didn’t work under certain
     circumstances on Linux/Mac.
 -   Rendering: CreateRenderCFG_WMF_Video - renamed to
@@ -767,7 +773,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1593 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53513 from 22.06.2022 20:44:58).}
+a 1593 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53552 from 23.06.2022 02:21:44).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -905,7 +911,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1593 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53513 from 22.06.2022 20:44:58).}
+a 1593 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53552 from 23.06.2022 02:21:44).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
