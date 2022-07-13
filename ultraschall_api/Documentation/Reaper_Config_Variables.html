@@ -70,7 +70,7 @@ End of Header
 <a class="anch" id="Introduction"></a>
 <a href="#Introduction"> ^</a> <u><b>Introduction to Config Variables</b></u><br>			<p>
 <div class="ch">
-<p>List of all Config Variables as of Reaper 6.57 and probably are missing some, but should be fairly complete anyway.<br />
+<p>List of all Config Variables as of Reaper 6.62 and probably are missing some, but should be fairly complete anyway.<br />
 These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.<br />
 To change them, you can use the following ReaScript API-functions(requires SWS being installed):</p>
 <blockquote>
@@ -8827,7 +8827,10 @@ It is an integer</p>
 </blockquote>
 <blockquote>
 <p>&amp;2048=0, Calculate and embed peak/loudness value-checkbox - unchecked<br />
-&amp;2048=0, Calculate and embed peak/loudness value-checkbox - checked</p>
+&amp;2048=1, Calculate and embed peak/loudness value-checkbox - checked</p>
+</blockquote>
+<blockquote>
+<p>&amp;16384=0, Return to render setup-checkbox as set in the rendering window -&gt; unchecked &amp;16384=1, Return to render setup-checkbox as set in the rendering window -&gt; checked</p>
 </blockquote>
 <blockquote>
 <p>seems not to be available anymore as of Reaper 5.977:<br />
@@ -8905,27 +8908,27 @@ It is an integer</p>
 <a class="anch" id="rendertails"></a>
 <a href="#rendertails"> ^</a> <u><b>rendertails</b></u><br>			<p>
 <div class="ch">
-<p>The Tail-checkbox, as set in the Render to File-dialog.<br />
-It is an integer-bitfield.</p>
+<p>The Tail-checkbox, as set in the Render to File-dialog. Every Bounds-mode can have its own render-tail-checkbox set! It is an integer-bitfield.</p>
 <blockquote>
-<p>&amp;1=0, unknown<br />
-&amp;1=1, unknown</p>
+<p>&amp;1=0, Custom time range Tail-checkbox - unchecked &amp;1=1, Custom time range Tail-checkbox - checked</p>
 </blockquote>
 <blockquote>
-<p>&amp;2=0, Tail-checkbox is unchecked<br />
-&amp;2=1, Tail-checkbox is checked</p>
+<p>&amp;2=0, Entire project Tail-checkbox - unchecked &amp;2=1, Entire project Tail-checkbox - checked</p>
 </blockquote>
 <blockquote>
-<p>&amp;4=0, unknown<br />
-&amp;4=1, unknown</p>
+<p>&amp;4=0, Time selection Tail-checkbox - unchecked &amp;4=1, Time selection Tail-checkbox - checked</p>
 </blockquote>
 <blockquote>
-<p>&amp;8=0, unknown<br />
-&amp;8=1, unknown</p>
+<p>&amp;8=0, All project regions Tail-checkbox - unchecked &amp;8=1, All project regions Tail-checkbox - checked</p>
 </blockquote>
 <blockquote>
-<p>&amp;16=0, unknown<br />
-&amp;16=1, unknown</p>
+<p>&amp;32=0, Selected project regions Tail-checkbox - unchecked &amp;32=1, Selected project regions Tail-checkbox - checked</p>
+</blockquote>
+<blockquote>
+<p>&amp;128=0, All project markers Tail-checkbox - unchecked &amp;128=1, All project markers Tail-checkbox - checked</p>
+</blockquote>
+<blockquote>
+<p>&amp;256=0, Selected markers Tail-checkbox - unchecked &amp;256=1, Selected markers Tail-checkbox - checked</p>
 </blockquote>
 <p>Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.</p>
 </div><br>

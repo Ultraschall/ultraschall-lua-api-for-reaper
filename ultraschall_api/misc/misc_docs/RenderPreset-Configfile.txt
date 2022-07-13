@@ -1,6 +1,6 @@
-Render-Presets-docs as of Reaper 6.48
+Render-Presets-docs as of Reaper 6.62
 
-compiled by Meo Mespotine, 19th of February 2022
+compiled by Meo Mespotine, 13th of July 2022
 licensed under creative-commons cc-by-license
 
 The render-presets are stored into reaper-render.ini in the resources-folder of Reaper.
@@ -16,7 +16,7 @@ When selecting "Options and format" or "All settings":
     RENDERPRESET_EXT string presetname integer normalize_mode  number normalize_target  number brickwall_target
     
 When selecting "Bounds and Outputpattern filename" or "All settings":
-    RENDERPRESET_OUTPUT  string presetname  integer bounds_dropdownlist  number start_position  number end_position  integer source_dropdownlist_and_checkboxes  integer unknown  string outputfilename_renderpattern  integer tail_checkbox  string output_directory
+    RENDERPRESET_OUTPUT  string presetname  integer bounds_dropdownlist  number start_position  number end_position  integer source_dropdownlist_and_checkboxes  integer unknown  string outputfilename_renderpattern  integer tail_checkbox  string output_directory integer tail_length_ms
 
 As mentioned, Presets, who who are stored with by the menu "All settings" have both of these entries with the same presetname, all others only one of them.
 They will be shown in the Render-preset-menu accordingly.
@@ -104,12 +104,16 @@ source_dropdownlist_and_checkboxes - keeps: Source dropdownlist in RENDERPRESET_
 output_directory - keeps the output-directory in RENDERPRESET_OUTPUT
                                "" when empty or when path has spaces in it, otherwise simple string
 
+tail_checkbox - keeps the tail-checkbox-setting in RENDERPRESET_OUTPUT, focused on the selected Bounds-setting
+                0, Tail-flag-checkbox for the selected Bounds - unchecked
+                1, Tail-flag-checkbox for the selected Bounds - checked
+
+tail_length_ms - keeps the tail-length-settings(in milliseconds) in RENDERPRESET_OUTPUT
+
 Some general notes on the Render-Presets:
     - any changes in this file will be used by Reaper immediately, the next time the Presets-Button is 
-      hit in the Render to File dialog
-    
+      hit in the Render to File dialog    
     - Some settings aren't stored in presets:
-        Tail ms-inputbox - value will be added somehow to endposition
         Silently increment filenames to avoid overwriting-checkbox
         Add rendered items to new tracks in project-checkbox
 		Do not render files that are likely silent-checkbox
