@@ -272,10 +272,11 @@ Note: Doesn't fucking work...
   
 ConvertHex2Ascii, Base64\_Encoder, Base64\_Decoder - use speedup-trick of ConvertAscii2Hex
   
-- Render:
+- Render To Do:
  - Markers can be used for rendering now
  - FFMPEG-Renderstring - allows now for command-line-options
  - Presets: Tail-Length supported now
+ - Fade In/Fade Out added now
   
 readd in next version:
   
@@ -285,7 +286,7 @@ readd in next version:
 
 ## Ultraschall Framework - Changelog
 
-### 4.7 - " - " - XX of XXXX 2022
+### 4.7 - "Pearl Jam - Alive" - XX of XXXX 2022
 
 Has now 1532 functions, with XX new ones
 
@@ -360,7 +361,7 @@ Has now 1532 functions, with XX new ones
   - DeveloperTools: MonitorParmModulation - did crash, when a parameter-modulation was added after monitoring started -> fixed
   - DeveloperTools: Theme Parameter Monitor - updates now the list immediately, when the current theme is changed
   - DeveloperTools: Trackstatechunk from clip to track under mouse - copied trackstatechunk into clipboard instead of setting it -> fixed
-  - Docs: Reaper Internals - updated to Reaper 6.62 and ReaImGui 0.6.2
+  - Docs: Reaper Internals - updated to Reaper 6.64 and ReaImGui 0.6.2
   - Docs: render-strings - updated to Reaper 6.62(includes wmf now and FFMPEG-command-line-options)
   - Docs: misc\_docs-folder/Reaper-Render-Strings-docs\_Jul2018.txt - removed, due being outdated
   - HelperFunctions: ConvertAscii2Hex - sped up massively for longer strings

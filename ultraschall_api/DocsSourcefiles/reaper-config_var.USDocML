@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.62 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 6.64 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -8843,6 +8843,94 @@
       <source_document>reaper-config_var.USDocML</source_document>
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projrenderfadein</slug>  
+      <title>projrenderfadein</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The fade-in-time in seconds, as set in the Render to File-Dialog -> Normalize/Limit/Fade-Button
+          Decimals are allowed for milliseconds.
+          It's an double-float
+          
+           >0 to 9999999999999999500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000(limitation by the dialog, can be set higher)
+
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projrenderfadeinshape</slug>  
+      <title>projrenderfadeinshape</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The fade-in-shape as set in the Render to File-Dialog -> Normalize/Limit/Fade-Button
+          It's an integer
+          
+           >0 to 6 for the various shapes available
+           >0, linear fade-in
+           >1, inverted quadratic fade-in
+           >2, quadratic fade-in
+           >3, inverted quartic fade-in
+           >4, quartic fade-in
+           >5, Cosine S-curve fade-in
+           >6, Quartic S-curve fade-in
+
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projrenderfadeout</slug>  
+      <title>projrenderfadeout</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The fade-out-time in seconds, as set in the Render to File-Dialog -> Normalize/Limit/Fade-Button
+          Decimals are allowed for milliseconds.
+          It's an double-float
+          
+           >0 to 9999999999999999500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000(limitation by the dialog, can be set higher)
+
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>projrenderfadeoutshape</slug>  
+      <title>projrenderfadeoutshape</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          The fade-out-shape as set in the Render to File-Dialog -> Normalize/Limit/Fade-Button
+          It's an integer
+          
+           >0 to 6 for the various shapes available
+           >0, linear fade-in
+           >1, inverted quadratic fade-in
+           >2, quadratic fade-in
+           >3, inverted quartic fade-in
+           >4, quartic fade-in
+           >5, Cosine S-curve fade-in
+           >6, Quartic S-curve fade-in
+
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
+      </description>  
+      <chapter_context>
+         Config Variables  
+      </chapter_context>
+      <source_document>reaper-config_var.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>projrenderlimit</slug>  
@@ -8919,6 +9007,12 @@
            
            >&256=0, Only normalize that are too loud - unchecked 
            >&256=1, Only normalize that are too loud - checked
+           
+           >512=0, Fade In-checkbox - unchecked
+           >512=1, Fade In-checkbox - checked
+           
+           >1024=0, Fade Out-checkbox - unchecked
+           >1024=1, Fade Out-checkbox - checked
            
           See also [projrenderbrickwall](#projrenderbrickwall)
            
