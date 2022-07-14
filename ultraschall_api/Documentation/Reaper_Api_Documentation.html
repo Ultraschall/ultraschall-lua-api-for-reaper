@@ -86,6 +86,7 @@ else if (window.location.hash == '#p') setdocview('p');
 <td></td>
 <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper-Filetype-Descriptions.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;Filetype Descriptions&nbsp;</a></td>
 <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_Config_Variables.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;Config Variables&nbsp;</a></td>
+<td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_Misc_Docs.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Misc Docs&nbsp;</a></td>
 </tr>
 <tr>
 <td></td>
@@ -2090,7 +2091,7 @@ Returns a localized version of src_string, in section section. flags can have 1 
 <div class="ch">
 <p>Stuffs a 3 byte MIDI message into either the Virtual MIDI Keyboard queue, or the MIDI-as-control input queue, or sends to a MIDI hardware output. mode=0 for VKB, 1 for control (actions map etc), 2 for VKB-on-current-channel; 16 for external MIDI device 0, 17 for external MIDI device 1, etc; see <a href="#GetNumMIDIOutputs">GetNumMIDIOutputs</a>, <a href="#GetMIDIOutputName">GetMIDIOutputName</a>.</p>
 <p>if mode is set to 1, you can send messages as control-message for Parameter Learn/Modulation and as shortcut for scripts. The parameter msg3 can be retrieved with the returnvalue val of the function reaper.get_action_context, so sending values to a script is possible that way.</p>
-<p>For more detailed information about the possible midi-messages you can send via StuffMIDIMessage, see: <a href="../misc/misc_docs/Reaper-StuffMidiMessage-docs.txt">StuffMIDIMessage-docs</a></p>
+<p>For more detailed information about the possible midi-messages you can send via StuffMIDIMessage, see: <a href="misc_docs/API_How_StuffMidiMessage_works.txt">StuffMIDIMessage-docs</a></p>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> mode</td></tr>
@@ -34932,7 +34933,7 @@ RENDER_TARGETS: semicolon separated list of files that would be written if the p
 RENDER_STATS: (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.&nbsp;&nbsp;<br>
 RENDER_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.&nbsp;&nbsp;<br>
 RENDER_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.&nbsp;&nbsp;<br>
-see <a href="render-codes-decoded-base64-strings.txt">render-codes-decoded-base64-strings.txt</a> for how the unencoded RENDER_FORMAT-string is structured.&nbsp;&nbsp;<br>
+see <a href="misc_docs/RENDER_How_RenderCFG-Base64-strings_are_decoded.txt">RENDER_How_RenderCFG-Base64-strings_are_decoded.txt</a> for how the unencoded RENDER_FORMAT-string is structured.&nbsp;&nbsp;<br>
 <br>
 To just use the 4-byte-string, you can use: <br>
 "wave" for wave, "aiff" for aiff, "caff" for caf, "iso " for audio-cd, "ddp " for ddp, "flac" for flac, "mp3l" for mp3, "oggv" for ogg, "OggS" for Opus, "FFMP" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, "GIF " for Gif, "LCF " for LCF, "WMF" for Windows Media Foundation(mp4, m4a), "wvpk" for wavepack<br>
