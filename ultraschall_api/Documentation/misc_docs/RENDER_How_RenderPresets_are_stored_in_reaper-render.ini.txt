@@ -13,7 +13,7 @@ When selecting "Options and format" or "All settings":
     <RENDERPRESET string presetname  integer SampleRate  integer channels  integer offline_online_dropdownlist  integer useprojectsamplerate_checkbox  integer resamplemode_dropdownlist  integer various_checkboxes integer various_checkboxes2
       string rendercfg
     >
-    RENDERPRESET_EXT string presetname integer normalize_mode  number normalize_target  number brickwall_target
+    RENDERPRESET_EXT string presetname integer normalize_mode  number normalize_target  number brickwall_target  number fadein_length  number fadeout_length  integer fadein_shape  integer fadeout_shape
     
 When selecting "Bounds and Outputpattern filename" or "All settings":
     RENDERPRESET_OUTPUT  string presetname  integer bounds_dropdownlist  number start_position  number end_position  integer source_dropdownlist_and_checkboxes  integer unknown  string outputfilename_renderpattern  integer tail_checkbox  string output_directory integer tail_length_ms
@@ -23,7 +23,7 @@ They will be shown in the Render-preset-menu accordingly.
 As soon, as they are in the reaper-render.ini, they will be shown the next time you click the Render-preset-button in the Render to File-dialog.
 
 Parameters:
-normalize_mode - the normalize method set with the "Normalize"-button 
+normalize_mode - the normalize method set with the "Normalize"-button in RENDERPRESET_EXT
                     &1, Enable normalizing
                         0, unchecked(off)
                         1, checked(on)
@@ -45,12 +45,38 @@ normalize_mode - the normalize method set with the "Normalize"-button
                     &256, Only normalize files that are too loud
                         0, disabled
                         1, enabled
-                        
-normalize_target - the target as MKVOL-value. Use ultraschall.MKVOL2DB to convert it to dB.
+                    &512, Fade-in-checkbox
+                        0, disabled
+                        1, enabled
+                    &1024, Fade-out-checkbox
+                        0, disabled
+                        1, enabled
+normalize_target - the target as MKVOL-value. Use ultraschall.MKVOL2DB to convert it to dB in RENDERPRESET_EXT
 
-brickwall_target - the target as MKVOL-value. Use ultraschall.MKVOL2DB to convert it to dB.
-                 
+brickwall_target - the target as MKVOL-value. Use ultraschall.MKVOL2DB to convert it to dB in RENDERPRESET_EXT
 
+fadein_length - the length of the fade-in in seconds(use fractions for milliseconds) in RENDERPRESET_EXT
+
+fadeout_length - the length of the fade-out in seconds(use fractions for milliseconds) in RENDERPRESET_EXT
+
+fadein_shape - the shape of the fade-in-curve in RENDERPRESET_EXT
+           0, linear fade-in
+           1, inverted quadratic fade-in
+           2, quadratic fade-in
+           3, inverted quartic fade-in
+           4, quartic fade-in
+           5, Cosine S-curve fade-in
+           6, Quartic S-curve fade-in
+           
+fadeout_shape - the shape of the fade-out-curve in RENDERPRESET_EXT
+           0, linear fade-out
+           1, inverted quadratic fade-out
+           2, quadratic fade-out
+           3, inverted quartic fade-out
+           4, quartic fade-out
+           5, Cosine S-curve fade-out
+           6, Quartic S-curve fade-out
+           
 various_checkboxes - keeps various checkboxes in <RENDERPRESET
                                    &1, Dither Master
                                    &2, Noise shape master
