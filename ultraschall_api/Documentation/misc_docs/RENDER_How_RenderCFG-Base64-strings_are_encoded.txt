@@ -98,7 +98,7 @@ CAFF:
          1,   1,   0,    1 - Regions starting with # only
         &32=0 - Embed tempo checkbox unchecked
         &32=1 - Embed tempo checkbox checked
-    07: unused
+    07: unused - value 0
     
 Audio CD:
     01: space - value 32 Header
@@ -677,7 +677,7 @@ Video (LCF):
     17: Preserve aspect ratio (black bars if necessary)-checkbox
             0, checkbox unchecked
             1, checkbox checked
-    18: unused
+    18: unused - value 0
     19 to 81: - the contents of the LCF options tweak-entryfield as a human-readable string of 62 bytes
                 usually contains "t20 x128 y16" by default
     

@@ -105,6 +105,6 @@ projrenderfadeinshape - the shape of the render fade-in
            5, Cosine S-curve fade-in
            6, Quartic S-curve fade-in
 
-projrenderfadein
+projrenderfadein - the length of the fade-in in seconds(use fractions for milliseconds)
 
-projrenderfadeout
+projrenderfadeout - the length of the fade-out in seconds(use fractions for milliseconds)
