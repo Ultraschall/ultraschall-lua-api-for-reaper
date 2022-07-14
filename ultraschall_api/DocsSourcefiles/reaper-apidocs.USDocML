@@ -9555,7 +9555,7 @@
             RENDER_STATS: (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.  
             RENDER_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.  
             RENDER_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.  
-            see <a href="misc_docs/RENDER_How_RenderCFG-Base64-strings_are_decoded.txt">RENDER_How_RenderCFG-Base64-strings_are_decoded.txt</a> for how the unencoded RENDER_FORMAT-string is structured.  
+            see <a href="misc_docs/RENDER_How_RenderCFG-Base64-strings_are_encoded.txt">RENDER_How_RenderCFG-Base64-strings_are_encoded.txt</a> for how the unencoded RENDER_FORMAT-string is structured.  
 
             To just use the 4-byte-string, you can use: 
             "wave" for wave, "aiff" for aiff, "caff" for caf, "iso " for audio-cd, "ddp " for ddp, "flac" for flac, "mp3l" for mp3, "oggv" for ogg, "OggS" for Opus, "FFMP" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, "GIF " for Gif, "LCF " for LCF, "WMF" for Windows Media Foundation(mp4, m4a), "wvpk" for wavepack
