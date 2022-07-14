@@ -41,7 +41,7 @@ reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", 
 -- init variables
 Tempfile=ultraschall.Api_Path.."/temp/"
 
-Infilename=ultraschall.Api_Path.."/DocsSourcefiles/reaper-config_var.USDocML"
+Infilename=ultraschall.Api_Path.."/DocsSourcefiles/Reaper_Config_Variables.USDocML"
 Outfile=ultraschall.Api_Path.."/Documentation/Reaper_Config_Variables.html"
 
 -- Reaper-version and tagline from extstate
