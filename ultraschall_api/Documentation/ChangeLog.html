@@ -114,7 +114,10 @@ Bla</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.64 and ReaImGui 0.6.2, added the various misc-docs to a dedicated page in Reaper-Internals</li>
 <li>Docs: render-strings - updated to Reaper 6.62(includes wmf now and FFMPEG-command-line-options)</li>
 <li>Docs: misc_docs-folder/Reaper-Render-Strings-docs_Jul2018.txt - removed, due being outdated</li>
+<li>HelperFunctions: Base64_Decoder - sped up massively for longer strings(up to 98% faster)</li>
+<li>HelperFunctions: Base64_Encoder - sped up massively for longer strings(up to 98% faster)</li>
 <li>HelperFunctions: ConvertAscii2Hex - sped up massively for longer strings</li>
+<li>HelperFunctions: ConvertHex2Ascii - sped up massively for longer strings</li>
 <li>Helperfunctions: OpenURL - did return true in case of success, though the docs state integer should be returned -&gt; fixed now, returns 1</li>
 <li>MarkerManagement: GetMarkerByScreenCoordinates - returns now an additional retval with the region-number(s)<br />
 </li>
