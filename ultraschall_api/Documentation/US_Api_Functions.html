@@ -52068,10 +52068,10 @@ Returns nil in case of an error<br>
 <hr>
 <a class="anch" id="CreateRenderCFG_AVI_Video"></a>
 <a href="#CreateRenderCFG_AVI_Video"> ^</a> 
-<img width="3%" src="gfx/reaper5.975.png" alt="Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>CreateRenderCFG_AVI_Video</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.62.png" alt="Reaper version 6.62">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>CreateRenderCFG_AVI_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_AVI_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_AVI_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the AVI-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -52126,6 +52126,19 @@ Returns nil in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> AspectRatio</td></tr>
 <tr><td class="ch2">the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> VideoOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+g=1 ; all keyframes<br/>
+crf=1&nbsp;&nbsp;; h264 high quality<br/>
+crf=51 ; h264 small size</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> AudioOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+q=0 ; mp3 VBR highest<br/>
+q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 </table>
 <br>
 </div>
@@ -52279,10 +52292,10 @@ Returns nil in case of an error<br>
 <hr>
 <a class="anch" id="CreateRenderCFG_FLV_Video"></a>
 <a href="#CreateRenderCFG_FLV_Video"> ^</a> 
-<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>CreateRenderCFG_FLV_Video</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.62.png" alt="Reaper version 6.62">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>CreateRenderCFG_FLV_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_FLV_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_FLV_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the FLV-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -52333,6 +52346,19 @@ Returns nil in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> AspectRatio</td></tr>
 <tr><td class="ch2">the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> VideoOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+g=1 ; all keyframes<br/>
+crf=1&nbsp;&nbsp;; h264 high quality<br/>
+crf=51 ; h264 small size</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> AudioOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+q=0 ; mp3 VBR highest<br/>
+q=9 ; mp3 VBR lowest</td></tr>
 </table>
 <br>
 </div>
@@ -52474,10 +52500,10 @@ Returns nil in case of an error<br>
 <hr>
 <a class="anch" id="CreateRenderCFG_MKV_Video"></a>
 <a href="#CreateRenderCFG_MKV_Video"> ^</a> 
-<img width="3%" src="gfx/reaper5.975.png" alt="Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>CreateRenderCFG_MKV_Video</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.62.png" alt="Reaper version 6.62">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>CreateRenderCFG_MKV_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MKV_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VIDKBPS, <i>optional</i> <i>integer</i> AUDKBPS)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MKV_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VIDKBPS, <i>optional</i> <i>integer</i> AUDKBPS, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the MKV-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -52539,6 +52565,19 @@ Returns nil in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>integer</i> AUDKBPS</td></tr>
 <tr><td class="ch2">the audio-bitrate of the video in kbps; 1 to 2147483647(default is 128)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> VideoOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+g=1 ; all keyframes<br/>
+crf=1&nbsp;&nbsp;; h264 high quality<br/>
+crf=51 ; h264 small size</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> AudioOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+q=0 ; mp3 VBR highest<br/>
+q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 </table>
 <br>
 </div>
@@ -52860,10 +52899,10 @@ Returns nil in case of an error<br>
 <hr>
 <a class="anch" id="CreateRenderCFG_MPEG1_Video"></a>
 <a href="#CreateRenderCFG_MPEG1_Video"> ^</a> 
-<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>CreateRenderCFG_MPEG1_Video</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.62.png" alt="Reaper version 6.62">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>CreateRenderCFG_MPEG1_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MPEG1_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MPEG1_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the MPEG-1-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -52914,16 +52953,29 @@ Returns nil in case of an error<br>
 <tr><td class="pr"><i>boolean</i> AspectRatio</td></tr>
 <tr><td class="ch2">the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio</td></tr>
 </table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> VideoOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+g=1 ; all keyframes<br/>
+crf=1&nbsp;&nbsp;; h264 high quality<br/>
+crf=51 ; h264 small size</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> AudioOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+q=0 ; mp3 VBR highest<br/>
+q=9 ; mp3 VBR lowest</td></tr>
+</table>
 <br>
 </div>
 <div class="ch">
 <hr>
 <a class="anch" id="CreateRenderCFG_MPEG2_Video"></a>
 <a href="#CreateRenderCFG_MPEG2_Video"> ^</a> 
-<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>CreateRenderCFG_MPEG2_Video</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.62.png" alt="Reaper version 6.62">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>CreateRenderCFG_MPEG2_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MPEG2_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_MPEG2_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> VIDKBPS, <i>integer</i> AudioCodec, <i>integer</i> AUDKBPS, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the MPEG-2-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -52973,6 +53025,19 @@ Returns nil in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> AspectRatio</td></tr>
 <tr><td class="ch2">the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> VideoOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+g=1 ; all keyframes<br/>
+crf=1&nbsp;&nbsp;; h264 high quality<br/>
+crf=51 ; h264 small size</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> AudioOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+q=0 ; mp3 VBR highest<br/>
+q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 </table>
 <br>
 </div>
@@ -53071,10 +53136,10 @@ Returns nil in case of an error<br>
 <hr>
 <a class="anch" id="CreateRenderCFG_QTMOVMP4_Video"></a>
 <a href="#CreateRenderCFG_QTMOVMP4_Video"> ^</a> 
-<img width="3%" src="gfx/reaper5.975.png" alt="Reaper version 5.975">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>CreateRenderCFG_QTMOVMP4_Video</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.62.png" alt="Reaper version 6.62">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>CreateRenderCFG_QTMOVMP4_Video</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_QTMOVMP4_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VIDKBPS, <i>optional</i> <i>integer</i> AUDKBPS)</code></div>
+<div class="l">Lua: <code> <i>string</i> render_cfg_string = <em>ultraschall.CreateRenderCFG_QTMOVMP4_Video</em>(<i>integer</i> VideoCodec, <i>integer</i> MJPEG_quality, <i>integer</i> AudioCodec, <i>integer</i> WIDTH, <i>integer</i> HEIGHT, <i>number</i> FPS, <i>boolean</i> AspectRatio, <i>optional</i> <i>integer</i> VIDKBPS, <i>optional</i> <i>integer</i> AUDKBPS, <i>optional</i> <i>string</i> VideoOptions, <i>optional</i> <i>string</i> AudioOptions)</code></div>
 </div><p>
 <div class="ch">
 Returns the render-cfg-string for the QT/MOV/MP4-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>
@@ -53133,6 +53198,19 @@ Returns nil in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>integer</i> AUDKBPS</td></tr>
 <tr><td class="ch2">the video-bitrate of the video in kbps; 1 to 2147483647(default 128)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> VideoOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+g=1 ; all keyframes<br/>
+crf=1&nbsp;&nbsp;; h264 high quality<br/>
+crf=51 ; h264 small size</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> AudioOptions</td></tr>
+<tr><td class="ch2">additional FFMPEG-options for rendering the video; examples:<br/>
+q=0 ; mp3 VBR highest<br/>
+q=9 ; mp3 VBR lowest&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 </table>
 <br>
 </div>
@@ -53452,7 +53530,7 @@ true, calculate loudness-stats within time-selection</td></tr>
 <hr>
 <a class="anch" id="AddRenderPreset"></a>
 <a href="#AddRenderPreset"> ^</a> 
-<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/reaper6.62.png" alt="Reaper version 6.62">
 <img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>AddRenderPreset</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.AddRenderPreset</em>(<i>string</i> Bounds_Name, <i>string</i> Options_and_Format_Name, <i>table</i> RenderTable)</code></div>
@@ -53467,7 +53545,7 @@ Added render-presets are available after (re-)opening in the Render to File-dial
 Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.<br>
 <br>
 Some settings aren't stored in Presets and will be ignored:<br>
-TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false<br>
+TailMS=0(Reaper 6.61 and earlier), SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false<br>
 <br>
 Bounds_Name stores only:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Bounds"] - the bounds-dropdownlist, <br>
@@ -53498,7 +53576,8 @@ Bounds_Name stores only:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &4, time selection<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &8, all project regions<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &16, selected media items<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &32, selected project regions <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &32, selected project regions<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["TailMS"] - the length of the tail in milliseconds(Reaper 6.62+)<br>
 <br>
 Options_and_Format_Name stores only:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["SampleRate"] - the samplerate, with which to render; 0, use project-settings<br>
@@ -53675,7 +53754,7 @@ Returns all render-preset-names for a) Bounds and output pattern/filename b) Opt
 <hr>
 <a class="anch" id="GetRenderPreset_RenderTable"></a>
 <a href="#GetRenderPreset_RenderTable"> ^</a> 
-<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/reaper6.62.png" alt="Reaper version 6.62">
 <img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>GetRenderPreset_RenderTable</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>table</i> RenderTable = <em>ultraschall.GetRenderPreset_RenderTable</em>(<i>string</i> Bounds_Name, <i>string</i> Options_and_Format_Name)</code></div>
@@ -53783,7 +53862,7 @@ Returns all render-preset-names for a) Bounds and output pattern/filename b) Opt
                                &amp;16, selected media items; 
                                &amp;32, selected project regions
                                &amp;64, razor edit areas
-   RenderTable[&quot;TailMS&quot;] - the amount of milliseconds of the tail; always 0, as this isn&#39;t stored in render-presets</code></pre>
+   RenderTable[&quot;TailMS&quot;] - the amount of milliseconds of the tail; for presets stored in Reaper 6.61 and earlier, it&#39;s always 0, as this wasn&#39;t stored in render-presets back then</code></pre>
 <p>Returns nil in case of an error</p>
 </div><br>      
 <u>Returnvalues:</u>
@@ -53844,7 +53923,7 @@ Returns nil in case of an error or if no such name was found<br>
 <hr>
 <a class="anch" id="SetRenderPreset"></a>
 <a href="#SetRenderPreset"> ^</a> 
-<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
+<img width="3%" src="gfx/reaper6.62.png" alt="Reaper version 6.62">
 <img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>SetRenderPreset</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.SetRenderPreset</em>(<i>string</i> Bounds_Name, <i>string</i> Options_and_Format_Name, <i>table</i> RenderTable)</code></div>
@@ -53859,7 +53938,7 @@ Changed render-presets are updated after (re-)opening in the Render to File-dial
 Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.<br>
 <br>
 Some settings aren't stored in Presets and will be ignored:<br>
-TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false<br>
+TailMS=0(Reaper 6.61 and earlier), SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false, NoSilentRender=false<br>
 <br>
 Bounds_Name stores only:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["Bounds"] - the bounds-dropdownlist, <br>
@@ -53892,6 +53971,7 @@ Bounds_Name stores only:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &8, all project regions<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &16, selected media items<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &32, selected project regions <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["TailMS"] - the length of the tail in milliseconds(Reaper 6.62+)<br>
 <br>
 Options_and_Format_Name stores only:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RenderTable["SampleRate"] - the samplerate, with which to render; 0, use project-settings<br>
