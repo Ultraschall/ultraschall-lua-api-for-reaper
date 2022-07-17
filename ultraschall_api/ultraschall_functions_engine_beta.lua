@@ -5435,3 +5435,70 @@ function ultraschall.GetCustomRegionIDFromGuid(guid)
 end
 
 --B,C=ultraschall.GetCustomRegionIDFromGuid("{84144A00-96EA-4AC6-ACB2-D2B0EEEB3CEB}")
+
+function ultraschall.TakeFX_GetAllGuidsFromAllTakes()
+  local Guids={}
+  for i=0, reaper.CountMediaItems(0)-1 do
+    for a=0, reaper.GetMediaItemNumTakes(reaper.GetMediaItem(0,i))-1 do
+      local take=reaper.GetMediaItemTake(reaper.GetMediaItem(0,i), a)
+      for b=0, reaper.TakeFX_GetCount(take)-1 do
+        Guids[#Guids+1]={}
+        Guids[#Guids]["guid"]=reaper.TakeFX_GetFXGUID(take, b)
+        Guids[#Guids]["take"]=take
+        Guids[#Guids]["fx_index"]=b
+      end
+    end
+  end
+  return Guids
+end
+
+--A=ultraschall.TakeFX_GetAllGuidsFromAllTakes()
+
+function ultraschall.TrackFX_GetAllGuidsFromAllTracks()
+  local Guids={}
+  track=reaper.GetMasterTrack(0)
+  for a=0, reaper.TrackFX_GetCount(track)-1 do
+    Guids[#Guids+1]={}
+    Guids[#Guids]["guid"]=reaper.TrackFX_GetFXGUID(track, a)
+    Guids[#Guids]["track"]=track
+    Guids[#Guids]["fx_index"]=a
+  end
+  
+  for i=0, reaper.CountTracks(0)-1 do
+    track=reaper.GetTrack(0,i)
+    for a=0, reaper.TrackFX_GetCount(track)-1 do
+      Guids[#Guids+1]={}
+      Guids[#Guids]["guid"]=reaper.TrackFX_GetFXGUID(track, a)
+      Guids[#Guids]["track"]=track
+      Guids[#Guids]["fx_index"]=a
+    end
+  end
+  return Guids
+end
+
+--A=ultraschall.TrackFX_GetAllGuidsFromAllTracks()
+
+function ultraschall.GetFXByGuid(guid)
+  if type(guid)~="string" then ultraschall.AddErrorMessage("GetFXByGuid", "guid", "must be a string", -1) return nil end
+  if ultraschall.IsValidGuid(guid, true)==false then ultraschall.AddErrorMessage("GetFXByGuid", "guid", "must be a valid guid", -2) return nil end
+  local retval
+  local FoundGuids={}
+  local Guids=ultraschall.TrackFX_GetAllGuidsFromAllTracks()
+  for i=1, #Guids do
+    if guid==Guids[i]["guid"] then
+      FoundGuids[#FoundGuids+1]={}
+      FoundGuids[#FoundGuids]["fx_index"]=Guids[i]["fx_index"]
+      FoundGuids[#FoundGuids]["track"]=Guids[i]["track"]
+    end
+  end
+  local Guids2=ultraschall.TakeFX_GetAllGuidsFromAllTakes()
+  for i=1, #Guids2 do
+    if guid==Guids2[i]["guid"] then
+      FoundGuids[#FoundGuids+1]={}
+      FoundGuids[#FoundGuids]["fx_index"]=Guids2[i]["fx_index"]
+      FoundGuids[#FoundGuids]["take"]=Guids2[i]["take"]
+      retval, FoundGuids[#FoundGuids]["name"]=reaper.TakeFX_GetFXName(Guids2[i]["take"], Guids2[i]["fx_index"])
+    end
+  end
+  return FoundGuids
+end
