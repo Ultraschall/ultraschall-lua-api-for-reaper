@@ -3531,7 +3531,7 @@ end
 
 
 
-function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines, remove_tabs, A)
+function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines, remove_tabs)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Base64_Encoder</slug>
