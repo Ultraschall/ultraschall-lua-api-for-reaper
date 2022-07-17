@@ -1093,18 +1093,16 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
 end
 
 
-
-
 function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_MKV_Video</slug>
     <requires>
-      Ultraschall=4.3
-      Reaper=5.975
+      Ultraschall=4.7
+      Reaper=6.62
       Lua=5.3
     </requires>
-    <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MKV_Video(string rendercfg)</functioncall>
+    <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, string VideoExportOptions, string AudioExportOptions = ultraschall.GetRenderCFG_Settings_MKV_Video(string rendercfg)</functioncall>
     <description>
       Returns the settings stored in a render-cfg-string for MKV-Video.
       
@@ -1131,6 +1129,13 @@ function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
       integer HEIGHT - the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
       boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+      string VideoExportOptions - the options for FFMPEG to apply to the video; examples: 
+                                - g=1 ; all keyframes
+                                - crf=1  ; h264 high quality
+                                - crf=51 ; h264 small size
+      string AudioExportOptions - the options for FFMPEG to apply to the audio; examples: 
+                                - q=0 ; mp3 VBR highest
+                                - q=9 ; mp3 VBR lowest
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the mkv-settings
@@ -1167,7 +1172,10 @@ function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
-  return VideoCodec, MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio
+  local FFMPEG_Options=Decoded_string:sub(45, -1)
+  local FFMPEG_Options_Audio, FFMPEG_Options_Video=FFMPEG_Options:match("(.-)\0(.-)\0")
+  
+  return VideoCodec, MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio, FFMPEG_Options_Video, FFMPEG_Options_Audio
 end
 
 
@@ -1176,11 +1184,11 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_AVI_Video</slug>
     <requires>
-      Ultraschall=4.3
-      Reaper=5.975
+      Ultraschall=4.7
+      Reaper=6.62
       Lua=5.3
     </requires>
-    <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_AVI_Video(string rendercfg)</functioncall>
+    <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, string VideoExportOptions, string AudioExportOptions = ultraschall.GetRenderCFG_Settings_AVI_Video(string rendercfg)</functioncall>
     <description>
       Returns the settings stored in a render-cfg-string for AVI_Video.
       
@@ -1211,6 +1219,13 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
       integer HEIGHT - the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
       boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+      string VideoExportOptions - the options for FFMPEG to apply to the video; examples: 
+                                - g=1 ; all keyframes
+                                - crf=1  ; h264 high quality
+                                - crf=51 ; h264 small size
+      string AudioExportOptions - the options for FFMPEG to apply to the audio; examples: 
+                                - q=0 ; mp3 VBR highest
+                                - q=9 ; mp3 VBR lowest
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the avi-settings
@@ -1248,7 +1263,10 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
-  return VideoCodec, MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio
+  local FFMPEG_Options=Decoded_string:sub(45, -1)
+  local FFMPEG_Options_Audio, FFMPEG_Options_Video=FFMPEG_Options:match("(.-)\0(.-)\0")
+  
+  return VideoCodec, MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio, FFMPEG_Options_Video, FFMPEG_Options_Audio
 end
 
 
@@ -1258,11 +1276,11 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_QTMOVMP4_Video</slug>
     <requires>
-      Ultraschall=4.3
-      Reaper=5.975
+      Ultraschall=4.7
+      Reaper=6.62
       Lua=5.3
     </requires>
-    <functioncall>integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(string rendercfg)</functioncall>
+    <functioncall>integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, string VideoExportOptions, string AudioExportOptions = ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(string rendercfg)</functioncall>
     <description>
       Returns the settings stored in a render-cfg-string for QT/MOV/MP4-video.
       
@@ -1288,6 +1306,13 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
                          - 0, H.264(only with FFMPEG 4.1.3 installed)
                          - 1, MPEG-2(only with FFMPEG 4.1.3 installed)
                          - 2, MJPEG
+      string VideoExportOptions - the options for FFMPEG to apply to the video; examples: 
+                                - g=1 ; all keyframes
+                                - crf=1  ; h264 high quality
+                                - crf=51 ; h264 small size
+      string AudioExportOptions - the options for FFMPEG to apply to the audio; examples: 
+                                - q=0 ; mp3 VBR highest
+                                - q=9 ; mp3 VBR lowest
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the qt/mov/mp4-settings
@@ -1322,7 +1347,10 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
-  return MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio, VideoCodec
+  local FFMPEG_Options=Decoded_string:sub(45, -1)
+  local FFMPEG_Options_Audio, FFMPEG_Options_Video=FFMPEG_Options:match("(.-)\0(.-)\0")
+  
+  return MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio, VideoCodec, FFMPEG_Options_Video, FFMPEG_Options_Audio
 end
 
 
@@ -8074,11 +8102,11 @@ function ultraschall.GetRenderCFG_Settings_MPEG1_Video(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_MPEG1_Video</slug>
     <requires>
-      Ultraschall=4.3
-      Reaper=6.20
+      Ultraschall=4.7
+      Reaper=6.62
       Lua=5.3
     </requires>
-    <functioncall>integer VIDEO_CODEC, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MPEG1_Video(string rendercfg)</functioncall>
+    <functioncall>integer VIDEO_CODEC, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, string VideoExportOptions, string AudioExportOptions = ultraschall.GetRenderCFG_Settings_MPEG1_Video(string rendercfg)</functioncall>
     <description>
       Returns the settings stored in a render-cfg-string for MPEG-1-Video.
       
@@ -8098,6 +8126,13 @@ function ultraschall.GetRenderCFG_Settings_MPEG1_Video(rendercfg)
       integer HEIGHT - the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
       boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+      string VideoExportOptions - the options for FFMPEG to apply to the video; examples: 
+                                - g=1 ; all keyframes
+                                - crf=1  ; h264 high quality
+                                - crf=51 ; h264 small size
+      string AudioExportOptions - the options for FFMPEG to apply to the audio; examples: 
+                                - q=0 ; mp3 VBR highest
+                                - q=9 ; mp3 VBR lowest
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the MPEG-1-settings
@@ -8130,7 +8165,10 @@ function ultraschall.GetRenderCFG_Settings_MPEG1_Video(rendercfg)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
-  return VideoCodec, AudioCodec, Width[1], Height[1], FPS, AspectRatio
+  local FFMPEG_Options=Decoded_string:sub(45, -1)
+  local FFMPEG_Options_Audio, FFMPEG_Options_Video=FFMPEG_Options:match("(.-)\0(.-)\0")
+  
+  return VideoCodec, AudioCodec, Width[1], Height[1], FPS, AspectRatio, FFMPEG_Options_Video, FFMPEG_Options_Audio
 end
 
 function ultraschall.GetRenderCFG_Settings_MPEG2_Video(rendercfg)
@@ -8138,11 +8176,11 @@ function ultraschall.GetRenderCFG_Settings_MPEG2_Video(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_MPEG2_Video</slug>
     <requires>
-      Ultraschall=4.3
-      Reaper=6.20
+      Ultraschall=4.7
+      Reaper=6.62
       Lua=5.3
     </requires>
-    <functioncall>integer VIDEO_CODEC, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MPEG2_Video(string rendercfg)</functioncall>
+    <functioncall>integer VIDEO_CODEC, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, string VideoExportOptions, string AudioExportOptions = ultraschall.GetRenderCFG_Settings_MPEG2_Video(string rendercfg)</functioncall>
     <description>
       Returns the settings stored in a render-cfg-string for MPEG-2-Video.
       
@@ -8163,6 +8201,13 @@ function ultraschall.GetRenderCFG_Settings_MPEG2_Video(rendercfg)
       integer HEIGHT - the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
       boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+      string VideoExportOptions - the options for FFMPEG to apply to the video; examples: 
+                                - g=1 ; all keyframes
+                                - crf=1  ; h264 high quality
+                                - crf=51 ; h264 small size
+      string AudioExportOptions - the options for FFMPEG to apply to the audio; examples: 
+                                - q=0 ; mp3 VBR highest
+                                - q=9 ; mp3 VBR lowest
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the MPEG-2-settings
@@ -8195,7 +8240,10 @@ function ultraschall.GetRenderCFG_Settings_MPEG2_Video(rendercfg)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
-  return VideoCodec, AudioCodec, Width[1], Height[1], FPS, AspectRatio
+  local FFMPEG_Options=Decoded_string:sub(45, -1)
+  local FFMPEG_Options_Audio, FFMPEG_Options_Video=FFMPEG_Options:match("(.-)\0(.-)\0")
+  
+  return VideoCodec, AudioCodec, Width[1], Height[1], FPS, AspectRatio, FFMPEG_Options_Video, FFMPEG_Options_Audio
 end
 
 function ultraschall.GetRenderCFG_Settings_FLV_Video(rendercfg)
@@ -8203,11 +8251,11 @@ function ultraschall.GetRenderCFG_Settings_FLV_Video(rendercfg)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetRenderCFG_Settings_FLV_Video</slug>
     <requires>
-      Ultraschall=4.3
-      Reaper=6.20
+      Ultraschall=4.7
+      Reaper=6.62
       Lua=5.3
     </requires>
-    <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_FLV_Video(string rendercfg)</functioncall>
+    <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, number FPS, boolean AspectRatio, string VideoExportOptions, string AudioExportOptions = ultraschall.GetRenderCFG_Settings_FLV_Video(string rendercfg)</functioncall>
     <description>
       Returns the settings stored in a render-cfg-string for FLV-Video.
       
@@ -8229,6 +8277,13 @@ function ultraschall.GetRenderCFG_Settings_FLV_Video(rendercfg)
       integer HEIGHT - the height of the video in pixels
       number FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
       boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+      string VideoExportOptions - the options for FFMPEG to apply to the video; examples: 
+                                - g=1 ; all keyframes
+                                - crf=1  ; h264 high quality
+                                - crf=51 ; h264 small size
+      string AudioExportOptions - the options for FFMPEG to apply to the audio; examples: 
+                                - q=0 ; mp3 VBR highest
+                                - q=9 ; mp3 VBR lowest
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the MPEG-2-settings
@@ -8261,7 +8316,10 @@ function ultraschall.GetRenderCFG_Settings_FLV_Video(rendercfg)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
-  return VideoCodec, MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio
+  local FFMPEG_Options=Decoded_string:sub(45, -1)
+  local FFMPEG_Options_Audio, FFMPEG_Options_Video=FFMPEG_Options:match("(.-)\0(.-)\0")
+  
+  return VideoCodec, MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio, FFMPEG_Options_Video, FFMPEG_Options_Audio
 end
 
 
