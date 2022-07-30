@@ -8955,7 +8955,7 @@
         <title>GetSet_LoopTimeRange2</title>
         <functioncall prog_lang="cpp">void GetSet_LoopTimeRange2(ReaProject* proj, bool isSet, bool isLoop, double* startOut, double* endOut, bool allowautoseek)</functioncall>
         <functioncall prog_lang="eel">GetSet_LoopTimeRange2(ReaProject proj, bool isSet, bool isLoop, &start, &end, bool allowautoseek)</functioncall>
-        <functioncall prog_lang="lua">number start retval, number end = reaper.GetSet_LoopTimeRange2(ReaProject proj, boolean isSet, boolean isLoop, number start, number end, boolean allowautoseek)</functioncall>
+        <functioncall prog_lang="lua">number start_sel, number end_sel = reaper.GetSet_LoopTimeRange2(ReaProject proj, boolean isSet, boolean isLoop, number start_sel, number end_sel, boolean allowautoseek)</functioncall>
         <functioncall prog_lang="python">(ReaProject proj, Boolean isSet, Boolean isLoop, Float startOut, Float endOut, Boolean allowautoseek) = RPR_GetSet_LoopTimeRange2(proj, isSet, isLoop, startOut, endOut, allowautoseek)</functioncall>
         <requires>
             Reaper=5.62

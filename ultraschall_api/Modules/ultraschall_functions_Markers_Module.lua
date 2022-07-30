@@ -1680,8 +1680,8 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition)
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
-  local scale=ultraschall.GetUIScale()
-  if dpi=="512" then scale=2 else scale=1 end 
+  local scale = ultraschall.GetScaleRangeFromDpi(tonumber(dpi))
+  if dpi=="512" then scale=2 elseif dpi=="256" then scale=1 end  
   
   ten=84*scale
   nine=76*scale
@@ -1767,8 +1767,9 @@ function ultraschall.GetMarkerByTime(position)
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
-  local scale=ultraschall.GetUIScale()
-  if dpi=="512" then scale=2 else scale=1 end 
+  local scale = ultraschall.GetScaleRangeFromDpi(tonumber(dpi))
+  if dpi=="512" then scale=2 elseif dpi=="256" then scale=1 end  
+  
   ten=84*scale
   nine=76*scale
   eight=68*scale
@@ -1779,6 +1780,7 @@ function ultraschall.GetMarkerByTime(position)
   three=28*scale
   two=20*scale
   one=12*scale
+  
   local retstring=""
   local retstring2=""
   local temp
@@ -1850,18 +1852,19 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition)
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
-  local scale=ultraschall.GetUIScale()
-  if dpi=="512" then scale=2 else scale=1 end 
-  ten=scale
-  nine=scale
-  eight=scale
-  seven=scale
-  six=scale
-  five=scale
-  four=scale
-  three=scale
-  two=scale
-  one=scale
+  local scale = ultraschall.GetScaleRangeFromDpi(tonumber(dpi))
+  if dpi=="512" then scale=2 elseif dpi=="256" then scale=1 end  
+  
+  ten=73*scale
+  nine=65*scale
+  eight=57*scale
+  seven=49*scale
+  six=41*scale
+  five=33*scale
+  four=25*scale
+  three=17*scale
+  two=10*scale
+  one=5*scale
   
   local retstring=""
   local retstring2=""
@@ -1883,7 +1886,7 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition)
       elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=math.floor(one)
       end
       A1, A2=xmouseposition-temp, xmouseposition
-      local Ax, AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp+3, xmouseposition+3)
+      local Ax, AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp+3, xmouseposition)
       if pos>=Ax and pos<=AAx then 
         retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" 
         retstring2=retstring2..tonumber(retval-1).."\n" 
@@ -1934,8 +1937,8 @@ function ultraschall.GetRegionByTime(position)
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
-  local scale=ultraschall.GetUIScale()
-  if dpi=="512" then scale=2 else scale=1 end 
+  local scale = ultraschall.GetScaleRangeFromDpi(tonumber(dpi))
+  if dpi=="512" then scale=2 elseif dpi=="256" then scale=1 end  
   
   ten=84*scale
   nine=76*scale
@@ -1986,7 +1989,7 @@ function ultraschall.GetTimeSignaturesByScreenCoordinates(xmouseposition)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTimeSignaturesByScreenCoordinates</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.7
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -2018,7 +2021,9 @@ function ultraschall.GetTimeSignaturesByScreenCoordinates(xmouseposition)
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
-  if dpi=="512" then scale=2 else scale=1 end 
+  local scale = ultraschall.GetScaleRangeFromDpi(tonumber(dpi))
+  if dpi=="512" then scale=2 elseif dpi=="256" then scale=1 end  
+  
   ten=84*scale
   nine=76*scale
   eight=68*scale
@@ -2055,7 +2060,7 @@ function ultraschall.GetTimeSignaturesByTime(position)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTimeSignaturesByTime</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.7
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -2087,7 +2092,9 @@ function ultraschall.GetTimeSignaturesByTime(position)
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
-  if dpi=="512" then scale=2 else scale=1 end 
+  local scale = ultraschall.GetScaleRangeFromDpi(tonumber(dpi))
+  if dpi=="512" then scale=2 elseif dpi=="256" then scale=1 end  
+  
   ten=84*scale
   nine=76*scale
   eight=68*scale

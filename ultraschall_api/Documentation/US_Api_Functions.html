@@ -22461,7 +22461,7 @@ returns -1 in case of an error<br>
 <a class="anch" id="GetTimeSignaturesByScreenCoordinates"></a>
 <a href="#GetTimeSignaturesByScreenCoordinates"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetTimeSignaturesByScreenCoordinates</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>GetTimeSignaturesByScreenCoordinates</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> markers = <em>ultraschall.GetTimeSignaturesByScreenCoordinates</em>(<i>integer</i> xmouseposition)</code></div>
 </div><p>
@@ -22491,7 +22491,7 @@ Can contain numerous markers, if there are more markers in one position.</td></t
 <a class="anch" id="GetTimeSignaturesByTime"></a>
 <a href="#GetTimeSignaturesByTime"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetTimeSignaturesByTime</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>GetTimeSignaturesByTime</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> markers = <em>ultraschall.GetTimeSignaturesByTime</em>(<i>number</i> position)</code></div>
 </div><p>
@@ -28142,9 +28142,9 @@ each statechunk contains an additional entry "ULTRASCHALL_TRACKNUMBER" which hol
 <a class="anch" id="RippleCut"></a>
 <a href="#RippleCut"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>RippleCut</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>RippleCut</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> number_items, <i>array</i> MediaItemArray_StateChunk = <em>ultraschall.RippleCut</em>(<i>number</i> startposition, <i>number</i> endposition, <i>string</i> trackstring, <i>boolean</i> moveenvelopepoints, <i>boolean</i> add_to_clipboard, <i>boolean</i> movemarkers)</code></div>
+<div class="l">Lua: <code> <i>integer</i> number_items, <i>array</i> MediaItemArray_StateChunk = <em>ultraschall.RippleCut</em>(<i>number</i> startposition, <i>number</i> endposition, <i>string</i> trackstring, <i>boolean</i> moveenvelopepoints, <i>boolean</i> add_to_clipboard, <i>boolean</i> movemarkers, <i>optional</i> <i>boolean</i> obey_crossfade)</code></div>
 </div><p>
 <div class="ch">
 Cuts out all items between startposition and endposition in the tracks given by trackstring. After cut, it moves the remaining items after(!) endposition toward projectstart, by the difference between start and endposition.<br>
@@ -28187,6 +28187,10 @@ Returns -1 in case of failure.<br>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> movemarkers</td></tr>
 <tr><td class="ch2">true or nil, move markers; false, don't move markers</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> obey_crossfade</td></tr>
+<tr><td class="ch2">true, apply crossfade with the default length set in preferences; nil or false, apply no crossfade</td></tr>
 </table>
 <br>
 </div>
