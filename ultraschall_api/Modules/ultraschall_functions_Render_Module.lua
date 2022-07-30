@@ -4783,7 +4783,8 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
                                         &16, selected media items; 
                                         &32, selected project regions
                                         &64, razor edit areas
-            RenderTable["TailMS"] - the amount of milliseconds of the tail; for presets stored in Reaper 6.61 and earlier, it's always 0, as this wasn't stored in render-presets back then
+            RenderTable["TailMS"] - the amount of milliseconds of the tail; for presets stored in Reaper 6.61 and 
+                                  - earlier, it's always 0, as this wasn't stored in render-presets back then
 
      Returns nil in case of an error
    </description>

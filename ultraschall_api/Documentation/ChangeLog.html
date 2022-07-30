@@ -45,6 +45,10 @@ Bla</li>
 <h4>New features in 4.7</h4>
 <ul>
 <li>DeveloperTools: FindCurrentlyUsedExtstatesNamesInAFile - looks through a selected file and checks, whether its strings are currently used extstates</li>
+<li>FXManagement: GetFXByGuid - gets a fx by its guid</li>
+<li>FXManagement: TrackFX_GetAllGuidsFromAllTracks - returns all guids from all tracks of the current project</li>
+<li>FXManagement: TakeFX_GetAllGuidsFromAllTakes - returns all guids from all takes of the current project<br />
+</li>
 <li>MarkerManagement: GetMarkerType - returns the type of a marker</li>
 <li>MarkerManagement: GetGuidFromCustomMarkerID - returns the guid from a custom-marker-index</li>
 <li>MarkerManagement: GetGuidFromCustomRegionID - returns the guid from a custom-region-index</li>
@@ -97,7 +101,10 @@ Bla</li>
 <li>PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes<br />
 </li>
 <li>Rendering: ResolvePresetName - resolves the name of a preset into the correct case-sensitivity, as stored in reaper-render.ini</li>
-<li>UserInterface: GetReaperWindow_Position - returns the Reaper-window-position and various of its elements</li>
+<li>UserInterface: GetReaperWindow_Position - returns the Reaper-window-position and various of its elements<br />
+</li>
+<li>UserInterface: GetScaleRangeFromDpi - returns the scale-range a certain dpi-value has</li>
+<li>UserInterface: GetDpiFromScale - returns the dpi for a specific scale</li>
 </ul>
 <h4>Changes from 4.6 to 4.7</h4>
 <ul>
@@ -109,6 +116,7 @@ Bla</li>
 <li>DeveloperTools: ItemStateChunk from Clipboard to item under mouse - copied statechunk into clipboard instead of setting it oooppsss -&gt; fixed</li>
 <li>DeveloperTools: LangPack2Developer_langpack_converter - shows now conversion progress in ReaScript-console</li>
 <li>DeveloperTools: MonitorParmModulation - did crash, when a parameter-modulation was added after monitoring started -&gt; fixed</li>
+<li>DeveloperTools: SortLinesInClipboardText - lost the last line before sorting -&gt; fixed</li>
 <li>DeveloperTools: Theme Parameter Monitor - updates now the list immediately, when the current theme is changed</li>
 <li>DeveloperTools: Trackstatechunk from clip to track under mouse - copied trackstatechunk into clipboard instead of setting it -&gt; fixed</li>
 <li>Docs: Reaper Internals - updated to Reaper 6.64 and ReaImGui 0.6.2, added the various misc-docs to a dedicated page in Reaper-Internals</li>
@@ -119,9 +127,11 @@ Bla</li>
 <li>HelperFunctions: ConvertAscii2Hex - sped up massively for longer strings</li>
 <li>HelperFunctions: ConvertHex2Ascii - sped up massively for longer strings</li>
 <li>Helperfunctions: OpenURL - did return true in case of success, though the docs state integer should be returned -&gt; fixed now, returns 1</li>
-<li>MarkerManagement: GetMarkerByScreenCoordinates - returns now an additional retval with the marker-number(s)<br />
+<li>MarkerManagement: GetMarkerByScreenCoordinates - returns now an additional retval with the marker-number(s); takes now scale-factor into account<br />
 </li>
+<li>MarkerManagement: GetMarkerByTime - returns now an additional retval with the marker-number(s); takes now scale-factor into account</li>
 <li>MarkerManagement: GetRegionByScreenCoordinates - returns now an additional retval with the region-number(s)</li>
+<li>MarkerManagement: GetRegionByTime - returns now an additional retval with the region-number(s); takes now scale-factor into account</li>
 <li>MarkerManagement: GetShownoteMarkerIDFromGuid - did add error-messages to the error-messaging system without needing this -&gt; fixed</li>
 <li>MarkerManagement: GetTemporaryMarker - marker_id should be 0-based -&gt; fixed</li>
 <li>MarkerManagement: IsMarkerShownote - returns now the shownote-index as well<br />
@@ -153,6 +163,7 @@ Bla</li>
 <li>Rendering: RenderProject_RenderTable - didn't increment filename when rendering filename under certain circumstances -&gt; fixed (thnx to aurelien)</li>
 <li>Rendering: SetRenderPreset - bounds and options-name are now case-insensitive -&gt; (thnx to Malik)</li>
 <li>UltraschallConfigFiles: GetUSExternalState - did return nil when file did not exist, though docs claimed "" -&gt; fixed</li>
+<li>UserInterface: SetUIScale - allows now for scaling higher than 2000</li>
 <li>UserInterface: ShowMenu - did only open once in a script though it should open multiple times -&gt; fixed</li>
 </ul>
 <hr />

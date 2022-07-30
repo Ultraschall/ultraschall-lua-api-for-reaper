@@ -1680,7 +1680,9 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition)
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
+  local scale=ultraschall.GetUIScale()
   if dpi=="512" then scale=2 else scale=1 end 
+  
   ten=84*scale
   nine=76*scale
   eight=68*scale
@@ -1695,23 +1697,23 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition)
   local retstring=""
   local retstring2=""
   local temp
-  
+ 
   local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
   for i=0, retval do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
     if isrgn==false then
-      if markrgnindexnumber>999999999 then temp=ten
-      elseif markrgnindexnumber>99999999 and markrgnindexnumber<1000000000  then temp=nine
-      elseif markrgnindexnumber>9999999 and markrgnindexnumber<100000000 then temp=eight
-      elseif markrgnindexnumber>999999 and markrgnindexnumber<10000000 then temp=seven
-      elseif markrgnindexnumber>99999 and markrgnindexnumber<1000000 then temp=six
-      elseif markrgnindexnumber>9999 and markrgnindexnumber<100000 then temp=five
-      elseif markrgnindexnumber>999 and markrgnindexnumber<10000 then temp=four
-      elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=three
-      elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
-      elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
+      if markrgnindexnumber>999999999 then temp=math.floor(ten)
+      elseif markrgnindexnumber>99999999 and markrgnindexnumber<1000000000  then temp=math.floor(nine)
+      elseif markrgnindexnumber>9999999 and markrgnindexnumber<100000000 then temp=math.floor(eight)
+      elseif markrgnindexnumber>999999 and markrgnindexnumber<10000000 then temp=math.floor(seven)
+      elseif markrgnindexnumber>99999 and markrgnindexnumber<1000000 then temp=math.floor(six)
+      elseif markrgnindexnumber>9999 and markrgnindexnumber<100000 then temp=math.floor(five)
+      elseif markrgnindexnumber>999 and markrgnindexnumber<10000 then temp=math.floor(four)
+      elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=math.floor(three)
+      elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=math.floor(two)
+      elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=math.floor(one)
       end
-      local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp,xmouseposition) 
+      local Ax,AAx = reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp,xmouseposition) 
       local ALABAMA=xmouseposition
       if pos>=Ax and pos<=AAx then 
         retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" 
@@ -1727,11 +1729,11 @@ function ultraschall.GetMarkerByTime(position)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetMarkerByTime</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.7
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string markers = ultraschall.GetMarkerByTime(number position)</functioncall>
+  <functioncall>string markers, string marker_index = ultraschall.GetMarkerByTime(number position)</functioncall>
   <description>
     returns the markers at a given project-position in seconds. 
     It sees markers according their actual graphical representation in the arrange-view, not just their position. 
@@ -1746,7 +1748,8 @@ function ultraschall.GetMarkerByTime(position)
   </description>
   <retvals>
     string marker - a string with all markernumbers, markerpositions and markertitles, separated by a newline. 
-    -Can contain numerous markers, if there are more markers in one position.
+                  -Can contain numerous markers, if there are more markers in one position.
+    string marker_index - a newline separated string with all marker-index-numbers found; 0-based
   </retvals>
   <parameters>
     number position - the time-position in seconds
@@ -1764,6 +1767,7 @@ function ultraschall.GetMarkerByTime(position)
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
+  local scale=ultraschall.GetUIScale()
   if dpi=="512" then scale=2 else scale=1 end 
   ten=84*scale
   nine=76*scale
@@ -1776,6 +1780,7 @@ function ultraschall.GetMarkerByTime(position)
   two=20*scale
   one=12*scale
   local retstring=""
+  local retstring2=""
   local temp
   
   local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
@@ -1783,23 +1788,26 @@ function ultraschall.GetMarkerByTime(position)
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
     if isrgn==false then
       if markrgnindexnumber>999999999 then temp=ten
-      elseif markrgnindexnumber>99999999 and markrgnindexnumber<1000000000  then temp=nine
-      elseif markrgnindexnumber>9999999 and markrgnindexnumber<100000000 then temp=eight
-      elseif markrgnindexnumber>999999 and markrgnindexnumber<10000000 then temp=seven
-      elseif markrgnindexnumber>99999 and markrgnindexnumber<1000000 then temp=six
-      elseif markrgnindexnumber>9999 and markrgnindexnumber<100000 then temp=five
-      elseif markrgnindexnumber>999 and markrgnindexnumber<10000 then temp=four
-      elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=three
-      elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
-      elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
+      elseif markrgnindexnumber>99999999 and markrgnindexnumber<1000000000  then temp=math.floor(nine)
+      elseif markrgnindexnumber>9999999 and markrgnindexnumber<100000000 then temp=math.floor(eight)
+      elseif markrgnindexnumber>999999 and markrgnindexnumber<10000000 then temp=math.floor(seven)
+      elseif markrgnindexnumber>99999 and markrgnindexnumber<1000000 then temp=math.floor(six)
+      elseif markrgnindexnumber>9999 and markrgnindexnumber<100000 then temp=math.floor(five)
+      elseif markrgnindexnumber>999 and markrgnindexnumber<10000 then temp=math.floor(four)
+      elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=math.floor(three)
+      elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=math.floor(two)
+      elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=math.floor(one)
       end 
       local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.get_ini_file())
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
       local Bx=AAx-Ax
-      if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name end      
+      if Bx+pos>=position and pos<=position then 
+        retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name 
+        retstring2=retstring2..tonumber(retval-1).."\n" 
+      end
     end
   end
-  return retstring
+  return retstring, retstring2
 end
 
 
@@ -1837,21 +1845,23 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition)
   <tags>markermanagement, navigation, get region, position, region</tags>
 </US_DocBloc>
 ]]
+  
   if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetRegionByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
+  local scale=ultraschall.GetUIScale()
   if dpi=="512" then scale=2 else scale=1 end 
-  ten=84*scale
-  nine=76*scale
-  eight=68*scale
-  seven=60*scale
-  six=52*scale
-  five=44*scale
-  four=36*scale
-  three=28*scale
-  two=20*scale
-  one=12*scale
+  ten=scale
+  nine=scale
+  eight=scale
+  seven=scale
+  six=scale
+  five=scale
+  four=scale
+  three=scale
+  two=scale
+  one=scale
   
   local retstring=""
   local retstring2=""
@@ -1862,17 +1872,18 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition)
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
     if isrgn==true then
       if markrgnindexnumber>999999999 then temp=ten
-      elseif markrgnindexnumber>99999999 and markrgnindexnumber<1000000000  then temp=nine
-      elseif markrgnindexnumber>9999999 and markrgnindexnumber<100000000 then temp=eight
-      elseif markrgnindexnumber>999999 and markrgnindexnumber<10000000 then temp=seven
-      elseif markrgnindexnumber>99999 and markrgnindexnumber<1000000 then temp=six
-      elseif markrgnindexnumber>9999 and markrgnindexnumber<100000 then temp=five
-      elseif markrgnindexnumber>999 and markrgnindexnumber<10000 then temp=four
-      elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=three
-      elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
-      elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
+      elseif markrgnindexnumber>99999999 and markrgnindexnumber<1000000000  then temp=math.floor(nine)
+      elseif markrgnindexnumber>9999999 and markrgnindexnumber<100000000 then temp=math.floor(eight)
+      elseif markrgnindexnumber>999999 and markrgnindexnumber<10000000 then temp=math.floor(seven)
+      elseif markrgnindexnumber>99999 and markrgnindexnumber<1000000 then temp=math.floor(six)
+      elseif markrgnindexnumber>9999 and markrgnindexnumber<100000 then temp=math.floor(five)
+      elseif markrgnindexnumber>999 and markrgnindexnumber<10000 then temp=math.floor(four)
+      elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=math.floor(three)
+      elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=math.floor(two)
+      elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=math.floor(one)
       end
-      local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp,xmouseposition) 
+      A1, A2=xmouseposition-temp, xmouseposition
+      local Ax, AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp+3, xmouseposition+3)
       if pos>=Ax and pos<=AAx then 
         retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" 
         retstring2=retstring2..tonumber(retval-1).."\n" 
@@ -1890,13 +1901,13 @@ function ultraschall.GetRegionByTime(position)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRegionByTime</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.7
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string markers = ultraschall.GetRegionByTime(number position)</functioncall>
+  <functioncall>string markers, string region_index = ultraschall.GetRegionByTime(number position)</functioncall>
   <description>
-    returns the regions at a given absolute-x-pixel-position. It sees regions according their graphical representation in the arrange-view, not just their position! Returned string will be "Regionidx\npos\nName\nRegionidx2\npos2\nName2\n...".
+    returns the regions at a given position in seconds. It sees regions according their graphical representation in the arrange-view, not just their position! Returned string will be "Regionidx\npos\nName\nRegionidx2\npos2\nName2\n...".
     Returns only regions, no timesignature-markers or other markers!
     Will return "", if no region has been found.
     
@@ -1904,7 +1915,8 @@ function ultraschall.GetRegionByTime(position)
   </description>
   <retvals>
     string marker - a string with all regionnumbers, regionpositions and regionnames, separated by a newline. 
-    -Can contain numerous regions, if there are more regions in one position.
+                  - Can contain numerous regions, if there are more regions in one position.
+    string region_index - a newline separated string with all region-index-numbers found; 0-based
   </retvals>
   <parameters>
     number position - position in seconds
@@ -1922,7 +1934,9 @@ function ultraschall.GetRegionByTime(position)
   local one,two,three,four,five,six,seven,eight,nine,ten,scale
   local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
 
+  local scale=ultraschall.GetUIScale()
   if dpi=="512" then scale=2 else scale=1 end 
+  
   ten=84*scale
   nine=76*scale
   eight=68*scale
@@ -1935,31 +1949,36 @@ function ultraschall.GetRegionByTime(position)
   one=12*scale
   
   local retstring=""
+  local retstring2=""
   local temp
   local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
   for i=0, retval do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
     if isrgn==true then
       if markrgnindexnumber>999999999 then temp=ten
-      elseif markrgnindexnumber>99999999 and markrgnindexnumber<1000000000  then temp=nine
-      elseif markrgnindexnumber>9999999 and markrgnindexnumber<100000000 then temp=eight
-      elseif markrgnindexnumber>999999 and markrgnindexnumber<10000000 then temp=seven
-      elseif markrgnindexnumber>99999 and markrgnindexnumber<1000000 then temp=six
-      elseif markrgnindexnumber>9999 and markrgnindexnumber<100000 then temp=five
-      elseif markrgnindexnumber>999 and markrgnindexnumber<10000 then temp=four
-      elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=three
-      elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
-      elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
+      elseif markrgnindexnumber>99999999 and markrgnindexnumber<1000000000  then temp=math.floor(nine)
+      elseif markrgnindexnumber>9999999 and markrgnindexnumber<100000000 then temp=math.floor(eight)
+      elseif markrgnindexnumber>999999 and markrgnindexnumber<10000000 then temp=math.floor(seven)
+      elseif markrgnindexnumber>99999 and markrgnindexnumber<1000000 then temp=math.floor(six)
+      elseif markrgnindexnumber>9999 and markrgnindexnumber<100000 then temp=math.floor(five)
+      elseif markrgnindexnumber>999 and markrgnindexnumber<10000 then temp=math.floor(four)
+      elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=math.floor(three)
+      elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=math.floor(two)
+      elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=math.floor(one)
       end
       local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.get_ini_file())
-      local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
+      local Ax,AAx=reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp, ARetval2+57)
       local Bx=AAx-Ax
-      if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n"
-      elseif pos<=position and rgnend>=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name
+      if Bx+pos>=position and pos<=position then 
+        retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n"
+        retstring2=retstring2..tonumber(retval-1).."\n" 
+      elseif pos<=position and rgnend>=position then 
+        retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name, 2
+        retstring2=retstring2..tonumber(retval-1).."\n" 
       end
     end
   end
-  return retstring
+  return retstring, retstring2
 end
 
 function ultraschall.GetTimeSignaturesByScreenCoordinates(xmouseposition)
