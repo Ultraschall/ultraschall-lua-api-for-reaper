@@ -5723,3 +5723,61 @@ function ultraschall.GetDpiFromScale(scale)
     return tonumber(dpi), 2
   end
 end
+
+function ultraschall.ToggleCrossfadeStateForSplits(toggle)
+  --[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToggleCrossfadeStateForSplits</slug>
+  <requires>
+    Ultraschall=4.7
+    Reaper=6.20
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, boolean curstate = ultraschall.ToggleCrossfadeStateForSplits(optional boolean toggle)</functioncall>
+  <description>
+    Sets the state of crossfade for splitting items to either on/off or toggling it.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting state was successful; false, setting state was unsuccessful
+    boolean curstate - true, crossfade split is turned on; false, crossfade split is turned off
+  </retvals>
+  <parameters>
+    optional boolean toggle - nil, toggle setting of crossfade-splitstate; true, set crossfade split on; false, set crossfade split off
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitemmanagement, toggle, set, crossfade, split, items, mediaitems</tags>
+</US_DocBloc>
+]]
+  if toggle~=nil and type(toggle)~="boolean" then ultraschall.AddErrorMessage("ToggleCrossfadeStateForSplits", "toggle", "must be either nil(for toggle) or boolean", -1) return false end
+  local retval=reaper.SNM_GetIntConfigVar("splitautoxfade", -1)
+  local retval2
+  if toggle==true and retval&1==0 then
+    retval=retval+1
+    reaper.SNM_SetIntConfigVar("splitautoxfade", retval)
+    retval2=true
+  elseif toggle==false and retval&1==1 then
+    retval=retval-1
+    reaper.SNM_SetIntConfigVar("splitautoxfade", retval)
+    retval2=false
+  elseif toggle==nil then
+    if retval&1==0 then
+      retval=retval+1
+      reaper.SNM_SetIntConfigVar("splitautoxfade", retval)
+    elseif retval&1==1 then
+      retval=retval-1
+      reaper.SNM_SetIntConfigVar("splitautoxfade", retval)
+    end
+    retval2=retval&1==1
+  else
+    retval2=retval&1==1
+  end
+  return true, retval2
+end
