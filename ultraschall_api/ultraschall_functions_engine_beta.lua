@@ -1298,12 +1298,12 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   if A[1]==false then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "idx", "no such shownote-marker", -5) return false end
   
   if is_set==true then
-    local content2
+    local content2=content
     if attributename=="image_content" and content:sub(1,6)~="ÿØÿ" and content:sub(2,4)~="PNG" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "image_content: only png and jpg are supported", -6) return false end    
     if attributename=="shwn_event_ics_data" then content2=ultraschall.Base64_Encoder(content) end
     Retval = ultraschall.SetMarkerExtState(A[2]+1, attributename, content2)
     if Retval==-1 then Retval=false else Retval=true end
-    B=content    
+    B=content
   else
     B=ultraschall.GetMarkerExtState(A[2]+1, attributename, content)
     if attributename=="shwn_event_ics_data" then B=ultraschall.Base64_Decoder(B) end
