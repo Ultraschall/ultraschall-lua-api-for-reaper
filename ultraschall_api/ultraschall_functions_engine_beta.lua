@@ -1837,7 +1837,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
   end
     
   if idx<1 then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "idx", "no such chapter-marker", -8) return false end
-  local content2
+  local content2=content
   if is_set==false then    
     --print2("")
     local B=ultraschall.GetMarkerExtState(idx, attributename)
