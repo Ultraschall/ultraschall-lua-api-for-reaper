@@ -22789,7 +22789,11 @@ returns false in case of an error<br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> marker_id</td></tr>
-<tr><td class="ch2">the index of the marker/region within all markers and regions, that you want to temporarily store; 0-based; -1, to remove this temporary marker</td></tr>
+<tr><td class="ch2">the index of the marker/region within all markers and regions, that you want to temporarily store; 0-based; <br/>
+-1, to remove this temporary marker; <br/>
+-2, to store the last marker before edit-cursor position<br/>
+-3, to store the last marker before play-cursor position<br/>
+-4, to store the last marker before position underneath mouse-cursor</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>integer</i> index</td></tr>
