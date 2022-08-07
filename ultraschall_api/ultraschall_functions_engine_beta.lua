@@ -5781,3 +5781,35 @@ function ultraschall.ToggleCrossfadeStateForSplits(toggle)
   end
   return true, retval2
 end
+
+function ultraschall.EventManager_Debug_GetExecutionTime()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_Debug_GetExecutionTime</slug>
+  <requires>
+    Ultraschall=4.7
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>number seconds = ultraschall.EventManager_Debug_GetExecutionTime()</functioncall>
+  <description>
+    Returns the numer of seconds it cost the last time all events were checked in the eventmanager.
+    That way, you can benchmark, how much execution time the events need and optimise when needed.
+    
+    Needs DebugMode to be turned on.
+    
+    Note: Debugmode is not for productive usecases, as it costs resources. Please turn it off again, after you've finished debugging.
+    
+    return -1, if debugmode is off/eventmanager is not running
+  </description>  
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_EventManager.lua</source_document>
+  <tags>event manager, get, execution time, debug</tags>
+</US_DocBloc>
+--]]
+  local exectime=tonumber(reaper.GetExtState("ultraschall_eventmanager", "Execution Time"))
+  if exectime==nil then return -1 else return exectime end
+end
