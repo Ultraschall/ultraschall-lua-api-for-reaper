@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="53964.00" author="Meo Mespotine">
+      <version name="53977.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -1465,6 +1465,8 @@ New features in 4.7
     with all event-identifiers of all currently registered events
 -   EventManager: EventManager_GetAllEventNames - returns a table with
     all event-names of all currently registered events
+-   EventManager: EventManager_GetEventPausedState - returns the paused
+    states of a currently registered event
 -   FXManagement: GetFXByGuid - gets a fx by its guid
 -   FXManagement: TrackFX_GetAllGuidsFromAllTracks - returns all guids
     from all tracks of the current project
@@ -1479,55 +1481,6 @@ New features in 4.7
     custom-marker-index and name from a guid
 -   MarkerManagement: GetCustomRegionIDFromGuid - returns the
     custom-region-index and name from a guid
--   MarkerManagement: MarkerMenu_CountEntries - counts the number of
-    entries in the markermenu for a specific custom marker/region
--   MarkerManagement: MarkerMenu_CountEntries_DefaultMarkers - counts
-    the number of entries in the markermenu for a specific default
-    marker/region
--   MarkerManagement: MarkerMenu_Debug - shows in the ReaScript-console
-    debug-messages like the right-clicked-marker-type, when using the
-    marker/region-hijack-script(see MarkerMenu_Start)
--   MarkerManagement: MarkerMenu_GetAvailableTypes - gets the marker-
-    and region-types, that are currently added to the marker-menu
--   MarkerManagement: MarkerMenu_GetEntry - gets the action and
-    description of a marker-entry for a certain
-    custom-marker/region-type
--   MarkerManagement: MarkerMenu_GetEntry_DefaultMarkers - gets the
-    action and description of a marker-entry for a certain
-    default-marker/region-type from Ultraschall
--   MarkerManagement: MarkerMenu_GetLastClickedMenuEntry - gets the last
-    clicked marker-menu-entry, including name, position, additional data
-    and marker-type
--   MarkerManagement: MarkerMenu_InsertEntry - inserts a new
-    marker-entry into the marker menu for a custom marker/region
--   MarkerManagement: MarkerMenu_InsertEntry_DefaultMarkers - inserts a
-    new marker-entry into the marker menu for markers/regions of
-    Ultraschall
--   MarkerManagement: MarkerMenu_RemoveEntry - removes the action and
-    description of a marker-entry for a certain
-    custom-marker/region-type
--   MarkerManagement: MarkerMenu_RemoveEntry_DefaultMarkers - removes
-    the action and description of a marker-entry for a certain
-    default-marker/region-type from Ultraschall
--   MarkerManagement: MarkerMenu_RemoveSubMenu - removes a submenu from
-    the marker-menu of a specific custom-marker/region
--   MarkerManagement: MarkerMenu_RemoveSubMenu_DefaultMarkers - removes
-    a submenu from the marker-menu of a specific default marker/region
--   MarkerManagement: MarkerMenu_SetEntry - gets the action and
-    description of a marker-entry for a certain
-    custom-marker/region-type
--   MarkerManagement: MarkerMenu_SetEntry_DefaultMarkers - sets the
-    action and description of a marker-entry for a certain
-    default-marker/region-type from Ultraschall
--   MarkerManagement: MarkerMenu_SetStartupAction - sets a
-    startup-action in the markermenu for a specific custom marker/region
--   MarkerManagement: MarkerMenu_SetStartupAction_DefaultMarkers - sets
-    a startup-action in the markermenu for a certain
-    default-marker/region-type from Ultraschall
--   MarkerManagement: MarkerMenu_Start - starts a background-script that
-    hijacks the marker-context-menu when rightclicking markers/regions
--   MarkerManagement: MarkerMenu_Stop - stops the background-script that
-    hijacks the marker-context-menu when rightclicking markers/regions
 -   MarkerManagement: RenumerateNormalMarkers - renumerates the
     shown-number of all normal-markers
 -   MarkerManagement: RenumerateShownoteMarkers - renumerates the
@@ -1550,50 +1503,6 @@ New features in 4.7
 -   Navigation: GetPreviousClosestItemStart - gets the previous closest
     item-start within given tracks and from a specific
     position(requested by Moritz Klenk)
--   PodcastMetadata: GetAllChapters_MetaDataEntry - gets all
-    chapter-metadata-entries between start and endposition according to
-    the PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetAllShownotes_MetaDataEntry - gets all
-    shownote-metadata-entries between start and endposition according to
-    the PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcast_MetaDataEntry - returns the podcast’s
-    metadata-entry according to the PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastChapter_MetaDataEntry - returns a
-    podcast’s chapter-metadata-entry according to the
-    PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastEpisode_MetaDataEntry - returns the
-    podcast’s episode-related metadata-entry according to the
-    PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastEpisodeAttributesPreset_Name - gets the
-    name of an episode -metadata-preset
--   PodcastMetadata: GetPodcastShownote_MetaDataEntry - returns a
-    podcast’s shownote-metadata-entry according to the
-    PODCAST_METADATA:“v1”-standard
--   PodcastMetadata: GetPodcastAttributesPreset_Name - gets the name of
-    a podcast-metadata-preset
--   PodcastMetadata: GetSetChapterMarker_Attributes - gets/sets
-    metadata-attributes of a chapter-marker(using Ultraschall 4+
-    methods)
--   PodcastMetadata: GetSetPodcast_Attributes - gets/sets
-    metadata-attributes of a podcast
--   PodcastMetadata: GetSetPodcastEpisode_Attributes - gets/sets
-    metadata-attributes of a podcast-episode
--   PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets
-    string attributes for podcast-export in Ultraschall
--   PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets
-    number attributes for podcast-export in Ultraschall
--   PodcastMetadata: GetSetShownoteMarker_Attributes - gets/sets
-    additional attributes of a shownote-marker
--   PodcastMetadata: GetSetTranscription_Attributes gets/sets
-    transcriptions for the podcast(needs either srt or webvtt-files
-    created externally…)
--   PodcastMetadata: SetPodcastEpisodeAttributesPreset_Name - sets the
-    name of an episode-metadata-preset
--   PodcastMetadata: SetPodcastAttributesPreset_Name - sets the name of
-    a podcast-metadata-preset
--   PodcastMetadata: WritePodcastMetaData - creates metadata-entries
-    according to the PODCAST_METADATA:“v1”-standard and optionally
-    writes it into a file or adds it to id3, vorbis-metadata-schemes
 -   Rendering: ResolvePresetName - resolves the name of a preset into
     the correct case-sensitivity, as stored in reaper-render.ini
 -   UserInterface: GetReaperWindow_Position - returns the
@@ -1758,7 +1667,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1604 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53964 from 09.08.2022 02:41:46).}
+a 1557 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1772,7 +1681,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1604 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1557 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -1896,7 +1805,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1604 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53964 from 09.08.2022 02:41:46).}
+a 1557 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1910,7 +1819,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1604 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1557 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

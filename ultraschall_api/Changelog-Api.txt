@@ -274,13 +274,58 @@ Note: Doesn't fucking work...
  - Markers can be used for rendering now
  - Fade In/Fade Out added now
  - FFMPEG-formats have now NONE as option for Audio/Video format; please add to get/create-rendercfg-functions
+ 
+ (Later)
  - Add MetaData-Userfield that stores the RenderTable-contents, so it's possible to retain the exact rendering-attributes from the rendered file.
     Probably only ID3, VORBIS COMMENT, IXML and APE, as all others have no USER-field...
     The Userfield should be called "Ultraschall-API RenderAttributes" and probably include the source-project-filename.
 readd in next version:
   
 
-  
+To Do for next version:
+   Render To Do:
+   - Markers can be used for rendering now
+   - Fade In/Fade Out added now
+   - FFMPEG-formats have now NONE as option for Audio/Video format; please add to get/create-rendercfg-functions
+
+readd in next version
+  - MarkerManagement: MarkerMenu\_CountEntries - counts the number of entries in the markermenu for a specific custom marker/region
+  - MarkerManagement: MarkerMenu\_CountEntries\_DefaultMarkers - counts the number of entries in the markermenu for a specific default marker/region
+  - MarkerManagement: MarkerMenu\_Debug - shows in the ReaScript-console debug-messages like the right-clicked-marker-type, when using the marker/region-hijack-script(see MarkerMenu_Start)
+  - MarkerManagement: MarkerMenu\_GetAvailableTypes - gets the marker- and region-types, that are currently added to the marker-menu
+  - MarkerManagement: MarkerMenu\_GetEntry - gets the action and description of a marker-entry for a certain custom-marker/region-type
+  - MarkerManagement: MarkerMenu\_GetEntry\_DefaultMarkers - gets the action and description of a marker-entry for a certain default-marker/region-type from Ultraschall
+  - MarkerManagement: MarkerMenu\_GetLastClickedMenuEntry - gets the last clicked marker-menu-entry, including name, position, additional data and marker-type
+  - MarkerManagement: MarkerMenu\_InsertEntry - inserts a new marker-entry into the marker menu for a custom marker/region
+  - MarkerManagement: MarkerMenu\_InsertEntry_DefaultMarkers - inserts a new marker-entry into the marker menu for markers/regions of Ultraschall
+  - MarkerManagement: MarkerMenu\_RemoveEntry - removes the action and description of a marker-entry for a certain custom-marker/region-type
+  - MarkerManagement: MarkerMenu\_RemoveEntry\_DefaultMarkers - removes the action and description of a marker-entry for a certain default-marker/region-type from Ultraschall
+  - MarkerManagement: MarkerMenu\_RemoveSubMenu - removes a submenu from the marker-menu of a specific custom-marker/region
+  - MarkerManagement: MarkerMenu\_RemoveSubMenu\_DefaultMarkers - removes a submenu from the marker-menu of a specific default marker/region
+  - MarkerManagement: MarkerMenu\_SetEntry - gets the action and description of a marker-entry for a certain custom-marker/region-type
+  - MarkerManagement: MarkerMenu\_SetEntry\_DefaultMarkers - sets the action and description of a marker-entry for a certain default-marker/region-type from Ultraschall
+  - MarkerManagement: MarkerMenu\_SetStartupAction - sets a startup-action in the markermenu for a specific custom marker/region
+  - MarkerManagement: MarkerMenu\_SetStartupAction\_DefaultMarkers - sets a startup-action in the markermenu for a certain default-marker/region-type from Ultraschall
+  - MarkerManagement: MarkerMenu\_Start - starts a background-script that hijacks the marker-context-menu when rightclicking markers/regions
+  - MarkerManagement: MarkerMenu\_Stop - stops the background-script that hijacks the marker-context-menu when rightclicking markers/regions
+  - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastChapter\_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastEpisode\_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastEpisodeAttributesPreset\_Name - gets the name of an episode-metadata-preset
+  - PodcastMetadata: GetPodcastShownote\_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastAttributesPreset\_Name - gets the name of a podcast-metadata-preset
+  - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
+  - PodcastMetadata: GetSetPodcast\_Attributes - gets/sets metadata-attributes of a podcast
+  - PodcastMetadata: GetSetPodcastEpisode\_Attributes - gets/sets metadata-attributes of a podcast-episode
+  - PodcastMetadata: GetSetPodcastExport\_Attributes\_String - gets/sets string attributes for podcast-export in Ultraschall
+  - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall
+  - PodcastMetadata: GetSetShownoteMarker\_Attributes - gets/sets additional attributes of a shownote-marker
+  - PodcastMetadata: GetSetTranscription\_Attributes  gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)
+  - PodcastMetadata: SetPodcastEpisodeAttributesPreset\_Name - sets the name of an episode-metadata-preset
+  - PodcastMetadata: SetPodcastAttributesPreset\_Name - sets the name of a podcast-metadata-preset
+  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes        
 </TODO>
 
 ## Ultraschall Framework - Changelog
@@ -302,6 +347,7 @@ Has now 1532 functions, with XX new ones
   - EventManager: EventManager\_Debug\_GetExecutionTime - when debugmode is on, allows to get, how long the last run of checking for events did take in seconds(for benchmarking your eventcheck functions) - requested by rstockm  
   - EventManager: EventManager\_GetAllEventIdentifier - returns a table with all event-identifiers of all currently registered events
   - EventManager: EventManager\_GetAllEventNames - returns a table with all event-names of all currently registered events
+  - EventManager: EventManager\_GetEventPausedState - returns the paused states of a currently registered event
   - FXManagement: GetFXByGuid - gets a fx by its guid
   - FXManagement: TrackFX\_GetAllGuidsFromAllTracks - returns all guids from all tracks of the current project
   - FXManagement: TakeFX\_GetAllGuidsFromAllTakes - returns all guids from all takes of the current project  
@@ -310,25 +356,6 @@ Has now 1532 functions, with XX new ones
   - MarkerManagement: GetGuidFromCustomRegionID - returns the guid from a custom-region-index
   - MarkerManagement: GetCustomMarkerIDFromGuid - returns the custom-marker-index and name from a guid
   - MarkerManagement: GetCustomRegionIDFromGuid - returns the custom-region-index and name from a guid
-  - MarkerManagement: MarkerMenu\_CountEntries - counts the number of entries in the markermenu for a specific custom marker/region
-  - MarkerManagement: MarkerMenu\_CountEntries\_DefaultMarkers - counts the number of entries in the markermenu for a specific default marker/region
-  - MarkerManagement: MarkerMenu\_Debug - shows in the ReaScript-console debug-messages like the right-clicked-marker-type, when using the marker/region-hijack-script(see MarkerMenu_Start)
-  - MarkerManagement: MarkerMenu\_GetAvailableTypes - gets the marker- and region-types, that are currently added to the marker-menu
-  - MarkerManagement: MarkerMenu\_GetEntry - gets the action and description of a marker-entry for a certain custom-marker/region-type
-  - MarkerManagement: MarkerMenu\_GetEntry\_DefaultMarkers - gets the action and description of a marker-entry for a certain default-marker/region-type from Ultraschall
-  - MarkerManagement: MarkerMenu\_GetLastClickedMenuEntry - gets the last clicked marker-menu-entry, including name, position, additional data and marker-type
-  - MarkerManagement: MarkerMenu\_InsertEntry - inserts a new marker-entry into the marker menu for a custom marker/region
-  - MarkerManagement: MarkerMenu\_InsertEntry_DefaultMarkers - inserts a new marker-entry into the marker menu for markers/regions of Ultraschall
-  - MarkerManagement: MarkerMenu\_RemoveEntry - removes the action and description of a marker-entry for a certain custom-marker/region-type
-  - MarkerManagement: MarkerMenu\_RemoveEntry\_DefaultMarkers - removes the action and description of a marker-entry for a certain default-marker/region-type from Ultraschall
-  - MarkerManagement: MarkerMenu\_RemoveSubMenu - removes a submenu from the marker-menu of a specific custom-marker/region
-  - MarkerManagement: MarkerMenu\_RemoveSubMenu\_DefaultMarkers - removes a submenu from the marker-menu of a specific default marker/region
-  - MarkerManagement: MarkerMenu\_SetEntry - gets the action and description of a marker-entry for a certain custom-marker/region-type
-  - MarkerManagement: MarkerMenu\_SetEntry\_DefaultMarkers - sets the action and description of a marker-entry for a certain default-marker/region-type from Ultraschall
-  - MarkerManagement: MarkerMenu\_SetStartupAction - sets a startup-action in the markermenu for a specific custom marker/region
-  - MarkerManagement: MarkerMenu\_SetStartupAction\_DefaultMarkers - sets a startup-action in the markermenu for a certain default-marker/region-type from Ultraschall
-  - MarkerManagement: MarkerMenu\_Start - starts a background-script that hijacks the marker-context-menu when rightclicking markers/regions
-  - MarkerManagement: MarkerMenu\_Stop - stops the background-script that hijacks the marker-context-menu when rightclicking markers/regions
   - MarkerManagement: RenumerateNormalMarkers - renumerates the shown-number of all normal-markers
   - MarkerManagement: RenumerateShownoteMarkers - renumerates the shown-number of all shownote-markers
   - MediaItem\_Takes: GetProjectPosByTakeSourcePos - gets the project-position of a take's source-position, obeying stretch-markers, offset, etc
@@ -337,24 +364,6 @@ Has now 1532 functions, with XX new ones
   - Navigation: GetNextClosestItemStart - gets the next closest item-start within given tracks and from a specific position(requested by Moritz Klenk)
   - Navigation: GetPreviousClosestItemEnd - gets the previous closest item-end within given tracks and from a specific position(requested by Moritz Klenk)
   - Navigation: GetPreviousClosestItemStart - gets the previous closest item-start within given tracks and from a specific position(requested by Moritz Klenk)
-  - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastChapter\_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastEpisode\_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastEpisodeAttributesPreset\_Name - gets the name of an episode -metadata-preset
-  - PodcastMetadata: GetPodcastShownote\_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastAttributesPreset\_Name - gets the name of a podcast-metadata-preset
-  - PodcastMetadata: GetSetChapterMarker\_Attributes - gets/sets metadata-attributes of a chapter-marker(using Ultraschall 4+ methods)
-  - PodcastMetadata: GetSetPodcast\_Attributes - gets/sets metadata-attributes of a podcast
-  - PodcastMetadata: GetSetPodcastEpisode\_Attributes - gets/sets metadata-attributes of a podcast-episode
-  - PodcastMetadata: GetSetPodcastExport\_Attributes\_String - gets/sets string attributes for podcast-export in Ultraschall
-  - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall
-  - PodcastMetadata: GetSetShownoteMarker\_Attributes - gets/sets additional attributes of a shownote-marker
-  - PodcastMetadata: GetSetTranscription\_Attributes  gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)
-  - PodcastMetadata: SetPodcastEpisodeAttributesPreset\_Name - sets the name of an episode-metadata-preset
-  - PodcastMetadata: SetPodcastAttributesPreset\_Name - sets the name of a podcast-metadata-preset
-  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes      
   - Rendering: ResolvePresetName - resolves the name of a preset into the correct case-sensitivity, as stored in reaper-render.ini
   - UserInterface: GetReaperWindow\_Position - returns the Reaper-window-position and various of its elements  
   - UserInterface: GetScaleRangeFromDpi - returns the scale-range a certain dpi-value has
