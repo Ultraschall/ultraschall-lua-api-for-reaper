@@ -588,21 +588,22 @@ function ultraschall.GetClosestNextMarker(cursor_type, time_position)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetClosestNextMarker</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.7
     Reaper=5.40
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>number markerindex, number position, string markertitle = ultraschall.GetClosestNextMarker(integer cursor_type, optional number time_position)</functioncall>
+  <functioncall>integer markerindex, number position, string markertitle, integer markerindex_shownnumber = ultraschall.GetClosestNextMarker(integer cursor_type, optional number time_position)</functioncall>
   <description>
-    returns the markerindex(counted from all markers), the position and the name of the next closest marker in seconds.
+    returns the shown markerindex, the position in seconds, the name and the index within all markers of the next closest marker.
     
     returns -1 in case of an error
   </description>
   <retvals>
-    number markerindex - the next closest markerindex (of all(!) markers)
+    integer markerindex - the next closest marker-index within all(!) markers and regions
     number position - the position of the next closest marker
     string markertitle - the name of the next closest marker
+    integer markerindex_shownnumber - the next closest shown markerindex     
   </retvals>
   <parameters>
     integer cursor_type - previous closest marker related to the current position of 0 - Edit Cursor, 1 - Play Cursor, 2 - Mouse Cursor, 3 - Timeposition
@@ -617,7 +618,6 @@ function ultraschall.GetClosestNextMarker(cursor_type, time_position)
 </US_DocBloc>
 --]]
   local cursortime=0
-
   if math.type(cursor_type)~="integer" then ultraschall.AddErrorMessage("GetClosestNextMarker", "cursor_type", "must be an integer", -1) return -1 end
   if time_position~=nil and type(time_position)~="number" then ultraschall.AddErrorMessage("GetClosestNextMarker", "time_position", "must be either nil or a number", -5) return -1 end
   if time_position==nil and cursor_type>2 then ultraschall.AddErrorMessage("GetClosestNextMarker", "time_position", "must be a number when cursortype=3", -6) return -1 end
@@ -643,8 +643,7 @@ function ultraschall.GetClosestNextMarker(cursor_type, time_position)
       cursortime=time_position
   end
   if cursor_type>3 or cursor_type<0 then ultraschall.AddErrorMessage("GetClosestNextMarker","cursor_type", "no such cursor_type existing", -4) return -1 end
-  
-  
+
   -- prepare variables
   local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
   local retposition=reaper.GetProjectLength(0)+1--*200000000 --Working Hack, but isn't elegant....
@@ -652,19 +651,22 @@ function ultraschall.GetClosestNextMarker(cursor_type, time_position)
   local retmarkername=""
   
   -- find next closest marker
-  for i=0,retval do
-    local  retval2, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers(i)
+  for i=0, retval do
+    local retval2, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers(i)
     if isrgn==false then
       if pos>cursortime and pos<retposition then
         retposition=pos
         retindexnumber=markrgnindexnumber
         retmarkername=name
+        retindex=i
+        --print2(i, name)
+        break
       end
     end
   end
   -- return found marker
   if retindexnumber==-1 then retposition=-1 end
-  return retindexnumber, retposition, retmarkername
+  return retindex, retposition, retmarkername, retindexnumber
 end
 
 function ultraschall.GetClosestPreviousMarker(cursor_type, time_position)
@@ -672,19 +674,20 @@ function ultraschall.GetClosestPreviousMarker(cursor_type, time_position)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetClosestPreviousMarker</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.7
     Reaper=5.40
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>number markerindex, number position, string markertitle = ultraschall.GetClosestPreviousMarker(integer cursor_type, optional number time_position)</functioncall>
+  <functioncall>integer markerindex, number position, string markertitle, integer markerindex_shownnumber = ultraschall.GetClosestPreviousMarker(integer cursor_type, optional number time_position)</functioncall>
   <description>
-    returns the markerindex(counted from all markers), the position and the name of the previous closest marker in seconds.
+    returns the markerindex, the position in seconds, the name and the index(counted from all markers) of the previous closest marker.
   </description>
   <retvals>
-    number markerindex - the previous closest markerindex (of all(!) markers)
+    integer markerindex - the previous closest marker-index within all(!) markers and regions
     number position - the position of the previous closest marker
     string markertitle - the name of the previous closest marker
+    integer markerindex_shownnumber - the previous closest shown number of the found marker
   </retvals>
   <parameters>
     integer cursor_type - previous closest marker related to the current position of 0 - Edit Cursor, 1 - Play Cursor, 2 - Mouse Cursor, 3 - Timeposition
@@ -740,14 +743,17 @@ function ultraschall.GetClosestPreviousMarker(cursor_type, time_position)
         retposition=pos
         retindexnumber=markrgnindexnumber
         retmarkername=name
+        retindex=i
         found=true
+        --print2(i, name)
       end
     end
   end
   -- return found marker
   if found==false then retposition=-1 retindexnumber=-1 end
-  return retindexnumber,retposition, retmarkername
+  return retindex, retposition, retmarkername, retindexnumber
 end
+
 
 function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
 --[[

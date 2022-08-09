@@ -5321,9 +5321,9 @@ function ultraschall.GetTemporaryMarker(index)
   <description>
     returns a temporarily stored marker/region.
     
-    See SetTemporaryMarker to set temporary markers/regions.
+    See StoreTemporaryMarker to set temporary markers/regions.
     
-    It is good practice to "clear" the temporary marker, if not needed anymore, by using SetTemporaryMarker with marker_id=-1
+    It is good practice to "clear" the temporary marker, if not needed anymore, by using StoreTemporaryMarker with marker_id=-1
     
     returns -1 in case of an error
   </description>

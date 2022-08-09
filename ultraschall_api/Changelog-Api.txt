@@ -403,6 +403,8 @@ Has now 1532 functions, with XX new ones
   - MediaItemManagement: ToggleCrossfadeStateForSplits - toggles/sets the option for crossfades on splits of MediaItems
   - MetaData: GetGuidExtState - didn't store extstates, when not using a guid as key -> fixed
   - MetaData: SetGuidExtState - didn't store extstates, when not using a guid as key -> fixed
+  - Navigation: GetClosestNextMarker - didn't return the index but rather shown number instead; returns now also shown number officially -> fixed
+  - Navigation: GetClosestPreviousMarker - didn't return the index but rather shown number instead; returns now also shown number officially -> fixed
   - ProjectManagement: GetProjectStateChunk - didn't work under certain circumstances on Linux/Mac -> fixed
   - Rendering: CreateRenderCFG\_Settings\_AVI\_Video - supports now audio/video FMPEG-export options
   - Rendering: CreateRenderCFG\_Settings\_FLV\_Video - supports now audio/video FMPEG-export options

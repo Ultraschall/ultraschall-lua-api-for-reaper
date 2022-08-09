@@ -22186,9 +22186,9 @@ returns -1 in case of an error<br>
 <div class="ch">
 returns a temporarily stored marker/region.<br>
 <br>
-See SetTemporaryMarker to set temporary markers/regions.<br>
+See StoreTemporaryMarker to set temporary markers/regions.<br>
 <br>
-It is good practice to "clear" the temporary marker, if not needed anymore, by using SetTemporaryMarker with marker_id=-1<br>
+It is good practice to "clear" the temporary marker, if not needed anymore, by using StoreTemporaryMarker with marker_id=-1<br>
 <br>
 returns -1 in case of an error<br>
 </div><br>      
@@ -35222,19 +35222,19 @@ the type can be either Itembeg, Itemend, Marker: name, Region_beg: name; Region_
 <a href="#GetClosestNextMarker"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
 <img width="3%" src="gfx/sws2.8.8.png" alt="SWS version 2.8.8">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetClosestNextMarker</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>GetClosestNextMarker</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>number</i> markerindex, <i>number</i> position, <i>string</i> markertitle = <em>ultraschall.GetClosestNextMarker</em>(<i>integer</i> cursor_type, <i>optional</i> <i>number</i> time_position)</code></div>
+<div class="l">Lua: <code> <i>integer</i> markerindex, <i>number</i> position, <i>string</i> markertitle, <i>integer</i> markerindex_shownnumber = <em>ultraschall.GetClosestNextMarker</em>(<i>integer</i> cursor_type, <i>optional</i> <i>number</i> time_position)</code></div>
 </div><p>
 <div class="ch">
-returns the markerindex(counted from all markers), the position and the name of the next closest marker in seconds.<br>
+returns the shown markerindex, the position in seconds, the name and the index within all markers of the next closest marker.<br>
 <br>
 returns -1 in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> markerindex</td></tr>
-<tr><td class="ch2">the next closest markerindex (of all(!) markers)</td></tr>
+<tr><td class="pr"><i>integer</i> markerindex</td></tr>
+<tr><td class="ch2">the next closest marker-index within all(!) markers and regions</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> position</td></tr>
@@ -35243,6 +35243,10 @@ returns -1 in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> markertitle</td></tr>
 <tr><td class="ch2">the name of the next closest marker</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> markerindex_shownnumber</td></tr>
+<tr><td class="ch2">the next closest shown markerindex&nbsp;&nbsp;&nbsp;&nbsp; </td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -35310,17 +35314,17 @@ returns -1 in case of an error<br>
 <a href="#GetClosestPreviousMarker"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
 <img width="3%" src="gfx/sws2.8.8.png" alt="SWS version 2.8.8">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetClosestPreviousMarker</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>GetClosestPreviousMarker</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>number</i> markerindex, <i>number</i> position, <i>string</i> markertitle = <em>ultraschall.GetClosestPreviousMarker</em>(<i>integer</i> cursor_type, <i>optional</i> <i>number</i> time_position)</code></div>
+<div class="l">Lua: <code> <i>integer</i> markerindex, <i>number</i> position, <i>string</i> markertitle, <i>integer</i> markerindex_shownnumber = <em>ultraschall.GetClosestPreviousMarker</em>(<i>integer</i> cursor_type, <i>optional</i> <i>number</i> time_position)</code></div>
 </div><p>
 <div class="ch">
-returns the markerindex(counted from all markers), the position and the name of the previous closest marker in seconds.<br>
+returns the markerindex, the position in seconds, the name and the index(counted from all markers) of the previous closest marker.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> markerindex</td></tr>
-<tr><td class="ch2">the previous closest markerindex (of all(!) markers)</td></tr>
+<tr><td class="pr"><i>integer</i> markerindex</td></tr>
+<tr><td class="ch2">the previous closest marker-index within all(!) markers and regions</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> position</td></tr>
@@ -35329,6 +35333,10 @@ returns the markerindex(counted from all markers), the position and the name of 
 <table class="ch">
 <tr><td class="pr"><i>string</i> markertitle</td></tr>
 <tr><td class="ch2">the name of the previous closest marker</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> markerindex_shownnumber</td></tr>
+<tr><td class="ch2">the previous closest shown number of the found marker</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
