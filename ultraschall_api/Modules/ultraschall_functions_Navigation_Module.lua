@@ -760,22 +760,23 @@ function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetClosestNextRegionEdge</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.7
     Reaper=5.40
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>number markerindex, number position, string markertitle, string edge_type = ultraschall.GetClosestNextRegionEdge(integer cursor_type, optional number time_position)</functioncall>
+  <functioncall>integer markerindex, number position, string markertitle, string edge_type, integer markerindex_shownnumber = ultraschall.GetClosestNextRegionEdge(integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the regionindex(counted from all markers and regions), the position and the name of the next closest regionstart/end(depending on which is closer to time_position) in seconds.
     
     returns -1 in case of an error
   </description>
   <retvals>
-    number markerindex - the next closest markerindex (of all(!) markers)
+    integer markerindex - the next closest markerindex (of all(!) markers)
     number position - the position of the next closest region
     string markertitle - the name of the next closest region
     string edge_type - the type of the edge of the region, either "beg" or "end"
+    integer markerindex_shownnumber - the next closest shown number of the found region
   </retvals>
   <parameters>
     integer cursor_type - previous closest regionstart/end related to the current position of 
@@ -831,14 +832,16 @@ function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
     if isrgn==true then
       if pos>cursortime and pos<retposition then -- beginning of the region
         retposition=pos
-        retindexnumber=markrgnindexnumber
+        retindexnumber=i
+        retshownnumber=markrgnindexnumber
         retmarkername=name
         retbegin="beg"
       end
 
       if rgnend>cursortime and rgnend<retposition then -- ending of the region
         retposition=rgnend
-        retindexnumber=markrgnindexnumber
+        retindexnumber=i
+        retshownnumber=markrgnindexnumber
         retmarkername=name
         retbegin="end"
       end
@@ -846,7 +849,7 @@ function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
   end
   -- return found region
   if retindexnumber==-1 then retposition=-1 end
-  return retindexnumber,retposition, retmarkername, retbegin
+  return retindexnumber,retposition, retmarkername, retbegin, retshownnumber
 end
 
 function ultraschall.GetClosestPreviousRegionEdge(cursor_type, time_position)
@@ -854,22 +857,23 @@ function ultraschall.GetClosestPreviousRegionEdge(cursor_type, time_position)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetClosestPreviousRegionEdge</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.7
     Reaper=5.40
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>number markerindex, number position, string markertitle, string edge_type = ultraschall.GetClosestPreviousRegionEdge(integer cursor_type, optional number time_position)</functioncall>
+  <functioncall>integer markerindex, number position, string markertitle, string edge_type, integer markerindex_shownnumber = ultraschall.GetClosestPreviousRegionEdge(integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the regionindex(counted from all markers and regions), the position and the name of the previous closest regionstart/end(depending on which is closer to time_position) in seconds.
     
     returns -1 in case of an error
   </description>
   <retvals>
-    number markerindex - the previous closest markerindex (of all(!) markers)
+    integer markerindex - the previous closest markerindex (of all(!) markers)
     number position - the position of the previous closest marker
     string markertitle - the name of the previous closest marker
     string edge_type - the type of the edge of the region, either "beg" or "end"
+    integer markerindex_shownnumber - the previous closest shown number of the found region
   </retvals>
   <parameters>
     integer cursor_type - previous closest regionstart/end related to the current position of 0 - Edit Cursor, 1 - Play Cursor, 2 - Mouse Cursor, 3 - Timeposition
@@ -918,10 +922,11 @@ function ultraschall.GetClosestPreviousRegionEdge(cursor_type, time_position)
   -- find closest previous region and it's closest edge
   for i=0,retval do
     local retval2, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers(i)
-    if isrgn==true then -- beginning of the item
+    if isrgn==true then -- beginning of the region
       if pos<cursortime and pos>retposition then
         retposition=pos
-        retindexnumber=markrgnindexnumber
+        retindexnumber=i
+        retshownnumber=markrgnindexnumber
         retmarkername=name
         retbeg="beg"
       end
@@ -931,7 +936,7 @@ function ultraschall.GetClosestPreviousRegionEdge(cursor_type, time_position)
       end
     end
   end
-  return retindexnumber, retposition, retmarkername, retbeg
+  return retindexnumber, retposition, retmarkername, retbeg, retshownnumber
 end
 
 function ultraschall.GetClosestGoToPoints(trackstring, time_position, check_itemedge, check_marker, check_region)

@@ -35266,9 +35266,9 @@ returns -1 in case of an error<br>
 <a href="#GetClosestNextRegionEdge"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
 <img width="3%" src="gfx/sws2.8.8.png" alt="SWS version 2.8.8">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetClosestNextRegionEdge</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>GetClosestNextRegionEdge</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>number</i> markerindex, <i>number</i> position, <i>string</i> markertitle, <i>string</i> edge_type = <em>ultraschall.GetClosestNextRegionEdge</em>(<i>integer</i> cursor_type, <i>optional</i> <i>number</i> time_position)</code></div>
+<div class="l">Lua: <code> <i>integer</i> markerindex, <i>number</i> position, <i>string</i> markertitle, <i>string</i> edge_type, <i>integer</i> markerindex_shownnumber = <em>ultraschall.GetClosestNextRegionEdge</em>(<i>integer</i> cursor_type, <i>optional</i> <i>number</i> time_position)</code></div>
 </div><p>
 <div class="ch">
 returns the regionindex(counted from all markers and regions), the position and the name of the next closest regionstart/end(depending on which is closer to time_position) in seconds.<br>
@@ -35277,7 +35277,7 @@ returns -1 in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> markerindex</td></tr>
+<tr><td class="pr"><i>integer</i> markerindex</td></tr>
 <tr><td class="ch2">the next closest markerindex (of all(!) markers)</td></tr>
 </table>
 <table class="ch">
@@ -35291,6 +35291,10 @@ returns -1 in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> edge_type</td></tr>
 <tr><td class="ch2">the type of the edge of the region, either "beg" or "end"</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> markerindex_shownnumber</td></tr>
+<tr><td class="ch2">the next closest shown number of the found region</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -35356,9 +35360,9 @@ returns the markerindex, the position in seconds, the name and the index(counted
 <a href="#GetClosestPreviousRegionEdge"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
 <img width="3%" src="gfx/sws2.8.8.png" alt="SWS version 2.8.8">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetClosestPreviousRegionEdge</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>GetClosestPreviousRegionEdge</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>number</i> markerindex, <i>number</i> position, <i>string</i> markertitle, <i>string</i> edge_type = <em>ultraschall.GetClosestPreviousRegionEdge</em>(<i>integer</i> cursor_type, <i>optional</i> <i>number</i> time_position)</code></div>
+<div class="l">Lua: <code> <i>integer</i> markerindex, <i>number</i> position, <i>string</i> markertitle, <i>string</i> edge_type, <i>integer</i> markerindex_shownnumber = <em>ultraschall.GetClosestPreviousRegionEdge</em>(<i>integer</i> cursor_type, <i>optional</i> <i>number</i> time_position)</code></div>
 </div><p>
 <div class="ch">
 returns the regionindex(counted from all markers and regions), the position and the name of the previous closest regionstart/end(depending on which is closer to time_position) in seconds.<br>
@@ -35367,7 +35371,7 @@ returns -1 in case of an error<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> markerindex</td></tr>
+<tr><td class="pr"><i>integer</i> markerindex</td></tr>
 <tr><td class="ch2">the previous closest markerindex (of all(!) markers)</td></tr>
 </table>
 <table class="ch">
@@ -35381,6 +35385,10 @@ returns -1 in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> edge_type</td></tr>
 <tr><td class="ch2">the type of the edge of the region, either "beg" or "end"</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> markerindex_shownnumber</td></tr>
+<tr><td class="ch2">the previous closest shown number of the found region</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
