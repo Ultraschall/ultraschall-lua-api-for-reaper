@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="53951.00" author="Meo Mespotine">
+      <version name="53964.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -1278,6 +1278,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_LangPack2Developer_langpack_converter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_LangPack2Developer_langpack_converter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorParmModulation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorParmModulation.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorRenderString_Diff.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorRenderString_Diff.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Monitor_EventManager.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Monitor_EventManager.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_A_ReaScript_with_Dialog.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_A_ReaScript_with_Dialog.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_Last_ReaScript.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_Last_ReaScript.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Project_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Project_State_Diffs_Monitor.lua</source>
@@ -1450,6 +1451,20 @@ New features in 4.7
 -   DeveloperTools: FindCurrentlyUsedExtstatesNamesInAFile - looks
     through a selected file and checks, whether its strings are
     currently used extstates
+-   DeveloperTools: Monitor Eventmanager - monitors the performance and
+    some attributes of the Eventmanager, so you can optimize the
+    registered events(requested by rstockm)
+-   EventManager: EventManager_Debug_GetAllActionRunStates - returns a
+    table of, if the actions of a registered event were run in the last
+    event-check-cycle or not
+-   EventManager: EventManager_Debug_GetExecutionTime - when debugmode
+    is on, allows to get, how long the last run of checking for events
+    did take in seconds(for benchmarking your eventcheck functions) -
+    requested by rstockm
+-   EventManager: EventManager_GetAllEventIdentifier - returns a table
+    with all event-identifiers of all currently registered events
+-   EventManager: EventManager_GetAllEventNames - returns a table with
+    all event-names of all currently registered events
 -   FXManagement: GetFXByGuid - gets a fx by its guid
 -   FXManagement: TrackFX_GetAllGuidsFromAllTracks - returns all guids
     from all tracks of the current project
@@ -1620,10 +1635,8 @@ Changes from 4.6 to 4.7
     FFMPEG-command-line-options)
 -   Docs: misc_docs-folder/Reaper-Render-Strings-docs_Jul2018.txt -
     removed, due being outdated
--   EventManager: EventManager_Debug_GetExecutionTime - when debugmode
-    is on, allows to get, how long the last run of checking for events
-    did take in seconds(for benchmarking your eventcheck functions) -
-    requested by rstockm
+-   EventManager: EventManager_GetLastCheckfunctionState2 - improved
+    speed
 -   HelperFunctions: Base64_Decoder - sped up massively for longer
     strings(up to 94% faster)
 -   HelperFunctions: Base64_Encoder - sped up massively for longer
@@ -1745,7 +1758,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1600 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53951 from 07.08.2022 11:31:50).}
+a 1604 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53964 from 09.08.2022 02:41:46).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1759,7 +1772,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1600 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1604 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -1883,7 +1896,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1600 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53951 from 07.08.2022 11:31:50).}
+a 1604 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 53964 from 09.08.2022 02:41:46).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1897,7 +1910,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1600 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1604 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
