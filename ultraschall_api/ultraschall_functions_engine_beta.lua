@@ -1227,7 +1227,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     string attributename - the attributename you want to get/set
                          - supported attributes are:
                          - "shwn_description" - a more detailed description for this shownote
-                         - "shwn_descriptive_tags" - some tags, that describe the content of the shownote, must separated by newlines
+                         - "shwn_descriptive_tags" - some tags, that describe the content of the shownote, must separated by commas
                          - "shwn_url" - the url you want to set
                          - "shwn_url_description" - a short description of the url
                          - "shwn_url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
@@ -1355,7 +1355,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
          "podc_instagram" - instagram-channel of the podcast
          "podc_tiktok" - tiktok-channel of the podcast
          "podc_mastodon" - mastodon-channel of the podcast
-         "podc_descriptive_tags" - some tags, who describe the podcast, must separated by newlines
+         "podc_descriptive_tags" - some tags, who describe the podcast, must be separated by commas
     
     For episode's-metadata, use [GetSetPodcastEpisode\_Attributes](#GetSetPodcastEpisode_Attributes)
     
@@ -1514,21 +1514,21 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
     boolean is_set - true, set the attribute; false, retrieve the current content
     string attributename - the attributename you want to get/set
                          - supported attributes are:
-                         - "epsd_title" - the title of the episode
-                         - "epsd_number" - the number of the episode
-                         - "epsd_season" - the season of the episode
-                         - "epsd_release_date" - releasedate of the episode; yyyy-mm-dd
-                         - "epsd_release_time" - releasedate of the episode; hh:mm:ss
-                         - "epsd_release_timezone" - the time's timezone in UTC of the release-time
-                         - "epsd_tagline" - the tagline of the episode
-                         - "epsd_description" - the descriptionof the episode
-                         - "epsd_cover" - the cover-image of the episode(path+filename)
-                         - "epsd_language" - the language of the episode; Languagecode according to ISO639
-                         - "epsd_explicit" - yes, if explicit; no, if not explicit
-                         - "epsd_descriptive_tags" - some tags, that describe the content of the episode, must separated by newlines
-                         - "epsd_sponsor" - the name of the sponsor of this episode
-                         - "epsd_sponsor_url" - a link to the sponsor's website
-                         - "epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by newlines!
+                          - "epsd_title" - the title of the episode
+                          - "epsd_number" - the number of the episode
+                          - "epsd_season" - the season of the episode
+                          - "epsd_release_date" - releasedate of the episode; yyyy-mm-dd
+                          - "epsd_release_time" - releasedate of the episode; hh:mm:ss
+                          - "epsd_release_timezone" - the time's timezone in UTC of the release-time
+                          - "epsd_tagline" - the tagline of the episode
+                          - "epsd_description" - the descriptionof the episode
+                          - "epsd_cover" - the cover-image of the episode(path+filename)
+                          - "epsd_language" - the language of the episode; Languagecode according to ISO639
+                          - "epsd_explicit" - yes, if explicit; "", if not explicit
+                          - "epsd_descriptive_tags" - some tags, that describe the content of the episode, must separated by commas
+                          - "epsd_sponsor" - the name of the sponsor of this episode
+                          - "epsd_sponsor_url" - a link to the sponsor's website
+                          - "epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by commas
     string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
     string content - the new contents to set the attribute
     optional integer preset_slot - the slot in the podcast-presets to get/set the value from/to; nil, no preset used
@@ -1775,8 +1775,8 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
                          - "chap_image_license" - the license of the chapter-image
                          - "chap_image_origin" - the origin of the chapterimage, like an institution or similar 
                          - "chap_image_url" - the url that links to the chapter-image
-                         - "chap_descriptive_tags" - some tags, that describe the chapter-content, must separated by newlines
-                         - "chap_content_notification_tags" - some tags, that warn of specific content; must be separated by newlines!
+                         - "chap_descriptive_tags" - some tags, that describe the chapter-content, must separated by commas
+                         - "chap_content_notification_tags" - some tags, that warn of specific content; must be separated by commas
                          - "chap_spoiler_alert" - "yes", if spoiler; "", if no spoiler
                          - "chap_next_chapter_numbers" - decide, which chapter could be the next after this one; 
                                                        - format is: "chap_number:description\nchap_number:description\n"
@@ -4659,3 +4659,131 @@ function ultraschall.MarkerMenu_RemoveSubMenu_DefaultMarkers(marker_type, clickt
   return true
 end
 
+
+function ultraschall.MarkerMenu_GetLastTouchedMarkerRegion()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MarkerMenu_GetLastTouchedMarkerRegion</slug>
+  <requires>
+    Ultraschall=4.7
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer last_touched_marker_region = ultraschall.MarkerMenu_GetLastTouchedMarkerRegion()</functioncall>
+  <description>
+    Returns the last touched marker/region, when the MarkerMenu is running.
+    
+    returns nil, if no marker has been touched or markermenu is not running
+  </description>
+  <retvals>
+    integer last_touched_marker - the index of the last touched marker/region; 0-based
+  </retvals>
+  <linked_to desc="see:">
+      Ultraschall:MarkerMenu_Stop
+                  stops the marker-menu-script
+      Ultraschall:MarkerMenu_Debug
+                  set marker-menu-script to output debug messages
+      Ultraschall:MarkerMenu_GetEntry
+                  gets a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_GetEntry_DefaultMarkers
+                  gets a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_RemoveEntry
+                  removes a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_RemoveEntry_DefaultMarkers
+                  removes a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_SetEntry
+                  sets a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_SetEntry_DefaultMarkers
+                  sets a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_GetAvailableTypes
+                  get all currently available markers from the Marker-Menu
+  </linked_to>
+  <chapter_context>
+    Markers
+    Marker Menu
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, get, last touched, marker, region, markermenu</tags>
+</US_DocBloc>
+]]
+  return tonumber(reaper.SetExtState("ultraschall_api", "markermenu_last_touched_marker"))
+end
+
+
+function ultraschall.MarkerMenu_GetLastClickState()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MarkerMenu_GetLastClickState</slug>
+  <requires>
+    Ultraschall=4.7
+    JS=0.962
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string last_marker_clickstate = ultraschall.MarkerMenu_GetLastClickState()</functioncall>
+  <description>
+    Returns the last clickstate including modifiers of the markermenu
+    
+    returns nil, if no clickstate exists or markermenu is not running
+  </description>
+  <retvals>
+    integer last_marker_clickstate - the last clickstate on a marker
+                                   - &1, left mouse button
+                                   - &2, right mouse button
+                                   - &4, Control key
+                                   - &8, Shift key
+                                   - &16, Alt key
+                                   - &32, Windows key
+                                   - &64, middle mouse button
+  </retvals>
+  <linked_to desc="see:">
+      Ultraschall:MarkerMenu_Stop
+                  stops the marker-menu-script
+      Ultraschall:MarkerMenu_Debug
+                  set marker-menu-script to output debug messages
+      Ultraschall:MarkerMenu_GetEntry
+                  gets a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_GetEntry_DefaultMarkers
+                  gets a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_RemoveEntry
+                  removes a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_RemoveEntry_DefaultMarkers
+                  removes a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_SetEntry
+                  sets a menu-entry for a custom-marker/region
+      Ultraschall:MarkerMenu_SetEntry_DefaultMarkers
+                  sets a menu-entry for a default-marker in Ultraschall
+      Ultraschall:MarkerMenu_GetAvailableTypes
+                  get all currently available markers from the Marker-Menu
+  </linked_to>
+  <chapter_context>
+    Markers
+    Marker Menu
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>markermanagement, get, last clickstate, modifier, region, markermenu</tags>
+</US_DocBloc>
+]]
+  return tonumber(reaper.GetExtState("ultraschall_api", "markermenu_clickstate"))
+end
+
+
+
+function ultraschall.EscapeCharactersForXMLText(String)
+  -- control characters to numeric character references are still missing
+  -- check these site:
+  --  https://stackoverflow.com/a/46637835
+  --  https://www.w3.org/International/questions/qa-controls  -- control characters
+  --  https://www.w3.org/TR/xml11/#dt-charref -- control characters
+  
+  String=string.gsub(String, "&", "&amp;")
+  String=string.gsub(String, "<", "&lt;")
+  String=string.gsub(String, ">", "&gt;")
+  String=string.gsub(String, "\"", "&quot;")
+  String=string.gsub(String, "\'", "&apos;")
+  return String
+end
+
+--A=ultraschall.EscapeCharactersForXMLText("HULA&HO\"HooP\"Oh now that you 'mention' it OP&amp;")
