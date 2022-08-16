@@ -1232,7 +1232,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "shwn_url_description" - a short description of the url
                          - "shwn_url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
                          - "shwn_url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss
-                         - "shwn_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc
+                         - "shwn_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc; +hh:mm or -hh:mm
                          - "shwn_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
                          - "shwn_is_advertisement" - yes, if the shownote is an ad; "", to unset it
                          - "shwn_language" - the language of the content; Languagecode according to ISO639
@@ -1242,12 +1242,12 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "shwn_location_apple_maps" - the coordinates as used in Apple Maps                         
                          - "shwn_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd; use XX or XXXX, for when day/month/year is unknown or irrelevant
                          - "shwn_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss; use XX for when hour/minute/second is unknown or irrelevant
-                         - "shwn_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format
+                         - "shwn_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format; +hh:mm or -hh:mm
                          - "shwn_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
                          - "shwn_event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
                          - "shwn_event_time_start" - the starttime of an event associated with the show; hh:mm:ss
                          - "shwn_event_time_end" - the endtime of an event associated with the show; hh:mm:ss
-                         - "shwn_event_timezone" - the timezone of the event assocated with the show; UTC-format
+                         - "shwn_event_timezone" - the timezone of the event assocated with the show; UTC-format; +hh:mm or -hh:mm
                          - "shwn_event_name" - a name for the event
                          - "shwn_event_description" - a description for the event
                          - "shwn_event_url" - an url of the event(for ticket sale or the general url for the event)
@@ -1314,8 +1314,10 @@ end
 
 
 
-ultraschall.PodcastAttributes={"podc_title", 
+ultraschall.PodcastAttributes={
+              "podc_title", 
               "podc_description", 
+              "podc_category",
               --"podc_feed",
               "podc_website", 
               "podc_twitter",
@@ -1348,7 +1350,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
          "podc_title" - the title of the podcast
          "podc_description" - a description for your podcast
          "podc_website" - either one url or a list of website-urls of the podcast,separated by newlines
-         "podc_contact_email" - an email-address that can be used to contact the podcasters
+         "podc_contact_email" - an email-address that can be used to contact the podcasters         
          "podc_twitter" - twitter-profile of the podcast
          "podc_facebook" - facebook-page of the podcast
          "podc_youtube" - youtube-channel of the podcast
@@ -1356,6 +1358,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
          "podc_tiktok" - tiktok-channel of the podcast
          "podc_mastodon" - mastodon-channel of the podcast
          "podc_descriptive_tags" - some tags, who describe the podcast, must be separated by commas
+         "podc_category" - a category that describes the podcast
     
     For episode's-metadata, use [GetSetPodcastEpisode\_Attributes](#GetSetPodcastEpisode_Attributes)
     
@@ -1470,7 +1473,9 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
   return true, content, presetcontent
 end
 
-ultraschall.EpisodeAttributes={"epsd_title", 
+ultraschall.EpisodeAttributes={
+              "epsd_title", 
+              "epsd_author",
               "epsd_sponsor",
               "epsd_sponsor_url",
               "epsd_number",
@@ -1517,9 +1522,10 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
                           - "epsd_title" - the title of the episode
                           - "epsd_number" - the number of the episode
                           - "epsd_season" - the season of the episode
+                          - "epsd_author" - the authors of this episode as comma separated list
                           - "epsd_release_date" - releasedate of the episode; yyyy-mm-dd
                           - "epsd_release_time" - releasedate of the episode; hh:mm:ss
-                          - "epsd_release_timezone" - the time's timezone in UTC of the release-time
+                          - "epsd_release_timezone" - the time's timezone in UTC of the release-time; +hh:mm or -hh:mm
                           - "epsd_tagline" - the tagline of the episode
                           - "epsd_description" - the descriptionof the episode
                           - "epsd_cover" - the cover-image of the episode(path+filename)
