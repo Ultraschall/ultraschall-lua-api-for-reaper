@@ -1395,3 +1395,91 @@ function ultraschall.LUFS_Metering_SetValues(LUFS_target, Gain)
 end
 
 --ultraschall.LUFS_Metering_SetValues(4, 2)
+
+function ultraschall.LUFS_Metering_AddEffect(enabled)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>LUFS_Metering_AddEffect</slug>
+  <requires>
+    Ultraschall=4.7
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>boolean added = ultraschall.LUFS_Metering_AddEffect(boolean enabled)</functioncall>
+  <description>
+    Adds Ultraschall's LUFS Loudness Meter into the Master Track(only available in Ultraschall-installations).
+    
+    Parameter enabled is always working, even if the fx has already been added.
+  </description>
+  <retvals>
+    boolean added - true, fx has been added; false, fx hasn't been added as it was already present.
+  </retvals>
+  <parameters>
+    boolean enabled - true, enable the fx; false, disable the fx
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    LUFS Loudness Meter
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
+  <tags>ultraschall, add, lufs, loudness meter, enabled</tags>
+</US_DocBloc>
+--]]
+  if enabled==nil then enabled=false end
+  local tr = reaper.GetMasterTrack(0)
+  local index=-1
+  for i=0, reaper.TrackFX_GetCount(tr)-1 do
+    local retval, fx=reaper.TrackFX_GetFXName(tr, i)
+    if fx:match("LUFS Loudness Metering") then
+      index=i
+    end
+  end
+  if index==-1 then
+    local A=reaper.TrackFX_AddByName(tr, "dynamics/LUFS_Loudness_Meter", false, -1)
+    local A=reaper.TrackFX_SetEnabled(tr, reaper.TrackFX_GetCount(tr)-1, enabled)
+    return true
+  else
+    local A=reaper.TrackFX_SetEnabled(tr, index, enabled)
+    return false
+  end
+end
+
+--A=ultraschall.LUFS_Metering_AddEffect(true)
+
+function ultraschall.LUFS_Metering_ShowEffect()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>LUFS_Metering_ShowEffect</slug>
+  <requires>
+    Ultraschall=4.7
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.LUFS_Metering_ShowEffect()</functioncall>
+  <description>
+    Shows Ultraschall's LUFS Loudness Meter in the Master Track(only available in Ultraschall-installations).
+  </description>
+  <chapter_context>
+    Ultraschall Specific
+    LUFS Loudness Meter
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
+  <tags>ultraschall, show, lufs, loudness meter, enabled</tags>
+</US_DocBloc>
+--]]
+  local tr = reaper.GetMasterTrack(0)
+  local index=-1
+  for i=0, reaper.TrackFX_GetCount(tr)-1 do
+    local retval, fx=reaper.TrackFX_GetFXName(tr, i)
+    if fx:match("LUFS Loudness Metering") then
+      index=i
+    end
+  end
+  if index~=-1 then
+    reaper.TrackFX_SetOpen(tr, index, true)
+  end
+end
+
+--ultraschall.LUFS_Metering_ShowEffect()

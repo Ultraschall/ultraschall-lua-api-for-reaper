@@ -6001,6 +6001,14 @@ else
     ultraschall.LM(35)
     return ultraschall.LUFS_Metering_SetValues(table.unpack({...}))
   end
+  function ultraschall.LUFS_Metering_AddEffect(...)
+    ultraschall.LM(35)
+    return ultraschall.LUFS_Metering_AddEffect(table.unpack({...}))
+  end
+  function ultraschall.LUFS_Metering_ShowEffect(...)
+    ultraschall.LM(35)
+    return ultraschall.LUFS_Metering_ShowEffect(table.unpack({...}))
+  end
   function ultraschall.WebInterface_GetInstalledInterfaces(...)
     ultraschall.LM(36)
     return ultraschall.WebInterface_GetInstalledInterfaces(table.unpack({...}))
