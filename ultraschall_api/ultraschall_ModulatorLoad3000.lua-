@@ -5985,6 +5985,14 @@ else
     ultraschall.LM(35)
     return ultraschall.Soundboard_PlayFadeIn(table.unpack({...}))
   end
+  function ultraschall.LUFS_Metering_MatchGain(...)
+    ultraschall.LM(35)
+    return ultraschall.LUFS_Metering_MatchGain(table.unpack({...}))
+  end
+  function ultraschall.LUFS_Metering_Reset(...)
+    ultraschall.LM(35)
+    return ultraschall.LUFS_Metering_Reset(table.unpack({...}))
+  end
   function ultraschall.WebInterface_GetInstalledInterfaces(...)
     ultraschall.LM(36)
     return ultraschall.WebInterface_GetInstalledInterfaces(table.unpack({...}))

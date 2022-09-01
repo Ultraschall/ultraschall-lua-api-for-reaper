@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="54019.00" author="Meo Mespotine">
+      <version name="54032.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -89,6 +89,7 @@
 	<source file="/ultraschall_api/Documentation/US_Api_VID.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/US_Api_VID.html</source>
 	<source file="/ultraschall_api/Documentation/US_PodcastMetadata_Introduction.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/US_PodcastMetadata_Introduction.html</source>
 	<source file="/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_ChangeLog.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_ChangeLog.html</source>
+	<source file="/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_Entwickelnde - Kopie.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_Entwickelnde%20-%20Kopie.html</source>
 	<source file="/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_Entwickelnde.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_Entwickelnde.html</source>
 	<source file="/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_Introduction.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_Introduction.html</source>
 	<source file="/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_Testende.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/Ultraschall_PodcastMetadata_Testende.html</source>
@@ -125,6 +126,41 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_1.220.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/JS_1.220.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_1_002.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/JS_Logo_1_002.pfi</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/0-Podcast-Metadata-Index.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/0-Podcast-Metadata-Index.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/1-Einführung-2.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/1-Einführung-2.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/1-Einführung.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/1-Einführung.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/2-Status_Quo.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/2-Status_Quo.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/3-Langzeitplan_fur_Metadatenexport-1.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/3-Langzeitplan_fur_Metadatenexport-1.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/3-Langzeitplan_fur_Metadatenexport-1.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/3-Langzeitplan_fur_Metadatenexport-1.pfi</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/3-Langzeitplan_fur_Metadatenexport.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/3-Langzeitplan_fur_Metadatenexport.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase0.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase0.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase1.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase1.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase2.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase2.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase3.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase3.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase4.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall-phase4.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/4-Meilensteine-Ultraschall.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-0-1-Shownote-Dialog.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-0-1-Shownote-Dialog.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-0-Phase-1-derzeitiger_Stand.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-0-Phase-1-derzeitiger_Stand.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-0-Shownotes.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-0-Shownotes.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-1-1-Kapitelmarken-Dialog.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-1-1-Kapitelmarken-Dialog.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-1-2-Kapitelmarken-Videoexport.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-1-2-Kapitelmarken-Videoexport.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-1-Kapitelmarken.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-1-Kapitelmarken.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-2-geplante_Kapitelmarken.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-2-geplante_Kapitelmarken.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-1.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-1.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-2.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-2.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-3.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-3.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-4.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-4.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-5.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-5.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-6.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-6.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-7.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-7.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-8.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü-8.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-MarkerKontextMenü.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-Markerkontextmenue-0.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-3-Markerkontextmenue-0.gif</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-4-EpisodenAttribute-Dialog.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-4-EpisodenAttribute-Dialog.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/5-5-Phase-1-ZuTestenSind.jpg" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/5-5-Phase-1-ZuTestenSind.jpg</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/Indexcards-Template.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/Indexcards-Template.pfi</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/US-MetadataExport-Milestones.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/US-MetadataExport-Milestones.pfi</source>
+	<source file="/ultraschall_api/Documentation/gfx/MetadataDocs/US-MetadataExport-Milestones.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/MetadataDocs/US-MetadataExport-Milestones.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Osara2021.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/Osara2021.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/Osara2021.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/Osara2021.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ParmModTable.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Documentation/gfx/ParmModTable.pfi</source>
@@ -1437,7 +1473,7 @@
 	<source main="true" file="/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.7 - “Pearl Jam - Alive” - 18 of August 2022
+4.7 - “Pearl Jam - Alive” - 18 of September 2022
 
 Has now 1532 functions, with XX new ones
 
@@ -1505,6 +1541,11 @@ New features in 4.7
     position(requested by Moritz Klenk)
 -   Rendering: ResolvePresetName - resolves the name of a preset into
     the correct case-sensitivity, as stored in reaper-render.ini
+-   Ultraschall: LUFS_Metering_MatchGain - hits programmaticaly the
+    “Match Gain”-button of Ultraschall’s LUFS Loudness Metering-JSFX,
+    when running
+-   Ultraschall: LUFS_Metering_Reset - resets the measuring of
+    Ultraschall’s LUFS Loudness Metering-JSFX, when running
 -   UserInterface: GetReaperWindow_Position - returns the
     Reaper-window-position and various of its elements
 -   UserInterface: GetScaleRangeFromDpi - returns the scale-range a
@@ -1677,7 +1718,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1606 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54019 from 22.08.2022 01:59:19).}
+a 1610 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54032 from 01.09.2022 20:32:37).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1691,7 +1732,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1606 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1610 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -1815,7 +1856,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1606 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54019 from 22.08.2022 01:59:19).}
+a 1610 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54032 from 01.09.2022 20:32:37).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1829,7 +1870,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1606 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1610 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
