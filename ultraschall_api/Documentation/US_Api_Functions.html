@@ -217,7 +217,7 @@ Ultraschall API Functions
 </td></tr><tr><td class="tdsm"><a href="#TrackManager_ClearFilter">TrackManager_ClearFilter</a></td><td class="tdsm"><a href="#TrackManager_OpenClose">TrackManager_OpenClose</a></td><td class="tdsm"><a href="#TrackManager_SelectionFromList">TrackManager_SelectionFromList</a></td></tr><td class="tdsm"><a href="#TrackManager_SelectionFromProject">TrackManager_SelectionFromProject</a></td><td class="tdsm"><a href="#TrackManager_SetFilter">TrackManager_SetFilter</a></td><td class="tdsm"><a href="#TrackManager_ShowAll">TrackManager_ShowAll</a></td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Ultraschall Specific"><a href="#Ultraschall Specific">^</a></a><strong> <u>Ultraschall Specific</u></strong><br><br>
 <b style="font-size:small;"><br><a class="inpad" id="Followmode"><a href="#Followmode">^</a></a> Followmode</b>
 </td></tr><tr><td class="tdsm"><a href="#pause_follow_one_cycle">pause_follow_one_cycle</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="LUFS Loudness Meter"><a href="#LUFS Loudness Meter">^</a></a> LUFS Loudness Meter</b>
-</td></tr><tr><td class="tdsm"><a href="#LUFS_Metering_MatchGain">LUFS_Metering_MatchGain</a></td><td class="tdsm"><a href="#LUFS_Metering_MatchGain">LUFS_Metering_MatchGain</a></td><td class="tdsm"><a href="#LUFS_Metering_Reset">LUFS_Metering_Reset</a></td></tr><td class="tdsm"><a href="#LUFS_Metering_Reset">LUFS_Metering_Reset</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Routing"><a href="#Routing">^</a></a> Routing</b>
+</td></tr><tr><td class="tdsm"><a href="#LUFS_Metering_GetValues">LUFS_Metering_GetValues</a></td><td class="tdsm"><a href="#LUFS_Metering_MatchGain">LUFS_Metering_MatchGain</a></td><td class="tdsm"><a href="#LUFS_Metering_MatchGain">LUFS_Metering_MatchGain</a></td></tr><td class="tdsm"><a href="#LUFS_Metering_Reset">LUFS_Metering_Reset</a></td><td class="tdsm"><a href="#LUFS_Metering_Reset">LUFS_Metering_Reset</a></td><td class="tdsm"><a href="#LUFS_Metering_SetValues">LUFS_Metering_SetValues</a></td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Routing"><a href="#Routing">^</a></a> Routing</b>
 </td></tr><tr><td class="tdsm"><a href="#GetAllAUXSendReceives2">GetAllAUXSendReceives2</a></td><td class="tdsm"><a href="#GetAllHWOuts2">GetAllHWOuts2</a></td><td class="tdsm"><a href="#GetAllMainSendStates2">GetAllMainSendStates2</a></td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Soundboard"><a href="#Soundboard">^</a></a> Soundboard</b>
 </td></tr><tr><td class="tdsm"><a href="#SoundBoard_Play">SoundBoard_Play</a></td><td class="tdsm"><a href="#SoundBoard_PlayList_CurrentIndex">SoundBoard_PlayList_CurrentIndex</a></td><td class="tdsm"><a href="#SoundBoard_PlayList_Next">SoundBoard_PlayList_Next</a></td></tr><td class="tdsm"><a href="#SoundBoard_PlayList_Previous">SoundBoard_PlayList_Previous</a></td><td class="tdsm"><a href="#SoundBoard_PlayList_SetIndex">SoundBoard_PlayList_SetIndex</a></td><td class="tdsm"><a href="#SoundBoard_Stop">SoundBoard_Stop</a></td></tr><td class="tdsm"><a href="#SoundBoard_StopAllSounds">SoundBoard_StopAllSounds</a></td><td class="tdsm"><a href="#SoundBoard_TogglePlayPause">SoundBoard_TogglePlayPause</a></td><td class="tdsm"><a href="#SoundBoard_TogglePlayStop">SoundBoard_TogglePlayStop</a></td></tr><td class="tdsm"><a href="#SoundBoard_TogglePlay_FadeOutStop">SoundBoard_TogglePlay_FadeOutStop</a></td><td class="tdsm"><a href="#Soundboard_PlayFadeIn">Soundboard_PlayFadeIn</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Track Management"><a href="#Track Management">^</a></a> Track Management</b>
 </td></tr><tr><td class="tdsm"><a href="#GetTypeOfTrack">GetTypeOfTrack</a></td><td class="tdsm"><a href="#IsTrackSoundboard">IsTrackSoundboard</a></td><td class="tdsm"><a href="#IsTrackStudioLink">IsTrackStudioLink</a></td></tr><td class="tdsm"><a href="#IsTrackStudioLinkOnAir">IsTrackStudioLinkOnAir</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Ultraschall.ini"><a href="#Ultraschall.ini">^</a></a> Ultraschall.ini</b>
@@ -64173,6 +64173,33 @@ This function is only relevant, if you want to develop scripts that work perfect
 </div>
 <div class="ch">
 <hr>
+<a class="anch" id="LUFS_Metering_GetValues"></a>
+<a href="#LUFS_Metering_GetValues"> ^</a> 
+<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>LUFS_Metering_GetValues</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <i>number</i> LUFS_integral, <i>number</i> LUFS_target, <i>number</i> dB_Gain = <em>ultraschall.LUFS_Metering_GetValues</em>()</code></div>
+</div><p>
+<div class="ch">
+Returns current LUFS-values of Ultraschall's LUFS Loudness Meter, when running(only available in Ultraschall-installations).<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>number</i> LUFS_integral</td></tr>
+<tr><td class="ch2">the integral LUFS-value currently measured</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> LUFS_target</td></tr>
+<tr><td class="ch2">the LUFS-target currently set in the UI of the jsfx</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> dB_Gain</td></tr>
+<tr><td class="ch2">the gain currently set in the UI of the effect in dB</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
 <a class="anch" id="LUFS_Metering_MatchGain"></a>
 <a href="#LUFS_Metering_MatchGain"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
@@ -64222,6 +64249,34 @@ Hits programmatically the "Reset"-Button of Ultraschall's LUFS Loudness Meter, w
 <div class="ch">
 Hits programmatically the "Reset"-Button of Ultraschall's LUFS Loudness Meter, when running(only available in Ultraschall-installations).<br>
 </div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="LUFS_Metering_SetValues"></a>
+<a href="#LUFS_Metering_SetValues"> ^</a> 
+<img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>LUFS_Metering_SetValues</b></u><br>			<p>
+<div class="cc">
+<div class="l">Lua: <code> <em>ultraschall.LUFS_Metering_SetValues</em>(<i>optional</i> <i>integer</i> LUFS_target, <i>optional</i> <i>number</i> dB_Gain)</code></div>
+</div><p>
+<div class="ch">
+Returns current LUFS-values of Ultraschall's LUFS Loudness Meter, when running(only available in Ultraschall-installations).<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> LUFS_target</td></tr>
+<tr><td class="ch2">the LUFS-target<br/>
+0, -14 LUFS (Spotify)<br/>
+1, -16 LUFS (Podcast)<br/>
+2, -18 LUFS<br/>
+3, -20 LUFS<br/>
+4, -23 LUFS (EBU R128)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> dB_Gain</td></tr>
+<tr><td class="ch2">the gain of the effect in dB</td></tr>
+</table>
+<br>
 </div>
 <div class="ch">
 <hr>
@@ -67879,7 +67934,7 @@ Will return Reaper's default ones(resources-folder/Plugins/reaper_www_root/) as 
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.7  - 1579 elements available <br></td></table>
+          <table><td class="td2"> &#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.7  - 1581 elements available <br></td></table>
         <hr>
       </div>
       <br>

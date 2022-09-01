@@ -1320,3 +1320,78 @@ function ultraschall.LUFS_Metering_Reset()
   reaper.gmem_attach(old_attached_name)
 end
 
+function ultraschall.LUFS_Metering_GetValues()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>LUFS_Metering_GetValues</slug>
+  <requires>
+    Ultraschall=4.7
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>number LUFS_integral, number LUFS_target, number dB_Gain = ultraschall.LUFS_Metering_GetValues()</functioncall>
+  <description>
+    Returns current LUFS-values of Ultraschall's LUFS Loudness Meter, when running(only available in Ultraschall-installations).
+  </description>
+  <retvals>
+    number LUFS_integral - the integral LUFS-value currently measured
+    number LUFS_target - the LUFS-target currently set in the UI of the jsfx
+    number dB_Gain - the gain currently set in the UI of the effect in dB
+  </retvals>
+  <chapter_context>
+    Ultraschall Specific
+    LUFS Loudness Meter
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
+  <tags>ultraschall, lufs, loudness meter, get, values, integral, target, gain</tags>
+</US_DocBloc>
+--]]
+  local old_attached_name=reaper.gmem_attach("lufs")
+  local LUFS_integral=reaper.gmem_read(1)
+  local LUFS_target=reaper.gmem_read(2)
+  local FX_active=reaper.gmem_read(3)
+  local Gain=reaper.gmem_read(6)
+  reaper.gmem_attach(old_attached_name)
+  return LUFS_integral, LUFS_target, Gain
+end
+
+function ultraschall.LUFS_Metering_SetValues(LUFS_target, Gain)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>LUFS_Metering_SetValues</slug>
+  <requires>
+    Ultraschall=4.7
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.LUFS_Metering_SetValues(optional integer LUFS_target, optional number dB_Gain)</functioncall>
+  <description>
+    Returns current LUFS-values of Ultraschall's LUFS Loudness Meter, when running(only available in Ultraschall-installations).
+  </description>
+  <retvals>
+    optional integer LUFS_target - the LUFS-target
+                                 - 0, -14 LUFS (Spotify)
+                                 - 1, -16 LUFS (Podcast)
+                                 - 2, -18 LUFS
+                                 - 3, -20 LUFS
+                                 - 4, -23 LUFS (EBU R128)
+    optional number dB_Gain - the gain of the effect in dB
+  </retvals>
+  <chapter_context>
+    Ultraschall Specific
+    LUFS Loudness Meter
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Ultraschall_Module.lua</source_document>
+  <tags>ultraschall, set, lufs, loudness meter, values, target, gain</tags>
+</US_DocBloc>
+--]]
+  local old_attached_name=reaper.gmem_attach("lufs")
+  if LUFS_target~=nil then reaper.gmem_write(8, LUFS_target) end
+  if Gain~=nil then reaper.gmem_write(7, Gain) end
+  reaper.gmem_attach(old_attached_name)
+
+end
+
+--ultraschall.LUFS_Metering_SetValues(4, 2)

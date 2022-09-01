@@ -5993,6 +5993,14 @@ else
     ultraschall.LM(35)
     return ultraschall.LUFS_Metering_Reset(table.unpack({...}))
   end
+  function ultraschall.LUFS_Metering_GetValues(...)
+    ultraschall.LM(35)
+    return ultraschall.LUFS_Metering_GetValues(table.unpack({...}))
+  end
+  function ultraschall.LUFS_Metering_SetValues(...)
+    ultraschall.LM(35)
+    return ultraschall.LUFS_Metering_SetValues(table.unpack({...}))
+  end
   function ultraschall.WebInterface_GetInstalledInterfaces(...)
     ultraschall.LM(36)
     return ultraschall.WebInterface_GetInstalledInterfaces(table.unpack({...}))
