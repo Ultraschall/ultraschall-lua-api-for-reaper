@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="54058.00" author="Meo Mespotine">
+      <version name="54071.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -1473,7 +1473,7 @@
 	<source main="true" file="/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.7 - “Pearl Jam - Alive” - 18 of September 2022
+4.7 - “Pearl Jam - Alive” - 18th of September 2022
 
 Has now 1532 functions, with XX new ones
 
@@ -1653,34 +1653,49 @@ Changes from 4.6 to 4.7
     officially -> fixed
 -   ProjectManagement: GetProjectStateChunk - didn’t work under certain
     circumstances on Linux/Mac -> fixed
--   Rendering: CreateRenderCFG_Settings_AVI_Video - supports now
-    audio/video FMPEG-export options
--   Rendering: CreateRenderCFG_Settings_FLV_Video - supports now
-    audio/video FMPEG-export options
--   Rendering: CreateRenderCFG_Settings_MKV_Video - supports now
-    audio/video FMPEG-export options
--   Rendering: CreateRenderCFG_Settings_MPEG1_Video - supports now
-    audio/video FMPEG-export options
--   Rendering: CreateRenderCFG_Settings_MPEG2_Video - supports now
-    audio/video FMPEG-export options
--   Rendering: CreateRenderCFG_Settings_QTMOVMP4_Video - supports now
-    audio/video FMPEG-export options
+-   Rendering: CreateRenderCFG_AVI_Video - supports now audio/video
+    FMPEG-export options; supports now NONE as Audio/VideoCodec;
+    corrected docs
+-   Rendering: CreateRenderCFG_FLV_Video - supports now audio/video
+    FMPEG-export options; supports now NONE as Audio/VideoCodec
+-   Rendering: CreateRenderCFG_MKV_Video - supports now audio/video
+    FMPEG-export options; supports now NONE as Audio/VideoCodec
+-   Rendering: CreateRenderCFG_MPEG1_Video - supports now audio/video
+    FMPEG-export options; supports now NONE as Audio/VideoCodec
+-   Rendering: CreateRenderCFG_MPEG2_Video - supports now audio/video
+    FMPEG-export options; supports now NONE as Audio/VideoCodec;
+    corrected docs
+-   Rendering: CreateRenderCFG_QTMOVMP4_Video - supports now audio/video
+    FMPEG-export options; supports now NONE as Audio/VideoCodec
+-   Rendering: CreateRenderCFG_WebMVideo - renamed to
+    CreateRenderCFG_WebM_Video(old functionname still available);
+    supports now audio/video FMPEG-export options; supports now NONE as
+    Audio/VideoCodec
 -   Rendering: CreateRenderCFG_WMF_Video - renamed to
     CreateRenderCFG_WMF (old functionname is still available, though)
 -   Rendering: GetRender_AutoIncrementFilename - always returned true,
     when Render to File was closed -> fixed(thnx to aurelien)
 -   Rendering: GetRenderCFG_Settings_AVI_Video - supports now
-    audio/video FMPEG-export options
+    audio/video FMPEG-export options; supports now NONE as
+    Audio/VideoCodec
 -   Rendering: GetRenderCFG_Settings_FLV_Video - supports now
-    audio/video FMPEG-export options
+    audio/video FMPEG-export options; supports now NONE as
+    Audio/VideoCodec
 -   Rendering: GetRenderCFG_Settings_MKV_Video - supports now
-    audio/video FMPEG-export options
+    audio/video FMPEG-export options; supports now NONE as
+    Audio/VideoCodec
 -   Rendering: GetRenderCFG_Settings_MPEG1_Video - supports now
-    audio/video FMPEG-export options
+    audio/video FMPEG-export options; supports now NONE as
+    Audio/VideoCodec
 -   Rendering: GetRenderCFG_Settings_MPEG2_Video - supports now
-    audio/video FMPEG-export options
+    audio/video FMPEG-export options; supports now NONE as
+    Audio/VideoCodec
 -   Rendering: GetRenderCFG_Settings_QTMOVMP4_Video - supports now
-    audio/video FMPEG-export options
+    audio/video FMPEG-export options; supports now NONE as
+    Audio/VideoCodec
+-   Rendering: GetRenderCFG_Settings_WebMVideo - supports now
+    audio/video FMPEG-export options; supports now NONE as
+    Audio/VideoCodec
 -   Rendering: AddRenderPreset - TailMS supported now as of Reaper 6.62+
 -   Rendering: GetRenderPreset - TailMS supported now as of Reaper
     6.62+; bounds and options-name are now case-insensitive -> (thanx to
@@ -1727,7 +1742,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1614 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54058 from 01.09.2022 23:17:53).}
+a 1614 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54071 from 02.09.2022 22:41:10).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1865,7 +1880,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1614 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54058 from 01.09.2022 23:17:53).}
+a 1614 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54071 from 02.09.2022 22:41:10).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
