@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="54071.00" author="Meo Mespotine">
+      <version name="54113.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -1314,6 +1314,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_LangPack2Developer_langpack_converter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_LangPack2Developer_langpack_converter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorParmModulation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorParmModulation.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorRenderString_Diff.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorRenderString_Diff.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorRenderTable.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_MonitorRenderTable.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Monitor_EventManager.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Monitor_EventManager.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_A_ReaScript_with_Dialog.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_A_ReaScript_with_Dialog.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_Last_ReaScript.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.7/ultraschall_api/Scripts/Tools/DeveloperScripts/ultraschall_developertool_Open_Last_ReaScript.lua</source>
@@ -1490,6 +1491,8 @@ New features in 4.7
 -   DeveloperTools: Monitor Eventmanager - monitors the performance and
     some attributes of the Eventmanager, so you can optimize the
     registered events(requested by rstockm)
+-   DeveloperTools: MonitorRenderTable - monitors the entries of a
+    RenderTable for the currently opened project
 -   EventManager: EventManager_Debug_GetAllActionRunStates - returns a
     table of, if the actions of a registered event were run in the last
     event-check-cycle or not
@@ -1607,9 +1610,13 @@ Changes from 4.6 to 4.7
 -   Helperfunctions: OpenURL - did return true in case of success,
     though the docs state integer should be returned -> fixed now,
     returns 1
+-   MarkerManagement: AddEditMarker - added guid to name due old code
+    forgotten to remove; some improvements on edittitle -> fixed now
 -   MarkerManagement: DeleteNormalMarker - did not correctly delete the
     first normal marker, when it was the first one in the project ->
     fixed
+-   MarkerManagement: EnumerateEditMarker - some improvements on
+    edittitle
 -   MarkerManagement: GetMarkerByScreenCoordinates - returns now an
     additional retval with the marker-number(s); takes now scale-factor
     into account
@@ -1626,6 +1633,7 @@ Changes from 4.6 to 4.7
     -> fixed
 -   MarkerManagement: IsMarkerShownote - returns now the shownote-index
     as well
+-   MarkerManagement: SetEditMarker - some improvements on edittitle
 -   MarkerManagement: SetShownoteMarker - allows now setting the
     shown_number of a shownote as well
 -   MarkerManagement: StoreTemporaryMarker - supports now different
@@ -1653,6 +1661,8 @@ Changes from 4.6 to 4.7
     officially -> fixed
 -   ProjectManagement: GetProjectStateChunk - didn’t work under certain
     circumstances on Linux/Mac -> fixed
+-   Rendering: CreateNewRenderTable - supports now marker-rendering as
+    well as fade-in/fade-out
 -   Rendering: CreateRenderCFG_AVI_Video - supports now audio/video
     FMPEG-export options; supports now NONE as Audio/VideoCodec;
     corrected docs
@@ -1673,6 +1683,7 @@ Changes from 4.6 to 4.7
     Audio/VideoCodec
 -   Rendering: CreateRenderCFG_WMF_Video - renamed to
     CreateRenderCFG_WMF (old functionname is still available, though)
+-   Rendering: AddRenderPreset - TailMS supported now as of Reaper 6.62+
 -   Rendering: GetRender_AutoIncrementFilename - always returned true,
     when Render to File was closed -> fixed(thnx to aurelien)
 -   Rendering: GetRenderCFG_Settings_AVI_Video - supports now
@@ -1696,10 +1707,11 @@ Changes from 4.6 to 4.7
 -   Rendering: GetRenderCFG_Settings_WebMVideo - supports now
     audio/video FMPEG-export options; supports now NONE as
     Audio/VideoCodec
--   Rendering: AddRenderPreset - TailMS supported now as of Reaper 6.62+
 -   Rendering: GetRenderPreset - TailMS supported now as of Reaper
     6.62+; bounds and options-name are now case-insensitive -> (thanx to
     Malik)
+-   Rendering: GetRenderTable_Project - supports now marker-rendering as
+    well as fade-in/fade-out
 -   Rendering: DeleteRenderPreset_Bounds - bounds-name is now
     case-insensitive -> (thnx to Malik)
 -   Rendering: DeleteRenderPreset_FormatOptions - options-name is now
@@ -1742,7 +1754,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1614 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54071 from 02.09.2022 22:41:10).}
+a 1614 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54113 from 05.09.2022 00:03:16).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1880,7 +1892,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1614 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54071 from 02.09.2022 22:41:10).}
+a 1614 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54113 from 05.09.2022 00:03:16).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
