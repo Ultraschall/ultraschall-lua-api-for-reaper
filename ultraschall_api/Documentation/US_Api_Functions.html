@@ -64344,7 +64344,7 @@ Parameter enabled is always working, even if the fx has already been added.<br>
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>LUFS_Metering_GetValues</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>number</i> LUFS_integral, <i>number</i> LUFS_target, <i>number</i> dB_Gain = <em>ultraschall.LUFS_Metering_GetValues</em>()</code></div>
+<div class="l">Lua: <code> <i>number</i> LUFS_integral, <i>number</i> LUFS_target, <i>number</i> dB_Gain, <i>integer</i> FX_active = <em>ultraschall.LUFS_Metering_GetValues</em>()</code></div>
 </div><p>
 <div class="ch">
 Returns current LUFS-values of Ultraschall's LUFS Loudness Meter, when running(only available in Ultraschall-installations).<br>
@@ -64361,6 +64361,10 @@ Returns current LUFS-values of Ultraschall's LUFS Loudness Meter, when running(o
 <table class="ch">
 <tr><td class="pr"><i>number</i> dB_Gain</td></tr>
 <tr><td class="ch2">the gain currently set in the UI of the effect in dB</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> FX_active</td></tr>
+<tr><td class="ch2">0, the fx isn't active(usually when playback stopped); 1, the fx is active(during playback for instance)</td></tr>
 </table>
 <br>
 </div>
