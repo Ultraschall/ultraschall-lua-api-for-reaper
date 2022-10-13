@@ -352,9 +352,10 @@ Has now 1532 functions, with XX new ones
   - MarkerManagement: GetCustomMarkerIDFromGuid - returns the custom-marker-index and name from a guid
   - MarkerManagement: GetCustomRegionIDFromGuid - returns the custom-region-index and name from a guid
   - MarkerManagement: RenumerateNormalMarkers - renumerates the shown-number of all normal-markers
-  - MarkerManagement: RenumerateShownoteMarkers - renumerates the shown-number of all shownote-markers
+  - MarkerManagement: RenumerateShownoteMarkers - renumerates the shown-number of all shownote-markers  
   - MediaItem\_Takes: GetProjectPosByTakeSourcePos - gets the project-position of a take's source-position, obeying stretch-markers, offset, etc
   - MediaItem\_Takes: GetTakeSourcePosByProjectPos - gets the source-position of a take by the project-position, obeying stretch-markers, offset, etc
+  - MediaItemManagement: ToggleCrossfadeStateForSplits - toggles/sets the option for crossfades on splits of MediaItems
   - Navigation: GetNextClosestItemEnd - gets the next closest item-end within given tracks and from a specific position(requested by Moritz Klenk)
   - Navigation: GetNextClosestItemStart - gets the next closest item-start within given tracks and from a specific position(requested by Moritz Klenk)
   - Navigation: GetPreviousClosestItemEnd - gets the previous closest item-end within given tracks and from a specific position(requested by Moritz Klenk)
@@ -403,8 +404,8 @@ Has now 1532 functions, with XX new ones
   - MarkerManagement: SetEditMarker - some improvements on edittitle
   - MarkerManagement: SetShownoteMarker - allows now setting the shown_number of a shownote as well
   - MarkerManagement: StoreTemporaryMarker - supports now different positions(editcursor, play, mouse-position) to get the marker to store from; marker_id should be 0-based -> fixed
+  - MediaItemManagement: InsertMediaItemFromFile - rewritten from scratch and should work properly now; supports now insertion into last touched track and setting looped/locked state
   - MediaItemManagement: RippleCut - supports now optional parameter to add crossfade to the edit(requested by NiklasM)
-  - MediaItemManagement: ToggleCrossfadeStateForSplits - toggles/sets the option for crossfades on splits of MediaItems
   - MetaData: GetGuidExtState - didn't store extstates, when not using a guid as key -> fixed
   - MetaData: SetGuidExtState - didn't store extstates, when not using a guid as key -> fixed
   - Navigation: GetClosestNextMarker - didn't return the index but rather shown number instead; returns now also shown number officially -> fixed

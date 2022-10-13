@@ -31627,15 +31627,15 @@ If you have a MediaItemArray with items from track 1,2,3,4,5 and you give tracks
 <a href="#InsertMediaItemFromFile"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.9.7.png" alt="SWS version 2.9.7">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>InsertMediaItemFromFile</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>InsertMediaItemFromFile</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> retval, <i>MediaItem</i> item, <i>number</i> endposition, <i>integer</i> numchannels, <i>integer</i> Samplerate, <i>string</i> Filetype, <i>number</i> editcursorposition, <i>MediaTrack</i> track = <em>ultraschall.InsertMediaItemFromFile</em>(<i>string</i> filename, <i>integer</i> track, <i>number</i> position, <i>number</i> length, <i>integer</i> editcursorpos, <i>optional</i> <i>number</i> offset)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>MediaItem</i> item, <i>number</i> endposition, <i>integer</i> numchannels, <i>integer</i> Samplerate, <i>string</i> Filetype, <i>number</i> editcursorposition, <i>MediaTrack</i> track = <em>ultraschall.InsertMediaItemFromFile</em>(<i>string</i> filename, <i>integer</i> track, <i>number</i> position, <i>number</i> length, <i>integer</i> editcursorpos, <i>optional</i> <i>number</i> offset, <i>optional</i> <i>boolean</i> looped, <i>optional</i> <i>boolean</i> locked)</code></div>
 </div><p>
 <div class="ch">
 Inserts the mediafile filename into the project at position in track<br>
 When giving an rpp-projectfile, it will be rendered by Reaper and inserted as subproject!<br>
 <br>
-Due API-limitations, it creates two undo-points: one for inserting the MediaItem and one for changing the length(when length isn't -1).&nbsp;&nbsp;&nbsp;&nbsp;<br>
+Due API-limitations, it creates two undo-points: one for inserting the MediaItem and one for changing the length(when length isn't -1).<br>
 <br>
 Returns -1 in case of failure<br>
 </div><br>      
@@ -31682,7 +31682,8 @@ Returns -1 in case of failure<br>
 <tr><td class="pr"><i>integer</i> track</td></tr>
 <tr><td class="ch2">the track, in which the file shall be inserted<br/>
 0, insert the file into a newly inserted track after the last track<br/>
--1, insert the file into a newly inserted track before the first track</td></tr>
+-1, insert the file into a newly inserted track before the first track<br/>
+-2, insert into the last touched track</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>number</i> position</td></tr>
@@ -31702,6 +31703,14 @@ Returns -1 in case of failure<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>number</i> offset</td></tr>
 <tr><td class="ch2">an offset, to delay the insertion of the item, to overcome possible "too late"-starting of playback of item during recording</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> looped</td></tr>
+<tr><td class="ch2">true, loop source; false or nil, don't loop source</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> locked</td></tr>
+<tr><td class="ch2">true, lock MediaItem; false or nil, don't lock MediaItem</td></tr>
 </table>
 <br>
 </div>
