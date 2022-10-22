@@ -395,8 +395,10 @@ Has now 1532 functions, with XX new ones
   - HelperFunctions: Base64\_Encoder - sped up massively for longer strings(up to 90% faster)
   - HelperFunctions: ConvertAscii2Hex - sped up massively for longer strings
   - HelperFunctions: ConvertHex2Ascii - sped up massively for longer strings
-  - Helperfunctions: OpenURL - did return true in case of success, though the docs state integer should be returned -> fixed now, returns 1
+  - Helperfunctions: OpenURL - did return true in case of success, though the docs state integer should be returned -> fixed now, returns 1  
   - MarkerManagement: AddEditMarker - added guid to name due old code forgotten to remove; some improvements on edittitle -> fixed now
+  - MarkerManagement: AddNormalMarker - adds a unique guid for this marker to be used for chapters markers in export
+  - MarkerManagement: AddShownoteMarker - adds a unique guid for this shownote to be used in export
   - MarkerManagement: DeleteNormalMarker - did not correctly delete the first normal marker, when it was the first one in the project -> fixed
   - MarkerManagement: EnumerateEditMarker - some improvements on edittitle
   - MarkerManagement: GetMarkerByScreenCoordinates - returns now an additional retval with the marker-number(s); takes now scale-factor into account  

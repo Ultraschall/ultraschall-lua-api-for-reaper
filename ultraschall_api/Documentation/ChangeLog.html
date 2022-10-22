@@ -133,8 +133,11 @@ Bla</li>
 <li>HelperFunctions: Base64_Encoder - sped up massively for longer strings(up to 90% faster)</li>
 <li>HelperFunctions: ConvertAscii2Hex - sped up massively for longer strings</li>
 <li>HelperFunctions: ConvertHex2Ascii - sped up massively for longer strings</li>
-<li>Helperfunctions: OpenURL - did return true in case of success, though the docs state integer should be returned -&gt; fixed now, returns 1</li>
+<li>Helperfunctions: OpenURL - did return true in case of success, though the docs state integer should be returned -&gt; fixed now, returns 1<br />
+</li>
 <li>MarkerManagement: AddEditMarker - added guid to name due old code forgotten to remove; some improvements on edittitle -&gt; fixed now</li>
+<li>MarkerManagement: AddNormalMarker - adds a unique guid for this marker to be used for chapters markers in export</li>
+<li>MarkerManagement: AddShownoteMarker - adds a unique guid for this shownote to be used in export</li>
 <li>MarkerManagement: DeleteNormalMarker - did not correctly delete the first normal marker, when it was the first one in the project -&gt; fixed</li>
 <li>MarkerManagement: EnumerateEditMarker - some improvements on edittitle</li>
 <li>MarkerManagement: GetMarkerByScreenCoordinates - returns now an additional retval with the marker-number(s); takes now scale-factor into account<br />

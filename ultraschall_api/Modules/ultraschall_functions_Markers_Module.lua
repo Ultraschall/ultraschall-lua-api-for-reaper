@@ -36,7 +36,7 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddNormalMarker</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.7
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -73,6 +73,8 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
   if markertitle==nil then markertitle="" end
   
   local shown_number, marker_index, guid = ultraschall.AddProjectMarker(0, false, position, 0, markertitle, shown_number, 0)
+  
+  local A1,B1,C1=ultraschall.GetSetChapterMarker_Attributes(true, marker_index, "chap_guid", "", false)
   
   return marker_index, guid, ultraschall.GetNormalMarkerIDFromGuid(guid)
 end
@@ -5362,7 +5364,7 @@ function ultraschall.AddShownoteMarker(pos, name)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddShownoteMarker</slug>
   <requires>
-    Ultraschall=4.6
+    Ultraschall=4.7
     Reaper=6.02
     Lua=5.3
   </requires>
@@ -5410,6 +5412,7 @@ function ultraschall.AddShownoteMarker(pos, name)
   local A={ultraschall.AddCustomMarker("Shownote", pos, name2, Count+1, Color)}  
   A[4]=A[4]+1
   ultraschall.SetShownoteMarker(A[4], pos, name)
+  local A1,B1,C1=ultraschall.GetSetShownoteMarker_Attributes(true, A[4], "shwn_guid", "", false)
   if A[1]==false then A[2]=-1 end
   table.remove(A,1)
   return table.unpack(A)
@@ -7809,7 +7812,8 @@ ultraschall.ChapterAttributes={
               "chap_image_description",
               "chap_image_license",
               "chap_image_origin",
-              "chap_image_url"
+              "chap_image_url",
+              "chap_guid"
               }
 
 function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, content, planned)
@@ -7855,6 +7859,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
                                                        - chap_number is the number of the chapter in timeline-order
                                                        - it's possible to set multiple chapters as the previous chapters; chap_number is 0-based
                                                        - this can be used for non-linear podcasts, like "choose your own adventure"
+                         - "chap_guid" - a unique guid for this chapter-marker; read-only
     string content - the new contents to set the attribute with
     optional boolean planned - true, get/set this attribute with planned marker; false or nil, get/set this attribute with normal marker(chapter marker)
   </parameters>
@@ -7893,6 +7898,12 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
     end
   end
   
+  if attributename=="chap_guid" then 
+    if ultraschall.GetMarkerExtState(idx, attributename)==nil then
+      ultraschall.SetMarkerExtState(idx, attributename, reaper.genGuid(""))
+    end
+    return ultraschall.GetMarkerExtState(idx, attributename)
+  end
   if attributename=="chap_url" then attributename="url" end
   
   if found==false then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "attributename not supported", -7) return false end
@@ -8251,7 +8262,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
 end
 
 
-ultraschall.ShowNoteAttributes = {"shwn_language",           -- check for validity ISO639
+ultraschall.ShowNoteAttributes={"shwn_language",           -- check for validity ISO639
               "shwn_description",
               "shwn_location_gps",       -- check for validity
               "shwn_location_google_maps",-- check for validity
@@ -8288,7 +8299,8 @@ ultraschall.ShowNoteAttributes = {"shwn_language",           -- check for validi
               "shwn_url_archived_copy_of_original_url",
               "shwn_wikidata_uri",
               "shwn_descriptive_tags",
-              "shwn_is_advertisement"
+              "shwn_is_advertisement",
+              "shwn_guid"
               }
 
 function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename, content)
@@ -8348,6 +8360,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
                          - "shwn_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
                          - "shwn_quote" - a quote from the cite_source
                          - "shwn_wikidata_uri" - the uri to an entry to wikidata
+                         - "shwn_guid" - a unique identifier for this shownote; read-only
     string content - the new contents to set the attribute with
   </parameters>
   <retvals>
@@ -8368,13 +8381,12 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "attributename", "must be a string", -3) return false end  
   if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "must be a string", -4) return false end  
   
-  
   -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN THE CODE OF CommitShownote_ReaperMetadata() !!!
   local tags=ultraschall.ShowNoteAttributes
               
   local found=false
   for i=1, #tags do
-    if attributename==tags[i] then
+    if attributename==tags[i] then      
       found=true
       break
     end
@@ -8385,6 +8397,13 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   local A,B,Retval
   A={ultraschall.EnumerateShownoteMarkers(idx)}
   if A[1]==false then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "idx", "no such shownote-marker", -5) return false end
+  
+  if attributename=="shwn_guid" then
+    if ultraschall.GetMarkerExtState(A[2]+1, attributename)==nil then
+      ultraschall.SetMarkerExtState(A[2]+1, attributename, reaper.genGuid(""))
+    end
+    return ultraschall.GetMarkerExtState(A[2]+1, attributename)
+  end
   
   if is_set==true then
     local content2=content
