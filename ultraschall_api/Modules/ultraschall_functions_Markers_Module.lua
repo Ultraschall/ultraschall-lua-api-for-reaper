@@ -8114,6 +8114,7 @@ ultraschall.EpisodeAttributes={
               "epsd_descriptive_tags",
               "epsd_content_notification_tags",
               "epsd_url",
+              "epsd_guid"
               }
 
 function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, additional_attribute, content, preset_slot)
@@ -8158,6 +8159,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
                           - "epsd_sponsor" - the name of the sponsor of this episode
                           - "epsd_sponsor_url" - a link to the sponsor's website
                           - "epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by commas
+                          - "epsd_guid" - a unique identifier for this episode; contains three guids in a row; read-only; can't be stored in presets!
     string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
     string content - the new contents to set the attribute
     optional integer preset_slot - the slot in the podcast-presets to get/set the value from/to; nil, no preset used
@@ -8233,6 +8235,15 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
   if found==false then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "attributename", "attributename not supported", -7) return false end
   local presetcontent, _
   --if attributename=="image_content" and content:sub(1,6)~="ÿØÿ" and content:sub(2,4)~="PNG" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "image_content: only png and jpg are supported", -6) return false end
+  
+  if attributename=="epsd_guid" then
+    local _, content=reaper.GetProjExtState(0, "EpisodeMetaData", attributename)
+    if content=="" then
+      reaper.SetProjExtState(0, "EpisodeMetaData", attributename, reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")) 
+    end
+    local _, content=reaper.GetProjExtState(0, "EpisodeMetaData", attributename)
+    return content
+  end
   
   if is_set==true then
     -- set state
