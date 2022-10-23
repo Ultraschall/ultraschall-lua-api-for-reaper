@@ -423,6 +423,7 @@ Has now 1532 functions, with XX new ones
   - ProjectManagement: GetProject\_Render\_Normalize - supports now fade_in and fade_out rendering-modes
   - ProjectManagement: SetProject\_Render\_Normalize - supports now fade_in and fade_out rendering-modes
   - Rendering: AddRenderPreset - TailMS supported now as of Reaper 6.62+
+  - Rendering: ApplyRenderTable\_Project - supports now marker-rendering as well as fade-in/fade-out
   - Rendering: CreateNewRenderTable - supports now marker-rendering as well as fade-in/fade-out
   - Rendering: CreateRenderCFG\_AVI\_Video - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec; corrected docs
   - Rendering: CreateRenderCFG\_FLV\_Video - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec
@@ -441,7 +442,7 @@ Has now 1532 functions, with XX new ones
   - Rendering: GetRenderCFG\_Settings\_QTMOVMP4\_Video - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec
   - Rendering: GetRenderCFG\_Settings\_WebMVideo - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec
   - Rendering: GetRenderPreset - TailMS supported now as of Reaper 6.62+; bounds and options-name are now case-insensitive -> (thanx to Malik)
-  - Rendering: GetRenderTable_Project - supports now marker-rendering as well as fade-in/fade-out
+  - Rendering: GetRenderTable\_Project - supports now marker-rendering as well as fade-in/fade-out
   - Rendering: DeleteRenderPreset\_Bounds - bounds-name is now case-insensitive -> (thnx to Malik)
   - Rendering: DeleteRenderPreset\_FormatOptions - options-name is now case-insensitive -> (thnx to Malik)
   - Rendering: RenderProject\_RenderTable - didn't increment filename when rendering filename under certain circumstances -> fixed (thnx to aurelien)
@@ -2252,22 +2253,22 @@ This is the last beta-release for the Ultraschall-API4.00 and the feature-freeze
    - Miscellaneous: WinterlySnowflakes - did produce Lua-error, when number of snowflakes was >5000; limited to 5000 now
    - ParmAlias: GetParmAlias_MediaTrack - had wrong functionname in error-messages -> fixed
    - ParmAlias: Docs - all functions ParmLearn-function in the docs move to proper subchapters for clearer index-navigation
-   - Project Management: GetAllMediaItems_FromProjectBayStateChunk - didn't return ProjectBayStateChunk properly -> fixed
-   - Project Management: GetProject_RenderCFG - returns now the render-cfg-string for the secondary renderformat as well
-   - Project Management: SetProject_RenderCFG - allows now setting of secondary render-format as well; backwards compatible with old scripts, who set only primary rendering format in ProjectStateChunks
+   - Project Management: GetAllMediaItems\_FromProjectBayStateChunk - didn't return ProjectBayStateChunk properly -> fixed
+   - Project Management: GetProject\_RenderCFG - returns now the render-cfg-string for the secondary renderformat as well
+   - Project Management: SetProject\_RenderCFG - allows now setting of secondary render-format as well; backwards compatible with old scripts, who set only primary rendering format in ProjectStateChunks
    - Rendering: AddRenderPreset - allows now adding the render-cfg-string for secondary renderformat as well; had inner variable exposed -> fixed
-   - Rendering: ApplyRenderTable_Project - allows now setting the render-cfg-string for secondary renderformat as well
+   - Rendering: ApplyRenderTable\_Project - allows now setting the render-cfg-string for secondary renderformat as well
    - Rendering: CreateNewRenderTable - allows now adding the render-cfg-string for secondary renderformat as well; had wrong functionname in docs -> fixed
    - Rendering: DeleteRenderPreset_FormatOptions - deletes now the render-cfg-string for secondary renderformat, if existing
-   - Rendering: GetRenderPreset_RenderTable - returns now possible render-cfg-string for secondary renderformat as well; some error-messages didn't work -> fixed
-   - Rendering: GetRenderTable_Project - returns now a render-cfg-string for secondary renderformat
-   - Rendering: GetRenderTable_ProjectFile - returns now a render-cfg-string for secondary renderformat
+   - Rendering: GetRenderPreset\_RenderTable - returns now possible render-cfg-string for secondary renderformat as well; some error-messages didn't work -> fixed
+   - Rendering: GetRenderTable\_Project - returns now a render-cfg-string for secondary renderformat
+   - Rendering: GetRenderTable\_ProjectFile - returns now a render-cfg-string for secondary renderformat
    - Rendering: IsValidRenderTable - checks now for the render-cfg-string for secondary renderformat as well
    - Rendering: RenderProject - allows now setting the render-cfg-string for secondary renderformat as well; checks now, if projectfilename is a valid project
-   - Rendering: RenderProject_RenderTable - allows now setting the render-cfg-string for secondary renderformat as well; checks now, if projectfilename is a valid project
+   - Rendering: RenderProject\_RenderTable - allows now setting the render-cfg-string for secondary renderformat as well; checks now, if projectfilename is a valid project
    - Rendering: SetRenderPreset - allows now setting the render-cfg-string for secondary renderformat as well; set RenderString2="" to remove the secondary renderformat
-   - Track Management: GetTrackState_NumbersOnly - had wrong description in the docs -> fixed
-   - User Interface: GetHWND_ArrangeViewAndTimeLine - moved to User Interface -> Reaper-Windowhandler in the index of the docs
+   - Track Management: GetTrackState\_NumbersOnly - had wrong description in the docs -> fixed
+   - User Interface: GetHWND\_ArrangeViewAndTimeLine - moved to User Interface -> Reaper-Windowhandler in the index of the docs
    
    
 

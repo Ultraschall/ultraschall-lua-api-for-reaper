@@ -2640,7 +2640,8 @@ function ultraschall.GetRenderTable_Project()
   RenderTable["FadeOut_Enabled"]=RenderTable["Normalize_Method"]&1024==1024 
   if RenderTable["FadeOut_Enabled"]==true then RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-1024 end
   
-  RenderTable["Normalize_Enabled"]=reaper.GetSetProjectInfo(0, "RENDER_NORMALIZE", 0, false)&1==1
+  local retval = reaper.GetSetProjectInfo(0, "RENDER_NORMALIZE", 0, false)&1==1
+  RenderTable["Normalize_Enabled"]=retval
   if RenderTable["Normalize_Enabled"]==true then RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-1 end
   if reaper.GetSetProjectInfo(0, "RENDER_NORMALIZE_TARGET", 0, false)~="" then
     RenderTable["Normalize_Target"]=ultraschall.MKVOL2DB(reaper.GetSetProjectInfo(0, "RENDER_NORMALIZE_TARGET", 0, false))  
@@ -3440,7 +3441,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   <slug>ApplyRenderTable_Project</slug>
   <requires>
     Ultraschall=4.7
-    Reaper=6.64
+    Reaper=6.65
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -3483,6 +3484,26 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["EmbedTakeMarkers"]    - Embed Take markers; true, checked; false, unchecked
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"]         - the endposition of the rendering selection in seconds
+            RenderTable["FadeIn_Enabled"] - true, fade-in is enabled; false, fade-in is disabled
+            RenderTable["FadeIn"] - the fade-in-time in seconds
+            RenderTable["FadeIn_Shape"] - the fade-in-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
+            RenderTable["FadeOut_Enabled"] - true, fade-out is enabled; false, fade-out is disabled
+            RenderTable["FadeOut"] - the fade-out time in seconds
+            RenderTable["FadeOut_Shape"] - the fade-out-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
             RenderTable["MultiChannelFiles"]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
             RenderTable["Normalize_Enabled"]   - true, normalization enabled; 
                                                  false, normalization not enabled
@@ -3641,6 +3662,14 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   
   if RenderTable["Brickwall_Limiter_Method"]==2 and normalize_method&128==0 then normalize_method=normalize_method+128 end
   if RenderTable["Brickwall_Limiter_Method"]==1 and normalize_method&128==128 then normalize_method=normalize_method-128 end
+  
+  if RenderTable["FadeIn_Enabled"]==true and normalize_method&512==0 then normalize_method=normalize_method+512 end
+  if RenderTable["FadeOut_Enabled"]==true and normalize_method&1024==0 then normalize_method=normalize_method+1024 end
+  
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_FADEIN", RenderTable["FadeIn"], true)
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_FADEOUT", RenderTable["FadeOut"], true)
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_FADEINSHAPE", RenderTable["FadeIn_Shape"], true)
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_FADEOUTSHAPE", RenderTable["FadeOut_Shape"], true)
   
   reaper.GetSetProjectInfo(0, "RENDER_BRICKWALL", ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"]), true)
   

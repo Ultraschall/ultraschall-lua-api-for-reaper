@@ -34916,18 +34916,58 @@ Get or set the arrange view grid division. 0.25=quarter note, 1.0/3.0=half note 
 <div class="ch">
 Get or set project information.<br>
 <br>
-RENDER_SETTINGS : &(1|2)=0:master mix, &1=stems+master mix, &2=stems only, &4=multichannel tracks to multichannel files, &8=use render matrix, &16=tracks with only mono media to mono files, &32=selected media items, &64=selected media items via master, & 128=Selected tracks via master, &256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &512=Embed Metadata, if format supports is, &1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master); &2048=2nd pass render&nbsp;&nbsp;<br>
+RENDER_SETTINGS : <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&(1|2)=0:master mix, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&1=stems+master mix, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&2=stems only, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&4=multichannel tracks to multichannel files, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&8=use render matrix, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&16=tracks with only mono media to mono files, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&32=selected media items, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&64=selected media items via master, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&128=Selected tracks via master, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&512=Embed Metadata, if format supports is, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&2048=2nd pass render&nbsp;&nbsp;<br>
 OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using GetSetProjectInfo_String.&nbsp;&nbsp;<br>
-RENDER_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions, 6=all project markers, 7=selected project markers<br>
+RENDER_BOUNDSFLAG : <br>
+&nbsp;&nbsp;0=custom time bounds, <br>
+&nbsp;&nbsp;1=entire project, <br>
+&nbsp;&nbsp;2=time selection, <br>
+&nbsp;&nbsp;3=all project regions, <br>
+&nbsp;&nbsp;4=selected media items, <br>
+&nbsp;&nbsp;5=selected project regions, <br>
+&nbsp;&nbsp;6=all project markers, <br>
+&nbsp;&nbsp;7=selected project markers<br>
 RENDER_CHANNELS : number of channels in rendered file&nbsp;&nbsp;<br>
 RENDER_SRATE : sample rate of rendered file (or 0 for project sample rate)&nbsp;&nbsp;<br>
 RENDER_STARTPOS : render start time when RENDER_BOUNDSFLAG=0&nbsp;&nbsp;<br>
 RENDER_ENDPOS : render end time when RENDER_BOUNDSFLAG=0&nbsp;&nbsp;<br>
-RENDER_TAILFLAG : apply render tail setting when rendering: &1=custom time bounds, &2=entire project, &4=time selection, &8=all project markers/regions, &16=selected media items, &32=selected project markers/regions<br>
+RENDER_TAILFLAG : apply render tail setting when rendering: <br>
+&nbsp;&nbsp;&1=custom time bounds, <br>
+&nbsp;&nbsp;&2=entire project, <br>
+&nbsp;&nbsp;&4=time selection, <br>
+&nbsp;&nbsp;&8=all project markers/regions, <br>
+&nbsp;&nbsp;&16=selected media items, <br>
+&nbsp;&nbsp;&32=selected project markers/regions<br>
 RENDER_TAILMS : tail length in ms to render (only used if RENDER_BOUNDSFLAG and RENDER_TAILFLAG are set)&nbsp;&nbsp;<br>
-RENDER_ADDTOPROJ : &1=add rendered files to project, &2=Do not render files that are likely silent&nbsp;&nbsp;<br>
-RENDER_DITHER : &1=dither, &2=noise shaping, &4=dither stems, &8=noise shaping on stems&nbsp;&nbsp;<br>
-RENDER_NORMALIZE: &1=enable, (&14==0)=LUFS-I, (&14==2)=RMS, (&14==4)=peak, (&14==6)=true peak, (&14==8)=LUFS-M max, (&14==10)=LUFS-S max, &32=normalize stems to common gain based on master, &64=enable brickwall limit, &128=brickwall limit true peak, &256=only normalize files that are too loud, &512=apply fade-in, &1024=apply fade-out<br>
+RENDER_ADDTOPROJ : <br>
+&nbsp;&nbsp;&1=add rendered files to project, <br>
+&nbsp;&nbsp;&2=Do not render files that are likely silent&nbsp;&nbsp;<br>
+RENDER_DITHER : <br>
+&nbsp;&nbsp;&1=dither, <br>
+&nbsp;&nbsp;&2=noise shaping, <br>
+&nbsp;&nbsp;&4=dither stems, <br>
+&nbsp;&nbsp;&8=noise shaping on stems&nbsp;&nbsp;<br>
+RENDER_NORMALIZE: <br>
+&nbsp;&nbsp;&1=enable, (&14==0)=LUFS-I, (&14==2)=RMS, (&14==4)=peak, (&14==6)=true peak, (&14==8)=LUFS-M max, (&14==10)=LUFS-S max, <br>
+&nbsp;&nbsp;&32=normalize stems to common gain based on master, <br>
+&nbsp;&nbsp;&64=enable brickwall limit, <br>
+&nbsp;&nbsp;&128=brickwall limit true peak, <br>
+&nbsp;&nbsp;&256=only normalize files that are too loud, <br>
+&nbsp;&nbsp;&512=apply fade-in, <br>
+&nbsp;&nbsp;&1024=apply fade-out<br>
 RENDER_NORMALIZE_TARGET: render normalization target as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc&nbsp;&nbsp;<br>
 RENDER_BRICKWALL: render brickwall limit as amplitude, so 0.5 means -6.02dB, 0.25 means -12.04dB, etc<br>
 RENDER_FADEIN: render fade-in (0.001 means 1 ms, requires RENDER_NORMALIZE&512)<br>
