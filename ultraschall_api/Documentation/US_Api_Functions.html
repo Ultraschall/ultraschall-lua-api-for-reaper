@@ -43671,10 +43671,10 @@ Returns nil in case of error.<br>
 <hr>
 <a class="anch" id="GetProject_Render_Normalize"></a>
 <a href="#GetProject_Render_Normalize"> ^</a> 
-<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetProject_Render_Normalize</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.65.png" alt="Reaper version 6.65">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>GetProject_Render_Normalize</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> render_normalize_mode, <i>number</i> normalize_target = <em>ultraschall.GetProject_Render_Normalize</em>(<i>string</i> projectfilename_with_path, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
+<div class="l">Lua: <code> <i>integer</i> render_normalize_mode, <i>number</i> normalize_target, <i>optional</i> <i>number</i> brickwall_target, <i>optional</i> <i>number</i> fadein_length, <i>optional</i> <i>number</i> fadeout_length, <i>optional</i> <i>integer</i> fadein_shape, <i>optional</i> <i>integer</i> fadeout_shape = <em>ultraschall.GetProject_Render_Normalize</em>(<i>string</i> projectfilename_with_path, <i>optional</i> <i>string</i> ProjectStateChunk)</code></div>
 </div><p>
 <div class="ch">
 returns the master-view-state of the master-track of the project or a ProjectStateChunk.<br>
@@ -43714,8 +43714,80 @@ returns nil in case of an error<br>
 <tr><td class="ch2">the normalize-target as amp-volume. Use ultraschall.MKVOL2DB to convert it to dB.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>number</i> brickwall_target</td></tr>
-<tr><td class="ch2">the normalize-target as amp-volume. Use ultraschall.MKVOL2DB to convert it to dB.</td></tr>
+<tr><td class="pr"><i>optional</i> <i>number</i> brickwall_target</td></tr>
+<tr><td class="ch2">the brickwall-target as amp-volume. Use ultraschall.MKVOL2DB to convert it to dB.&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> fadein_length</td></tr>
+<tr><td class="ch2">the length of the fade-in in seconds(use fractions for milliseconds)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> fadeout_length</td></tr>
+<tr><td class="ch2">the length of the fade-out in seconds(use fractions for milliseconds)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> fadein_shape</td></tr>
+<tr><td class="ch2">the shape of the fade-in-curve</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">curve fade-in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">curve fade-in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> fadeout_shape</td></tr>
+<tr><td class="ch2">the shape of the fade-out-curve</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">curve fade-out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">curve fade-out</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -48083,10 +48155,10 @@ Returns -1 in case of error.<br>
 <hr>
 <a class="anch" id="SetProject_Render_Normalize"></a>
 <a href="#SetProject_Render_Normalize"> ^</a> 
-<img width="3%" src="gfx/reaper6.48.png" alt="Reaper version 6.48">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>SetProject_Render_Normalize</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.65.png" alt="Reaper version 6.65">
+<img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>SetProject_Render_Normalize</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> retval = <em>ultraschall.SetProject_Render_Normalize</em>(<i>string</i> projectfilename_with_path, <i>integer</i> render_normalize_method, <i>number</i> normalize_target, <i>optional</i> <i>string</i> ProjectStateChunk, <i>optional</i> <i>number</i> brickwall_target)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>ultraschall.SetProject_Render_Normalize</em>(<i>string</i> projectfilename_with_path, <i>integer</i> render_normalize_method, <i>number</i> normalize_target, <i>optional</i> <i>string</i> ProjectStateChunk, <i>optional</i> <i>number</i> brickwall_target, <i>optional</i> <i>number</i> fadein_length, <i>optional</i> <i>number</i> fadeout_length, <i>optional</i> <i>integer</i> fadein_shape, <i>optional</i> <i>integer</i> fadeout_shape)</code></div>
 </div><p>
 <div class="ch">
 Sets the panmode for the master-track of an rpp-projectfile or a ProjectStateChunk.<br>
@@ -48142,6 +48214,78 @@ Returns -1 in case of error.<br>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>number</i> brickwall_target</td></tr>
 <tr><td class="ch2">the brickwall-normalizatin-target as amp-volume. Use ultraschall.DB2MKVOL to convert it from dB.</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> fadein_length</td></tr>
+<tr><td class="ch2">the length of the fade-in in seconds(use fractions for milliseconds)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> fadeout_length</td></tr>
+<tr><td class="ch2">the length of the fade-out in seconds(use fractions for milliseconds)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> fadein_shape</td></tr>
+<tr><td class="ch2">the shape of the fade-in-curve</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">curve fade-in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">curve fade-in</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>integer</i> fadeout_shape</td></tr>
+<tr><td class="ch2">the shape of the fade-out-curve</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">curve fade-out</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"> </td></tr>
+<tr><td class="ch2">curve fade-out</td></tr>
 </table>
 <br>
 </div>

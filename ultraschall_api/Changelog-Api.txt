@@ -420,6 +420,8 @@ Has now 1532 functions, with XX new ones
   - Navigation: GetClosestPreviousMarker - didn't return the index but rather shown number instead; returns now also shown number officially -> fixed
   - Navigation: GetClosestPreviousRegionEdge - didn't return the index but rather shown number instead; returns now also shown number officially -> fixed
   - ProjectManagement: GetProjectStateChunk - didn't work under certain circumstances on Linux/Mac -> fixed
+  - ProjectManagement: GetProject\_Render\_Normalize - supports now fade_in and fade_out rendering-modes
+  - ProjectManagement: SetProject\_Render\_Normalize - supports now fade_in and fade_out rendering-modes
   - Rendering: AddRenderPreset - TailMS supported now as of Reaper 6.62+
   - Rendering: CreateNewRenderTable - supports now marker-rendering as well as fade-in/fade-out
   - Rendering: CreateRenderCFG\_AVI\_Video - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec; corrected docs
