@@ -165,6 +165,7 @@ Bla</li>
 <li>ProjectManagement: SetProject_Render_Normalize - supports now fade<em>in and fade</em>out rendering-modes</li>
 <li>Rendering: AddRenderPreset - TailMS supported now as of Reaper 6.62+</li>
 <li>Rendering: ApplyRenderTable_Project - supports now marker-rendering as well as fade-in/fade-out</li>
+<li>Rendering: ApplyRenderTable_ProjectFile - supports now marker-rendering as well as fade-in/fade-out</li>
 <li>Rendering: CreateNewRenderTable - supports now marker-rendering as well as fade-in/fade-out</li>
 <li>Rendering: CreateRenderCFG_AVI_Video - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec; corrected docs</li>
 <li>Rendering: CreateRenderCFG_FLV_Video - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec</li>
@@ -182,10 +183,14 @@ Bla</li>
 <li>Rendering: GetRenderCFG_Settings_MPEG2_Video - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec</li>
 <li>Rendering: GetRenderCFG_Settings_QTMOVMP4_Video - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec</li>
 <li>Rendering: GetRenderCFG_Settings_WebMVideo - supports now audio/video FMPEG-export options; supports now NONE as Audio/VideoCodec</li>
-<li>Rendering: GetRenderPreset - TailMS supported now as of Reaper 6.62+; bounds and options-name are now case-insensitive -&gt; (thanx to Malik)</li>
+<li>Rendering: GetRenderPreset_RenderTable - TailMS supported now as of Reaper 6.62+; marker rendering and fade in/out supported; bounds and options-name are now case-insensitive -&gt; (thanx to Malik)</li>
+<li>Rendering: GetRenderTable_ProjectDefaults - supports now marker-rendering as well as fade-in/fade-out</li>
 <li>Rendering: GetRenderTable_Project - supports now marker-rendering as well as fade-in/fade-out</li>
+<li>Rendering: GetRenderTable_ProjectFile - supports now marker-rendering as well as fade-in/fade-out<br />
+</li>
 <li>Rendering: DeleteRenderPreset_Bounds - bounds-name is now case-insensitive -&gt; (thnx to Malik)</li>
 <li>Rendering: DeleteRenderPreset_FormatOptions - options-name is now case-insensitive -&gt; (thnx to Malik)</li>
+<li>Rendering: IsValidRenderTable - supports now FadeIn/Out and marker-rendering</li>
 <li>Rendering: RenderProject_RenderTable - didn't increment filename when rendering filename under certain circumstances -&gt; fixed (thnx to aurelien)</li>
 <li>Rendering: SetRenderPreset - TailMS supported now as of Reaper 6.62+; bounds and options-name are now case-insensitive -&gt; (thnx to Malik)</li>
 <li>UltraschallConfigFiles: GetUSExternalState - did return nil when file did not exist, though docs claimed "" -&gt; fixed</li>

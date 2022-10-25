@@ -2722,6 +2722,26 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
             RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked                        
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds            
+            RenderTable["FadeIn_Enabled"] - true, fade-in is enabled; false, fade-in is disabled
+            RenderTable["FadeIn"] - the fade-in-time in seconds
+            RenderTable["FadeIn_Shape"] - the fade-in-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
+            RenderTable["FadeOut_Enabled"] - true, fade-out is enabled; false, fade-out is disabled
+            RenderTable["FadeOut"] - the fade-out time in seconds
+            RenderTable["FadeOut_Shape"] - the fade-out-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["Normalize_Enabled"] - true, normalization enabled; false, normalization not enabled
             RenderTable["Normalize_Method"] - the normalize-method-dropdownlist
@@ -2868,7 +2888,20 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
   RenderTable["SaveCopyOfProject"]=false
   RenderTable["CloseAfterRender"]=true
   
-  RenderTable["Normalize_Method"], RenderTable["Normalize_Target"], RenderTable["Brickwall_Limiter_Target"] = ultraschall.GetProject_Render_Normalize(nil, ProjectStateChunk)
+  RenderTable["Normalize_Method"], 
+  RenderTable["Normalize_Target"], 
+  RenderTable["Brickwall_Limiter_Target"],
+  RenderTable["FadeIn"],
+  RenderTable["FadeOut"],
+  RenderTable["FadeIn_Shape"],
+  RenderTable["FadeOut_Shape"] = ultraschall.GetProject_Render_Normalize(nil, ProjectStateChunk)
+  
+  if RenderTable["Brickwall_Limiter_Enabled"]==nil then RenderTable["Brickwall_Limiter_Enabled"]=false end
+  if RenderTable["FadeIn"]==nil then RenderTable["FadeIn"]=0.0 end
+  if RenderTable["FadeOut"]==nil then RenderTable["FadeOut"]=0.0 end
+  if RenderTable["FadeIn_Shape"]==nil then RenderTable["FadeIn_Shape"]=0 end
+  if RenderTable["FadeOut_Shape"]==nil then RenderTable["FadeOut_Shape"]=0 end
+    
   if RenderTable["Normalize_Method"]==nil then
     RenderTable["Normalize_Method"]=0
     RenderTable["Normalize_Target"]=-24
@@ -2884,6 +2917,20 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
     RenderTable["Normalize_Target"]=ultraschall.MKVOL2DB(RenderTable["Normalize_Target"])
     RenderTable["Normalize_Stems_to_Master_Target"]=RenderTable["Normalize_Method"]&32==32
   
+    if RenderTable["Normalize_Method"]&1024==0 then
+      RenderTable["FadeOut_Enabled"]=false
+    else
+      RenderTable["FadeOut_Enabled"]=true
+      RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-1024
+    end
+  
+    if RenderTable["Normalize_Method"]&512==0 then
+      RenderTable["FadeIn_Enabled"]=false
+    else
+      RenderTable["FadeIn_Enabled"]=true
+      RenderTable["Normalize_Method"]=RenderTable["Normalize_Method"]-512
+    end
+    
     if RenderTable["Normalize_Method"]&256==0 then     
       RenderTable["Normalize_Only_Files_Too_Loud"]=false
     elseif RenderTable["Normalize_Method"]&256==256 then
@@ -3431,6 +3478,13 @@ function ultraschall.IsValidRenderTable(RenderTable)
   if type(RenderTable["Brickwall_Limiter_Enabled"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Brickwall_Limiter_Enabled\"] must be a boolean", -27) return false end
   if type(RenderTable["Brickwall_Limiter_Target"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Brickwall_Limiter_Target\"] must be a number", -28) return false end
   if type(RenderTable["Normalize_Only_Files_Too_Loud"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Normalize_Only_Files_Too_Loud\"] must be a boolean", -29) return false end
+  
+  if type(RenderTable["FadeIn"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"FadeIn\"] must be a number", -30) return false end
+  if type(RenderTable["FadeOut"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"FadeOut\"] must be a number", -31) return false end
+  if type(RenderTable["FadeIn_Enabled"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"FadeIn_Enabled\"] must be a boolean", -32) return false end
+  if type(RenderTable["FadeOut_Enabled"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"FadeOut_Enabled\"] must be a boolean", -33) return false end
+  if math.type(RenderTable["FadeIn_Shape"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"FadeIn_Shape\"] must be an integer", -34) return false end
+  if math.type(RenderTable["FadeOut_Shape"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"FadeOut_Shape\"] must be an integer", -35) return false end
 
   return true
 end
@@ -3793,6 +3847,26 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["EmbedTakeMarkers"]    - Embed Take markers; true, checked; false, unchecked
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"]         - the endposition of the rendering selection in seconds
+            RenderTable["FadeIn_Enabled"] - true, fade-in is enabled; false, fade-in is disabled
+            RenderTable["FadeIn"] - the fade-in-time in seconds
+            RenderTable["FadeIn_Shape"] - the fade-in-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
+            RenderTable["FadeOut_Enabled"] - true, fade-out is enabled; false, fade-out is disabled
+            RenderTable["FadeOut"] - the fade-out time in seconds
+            RenderTable["FadeOut_Shape"] - the fade-out-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
             RenderTable["MultiChannelFiles"]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["Normalize_Enabled"]   - true, normalization enabled; 
                                                  false, normalization not enabled
@@ -3896,6 +3970,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
   if ProjectStateChunk==nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("ApplyRenderTable_ProjectFile", "projectfilename_with_path", "not a valid rpp-projectfile", -4) return false end
   if apply_rendercfg_string~=nil and type(apply_rendercfg_string)~="boolean" then ultraschall.AddErrorMessage("ApplyRenderTable_ProjectFile", "apply_rendercfg_string", "must be boolean", -5) return false end
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderTable_ProjectFile", "RenderTable", "not a valid RenderTable", -6) return nil end
   
   local Source=RenderTable["Source"]
   
@@ -3970,9 +4045,11 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
   if RenderTable["Brickwall_Limiter_Method"]==1 and normalize_method&128==128 then normalize_method=normalize_method-128 end
   if RenderTable["Brickwall_Limiter_Method"]==2 and normalize_method&128==0 then normalize_method=normalize_method+128 end
   
-  retval, ProjectStateChunk = ultraschall.SetProject_Render_Normalize(nil, normalize_method, normalize_target, ProjectStateChunk, brickwall_target)
+  if RenderTable["FadeIn_Enabled"]==true and normalize_method&512==0 then normalize_method=normalize_method+512 end
+  if RenderTable["FadeOut_Enabled"]==true and normalize_method&1024==0 then normalize_method=normalize_method+1024 end  
   
-  
+  retval, ProjectStateChunk = ultraschall.SetProject_Render_Normalize(nil, normalize_method, normalize_target, ProjectStateChunk, brickwall_target, RenderTable["FadeIn"], RenderTable["FadeOut"], RenderTable["FadeInShape"], RenderTable["FadeOutShape"])
+    
   retval, ProjectStateChunk = ultraschall.SetProject_RenderStems(nil, RenderTable["Source"], ProjectStateChunk)
   retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, RenderTable["Bounds"], RenderTable["Startposition"], RenderTable["Endposition"], RenderTable["TailFlag"], RenderTable["TailMS"], ProjectStateChunk)  
   retval, ProjectStateChunk = ultraschall.SetProject_RenderFreqNChans(nil, 0, RenderTable["Channels"], RenderTable["SampleRate"], ProjectStateChunk)
@@ -4888,6 +4965,26 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
             RenderTable["EmbedTakeMarkers"]    - Embed Take markers; true, checked; false, unchecked
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"]         - the endposition of the rendering selection in seconds
+            RenderTable["FadeIn_Enabled"] - true, fade-in is enabled; false, fade-in is disabled
+            RenderTable["FadeIn"] - the fade-in-time in seconds
+            RenderTable["FadeIn_Shape"] - the fade-in-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
+            RenderTable["FadeOut_Enabled"] - true, fade-out is enabled; false, fade-out is disabled
+            RenderTable["FadeOut"] - the fade-out time in seconds
+            RenderTable["FadeOut_Shape"] - the fade-out-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
             RenderTable["MultiChannelFiles"]   - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["Normalize_Enabled"]   - true, normalization enabled; 
                                                  false, normalization not enabled
@@ -5078,14 +5175,16 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
       Quote=""
       Presetname2=A:match("%s(.-)%s")
     end
-    local A1, A2, A3=A:match(".* (%d-) (.*) (.*)")
+    local A1, A2, A3, A4, A5, A6, A7 = A:match(".* (%d-) (.*) (.*) (.*) (.*) (.*) (.*)")
 
     if A1==nil then
       A1, A2=A:match(".* (%d-) (.*)")
       A3=0
     end
     if A1~=nil then 
-      Normalize_Method, Normalize_Target, Brickwall_Target=tonumber(A1), tonumber(A2), tonumber(A3)
+      Normalize_Method, Normalize_Target, Brickwall_Target, FadeIn_Length, FadeOut_Length, FadeIn_Shape, FadeOut_Shape 
+        = 
+      tonumber(A1), tonumber(A2), tonumber(A3), tonumber(A4), tonumber(A5), tonumber(A6), tonumber(A7)
     end
     
     if Presetname2==Options_and_Format_Name then found=true break end
@@ -5148,7 +5247,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
     Normalize_Method=Normalize_Method-128
   else
     RenderTable["Brickwall_Limiter_Method"]=1
-  end
+  end  
   
   if Normalize_Method&256==0 then     
     RenderTable["Normalize_Only_Files_Too_Loud"]=false
@@ -5156,6 +5255,25 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
     RenderTable["Normalize_Only_Files_Too_Loud"]=true
     Normalize_Method=Normalize_Method-256
   end
+  
+  if Normalize_Method&512==0 then     
+    RenderTable["FadeIn_Enabled"]=false
+  elseif Normalize_Method&512==512 then
+    RenderTable["FadeIn_Enabled"]=true
+    Normalize_Method=Normalize_Method-512
+  end
+  
+    if Normalize_Method&1024==0 then     
+    RenderTable["FadeOut_Enabled"]=false
+  elseif Normalize_Method&1024==1024 then
+    RenderTable["FadeOut_Enabled"]=true
+    Normalize_Method=Normalize_Method-1024
+  end
+  
+  if FadeIn_Length==nil then RenderTable["FadeIn"]=0 else RenderTable["FadeIn"]=FadeIn_Length end
+  if FadeOut_Length==nil then RenderTable["FadeOut"]=0 else RenderTable["FadeOut"]=FadeOut_Length end
+  if FadeIn_Shape==nil then RenderTable["FadeIn_Shape"]=0 else RenderTable["FadeIn_Shape"]=FadeIn_Shape end
+  if FadeOut_Shape==nil then RenderTable["FadeOut_Shape"]=0 else RenderTable["FadeOut_Shape"]=FadeOut_Shape end
   
   RenderTable["Brickwall_Limiter_Target"]=ultraschall.MKVOL2DB(Brickwall_Target)
   
@@ -8839,8 +8957,8 @@ function ultraschall.GetRenderTable_ProjectDefaults()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRenderTable_ProjectDefaults</slug>
   <requires>
-    Ultraschall=4.4
-    Reaper=6.48
+    Ultraschall=4.7
+    Reaper=6.65
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -8877,6 +8995,26 @@ function ultraschall.GetRenderTable_ProjectDefaults()
             RenderTable["EmbedTakeMarkers"] - Embed Take markers; true, checked; false, unchecked                        
             RenderTable["Enable2ndPassRender"] - true, 2nd pass render is enabled; false, 2nd pass render is disabled
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds; always 0 because it's not stored with project defaults
+            RenderTable["FadeIn_Enabled"] - true, fade-in is enabled; false, fade-in is disabled
+            RenderTable["FadeIn"] - the fade-in-time in seconds
+            RenderTable["FadeIn_Shape"] - the fade-in-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
+            RenderTable["FadeOut_Enabled"] - true, fade-out is enabled; false, fade-out is disabled
+            RenderTable["FadeOut"] - the fade-out time in seconds
+            RenderTable["FadeOut_Shape"] - the fade-out-shape
+                                   - 0, Linear fade in
+                                   - 1, Inverted quadratic fade in
+                                   - 2, Quadratic fade in
+                                   - 3, Inverted quartic fade in
+                                   - 4, Quartic fade in
+                                   - 5, Cosine S-curve fade in
+                                   - 6, Quartic S-curve fade in
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked            
             RenderTable["Normalize_Enabled"] - true, normalization enabled; false, normalization not enabled
             RenderTable["Normalize_Method"] - the normalize-method-dropdownlist
@@ -8986,7 +9124,11 @@ function ultraschall.GetRenderTable_ProjectDefaults()
     "projrenderaddtoproj",
     "autosaveonrender", 
     "rendercfg",
-    "rendercfg2"
+    "rendercfg2",
+    "projrenderfadein",
+    "projrenderfadeout",
+    "projrenderfadeinshape",
+    "projrenderfadeoutshape"
   }
 
   for i=1, #attributetable do
@@ -9000,7 +9142,6 @@ function ultraschall.GetRenderTable_ProjectDefaults()
   end
   
   attributetable["rendercfg"]=ultraschall.ConvertHex2Ascii(attributetable["rendercfg"])
-  --A_temp=attributetable["rendercfg"]
   attributetable["rendercfg"]=ultraschall.Base64_Encoder(attributetable["rendercfg"]:sub(1,-2))
 
   attributetable["rendercfg2"]=ultraschall.ConvertHex2Ascii(attributetable["rendercfg2"])
@@ -9117,6 +9258,22 @@ function ultraschall.GetRenderTable_ProjectDefaults()
   
   if attributetable["projrenderdither"]~=nil then
     RenderTable["Dither"]=attributetable["projrenderdither"]
+  end
+  
+  if attributetable["projrenderfadein"]~=nil then
+    RenderTable["FadeIn"]=attributetable["projrenderfadein"]
+  end
+  
+  if attributetable["projrenderfadeout"]~=nil then
+    RenderTable["FadeOut"]=attributetable["projrenderfadeout"]
+  end
+  
+  if attributetable["projrenderfadeinshape"]~=nil then
+    RenderTable["FadeIn_Shape"]=attributetable["projrenderfadeinshape"]
+  end
+
+  if attributetable["projrenderfadeoutshape"]~=nil then
+    RenderTable["FadeOut_Shape"]=attributetable["projrenderfadeoutshape"]
   end
   
   return RenderTable
