@@ -5500,6 +5500,26 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
               RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled
               RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
               RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
+              RenderTable["FadeIn_Enabled"] - true, fade-in is enabled; false, fade-in is disabled
+              RenderTable["FadeIn"] - the fade-in-time in seconds
+              RenderTable["FadeIn_Shape"] - the fade-in-shape
+                                     - 0, Linear fade in
+                                     - 1, Inverted quadratic fade in
+                                     - 2, Quadratic fade in
+                                     - 3, Inverted quartic fade in
+                                     - 4, Quartic fade in
+                                     - 5, Cosine S-curve fade in
+                                     - 6, Quartic S-curve fade in
+              RenderTable["FadeOut_Enabled"] - true, fade-out is enabled; false, fade-out is disabled
+              RenderTable["FadeOut"] - the fade-out time in seconds
+              RenderTable["FadeOut_Shape"] - the fade-out-shape
+                                     - 0, Linear fade in
+                                     - 1, Inverted quadratic fade in
+                                     - 2, Quadratic fade in
+                                     - 3, Inverted quartic fade in
+                                     - 4, Quartic fade in
+                                     - 5, Cosine S-curve fade in
+                                     - 6, Quartic S-curve fade in
   
      Returns false in case of an error
    </description>
@@ -5593,7 +5613,8 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
       if RenderTable["Normalize_Only_Files_Too_Loud"]==true then normalize_method=normalize_method+256 end
       local brickwall_target=ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"])
       local normalize_target=ultraschall.DB2MKVOL(RenderTable["Normalize_Target"])
-      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target.." "..brickwall_target
+      --local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target.." "..brickwall_target
+      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target.." "..brickwall_target.." "..RenderTable["FadeIn"].." "..RenderTable["FadeOut"].." "..RenderTable["FadeIn_Shape"].." "..RenderTable["FadeOut_Shape"]
       A=A..String..String2..String3
   end
     
@@ -5711,6 +5732,26 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
               RenderTable["Normalize_Stems_to_Master_Target"] - true, normalize-stems to master target(common gain to stems)
                                                                 false, normalize each file individually
               RenderTable["Normalize_Target"] - the normalize-target as dB-value
+              RenderTable["FadeIn_Enabled"] - true, fade-in is enabled; false, fade-in is disabled
+              RenderTable["FadeIn"] - the fade-in-time in seconds
+              RenderTable["FadeIn_Shape"] - the fade-in-shape
+                                     - 0, Linear fade in
+                                     - 1, Inverted quadratic fade in
+                                     - 2, Quadratic fade in
+                                     - 3, Inverted quartic fade in
+                                     - 4, Quartic fade in
+                                     - 5, Cosine S-curve fade in
+                                     - 6, Quartic S-curve fade in
+              RenderTable["FadeOut_Enabled"] - true, fade-out is enabled; false, fade-out is disabled
+              RenderTable["FadeOut"] - the fade-out time in seconds
+              RenderTable["FadeOut_Shape"] - the fade-out-shape
+                                     - 0, Linear fade in
+                                     - 1, Inverted quadratic fade in
+                                     - 2, Quadratic fade in
+                                     - 3, Inverted quartic fade in
+                                     - 4, Quartic fade in
+                                     - 5, Cosine S-curve fade in
+                                     - 6, Quartic S-curve fade in
               RenderTable["Brickwall_Limiter_Enabled"] - true, brickwall limiting is enabled; false, brickwall limiting is disabled            
               RenderTable["Brickwall_Limiter_Method"] - brickwall-limiting-mode; 1, peak; 2, true peak
               RenderTable["Brickwall_Limiter_Target"] - the volume of the brickwall-limit
@@ -5819,7 +5860,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
       
       local brickwall_target=ultraschall.DB2MKVOL(RenderTable["Brickwall_Limiter_Target"])
       local normalize_target=ultraschall.DB2MKVOL(RenderTable["Normalize_Target"])
-      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target.. " "..brickwall_target
+      local String3="\nRENDERPRESET_EXT "..Options_and_Format_Name.." "..normalize_method.." "..normalize_target.. " "..brickwall_target.." "..RenderTable["FadeIn"].." "..RenderTable["FadeOut"].." "..RenderTable["FadeIn_Shape"].." "..RenderTable["FadeOut_Shape"]
       A=A.."\n"
       local RenderNormalization=A:match("\nRENDERPRESET_EXT "..Options_and_Format_Name..".-\n")
       
