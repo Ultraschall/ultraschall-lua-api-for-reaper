@@ -7736,7 +7736,7 @@ function ultraschall.MarkerMenu_GetLastTouchedMarkerRegion()
   <tags>markermanagement, get, last touched, marker, region, markermenu</tags>
 </US_DocBloc>
 ]]
-  return tonumber(reaper.SetExtState("ultraschall_api", "markermenu_last_touched_marker"))
+  return tonumber(reaper.GetExtState("ultraschall_api", "markermenu_last_touched_marker"))
 end
 
 
