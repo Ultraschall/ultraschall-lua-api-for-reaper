@@ -24746,7 +24746,7 @@ nil, the entry will show a checkmark depending on the toggle-command-state of th
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
 <img width="3%" src="gfx/ultraschall4.7.png" alt="Ultraschall version 4.7"><u><b>MarkerMenu_InsertEntry_DefaultMarkers</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.MarkerMenu_InsertEntry_DefaultMarkers</em>(<i>string</i> marker_name, <i>integer</i> clicktype, <i>integer</i> entry_nr, <i>string</i> action, <i>string</i> description, <i>string</i> additional_data, <i>integer</i> submenu, <i>boolean</i> greyed, <i>optional</i> <i>boolean</i> checked)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.MarkerMenu_InsertEntry_DefaultMarkers</em>(<i>integer</i> marker_type, <i>integer</i> clicktype, <i>integer</i> entry_nr, <i>string</i> action, <i>string</i> description, <i>string</i> additional_data, <i>integer</i> submenu, <i>boolean</i> greyed, <i>optional</i> <i>boolean</i> checked)</code></div>
 </div><p>
 <div class="ch">
 inserts a menu-entry into the marker-menu, associated with a certain default marker/region as in Ultraschall and moves all others one up<br>
@@ -24761,12 +24761,14 @@ returns false in case of an error<br>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> marker_name</td></tr>
-<tr><td class="ch2">the custom-marker/region name, whose menu-entry you want to insert</td></tr>
-</table>
-<table class="ch">
-<tr><td class="pr"><i>boolean</i> is_marker_region</td></tr>
-<tr><td class="ch2">true, if the marker is a region; false, if not</td></tr>
+<tr><td class="pr"><i>integer</i> marker_type</td></tr>
+<tr><td class="ch2">the marker_type, whose menu-entry you want to get<br/>
+0, normal(chapter) markers<br/>
+1, planned markers (Custom markers whose name is _Planned:)<br/>
+2, edit (Custom markers, whose name is _Edit: or _Edit)<br/>
+3, shownote<br/>
+4, region<br/>
+5, action marker</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> clicktype</td></tr>
