@@ -7230,7 +7230,7 @@ function ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(marker_type, clicktyp
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(string marker_name, integer clicktype, integer entry_nr, string action, string description, string additional_data, integer submenu, boolean greyed, optional boolean checked)</functioncall>
+  <functioncall>boolean retval = ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(integer marker_type, integer clicktype, integer entry_nr, string action, string description, string additional_data, integer submenu, boolean greyed, optional boolean checked)</functioncall>
   <description>
     inserts a menu-entry into the marker-menu, associated with a certain default marker/region as in Ultraschall and moves all others one up
     
@@ -7240,8 +7240,13 @@ function ultraschall.MarkerMenu_InsertEntry_DefaultMarkers(marker_type, clicktyp
     boolean retval - true, inserting was successful; false, inserting was unsuccessful
   </retvals>
   <parameters>
-    string marker_name - the custom-marker/region name, whose menu-entry you want to insert
-    boolean is_marker_region - true, if the marker is a region; false, if not
+    integer marker_type - the marker_type, whose menu-entry you want to get
+                        - 0, normal(chapter) markers
+                        - 1, planned markers (Custom markers whose name is _Planned:)
+                        - 2, edit (Custom markers, whose name is _Edit: or _Edit)
+                        - 3, shownote
+                        - 4, region
+                        - 5, action marker
     integer clicktype - the clicktype; 0, right-click
     integer entry_nr - the entry-number, that you want to insert
     string action - the action-command-id for this new marker-entry
