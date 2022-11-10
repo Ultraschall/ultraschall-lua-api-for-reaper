@@ -36730,9 +36730,9 @@
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
-            ReaFab
+            ReaLim
         </chapter_context>
-        <tags>reafab</tags>
+        <tags>realim</tags>
         <changelog>
           ReaLim 0.3.0 - added as new function
         </changelog>
@@ -36770,9 +36770,9 @@
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
-            ReaFab
+            ReaLim
         </chapter_context>
-        <tags>reafab</tags>
+        <tags>realim</tags>
         <changelog>
           ReaLim 0.3.0 - added as new function
         </changelog>
@@ -36801,9 +36801,9 @@
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
-            ReaFab
+            ReaLim
         </chapter_context>
-        <tags>reafab</tags>
+        <tags>realim</tags>
         <changelog>
           ReaLim 0.3.0 - added as new function
         </changelog>

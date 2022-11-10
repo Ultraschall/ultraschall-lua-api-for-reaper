@@ -1861,7 +1861,7 @@ function ultraschall.InsertMediaItemStateChunkArray(position, MediaItemStateChun
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InsertMediaItemStateChunkArray</slug>
   <requires>
-    Ultraschall=4.8
+    Ultraschall=4.75
     Reaper=5.40
     Lua=5.3
   </requires>

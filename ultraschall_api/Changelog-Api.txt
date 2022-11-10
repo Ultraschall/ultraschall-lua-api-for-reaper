@@ -266,14 +266,27 @@ Note: Doesn't fucking work...
     toggle to enable/disable all FX instance oversampling settings
   
 - Render To Do:
- - Fade In/Fade Out added now
  - Render stems-prefade added now
+ - save outfile-statistics added now(is global setting)
  - GetRenderPreset\_RenderTable - please rewrite, the code is a mess for _EXT. Needs a much more robust solution...
  
  (Later)
  - Add MetaData-Userfield that stores the RenderTable-contents, so it's possible to retain the exact rendering-attributes from the rendered file.
     Probably only ID3, VORBIS COMMENT, IXML and APE, as all others have no USER-field...
     The Userfield should be called "Ultraschall-API RenderAttributes" and probably include the source-project-filename.
+
+ParamModulation: Go fix it, pls...
+  https://forum.cockos.com/showpost.php?p=2608181&postcount=765
+
+-Modulator speedup entfernen, weil Issues mit 32Bit Systemen...
+
+- Markers:
+  SetNormalMarkers(probably others) has problems adressing markers, when markers share the exact same position.
+  We need to rewrite this, as otherwise markers get skipped.
+  EnumerateNormalMarkers doesn't work because of that.
+  Add multiple markers at position 30 secs named A, B and C.
+  Try to set the first one of them with a new name multiple times and you will succeed once, then fail. 
+    You'll set one of them at the position but never a specific one...
 
 readd in next version
 ToDo Marker Menu: 
@@ -285,25 +298,45 @@ ToDo Marker Menu:
   - add doubleclick-state as well -> later
 
   
-  - PodcastMetadata: GetAllChapters\_MetaDataEntry - gets all chapter-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetAllShownotes\_MetaDataEntry - gets all shownote-metadata-entries between start and endposition according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcast\_MetaDataEntry - returns the podcast's metadata-entry according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastChapter\_MetaDataEntry - returns a podcast's chapter-metadata-entry according to the PODCAST\_METADATA:"v1"-standard
-  - PodcastMetadata: GetPodcastEpisode\_MetaDataEntry - returns the podcast's episode-related metadata-entry according to the PODCAST\_METADATA:"v1"-standard
+
+  
+
+</TODO>
+
+## Ultraschall Framework - Changelog
+
+### 4.75 - " - " - 16th of October 2022
+
+Has now 1590 functions, with XX new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  Bla
+  
+
+#### New features in 4.75  
+  - GFX-Functions: GFX\_ResizeImageKeepAspectRatio - resizes a loaded image while keeping aspect ratio
+  - PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a chapter as JSON
+  - PodcastMetadata: GetEpisodeAttributesAsJSON get the metadata of an episode as JSON
   - PodcastMetadata: GetPodcastEpisodeAttributesPreset\_Name - gets the name of an episode-metadata-preset
-  - PodcastMetadata: GetPodcastShownote\_MetaDataEntry - returns a podcast's shownote-metadata-entry according to the PODCAST\_METADATA:"v1"-standard
+  - PodcastMetadata: GetPodcastAttributesAsJSON get the metadata of a podcast as JSON
   - PodcastMetadata: GetPodcastAttributesPreset\_Name - gets the name of a podcast-metadata-preset
   - PodcastMetadata: GetSetPodcastExport\_Attributes\_String - gets/sets string attributes for podcast-export in Ultraschall
   - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall
   - PodcastMetadata: GetSetTranscription\_Attributes  gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)
+  - PodcastMetadata: GetShownoteAttributesAsJSON get the metadata of a shownote as JSON
   - PodcastMetadata: SetPodcastEpisodeAttributesPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastAttributesPreset\_Name - sets the name of a podcast-metadata-preset
   - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes        
   
+#### Changes from 4.7 to 4.75  
+  - API: Modulator3000 - reverted speedup of the speedup, as it had trouble on 32-bit-machines -> thanks binbinfr
+  - MediaItemManagement: InsertMediaItemStateChunkArray - supports now inserting needed tracks, if the number of tracks<the number of tracks needed by the items to be inserted
+  - MediaItemManagement: RippleCut - had trouble with project, where there's only one item on track 1 and no other tracks
+  - PodcastMetadata: GetSetShownoteMarker\_Attributes - supports now attribute shwn_linked_audiovideomedia, which allows linking media directly with a time_stamp
   
-</TODO>
-
-## Ultraschall Framework - Changelog
+---
 
 ### 4.7 - "Pearl Jam - Alive" - 16th of October 2022
 
