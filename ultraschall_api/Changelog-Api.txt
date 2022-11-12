@@ -335,6 +335,7 @@ Has now 1590 functions, with XX new ones
   - MediaItemManagement: InsertMediaItemStateChunkArray - supports now inserting needed tracks, if the number of tracks<the number of tracks needed by the items to be inserted
   - MediaItemManagement: RippleCut - had trouble with project, where there's only one item on track 1 and no other tracks
   - PodcastMetadata: GetSetShownoteMarker\_Attributes - supports now attribute shwn_linked_audiovideomedia, which allows linking media directly with a time_stamp
+  - PodcastMetadata: GetSetPodcast\_Attributes - supports now new attributes podc_twitch, podc_pinterest, podc_reddit, podc_slack, podc_discord
   
 ---
 

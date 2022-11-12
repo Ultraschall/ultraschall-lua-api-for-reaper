@@ -7956,6 +7956,11 @@ ultraschall.PodcastAttributes={
               "podc_instagram",
               "podc_tiktok",
               "podc_mastodon",
+              "podc_twitch",
+              "podc_pinterest",
+              "podc_reddit",
+              "podc_slack",
+              "podc_discord",
               --"podc_donate", 
               "podc_contact_email",
               "podc_descriptive_tags"
@@ -7966,7 +7971,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcast_Attributes</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=4.75
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -7987,6 +7992,11 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
          "podc_instagram" - instagram-channel of the podcast
          "podc_tiktok" - tiktok-channel of the podcast
          "podc_mastodon" - mastodon-channel of the podcast
+         "podc_twitch" - the twitch-channel of the podcast
+         "podc_pinterest" - the pinterest-profile of the podcast
+         "podc_reddit" - the reddit-profile of the podcast
+         "podc_slack" - the slack-workspace of the podcast
+         "podc_discord" - the discord-server of the podcast
          "podc_descriptive_tags" - some tags, who describe the podcast, must be separated by commas
          "podc_category" - a category that describes the podcast
     
