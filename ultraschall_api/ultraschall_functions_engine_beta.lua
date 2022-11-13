@@ -1927,7 +1927,7 @@ end
 function ultraschall.GetPodcastAttributesAsJSON()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>PodcastMetadata_GetPodcastAttributesAsJSON</slug>
+  <slug>GetPodcastAttributesAsJSON</slug>
   <requires>
     Ultraschall=4.75
     Reaper=6.20
@@ -1964,7 +1964,7 @@ function ultraschall.GetPodcastAttributesAsJSON()
         content=ultraschall.Base64_Encoder(ultraschall.ReadFullFile(path.."/"..content, true))
       end
       --]]
-      JSON=JSON.."\t\""..ultraschall.PodcastAttributes[i].."\":\""..content.."\"\n"
+      JSON=JSON.."\t\""..ultraschall.PodcastAttributes[i].."\":\""..content.."\",\n"
     end
   end
   JSON=JSON.."}\n"
@@ -2012,7 +2012,7 @@ function ultraschall.GetEpisodeAttributesAsJSON()
         path=path:match("(.*)/")
         content=ultraschall.Base64_Encoder(ultraschall.ReadFullFile(path.."/"..content, true))
       end
-      JSON=JSON.."\t\""..ultraschall.EpisodeAttributes[i].."\":\""..content.."\"\n"
+      JSON=JSON.."\t\""..ultraschall.EpisodeAttributes[i].."\":\""..content.."\",\n"
     end
   end
   JSON=JSON.."}\n"
@@ -2053,28 +2053,31 @@ function ultraschall.GetChapterAttributesAsJSON(chaptermarker_id)
 </US_DocBloc>
 ]]
   if math.type(chaptermarker_id)~="integer" then ultraschall.AddErrorMessage("GetChapterAttributesAsJSON", "chaptermarker_id", "must be an integer", -1) return end
-  if marker_id<1 or marker_id>ultraschall.CountNormalMarkers() then ultraschall.AddErrorMessage("GetChapterAttributesAsJSON", "marker_id", "no such chapter-marker", -2) return end
+  if chaptermarker_id<1 or chaptermarker_id>ultraschall.CountNormalMarkers() then ultraschall.AddErrorMessage("GetChapterAttributesAsJSON", "chaptermarker_id", "no such chapter-marker", -2) return end
   local JSON="\"chap_"..chaptermarker_id.."\":{\n"
+  local retnumber, shown_number, position, markertitle, guid = ultraschall.EnumerateNormalMarkers(chaptermarker_id)
+  JSON=JSON.."\t\"chap_name\":\""..markertitle.."\",\n"
+  JSON=JSON.."\t\"chap_position\":\""..position.."\",\n"
   local retval, content = ultraschall.GetSetChapterMarker_Attributes(true, chaptermarker_id, "chap_guid", "")
-
+  
   for i=1, #ultraschall.ChapterAttributes do
-    local attribute=ultraschall.ChapterAttributes[i]
+    local attribute=ultraschall.ChapterAttributes[i]     
     local retval, content = ultraschall.GetSetChapterMarker_Attributes(false, chaptermarker_id, attribute, "")
     if retval==true and content~="" then
       content=string.gsub(content, "\"", "\\\"")
       content=string.gsub(content, "\\n", "\\\\n")
       content=string.gsub(content, "\n", "\\n")
       if attribute=="chap_image" then
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\"\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\",\n"
       elseif attribute=="chap_image_path" then
         local prj, path=reaper.EnumProjects(-1)
         path=string.gsub(path, "\\", "/")
         path=path:match("(.*)/")
         content=ultraschall.Base64_Encoder(ultraschall.ReadFullFile(path.."/"..content, true))
         attribute="chap_image"
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\"\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\",\n"
       else
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\"\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\",\n"
       end
       
     end
@@ -2120,6 +2123,10 @@ function ultraschall.GetShownoteAttributesAsJSON(shownotemarker_id)
   if math.type(shownotemarker_id)~="integer" then ultraschall.AddErrorMessage("GetShownoteAttributesAsJSON", "shownotemarker_id", "must be an integer", -1) return end
   if shownotemarker_id<1 or shownotemarker_id>ultraschall.CountShownoteMarkers() then ultraschall.AddErrorMessage("GetShownoteAttributesAsJSON", "marker_id", "no such shownote-marker", -2) return end
   local JSON="\"shwn_"..shownotemarker_id.."\":{\n"
+  local retnumber, shown_number, position, markertitle, guid = ultraschall.EnumerateShownoteMarkers(shownotemarker_id)
+  JSON=JSON.."\t\"shwn_name\":\""..markertitle.."\",\n"
+  JSON=JSON.."\t\"shwn_position\":\""..position.."\",\n"
+  
   local retval, content = ultraschall.GetSetShownoteMarker_Attributes(true, shownotemarker_id, "shwn_guid", "")
 
   for i=1, #ultraschall.ShowNoteAttributes do
@@ -2132,16 +2139,16 @@ function ultraschall.GetShownoteAttributesAsJSON(shownotemarker_id)
       content=string.gsub(content, "\\n", "\\\\n")
       content=string.gsub(content, "\n", "\\n")
       if attribute=="chap_image" then
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\"\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\",\n"
       elseif attribute=="chap_image_path" then
         local prj, path=reaper.EnumProjects(-1)
         path=string.gsub(path, "\\", "/")
         path=path:match("(.*)/")
         --content=ultraschall.Base64_Encoder(ultraschall.ReadFullFile(path.."/"..content, true))
         attribute="chap_image"
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\"\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\",\n"
       else
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\"\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\",\n"
       end
       
     end
