@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="54490.00" author="Meo Mespotine">
+      <version name="54504.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -1525,12 +1525,15 @@ Changes from 4.7 to 4.75
     tracks needed by the items to be inserted
 -   MediaItemManagement: RippleCut - had trouble with project, where
     there’s only one item on track 1 and no other tracks
--   PodcastMetadata: GetSetShownoteMarker_Attributes - supports now
-    attribute shwn_linked_audiovideomedia, which allows linking media
-    directly with a time_stamp
+-   PodcastMetadata: GetSetChapterMarker_Attributes - supports now
+    setting position “chap_position” and markertitle “chap_title”
 -   PodcastMetadata: GetSetPodcast_Attributes - supports now new
     attributes podc_twitch, podc_pinterest, podc_reddit, podc_slack,
     podc_discord
+-   PodcastMetadata: GetSetShownoteMarker_Attributes - supports now
+    attribute shwn_linked_audiovideomedia, which allows linking media
+    directly with a time_stamp; supports now setting position
+    “shwn_position” and markertitle “shwn_title”
 ]]>
 </changelog>
       </version>
@@ -1558,7 +1561,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1611 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54490 from 13.11.2022 14:26:46).}
+a 1611 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54504 from 16.11.2022 15:21:36).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1696,7 +1699,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1611 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54490 from 13.11.2022 14:26:46).}
+a 1611 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54504 from 16.11.2022 15:21:36).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

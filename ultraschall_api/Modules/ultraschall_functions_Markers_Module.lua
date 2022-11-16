@@ -7819,7 +7819,9 @@ ultraschall.ChapterAttributes={
               "chap_image_origin",
               "chap_image_url",
               "chap_guid",
-              "chap_image_path"
+              "chap_image_path",
+              "chap_title",
+              "chap_position"
               }
 
 function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, content, planned)
@@ -7842,6 +7844,8 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
     integer idx - the index of the chapter-marker, whose attribute you want to get; 1-based
     string attributename - the attributename you want to get/set
                          - supported attributes are:
+                         - "chap_title" - the title of this chapter
+                         - "chap_position" - the current position of this chapter in seconds
                          - "chap_url" - the url for this chapter(check first, if a shownote is not suited better for the task!)
                          - "chap_url_description" - a description for this url
                          - "chap_description" - a description of the content of this chapter
@@ -7888,7 +7892,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "idx", "must be an integer", -2) return false end  
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "must be a string", -3) return false end  
   if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "content", "must be a string", -4) return false end  
-  
+  local marker_index=idx
   local tags=ultraschall.ChapterAttributes
   local retval
   
@@ -7925,16 +7929,27 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
   if idx<1 then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "idx", "no such chapter-marker", -8) return false end
   local content2=content
   if is_set==false then    
-    --print2("")
     local B=ultraschall.GetMarkerExtState(idx, attributename)
     if B==nil then B="" end
-    --if attributename=="chap_image" then
---      B=ultraschall.Base64_Decoder(B)
-    --end
+    if attributename=="chap_title" then    
+      local retnumber, shown_number, position, markertitle, guid = ultraschall.EnumerateNormalMarkers(marker_index)
+      B=markertitle
+    elseif attributename=="chap_position" then
+      local retnumber, shown_number, position, markertitle, guid = ultraschall.EnumerateNormalMarkers(marker_index)
+      B=tostring(position)
+    end
     return true, B
   elseif is_set==true then
-    if attributename=="chap_image" then
-      --content2=ultraschall.Base64_Encoder(content)
+    if attributename=="chap_title" then
+      local retnumber, shown_number, position, markertitle, guid = ultraschall.EnumerateNormalMarkers(marker_index)
+      local retval = ultraschall.SetNormalMarker(marker_index, position, shown_number, content)
+      return true, content
+    elseif attributename=="chap_position" then
+      local retnumber, shown_number, position, markertitle, guid = ultraschall.EnumerateNormalMarkers(marker_index)
+      local newposition=tonumber(content)
+      if newposition==nil then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "content", "chap_position must be a valid number, converted to string", -10) return false end
+      local retval = ultraschall.SetNormalMarker(marker_index, newposition, shown_number, markertitle)
+      return true, content
     else
       --content2=content
     end
@@ -8329,7 +8344,9 @@ ultraschall.ShowNoteAttributes={"shwn_language",           -- check for validity
               "shwn_descriptive_tags",
               "shwn_is_advertisement",
               "shwn_guid",
-              "shwn_linked_audiovideomedia"
+              "shwn_linked_audiovideomedia",
+              "shwn_title",
+              "shwn_position"
               }
 
 function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename, content, additional_content)
@@ -8356,6 +8373,8 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
     integer idx - the index of the shownote-marker, whose attribute you want to get; 1-based
     string attributename - the attributename you want to get/set
                          - supported attributes are:
+                         - "shwn_title" - the title of the shownote
+                         - "shwn_position"
                          - "shwn_description" - a more detailed description for this shownote
                          - "shwn_descriptive_tags" - some tags, that describe the content of the shownote, must separated by commas
                          - "shwn_url" - the url you want to set
@@ -8415,7 +8434,8 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   if is_set==true and additional_content~=nil and type(additional_content)~="string" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "additional_content", "must be a string", -8) return false end  
   -- WARNING!! CHANGES HERE MUST REFLECT CHANGES IN THE CODE OF CommitShownote_ReaperMetadata() !!!
   local tags=ultraschall.ShowNoteAttributes
-              
+  local marker_index=idx
+  
   local found=false
   for i=1, #tags do
     if attributename==tags[i] then      
@@ -8440,19 +8460,38 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
   
   if is_set==true then
     local content2=content
-    if attributename=="shwn_linked_audiovideomedia" then
+    if attributename=="shwn_title" then
+      local retval, marker_index2, pos, name, shown_number, guid = ultraschall.EnumerateShownoteMarkers(marker_index)
+      ultraschall.SetShownoteMarker(marker_index, pos, content, shown_number)
+      return true, content
+    elseif attributename=="shwn_position" then
+      local retval, marker_index2, pos, name, shown_number, guid = ultraschall.EnumerateShownoteMarkers(marker_index)
+      if tonumber(content)==nil then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "shwn_position must be a number, converted to string", -10) return false end
+      ultraschall.SetShownoteMarker(marker_index, tonumber(content), name, shown_number)
+      return true, content
+    elseif attributename=="shwn_linked_audiovideomedia" then
       if tonumber(additional_content)==nil then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "additional_content", "the content for shwn_linked_media must be a number as a string", -9) return false end
       C=additional_content
       B=content
       Retval = ultraschall.SetMarkerExtState(A[2]+1, attributename, content2)
       Retval = ultraschall.SetMarkerExtState(A[2]+1, attributename.."_time", additional_content)
     end
-    if attributename=="shwn_event_ics_data" then content2=ultraschall.Base64_Encoder(content) end
+    if attributename=="shwn_event_ics_data" then 
+      content2=ultraschall.Base64_Encoder(content)     
+    end
     Retval = ultraschall.SetMarkerExtState(A[2]+1, attributename, content2)
     if Retval==-1 then Retval=false else Retval=true end
     B=content
   else
-    if attributename=="shwn_linked_audiovideomedia" then 
+    if attributename=="shwn_title" then
+      local retval, marker_index2, pos, name, shown_number, guid = ultraschall.EnumerateShownoteMarkers(marker_index)
+      B=name
+      Retval=true
+    elseif attributename=="shwn_position" then
+      local retval, marker_index2, pos, name, shown_number, guid = ultraschall.EnumerateShownoteMarkers(marker_index)
+      B=tostring(pos)
+      Retval=true
+    elseif attributename=="shwn_linked_audiovideomedia" then 
       B=ultraschall.GetMarkerExtState(A[2]+1, attributename, content)
       if B==nil then Retval=false B="" else Retval=true C=ultraschall.GetMarkerExtState(A[2]+1, attributename.."_time", content) end
     else

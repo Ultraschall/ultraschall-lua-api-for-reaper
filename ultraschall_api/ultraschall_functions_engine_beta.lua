@@ -1967,7 +1967,7 @@ function ultraschall.GetPodcastAttributesAsJSON()
       JSON=JSON.."\t\""..ultraschall.PodcastAttributes[i].."\":\""..content.."\",\n"
     end
   end
-  JSON=JSON.."}\n"
+  JSON=JSON:sub(1,-3).."}\n"
   return JSON
 end
 
@@ -2015,7 +2015,7 @@ function ultraschall.GetEpisodeAttributesAsJSON()
       JSON=JSON.."\t\""..ultraschall.EpisodeAttributes[i].."\":\""..content.."\",\n"
     end
   end
-  JSON=JSON.."}\n"
+  JSON=JSON:sub(1,-3).."}\n"
   return JSON
 end
 
@@ -2082,7 +2082,7 @@ function ultraschall.GetChapterAttributesAsJSON(chaptermarker_id)
       
     end
   end  
-  JSON=JSON.."}\n"
+  JSON=JSON:sub(1,-3).."}\n"
   return JSON
 end
 
@@ -2153,7 +2153,7 @@ function ultraschall.GetShownoteAttributesAsJSON(shownotemarker_id)
       
     end
   end  
-  JSON=JSON.."}\n"
+  JSON=JSON:sub(1,-4).."HUCH}\n"
   return JSON
 end
 
