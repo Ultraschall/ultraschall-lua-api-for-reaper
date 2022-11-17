@@ -7804,6 +7804,8 @@ function ultraschall.MarkerMenu_GetLastClickState()
 end
 
 ultraschall.ChapterAttributes={
+              "chap_title",
+              "chap_position",
               "chap_description",
               "chap_url",
               "chap_url_description",              
@@ -7819,9 +7821,7 @@ ultraschall.ChapterAttributes={
               "chap_image_origin",
               "chap_image_url",
               "chap_guid",
-              "chap_image_path",
-              "chap_title",
-              "chap_position"
+              "chap_image_path"
               }
 
 function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, content, planned)
@@ -8305,7 +8305,10 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
 end
 
 
-ultraschall.ShowNoteAttributes={"shwn_language",           -- check for validity ISO639
+ultraschall.ShowNoteAttributes={
+              "shwn_title", -- shownote-markertitle
+              "shwn_position", -- position of the shownote in seconds
+              "shwn_language",           -- check for validity ISO639
               "shwn_description",
               "shwn_location_gps",       -- check for validity
               "shwn_location_google_maps",-- check for validity
@@ -8344,9 +8347,7 @@ ultraschall.ShowNoteAttributes={"shwn_language",           -- check for validity
               "shwn_descriptive_tags",
               "shwn_is_advertisement",
               "shwn_guid",
-              "shwn_linked_audiovideomedia",
-              "shwn_title",
-              "shwn_position"
+              "shwn_linked_audiovideomedia"
               }
 
 function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename, content, additional_content)
