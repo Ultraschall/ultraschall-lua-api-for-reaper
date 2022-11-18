@@ -338,6 +338,7 @@ Has now 1590 functions, with XX new ones
   - PodcastMetadata: GetSetChapterMarker\_Attributes - supports now setting position "chap_position" and markertitle "chap_title"
   - PodcastMetadata: GetSetPodcast\_Attributes - supports now new attributes podc_twitch, podc_pinterest, podc_reddit, podc_slack, podc_discord
   - PodcastMetadata: GetSetShownoteMarker\_Attributes - supports now attribute shwn_linked_audiovideomedia, which allows linking media directly with a time_stamp; supports now setting position "shwn_position" and markertitle "shwn_title"
+  - Rendering: CreateNewRenderTable - default RenderTable did return bool instead of integer for FadeOut_Shape -> fixed (thnx to aurelien)
   
 ---
 
