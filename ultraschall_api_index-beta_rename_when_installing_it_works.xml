@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="54518.00" author="Meo Mespotine">
+      <version name="54570.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -1476,7 +1476,7 @@
 	<source main="true" file="/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.75 - " - " - 16th of October 2022
+4.75 - “Soundgarden - Black Hole Sun” - 26th of November 2022
 
 Has now 1590 functions, with XX new ones
 
@@ -1499,13 +1499,6 @@ New features in 4.75
     podcast as JSON
 -   PodcastMetadata: GetPodcastAttributesPreset_Name - gets the name of
     a podcast-metadata-preset
--   PodcastMetadata: GetSetPodcastExport_Attributes_String - gets/sets
-    string attributes for podcast-export in Ultraschall
--   PodcastMetadata: GetSetPodcastExport_Attributes_Value - gets/sets
-    number attributes for podcast-export in Ultraschall
--   PodcastMetadata: GetSetTranscription_Attributes gets/sets
-    transcriptions for the podcast(needs either srt or webvtt-files
-    created externally…)
 -   PodcastMetadata: GetShownoteAttributesAsJSON get the metadata of a
     shownote as JSON
 -   PodcastMetadata: PodcastMetadata_CreateJSON_Entry - creates entire
@@ -1514,9 +1507,6 @@ New features in 4.75
     name of an episode-metadata-preset
 -   PodcastMetadata: SetPodcastAttributesPreset_Name - sets the name of
     a podcast-metadata-preset
--   PodcastMetadata: WritePodcastMetaData - creates metadata-entries
-    according to the PODCAST_METADATA:“v1”-standard and optionally
-    writes it into a file or adds it to id3, vorbis-metadata-schemes
 
 Changes from 4.7 to 4.75
 
@@ -1525,7 +1515,7 @@ Changes from 4.7 to 4.75
 -   MediaItemManagement: InsertMediaItemStateChunkArray - supports now
     inserting needed tracks, if the number of tracks<the number of
     tracks needed by the items to be inserted
--   MediaItemManagement: RippleCut - had trouble with project, where
+-   MediaItemManagement: RippleCut - had trouble with projects, where
     there’s only one item on track 1 and no other tracks
 -   PodcastMetadata: GetSetChapterMarker_Attributes - supports now
     setting position “chap_position” and markertitle “chap_title”
@@ -1566,7 +1556,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1612 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54518 from 18.11.2022 17:20:43).}
+a 1612 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54570 from 19.11.2022 00:47:34).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1704,7 +1694,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1612 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54518 from 18.11.2022 17:20:43).}
+a 1612 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54570 from 19.11.2022 00:47:34).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

@@ -35032,10 +35032,16 @@ returns -1 in case of an error<br>
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>GetChapterAttributesAsJSON</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> chaptermetadata_json = <em>ultraschall.GetChapterAttributesAsJSON</em>(<i>integer</i> chaptermarker_id)</code></div>
+<div class="l">Lua: <code> <i>string</i> chaptermetadata_json = <em>ultraschall.GetChapterAttributesAsJSON</em>(<i>integer</i> chaptermarker_id, <i>integer</i> shown_id, <i>number</i> within_start, <i>number</i> within_end, <i>optional</i> <i>number</i> offset)</code></div>
 </div><p>
 <div class="ch">
 Returns the MetaDataEntry for a chapter as JSON according to PodMeta_v1-standard..<br>
+<br>
+You can choose a range within which the marker must be for chapters only within a certain region, etc. <br>
+If it is outside of it, this function returns "".<br>
+<br>
+You can set an offset to subtract. This could be important, if you want to render a region and want the <br>
+chapter be the right position from the starting point of the region.<br>
 <br>
 Returns nil in case of an error<br>
 </div><br>      
@@ -35049,6 +35055,22 @@ Returns nil in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> chaptermarker_id</td></tr>
 <tr><td class="ch2">the index of the chapter-marker, whose metadata-entry you want to get as JSON; 1-based</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> shown_id</td></tr>
+<tr><td class="ch2">the number to give to this chapter within the JSON</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> within_start</td></tr>
+<tr><td class="ch2">the starttime of the range to export valid chapters</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> within_end</td></tr>
+<tr><td class="ch2">the starttime of the range to export valid chapters</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> offset</td></tr>
+<tr><td class="ch2">subtracts time from the position of the chapter</td></tr>
 </table>
 <br>
 </div>
@@ -35368,7 +35390,7 @@ supported attributes are:<br/>
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>GetShownoteAttributesAsJSON</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> shownotemetadata_json = <em>ultraschall.GetShownoteAttributesAsJSON</em>(<i>integer</i> shownotemarker_id)</code></div>
+<div class="l">Lua: <code> <i>string</i> shownotemetadata_json = <em>ultraschall.GetShownoteAttributesAsJSON</em>(<i>integer</i> shownotemarker_id, <i>integer</i> shown_id, <i>number</i> within_start, <i>number</i> within_end, <i>optional</i> <i>number</i> offset)</code></div>
 </div><p>
 <div class="ch">
 Returns the MetaDataEntry for a shownote as JSON according to PodMeta_v1-standard.<br>
@@ -35385,6 +35407,22 @@ Returns nil in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> chaptermarker_id</td></tr>
 <tr><td class="ch2">the index of the shownote-marker, whose metadata-entry you want to get as JSON; 1-based</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> shown_id</td></tr>
+<tr><td class="ch2">the number to give to this shownote within the JSON</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> within_start</td></tr>
+<tr><td class="ch2">the starttime of the range to export valid shownotes</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> within_end</td></tr>
+<tr><td class="ch2">the starttime of the range to export valid shownotes</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> offset</td></tr>
+<tr><td class="ch2">subtracts time from the position of the shownotes</td></tr>
 </table>
 <br>
 </div>
@@ -35408,6 +35446,40 @@ Returns nil in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> podmeta_entry_JSON</td></tr>
 <tr><td class="ch2">the podcast's entire-metadata as json according to the PodMeta_v1-standard</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>number</i> start_time</td></tr>
+<tr><td class="ch2">the starttime from which to add chapters/shownotes into the JSON</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> end_time</td></tr>
+<tr><td class="ch2">the endtime to which to add chapters/shownotes into the JSON</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> offset</td></tr>
+<tr><td class="ch2">the offset to subtract from the position-attributes of the shownotes/chapters</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>string</i> filename</td></tr>
+<tr><td class="ch2">path+filename to where the JSON shall be output to</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> do_id3</td></tr>
+<tr><td class="ch2">true, add to the ID3-metadata storage of Reaper for the current project; false, don't add</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> do_vorbis</td></tr>
+<tr><td class="ch2">true, add to the VORBIS-metadata storage of Reaper for the current project; false, don't add</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> do_ape</td></tr>
+<tr><td class="ch2">true, add to the APE-metadata storage of Reaper for the current project; false, don't add</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>boolean</i> do_ixml</td></tr>
+<tr><td class="ch2">true, add to the IXML-metadata storage of Reaper for the current project; false, don't add</td></tr>
 </table>
 <br>
 </div>
