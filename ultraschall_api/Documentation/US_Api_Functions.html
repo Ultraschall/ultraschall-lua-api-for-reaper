@@ -23033,9 +23033,9 @@ use this for Ultraschall-API's custom-regions-functions</td></tr>
 <a class="anch" id="CountAllCustomMarkers"></a>
 <a href="#CountAllCustomMarkers"> ^</a> 
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>CountAllCustomMarkers</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>CountAllCustomMarkers</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> count = <em>ultraschall.CountAllCustomMarkers</em>(<i>string</i> custom_marker_name)</code></div>
+<div class="l">Lua: <code> <i>integer</i> count = <em>ultraschall.CountAllCustomMarkers</em>(<i>string</i> custom_marker_name, <i>optional</i> <i>number</i> starttime, <i>optional</i> <i>number</i> endtime)</code></div>
 </div><p>
 <div class="ch">
 <p>Will count all custom-markers with a certain name.</p>
@@ -23060,6 +23060,14 @@ use this for Ultraschall-API's custom-regions-functions</td></tr>
 <tr><td class="ch2">the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"<br/>
 Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.<br/>
 "" counts all custom markers, regardless of their name</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> starttime</td></tr>
+<tr><td class="ch2">the starttime, from which to count the markers</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> endtime</td></tr>
+<tr><td class="ch2">the endtime, to which to count the markers</td></tr>
 </table>
 <br>
 </div>
@@ -25671,9 +25679,9 @@ returns -1 in case of an error<br>
 <a class="anch" id="CountNormalMarkers"></a>
 <a href="#CountNormalMarkers"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.3.png" alt="Ultraschall version 4.3"><u><b>CountNormalMarkers</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>CountNormalMarkers</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code>  <i>integer</i> number_of_markers = <em>ultraschall.CountNormalMarkers</em>()</code></div>
+<div class="l">Lua: <code>  <i>integer</i> number_of_markers = <em>ultraschall.CountNormalMarkers</em>(<i>optional</i> <i>number</i> starttime, <i>optional</i> <i>number</i> endtime)</code></div>
 </div><p>
 <div class="ch">
 Counts all normal markers. <br>
@@ -25684,6 +25692,16 @@ Normal markers are all markers, that don't include "_Shownote:" or "_Edit" or cu
 <table class="ch">
 <tr><td class="pr"><i>integer</i> number_of_markers </td></tr>
 <tr><td class="ch2">number of normal markers</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> starttime</td></tr>
+<tr><td class="ch2">the starttime, from which to count the markers</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> endtime</td></tr>
+<tr><td class="ch2">the endtime, to which to count the markers</td></tr>
 </table>
 <br>
 </div>
@@ -26284,9 +26302,9 @@ Use this for the other Ultraschall-API-shownote-functions!</td></tr>
 <a class="anch" id="CountShownoteMarkers"></a>
 <a href="#CountShownoteMarkers"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
-<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>CountShownoteMarkers</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>CountShownoteMarkers</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> num_shownotes = <em>ultraschall.CountShownoteMarkers</em>()</code></div>
+<div class="l">Lua: <code> <i>integer</i> num_shownotes = <em>ultraschall.CountShownoteMarkers</em>(<i>optional</i> <i>number</i> starttime, <i>optional</i> <i>number</i> endtime)</code></div>
 </div><p>
 <div class="ch">
 Returns count of all shownotes<br>
@@ -26300,6 +26318,16 @@ A shownote-marker has the naming-scheme <br>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> num_shownotes</td></tr>
 <tr><td class="ch2">the number of shownotes in the current project</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> starttime</td></tr>
+<tr><td class="ch2">the starttime, from which to count the markers</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>optional</i> <i>number</i> endtime</td></tr>
+<tr><td class="ch2">the endtime, to which to count the markers</td></tr>
 </table>
 <br>
 </div>

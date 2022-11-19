@@ -459,21 +459,25 @@ function ultraschall.AddEditMarker(position, shown_number, edittitle)
   return marker_index, guid, ultraschall.GetEditMarkerIDFromGuid(guid)
 end
 
-function ultraschall.CountNormalMarkers()
+function ultraschall.CountNormalMarkers(starttime, endtime)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountNormalMarkers</slug>
   <requires>
-    Ultraschall=4.3
+    Ultraschall=4.75
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall> integer number_of_markers = ultraschall.CountNormalMarkers()</functioncall>
+  <functioncall> integer number_of_markers = ultraschall.CountNormalMarkers(optional number starttime, optional number endtime)</functioncall>
   <description>
     Counts all normal markers. 
     
     Normal markers are all markers, that don't include "_Shownote:" or "_Edit" or custommarkers with the scheme "_custommarker:" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
   </description>
+  <parameters>
+    optional number starttime - the starttime, from which to count the markers
+    optional number endtime - the endtime, to which to count the markers
+  </parameters>
   <retvals>
      integer number_of_markers  - number of normal markers
   </retvals>
@@ -486,6 +490,11 @@ function ultraschall.CountNormalMarkers()
   <tags>markermanagement, normal marker, marker, count</tags>
 </US_DocBloc>
 --]]
+  if starttime~=nil and type(starttime)~="number" then ultraschall.AddErrorMessage("CountNormalMarkers", "starttime", "must be nil or a number", -3) return -1 end
+  if endtime~=nil and type(endtime)~="number" then ultraschall.AddErrorMessage("CountNormalMarkers", "endtime", "must be nil or a number", -4) return -1 end
+  if starttime==nil then starttime=0 end
+  if endtime==nil then endtime=reaper.GetProjectLength(0) end
+
   -- prepare variables
   local a,nummarkers,b=reaper.CountProjectMarkers(0)
   local count=0
@@ -499,7 +508,10 @@ function ultraschall.CountNormalMarkers()
     color == ultraschall.planned_marker_color 
     then 
         -- if marker is shownote, chapter, edit or planned chapter
-    elseif isrgn==false then count=count+1 -- elseif marker is no region, count up
+    elseif isrgn==false then 
+      if pos>=starttime and pos<=endtime then
+        count=count+1 -- elseif marker is no region, count up
+      end
     end
   end 
 
@@ -3855,16 +3867,16 @@ end
 
 --A,B,C=ultraschall.GetAllCustomRegions("Whiskey")
 
-function ultraschall.CountAllCustomMarkers(custom_marker_name)
+function ultraschall.CountAllCustomMarkers(custom_marker_name, starttime, endtime)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountAllCustomMarkers</slug>
   <requires>
-    Ultraschall=4.2
+    Ultraschall=4.75
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>integer count = ultraschall.CountAllCustomMarkers(string custom_marker_name)</functioncall>
+  <functioncall>integer count = ultraschall.CountAllCustomMarkers(string custom_marker_name, optional number starttime, optional number endtime)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will count all custom-markers with a certain name.
     
@@ -3890,7 +3902,9 @@ function ultraschall.CountAllCustomMarkers(custom_marker_name)
     string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
                               - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
                               - "" counts all custom markers, regardless of their name
-  </parameters>
+    optional number starttime - the starttime, from which to count the markers
+    optional number endtime - the endtime, to which to count the markers
+  </parameters>  
   <retvals>
     integer count - the number of found markers; -1, in case of an error
   </retvals>
@@ -3905,12 +3919,18 @@ function ultraschall.CountAllCustomMarkers(custom_marker_name)
 ]]
   if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("CountAllCustomMarkers", "custom_marker_name", "must be a string", -1) return -1 end
   if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("CountAllCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return -1 end
+  if starttime~=nil and type(starttime)~="number" then ultraschall.AddErrorMessage("CountAllCustomMarkers", "starttime", "must be nil or a number", -3) return -1 end
+  if endtime~=nil and type(endtime)~="number" then ultraschall.AddErrorMessage("CountAllCustomMarkers", "endtime", "must be nil or a number", -4) return -1 end
+  if starttime==nil then starttime=0 end
+  if endtime==nil then endtime=reaper.GetProjectLength(0) end
   local count=0
   if custom_marker_name=="" then custom_marker_name=".*" end
   for i=0, reaper.CountProjectMarkers(0)-1 do
-    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
-    if isrgn==false and name:match("^_"..custom_marker_name..":")~=nil then 
-      count=count+1 
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)    
+    if isrgn==false and name:match("^_"..custom_marker_name..":")~=nil then
+      if pos>=starttime and pos<=endtime then
+        count=count+1 
+      end
     end
   end
   return count
@@ -5524,16 +5544,16 @@ function ultraschall.EnumerateShownoteMarkers(idx)
   return table.unpack(A)
 end
 
-function ultraschall.CountShownoteMarkers()
+function ultraschall.CountShownoteMarkers(starttime, endtime)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountShownoteMarkers</slug>
   <requires>
-    Ultraschall=4.6
+    Ultraschall=4.75
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer num_shownotes = ultraschall.CountShownoteMarkers()</functioncall>
+  <functioncall>integer num_shownotes = ultraschall.CountShownoteMarkers(optional number starttime, optional number endtime)</functioncall>
   <description>
     Returns count of all shownotes
     
@@ -5545,6 +5565,10 @@ function ultraschall.CountShownoteMarkers()
   <retvals>
     integer num_shownotes - the number of shownotes in the current project
   </retvals>
+  <parameters>
+    optional number starttime - the starttime, from which to count the markers
+    optional number endtime - the endtime, to which to count the markers
+  </parameters>
   <chapter_context>
     Markers
     ShowNote Markers
@@ -5554,7 +5578,11 @@ function ultraschall.CountShownoteMarkers()
   <tags>marker management, count, shownote</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.CountAllCustomMarkers("Shownote")
+  if starttime~=nil and type(starttime)~="number" then ultraschall.AddErrorMessage("CountShownoteMarkers", "starttime", "must be nil or a number", -3) return -1 end
+  if endtime~=nil and type(endtime)~="number" then ultraschall.AddErrorMessage("CountShownoteMarkers", "endtime", "must be nil or a number", -4) return -1 end
+  if starttime==nil then starttime=0 end
+  if endtime==nil then endtime=reaper.GetProjectLength(0) end
+  return ultraschall.CountAllCustomMarkers("Shownote", starttime, endtime)
 end
 --Kuddel=FromClip()
 --A,B,C=ultraschall.GetSetShownoteMarker_Attributes(false, 1, "image_content", "kuchen")

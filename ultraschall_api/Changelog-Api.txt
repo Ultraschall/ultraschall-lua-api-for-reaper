@@ -335,6 +335,9 @@ Has now 1590 functions, with XX new ones
   
 #### Changes from 4.7 to 4.75  
   - API: Modulator3000 - reverted speedup of the speedup, as it had trouble on 32-bit-machines -> thanks binbinfr
+  - MarkerManagement: CountAllCustomMarkers - allows now counting custom-markers within a start and end-time
+  - MarkerManagement: CountNormalMarkers - allows now counting normal markers within a start and end-time
+  - MarkerManagement: CountShownoteMarkers - allows now counting shownotes within a start and end-time
   - MediaItemManagement: InsertMediaItemStateChunkArray - supports now inserting needed tracks, if the number of tracks<the number of tracks needed by the items to be inserted
   - MediaItemManagement: RippleCut - had trouble with projects, where there's only one item on track 1 and no other tracks
   - PodcastMetadata: GetSetChapterMarker\_Attributes - supports now setting position "chap_position" and markertitle "chap_title"

@@ -2184,7 +2184,8 @@ end
 function ultraschall.PodcastMetadata_CreateJSON_Entry(start_time, end_time, offset, filename, do_id3, do_vorbis, do_ape, do_ixml)
 --[[
 <TODO>
-  Projects with no shownotes or projects with no chapters produce invalid JSON!
+  - Projects with no shownotes or projects with no chapters produce invalid JSON!
+      -> comma management is the most difficult problem between episode->first_chapter and last_chapter->first_shownote
 </TODO>
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>PodcastMetadata_CreateJSON_Entry</slug>
@@ -2243,21 +2244,21 @@ if type(start_time)~="number" then ultraschall.AddErrorMessage("PodcastMetadata_
   -- add chapters
   local comma
   local ChapterNum=ultraschall.CountNormalMarkers()
-  if ChapterNum>0 then JSON=JSON:sub(1,-3)..",\n" end  
+  --if ChapterNum>0 then JSON=JSON:sub(1,-3)..",\n" end 
   chapter_num=1
   for i=1, ChapterNum do
-    if i<ChapterNum then comma=",\n" else comma="\n }" end
     chapter=ultraschall.GetChapterAttributesAsJSON(i, chapter_num, start_time, end_time, offset)
     if chapter~="" then chapter_num=chapter_num+1 end
-    JSON=JSON.."\t"..string.gsub(chapter, "\n", "\n\t"):sub(1,-3)..comma
+    if chapter~="" and i==1 then JSON=JSON:sub(1,-3)..",\n" end
+    JSON=JSON.."\t"..string.gsub(chapter, "\n", "\n\t"):sub(1,-3)..",\n"
   end
-  
+ JSON=JSON.."\n"
+
   -- add Shownotes
   local ShownoteNum=ultraschall.CountShownoteMarkers()
-  if ShownoteNum>0 then JSON=JSON:sub(1,-4)..",\n" end
-  for i=1, ShownoteNum do
-    if i<ShownoteNum then comma="," else comma="" end
-    JSON=JSON.."\t"..string.gsub(ultraschall.GetShownoteAttributesAsJSON(i, chapter_num, start_time, end_time, offset), "\n", "\n\t"):sub(1,-3)..comma.."\n"
+  
+  for i=1, ShownoteNum do  
+    JSON=JSON.."\t"..string.gsub(ultraschall.GetShownoteAttributesAsJSON(i, chapter_num, start_time, end_time, offset), "\n", "\n\t"):sub(1,-3)..",\n"
   end
   
   JSON=JSON.."}"
