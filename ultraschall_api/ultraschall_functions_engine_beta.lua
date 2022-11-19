@@ -1528,109 +1528,6 @@ end
 
 
 
-function ultraschall.WritePodcastMetaData(start_time, end_time, offset, filename, do_id3, do_vorbis, do_ape_deactivated, do_ixml_deactivated)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>WritePodcastMetaData</slug>
-  <requires>
-    Ultraschall=4.7
-    Reaper=6.47
-    Lua=5.3
-  </requires>
-  <functioncall>string podcast_metadata = ultraschall.WritePodcastMetaData(number start_time, number end_time, number offset, optional string filename, optional boolean do_id3, optional boolean do_vorbis)</functioncall>
-  <description>
-    Creates and returns the metadata-file-entries according to PodMeta_v1-standard and optionally stores it into a file and/or the accompanying metadata-schemes available.
-    
-    Includes shownotes and chapters as well as episode and podcast-general-metadata
-    
-    Note: needs Reaper 6.47 to work properly, as otherwise the metadata gets truncated to 1k!
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    string podcast_metadata - the created podcast-metadata, according to PodMeta_v1-standard.
-  </retvals>
-  <parameters>
-    number start_time - the start-time of the project, from which to include chapters/shownotes
-    number end_time - the end-time of the project, up to which to include chapters/shownotes
-    number offset - the offset to subtract from the chapter/shownote-positions(for time-selection/region rendering)
-    optional string filename - the filename, to which to write the metadata-data as PodMeta_v1-standard.
-    optional boolean do_id3 - add the metadata to id3(mp3)-tag-metadata scheme in Reaper's metadata-storage
-    optional boolean do_vorbis - add the metadata to the vorbis(Mp3, Flac, Ogg, Opus)-metadata scheme in Reaper's metadata-storage
-  </parameters>
-  <chapter_context>
-     Rendering Projects
-     Ultraschall
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
-  <tags>marker management, write, podcast, reaper metadata, shownotes, chapters, id3, ape, vorbis, ixml</tags>
-</US_DocBloc>
-]]
-  if type(start_time)~="number" then ultraschall.AddErrorMessage("WritePodcastMetaData", "start_time", "must be a number", -1) return end
-  if start_time<0 then ultraschall.AddErrorMessage("WritePodcastMetaData", "start_time", "must be bigger than 0", -2) return end
-  if type(end_time)~="number" then ultraschall.AddErrorMessage("WritePodcastMetaData", "end_time", "must be a number", -3) return end
-  if start_time>end_time then ultraschall.AddErrorMessage("WritePodcastMetaData", "end_time", "must be bigger than 0", -4) return end
-  
-  if type(offset)~="number" then ultraschall.AddErrorMessage("WritePodcastMetaData", "offset", "must be a number", -5) return end
-  if offset<0 then ultraschall.AddErrorMessage("WritePodcastMetaData", "offset", "must be bigger than 0", -6) return end
-  
-  if filename~=nil and type(filename)~="string" then ultraschall.AddErrorMessage("WritePodcastMetaData", "filename", "must be nil or a string", -7) return end
-  
-  local retval
-  local PodcastGeneralMetadata=ultraschall.GetPodcast_MetaDataEntry()
-  local PodcastEpisodeMetadata=ultraschall.GetPodcastEpisode_MetaDataEntry()
-  local Chapter_Count,  Chapters = ultraschall.GetAllChapters_MetaDataEntry(start_time, end_time, offset)
-  local Shownote_Count, Shownotes = ultraschall.GetAllShownotes_MetaDataEntry(start_time, end_time, offset)
-  
-  local PodcastMetadata="  "..PodcastGeneralMetadata.."\n\n"..PodcastEpisodeMetadata.."\n"
-  
-  for i=1, Chapter_Count do
-    PodcastMetadata=PodcastMetadata.."\n"..Chapters[i].."\n"
-  end
-  
-  for i=1, Shownote_Count do
-    PodcastMetadata=PodcastMetadata.."\n"..Shownotes[i].."\n"
-  end
-  --"PODCAST_METADATA:\"v1\""
-  
-  PodcastMetadata="PODCAST_METADATA:\"v1\"\n"..string.gsub(PodcastMetadata, "\n", "\n  "):sub(1,-3).."\nPODCAST_METADATA:\"end\""
-  
-  if filename~=nil then 
-    local errorindex = ultraschall.GetErrorMessage_Funcname("WriteValueToFile", 1)
-    retval=ultraschall.WriteValueToFile(filename, PodcastMetadata)
-    
-    if retval==-1 then 
-      local errorindex2, parmname, errormessage = ultraschall.GetErrorMessage_Funcname("WriteValueToFile", 1)
-      ultraschall.AddErrorMessage("WritePodcastMetaData", "filename", errormessage, -8) 
-      return 
-    end
-  end
-  
-  if do_id3==true then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:Podcast_Metadata|"..PodcastMetadata, true)
-  end
-  
-  if do_vorbis==true then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "VORBIS:USER:Podcast_Metadata|"..PodcastMetadata, true)
-  end
-  
-  if do_ape==true then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "APE:User Defined:Podcast_Metadata|"..PodcastMetadata, true)
-  end
-  
-  if do_ixml==true then
-    reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "IXML:USER:Podcast_Metadata|"..PodcastMetadata, true)
-  end
-  
-  return PodcastMetadata
-end
-
-
-
-
-
-
 
 function ultraschall.GFX_BlitBBCodeAsText(text)
   -- example code, that parses and shows BBCode, with [b][i] and [u], even combined.
@@ -2183,10 +2080,6 @@ end
 
 function ultraschall.PodcastMetadata_CreateJSON_Entry(start_time, end_time, offset, filename, do_id3, do_vorbis, do_ape, do_ixml)
 --[[
-<TODO>
-  - Projects with no shownotes or projects with no chapters produce invalid JSON!
-      -> comma management is the most difficult problem between episode->first_chapter and last_chapter->first_shownote
-</TODO>
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>PodcastMetadata_CreateJSON_Entry</slug>
   <requires>
@@ -2194,7 +2087,7 @@ function ultraschall.PodcastMetadata_CreateJSON_Entry(start_time, end_time, offs
     Reaper=6.20
     Lua=5.3
   </requires>
-  <functioncall>string podmeta_entry_JSON = ultraschall.PodcastMetadata_CreateJSON_Entry()</functioncall>
+  <functioncall>string podmeta_entry_JSON = ultraschall.PodcastMetadata_CreateJSON_Entry(number start_time, number end_time, optional number offset, optional string filename, optional boolean do_id3, optional boolean do_vorbis, optional boolean do_ape, optional boolean do_ixml)</functioncall>
   <description>
     Returns the MetaDataEntry for the entire podcast as JSON according to PodMeta_v1-standard.
     
@@ -2207,10 +2100,10 @@ function ultraschall.PodcastMetadata_CreateJSON_Entry(start_time, end_time, offs
     number end_time - the endtime to which to add chapters/shownotes into the JSON
     optional number offset - the offset to subtract from the position-attributes of the shownotes/chapters
     optional string filename - path+filename to where the JSON shall be output to
-    optional boolean do_id3 - true, add to the ID3-metadata storage of Reaper for the current project; false, don't add
-    optional boolean do_vorbis - true, add to the VORBIS-metadata storage of Reaper for the current project; false, don't add
-    optional boolean do_ape - true, add to the APE-metadata storage of Reaper for the current project; false, don't add
-    optional boolean do_ixml - true, add to the IXML-metadata storage of Reaper for the current project; false, don't add
+    optional boolean do_id3 - true, add to the ID3-metadata storage of Reaper for the current project; false or nil, don't add(default)
+    optional boolean do_vorbis - true, add to the VORBIS-metadata storage of Reaper for the current project;  false or nil, don't add(default)
+    optional boolean do_ape - true, add to the APE-metadata storage of Reaper for the current project;  false or nil, don't add(default)
+    optional boolean do_ixml - true, add to the IXML-metadata storage of Reaper for the current project;  false or nil, don't add(default)
   </parameters>
   <retvals>
     string podmeta_entry_JSON - the podcast's entire-metadata as json according to the PodMeta_v1-standard
@@ -2224,7 +2117,7 @@ function ultraschall.PodcastMetadata_CreateJSON_Entry(start_time, end_time, offs
   <tags>metadata, get, podcast, shownote, chapter, episode, metadata, json, podmeta_v1</tags>
 </US_DocBloc>
 ]]
-if type(start_time)~="number" then ultraschall.AddErrorMessage("PodcastMetadata_CreateJSON_Entry", "start_time", "must be a number", -1) return end
+  if type(start_time)~="number" then ultraschall.AddErrorMessage("PodcastMetadata_CreateJSON_Entry", "start_time", "must be a number", -1) return end
   if start_time<0 then ultraschall.AddErrorMessage("PodcastMetadata_CreateJSON_Entry", "start_time", "must be bigger than 0", -2) return end
   if type(end_time)~="number" then ultraschall.AddErrorMessage("PodcastMetadata_CreateJSON_Entry", "end_time", "must be a number", -3) return end
   if start_time>end_time then ultraschall.AddErrorMessage("PodcastMetadata_CreateJSON_Entry", "end_time", "must be bigger than 0", -4) return end
@@ -2233,18 +2126,18 @@ if type(start_time)~="number" then ultraschall.AddErrorMessage("PodcastMetadata_
   if offset<0 then ultraschall.AddErrorMessage("PodcastMetadata_CreateJSON_Entry", "offset", "must be bigger than 0", -6) return end
   
   if filename~=nil and type(filename)~="string" then ultraschall.AddErrorMessage("PodcastMetadata_CreateJSON_Entry", "filename", "must be nil or a string", -7) return end
-  
+
   -- add podcast-attributes
   local JSON="{\n\t\"PodMeta_Standard\":\"1.0\",\n"
   JSON=JSON.."\t"..string.gsub(ultraschall.GetPodcastAttributesAsJSON(), "\n", "\t\n"):sub(1,-3)..",\n"
   
   -- add episode attributes
-  JSON=JSON.."\t"..string.gsub(ultraschall.GetEpisodeAttributesAsJSON(), "\n", "\t\n")
+  JSON=JSON.."\t"..string.gsub(ultraschall.GetEpisodeAttributesAsJSON(), "\n", "\t\n"):sub(1,-3)..",\n"
   
   -- add chapters
   local comma
-  local ChapterNum=ultraschall.CountNormalMarkers()
-  --if ChapterNum>0 then JSON=JSON:sub(1,-3)..",\n" end 
+  local ChapterNum=ultraschall.CountNormalMarkers(start_time, end_time)
+  if ChapterNum>0 then JSON=JSON:sub(1,-3)..",\n" end 
   chapter_num=1
   for i=1, ChapterNum do
     chapter=ultraschall.GetChapterAttributesAsJSON(i, chapter_num, start_time, end_time, offset)
@@ -2252,16 +2145,18 @@ if type(start_time)~="number" then ultraschall.AddErrorMessage("PodcastMetadata_
     if chapter~="" and i==1 then JSON=JSON:sub(1,-3)..",\n" end
     JSON=JSON.."\t"..string.gsub(chapter, "\n", "\n\t"):sub(1,-3)..",\n"
   end
- JSON=JSON.."\n"
+ --JSON=JSON.."\n "
 
   -- add Shownotes
-  local ShownoteNum=ultraschall.CountShownoteMarkers()
-  
+  local ShownoteNum=ultraschall.CountShownoteMarkers(start_time, end_time)
+  shownote_num=1
   for i=1, ShownoteNum do  
-    JSON=JSON.."\t"..string.gsub(ultraschall.GetShownoteAttributesAsJSON(i, chapter_num, start_time, end_time, offset), "\n", "\n\t"):sub(1,-3)..",\n"
+    shownote=ultraschall.GetShownoteAttributesAsJSON(i, shownote_num, start_time, end_time, offset)
+    if shownote~="" then shownote_num=shownote_num+1 end
+    JSON=JSON.."\t"..string.gsub(shownote, "\n", "\n\t"):sub(1,-3)..",\n"
   end
   
-  JSON=JSON.."}"
+  JSON=JSON:sub(1,-3).."\n}"
   
   if do_id3==true then
     reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:PodMeta|"..JSON, true)

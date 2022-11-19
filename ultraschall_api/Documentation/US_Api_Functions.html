@@ -35461,7 +35461,7 @@ Returns nil in case of an error<br>
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>PodcastMetadata_CreateJSON_Entry</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>string</i> podmeta_entry_JSON = <em>ultraschall.PodcastMetadata_CreateJSON_Entry</em>()</code></div>
+<div class="l">Lua: <code> <i>string</i> podmeta_entry_JSON = <em>ultraschall.PodcastMetadata_CreateJSON_Entry</em>(<i>number</i> start_time, <i>number</i> end_time, <i>optional</i> <i>number</i> offset, <i>optional</i> <i>string</i> filename, <i>optional</i> <i>boolean</i> do_id3, <i>optional</i> <i>boolean</i> do_vorbis, <i>optional</i> <i>boolean</i> do_ape, <i>optional</i> <i>boolean</i> do_ixml)</code></div>
 </div><p>
 <div class="ch">
 Returns the MetaDataEntry for the entire podcast as JSON according to PodMeta_v1-standard.<br>
@@ -35495,19 +35495,19 @@ Returns nil in case of an error<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>boolean</i> do_id3</td></tr>
-<tr><td class="ch2">true, add to the ID3-metadata storage of Reaper for the current project; false, don't add</td></tr>
+<tr><td class="ch2">true, add to the ID3-metadata storage of Reaper for the current project; false or nil, don't add(default)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>boolean</i> do_vorbis</td></tr>
-<tr><td class="ch2">true, add to the VORBIS-metadata storage of Reaper for the current project; false, don't add</td></tr>
+<tr><td class="ch2">true, add to the VORBIS-metadata storage of Reaper for the current project;&nbsp;&nbsp;false or nil, don't add(default)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>boolean</i> do_ape</td></tr>
-<tr><td class="ch2">true, add to the APE-metadata storage of Reaper for the current project; false, don't add</td></tr>
+<tr><td class="ch2">true, add to the APE-metadata storage of Reaper for the current project;&nbsp;&nbsp;false or nil, don't add(default)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>boolean</i> do_ixml</td></tr>
-<tr><td class="ch2">true, add to the IXML-metadata storage of Reaper for the current project; false, don't add</td></tr>
+<tr><td class="ch2">true, add to the IXML-metadata storage of Reaper for the current project;&nbsp;&nbsp;false or nil, don't add(default)</td></tr>
 </table>
 <br>
 </div>
