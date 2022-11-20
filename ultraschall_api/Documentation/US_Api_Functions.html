@@ -8856,7 +8856,7 @@ returns false in case of an error<br>
 <a class="anch" id="AddErrorMessage"></a>
 <a href="#AddErrorMessage"> ^</a> 
 <img width="3%" src="gfx/reaper5.965.png" alt="Reaper version 5.965">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>AddErrorMessage</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>AddErrorMessage</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> errorcount = <em>ultraschall.AddErrorMessage</em>(<i>string</i> functionname, <i>string</i> parametername, <i>string</i> errormessage, <i>integer</i> errorcode)</code></div>
 </div><p>
@@ -9080,9 +9080,9 @@ returns -1 in case of error<br>
 <a class="anch" id="GetLastErrorMessage"></a>
 <a href="#GetLastErrorMessage"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>GetLastErrorMessage</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>GetLastErrorMessage</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> errcode, <i>string</i> functionname, <i>string</i> parmname, <i>string</i> errormessage, <i>string</i> lastreadtime, <i>string</i> err_creation_date, <i>string</i> err_creation_timestamp, <i>integer</i> errorcounter = <em>ultraschall.GetLastErrorMessage</em>()</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> errcode, <i>string</i> functionname, <i>string</i> parmname, <i>string</i> errormessage, <i>string</i> lastreadtime, <i>string</i> err_creation_date, <i>string</i> err_creation_timestamp, <i>integer</i> errorcounter, <i>string</i> context_function, <i>string</i> context_sourcefile, <i>string</i> context_sourceline = <em>ultraschall.GetLastErrorMessage</em>()</code></div>
 </div><p>
 <div class="ch">
 Reads the last error-message stored in the Ultraschall-ErrorMessagesystem.<br>
@@ -9125,6 +9125,18 @@ returns false in case of failure<br>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> errorcounter</td></tr>
 <tr><td class="ch2">the error-message-number within the Ultraschall-Error-Message-System</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> context_function</td></tr>
+<tr><td class="ch2">the function, in which AddErrorMessage was called</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> context_sourcefile</td></tr>
+<tr><td class="ch2">the sourcefile, in which AddErrorMessage was called</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> context_sourceline</td></tr>
+<tr><td class="ch2">the line in the sourcefile, in which AddErrorMessage was called</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -9218,9 +9230,9 @@ returns -1 in case of error<br>
 <a class="anch" id="ReadErrorMessage"></a>
 <a href="#ReadErrorMessage"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ReadErrorMessage</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>ReadErrorMessage</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> errcode, <i>string</i> functionname, <i>string</i> parmname, <i>string</i> errormessage, <i>string</i> lastreadtime, <i>string</i> err_creation_date, <i>string</i> err_creation_timestamp = <em>ultraschall.ReadErrorMessage</em>(<i>integer</i> errornumber, <i>optional</i> <i>boolean</i> keep_unread)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>integer</i> errcode, <i>string</i> functionname, <i>string</i> parmname, <i>string</i> errormessage, <i>string</i> lastreadtime, <i>string</i> err_creation_date, <i>string</i> err_creation_timestamp, <i>string</i> context_function, <i>string</i> context_sourcefile, <i>string</i> context_sourceline = <em>ultraschall.ReadErrorMessage</em>(<i>integer</i> errornumber, <i>optional</i> <i>boolean</i> keep_unread)</code></div>
 </div><p>
 <div class="ch">
 Reads an error-message within the Ultraschall-ErrorMessagesystem.<br>
@@ -9260,6 +9272,18 @@ returns false in case of failure<br>
 <tr><td class="pr"><i>string</i> err_creation_timestamp</td></tr>
 <tr><td class="ch2">the timestamp of when the error-message was created. Usually seconds, since system got started</td></tr>
 </table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> context_function</td></tr>
+<tr><td class="ch2">the function, in which AddErrorMessage was called</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> context_sourcefile</td></tr>
+<tr><td class="ch2">the sourcefile, in which AddErrorMessage was called</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> context_sourceline</td></tr>
+<tr><td class="ch2">the line in the sourcefile, in which AddErrorMessage was called</td></tr>
+</table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
@@ -9277,7 +9301,7 @@ returns false in case of failure<br>
 <a class="anch" id="SFEM"></a>
 <a href="#SFEM"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>SFEM</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>SFEM</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> requested_error_message = <em>SFEM</em>(<i>optional</i> <i>integer</i> dunk, <i>optional</i> <i>integer</i> target, <i>optional</i> <i>integer</i> message_type)</code></div>
 </div><p>
@@ -9322,7 +9346,7 @@ nil or 1, returns true, if error has happened, false, if error didn't happen<br/
 <a class="anch" id="SLEM"></a>
 <a href="#SLEM"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>SLEM</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>SLEM</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> requested_error_message = <em>SLEM</em>(<i>optional</i> <i>integer</i> dunk, <i>optional</i> <i>integer</i> target, <i>optional</i> <i>integer</i> message_type)</code></div>
 </div><p>
@@ -9390,7 +9414,7 @@ Will show functionname, parametername, errorcode plus errormessage and the time 
 <a class="anch" id="ShowLastErrorMessage"></a>
 <a href="#ShowLastErrorMessage"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.1.png" alt="Ultraschall version 4.1"><u><b>ShowLastErrorMessage</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>ShowLastErrorMessage</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> requested_error_message = <em>ultraschall.ShowLastErrorMessage</em>(<i>optional</i> <i>integer</i> dunk, <i>optional</i> <i>integer</i> target, <i>optional</i> <i>integer</i> message_type)</code></div>
 </div><p>
@@ -25913,7 +25937,6 @@ supported attributes are:<br/>
 "chap_url_description" - a description for this url<br/>
 "chap_description" - a description of the content of this chapter<br/>
 "chap_is_advertisement" - yes, if this chapter is an ad; "", to unset it<br/>
-"chap_image" - the content of the chapter-image, either png or jpg<br/>
 "chap_image_path" - the path to the filename of the chapter-image(Ultraschall will see it as placed in the project-folder!)<br/>
 "chap_image_description" - a description for the chapter-image<br/>
 "chap_image_license" - the license of the chapter-image<br/>

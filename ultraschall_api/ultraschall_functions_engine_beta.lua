@@ -1857,12 +1857,74 @@ function ultraschall.GetPodcastAttributesAsJSON()
     end
   end
   --]]
-  JSON=JSON:sub(1,-3).."\n\t}\n"
+  local websites=string.gsub(ultraschall.PodcastMetaData_ExportWebsiteAsJSON(), "\n", "\n\t")
+  if websites~="" then 
+    JSON=JSON.."\t"..string.gsub(ultraschall.PodcastMetaData_ExportWebsiteAsJSON(), "\n", "\n\t").."\n\t}\n"
+  else
+    JSON=JSON:sub(1,-3).."\n\t}\n"
+  end
   return JSON
 end
 
 --print3(ultraschall.PodcastMetadata_GetPodcastAttributesAsJSON())
 --if lol==nil then return end
+
+function ultraschall.PodcastMetaData_ExportWebsiteAsJSON()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>PodcastMetaData_ExportWebsiteAsJSON</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>string website_entry_JSON = ultraschall.PodcastMetaData_ExportWebsiteAsJSON()</functioncall>
+  <description>
+    Returns the MetaDataEntry for a website as JSON according to PodMeta_v1-standard.
+  </description>
+  <retvals>
+    string website_entry_JSON - the podcast's website-metadata as json according to the PodMeta_v1-standard
+  </retvals>
+  <chapter_context>
+    Metadata Management
+    Podcast Metadata
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>metadata, get, podcast, shownote, website, metadata, json, podmeta_v1</tags>
+</US_DocBloc>
+]]
+  local _,maxindex=reaper.GetProjExtState(0, "PodcastMetaData", "podc_maxindex")
+  if maxindex=="" then maxindex=0 end
+  local count=0
+  local JSON=""
+  for index=0, tonumber(maxindex) do
+    local _,A=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_name")
+    local _,B=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_description")
+    local _,C=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_url")
+    if A~="" and B~="" and C~="" then
+      A=string.gsub(A, "\"", "\\\"")
+      A=string.gsub(A, "\\n", "\\\\n")
+      A=string.gsub(A, "\n", "\\n")
+      B=string.gsub(B, "\"", "\\\"")
+      B=string.gsub(B, "\\n", "\\\\n")
+      B=string.gsub(B, "\n", "\\n")
+      C=string.gsub(C, "\"", "\\\"")
+      C=string.gsub(C, "\\n", "\\\\n")
+      C=string.gsub(C, "\n", "\\n")
+      count=count+1
+      JSON=JSON.."\t\"podc_website_"..count.."\":{"
+      JSON=JSON.."\n\t\t\"podc_website_name\":\""..A.."\","
+      JSON=JSON.."\n\t\t\"podc_website_description\":\""..B.."\","
+      JSON=JSON.."\n\t\t\"podc_website_url\":\""..C.."\""
+      JSON=JSON.."\n\t},\n"
+    end
+  end
+  if count>0 then JSON=JSON:sub(1,-3) end
+  
+  JSON=JSON..""
+  return JSON
+end
 
 function ultraschall.GetEpisodeAttributesAsJSON()
 --[[
@@ -1974,14 +2036,16 @@ function ultraschall.GetChapterAttributesAsJSON(chaptermarker_id, shown_id, with
       content=string.gsub(content, "\\n", "\\\\n")
       content=string.gsub(content, "\n", "\\n")
       if attribute=="chap_image" then
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\",\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..ultraschall.Base64_Encoder(content).."\",\n"
       elseif attribute=="chap_position" then 
         JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(position).."\",\n"
       elseif attribute=="chap_image_path" then
         local prj, path=reaper.EnumProjects(-1)
         path=string.gsub(path, "\\", "/")
         path=path:match("(.*)/")
-        content=ultraschall.Base64_Encoder(ultraschall.ReadFullFile(path.."/"..content, true))
+        content=ultraschall.ReadFullFile(path.."/"..content, true)
+        if content==nil then content="" end
+        content=ultraschall.Base64_Encoder(content)
         attribute="chap_image"
         JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\",\n"
       else
@@ -2034,10 +2098,10 @@ function ultraschall.GetShownoteAttributesAsJSON(shownotemarker_id, shown_id, wi
 ]]
   if math.type(shownotemarker_id)~="integer" then ultraschall.AddErrorMessage("GetShownoteAttributesAsJSON", "shownotemarker_id", "must be an integer", -1) return end
   if shownotemarker_id<1 or shownotemarker_id>ultraschall.CountShownoteMarkers() then ultraschall.AddErrorMessage("GetShownoteAttributesAsJSON", "marker_id", "no such shownote-marker", -2) return end
-  if math.type(shown_id)~="integer" then ultraschall.AddErrorMessage("GetChapterAttributesAsJSON", "shown_id", "must be an integer", -3) return end
-  if type(within_start)~="number" then ultraschall.AddErrorMessage("GetChapterAttributesAsJSON", "within_start", "must be a number", -4) return end
-  if type(within_end)~="number" then ultraschall.AddErrorMessage("GetChapterAttributesAsJSON", "within_end", "must be a number", -5) return end
-  if offset~=nil and type(offset)~="number" then ultraschall.AddErrorMessage("GetChapterAttributesAsJSON", "offset", "must be a number", -6) return end
+  if math.type(shown_id)~="integer" then ultraschall.AddErrorMessage("GetShownoteAttributesAsJSON", "shown_id", "must be an integer", -3) return end
+  if type(within_start)~="number" then ultraschall.AddErrorMessage("GetShownoteAttributesAsJSON", "within_start", "must be a number", -4) return end
+  if type(within_end)~="number" then ultraschall.AddErrorMessage("GetShownoteAttributesAsJSON", "within_end", "must be a number", -5) return end
+  if offset~=nil and type(offset)~="number" then ultraschall.AddErrorMessage("GetShownoteAttributesAsJSON", "offset", "must be a number", -6) return end
     
   local JSON="\"shwn_"..shown_id.."\":{\n"
   
@@ -2057,7 +2121,7 @@ function ultraschall.GetShownoteAttributesAsJSON(shownotemarker_id, shown_id, wi
       content=string.gsub(content, "\\n", "\\\\n")
       content=string.gsub(content, "\n", "\\n")
       if attribute=="chap_image" then
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(content).."\",\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..ultraschall.Base64_Encoder(content).."\",\n"
       elseif attribute=="shwn_position" then
         JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(position).."\",\n"
       elseif attribute=="chap_image_path" then
@@ -2292,62 +2356,7 @@ end
 
 --A,B,C=ultraschall.GetSetPodcastWebsite(true, 34, "My \"url\"", "This\n \\n is my url, use this and not another one", "http://www.name.de")
 
-function ultraschall.PodcastMetaData_ExportWebsiteAsJSON()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>PodcastMetaData_ExportWebsiteAsJSON</slug>
-  <requires>
-    Ultraschall=4.75
-    Reaper=6.20
-    Lua=5.3
-  </requires>
-  <functioncall>string website_entry_JSON = ultraschall.PodcastMetaData_ExportWebsiteAsJSON()</functioncall>
-  <description>
-    Returns the MetaDataEntry for a website as JSON according to PodMeta_v1-standard.
-  </description>
-  <retvals>
-    string website_entry_JSON - the podcast's website-metadata as json according to the PodMeta_v1-standard
-  </retvals>
-  <chapter_context>
-    Metadata Management
-    Podcast Metadata
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
-  <tags>metadata, get, podcast, shownote, website, metadata, json, podmeta_v1</tags>
-</US_DocBloc>
-]]
-  local _,maxindex=reaper.GetProjExtState(0, "PodcastMetaData", "podc_maxindex")
-  if maxindex=="" then maxindex=0 end
-  local count=0
-  local JSON="{\n"
-  for index=0, tonumber(maxindex) do
-    local _,A=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_name")
-    local _,B=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_description")
-    local _,C=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_url")
-    if A~="" and B~="" and C~="" then
-      A=string.gsub(A, "\"", "\\\"")
-      A=string.gsub(A, "\\n", "\\\\n")
-      A=string.gsub(A, "\n", "\\n")
-      B=string.gsub(B, "\"", "\\\"")
-      B=string.gsub(B, "\\n", "\\\\n")
-      B=string.gsub(B, "\n", "\\n")
-      C=string.gsub(C, "\"", "\\\"")
-      C=string.gsub(C, "\\n", "\\\\n")
-      C=string.gsub(C, "\n", "\\n")
-      count=count+1
-      JSON=JSON.."\t\"podc_website_"..count.."\":{"
-      JSON=JSON.."\n\t\t\"podc_website_name"..count.."\":\""..A.."\",\n"
-      JSON=JSON.."\n\t\t\"podc_website_description"..count.."\":\""..B.."\",\n"
-      JSON=JSON.."\n\t\t\"podc_website_url"..count.."\":\""..C.."\"\n"
-      JSON=JSON.."\t},\n"
-    end
-  end
-  if count>0 then JSON=JSON:sub(1,-3) end
-  
-  JSON=JSON.."\n}"
-  return JSON
-end
+
 
 --A=ultraschall.PodcastMetaData_ExportWebsiteAsJSON()
 --print3(A)

@@ -7843,7 +7843,6 @@ ultraschall.ChapterAttributes={
               "chap_spoiler_alert",
               "chap_next_chapter_numbers",
               "chap_previous_chapter_numbers",
-              "chap_image",
               "chap_image_description",
               "chap_image_license",
               "chap_image_origin",
@@ -7878,7 +7877,6 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
                          - "chap_url_description" - a description for this url
                          - "chap_description" - a description of the content of this chapter
                          - "chap_is_advertisement" - yes, if this chapter is an ad; "", to unset it
-                         - "chap_image" - the content of the chapter-image, either png or jpg
                          - "chap_image_path" - the path to the filename of the chapter-image(Ultraschall will see it as placed in the project-folder!)
                          - "chap_image_description" - a description for the chapter-image
                          - "chap_image_license" - the license of the chapter-image
