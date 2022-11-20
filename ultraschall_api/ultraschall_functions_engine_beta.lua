@@ -2199,13 +2199,11 @@ function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url,
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string name, string description, string url = ultraschall.GetSetPodcast_Attributes(boolean is_set, integer index, string name, string description, string url, optional index preset_slot)</functioncall>
+  <functioncall>boolean retval, string name, string description, string url, optional string preset_url_name, optional string preset_url_description, optional string preset_url = ultraschall.GetSetPodcast_Attributes(boolean is_set, integer index, string name, string description, string url, optional index preset_slot)</functioncall>
   <description>
-    Will get/set metadata-attributes for a podcast.
+    Will get/set website-metadata-attributes for a podcast.
     
     This is about the podcast globally, NOT the individual episodes.
-    
-    For episode's-metadata, use [GetSetPodcastEpisode\_Attributes](#GetSetPodcastEpisode_Attributes)
     
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
         
@@ -2217,13 +2215,16 @@ function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url,
     string name - the name of the url
     string description - a description of this url
     string url - the url itself
-    optional index preset_slot - nil, don't use the preset; 1 and higher, set/return the website of the index-slot
+    optional index preset_slot - nil, don't return any preset's content; 1 and higher, set/return the website of the index-slot
   </parameters>
   <retvals>
     boolean retval - true, if the url could be set; false, if an error occurred
     string name - the name of the url
     string description - a description of this url
     string url - the url itself
+    optional string preset_url_name - the name of the url
+    optional string preset_url_description - a description of this url
+    optional string preset_url_ - the url itself
   </retvals>
   <chapter_context>
     Metadata Management
@@ -2231,9 +2232,17 @@ function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url,
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
-  <tags>metadata, get, set, podcast, attributes</tags>
+  <tags>metadata, get, set, podcast, website</tags>
 </US_DocBloc>
 ]]
+--is_set, index, name, description, url, preset_slot
+  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetPodcastWebsite", "is_set", "must be boolean", -1) return false end
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("GetSetPodcastWebsite", "index", "must be an integer", -2) return false end
+  if type(name)~="string" then ultraschall.AddErrorMessage("GetSetPodcastWebsite", "name", "must be a string", -3) return false end
+  if type(description)~="string" then ultraschall.AddErrorMessage("GetSetPodcastWebsite", "description", "must be a string", -4) return false end
+  if type(url)~="string" then ultraschall.AddErrorMessage("GetSetPodcastWebsite", "url", "must be a string", -5) return false end
+  if preset_slot~=nil and math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("GetSetPodcastWebsite", "preset_slot", "must be an integer", -6) return false end
+
   local _, A, B, C, A1, D, E, F
   if is_set==true then
     if preset_slot~=nil then
