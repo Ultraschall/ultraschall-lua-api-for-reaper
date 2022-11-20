@@ -328,10 +328,13 @@ Has now 1590 functions, with XX new ones
   - PodcastMetadata: GetPodcastEpisodeAttributesPreset\_Name - gets the name of an episode-metadata-preset
   - PodcastMetadata: GetPodcastAttributesAsJSON get the metadata of a podcast as JSON
   - PodcastMetadata: GetPodcastAttributesPreset\_Name - gets the name of a podcast-metadata-preset
+  - PodcastMetadata: GetSetPodcastWebsite - gets/sets websites for a podcast
   - PodcastMetadata: GetShownoteAttributesAsJSON get the metadata of a shownote as JSON
   - PodcastMetadata: PodcastMetadata\_CreateJSON\_Entry - creates entire podcast-metadata-entry as JSON according to PodMeta_v1-standard
+  - PodcastMetadata: PodcastMetaData\_ExportWebsiteAsJSON - creates website's metadata as JSON
   - PodcastMetadata: SetPodcastEpisodeAttributesPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastAttributesPreset\_Name - sets the name of a podcast-metadata-preset    
+  
   
 #### Changes from 4.7 to 4.75  
   - API: Modulator3000 - reverted speedup of the speedup, as it had trouble on 32-bit-machines -> thanks binbinfr

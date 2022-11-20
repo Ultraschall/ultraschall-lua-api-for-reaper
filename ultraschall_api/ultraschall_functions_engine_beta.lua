@@ -2187,3 +2187,159 @@ function ultraschall.PodcastMetadata_CreateJSON_Entry(start_time, end_time, offs
   
   return JSON
 end
+
+
+function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url, preset_slot)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetPodcast_Attributes</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.20
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string name, string description, string url = ultraschall.GetSetPodcast_Attributes(boolean is_set, integer index, string name, string description, string url, optional index preset_slot)</functioncall>
+  <description>
+    Will get/set metadata-attributes for a podcast.
+    
+    This is about the podcast globally, NOT the individual episodes.
+    
+    For episode's-metadata, use [GetSetPodcastEpisode\_Attributes](#GetSetPodcastEpisode_Attributes)
+    
+    preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
+        
+    returns false in case of an error
+  </description>
+  <parameters>
+    boolean is_set - true, set the attribute; false, retrieve the current content
+    integer index - the index of the url to store, 1 and higher
+    string name - the name of the url
+    string description - a description of this url
+    string url - the url itself
+    optional index preset_slot - nil, don't use the preset; 1 and higher, set/return the website of the index-slot
+  </parameters>
+  <retvals>
+    boolean retval - true, if the url could be set; false, if an error occurred
+    string name - the name of the url
+    string description - a description of this url
+    string url - the url itself
+  </retvals>
+  <chapter_context>
+    Metadata Management
+    Podcast Metadata
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>metadata, get, set, podcast, attributes</tags>
+</US_DocBloc>
+]]
+  local _, A, B, C, A1, D, E, F
+  if is_set==true then
+    if preset_slot~=nil then
+      name=string.gsub(name, "\r", "")
+      description=string.gsub(description, "\r", "")
+      url=string.gsub(url, "\r", "")
+      retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, "podc_website_"..index.."_name", string.gsub(name, "\n", "\\n"), "ultraschall_podcast_presets.ini")
+      retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, "podc_website_"..index.."_description", string.gsub(description, "\n", "\\n"), "ultraschall_podcast_presets.ini")
+      retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, "podc_website_"..index.."_url", string.gsub(url, "\n", "\\n"), "ultraschall_podcast_presets.ini")
+      if retval==false then ultraschall.AddErrorMessage("GetSetPodcastWebsite", "", "can not write to ultraschall_podcast_presets.ini", -8) return false end
+      presetcontent=content
+    else
+      presetcontent=nil      
+    end
+
+    _,A1=reaper.GetProjExtState(0, "PodcastMetaData", "podc_maxindex")
+    if A1=="" or index>tonumber(A1) then
+      reaper.SetProjExtState(0, "PodcastMetaData", "podc_maxindex", index)
+    end
+    reaper.SetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_name", name)
+    reaper.SetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_description", description)
+    reaper.SetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_url", url)
+    return true, name, description, url, name, description, url
+  else
+    if preset_slot~=nil then
+      --print2("")
+      local old_errorcounter = ultraschall.CountErrorMessages()
+      D=ultraschall.GetUSExternalState("PodcastMetaData_"..preset_slot, "podc_website_"..index.."_name", "ultraschall_podcast_presets.ini")
+      E=ultraschall.GetUSExternalState("PodcastMetaData_"..preset_slot, "podc_website_"..index.."_description", "ultraschall_podcast_presets.ini")
+      F=ultraschall.GetUSExternalState("PodcastMetaData_"..preset_slot, "podc_website_"..index.."_url", "ultraschall_podcast_presets.ini")
+      if old_errorcounter~=ultraschall.CountErrorMessages() then
+        ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "", "can not retrieve value from ultraschall_podcast_presets.ini", -9)
+        return false
+      end
+      D=string.gsub(D, "\\n", "\n")
+      E=string.gsub(E, "\\n", "\n")
+      F=string.gsub(F, "\\n", "\n")
+    end
+    _,A=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_name")
+    _,B=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_description")
+    _,C=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_url")
+    return true, A, B, C, D, E, F
+  end
+end
+
+
+
+--A,B,C=ultraschall.GetSetPodcastWebsite(true, 34, "My \"url\"", "This\n \\n is my url, use this and not another one", "http://www.name.de")
+
+function ultraschall.PodcastMetaData_ExportWebsiteAsJSON()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>PodcastMetaData_ExportWebsiteAsJSON</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>string website_entry_JSON = ultraschall.PodcastMetaData_ExportWebsiteAsJSON()</functioncall>
+  <description>
+    Returns the MetaDataEntry for a website as JSON according to PodMeta_v1-standard.
+  </description>
+  <retvals>
+    string website_entry_JSON - the podcast's website-metadata as json according to the PodMeta_v1-standard
+  </retvals>
+  <chapter_context>
+    Metadata Management
+    Podcast Metadata
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>metadata, get, podcast, shownote, website, metadata, json, podmeta_v1</tags>
+</US_DocBloc>
+]]
+  local _,maxindex=reaper.GetProjExtState(0, "PodcastMetaData", "podc_maxindex")
+  if maxindex=="" then maxindex=0 end
+  local count=0
+  local JSON="{\n"
+  for index=0, tonumber(maxindex) do
+    local _,A=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_name")
+    local _,B=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_description")
+    local _,C=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_url")
+    if A~="" and B~="" and C~="" then
+      A=string.gsub(A, "\"", "\\\"")
+      A=string.gsub(A, "\\n", "\\\\n")
+      A=string.gsub(A, "\n", "\\n")
+      B=string.gsub(B, "\"", "\\\"")
+      B=string.gsub(B, "\\n", "\\\\n")
+      B=string.gsub(B, "\n", "\\n")
+      C=string.gsub(C, "\"", "\\\"")
+      C=string.gsub(C, "\\n", "\\\\n")
+      C=string.gsub(C, "\n", "\\n")
+      count=count+1
+      JSON=JSON.."\t\"podc_website_"..count.."\":{"
+      JSON=JSON.."\n\t\t\"podc_website_name"..count.."\":\""..A.."\",\n"
+      JSON=JSON.."\n\t\t\"podc_website_description"..count.."\":\""..B.."\",\n"
+      JSON=JSON.."\n\t\t\"podc_website_url"..count.."\":\""..C.."\"\n"
+      JSON=JSON.."\t},\n"
+    end
+  end
+  if count>0 then JSON=JSON:sub(1,-3) end
+  
+  JSON=JSON.."\n}"
+  return JSON
+end
+
+--A=ultraschall.PodcastMetaData_ExportWebsiteAsJSON()
+--print3(A)
+

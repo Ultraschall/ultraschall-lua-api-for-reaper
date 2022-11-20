@@ -7991,23 +7991,24 @@ ultraschall.PodcastAttributes={
               "podc_title", 
               "podc_description", 
               "podc_category",
-              --"podc_feed",
-              "podc_website", 
-              "podc_twitter",
-              "podc_facebook",
-              "podc_youtube",
-              "podc_instagram",
-              "podc_tiktok",
-              "podc_mastodon",
-              "podc_twitch",
-              "podc_pinterest",
-              "podc_reddit",
-              "podc_slack",
-              "podc_discord",
+              --"podc_feed",              
               --"podc_donate", 
               "podc_contact_email",
               "podc_descriptive_tags"
               }
+         --[[     
+         "podc_twitter" - twitter-profile of the podcast
+         "podc_facebook" - facebook-page of the podcast
+         "podc_youtube" - youtube-channel of the podcast
+         "podc_instagram" - instagram-channel of the podcast
+         "podc_tiktok" - tiktok-channel of the podcast
+         "podc_mastodon" - mastodon-channel of the podcast
+         "podc_twitch" - the twitch-channel of the podcast
+         "podc_pinterest" - the pinterest-profile of the podcast
+         "podc_reddit" - the reddit-profile of the podcast
+         "podc_slack" - the slack-workspace of the podcast
+         "podc_discord" - the discord-server of the podcast
+         --]]
 
 function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_attribute, content, preset_slot)
 --[[
@@ -8028,24 +8029,13 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
          "podc_title" - the title of the podcast
          "podc_description" - a description for your podcast
          "podc_website" - either one url or a list of website-urls of the podcast,separated by newlines
-         "podc_contact_email" - an email-address that can be used to contact the podcasters         
-         "podc_twitter" - twitter-profile of the podcast
-         "podc_facebook" - facebook-page of the podcast
-         "podc_youtube" - youtube-channel of the podcast
-         "podc_instagram" - instagram-channel of the podcast
-         "podc_tiktok" - tiktok-channel of the podcast
-         "podc_mastodon" - mastodon-channel of the podcast
-         "podc_twitch" - the twitch-channel of the podcast
-         "podc_pinterest" - the pinterest-profile of the podcast
-         "podc_reddit" - the reddit-profile of the podcast
-         "podc_slack" - the slack-workspace of the podcast
-         "podc_discord" - the discord-server of the podcast
+         "podc_contact_email" - an email-address that can be used to contact the podcasters                  
          "podc_descriptive_tags" - some tags, who describe the podcast, must be separated by commas
          "podc_category" - a category that describes the podcast
     
     For episode's-metadata, use [GetSetPodcastEpisode\_Attributes](#GetSetPodcastEpisode_Attributes)
     
-    preset-values will be stored into ressourcepath/ultraschall\_podcast\_presets.ini
+    preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
         
     returns false in case of an error
   </description>
@@ -8195,7 +8185,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
     
     For podcast's-metadata, use [GetSetPodcast\_Attributes](#GetSetPodcast_Attributes)
     
-    preset-values will be stored into ressourcepath/ultraschall\_podcast\_presets.ini
+    preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
         
     returns false in case of an error
   </description>
