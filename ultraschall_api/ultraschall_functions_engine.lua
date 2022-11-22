@@ -371,7 +371,13 @@ function ultraschall.AddErrorMessage(functionname, parametername, errormessage, 
       if type(errorcode)~="number" then errorcode=-1 end
       
       -- let's create the new errormessage
-      context=debug.getinfo(3)
+      context_nr=6
+      context=debug.getinfo(context_nr)
+      if context==nil then context_nr=context_nr-1 context=debug.getinfo(context_nr) end
+      if context==nil then context_nr=context_nr-1 context=debug.getinfo(context_nr) end
+      if context==nil then context_nr=context_nr-1 context=debug.getinfo(context_nr) end
+      if context==nil then context_nr=context_nr-1 context=debug.getinfo(context_nr) end
+      if context==nil then context_nr=context_nr-1 context=debug.getinfo(context_nr) end
       local ErrorMessage={}
       ErrorMessage["funcname"]=functionname
       ErrorMessage["errmsg"]=errormessage
@@ -383,6 +389,8 @@ function ultraschall.AddErrorMessage(functionname, parametername, errormessage, 
       ErrorMessage["Context_Function"]=context["name"]
       ErrorMessage["Context_Sourcefile"]=context["source"]
       ErrorMessage["Context_SourceLine"]=context["currentline"]
+      if ErrorMessage["Context_Function"]==nil then ErrorMessage["Context_Function"]=debug.getinfo(context_nr-1)["name"] end
+      
       
       -- add it to the error-message-system
       ultraschall.ErrorMessage[ultraschall.ErrorCounter]=ErrorMessage
@@ -965,6 +973,9 @@ function ultraschall.ShowLastErrorMessage(dunk, target, message_type)
       if parmname~="" then 
         -- if error-causing-parameter was given, display this message
         parmname="param: "..parmname 
+        if context_function==nil then context_function="" end
+        if context_sourceline==nil then context_sourceline=-1 end
+        if context_sourcefile==nil then context_sourcefile="" end
         reaper.MB(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode.."\n\nFunction context: "..context_function.."\nFunction line_number: "..context_sourceline.."\n\nFunction source-file: "..context_sourcefile:sub(2,-1) , "Ultraschall Api Error Message",0) 
       else
         -- if no error-causing-parameter was given, display that message

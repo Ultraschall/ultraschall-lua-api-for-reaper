@@ -2263,13 +2263,15 @@ function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url,
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string name, string description, string url, optional string preset_url_name, optional string preset_url_description, optional string preset_url = ultraschall.GetSetPodcast_Attributes(boolean is_set, integer index, string name, string description, string url, optional index preset_slot)</functioncall>
+  <functioncall>boolean retval, string name, string description, string url = ultraschall.GetSetPodcast_Attributes(boolean is_set, integer index, string name, string description, string url, optional index preset_slot)</functioncall>
   <description>
     Will get/set website-metadata-attributes for a podcast.
     
     This is about the podcast globally, NOT the individual episodes.
     
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
+        
+    You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)
         
     returns false in case of an error
   </description>
@@ -2283,12 +2285,9 @@ function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url,
   </parameters>
   <retvals>
     boolean retval - true, if the url could be set; false, if an error occurred
-    string name - the name of the url
-    string description - a description of this url
-    string url - the url itself
-    optional string preset_url_name - the name of the url
-    optional string preset_url_description - a description of this url
-    optional string preset_url_ - the url itself
+    string name - the name of the url; when preset_slot is not nil then this is the content of the presetslot
+    string description - a description of this url; when preset_slot is not nil then this is the content of the presetslot
+    string url - the url itself; when preset_slot is not nil then this is the content of the presetslot
   </retvals>
   <chapter_context>
     Metadata Management
@@ -2318,8 +2317,9 @@ function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url,
       retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, "podc_website_"..index.."_url", string.gsub(url, "\n", "\\n"), "ultraschall_podcast_presets.ini")
       if retval==false then ultraschall.AddErrorMessage("GetSetPodcastWebsite", "", "can not write to ultraschall_podcast_presets.ini", -8) return false end
       presetcontent=content
+      return retval, name, description, url
     else
-      presetcontent=nil      
+      presetcontent=nil
     end
 
     _,A1=reaper.GetProjExtState(0, "PodcastMetaData", "podc_maxindex")
@@ -2329,7 +2329,7 @@ function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url,
     reaper.SetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_name", name)
     reaper.SetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_description", description)
     reaper.SetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_url", url)
-    return true, name, description, url, name, description, url
+    return true, name, description, url
   else
     if preset_slot~=nil then
       --print2("")
@@ -2344,14 +2344,15 @@ function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url,
       D=string.gsub(D, "\\n", "\n")
       E=string.gsub(E, "\\n", "\n")
       F=string.gsub(F, "\\n", "\n")
+      if D=="" and E=="" and F=="" then retval=false else retval=true end
+      return retval, D, E, F
     end
     _,A=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_name")
     _,B=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_description")
     _,C=reaper.GetProjExtState(0, "PodcastMetaData", "podc_website_"..index.."_url")
-    return true, A, B, C, D, E, F
+    return true, A, B, C
   end
 end
-
 
 
 --A,B,C=ultraschall.GetSetPodcastWebsite(true, 34, "My \"url\"", "This\n \\n is my url, use this and not another one", "http://www.name.de")
@@ -2361,3 +2362,107 @@ end
 --A=ultraschall.PodcastMetaData_ExportWebsiteAsJSON()
 --print3(A)
 
+ultraschall.PodcastContributorAttributes = {
+  "epsd_contributor_name",
+  "epsd_contributor_description",
+  "epsd_contributor_email",
+}
+
+function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, content, preset_slot)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetContributor_Attributes</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.20
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string content = ultraschall.GetSetContributor_Attributes(boolean is_set, integer index, string attributename, string content, integer preset_slot)</functioncall>
+  <description>
+    Get/set contributor-metadata-attributes for an episode. You can have multiple contributors per episode.
+    
+    This is about the the individual episodes.    
+    
+    Accepted attributes are:
+    
+      epsd_contributor_name - the name of the contributor
+      epsd_contributor_description - a description of the contributor
+      epsd_contributor_email - the email of the contributor
+      
+    preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
+    
+    You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    boolean is_set - true, set the attribute; false, retrieve the current content
+    integer index - the index of the contributor to store, 1 and higher
+    string attributename - the name of the attribute for the contributor
+    string content - the value for this contributor
+    optional index preset_slot - nil, don't return any preset's content; 1 and higher, set/return the website of the index-slot
+  </parameters>
+  <retvals>
+    boolean retval - true, if the url could be set; false, if an error occurred
+    string content - the content of the attribute for this contributor; when preset_slot is not nil then this will be content of the preset-slot
+  </retvals>
+  <chapter_context>
+    Metadata Management
+    Podcast Metadata
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>metadata, get, set, podcast, website</tags>
+</US_DocBloc>
+]]
+--is_set, index, attributename, content, preset_slot
+  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "is_set", "must be a boolean", -1) return false end
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "index", "must be an integer", -2) return false end
+  if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "must be a string", -3) return false end
+  if type(content)~="string" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "content", "must be a string", -4) return false end
+  if preset_slot~=nil and math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "preset_slot", "must be an integer", -5) return false end
+  local tags=ultraschall.PodcastContributorAttributes 
+  local presetcontent, retval
+  local found=false
+  for i=1, #tags do
+    if attributename==tags[i] then
+      found=true
+      break
+    end
+  end
+  if found==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "attributename not supported", -6) return false end
+  
+  if is_set==true then
+    if preset_slot~=nil then
+      content=string.gsub(content, "\r", "")
+      retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, attributename.."_"..index, string.gsub(content, "\n", "\\n"), "ultraschall_podcast_presets.ini")
+      if retval==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "", "can not write to ultraschall_podcast_presets.ini", -7) return false end
+      presetcontent=content
+      return retval, content
+    else
+      presetcontent=nil
+    end
+    
+    local _,A1=reaper.GetProjExtState(0, "PodcastMetaData", "epsd_contributors_maxindex")
+    if A1=="" or index>tonumber(A1) then
+      reaper.SetProjExtState(0, "PodcastMetaData", "epsd_contributors_maxindex", index)
+    end
+    _=reaper.SetProjExtState(0, "EpisodeMetaData", attributename..index, content)
+    return _>0, content, presetcontent
+  else
+    if preset_slot~=nil then
+      --print2("")
+      local old_errorcounter = ultraschall.CountErrorMessages()
+      presetcontent=ultraschall.GetUSExternalState("PodcastMetaData_"..preset_slot, attributename.."_"..index, "ultraschall_podcast_presets.ini")
+      if old_errorcounter~=ultraschall.CountErrorMessages() then
+        ultraschall.AddErrorMessage("GetSetContributor_Attributes", "", "can not retrieve value from ultraschall_podcast_presets.ini", -8)
+        return false
+      end
+      presetcontent=string.gsub(presetcontent, "\\n", "\n")
+      return true, presetcontent
+    end
+    local _, content = reaper.GetProjExtState(0, "EpisodeMetaData", attributename..index)
+    return _>0, content
+  end
+end

@@ -45,11 +45,14 @@ Bla</li>
 <h4>New features in 4.75</h4>
 <ul>
 <li>GFX-Functions: GFX_ResizeImageKeepAspectRatio - resizes a loaded image while keeping aspect ratio</li>
-<li>PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a chapter as JSON</li>
+<li>PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a chapter as JSON<br />
+</li>
 <li>PodcastMetadata: GetEpisodeAttributesAsJSON get the metadata of an episode as JSON</li>
 <li>PodcastMetadata: GetPodcastEpisodeAttributesPreset_Name - gets the name of an episode-metadata-preset</li>
 <li>PodcastMetadata: GetPodcastAttributesAsJSON get the metadata of a podcast as JSON</li>
 <li>PodcastMetadata: GetPodcastAttributesPreset_Name - gets the name of a podcast-metadata-preset</li>
+<li>PodcastMetadata: GetSetContributor_Attributes - gets/sets the attributes of an episode's contributor<br />
+</li>
 <li>PodcastMetadata: GetSetPodcastWebsite - gets/sets websites for a podcast</li>
 <li>PodcastMetadata: GetShownoteAttributesAsJSON get the metadata of a shownote as JSON</li>
 <li>PodcastMetadata: PodcastMetadata_CreateJSON_Entry - creates entire podcast-metadata-entry as JSON according to PodMeta_v1-standard</li>
@@ -67,7 +70,8 @@ Bla</li>
 <li>MediaItemManagement: InsertMediaItemStateChunkArray - supports now inserting needed tracks, if the number of tracks&lt;the number of tracks needed by the items to be inserted</li>
 <li>MediaItemManagement: RippleCut - had trouble with projects, where there's only one item on track 1 and no other tracks</li>
 <li>PodcastMetadata: GetSetChapterMarker_Attributes - supports now setting position "chap<em>position" and markertitle "chap</em>title"</li>
-<li>PodcastMetadata: GetSetPodcast_Attributes - removed websites; will be done by GetSetPodcastWebsite instead</li>
+<li>PodcastMetadata: GetSetPodcast_Attributes - can now get/store attributes either in the current project or a preset, not in both at the same time; removed websites; will be done by GetSetPodcastWebsite instead</li>
+<li>PodcastMetadata: GetSetPodcastEpisode_Attributes - can now get/store attributes either in the current project or a preset, not in both at the same time</li>
 <li>PodcastMetadata: GetSetShownoteMarker_Attributes - supports now attribute shwn<em>linked</em>audiovideomedia, which allows linking media directly with a time<em>stamp; supports now setting position "shwn</em>position" and markertitle "shwn_title"</li>
 <li>Rendering: CreateNewRenderTable - default RenderTable did return bool instead of integer for FadeOut_Shape -&gt; fixed (thnx to aurelien)</li>
 </ul>

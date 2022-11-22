@@ -7864,38 +7864,39 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
   <description>
     Will get/set additional attributes of a chapter-marker.
         
+    Supported attributes are:
+      "chap_title" - the title of this chapter
+      "chap_position" - the current position of this chapter in seconds
+      "chap_url" - the url for this chapter(check first, if a shownote is not suited better for the task!)
+      "chap_url_description" - a description for this url
+      "chap_description" - a description of the content of this chapter
+      "chap_is_advertisement" - yes, if this chapter is an ad; "", to unset it
+      "chap_image_path" - the path to the filename of the chapter-image(Ultraschall will see it as placed in the project-folder!)
+      "chap_image_description" - a description for the chapter-image
+      "chap_image_license" - the license of the chapter-image
+      "chap_image_origin" - the origin of the chapterimage, like an institution or similar 
+      "chap_image_url" - the url that links to the chapter-image
+      "chap_descriptive_tags" - some tags, that describe the chapter-content, must separated by commas
+      "chap_content_notification_tags" - some tags, that warn of specific content; must be separated by commas
+      "chap_spoiler_alert" - "yes", if spoiler; "", if no spoiler
+      "chap_next_chapter_numbers" - decide, which chapter could be the next after this one; 
+                                   - format is: "chap_number:description\nchap_number:description\n"
+                                   - chap_number is the number of the chapter in timeline-order
+                                   - it's possible to set multiple chapters as the next chapters; chap_number is 0-based
+                                   - this can be used for non-linear podcasts, like "choose your own adventure"
+      "chap_previous_chapter_numbers" - decide, which chapter could be the previous before this one
+                                   - format is: "chap_number:description\nchap_number:description\n"
+                                   - chap_number is the number of the chapter in timeline-order
+                                   - it's possible to set multiple chapters as the previous chapters; chap_number is 0-based
+                                   - this can be used for non-linear podcasts, like "choose your own adventure"
+      "chap_guid" - a unique guid for this chapter-marker; read-only
+        
     returns false in case of an error
   </description>
   <parameters>
     boolean is_set - true, set the attribute; false, retrieve the current content
     integer idx - the index of the chapter-marker, whose attribute you want to get; 1-based
     string attributename - the attributename you want to get/set
-                         - supported attributes are:
-                         - "chap_title" - the title of this chapter
-                         - "chap_position" - the current position of this chapter in seconds
-                         - "chap_url" - the url for this chapter(check first, if a shownote is not suited better for the task!)
-                         - "chap_url_description" - a description for this url
-                         - "chap_description" - a description of the content of this chapter
-                         - "chap_is_advertisement" - yes, if this chapter is an ad; "", to unset it
-                         - "chap_image_path" - the path to the filename of the chapter-image(Ultraschall will see it as placed in the project-folder!)
-                         - "chap_image_description" - a description for the chapter-image
-                         - "chap_image_license" - the license of the chapter-image
-                         - "chap_image_origin" - the origin of the chapterimage, like an institution or similar 
-                         - "chap_image_url" - the url that links to the chapter-image
-                         - "chap_descriptive_tags" - some tags, that describe the chapter-content, must separated by commas
-                         - "chap_content_notification_tags" - some tags, that warn of specific content; must be separated by commas
-                         - "chap_spoiler_alert" - "yes", if spoiler; "", if no spoiler
-                         - "chap_next_chapter_numbers" - decide, which chapter could be the next after this one; 
-                                                       - format is: "chap_number:description\nchap_number:description\n"
-                                                       - chap_number is the number of the chapter in timeline-order
-                                                       - it's possible to set multiple chapters as the next chapters; chap_number is 0-based
-                                                       - this can be used for non-linear podcasts, like "choose your own adventure"
-                         - "chap_previous_chapter_numbers" - decide, which chapter could be the previous before this one
-                                                       - format is: "chap_number:description\nchap_number:description\n"
-                                                       - chap_number is the number of the chapter in timeline-order
-                                                       - it's possible to set multiple chapters as the previous chapters; chap_number is 0-based
-                                                       - this can be used for non-linear podcasts, like "choose your own adventure"
-                         - "chap_guid" - a unique guid for this chapter-marker; read-only
     string content - the new contents to set the attribute with
     optional boolean planned - true, get/set this attribute with planned marker; false or nil, get/set this attribute with normal marker(chapter marker)
   </parameters>
@@ -8018,7 +8019,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string content, optional string presetcontent = ultraschall.GetSetPodcast_Attributes(boolean is_set, string attributename, string content, optional integer preset_slot)</functioncall>
+  <functioncall>boolean retval, string content = ultraschall.GetSetPodcast_Attributes(boolean is_set, string attributename, string content, optional integer preset_slot)</functioncall>
   <description>
     Will get/set metadata-attributes for a podcast.
     
@@ -8034,6 +8035,8 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
     For episode's-metadata, use [GetSetPodcastEpisode\_Attributes](#GetSetPodcastEpisode_Attributes)
     
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
+    
+    You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)
         
     returns false in case of an error
   </description>
@@ -8048,8 +8051,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
   </parameters>
   <retvals>
     boolean retval - true, if the attribute exists/could be set; false, if not or an error occurred
-    string content - the content of a specific attribute
-    optional string presetcontent - the content of the preset's value in the preset_slot
+    string content - the content of a specific attribute; when preset_slot is not nil then this is the content of the presetslot
   </retvals>
   <chapter_context>
     Metadata Management
@@ -8115,7 +8117,6 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
   
   if found==false then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "attributename", "attributename not supported", -7) return false end
   local presetcontent, _
-  --if attributename=="image_content" and content:sub(1,6)~="ÿØÿ" and content:sub(2,4)~="PNG" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "image_content: only png and jpg are supported", -6) return false end
   
   if is_set==true then
     -- set state
@@ -8124,10 +8125,11 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
       retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, attributename..additional_attribute, string.gsub(content, "\n", "\\n"), "ultraschall_podcast_presets.ini")
       if retval==false then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "", "can not write to ultraschall_podcast_presets.ini", -8) return false end
       presetcontent=content
+      return presetcontent~="", presetcontent
     else
       presetcontent=nil      
     end
-    reaper.SetProjExtState(0, "PodcastMetaData", attributename, content)
+    local _ = reaper.SetProjExtState(0, "PodcastMetaData", attributename, content)
   else
     -- get state
     if preset_slot~=nil then
@@ -8138,6 +8140,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
         return false
       end
       presetcontent=string.gsub(presetcontent, "\\n", "\n")
+      return presetcontent~="", presetcontent
     end
     _, content=reaper.GetProjExtState(0, "PodcastMetaData", attributename)
   end
@@ -8170,12 +8173,12 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcastEpisode_Attributes</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=4.75
     Reaper=6.02
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string content, optional string presetcontent = ultraschall.GetSetPodcastEpisode_Attributes(boolean is_set, string attributename, string content, optional integer preset_slot)</functioncall>
+  <functioncall>boolean retval, string content = ultraschall.GetSetPodcastEpisode_Attributes(boolean is_set, string attributename, string content, optional integer preset_slot)</functioncall>
   <description>
     Will get/set metadata-attributes for a podcast-episode.
     
@@ -8183,39 +8186,41 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
     
     For podcast's-metadata, use [GetSetPodcast\_Attributes](#GetSetPodcast_Attributes)
     
+    Supported attributes are:
+        "epsd_title" - the title of the episode
+        "epsd_number" - the number of the episode
+        "epsd_season" - the season of the episode
+        "epsd_author" - the authors of this episode as comma separated list
+        "epsd_release_date" - releasedate of the episode; yyyy-mm-dd
+        "epsd_release_time" - releasedate of the episode; hh:mm:ss
+        "epsd_release_timezone" - the time's timezone in UTC of the release-time; +hh:mm or -hh:mm
+        "epsd_tagline" - the tagline of the episode
+        "epsd_description" - the descriptionof the episode
+        "epsd_cover" - the cover-image of the episode(path+filename)
+        "epsd_language" - the language of the episode; Languagecode according to ISO639
+        "epsd_explicit" - yes, if explicit; "", if not explicit
+        "epsd_descriptive_tags" - some tags, that describe the content of the episode, must separated by commas
+        "epsd_sponsor" - the name of the sponsor of this episode
+        "epsd_sponsor_url" - a link to the sponsor's website
+        "epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by commas
+        "epsd_guid" - a unique identifier for this episode; contains three guids in a row; read-only; can't be stored in presets!
+    
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
+    
+    You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)
         
     returns false in case of an error
   </description>
   <parameters>
     boolean is_set - true, set the attribute; false, retrieve the current content
     string attributename - the attributename you want to get/set
-                         - supported attributes are:
-                          - "epsd_title" - the title of the episode
-                          - "epsd_number" - the number of the episode
-                          - "epsd_season" - the season of the episode
-                          - "epsd_author" - the authors of this episode as comma separated list
-                          - "epsd_release_date" - releasedate of the episode; yyyy-mm-dd
-                          - "epsd_release_time" - releasedate of the episode; hh:mm:ss
-                          - "epsd_release_timezone" - the time's timezone in UTC of the release-time; +hh:mm or -hh:mm
-                          - "epsd_tagline" - the tagline of the episode
-                          - "epsd_description" - the descriptionof the episode
-                          - "epsd_cover" - the cover-image of the episode(path+filename)
-                          - "epsd_language" - the language of the episode; Languagecode according to ISO639
-                          - "epsd_explicit" - yes, if explicit; "", if not explicit
-                          - "epsd_descriptive_tags" - some tags, that describe the content of the episode, must separated by commas
-                          - "epsd_sponsor" - the name of the sponsor of this episode
-                          - "epsd_sponsor_url" - a link to the sponsor's website
-                          - "epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by commas
-                          - "epsd_guid" - a unique identifier for this episode; contains three guids in a row; read-only; can't be stored in presets!
     string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
     string content - the new contents to set the attribute
     optional integer preset_slot - the slot in the podcast-presets to get/set the value from/to; nil, no preset used
   </parameters>
   <retvals>
     boolean retval - true, if the attribute exists/could be set; false, if not or an error occurred
-    string content - the content of a specific attribute
-    optional string presetcontent - the content of the preset's value in the preset_slot
+    string content - the content of a specific attribute; when preset_slot is not nil then this is the content of the presetslot
   </retvals>
   <chapter_context>
     Metadata Management
@@ -8247,42 +8252,8 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
   
   local retval
   
-  -- management additional additional attributes for some attributes(currently not used, so I keep some defaults in here)
-  --[[
-  if attributename=="podcast_feed" then
-    if additional_attribute:lower()~="mp3" and
-       additional_attribute:lower()~="aac" and
-       additional_attribute:lower()~="opus" and
-       additional_attribute:lower()~="ogg" and
-       additional_attribute:lower()~="flac"
-       then
-      ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "additional_attribute", "attributename \"podcast_feed\" needs content_attibute being set to the audioformat(mp3, ogg, opus, aac, flac)", -10) 
-      return false 
-    elseif additional_attribute~="" then
-      additional_attribute="_"..additional_attribute
-    end
-  elseif attributename=="podcast_website" then
-    if math.tointeger(additional_attribute)==nil or math.tointeger(additional_attribute)<1 then
-      ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "additional_attribute", "attributename \"podcast_website\" needs content_attibute being set to an integer >=1(as counter for potentially multiple websites of the podcast)", -11) 
-      return false 
-    elseif additional_attribute~="" then
-      additional_attribute="_"..additional_attribute
-    end
-  elseif attributename=="podcast_donate" then
-    if math.tointeger(additional_attribute)==nil or math.tointeger(additional_attribute)<1 then
-      ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "additional_attribute", "attributename \"podcast_donate\" needs content_attibute being set to an integer >=1(as counter for potentially multiple websites of the podcast)", -11) 
-      return false 
-    elseif additional_attribute~="" then
-      additional_attribute="_"..additional_attribute
-    end
-  else
-    additional_attribute=""
-  end
-  --]]
-  
   if found==false then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "attributename", "attributename not supported", -7) return false end
   local presetcontent, _
-  --if attributename=="image_content" and content:sub(1,6)~="ÿØÿ" and content:sub(2,4)~="PNG" then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "content", "image_content: only png and jpg are supported", -6) return false end
   
   if attributename=="epsd_guid" then
     local _, content=reaper.GetProjExtState(0, "EpisodeMetaData", attributename)
@@ -8300,6 +8271,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
       retval = ultraschall.SetUSExternalState("EpisodeMetaData_"..preset_slot, attributename..additional_attribute, string.gsub(content, "\n", "\\n"), "ultraschall_podcast_presets.ini")
       if retval==false then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "", "can not write to ultraschall_podcast_presets.ini", -8) return false end
       presetcontent=content
+      return presetcontent~="", presetcontent
     else
       presetcontent=nil      
     end
@@ -8314,6 +8286,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
         return false
       end
       presetcontent=string.gsub(presetcontent, "\\n", "\n")
+      return presetcontent~="", presetcontent
     end
     _, content=reaper.GetProjExtState(0, "EpisodeMetaData", attributename)
   end
@@ -8383,50 +8356,52 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
         
         _Shownote: name for this marker
         
+        
+    Supported attributes are:
+           "shwn_title" - the title of the shownote
+           "shwn_position" - the position of the shownote
+           "shwn_description" - a more detailed description for this shownote
+           "shwn_descriptive_tags" - some tags, that describe the content of the shownote, must separated by commas
+           "shwn_url" - the url you want to set
+           "shwn_url_description" - a short description of the url
+           "shwn_url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
+           "shwn_url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss
+           "shwn_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc; +hh:mm or -hh:mm
+           "shwn_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
+           "shwn_is_advertisement" - yes, if the shownote is an ad; "", to unset it
+           "shwn_language" - the language of the content; Languagecode according to ISO639
+           "shwn_location_gps" - the gps-coordinates of the location
+           "shwn_location_google_maps" - the coordinates as used in Google Maps
+           "shwn_location_open_street_map" - the coordinates as used in Open Street Maps
+           "shwn_location_apple_maps" - the coordinates as used in Apple Maps                         
+           "shwn_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd; use XX or XXXX, for when day/month/year is unknown or irrelevant
+           "shwn_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss; use XX for when hour/minute/second is unknown or irrelevant
+           "shwn_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format; +hh:mm or -hh:mm
+           "shwn_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
+           "shwn_event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
+           "shwn_event_time_start" - the starttime of an event associated with the show; hh:mm:ss
+           "shwn_event_time_end" - the endtime of an event associated with the show; hh:mm:ss
+           "shwn_event_timezone" - the timezone of the event assocated with the show; UTC-format; +hh:mm or -hh:mm
+           "shwn_event_name" - a name for the event
+           "shwn_event_description" - a description for the event
+           "shwn_event_url" - an url of the event(for ticket sale or the general url for the event)
+           "shwn_event_location_gps" - the gps-coordinates of the event-location
+           "shwn_event_location_google_maps" - the google-maps-coordinates of the event-location
+           "shwn_event_location_open_street_map" - the open-streetmap-coordinates of the event-location
+           "shwn_event_location_apple_maps" - the apple-maps-coordinates of the event-location
+           "shwn_event_ics_data" - the event as ics-data-format; will NOT set other event-attributes; will not be checked for validity!
+           "shwn_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
+           "shwn_quote" - a quote from the cite_source
+           "shwn_wikidata_uri" - the uri to an entry to wikidata
+           "shwn_guid" - a unique identifier for this shownote; read-only
+           "shwn_linked_audiovideomedia" - a link to a mediafile like a podcast-episode; the additional attribute is the time-position in seconds
+        
     returns false in case of an error
   </description>
   <parameters>
     boolean is_set - true, set the attribute; false, retrieve the current content
     integer idx - the index of the shownote-marker, whose attribute you want to get; 1-based
     string attributename - the attributename you want to get/set
-                         - supported attributes are:
-                         - "shwn_title" - the title of the shownote
-                         - "shwn_position"
-                         - "shwn_description" - a more detailed description for this shownote
-                         - "shwn_descriptive_tags" - some tags, that describe the content of the shownote, must separated by commas
-                         - "shwn_url" - the url you want to set
-                         - "shwn_url_description" - a short description of the url
-                         - "shwn_url_retrieval_date" - the date, at which you retrieved the url; yyyy-mm-dd
-                         - "shwn_url_retrieval_time" - the time, at which you retrieved the url; hh:mm:ss
-                         - "shwn_url_retrieval_timezone_utc" - the timezone of the retrieval time as utc; +hh:mm or -hh:mm
-                         - "shwn_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
-                         - "shwn_is_advertisement" - yes, if the shownote is an ad; "", to unset it
-                         - "shwn_language" - the language of the content; Languagecode according to ISO639
-                         - "shwn_location_gps" - the gps-coordinates of the location
-                         - "shwn_location_google_maps" - the coordinates as used in Google Maps
-                         - "shwn_location_open_street_map" - the coordinates as used in Open Street Maps
-                         - "shwn_location_apple_maps" - the coordinates as used in Apple Maps                         
-                         - "shwn_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd; use XX or XXXX, for when day/month/year is unknown or irrelevant
-                         - "shwn_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss; use XX for when hour/minute/second is unknown or irrelevant
-                         - "shwn_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format; +hh:mm or -hh:mm
-                         - "shwn_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
-                         - "shwn_event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
-                         - "shwn_event_time_start" - the starttime of an event associated with the show; hh:mm:ss
-                         - "shwn_event_time_end" - the endtime of an event associated with the show; hh:mm:ss
-                         - "shwn_event_timezone" - the timezone of the event assocated with the show; UTC-format; +hh:mm or -hh:mm
-                         - "shwn_event_name" - a name for the event
-                         - "shwn_event_description" - a description for the event
-                         - "shwn_event_url" - an url of the event(for ticket sale or the general url for the event)
-                         - "shwn_event_location_gps" - the gps-coordinates of the event-location
-                         - "shwn_event_location_google_maps" - the google-maps-coordinates of the event-location
-                         - "shwn_event_location_open_street_map" - the open-streetmap-coordinates of the event-location
-                         - "shwn_event_location_apple_maps" - the apple-maps-coordinates of the event-location
-                         - "shwn_event_ics_data" - the event as ics-data-format; will NOT set other event-attributes; will not be checked for validity!
-                         - "shwn_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
-                         - "shwn_quote" - a quote from the cite_source
-                         - "shwn_wikidata_uri" - the uri to an entry to wikidata
-                         - "shwn_guid" - a unique identifier for this shownote; read-only
-                         - "shwn_linked_audiovideomedia" - a link to a mediafile like a podcast-episode; the additional attribute is the time-position in seconds
     string content - the new contents to set the attribute with
     optional string additional_content - additional content, needed by some attributes; see list of attributes for more details
   </parameters>
