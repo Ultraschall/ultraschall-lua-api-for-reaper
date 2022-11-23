@@ -1390,9 +1390,10 @@ function ultraschall.SetPodcastAttributesPreset_Name(preset_slot, preset_name)
   if math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("SetPodcastAttributesPreset_Name", "preset_slot", "must be an integer", -1) return false end
   if preset_slot<1 then ultraschall.AddErrorMessage("SetPodcastAttributesPreset_Name", "preset_slot", "must be bigger or equal 1", -2) return false end
   if type(preset_name)~="string" then ultraschall.AddErrorMessage("SetPodcastAttributesPreset_Name", "preset_name", "must be a string", -3) return false end
-  
+  preset_name=string.gsub(preset_name, "\n", "\\n")
   local retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, "Preset_Name", preset_name, "ultraschall_podcast_presets.ini")
   if retval==false then ultraschall.AddErrorMessage("SetPodcastAttributesPreset_Name", "", "couldn't store presetname in ultraschall_podcast_presets.ini; is it accessible?", -3) return false end
+  return true
 end
   
 
@@ -1431,11 +1432,13 @@ function ultraschall.GetPodcastAttributesPreset_Name(preset_slot)
   <tags>metadata, get, podcast, metadata, preset, name</tags>
 </US_DocBloc>
 ]]
-  if math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("SetPodcastAttributesPreset_Name", "preset_slot", "must be an integer", -1) return false end
-  if preset_slot<1 then ultraschall.AddErrorMessage("SetPodcastAttributesPreset_Name", "preset_slot", "must be bigger or equal 1", -2) return false end
+  if math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("GetPodcastAttributesPreset_Name", "preset_slot", "must be an integer", -1) return end
+  if preset_slot<1 then ultraschall.AddErrorMessage("GetPodcastAttributesPreset_Name", "preset_slot", "must be bigger or equal 1", -2) return end
   
-  return ultraschall.GetUSExternalState("PodcastMetaData_"..preset_slot, "Preset_Name", "ultraschall_podcast_presets.ini")
+  local presetname = ultraschall.GetUSExternalState("PodcastMetaData_"..preset_slot, "Preset_Name", "ultraschall_podcast_presets.ini")
+  return string.gsub(presetname, "\\n", "\n")
 end
+
 
 --A,B=ultraschall.GetPodcastAttributesPreset_Name(1)
 
@@ -1476,7 +1479,7 @@ function ultraschall.SetPodcastEpisodeAttributesPreset_Name(preset_slot, presetn
   if math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("SetPodcastEpisodeAttributesPreset_Name", "preset_slot", "must be an integer", -1) return false end
   if preset_slot<1 then ultraschall.AddErrorMessage("SetPodcastEpisodeAttributesPreset_Name", "preset_slot", "must be bigger or equal 1", -2) return false end
   if type(presetname)~="string" then ultraschall.AddErrorMessage("SetPodcastEpisodeAttributesPreset_Name", "preset_name", "must be a string", -3) return false end
-  
+  presetname=string.gsub(presetname, "\n", "\\n")
   local retval = ultraschall.SetUSExternalState("Episode_"..preset_slot, "Preset_Name", presetname, "ultraschall_podcast_presets.ini")
   if retval==false then ultraschall.AddErrorMessage("SetPodcastEpisodeAttributesPreset_Name", "", "couldn't store presetname in ultraschall_podcast_presets.ini; is it accessible?", -3) return false end
   return true
@@ -1518,10 +1521,11 @@ function ultraschall.GetPodcastEpisodeAttributesPreset_Name(preset_slot)
   <tags>metadata, get, podcast, metadata, preset, name</tags>
 </US_DocBloc>
 ]]
-  if math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("GetPodcastEpisodeAttributesPreset_Name", "preset_slot", "must be an integer", -1) return false end
-  if preset_slot<1 then ultraschall.AddErrorMessage("GetPodcastEpisodeAttributesPreset_Name", "preset_slot", "must be bigger or equal 1", -2) return false end
+  if math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("GetPodcastEpisodeAttributesPreset_Name", "preset_slot", "must be an integer", -1) return end
+  if preset_slot<1 then ultraschall.AddErrorMessage("GetPodcastEpisodeAttributesPreset_Name", "preset_slot", "must be bigger or equal 1", -2) return end
   
-  return ultraschall.GetUSExternalState("Episode_"..preset_slot, "Preset_Name", "ultraschall_podcast_presets.ini")
+  local presetname=ultraschall.GetUSExternalState("Episode_"..preset_slot, "Preset_Name", "ultraschall_podcast_presets.ini")
+  return string.gsub(presetname, "\\n", "\n")
 end
 
 --A,B=ultraschall.GetPodcastEpisodeAttributesPreset_Name(1)
@@ -2466,3 +2470,97 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
     return _>0, content
   end
 end
+
+
+function ultraschall.GetPodcastPresetAttributesSlotByName(name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetPodcastPresetAttributesSlotByName</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.20
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetPodcastPresetAttributesSlotByName(string name)</functioncall>
+  <description>
+    Gets the preset-index of a Podcast-Attribute-Preset by its name.
+    
+    Index must be between 1 and 4096 or it will return -1
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string name - the name of the preset, non case-sensitive
+  </parameters>
+  <retvals>
+    integer index - the index of the preset; -1, in case of an error
+  </retvals>
+  <chapter_context>
+    Metadata Management
+    Podcast Metadata
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>metadata, get, podcast, preset</tags>
+</US_DocBloc>
+]]
+  if type(name)~="string" then ultraschall.AddErrorMessage("GetPodcastPresetAttributesSlotByName", "name", "must be a string", -1) return -1 end
+  name=name:lower()
+  for i=1, 4096 do
+    local temp=ultraschall.GetPodcastAttributesPreset_Name(i)
+    if temp~=nil and name==temp:lower() then 
+      return i 
+    end
+  end
+  return -1
+end
+
+--A1=ultraschall.GetPodcastPresetSlotByPresetName(1)
+
+function ultraschall.GetEpisodeAttributePresetSlotByName(name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEpisodeAttributePresetSlotByName</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.20
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetEpisodeAttributePresetSlotByName(string name)</functioncall>
+  <description>
+    Gets the preset-index of an Episode-Attribute-Preset by its name.
+    
+    Index must be between 1 and 4096 or it will return -1
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string name - the name of the preset, non case-sensitive
+  </parameters>
+  <retvals>
+    integer index - the index of the preset; -1, in case of an error
+  </retvals>
+  <chapter_context>
+    Metadata Management
+    Podcast Metadata
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>metadata, get, podcast, episode, preset</tags>
+</US_DocBloc>
+]]
+  if type(name)~="string" then ultraschall.AddErrorMessage("GetEpisodeAttributePresetSlotByName", "name", "must be a string", -1) return -1 end
+  name=name:lower()
+  for i=1, 4096 do
+    local temp=ultraschall.GetPodcastEpisodeAttributesPreset_Name(i)
+    if temp~=nil and name==temp:lower() then 
+      return i 
+    end
+  end
+  return -1
+end
+
+--ultraschall.SetPodcastEpisodeAttributesPreset_Name(1021, "orbital")
+--A=ultraschall.GetPodcastEpisodePresetSlotByPresetName(1)

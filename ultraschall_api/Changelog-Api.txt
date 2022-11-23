@@ -278,8 +278,6 @@ Note: Doesn't fucking work...
 ParamModulation: Go fix it, pls...
   https://forum.cockos.com/showpost.php?p=2608181&postcount=765
 
--Modulator speedup entfernen, weil Issues mit 32Bit Systemen...
-
 - Markers:
   SetNormalMarkers(probably others) has problems adressing markers, when markers share the exact same position.
   We need to rewrite this, as otherwise markers get skipped.
@@ -300,13 +298,7 @@ ToDo Marker Menu:
   moved
   - PodcastMetadata: GetSetTranscription\_Attributes  gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)
   - PodcastMetadata: GetSetPodcastExport\_Attributes\_String - gets/sets string attributes for podcast-export in Ultraschall
-  - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall  
-  
-  removed
-  - PodcastMetadata: WritePodcastMetaData - creates metadata-entries according to the PODCAST\_METADATA:"v1"-standard and optionally writes it into a file or adds it to id3, vorbis-metadata-schemes        
-
-  
-
+  - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall    
 </TODO>
 
 ## Ultraschall Framework - Changelog
@@ -325,8 +317,10 @@ Has now 1590 functions, with XX new ones
   - GFX-Functions: GFX\_ResizeImageKeepAspectRatio - resizes a loaded image while keeping aspect ratio
   - PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a chapter as JSON  
   - PodcastMetadata: GetEpisodeAttributesAsJSON get the metadata of an episode as JSON
-  - PodcastMetadata: GetPodcastEpisodeAttributesPreset\_Name - gets the name of an episode-metadata-preset
   - PodcastMetadata: GetPodcastAttributesAsJSON get the metadata of a podcast as JSON
+  - PodcastMetadata: GetPodcastEpisodeAttributesPreset\_Name - gets the name of an episode-metadata-preset
+  - PodcastMetadata: GetPodcastAttributePresetSlotByName - gets the preset-slot of podcast-presets by its name
+  - PodcastMetadata: GetEpisodeAttributePresetSlotByName - gets the preset-slot of episode-presets by its name
   - PodcastMetadata: GetPodcastAttributesPreset\_Name - gets the name of a podcast-metadata-preset
   - PodcastMetadata: GetSetContributor\_Attributes - gets/sets the attributes of an episode's contributor  
   - PodcastMetadata: GetSetPodcastWebsite - gets/sets websites for a podcast

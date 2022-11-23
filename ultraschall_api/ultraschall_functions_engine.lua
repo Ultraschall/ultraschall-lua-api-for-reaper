@@ -371,8 +371,8 @@ function ultraschall.AddErrorMessage(functionname, parametername, errormessage, 
       if type(errorcode)~="number" then errorcode=-1 end
       
       -- let's create the new errormessage
-      context_nr=6
-      context=debug.getinfo(context_nr)
+      local context_nr=6
+      local context=debug.getinfo(context_nr)
       if context==nil then context_nr=context_nr-1 context=debug.getinfo(context_nr) end
       if context==nil then context_nr=context_nr-1 context=debug.getinfo(context_nr) end
       if context==nil then context_nr=context_nr-1 context=debug.getinfo(context_nr) end
