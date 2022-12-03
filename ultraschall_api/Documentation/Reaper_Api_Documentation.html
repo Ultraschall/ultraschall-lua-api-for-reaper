@@ -115,14 +115,15 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.68<br>"LUFStep"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.71<br>"Old in the Body, Not in the Mind"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
 <script src="./scripts/scripts.js.Download"></script>
 <table class="indexpad" border="0"><tr><td><br><a class="inpad" id="API-Documentation"><a href="#API-Documentation">^</a></a><strong> <u>API-Documentation</u></strong><br><br>
 </td></tr><tr><td class="tdsm"><a href="#1.Introduction">1 Introduction to ReaScript</a></td><td class="tdsm"><a href="#2.1.cpp_desc">2.1 CPP Api-Description</a></td><td class="tdsm"><a href="#2.2.eel_desc">2.2 EEL Api-Description</a></td></tr><td class="tdsm"><a href="#2.3.python_desc">2.3 Python Api-Description</a></td><td class="tdsm"><a href="#2.4.lua_desc">2.4 Lua Api-Description</a></td><td class="tdsm"><a href="#3.Datatypes_used_in_this_document">3 Datatypes used in this document</a></td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Api-Helper-Functions"><a href="#Api-Helper-Functions">^</a></a><strong> <u>Api-Helper-Functions</u></strong><br><br>
-<b style="font-size:small;"><br><a class="inpad" id="Actions"><a href="#Actions">^</a></a> Actions</b>
+<b style="font-size:small;"><br><a class="inpad" id="Action Related Functions"><a href="#Action Related Functions">^</a></a> Action Related Functions</b>
+</td></tr><tr><td class="tdsm"><a href="#RPR_kbd_enumerateActions">RPR_kbd_enumerateActions</a></td><td class="tdsm"><a href="#kbd_enumerateActions">kbd_enumerateActions</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Actions"><a href="#Actions">^</a></a> Actions</b>
 </td></tr><tr><td class="tdsm"><a href="#AddRemoveReaScript">AddRemoveReaScript</a></td><td class="tdsm"><a href="#ArmCommand">ArmCommand</a></td><td class="tdsm"><a href="#CF_EnumerateActions">CF_EnumerateActions(SWS)</a></td></tr><td class="tdsm"><a href="#CF_GetCommandText">CF_GetCommandText(SWS)</a></td><td class="tdsm"><a href="#GetArmedCommand">GetArmedCommand</a></td><td class="tdsm"><a href="#GetToggleCommandState">GetToggleCommandState</a></td></tr><td class="tdsm"><a href="#GetToggleCommandStateEx">GetToggleCommandStateEx</a></td><td class="tdsm"><a href="#MIDIEditor_LastFocused_OnCommand">MIDIEditor_LastFocused_OnCommand</a></td><td class="tdsm"><a href="#MIDIEditor_OnCommand">MIDIEditor_OnCommand</a></td></tr><td class="tdsm"><a href="#Main_OnCommand">Main_OnCommand</a></td><td class="tdsm"><a href="#Main_OnCommandEx">Main_OnCommandEx</a></td><td class="tdsm"><a href="#NamedCommandLookup">NamedCommandLookup</a></td></tr><td class="tdsm"><a href="#PromptForAction">PromptForAction</a></td><td class="tdsm"><a href="#ReverseNamedCommandLookup">ReverseNamedCommandLookup</a></td><td class="tdsm"><a href="#SetToggleCommandState">SetToggleCommandState</a></td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Address/Datatype Management"><a href="#Address/Datatype Management">^</a></a> Address/Datatype Management</b>
 </td></tr><tr><td class="tdsm"><a href="#BR_Win32_GetConstant">BR_Win32_GetConstant(SWS)</a></td><td class="tdsm"><a href="#BR_Win32_HIBYTE">BR_Win32_HIBYTE(SWS)</a></td><td class="tdsm"><a href="#BR_Win32_HIWORD">BR_Win32_HIWORD(SWS)</a></td></tr><td class="tdsm"><a href="#BR_Win32_LOBYTE">BR_Win32_LOBYTE(SWS)</a></td><td class="tdsm"><a href="#BR_Win32_LOWORD">BR_Win32_LOWORD(SWS)</a></td><td class="tdsm"><a href="#BR_Win32_MAKELONG">BR_Win32_MAKELONG(SWS)</a></td></tr><td class="tdsm"><a href="#BR_Win32_MAKELPARAM">BR_Win32_MAKELPARAM(SWS)</a></td><td class="tdsm"><a href="#BR_Win32_MAKELRESULT">BR_Win32_MAKELRESULT(SWS)</a></td><td class="tdsm"><a href="#BR_Win32_MAKEWORD">BR_Win32_MAKEWORD(SWS)</a></td></tr><td class="tdsm"><a href="#BR_Win32_MAKEWPARAM">BR_Win32_MAKEWPARAM(SWS)</a></td><td class="tdsm"><a href="#JS_Byte">JS_Byte(JS)</a></td><td class="tdsm"><a href="#JS_Double">JS_Double(JS)</a></td></tr><td class="tdsm"><a href="#JS_Int">JS_Int(JS)</a></td><td class="tdsm"><a href="#JS_Mem_Alloc">JS_Mem_Alloc(JS)</a></td><td class="tdsm"><a href="#JS_Mem_Free">JS_Mem_Free(JS)</a></td></tr><td class="tdsm"><a href="#JS_Mem_FromString">JS_Mem_FromString(JS)</a></td><td class="tdsm"><a href="#JS_PtrFromStr">JS_PtrFromStr(JS)</a></td><td class="tdsm"><a href="#JS_String">JS_String(JS)</a></td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Config Variables"><a href="#Config Variables">^</a></a> Config Variables</b>
 </td></tr><tr><td class="tdsm"><a href="#SNM_GetDoubleConfigVar">SNM_GetDoubleConfigVar(SWS)</a></td><td class="tdsm"><a href="#SNM_GetIntConfigVar">SNM_GetIntConfigVar(SWS)</a></td><td class="tdsm"><a href="#SNM_GetLongConfigVar">SNM_GetLongConfigVar(SWS)</a></td></tr><td class="tdsm"><a href="#SNM_SetDoubleConfigVar">SNM_SetDoubleConfigVar(SWS)</a></td><td class="tdsm"><a href="#SNM_SetIntConfigVar">SNM_SetIntConfigVar(SWS)</a></td><td class="tdsm"><a href="#SNM_SetLongConfigVar">SNM_SetLongConfigVar(SWS)</a></td></tr><td class="tdsm"><a href="#SNM_SetStringConfigVar">SNM_SetStringConfigVar(SWS)</a></td><td class="tdsm"><a href="#get_config_var_string">get_config_var_string</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Extension States"><a href="#Extension States">^</a></a> Extension States</b>
@@ -130,7 +131,8 @@ End of Header
 </td></tr><tr><td class="tdsm"><a href="#JS_Localize">JS_Localize(JS)</a></td><td class="tdsm"><a href="#LocalizeString">LocalizeString</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Midi"><a href="#Midi">^</a></a> Midi</b>
 </td></tr><tr><td class="tdsm"><a href="#StuffMIDIMessage">StuffMIDIMessage</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Misc"><a href="#Misc">^</a></a> Misc</b>
 </td></tr><tr><td class="tdsm"><a href="#APIExists">APIExists</a></td><td class="tdsm"><a href="#APITest">APITest</a></td><td class="tdsm"><a href="#BR_Win32_ShellExecute">BR_Win32_ShellExecute(SWS)</a></td></tr><td class="tdsm"><a href="#CF_GetClipboard">CF_GetClipboard(SWS)</a></td><td class="tdsm"><a href="#CF_GetClipboardBig">CF_GetClipboardBig(SWS)</a></td><td class="tdsm"><a href="#CF_GetSWSVersion">CF_GetSWSVersion(SWS)</a></td></tr><td class="tdsm"><a href="#CF_LocateInExplorer">CF_LocateInExplorer(SWS)</a></td><td class="tdsm"><a href="#CF_SetClipboard">CF_SetClipboard(SWS)</a></td><td class="tdsm"><a href="#CF_ShellExecute">CF_ShellExecute(SWS)</a></td></tr><td class="tdsm"><a href="#ExecProcess">ExecProcess</a></td><td class="tdsm"><a href="#GetAppVersion">GetAppVersion</a></td><td class="tdsm"><a href="#GetExePath">GetExePath</a></td></tr><td class="tdsm"><a href="#GetOS">GetOS</a></td><td class="tdsm"><a href="#GetResourcePath">GetResourcePath</a></td><td class="tdsm"><a href="#IsMediaExtension">IsMediaExtension</a></td></tr><td class="tdsm"><a href="#Main_UpdateLoopInfo">Main_UpdateLoopInfo</a></td><td class="tdsm"><a href="#PreventUIRefresh">PreventUIRefresh</a></td><td class="tdsm"><a href="#ReaScriptError">ReaScriptError</a></td></tr><td class="tdsm"><a href="#SNM_CreateFastString">SNM_CreateFastString(SWS)</a></td><td class="tdsm"><a href="#SNM_DeleteFastString">SNM_DeleteFastString(SWS)</a></td><td class="tdsm"><a href="#SNM_GetFastString">SNM_GetFastString(SWS)</a></td></tr><td class="tdsm"><a href="#SNM_GetFastStringLength">SNM_GetFastStringLength(SWS)</a></td><td class="tdsm"><a href="#SNM_GetSetObjectState">SNM_GetSetObjectState(SWS)</a></td><td class="tdsm"><a href="#SNM_SetFastString">SNM_SetFastString(SWS)</a></td></tr><td class="tdsm"><a href="#ValidatePtr">ValidatePtr</a></td><td class="tdsm"><a href="#ValidatePtr2">ValidatePtr2</a></td><td class="tdsm"><a href="#genGuid">genGuid</a></td></tr><td class="tdsm"><a href="#stringToGuid">stringToGuid</a></td><td class="tdsm"><a href="#time_precise">time_precise</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="ReaScript Console"><a href="#ReaScript Console">^</a></a> ReaScript Console</b>
-</td></tr><tr><td class="tdsm"><a href="#ClearConsole">ClearConsole</a></td><td class="tdsm"><a href="#ShowConsoleMsg">ShowConsoleMsg</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Time/Grid Conversion/Management"><a href="#Time/Grid Conversion/Management">^</a></a> Time/Grid Conversion/Management</b>
+</td></tr><tr><td class="tdsm"><a href="#ClearConsole">ClearConsole</a></td><td class="tdsm"><a href="#ShowConsoleMsg">ShowConsoleMsg</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Shortcuts"><a href="#Shortcuts">^</a></a> Shortcuts</b>
+</td></tr><tr><td class="tdsm"><a href="#CountActionShortcuts">CountActionShortcuts</a></td><td class="tdsm"><a href="#DeleteActionShortcut">DeleteActionShortcut</a></td><td class="tdsm"><a href="#DoActionShortcutDialog">DoActionShortcutDialog</a></td></tr><td class="tdsm"><a href="#GetActionShortcutDesc">GetActionShortcutDesc</a></td><td class="tdsm"><a href="#SectionFromUniqueID">SectionFromUniqueID</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Time/Grid Conversion/Management"><a href="#Time/Grid Conversion/Management">^</a></a> Time/Grid Conversion/Management</b>
 </td></tr><tr><td class="tdsm"><a href="#BR_GetClosestGridDivision">BR_GetClosestGridDivision(SWS)</a></td><td class="tdsm"><a href="#BR_GetNextGridDivision">BR_GetNextGridDivision(SWS)</a></td><td class="tdsm"><a href="#BR_GetPrevGridDivision">BR_GetPrevGridDivision(SWS)</a></td></tr><td class="tdsm"><a href="#TimeMap2_GetDividedBpmAtTime">TimeMap2_GetDividedBpmAtTime</a></td><td class="tdsm"><a href="#TimeMap2_GetNextChangeTime">TimeMap2_GetNextChangeTime</a></td><td class="tdsm"><a href="#TimeMap2_QNToTime">TimeMap2_QNToTime</a></td></tr><td class="tdsm"><a href="#TimeMap2_beatsToTime">TimeMap2_beatsToTime</a></td><td class="tdsm"><a href="#TimeMap2_timeToBeats">TimeMap2_timeToBeats</a></td><td class="tdsm"><a href="#TimeMap2_timeToQN">TimeMap2_timeToQN</a></td></tr><td class="tdsm"><a href="#TimeMap_GetDividedBpmAtTime">TimeMap_GetDividedBpmAtTime</a></td><td class="tdsm"><a href="#TimeMap_GetMeasureInfo">TimeMap_GetMeasureInfo</a></td><td class="tdsm"><a href="#TimeMap_GetMetronomePattern">TimeMap_GetMetronomePattern</a></td></tr><td class="tdsm"><a href="#TimeMap_GetTimeSigAtTime">TimeMap_GetTimeSigAtTime</a></td><td class="tdsm"><a href="#TimeMap_QNToMeasures">TimeMap_QNToMeasures</a></td><td class="tdsm"><a href="#TimeMap_QNToTime">TimeMap_QNToTime</a></td></tr><td class="tdsm"><a href="#TimeMap_QNToTime_abs">TimeMap_QNToTime_abs</a></td><td class="tdsm"><a href="#TimeMap_curFrameRate">TimeMap_curFrameRate</a></td><td class="tdsm"><a href="#TimeMap_timeToQN">TimeMap_timeToQN</a></td></tr><td class="tdsm"><a href="#TimeMap_timeToQN_abs">TimeMap_timeToQN_abs</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Value Conversion"><a href="#Value Conversion">^</a></a> Value Conversion</b>
 </td></tr><tr><td class="tdsm"><a href="#ColorFromNative">ColorFromNative</a></td><td class="tdsm"><a href="#ColorToNative">ColorToNative</a></td><td class="tdsm"><a href="#DB2SLIDER">DB2SLIDER</a></td></tr><td class="tdsm"><a href="#SLIDER2DB">SLIDER2DB</a></td><td class="tdsm"><a href="#format_timestr">format_timestr</a></td><td class="tdsm"><a href="#format_timestr_len">format_timestr_len</a></td></tr><td class="tdsm"><a href="#format_timestr_pos">format_timestr_pos</a></td><td class="tdsm"><a href="#guidToString">guidToString</a></td><td class="tdsm"><a href="#image_resolve_fn">image_resolve_fn</a></td></tr><td class="tdsm"><a href="#mkpanstr">mkpanstr</a></td><td class="tdsm"><a href="#mkvolpanstr">mkvolpanstr</a></td><td class="tdsm"><a href="#mkvolstr">mkvolstr</a></td></tr><td class="tdsm"><a href="#parse_timestr">parse_timestr</a></td><td class="tdsm"><a href="#parse_timestr_len">parse_timestr_len</a></td><td class="tdsm"><a href="#parse_timestr_pos">parse_timestr_pos</a></td></tr><td class="tdsm"><a href="#parsepanstr">parsepanstr</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Audio Management"><a href="#Audio Management">^</a></a><strong> <u>Audio Management</u></strong><br><br>
 <b style="font-size:small;"><br><a class="inpad" id="Misc"><a href="#Misc">^</a></a> Misc</b>
@@ -150,7 +152,7 @@ End of Header
 </td></tr><tr><td class="tdsm"><a href="#AddCustomizableMenu">AddCustomizableMenu</a></td><td class="tdsm"><a href="#AddExtensionsMainMenu">AddExtensionsMainMenu</a></td><td class="tdsm"><a href="#DuplicateCustomizableMenu">DuplicateCustomizableMenu</a></td></tr><td class="tdsm"><a href="#GetActionShortcutDesc">GetActionShortcutDesc</a></td><td class="tdsm"><a href="#GetContextMenu">GetContextMenu</a></td><td class="tdsm"><a href="#kbd_ProcessActionsMenu">kbd_ProcessActionsMenu</a></td></tr><td class="tdsm"><a href="#kbd_reprocessMenu">kbd_reprocessMenu</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Midi"><a href="#Midi">^</a></a> Midi</b>
 </td></tr><tr><td class="tdsm"><a href="#CreateMIDIInput">CreateMIDIInput</a></td><td class="tdsm"><a href="#CreateMIDIOutput">CreateMIDIOutput</a></td><td class="tdsm"><a href="#GetSetTrackMIDISupportFile">GetSetTrackMIDISupportFile</a></td></tr><td class="tdsm"><a href="#MIDI_eventlist_Create">MIDI_eventlist_Create</a></td><td class="tdsm"><a href="#MIDI_eventlist_Destroy">MIDI_eventlist_Destroy</a></td><td class="tdsm"><a href="#PCM_Sink_CreateMIDIFile">PCM_Sink_CreateMIDIFile</a></td></tr><td class="tdsm"><a href="#PCM_Sink_CreateMIDIFileEx">PCM_Sink_CreateMIDIFileEx</a></td><td class="tdsm"><a href="#kbd_OnMidiEvent">kbd_OnMidiEvent</a></td><td class="tdsm"><a href="#kbd_OnMidiList">kbd_OnMidiList</a></td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Misc"><a href="#Misc">^</a></a> Misc</b>
 </td></tr><tr><td class="tdsm"><a href="#FreeHeapPtr">FreeHeapPtr</a></td><td class="tdsm"><a href="#GetSetObjectState">GetSetObjectState</a></td><td class="tdsm"><a href="#GetSetObjectState2">GetSetObjectState2</a></td></tr><td class="tdsm"><a href="#IsREAPER">IsREAPER</a></td><td class="tdsm"><a href="#PitchShiftSubModeMenu">PitchShiftSubModeMenu</a></td><td class="tdsm"><a href="#REAPERAPI_LoadAPI">REAPERAPI_LoadAPI</a></td></tr><td class="tdsm"><a href="#ReaperGetPitchShiftAPI">ReaperGetPitchShiftAPI</a></td><td class="tdsm"><a href="#Resampler_Create">Resampler_Create</a></td><td class="tdsm"><a href="#ResolveRenderPattern">ResolveRenderPattern</a></td></tr><td class="tdsm"><a href="#SetRenderLastError">SetRenderLastError</a></td><td class="tdsm"><a href="#__mergesort">__mergesort</a></td><td class="tdsm"><a href="#kbd_formatKeyName">kbd_formatKeyName</a></td></tr><td class="tdsm"><a href="#kbd_translateMouse">kbd_translateMouse</a></td><td class="tdsm"><a href="#plugin_getFilterList">plugin_getFilterList</a></td><td class="tdsm"><a href="#plugin_getImportableProjectFilterList">plugin_getImportableProjectFilterList</a></td></tr><td class="tdsm"><a href="#plugin_getapi">plugin_getapi</a></td><td class="tdsm"><a href="#plugin_register">plugin_register</a></td><td class="tdsm"><a href="#realloc_cmd_ptr">realloc_cmd_ptr</a></td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="OSC"><a href="#OSC">^</a></a> OSC</b>
-</td></tr><tr><td class="tdsm"><a href="#CSurf_OnOscControlMessage">CSurf_OnOscControlMessage</a></td><td class="tdsm"><a href="#CreateLocalOscHandler">CreateLocalOscHandler</a></td><td class="tdsm"><a href="#DestroyLocalOscHandler">DestroyLocalOscHandler</a></td></tr><td class="tdsm"><a href="#SendLocalOscMessage">SendLocalOscMessage</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Preview"><a href="#Preview">^</a></a> Preview</b>
+</td></tr><tr><td class="tdsm"><a href="#CSurf_OnOscControlMessage">CSurf_OnOscControlMessage</a></td><td class="tdsm"><a href="#CSurf_OnOscControlMessage2">CSurf_OnOscControlMessage2</a></td><td class="tdsm"><a href="#CreateLocalOscHandler">CreateLocalOscHandler</a></td></tr><td class="tdsm"><a href="#DestroyLocalOscHandler">DestroyLocalOscHandler</a></td><td class="tdsm"><a href="#SendLocalOscMessage">SendLocalOscMessage</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Preview"><a href="#Preview">^</a></a> Preview</b>
 </td></tr><tr><td class="tdsm"><a href="#PlayPreview">PlayPreview</a></td><td class="tdsm"><a href="#PlayPreviewEx">PlayPreviewEx</a></td><td class="tdsm"><a href="#PlayTrackPreview">PlayTrackPreview</a></td></tr><td class="tdsm"><a href="#PlayTrackPreview2">PlayTrackPreview2</a></td><td class="tdsm"><a href="#PlayTrackPreview2Ex">PlayTrackPreview2Ex</a></td><td class="tdsm"><a href="#StopPreview">StopPreview</a></td></tr><td class="tdsm"><a href="#StopTrackPreview">StopTrackPreview</a></td><td class="tdsm"><a href="#StopTrackPreview2">StopTrackPreview2</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Routing"><a href="#Routing">^</a></a> Routing</b>
 </td></tr><tr><td class="tdsm"><a href="#GetSetTrackSendInfo">GetSetTrackSendInfo</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Screensets"><a href="#Screensets">^</a></a> Screensets</b>
 </td></tr><tr><td class="tdsm"><a href="#screenset_register">screenset_register</a></td><td class="tdsm"><a href="#screenset_registerNew">screenset_registerNew</a></td><td class="tdsm"><a href="#screenset_unregister">screenset_unregister</a></td></tr><td class="tdsm"><a href="#screenset_unregisterByParam">screenset_unregisterByParam</a></td><td class="tdsm"><a href="#screenset_updateLastFocus">screenset_updateLastFocus</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Shortcuts"><a href="#Shortcuts">^</a></a> Shortcuts</b>
@@ -168,7 +170,8 @@ End of Header
 </td></tr><tr><td class="tdsm"><a href="#eel_str_delsub">str_delsub</a></td><td class="tdsm"><a href="#eel_str_getchar">str_getchar</a></td><td class="tdsm"><a href="#eel_str_insert">str_insert</a></td></tr><td class="tdsm"><a href="#eel_str_setchar">str_setchar</a></td><td class="tdsm"><a href="#eel_str_setlen">str_setlen</a></td><td class="tdsm"><a href="#eel_strcat">strcat</a></td></tr><td class="tdsm"><a href="#eel_strcmp">strcmp</a></td><td class="tdsm"><a href="#eel_strcpy">strcpy</a></td><td class="tdsm"><a href="#eel_strcpy_from">strcpy_from</a></td></tr><td class="tdsm"><a href="#eel_strcpy_substr">strcpy_substr</a></td><td class="tdsm"><a href="#eel_stricmp">stricmp</a></td><td class="tdsm"><a href="#eel_strlen">strlen</a></td></tr><td class="tdsm"><a href="#eel_strncat">strncat</a></td><td class="tdsm"><a href="#eel_strncmp">strncmp</a></td><td class="tdsm"><a href="#eel_strncpy">strncpy</a></td></tr><td class="tdsm"><a href="#eel_strnicmp">strnicmp</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Envelope Management"><a href="#Envelope Management">^</a></a><strong> <u>Envelope Management</u></strong><br><br>
 <b style="font-size:small;"><br><a class="inpad" id="Automation Items"><a href="#Automation Items">^</a></a> Automation Items</b>
 </td></tr><tr><td class="tdsm"><a href="#CountAutomationItems">CountAutomationItems</a></td><td class="tdsm"><a href="#GetSetAutomationItemInfo">GetSetAutomationItemInfo</a></td><td class="tdsm"><a href="#GetSetAutomationItemInfo_String">GetSetAutomationItemInfo_String</a></td></tr><td class="tdsm"><a href="#InsertAutomationItem">InsertAutomationItem</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Envelope Points"><a href="#Envelope Points">^</a></a> Envelope Points</b>
-</td></tr><tr><td class="tdsm"><a href="#BR_EnvCountPoints">BR_EnvCountPoints(SWS)</a></td><td class="tdsm"><a href="#BR_EnvDeletePoint">BR_EnvDeletePoint(SWS)</a></td><td class="tdsm"><a href="#BR_EnvGetPoint">BR_EnvGetPoint(SWS)</a></td></tr><td class="tdsm"><a href="#BR_EnvSetPoint">BR_EnvSetPoint(SWS)</a></td><td class="tdsm"><a href="#BR_EnvSortPoints">BR_EnvSortPoints(SWS)</a></td><td class="tdsm"><a href="#CountEnvelopePoints">CountEnvelopePoints</a></td></tr><td class="tdsm"><a href="#CountEnvelopePointsEx">CountEnvelopePointsEx</a></td><td class="tdsm"><a href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a></td><td class="tdsm"><a href="#DeleteEnvelopePointRange">DeleteEnvelopePointRange</a></td></tr><td class="tdsm"><a href="#DeleteEnvelopePointRangeEx">DeleteEnvelopePointRangeEx</a></td><td class="tdsm"><a href="#Envelope_SortPoints">Envelope_SortPoints</a></td><td class="tdsm"><a href="#Envelope_SortPointsEx">Envelope_SortPointsEx</a></td></tr><td class="tdsm"><a href="#GetEnvelopePoint">GetEnvelopePoint</a></td><td class="tdsm"><a href="#GetEnvelopePointByTime">GetEnvelopePointByTime</a></td><td class="tdsm"><a href="#GetEnvelopePointByTimeEx">GetEnvelopePointByTimeEx</a></td></tr><td class="tdsm"><a href="#GetEnvelopePointEx">GetEnvelopePointEx</a></td><td class="tdsm"><a href="#InsertEnvelopePoint">InsertEnvelopePoint</a></td><td class="tdsm"><a href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a></td></tr><td class="tdsm"><a href="#SetEnvelopePoint">SetEnvelopePoint</a></td><td class="tdsm"><a href="#SetEnvelopePointEx">SetEnvelopePointEx</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Misc"><a href="#Misc">^</a></a> Misc</b>
+</td></tr><tr><td class="tdsm"><a href="#BR_EnvCountPoints">BR_EnvCountPoints(SWS)</a></td><td class="tdsm"><a href="#BR_EnvDeletePoint">BR_EnvDeletePoint(SWS)</a></td><td class="tdsm"><a href="#BR_EnvGetPoint">BR_EnvGetPoint(SWS)</a></td></tr><td class="tdsm"><a href="#BR_EnvSetPoint">BR_EnvSetPoint(SWS)</a></td><td class="tdsm"><a href="#BR_EnvSortPoints">BR_EnvSortPoints(SWS)</a></td><td class="tdsm"><a href="#CountEnvelopePoints">CountEnvelopePoints</a></td></tr><td class="tdsm"><a href="#CountEnvelopePointsEx">CountEnvelopePointsEx</a></td><td class="tdsm"><a href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a></td><td class="tdsm"><a href="#DeleteEnvelopePointRange">DeleteEnvelopePointRange</a></td></tr><td class="tdsm"><a href="#DeleteEnvelopePointRangeEx">DeleteEnvelopePointRangeEx</a></td><td class="tdsm"><a href="#Envelope_SortPoints">Envelope_SortPoints</a></td><td class="tdsm"><a href="#Envelope_SortPointsEx">Envelope_SortPointsEx</a></td></tr><td class="tdsm"><a href="#GetEnvelopePoint">GetEnvelopePoint</a></td><td class="tdsm"><a href="#GetEnvelopePointByTime">GetEnvelopePointByTime</a></td><td class="tdsm"><a href="#GetEnvelopePointByTimeEx">GetEnvelopePointByTimeEx</a></td></tr><td class="tdsm"><a href="#GetEnvelopePointEx">GetEnvelopePointEx</a></td><td class="tdsm"><a href="#InsertEnvelopePoint">InsertEnvelopePoint</a></td><td class="tdsm"><a href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a></td></tr><td class="tdsm"><a href="#SetEnvelopePoint">SetEnvelopePoint</a></td><td class="tdsm"><a href="#SetEnvelopePointEx">SetEnvelopePointEx</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Get"><a href="#Get">^</a></a> Get</b>
+</td></tr><tr><td class="tdsm"><a href="#GetEnvelopeUIState">GetEnvelopeUIState</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Misc"><a href="#Misc">^</a></a> Misc</b>
 </td></tr><tr><td class="tdsm"><a href="#BR_EnvAlloc">BR_EnvAlloc(SWS)</a></td><td class="tdsm"><a href="#BR_EnvFind">BR_EnvFind(SWS)</a></td><td class="tdsm"><a href="#BR_EnvFindNext">BR_EnvFindNext(SWS)</a></td></tr><td class="tdsm"><a href="#BR_EnvFindPrevious">BR_EnvFindPrevious(SWS)</a></td><td class="tdsm"><a href="#BR_EnvFree">BR_EnvFree(SWS)</a></td><td class="tdsm"><a href="#BR_EnvGetProperties">BR_EnvGetProperties(SWS)</a></td></tr><td class="tdsm"><a href="#BR_EnvSetProperties">BR_EnvSetProperties(SWS)</a></td><td class="tdsm"><a href="#BR_EnvValueAtPos">BR_EnvValueAtPos(SWS)</a></td><td class="tdsm"><a href="#BR_GetMouseCursorContext_Envelope">BR_GetMouseCursorContext_Envelope(SWS)</a></td></tr><td class="tdsm"><a href="#CSurf_SetAutoMode">CSurf_SetAutoMode</a></td><td class="tdsm"><a href="#Envelope_Evaluate">Envelope_Evaluate</a></td><td class="tdsm"><a href="#Envelope_FormatValue">Envelope_FormatValue</a></td></tr><td class="tdsm"><a href="#GetEnvelopeInfo_Value">GetEnvelopeInfo_Value</a></td><td class="tdsm"><a href="#GetEnvelopeName">GetEnvelopeName</a></td><td class="tdsm"><a href="#GetEnvelopeScalingMode">GetEnvelopeScalingMode</a></td></tr><td class="tdsm"><a href="#GetEnvelopeStateChunk">GetEnvelopeStateChunk</a></td><td class="tdsm"><a href="#GetFXEnvelope">GetFXEnvelope</a></td><td class="tdsm"><a href="#GetGlobalAutomationOverride">GetGlobalAutomationOverride</a></td></tr><td class="tdsm"><a href="#GetSelectedEnvelope">GetSelectedEnvelope</a></td><td class="tdsm"><a href="#GetSelectedTrackEnvelope">GetSelectedTrackEnvelope</a></td><td class="tdsm"><a href="#GetSetEnvelopeInfo_String">GetSetEnvelopeInfo_String</a></td></tr><td class="tdsm"><a href="#GetSetEnvelopeState">GetSetEnvelopeState</a></td><td class="tdsm"><a href="#GetSetEnvelopeState2">GetSetEnvelopeState2</a></td><td class="tdsm"><a href="#GetTrackAutomationMode">GetTrackAutomationMode</a></td></tr><td class="tdsm"><a href="#ScaleFromEnvelopeMode">ScaleFromEnvelopeMode</a></td><td class="tdsm"><a href="#ScaleToEnvelopeMode">ScaleToEnvelopeMode</a></td><td class="tdsm"><a href="#SetAutomationMode">SetAutomationMode</a></td></tr><td class="tdsm"><a href="#SetEnvelopeStateChunk">SetEnvelopeStateChunk</a></td><td class="tdsm"><a href="#SetGlobalAutomationOverride">SetGlobalAutomationOverride</a></td><td class="tdsm"><a href="#SetTrackAutomationMode">SetTrackAutomationMode</a></td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Take Envelopes"><a href="#Take Envelopes">^</a></a> Take Envelopes</b>
 </td></tr><tr><td class="tdsm"><a href="#BR_EnvGetParentTake">BR_EnvGetParentTake(SWS)</a></td><td class="tdsm"><a href="#Envelope_GetParentTake">Envelope_GetParentTake</a></td><td class="tdsm"><a href="#GetTakeEnvelope">GetTakeEnvelope</a></td></tr><td class="tdsm"><a href="#GetTakeEnvelopeByName">GetTakeEnvelopeByName</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Track Envelopes"><a href="#Track Envelopes">^</a></a> Track Envelopes</b>
 </td></tr><tr><td class="tdsm"><a href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack(SWS)</a></td><td class="tdsm"><a href="#CountTrackEnvelopes">CountTrackEnvelopes</a></td><td class="tdsm"><a href="#Envelope_GetParentTrack">Envelope_GetParentTrack</a></td></tr><td class="tdsm"><a href="#GetTrackEnvelope">GetTrackEnvelope</a></td><td class="tdsm"><a href="#GetTrackEnvelopeByChunkName">GetTrackEnvelopeByChunkName</a></td><td class="tdsm"><a href="#GetTrackEnvelopeByName">GetTrackEnvelopeByName</a></td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="FX Management"><a href="#FX Management">^</a></a><strong> <u>FX Management</u></strong><br><br>
@@ -231,7 +234,8 @@ End of Header
 </td></tr><tr><td class="tdsm"><a href="#BR_GetCurrentTheme">BR_GetCurrentTheme(SWS)</a></td><td class="tdsm"><a href="#BR_GetMediaTrackLayouts">BR_GetMediaTrackLayouts(SWS)</a></td><td class="tdsm"><a href="#BR_SetMediaTrackLayouts">BR_SetMediaTrackLayouts(SWS)</a></td></tr><td class="tdsm"><a href="#GetLastColorThemeFile">GetLastColorThemeFile</a></td><td class="tdsm"><a href="#GetThemeColor">GetThemeColor</a></td><td class="tdsm"><a href="#OpenColorThemeFile">OpenColorThemeFile</a></td></tr><td class="tdsm"><a href="#SetThemeColor">SetThemeColor</a></td><td class="tdsm"><a href="#ThemeLayout_GetLayout">ThemeLayout_GetLayout</a></td><td class="tdsm"><a href="#ThemeLayout_GetParameter">ThemeLayout_GetParameter</a></td></tr><td class="tdsm"><a href="#ThemeLayout_RefreshAll">ThemeLayout_RefreshAll</a></td><td class="tdsm"><a href="#ThemeLayout_SetLayout">ThemeLayout_SetLayout</a></td><td class="tdsm"><a href="#ThemeLayout_SetParameter">ThemeLayout_SetParameter</a></td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="Track Management"><a href="#Track Management">^</a></a><strong> <u>Track Management</u></strong><br><br>
 <b style="font-size:small;"><br><a class="inpad" id="Misc"><a href="#Misc">^</a></a> Misc</b>
 </td></tr><tr><td class="tdsm"><a href="#BR_GetMouseCursorContext_Track">BR_GetMouseCursorContext_Track(SWS)</a></td><td class="tdsm"><a href="#BR_TrackAtMouseCursor">BR_TrackAtMouseCursor(SWS)</a></td><td class="tdsm"><a href="#BypassFxAllTracks">BypassFxAllTracks</a></td></tr><td class="tdsm"><a href="#CSurf_NumTracks">CSurf_NumTracks</a></td><td class="tdsm"><a href="#CSurf_ResetAllCachedVolPanStates">CSurf_ResetAllCachedVolPanStates</a></td><td class="tdsm"><a href="#ClearAllRecArmed">ClearAllRecArmed</a></td></tr><td class="tdsm"><a href="#CountSelectedTracks">CountSelectedTracks</a></td><td class="tdsm"><a href="#CountSelectedTracks2">CountSelectedTracks2</a></td><td class="tdsm"><a href="#CountTCPFXParms">CountTCPFXParms</a></td></tr><td class="tdsm"><a href="#CountTracks">CountTracks</a></td><td class="tdsm"><a href="#DeleteTrack">DeleteTrack</a></td><td class="tdsm"><a href="#GetLastTouchedTrack">GetLastTouchedTrack</a></td></tr><td class="tdsm"><a href="#GetMasterTrack">GetMasterTrack</a></td><td class="tdsm"><a href="#GetNumTracks">GetNumTracks</a></td><td class="tdsm"><a href="#GetParentTrack">GetParentTrack</a></td></tr><td class="tdsm"><a href="#GetSelectedTrack">GetSelectedTrack</a></td><td class="tdsm"><a href="#GetSelectedTrack2">GetSelectedTrack2</a></td><td class="tdsm"><a href="#GetTrack">GetTrack</a></td></tr><td class="tdsm"><a href="#GetTrackFromPoint">GetTrackFromPoint</a></td><td class="tdsm"><a href="#GetTrackNumMediaItems">GetTrackNumMediaItems</a></td><td class="tdsm"><a href="#InsertTrackAtIndex">InsertTrackAtIndex</a></td></tr><td class="tdsm"><a href="#MuteAllTracks">MuteAllTracks</a></td><td class="tdsm"><a href="#ReorderSelectedTracks">ReorderSelectedTracks</a></td><td class="tdsm"><a href="#SoloAllTracks">SoloAllTracks</a></td></tr><td class="tdsm"><a href="#Track_GetPeakHoldDB">Track_GetPeakHoldDB</a></td><td class="tdsm"><a href="#Track_GetPeakInfo">Track_GetPeakInfo</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Routing"><a href="#Routing">^</a></a> Routing</b>
-</td></tr><tr><td class="tdsm"><a href="#BR_GetMediaTrackSendInfo_Envelope">BR_GetMediaTrackSendInfo_Envelope(SWS)</a></td><td class="tdsm"><a href="#BR_GetMediaTrackSendInfo_Track">BR_GetMediaTrackSendInfo_Track(SWS)</a></td><td class="tdsm"><a href="#BR_GetSetTrackSendInfo">BR_GetSetTrackSendInfo(SWS)</a></td></tr><td class="tdsm"><a href="#CSurf_OnRecvPanChange">CSurf_OnRecvPanChange</a></td><td class="tdsm"><a href="#CSurf_OnRecvVolumeChange">CSurf_OnRecvVolumeChange</a></td><td class="tdsm"><a href="#CSurf_OnSendPanChange">CSurf_OnSendPanChange</a></td></tr><td class="tdsm"><a href="#CSurf_OnSendVolumeChange">CSurf_OnSendVolumeChange</a></td><td class="tdsm"><a href="#CreateTrackSend">CreateTrackSend</a></td><td class="tdsm"><a href="#GetSetTrackSendInfo_String">GetSetTrackSendInfo_String</a></td></tr><td class="tdsm"><a href="#GetTrackNumSends">GetTrackNumSends</a></td><td class="tdsm"><a href="#GetTrackReceiveName">GetTrackReceiveName</a></td><td class="tdsm"><a href="#GetTrackReceiveUIMute">GetTrackReceiveUIMute</a></td></tr><td class="tdsm"><a href="#GetTrackReceiveUIVolPan">GetTrackReceiveUIVolPan</a></td><td class="tdsm"><a href="#GetTrackSendInfo_Value">GetTrackSendInfo_Value</a></td><td class="tdsm"><a href="#GetTrackSendName">GetTrackSendName</a></td></tr><td class="tdsm"><a href="#GetTrackSendUIMute">GetTrackSendUIMute</a></td><td class="tdsm"><a href="#GetTrackSendUIVolPan">GetTrackSendUIVolPan</a></td><td class="tdsm"><a href="#RemoveTrackSend">RemoveTrackSend</a></td></tr><td class="tdsm"><a href="#SNM_AddReceive">SNM_AddReceive(SWS)</a></td><td class="tdsm"><a href="#SNM_RemoveReceive">SNM_RemoveReceive(SWS)</a></td><td class="tdsm"><a href="#SNM_RemoveReceivesFrom">SNM_RemoveReceivesFrom(SWS)</a></td></tr><td class="tdsm"><a href="#SetTrackSendInfo_Value">SetTrackSendInfo_Value</a></td><td class="tdsm"><a href="#SetTrackSendUIPan">SetTrackSendUIPan</a></td><td class="tdsm"><a href="#SetTrackSendUIVol">SetTrackSendUIVol</a></td></tr><td class="tdsm"><a href="#ToggleTrackSendUIMute">ToggleTrackSendUIMute</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Track States"><a href="#Track States">^</a></a> Track States</b>
+</td></tr><tr><td class="tdsm"><a href="#BR_GetMediaTrackSendInfo_Envelope">BR_GetMediaTrackSendInfo_Envelope(SWS)</a></td><td class="tdsm"><a href="#BR_GetMediaTrackSendInfo_Track">BR_GetMediaTrackSendInfo_Track(SWS)</a></td><td class="tdsm"><a href="#BR_GetSetTrackSendInfo">BR_GetSetTrackSendInfo(SWS)</a></td></tr><td class="tdsm"><a href="#CSurf_OnRecvPanChange">CSurf_OnRecvPanChange</a></td><td class="tdsm"><a href="#CSurf_OnRecvVolumeChange">CSurf_OnRecvVolumeChange</a></td><td class="tdsm"><a href="#CSurf_OnSendPanChange">CSurf_OnSendPanChange</a></td></tr><td class="tdsm"><a href="#CSurf_OnSendVolumeChange">CSurf_OnSendVolumeChange</a></td><td class="tdsm"><a href="#CreateTrackSend">CreateTrackSend</a></td><td class="tdsm"><a href="#GetSetTrackSendInfo_String">GetSetTrackSendInfo_String</a></td></tr><td class="tdsm"><a href="#GetTrackNumSends">GetTrackNumSends</a></td><td class="tdsm"><a href="#GetTrackReceiveName">GetTrackReceiveName</a></td><td class="tdsm"><a href="#GetTrackReceiveUIMute">GetTrackReceiveUIMute</a></td></tr><td class="tdsm"><a href="#GetTrackReceiveUIVolPan">GetTrackReceiveUIVolPan</a></td><td class="tdsm"><a href="#GetTrackSendInfo_Value">GetTrackSendInfo_Value</a></td><td class="tdsm"><a href="#GetTrackSendName">GetTrackSendName</a></td></tr><td class="tdsm"><a href="#GetTrackSendUIMute">GetTrackSendUIMute</a></td><td class="tdsm"><a href="#GetTrackSendUIVolPan">GetTrackSendUIVolPan</a></td><td class="tdsm"><a href="#RemoveTrackSend">RemoveTrackSend</a></td></tr><td class="tdsm"><a href="#SNM_AddReceive">SNM_AddReceive(SWS)</a></td><td class="tdsm"><a href="#SNM_RemoveReceive">SNM_RemoveReceive(SWS)</a></td><td class="tdsm"><a href="#SNM_RemoveReceivesFrom">SNM_RemoveReceivesFrom(SWS)</a></td></tr><td class="tdsm"><a href="#SetTrackSendInfo_Value">SetTrackSendInfo_Value</a></td><td class="tdsm"><a href="#SetTrackSendUIPan">SetTrackSendUIPan</a></td><td class="tdsm"><a href="#SetTrackSendUIVol">SetTrackSendUIVol</a></td></tr><td class="tdsm"><a href="#ToggleTrackSendUIMute">ToggleTrackSendUIMute</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Set Track States"><a href="#Set Track States">^</a></a> Set Track States</b>
+</td></tr><tr><td class="tdsm"><a href="#SetTrackUIInputMonitor">SetTrackUIInputMonitor</a></td><td class="tdsm"><a href="#SetTrackUIMute">SetTrackUIMute</a></td><td class="tdsm"><a href="#SetTrackUIPan">SetTrackUIPan</a></td></tr><td class="tdsm"><a href="#SetTrackUIPolarity">SetTrackUIPolarity</a></td><td class="tdsm"><a href="#SetTrackUIRecArm">SetTrackUIRecArm</a></td><td class="tdsm"><a href="#SetTrackUISolo">SetTrackUISolo</a></td></tr><td class="tdsm"><a href="#SetTrackUIVolume">SetTrackUIVolume</a></td><td class="tdsm"><a href="#SetTrackUIWidth">SetTrackUIWidth</a></td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Track States"><a href="#Track States">^</a></a> Track States</b>
 </td></tr><tr><td class="tdsm"><a href="#AnyTrackSolo">AnyTrackSolo</a></td><td class="tdsm"><a href="#BR_GetMediaTrackByGUID">BR_GetMediaTrackByGUID(SWS)</a></td><td class="tdsm"><a href="#BR_GetMediaTrackFreezeCount">BR_GetMediaTrackFreezeCount(SWS)</a></td></tr><td class="tdsm"><a href="#BR_GetMediaTrackGUID">BR_GetMediaTrackGUID(SWS)</a></td><td class="tdsm"><a href="#CSurf_GetTouchState">CSurf_GetTouchState</a></td><td class="tdsm"><a href="#CSurf_OnFXChange">CSurf_OnFXChange</a></td></tr><td class="tdsm"><a href="#CSurf_OnInputMonitorChange">CSurf_OnInputMonitorChange</a></td><td class="tdsm"><a href="#CSurf_OnInputMonitorChangeEx">CSurf_OnInputMonitorChangeEx</a></td><td class="tdsm"><a href="#CSurf_OnMuteChange">CSurf_OnMuteChange</a></td></tr><td class="tdsm"><a href="#CSurf_OnMuteChangeEx">CSurf_OnMuteChangeEx</a></td><td class="tdsm"><a href="#CSurf_OnPanChange">CSurf_OnPanChange</a></td><td class="tdsm"><a href="#CSurf_OnPanChangeEx">CSurf_OnPanChangeEx</a></td></tr><td class="tdsm"><a href="#CSurf_OnRecArmChange">CSurf_OnRecArmChange</a></td><td class="tdsm"><a href="#CSurf_OnRecArmChangeEx">CSurf_OnRecArmChangeEx</a></td><td class="tdsm"><a href="#CSurf_OnSelectedChange">CSurf_OnSelectedChange</a></td></tr><td class="tdsm"><a href="#CSurf_OnSoloChange">CSurf_OnSoloChange</a></td><td class="tdsm"><a href="#CSurf_OnSoloChangeEx">CSurf_OnSoloChangeEx</a></td><td class="tdsm"><a href="#CSurf_OnStop">CSurf_OnStop</a></td></tr><td class="tdsm"><a href="#CSurf_OnTrackSelection">CSurf_OnTrackSelection</a></td><td class="tdsm"><a href="#CSurf_OnVolumeChange">CSurf_OnVolumeChange</a></td><td class="tdsm"><a href="#CSurf_OnVolumeChangeEx">CSurf_OnVolumeChangeEx</a></td></tr><td class="tdsm"><a href="#CSurf_OnWidthChange">CSurf_OnWidthChange</a></td><td class="tdsm"><a href="#CSurf_OnWidthChangeEx">CSurf_OnWidthChangeEx</a></td><td class="tdsm"><a href="#CSurf_SetSurfaceMute">CSurf_SetSurfaceMute</a></td></tr><td class="tdsm"><a href="#CSurf_SetSurfacePan">CSurf_SetSurfacePan</a></td><td class="tdsm"><a href="#CSurf_SetSurfaceRecArm">CSurf_SetSurfaceRecArm</a></td><td class="tdsm"><a href="#CSurf_SetSurfaceSelected">CSurf_SetSurfaceSelected</a></td></tr><td class="tdsm"><a href="#CSurf_SetSurfaceSolo">CSurf_SetSurfaceSolo</a></td><td class="tdsm"><a href="#CSurf_SetSurfaceVolume">CSurf_SetSurfaceVolume</a></td><td class="tdsm"><a href="#CSurf_TrackFromID">CSurf_TrackFromID</a></td></tr><td class="tdsm"><a href="#CSurf_TrackToID">CSurf_TrackToID</a></td><td class="tdsm"><a href="#GetMasterMuteSoloFlags">GetMasterMuteSoloFlags</a></td><td class="tdsm"><a href="#GetMasterTrackVisibility">GetMasterTrackVisibility</a></td></tr><td class="tdsm"><a href="#GetMediaTrackInfo_Value">GetMediaTrackInfo_Value</a></td><td class="tdsm"><a href="#GetSetMediaTrackInfo_String">GetSetMediaTrackInfo_String</a></td><td class="tdsm"><a href="#GetSetTrackGroupMembership">GetSetTrackGroupMembership</a></td></tr><td class="tdsm"><a href="#GetSetTrackGroupMembershipHigh">GetSetTrackGroupMembershipHigh</a></td><td class="tdsm"><a href="#GetSetTrackState">GetSetTrackState</a></td><td class="tdsm"><a href="#GetSetTrackState2">GetSetTrackState2</a></td></tr><td class="tdsm"><a href="#GetTrackColor">GetTrackColor</a></td><td class="tdsm"><a href="#GetTrackDepth">GetTrackDepth</a></td><td class="tdsm"><a href="#GetTrackGUID">GetTrackGUID</a></td></tr><td class="tdsm"><a href="#GetTrackName">GetTrackName</a></td><td class="tdsm"><a href="#GetTrackState">GetTrackState</a></td><td class="tdsm"><a href="#GetTrackStateChunk">GetTrackStateChunk</a></td></tr><td class="tdsm"><a href="#GetTrackUIMute">GetTrackUIMute</a></td><td class="tdsm"><a href="#GetTrackUIPan">GetTrackUIPan</a></td><td class="tdsm"><a href="#GetTrackUIVolPan">GetTrackUIVolPan</a></td></tr><td class="tdsm"><a href="#IsTrackSelected">IsTrackSelected</a></td><td class="tdsm"><a href="#IsTrackVisible">IsTrackVisible</a></td><td class="tdsm"><a href="#NF_GetSWSTrackNotes">NF_GetSWSTrackNotes(SWS)</a></td></tr><td class="tdsm"><a href="#NF_SetSWSTrackNotes">NF_SetSWSTrackNotes(SWS)</a></td><td class="tdsm"><a href="#SetMasterTrackVisibility">SetMasterTrackVisibility</a></td><td class="tdsm"><a href="#SetMediaTrackInfo_Value">SetMediaTrackInfo_Value</a></td></tr><td class="tdsm"><a href="#SetOnlyTrackSelected">SetOnlyTrackSelected</a></td><td class="tdsm"><a href="#SetTrackColor">SetTrackColor</a></td><td class="tdsm"><a href="#SetTrackSelected">SetTrackSelected</a></td></tr><td class="tdsm"><a href="#SetTrackStateChunk">SetTrackStateChunk</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><br><a class="inpad" id="User Interface"><a href="#User Interface">^</a></a><strong> <u>User Interface</u></strong><br><br>
 <b style="font-size:small;"><br><a class="inpad" id="Arrangeview Management"><a href="#Arrangeview Management">^</a></a> Arrangeview Management</b>
 </td></tr><tr><td class="tdsm"><a href="#BR_GetArrangeView">BR_GetArrangeView(SWS)</a></td><td class="tdsm"><a href="#BR_GetMouseCursorContext_Position">BR_GetMouseCursorContext_Position(SWS)</a></td><td class="tdsm"><a href="#BR_PositionAtMouseCursor">BR_PositionAtMouseCursor(SWS)</a></td></tr><td class="tdsm"><a href="#BR_SetArrangeView">BR_SetArrangeView(SWS)</a></td><td class="tdsm"><a href="#CSurf_OnArrow">CSurf_OnArrow</a></td><td class="tdsm"><a href="#CSurf_OnScroll">CSurf_OnScroll</a></td></tr><td class="tdsm"><a href="#CSurf_OnZoom">CSurf_OnZoom</a></td><td class="tdsm"><a href="#GetHZoomLevel">GetHZoomLevel</a></td><td class="tdsm"><a href="#GetSet_ArrangeView2">GetSet_ArrangeView2</a></td></tr><td class="tdsm"><a href="#adjustZoom">adjustZoom</a></td><td class="inds">&nbsp;</td><td class="inds">&nbsp;</td></tr></table><table class="indexpad" border="0"><tr><td><b style="font-size:small;"><br><a class="inpad" id="Dialogs"><a href="#Dialogs">^</a></a> Dialogs</b>
@@ -384,6 +388,84 @@ TrackEnvelope - an envelope of a track as object<br />
 WDL_FastString(S&amp;M) - a different kind of a string, made into a Reaper-object</p>
 <p>deviceHDC - get it using function <a href="#JS_GDI_GetWindowDC">JS_GDI_GetWindowDC</a></p>
 </div><br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="RPR_kbd_enumerateActions"></a>
+<a href="#RPR_kbd_enumerateActions"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>RPR_kbd_enumerateActions</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>const</i> name = <i>char*</i> <em>kbd_getTextFromCmd</em>(<i>int</i> cmd, <i>KbdSectionInfo*</i> section)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> retval = <em>kbd_getTextFromCmd</em>(#name, <i>int</i> cmd, <i>KbdSectionInfo</i> section)</code></div>
+<div class="l">Lua: <code> <i>string</i> name = <em>reaper.kbd_getTextFromCmd</em>(<i>integer</i> cmd, <i>KbdSectionInfo</i> section)</code></div>
+<div class="p">Python: <code> <i>String</i> name = <em>RPR_kbd_getTextFromCmd</em>(<i>Int</i> cmd, <i>KbdSectionInfo</i> section)</code></div>
+</div><p>
+<div class="ch">
+Returns the description of an action.<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>string</i> name</td></tr>
+<tr><td class="ch2">the name of the action</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> cmd</td></tr>
+<tr><td class="ch2">the command-id of the action, whose description you want to have.</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located<br/>
+0, Main<br/>
+100, Main (alt recording)<br/>
+32060, MIDI Editor<br/>
+32061, MIDI Event List Editor<br/>
+32062, MIDI Inline Editor<br/>
+32063, Media Explorer</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="kbd_enumerateActions"></a>
+<a href="#kbd_enumerateActions"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>kbd_enumerateActions</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>int</i> retval = <em>kbd_enumerateActions</em>(<i>KbdSectionInfo*</i> section, <i>int</i> idx, <i>const</i> char** nameOut)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>kbd_enumerateActions</em>(<i>KbdSectionInfo</i> section, <i>int</i> idx, #name)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>string</i> name = <em>reaper.kbd_enumerateActions</em>(<i>KbdSectionInfo</i> section, <i>integer</i> idx)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_kbd_enumerateActions</em>(<i>KbdSectionInfo</i> section, <i>Int</i> idx, <i>String</i> nameOut)</code></div>
+</div><p>
+<div class="ch">
+Returns the description of an action.<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">true, the action exists; false, the action does not exist</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> name</td></tr>
+<tr><td class="ch2">the name of the action</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located<br/>
+0, Main<br/>
+100, Main (alt recording)<br/>
+32060, MIDI Editor<br/>
+32061, MIDI Event List Editor<br/>
+32062, MIDI Inline Editor<br/>
+32063, Media Explorer</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> idx</td></tr>
+<tr><td class="ch2">the command-id of the action, whose description you want to have.</td></tr>
+</table>
+<br>
 </div>
 <div class="ch">
 <hr>
@@ -2946,6 +3028,193 @@ Clear the ReaScript console.<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> msg</td></tr>
 <tr><td class="ch2">a message to be shown in ReaConsole</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="CountActionShortcuts"></a>
+<a href="#CountActionShortcuts"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>CountActionShortcuts</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>int</i> retval = <em>CountActionShortcuts</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>CountActionShortcuts</em>(<i>KbdSectionInfo</i> section, <i>int</i> cmdID)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.CountActionShortcuts</em>(<i>KbdSectionInfo</i> section, <i>integer</i> cmdID)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_CountActionShortcuts</em>(<i>KbdSectionInfo</i> section, <i>Int</i> cmdID)</code></div>
+</div><p>
+<div class="ch">
+Returns the number of shortcuts that exist for the given command ID.<br>
+<br>
+Use SectionFromUniqueID to get the section<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the number of available shortcuts for this action</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located, use retval of SectionFromUniqueID for this parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> cmdID</td></tr>
+<tr><td class="ch2">the action command-id of the action, whose shortcuts you want to count</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="DeleteActionShortcut"></a>
+<a href="#DeleteActionShortcut"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>DeleteActionShortcut</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>bool</i> retval = <em>DeleteActionShortcut</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> retval = <em>DeleteActionShortcut</em>(<i>KbdSectionInfo</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.DeleteActionShortcut</em>(<i>KbdSectionInfo</i> section, <i>integer</i> cmdID, <i>integer</i> shortcutidx)</code></div>
+<div class="p">Python: <code> <i>Boolean</i> retval = <em>RPR_DeleteActionShortcut</em>(<i>KbdSectionInfo</i> section, <i>Int</i> cmdID, <i>Int</i> shortcutidx)</code></div>
+</div><p>
+<div class="ch">
+Delete the specific shortcut for the given command ID.<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, such shortcuts exists; false, no such shortcut</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located, use retval of SectionFromUniqueID for this parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> cmdID</td></tr>
+<tr><td class="ch2">the action command-id of the action, whose shortcut you want to delete</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> shortcutidx</td></tr>
+<tr><td class="ch2">the index of the shortcut</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="DoActionShortcutDialog"></a>
+<a href="#DoActionShortcutDialog"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>DoActionShortcutDialog</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>bool</i> retval = <em>DoActionShortcutDialog</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> retval = <em>DoActionShortcutDialog</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.DoActionShortcutDialog</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo</i> section, <i>integer</i> cmdID, <i>integer</i> shortcutidx)</code></div>
+<div class="p">Python: <code> <i>Boolean</i> retval = <em>RPR_DoActionShortcutDialog</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo</i> section, <i>Int</i> cmdID, <i>Int</i> shortcutidx)</code></div>
+</div><p>
+<div class="ch">
+Open the action shortcut dialog to edit or add a shortcut for the given command ID. If (shortcutidx >= 0 && shortcutidx < CountActionShortcuts()), that specific shortcut will be replaced, otherwise a new shortcut will be added.<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, shortcuts has been edited/added; false, not added/edited</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>HWND</i> hwnd</td></tr>
+<tr><td class="ch2">unknown, which hwnd to pass over here</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located, use retval of SectionFromUniqueID for this parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> cmdID</td></tr>
+<tr><td class="ch2">the action command-id of the action, whose shortcut you want to delete</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> shortcutidx</td></tr>
+<tr><td class="ch2">the index of the shortcut to add/edit</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="GetActionShortcutDesc"></a>
+<a href="#GetActionShortcutDesc"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>GetActionShortcutDesc</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>bool</i> <em>GetActionShortcutDesc</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx, <i>char*</i> desc, <i>int</i> desclen)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> <em>GetActionShortcutDesc</em>(<i>KbdSectionInfo</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx, #desc, <i>int</i> desclen)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> desc = <em>reaper.GetActionShortcutDesc</em>(<i>KbdSectionInfo</i> section, <i>integer</i> cmdID, <i>integer</i> shortcutidx, <i>string</i> desc, <i>integer</i> desclen)</code></div>
+<div class="p">Python: <code> (<i>Boolean</i> retval, <i>KbdSectionInfo</i> section, <i>Int</i> cmdID, <i>Int</i> shortcutidx, <i>String</i> desc, <i>Int</i> desclen) = <em>RPR_GetActionShortcutDesc</em>(section, cmdID, shortcutidx, desc, desclen)</code></div>
+</div><p>
+<div class="ch">
+Get the text description of a specific shortcut for the given command ID.<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, such shortcuts exists; false, no such shortcut</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> desc</td></tr>
+<tr><td class="ch2">the description of the shortcut</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located, use retval of SectionFromUniqueID for this parameter</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> cmdID</td></tr>
+<tr><td class="ch2">the action command-id of the action, whose shortcut's description you want</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> shortcutidx</td></tr>
+<tr><td class="ch2">the index of the shortcut</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> desc</td></tr>
+<tr><td class="ch2">unknown</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> desclen</td></tr>
+<tr><td class="ch2">unknown</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="SectionFromUniqueID"></a>
+<a href="#SectionFromUniqueID"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SectionFromUniqueID</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>KbdSectionInfo*</i> section = <em>SectionFromUniqueID</em>(<i>int</i> uniqueID)</code></div>
+<div class="e">EEL2: <code> <i>KbdSectionInfo</i> section = SectionFromUniqueID(<i>int</i> uniqueID)/functioncall>
+<functioncall prog_lang="lua">KbdSectionInfo section = <em>reaper.SectionFromUniqueID</em>(<i>integer</i> uniqueID)</code></div>
+<div class="p">Python: <code> <i>KbdSectionInfo</i> section = <em>RPR_SectionFromUniqueID</em>(<i>Int</i> uniqueID)</code></div>
+</div><p>
+<div class="ch">
+Delete the specific shortcut for the given command ID.<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section-object, that can be used for the various shortcut-functions</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> uniqueID</td></tr>
+<tr><td class="ch2">the section, in which the action is located<br/>
+0, Main<br/>
+100, Main (alt recording)<br/>
+32060, MIDI Editor<br/>
+32061, MIDI Event List Editor<br/>
+32062, MIDI Inline Editor<br/>
+32063, Media Explorer</td></tr>
 </table>
 <br>
 </div>
@@ -5760,25 +6029,32 @@ Stored in reaper_plugin_functions.h<br>
 <hr>
 <a class="anch" id="SectionFromUniqueID"></a>
 <a href="#SectionFromUniqueID"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>SectionFromUniqueID</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SectionFromUniqueID</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>KbdSectionInfo*</i> retval = <em>(*SectionFromUniqueID)</em>(<i>int</i> uniqueID)</code></div>
+<div class="c">C: <code> <i>KbdSectionInfo*</i> section = <em>SectionFromUniqueID</em>(<i>int</i> uniqueID)</code></div>
+<div class="e">EEL2: <code> <i>KbdSectionInfo</i> section = SectionFromUniqueID(<i>int</i> uniqueID)/functioncall>
+<functioncall prog_lang="lua">KbdSectionInfo section = <em>reaper.SectionFromUniqueID</em>(<i>integer</i> uniqueID)</code></div>
+<div class="p">Python: <code> <i>KbdSectionInfo</i> section = <em>RPR_SectionFromUniqueID</em>(<i>Int</i> uniqueID)</code></div>
 </div><p>
 <div class="ch">
-Section from unique ID.<br>
-<br>
-Stored in reaper_plugin_functions.h<br>
+Delete the specific shortcut for the given command ID.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>KbdSectionInfo*</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section-object, that can be used for the various shortcut-functions</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i> uniqueID</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> uniqueID</td></tr>
+<tr><td class="ch2">the section, in which the action is located<br/>
+0, Main<br/>
+100, Main (alt recording)<br/>
+32060, MIDI Editor<br/>
+32061, MIDI Event List Editor<br/>
+32062, MIDI Inline Editor<br/>
+32063, Media Explorer</td></tr>
 </table>
 <br>
 </div>
@@ -5838,25 +6114,30 @@ Stored in reaper_plugin_functions.h<br>
 <hr>
 <a class="anch" id="kbd_enumerateActions"></a>
 <a href="#kbd_enumerateActions"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_enumerateActions</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>kbd_enumerateActions</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> retval = <em>(*kbd_enumerateActions)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> idx, <i>const</i> char** nameOut)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>kbd_enumerateActions</em>(<i>KbdSectionInfo*</i> section, <i>int</i> idx, <i>const</i> char** nameOut)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>kbd_enumerateActions</em>(<i>KbdSectionInfo</i> section, <i>int</i> idx, #name)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval, <i>string</i> name = <em>reaper.kbd_enumerateActions</em>(<i>KbdSectionInfo</i> section, <i>integer</i> idx)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_kbd_enumerateActions</em>(<i>KbdSectionInfo</i> section, <i>Int</i> idx, <i>String</i> nameOut)</code></div>
 </div><p>
 <div class="ch">
-Enumerates actions.<br>
-<br>
-Stored in reaper_plugin_functions.h<br>
+Returns the description of an action.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">true, the action exists; false, the action does not exist</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> name</td></tr>
+<tr><td class="ch2">the name of the action</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
-<tr><td class="ch2">the section, in which the action exists<br/>
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located<br/>
 0, Main<br/>
 100, Main (alt recording)<br/>
 32060, MIDI Editor<br/>
@@ -5865,12 +6146,8 @@ Stored in reaper_plugin_functions.h<br>
 32063, Media Explorer</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>int</i> idx</td></tr>
-<tr><td class="ch2"></td></tr>
-</table>
-<table class="ch">
-<tr><td class="pr"><i>const</i> char** nameOut</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> idx</td></tr>
+<tr><td class="ch2">the command-id of the action, whose description you want to have.</td></tr>
 </table>
 <br>
 </div>
@@ -5919,7 +6196,7 @@ Stored in reaper_plugin_functions.h<br>
 <a href="#kbd_getTextFromCmd"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>kbd_getTextFromCmd</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>const</i> <i>char*</i> retval = <em>(*kbd_getTextFromCmd)</em>(<i>DWORD</i> cmd, <i>KbdSectionInfo*</i> section)</code></div>
+<div class="c">C: <code> <i>const</i> <i>char*</i> retval = <em>(*kbd_getTextFromCmd)</em>(<i>int</i> cmd, <i>KbdSectionInfo*</i> section)</code></div>
 </div><p>
 <div class="ch">
 Get text from Command<br>
@@ -5934,7 +6211,7 @@ Stored in reaper_plugin_functions.h<br>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>DWORD</i> cmd</td></tr>
+<tr><td class="pr"><i>int</i> cmd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
@@ -9510,46 +9787,46 @@ Stored in reaper_plugin_functions.h<br>
 <hr>
 <a class="anch" id="GetActionShortcutDesc"></a>
 <a href="#GetActionShortcutDesc"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>GetActionShortcutDesc</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>GetActionShortcutDesc</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> retval = <em>(*GetActionShortcutDesc)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx, <i>char*</i> desc, <i>int</i> desclen)</code></div>
+<div class="c">C: <code> <i>bool</i> <em>GetActionShortcutDesc</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx, <i>char*</i> desc, <i>int</i> desclen)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> <em>GetActionShortcutDesc</em>(<i>KbdSectionInfo</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx, #desc, <i>int</i> desclen)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> desc = <em>reaper.GetActionShortcutDesc</em>(<i>KbdSectionInfo</i> section, <i>integer</i> cmdID, <i>integer</i> shortcutidx, <i>string</i> desc, <i>integer</i> desclen)</code></div>
+<div class="p">Python: <code> (<i>Boolean</i> retval, <i>KbdSectionInfo</i> section, <i>Int</i> cmdID, <i>Int</i> shortcutidx, <i>String</i> desc, <i>Int</i> desclen) = <em>RPR_GetActionShortcutDesc</em>(section, cmdID, shortcutidx, desc, desclen)</code></div>
 </div><p>
 <div class="ch">
-<p>Get the text description of a specific shortcut for the given command ID. See <a href="#CountActionShortcuts">CountActionShortcuts</a>,<a href="#DeleteActionShortcut">DeleteActionShortcut</a>,<a href="#DoActionShortcutDialog">DoActionShortcutDialog</a>.</p>
-<p>Stored in reaper<em>plugin</em>functions.h</p>
+Get the text description of a specific shortcut for the given command ID.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, such shortcuts exists; false, no such shortcut</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> desc</td></tr>
+<tr><td class="ch2">the description of the shortcut</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
-<tr><td class="ch2">the section of the action<br/>
-0, Main<br/>
-100, Main (alt recording)<br/>
-32060, MIDI Editor<br/>
-32061, MIDI Event List Editor<br/>
-32062, MIDI Inline Editor<br/>
-32063, Media Explorer</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located, use retval of SectionFromUniqueID for this parameter</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>int</i> cmdID</td></tr>
-<tr><td class="ch2">the commandID of the action, whose shortcut-description you want.</td></tr>
+<tr><td class="pr"><i>integer</i> cmdID</td></tr>
+<tr><td class="ch2">the action command-id of the action, whose shortcut's description you want</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>int</i> shortcutidx</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> shortcutidx</td></tr>
+<tr><td class="ch2">the index of the shortcut</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>char*</i> desc</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> desc</td></tr>
+<tr><td class="ch2">unknown</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>int</i> descclean</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> desclen</td></tr>
+<tr><td class="ch2">unknown</td></tr>
 </table>
 <br>
 </div>
@@ -10540,6 +10817,31 @@ Stored in reaper_plugin_functions.h<br>
 </div>
 <div class="ch">
 <hr>
+<a class="anch" id="CSurf_OnOscControlMessage2"></a>
+<a href="#CSurf_OnOscControlMessage2"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>CSurf_OnOscControlMessage2</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>void</i> <em>(*CSurf_OnOscControlMessage2)</em>(<i>const</i> <i>char*</i> msg, <i>const</i> <i>float*</i> arg, <i>const</i> <i>char*</i> argstr);</code></div>
+</div><p>
+<div class="ch">
+Stored in reaper_plugin_functions.h<br>
+</div><br>          <u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>const</i> <i>char*</i> msg</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>const</i> <i>float*</i> arg</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>const</i> <i>char*</i> argstr</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
 <a class="anch" id="CreateLocalOscHandler"></a>
 <a href="#CreateLocalOscHandler"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CreateLocalOscHandler</b></u><br>			<p>
@@ -11066,35 +11368,32 @@ Stored in reaper_plugin_functions.h<br>
 <hr>
 <a class="anch" id="CountActionShortcuts"></a>
 <a href="#CountActionShortcuts"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>CountActionShortcuts</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>CountActionShortcuts</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>int</i> retval = <em>(*CountActionShortcuts)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID)</code></div>
+<div class="c">C: <code> <i>int</i> retval = <em>CountActionShortcuts</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>CountActionShortcuts</em>(<i>KbdSectionInfo</i> section, <i>int</i> cmdID)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.CountActionShortcuts</em>(<i>KbdSectionInfo</i> section, <i>integer</i> cmdID)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_CountActionShortcuts</em>(<i>KbdSectionInfo</i> section, <i>Int</i> cmdID)</code></div>
 </div><p>
 <div class="ch">
-<p>Returns the number of shortcuts that exist for the given command ID. See <a href="#GetActionShortcutDesc">GetActionShortcutDesc</a>, <a href="#DeleteActionShortcut">DeleteActionShortcut</a>, <a href="#DoActionShortcutDialog">DoActionShortcutDialog</a>.</p>
-<p>Use <a href="#NamedCommandLookup">NamedCommandLookup</a> if you want to have the right commandID of an action, that is registered with an ActionCommandID-string.</p>
-<p>Stored in reaper<em>plugin</em>functions.h</p>
+Returns the number of shortcuts that exist for the given command ID.<br>
+<br>
+Use SectionFromUniqueID to get the section<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>int</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the number of available shortcuts for this action</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
-<tr><td class="ch2">the section, in which the action lies<br/>
-0, Main<br/>
-100, Main (alt recording)<br/>
-32060, MIDI Editor<br/>
-32061, MIDI Event List Editor<br/>
-32062, MIDI Inline Editor<br/>
-32063, Media Explorer</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located, use retval of SectionFromUniqueID for this parameter</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>int</i> cmdID</td></tr>
-<tr><td class="ch2">the commandID of the action, whose count of shortcuts you want to know.</td></tr>
+<tr><td class="pr"><i>integer</i> cmdID</td></tr>
+<tr><td class="ch2">the action command-id of the action, whose shortcuts you want to count</td></tr>
 </table>
 <br>
 </div>
@@ -11102,38 +11401,34 @@ Stored in reaper_plugin_functions.h<br>
 <hr>
 <a class="anch" id="DeleteActionShortcut"></a>
 <a href="#DeleteActionShortcut"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>DeleteActionShortcut</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>DeleteActionShortcut</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> retval = <em>(*DeleteActionShortcut)</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>DeleteActionShortcut</em>(<i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> retval = <em>DeleteActionShortcut</em>(<i>KbdSectionInfo</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.DeleteActionShortcut</em>(<i>KbdSectionInfo</i> section, <i>integer</i> cmdID, <i>integer</i> shortcutidx)</code></div>
+<div class="p">Python: <code> <i>Boolean</i> retval = <em>RPR_DeleteActionShortcut</em>(<i>KbdSectionInfo</i> section, <i>Int</i> cmdID, <i>Int</i> shortcutidx)</code></div>
 </div><p>
 <div class="ch">
-<p>Delete the specific shortcut for the given command ID. See <a href="#CountActionShortcuts">CountActionShortcuts</a>, <a href="#GetActionShortcutDesc">GetActionShortcutDesc</a>, <a href="#DoActionShortcutDialog">DoActionShortcutDialog</a>.</p>
-<p>Stored in reaper<em>plugin</em>functions.h</p>
+Delete the specific shortcut for the given command ID.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, such shortcuts exists; false, no such shortcut</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
-<tr><td class="ch2">the section, to which this action belongs to<br/>
-0, Main<br/>
-100, Main (alt recording)<br/>
-32060, MIDI Editor<br/>
-32061, MIDI Event List Editor<br/>
-32062, MIDI Inline Editor<br/>
-32063, Media Explorer</td></tr>
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located, use retval of SectionFromUniqueID for this parameter</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>int</i> cmdID</td></tr>
-<tr><td class="ch2">the commandID for the shortcut to be deleted</td></tr>
+<tr><td class="pr"><i>integer</i> cmdID</td></tr>
+<tr><td class="ch2">the action command-id of the action, whose shortcut you want to delete</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>int</i> shortcutidx</td></tr>
-<tr><td class="ch2">the shortcut to be deleted</td></tr>
+<tr><td class="pr"><i>integer</i> shortcutidx</td></tr>
+<tr><td class="ch2">the index of the shortcut</td></tr>
 </table>
 <br>
 </div>
@@ -11141,36 +11436,38 @@ Stored in reaper_plugin_functions.h<br>
 <hr>
 <a class="anch" id="DoActionShortcutDialog"></a>
 <a href="#DoActionShortcutDialog"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>DoActionShortcutDialog</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>DoActionShortcutDialog</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> retval = <em>(*DoActionShortcutDialog)</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>DoActionShortcutDialog</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo*</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> retval = <em>DoActionShortcutDialog</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo</i> section, <i>int</i> cmdID, <i>int</i> shortcutidx)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.DoActionShortcutDialog</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo</i> section, <i>integer</i> cmdID, <i>integer</i> shortcutidx)</code></div>
+<div class="p">Python: <code> <i>Boolean</i> retval = <em>RPR_DoActionShortcutDialog</em>(<i>HWND</i> hwnd, <i>KbdSectionInfo</i> section, <i>Int</i> cmdID, <i>Int</i> shortcutidx)</code></div>
 </div><p>
 <div class="ch">
-<p>Open the action shortcut dialog to edit or add a shortcut for the given command ID. If (shortcutidx &gt;= 0 &amp;&amp; shortcutidx &lt; CountActionShortcuts()), that specific shortcut will be replaced, otherwise a new shortcut will be added. See <a href="#CountActionShortcuts">CountActionShortcuts</a>, <a href="#GetActionShortcutDesc">GetActionShortcutDesc</a>, <a href="#DeleteActionShortcut">DeleteActionShortcut</a>.</p>
-<p>Stored in reaper<em>plugin</em>functions.h</p>
+Open the action shortcut dialog to edit or add a shortcut for the given command ID. If (shortcutidx >= 0 && shortcutidx < CountActionShortcuts()), that specific shortcut will be replaced, otherwise a new shortcut will be added.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>bool</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>boolean</i> retval</td></tr>
+<tr><td class="ch2">true, shortcuts has been edited/added; false, not added/edited</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>HWND</i> hwnd</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">unknown, which hwnd to pass over here</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>KbdSectionInfo*</i> section</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>KbdSectionInfo</i> section</td></tr>
+<tr><td class="ch2">the section, in which the action is located, use retval of SectionFromUniqueID for this parameter</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>int</i> cmdID</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> cmdID</td></tr>
+<tr><td class="ch2">the action command-id of the action, whose shortcut you want to delete</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>int</i> shortcutidx</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> shortcutidx</td></tr>
+<tr><td class="ch2">the index of the shortcut to add/edit</td></tr>
 </table>
 <br>
 </div>
@@ -12416,13 +12713,15 @@ Draws the number n with ndigits of precision to gfx_x, gfx_y, and updates gfx_x 
 <hr>
 <a class="anch" id="eel_gfx_getdropfile"></a>
 <a href="#eel_gfx_getdropfile"> ^</a> 
-<img width="3%" src="gfx/reaper5.91.png" alt="Reaper version 5.91"><u><b>eel_getdropfile</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.69.png" alt="Reaper version 6.69"><u><b>eel_getdropfile</b></u><br>			<p>
 <div class="cc">
 <div class="e">EEL2: <code> <i>integer</i> retval = <em>gfx_getdropfile</em>(<i>integer</i> idx[, <i>string</i> #filename])</code></div>
 </div><p>
 <div class="ch">
 Returns filenames, drag'n'dropped into a window created by gfx_init().<br>
 Use idx to get a specific filename, that has been dropped into the gfx_init()-window.<br>
+<br>
+When returned filename starts with @fx: it is an fx dropped.<br>
 <br>
 Does NOT support mediaitems/takes or other Reaper-objects!<br>
 <br>
@@ -12435,7 +12734,7 @@ It MUST be called BEFORE calling gfx_update, as gfx_update flushes the filelist 
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> filename</td></tr>
-<tr><td class="ch2">the filename of dropped-file with indexnumber idx</td></tr>
+<tr><td class="ch2">the filename of dropped-file with indexnumber idx; when starting with @fx: it is an fx dropped</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -14108,9 +14407,9 @@ Will return the returnvalue of the function called.<br>
 <hr>
 <a class="anch" id="eel_get_action_context"></a>
 <a href="#eel_get_action_context"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>get_action_context</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>get_action_context</b></u><br>			<p>
 <div class="cc">
-<div class="e">EEL2: <code> <em>get_action_context</em>(<i>string</i> #filename, <i>integer</i> sectionID, <i>integer</i> cmdID, <i>integer</i> mode, <i>integer</i> resolution, <i>integer</i> val)</code></div>
+<div class="e">EEL2: <code> <em>get_action_context</em>(<i>string</i> #filename, <i>integer</i> sectionID, <i>integer</i> cmdID, <i>integer</i> mode, <i>integer</i> resolution, <i>integer</i> val, <i>string</i> contextstr)</code></div>
 </div><p>
 <div class="ch">
 Queries contextual information about the script, typically MIDI/OSC input values.<br>
@@ -14119,6 +14418,15 @@ val will be set to a relative or absolute value depending on mode (=0: absolute 
 Notes: sectionID, and cmdID will be set to -1 if the script is not part of the action list. mode, resolution and val will be set to -1 if the script was not triggered via MIDI/OSC.<br>
 <br>
 For relative mode bindings, calling get_action_context() will return the accumulated relative value in decoded form (not 65 or 63, but +1/-1 etc), and clear the internal state. So if you call it multiple times, the first one will return the accumulated value, and the second will always return 0.<br>
+<br>
+contextstr may be empty or one of:<br>
+<br>
+midi:XX[:YY] (one or two bytes hex)<br>
+[wheel|hwheel|mtvert|mthorz|mtzoom|mtrot|mediakbd]:flags<br>
+key:flags:keycode<br>
+osc:/msg[:f=FloatValue|:s=StringValue]<br>
+KBD_OnMainActionEx<br>
+(flags may include V=virtkey, S=shift, A=alt/option, C=control/command, W=win/control)<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>string</i> #filename</td></tr>
@@ -14149,6 +14457,10 @@ For relative mode bindings, calling get_action_context() will return the accumul
 <table class="ch">
 <tr><td class="pr"><i>integer</i> val</td></tr>
 <tr><td class="ch2">the value sent by MIDI or OSC</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> contextstr</td></tr>
+<tr><td class="ch2">the shortcut, that ran this action, more info in the description</td></tr>
 </table>
 <br>
 </div>
@@ -16228,6 +16540,33 @@ See CountEnvelopePointsEx, GetEnvelopePointEx, SetEnvelopePointEx, DeleteEnvelop
 <table class="ch">
 <tr><td class="pr"><i>optional</i> <i>boolean</i> noSortIn</td></tr>
 <tr><td class="ch2"></td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="GetEnvelopeUIState"></a>
+<a href="#GetEnvelopeUIState"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>GetEnvelopeUIState</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>int</i> retval = <em>GetEnvelopeUIState</em>(<i>TrackEnvelope*</i> env)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>GetEnvelopeUIState</em>(<i>TrackEnvelope</i> env)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.GetEnvelopeUIState</em>(<i>TrackEnvelope</i> env)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_GetEnvelopeUIState</em>(<i>TrackEnvelope</i> env)</code></div>
+</div><p>
+<div class="ch">
+gets information on the UI state of an envelope: returns &1 if automation/modulation is playing back, &2 if automation is being actively written, &4 if the envelope recently had an effective automation mode change<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the ui-state as flag-value</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>TrackEnvelope</i> env</td></tr>
+<tr><td class="ch2">the envelope, whose ui-state you want</td></tr>
 </table>
 <br>
 </div>
@@ -18528,15 +18867,41 @@ gets the number of input/output pins for FX if available, returns plug-in type o
 <hr>
 <a class="anch" id="TakeFX_GetNamedConfigParm"></a>
 <a href="#TakeFX_GetNamedConfigParm"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TakeFX_GetNamedConfigParm</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>TakeFX_GetNamedConfigParm</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>TakeFX_GetNamedConfigParm</em>(<i>MediaItem_Take*</i> take, <i>int</i> fx, <i>const</i> <i>char*</i> parmname, <i>char*</i> bufOut, <i>int</i> bufOut_sz)</code></div>
-<div class="e">EEL2: <code> <i>bool</i> <em>TakeFX_GetNamedConfigParm</em>(<i>MediaItem_Take</i> take, <i>int</i> fx, "parmname", #buf)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>TakeFX_GetNamedConfigParm</em>(<i>MediaItem_Take*</i> take, <i>int</i> fx, <i>const</i> <i>char*</i> parmname, <i>char*</i> bufOutNeedBig, <i>int</i> bufOutNeedBig_sz)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> retval = <em>TakeFX_GetNamedConfigParm</em>(<i>MediaItem_Take</i> take, <i>int</i> fx, "parmname", #buf)</code></div>
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.TakeFX_GetNamedConfigParm</em>(<i>MediaItem_Take</i> take, <i>integer</i> fx, <i>string</i> parmname)</code></div>
-<div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> fx, <i>String</i> parmname, <i>String</i> bufOut, <i>Int</i> bufOut_sz) = <em>RPR_TakeFX_GetNamedConfigParm</em>(take, fx, parmname, bufOut, bufOut_sz)</code></div>
+<div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaItem_Take</i> take, <i>Int</i> fx, <i>String</i> parmname, <i>String</i> bufOutNeedBig, <i>Int</i> bufOutNeedBig_sz) = <em>RPR_TakeFX_GetNamedConfigParm</em>(take, fx, parmname, bufOutNeedBig, bufOutNeedBig_sz)</code></div>
 </div><p>
 <div class="ch">
 gets plug-in specific named configuration value (returns true on success)<br>
+<br>
+Supported values for read:<br>
+&nbsp;&nbsp;pdc : PDC latency<br>
+&nbsp;&nbsp;in_pin_X : name of input pin X<br>
+&nbsp;&nbsp;out_pin_X : name of output pin X<br>
+&nbsp;&nbsp;fx_type : type string<br>
+&nbsp;&nbsp;fx_ident : type-specific identifier<br>
+&nbsp;&nbsp;fx_name : pre-aliased name<br>
+&nbsp;&nbsp;GainReduction_dB : [ReaComp + other supported compressors]<br>
+&nbsp;&nbsp;vst_chunk[_program] : base64-encoded VST-specific chunk.<br>
+&nbsp;&nbsp;clap_chunk : base64-encoded CLAP-specific chunk.<br>
+&nbsp;&nbsp;param.X.lfo.[active,dir,phase,speed,strength,temposync,free,shape] : parameter moduation LFO state<br>
+&nbsp;&nbsp;param.X.acs.[active,dir,strength,attack,release,dblo,dbhi,chan,stereo] : parameter modulation ACS state<br>
+&nbsp;&nbsp;param.X.plink.[active,scale,offset,effect,param,midi_bus,midi_chan,midi_msg,midi_msg2] : parameter link/MIDI link: set effect=-100 to support midi_*<br>
+&nbsp;&nbsp;param.X.mod.[active,baseline,visible] : parameter module global settings<br>
+&nbsp;&nbsp;param.X.learn.[midi1,midi2,osc] : first two bytes of MIDI message, or OSC string if set<br>
+&nbsp;&nbsp;param.X.learn.mode : absolution/relative mode flag (0: Absolute, 1: 127=-1,1=+1, 2: 63=-1, 65=+1, 3: 65=-1, 1=+1, 4: toggle if nonzero)<br>
+&nbsp;&nbsp;param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]<br>
+&nbsp;&nbsp;THRESHOLD, CEILING, TRUEPEAK : [ReaLimit]<br>
+&nbsp;&nbsp;NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]<br>
+&nbsp;&nbsp;ITEMx : [ReaVerb] state configuration line, when writing should be followed by a write of DONE<br>
+&nbsp;&nbsp;FILE, FILEx, -FILEx, +FILEx, -FILE* : [RS5k] file list, -/+ prefixes are write-only, when writing any, should be followed by a write of DONE<br>
+&nbsp;&nbsp;MODE, RSMODE : [RS5k] general mode, resample mode<br>
+&nbsp;&nbsp;VIDEO_CODE : [video processor] code<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -19156,7 +19521,7 @@ presetmove==1 activates the next preset, presetmove==-1 activates the previous p
 <hr>
 <a class="anch" id="TakeFX_SetNamedConfigParm"></a>
 <a href="#TakeFX_SetNamedConfigParm"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TakeFX_SetNamedConfigParm</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>TakeFX_SetNamedConfigParm</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>TakeFX_SetNamedConfigParm</em>(<i>MediaItem_Take*</i> take, <i>int</i> fx, <i>const</i> <i>char*</i> parmname, <i>const</i> <i>char*</i> value)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>TakeFX_SetNamedConfigParm</em>(<i>MediaItem_Take</i> take, <i>int</i> fx, "parmname", "value")</code></div>
@@ -19164,7 +19529,27 @@ presetmove==1 activates the next preset, presetmove==-1 activates the previous p
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>RPR_TakeFX_SetNamedConfigParm</em>(<i>MediaItem_Take</i> take, <i>Int</i> fx, <i>String</i> parmname, <i>String</i> value)</code></div>
 </div><p>
 <div class="ch">
-gets plug-in specific named configuration value (returns true on success)<br>
+sets plug-in specific named configuration value (returns true on success).<br>
+<br>
+Support values for write:<br>
+<br>
+vst_chunk[_program] : base64-encoded VST-specific chunk.<br>
+clap_chunk : base64-encoded CLAP-specific chunk.<br>
+param.X.lfo.[active,dir,phase,speed,strength,temposync,free,shape] : parameter moduation LFO state<br>
+param.X.acs.[active,dir,strength,attack,release,dblo,dbhi,chan,stereo] : parameter modulation ACS state<br>
+param.X.plink.[active,scale,offset,effect,param,midi_bus,midi_chan,midi_msg,midi_msg2] : parameter link/MIDI link: set effect=-100 to support midi_*<br>
+param.X.mod.[active,baseline,visible] : parameter module global settings<br>
+param.X.learn.[midi1,midi2,osc] : first two bytes of MIDI message, or OSC string if set<br>
+param.X.learn.mode : absolution/relative mode flag (0: Absolute, 1: 127=-1,1=+1, 2: 63=-1, 65=+1, 3: 65=-1, 1=+1, 4: toggle if nonzero)<br>
+param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only<br>
+<br>
+BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]<br>
+THRESHOLD, CEILING, TRUEPEAK : [ReaLimit]<br>
+NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]<br>
+ITEMx : [ReaVerb] state configuration line, when writing should be followed by a write of DONE<br>
+FILE, FILEx, -FILEx, +FILEx, -FILE* : [RS5k] file list, -/+ prefixes are write-only, when writing any, should be followed by a write of DONE<br>
+MODE, RSMODE : [RS5k] general mode, resample mode<br>
+VIDEO_CODE : [video processor] code<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -20430,26 +20815,43 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <hr>
 <a class="anch" id="TrackFX_GetNamedConfigParm"></a>
 <a href="#TrackFX_GetNamedConfigParm"> ^</a> 
-<img width="3%" src="gfx/reaper6.37.png" alt="Reaper version 6.37"><u><b>TrackFX_GetNamedConfigParm</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.67.png" alt="Reaper version 6.67"><u><b>TrackFX_GetNamedConfigParm</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>TrackFX_GetNamedConfigParm</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>const</i> <i>char*</i> parmname, <i>char*</i> bufOut, <i>int</i> bufOut_sz)</code></div>
-<div class="e">EEL2: <code> <i>bool</i> <em>TrackFX_GetNamedConfigParm</em>(<i>MediaTrack</i> track, <i>int</i> fx, "parmname", #buf)</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>TrackFX_GetNamedConfigParm</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>const</i> <i>char*</i> parmname, <i>char*</i> bufOutNeedBig, <i>int</i> bufOutNeedBig_sz)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> retval = <em>TrackFX_GetNamedConfigParm</em>(<i>MediaTrack</i> track, <i>int</i> fx, "parmname", #buf)</code></div>
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.TrackFX_GetNamedConfigParm</em>(<i>MediaTrack</i> track, <i>integer</i> fx, <i>string</i> parmname)</code></div>
-<div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> fx, <i>String</i> parmname, <i>String</i> bufOut, <i>Int</i> bufOut_sz) = <em>RPR_TrackFX_GetNamedConfigParm</em>(track, fx, parmname, bufOut, bufOut_sz)</code></div>
+<div class="p">Python: <code> (<i>Boolean</i> retval, <i>MediaTrack</i> track, <i>Int</i> fx, <i>String</i> parmname, <i>String</i> bufOutNeedBig, <i>Int</i> bufOutNeedBig_sz) = <em>RPR_TrackFX_GetNamedConfigParm</em>(track, fx, parmname, bufOutNeedBig, bufOutNeedBig_sz)</code></div>
 </div><p>
 <div class="ch">
 gets plug-in specific named configuration value (returns true on success). <br>
 <br>
-Special values: <br>
-&nbsp;&nbsp;&nbsp;&nbsp;'pdc' returns PDC latency. <br>
-&nbsp;&nbsp;&nbsp;&nbsp;'in_pin_0' returns name of first input pin (if available), <br>
-&nbsp;&nbsp;&nbsp;&nbsp;'out_pin_0' returns name of first output pin (if available), etc.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;'fx_type' returns type string, <br>
-&nbsp;&nbsp;&nbsp;&nbsp;'fx_ident' returns type-specific identifier, <br>
-&nbsp;&nbsp;&nbsp;&nbsp;'fx_name' returns pre-aliased name.<br>
-<br>
 By setting fx you can add 0x1000000 set to reference input FX. <br>
 To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<br>
+Supported values for read:<br>
+&nbsp;&nbsp;pdc : PDC latency<br>
+&nbsp;&nbsp;in_pin_X : name of input pin X<br>
+&nbsp;&nbsp;out_pin_X : name of output pin X<br>
+&nbsp;&nbsp;fx_type : type string<br>
+&nbsp;&nbsp;fx_ident : type-specific identifier<br>
+&nbsp;&nbsp;fx_name : pre-aliased name<br>
+&nbsp;&nbsp;GainReduction_dB : [ReaComp + other supported compressors]<br>
+&nbsp;&nbsp;vst_chunk[_program] : base64-encoded VST-specific chunk.<br>
+&nbsp;&nbsp;clap_chunk : base64-encoded CLAP-specific chunk.<br>
+&nbsp;&nbsp;param.X.lfo.[active,dir,phase,speed,strength,temposync,free,shape] : parameter moduation LFO state<br>
+&nbsp;&nbsp;param.X.acs.[active,dir,strength,attack,release,dblo,dbhi,chan,stereo] : parameter modulation ACS state<br>
+&nbsp;&nbsp;param.X.plink.[active,scale,offset,effect,param,midi_bus,midi_chan,midi_msg,midi_msg2] : parameter link/MIDI link: set effect=-100 to support midi_*<br>
+&nbsp;&nbsp;param.X.mod.[active,baseline,visible] : parameter module global settings<br>
+&nbsp;&nbsp;param.X.learn.[midi1,midi2,osc] : first two bytes of MIDI message, or OSC string if set<br>
+&nbsp;&nbsp;param.X.learn.mode : absolution/relative mode flag (0: Absolute, 1: 127=-1,1=+1, 2: 63=-1, 65=+1, 3: 65=-1, 1=+1, 4: toggle if nonzero)<br>
+&nbsp;&nbsp;param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only<br>
+&nbsp;&nbsp;BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]<br>
+&nbsp;&nbsp;THRESHOLD, CEILING, TRUEPEAK : [ReaLimit]<br>
+&nbsp;&nbsp;NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]<br>
+&nbsp;&nbsp;ITEMx : [ReaVerb] state configuration line, when writing should be followed by a write of DONE<br>
+&nbsp;&nbsp;FILE, FILEx, -FILEx, +FILEx, -FILE* : [RS5k] file list, -/+ prefixes are write-only, when writing any, should be followed by a write of DONE<br>
+&nbsp;&nbsp;MODE, RSMODE : [RS5k] general mode, resample mode<br>
+&nbsp;&nbsp;VIDEO_CODE : [video processor] code<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -21269,10 +21671,10 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <hr>
 <a class="anch" id="TrackFX_SetNamedConfigParm"></a>
 <a href="#TrackFX_SetNamedConfigParm"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>TrackFX_SetNamedConfigParm</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>TrackFX_SetNamedConfigParm</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>TrackFX_SetNamedConfigParm</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>const</i> <i>char*</i> parmname, <i>const</i> <i>char*</i> value)</code></div>
-<div class="e">EEL2: <code> <i>bool</i> <em>TrackFX_SetNamedConfigParm</em>(<i>MediaTrack</i> track, <i>int</i> fx, "parmname", "value")</code></div>
+<div class="c">C: <code> <i>bool</i> retval = <em>TrackFX_SetNamedConfigParm</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>const</i> <i>char*</i> parmname, <i>const</i> <i>char*</i> value)</code></div>
+<div class="e">EEL2: <code> <i>bool</i> retval = <em>TrackFX_SetNamedConfigParm</em>(<i>MediaTrack</i> track, <i>int</i> fx, "parmname", "value")</code></div>
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>reaper.TrackFX_SetNamedConfigParm</em>(<i>MediaTrack</i> track, <i>integer</i> fx, <i>string</i> parmname, <i>string</i> value)</code></div>
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>RPR_TrackFX_SetNamedConfigParm</em>(<i>MediaTrack</i> track, <i>Int</i> fx, <i>String</i> parmname, <i>String</i> value)</code></div>
 </div><p>
@@ -21281,6 +21683,26 @@ sets plug-in specific named configuration value (returns true on success)<br>
 <br>
 By setting fx you can add 0x1000000 set to reference input FX. <br>
 To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.<br>
+<br>
+Support values for write:<br>
+<br>
+vst_chunk[_program] : base64-encoded VST-specific chunk.<br>
+clap_chunk : base64-encoded CLAP-specific chunk.<br>
+param.X.lfo.[active,dir,phase,speed,strength,temposync,free,shape] : parameter moduation LFO state<br>
+param.X.acs.[active,dir,strength,attack,release,dblo,dbhi,chan,stereo] : parameter modulation ACS state<br>
+param.X.plink.[active,scale,offset,effect,param,midi_bus,midi_chan,midi_msg,midi_msg2] : parameter link/MIDI link: set effect=-100 to support midi_*<br>
+param.X.mod.[active,baseline,visible] : parameter module global settings<br>
+param.X.learn.[midi1,midi2,osc] : first two bytes of MIDI message, or OSC string if set<br>
+param.X.learn.mode : absolution/relative mode flag (0: Absolute, 1: 127=-1,1=+1, 2: 63=-1, 65=+1, 3: 65=-1, 1=+1, 4: toggle if nonzero)<br>
+param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only<br>
+<br>
+BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]<br>
+THRESHOLD, CEILING, TRUEPEAK : [ReaLimit]<br>
+NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]<br>
+ITEMx : [ReaVerb] state configuration line, when writing should be followed by a write of DONE<br>
+FILE, FILEx, -FILEx, +FILEx, -FILE* : [RS5k] file list, -/+ prefixes are write-only, when writing any, should be followed by a write of DONE<br>
+MODE, RSMODE : [RS5k] general mode, resample mode<br>
+VIDEO_CODE : [video processor] code<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -23807,10 +24229,10 @@ deprecated<br>
 <img width="3%" src="gfx/reaper5.974.png" alt="Reaper version 5.974">
 <img width="3%" src="gfx/js_0.993.png" alt="JS version 0.993"><u><b>JS_VKeys_GetState(JS)</b></u><br>			<p>
 <div class="cc">
-<div class="c">C: <code> <i>bool</i> <em>JS_VKeys_GetState</em>(<i>char*</i> stateOutNeedBig, <i>int*</i> stateOutNeedBig_sz)</code></div>
-<div class="e">EEL2: <code> <i>bool</i> extension_api("<em>JS_VKeys_GetState</em>", #state)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> state = <em>reaper.JS_VKeys_GetState</em>()</code></div>
-<div class="p">Python: <code> (<i>Boolean</i> retval, <i>String</i> stateOutNeedBig, <i>Int</i> stateOutNeedBig_sz) = <em>JS_VKeys_GetState</em>(stateOutNeedBig, stateOutNeedBig_sz)</code></div>
+<div class="c">C: <code> <i>void</i> <em>JS_VKeys_GetState</em>(<i>double</i> cutoffTime, <i>char*</i> stateOutNeedBig, <i>int*</i> stateOutNeedBig_sz)</code></div>
+<div class="e">EEL2: <code> extension_api("<em>JS_VKeys_GetState</em>", cutoffTime, #state)</code></div>
+<div class="l">Lua: <code> <i>string</i> state, <i>integer</i> unknown = <em>reaper.JS_VKeys_GetState</em>(<i>number</i> cutoffTime)</code></div>
+<div class="p">Python: <code> (<i>Float</i> cutoffTime, <i>String</i> stateOutNeedBig, <i>Int</i> stateOutNeedBig_sz) = <em>JS_VKeys_GetState</em>(cutoffTime, stateOutNeedBig, stateOutNeedBig_sz)</code></div>
 </div><p>
 <div class="ch">
 <p>Retrieves the current states (0 or 1) of all virtual keys, from 0x01 to 0xFF, in a 255-byte array.</p>
@@ -23819,12 +24241,12 @@ deprecated<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>boolean</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>string</i> state</td></tr>
+<tr><td class="ch2">a 255-byte array, where each entry represents the key pressed. For instance, if A is pressed, the 65th byte=AsciiCode 1, else 65th byte=AsciiCode 0. The IDE-watchlist will probably truncate this string.</td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>string</i> state</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="pr"><i>integer</i> unknown</td></tr>
+<tr><td class="ch2">unknown; probably cutofftime</td></tr>
 </table>
 <br>
 </div>
@@ -23909,7 +24331,7 @@ Returns: If keyCode refers to a single key, the intercept state of that key is r
 <div class="p">Python: <code> <em>RPR_OscLocalMessageToHost</em>(<i>String</i> message, <i>const</i> <i>double</i> valueInOptional)</code></div>
 </div><p>
 <div class="ch">
-Send an OSC message directly to REAPER. The value argument may be NULL. The message will be matched against the default OSC patterns. Only supported if control surface support was enabled when installing REAPER.<br>
+Send an OSC message directly to REAPER. The value argument may be NULL. The message will be matched against the default OSC patterns.<br>
 <br>
 This is not broadcast outside of Reaper, so you can't control devices, plugins, etc with it!<br>
 <br>
@@ -26479,14 +26901,22 @@ There can be 1024 defer-nodes running at the same time in one script, no matter 
 <hr>
 <a class="anch" id="lua_get_action_context"></a>
 <a href="#lua_get_action_context"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>get_action_context</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>get_action_context</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>boolean</i> is_new_value, <i>string</i> filename_with_path, <i>integer</i> sectionID, <i>integer</i> cmdID, <i>integer</i> mode, <i>integer</i> resolution, <i>integer</i> val = <em>reaper.get_action_context</em>()</code></div>
+<div class="l">Lua: <code> <i>boolean</i> is_new_value, <i>string</i> filename_with_path, <i>integer</i> sectionID, <i>integer</i> cmdID, <i>integer</i> mode, <i>integer</i> resolution, <i>integer</i> val, <i>string</i> contextstr = <em>reaper.get_action_context</em>()</code></div>
 </div><p>
 <div class="ch">
 Returns contextual information about the script, typically MIDI/OSC input values.val will be set to a relative or absolute value depending on mode (=0: absolute mode, >0: relative modes). resolution=127 for 7-bit resolution, =16383 for 14-bit resolution.Notes: sectionID, and cmdID will be set to -1 if the script is not part of the action list. mode, resolution and val will be set to -1 if the script was not triggered via MIDI/OSC.<br>
 <br>
 For relative mode bindings, calling get_action_context() will return the accumulated relative value in decoded form (not 65 or 63, but +1/-1 etc), and clear the internal state. So if you call it multiple times, the first one will return the accumulated value, and the second will always return 0.<br>
+<br>
+contextstr may be empty or one of:<br>
+&nbsp;&nbsp;midi:XX[:YY] (one or two bytes hex)<br>
+&nbsp;&nbsp;[wheel|hwheel|mtvert|mthorz|mtzoom|mtrot|mediakbd]:flags<br>
+&nbsp;&nbsp;key:flags:keycode<br>
+&nbsp;&nbsp;osc:/msg[:f=FloatValue|:s=StringValue]<br>
+&nbsp;&nbsp;KBD_OnMainActionEx<br>
+&nbsp;&nbsp;(flags may include V=virtkey, S=shift, A=alt/option, C=control/command, W=win/control)<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -26517,13 +26947,17 @@ For relative mode bindings, calling get_action_context() will return the accumul
 <tr><td class="pr"><i>integer</i> val</td></tr>
 <tr><td class="ch2">-1, if script isn't run by shortcut; the value sent by OSC or MIDI</td></tr>
 </table>
+<table class="ch">
+<tr><td class="pr"><i>string</i> contextstr</td></tr>
+<tr><td class="ch2">the shortcut, that ran this action, more info in the description</td></tr>
+</table>
 <br>
 </div>
 <div class="ch">
 <hr>
 <a class="anch" id="lua_gfx.getdropfile"></a>
 <a href="#lua_gfx.getdropfile"> ^</a> 
-<img width="3%" src="gfx/reaper5.91.png" alt="Reaper version 5.91"><u><b>gfx.getdropfile</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.69.png" alt="Reaper version 6.69"><u><b>gfx.getdropfile</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> retval, <i>string</i> filename = <em>gfx.getdropfile</em>(<i>integer</i> idx)</code></div>
 </div><p>
@@ -26531,6 +26965,8 @@ For relative mode bindings, calling get_action_context() will return the accumul
 Returns filenames, drag'n'dropped into a window created by gfx.init().<br>
 Use idx to get a specific filename, that has been dropped into the gfx.init()-window.<br>
 <br>
+When returned filename starts with @fx: it is an fx dropped.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
 Does NOT support mediaitems/takes or other Reaper-objects!<br>
 <br>
 It MUST be called BEFORE calling gfx.update, as gfx.update flushes the filelist accessible with gfx.getdropfile.<br>
@@ -26542,7 +26978,7 @@ It MUST be called BEFORE calling gfx.update, as gfx.update flushes the filelist 
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> filename</td></tr>
-<tr><td class="ch2">the filename of dropped-file with indexnumber idx</td></tr>
+<tr><td class="ch2">the filename of dropped-file with indexnumber idx; if filename starts with @fx: then the filename is a dropped fx</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -30565,7 +31001,7 @@ set color=1&~0x10000000 to reset to default color for markers/regions<br>
 <hr>
 <a class="anch" id="SetProjectMarkerByIndex2"></a>
 <a href="#SetProjectMarkerByIndex2"> ^</a> 
-<img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>SetProjectMarkerByIndex2</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SetProjectMarkerByIndex2</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>SetProjectMarkerByIndex2</em>(<i>ReaProject*</i> proj, <i>int</i> markrgnidx, <i>bool</i> isrgn, <i>double</i> pos, <i>double</i> rgnend, <i>int</i> IDnumber, <i>const</i> <i>char*</i> name, <i>int</i> color, <i>int</i> flags)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>SetProjectMarkerByIndex2</em>(<i>ReaProject</i> proj, <i>int</i> markrgnidx, <i>bool</i> isrgn, pos, rgnend, <i>int</i> IDnumber, "name", <i>int</i> color, <i>int</i> flags)</code></div>
@@ -30573,7 +31009,8 @@ set color=1&~0x10000000 to reset to default color for markers/regions<br>
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>RPR_SetProjectMarkerByIndex2</em>(<i>ReaProject</i> proj, <i>Int</i> markrgnidx, <i>Boolean</i> isrgn, <i>Float</i> pos, <i>Float</i> rgnend, <i>Int</i> IDnumber, <i>String</i> name, <i>Int</i> color, <i>Int</i> flags)</code></div>
 </div><p>
 <div class="ch">
-<p>Differs from SetProjectMarker4 in that markrgnidx is 0 for the first marker/region, 1 for the next, etc (see <a href="#EnumProjectMarkers3">EnumProjectMarkers3</a>), rather than representing the displayed marker/region ID number (see <a href="#SetProjectMarker3">SetProjectMarker3</a>). Function will fail if attempting to set a duplicate ID number for a region (duplicate ID numbers for markers are OK). , flags&amp;1 to clear name.</p>
+<p>Differs from SetProjectMarker4 in that markrgnidx is 0 for the first marker/region, 1 for the next, etc (see <a href="#EnumProjectMarkers3">EnumProjectMarkers3</a>), rather than representing the displayed marker/region ID number (see <a href="#SetProjectMarker3">SetProjectMarker3</a>). Function will fail if attempting to set a duplicate ID number for a region (duplicate ID numbers for markers are OK).</p>
+<p>flags&amp;1 to clear name flags&amp;2, markers will not be re-sorted, and after making updates, you MUST call SetProjectMarkerByIndex2 with markrgnidx=-1 and flags&amp;2 to force re-sort/UI updates.</p>
 <p>set color=1&amp;~0x10000000 to reset to default color for markers/regions</p>
 </div><br>      
 <u>Returnvalues:</u>
@@ -32612,20 +33049,20 @@ get a selected item by selected item count (zero-based)<br>
 </div><p>
 <div class="ch">
 mode: <br>
-0=add to current track(last touched track when &512==0)<br>
-1=add new track<br>
-3=add to selected items as takes<br>
-&4=stretch/loop to fit time sel<br>
-&8=try to match tempo 1x<br>
-&16=try to match tempo 0.5x<br>
-&32=try to match tempo 2x<br>
-&64=don't preserve pitch when matching tempo<br>
-&128=no loop/section if startpct/endpct set<br>
-&256=force loop regardless of global preference for looping imported items<br>
-&512=use high word(&65536 and higher) as absolute track index if mode&3==0<br>
-&1024=insert into reasamplomatic on a new track<br>
-&2048=insert into open reasamplomatic instance<br>
-&4096=move to BWF source preferred position(BWF start offset)<br>
+0=add to current track, <br>
+1=add new track, <br>
+3=add to selected items as takes, <br>
+&4=stretch/loop to fit time sel, <br>
+&8=try to match tempo 1x, <br>
+&16=try to match tempo 0.5x, <br>
+&32=try to match tempo 2x, <br>
+&64=don't preserve pitch when matching tempo, <br>
+&128=no loop/section if startpct/endpct set, <br>
+&256=force loop regardless of global preference for looping imported items, <br>
+&512=use high word as absolute track index if mode&3==0 or mode&2048, <br>
+&1024=insert into reasamplomatic on a new track (add 1 to insert on last selected track), <br>
+&2048=insert into open reasamplomatic instance (add 512 to use high word as absolute track index), <br>
+&4096=move to source preferred position (BWF start offset), <br>
 &8192=reverse<br>
 <br>
 Example:<br>
@@ -35007,7 +35444,7 @@ PROJECT_SRATE_USE : set to 1 if project samplerate is used&nbsp;&nbsp;<br>
 <hr>
 <a class="anch" id="GetSetProjectInfo_String"></a>
 <a href="#GetSetProjectInfo_String"> ^</a> 
-<img width="3%" src="gfx/reaper6.68.png" alt="Reaper version 6.68"><u><b>GetSetProjectInfo_String</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>GetSetProjectInfo_String</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>GetSetProjectInfo_String</em>(<i>ReaProject*</i> project, <i>const</i> <i>char*</i> desc, <i>char*</i> valuestrNeedBig, <i>bool</i> is_set)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>GetSetProjectInfo_String</em>(<i>ReaProject</i> project, "desc", #valuestrNeedBig, <i>bool</i> is_set)</code></div>
@@ -35021,13 +35458,15 @@ PROJECT_NAME: project file name (read-only, is_set will be ignored)&nbsp;&nbsp;<
 PROJECT_TITLE: title field from Project Settings/Notes dialog&nbsp;&nbsp;<br>
 PROJECT_AUTHOR: author field from Project Settings/Notes dialog&nbsp;&nbsp;<br>
 TRACK_GROUP_NAME:X: track group name, X should be 1..64&nbsp;&nbsp;<br>
-MARKER_GUID:X: get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number&nbsp;&nbsp;<br>
+MARKER_GUID:X : get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number (read-only)<br>
+MARKER_INDEX_FROM_GUID:{GUID} : get the GUID index of the marker or region with GUID {GUID} (read-only)<br>
 RECORD_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)&nbsp;&nbsp;<br>
 RECORD_PATH_SECONDARY: secondary recording directory&nbsp;&nbsp;<br>
 RENDER_FILE: render directory&nbsp;&nbsp;<br>
 RENDER_PATTERN: render file name (may contain wildcards)&nbsp;&nbsp;<br>
 RENDER_METADATA : get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: valuestr="ID3:TALB" to get, valuestr="ID3:TALB|my album name" to set. Call with valuestr="" and is_set=false to get a semicolon-separated list of defined project metadata identifiers.&nbsp;&nbsp;<br>
-RENDER_TARGETS: semicolon separated list of files that would be written if the project is rendered using the most recent render settings&nbsp;&nbsp;<br>
+RENDER_TARGETS: semicolon separated list of filenames that would be written if the project is rendered using the most recent render settings&nbsp;&nbsp;<br>
+RENDER_TARGETS_EX: double-NULL (\0\0) separated list of filenames that would be written if the project is rendered using the most recent render settings&nbsp;&nbsp;<br>
 RENDER_STATS: (read-only) semicolon separated list of statistics for the most recently rendered files. call with valuestr="XXX" to run an action (for example, "42437"=dry run render selected items) before returning statistics.&nbsp;&nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returns nothing, when user aborted rendering.<br>
 RENDER_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.&nbsp;&nbsp;<br>
@@ -63470,6 +63909,363 @@ send_idx<0 for receives, >=0 for hw ouputs, >=nb_of_hw_ouputs for sends.<br>
 </div>
 <div class="ch">
 <hr>
+<a class="anch" id="SetTrackUIInputMonitor"></a>
+<a href="#SetTrackUIInputMonitor"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SetTrackUIInputMonitor</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>int</i> retval = <em>SetTrackUIInputMonitor</em>(<i>MediaTrack*</i>  track, <i>int</i> monitor, <i>int</i> igngroupflags)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>SetTrackUIInputMonitor</em>(<i>MediaTrack</i> track, <i>int</i> monitor, <i>int</i> igngroupflags)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.SetTrackUIInputMonitor</em>(<i>MediaTrack</i> track, <i>integer</i> monitor, <i>integer</i> igngroupflags)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_SetTrackUIInputMonitor</em>(<i>MediaTrack</i> track, <i>Int</i> monitor, <i>Int</i> igngroupflags)</code></div>
+</div><p>
+<div class="ch">
+monitor: 0=no monitoring, 1=monitoring, 2=auto-monitoring. <br>
+<br>
+returns new value or -1 if error. <br>
+<br>
+igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">-1, in case of an error; else the monitoring state</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
+<tr><td class="ch2">the track, whose monitoring you want to set</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> monitor</td></tr>
+<tr><td class="ch2">the monitoring mode<br/>
+0, no monitoring<br/>
+1, monitoring<br/>
+2, auto-monitoring</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
+<tr><td class="ch2">&1 to prevent track grouping<br/>
+&2 to prevent selection ganging</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="SetTrackUIMute"></a>
+<a href="#SetTrackUIMute"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SetTrackUIMute</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>int</i> retval = <em>SetTrackUIMute</em>(<i>MediaTrack*</i>  track, <i>int</i> mute, <i>int</i> igngroupflags)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>SetTrackUIMute</em>(<i>MediaTrack</i> track, <i>int</i> mute, <i>int</i> igngroupflags)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.SetTrackUIMute</em>(<i>MediaTrack</i> track, <i>integer</i> mute, <i>integer</i> igngroupflags)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_SetTrackUIMute</em>(<i>MediaTrack</i> track, <i>Int</i> mute, <i>Int</i> igngroupflags)</code></div>
+</div><p>
+<div class="ch">
+mute: <0 toggles, >0 sets mute, 0=unsets mute. <br>
+<br>
+returns new value or -1 if error. <br>
+<br>
+igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the new mute-state; -1, in case of an error</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
+<tr><td class="ch2">the track, whose mute-state you want to set</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> monitor</td></tr>
+<tr><td class="ch2">the mute-mode<br/>
+<0, toggles<br/>
+>0 sets mute<br/>
+0, unsets mute</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
+<tr><td class="ch2">&1 to prevent track grouping<br/>
+&2 to prevent selection ganging</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="SetTrackUIPan"></a>
+<a href="#SetTrackUIPan"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SetTrackUIPan</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>double</i> retval = <em>SetTrackUIPan</em>(<i>MediaTrack*</i>  track, <i>double</i> pan, <i>bool</i> relative, <i>bool</i> done, <i>int</i> igngroupflags)</code></div>
+<div class="e">EEL2: <code> <i>double</i> retval = <em>SetTrackUIPan</em>(<i>MediaTrack</i> track, pan, <i>bool</i> relative, <i>bool</i> done, <i>int</i> igngroupflags)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.SetTrackUIPan</em>(<i>MediaTrack</i> track, <i>number</i> pan, <i>boolean</i> relative, <i>boolean</i> done, <i>integer</i> igngroupflags)</code></div>
+<div class="p">Python: <code> <i>Float</i> retval = <em>RPR_SetTrackUIPan</em>(<i>MediaTrack</i> track, <i>Float</i> pan, <i>Boolean</i> relative, <i>Boolean</i> done, <i>Int</i> igngroupflags)</code></div>
+</div><p>
+<div class="ch">
+sets pan of a certain track<br>
+<br>
+igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>number</i> retval</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
+<tr><td class="ch2">the track, whose panning you want to set</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> pan</td></tr>
+<tr><td class="ch2">the pan-value; -1=-100%, -0.01=-1%, 0=center, 0.01=1%, 1=100%</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> relative</td></tr>
+<tr><td class="ch2">true, change relative to the current value; false, set to absolute value</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> done</td></tr>
+<tr><td class="ch2">unknown</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
+<tr><td class="ch2">&1 to prevent track grouping<br/>
+&2 to prevent selection ganging</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="SetTrackUIPolarity"></a>
+<a href="#SetTrackUIPolarity"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SetTrackUIPolarity</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>int</i> retval = <em>SetTrackUIPolarity</em>(<i>MediaTrack*</i>  track, <i>int</i> polarity, <i>int</i> igngroupflags)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>SetTrackUIPolarity</em>(<i>MediaTrack</i> track, <i>int</i> polarity, <i>int</i> igngroupflags)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.SetTrackUIPolarity</em>(<i>MediaTrack</i> track, <i>integer</i> polarity, <i>integer</i> igngroupflags)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_SetTrackUIPolarity</em>(<i>MediaTrack</i> track, <i>Int</i> polarity, <i>Int</i> igngroupflags)</code></div>
+</div><p>
+<div class="ch">
+polarity (AKA phase): <0 toggles, 0=normal, >0=inverted. <br>
+<br>
+returns new value or -1 if error. <br>
+<br>
+igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the new polarity state; -1, in case of an error</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
+<tr><td class="ch2">the track, whose polarity-state you want to set</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> polarity</td></tr>
+<tr><td class="ch2">the polarity-mode<br/>
+<0, toggles<br/>
+>0 sets polarity<br/>
+0, unsets polarity</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
+<tr><td class="ch2">&1 to prevent track grouping<br/>
+&2 to prevent selection ganging</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="SetTrackUIRecArm"></a>
+<a href="#SetTrackUIRecArm"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SetTrackUIRecArm</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>int</i> retval = <em>SetTrackUIRecArm</em>(<i>MediaTrack*</i>  track, <i>int</i> recarm, <i>int</i> igngroupflags)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>SetTrackUIRecArm</em>(<i>MediaTrack</i> track, <i>int</i> recarm, <i>int</i> igngroupflags)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.SetTrackUIRecArm</em>(<i>MediaTrack</i> track, <i>integer</i> recarm, <i>integer</i> igngroupflags)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_SetTrackUIRecArm</em>(<i>MediaTrack</i> track, <i>Int</i> recarm, <i>Int</i> igngroupflags)</code></div>
+</div><p>
+<div class="ch">
+recarm: <0 toggles, >0 sets recarm, 0=unsets recarm.<br>
+<br>
+returns new value or -1 if error. <br>
+<br>
+igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the new recarm-state</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
+<tr><td class="ch2">the track, whose recarm-state you want to set</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> recarm</td></tr>
+<tr><td class="ch2">the recarm-mode<br/>
+<0, toggles<br/>
+>0 sets recarm<br/>
+0, unsets recarm</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
+<tr><td class="ch2">&1 to prevent track grouping<br/>
+&2 to prevent selection ganging</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="SetTrackUISolo"></a>
+<a href="#SetTrackUISolo"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SetTrackUISolo</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>int</i> retval = <em>SetTrackUISolo</em>(<i>MediaTrack*</i>  track, <i>int</i> solo, <i>int</i> igngroupflags)</code></div>
+<div class="e">EEL2: <code> <i>int</i> retval = <em>SetTrackUISolo</em>(<i>MediaTrack</i> track, <i>int</i> solo, <i>int</i> igngroupflags)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.SetTrackUISolo</em>(<i>MediaTrack</i> track, <i>integer</i> solo, <i>integer</i> igngroupflags)</code></div>
+<div class="p">Python: <code> <i>Int</i> retval = <em>RPR_SetTrackUISolo</em>(<i>MediaTrack</i> track, <i>Int</i> solo, <i>Int</i> igngroupflags)</code></div>
+</div><p>
+<div class="ch">
+solo: <0 toggles, 1 sets solo (default mode), 0=unsets solo, 2 sets solo (non-SIP), 4 sets solo (SIP).<br>
+<br>
+returns new value or -1 if error. <br>
+<br>
+igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> retval</td></tr>
+<tr><td class="ch2">the new solo-state</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
+<tr><td class="ch2">the track, whose solo-state you want to set</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> solo</td></tr>
+<tr><td class="ch2">the solo-mode<br/>
+<0, toggles<br/>
+0, unsets mute<br/>
+1, sets mute<br/>
+2, sets solo(non-SIP)<br/>
+4, sets solo (SIP)</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
+<tr><td class="ch2">&1 to prevent track grouping<br/>
+&2 to prevent selection ganging</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="SetTrackUIVolume"></a>
+<a href="#SetTrackUIVolume"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SetTrackUIVolume</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>double</i> retval = <em>SetTrackUIVolume</em>(<i>MediaTrack*</i>  track, <i>double</i> volume, <i>bool</i> relative, <i>bool</i> done, <i>int</i> igngroupflags)</code></div>
+<div class="e">EEL2: <code> <i>double</i> retval = <em>SetTrackUIVolume</em>(<i>MediaTrack</i> track, volume, <i>bool</i> relative, <i>bool</i> done, <i>int</i> igngroupflags)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.SetTrackUIVolume</em>(<i>MediaTrack</i> track, <i>number</i> volume, <i>boolean</i> relative, <i>boolean</i> done, <i>integer</i> igngroupflags)</code></div>
+<div class="p">Python: <code> <i>Float</i> retval = <em>RPR_SetTrackUIVolume</em>(<i>MediaTrack</i> track, <i>Float</i> volume, <i>Boolean</i> relative, <i>Boolean</i> done, <i>Int</i> igngroupflags)</code></div>
+</div><p>
+<div class="ch">
+sets the volume of a track<br>
+<br>
+igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>number</i> retval</td></tr>
+<tr><td class="ch2">the new volume</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
+<tr><td class="ch2">the track, whose volume you want to set</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>number</i> volume</td></tr>
+<tr><td class="ch2">the volume in dB</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> relative</td></tr>
+<tr><td class="ch2">true, change relative to the current value; false, set to absolute value</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> done</td></tr>
+<tr><td class="ch2">unknown</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
+<tr><td class="ch2">&1 to prevent track grouping<br/>
+&2 to prevent selection ganging</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
+<a class="anch" id="SetTrackUIWidth"></a>
+<a href="#SetTrackUIWidth"> ^</a> 
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>SetTrackUIWidth</b></u><br>			<p>
+<div class="cc">
+<div class="c">C: <code> <i>double</i> retval = <em>SetTrackUIWidth</em>(<i>MediaTrack*</i>  track, <i>double</i> width, <i>bool</i> relative, <i>bool</i> done, <i>int</i> igngroupflags)</code></div>
+<div class="e">EEL2: <code> <i>double</i> retval = <em>SetTrackUIWidth</em>(<i>MediaTrack</i> track, width, <i>bool</i> relative, <i>bool</i> done, <i>int</i> igngroupflags)</code></div>
+<div class="l">Lua: <code> <i>number</i> retval = <em>reaper.SetTrackUIWidth</em>(<i>MediaTrack</i> track, <i>number</i> width, <i>boolean</i> relative, <i>boolean</i> done, <i>integer</i> igngroupflags)</code></div>
+<div class="p">Python: <code> <i>Float</i> retval = <em>RPR_SetTrackUIWidth</em>(<i>MediaTrack</i> track, <i>Float</i> width, <i>Boolean</i> relative, <i>Boolean</i> done, <i>Int</i> igngroupflags)</code></div>
+</div><p>
+<div class="ch">
+sets the width of a track <br>
+<br>
+returns new value or -1 if error. <br>
+<br>
+igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
+</div><br>      
+<u>Returnvalues:</u>
+<table class="ch">
+<tr><td class="pr"><i>number</i> retval</td></tr>
+<tr><td class="ch2">the new width of the track</td></tr>
+</table>
+<br>
+<u>Parameters:</u>
+<table class="ch">
+<tr><td class="pr"><i>MediaTrack</i> track</td></tr>
+<tr><td class="ch2">the track, whose width you want to set</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> width</td></tr>
+<tr><td class="ch2">the width-mode; -1=-100%, 0=mono; 1=100%</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> relative</td></tr>
+<tr><td class="ch2">true, change relative to the current value; false, set to absolute value</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>boolean</i> done</td></tr>
+<tr><td class="ch2">unknown</td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
+<tr><td class="ch2">&1 to prevent track grouping<br/>
+&2 to prevent selection ganging</td></tr>
+</table>
+<br>
+</div>
+<div class="ch">
+<hr>
 <a class="anch" id="AnyTrackSolo"></a>
 <a href="#AnyTrackSolo"> ^</a> 
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><u><b>AnyTrackSolo</b></u><br>			<p>
@@ -74298,7 +75094,7 @@ Focuses the active/open MIDI editor.<br>
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> View: [<span class='aclick'>all</span>] [<span class='cclick'><a href="#c" onClick="setdocview('c')">C/C++</a></span>] [<span class='eclick'><a href="#e" onClick="setdocview('e')">EEL2</a></span>] [<span class='lclick'><a href="#l" onClick="setdocview('l')">Lua</a></span>] [<span class='pclick'><a href="#p" onClick="setdocview('p')">Python</a></span>]&#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.75  - 2285 elements available <br></td></table>
+          <table><td class="td2"> View: [<span class='aclick'>all</span>] [<span class='cclick'><a href="#c" onClick="setdocview('c')">C/C++</a></span>] [<span class='eclick'><a href="#e" onClick="setdocview('e')">EEL2</a></span>] [<span class='lclick'><a href="#l" onClick="setdocview('l')">Lua</a></span>] [<span class='pclick'><a href="#p" onClick="setdocview('p')">Python</a></span>]&#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.75  - 2302 elements available <br></td></table>
         <hr>
       </div>
       <br>

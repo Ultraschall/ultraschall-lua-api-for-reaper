@@ -314,6 +314,8 @@ Has now 1590 functions, with XX new ones
   
 
 #### New features in 4.75  
+  - FXManagement: GetFXAutoBypass\_FXStateChunk - sets autobypass state of an fx within an FXStateChunk
+  - FXManagement: SetFXAutoBypass\_FXStateChunk - sets autobypass state of an fx within an FXStateChunk
   - GFX-Functions: GFX\_ResizeImageKeepAspectRatio - resizes a loaded image while keeping aspect ratio
   - PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a chapter as JSON  
   - PodcastMetadata: GetEpisodeAttributesAsJSON get the metadata of an episode as JSON
@@ -332,7 +334,9 @@ Has now 1590 functions, with XX new ones
   
 #### Changes from 4.7 to 4.75  
   - API: Modulator3000 - reverted speedup of the speedup, as it had trouble on 32-bit-machines -> thanks binbinfr
+  - Docs: updated to Reaper 6.71; config-variable-docs has improved index
   - ErrorMessagingSystem: SLEM/ShowLastErrorMessage/SFEM - return now the function, linenumber and sourcefile, in which AddErrorMessage was called
+  - FXManagement: GetFXFromFXStateChunk - rewritten from scratch, should be more stable now
   - MarkerManagement: CountAllCustomMarkers - allows now counting custom-markers within a start and end-time
   - MarkerManagement: CountNormalMarkers - allows now counting normal markers within a start and end-time
   - MarkerManagement: CountShownoteMarkers - allows now counting shownotes within a start and end-time

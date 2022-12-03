@@ -2472,17 +2472,17 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
 end
 
 
-function ultraschall.GetPodcastPresetAttributesSlotByName(name)
+function ultraschall.GetPodcastAttributePresetSlotByName(name)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetPodcastPresetAttributesSlotByName</slug>
+  <slug>GetPodcastAttributePresetSlotByName</slug>
   <requires>
     Ultraschall=4.75
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>integer index = ultraschall.GetPodcastPresetAttributesSlotByName(string name)</functioncall>
+  <functioncall>integer index = ultraschall.GetPodcastAttributePresetSlotByName(string name)</functioncall>
   <description>
     Gets the preset-index of a Podcast-Attribute-Preset by its name.
     
@@ -2505,7 +2505,7 @@ function ultraschall.GetPodcastPresetAttributesSlotByName(name)
   <tags>metadata, get, podcast, preset</tags>
 </US_DocBloc>
 ]]
-  if type(name)~="string" then ultraschall.AddErrorMessage("GetPodcastPresetAttributesSlotByName", "name", "must be a string", -1) return -1 end
+  if type(name)~="string" then ultraschall.AddErrorMessage("GetPodcastAttributePresetSlotByName", "name", "must be a string", -1) return -1 end
   name=name:lower()
   for i=1, 4096 do
     local temp=ultraschall.GetPodcastAttributesPreset_Name(i)

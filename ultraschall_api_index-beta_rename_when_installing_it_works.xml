@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="54692.00" author="Meo Mespotine">
+      <version name="54968.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -1181,6 +1181,9 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.65.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper6.65.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.67.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper6.67.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.68.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper6.68.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.69.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper6.69.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.70.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper6.70.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.71.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper6.71.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper6.965.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper6.965.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.10.0.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/sws2.10.0.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/sws2.10.1.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/sws2.10.1.1.png</source>
@@ -1487,6 +1490,10 @@ new in this release:
 
 New features in 4.75
 
+-   FXManagement: GetFXAutoBypass_FXStateChunk - sets autobypass state
+    of an fx within an FXStateChunk
+-   FXManagement: SetFXAutoBypass_FXStateChunk - sets autobypass state
+    of an fx within an FXStateChunk
 -   GFX-Functions: GFX_ResizeImageKeepAspectRatio - resizes a loaded
     image while keeping aspect ratio
 -   PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a
@@ -1522,9 +1529,13 @@ Changes from 4.7 to 4.75
 
 -   API: Modulator3000 - reverted speedup of the speedup, as it had
     trouble on 32-bit-machines -> thanks binbinfr
+-   Docs: updated to Reaper 6.71; config-variable-docs has improved
+    index
 -   ErrorMessagingSystem: SLEM/ShowLastErrorMessage/SFEM - return now
     the function, linenumber and sourcefile, in which AddErrorMessage
     was called
+-   FXManagement: GetFXFromFXStateChunk - rewritten from scratch, should
+    be more stable now
 -   MarkerManagement: CountAllCustomMarkers - allows now counting
     custom-markers within a start and end-time
 -   MarkerManagement: CountNormalMarkers - allows now counting normal
@@ -1579,7 +1590,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1616 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54692 from 23.11.2022 22:54:01).}
+a 1618 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54968 from 03.12.2022 01:21:19).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1593,7 +1604,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1616 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1618 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -1717,7 +1728,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1616 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54692 from 23.11.2022 22:54:01).}
+a 1618 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 54968 from 03.12.2022 01:21:19).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1731,7 +1742,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1616 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1618 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
