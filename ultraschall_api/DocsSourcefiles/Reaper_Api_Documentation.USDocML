@@ -19639,7 +19639,7 @@
             MediaTrack track - the track, whose panning you want to set
             number pan - the pan-value; -1=-100%, -0.01=-1%, 0=center, 0.01=1%, 1=100%
             boolean relative - true, change relative to the current value; false, set to absolute value
-            boolean done - unknown
+            boolean done - false, allow touch controls; true, finish touch controls
             integer igngroupflags - &1 to prevent track grouping
                                   - &2 to prevent selection ganging
         </parameters>
@@ -19802,7 +19802,7 @@
             MediaTrack track - the track, whose volume you want to set
             number volume - the volume in dB
             boolean relative - true, change relative to the current value; false, set to absolute value
-            boolean done - unknown
+            boolean done - false, allow touch controls; true, finish touch controls
             integer igngroupflags - &1 to prevent track grouping
                                   - &2 to prevent selection ganging
         </parameters>
@@ -19842,7 +19842,7 @@
             MediaTrack track - the track, whose width you want to set
             integer width - the width-mode; -1=-100%, 0=mono; 1=100%
             boolean relative - true, change relative to the current value; false, set to absolute value
-            boolean done - unknown
+            boolean done - false, allow touch controls; true, finish touch controls
             integer igngroupflags - &1 to prevent track grouping
                                   - &2 to prevent selection ganging
         </parameters>
@@ -20716,6 +20716,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data getting
         </changelog>
     </US_DocBloc>
 
@@ -21261,6 +21262,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data setting
         </changelog>
     </US_DocBloc>
 
@@ -23069,7 +23071,7 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_GetNamedConfigParm(MediaTrack track, integer fx, string parmname)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, String parmname, String bufOutNeedBig, Int bufOutNeedBig_sz) = RPR_TrackFX_GetNamedConfigParm(track, fx, parmname, bufOutNeedBig, bufOutNeedBig_sz)</functioncall>
         <requires>
-            Reaper=6.67
+            Reaper=6.71
         </requires>
         <description prog_lang="*">
             gets plug-in specific named configuration value (returns true on success). 
@@ -23119,6 +23121,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data getting
         </changelog>
     </US_DocBloc>
 
@@ -23874,6 +23877,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data setting
         </changelog>
     </US_DocBloc>
 

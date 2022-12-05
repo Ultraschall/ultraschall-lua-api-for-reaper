@@ -317,13 +317,15 @@ Has now 1590 functions, with XX new ones
   - FXManagement: GetFXAutoBypass\_FXStateChunk - sets autobypass state of an fx within an FXStateChunk
   - FXManagement: SetFXAutoBypass\_FXStateChunk - sets autobypass state of an fx within an FXStateChunk
   - GFX-Functions: GFX\_ResizeImageKeepAspectRatio - resizes a loaded image while keeping aspect ratio
+  - PodcastMetadata: CountContributors - counts the podcast contributors stored in an opened project
   - PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a chapter as JSON  
   - PodcastMetadata: GetEpisodeAttributesAsJSON get the metadata of an episode as JSON
-  - PodcastMetadata: GetPodcastAttributesAsJSON get the metadata of a podcast as JSON
+  - PodcastMetadata: GetPodcastAttributesAsJSON get the metadata of a podcast as JSON  
   - PodcastMetadata: GetPodcastEpisodeAttributesPreset\_Name - gets the name of an episode-metadata-preset
   - PodcastMetadata: GetPodcastAttributePresetSlotByName - gets the preset-slot of podcast-presets by its name
   - PodcastMetadata: GetEpisodeAttributePresetSlotByName - gets the preset-slot of episode-presets by its name
   - PodcastMetadata: GetPodcastAttributesPreset\_Name - gets the name of a podcast-metadata-preset
+  - PodcastMetadata: GetPodcastContributorAttributesAsJSON - gets the contributors as JSON
   - PodcastMetadata: GetSetContributor\_Attributes - gets/sets the attributes of an episode's contributor  
   - PodcastMetadata: GetSetPodcastWebsite - gets/sets websites for a podcast
   - PodcastMetadata: GetShownoteAttributesAsJSON get the metadata of a shownote as JSON

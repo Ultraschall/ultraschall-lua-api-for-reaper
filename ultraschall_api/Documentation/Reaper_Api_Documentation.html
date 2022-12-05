@@ -20815,7 +20815,7 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <hr>
 <a class="anch" id="TrackFX_GetNamedConfigParm"></a>
 <a href="#TrackFX_GetNamedConfigParm"> ^</a> 
-<img width="3%" src="gfx/reaper6.67.png" alt="Reaper version 6.67"><u><b>TrackFX_GetNamedConfigParm</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.71.png" alt="Reaper version 6.71"><u><b>TrackFX_GetNamedConfigParm</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> retval = <em>TrackFX_GetNamedConfigParm</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>const</i> <i>char*</i> parmname, <i>char*</i> bufOutNeedBig, <i>int</i> bufOutNeedBig_sz)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> retval = <em>TrackFX_GetNamedConfigParm</em>(<i>MediaTrack</i> track, <i>int</i> fx, "parmname", #buf)</code></div>
@@ -64030,7 +64030,7 @@ igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> done</td></tr>
-<tr><td class="ch2">unknown</td></tr>
+<tr><td class="ch2">false, allow touch controls; true, finish touch controls</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
@@ -64207,7 +64207,7 @@ igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> done</td></tr>
-<tr><td class="ch2">unknown</td></tr>
+<tr><td class="ch2">false, allow touch controls; true, finish touch controls</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> igngroupflags</td></tr>
@@ -64255,7 +64255,7 @@ igngroupflags: &1 to prevent track grouping, &2 to prevent selection ganging<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> done</td></tr>
-<tr><td class="ch2">unknown</td></tr>
+<tr><td class="ch2">false, allow touch controls; true, finish touch controls</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> igngroupflags</td></tr>

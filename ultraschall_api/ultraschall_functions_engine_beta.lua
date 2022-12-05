@@ -1850,10 +1850,12 @@ function ultraschall.GetPodcastAttributesAsJSON()
   <tags>metadata, get, podcast, metadata, json, podmeta_v1</tags>
 </US_DocBloc>
 ]]
-  local JSON="\"podc\":{ \n"
+  local JSON="\"podc\":{\n"
+  local found=false
   for i=1, #ultraschall.PodcastAttributes do
     local retval, content = ultraschall.GetSetPodcast_Attributes(false, ultraschall.PodcastAttributes[i], "")
     if retval==true and content~="" then
+      found=true
       content=string.gsub(content, "\"", "\\\"")
       content=string.gsub(content, "\\n", "\\\\n")
       content=string.gsub(content, "\n", "\\n")
@@ -1863,11 +1865,15 @@ function ultraschall.GetPodcastAttributesAsJSON()
   --]]
   local websites=string.gsub(ultraschall.PodcastMetaData_ExportWebsiteAsJSON(), "\n", "\n\t")
   if websites~="" then 
-    JSON=JSON.."\t"..string.gsub(ultraschall.PodcastMetaData_ExportWebsiteAsJSON(), "\n", "\n\t").."\n\t}\n"
+    JSON=JSON.."\t"..string.gsub(ultraschall.PodcastMetaData_ExportWebsiteAsJSON(), "\n", "\n\t").."\n\t}"
   else
-    JSON=JSON:sub(1,-3).."\n\t}\n"
+    JSON=JSON:sub(1,-3).."\n\t}"
   end
-  return JSON
+  if found==false then 
+    return "\"podc\":{}"
+  else
+    return JSON
+  end
 end
 
 --print3(ultraschall.PodcastMetadata_GetPodcastAttributesAsJSON())
@@ -1967,11 +1973,12 @@ function ultraschall.GetEpisodeAttributesAsJSON()
         path=string.gsub(path, "\\", "/")
         path=path:match("(.*)/")
         content=ultraschall.Base64_Encoder(ultraschall.ReadFullFile(path.."/"..content, true))
+        if content==nil then content="" end
       end
       JSON=JSON.."\t\t\""..ultraschall.EpisodeAttributes[i].."\":\""..content.."\",\n"
     end
   end
-  JSON=JSON:sub(1,-3).."\n\t}\n"
+  JSON=JSON:sub(1,-3).."\n\t}"
   return JSON
 end
 
@@ -2042,7 +2049,7 @@ function ultraschall.GetChapterAttributesAsJSON(chaptermarker_id, shown_id, with
       if attribute=="chap_image" then
         JSON=JSON.."\t\""..tostring(attribute).."\":\""..ultraschall.Base64_Encoder(content).."\",\n"
       elseif attribute=="chap_position" then 
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(position).."\",\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(string.format("%.4f", position)).."\",\n"
       elseif attribute=="chap_image_path" then
         local prj, path=reaper.EnumProjects(-1)
         path=string.gsub(path, "\\", "/")
@@ -2058,7 +2065,7 @@ function ultraschall.GetChapterAttributesAsJSON(chaptermarker_id, shown_id, with
       
     end
   end  
-  JSON=JSON:sub(1,-3).."\n}\n"
+  JSON=JSON:sub(1,-3).."\n}"
   return JSON
 end
 
@@ -2127,7 +2134,7 @@ function ultraschall.GetShownoteAttributesAsJSON(shownotemarker_id, shown_id, wi
       if attribute=="chap_image" then
         JSON=JSON.."\t\""..tostring(attribute).."\":\""..ultraschall.Base64_Encoder(content).."\",\n"
       elseif attribute=="shwn_position" then
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(position).."\",\n"
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(string.format("%.4f", position)).."\",\n"
       elseif attribute=="chap_image_path" then
         local prj, path=reaper.EnumProjects(-1)
         path=string.gsub(path, "\\", "/")
@@ -2195,36 +2202,58 @@ function ultraschall.PodcastMetadata_CreateJSON_Entry(start_time, end_time, offs
   
   if filename~=nil and type(filename)~="string" then ultraschall.AddErrorMessage("PodcastMetadata_CreateJSON_Entry", "filename", "must be nil or a string", -7) return end
 
-  -- add podcast-attributes
-  local JSON="{\n\t\"PodMeta_Standard\":\"1.0\",\n"
-  JSON=JSON.."\t"..string.gsub(ultraschall.GetPodcastAttributesAsJSON(), "\n", "\t\n"):sub(1,-3)..",\n"
+  local JSON="{\n\t\"PodMeta\":\"version 1.0\","
+  JSON=JSON.."\n\t\"PodMetaContent\":{\n"
+  local NumChapter=ultraschall.CountNormalMarkers()
+  local NumShownotes=ultraschall.CountShownoteMarkers()
+  local chapter, shownote
   
-  -- add episode attributes
-  JSON=JSON.."\t"..string.gsub(ultraschall.GetEpisodeAttributesAsJSON(), "\n", "\t\n"):sub(1,-3)..",\n"
+  -- Podcast
+  JSON=JSON.."\t\t"..string.gsub(ultraschall.GetPodcastAttributesAsJSON(), "\n", "\n\t")..",\n"
+   
+  -- Episode
+  JSON=JSON.."\t\t"..string.gsub(ultraschall.GetEpisodeAttributesAsJSON(), "\n", "\n\t")
   
-  -- add chapters
-  local comma
-  local ChapterNum=ultraschall.CountNormalMarkers(start_time, end_time)
-  if ChapterNum>0 then JSON=JSON:sub(1,-3)..",\n" end 
-  chapter_num=1
-  for i=1, ChapterNum do
-    chapter=ultraschall.GetChapterAttributesAsJSON(i, chapter_num, start_time, end_time, offset)
-    if chapter~="" then chapter_num=chapter_num+1 end
-    if chapter~="" and i==1 then JSON=JSON:sub(1,-3)..",\n" end
-    JSON=JSON.."\t"..string.gsub(chapter, "\n", "\n\t"):sub(1,-3)..",\n"
+  -- Contributors
+  if ultraschall.CountContributors()>0 then JSON=JSON..",\n" else end
+  local A=ultraschall.GetPodcastContributorAttributesAsJSON()
+  if A~="" then JSON=JSON.."\t\t"..string.gsub(A, "\n", "\n\t\t") end
+  
+  -- Chapters
+  if NumChapter>0 then 
+    JSON=JSON..",\n" 
+    chapter_num=1
+    for i=1, NumChapter do
+      chapter=ultraschall.GetChapterAttributesAsJSON(i, chapter_num, start_time, end_time, offset)
+      if chapter~="" then chapter_num=chapter_num+1 end
+      if chapter~="" and i==1 then 
+        JSON=JSON:sub(1,-3)..",\n"
+        JSON=JSON.."\t\t"..string.gsub(chapter, "\n", "\n\t\t")..",\n"
+      end
+    end
+    JSON=JSON:sub(1,-3)
+  else 
+    --JSON=JSON.."\nHUH?"
   end
- --JSON=JSON.."\n "
 
-  -- add Shownotes
-  local ShownoteNum=ultraschall.CountShownoteMarkers(start_time, end_time)
-  shownote_num=1
-  for i=1, ShownoteNum do  
-    shownote=ultraschall.GetShownoteAttributesAsJSON(i, shownote_num, start_time, end_time, offset)
-    if shownote~="" then shownote_num=shownote_num+1 end
-    JSON=JSON.."\t"..string.gsub(shownote, "\n", "\n\t"):sub(1,-3)..",\n"
+  -- Shownotes
+  if NumShownotes>0 then 
+    JSON=JSON..",\n" 
+    shownote_num=1
+    for i=1, NumShownotes do
+      shownote=ultraschall.GetShownoteAttributesAsJSON(i, shownote_num, start_time, end_time, offset)
+      if shownote~="" then 
+        shownote_num=shownote_num+1
+        JSON=JSON.."\t\t"..string.gsub(shownote, "\n", "\n\t\t")..",\n"
+      end
+    end
+    JSON=JSON:sub(1,-3)
+    --]]
+  else 
+    JSON=JSON.."\n" 
   end
-  
-  JSON=JSON:sub(1,-3).."\n}"
+  --]]
+  JSON=JSON:sub(1,-1).."\n\t}\n}"  
   
   if do_id3==true then
     reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:PodMeta|"..JSON, true)
@@ -2252,7 +2281,22 @@ function ultraschall.PodcastMetadata_CreateJSON_Entry(start_time, end_time, offs
       return 
     end
   end
+    
   
+  local function TestJson()
+    --print3(JSON)
+    -- test for validity(testsystem only)
+    if reaper.file_exists(reaper.GetResourcePath().."/jq-win64.exe")==true then
+      ultraschall.WriteValueToFile(reaper.GetResourcePath().."/JSON-test.txt", JSON.."")
+      os.execute(reaper.GetResourcePath().."/JSON-test.Bat")
+    end
+    gfx.quit()
+  end
+  
+  ---WriteMessage("Podcast")
+  --reaper.defer(CreatePodcastEntry)
+  
+  TestJson()
   return JSON
 end
 
@@ -2367,12 +2411,15 @@ end
 --print3(A)
 
 ultraschall.PodcastContributorAttributes = {
-  "epsd_contributor_name",
-  "epsd_contributor_description",
-  "epsd_contributor_email",
+  "ctrb_name",
+  "ctrb_description",
+  "ctrb_email",
+  "ctrb_website_name",
+  "ctrb_website_description",
+  "ctrb_website_url"
 }
 
-function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, content, preset_slot)
+function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, additional_attribute, content, preset_slot)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetContributor_Attributes</slug>
@@ -2390,9 +2437,15 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
     
     Accepted attributes are:
     
-      epsd_contributor_name - the name of the contributor
-      epsd_contributor_description - a description of the contributor
-      epsd_contributor_email - the email of the contributor
+      ctrb_name - the name of the contributor
+      ctrb_description - a description of the contributor
+      ctrb_email - the email of the contributor
+      
+      The following store websites for a contributor. The parameter additional_attribute represents the website-index.
+      So when additional_attribute=1 then the following attributes are for website number 1, when additional_attribute=2 then they are for website number 2.
+      ctrb_website_name - the name of the website; additional_attribute must be set to 1 and higher
+      ctrb_website_description - the name of the website; additional_attribute must be set to 1 and higher
+      ctrb_website_url - the name of the website; additional_attribute must be set to 1 and higher
       
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
     
@@ -2404,8 +2457,9 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
     boolean is_set - true, set the attribute; false, retrieve the current content
     integer index - the index of the contributor to store, 1 and higher
     string attributename - the name of the attribute for the contributor
+    string additional_attribute - the additional attribute for some attributes; set to nil, if not needed.
     string content - the value for this contributor
-    optional index preset_slot - nil, don't return any preset's content; 1 and higher, set/return the website of the index-slot
+    optional index preset_slot - nil, don't return any preset's content; 1 and higher, set/return the contributor's entry as stored in the presets
   </parameters>
   <retvals>
     boolean retval - true, if the url could be set; false, if an error occurred
@@ -2417,7 +2471,7 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
-  <tags>metadata, get, set, podcast, website</tags>
+  <tags>metadata, get, set, contributor</tags>
 </US_DocBloc>
 ]]
 --is_set, index, attributename, content, preset_slot
@@ -2426,6 +2480,12 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "must be a string", -3) return false end
   if type(content)~="string" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "content", "must be a string", -4) return false end
   if preset_slot~=nil and math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "preset_slot", "must be an integer", -5) return false end
+  if attributename=="ctrb_website_name" or attributename=="ctrb_website_description" or attributename=="ctrb_website_url" then
+    if math.type(tonumber(additional_attribute))~="integer" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "preset_slot", "must be a string representing an integer 1 or higher", -6) return false end
+  else
+    additional_attribute=nil
+  end
+  if additional_attribute==nil then additional_attribute="" else additional_attribute="_"..additional_attribute end
   local tags=ultraschall.PodcastContributorAttributes 
   local presetcontent, retval
   local found=false
@@ -2435,38 +2495,39 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
       break
     end
   end
-  if found==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "attributename not supported", -6) return false end
+  if found==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "attributename not supported", -7) return false end
   
   if is_set==true then
     if preset_slot~=nil then
       content=string.gsub(content, "\r", "")
-      retval = ultraschall.SetUSExternalState("PodcastMetaData_"..preset_slot, attributename.."_"..index, string.gsub(content, "\n", "\\n"), "ultraschall_podcast_presets.ini")
-      if retval==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "", "can not write to ultraschall_podcast_presets.ini", -7) return false end
+      retval = ultraschall.SetUSExternalState("ContributorsMetaData_"..preset_slot, attributename.."_"..index..additional_attribute, string.gsub(content, "\n", "\\n"), "ultraschall_podcast_presets.ini")
+      if retval==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "", "can not write to ultraschall_podcast_presets.ini", -8) return false end
       presetcontent=content
       return retval, content
     else
       presetcontent=nil
     end
     
-    local _,A1=reaper.GetProjExtState(0, "PodcastMetaData", "epsd_contributors_maxindex")
+    local _,A1=reaper.GetProjExtState(0, "ContributorsMetaData_", "ctrb_contributors_maxindex")
     if A1=="" or index>tonumber(A1) then
-      reaper.SetProjExtState(0, "PodcastMetaData", "epsd_contributors_maxindex", index)
+      reaper.SetProjExtState(0, "ContributorsMetaData_", "ctrb_contributors_maxindex", index)
     end
-    _=reaper.SetProjExtState(0, "EpisodeMetaData", attributename..index, content)
+    _=reaper.SetProjExtState(0, "ContributorsMetaData_", attributename..index..additional_attribute, content)
     return _>0, content, presetcontent
   else
     if preset_slot~=nil then
       --print2("")
       local old_errorcounter = ultraschall.CountErrorMessages()
-      presetcontent=ultraschall.GetUSExternalState("PodcastMetaData_"..preset_slot, attributename.."_"..index, "ultraschall_podcast_presets.ini")
+      presetcontent=ultraschall.GetUSExternalState("ContributorsMetaData_"..preset_slot, attributename.."_"..index..additional_attribute, "ultraschall_podcast_presets.ini")
+      if presetcontent=="" then return false, "" end
       if old_errorcounter~=ultraschall.CountErrorMessages() then
-        ultraschall.AddErrorMessage("GetSetContributor_Attributes", "", "can not retrieve value from ultraschall_podcast_presets.ini", -8)
+        ultraschall.AddErrorMessage("GetSetContributor_Attributes", "", "can not retrieve value from ultraschall_podcast_presets.ini", -9)
         return false
       end
       presetcontent=string.gsub(presetcontent, "\\n", "\n")
       return true, presetcontent
     end
-    local _, content = reaper.GetProjExtState(0, "EpisodeMetaData", attributename..index)
+    local _, content = reaper.GetProjExtState(0, "ContributorsMetaData_", attributename..index..additional_attribute)
     return _>0, content
   end
 end
@@ -2564,3 +2625,105 @@ end
 
 --ultraschall.SetPodcastEpisodeAttributesPreset_Name(1021, "orbital")
 --A=ultraschall.GetPodcastEpisodePresetSlotByPresetName(1)
+
+function ultraschall.GetPodcastContributorAttributesAsJSON()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetPodcastContributorAttributesAsJSON</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>string podcastmetadata_json = ultraschall.GetPodcastContributorAttributesAsJSON()</functioncall>
+  <description>
+    Returns the MetaDataEntry for contributors as JSON according to PodMeta_v1-standard..
+  </description>
+  <retvals>
+    string contributorsmetadata_json - the contributor's-metadata as json
+  </retvals>
+  <chapter_context>
+    Metadata Management
+    Podcast Metadata
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>metadata, get, contributor, metadata, json, podmeta_v1</tags>
+</US_DocBloc>
+]]
+  local JSON=""
+  local _, max_index=reaper.GetProjExtState(0, "ContributorsMetaData_", "ctrb_contributors_maxindex")
+  if max_index=="" then max_index=0 end
+  for a=1, tonumber(max_index) do
+    JSON=JSON.."\"ctrb_"..a.."\":{ \n"
+    for i=1, #ultraschall.PodcastContributorAttributes-3 do
+      local retval, content = ultraschall.GetSetContributor_Attributes(false, a, ultraschall.PodcastContributorAttributes[i], nil, "")
+      if retval==true and content~="" then
+        content=string.gsub(content, "\"", "\\\"")
+        content=string.gsub(content, "\\n", "\\\\n")
+        content=string.gsub(content, "\n", "\\n")
+        JSON=JSON.."\t\t\""..ultraschall.PodcastContributorAttributes[i].."\":\""..content.."\",\n"
+      end
+    end
+    -- contributor's websites
+    local count=0
+    for b=1, 1024 do
+      local retval1, name = ultraschall.GetSetContributor_Attributes(false, a, "ctrb_website_name", b, "")
+      local retval2, description = ultraschall.GetSetContributor_Attributes(false, a, "ctrb_website_description", b, "")
+      local retval3, url = ultraschall.GetSetContributor_Attributes(false, a, "ctrb_website_url", b, "")           
+      if retval1==true or retval2==true or retval3==true then
+        name=string.gsub(name, "\"", "\\\"")
+        name=string.gsub(name, "\\n", "\\\\n")
+        name=string.gsub(name, "\n", "\\n")
+        
+        description=string.gsub(description, "\"", "\\\"")
+        description=string.gsub(description, "\\n", "\\\\n")
+        description=string.gsub(description, "\n", "\\n")
+        
+        url=string.gsub(url, "\"", "\\\"")
+        url=string.gsub(url, "\\n", "\\\\n")
+        url=string.gsub(url, "\n", "\\n")
+       --print2(a, b, name, description, url)
+        count=count+1
+        JSON=JSON.."\t\t\"ctrb_website_"..count.."\":{\n"
+        JSON=JSON.."\t\t\t\"ctrb_website_name\":\""..name.."\",\n"
+        JSON=JSON.."\t\t\t\"ctrb_website_description\":\""..description.."\",\n"
+        JSON=JSON.."\t\t\t\"ctrb_website_url\":\""..url.."\"\n"
+        JSON=JSON.."\t\t},\n"
+      end
+    end
+    JSON=JSON:sub(1,-3).."\n},\n"
+  end
+
+  return JSON:sub(1,-3)
+end
+
+function ultraschall.CountContributors()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountContributors</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>integer contributors_count = ultraschall.CountContributors()</functioncall>
+  <description>
+    Returns the number of podcast-contributors stored in this project.
+  </description>
+  <retvals>
+    integer contributors_count - the number of stored contributors in this project
+  </retvals>
+  <chapter_context>
+    Metadata Management
+    Podcast Metadata
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
+  <tags>metadata, count, contributor</tags>
+</US_DocBloc>
+]]
+  local _, max_index=reaper.GetProjExtState(0, "ContributorsMetaData_", "ctrb_contributors_maxindex")
+  if max_index=="" then max_index=0 end
+  return tonumber(max_index)
+end
