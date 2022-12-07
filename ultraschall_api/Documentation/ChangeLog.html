@@ -82,7 +82,18 @@ Bla</li>
 <li>PodcastMetadata: GetSetPodcast_Attributes - can now get/store attributes either in the current project or a preset, not in both at the same time; removed websites; will be done by GetSetPodcastWebsite instead</li>
 <li>PodcastMetadata: GetSetPodcastEpisode_Attributes - can now get/store attributes either in the current project or a preset, not in both at the same time</li>
 <li>PodcastMetadata: GetSetShownoteMarker_Attributes - supports now attribute shwn<em>linked</em>audiovideomedia, which allows linking media directly with a time<em>stamp; supports now setting position "shwn</em>position" and markertitle "shwn_title"</li>
-<li>Rendering: CreateNewRenderTable - default RenderTable did return bool instead of integer for FadeOut_Shape -&gt; fixed (thnx to aurelien)</li>
+<li>ProjectFiles: GetProject_RenderStems - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options</li>
+<li>ProjectFiles: SetProject_RenderStems - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options</li>
+<li>RenderManagement: AddRenderPreset - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options</li>
+<li>RenderManagement: ApplyRenderTable_Project - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options; didn't apply various settings -&gt; fixed</li>
+<li>RenderManagement: ApplyRenderTable_ProjectFile - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options</li>
+<li>RenderManagement: CreateNewRenderTable - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options; default RenderTable did return bool instead of integer for FadeOut_Shape -&gt; fixed (thnx to aurelien)</li>
+<li>RenderManagement: GetRenderPreset_RenderTable - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options</li>
+<li>RenderManagement: GetRenderTable_Project - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options</li>
+<li>RenderManagement: GetRenderTable_ProjectDefaults - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options</li>
+<li>RenderManagement: GetRenderTable_ProjectFile - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options</li>
+<li>RenderManagement: IsValidRenderTable - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options</li>
+<li>RenderManagement: SetRenderPreset - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options; fixed edge-cases that could prevent presets from being replaced with the new one</li>
 </ul>
 <hr />
 <h3>4.7 - "Pearl Jam - Alive" - 16th of October 2022</h3>

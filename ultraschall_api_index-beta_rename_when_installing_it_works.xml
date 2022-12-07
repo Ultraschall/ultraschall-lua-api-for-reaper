@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55007.00" author="Meo Mespotine">
+      <version name="55020.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -1564,9 +1564,44 @@ Changes from 4.7 to 4.75
     attribute shwn_linked_audiovideomedia, which allows linking media
     directly with a time_stamp; supports now setting position
     “shwn_position” and markertitle “shwn_title”
--   Rendering: CreateNewRenderTable - default RenderTable did return
-    bool instead of integer for FadeOut_Shape -> fixed (thnx to
-    aurelien)
+-   ProjectFiles: GetProject_RenderStems - supports now new “Render
+    stems pre-fader” and “Only render channels that are sent to parent”
+    options
+-   ProjectFiles: SetProject_RenderStems - supports now new “Render
+    stems pre-fader” and “Only render channels that are sent to parent”
+    options
+-   RenderManagement: AddRenderPreset - supports now new “Render stems
+    pre-fader” and “Only render channels that are sent to parent”
+    options
+-   RenderManagement: ApplyRenderTable_Project - supports now new
+    “Render stems pre-fader” and “Only render channels that are sent to
+    parent” options; didn’t apply various settings -> fixed
+-   RenderManagement: ApplyRenderTable_ProjectFile - supports now new
+    “Render stems pre-fader” and “Only render channels that are sent to
+    parent” options
+-   RenderManagement: CreateNewRenderTable - supports now new “Render
+    stems pre-fader” and “Only render channels that are sent to parent”
+    options; default RenderTable did return bool instead of integer for
+    FadeOut_Shape -> fixed (thnx to aurelien)
+-   RenderManagement: GetRenderPreset_RenderTable - supports now new
+    “Render stems pre-fader” and “Only render channels that are sent to
+    parent” options
+-   RenderManagement: GetRenderTable_Project - supports now new “Render
+    stems pre-fader” and “Only render channels that are sent to parent”
+    options
+-   RenderManagement: GetRenderTable_ProjectDefaults - supports now new
+    “Render stems pre-fader” and “Only render channels that are sent to
+    parent” options
+-   RenderManagement: GetRenderTable_ProjectFile - supports now new
+    “Render stems pre-fader” and “Only render channels that are sent to
+    parent” options
+-   RenderManagement: IsValidRenderTable - supports now new “Render
+    stems pre-fader” and “Only render channels that are sent to parent”
+    options
+-   RenderManagement: SetRenderPreset - supports now new “Render stems
+    pre-fader” and “Only render channels that are sent to parent”
+    options; fixed edge-cases that could prevent presets from being
+    replaced with the new one
 ]]>
 </changelog>
       </version>
@@ -1594,7 +1629,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1620 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55007 from 05.12.2022 17:08:00).}
+a 1620 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55020 from 07.12.2022 19:31:43).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1732,7 +1767,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1620 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55007 from 05.12.2022 17:08:00).}
+a 1620 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55020 from 07.12.2022 19:31:43).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
