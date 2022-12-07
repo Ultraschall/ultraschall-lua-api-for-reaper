@@ -2701,6 +2701,70 @@ else
     ultraschall.LM(18)
     return ultraschall.GetSetShownoteMarker_Attributes(table.unpack({...}))
   end
+  function ultraschall.GetPodcastAttributesAsJSON(...)
+    ultraschall.LM(18)
+    return ultraschall.GetPodcastAttributesAsJSON(table.unpack({...}))
+  end
+  function ultraschall.PodcastMetaData_ExportWebsiteAsJSON(...)
+    ultraschall.LM(18)
+    return ultraschall.PodcastMetaData_ExportWebsiteAsJSON(table.unpack({...}))
+  end
+  function ultraschall.GetEpisodeAttributesAsJSON(...)
+    ultraschall.LM(18)
+    return ultraschall.GetEpisodeAttributesAsJSON(table.unpack({...}))
+  end
+  function ultraschall.GetChapterAttributesAsJSON(...)
+    ultraschall.LM(18)
+    return ultraschall.GetChapterAttributesAsJSON(table.unpack({...}))
+  end
+  function ultraschall.GetShownoteAttributesAsJSON(...)
+    ultraschall.LM(18)
+    return ultraschall.GetShownoteAttributesAsJSON(table.unpack({...}))
+  end
+  function ultraschall.PodcastMetadata_CreateJSON_Entry(...)
+    ultraschall.LM(18)
+    return ultraschall.PodcastMetadata_CreateJSON_Entry(table.unpack({...}))
+  end
+  function ultraschall.GetSetPodcast_Attributes(...)
+    ultraschall.LM(18)
+    return ultraschall.GetSetPodcast_Attributes(table.unpack({...}))
+  end
+  function ultraschall.GetSetContributor_Attributes(...)
+    ultraschall.LM(18)
+    return ultraschall.GetSetContributor_Attributes(table.unpack({...}))
+  end
+  function ultraschall.GetPodcastAttributePresetSlotByName(...)
+    ultraschall.LM(18)
+    return ultraschall.GetPodcastAttributePresetSlotByName(table.unpack({...}))
+  end
+  function ultraschall.GetEpisodeAttributePresetSlotByName(...)
+    ultraschall.LM(18)
+    return ultraschall.GetEpisodeAttributePresetSlotByName(table.unpack({...}))
+  end
+  function ultraschall.GetPodcastContributorAttributesAsJSON(...)
+    ultraschall.LM(18)
+    return ultraschall.GetPodcastContributorAttributesAsJSON(table.unpack({...}))
+  end
+  function ultraschall.CountContributors(...)
+    ultraschall.LM(18)
+    return ultraschall.CountContributors(table.unpack({...}))
+  end
+  function ultraschall.SetPodcastAttributesPreset_Name(...)
+    ultraschall.LM(18)
+    return ultraschall.SetPodcastAttributesPreset_Name(table.unpack({...}))
+  end
+  function ultraschall.GetPodcastAttributesPreset_Name(...)
+    ultraschall.LM(18)
+    return ultraschall.GetPodcastAttributesPreset_Name(table.unpack({...}))
+  end
+  function ultraschall.SetPodcastEpisodeAttributesPreset_Name(...)
+    ultraschall.LM(18)
+    return ultraschall.SetPodcastEpisodeAttributesPreset_Name(table.unpack({...}))
+  end
+  function ultraschall.GetPodcastEpisodeAttributesPreset_Name(...)
+    ultraschall.LM(18)
+    return ultraschall.GetPodcastEpisodeAttributesPreset_Name(table.unpack({...}))
+  end
   function ultraschall.GetItemPosition(...)
     ultraschall.LM(19)
     return ultraschall.GetItemPosition(table.unpack({...}))

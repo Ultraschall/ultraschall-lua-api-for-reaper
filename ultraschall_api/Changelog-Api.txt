@@ -266,7 +266,6 @@ Note: Doesn't fucking work...
     toggle to enable/disable all FX instance oversampling settings
   
 - Render To Do:
- - Render stems-prefade added now
  - save outfile-statistics added now(is global setting)
  - GetRenderPreset\_RenderTable - please rewrite, the code is a mess for _EXT. Needs a much more robust solution...
  
@@ -303,9 +302,9 @@ ToDo Marker Menu:
 
 ## Ultraschall Framework - Changelog
 
-### 4.75 - "Soundgarden - Black Hole Sun" - 26th of November 2022
+### 4.75 - "Soundgarden - Black Hole Sun" - 15th of December 2022
 
-Has now 1590 functions, with XX new ones
+Has now 1609 functions, with 19 new ones
 
 **new in this release:**  
 
