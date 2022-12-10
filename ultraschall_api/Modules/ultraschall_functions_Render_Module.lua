@@ -9402,7 +9402,7 @@ function ultraschall.GetSetRenderBlocksize(is_set, value)
     <requires>
       Ultraschall=4.5
       Reaper=6.20
-      SWS=2.10.01
+      SWS=2.10.0.1
       Lua=5.3
     </requires>
     <functioncall>integer blocksize = ultraschall.GetSetRenderBlocksize(boolean is_set, integer value)</functioncall>
@@ -9646,5 +9646,97 @@ function ultraschall.ResolvePresetName(bounds_name, options_and_formats_name)
     end
   end
   return foundbounds, found_options
+end
+
+function ultraschall.SetRender_SaveRenderStats(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_SaveRenderStats</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.71
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRender_SaveRenderStats(boolean state)</functioncall>
+  <description>
+    Sets the "Save outfile.render_stats.html"-checkboxstate of the Render to File-dialog.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <parameters>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render, set, checkbox, render, save outfile renderstats</tags>
+</US_DocBloc>
+]]
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRender_SaveRenderStats", "state", "must be a boolean", -1) return false end
+  local SaveCopyOfProject, hwnd, retval
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd~=nil then
+    if state==true then newstate=1 else newstate=0 end
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1174), "BM_SETCHECK", newstate,0,0,0)
+    retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "renderqdelay", newstate, reaper.get_ini_file())
+  end
+
+  local nstate=reaper.SNM_GetIntConfigVar("renderclosewhendone", 0)
+  if nstate&32768==0 and state==true then nstate=nstate+32768
+  elseif nstate&32768==32768 and state==false then nstate=nstate-32768 end
+
+  local A=reaper.SNM_SetIntConfigVar("renderclosewhendone", nstate)
+  retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "renderclosewhendone", nstate, reaper.get_ini_file())
+  if retval==false then ultraschall.AddErrorMessage("SetRender_SaveRenderStats", "", "couldn't write to reaper.ini", -2) return false end
+  return retval
+end
+
+--ultraschall.SetRender_QueueDelay(true)
+--SLEM()
+
+function ultraschall.GetRender_SaveRenderStats()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_QueueDelay</slug>
+  <requires>
+    Ultraschall=4.75
+    Reaper=6.71
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.GetRender_QueueDelay()</functioncall>
+  <description>
+    Sets the "Save outfile.render_stats.html"-checkboxstate of the Render to File-dialog.
+  </description>
+  <retvals>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Render Settings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render, get, checkbox, render, outfile renderstats</tags>
+</US_DocBloc>
+]]
+  local SaveCopyOfProject, hwnd, retval, length, state
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    state=reaper.SNM_GetIntConfigVar("renderclosewhendone", 0)&32768==1
+  else
+    state = reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1174), "BM_GETCHECK", 0,0,0,0)
+    if state==0 then state=false else state=true end
+  end
+  return state
 end
 

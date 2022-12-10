@@ -1309,10 +1309,6 @@ else
     ultraschall.LM(12)
     return ultraschall.GetFXFloatPos_FXStateChunk(table.unpack({...}))
   end
-  function ultraschall.GetFXAutoBypass_FXStateChunk(...)
-    ultraschall.LM(12)
-    return ultraschall.GetFXAutoBypass_FXStateChunk(table.unpack({...}))
-  end
   function ultraschall.GetFXGuid_FXStateChunk(...)
     ultraschall.LM(12)
     return ultraschall.GetFXGuid_FXStateChunk(table.unpack({...}))
@@ -1360,10 +1356,6 @@ else
   function ultraschall.SetFXFloatPos_FXStateChunk(...)
     ultraschall.LM(12)
     return ultraschall.SetFXFloatPos_FXStateChunk(table.unpack({...}))
-  end
-  function ultraschall.SetFXAutoBypass_FXStateChunk(...)
-    ultraschall.LM(12)
-    return ultraschall.SetFXAutoBypass_FXStateChunk(table.unpack({...}))
   end
   function ultraschall.AddParmLearn_FXStateChunk2(...)
     ultraschall.LM(12)
@@ -1444,6 +1436,22 @@ else
   function ultraschall.GetFXByGuid(...)
     ultraschall.LM(12)
     return ultraschall.GetFXByGuid(table.unpack({...}))
+  end
+  function ultraschall.SetFXAutoBypassSettings(...)
+    ultraschall.LM(12)
+    return ultraschall.SetFXAutoBypassSettings(table.unpack({...}))
+  end
+  function ultraschall.GetFXAutoBypassSettings(...)
+    ultraschall.LM(12)
+    return ultraschall.GetFXAutoBypassSettings(table.unpack({...}))
+  end
+  function ultraschall.GetFXAutoBypass_FXStateChunk(...)
+    ultraschall.LM(12)
+    return ultraschall.GetFXAutoBypass_FXStateChunk(table.unpack({...}))
+  end
+  function ultraschall.SetFXAutoBypass_FXStateChunk(...)
+    ultraschall.LM(12)
+    return ultraschall.SetFXAutoBypass_FXStateChunk(table.unpack({...}))
   end
   function ultraschall.ReadFullFile(...)
     ultraschall.LM(13)
@@ -5216,6 +5224,14 @@ else
   function ultraschall.ResolvePresetName(...)
     ultraschall.LM(29)
     return ultraschall.ResolvePresetName(table.unpack({...}))
+  end
+  function ultraschall.SetRender_SaveRenderStats(...)
+    ultraschall.LM(29)
+    return ultraschall.SetRender_SaveRenderStats(table.unpack({...}))
+  end
+  function ultraschall.GetRender_QueueDelay(...)
+    ultraschall.LM(29)
+    return ultraschall.GetRender_QueueDelay(table.unpack({...}))
   end
   function ultraschall.GetAllThemeLayoutNames(...)
     ultraschall.LM(30)

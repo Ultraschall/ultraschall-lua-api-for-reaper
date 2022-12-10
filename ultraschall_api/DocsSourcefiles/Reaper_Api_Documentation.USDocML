@@ -1166,18 +1166,22 @@
         <functioncall prog_lang="lua">integer retval = reaper.CountActionShortcuts(KbdSectionInfo section, integer cmdID)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_CountActionShortcuts(KbdSectionInfo section, Int cmdID)</functioncall>
         <requires>
-            Reaper=6.71
+            Reaper=6.72
         </requires>
         <description>
             Returns the number of shortcuts that exist for the given command ID.
-            
-            Use SectionFromUniqueID to get the section
         </description>
         <retvals>
             integer retval - the number of available shortcuts for this action
         </retvals>
         <parameters>
             KbdSectionInfo section - the section, in which the action is located, use retval of SectionFromUniqueID for this parameter
+                    -0, Main
+                    -100, Main (alt recording)
+                    -32060, MIDI Editor
+                    -32061, MIDI Event List Editor
+                    -32062, MIDI Inline Editor
+                    -32063, Media Explorer
             integer cmdID - the action command-id of the action, whose shortcuts you want to count
         </parameters>
         <linked_to desc="see:">
@@ -1198,7 +1202,8 @@
         </chapter_context>
         <tags>shortcuts, count</tags>
         <changelog>
-          Reaper 6.71 - added
+          Reaper 6.71 - exposed to ReaScript-API
+          Reaper 6.72 - section allows now the section-numbers as parameter section
         </changelog>
     </US_DocBloc>
 
@@ -3500,7 +3505,13 @@
             boolean retval - true, such shortcuts exists; false, no such shortcut
         </retvals>
         <parameters>
-            KbdSectionInfo section - the section, in which the action is located, use retval of SectionFromUniqueID for this parameter
+            KbdSectionInfo section - the section, in which the action is located
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
             integer cmdID - the action command-id of the action, whose shortcut you want to delete
             integer shortcutidx - the index of the shortcut
         </parameters>
@@ -3522,7 +3533,8 @@
         </chapter_context>
         <tags>shortcuts, delete</tags>
         <changelog>
-            Reaper 6.71 - added
+            Reaper 6.71 - exposed to ReaScript-API
+            Reaper 6.72 - section allows now the section-numbers as parameter section
         </changelog>
     </US_DocBloc>
 
@@ -3984,7 +3996,13 @@
         </retvals>
         <parameters>
             HWND hwnd - unknown, which hwnd to pass over here
-            KbdSectionInfo section - the section, in which the action is located, use retval of SectionFromUniqueID for this parameter
+            KbdSectionInfo section - the section, in which the action is located 
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
             integer cmdID - the action command-id of the action, whose shortcut you want to delete
             integer shortcutidx - the index of the shortcut to add/edit
         </parameters>
@@ -4006,7 +4024,8 @@
         </chapter_context>
         <tags>shortcuts, add, edit</tags>
         <changelog>
-            Reaper 6.71 - added
+            Reaper 6.71 - exposed to ReaScript-API
+            Reaper 6.72 - section allows now the section-numbers as parameter section
         </changelog>
     </US_DocBloc>
     
@@ -5340,12 +5359,12 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetActionShortcutDesc</slug>
         <title>GetActionShortcutDesc</title>
-        <functioncall prog_lang="cpp">bool GetActionShortcutDesc(KbdSectionInfo* section, int cmdID, int shortcutidx, char* desc, int desclen)</functioncall>
-        <functioncall prog_lang="eel">bool GetActionShortcutDesc(KbdSectionInfo section, int cmdID, int shortcutidx, #desc, int desclen)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string desc = reaper.GetActionShortcutDesc(KbdSectionInfo section, integer cmdID, integer shortcutidx, string desc, integer desclen)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, KbdSectionInfo section, Int cmdID, Int shortcutidx, String desc, Int desclen) = RPR_GetActionShortcutDesc(section, cmdID, shortcutidx, desc, desclen)</functioncall>
+        <functioncall prog_lang="cpp">bool GetActionShortcutDesc(KbdSectionInfo* section, int cmdID, int shortcutidx, char* descOut, int descOut_sz)</functioncall>
+        <functioncall prog_lang="eel">bool GetActionShortcutDesc(KbdSectionInfo section, int cmdID, int shortcutidx, #desc)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string desc = reaper.GetActionShortcutDesc(KbdSectionInfo section, integer cmdID, integer shortcutidx)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, KbdSectionInfo section, Int cmdID, Int shortcutidx, String descOut, Int descOut_sz) = RPR_GetActionShortcutDesc(section, cmdID, shortcutidx, descOut, descOut_sz)</functioncall>
         <requires>
-            Reaper=6.71
+            Reaper=6.72
         </requires>
         <description>
             Get the text description of a specific shortcut for the given command ID.
@@ -5355,11 +5374,15 @@
             string desc - the description of the shortcut
         </retvals>
         <parameters>
-            KbdSectionInfo section - the section, in which the action is located, use retval of SectionFromUniqueID for this parameter
+            KbdSectionInfo section - the section, in which the action is located
+                                    -0, Main
+                                    -100, Main (alt recording)
+                                    -32060, MIDI Editor
+                                    -32061, MIDI Event List Editor
+                                    -32062, MIDI Inline Editor
+                                    -32063, Media Explorer
             integer cmdID - the action command-id of the action, whose shortcut's description you want
             integer shortcutidx - the index of the shortcut
-            string desc - unknown
-            integer desclen - unknown
         </parameters>
         <linked_to desc="see:">
             Reaper:CountActionShortcuts
@@ -5379,7 +5402,8 @@
         </chapter_context>
         <tags>shortcuts, get, description</tags>
         <changelog>
-            Reaper 6.71 - added
+            Reaper 6.71 - exposed to ReaScript-API
+            Reaper 6.72 - section allows now the section-numbers as parameter section; removed Lua-parameters desc, desclen
         </changelog>
     </US_DocBloc>
 
@@ -17158,7 +17182,8 @@
         </chapter_context>
         <tags>shortcuts, count</tags>
         <changelog>
-            Reaper 6.71 - added
+            Reaper 6.71 - exposed to ReaScript-API
+            Reaper 6.72 - section allows now the section-numbers as parameter section
         </changelog>
     </US_DocBloc>
 
@@ -19033,6 +19058,7 @@
              * wiring_recinputwire : Wiring: Record input wire 
              * wiring_hwout : Wiring: System hardware outputs 
              * wiring_recinput : Wiring: System record inputs 
+             * autogroup : Automatic track group
              * group_0 : Group #1 
              * group_1 : Group #2 
              * group_2 : Group #3 
@@ -19919,18 +19945,23 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ShowActionList</slug>
         <title>ShowActionList</title>
-        <functioncall prog_lang="cpp">void ShowActionList(KbdSectionInfo* caller, HWND callerWnd)</functioncall>
-        <functioncall prog_lang="eel">ShowActionList(KbdSectionInfo caller, HWND callerWnd)</functioncall>
-        <functioncall prog_lang="lua">reaper.ShowActionList(KbdSectionInfo caller, optional HWND callerWnd)</functioncall>
-        <functioncall prog_lang="python">RPR_ShowActionList(KbdSectionInfo caller, HWND callerWnd)</functioncall>
+        <functioncall prog_lang="cpp">void ShowActionList(KbdSectionInfo* section, HWND callerWnd)</functioncall>
+        <functioncall prog_lang="eel">ShowActionList(KbdSectionInfo section, HWND callerWnd)</functioncall>
+        <functioncall prog_lang="lua">reaper.ShowActionList(KbdSectionInfo section, optional HWND callerWnd)</functioncall>
+        <functioncall prog_lang="python">RPR_ShowActionList(KbdSectionInfo section, HWND callerWnd)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.72
         </requires>
         <description prog_lang="*">
             shows the action-list
         </description>
         <parameters>
-            KbdSectionInfo caller - 
+            KbdSectionInfo section - 0, Main  
+                                   - 100, Main (alt recording)  
+                                   - 32060, MIDI Editor  
+                                   - 32061, MIDI Event List Editor  
+                                   - 32062, MIDI Inline Editor  
+                                   - 32063, Media Explorer  
             optional HWND callerWnd - the HWND that shall call the ActionList; can be nil
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -19941,6 +19972,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.72 - parameter section allows now the section-numbers to be given
         </changelog>
     </US_DocBloc>
 
@@ -45990,45 +46022,6 @@ mespotine
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
-        <slug>CountActionShortcuts</slug>
-        <title>CountActionShortcuts</title>
-        <functioncall prog_lang="cpp">int retval = (*CountActionShortcuts)(KbdSectionInfo* section, int cmdID)</functioncall>
-        <requires>
-            Reaper=5.62
-        </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns the number of shortcuts that exist for the given command ID. 
-            See [GetActionShortcutDesc](#GetActionShortcutDesc), [DeleteActionShortcut](#DeleteActionShortcut), [DoActionShortcutDialog](#DoActionShortcutDialog).
-
-            Use [NamedCommandLookup](#NamedCommandLookup) if you want to have the right commandID of an action, that is registered with an ActionCommandID-string.
-            
-            Stored in reaper_plugin_functions.h
-        </description>
-        <retvals>
-            int retval -
-        </retvals>
-        <parameters>
-            KbdSectionInfo* section - the section, in which the action lies
-                    -0, Main
-                    -100, Main (alt recording)
-                    -32060, MIDI Editor
-                    -32061, MIDI Event List Editor
-                    -32062, MIDI Inline Editor
-                    -32063, Media Explorer
-            int cmdID - the commandID of the action, whose count of shortcuts you want to know.
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper_plugin.h</source_document>
-        <chapter_context>
-            C++-only functions
-            Shortcuts
-        </chapter_context>
-        <tags>cpp, count, actions, shortcuts</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>CreateLocalOscHandler</slug>
         <title>CreateLocalOscHandler</title>
         <functioncall prog_lang="cpp">void* (*CreateLocalOscHandler)(void* obj, void* callback)</functioncall>
@@ -46172,44 +46165,6 @@ mespotine
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
-        <slug>DeleteActionShortcut</slug>
-        <title>DeleteActionShortcut</title>
-        <functioncall prog_lang="cpp">bool retval = (*DeleteActionShortcut)(KbdSectionInfo* section, int cmdID, int shortcutidx)</functioncall>
-        <requires>
-            Reaper=5.62
-        </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Delete the specific shortcut for the given command ID.
-            See [CountActionShortcuts](#CountActionShortcuts), [GetActionShortcutDesc](#GetActionShortcutDesc), [DoActionShortcutDialog](#DoActionShortcutDialog).
-            
-            Stored in reaper_plugin_functions.h
-        </description>
-        <retvals>
-            bool retval - 
-        </retvals>
-        <parameters>
-            KbdSectionInfo* section - the section, to which this action belongs to
-                    -0, Main
-                    -100, Main (alt recording)
-                    -32060, MIDI Editor
-                    -32061, MIDI Event List Editor
-                    -32062, MIDI Inline Editor
-                    -32063, Media Explorer
-            int cmdID - the commandID for the shortcut to be deleted
-            int shortcutidx - the shortcut to be deleted
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper_plugin.h</source_document>
-        <chapter_context>
-            C++-only functions
-            Shortcuts
-        </chapter_context>
-        <tags>cpp, shortcut, actions, delete</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>DestroyLocalOscHandler</slug>
         <title>DestroyLocalOscHandler</title>
         <functioncall prog_lang="cpp">void (*DestroyLocalOscHandler)(void* local_osc_handler)</functioncall>
@@ -46231,40 +46186,6 @@ mespotine
             OSC
         </chapter_context>
         <tags>cpp, osc, destroy, local, handler</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
-        <slug>DoActionShortcutDialog</slug>
-        <title>DoActionShortcutDialog</title>
-        <functioncall prog_lang="cpp">bool retval = (*DoActionShortcutDialog)(HWND hwnd, KbdSectionInfo* section, int cmdID, int shortcutidx)</functioncall>
-        <requires>
-            Reaper=5.62
-        </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Open the action shortcut dialog to edit or add a shortcut for the given command ID. 
-            If (shortcutidx >= 0 && shortcutidx < CountActionShortcuts()), that specific shortcut will be replaced, otherwise a new shortcut will be added.
-            See [CountActionShortcuts](#CountActionShortcuts), [GetActionShortcutDesc](#GetActionShortcutDesc), [DeleteActionShortcut](#DeleteActionShortcut). 
-            
-            Stored in reaper_plugin_functions.h
-        </description>
-        <retvals>
-            bool retval -
-        </retvals>
-        <parameters>
-            HWND hwnd - 
-            KbdSectionInfo* section - 
-            int cmdID - 
-            int shortcutidx -             
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper_plugin.h</source_document>
-        <chapter_context>
-            C++-only functions
-            Shortcuts
-        </chapter_context>
-        <tags>cpp, actions, commandid, shortcut, add, dialog</tags>
         <changelog>
         </changelog>
     </US_DocBloc>
@@ -46390,48 +46311,6 @@ mespotine
         <changelog>
         </changelog>
     </US_DocBloc>
-
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
-        <slug>GetActionShortcutDesc</slug>
-        <title>GetActionShortcutDesc</title>
-        <functioncall prog_lang="cpp">bool retval = (*GetActionShortcutDesc)(KbdSectionInfo* section, int cmdID, int shortcutidx, char* desc, int desclen)</functioncall>
-        <requires>
-            Reaper=5.62
-        </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the text description of a specific shortcut for the given command ID.
-            See [CountActionShortcuts](#CountActionShortcuts),[DeleteActionShortcut](#DeleteActionShortcut),[DoActionShortcutDialog](#DoActionShortcutDialog).
-            
-            Stored in reaper_plugin_functions.h
-        </description>
-        <retvals>
-            bool retval -
-        </retvals>
-        <parameters>
-            KbdSectionInfo* section - the section of the action
-                    -0, Main
-                    -100, Main (alt recording)
-                    -32060, MIDI Editor
-                    -32061, MIDI Event List Editor
-                    -32062, MIDI Inline Editor
-                    -32063, Media Explorer
-            int cmdID - the commandID of the action, whose shortcut-description you want.
-            int shortcutidx - 
-            char* desc - 
-            int descclean -
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper_plugin.h</source_document>
-        <chapter_context>
-            C++-only functions
-            Menus
-        </chapter_context>
-        <tags>cpp, get, shortcut, description, section, command, commandid</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetColorTheme</slug>
@@ -47202,43 +47081,6 @@ mespotine
             Misc
         </chapter_context>
         <tags>cpp, reaper, reamote, check</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
-        <slug>kbd_enumerateActions</slug>
-        <title>kbd_enumerateActions</title>
-        <functioncall prog_lang="cpp">int retval = (*kbd_enumerateActions)(KbdSectionInfo* section, int idx, const char** nameOut)</functioncall>
-        <requires>
-            Reaper=5.62
-        </requires>
-        <description indent="default">
-            Enumerates actions.
-            
-            Stored in reaper_plugin_functions.h
-        </description>
-        <retvals>
-            int retval -
-        </retvals>
-        <parameters>
-            KbdSectionInfo* section - the section, in which the action exists
-                                    -0, Main
-                                    -100, Main (alt recording)
-                                    -32060, MIDI Editor
-                                    -32061, MIDI Event List Editor
-                                    -32062, MIDI Inline Editor
-                                    -32063, Media Explorer
-            int idx - 
-            const char** nameOut - 
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper_plugin.h</source_document>
-        <chapter_context>
-            C++-only functions
-            Actions
-        </chapter_context>
-        <tags>cpp, actions, section, enumerate</tags>
         <changelog>
         </changelog>
     </US_DocBloc>
@@ -50024,35 +49866,6 @@ mespotine
             Screensets
         </chapter_context>
         <tags>cpp, screenset, update, focus</tags>
-        <changelog>
-        </changelog>
-    </US_DocBloc>
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
-        <slug>SectionFromUniqueID</slug>
-        <title>SectionFromUniqueID</title>
-        <functioncall prog_lang="cpp">KbdSectionInfo* retval = (*SectionFromUniqueID)(int uniqueID)</functioncall>
-        <requires>
-            Reaper=5.62
-        </requires>
-        <description indent="default">
-            Section from unique ID.
-            
-            Stored in reaper_plugin_functions.h
-        </description>
-        <retvals>
-            KbdSectionInfo* retval -
-        </retvals>
-        <parameters>
-            int uniqueID - 
-        </parameters>
-        <target_document>Reaper_Api_Documentation</target_document>
-        <source_document>reaper_plugin.h</source_document>
-        <chapter_context>
-            C++-only functions
-            Actions
-        </chapter_context>
-        <tags>cpp, section, unique, id</tags>
         <changelog>
         </changelog>
     </US_DocBloc>

@@ -6902,7 +6902,7 @@ function ultraschall.GetSetIDEAutocompleteSuggestions(is_set, value)
     <requires>
       Ultraschall=4.5
       Reaper=6.20
-      SWS=2.10.01
+      SWS=2.10.0.1
       Lua=5.3
     </requires>
     <functioncall>integer suggestions = ultraschall.GetSetIDEAutocompleteSuggestions(boolean is_set, integer value)</functioncall>
