@@ -324,7 +324,7 @@ Has now 1613 functions, with 23 new ones
   
   - **Rendering**  
   supports now "Render stems pre-fader" and "Only render channels that are sent to parent" options; fixed various bugs with them too.   
-  You can also get/set, if you want to output statistics-outfiles, using SetRender_SaveRenderStats and GetRender_SaveRenderStats.  
+  You can also get/set, if you want to output statistics-outfiles, using SetRender\_SaveRenderStats and GetRender\_SaveRenderStats.  
   
   - **PodcastMetaData**  
   fixed various bugs, added contributors and websites and a way to export the podcast-metadata as JSON according to the PodMeta\_v1-standard,   
@@ -354,8 +354,8 @@ Has now 1613 functions, with 23 new ones
   - PodcastMetadata: PodcastMetaData\_ExportWebsiteAsJSON - creates website's metadata as JSON
   - PodcastMetadata: SetPodcastEpisodeAttributesPreset\_Name - sets the name of an episode-metadata-preset
   - PodcastMetadata: SetPodcastAttributesPreset\_Name - sets the name of a podcast-metadata-preset  
-  - Rendering: GetRender_SaveRenderStats - gets the save outfile.render_states.html-checkbox-state
-  - Rendering: SetRender_SaveRenderStats - sets the save outfile.render_states.html-checkbox-state
+  - Rendering: GetRender\_SaveRenderStats - gets the save outfile.render\_states.html-checkbox-state
+  - Rendering: SetRender\_SaveRenderStats - sets the save outfile.render\_states.html-checkbox-state
   
 #### Changes from 4.7 to 4.75  
   - API: Modulator3000 - reverted speedup of the speedup, as it had trouble on 32-bit-machines -> thanks binbinfr
