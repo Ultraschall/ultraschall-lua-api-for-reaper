@@ -301,9 +301,9 @@ ToDo Marker Menu:
 
 ## Ultraschall Framework - Changelog
 
-### 4.75 - "Soundgarden - Black Hole Sun" - 15th of December 2022
+### 4.75 - "Soundgarden - Black Hole Sun" - 22th of December 2022
 
-Has now 1613 functions, with 23 new ones
+Has now 1614 functions, with 24 new ones
 
 **new in this release:**  
 
@@ -338,6 +338,7 @@ Has now 1613 functions, with 23 new ones
   - FXManagement: SetFXAutoBypass\_FXStateChunk - sets autobypass state of an fx within an FXStateChunk
   - FXManagement: SetFXAutoBypassSettings - gets current states of various autobypass-settings
   - GFX-Functions: GFX\_ResizeImageKeepAspectRatio - resizes a loaded image while keeping aspect ratio
+  - GFX-Functions: GFX\_BlitText\_AdaptLineLength - draws a text and resizes the the line-lengths so they fit into the width and height-parameters
   - PodcastMetadata: CountContributors - counts the podcast contributors stored in an opened project
   - PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a chapter as JSON  
   - PodcastMetadata: GetEpisodeAttributesAsJSON get the metadata of an episode as JSON
