@@ -8533,10 +8533,11 @@ function ultraschall.GetPodcastAttributesAsJSON()
       JSON=JSON.."\t\t\""..ultraschall.PodcastAttributes[i].."\":\""..content.."\",\n"
     end
   end
-  --]]
+  --]]  
   local websites=string.gsub(ultraschall.PodcastMetaData_ExportWebsiteAsJSON(), "\n", "\n\t")
   if websites~="" then 
     JSON=JSON.."\t"..string.gsub(ultraschall.PodcastMetaData_ExportWebsiteAsJSON(), "\n", "\n\t").."\n\t}"
+    found=true
   else
     JSON=JSON:sub(1,-3).."\n\t}"
   end
@@ -8546,7 +8547,6 @@ function ultraschall.GetPodcastAttributesAsJSON()
     return JSON
   end
 end
-
 --print3(ultraschall.PodcastMetadata_GetPodcastAttributesAsJSON())
 --if lol==nil then return end
 
@@ -8975,14 +8975,14 @@ end
 function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url, preset_slot)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetSetPodcast_Attributes</slug>
+  <slug>GetSetPodcastWebsite</slug>
   <requires>
     Ultraschall=4.75
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string name, string description, string url = ultraschall.GetSetPodcast_Attributes(boolean is_set, integer index, string name, string description, string url, optional index preset_slot)</functioncall>
+  <functioncall>boolean retval, string name, string description, string url = ultraschall.GetSetPodcastWebsite(boolean is_set, integer index, string name, string description, string url, optional index preset_slot)</functioncall>
   <description>
     Will get/set website-metadata-attributes for a podcast.
     
@@ -9108,9 +9108,9 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
     
     Accepted attributes are:
     
-      ctrb_name - the name of the contributor
-      ctrb_description - a description of the contributor
-      ctrb_email - the email of the contributor
+      "ctrb_name" - the name of the contributor
+      "ctrb_description" - a description of the contributor
+      "ctrb_email" - the email of the contributor
       
       The following store websites for a contributor. The parameter additional_attribute represents the website-index.
       So when additional_attribute=1 then the following attributes are for website number 1, when additional_attribute=2 then they are for website number 2.

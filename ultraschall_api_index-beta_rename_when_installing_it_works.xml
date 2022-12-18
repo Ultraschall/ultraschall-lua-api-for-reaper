@@ -2,11 +2,9 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55128.00" author="Meo Mespotine">
+      <version name="55143.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api_readme.txt</source>
-	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
-	<source file="/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Adding a Main loop working with Z layers and Rewriting Methods.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Examples%20and%20Templates/Example%20-%20Adding%20a%20Main%20loop%20working%20with%20Z%20layers%20and%20Rewriting%20Methods.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Examples and Templates/Example - Creating elements with keyed tables.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Examples%20and%20Templates/Example%20-%20Creating%20elements%20with%20keyed%20tables.lua</source>

@@ -2733,9 +2733,9 @@ else
     ultraschall.LM(18)
     return ultraschall.PodcastMetadata_CreateJSON_Entry(table.unpack({...}))
   end
-  function ultraschall.GetSetPodcast_Attributes(...)
+  function ultraschall.GetSetPodcastWebsite(...)
     ultraschall.LM(18)
-    return ultraschall.GetSetPodcast_Attributes(table.unpack({...}))
+    return ultraschall.GetSetPodcastWebsite(table.unpack({...}))
   end
   function ultraschall.GetSetContributor_Attributes(...)
     ultraschall.LM(18)
