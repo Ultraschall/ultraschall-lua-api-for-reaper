@@ -3495,8 +3495,8 @@ function ultraschall.IsValidRenderTable(RenderTable)
   if type(RenderTable["FadeOut_Enabled"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"FadeOut_Enabled\"] must be a boolean", -33) return false end
   if math.type(RenderTable["FadeIn_Shape"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"FadeIn_Shape\"] must be an integer", -34) return false end
   if math.type(RenderTable["FadeOut_Shape"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"FadeOut_Shape\"] must be an integer", -35) return false end
-  if type(RenderTable["OnlyChannelsSentToParent"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"OnlyChannelsSentToParent\"] must be an integer", -36) return false end
-  if type(RenderTable["RenderStems_Prefader"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderStems_Prefader\"] must be an integer", -37) return false end
+  if type(RenderTable["OnlyChannelsSentToParent"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"OnlyChannelsSentToParent\"] must be a boolean", -36) return false end
+  if type(RenderTable["RenderStems_Prefader"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderStems_Prefader\"] must be a boolean", -37) return false end
 
   return true
 end
@@ -4208,7 +4208,7 @@ Normalize_Only_Files_Too_Loud, FadeIn_Enabled, FadeIn, FadeIn_Shape, FadeOut_Ena
               RenderTable["Source"]=0
               RenderTable["Startposition"]=0
               RenderTable["TailFlag"]=18
-              RenderTable["TailMS"]=1000
+              RenderTable["TailMS"]=0
 
     Returns nil in case of an error
   </description>
@@ -4424,7 +4424,7 @@ Normalize_Only_Files_Too_Loud, FadeIn_Enabled, FadeIn, FadeIn_Shape, FadeOut_Ena
   RenderTable["Source"]=0
   RenderTable["Startposition"]=0
   RenderTable["TailFlag"]=18
-  RenderTable["TailMS"]=1000
+  RenderTable["TailMS"]=0
   RenderTable["Enable2ndPassRender"]=false
   RenderTable["Normalize_Enabled"]=false
   RenderTable["Normalize_Method"]=0
@@ -4440,6 +4440,8 @@ Normalize_Only_Files_Too_Loud, FadeIn_Enabled, FadeIn, FadeIn_Shape, FadeOut_Ena
   RenderTable["FadeOut_Enabled"]=false
   RenderTable["FadeOut"]=0
   RenderTable["FadeOut_Shape"]=0
+  RenderTable["OnlyChannelsSentToParent"]=false
+  RenderTable["RenderStems_Prefader"]=false
 
   -- set all attributes passed via parameters
   if AddToProj~=nil           then RenderTable["AddToProj"]=AddToProj end
@@ -5276,6 +5278,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   RenderTable["Startposition"]=tonumber(Start_position2)
   RenderTable["TailFlag"]=tonumber(Tail_checkbox2)
   RenderTable["TailMS"]=tonumber(Tail_MS)
+  if RenderTable["TailMS"]==nil then RenderTable["TailMS"]=0 end
   RenderTable["MultiChannelFiles"]=tonumber(Various_checkboxes2)&4==4
   RenderTable["OnlyMonoMedia"]=tonumber(Various_checkboxes2)&16==16
   RenderTable["EmbedStretchMarkers"]=tonumber(Various_checkboxes2)&256==256
