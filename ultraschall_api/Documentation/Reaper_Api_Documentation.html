@@ -115,7 +115,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.72<br>""</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.72<br>"Paperclip Maximizer v1.0"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -19822,7 +19822,7 @@ fxId: fx index in chain or -1 for the selected fx. what: 0 to remove, -1 to move
 <hr>
 <a class="anch" id="TrackFX_AddByName"></a>
 <a href="#TrackFX_AddByName"> ^</a> 
-<img width="3%" src="gfx/reaper5.92.png" alt="Reaper version 5.92"><u><b>TrackFX_AddByName</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.72.png" alt="Reaper version 6.72"><u><b>TrackFX_AddByName</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>TrackFX_AddByName</em>(<i>MediaTrack*</i>  track, <i>const</i> <i>char*</i> fxname, <i>bool</i> recFX, <i>int</i> instantiate)</code></div>
 <div class="e">EEL2: <code> <i>int</i> <em>TrackFX_AddByName</em>(<i>MediaTrack</i> track, "fxname", <i>bool</i> recFX, <i>int</i> instantiate)</code></div>
@@ -65296,7 +65296,7 @@ Note: REAPER v6.11 and earlier used _MASTER and _SLAVE rather than _LEAD and _FO
 <hr>
 <a class="anch" id="GetSetTrackGroupMembershipHigh"></a>
 <a href="#GetSetTrackGroupMembershipHigh"> ^</a> 
-<img width="3%" src="gfx/reaper6.12.png" alt="Reaper version 6.12"><u><b>GetSetTrackGroupMembershipHigh</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.72.png" alt="Reaper version 6.72"><u><b>GetSetTrackGroupMembershipHigh</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>unsigned</i> <i>int</i> <em>GetSetTrackGroupMembershipHigh</em>(<i>MediaTrack*</i>  tr, <i>const</i> <i>char*</i> groupname, <i>unsigned</i> <i>int</i> setmask, <i>unsigned</i> <i>int</i> setvalue)</code></div>
 <div class="e">EEL2: <code> uint <em>GetSetTrackGroupMembershipHigh</em>(<i>MediaTrack</i> tr, "groupname", uint setmask, uint setvalue)</code></div>
@@ -65328,6 +65328,8 @@ PAN_REVERSE<br>
 WIDTH_REVERSE<br>
 NO_LEAD_WHEN_FOLLOW<br>
 VOLUME_VCA_FOLLOW_ISPREFX<br>
+MEDIA_EDIT_LEAD<br>
+MEDIA_EDIT_FOLLOW<br>
 <br>
 Note: REAPER v6.11 and earlier used _MASTER and _SLAVE rather than _LEAD and _FOLLOW, which is deprecated but still supported (scripts that must support v6.11 and earlier can use the deprecated strings).<br>
 </div><br>      

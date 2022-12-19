@@ -301,7 +301,7 @@ ToDo Marker Menu:
 
 ## Ultraschall Framework - Changelog
 
-### 4.75 - "Soundgarden - Black Hole Sun" - 22th of December 2022
+### 4.75 - "Soundgarden - Black Hole Sun" - 19th of December 2022
 
 Has now 1614 functions, with 24 new ones
 
@@ -384,7 +384,10 @@ Has now 1614 functions, with 24 new ones
   - RenderManagement: GetRenderTable\_ProjectFile - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options
   - RenderManagement: IsValidRenderTable - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options
   - RenderManagement: SetRenderPreset - supports now new "Render stems pre-fader" and "Only render channels that are sent to parent" options; fixed edge-cases that could prevent presets from being replaced with the new one
-
+  - TrackManagement: GetTrackGroupFlags - supports now Media/Razor-Edit Lead and Follow
+  - TrackManagement: GetTrackGroupFlags_HighState - supports now Media/Razor-Edit Lead and Follow
+  - TrackManagement: SetTrackGroupFlags - supports now Media/Razor-Edit Lead and Follow
+  - TrackManagement: SetTrackGroupFlags_HighState - supports now Media/Razor-Edit Lead and Follow
   
 ---
 

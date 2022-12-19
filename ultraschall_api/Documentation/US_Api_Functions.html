@@ -52077,7 +52077,7 @@ Factory-Default will be set to these settings:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Source"]=0<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["Startposition"]=0<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["TailFlag"]=18<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["TailMS"]=1000<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderTable["TailMS"]=0<br>
 <br>
 Returns nil in case of an error<br>
 </div><br>      
@@ -59542,8 +59542,8 @@ returns nil in case of an error<br>
 <hr>
 <a class="anch" id="GetTrackGroupFlagsState"></a>
 <a href="#GetTrackGroupFlagsState"> ^</a> 
-<img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetTrackGroupFlagsState</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.72.png" alt="Reaper version 6.72">
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>GetTrackGroupFlagsState</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> GroupState_as_Flags, <i>array</i> IndividualGroupState_Flags = <em>ultraschall.GetTrackGroupFlagsState</em>(<i>integer</i> tracknumber, <i>optional</i> <i>string</i> TrackStateChunk)</code></div>
 </div><p>
@@ -59584,6 +59584,8 @@ The following flags(and their accompanying array-entry-index) are available:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 21 - VCA Master<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 22 - VCA Follow<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 23 - VCA pre-FX Follow<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 24 - Media/Razor Edit Lead<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 25 - Media/Razor Edit Lead<br>
 <br>
 The GroupState_as_Flags-bitfield is a hint, if a certain flag is set in any of the groups. So, if you want to know, if VCA Master is set in any group, check if flag &1048576 (2^20) is set to 1048576.<br>
 <br>
@@ -59600,29 +59602,31 @@ returns -1 in case of failure<br>
 returns -1 in case of failure<br/>
 <br/>
 the following flags are available:<br/>
-2^0 - Volume Master<br/>
-2^1 - Volume Follow<br/>
-2^2 - Pan Master<br/>
-2^3 - Pan Follow<br/>
-2^4 - Mute Master<br/>
-2^5 - Mute Follow<br/>
-2^6 - Solo Master<br/>
-2^7 - Solo Follow<br/>
-2^8 - Record Arm Master<br/>
-2^9 - Record Arm Follow<br/>
-2^10 - Polarity/Phase Master<br/>
-2^11 - Polarity/Phase Follow<br/>
-2^12 - Automation Mode Master<br/>
-2^13 - Automation Mode Follow<br/>
-2^14 - Reverse Volume<br/>
-2^15 - Reverse Pan<br/>
-2^16 - Do not master when slaving<br/>
-2^17 - Reverse Width<br/>
-2^18 - Width Master<br/>
-2^19 - Width Follow<br/>
-2^20 - VCA Master<br/>
-2^21 - VCA Follow<br/>
-2^22 - VCA pre-FX Follow</td></tr>
+&1 - Volume Master<br/>
+&2 - Volume Follow<br/>
+&4 - Pan Master<br/>
+&8 - Pan Follow<br/>
+&16 - Mute Master<br/>
+&32 - Mute Follow<br/>
+&64 - Solo Master<br/>
+&128 - Solo Follow<br/>
+&256 - Record Arm Master<br/>
+&512 - Record Arm Follow<br/>
+&1024 - Polarity/Phase Master<br/>
+&2048 - Polarity/Phase Follow<br/>
+&4096 - Automation Mode Master<br/>
+&8192 - Automation Mode Follow<br/>
+&16384 - Reverse Volume<br/>
+&32768 - Reverse Pan<br/>
+&65536 - Do not master when slaving<br/>
+&131072 - Reverse Width<br/>
+&262144 - Width Master<br/>
+&524288 - Width Follow<br/>
+&1048576 - VCA Master<br/>
+&2097152 - VCA Follow<br/>
+&4194304 - VCA pre-FX Follow<br/>
+&8388608 - Media/Razor Edit Lead<br/>
+&16777216 - Media/Razor Edit Follow</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>array</i> IndividualGroupState_Flags </td></tr>
@@ -59630,13 +59634,11 @@ the following flags are available:<br/>
 e.g. If Volume Master is set only in Group 1, entry 1 in the array will be set to 1. If Volume Master is set on Group 2 and Group 4, the first entry in the array will be set to 10.<br/>
 refer to the upper GroupState_as_Flags list to see, which entry in the array is for which set flag, e.g. array[22] is VCA pre-F Follow, array[16] is Do not master when slaving, etc<br/>
 As said before, the values in each entry is a flag, that tells you, which of the groups is set with a certain flag. The following flags determine, in which group a certain flag is set:<br/>
-2^0 - Group 1<br/>
-2^1 - Group 2<br/>
-2^2 - Group 3<br/>
-2^3 - Group 4<br/>
-...<br/>
-2^30 - Group 31<br/>
-2^31 - Group 32</td></tr>
+&1 - Group 1<br/>
+&2 - Group 2<br/>
+&4 - Group 3<br/>
+&8 - Group 4<br/>
+etc...</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -59654,8 +59656,8 @@ As said before, the values in each entry is a flag, that tells you, which of the
 <hr>
 <a class="anch" id="GetTrackGroupFlags_HighState"></a>
 <a href="#GetTrackGroupFlags_HighState"> ^</a> 
-<img width="3%" src="gfx/reaper5.941.png" alt="Reaper version 5.941">
-<img width="3%" src="gfx/ultraschall4.2.png" alt="Ultraschall version 4.2"><u><b>GetTrackGroupFlags_HighState</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.72.png" alt="Reaper version 6.72">
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>GetTrackGroupFlags_HighState</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> GroupState_as_Flags, <i>array</i> IndividualGroupState_Flags = <em>ultraschall.GetTrackGroupFlags_HighState</em>(<i>integer</i> tracknumber, <i>optional</i> <i>string</i> TrackStateChunk)</code></div>
 </div><p>
@@ -59696,7 +59698,8 @@ The following flags(and their accompanying array-entry-index) are available:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 21 - VCA Master<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 22 - VCA Follow<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 23 - VCA pre-FX Follow<br>
-<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 24 - Media/Razor Edit Lead<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 25 - Media/Razor Edit Lead&nbsp;&nbsp;&nbsp;&nbsp;<br>
 The GroupState_as_Flags-bitfield is a hint, if a certain flag is set in any of the groups. So, if you want to know, if VCA Master is set in any group, check if flag &1048576 (2^20) is set to 1048576.<br>
 <br>
 This function will work only for Groups 33(2^0) to 64(2^31). To get Groups 1 to 32, use <a href="#GetTrackGroupFlagsState">GetTrackGroupFlagsState</a> instead!<br>
@@ -59712,29 +59715,31 @@ returns -1 in case of failure<br>
 returns -1 in case of failure<br/>
 <br/>
 the following flags are available:<br/>
-2^0 - Volume Master<br/>
-2^1 - Volume Follow<br/>
-2^2 - Pan Master<br/>
-2^3 - Pan Follow<br/>
-2^4 - Mute Master<br/>
-2^5 - Mute Follow<br/>
-2^6 - Solo Master<br/>
-2^7 - Solo Follow<br/>
-2^8 - Record Arm Master<br/>
-2^9 - Record Arm Follow<br/>
-2^10 - Polarity/Phase Master<br/>
-2^11 - Polarity/Phase Follow<br/>
-2^12 - Automation Mode Master<br/>
-2^13 - Automation Mode Follow<br/>
-2^14 - Reverse Volume<br/>
-2^15 - Reverse Pan<br/>
-2^16 - Do not master when slaving<br/>
-2^17 - Reverse Width<br/>
-2^18 - Width Master<br/>
-2^19 - Width Follow<br/>
-2^20 - VCA Master<br/>
-2^21 - VCA Follow<br/>
-2^22 - VCA pre-FX Follow</td></tr>
+&1 - Volume Master<br/>
+&2 - Volume Follow<br/>
+&4 - Pan Master<br/>
+&8 - Pan Follow<br/>
+&16 - Mute Master<br/>
+&32 - Mute Follow<br/>
+&64 - Solo Master<br/>
+&128 - Solo Follow<br/>
+&256 - Record Arm Master<br/>
+&512 - Record Arm Follow<br/>
+&1024 - Polarity/Phase Master<br/>
+&2048 - Polarity/Phase Follow<br/>
+&4096 - Automation Mode Master<br/>
+&8192 - Automation Mode Follow<br/>
+&16384 - Reverse Volume<br/>
+&32768 - Reverse Pan<br/>
+&65536 - Do not master when slaving<br/>
+&131072 - Reverse Width<br/>
+&262144 - Width Master<br/>
+&524288 - Width Follow<br/>
+&1048576 - VCA Master<br/>
+&2097152 - VCA Follow<br/>
+&4194304 - VCA pre-FX Follow<br/>
+&8388608 - Media/Razor Edit Lead<br/>
+&16777216 - Media/Razor Edit Follow</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>array</i> IndividualGroupState_Flags </td></tr>
@@ -59742,13 +59747,11 @@ the following flags are available:<br/>
 e.g. If Volume Master is set only in Group 33, entry 1 in the array will be set to 1. If Volume Master is set on Group 34 and Group 36, the first entry in the array will be set to 10.<br/>
 refer to the upper GroupState_as_Flags list to see, which entry in the array is for which set flag, e.g. array[22] is VCA pre-F Follow, array[16] is Do not master when slaving, etc<br/>
 As said before, the values in each entry is a flag, that tells you, which of the groups is set with a certain flag. The following flags determine, in which group a certain flag is set:<br/>
-2^0 - Group 33<br/>
-2^1 - Group 34<br/>
-2^2 - Group 35<br/>
-2^3 - Group 36<br/>
-...<br/>
-2^30 - Group 63<br/>
-2^31 - Group 64</td></tr>
+&1 - Group 33<br/>
+&2 - Group 34<br/>
+&4 - Group 35<br/>
+&8 - Group 36<br/>
+etc...</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
@@ -62598,8 +62601,8 @@ returns false in case of an error<br>
 <hr>
 <a class="anch" id="SetTrackGroupFlagsState"></a>
 <a href="#SetTrackGroupFlagsState"> ^</a> 
-<img width="3%" src="gfx/reaper5.941.png" alt="Reaper version 5.941">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>SetTrackGroupFlagsState</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.72.png" alt="Reaper version 6.72">
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>SetTrackGroupFlagsState</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> TrackStateChunk = <em>ultraschall.SetTrackGroupFlagsState</em>(<i>integer</i> tracknumber, <i>array</i> groups_bitfield_table, <i>optional</i> <i>string</i> TrackStateChunk)</code></div>
 </div><p>
@@ -62638,6 +62641,8 @@ The following flags(and their accompanying array-entry-index) are available:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 21 - VCA Master<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 22 - VCA Follow<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 23 - VCA pre-FX Follow<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 24 - Media/Razor Edit Lead<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 25 - Media/Razor Edit Lead<br>
 <br>
 This function will work only for Groups 1 to 32. To set Groups 33 to 64, use <a href="#SetTrackGroupFlags_HighState">SetTrackGroupFlags_HighState</a> instead!<br>
 <br>
@@ -62672,8 +62677,8 @@ Returns false in case of an error<br>
 <hr>
 <a class="anch" id="SetTrackGroupFlags_HighState"></a>
 <a href="#SetTrackGroupFlags_HighState"> ^</a> 
-<img width="3%" src="gfx/reaper5.941.png" alt="Reaper version 5.941">
-<img width="3%" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><u><b>SetTrackGroupFlags_HighState</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.72.png" alt="Reaper version 6.72">
+<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>SetTrackGroupFlags_HighState</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> TrackStateChunk = <em>ultraschall.SetTrackGroupFlags_HighState</em>(<i>integer</i> tracknumber, <i>array</i> groups_bitfield_table, <i>optional</i> <i>string</i> TrackStateChunk)</code></div>
 </div><p>
@@ -62712,6 +62717,8 @@ The following flags(and their accompanying array-entry-index) are available:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 21 - VCA Master<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 22 - VCA Follow<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 23 - VCA pre-FX Follow<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 24 - Media/Razor Edit Lead<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 25 - Media/Razor Edit Lead<br>
 <br>
 This function will work only for Groups 33(2^0) to 64(2^31). To set Groups 1 to 32, use <a href="#SetTrackGroupFlagsState">SetTrackGroupFlagsState</a> instead!<br>
 <br>

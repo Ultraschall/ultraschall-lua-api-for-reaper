@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55144.00" author="Meo Mespotine">
+      <version name="55183.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1480,7 +1480,7 @@
 	<source main="true" file="/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api/Scripts//Tools/DeveloperScripts/ultraschall_developertool_TrackStateChunk_to_Clipboard_track_under_mouse.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.75 - “Soundgarden - Black Hole Sun” - 22th of December 2022
+4.75 - “Soundgarden - Black Hole Sun” - 19th of December 2022
 
 Has now 1614 functions, with 24 new ones
 
@@ -1650,6 +1650,14 @@ Changes from 4.7 to 4.75
     pre-fader” and “Only render channels that are sent to parent”
     options; fixed edge-cases that could prevent presets from being
     replaced with the new one
+-   TrackManagement: GetTrackGroupFlags - supports now Media/Razor-Edit
+    Lead and Follow
+-   TrackManagement: GetTrackGroupFlags_HighState - supports now
+    Media/Razor-Edit Lead and Follow
+-   TrackManagement: SetTrackGroupFlags - supports now Media/Razor-Edit
+    Lead and Follow
+-   TrackManagement: SetTrackGroupFlags_HighState - supports now
+    Media/Razor-Edit Lead and Follow
 ]]>
 </changelog>
       </version>

@@ -22400,7 +22400,7 @@
         <functioncall prog_lang="lua">integer retval = reaper.TrackFX_AddByName(MediaTrack track, string fxname, boolean recFX, integer instantiate)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_TrackFX_AddByName(MediaTrack track, String fxname, Boolean recFX, Int instantiate)</functioncall>
         <requires>
-            Reaper=5.92
+            Reaper=6.72
         </requires>
         <description prog_lang="*">
             Adds or queries the position of a named FX from the track FX chain (recFX=false) or record input FX/monitoring FX (recFX=true, monitoring FX are on master track). 
@@ -22427,6 +22427,7 @@
         </chapter_context>
         <tags>fxmanagement, add, track fx, input fx</tags>
         <changelog>
+          Reaper 6.72 - improve JSFX name matching in TrackFX_AddByName() [p=2621360] [p=2622666]
           Reaper 6.70 - improve behavior with Track/TakeFX_AddByName() for JSFX [t=271878]
           Reaper 6.69 - fix TrackFX_AddByName with only VST2-UID specified
         </changelog>
@@ -25081,7 +25082,7 @@
         <functioncall prog_lang="lua">integer groupstate = reaper.GetSetTrackGroupMembershipHigh(MediaTrack tr, string groupname, integer setmask, integer setvalue)</functioncall>
         <functioncall prog_lang="python">Int retval = RPR_GetSetTrackGroupMembershipHigh(MediaTrack tr, String groupname, Int setmask, Int setvalue)</functioncall>
         <requires>
-            Reaper=6.12
+            Reaper=6.72
         </requires>
         <description prog_lang="*"> 
             Gets or modifies the group membership for a track. Returns group state prior to call (each bit represents one of the high 32 group numbers). if setmask has bits set, those bits in setvalue will be applied to group. Group can be one of:
@@ -25108,6 +25109,8 @@
             WIDTH_REVERSE
             NO_LEAD_WHEN_FOLLOW
             VOLUME_VCA_FOLLOW_ISPREFX
+            MEDIA_EDIT_LEAD
+            MEDIA_EDIT_FOLLOW
 
             Note: REAPER v6.11 and earlier used _MASTER and _SLAVE rather than _LEAD and _FOLLOW, which is deprecated but still supported (scripts that must support v6.11 and earlier can use the deprecated strings).
         </description>
@@ -25128,6 +25131,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.72 - added MEDIA_EDIT_LEAD and MEDIA_EDIT_FOLLOW as groupname
         </changelog>
     </US_DocBloc>
 
