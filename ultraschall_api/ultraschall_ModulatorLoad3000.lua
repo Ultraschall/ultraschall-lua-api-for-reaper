@@ -2129,6 +2129,10 @@ else
     ultraschall.LM(14)
     return ultraschall.GetSetIDEAutocompleteSuggestions(table.unpack({...}))
   end
+  function ultraschall.GetRandomString(...)
+    ultraschall.LM(14)
+    return ultraschall.GetRandomString(table.unpack({...}))
+  end
   function ultraschall.ResizePNG(...)
     ultraschall.LM(15)
     return ultraschall.ResizePNG(table.unpack({...}))

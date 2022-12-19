@@ -339,6 +339,7 @@ Has now 1614 functions, with 24 new ones
   - FXManagement: SetFXAutoBypassSettings - gets current states of various autobypass-settings
   - GFX-Functions: GFX\_ResizeImageKeepAspectRatio - resizes a loaded image while keeping aspect ratio
   - GFX-Functions: GFX\_BlitText\_AdaptLineLength - draws a text and resizes the the line-lengths so they fit into the width and height-parameters
+  - Helper functions: GetRandomString - returns a random generated string with characters (requested by ChatGPT) [p=2622707]
   - PodcastMetadata: CountContributors - counts the podcast contributors stored in an opened project
   - PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a chapter as JSON  
   - PodcastMetadata: GetEpisodeAttributesAsJSON get the metadata of an episode as JSON
