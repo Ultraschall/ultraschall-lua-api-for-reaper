@@ -236,6 +236,8 @@ XML_start=
 
 XML_end=[[<changelog><![CDATA[]]..ChangeLog.."]]>\n</changelog>\n"..[[
       </version>
+      </reapack>
+  </category>
       <metadata>
         <link rel="website">http://ultraschall.fm/api/</link>
         <link rel="donation" href="http://ultraschall.fm/danke">Label</link>
@@ -373,8 +375,7 @@ Meo Mespotine (mespotine.de) (ultraschall.fm/api)}
 For more information about Ultraschall itself, see ultraschall.fm and if you want to support us, see ultraschall.fm/danke for donating to us.}
 \par }]].."]]></description>"..[[
       </metadata>
-    </reapack>
-  </category>
+  
 </index>]]
 
 

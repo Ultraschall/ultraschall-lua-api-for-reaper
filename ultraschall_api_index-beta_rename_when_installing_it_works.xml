@@ -1631,6 +1631,8 @@ Changes from 4.7 to 4.75
 ]]>
 </changelog>
       </version>
+      </reapack>
+  </category>
       <metadata>
         <link rel="website">http://ultraschall.fm/api/</link>
         <link rel="donation" href="http://ultraschall.fm/danke">Label</link>
@@ -1767,6 +1769,5 @@ Meo Mespotine (mespotine.de) (ultraschall.fm/api)}
 \par \pard\plain \s18\sb0\sa120\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 For more information about Ultraschall itself, see ultraschall.fm and if you want to support us, see ultraschall.fm/danke for donating to us.}
 \par }]]></description>      </metadata>
-    </reapack>
-  </category>
+  
 </index>
