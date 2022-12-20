@@ -303,7 +303,7 @@ ToDo Marker Menu:
 
 ### 4.75 - "Soundgarden - Black Hole Sun" - 19th of December 2022
 
-Has now 1614 functions, with 24 new ones
+Has now 1615 functions, with 25 new ones
 
 **new in this release:**  
 
