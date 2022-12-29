@@ -301,6 +301,23 @@ ToDo Marker Menu:
 
 ## Ultraschall Framework - Changelog
 
+
+### 4.8 - " - " - 20th of January 2023
+
+Has now 1615 functions, with XX new ones
+
+**new in this release:**  
+
+  - **Tudelu**  
+  Tudelu
+
+#### New features in 4.8  
+
+  
+#### Changes from 4.75 to 4.8  
+
+---
+
 ### 4.75 - "Soundgarden - Black Hole Sun" - 19th of December 2022
 
 Has now 1615 functions, with 25 new ones

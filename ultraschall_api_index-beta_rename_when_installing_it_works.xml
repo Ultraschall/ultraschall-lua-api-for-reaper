@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55196.00" author="Meo Mespotine">
+      <version name="55211.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1086,12 +1086,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/lua5.3.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/lua5.3.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reablink0.4.0.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reablink0.4.0.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reablink0.4.4.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reablink0.4.4.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.5.10.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaimgui0.5.10.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.5.2.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaimgui0.5.2.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.5.3.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaimgui0.5.3.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.5.8.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaimgui0.5.8.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.6.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaimgui0.6.1.png</source>
-	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.6.2.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaimgui0.6.2.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaimgui0.8.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaimgui0.8.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.40.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper5.40.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.50.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/reaper5.50.png</source>
@@ -1206,6 +1201,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall4.6.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/ultraschall4.6.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall4.7.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/ultraschall4.7.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall4.75.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/ultraschall4.75.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/ultraschall4.8.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/ultraschall4.8.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/us-Kopie.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/us-Kopie.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/us-Kopie2.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/us-Kopie2.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/us-index.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Documentation/gfx/us-index.pfi</source>
@@ -1278,6 +1274,7 @@
 	<source file="/ultraschall_api/Modules/ultraschall_functions_WebInterface_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Modules/ultraschall_functions_WebInterface_Module.lua</source>
 	<source file="/ultraschall_api/Readme-First.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Readme-First.txt</source>
 	<source file="/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua</source>
+	<source file="/ultraschall_api/Scripts/GuiEngine_v3_WIP.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Scripts/GuiEngine_v3_WIP.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua</source>
@@ -1446,186 +1443,18 @@
 	<source main="true" file="/ultraschall_developertool_gfx_deltablit_displayer.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.75//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.75 - “Soundgarden - Black Hole Sun” - 19th of December 2022
+4.8 - " - " - 20th of January 2023
 
-Has now 1615 functions, with 25 new ones
+Has now 1615 functions, with XX new ones
 
 new in this release:
 
--   AutoBypass settings
-    You can now get and set autobypass for projects as well as global
-    preferences, using GetFXAutoBypassSettings and
-    SetFXAutoBypassSettings.
-    You can also force autobypass for an fx, using
-    GetFXAutoBypass_FXStateChunk and SetFXAutoBypass_FXStateChunk.
+-   Tudelu
+    Tudelu
 
--   Better ErrorMessages
-    Error messages, returned by functions like SLEM() or SFEM, return
-    now more information about, in which script the error happened, in
-    which function exactly and the linenumber.
-    So debugging is much more easier now.
+New features in 4.8
 
--   Resize of gfx-images
-    You can now resize gfx-images, load with gfx.loadimg, keeping aspect
-    ratio, using GFX_ResizeImageKeepAspectRatio.
-    It’s better for making images smaller than making them bigger(causes
-    artifacts) but, you can do it now.
-
--   Only markers within timerange
-    The Count markers-functions allow now counting from start to
-    end-position. That way you can get the exact number of markers
-    within the range.
-
--   Rendering
-    supports now “Render stems pre-fader” and “Only render channels that
-    are sent to parent” options; fixed various bugs with them too.
-    You can also get/set, if you want to output statistics-outfiles,
-    using SetRender_SaveRenderStats and GetRender_SaveRenderStats.
-
--   PodcastMetaData
-    fixed various bugs, added contributors and websites and a way to
-    export the podcast-metadata as JSON according to the
-    PodMeta_v1-standard,
-    including setting them into ID3, APE, IXML and
-    VORBIS-COMMENT-metadata storage of Reaper.
-
--   Bugfixes
-
-New features in 4.75
-
--   FXManagement: GetFXAutoBypass_FXStateChunk - sets autobypass state
-    of an fx within an FXStateChunk
--   FXManagement: GetFXAutoBypassSettings - gets current states of
-    various autobypass-settings
--   FXManagement: SetFXAutoBypass_FXStateChunk - sets autobypass state
-    of an fx within an FXStateChunk
--   FXManagement: SetFXAutoBypassSettings - gets current states of
-    various autobypass-settings
--   GFX-Functions: GFX_ResizeImageKeepAspectRatio - resizes a loaded
-    image while keeping aspect ratio
--   GFX-Functions: GFX_BlitText_AdaptLineLength - draws a text and
-    resizes the the line-lengths so they fit into the width and
-    height-parameters
--   Helper functions: GetRandomString - returns a random generated
-    string with characters (requested by ChatGPT) [p=2622707]
--   PodcastMetadata: CountContributors - counts the podcast contributors
-    stored in an opened project
--   PodcastMetadata: GetChapterAttributesAsJSON get the metadata of a
-    chapter as JSON
--   PodcastMetadata: GetEpisodeAttributesAsJSON get the metadata of an
-    episode as JSON
--   PodcastMetadata: GetPodcastAttributesAsJSON get the metadata of a
-    podcast as JSON
--   PodcastMetadata: GetPodcastEpisodeAttributesPreset_Name - gets the
-    name of an episode-metadata-preset
--   PodcastMetadata: GetPodcastAttributePresetSlotByName - gets the
-    preset-slot of podcast-presets by its name
--   PodcastMetadata: GetEpisodeAttributePresetSlotByName - gets the
-    preset-slot of episode-presets by its name
--   PodcastMetadata: GetPodcastAttributesPreset_Name - gets the name of
-    a podcast-metadata-preset
--   PodcastMetadata: GetPodcastContributorAttributesAsJSON - gets the
-    contributors as JSON
--   PodcastMetadata: GetSetContributor_Attributes - gets/sets the
-    attributes of an episode’s contributor
--   PodcastMetadata: GetSetPodcastWebsite - gets/sets websites for a
-    podcast
--   PodcastMetadata: GetShownoteAttributesAsJSON get the metadata of a
-    shownote as JSON
--   PodcastMetadata: PodcastMetadata_CreateJSON_Entry - creates entire
-    podcast-metadata-entry as JSON according to PodMeta_v1-standard
--   PodcastMetadata: PodcastMetaData_ExportWebsiteAsJSON - creates
-    website’s metadata as JSON
--   PodcastMetadata: SetPodcastEpisodeAttributesPreset_Name - sets the
-    name of an episode-metadata-preset
--   PodcastMetadata: SetPodcastAttributesPreset_Name - sets the name of
-    a podcast-metadata-preset
--   Rendering: GetRender_SaveRenderStats - gets the save
-    outfile.render_states.html-checkbox-state
--   Rendering: SetRender_SaveRenderStats - sets the save
-    outfile.render_states.html-checkbox-state
-
-Changes from 4.7 to 4.75
-
--   API: Modulator3000 - reverted speedup of the speedup, as it had
-    trouble on 32-bit-machines -> thanks binbinfr
--   Docs: updated to Reaper 6.72; config-variable-docs has improved
-    index
--   ErrorMessagingSystem: SLEM/ShowLastErrorMessage/SFEM - return now
-    the function, linenumber and sourcefile, in which AddErrorMessage
-    was called
--   FXManagement: GetFXFromFXStateChunk - rewritten from scratch, should
-    be more stable now
--   MarkerManagement: CountAllCustomMarkers - allows now counting
-    custom-markers within a start and end-time
--   MarkerManagement: CountNormalMarkers - allows now counting normal
-    markers within a start and end-time
--   MarkerManagement: CountShownoteMarkers - allows now counting
-    shownotes within a start and end-time
--   MediaItemManagement: InsertMediaItemStateChunkArray - supports now
-    inserting needed tracks, if the number of tracks<the number of
-    tracks needed by the items to be inserted
--   MediaItemManagement: RippleCut - had trouble with projects, where
-    there’s only one item on track 1 and no other tracks
--   PodcastMetadata: GetSetChapterMarker_Attributes - supports now
-    setting position “chap_position” and markertitle “chap_title”
--   PodcastMetadata: GetSetPodcast_Attributes - can now get/store
-    attributes either in the current project or a preset, not in both at
-    the same time; removed websites; will be done by
-    GetSetPodcastWebsite instead
--   PodcastMetadata: GetSetPodcastEpisode_Attributes - can now get/store
-    attributes either in the current project or a preset, not in both at
-    the same time
--   PodcastMetadata: GetSetShownoteMarker_Attributes - supports now
-    attribute shwn_linked_audiovideomedia, which allows linking media
-    directly with a time_stamp; supports now setting position
-    “shwn_position” and markertitle “shwn_title”
--   ProjectFiles: GetProject_RenderStems - supports now new “Render
-    stems pre-fader” and “Only render channels that are sent to parent”
-    options
--   ProjectFiles: SetProject_RenderStems - supports now new “Render
-    stems pre-fader” and “Only render channels that are sent to parent”
-    options
--   RenderManagement: AddRenderPreset - supports now new “Render stems
-    pre-fader” and “Only render channels that are sent to parent”
-    options
--   RenderManagement: ApplyRenderTable_Project - supports now new
-    “Render stems pre-fader” and “Only render channels that are sent to
-    parent” options; didn’t apply various settings -> fixed
--   RenderManagement: ApplyRenderTable_ProjectFile - supports now new
-    “Render stems pre-fader” and “Only render channels that are sent to
-    parent” options
--   RenderManagement: CreateNewRenderTable - supports now new “Render
-    stems pre-fader” and “Only render channels that are sent to parent”
-    options; default RenderTable did return bool instead of integer for
-    FadeOut_Shape -> fixed (thnx to aurelien)
--   RenderManagement: GetRenderPreset_RenderTable - supports now new
-    “Render stems pre-fader” and “Only render channels that are sent to
-    parent” options
--   RenderManagement: GetRenderTable_Project - supports now new “Render
-    stems pre-fader” and “Only render channels that are sent to parent”
-    options
--   RenderManagement: GetRenderTable_ProjectDefaults - supports now new
-    “Render stems pre-fader” and “Only render channels that are sent to
-    parent” options
--   RenderManagement: GetRenderTable_ProjectFile - supports now new
-    “Render stems pre-fader” and “Only render channels that are sent to
-    parent” options
--   RenderManagement: IsValidRenderTable - supports now new “Render
-    stems pre-fader” and “Only render channels that are sent to parent”
-    options
--   RenderManagement: SetRenderPreset - supports now new “Render stems
-    pre-fader” and “Only render channels that are sent to parent”
-    options; fixed edge-cases that could prevent presets from being
-    replaced with the new one
--   TrackManagement: GetTrackGroupFlags - supports now Media/Razor-Edit
-    Lead and Follow
--   TrackManagement: GetTrackGroupFlags_HighState - supports now
-    Media/Razor-Edit Lead and Follow
--   TrackManagement: SetTrackGroupFlags - supports now Media/Razor-Edit
-    Lead and Follow
--   TrackManagement: SetTrackGroupFlags_HighState - supports now
-    Media/Razor-Edit Lead and Follow
+Changes from 4.75 to 4.8
 ]]>
 </changelog>
       </version>
@@ -1655,7 +1484,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1613 Lua-functions library for Reaper.}
+a 1626 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55211 from 29.12.2022 22:05:27).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1669,7 +1498,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1613 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1626 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
