@@ -1627,11 +1627,6 @@ function ultraschall.GetReaperWindow_Position()
 end
 
 
-
-
-
-
-
 function ultraschall.EscapeCharactersForXMLText(String)
   -- control characters to numeric character references are still missing
   -- check these site:
@@ -1649,3 +1644,47 @@ end
 
 --A=ultraschall.EscapeCharactersForXMLText("HULA&HO\"HooP\"Oh now that you 'mention' it OP&amp;")
 
+function ultraschall.Debug_ShowCurrentContext(show)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Debug_ShowCurrentContext</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>string functionname, string sourcefilename_with_path, integer linenumber = ultraschall.GetReaperWindow_Position(integer show)</functioncall>
+  <description>
+    When called, this function returns, in which function, sourcefile and linenumber it was called.
+    Good for debugging purposes.
+  </description>
+  <retvals>
+    string functionname - the name of the function, in which Debug_ShowCurrentContext was called
+    integer linenumber - the linenumber, in which Debug_ShowCurrentContext was called
+    string sourcefilename_with_path - the filename, in which Debug_ShowCurrentContext was called
+    number timestamp - precise timestamp to differentiate between two Debug_ShowCurrentContext-calls
+  </retvals>
+  <parameters>
+    integer show - 0, don't show context; 1, show context as messagebox; 2, show context in console; 3, clear console and show context in console
+  </parameters>
+  <chapter_context>
+    User Interface
+    Reaper Main Window
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, window, arrange-view, position, hwnd, get</tags>
+</US_DocBloc>
+--]]
+  local context=debug.getinfo(2)
+  local timestamp=reaper.time_precise()
+  if context["name"]==nil then context["name"]="" end
+  if show==1 then
+    print2("Called in\n\nFunction     : "..context["name"], "\nLinenumber: "..context["currentline"], "\n\nSourceFileName:\n"..context["source"]:sub(2,-1))
+  elseif show==2 then
+    print_alt("\n>>Called in\n   Function  : "..context["name"], "\n   Linenumber: "..context["currentline"], "\n   SourceFileName: "..context["source"]:sub(2,-1).."\n   Timestamp: "..timestamp)
+  elseif show==3 then
+    print_update("\n>>Called in\n   Function  : "..context["name"], "   Linenumber: "..context["currentline"], "   SourceFileName: "..context["source"]:sub(2,-1).."\n   Timestamp: "..timestamp)
+  end
+  return context["name"], context["currentline"], context["source"]:sub(2,-1), timestamp
+end

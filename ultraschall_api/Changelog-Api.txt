@@ -297,6 +297,21 @@ ToDo Marker Menu:
   - PodcastMetadata: GetSetTranscription\_Attributes  gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)
   - PodcastMetadata: GetSetPodcastExport\_Attributes\_String - gets/sets string attributes for podcast-export in Ultraschall
   - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall    
+  
+  Debug:
+    SLEM shows the position in the code of the error-message; try to see, whether this can be used to write a function, that
+    returns the current position within the code:
+      Debug_CurrentPosition
+      
+      returning function, source-filename and lineposition of the current code.
+      That way, you can do stuff like:
+        old=gfx.getchar
+        function gfx.getchar(...)
+          print(ultraschall.Debug_CurrentPosition)
+          old(...)
+        end
+        
+      to see, where in Lokasenna's ui-Lib gfx.getchar is used to debug it with the new UTF8-fixes.
 </TODO>
 
 ## Ultraschall Framework - Changelog
@@ -312,7 +327,7 @@ Has now 1615 functions, with XX new ones
   Tudelu
 
 #### New features in 4.8  
-
+  - Debug: Debug\_ShowCurrentContext - calling this function returns/shows the current sourcefile, linenumber and function-context(for debug)
   
 #### Changes from 4.75 to 4.8  
 
