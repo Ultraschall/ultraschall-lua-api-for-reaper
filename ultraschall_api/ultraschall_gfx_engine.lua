@@ -1387,28 +1387,32 @@ function ultraschall.GFX_ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_
   if neww<0 or neww>8192 then ultraschall.AddErrorMessage("GFX_ResizeImageKeepAspectRatio", "neww", "must be between 0 and 8192", -8) return false end
   if newh<0 or newh>8192 then ultraschall.AddErrorMessage("GFX_ResizeImageKeepAspectRatio", "newh", "must be between 0 and 8192", -9) return false end
   
-  local old_r, old_g, old_g=ultraschall.gfx.r, ultraschall.gfx.g, ultraschall.gfx.b  
-  local old_dest=ultraschall.gfx.dest
-  local oldx, oldy = ultraschall.gfx.x, ultraschall.gfx.y
-  local x,y=ultraschall.gfx.getimgdim(image)
+  local old_r, old_g, old_g=gfx.r, gfx.g, gfx.b  
+  local old_dest=gfx.dest
+  local oldx, oldy = gfx.x, gfx.y
+  
+  local x,y=gfx.getimgdim(image)
   local ratiox=((100/x)*neww)/100
   local ratioy=((100/y)*newh)/100
+  local ratio
   if ratiox<ratioy then ratio=ratiox else ratio=ratioy end
-  ultraschall.gfx.setimgdim(1023, neww, newh)
-  ultraschall.gfx.dest=1023
-  ultraschall.gfx.blit(image, ratio, 0)
+  gfx.setimgdim(1023, neww, newh)
+  gfx.dest=1023
+  gfx.set(0)
+  gfx.rect(0,0,8192,8192,1)
+  gfx.blit(image, ratio, 0)
 
-  ultraschall.gfx.setimgdim(image, neww, newh)
-  ultraschall.gfx.dest=image
-  if bg_r~=nil then ultraschall.gfx.r=bg_r end
-  if bg_g~=nil then ultraschall.gfx.g=bg_g end
-  if bg_b~=nil then ultraschall.gfx.b=bg_b end
-  x,y=ultraschall.gfx.getimgdim(image)
-  ultraschall.gfx.rect(-1,-1,x+1,y+1,1)
-  ultraschall.gfx.set(old_r, old_g, old_g)
-  ultraschall.gfx.blit(1023, 1, 0)
-  ultraschall.gfx.dest=old_dest
-  ultraschall.gfx.x, ultraschall.gfx.y = oldx, oldy
+  gfx.setimgdim(image, neww, newh)
+  gfx.dest=image
+  if bg_r~=nil then gfx.r=bg_r end
+  if bg_g~=nil then gfx.g=bg_g end
+  if bg_b~=nil then gfx.b=bg_b end
+  x,y=gfx.getimgdim(image)
+  gfx.rect(-1,-1,x+1,y+1,1)
+  gfx.set(old_r, old_g, old_g)
+  gfx.blit(1023, 1, 0)
+  gfx.dest=old_dest
+  gfx.x, gfx.y = oldx, oldy
   return true
 end
 
