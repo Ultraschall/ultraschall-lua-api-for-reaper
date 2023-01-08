@@ -649,7 +649,7 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
   </requires>
   <functioncall>string clickstate, string specific_clickstate, integer mouse_cap, integer click_x, integer click_y, integer drag_x, integer drag_y, integer mouse_wheel, integer mouse_hwheel = ultraschall.GFX_GetMouseCap(optional integer doubleclick_wait, optional integer drag_wait)</functioncall>
   <description>
-    Checks mouseclick/wheel-behavior, since last time calling this function and returns it's state.
+    Checks clickstates and mouseclick/wheel-behavior, since last time calling this function and returns their states.
     Allows you to get click, doubleclick, dragging, including the appropriate coordinates and mousewheel-states.
 
     Much more convenient, than fiddling around with gfx.mouse_cap
@@ -704,9 +704,8 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
     ultraschall.mouse_last_hwheel=0           -- last horizontal mouse-wheel-state, the last time this function got called
     ultraschall.mouse_last_wheel=0            -- last mouse-wheel-state, the last time this function got called
   end
-  if math.type(doubleclick_wait)~="integer" then doubleclick_wait=15 end
-  if math.type(drag_wait)~="integer" then drag_wait=5 end
-  
+  if math.type(doubleclick_wait)~="integer" then doubleclick_wait=0 end
+  if math.type(drag_wait)~="integer" then drag_wait=15 end
   -- if mousewheels have been changed, store the new values and reset the gfx-variables
   if ultraschall.mouse_last_hwheel~=gfx.mouse_hwheel or ultraschall.mouse_last_wheel~=gfx.mouse_wheel then
     ultraschall.mouse_last_hwheel=math.floor(gfx.mouse_hwheel)
