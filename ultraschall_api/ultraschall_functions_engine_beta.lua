@@ -1709,7 +1709,7 @@ function ultraschall.ConvertIniStringToTable(ini_string, convert_numbers_to_numb
     returns nil in case of an error
   </description>
   <retvals>
-    table ini_entries - the 
+    table ini_entries - the entries of the ini-file as a table
   </retvals>
   <parameters>
     string ini_string - the string that contains an ini-file-contents
@@ -1745,3 +1745,5 @@ function ultraschall.ConvertIniStringToTable(ini_string, convert_numbers_to_numb
   end
   return IniTable
 end
+
+

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55239.00" author="Meo Mespotine">
+      <version name="55271.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1443,7 +1443,7 @@
 	<source main="true" file="/ultraschall_developertool_gfx_deltablit_displayer.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.8 - " - " - 20th of January 2023
+4.8 - “The Beatles - Paperbag Writer” - 20th of January 2023
 
 Has now 1615 functions, with XX new ones
 
@@ -1459,6 +1459,8 @@ New features in 4.8
     function-context(for debug)
 -   HelperFunctions: ConvertIniStringToTable - converts a loaded
     ini-file into a table
+-   HelperFunctions: string.sub_utf8 - gets the subsection of an
+    utf8-encoded string; works like string.sub
 
 Changes from 4.75 to 4.8
 ]]>
@@ -1490,7 +1492,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1628 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55239 from 08.01.2023 15:16:24).}
+a 1629 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55271 from 08.01.2023 18:34:32).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1504,7 +1506,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1628 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1629 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

@@ -317,7 +317,7 @@ ToDo Marker Menu:
 ## Ultraschall Framework - Changelog
 
 
-### 4.8 - " - " - 20th of January 2023
+### 4.8 - "The Beatles - Paperbag Writer" - 20th of January 2023
 
 Has now 1615 functions, with XX new ones
 
@@ -329,6 +329,7 @@ Has now 1615 functions, with XX new ones
 #### New features in 4.8  
   - Debug: Debug\_ShowCurrentContext - calling this function returns/shows the current sourcefile, linenumber and function-context(for debug)
   - HelperFunctions: ConvertIniStringToTable - converts a loaded ini-file into a table
+  - HelperFunctions: string.sub\_utf8 - gets the subsection of an utf8-encoded string; works like string.sub
   
 #### Changes from 4.75 to 4.8  
 

@@ -3097,7 +3097,8 @@ function ultraschall.Statechunk_ReplaceEntry(StateChunk, Entry, EntryPositionAbo
   end
 end
 
-ultraschall.WalterElements={"tcp.dragdropinfo",
+ultraschall.WalterElements={
+"tcp.dragdropinfo",
 "tcp.env",
 "tcp.folder",
 "tcp.foldercomp",
@@ -3386,6 +3387,54 @@ ultraschall.WalterElements={"tcp.dragdropinfo",
 "trans.status.margin",
 "trans.stop"}
 
+
+function string.sub_utf8(source_string, startoffset, endoffset)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>string.sub_utf8</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>string found_string = string.sub_utf8(string source_string, integer startoffset, integer endoffset)</functioncall>
+  <description>
+    like Lua's string.sub() but works on utf8-encoded strings
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string found_string - the sub-string found in 
+  </retvals>
+  <parameters>
+    string source_string - the string, whose utf8-encoded sub-section you want to get
+    integer startoffset - the startoffset of the string in utf8-characters; negative values count from the end of the string
+    integer endoffset - the endoffset of the string in utf8-characters; negative values count from the end of the string
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Various
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>helperfunctions, utf8, get, subsection, string</tags>
+</US_DocBloc>
+--]]
+  if type(source_string)~="string" then error("bad argument #1, to 'sub_utf8' (string expected, got "..type(source_string)..")", 2) end
+  if math.type(startoffset)~="integer" then error("bad argument #2, to 'sub_utf8' (integer expected)", 2) end
+  if math.type(endoffset)~="integer" then error("bad argument #3, to 'sub_utf8' (integer expected)", 2) end
+  if endoffset==nil then endoffset=-1 end
+  local A={utf8.codepoint(source_string, 1, -1)}
+  local newstring=""
+  if endoffset>utf8.len(source_string) then endoffset=utf8.len(source_string) end
+  if endoffset<0 then endoffset=utf8.len(source_string)+endoffset+1 end
+  if startoffset<0 then startoffset=utf8.len(source_string)+startoffset+1 end
+  if startoffset<1 then startoffset=1 end
+  for i=startoffset, endoffset do
+    newstring=newstring..utf8.char(A[i])
+  end
+  return newstring
+end
 
 
 

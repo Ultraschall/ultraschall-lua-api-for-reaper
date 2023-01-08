@@ -230,7 +230,7 @@ function ultraschall.GFX_CreateTextbuffer(inittext, singleline)
 end
 
 function ultraschall.GFX_GetKey(textbuffer)
-  local char=gfx.getchar()
+  local char, char_utf8=gfx.getchar()
   local alt, cmd, shift, altgr, win, _temp, character, maxlines, xoffs, yoffs, singletext
   local change=false
   if gfx.mouse_cap&4==4 and gfx.mouse_cap&16==0 then cmd=true else cmd=false end
@@ -346,9 +346,16 @@ function ultraschall.GFX_GetKey(textbuffer)
     elseif char>31 and char<255 then -- add character to textfield
       textstart=textbuffer["text"][yoffs]:sub(1,xoffs)
       textend=textbuffer["text"][yoffs]:sub(xoffs+1,-1)
-      textbuffer["text"][yoffs]=textstart..string.char(char)..textend
+      textbuffer["text"][yoffs]=textstart..utf8.char(char)..textend
       xoffs=xoffs+1
       change=true
+    else
+      textstart=textbuffer["text"][yoffs]:sub(1,xoffs)
+      textend=textbuffer["text"][yoffs]:sub(xoffs+1,-1)
+      textbuffer["text"][yoffs]=textstart..utf8.char(char_utf8)..textend
+      xoffs=xoffs+1
+      change=true
+      
     end
     -- store current editingline into textbuffer
     if yoffs<1 then yoffs=1 end

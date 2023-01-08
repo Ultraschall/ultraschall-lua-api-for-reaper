@@ -524,7 +524,7 @@ false, treat ctrl+v/cmd+v as regular typed character</td></tr>
 <div class="l">Lua: <code> <i>string</i> clickstate, <i>string</i> specific_clickstate, <i>integer</i> mouse_cap, <i>integer</i> click_x, <i>integer</i> click_y, <i>integer</i> drag_x, <i>integer</i> drag_y, <i>integer</i> mouse_wheel, <i>integer</i> mouse_hwheel = <em>ultraschall.GFX_GetMouseCap</em>(<i>optional</i> <i>integer</i> doubleclick_wait, <i>optional</i> <i>integer</i> drag_wait)</code></div>
 </div><p>
 <div class="ch">
-Checks mouseclick/wheel-behavior, since last time calling this function and returns it's state.<br>
+Checks clickstates and mouseclick/wheel-behavior, since last time calling this function and returns their states.<br>
 Allows you to get click, doubleclick, dragging, including the appropriate coordinates and mousewheel-states.<br>
 <br>
 Much more convenient, than fiddling around with gfx.mouse_cap<br>
