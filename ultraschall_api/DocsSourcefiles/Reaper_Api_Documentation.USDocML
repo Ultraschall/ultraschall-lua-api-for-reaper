@@ -18160,7 +18160,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Set the mouse modifier assignment for a specific modifier key assignment, in a specific context.
             
-            Context is a string like "MM_CTX_ITEM". Find these strings by modifying an assignment in 
+            Context is a string like "MM\_CTX\_ITEM". Find these strings by modifying an assignment in 
             Preferences/Editing/Mouse Modifiers, then looking in reaper-mouse.ini.
 
             Modifier flag is a number from 0 to 15: add 1 for shift, 2 for control, 4 for alt, 8 for win.

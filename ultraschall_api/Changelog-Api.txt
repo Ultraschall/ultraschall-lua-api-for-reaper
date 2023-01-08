@@ -328,6 +328,7 @@ Has now 1615 functions, with XX new ones
 
 #### New features in 4.8  
   - Debug: Debug\_ShowCurrentContext - calling this function returns/shows the current sourcefile, linenumber and function-context(for debug)
+  - HelperFunctions: ConvertIniStringToTable - converts a loaded ini-file into a table
   
 #### Changes from 4.75 to 4.8  
 

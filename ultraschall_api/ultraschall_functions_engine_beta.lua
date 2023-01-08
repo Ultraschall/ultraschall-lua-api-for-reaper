@@ -1688,3 +1688,60 @@ function ultraschall.Debug_ShowCurrentContext(show)
   end
   return context["name"], context["currentline"], context["source"]:sub(2,-1), timestamp
 end
+
+
+function ultraschall.ConvertIniStringToTable(ini_string, convert_numbers_to_numbers)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertIniStringToTable</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>table ini_entries = ultraschall.ConvertIniStringToTable(string ini_string, boolean convert_numbers_to_numbers)</functioncall>
+  <description>
+    this converts a string in ini-format into a table
+    
+    the table is in the format:
+        ini_entries["sectionname"]["keyname"]=value
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    table ini_entries - the 
+  </retvals>
+  <parameters>
+    string ini_string - the string that contains an ini-file-contents
+    boolean convert_numbers_to_numbers - true, convert values who are valid numbers to numbers; false or nil, keep all values as strings
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Various
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>helperfunctions, convert, ini file, table</tags>
+</US_DocBloc>
+--]]
+  if type(ini_string)~="string" then ultraschall.AddErrorMessage("ConvertIniStringToTable", "ini_string", "must be a string", -1) return end
+  if convert_numbers_to_numbers~=nil and type(convert_numbers_to_numbers)~="boolean" then ultraschall.AddErrorMessage("ConvertIniStringToTable", "convert_numbers_to_numbers", "must be either nil or boolean", -2) return end
+  local IniTable={}
+  local cur_entry=""
+  for k in string.gmatch(ini_string, "(.-)\n") do
+    if k:sub(1,1)=="[" and k:sub(-1,-1)=="]" then
+      cur_entry=k:sub(2,-2)
+      IniTable[cur_entry]={}
+    else
+      local key, value=k:match("(.-)=(.*)")
+      if key~=nil then 
+        if convert_numbers_to_numbers==true and tonumber(value)~=nil then 
+          IniTable[cur_entry][key]=tonumber(value)
+        else 
+          IniTable[cur_entry][key]=value
+        end
+      end
+    end
+  end
+  return IniTable
+end
