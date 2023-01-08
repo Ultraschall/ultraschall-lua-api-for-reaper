@@ -251,11 +251,17 @@ function reagirl.NewGUI()
 end
 
 function reagirl.OpenGUI(title, w, h, dock, x, y)
+  reagirl.IsWindowOpen_attribute=true
   return reagirl.OpenWindow(title, w, h, dock, x, y)
+end
+
+function reagirl.IsWindowOpen()
+  return reagirl.IsWindowOpen_attribute
 end
 
 function reagirl.CloseGUI()
   gfx.quit()
+  reagirl.IsWindowOpen_attribute=false
 end
 
 
@@ -264,6 +270,7 @@ function reagirl.ManageGUI()
   for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
   local Key, Key_utf=gfx.getchar()
   if Key==-1 then return end
+  if Key==27 then reagirl.CloseGUI() end
   if gfx.mouse_cap&8==0 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 end
   if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
   if gfx.mouse_cap&8==8 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]-1 end
@@ -487,7 +494,7 @@ function UpdateUI(update)
   
 end
 
-Images={"c:\\m.png","c:\\c.png","c:\\logo.jpg"}
+Images={"c:\\m.png","c:\\d.png","c:\\f.jpg"}
 reagirl.OpenGUI("Test")
 UpdateUI()
 
@@ -509,7 +516,7 @@ function main()
   elseif gfx.mouse_cap==3 then reagirl.UI_Element_SetSelected(3)
   end
   --]]
-  reaper.defer(main)
+  if reagirl.IsWindowOpen()==true then reaper.defer(main) end
 end
 
 main()
