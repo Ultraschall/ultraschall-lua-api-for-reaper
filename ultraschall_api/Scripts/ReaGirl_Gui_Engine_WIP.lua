@@ -2,6 +2,156 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 reagirl={}
 reagirl.Elements={}
 
+function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ResizeImageKeepAspectRatio</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = reagirl.ResizeImageKeepAspectRatio(integer image, integer neww, integer newh, optional number r, optional number g, optional number b)</functioncall>
+  <description>
+    Resizes an image, keeping its aspect-ratio. You can set a background-color for non rectangular-images.
+    
+    Resizing upwards will probably cause artifacts!
+    
+    Note: this uses image 1023 as temporary buffer so don't use image 1023, when using this function!
+  </description>
+  <parameters>
+    integer image - an image between 0 and 1022, that you want to resize
+    integer neww - the new width of the image
+    integer newh - the new height of the image
+    optional number r - the red-value of the background-color
+    optional number g - the green-value of the background-color
+    optional number b - the blue-value of the background-color
+  </parameters>
+  <retvals>
+    boolean retval - true, blitting was successful; false, blitting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Blitting
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, resize, image</tags>
+</US_DocBloc>
+]]
+  if math.type(image)~="integer" then error("ResizeImageKeepAspectRatio: #1 - must be an integer", 2) end
+  if math.type(neww)~="integer" then error("ResizeImageKeepAspectRatio: #2 - must be an integer", 2) end
+  if math.type(newh)~="integer" then error("ResizeImageKeepAspectRatio: #3 - must be an integer", 2) end
+  
+  if bg_r~=nil and type(bg_r)~="number" then error("ResizeImageKeepAspectRatio: #4 - must be a number", 2) end
+  if bg_g~=nil and type(bg_g)~="number" then error("ResizeImageKeepAspectRatio: #5 - must be a number", 2) end
+  if bg_b~=nil and type(bg_b)~="number" then error("ResizeImageKeepAspectRatio: #6 - must be a number", 2) end
+  
+  if image<0 or image>1022 then error("ResizeImageKeepAspectRatio: #1 - must be between 0 and 1022", 2) end
+  if neww<0 or neww>8192 then error("ResizeImageKeepAspectRatio: #2 - must be between 0 and 8192", 2) end
+  if newh<0 or newh>8192 then error("ResizeImageKeepAspectRatio: #3 - must be between 0 and 8192", 2) end
+  
+  local old_r, old_g, old_g=gfx.r, gfx.g, gfx.b  
+  local old_dest=gfx.dest
+  local oldx, oldy = gfx.x, gfx.y
+  
+  local x,y=gfx.getimgdim(image)
+  local ratiox=((100/x)*neww)/100
+  local ratioy=((100/y)*newh)/100
+  local ratio
+  if ratiox<ratioy then ratio=ratiox else ratio=ratioy end
+  gfx.setimgdim(1023, neww, newh)
+  gfx.dest=1023
+  gfx.set(0)
+  gfx.rect(0,0,8192,8192,1)
+  gfx.blit(image, ratio, 0)
+
+  gfx.setimgdim(image, neww, newh)
+  gfx.dest=image
+  if bg_r~=nil then gfx.r=bg_r end
+  if bg_g~=nil then gfx.g=bg_g end
+  if bg_b~=nil then gfx.b=bg_b end
+  x,y=gfx.getimgdim(image)
+  gfx.rect(-1,-1,x+1,y+1,1)
+  gfx.set(old_r, old_g, old_g)
+  gfx.blit(1023, 1, 0)
+  gfx.dest=old_dest
+  gfx.x, gfx.y = oldx, oldy
+  return true
+end
+
+--reagirl.ResizeImageKeepAspectRatio(1, 1, 1, 1, 1, 1)
+
+function reagirl.BlitImageCentered(image, x, y, scale, rotate, ...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>BlitImageCentered</slug>
+  <requires>
+    ReaGirl=4.00
+    Reaper=5.99
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = reagirl.BlitImageCentered(integer image, integer x, integer y, number scale, number rotate, optional number srcx, optional number srcy, optional number srcw, optional number srch, optional integer destx, optional integer desty, optional integer destw, optional integer desth, optional integer rotxoffs, optional integer rotyoffs)</functioncall>
+  <description>
+    Blits a centered image at the position given by parameter x and y. That means, the center of the image will be at x and y.
+    
+    All the rest basically works like the regular gfx.blit-function.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, blitting was successful; false, blitting was unsuccessful
+  </retvals>
+  <parameters>
+    integer source - the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.
+    integer x - the x-position of the center of the image
+    integer y - the y-position of the center of the image
+    number scale - the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger
+                    - has no effect, when destx, desty, destw, desth are given
+    number rotation - the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.
+    optional number srcx - the x-coordinate-offset in the source-image
+    optional number srcy - the y-coordinate-offset in the source-image
+    optional number srcw - the width-offset in the source-image
+    optional number srch - the height-offset in the source-image
+    optional integer destx - the x-coordinate of the blitting destination
+    optional integer desty - the y-coordinate of the blitting destination
+    optional integer destw - the width of the blitting destination; may lead to stretched images
+    optional integer desth - the height of the blitting destination; may lead to stretched images
+    optional number rotxoffs - influences rotation
+    optional number rotyoffs - influences rotation
+  </parameters>
+  <chapter_context>
+    Blitting
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, blit, centered, rotate, scale</tags>
+</US_DocBloc>
+--]]
+  if math.type(image)~="integer" then error("BlitImageCentered: #1 - must be an integer", 2) end
+  if image<-1 or image>1023 then error("BlitImageCentered: #1 - must be between -1 and 1023", 2) end
+  if math.type(x)~="integer" then error("BlitImageCentered: #2 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("BlitImageCentered: #3 - must be an integer", 2) end
+  if type(scale)~="number" then error("BlitImageCentered: #4 - must be a number between 0 and higher", 2) end
+  if type(rotate)~="number" then error("BlitImageCentered: #5 - must be a number", 2) end
+  local params={...}
+  for i=1, #params do
+    if type(params[i])~="number" then error("BlitImageCentered: #"..(i+5).." - must be a number or an integer", 2) end
+  end
+  local oldx=gfx.x
+  local oldy=gfx.y
+  local X,Y=gfx.getimgdim(image)
+  gfx.x=x-((X*scale)/2)
+  gfx.y=y-((Y*scale)/2)
+  gfx.blit(image, scale, rotate, table.unpack(params))
+  gfx.x=oldx
+  gfx.y=oldy
+  return true
+end
+
+--reagirl.BlitImageCentered(11111, 1, 1, 1, 1, ...)
+
+
+
 function reagirl.OpenWindow(...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -31,8 +181,8 @@ function reagirl.OpenWindow(...)
   <chapter_context>
     Window Handling
   </chapter_context>
-  <target_document>US_Api_GFX</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
   <tags>gfx, functions, gfx, init, window, create, hwnd</tags>
 </US_DocBloc>
 ]]
@@ -130,8 +280,8 @@ function reagirl.GetMouseCap(doubleclick_wait, drag_wait)
   <chapter_context>
     Mouse Handling
   </chapter_context>
-  <target_document>US_Api_GFX</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
   <tags>gfx, functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
 ]]
@@ -317,8 +467,14 @@ function reagirl.DrawGui(Key, clickstate, specific_clickstate, mouse_cap, click_
   local selected
   gfx.set(reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"])
   gfx.rect(0,0,gfx.w,gfx.h,1)
+  reagirl.DrawBackgroundImage()
   for i=#reagirl.Elements, 1, -1 do
-    if reagirl.Elements["FocusedElement"]==i then selected=true else selected=false end
+    if reagirl.Elements["FocusedElement"]==i then 
+      selected=true 
+    else 
+      selected=false 
+    end
+    
     local message=reagirl.Elements[i]["func"](i, selected,
       reagirl.Elements[i]["clicked"],
       gfx.mouse_cap,
@@ -334,6 +490,22 @@ function reagirl.DrawGui(Key, clickstate, specific_clickstate, mouse_cap, click_
       Key_utf,
       reagirl.Elements[i]
     )
+    if selected==true then
+      local x2, y2
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
+      local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
+      local dest=gfx.dest
+      gfx.dest=-1
+      gfx.set(1)
+      gfx.rect(x2-1,y2-1,reagirl.Elements[i]["w"]+2,reagirl.Elements[i]["h"]+2,0)
+      gfx.set(r,g,b,a)
+      gfx.dest=dest
+      if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
+        reagirl.oldselection=i
+        if reaper.JS_Mouse_SetPosition~=nil then reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2,y2)) end
+      end
+    end
     if selected==true and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
       reaper.osara_outputMessage(message)
       reagirl.old_osara_message=message
@@ -413,7 +585,7 @@ function reagirl.AddImage(image_file, x, y, w, h, Name, Description, Tooltip, ru
   gfx.set(r,g,b,a)
   gfx.dest=-1
   local AImage=gfx.loadimg(reagirl.Elements[#reagirl.Elements]["Image_Storage"], image_file)
-  local retval = ultraschall.GFX_ResizeImageKeepAspectRatio(reagirl.Elements[#reagirl.Elements]["Image_Storage"], w, h, 0, 0, 0)
+  local retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[#reagirl.Elements]["Image_Storage"], w, h, 0, 0, 0)
   return #reagirl.Elements
 end
 
@@ -427,7 +599,7 @@ function reagirl.DrawImage(element_id, selected, clicked, mouse_cap, mouse_attri
   oldmode=gfx.mode
   --gfx.mode=1
   gfx.set(0)
-  gfx.rect(x,y,w,h,1)
+  --gfx.rect(x,y,w,h,1)
   oldx,oldy=gfx.x, gfx.y
   
   if selected==true then
@@ -449,8 +621,6 @@ function reagirl.DrawImage(element_id, selected, clicked, mouse_cap, mouse_attri
   gfx.dest=-1
   gfx.blit(element_storage["Image_Storage"], 1, 0)
   if selected==true then
-    gfx.set(1)
-    gfx.rect(x2,y2,w,h,0)
     message="Focused Image "..description
   end
   gfx.r,gfx.g,gfx.b,gfx.a=r,g,b,a
@@ -471,6 +641,9 @@ function reagirl.UI_Element_Move(element_id, x, y, w, h)
   if y~=nil then reagirl.Elements[element_id]["y"]=y end
   if w~=nil then reagirl.Elements[element_id]["w"]=w end
   if h~=nil then reagirl.Elements[element_id]["h"]=h end
+  if element_id==reagirl.Elements["FocusedElement"] then
+    reagirl.oldselection=-1
+  end
 end
 
 function reagirl.UI_Element_SetSelected(element_id)
@@ -494,11 +667,42 @@ function UpdateUI(update)
   
 end
 
-Images={"c:\\m.png","c:\\d.png","c:\\f.jpg"}
+Images={"c:\\m.png","c:\\d.png","c:\\c.png"}
 reagirl.OpenGUI("Test")
 UpdateUI()
 
+function reagirl.GetSetBackgroundImage(filename, scaled, centered)
+  reagirl.MaxImage=reagirl.MaxImage+1
+  E=gfx.loadimg(reagirl.MaxImage, filename)
+  if reagirl.DecorativeImages==nil then
+    reagirl.DecorativeImages={}
+    reagirl.DecorativeImages["Background"]=reagirl.MaxImage
+    reagirl.DecorativeImages["Background_Scaled"]=scaled
+    reagirl.DecorativeImages["Background_Centered"]=centered
+  end
+end
 
+function reagirl.DrawBackgroundImage()
+  gfx.dest=-1
+  if reagirl.DecorativeImages["Background_Scaled"]==true then
+    local x,y=gfx.getimgdim(reagirl.DecorativeImages["Background"])
+    local ratiox=((100/x)*gfx.w)/100
+    local ratioy=((100/y)*gfx.h)/100
+    if ratiox<ratioy then scale=ratiox else scale=ratioy end
+    if x<gfx.w and y<gfx.h then scale=1 end
+  else
+    scale=1
+  end
+  if reagirl.DecorativeImages["Background_Centered"]==true then
+    reagirl.BlitImageCentered(reagirl.DecorativeImages["Background"], math.floor(gfx.w/2), math.floor(gfx.h/2), scale, 0)
+  else
+    gfx.x=0
+    gfx.y=0
+    gfx.blit(reagirl.DecorativeImages["Background"], scale, 0)
+  end
+end
+
+reagirl.GetSetBackgroundImage("c:\\c.png", true, false)
 
 --reagirl.GetSetBackgroundColor(true, 100, g, b)
 --reagirl.Button(10, 10, 10, 100, "Hulubuluberg", "Description", "Tooltip")
@@ -518,5 +722,6 @@ function main()
   --]]
   if reagirl.IsWindowOpen()==true then reaper.defer(main) end
 end
+
 
 main()
