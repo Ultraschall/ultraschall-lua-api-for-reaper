@@ -1380,8 +1380,11 @@ function ultraschall.GFX_ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_
   if math.type(newh)~="integer" then ultraschall.AddErrorMessage("GFX_ResizeImageKeepAspectRatio", "newh", "must be an integer", -3) return false end
   
   if bg_r~=nil and type(bg_r)~="number" then ultraschall.AddErrorMessage("GFX_ResizeImageKeepAspectRatio", "bg_r", "must be a number", -4) return false end
+  if bg_r==nil then bg_r=0 end
   if bg_g~=nil and type(bg_g)~="number" then ultraschall.AddErrorMessage("GFX_ResizeImageKeepAspectRatio", "bg_g", "must be a number", -5) return false end
+  if bg_g==nil then bg_g=0 end
   if bg_b~=nil and type(bg_b)~="number" then ultraschall.AddErrorMessage("GFX_ResizeImageKeepAspectRatio", "bg_b", "must be a number", -6) return false end
+  if bg_b==nil then bg_b=0 end
   
   if image<0 or image>1022 then ultraschall.AddErrorMessage("GFX_ResizeImageKeepAspectRatio", "image", "must be between 0 and 1022", -7) return false end
   if neww<0 or neww>8192 then ultraschall.AddErrorMessage("GFX_ResizeImageKeepAspectRatio", "neww", "must be between 0 and 8192", -8) return false end
@@ -1398,8 +1401,10 @@ function ultraschall.GFX_ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_
   if ratiox<ratioy then ratio=ratiox else ratio=ratioy end
   gfx.setimgdim(1023, neww, newh)
   gfx.dest=1023
-  gfx.set(0)
+  gfx.set(bg_r, bg_g, bg_b)
   gfx.rect(0,0,8192,8192,1)
+  gfx.x=0
+  gfx.y=0
   gfx.blit(image, ratio, 0)
 
   gfx.setimgdim(image, neww, newh)

@@ -23,9 +23,9 @@ function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
     integer image - an image between 0 and 1022, that you want to resize
     integer neww - the new width of the image
     integer newh - the new height of the image
-    optional number r - the red-value of the background-color
-    optional number g - the green-value of the background-color
-    optional number b - the blue-value of the background-color
+    optional number r - the red-value of the background-color; nil, = 0
+    optional number g - the green-value of the background-color; nil, = 0
+    optional number b - the blue-value of the background-color; nil, = 0
   </parameters>
   <retvals>
     boolean retval - true, blitting was successful; false, blitting was unsuccessful
@@ -43,8 +43,11 @@ function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
   if math.type(newh)~="integer" then error("ResizeImageKeepAspectRatio: #3 - must be an integer", 2) end
   
   if bg_r~=nil and type(bg_r)~="number" then error("ResizeImageKeepAspectRatio: #4 - must be a number", 2) end
+  if bg_r==nil then bg_r=0 end
   if bg_g~=nil and type(bg_g)~="number" then error("ResizeImageKeepAspectRatio: #5 - must be a number", 2) end
+  if bg_g==nil then bg_g=0 end
   if bg_b~=nil and type(bg_b)~="number" then error("ResizeImageKeepAspectRatio: #6 - must be a number", 2) end
+  if bg_b==nil then bg_b=0 end
   
   if image<0 or image>1022 then error("ResizeImageKeepAspectRatio: #1 - must be between 0 and 1022", 2) end
   if neww<0 or neww>8192 then error("ResizeImageKeepAspectRatio: #2 - must be between 0 and 8192", 2) end
@@ -61,8 +64,10 @@ function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
   if ratiox<ratioy then ratio=ratiox else ratio=ratioy end
   gfx.setimgdim(1023, neww, newh)
   gfx.dest=1023
-  gfx.set(0)
+  gfx.set(bg_r, bg_g, bg_b)
   gfx.rect(0,0,8192,8192,1)
+  gfx.x=0
+  gfx.y=0
   gfx.blit(image, ratio, 0)
 
   gfx.setimgdim(image, neww, newh)
@@ -422,7 +427,7 @@ function reagirl.ManageGUI()
   local Key, Key_utf=gfx.getchar()
   if Key==-1 then return end
   if Key==27 then reagirl.CloseGUI() end
-  if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]) end
+  if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.old_osara_message) end
   if gfx.mouse_cap&8==0 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 end
   if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
   if gfx.mouse_cap&8==8 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]-1 end
@@ -448,7 +453,7 @@ function reagirl.ManageGUI()
   reagirl.DrawGui(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
 end
 
-function reagirl.GetSetBackgroundColor(is_set, r, g, b)
+function reagirl.Background_GetSetColor(is_set, r, g, b)
   if type(is_set)~="boolean" then error("GetSetBackgroundColor: param #1 - must be a boolean", 2) end
   if math.type(r)~="integer" then error("GetSetBackgroundColor: param #2 - must be an integer", 2) end
   if g~=nil and math.type(g)~="integer" then error("GetSetBackgroundColor: param #3 - must be an integer", 2) end
@@ -563,7 +568,7 @@ function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mous
   return "HUCH", message
 end
 
-function reagirl.AddCheckBox(x, y, Name, Description, Tooltip, default, run_function)
+function reagirl.CheckBox_Add(x, y, Name, Description, Tooltip, default, run_function)
   local tx,ty=gfx.measurestr(Name)
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Checkbox"
@@ -575,19 +580,24 @@ function reagirl.AddCheckBox(x, y, Name, Description, Tooltip, default, run_func
   reagirl.Elements[#reagirl.Elements]["w"]=gfx.texth+tx+4
   reagirl.Elements[#reagirl.Elements]["h"]=gfx.texth
   reagirl.Elements[#reagirl.Elements]["checked"]=default
-  reagirl.Elements[#reagirl.Elements]["func"]=reagirl.DrawCheckBox
+  reagirl.Elements[#reagirl.Elements]["func"]=reagirl.CheckBox_Draw
   reagirl.Elements[#reagirl.Elements]["run_function"]=run_function
   reagirl.Elements[#reagirl.Elements]["userspace"]={}
   return #reagirl.Elements
 end
 
-function reagirl.DrawCheckBox(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
+function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.set(0.4)
   gfx.rect(x+1,y+1,h,h,0)
   gfx.set(1)
   gfx.rect(x,y,h,h,0)
+  if x<0 then x2=gfx.w+x else x2=x end
+  if y<0 then y2=gfx.h+y else y2=y end
+  
+  gfx.x=x2
+  gfx.y=y2
   if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
-    if (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32 then
+    if (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) or Key==32 then
       if reagirl.Elements[element_id]["checked"]==true then 
         reagirl.Elements[element_id]["checked"]=false 
         element_storage["run_function"](reagirl.Elements[element_id]["checked"])
@@ -599,24 +609,24 @@ function reagirl.DrawCheckBox(element_id, selected, clicked, mouse_cap, mouse_at
   end
   if reagirl.Elements[element_id]["checked"]==true then
     gfx.set(1,1,0)
-    gfx.rect(x+4,y+4,h-8,h-8,1)
+    gfx.rect(x2+4,y2+4,h-8,h-8,1)
   end
   gfx.set(0.3)
-  gfx.x=x+h+3
-  gfx.y=y+1
+  gfx.x=x2+h+3
+  gfx.y=y2+1
   gfx.drawstr(name)
   gfx.set(1)
-  gfx.x=x+h+2
-  gfx.y=y
+  gfx.x=x2+h+2
+  gfx.y=y2
   gfx.drawstr(name)
   if reagirl.Elements[element_id]["checked"]==true then
-    return "Checkbox "..name.." checked"
+    return name.." Checkbox checked. "..description
   else
-    return "Checkbox "..name.." unchecked"
+    return name.." Checkbox unchecked. "..description
   end
 end
 
-function reagirl.AddImage(image_file, x, y, w, h, Name, Description, Tooltip, run_function, func_params)
+function reagirl.Image_Add(image_file, x, y, w, h, Name, Description, Tooltip, run_function, func_params)
   if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
   reagirl.MaxImage=reagirl.MaxImage+1
   reagirl.Elements[#reagirl.Elements+1]={}
@@ -628,11 +638,12 @@ function reagirl.AddImage(image_file, x, y, w, h, Name, Description, Tooltip, ru
   reagirl.Elements[#reagirl.Elements]["y"]=y
   reagirl.Elements[#reagirl.Elements]["w"]=w
   reagirl.Elements[#reagirl.Elements]["h"]=h
-  reagirl.Elements[#reagirl.Elements]["Image_File"]=image_file
-  reagirl.Elements[#reagirl.Elements]["Image_Storage"]=reagirl.MaxImage
-  reagirl.Elements[#reagirl.Elements]["func"]=reagirl.DrawImage
+  reagirl.Elements[#reagirl.Elements]["func"]=reagirl.Image_Draw
   reagirl.Elements[#reagirl.Elements]["run_function"]=run_function
   reagirl.Elements[#reagirl.Elements]["func_params"]=func_params
+  
+  reagirl.Elements[#reagirl.Elements]["Image_Storage"]=reagirl.MaxImage
+  reagirl.Elements[#reagirl.Elements]["Image_File"]=image_file
   gfx.dest=reagirl.Elements[#reagirl.Elements]["Image_Storage"]
   local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
   gfx.set(0)
@@ -644,9 +655,9 @@ function reagirl.AddImage(image_file, x, y, w, h, Name, Description, Tooltip, ru
   return #reagirl.Elements
 end
 
-function reagirl.DrawImage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
+function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
   -- no docs in API-docs
-  local r,g,b,a,message,oldx,oldy,oldmode
+  local r,g,b,a,message,oldx,oldy,oldmode,x2,y2
   r=gfx.r
   g=gfx.g
   b=gfx.b
@@ -658,10 +669,11 @@ function reagirl.DrawImage(element_id, selected, clicked, mouse_cap, mouse_attri
   oldx,oldy=gfx.x, gfx.y
   
   if selected==true then
-    message="Focused Image "..description
+    message="Image "..description
   else
     message=""
   end
+  
   if x<0 then x2=gfx.w+x else x2=x end
   if y<0 then y2=gfx.h+y else y2=y end
   
@@ -676,13 +688,25 @@ function reagirl.DrawImage(element_id, selected, clicked, mouse_cap, mouse_attri
   gfx.dest=-1
   gfx.blit(element_storage["Image_Storage"], 1, 0)
   if selected==true then
-    message="Focused Image "..description
+    message="Image "..description
   end
   gfx.r,gfx.g,gfx.b,gfx.a=r,g,b,a
   gfx.mode=oldmode
   gfx.x=oldx
   gfx.y=oldy
   return message
+end
+
+function reagirl.Image_Update(element_id, image_file)
+  gfx.dest=reagirl.Elements[element_id]["Image_Storage"]
+  reagirl.Elements[element_id]["Image_File"]=image_file
+  local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
+  gfx.set(1)
+  gfx.rect(0,0,8192,8192)
+  gfx.set(r,g,b,a)
+  gfx.dest=-1
+  AImage=gfx.loadimg(reagirl.Elements[element_id]["Image_Storage"], image_file)
+  retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[element_id]["Image_Storage"], reagirl.Elements[element_id]["w"], reagirl.Elements[element_id]["h"], 0, 0, 0)
 end
 
 function reagirl.UI_Element_Move(element_id, x, y, w, h)
@@ -707,7 +731,7 @@ function reagirl.UI_Element_SetSelected(element_id)
 end
 
 
-function reagirl.GetSetBackgroundImage(filename, scaled, centered)
+function reagirl.Background_GetSetImage(filename, scaled, centered)
   --if reagirl.MaxImage==nil then reagirl.MaxImage=-1 end
   reagirl.MaxImage=reagirl.MaxImage+1
   gfx.loadimg(reagirl.MaxImage, filename)
@@ -722,10 +746,12 @@ end
 function reagirl.DrawBackgroundImage()
   if reagirl.DecorativeImages==nil then return end
   gfx.dest=-1
+  local scale
   if reagirl.DecorativeImages["Background_Scaled"]==true then
     local x,y=gfx.getimgdim(reagirl.DecorativeImages["Background"])
     local ratiox=((100/x)*gfx.w)/100
     local ratioy=((100/y)*gfx.h)/100
+    
     if ratiox<ratioy then scale=ratiox else scale=ratioy end
     if x<gfx.w and y<gfx.h then scale=1 end
   else
@@ -745,8 +771,7 @@ function CheckMe(tudelu)
 --  print2(tudelu)
 end
 
---reagirl.GetSetBackgroundColor(true, 100, g, b)
---reagirl.Button(10, 10, 10, 100, "Hulubuluberg", "Description", "Tooltip")
+
 count=0
 count2=0
 function main()
@@ -755,7 +780,7 @@ function main()
   count2=count2+4
   if count>100 then count=0 end
   if count2>300 then count2=0 end
-  reagirl.UI_Element_Move(2, count, count2, w, h)
+  --reagirl.UI_Element_Move(2, count, count2, w, h)
   --[[if gfx.mouse_cap==1 then reagirl.UI_Element_SetSelected(1)
   elseif gfx.mouse_cap==2 then reagirl.UI_Element_SetSelected(2)
   elseif gfx.mouse_cap==3 then reagirl.UI_Element_SetSelected(3)
@@ -764,10 +789,10 @@ function main()
   if reagirl.IsWindowOpen()==true then reaper.defer(main) end
 end
 
-function UpdateUI(update)
+function UpdateUI()
   reagirl.NewGUI()
-  reagirl.GetSetBackgroundColor(true, 100,100,100)
-  reagirl.GetSetBackgroundImage("c:\\c.png", true, false)
+  reagirl.Background_GetSetColor(true, 0,0,0)
+  reagirl.Background_GetSetImage("c:\\c.png", true, false)
   if update==true then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
@@ -775,17 +800,26 @@ function UpdateUI(update)
     end
   end
   --reagirl.SetWindowBackground(0.10, 0, 0)
-  A=reagirl.AddCheckBox(1, 1, "Tudelu1", "Description of the Checkbox", "Tooltip", true, CheckMe)
-  A1=reagirl.AddCheckBox(10, 1, "Tudelu2", "Description of the Checkbox", "Tooltip", true, CheckMe)
-  A2=reagirl.AddCheckBox(100, 1, "Tudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
-  B=reagirl.AddImage(Images[1], -105, -110, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateUI, {true})
+  A=reagirl.CheckBox_Add(344, 35, "Does the chapter contain spoilers?", "Description of the Checkbox", "Tooltip", true, CheckMe)
+  A1=reagirl.CheckBox_Add(344, 55, "Tudelu2", "Description of the Checkbox", "Tooltip", true, CheckMe)
+  A2=reagirl.CheckBox_Add(344, 75, "Tudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
+  B=reagirl.Image_Add(Images[1], -100, -100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
   --reagirl.AddDummyElement()
-  C=reagirl.AddImage(Images[2], -150, -170, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
-  D=reagirl.AddImage(Images[3], 140, 140, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
+--  C=reagirl.AddImage(Images[2], -150, -170, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
+--  D=reagirl.AddImage(Images[3], 140, 140, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
+end
+
+function UpdateImage2()
+  if gfx.mouse_cap==1 then
+    retval, filename = reaper.GetUserFileNameForRead("", "", "")
+    if retval==true then
+      reagirl.Image_Update(4, filename)
+    end
+  end
+  --]]
 end
 
 Images={"c:\\m.png","c:\\m.png","c:\\m.png"}
 reagirl.OpenGUI("Test")
 UpdateUI()
-
 main()
