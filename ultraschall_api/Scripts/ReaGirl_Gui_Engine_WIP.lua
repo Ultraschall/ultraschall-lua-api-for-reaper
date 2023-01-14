@@ -587,15 +587,17 @@ function reagirl.CheckBox_Add(x, y, Name, Description, Tooltip, default, run_fun
 end
 
 function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
-  gfx.set(0.4)
-  gfx.rect(x+1,y+1,h,h,0)
-  gfx.set(1)
-  gfx.rect(x,y,h,h,0)
+  local x2,y2
   if x<0 then x2=gfx.w+x else x2=x end
   if y<0 then y2=gfx.h+y else y2=y end
-  
   gfx.x=x2
   gfx.y=y2
+  gfx.set(0.4)
+  gfx.rect(x2+1,y2+1,h,h,0)
+  gfx.set(1)
+  gfx.rect(x2,y2,h,h,0)
+  
+  
   if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
     if (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) or Key==32 then
       if reagirl.Elements[element_id]["checked"]==true then 
@@ -792,7 +794,7 @@ end
 function UpdateUI()
   reagirl.NewGUI()
   reagirl.Background_GetSetColor(true, 0,0,0)
-  reagirl.Background_GetSetImage("c:\\c.png", true, false)
+  reagirl.Background_GetSetImage("c:\\m.png", true, false)
   if update==true then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
@@ -800,12 +802,13 @@ function UpdateUI()
     end
   end
   --reagirl.SetWindowBackground(0.10, 0, 0)
-  A=reagirl.CheckBox_Add(344, 35, "Does the chapter contain spoilers?", "Description of the Checkbox", "Tooltip", true, CheckMe)
-  A1=reagirl.CheckBox_Add(344, 55, "Tudelu2", "Description of the Checkbox", "Tooltip", true, CheckMe)
-  A2=reagirl.CheckBox_Add(344, 75, "Tudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
+  A=reagirl.CheckBox_Add(-230, 90, "Chapter contains spoilers?", "Description of the Checkbox", "Tooltip", true, CheckMe)
+  A1=reagirl.CheckBox_Add(-230, 110, "Tudelu2", "Description of the Checkbox", "Tooltip", true, CheckMe)
+  A2=reagirl.CheckBox_Add(-230, 130, "Tudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
+  C=reagirl.Image_Add(Images[2], -230, 155, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
   B=reagirl.Image_Add(Images[1], -100, -100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
   --reagirl.AddDummyElement()
---  C=reagirl.AddImage(Images[2], -150, -170, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
+  
 --  D=reagirl.AddImage(Images[3], 140, 140, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
 end
 
@@ -819,7 +822,7 @@ function UpdateImage2()
   --]]
 end
 
-Images={"c:\\m.png","c:\\m.png","c:\\m.png"}
+Images={"c:\\m.png","c:\\f.png","c:\\m.png"}
 reagirl.OpenGUI("Test")
 UpdateUI()
 main()
