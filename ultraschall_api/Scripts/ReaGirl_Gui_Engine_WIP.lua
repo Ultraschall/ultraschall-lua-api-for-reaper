@@ -682,7 +682,9 @@ end
 
 function reagirl.ReserveImageBuffer()
   -- reserves an image buffer for custom UI elements
+  -- returns -1 if no buffer can be reserved anymore
   if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
+  if reagirl.MaxImage==1022 then return -1 end
   reagirl.MaxImage=reagirl.MaxImage+1
   return reagirl.MaxImage
 end
