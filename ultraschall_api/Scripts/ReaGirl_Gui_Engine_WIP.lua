@@ -468,7 +468,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       gfx.dest=dest
       if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
         reagirl.oldselection=i
-        if reaper.JS_Mouse_SetPosition~=nil then reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2,y2)) end
+        if reaper.JS_Mouse_SetPosition~=nil then reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+4,y2+4)) end
       end
     end
     if selected==true and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
@@ -476,6 +476,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       reagirl.old_osara_message=message
     end
   end
+  reagirl.CheckForDroppedFiles()
 end
 
 function reagirl.AddDummyElement()  
@@ -803,27 +804,41 @@ function reagirl.DrawBackgroundImage()
   gfx.blit(reagirl.DecorativeImages["Background"], scale, 0)
 end
 
-
-function CheckMe(tudelu)
---  print2(tudelu)
+function reagirl.CheckForDroppedFiles()
+  local x, y, w, h
+  if reagirl.DropZoneFunc~=nil then
+    if reagirl.DropZoneX<0 then x=gfx.w+reagirl.DropZoneX else x=reagirl.DropZoneX end
+    if reagirl.DropZoneY<0 then y=gfx.h+reagirl.DropZoneY else y=reagirl.DropZoneY end
+    if reagirl.DropZoneW<0 then w=gfx.w-x+reagirl.DropZoneW else w=reagirl.DropZoneW end
+    if reagirl.DropZoneH<0 then h=gfx.h-y+reagirl.DropZoneH else h=reagirl.DropZoneH end
+    -- debug dropzone-rectangle, for checking, if it works
+      gfx.set(1)
+      gfx.rect(x, y, w, h, 0)
+    --]]
+    local files={}
+    local retval
+    if gfx.mouse_x>=x and
+       gfx.mouse_y>=y and
+       gfx.mouse_x<=x+w and
+       gfx.mouse_y<=y+h then
+       for i=0, 65555 do
+         retval, files[i]=gfx.getdropfile(i)
+         if files[i]==0 then table.remove(files,i) break end
+       end
+       if #files>0 then
+        reagirl.DropZoneFunc(files)
+       end
+    end
+    gfx.getdropfile(-1)
+  end
 end
 
-
-count=0
-count2=0
-function main()
-  reagirl.Gui_Manage()
-  count=count+2
-  count2=count2+4
-  if count>100 then count=0 end
-  if count2>300 then count2=0 end
-  --reagirl.UI_Element_Move(2, count, count2, w, h)
-  --[[if gfx.mouse_cap==1 then reagirl.UI_Element_SetSelected(1)
-  elseif gfx.mouse_cap==2 then reagirl.UI_Element_SetSelected(2)
-  elseif gfx.mouse_cap==3 then reagirl.UI_Element_SetSelected(3)
-  end
-  --]]
-  if reagirl.Window_IsOpen()==true then reaper.defer(main) end
+function reagirl.FileDropZone_Set(x,y,w,h,func)
+  reagirl.DropZoneFunc=func
+  reagirl.DropZoneX=x
+  reagirl.DropZoneY=y
+  reagirl.DropZoneW=w
+  reagirl.DropZoneH=h
 end
 
 function DropDownList(element_id, check, name)
@@ -848,10 +863,9 @@ function UpdateUI()
   C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
   B=reagirl.Image_Add(Images[1], -100, -100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
   E=reagirl.DropDownMenu_Add(-230, 150, -10, "DropDownMenu", "Desc of DDM", "DDM", 5, {"The", "Death", "Of", "A", "Party            Hardy Hard Scooter",2,3,4,5}, DropDownList)
-  --reagirl.AddDummyElement()
-  
+  reagirl.AddDummyElement()
+  reagirl.FileDropZone_Set(-230,175,100,100, GetFileList)
   D=reagirl.Image_Add(Images[3], 140, 140, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
-  
 end
 
 function reagirl.Window_ForceSize()
@@ -878,8 +892,40 @@ function UpdateImage2(element_id)
   --]]
 end
 
+function GetFileList(filelist)
+  list=""
+  for i=0, 1000 do
+    if filelist[i]==nil then break end
+    list=list..filelist[i].."\n"
+  end
+  print2(list)
+end
+
+function CheckMe(tudelu)
+--  print2(tudelu)
+end
+
+
+count=0
+count2=0
+function main()
+  reagirl.Gui_Manage()
+  count=count+2
+  count2=count2+4
+  if count>100 then count=0 end
+  if count2>300 then count2=0 end
+  reagirl.UI_Element_Move(2, count, count2, w, h)
+  --[[if gfx.mouse_cap==1 then reagirl.UI_Element_SetSelected(1)
+  elseif gfx.mouse_cap==2 then reagirl.UI_Element_SetSelected(2)
+  elseif gfx.mouse_cap==3 then reagirl.UI_Element_SetSelected(3)
+  end
+  --]]
+  
+  if reagirl.Window_IsOpen()==true then reaper.defer(main) end
+end
+
 Images={"c:\\m.png","c:\\f.png","c:\\m.png"}
 reagirl.Gui_Open("Test")
 UpdateUI()
-reagirl.Window_ForceMinSize(640, 277)
+--reagirl.Window_ForceMinSize(640, 277)
 main()
