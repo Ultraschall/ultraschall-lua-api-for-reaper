@@ -1,6 +1,10 @@
---dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 reagirl={}
 reagirl.Elements={}
+
+--[[
+TODO: Dpi2Scale-conversion must be included(currently using Ultraschall-API in OpenWindow)
+--]]
 
 function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
 --[[
@@ -86,77 +90,6 @@ end
 
 --reagirl.ResizeImageKeepAspectRatio(1, 1, 1, 1, 1, 1)
 
-function reagirl.BlitImageCentered(image, x, y, scale, rotate, ...)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>BlitImageCentered</slug>
-  <requires>
-    ReaGirl=4.00
-    Reaper=5.99
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = reagirl.BlitImageCentered(integer image, integer x, integer y, number scale, number rotate, optional number srcx, optional number srcy, optional number srcw, optional number srch, optional integer destx, optional integer desty, optional integer destw, optional integer desth, optional integer rotxoffs, optional integer rotyoffs)</functioncall>
-  <description>
-    Blits a centered image at the position given by parameter x and y. That means, the center of the image will be at x and y.
-    
-    All the rest basically works like the regular gfx.blit-function.
-    
-    returns false in case of an error
-  </description>
-  <retvals>
-    boolean retval - true, blitting was successful; false, blitting was unsuccessful
-  </retvals>
-  <parameters>
-    integer source - the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.
-    integer x - the x-position of the center of the image
-    integer y - the y-position of the center of the image
-    number scale - the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger
-                    - has no effect, when destx, desty, destw, desth are given
-    number rotation - the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.
-    optional number srcx - the x-coordinate-offset in the source-image
-    optional number srcy - the y-coordinate-offset in the source-image
-    optional number srcw - the width-offset in the source-image
-    optional number srch - the height-offset in the source-image
-    optional integer destx - the x-coordinate of the blitting destination
-    optional integer desty - the y-coordinate of the blitting destination
-    optional integer destw - the width of the blitting destination; may lead to stretched images
-    optional integer desth - the height of the blitting destination; may lead to stretched images
-    optional number rotxoffs - influences rotation
-    optional number rotyoffs - influences rotation
-  </parameters>
-  <chapter_context>
-    Blitting
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, blit, centered, rotate, scale</tags>
-</US_DocBloc>
---]]
-  if math.type(image)~="integer" then error("BlitImageCentered: #1 - must be an integer", 2) end
-  if image<-1 or image>1023 then error("BlitImageCentered: #1 - must be between -1 and 1023", 2) end
-  if math.type(x)~="integer" then error("BlitImageCentered: #2 - must be an integer", 2) end
-  if math.type(y)~="integer" then error("BlitImageCentered: #3 - must be an integer", 2) end
-  if type(scale)~="number" then error("BlitImageCentered: #4 - must be a number between 0 and higher", 2) end
-  if type(rotate)~="number" then error("BlitImageCentered: #5 - must be a number", 2) end
-  local params={...}
-  for i=1, #params do
-    if type(params[i])~="number" then error("BlitImageCentered: #"..(i+5).." - must be a number or an integer", 2) end
-  end
-  local oldx=gfx.x
-  local oldy=gfx.y
-  local X,Y=gfx.getimgdim(image)
-  gfx.x=x-((X*scale)/2)
-  gfx.y=y-((Y*scale)/2)
-  gfx.blit(image, scale, rotate, table.unpack(params))
-  gfx.x=oldx
-  gfx.y=oldy
-  return true
-end
-
---reagirl.BlitImageCentered(11111, 1, 1, 1, 1, ...)
-
-
-
 function reagirl.OpenWindow(...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -191,6 +124,9 @@ function reagirl.OpenWindow(...)
   <tags>gfx, functions, gfx, init, window, create, hwnd</tags>
 </US_DocBloc>
 ]]
+  AAA, AAA2=reaper.ThemeLayout_GetLayout("tcp", -3)
+  minimum_scale_for_dpi, maximum_scale_for_dpi = ultraschall.GetScaleRangeFromDpi(tonumber(AAA2))
+  maximum_scale_for_dpi = math.floor(maximum_scale_for_dpi)
   local A=gfx.getchar(65536)
   local HWND, retval
   if A&4==0 then
@@ -206,7 +142,8 @@ function reagirl.OpenWindow(...)
     end
     
     local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
-    
+    parms[2]=parms[2]*minimum_scale_for_dpi
+    parms[3]=parms[3]*minimum_scale_for_dpi
     if parms[5]==nil then
       parms[5]=(C-parms[2])/2
     end
@@ -395,7 +332,7 @@ function reagirl.GetMouseCap(doubleclick_wait, drag_wait)
 end
 
 function reagirl.NewGUI()
-  gfx.setfont(1, "Arial", 20, 0)
+  gfx.setfont(1, "Arial", 19, 0)
   reagirl.MaxImage=-1
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"])
   gfx.rect(0,0,gfx.w,gfx.h,1)
@@ -404,6 +341,7 @@ function reagirl.NewGUI()
   reagirl.Elements={}
   reagirl.Elements["FocusedElement"]=1
   reagirl.DecorativeImages=nil
+  
 end
 
 function reagirl.OpenGUI(title, w, h, dock, x, y)
@@ -425,16 +363,23 @@ end
 function reagirl.ManageGUI()
   for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
   local Key, Key_utf=gfx.getchar()
-  if Key==-1 then return end
+  if Key==-1 then reagirl.IsWindowOpen_attribute=false return end
   if Key==27 then reagirl.CloseGUI() end
   if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.old_osara_message) end
+  if reagirl.OldMouseX==gfx.mouse_x and reagirl.OldMouseY==gfx.mouse_y then
+    reagirl.TooltipWaitCounter=reagirl.TooltipWaitCounter+1
+  else
+    reagirl.TooltipWaitCounter=0
+  end
+  reagirl.OldMouseX=gfx.mouse_x
+  reagirl.OldMouseY=gfx.mouse_y
+  
   if gfx.mouse_cap&8==0 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 end
   if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
   if gfx.mouse_cap&8==8 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]-1 end
   if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=1 end
   if Key==32 then reagirl.Elements[reagirl.Elements["FocusedElement"]]["clicked"]=true end
   local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.GetMouseCap(5, 5)
-  if (specific_clickstate=="FirstCLK") then
     for i=#reagirl.Elements, 1, -1 do
       local x2, y2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
@@ -444,11 +389,16 @@ function reagirl.ManageGUI()
          gfx.mouse_x<=x2+reagirl.Elements[i]["w"] and
          gfx.mouse_y>=y2 and
          gfx.mouse_y<=y2+reagirl.Elements[i]["h"] then
-         reagirl.Elements["FocusedElement"]=i
-         reagirl.Elements[i]["clicked"]=true
+         if reagirl.TooltipWaitCounter==14 then
+          local x,y=reaper.GetMousePosition()
+          reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], x, y+10, false)
+         end
+         if (specific_clickstate=="FirstCLK") then
+           reagirl.Elements["FocusedElement"]=i
+           reagirl.Elements[i]["clicked"]=true
+         end
          break
       end
-    end
   end
   reagirl.DrawGui(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
 end
@@ -503,8 +453,8 @@ function reagirl.DrawGui(Key, Key_utf, clickstate, specific_clickstate, mouse_ca
       local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
       local dest=gfx.dest
       gfx.dest=-1
-      gfx.set(0.7,0.7,0.7,0.7)
-      gfx.rect(x2-2,y2-2,reagirl.Elements[i]["w"]+4,reagirl.Elements[i]["h"]+4,0)
+      gfx.set(0.7,0.7,0.7,0.8)
+      gfx.rect(x2-2,y2-2,reagirl.Elements[i]["w"]+4,reagirl.Elements[i]["h"]+6,0)
       gfx.set(r,g,b,a)
       gfx.dest=dest
       if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
@@ -602,10 +552,10 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
     if (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) or Key==32 then
       if reagirl.Elements[element_id]["checked"]==true then 
         reagirl.Elements[element_id]["checked"]=false 
-        element_storage["run_function"](reagirl.Elements[element_id]["checked"])
+        element_storage["run_function"](element_id, reagirl.Elements[element_id]["checked"])
       else 
         reagirl.Elements[element_id]["checked"]=true 
-        element_storage["run_function"](reagirl.Elements[element_id]["checked"])
+        element_storage["run_function"](element_id, reagirl.Elements[element_id]["checked"])
       end
     end
   end
@@ -626,6 +576,81 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   else
     return name.." Checkbox unchecked. "..description
   end
+end
+
+function reagirl.DropDownMenu_Add(x, y, w, Name, Description, Tooltip, default, MenuEntries, run_function)
+  local tx,ty=gfx.measurestr(Name)
+  reagirl.Elements[#reagirl.Elements+1]={}
+  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="DropDownMenu"
+  reagirl.Elements[#reagirl.Elements]["Name"]=Name
+  reagirl.Elements[#reagirl.Elements]["Description"]=Description
+  reagirl.Elements[#reagirl.Elements]["Tooltip"]=Tooltip
+  reagirl.Elements[#reagirl.Elements]["x"]=x
+  reagirl.Elements[#reagirl.Elements]["y"]=y
+  reagirl.Elements[#reagirl.Elements]["w"]=w
+  reagirl.Elements[#reagirl.Elements]["h"]=gfx.texth
+  reagirl.Elements[#reagirl.Elements]["MenuDefault"]=default
+  reagirl.Elements[#reagirl.Elements]["MenuEntries"]=MenuEntries
+  reagirl.Elements[#reagirl.Elements]["func"]=reagirl.DropDownMenu_Draw
+  reagirl.Elements[#reagirl.Elements]["run_function"]=run_function
+  reagirl.Elements[#reagirl.Elements]["userspace"]={}
+  return #reagirl.Elements
+end
+
+function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
+  Entries=""
+  for i=1, #element_storage["MenuEntries"] do
+    Entries=Entries..element_storage["MenuEntries"][i].."|"
+    if i==element_storage["MenuDefault"] then Default=element_storage["MenuEntries"][i] end
+  end
+  
+  local x2,y2
+  if x<0 then x2=gfx.w+x else x2=x end
+  if y<0 then y2=gfx.h+y else y2=y end
+  gfx.x=x2
+  gfx.y=y2
+  gfx.set(0.4)
+  --gfx.rect(x2+1,y2+1,h,h,0)
+  reaper.osara_outputMessage=nil
+  gfx.set(1)
+  gfx.rect(x2,y2,w,h+1,0)
+  gfx.line(x2+18,y2,x2+18,y2+gfx.texth)
+
+  gfx.triangle(x2+2, y2+2, x2+16, y2+2, x2+10, y2+h-2)
+  gfx.set(0.4)
+  gfx.rect(x2+1,y2+1,w,h+1,0)
+  gfx.line(x2+18+1,y2+1,x2+18+1,y2+1+gfx.texth)
+  gfx.set(0.7)
+  gfx.line(x2+18, y2, x2+20-9, y2+h-1)
+  gfx.set(0.7)
+  gfx.line(x2+20-20, y2+1, x2+20-10, y2+h-1)
+  
+  if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
+    if (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) or Key==32 then
+      
+      
+      gfx.x=x2
+      gfx.y=y2+gfx.texth
+      local selection=gfx.showmenu(Entries:sub(1,-2))
+      if selection>0 then
+        reagirl.Elements[element_id]["MenuDefault"]=selection
+        reagirl.Elements[element_id]["run_function"](element_id, selection, element_storage["MenuEntries"][selection])
+      end
+    end
+  end
+  if reagirl.Elements[element_id]["checked"]==true then
+    gfx.set(1,1,0)
+    gfx.rect(x2+4,y2+4,h-8,h-8,1)
+  end
+  gfx.set(0.3)
+  gfx.x=x2+3+20
+  gfx.y=y2+1
+  gfx.drawstr(Default)
+  gfx.set(1)
+  gfx.x=x2+2+20
+  gfx.y=y2
+  gfx.drawstr(Default)
+  return name..". "..element_storage["MenuEntries"][element_storage["MenuDefault"]]..". ComboBox collapsed "
 end
 
 function reagirl.Image_Add(image_file, x, y, w, h, Name, Description, Tooltip, run_function, func_params)
@@ -685,7 +710,7 @@ function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
   if selected==true and 
     (Key==32 or mouse_cap==1) and 
     (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) and
-    element_storage["run_function"]~=nil then element_storage["run_function"](table.unpack(element_storage["func_params"])) end
+    element_storage["run_function"]~=nil then element_storage["run_function"](element_id, table.unpack(element_storage["func_params"])) end
   
   gfx.dest=-1
   gfx.blit(element_storage["Image_Storage"], 1, 0)
@@ -733,39 +758,36 @@ function reagirl.UI_Element_SetSelected(element_id)
 end
 
 
-function reagirl.Background_GetSetImage(filename, scaled, centered)
-  --if reagirl.MaxImage==nil then reagirl.MaxImage=-1 end
+function reagirl.Background_GetSetImage(filename, x, y, scaled)
+  if reagirl.MaxImage==nil then reagirl.MaxImage=-1 end
   reagirl.MaxImage=reagirl.MaxImage+1
   gfx.loadimg(reagirl.MaxImage, filename)
+  local se={reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)}
+  reagirl.ResizeImageKeepAspectRatio(reagirl.MaxImage, se[3], se[4], bg_r, bg_g, bg_b)
   if reagirl.DecorativeImages==nil then
     reagirl.DecorativeImages={}
     reagirl.DecorativeImages["Background"]=reagirl.MaxImage
     reagirl.DecorativeImages["Background_Scaled"]=scaled
     reagirl.DecorativeImages["Background_Centered"]=centered
+    reagirl.DecorativeImages["Background_x"]=x
+    reagirl.DecorativeImages["Background_y"]=y
   end
 end
 
 function reagirl.DrawBackgroundImage()
   if reagirl.DecorativeImages==nil then return end
   gfx.dest=-1
-  local scale
+  local scale=1
+  local x,y=gfx.getimgdim(reagirl.DecorativeImages["Background"])
+  local ratiox=((100/x)*gfx.w)/100
+  local ratioy=((100/y)*gfx.h)/100
   if reagirl.DecorativeImages["Background_Scaled"]==true then
-    local x,y=gfx.getimgdim(reagirl.DecorativeImages["Background"])
-    local ratiox=((100/x)*gfx.w)/100
-    local ratioy=((100/y)*gfx.h)/100
-    
     if ratiox<ratioy then scale=ratiox else scale=ratioy end
     if x<gfx.w and y<gfx.h then scale=1 end
-  else
-    scale=1
   end
-  if reagirl.DecorativeImages["Background_Centered"]==true then
-    reagirl.BlitImageCentered(reagirl.DecorativeImages["Background"], math.floor(gfx.w/2), math.floor(gfx.h/2), scale, 0)
-  else
-    gfx.x=0
-    gfx.y=0
-    gfx.blit(reagirl.DecorativeImages["Background"], scale, 0)
-  end
+  gfx.x=reagirl.DecorativeImages["Background_x"]
+  gfx.y=reagirl.DecorativeImages["Background_y"]
+  gfx.blit(reagirl.DecorativeImages["Background"], scale, 0)
 end
 
 
@@ -791,10 +813,14 @@ function main()
   if reagirl.IsWindowOpen()==true then reaper.defer(main) end
 end
 
+function DropDownList(element_id, check, name)
+  print2(element_id, check, name)
+end
+
 function UpdateUI()
   reagirl.NewGUI()
   reagirl.Background_GetSetColor(true, 0,0,0)
-  reagirl.Background_GetSetImage("c:\\m.png", true, false)
+  reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, true)
   if update==true then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
@@ -802,14 +828,17 @@ function UpdateUI()
     end
   end
   --reagirl.SetWindowBackground(0.10, 0, 0)
+  
   A=reagirl.CheckBox_Add(-230, 90, "Chapter contains spoilers?", "Description of the Checkbox", "Tooltip", true, CheckMe)
   A1=reagirl.CheckBox_Add(-230, 110, "Tudelu2", "Description of the Checkbox", "Tooltip", true, CheckMe)
   A2=reagirl.CheckBox_Add(-230, 130, "Tudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
-  C=reagirl.Image_Add(Images[2], -230, 155, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
+  C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
   B=reagirl.Image_Add(Images[1], -100, -100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
+  E=reagirl.DropDownMenu_Add(-230, 150, 200, "DropDownMenu", "Desc of DDM", "DDM", 2, {"The", "Death", "Of", "A", "Party",2,3,4,5}, DropDownList)
   --reagirl.AddDummyElement()
   
---  D=reagirl.AddImage(Images[3], 140, 140, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
+  D=reagirl.Image_Add(Images[3], 140, 140, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
+  
 end
 
 function UpdateImage2()
