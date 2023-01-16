@@ -376,9 +376,9 @@ function reagirl.Gui_Manage()
   reagirl.OldMouseY=gfx.mouse_y
   
   if gfx.mouse_cap&8==0 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 end
-  if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
+  if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end
   if gfx.mouse_cap&8==8 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]-1 end
-  if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=1 end
+  if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
   if Key==32 then reagirl.Elements[reagirl.Elements["FocusedElement"]]["clicked"]=true end
   local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.GetMouseCap(5, 5)
     for i=#reagirl.Elements, 1, -1 do
@@ -876,13 +876,13 @@ function UpdateUI()
   A2=reagirl.CheckBox_Add(-230, 130, "Tudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
   C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
   reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
-  B=reagirl.Image_Add(Images[1], -100, -100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
+  B=reagirl.Image_Add(Images[3], -100, -100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
   reagirl.FileDropZone_Add(-100,-100,100,100, GetFileList2)
   
   E=reagirl.DropDownMenu_Add(-230, 150, -10, "DropDownMenu", "Desc of DDM", "DDM", 5, {"The", "Death", "Of", "A", "Party            Hardy Hard Scooter",2,3,4,5}, DropDownList)
-  reagirl.AddDummyElement()
+  --reagirl.AddDummyElement()
   
-  D=reagirl.Image_Add(Images[3], 140, 140, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
+  D=reagirl.Image_Add(Images[1], 0, 0, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
 end
 
 function reagirl.Window_ForceSize()
@@ -940,7 +940,7 @@ function main()
   count2=count2+4
   if count>100 then count=0 end
   if count2>300 then count2=0 end
-  reagirl.UI_Element_Move(2, count, count2, w, h)
+  --reagirl.UI_Element_Move(2, count, count2, w, h)
   --[[if gfx.mouse_cap==1 then reagirl.UI_Element_SetSelected(1)
   elseif gfx.mouse_cap==2 then reagirl.UI_Element_SetSelected(2)
   elseif gfx.mouse_cap==3 then reagirl.UI_Element_SetSelected(3)
@@ -950,7 +950,7 @@ function main()
   if reagirl.Window_IsOpen()==true then reaper.defer(main) end
 end
 
-Images={"c:\\m.png","c:\\f.png","c:\\m.png"}
+Images={"c:\\c.png","c:\\f.png","c:\\m.png"}
 reagirl.Gui_Open("Test")
 UpdateUI()
 reagirl.Window_ForceMinSize(640, 277)
