@@ -396,7 +396,7 @@ function reagirl.Gui_Manage()
          gfx.mouse_y<=y2+reagirl.Elements[i]["h"] then
          if reagirl.TooltipWaitCounter==14 then
           local x,y=reaper.GetMousePosition()
-          reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], x, y+10, false)
+          reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], x+15, y+10, false)
          end
          if (specific_clickstate=="FirstCLK") then
            reagirl.Elements["FocusedElement"]=i
