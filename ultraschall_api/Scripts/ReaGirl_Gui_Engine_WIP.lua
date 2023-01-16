@@ -408,22 +408,6 @@ function reagirl.Gui_Manage()
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
 end
 
-function reagirl.Background_GetSetColor(is_set, r, g, b)
-  if type(is_set)~="boolean" then error("GetSetBackgroundColor: param #1 - must be a boolean", 2) end
-  if math.type(r)~="integer" then error("GetSetBackgroundColor: param #2 - must be an integer", 2) end
-  if g~=nil and math.type(g)~="integer" then error("GetSetBackgroundColor: param #3 - must be an integer", 2) end
-  if b~=nil and math.type(b)~="integer" then error("GetSetBackgroundColor: param #4 - must be an integer", 2) end
-  if g==nil then g=r end
-  if b==nil then b=r end
-  if reagirl.Elements==nil then reagirl.Elements={} end
-  if is_set==true then
-    reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"]=r/255, g/255, b/255
-  else
-    return math.floor(reagirl["WindowBackgroundColorR"]*255), math.floor(reagirl["WindowBackgroundColorG"]*255), math.floor(reagirl["WindowBackgroundColorB"]*255)
-  end
-end
-
-
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
   -- no docs in API-docs
   local selected
@@ -696,6 +680,13 @@ function reagirl.Image_Add(image_file, x, y, w, h, Name, Description, Tooltip, r
   return #reagirl.Elements
 end
 
+function reagirl.ReserveImageBuffer()
+  -- reserves an image buffer for custom UI elements
+  if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
+  reagirl.MaxImage=reagirl.MaxImage+1
+  return reagirl.MaxImage
+end
+
 function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
   -- no docs in API-docs
   local r,g,b,a,message,oldx,oldy,oldmode,x2,y2
@@ -772,6 +763,22 @@ function reagirl.UI_Element_SetSelected(element_id)
 end
 
 
+function reagirl.Background_GetSetColor(is_set, r, g, b)
+  if type(is_set)~="boolean" then error("GetSetBackgroundColor: param #1 - must be a boolean", 2) end
+  if math.type(r)~="integer" then error("GetSetBackgroundColor: param #2 - must be an integer", 2) end
+  if g~=nil and math.type(g)~="integer" then error("GetSetBackgroundColor: param #3 - must be an integer", 2) end
+  if b~=nil and math.type(b)~="integer" then error("GetSetBackgroundColor: param #4 - must be an integer", 2) end
+  if g==nil then g=r end
+  if b==nil then b=r end
+  if reagirl.Elements==nil then reagirl.Elements={} end
+  if is_set==true then
+    reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"]=r/255, g/255, b/255
+  else
+    return math.floor(reagirl["WindowBackgroundColorR"]*255), math.floor(reagirl["WindowBackgroundColorG"]*255), math.floor(reagirl["WindowBackgroundColorB"]*255)
+  end
+end
+
+
 function reagirl.Background_GetSetImage(filename, x, y, scaled)
   if reagirl.MaxImage==nil then reagirl.MaxImage=-1 end
   reagirl.MaxImage=reagirl.MaxImage+1
@@ -806,39 +813,44 @@ end
 
 function reagirl.CheckForDroppedFiles()
   local x, y, w, h
-  if reagirl.DropZoneFunc~=nil then
-    if reagirl.DropZoneX<0 then x=gfx.w+reagirl.DropZoneX else x=reagirl.DropZoneX end
-    if reagirl.DropZoneY<0 then y=gfx.h+reagirl.DropZoneY else y=reagirl.DropZoneY end
-    if reagirl.DropZoneW<0 then w=gfx.w-x+reagirl.DropZoneW else w=reagirl.DropZoneW end
-    if reagirl.DropZoneH<0 then h=gfx.h-y+reagirl.DropZoneH else h=reagirl.DropZoneH end
-    -- debug dropzone-rectangle, for checking, if it works
-      gfx.set(1)
-      gfx.rect(x, y, w, h, 0)
-    --]]
-    local files={}
-    local retval
-    if gfx.mouse_x>=x and
-       gfx.mouse_y>=y and
-       gfx.mouse_x<=x+w and
-       gfx.mouse_y<=y+h then
-       for i=0, 65555 do
-         retval, files[i]=gfx.getdropfile(i)
-         if files[i]==0 then table.remove(files,i) break end
-       end
-       if #files>0 then
-        reagirl.DropZoneFunc(files)
-       end
+  local i=1
+  if reagirl.DropZone~=nil then
+    for i=1, #reagirl.DropZone do
+      if reagirl.DropZone[i]["DropZoneX"]<0 then x=gfx.w+reagirl.DropZone[i]["DropZoneX"] else x=reagirl.DropZone[i]["DropZoneX"] end
+      if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"] else y=reagirl.DropZone[i]["DropZoneY"] end
+      if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
+      if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
+      -- debug dropzone-rectangle, for checking, if it works
+        gfx.set(1)
+        gfx.rect(x, y, w, h, 0)
+      --]]
+      local files={}
+      local retval
+      if gfx.mouse_x>=x and
+         gfx.mouse_y>=y and
+         gfx.mouse_x<=x+w and
+         gfx.mouse_y<=y+h then
+         for i=0, 65555 do
+           retval, files[i]=gfx.getdropfile(i)
+           if files[i]==0 then table.remove(files,i) break end
+         end
+         if #files>0 then
+          reagirl.DropZone[i]["DropZoneFunc"](files)
+         end
+      end
     end
     gfx.getdropfile(-1)
   end
 end
 
-function reagirl.FileDropZone_Set(x,y,w,h,func)
-  reagirl.DropZoneFunc=func
-  reagirl.DropZoneX=x
-  reagirl.DropZoneY=y
-  reagirl.DropZoneW=w
-  reagirl.DropZoneH=h
+function reagirl.FileDropZone_Add(x,y,w,h,func)
+  if reagirl.DropZone==nil then reagirl.DropZone={} end
+  reagirl.DropZone[#reagirl.DropZone+1]={}
+  reagirl.DropZone[#reagirl.DropZone]["DropZoneFunc"]=func
+  reagirl.DropZone[#reagirl.DropZone]["DropZoneX"]=x
+  reagirl.DropZone[#reagirl.DropZone]["DropZoneY"]=y
+  reagirl.DropZone[#reagirl.DropZone]["DropZoneW"]=w
+  reagirl.DropZone[#reagirl.DropZone]["DropZoneH"]=h
 end
 
 function DropDownList(element_id, check, name)
@@ -861,10 +873,13 @@ function UpdateUI()
   A1=reagirl.CheckBox_Add(-230, 110, "Tudelu2", "Description of the Checkbox", "Tooltip", true, CheckMe)
   A2=reagirl.CheckBox_Add(-230, 130, "Tudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
   C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
+  reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
   B=reagirl.Image_Add(Images[1], -100, -100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
+  reagirl.FileDropZone_Add(-100,-100,100,100, GetFileList2)
+  
   E=reagirl.DropDownMenu_Add(-230, 150, -10, "DropDownMenu", "Desc of DDM", "DDM", 5, {"The", "Death", "Of", "A", "Party            Hardy Hard Scooter",2,3,4,5}, DropDownList)
   reagirl.AddDummyElement()
-  reagirl.FileDropZone_Set(-230,175,100,100, GetFileList)
+  
   D=reagirl.Image_Add(Images[3], 140, 140, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
 end
 
@@ -901,6 +916,15 @@ function GetFileList(filelist)
   print2(list)
 end
 
+function GetFileList2(filelist)
+  list=""
+  for i=0, 1000 do
+    if filelist[i]==nil then break end
+    list=list..filelist[i].."\n"
+  end
+  print2("Zwo:"..list)
+end
+
 function CheckMe(tudelu)
 --  print2(tudelu)
 end
@@ -927,5 +951,5 @@ end
 Images={"c:\\m.png","c:\\f.png","c:\\m.png"}
 reagirl.Gui_Open("Test")
 UpdateUI()
---reagirl.Window_ForceMinSize(640, 277)
+reagirl.Window_ForceMinSize(640, 277)
 main()
