@@ -333,7 +333,7 @@ end
 
 function reagirl.Gui_New()
   gfx.setfont(1, "Arial", 19, 0)
-  reagirl.MaxImage=-1
+  reagirl.MaxImage=1
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"])
   gfx.rect(0,0,gfx.w,gfx.h,1)
   gfx.x=0
@@ -346,6 +346,7 @@ end
 
 function reagirl.Gui_Open(title, w, h, dock, x, y)
   reagirl.IsWindowOpen_attribute=true
+  reagirl.Gui_ForceRefresh()
   if reagirl.Window_ForceSize_Toggle==nil then reagirl.Window_ForceSize_Toggle=false end
   return reagirl.Window_Open(title, w, h, dock, x, y)
 end
@@ -362,8 +363,10 @@ end
 
 
 function reagirl.Gui_Manage()
+  reagirl.CheckForDroppedFiles()
   for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
   local Key, Key_utf=gfx.getchar()
+  local Screenstate=gfx.getchar(65536) -- currently unused
   if Key==-1 then reagirl.IsWindowOpen_attribute=false return end
   if Key==27 then reagirl.Gui_Close() else reagirl.Window_ForceSize() end
   if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.old_osara_message) end
@@ -374,53 +377,42 @@ function reagirl.Gui_Manage()
   end
   reagirl.OldMouseX=gfx.mouse_x
   reagirl.OldMouseY=gfx.mouse_y
+  if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Gui_ForceRefresh() end
+  if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Gui_ForceRefresh() end
   
-  if gfx.mouse_cap&8==0 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 end
+  if gfx.mouse_cap&8==0 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 reagirl.Gui_ForceRefresh() end
   if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end
-  if gfx.mouse_cap&8==8 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]-1 end
+  if gfx.mouse_cap&8==8 and Key==9 then reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]-1 reagirl.Gui_ForceRefresh() end
   if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
   if Key==32 then reagirl.Elements[reagirl.Elements["FocusedElement"]]["clicked"]=true end
-  local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.GetMouseCap(5, 5)
-    for i=#reagirl.Elements, 1, -1 do
-      local x2, y2, w2
-      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-      if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then
-        if w2<20 then w2=20 end
-      end
-            
-      if gfx.mouse_x>=x2 and
-         gfx.mouse_x<=x2+w2 and
-         gfx.mouse_y>=y2 and
-         gfx.mouse_y<=y2+reagirl.Elements[i]["h"] then
-         if reagirl.TooltipWaitCounter==14 then
-          local x,y=reaper.GetMousePosition()
-          reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], x+15, y+10, false)
-         end
-         if (specific_clickstate=="FirstCLK") then
-           reagirl.Elements["FocusedElement"]=i
-           reagirl.Elements[i]["clicked"]=true
-         end
-         break
-      end
-  end
-  reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
-end
-
-function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
-  -- no docs in API-docs
-  local selected
-  gfx.set(reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"])
-  gfx.rect(0,0,gfx.w,gfx.h,1)
-  reagirl.DrawBackgroundImage()
+  
+  local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.GetMouseCap(2, 5)
   for i=#reagirl.Elements, 1, -1 do
-    if reagirl.Elements["FocusedElement"]==i then 
-      selected=true 
-    else 
-      selected=false 
+    local x2, y2, w2
+    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
+    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
+    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
+    if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then
+      if w2<20 then w2=20 end
     end
-    local message=reagirl.Elements[i]["func"](i, selected,
+
+    if gfx.mouse_x>=x2 and
+       gfx.mouse_x<=x2+w2 and
+       gfx.mouse_y>=y2 and
+       gfx.mouse_y<=y2+reagirl.Elements[i]["h"] then
+       if reagirl.TooltipWaitCounter==14 then
+        local x,y=reaper.GetMousePosition()
+        reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], x+15, y+10, false)
+       end
+       if (specific_clickstate=="FirstCLK") then
+         reagirl.Elements["FocusedElement"]=i
+         reagirl.Elements[i]["clicked"]=true
+       end
+       break
+    end
+  end
+  for i=#reagirl.Elements, 1, -1 do
+    message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
       specific_clickstate,
       gfx.mouse_cap,
       {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
@@ -435,32 +427,71 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       Key_utf,
       reagirl.Elements[i]
     )
-    if selected==true then
-      local x2, y2, w2
-      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-      if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then
-        if w2<20 then w2=20 end
-      end
-      local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
-      local dest=gfx.dest
-      gfx.dest=-1
-      gfx.set(0.7,0.7,0.7,0.8)
-      gfx.rect(x2-2,y2-2,w2+4,reagirl.Elements[i]["h"]+6,0)
-      gfx.set(r,g,b,a)
-      gfx.dest=dest
-      if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
-        reagirl.oldselection=i
-        if reaper.JS_Mouse_SetPosition~=nil then reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+4,y2+4)) end
-      end
-    end
-    if selected==true and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
+    if reagirl.Elements["FocusedElement"]==i and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
       reaper.osara_outputMessage(message)
       reagirl.old_osara_message=message
     end
+    if refresh==true then reagirl.Gui_ForceRefresh() end
   end
-  reagirl.CheckForDroppedFiles()
+  reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
+end
+
+function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
+  -- no docs in API-docs
+  local selected
+  
+  
+  if reagirl.Gui_ForceRefreshState==true then
+    gfx.set(reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"])
+    gfx.rect(0,0,gfx.w,gfx.h,1)
+    reagirl.DrawBackgroundImage()
+    
+    for i=#reagirl.Elements, 1, -1 do
+      if reagirl.Elements["FocusedElement"]==i then 
+        selected=true 
+      else 
+        selected=false 
+      end
+      local message=reagirl.Elements[i]["func_draw"](i, selected,
+        specific_clickstate,
+        gfx.mouse_cap,
+        {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+        reagirl.Elements[i]["Name"],
+        reagirl.Elements[i]["Description"], 
+        reagirl.Elements[i]["Tooltip"], 
+        reagirl.Elements[i]["x"], 
+        reagirl.Elements[i]["y"],
+        reagirl.Elements[i]["w"],
+        reagirl.Elements[i]["h"],
+        Key,
+        Key_utf,
+        reagirl.Elements[i]
+      )
+      if selected==true then
+        local x2, y2, w2
+        if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
+        if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
+        if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
+        if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then
+          if w2<20 then w2=20 end
+        end
+        local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
+        local dest=gfx.dest
+        gfx.dest=-1
+        gfx.set(0.7,0.7,0.7,0.8)
+        gfx.rect(x2-2,y2-2,w2+4,reagirl.Elements[i]["h"]+6,0)
+        gfx.set(r,g,b,a)
+        gfx.dest=dest
+        if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
+          reagirl.oldselection=i
+          if reaper.JS_Mouse_SetPosition~=nil then reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+4,y2+4)) end
+        end
+      end
+    end
+    Manage=reaper.time_precise()
+  end
+  reagirl.Gui_ForceRefreshState=false
+  
 end
 
 function reagirl.AddDummyElement()  
@@ -473,7 +504,8 @@ function reagirl.AddDummyElement()
   reagirl.Elements[#reagirl.Elements]["y"]=math.random(140)
   reagirl.Elements[#reagirl.Elements]["w"]=math.random(40)
   reagirl.Elements[#reagirl.Elements]["h"]=math.random(40)
-  reagirl.Elements[#reagirl.Elements]["func"]=reagirl.DrawDummyElement
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.DrawDummyElement
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.DrawDummyElement
   
   return #reagirl.Elements
 end
@@ -524,10 +556,40 @@ function reagirl.CheckBox_Add(x, y, Name, Description, Tooltip, default, run_fun
   reagirl.Elements[#reagirl.Elements]["w"]=gfx.texth+tx+4
   reagirl.Elements[#reagirl.Elements]["h"]=gfx.texth
   reagirl.Elements[#reagirl.Elements]["checked"]=default
-  reagirl.Elements[#reagirl.Elements]["func"]=reagirl.CheckBox_Draw
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.Checkbox_Manage
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.CheckBox_Draw
   reagirl.Elements[#reagirl.Elements]["run_function"]=run_function
   reagirl.Elements[#reagirl.Elements]["userspace"]={}
   return #reagirl.Elements
+end
+
+function reagirl.Checkbox_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
+  local x2,y2
+  if x<0 then x2=gfx.w+x else x2=x end
+  if y<0 then y2=gfx.h+y else y2=y end
+  local refresh=false
+  if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
+    if (gfx.mouse_x>=x2 
+      and gfx.mouse_x<=x2+w 
+      and gfx.mouse_y>=y2 
+      and gfx.mouse_y<=y2+h) 
+      or Key==32 then
+      if reagirl.Elements[element_id]["checked"]==true then 
+        reagirl.Elements[element_id]["checked"]=false 
+        element_storage["run_function"](element_id, reagirl.Elements[element_id]["checked"])
+        refresh=true
+      else 
+        reagirl.Elements[element_id]["checked"]=true 
+        element_storage["run_function"](element_id, reagirl.Elements[element_id]["checked"])
+        refresh=true
+      end
+    end
+  end
+  if reagirl.Elements[element_id]["checked"]==true then
+    return name.." Checkbox checked. "..description, refresh
+  else
+    return name.." Checkbox unchecked. "..description, refresh
+  end
 end
 
 function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
@@ -541,18 +603,6 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   gfx.set(1)
   gfx.rect(x2,y2,h,h,0)
   
-  
-  if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
-    if (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) or Key==32 then
-      if reagirl.Elements[element_id]["checked"]==true then 
-        reagirl.Elements[element_id]["checked"]=false 
-        element_storage["run_function"](element_id, reagirl.Elements[element_id]["checked"])
-      else 
-        reagirl.Elements[element_id]["checked"]=true 
-        element_storage["run_function"](element_id, reagirl.Elements[element_id]["checked"])
-      end
-    end
-  end
   if reagirl.Elements[element_id]["checked"]==true then
     gfx.set(1,1,0)
     gfx.rect(x2+4,y2+4,h-8,h-8,1)
@@ -565,11 +615,6 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   gfx.x=x2+h+2
   gfx.y=y2
   gfx.drawstr(name)
-  if reagirl.Elements[element_id]["checked"]==true then
-    return name.." Checkbox checked. "..description
-  else
-    return name.." Checkbox unchecked. "..description
-  end
 end
 
 function reagirl.DropDownMenu_Add(x, y, w, Name, Description, Tooltip, default, MenuEntries, run_function)
@@ -585,20 +630,42 @@ function reagirl.DropDownMenu_Add(x, y, w, Name, Description, Tooltip, default, 
   reagirl.Elements[#reagirl.Elements]["h"]=gfx.texth
   reagirl.Elements[#reagirl.Elements]["MenuDefault"]=default
   reagirl.Elements[#reagirl.Elements]["MenuEntries"]=MenuEntries
-  reagirl.Elements[#reagirl.Elements]["func"]=reagirl.DropDownMenu_Draw
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.DropDownMenu_Manage
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.DropDownMenu_Draw
   reagirl.Elements[#reagirl.Elements]["run_function"]=run_function
   reagirl.Elements[#reagirl.Elements]["userspace"]={}
   return #reagirl.Elements
 end
 
-function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
+function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
   local Entries=""
   local Default, insert
+  local refresh=false
   for i=1, #element_storage["MenuEntries"] do
-    if i==element_storage["MenuDefault"] then Default=element_storage["MenuEntries"][i] insert="!" else insert="" end
+    if i==element_storage["MenuDefault"] then insert="!" else insert="" end
     Entries=Entries..insert..element_storage["MenuEntries"][i].."|"
   end
-  
+  local x2,y2,w2
+  if x<0 then x2=gfx.w+x else x2=x end
+  if y<0 then y2=gfx.h+y else y2=y end
+  if w<0 then w2=gfx.w-x2+w else w2=w end
+  if w2<20 then w2=20 end
+  if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
+    if (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w2 and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) or Key==32 then
+      gfx.x=x2
+      gfx.y=y2+gfx.texth
+      local selection=gfx.showmenu(Entries:sub(1,-2))
+      if selection>0 then
+        reagirl.Elements[element_id]["MenuDefault"]=selection
+        reagirl.Elements[element_id]["run_function"](element_id, selection, element_storage["MenuEntries"][selection])
+        refresh=true
+      end
+    end
+  end
+  return name..". "..element_storage["MenuEntries"][element_storage["MenuDefault"]]..". ComboBox collapsed ", refresh
+end
+
+function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
   local x2,y2, w2
   if x<0 then x2=gfx.w+x else x2=x end
   if y<0 then y2=gfx.h+y else y2=y end
@@ -623,23 +690,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
   gfx.set(0.7)
   gfx.line(x2+20-20, y2+1, x2+20-10, y2+h-1)
   
-  if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
-    if (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w2 and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) or Key==32 then
-      
-      
-      gfx.x=x2
-      gfx.y=y2+gfx.texth
-      local selection=gfx.showmenu(Entries:sub(1,-2))
-      if selection>0 then
-        reagirl.Elements[element_id]["MenuDefault"]=selection
-        reagirl.Elements[element_id]["run_function"](element_id, selection, element_storage["MenuEntries"][selection])
-      end
-    end
-  end
-  if reagirl.Elements[element_id]["checked"]==true then
-    gfx.set(1,1,0)
-    gfx.rect(x2+4,y2+4,h-8,h-8,1)
-  end
+
   gfx.set(0.3)
   gfx.x=x2+3+20
   gfx.y=y2+1
@@ -647,8 +698,8 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
   gfx.set(1)
   gfx.x=x2+2+20
   gfx.y=y2
-  gfx.drawstr(Default,0,gfx.x+w2-22,gfx.y+gfx.texth)
-  return name..". "..element_storage["MenuEntries"][element_storage["MenuDefault"]]..". ComboBox collapsed "
+  gfx.drawstr(element_storage["MenuEntries"][element_storage["MenuDefault"]],0,gfx.x+w2-22,gfx.y+gfx.texth)
+  
 end
 
 function reagirl.Image_Add(image_file, x, y, w, h, Name, Description, Tooltip, run_function, func_params)
@@ -663,7 +714,8 @@ function reagirl.Image_Add(image_file, x, y, w, h, Name, Description, Tooltip, r
   reagirl.Elements[#reagirl.Elements]["y"]=y
   reagirl.Elements[#reagirl.Elements]["w"]=w
   reagirl.Elements[#reagirl.Elements]["h"]=h
-  reagirl.Elements[#reagirl.Elements]["func"]=reagirl.Image_Draw
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.Image_Manage
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.Image_Draw
   reagirl.Elements[#reagirl.Elements]["run_function"]=run_function
   reagirl.Elements[#reagirl.Elements]["func_params"]=func_params
   
@@ -674,23 +726,32 @@ function reagirl.Image_Add(image_file, x, y, w, h, Name, Description, Tooltip, r
   gfx.set(0)
   gfx.rect(0,0,8192,8192)
   gfx.set(r,g,b,a)
-  gfx.dest=-1
-  local AImage=gfx.loadimg(reagirl.Elements[#reagirl.Elements]["Image_Storage"], image_file)
+  AImage=gfx.loadimg(reagirl.Elements[#reagirl.Elements]["Image_Storage"], image_file)
   local retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[#reagirl.Elements]["Image_Storage"], w, h, 0, 0, 0)
+  gfx.dest=-1
   return #reagirl.Elements
 end
 
-function reagirl.ReserveImageBuffer()
-  -- reserves an image buffer for custom UI elements
-  -- returns -1 if no buffer can be reserved anymore
-  if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
-  if reagirl.MaxImage==1022 then return -1 end
-  reagirl.MaxImage=reagirl.MaxImage+1
-  return reagirl.MaxImage
+
+function reagirl.Image_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
+  local x2, y2
+  if x<0 then x2=gfx.w+x else x2=x end
+  if y<0 then y2=gfx.h+y else y2=y end
+  if selected==true and 
+    (Key==32 or mouse_cap==1) and 
+    (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) and
+    element_storage["run_function"]~=nil then 
+      element_storage["run_function"](element_id, table.unpack(element_storage["func_params"])) 
+  end
+  if selected==true then
+    message="Image "..description
+  end
+  return message
 end
 
 function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
   -- no docs in API-docs
+  olddest=gfx.dest
   local r,g,b,a,message,oldx,oldy,oldmode,x2,y2
   r=gfx.r
   g=gfx.g
@@ -702,33 +763,22 @@ function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
   --gfx.rect(x,y,w,h,1)
   oldx,oldy=gfx.x, gfx.y
   
-  if selected==true then
-    message="Image "..description
-  else
-    message=""
-  end
-  
   if x<0 then x2=gfx.w+x else x2=x end
   if y<0 then y2=gfx.h+y else y2=y end
   
   gfx.x=x2
   gfx.y=y2
   
-  if selected==true and 
-    (Key==32 or mouse_cap==1) and 
-    (gfx.mouse_x>=x2 and gfx.mouse_x<=x2+w and gfx.mouse_y>=y2 and gfx.mouse_y<=y2+h) and
-    element_storage["run_function"]~=nil then element_storage["run_function"](element_id, table.unpack(element_storage["func_params"])) end
+  
   
   gfx.dest=-1
+  DEST2=element_storage["Image_Storage"]
   gfx.blit(element_storage["Image_Storage"], 1, 0)
-  if selected==true then
-    message="Image "..description
-  end
   gfx.r,gfx.g,gfx.b,gfx.a=r,g,b,a
   gfx.mode=oldmode
   gfx.x=oldx
   gfx.y=oldy
-  return message
+  gfx.dest=olddest
 end
 
 function reagirl.Image_Update(element_id, image_file)
@@ -741,6 +791,16 @@ function reagirl.Image_Update(element_id, image_file)
   gfx.dest=-1
   AImage=gfx.loadimg(reagirl.Elements[element_id]["Image_Storage"], image_file)
   retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[element_id]["Image_Storage"], reagirl.Elements[element_id]["w"], reagirl.Elements[element_id]["h"], 0, 0, 0)
+  reagirl.Gui_ForceRefresh()
+end
+
+function reagirl.ReserveImageBuffer()
+  -- reserves an image buffer for custom UI elements
+  -- returns -1 if no buffer can be reserved anymore
+  if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
+  if reagirl.MaxImage==1022 then return -1 end
+  reagirl.MaxImage=reagirl.MaxImage+1
+  return reagirl.MaxImage
 end
 
 function reagirl.UI_Element_Move(element_id, x, y, w, h)
@@ -782,7 +842,7 @@ end
 
 
 function reagirl.Background_GetSetImage(filename, x, y, scaled)
-  if reagirl.MaxImage==nil then reagirl.MaxImage=-1 end
+  if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
   reagirl.MaxImage=reagirl.MaxImage+1
   gfx.loadimg(reagirl.MaxImage, filename)
   local se={reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)}
@@ -823,7 +883,7 @@ function reagirl.CheckForDroppedFiles()
       if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
       if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
       -- debug dropzone-rectangle, for checking, if it works
-        gfx.set(1)
+      --[[  gfx.set(1)
         gfx.rect(x, y, w, h, 0)
       --]]
       local files={}
@@ -838,6 +898,7 @@ function reagirl.CheckForDroppedFiles()
          end
          if #files>0 then
           reagirl.DropZone[i]["DropZoneFunc"](files)
+          reagirl.Gui_ForceRefresh()
          end
       end
     end
@@ -888,9 +949,14 @@ end
 function reagirl.Window_ForceSize()
   if reagirl.Window_ForceSize_Toggle==false then return end
   local h,w
-  if gfx.w<reagirl.Window_MinW then w=reagirl.Window_MinW else w=gfx.w end
-  if gfx.h<reagirl.Window_MinH then h=reagirl.Window_MinH else h=gfx.h end
+  if gfx.w<reagirl.Window_MinW then w=reagirl.Window_MinW else w=gfx.w return end
+  if gfx.h<reagirl.Window_MinH then h=reagirl.Window_MinH else h=gfx.h return end
   gfx.init("", w, h)
+  reagirl.Gui_ForceRefresh()
+end
+
+function reagirl.Gui_ForceRefresh()
+  reagirl.Gui_ForceRefreshState=true
 end
 
 function reagirl.Window_ForceMinSize(MinW, MinH)
@@ -900,6 +966,7 @@ function reagirl.Window_ForceMinSize(MinW, MinH)
 end
 
 function UpdateImage2(element_id)
+  reagirl.Gui_ForceRefreshState=true
   if gfx.mouse_cap==1 then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
@@ -950,8 +1017,12 @@ function main()
   if reagirl.Window_IsOpen()==true then reaper.defer(main) end
 end
 
+function Dummy()
+end
+
 Images={"c:\\c.png","c:\\f.png","c:\\m.png"}
 reagirl.Gui_Open("Test")
 UpdateUI()
 reagirl.Window_ForceMinSize(640, 277)
+--reagirl.Gui_ForceRefreshState=true
 main()
