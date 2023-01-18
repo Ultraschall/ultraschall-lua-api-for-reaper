@@ -349,6 +349,7 @@ end
 function reagirl.Gui_Open(title, w, h, dock, x, y)
   reagirl.IsWindowOpen_attribute=true
   reagirl.Gui_ForceRefresh()
+  ALL=reaper.time_precise()
   if reagirl.Window_ForceSize_Toggle==nil then reagirl.Window_ForceSize_Toggle=false end
   return reagirl.Window_Open(title, w, h, dock, x, y)
 end
@@ -838,11 +839,13 @@ function reagirl.UI_Element_Move(element_id, x, y, w, h)
   if element_id==reagirl.Elements["FocusedElement"] then
     reagirl.oldselection=-1
   end
+  reagirl.Gui_ForceRefresh()
 end
 
 function reagirl.UI_Element_SetSelected(element_id)
   if element_id<1 or element_id>#reagirl.Elements then error("UI_Element_SetSelected: param #1 - no such UI-element", 2) end
   reagirl.Elements["FocusedElement"]=element_id
+  reagirl.Gui_ForceRefresh()
 end
 
 
