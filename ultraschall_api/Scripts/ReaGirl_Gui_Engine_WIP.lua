@@ -628,7 +628,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         local dest=gfx.dest
         gfx.dest=-1
         gfx.set(0.7,0.7,0.7,0.8)
-        gfx.rect(x2+reagirl.MoveItAllRight-2,y2+reagirl.MoveItAllUp-2,w2+4,h2+6,0)
+        gfx.rect(x2+reagirl.MoveItAllRight-2,y2+reagirl.MoveItAllUp-2,w2+2,h2+3,0)
         gfx.set(r,g,b,a)
         gfx.dest=dest
         if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
