@@ -5,7 +5,9 @@ reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 
 --[[
-TODO: Dpi2Scale-conversion must be included(currently using Ultraschall-API in OpenWindow)
+TODO: 
+  Dpi2Scale-conversion must be included(currently using Ultraschall-API in OpenWindow)
+  clicking the IMAGE-UI-elements doesn't change the ui-selection -> must be fixed
 --]]
 
 function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
