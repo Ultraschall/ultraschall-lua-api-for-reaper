@@ -1747,3 +1747,47 @@ function ultraschall.ConvertIniStringToTable(ini_string, convert_numbers_to_numb
 end
 
 
+function string.has_control(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_control' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%c")~=nil
+end
+
+function string.has_alphanumeric(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_alphanumeric' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%w")~=nil
+end
+
+function string.has_letter(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_letter' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%a")~=nil
+end
+
+function string.has_digits(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_digits' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%d")~=nil
+end
+
+function string.has_printables(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_printables' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%g")~=nil
+end
+
+function string.has_uppercase(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_uppercase' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%u")~=nil
+end
+
+function string.has_lowercase(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_lowercase' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%l")~=nil
+end
+
+function string.has_space(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_space' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%s")~=nil
+end
+
+function string.has_hex(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_hex' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("%x")~=nil
+end
