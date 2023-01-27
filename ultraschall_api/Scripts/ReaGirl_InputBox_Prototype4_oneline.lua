@@ -55,20 +55,17 @@ function string.has_hex(String)
 end
 
 function string.utf8_sub(source_string, startoffset, endoffset)
-  if type(source_string)~="string" then error("bad argument #1, to 'utf8_sub' (string expected, got "..type(source_string)..")", 2) end
-  if math.type(startoffset)~="integer" then error("bad argument #2, to 'utf8_sub' (integer expected)", 2) end
-  if math.type(endoffset)~="integer" then error("bad argument #3, to 'utf8_sub' (integer expected)", 2) end
-  if endoffset==nil then endoffset=-1 end
-  local A={utf8.codepoint(source_string, 1, -1)}
-  local newstring=""
-  if endoffset>source_string:utf8_len() then endoffset=source_string:utf8_len() end
-  if endoffset<0 then endoffset=source_string:utf8_len()+endoffset+1 end
-  if startoffset<0 then startoffset=source_string:utf8_len()+startoffset+1 end
-  if startoffset<1 then startoffset=1 end
-  for i=startoffset, endoffset do
-    newstring=newstring..utf8.char(A[i])
+  -- written by CFillion for his Interactive ReaScript-Tool, available in the ReaTeam-repository(install via ReaPack)
+  -- thanks for allowing me to use it :)
+  startoffset = utf8.offset(source_string, startoffset)
+  if not startoffset then return '' end -- i is out of bounds
+
+  if endoffset and (endoffset > 0 or endoffset < -1) then
+    endoffset = utf8.offset(source_string, endoffset + 1)
+    if endoffset then endoffset = endoffset - 1 end
   end
-  return newstring
+
+  return string.sub(source_string, startoffset, endoffset)
 end
 
 function string.utf8_len(source_string)
@@ -258,13 +255,24 @@ function reagirl.InputField_Manage(Key, Key_utf8, workspace)
       reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
       reagirl.InputField_MoveVisibleCursor(workspace, workspace["Text"]:utf8_len())
       workspace["cursor_offset"]=workspace["Text"]:utf8_len()
+    elseif Key==3.0 then
+      -- Cmd+C for Copy To Clipboard
+      if workspace["selection_start"]~=workspace["selection_end"] then
+        reaper.CF_SetClipboard(workspace["Text"]:utf8_sub(workspace["selection_start"]+1, workspace["selection_end"]))
+      end
     elseif Key==22.0 then
+      -- Cmd+V for Paste from Clipboard
       Clippy=reaper.CF_GetClipboard()
+      Clippy=string.gsub(Clippy, "%c", "")
       local NewOffset=Clippy:utf8_len()+workspace["cursor_offset"]
+      
       workspace["Text"]=workspace["Text"]:utf8_sub(1, workspace["cursor_offset"])..Clippy..workspace["Text"]:utf8_sub(workspace["cursor_offset"]+1, -1)
-      reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-      reagirl.InputField_MoveVisibleCursor(workspace, NewOffset)
       workspace["cursor_offset"]=workspace["cursor_offset"]+Clippy:utf8_len()
+      
+      if NewOffset>workspace["draw_offset"]+workspace["draw_range_max"] then
+        workspace["draw_offset"]=workspace["cursor_offset"]
+        workspace["draw_range_cur"]=0
+      end
     elseif Key_utf8~=0 and Key_utf8~=nil then
       workspace["Text"]=workspace["Text"]:utf8_sub(1, workspace["cursor_offset"])..utf8.char(Key_utf8)..workspace["Text"]:utf8_sub(workspace["cursor_offset"]+1, -1)
       workspace["cursor_offset"]=workspace["cursor_offset"]+1
@@ -321,7 +329,7 @@ end
 gfx.init()
 function main()
   A,B=gfx.getchar()
-  if A>0 then print3(A) end
+  --if A>0 then print3(A) end
   C=Aworkspace["Text"]:len()
   reagirl.InputField_Manage(A,B, Aworkspace)
   reagirl.InputField_Draw(A,B, Aworkspace)
@@ -329,7 +337,7 @@ function main()
 end
 
 Aworkspace={}
-Aworkspace["Text"]="Test Home of Oblivionsjdijsid juidjsid ALLABAMMA"
+Aworkspace["Text"]=reaper.CF_GetClipboard()--"Test Home of Oblivionsjdijsid juidjsid ALLABAMMA"
 Aworkspace["cursor_offset"]=Aworkspace["Text"]:utf8_len()
 Aworkspace["selection_start"]=Aworkspace["cursor_offset"]
 Aworkspace["selection_end"]=Aworkspace["cursor_offset"]
@@ -338,6 +346,6 @@ Aworkspace["draw_offset"]=Aworkspace["cursor_offset"]-Aworkspace["draw_range_max
 if Aworkspace["draw_offset"]<0 then Aworkspace["draw_offset"]=0 end
 Aworkspace["draw_range_cur"]=Aworkspace["draw_range_max"]
 
-cusor_offset=0
+cursor_offset=0
 draw_offset=0
 main()
