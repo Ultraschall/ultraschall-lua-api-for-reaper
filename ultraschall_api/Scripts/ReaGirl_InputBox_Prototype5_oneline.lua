@@ -178,108 +178,80 @@ function reagirl.InputField_Manage(Key, Key_utf8, workspace)
       if gfx.mouse_cap&4==4 then
         local offset=reagirl.InputField_FindPreviousGoToPoint(workspace)
         if offset~=nil then
-          reagirl.InputField_MoveVisibleCursor(workspace, offset-workspace["cursor_offset"])
-          workspace["cursor_offset"]=offset
+          reagirl.InputField_MoveVisibleCursor(workspace, offset-cursor_offset)
+          cursor_offset=offset
         end
         if gfx.mouse_cap&8==8 then
-          reagirl.InputField_SetSelection(workspace, -1, workspace["cursor_offset"])
+          reagirl.InputField_SetSelection(workspace, -1, cursor_offset)
         else
-          reagirl.InputField_SetSelection(workspace, 0, workspace["cursor_offset"])
+          reagirl.InputField_SetSelection(workspace, 0, cursor_offset)
         end
       elseif gfx.mouse_cap&8==8 then
-        workspace["cursor_offset"]=workspace["cursor_offset"]-1
-        workspace["selection_start"]=workspace["cursor_offset"]
-        workspace["selection_end"]=workspace["cursor_offset"]
-        if workspace["cursor_offset"]<0 then workspace["cursor_offset"]=0 else reagirl.InputField_MoveVisibleCursor(workspace, -1) end
-        reagirl.InputField_SetSelection(workspace, -1, workspace["cursor_offset"])
+        cursor_offset=cursor_offset-1
+        selection_start=cursor_offset
+        selection_end=cursor_offset
+        if cursor_offset<0 then cursor_offset=0 else reagirl.InputField_MoveVisibleCursor(workspace, -1) end
+        reagirl.InputField_SetSelection(workspace, -1, cursor_offset)
       else 
-        workspace["cursor_offset"]=workspace["cursor_offset"]-1
-        workspace["selection_start"]=workspace["cursor_offset"]
-        workspace["selection_end"]=workspace["cursor_offset"]
-        if workspace["cursor_offset"]<0 then workspace["cursor_offset"]=0 else reagirl.InputField_MoveVisibleCursor(workspace, -1) end
+        cursor_offset=cursor_offset-1
+        workspace["selection_start"]=cursor_offset
+        workspace["selection_end"]=cursor_offset
+        if cursor_offset<0 then cursor_offset=0 else reagirl.InputField_MoveVisibleCursor(workspace, -1) end
       end
     elseif Key==1919379572.0 then
       -- right key
       if gfx.mouse_cap&4==4 then
         local offset=reagirl.InputField_FindNextGoToPoint(workspace)
         if offset~=nil then
-          reagirl.InputField_MoveVisibleCursor(workspace, offset-workspace["cursor_offset"]-1)
-          workspace["cursor_offset"]=offset-1
+          reagirl.InputField_MoveVisibleCursor(workspace, offset-cursor_offset-1)
+          cursor_offset=offset-1
         end
         if gfx.mouse_cap&8==8 then
-              reagirl.InputField_SetSelection(workspace, -1, workspace["cursor_offset"])
+              reagirl.InputField_SetSelection(workspace, -1, cursor_offset)
             else
-              reagirl.InputField_SetSelection(workspace, 0, workspace["cursor_offset"])
+              reagirl.InputField_SetSelection(workspace, 0, cursor_offset)
             end
       elseif gfx.mouse_cap&8==8 then
-        workspace["cursor_offset"]=workspace["cursor_offset"]+1
-        if workspace["cursor_offset"]>workspace["Text"]:utf8_len() then 
-          workspace["cursor_offset"]=workspace["Text"]:utf8_len()
+        cursor_offset=cursor_offset+1
+        if cursor_offset>Text:utf8_len() then 
+          cursor_offset=Text:utf8_len()
         else 
           reagirl.InputField_MoveVisibleCursor(workspace, 1)
         end
-        reagirl.InputField_SetSelection(workspace, 1, workspace["cursor_offset"])
+        reagirl.InputField_SetSelection(workspace, 1, cursor_offset)
       else
-        workspace["cursor_offset"]=workspace["cursor_offset"]+1
-        if workspace["cursor_offset"]>workspace["Text"]:utf8_len() then 
-          workspace["cursor_offset"]=workspace["Text"]:utf8_len()
+        cursor_offset=cursor_offset+1
+        if cursor_offset>Text:utf8_len() then 
+          cursor_offset=Text:utf8_len()
         else 
           reagirl.InputField_MoveVisibleCursor(workspace, 1)
         end
-        workspace["selection_start"]=workspace["cursor_offset"]
-        workspace["selection_end"]=workspace["cursor_offset"]
+        workspace["selection_start"]=cursor_offset
+        workspace["selection_end"]=cursor_offset
       end
-    elseif Key==30064.0 then
-      -- arrow up key
-    elseif Key==1685026670.0 then
-      -- arrow down key
-    elseif Key>=26161.0 and Key<26169 then
-      --F1 through F9
-    elseif Key>=6697264.0 and Key<=6697270.0 then 
-      -- F10 through F16
-    elseif Key==27.0 then 
-      -- ESC-Key
-    elseif Key==9.0 then 
-      -- Tab Key
-    elseif Key==8.0 then
-      -- Backspace
-      workspace["Text"]=workspace["Text"]:sub_utf8(1,workspace["cursor_offset"]-1)..workspace["Text"]:sub_utf8(workspace["cursor_offset"]+1,-1)
-      workspace["cursor_offset"]=workspace["cursor_offset"]-1
-      if workspace["cursor_offset"]<0 then workspace["cursor_offset"]=0 end
-    elseif Key==6579564.0 then
-      -- Del-Key
-      workspace["Text"]=workspace["Text"]:sub_utf8(1,workspace["cursor_offset"])..workspace["Text"]:sub_utf8(workspace["cursor_offset"]+2,-1)
+     
     elseif Key==1752132965.0 then
-      -- Home Key
-      reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-      workspace["cursor_offset"]=0
+      reagirl.InputField_MoveVisibleCursor(workspace, -cursor_offset)
+      cursor_offset=0
     elseif Key==6647396.0 then
-      -- End Key
-      reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-      reagirl.InputField_MoveVisibleCursor(workspace, workspace["Text"]:utf8_len())
-      workspace["cursor_offset"]=workspace["Text"]:utf8_len()
-    elseif Key==22.0 then
-      Clippy=reaper.CF_GetClipboard()
-      local NewOffset=Clippy:utf8_len()+workspace["cursor_offset"]
-      workspace["Text"]=workspace["Text"]:utf8_sub(1, workspace["cursor_offset"])..Clippy..workspace["Text"]:utf8_sub(workspace["cursor_offset"]+1, -1)
-      reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-      reagirl.InputField_MoveVisibleCursor(workspace, NewOffset)
-      workspace["cursor_offset"]=workspace["cursor_offset"]+Clippy:utf8_len()
+      reagirl.InputField_MoveVisibleCursor(workspace, -cursor_offset)
+      reagirl.InputField_MoveVisibleCursor(workspace, Text:utf8_len())
+      cursor_offset=Text:utf8_len()
     elseif Key_utf8~=0 and Key_utf8~=nil then
-      workspace["Text"]=workspace["Text"]:utf8_sub(1, workspace["cursor_offset"])..utf8.char(Key_utf8)..workspace["Text"]:utf8_sub(workspace["cursor_offset"]+1, -1)
-      workspace["cursor_offset"]=workspace["cursor_offset"]+1
+      Text=Text:utf8_sub(1, cursor_offset)..utf8.char(Key_utf8)..Text:utf8_sub(cursor_offset+1, -1)
+      cursor_offset=cursor_offset+1
       reagirl.InputField_MoveVisibleCursor(workspace, 1)
     else
-      workspace["Text"]=workspace["Text"]:utf8_sub(1, workspace["cursor_offset"])..utf8.char(Key)..workspace["Text"]:utf8_sub(workspace["cursor_offset"]+1, -1)
-      workspace["cursor_offset"]=workspace["cursor_offset"]+1
+      Text=Text:utf8_sub(1, cursor_offset)..utf8.char(Key)..Text:utf8_sub(cursor_offset+1, -1)
+      cursor_offset=cursor_offset+1
       reagirl.InputField_MoveVisibleCursor(workspace, 1)
     end
   end
   
-  --workspace["cursor_offset"]=cursor_offset
+  workspace["cursor_offset"]=cursor_offset
   --workspace["draw_offset"]=draw_offset
   --workspace["draw_range_cur"]=draw_range_cur
-  --workspace["Text"]=Text
+  workspace["Text"]=Text
   
 end
 
