@@ -257,17 +257,30 @@ function reagirl.InputField_Manage(Key, Key_utf8, workspace)
       workspace["Text"]=workspace["Text"]:sub_utf8(1,workspace["cursor_offset"])..workspace["Text"]:sub_utf8(workspace["cursor_offset"]+2,-1)
     elseif Key==1752132965.0 then
       -- Home Key
-      reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-      workspace["cursor_offset"]=0
-      workspace["selection_start"]=workspace["cursor_offset"]
-      workspace["selection_end"]=workspace["cursor_offset"]
+      if gfx.mouse_cap&8==0 then
+        reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
+        workspace["cursor_offset"]=0
+        workspace["selection_start"]=workspace["cursor_offset"]
+        workspace["selection_end"]=workspace["cursor_offset"]
+      elseif gfx.mouse_cap&8==8 then
+        reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
+        workspace["cursor_offset"]=0
+        workspace["selection_start"]=workspace["cursor_offset"]
+      end
     elseif Key==6647396.0 then
       -- End Key
-      reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-      reagirl.InputField_MoveVisibleCursor(workspace, workspace["Text"]:utf8_len())
-      workspace["cursor_offset"]=workspace["Text"]:utf8_len()
-      workspace["selection_start"]=workspace["cursor_offset"]
-      workspace["selection_end"]=workspace["cursor_offset"]
+      if gfx.mouse_cap&8==0 then
+        reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
+        reagirl.InputField_MoveVisibleCursor(workspace, workspace["Text"]:utf8_len())
+        workspace["cursor_offset"]=workspace["Text"]:utf8_len()
+        workspace["selection_start"]=workspace["cursor_offset"]
+        workspace["selection_end"]=workspace["cursor_offset"]
+      elseif gfx.mouse_cap&8==8 then
+        reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
+        reagirl.InputField_MoveVisibleCursor(workspace, workspace["Text"]:utf8_len())
+        workspace["cursor_offset"]=workspace["Text"]:utf8_len()
+        workspace["selection_end"]=workspace["cursor_offset"]
+      end
     elseif Key==3.0 then
       -- Cmd+C for Copy To Clipboard
       if workspace["selection_start"]~=workspace["selection_end"] then
