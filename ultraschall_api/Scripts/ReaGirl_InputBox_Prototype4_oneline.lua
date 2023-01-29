@@ -75,11 +75,10 @@ end
 
 function reagirl.InputField_FindNextGoToPoint(workspace)
   local cursor_offset=workspace["cursor_offset"]
-  local Text=workspace["Text"].." "
   if cursor_offset==workspace["Text"]:utf8_len() then return workspace["Text"]:utf8_len()+1 end
   
-  for i=cursor_offset+1, Text:utf8_len() do
-    if Text:utf8_sub(i+1,i+1):has_alphanumeric()==true and Text:utf8_sub(i,i):has_alphanumeric()==false then
+  for i=cursor_offset+1, workspace["Text"]:utf8_len() do
+    if workspace["Text"]:utf8_sub(i+1,i+1):has_alphanumeric()==true and workspace["Text"]:utf8_sub(i,i):has_alphanumeric()==false then
       return i+1
     end
   end
@@ -89,12 +88,11 @@ end
 
 function reagirl.InputField_FindPreviousGoToPoint(workspace)
   local cursor_offset=workspace["cursor_offset"]
-  local Text=" "..workspace["Text"]
   if cursor_offset==0 then return 0 end
   
   for i=cursor_offset-1, 1, -1 do
-    if Text:utf8_sub(i+1,i+1):has_alphanumeric()==false and Text:utf8_sub(i,i):has_alphanumeric()==true then
-      return i-1
+    if workspace["Text"]:utf8_sub(i+1,i+1):has_alphanumeric()==false and workspace["Text"]:utf8_sub(i,i):has_alphanumeric()==true then
+      return i
     end
   end
   
