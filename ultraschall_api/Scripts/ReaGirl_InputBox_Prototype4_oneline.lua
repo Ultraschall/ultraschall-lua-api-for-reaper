@@ -1,5 +1,9 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
+-- TODO:
+-- With short initial texts, MoveVisibleCursor doesn't work correctly!
+-- Textselection via Mousedrag
+
 reagirl={}
 --print2(Aworkspace["draw_range_cur"])
 --if Aworkspace["draw_range_cur"]<0 then Aworkspace["draw_range_cur"]=Aworkspace["Text"]:utf8_len()-Aworkspace["draw_range_max"] end
@@ -164,10 +168,12 @@ function reagirl.InputField_Manage(x, y, w, h, Key, Key_utf8, workspace)
   local cursor_offset=workspace["cursor_offset"]
   
   if gfx.mouse_y>=y and gfx.mouse_y<=gfx.y+gfx.texth then
-    if gfx.mouse_x>=x and gfx.mouse_x<=y+gfx.measurechar(65)*workspace["draw_range_max"] then
+    if gfx.mouse_x>=x and gfx.mouse_x<=y+gfx.measurechar(65)*(workspace["draw_range_max"]-1) then
       A=workspace["Text"]:utf8_sub(workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65)), workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65)))
       if gfx.mouse_cap==1 then 
-        workspace["cursor_offset"]=workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65))+1
+        workspace["cursor_offset"]=workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65))
+        workspace["selection_start"]=workspace["cursor_offset"]
+        workspace["selection_end"]=workspace["cursor_offset"]
       end
     else
       A1=nil
@@ -359,7 +365,7 @@ function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, workspace)
   local selection_end=workspace["selection_end"]
   gfx.x=x
   gfx.y=y
-  gfx.set(1,0,0)
+  gfx.set(0,0,0)
   gfx.rect(0,0,gfx.w,gfx.h,1)
   gfx.set(1)
   CAP_STRING=""
@@ -389,14 +395,14 @@ function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, workspace)
       gfx.line(gfx.x, gfx.y, gfx.x, gfx.y+gfx.texth)
     end
   end
-  gfx.rect(x,y,gfx.measurechar(65)*workspace["draw_range_max"], gfx.texth, 0)
+  gfx.rect(x,y,gfx.measurechar(65)*(workspace["draw_range_max"]-1), gfx.texth, 0)
 end
 
 
 gfx.init("",640,170)
 function main()
   A,B=gfx.getchar()
-  if A>0 then print3(A) end
+  --if A>0 then print3(A) end
   C=Aworkspace["Text"]:len()
   --gfx.set(1,0,0)
   --gfx.rect(1,1,gfx.w,gfx.h,0)
