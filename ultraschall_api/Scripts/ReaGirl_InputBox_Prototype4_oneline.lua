@@ -3,6 +3,8 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 -- TODO:
 -- With short initial texts, MoveVisibleCursor doesn't work correctly!
 -- Textselection via Mousedrag
+-- Paste this into the box and do Home-Key - buggy(line too long)
+-- local NewOffset=Clippy:utf8_len()+workspace["cursor_offset"]
 
 reagirl={}
 --print2(Aworkspace["draw_range_cur"])
