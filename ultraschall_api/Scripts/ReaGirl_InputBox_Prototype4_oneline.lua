@@ -160,16 +160,19 @@ function reagirl.InputField_SetSelection(workspace, position, cursor_offset)
   workspace["selection_end"]=selection_end
 end
 
-function reagirl.InputField_Manage(Key, Key_utf8, workspace)
+function reagirl.InputField_Manage(x, y, w, h, Key, Key_utf8, workspace)
   local cursor_offset=workspace["cursor_offset"]
-  local draw_offset=workspace["draw_offset"]
-  local draw_range_cur=workspace["draw_range_cur"]
-  local draw_range_max=workspace["draw_range_max"]
-  local selection_start=workspace["selection_start"]
-  local selection_end=workspace["selection_end"]
   
-  local Text=workspace["Text"]
-  
+  if gfx.mouse_y>=y and gfx.mouse_y<=gfx.y+gfx.texth then
+    if gfx.mouse_x>=x and gfx.mouse_x<=y+gfx.measurechar(65)*workspace["draw_range_max"] then
+      A=workspace["Text"]:utf8_sub(workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65)), workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65)))
+      if gfx.mouse_cap==1 then 
+        workspace["cursor_offset"]=workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65))+1
+      end
+    else
+      A1=nil
+    end
+  end
   if Key~=0 then
     if Key==1818584692.0 then
       -- left key
@@ -252,14 +255,31 @@ function reagirl.InputField_Manage(Key, Key_utf8, workspace)
       -- ESC-Key
     elseif Key==9.0 then 
       -- Tab Key
+    elseif Key==1.0 then
+      workspace["selection_start"]=0
+      workspace["selection_end"]=workspace["Text"]:utf8_len()
     elseif Key==8.0 then
       -- Backspace
-      workspace["Text"]=workspace["Text"]:sub_utf8(1,workspace["cursor_offset"]-1)..workspace["Text"]:sub_utf8(workspace["cursor_offset"]+1,-1)
-      workspace["cursor_offset"]=workspace["cursor_offset"]-1
+      if workspace["selection_start"]==workspace["selection_end"] then
+        workspace["Text"]=workspace["Text"]:utf8_sub(1,workspace["selection_start"]-1)..workspace["Text"]:utf8_sub(workspace["selection_end"]+1,-1)
+        workspace["cursor_offset"]=workspace["cursor_offset"]-1
+        reagirl.InputField_MoveVisibleCursor(workspace, -1)
+      else
+        workspace["Text"]=workspace["Text"]:utf8_sub(1,workspace["selection_start"])..workspace["Text"]:utf8_sub(workspace["selection_end"]+1,-1)
+      end
       if workspace["cursor_offset"]<0 then workspace["cursor_offset"]=0 end
+      workspace["selection_start"]=workspace["cursor_offset"]
+      workspace["selection_end"]=workspace["cursor_offset"]
     elseif Key==6579564.0 then
       -- Del-Key
-      workspace["Text"]=workspace["Text"]:sub_utf8(1,workspace["cursor_offset"])..workspace["Text"]:sub_utf8(workspace["cursor_offset"]+2,-1)
+      if workspace["selection_start"]==workspace["selection_end"] then
+        workspace["Text"]=workspace["Text"]:utf8_sub(1,workspace["selection_start"])..workspace["Text"]:utf8_sub(workspace["selection_end"]+2,-1)
+      else
+        workspace["Text"]=workspace["Text"]:utf8_sub(1,workspace["selection_start"])..workspace["Text"]:utf8_sub(workspace["selection_end"]+1,-1)
+      end
+      if workspace["cursor_offset"]<0 then workspace["cursor_offset"]=0 end
+      workspace["selection_start"]=workspace["cursor_offset"]
+      workspace["selection_end"]=workspace["cursor_offset"]
     elseif Key==1752132965.0 then
       -- Home Key
       if gfx.mouse_cap&8==0 then
@@ -328,7 +348,7 @@ function reagirl.InputField_Manage(Key, Key_utf8, workspace)
   
 end
 
-function reagirl.InputField_Draw(Key, Key_utf8, workspace)
+function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, workspace)
   gfx.setfont(1,"Calibri", 20)
   gfx.setfont(1,"Consolas", 20)
   
@@ -337,8 +357,8 @@ function reagirl.InputField_Draw(Key, Key_utf8, workspace)
   local draw_range_max=workspace["draw_range_max"]
   local selection_start=workspace["selection_start"]
   local selection_end=workspace["selection_end"]
-  gfx.x=0
-  gfx.y=0
+  gfx.x=x
+  gfx.y=y
   gfx.set(1,0,0)
   gfx.rect(0,0,gfx.w,gfx.h,1)
   gfx.set(1)
@@ -363,22 +383,30 @@ function reagirl.InputField_Draw(Key, Key_utf8, workspace)
     gfx.drawstr(workspace["Text"]:utf8_sub(i,i))
     CAP_STRING=CAP_STRING..workspace["Text"]:utf8_sub(i,i)
     if cursor_offset==i then
+      gfx.set(0.6)
+      gfx.line(gfx.x-1, gfx.y-1, gfx.x-1, gfx.y+gfx.texth-1)
+      gfx.set(1)
       gfx.line(gfx.x, gfx.y, gfx.x, gfx.y+gfx.texth)
     end
   end
+  gfx.rect(x,y,gfx.measurechar(65)*workspace["draw_range_max"], gfx.texth, 0)
 end
 
 
 gfx.init("",640,170)
 function main()
   A,B=gfx.getchar()
-  --if A>0 then print3(A) end
+  if A>0 then print3(A) end
   C=Aworkspace["Text"]:len()
   --gfx.set(1,0,0)
   --gfx.rect(1,1,gfx.w,gfx.h,0)
   --gfx.set(1)
-  reagirl.InputField_Manage(A,B, Aworkspace)
-  reagirl.InputField_Draw(A,B, Aworkspace)
+  x=100
+  y=100
+  w=100
+  h=100
+  reagirl.InputField_Manage(x, y, w, h, A,B, Aworkspace)
+  reagirl.InputField_Draw(x, y, w, h, A,B, Aworkspace)
   --gfx.rect(1,1,gfx.w,gfx.h,1)
   reaper.defer(main)
 end
