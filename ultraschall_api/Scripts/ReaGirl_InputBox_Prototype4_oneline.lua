@@ -129,7 +129,7 @@ function reagirl.InputField_MoveVisibleCursor(workspace, pos)
       draw_range_cur=draw_range_max
     end
   end
-
+  if draw_offset<=0 then draw_offset=1 end
   workspace["draw_offset"]=draw_offset
   workspace["draw_range_cur"]=draw_range_cur
 end
@@ -170,13 +170,17 @@ function reagirl.InputField_Manage(x, y, w, h, Key, Key_utf8, workspace)
   local cursor_offset=workspace["cursor_offset"]
   
   if gfx.mouse_y>=y and gfx.mouse_y<=gfx.y+gfx.texth then
-    if gfx.mouse_x>=x and gfx.mouse_x<=y+gfx.measurechar(65)*(workspace["draw_range_max"]-1) then
+    if gfx.mouse_x>=x and gfx.mouse_x<=y+gfx.measurechar(65)*(workspace["draw_range_max"]+1)+3 then
       A=workspace["Text"]:utf8_sub(workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65)), workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65)))
       if gfx.mouse_cap==1 then 
         workspace["cursor_offset"]=workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65))
         workspace["selection_start"]=workspace["cursor_offset"]
         workspace["selection_end"]=workspace["cursor_offset"]
       end
+    --elseif 
+      -- TODO: Wenn Maus links von Textfeld klickt(ohne Drag) -> positioniere Cursor an Anfang des TextFeldes
+    --elseif 
+      -- TODO: Wenn Maus rechts von Textfeld klickt (ohne Drag) -> positioniere Cursor ans Ende des TextFeldes
     else
       A1=nil
     end
@@ -268,7 +272,7 @@ function reagirl.InputField_Manage(x, y, w, h, Key, Key_utf8, workspace)
       workspace["selection_end"]=workspace["Text"]:utf8_len()
     elseif Key==8.0 then
       -- Backspace
-      if workspace["selection_start"]==workspace["selection_end"] then
+      if workspace["selection_start"]==workspace["selection_end"] and workspace["cursor_offset"]>0 then
         workspace["Text"]=workspace["Text"]:utf8_sub(1,workspace["selection_start"]-1)..workspace["Text"]:utf8_sub(workspace["selection_end"]+1,-1)
         workspace["cursor_offset"]=workspace["cursor_offset"]-1
         reagirl.InputField_MoveVisibleCursor(workspace, -1)
@@ -304,7 +308,7 @@ function reagirl.InputField_Manage(x, y, w, h, Key, Key_utf8, workspace)
       -- End Key
       if gfx.mouse_cap&8==0 then
         reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-        reagirl.InputField_MoveVisibleCursor(workspace, workspace["Text"]:utf8_len())
+        reagirl.InputField_MoveVisibleCursor(workspace, workspace["Text"]:utf8_len()-3)
         workspace["cursor_offset"]=workspace["Text"]:utf8_len()
         workspace["selection_start"]=workspace["cursor_offset"]
         workspace["selection_end"]=workspace["cursor_offset"]
@@ -367,9 +371,12 @@ function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, workspace)
   local selection_end=workspace["selection_end"]
   gfx.x=x
   gfx.y=y
-  gfx.set(0,0,0)
-  gfx.rect(0,0,gfx.w,gfx.h,1)
+  gfx.set(0.2)
+  gfx.rect(x-2,y-3,gfx.measurechar(65)*(workspace["draw_range_max"]+1)+4, gfx.texth+6, 1)
+  gfx.set(0.6)
+  gfx.rect(x-2,y-3,gfx.measurechar(65)*(workspace["draw_range_max"]+1)+4, gfx.texth+6, 0)
   gfx.set(1)
+  gfx.rect(x-1,y-2,gfx.measurechar(65)*(workspace["draw_range_max"]+1)+4, gfx.texth+6, 0)
   CAP_STRING=""
   CAP_STRING2=workspace["Text"]:utf8_sub(workspace["selection_start"]+1, workspace["selection_end"])
   --print_update(draw_offset, draw_range_max+draw_offset, draw_range_max, draw_offset)
@@ -379,7 +386,7 @@ function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, workspace)
   end
   
   CAPO=0
-  if draw_offset==0 then draw_offset=1 end
+  if draw_offset<=0 then draw_offset=0 end
   for i=draw_offset, draw_range_max+draw_offset+2 do
   CAPO=CAPO+1
     --print(workspace["Text"]:utf8_sub(i,i))
@@ -392,12 +399,11 @@ function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, workspace)
     CAP_STRING=CAP_STRING..workspace["Text"]:utf8_sub(i,i)
     if cursor_offset==i then
       gfx.set(0.6)
-      gfx.line(gfx.x-1, gfx.y-1, gfx.x-1, gfx.y+gfx.texth-1)
-      gfx.set(1)
       gfx.line(gfx.x, gfx.y, gfx.x, gfx.y+gfx.texth)
+      gfx.set(1)
+      gfx.line(gfx.x+1, gfx.y+1, gfx.x+1, gfx.y+1+gfx.texth)
     end
   end
-  gfx.rect(x,y,gfx.measurechar(65)*(workspace["draw_range_max"]-1), gfx.texth, 0)
 end
 
 
@@ -425,9 +431,13 @@ Aworkspace["cursor_offset"]=Aworkspace["Text"]:utf8_len()
 Aworkspace["selection_start"]=Aworkspace["cursor_offset"]
 Aworkspace["selection_end"]=Aworkspace["cursor_offset"]
 Aworkspace["draw_range_max"]=20
-Aworkspace["draw_offset"]=Aworkspace["cursor_offset"]-Aworkspace["draw_range_max"]
+Aworkspace["draw_offset"]=Aworkspace["cursor_offset"]-Aworkspace["draw_range_max"]-1
 if Aworkspace["draw_offset"]<0 then Aworkspace["draw_offset"]=0 end
-Aworkspace["draw_range_cur"]=Aworkspace["draw_range_max"]
+if Aworkspace["Text"]:utf8_len()>Aworkspace["draw_range_max"] then
+  Aworkspace["draw_range_cur"]=Aworkspace["draw_range_max"]
+else
+  Aworkspace["draw_range_cur"]=Aworkspace["Text"]:utf8_len()
+end
 
 cursor_offset=0
 draw_offset=0
