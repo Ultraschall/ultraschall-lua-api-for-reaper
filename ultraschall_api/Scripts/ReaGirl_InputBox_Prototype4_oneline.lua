@@ -169,13 +169,16 @@ end
 function reagirl.InputField_Manage(x, y, w, h, Key, Key_utf8, workspace)
   local cursor_offset=workspace["cursor_offset"]
   
+  for i=0, 20 do
+    --gfx.rect(math.floor((i)*(gfx.measurechar(65)-1)), y, gfx.measurechar(65)-2, gfx.texth, 0)
+  end
   if gfx.mouse_y>=y and gfx.mouse_y<=gfx.y+gfx.texth then
-    if gfx.mouse_x>=x and gfx.mouse_x<=y+gfx.measurechar(65)*(workspace["draw_range_max"]+1)+3 then
-      A=workspace["Text"]:utf8_sub(workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65)), workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65)))
+    if gfx.mouse_x>=x and gfx.mouse_x<=x+(gfx.measurechar(65)*(workspace["draw_range_max"])) then
       if gfx.mouse_cap==1 then 
-        workspace["cursor_offset"]=workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/gfx.measurechar(65))
+        workspace["cursor_offset"]=workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
         workspace["selection_start"]=workspace["cursor_offset"]
         workspace["selection_end"]=workspace["cursor_offset"]
+        workspace["draw_range_cur"]=workspace["cursor_offset"]-workspace["draw_offset"]
       end
     --elseif 
       -- TODO: Wenn Maus links von Textfeld klickt(ohne Drag) -> positioniere Cursor an Anfang des TextFeldes
@@ -371,12 +374,15 @@ function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, workspace)
   local selection_end=workspace["selection_end"]
   gfx.x=x
   gfx.y=y
+  --[[
+  -- rectangle-stuff
   gfx.set(0.2)
   gfx.rect(x-2,y-3,gfx.measurechar(65)*(workspace["draw_range_max"]+1)+4, gfx.texth+6, 1)
   gfx.set(0.6)
   gfx.rect(x-2,y-3,gfx.measurechar(65)*(workspace["draw_range_max"]+1)+4, gfx.texth+6, 0)
   gfx.set(1)
   gfx.rect(x-1,y-2,gfx.measurechar(65)*(workspace["draw_range_max"]+1)+4, gfx.texth+6, 0)
+  --]]
   CAP_STRING=""
   CAP_STRING2=workspace["Text"]:utf8_sub(workspace["selection_start"]+1, workspace["selection_end"])
   --print_update(draw_offset, draw_range_max+draw_offset, draw_range_max, draw_offset)
@@ -415,8 +421,8 @@ function main()
   --gfx.set(1,0,0)
   --gfx.rect(1,1,gfx.w,gfx.h,0)
   --gfx.set(1)
-  x=100
-  y=100
+  x=00
+  y=00
   w=100
   h=100
   reagirl.InputField_Manage(x, y, w, h, A,B, Aworkspace)
