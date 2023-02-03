@@ -7,6 +7,113 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 -- local NewOffset=Clippy:utf8_len()+workspace["cursor_offset"]
 
 reagirl={}
+
+function reagirl.GetMouseCap(doubleclick_wait, drag_wait)
+--HUITOO=reaper.time_precise()
+  -- prepare variables
+  if reagirl.MouseCap==nil then
+    -- if mouse-function hasn't been used yet, initialize variables
+    reagirl.MouseCap={}
+    reagirl.MouseCap.mouse_last_mousecap=0         -- last mousecap when last time this function got called, including 0
+    reagirl.MouseCap.mouse_last_clicked_mousecap=0 -- last mousecap, the last time a button was clicked
+    reagirl.MouseCap.mouse_dragcounter=0           -- the counter for click and wait, until drag is "activated"
+    reagirl.MouseCap.mouse_lastx=0                 -- last mouse-x position
+    reagirl.MouseCap.mouse_lasty=0                 -- last mouse-y position
+    reagirl.MouseCap.mouse_endx=0                  -- end-x-position, for dragging
+    reagirl.MouseCap.mouse_endy=0                  -- end-y-position, for dragging
+    reagirl.MouseCap.mouse_dblclick=0              -- double-click-counter; 1, if a possible doubleclick can happen
+    reagirl.MouseCap.mouse_dblclick_counter=0      -- double-click-waiting-counter; doubleclicks are only recognized, until this is "full"
+    reagirl.MouseCap.mouse_clickblock=false        -- blocks mouseclicks after double-click, until button-release
+    reagirl.MouseCap.mouse_last_hwheel=0           -- last horizontal mouse-wheel-state, the last time this function got called
+    reagirl.MouseCap.mouse_last_wheel=0            -- last mouse-wheel-state, the last time this function got called
+  end
+  if math.type(doubleclick_wait)~="integer" then doubleclick_wait=0 end
+  if math.type(drag_wait)~="integer" then drag_wait=15 end
+  -- if mousewheels have been changed, store the new values and reset the gfx-variables
+  if reagirl.MouseCap.mouse_last_hwheel~=gfx.mouse_hwheel or reagirl.MouseCap.mouse_last_wheel~=gfx.mouse_wheel then
+    reagirl.MouseCap.mouse_last_hwheel=math.floor(gfx.mouse_hwheel)
+    reagirl.MouseCap.mouse_last_wheel=math.floor(gfx.mouse_wheel)
+  end
+  gfx.mouse_hwheel=0
+  gfx.mouse_wheel=0
+  
+  local newmouse_cap=0
+  if gfx.mouse_cap&1~=0 then newmouse_cap=newmouse_cap+1 end
+  if gfx.mouse_cap&2~=0 then newmouse_cap=newmouse_cap+2 end
+  if gfx.mouse_cap&64~=0 then newmouse_cap=newmouse_cap+64 end
+  
+  if newmouse_cap==0 then
+  -- if no mouse_cap is set, reset all counting-variables and return just the basics
+    reagirl.MouseCap.mouse_last_mousecap=0
+    reagirl.MouseCap.mouse_dragcounter=0
+    reagirl.MouseCap.mouse_dblclick_counter=reagirl.MouseCap.mouse_dblclick_counter+1
+    if reagirl.MouseCap.mouse_dblclick_counter>doubleclick_wait then
+      -- if the doubleclick-timer is over, the next click will be recognized as normal click
+      reagirl.MouseCap.mouse_dblclick=0
+      reagirl.MouseCap.mouse_dblclick_counter=doubleclick_wait
+    end
+    reagirl.MouseCap.mouse_clickblock=false
+    return "", "", gfx.mouse_cap, gfx.mouse_x, gfx.mouse_y, gfx.mouse_x, gfx.mouse_y, reagirl.MouseCap.mouse_last_wheel, reagirl.MouseCap.mouse_last_hwheel
+  end
+  if reagirl.MouseCap.mouse_clickblock==false then
+    
+    if newmouse_cap~=reagirl.MouseCap.mouse_last_mousecap then
+      -- first mouseclick
+      if reagirl.MouseCap.mouse_dblclick~=1 or (reagirl.MouseCap.mouse_lastx==gfx.mouse_x and reagirl.MouseCap.mouse_lasty==gfx.mouse_y) then
+
+        -- double-click-checks
+        if reagirl.MouseCap.mouse_dblclick~=1 then
+          -- the first click, activates the double-click-timer
+          reagirl.MouseCap.mouse_dblclick=1
+          reagirl.MouseCap.mouse_dblclick_counter=0
+        elseif reagirl.MouseCap.mouse_dblclick==1 and reagirl.MouseCap.mouse_dblclick_counter<doubleclick_wait 
+            and reagirl.MouseCap.mouse_last_clicked_mousecap==newmouse_cap then
+          -- when doubleclick occured, gfx.mousecap is still the same as the last clicked mousecap:
+          -- block further mouseclick, until mousebutton is released and return doubleclick-values
+          reagirl.MouseCap.mouse_dblclick=2
+          reagirl.MouseCap.mouse_dblclick_counter=doubleclick_wait
+          reagirl.MouseCap.mouse_clickblock=true
+          return "CLK", "DBLCLK", gfx.mouse_cap, reagirl.MouseCap.mouse_lastx, reagirl.MouseCap.mouse_lasty, reagirl.MouseCap.mouse_lastx, reagirl.MouseCap.mouse_lasty, reagirl.MouseCap.mouse_last_wheel, reagirl.MouseCap.mouse_last_hwheel
+        elseif reagirl.MouseCap.mouse_dblclick_counter==doubleclick_wait then
+          -- when doubleclick-timer is full, reset mouse_dblclick to 0, so the next mouseclick is 
+          -- recognized as normal mouseclick
+          reagirl.MouseCap.mouse_dblclick=0
+          reagirl.MouseCap.mouse_dblclick_counter=doubleclick_wait
+        end
+      end
+      -- in every other case, this is a first-click, so set the appropriate variables and return 
+      -- the first-click state and values
+      reagirl.MouseCap.mouse_last_mousecap=newmouse_cap
+      reagirl.MouseCap.mouse_last_clicked_mousecap=newmouse_cap
+      reagirl.MouseCap.mouse_lastx=gfx.mouse_x
+      reagirl.MouseCap.mouse_lasty=gfx.mouse_y
+      return "CLK", "FirstCLK", gfx.mouse_cap, reagirl.MouseCap.mouse_lastx, reagirl.MouseCap.mouse_lasty, reagirl.MouseCap.mouse_lastx, reagirl.MouseCap.mouse_lasty, reagirl.MouseCap.mouse_last_wheel, reagirl.MouseCap.mouse_last_hwheel
+    elseif newmouse_cap==reagirl.MouseCap.mouse_last_mousecap and reagirl.MouseCap.mouse_dragcounter<drag_wait
+      and (gfx.mouse_x~=reagirl.MouseCap.mouse_lastx or gfx.mouse_y~=reagirl.MouseCap.mouse_lasty) then
+      -- dragging when mouse moves, sets dragcounter to full waiting-period
+      reagirl.MouseCap.mouse_endx=gfx.mouse_x
+      reagirl.MouseCap.mouse_endy=gfx.mouse_y
+      reagirl.MouseCap.mouse_dragcounter=drag_wait
+      reagirl.MouseCap.mouse_dblclick=0
+      return "CLK", "DRAG", gfx.mouse_cap, reagirl.MouseCap.mouse_lastx, reagirl.MouseCap.mouse_lasty, reagirl.MouseCap.mouse_endx, reagirl.MouseCap.mouse_endy, reagirl.MouseCap.mouse_last_wheel, reagirl.MouseCap.mouse_last_hwheel
+    elseif newmouse_cap==reagirl.MouseCap.mouse_last_mousecap and reagirl.MouseCap.mouse_dragcounter<drag_wait then
+      -- when clicked but mouse doesn't move, count up, until we reach the countlimit for
+      -- activating dragging
+      reagirl.MouseCap.mouse_dragcounter=reagirl.MouseCap.mouse_dragcounter+1
+      return "CLK", "CLK", gfx.mouse_cap, reagirl.MouseCap.mouse_lastx, reagirl.MouseCap.mouse_lasty, reagirl.MouseCap.mouse_endx, reagirl.MouseCap.mouse_endy, reagirl.MouseCap.mouse_last_wheel, reagirl.MouseCap.mouse_last_hwheel
+    elseif newmouse_cap==reagirl.MouseCap.mouse_last_mousecap and reagirl.MouseCap.mouse_dragcounter==drag_wait then
+      -- dragging, after drag-counter is set to full waiting-period
+      reagirl.MouseCap.mouse_endx=gfx.mouse_x
+      reagirl.MouseCap.mouse_endy=gfx.mouse_y
+      reagirl.MouseCap.mouse_dblclick=0
+      return "CLK", "DRAG", gfx.mouse_cap, reagirl.MouseCap.mouse_lastx, reagirl.MouseCap.mouse_lasty, reagirl.MouseCap.mouse_endx, reagirl.MouseCap.mouse_endy, reagirl.MouseCap.mouse_last_wheel, reagirl.MouseCap.mouse_last_hwheel
+    end
+  else
+    return "", "", gfx.mouse_cap, gfx.mouse_x, gfx.mouse_y, gfx.mouse_x, gfx.mouse_y, reagirl.MouseCap.mouse_last_wheel, reagirl.MouseCap.mouse_last_hwheel
+  end
+end
+
+
 --print2(Aworkspace["draw_range_cur"])
 --if Aworkspace["draw_range_cur"]<0 then Aworkspace["draw_range_cur"]=Aworkspace["Text"]:utf8_len()-Aworkspace["draw_range_max"] end
 --Aworkspace["draw_range_cur"]=
@@ -79,25 +186,25 @@ function string.utf8_len(source_string)
   return utf8.len(source_string)
 end
 
-function reagirl.InputField_FindNextGoToPoint(workspace)
-  local cursor_offset=workspace["cursor_offset"]
-  if cursor_offset==workspace["Text"]:utf8_len() then return workspace["Text"]:utf8_len()+1 end
+function reagirl.InputField_FindNextGoToPoint(element_storage)
+  local cursor_offset=element_storage["cursor_offset"]
+  if cursor_offset==element_storage["Text"]:utf8_len() then return element_storage["Text"]:utf8_len()+1 end
   
-  for i=cursor_offset+1, workspace["Text"]:utf8_len() do
-    if workspace["Text"]:utf8_sub(i,i):has_alphanumeric()~=workspace["Text"]:utf8_sub(i+1,i+1):has_alphanumeric() then
+  for i=cursor_offset+1, element_storage["Text"]:utf8_len() do
+    if element_storage["Text"]:utf8_sub(i,i):has_alphanumeric()~=element_storage["Text"]:utf8_sub(i+1,i+1):has_alphanumeric() then
       return i+1
     end
   end
 
-  return workspace["Text"]:utf8_len()+1
+  return element_storage["Text"]:utf8_len()+1
 end
 
-function reagirl.InputField_FindPreviousGoToPoint(workspace)
-  local cursor_offset=workspace["cursor_offset"]
+function reagirl.InputField_FindPreviousGoToPoint(element_storage)
+  local cursor_offset=element_storage["cursor_offset"]
   if cursor_offset==0 then return 0 end
   
   for i=cursor_offset-1, 1, -1 do
-    if workspace["Text"]:utf8_sub(i,i):has_alphanumeric()~=workspace["Text"]:utf8_sub(i-1,i-1):has_alphanumeric() then
+    if element_storage["Text"]:utf8_sub(i,i):has_alphanumeric()~=element_storage["Text"]:utf8_sub(i-1,i-1):has_alphanumeric() then
       return i-1
     end
   end
@@ -105,12 +212,11 @@ function reagirl.InputField_FindPreviousGoToPoint(workspace)
   return 0
 end
 
-function reagirl.InputField_MoveVisibleCursor(workspace, pos)
-  local cursor_offset=workspace["cursor_offset"]
-  local draw_offset=workspace["draw_offset"]
-  local draw_range_cur=workspace["draw_range_cur"]
-  local draw_range_max=workspace["draw_range_max"]
-  local Text=workspace["Text"]
+function reagirl.InputField_MoveVisibleCursor(element_storage, pos)
+  local cursor_offset=element_storage["cursor_offset"]
+  local draw_offset=element_storage["draw_offset"]
+  local draw_range_cur=element_storage["draw_range_cur"]
+  local draw_range_max=element_storage["draw_range_max"]
   
   -- moving to the left
   if pos<0 then
@@ -130,14 +236,14 @@ function reagirl.InputField_MoveVisibleCursor(workspace, pos)
     end
   end
   if draw_offset<=0 then draw_offset=1 end
-  workspace["draw_offset"]=draw_offset
-  workspace["draw_range_cur"]=draw_range_cur
+  element_storage["draw_offset"]=draw_offset
+  element_storage["draw_range_cur"]=draw_range_cur
 end
 
-function reagirl.InputField_SetSelection(workspace, position, cursor_offset)
-  local selection_start=workspace["selection_start"]
-  local selection_end=workspace["selection_end"]
-  local cursor_offset=workspace["cursor_offset"]
+function reagirl.InputField_SetSelection(element_storage, position, cursor_offset)
+  local selection_start=element_storage["selection_start"]
+  local selection_end=element_storage["selection_end"]
+  local cursor_offset=element_storage["cursor_offset"]
   
   if position<0 then
     if cursor_offset<selection_start then
@@ -162,23 +268,28 @@ function reagirl.InputField_SetSelection(workspace, position, cursor_offset)
    -- selection_end=cursor_offset
   end
   
-  workspace["selection_start"]=selection_start
-  workspace["selection_end"]=selection_end
+  element_storage["selection_start"]=selection_start
+  element_storage["selection_end"]=selection_end
 end
 
-function reagirl.InputField_Manage(x, y, w, h, Key, Key_utf8, workspace)
-  local cursor_offset=workspace["cursor_offset"]
+function reagirl.InputField_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local cursor_offset=element_storage["cursor_offset"]
   
   for i=0, 20 do
     --gfx.rect(math.floor((i)*(gfx.measurechar(65)-1)), y, gfx.measurechar(65)-2, gfx.texth, 0)
   end
-  if gfx.mouse_y>=y and gfx.mouse_y<=gfx.y+gfx.texth then
-    if gfx.mouse_x>=x and gfx.mouse_x<=x+(gfx.measurechar(65)*(workspace["draw_range_max"])) then
-      if gfx.mouse_cap==1 then 
-        workspace["cursor_offset"]=workspace["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
-        workspace["selection_start"]=workspace["cursor_offset"]
-        workspace["selection_end"]=workspace["cursor_offset"]
-        workspace["draw_range_cur"]=workspace["cursor_offset"]-workspace["draw_offset"]
+  if gfx.mouse_y>=y-4 and gfx.mouse_y<=gfx.y+gfx.texth+4 then
+    if gfx.mouse_x>=x and gfx.mouse_x<=x+(gfx.measurechar(65)*(element_storage["draw_range_max"])) then
+      if mouse_attributes[2]=="FirstCLK" then 
+        element_storage["cursor_offset"]=element_storage["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
+        element_storage["selection_start"]=element_storage["cursor_offset"]
+        element_storage["selection_end"]=element_storage["cursor_offset"]
+        element_storage["draw_range_cur"]=element_storage["cursor_offset"]-element_storage["draw_offset"]
+      elseif mouse_attributes[2]=="DBLCLK" then
+        element_storage["selection_start"]=reagirl.InputField_FindPreviousGoToPoint(element_storage)
+        element_storage["selection_end"]=reagirl.InputField_FindNextGoToPoint(element_storage)-1
+        element_storage["cursor_offset"]=element_storage["selection_end"]
+        element_storage["draw_range_cur"]=element_storage["cursor_offset"]-element_storage["draw_offset"]
       end
     --elseif 
       -- TODO: Wenn Maus links von Textfeld klickt(ohne Drag) -> positioniere Cursor an Anfang des TextFeldes
@@ -192,71 +303,71 @@ function reagirl.InputField_Manage(x, y, w, h, Key, Key_utf8, workspace)
     if Key==1818584692.0 then
       -- left key
       if gfx.mouse_cap&4==4 then
-        local offset=reagirl.InputField_FindPreviousGoToPoint(workspace)
-        local old_cursor=workspace["cursor_offset"]
+        local offset=reagirl.InputField_FindPreviousGoToPoint(element_storage)
+        local old_cursor=element_storage["cursor_offset"]
         if offset~=nil then
-          reagirl.InputField_MoveVisibleCursor(workspace, offset-workspace["cursor_offset"])
-          workspace["cursor_offset"]=offset
+          reagirl.InputField_MoveVisibleCursor(element_storage, offset-element_storage["cursor_offset"])
+          element_storage["cursor_offset"]=offset
         end
         if old_cursor>0 and gfx.mouse_cap&8==8 then
         --print2(old_cursor)
           -- Shift+Ctrl
-          reagirl.InputField_SetSelection(workspace, -1)
+          reagirl.InputField_SetSelection(element_storage, -1)
         elseif old_cursor==0 and gfx.mouse_cap&8==8 then
         else
-          workspace["selection_start"]=workspace["cursor_offset"]
-          workspace["selection_end"]=workspace["cursor_offset"]
+          element_storage["selection_start"]=element_storage["cursor_offset"]
+          element_storage["selection_end"]=element_storage["cursor_offset"]
         end
       elseif gfx.mouse_cap&8==8 then
         -- Shift
-        workspace["cursor_offset"]=workspace["cursor_offset"]-1
-        if workspace["cursor_offset"]<0 then 
-          workspace["cursor_offset"]=0 
+        element_storage["cursor_offset"]=element_storage["cursor_offset"]-1
+        if element_storage["cursor_offset"]<0 then 
+          element_storage["cursor_offset"]=0 
         else 
-          reagirl.InputField_MoveVisibleCursor(workspace, -1) 
-          reagirl.InputField_SetSelection(workspace, -1, workspace["cursor_offset"])
+          reagirl.InputField_MoveVisibleCursor(element_storage, -1) 
+          reagirl.InputField_SetSelection(element_storage, -1, element_storage["cursor_offset"])
         end
       else 
-        workspace["cursor_offset"]=workspace["cursor_offset"]-1
-        workspace["selection_start"]=workspace["cursor_offset"]
-        workspace["selection_end"]=workspace["cursor_offset"]
-        if workspace["cursor_offset"]<0 then workspace["cursor_offset"]=0 else reagirl.InputField_MoveVisibleCursor(workspace, -1) end
+        element_storage["cursor_offset"]=element_storage["cursor_offset"]-1
+        element_storage["selection_start"]=element_storage["cursor_offset"]
+        element_storage["selection_end"]=element_storage["cursor_offset"]
+        if element_storage["cursor_offset"]<0 then element_storage["cursor_offset"]=0 else reagirl.InputField_MoveVisibleCursor(element_storage, -1) end
       end
     elseif Key==1919379572.0 then
       -- right key
       if gfx.mouse_cap&4==4 then
-        local offset=reagirl.InputField_FindNextGoToPoint(workspace)
-        local old_cursor=workspace["cursor_offset"]
+        local offset=reagirl.InputField_FindNextGoToPoint(element_storage)
+        local old_cursor=element_storage["cursor_offset"]
         if offset~=nil then
-          reagirl.InputField_MoveVisibleCursor(workspace, offset-workspace["cursor_offset"]-1)
-          workspace["cursor_offset"]=offset-1
+          reagirl.InputField_MoveVisibleCursor(element_storage, offset-element_storage["cursor_offset"]-1)
+          element_storage["cursor_offset"]=offset-1
         end
-        if gfx.mouse_cap&8==8 and old_cursor<workspace["Text"]:utf8_len() then
+        if gfx.mouse_cap&8==8 and old_cursor<element_storage["Text"]:utf8_len() then
           -- Shift+Ctrl
-          reagirl.InputField_SetSelection(workspace, 1, workspace["cursor_offset"])
-        elseif old_cursor==workspace["Text"]:utf8_len() and gfx.mouse_cap&8==8 then
+          reagirl.InputField_SetSelection(element_storage, 1, element_storage["cursor_offset"])
+        elseif old_cursor==element_storage["Text"]:utf8_len() and gfx.mouse_cap&8==8 then
         else
-          workspace["selection_start"]=workspace["cursor_offset"]
-          workspace["selection_end"]=workspace["cursor_offset"]
+          element_storage["selection_start"]=element_storage["cursor_offset"]
+          element_storage["selection_end"]=element_storage["cursor_offset"]
         end
       elseif gfx.mouse_cap&8==8 then
           -- Shift
-        workspace["cursor_offset"]=workspace["cursor_offset"]+1
-        if workspace["cursor_offset"]>workspace["Text"]:utf8_len() then 
-          workspace["cursor_offset"]=workspace["Text"]:utf8_len()
+        element_storage["cursor_offset"]=element_storage["cursor_offset"]+1
+        if element_storage["cursor_offset"]>element_storage["Text"]:utf8_len() then 
+          element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
         else 
-          reagirl.InputField_MoveVisibleCursor(workspace, 1)
-          reagirl.InputField_SetSelection(workspace, 1, workspace["cursor_offset"])
+          reagirl.InputField_MoveVisibleCursor(element_storage, 1)
+          reagirl.InputField_SetSelection(element_storage, 1, element_storage["cursor_offset"])
         end
       else
-        workspace["cursor_offset"]=workspace["cursor_offset"]+1
-        if workspace["cursor_offset"]>workspace["Text"]:utf8_len() then 
-          workspace["cursor_offset"]=workspace["Text"]:utf8_len()
+        element_storage["cursor_offset"]=element_storage["cursor_offset"]+1
+        if element_storage["cursor_offset"]>element_storage["Text"]:utf8_len() then 
+          element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
         else 
-          reagirl.InputField_MoveVisibleCursor(workspace, 1)
+          reagirl.InputField_MoveVisibleCursor(element_storage, 1)
         end
-        workspace["selection_start"]=workspace["cursor_offset"]
-        workspace["selection_end"]=workspace["cursor_offset"]
+        element_storage["selection_start"]=element_storage["cursor_offset"]
+        element_storage["selection_end"]=element_storage["cursor_offset"]
       end
     elseif Key==30064.0 then
       -- arrow up key
@@ -271,120 +382,122 @@ function reagirl.InputField_Manage(x, y, w, h, Key, Key_utf8, workspace)
     elseif Key==9.0 then 
       -- Tab Key
     elseif Key==1.0 then
-      workspace["selection_start"]=0
-      workspace["selection_end"]=workspace["Text"]:utf8_len()
+      element_storage["selection_start"]=0
+      element_storage["selection_end"]=element_storage["Text"]:utf8_len()
     elseif Key==8.0 then
       -- Backspace
-      if workspace["selection_start"]==workspace["selection_end"] and workspace["cursor_offset"]>0 then
-        workspace["Text"]=workspace["Text"]:utf8_sub(1,workspace["selection_start"]-1)..workspace["Text"]:utf8_sub(workspace["selection_end"]+1,-1)
-        workspace["cursor_offset"]=workspace["cursor_offset"]-1
-        reagirl.InputField_MoveVisibleCursor(workspace, -1)
+      if element_storage["selection_start"]==element_storage["selection_end"] and element_storage["cursor_offset"]>0 then
+        element_storage["Text"]=element_storage["Text"]:utf8_sub(1,element_storage["selection_start"]-1)..element_storage["Text"]:utf8_sub(element_storage["selection_end"]+1,-1)
+        element_storage["cursor_offset"]=element_storage["cursor_offset"]-1
+        reagirl.InputField_MoveVisibleCursor(element_storage, -1)
       else
-        workspace["Text"]=workspace["Text"]:utf8_sub(1,workspace["selection_start"])..workspace["Text"]:utf8_sub(workspace["selection_end"]+1,-1)
+        element_storage["cursor_offset"]=element_storage["selection_start"]
+        element_storage["Text"]=element_storage["Text"]:utf8_sub(1,element_storage["selection_start"])..element_storage["Text"]:utf8_sub(element_storage["selection_end"]+1,-1)
       end
-      if workspace["cursor_offset"]<0 then workspace["cursor_offset"]=0 end
-      workspace["selection_start"]=workspace["cursor_offset"]
-      workspace["selection_end"]=workspace["cursor_offset"]
+      if element_storage["cursor_offset"]<0 then element_storage["cursor_offset"]=0 end
+      element_storage["selection_start"]=element_storage["cursor_offset"]
+      element_storage["selection_end"]=element_storage["cursor_offset"]
     elseif Key==6579564.0 then
       -- Del-Key
-      if workspace["selection_start"]==workspace["selection_end"] then
-        workspace["Text"]=workspace["Text"]:utf8_sub(1,workspace["selection_start"])..workspace["Text"]:utf8_sub(workspace["selection_end"]+2,-1)
+      if element_storage["selection_start"]==element_storage["selection_end"] then
+        element_storage["Text"]=element_storage["Text"]:utf8_sub(1,element_storage["selection_start"])..element_storage["Text"]:utf8_sub(element_storage["selection_end"]+2,-1)
       else
-        workspace["Text"]=workspace["Text"]:utf8_sub(1,workspace["selection_start"])..workspace["Text"]:utf8_sub(workspace["selection_end"]+1,-1)
+        element_storage["cursor_offset"]=element_storage["selection_start"]
+        element_storage["Text"]=element_storage["Text"]:utf8_sub(1,element_storage["selection_start"])..element_storage["Text"]:utf8_sub(element_storage["selection_end"]+1,-1)
       end
-      if workspace["cursor_offset"]<0 then workspace["cursor_offset"]=0 end
-      workspace["selection_start"]=workspace["cursor_offset"]
-      workspace["selection_end"]=workspace["cursor_offset"]
+      if element_storage["cursor_offset"]<0 then element_storage["cursor_offset"]=0 end
+      element_storage["selection_start"]=element_storage["cursor_offset"]
+      element_storage["selection_end"]=element_storage["cursor_offset"]
     elseif Key==1752132965.0 then
       -- Home Key
       if gfx.mouse_cap&8==0 then
-        reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-        workspace["cursor_offset"]=0
-        workspace["selection_start"]=workspace["cursor_offset"]
-        workspace["selection_end"]=workspace["cursor_offset"]
+        reagirl.InputField_MoveVisibleCursor(element_storage, -element_storage["cursor_offset"])
+        element_storage["cursor_offset"]=0
+        element_storage["selection_start"]=element_storage["cursor_offset"]
+        element_storage["selection_end"]=element_storage["cursor_offset"]
       elseif gfx.mouse_cap&8==8 then
-        reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-        workspace["cursor_offset"]=0
-        workspace["selection_start"]=workspace["cursor_offset"]
+        reagirl.InputField_MoveVisibleCursor(element_storage, -element_storage["cursor_offset"])
+        element_storage["cursor_offset"]=0
+        element_storage["selection_start"]=element_storage["cursor_offset"]
       end
     elseif Key==6647396.0 then
       -- End Key
       if gfx.mouse_cap&8==0 then
-        reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-        reagirl.InputField_MoveVisibleCursor(workspace, workspace["Text"]:utf8_len()-3)
-        workspace["cursor_offset"]=workspace["Text"]:utf8_len()
-        workspace["selection_start"]=workspace["cursor_offset"]
-        workspace["selection_end"]=workspace["cursor_offset"]
+        reagirl.InputField_MoveVisibleCursor(element_storage, -element_storage["cursor_offset"])
+        reagirl.InputField_MoveVisibleCursor(element_storage, element_storage["Text"]:utf8_len()-3)
+        element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
+        element_storage["selection_start"]=element_storage["cursor_offset"]
+        element_storage["selection_end"]=element_storage["cursor_offset"]
       elseif gfx.mouse_cap&8==8 then
-        reagirl.InputField_MoveVisibleCursor(workspace, -workspace["cursor_offset"])
-        reagirl.InputField_MoveVisibleCursor(workspace, workspace["Text"]:utf8_len())
-        workspace["cursor_offset"]=workspace["Text"]:utf8_len()
-        workspace["selection_end"]=workspace["cursor_offset"]
+        reagirl.InputField_MoveVisibleCursor(element_storage, -element_storage["cursor_offset"])
+        reagirl.InputField_MoveVisibleCursor(element_storage, element_storage["Text"]:utf8_len())
+        element_storage["cursor_offset"]=element_storage["Text"]:utf8_len()
+        element_storage["selection_end"]=element_storage["cursor_offset"]
       end
     elseif Key==3.0 then
       -- Cmd+C for Copy To Clipboard
-      if workspace["selection_start"]~=workspace["selection_end"] then
-        reaper.CF_SetClipboard(workspace["Text"]:utf8_sub(workspace["selection_start"]+1, workspace["selection_end"]))
+      if element_storage["selection_start"]~=element_storage["selection_end"] then
+        reaper.CF_SetClipboard(element_storage["Text"]:utf8_sub(element_storage["selection_start"]+1, element_storage["selection_end"]))
       end
     elseif Key==22.0 then
       -- Cmd+V for Paste from Clipboard
       Clippy=reaper.CF_GetClipboard()
       Clippy=string.gsub(Clippy, "%c", "")
-      local NewOffset=Clippy:utf8_len()+workspace["cursor_offset"]
+      local NewOffset=Clippy:utf8_len()+element_storage["cursor_offset"]
       
-      workspace["Text"]=workspace["Text"]:utf8_sub(1, workspace["selection_start"])..Clippy..workspace["Text"]:utf8_sub(workspace["selection_end"]+1, -1)
-      workspace["cursor_offset"]=workspace["cursor_offset"]+Clippy:utf8_len()
-      workspace["selection_start"]=workspace["cursor_offset"]
-      workspace["selection_end"]=workspace["cursor_offset"]
+      element_storage["Text"]=element_storage["Text"]:utf8_sub(1, element_storage["selection_start"])..Clippy..element_storage["Text"]:utf8_sub(element_storage["selection_end"]+1, -1)
+      element_storage["cursor_offset"]=element_storage["cursor_offset"]+Clippy:utf8_len()
+      element_storage["selection_start"]=element_storage["cursor_offset"]
+      element_storage["selection_end"]=element_storage["cursor_offset"]
       
-      if NewOffset>workspace["draw_offset"]+workspace["draw_range_max"] then
-        workspace["draw_offset"]=workspace["cursor_offset"]
-        workspace["draw_range_cur"]=0
+      if NewOffset>element_storage["draw_offset"]+element_storage["draw_range_max"] then
+        element_storage["draw_offset"]=element_storage["cursor_offset"]
+        element_storage["draw_range_cur"]=0
       end
     elseif Key_utf8~=0 and Key_utf8~=nil then
-      workspace["Text"]=workspace["Text"]:utf8_sub(1, workspace["selection_start"])..utf8.char(Key_utf8)..workspace["Text"]:utf8_sub(workspace["selection_end"]+1, -1)
-      workspace["cursor_offset"]=workspace["selection_start"]+1
-      workspace["selection_start"]=workspace["cursor_offset"]
-      workspace["selection_end"]=workspace["cursor_offset"]
-      reagirl.InputField_MoveVisibleCursor(workspace, 1)
+      element_storage["Text"]=element_storage["Text"]:utf8_sub(1, element_storage["selection_start"])..utf8.char(Key_utf8)..element_storage["Text"]:utf8_sub(element_storage["selection_end"]+1, -1)
+      element_storage["cursor_offset"]=element_storage["selection_start"]+1
+      element_storage["selection_start"]=element_storage["cursor_offset"]
+      element_storage["selection_end"]=element_storage["cursor_offset"]
+      reagirl.InputField_MoveVisibleCursor(element_storage, 1)
     else
-      workspace["Text"]=workspace["Text"]:utf8_sub(1, workspace["selection_start"])..utf8.char(Key)..workspace["Text"]:utf8_sub(workspace["selection_end"]+1, -1)
-      workspace["cursor_offset"]=workspace["selection_start"]+1
-      workspace["selection_start"]=workspace["cursor_offset"]
-      workspace["selection_end"]=workspace["cursor_offset"]
-      reagirl.InputField_MoveVisibleCursor(workspace, 1)
+      element_storage["Text"]=element_storage["Text"]:utf8_sub(1, element_storage["selection_start"])..utf8.char(Key)..element_storage["Text"]:utf8_sub(element_storage["selection_end"]+1, -1)
+      element_storage["cursor_offset"]=element_storage["selection_start"]+1
+      element_storage["selection_start"]=element_storage["cursor_offset"]
+      element_storage["selection_end"]=element_storage["cursor_offset"]
+      reagirl.InputField_MoveVisibleCursor(element_storage, 1)
     end
   end
   
-  --workspace["cursor_offset"]=cursor_offset
-  --workspace["draw_offset"]=draw_offset
-  --workspace["draw_range_cur"]=draw_range_cur
-  --workspace["Text"]=Text
+  --element_storage["cursor_offset"]=cursor_offset
+  --element_storage["draw_offset"]=draw_offset
+  --element_storage["draw_range_cur"]=draw_range_cur
+  --element_storage["Text"]=Text
   
 end
 
-function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, workspace)
+function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, element_storage)
   gfx.setfont(1,"Calibri", 20)
   gfx.setfont(1,"Consolas", 20)
   
-  local cursor_offset=workspace["cursor_offset"]
-  local draw_offset=workspace["draw_offset"]
-  local draw_range_max=workspace["draw_range_max"]
-  local selection_start=workspace["selection_start"]
-  local selection_end=workspace["selection_end"]
+  local cursor_offset=element_storage["cursor_offset"]
+  local draw_offset=element_storage["draw_offset"]
+  local draw_range_max=element_storage["draw_range_max"]
+  local selection_start=element_storage["selection_start"]
+  local selection_end=element_storage["selection_end"]
   gfx.x=x
   gfx.y=y
-  --[[
+  --
   -- rectangle-stuff
   gfx.set(0.2)
-  gfx.rect(x-2,y-3,gfx.measurechar(65)*(workspace["draw_range_max"]+1)+4, gfx.texth+6, 1)
+  gfx.rect(x-2,y-3,gfx.measurechar(65)*(element_storage["draw_range_max"]+1)+4, gfx.texth+6, 1)
   gfx.set(0.6)
-  gfx.rect(x-2,y-3,gfx.measurechar(65)*(workspace["draw_range_max"]+1)+4, gfx.texth+6, 0)
+  gfx.rect(x-2,y-3,gfx.measurechar(65)*(element_storage["draw_range_max"]+1)+4, gfx.texth+6, 0)
   gfx.set(1)
-  gfx.rect(x-1,y-2,gfx.measurechar(65)*(workspace["draw_range_max"]+1)+4, gfx.texth+6, 0)
+  gfx.rect(x-1,y-2,gfx.measurechar(65)*(element_storage["draw_range_max"]+1)+4, gfx.texth+6, 0)
   --]]
   CAP_STRING=""
-  CAP_STRING2=workspace["Text"]:utf8_sub(workspace["selection_start"]+1, workspace["selection_end"])
+  CAP_STRING2=element_storage["Text"]:utf8_sub(element_storage["selection_start"]+1, element_storage["selection_end"])
   --print_update(draw_offset, draw_range_max+draw_offset, draw_range_max, draw_offset)
   if draw_offset+1<0 then draw_offset=1 end
   if cursor_offset==draw_offset then
@@ -395,14 +508,14 @@ function reagirl.InputField_Draw(x, y, w, h, Key, Key_utf8, workspace)
   if draw_offset<=0 then draw_offset=0 end
   for i=draw_offset, draw_range_max+draw_offset+2 do
   CAPO=CAPO+1
-    --print(workspace["Text"]:utf8_sub(i,i))
+    --print(element_storage["Text"]:utf8_sub(i,i))
     if i>=selection_start+1 and i<=selection_end then
       gfx.setfont(1, "Consolas", 20, 86) 
     elseif selection_start~=selection_end and i==selection_end+1 then 
       gfx.setfont(1, "Consolas", 20, 0) 
     end
-    gfx.drawstr(workspace["Text"]:utf8_sub(i,i))
-    CAP_STRING=CAP_STRING..workspace["Text"]:utf8_sub(i,i)
+    gfx.drawstr(element_storage["Text"]:utf8_sub(i,i))
+    CAP_STRING=CAP_STRING..element_storage["Text"]:utf8_sub(i,i)
     if cursor_offset==i then
       gfx.set(0.6)
       gfx.line(gfx.x, gfx.y, gfx.x, gfx.y+gfx.texth)
@@ -415,34 +528,36 @@ end
 
 gfx.init("",640,170)
 function main()
-  A,B=gfx.getchar()
+  Key,Key_UTF=gfx.getchar()
   --if A>0 then print3(A) end
-  C=Aworkspace["Text"]:len()
+  C=Aelement_storage["Text"]:len()
   --gfx.set(1,0,0)
   --gfx.rect(1,1,gfx.w,gfx.h,0)
   --gfx.set(1)
-  x=00
-  y=00
+  x=100
+  y=100
   w=100
   h=100
-  reagirl.InputField_Manage(x, y, w, h, A,B, Aworkspace)
-  reagirl.InputField_Draw(x, y, w, h, A,B, Aworkspace)
+  mouse_attributes={reagirl.GetMouseCap(5, 5)}
+  if mouse_attributes[2]~="" then print(mouse_attributes[2]) end
+  reagirl.InputField_Manage(element_id, true, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, Aelement_storage)
+  reagirl.InputField_Draw(x, y, w, h, A,B, Aelement_storage)
   --gfx.rect(1,1,gfx.w,gfx.h,1)
   reaper.defer(main)
 end
 
-Aworkspace={}
-Aworkspace["Text"]=reaper.CF_GetClipboard()--"Test Home of Oblivionsjdijsid juidjsid ALLABAMMA"
-Aworkspace["cursor_offset"]=Aworkspace["Text"]:utf8_len()
-Aworkspace["selection_start"]=Aworkspace["cursor_offset"]
-Aworkspace["selection_end"]=Aworkspace["cursor_offset"]
-Aworkspace["draw_range_max"]=20
-Aworkspace["draw_offset"]=Aworkspace["cursor_offset"]-Aworkspace["draw_range_max"]-1
-if Aworkspace["draw_offset"]<0 then Aworkspace["draw_offset"]=0 end
-if Aworkspace["Text"]:utf8_len()>Aworkspace["draw_range_max"] then
-  Aworkspace["draw_range_cur"]=Aworkspace["draw_range_max"]
+Aelement_storage={}
+Aelement_storage["Text"]=reaper.CF_GetClipboard()--"Test Home of Oblivionsjdijsid juidjsid ALLABAMMA"
+Aelement_storage["cursor_offset"]=Aelement_storage["Text"]:utf8_len()
+Aelement_storage["selection_start"]=Aelement_storage["cursor_offset"]
+Aelement_storage["selection_end"]=Aelement_storage["cursor_offset"]
+Aelement_storage["draw_range_max"]=20
+Aelement_storage["draw_offset"]=Aelement_storage["cursor_offset"]-Aelement_storage["draw_range_max"]-1
+if Aelement_storage["draw_offset"]<0 then Aelement_storage["draw_offset"]=0 end
+if Aelement_storage["Text"]:utf8_len()>Aelement_storage["draw_range_max"] then
+  Aelement_storage["draw_range_cur"]=Aelement_storage["draw_range_max"]
 else
-  Aworkspace["draw_range_cur"]=Aworkspace["Text"]:utf8_len()
+  Aelement_storage["draw_range_cur"]=Aelement_storage["Text"]:utf8_len()
 end
 
 cursor_offset=0
