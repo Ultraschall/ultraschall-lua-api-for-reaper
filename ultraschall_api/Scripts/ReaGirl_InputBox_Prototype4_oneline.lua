@@ -280,18 +280,30 @@ function reagirl.InputField_Manage(element_id, selected, clicked, mouse_cap, mou
   end
   if gfx.mouse_y>=y-4 and gfx.mouse_y<=gfx.y+gfx.texth+4 then
     if gfx.mouse_x>=x and gfx.mouse_x<=x+(gfx.measurechar(65)*(element_storage["draw_range_max"])) then
-      if clicked=="FirstCLK" then 
+      if clicked=="FirstCLK" and mouse_cap&8==0 then 
         element_storage["cursor_offset"]=element_storage["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
         element_storage["selection_start"]=element_storage["cursor_offset"]
         element_storage["selection_end"]=element_storage["cursor_offset"]
         element_storage["draw_range_cur"]=element_storage["cursor_offset"]-element_storage["draw_offset"]
+      elseif clicked=="FirstCLK" and mouse_cap&8==8 then
+        local shiftclick=element_storage["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
+        if shiftclick>element_storage["cursor_offset"] then
+          element_storage["selection_start"]=element_storage["cursor_offset"]
+          element_storage["selection_end"]=element_storage["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
+        elseif shiftclick<element_storage["cursor_offset"] then
+          element_storage["selection_end"]=element_storage["cursor_offset"]
+          element_storage["selection_start"]=element_storage["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
+        else
+          element_storage["selection_start"]=element_storage["cursor_offset"]
+          element_storage["selection_end"]=element_storage["cursor_offset"]
+        end
       elseif clicked=="DBLCLK" then
         element_storage["selection_start"]=reagirl.InputField_FindPreviousGoToPoint(element_storage)
         element_storage["selection_end"]=reagirl.InputField_FindNextGoToPoint(element_storage)-1
         element_storage["cursor_offset"]=element_storage["selection_end"]
         element_storage["draw_range_cur"]=element_storage["cursor_offset"]-element_storage["draw_offset"]
       elseif clicked=="DRAG" then
-        drag=element_storage["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
+        local drag=element_storage["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
         if drag>element_storage["cursor_offset"] then
           element_storage["selection_end"]=element_storage["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
         elseif drag<element_storage["cursor_offset"] then
