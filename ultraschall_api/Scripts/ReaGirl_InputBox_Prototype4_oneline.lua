@@ -278,7 +278,7 @@ function reagirl.InputField_Manage(element_id, selected, clicked, mouse_cap, mou
   for i=0, 20 do
     --gfx.rect(math.floor((i)*(gfx.measurechar(65)-1)), y, gfx.measurechar(65)-2, gfx.texth, 0)
   end
-  if gfx.mouse_y>=y-4 and gfx.mouse_y<=gfx.y+gfx.texth+4 then
+  if gfx.mouse_y>=y and gfx.mouse_y<=gfx.y+gfx.texth then
     if gfx.mouse_x>=x and gfx.mouse_x<=x+(gfx.measurechar(65)*(element_storage["draw_range_max"])) then
       if clicked=="FirstCLK" and mouse_cap&8==0 then 
         element_storage["cursor_offset"]=element_storage["draw_offset"]+math.floor((gfx.mouse_x-x)/(gfx.measurechar(65)-1))-1
@@ -313,10 +313,20 @@ function reagirl.InputField_Manage(element_id, selected, clicked, mouse_cap, mou
           element_storage["selection_end"]=element_storage["cursor_offset"]
         end
       end
-    --elseif 
+    elseif gfx.mouse_x<x then
       -- TODO: Wenn Maus links von Textfeld klickt(ohne Drag) -> positioniere Cursor an Anfang des TextFeldes
-    --elseif 
+      if clicked=="DRAG" and mouse_cap&8==0 then
+        print(clicked..os.date())
+        reagirl.InputField_MoveVisibleCursor(element_storage, -1) 
+        element_storage["cursor_offset"]=element_storage["draw_offset"]-1
+        element_storage["selection_start"]=element_storage["cursor_offset"]
+      end
+    elseif gfx.mouse_x>x+gfx.measurechar(65)*element_storage["draw_range_max"] then
       -- TODO: Wenn Maus rechts von Textfeld klickt (ohne Drag) -> positioniere Cursor ans Ende des TextFeldes
+      print(reaper.time_precise())
+      reagirl.InputField_MoveVisibleCursor(element_storage, 1) 
+      --element_storage["cursor_offset"]=element_storage["draw_offset"]-1
+      element_storage["selection_end"]=element_storage["draw_offset"]+element_storage["draw_range_max"]
     else
       A1=nil
     end
@@ -561,7 +571,7 @@ function main()
   w=100
   h=100
   clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel=reagirl.GetMouseCap(5, 5)
-  if specific_clickstate~="" then print(specific_clickstate) end
+  --if specific_clickstate~="" then print(specific_clickstate) end
   reagirl.InputField_Manage(element_id, true, specific_clickstate, gfx.mouse_cap, {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel}, name, description, x, y, w, h, Key, Key_UTF, Aelement_storage)
   reagirl.InputField_Draw(x, y, w, h, A,B, Aelement_storage)
   --gfx.rect(1,1,gfx.w,gfx.h,1)
