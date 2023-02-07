@@ -1164,199 +1164,6 @@ end
 
 
 
-
-
-
-
-
-
-
-
-function ultraschall.GetSetPodcastExport_Attributes_String(is_set, attribute, value)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetSetPodcastExport_Attributes_String</slug>
-  <requires>
-    Ultraschall=4.7
-    Reaper=6.20
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval, string content = ultraschall.GetSetPodcastExport_Attributes_String(boolean is_set, string attributename, string content)</functioncall>
-  <description>
-    Will get/set attributes for podcast-export.
-    
-    Unset-values will be returned as "" when is_set=false
-    
-    returns false in case of an error
-  </description>
-  <parameters>
-    boolean is_set - true, set the attribute; false, retrieve the current content
-    string attributename - the attributename you want to get/set
-                         - supported attributes are:
-                         - "output_mp3" - the renderstring of mp3
-                         - "output_opus" - the renderstring of opus
-                         - "output_ogg" - the renderstring of ogg
-                         - "output_wav" - the renderstring of wav
-                         - "output_wav_multitrack" - the renderstring of wav-multitrack
-                         - "output_flac" - the renderstring of flac
-                         - "output_flac_multitrack" - the renderstring of flac-multitrack
-                         - "path" - the render-output-path
-                         - "filename" - the filename of the rendered file
-    string content - the new contents to set the attribute with
-  </parameters>
-  <retvals>
-    boolean retval - true, if the attribute exists/could be set; false, if not or an error occurred
-    string content - the content of a specific attribute
-  </retvals>
-  <chapter_context>
-     Rendering Projects
-     Ultraschall
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
-  <tags>render management, get, set, attribute, export, string</tags>
-</US_DocBloc>
-]]
-  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "is_set", "must be a boolean", -1) return false end  
-  if type(attribute)~="string" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "attributename", "must be a string", -2) return false end  
-  if is_set==true and type(value)~="string" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "must be a string", -3) return false end  
-  
-  local tags={"output_mp3",
-              "output_opus",
-              "output_ogg",
-              "output_wav",
-              "output_wav_multitrack",
-              "output_flac",
-              "output_flac_multitrack",
-              "path",
-              "filename"
-                          }
-  local found=false
-  for i=1, #tags do
-    if attributename==tags[i] then
-      found=true
-      break
-    end
-  end
-  
-  local _retval
-  
-  if is_set==false then
-    _retval, value=reaper.GetProjExtState(0, "Ultraschall_Podcast_Render_Attributes", attribute)
-  elseif is_set==true then
-    -- validation checks
-    if attribute=="path" and ultraschall.DirectoryExists2(value)==false then
-      ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "path: not a valid path", -4)
-    else
-      if value:sub(-1,-1)~=ultraschall.Separator then
-        value=value..ultraschall.Separator
-      end
-    end
-    if attribute=="output_mp3" and ultraschall.GetRenderCFG_Settings_MP3(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_mp3: not a valid mp3-renderstring", -20) return false end  
-    if attribute=="output_opus" and ultraschall.GetRenderCFG_Settings_OPUS(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_opus: not a valid opus-renderstring", -21) return false end  
-    if attribute=="output_ogg" and ultraschall.GetRenderCFG_Settings_OGG(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_ogg: not a valid ogg-renderstring", -22) return false end  
-    if attribute=="output_wav" and ultraschall.GetRenderCFG_Settings_WAV(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_wav: not a valid wav-renderstring", -23) return false end  
-    if attribute=="output_wav_multitrack" and ultraschall.GetRenderCFG_Settings_WAV(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_wav_multitrack: not a valid wav-renderstring", -23) return false end  
-    if attribute=="output_flac" and ultraschall.GetRenderCFG_Settings_FLAC(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_flac: not a valid flac-renderstring", -24) return false end  
-    if attribute=="output_flac_multitrack" and ultraschall.GetRenderCFG_Settings_FLAC(value)==-1 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_String", "value", "output_flac_multitrack: not a valid flac-renderstring", -24) return false end  
-    _retval=reaper.SetProjExtState(0, "Ultraschall_Podcast_Render_Attributes", attribute, value)
-  end
-  
-  return true, value
-end
-
-function ultraschall.GetSetPodcastExport_Attributes_Value(is_set, attribute, value)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetSetPodcastExport_Attributes_Value</slug>
-  <requires>
-    Ultraschall=4.7
-    Reaper=6.20
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval, number content = ultraschall.GetSetPodcastExport_Attributes_Value(boolean is_set, string attributename, number content)</functioncall>
-  <description>
-    Will get/set attributes for podcast-export.
-    
-    Unset-values will be returned as -1 when is_set=false
-    
-    returns false in case of an error
-  </description>
-  <parameters>
-    boolean is_set - true, set the attribute; false, retrieve the current content
-    string attributename - the attributename you want to get/set
-                         - supported attributes are:
-                         - "mono_stereo" - 0, export as mono-file; 1, export as stereo-file
-                         - "add_rendered_files_to_tracks" - 0, don't add rendered files to project; 1, add rendered files to project
-                         - "start_time" - the start-time of the area to render
-                         - "end_time" - the end-time of the area to render
-    number content - the new contents to set the attribute with
-  </parameters>
-  <retvals>
-    boolean retval - true, if the attribute exists/could be set; false, if not or an error occurred
-    number content - the content of a specific attribute
-  </retvals>
-  <chapter_context>
-     Rendering Projects
-     Ultraschall
-  </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
-  <tags>render management, get, set, attribute, export, value</tags>
-</US_DocBloc>
-]]
-  if type(is_set)~="boolean" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "is_set", "must be a boolean", -1) return false end  
-  if type(attribute)~="string" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "attributename", "must be a string", -2) return false end  
-  if is_set==true and type(value)~="number" then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "must be a number", -3) return false end  
-  
-  local tags={"mono_stereo",
-              "add_rendered_files_to_tracks",
-              "start_time",
-              "end_time"
-                          }
-  local found=false
-  for i=1, #tags do
-    if attributename==tags[i] then
-      found=true
-      break
-    end
-  end
-  
-  local _retval
-  
-  if is_set==false then
-    _retval, value=reaper.GetProjExtState(0, "Ultraschall_Podcast_Render_Attributes", attribute)
-    value=tonumber(value)
-    if value==nil then value=-1 end
-  elseif is_set==true then
-    -- validation checks
-    if attribute=="mono_stereo" and math.tointeger(value)==nil then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "mono_stereo: must be an integer", -4) return false end  
-    if attribute=="mono_stereo" and (value<0 or value>1) then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "mono_stereo: must be between 0 and 1", -5) return false end  
-    if attribute=="add_rendered_files_to_tracks" and math.tointeger(value)==nil then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "add_rendered_files_to_tracks: must be an integer", -6) return false end  
-    if attribute=="add_rendered_files_to_tracks" and (value<0 or value>1) then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "add_rendered_files_to_tracks: must be between 0 and 1", -7) return false end  
-    if attribute=="start_time" and value<0 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "value", "start_time: must be bigger than 0", -8) return false end  
-
-    if attribute=="end_time" and value<0 then ultraschall.AddErrorMessage("GetSetPodcastExport_Attributes_Value", "end_time: value", "must be bigger than 0 and start_time", -9) return false end  
-    
-    _retval=reaper.SetProjExtState(0, "Ultraschall_Podcast_Render_Attributes", attribute, value)    
-  end
-  
-  return true, value
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function ultraschall.GFX_BlitBBCodeAsText(text)
   -- example code, that parses and shows BBCode, with [b][i] and [u], even combined.
   
@@ -1748,46 +1555,540 @@ end
 
 
 function string.has_control(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>has_control</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = string.has_control(string value)</functioncall>
+  <description>
+    returns, if a string has control-characters
+  </description>
+  <parameters>
+    string value - the value to check for control-characters
+  </parameters>
+  <retvals>
+    boolean retval - true, if yes; false, if not
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, has, control</tags>
+</US_DocBloc>
+--]]
   if type(String)~="string" then error("bad argument #1, to 'has_control' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%c")~=nil
 end
 
 function string.has_alphanumeric(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>has_alphanumeric</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = string.has_alphanumeric(string value)</functioncall>
+  <description>
+    returns, if a string has alphanumeric-characters
+  </description>
+  <parameters>
+    string value - the value to check for alphanumeric-characters
+  </parameters>
+  <retvals>
+    boolean retval - true, if yes; false, if not
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, has, alphanumeric</tags>
+</US_DocBloc>
+--]]
   if type(String)~="string" then error("bad argument #1, to 'has_alphanumeric' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%w")~=nil
 end
 
 function string.has_letter(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>has_letter</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = string.has_letter(string value)</functioncall>
+  <description>
+    returns, if a string has letter-characters
+  </description>
+  <parameters>
+    string value - the value to check for letter-characters
+  </parameters>
+  <retvals>
+    boolean retval - true, if yes; false, if not
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, has, letter</tags>
+</US_DocBloc>
+--]]
   if type(String)~="string" then error("bad argument #1, to 'has_letter' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%a")~=nil
 end
 
 function string.has_digits(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>has_digits</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = string.has_digits(string value)</functioncall>
+  <description>
+    returns, if a string has digit-characters
+  </description>
+  <parameters>
+    string value - the value to check for digit-characters
+  </parameters>
+  <retvals>
+    boolean retval - true, if yes; false, if not
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, has, digit</tags>
+</US_DocBloc>
+--]]
   if type(String)~="string" then error("bad argument #1, to 'has_digits' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%d")~=nil
 end
 
 function string.has_printables(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>has_printables</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = string.has_printables(string value)</functioncall>
+  <description>
+    returns, if a string has printable-characters
+  </description>
+  <parameters>
+    string value - the value to check for printable-characters
+  </parameters>
+  <retvals>
+    boolean retval - true, if yes; false, if not
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, has, printable</tags>
+</US_DocBloc>
+--]]
   if type(String)~="string" then error("bad argument #1, to 'has_printables' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%g")~=nil
 end
 
 function string.has_uppercase(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>has_uppercase</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = string.has_uppercase(string value)</functioncall>
+  <description>
+    returns, if a string has uppercase-characters
+  </description>
+  <parameters>
+    string value - the value to check for uppercase-characters
+  </parameters>
+  <retvals>
+    boolean retval - true, if yes; false, if not
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, has, uppercase</tags>
+</US_DocBloc>
+--]]
   if type(String)~="string" then error("bad argument #1, to 'has_uppercase' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%u")~=nil
 end
 
 function string.has_lowercase(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>has_lowercase</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = string.has_lowercase(string value)</functioncall>
+  <description>
+    returns, if a string has lowercase-characters
+  </description>
+  <parameters>
+    string value - the value to check for lowercase-characters
+  </parameters>
+  <retvals>
+    boolean retval - true, if yes; false, if not
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, has, lowercase</tags>
+</US_DocBloc>
+--]]
   if type(String)~="string" then error("bad argument #1, to 'has_lowercase' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%l")~=nil
 end
 
 function string.has_space(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>has_space</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = string.has_space(string value)</functioncall>
+  <description>
+    returns, if a string has space-characters, like tab or space
+  </description>
+  <parameters>
+    string value - the value to check for space-characters
+  </parameters>
+  <retvals>
+    boolean retval - true, if yes; false, if not
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, has, space, tab</tags>
+</US_DocBloc>
+--]]
   if type(String)~="string" then error("bad argument #1, to 'has_space' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%s")~=nil
 end
 
 function string.has_hex(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>has_hex</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = string.has_hex(string value)</functioncall>
+  <description>
+    returns, if a string has hex-characters
+  </description>
+  <parameters>
+    string value - the value to check for hex-characters
+  </parameters>
+  <retvals>
+    boolean retval - true, if yes; false, if not
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, has, hex</tags>
+</US_DocBloc>
+--]]
   if type(String)~="string" then error("bad argument #1, to 'has_hex' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%x")~=nil
 end
+
+function string.utf8_sub(source_string, startoffset, endoffset)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>utf8_sub</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string ret_string = string.utf8_sub(string source_string, integer startoffset, integer endoffset)</functioncall>
+  <description>
+    returns a subset of a utf8-encoded-string.
+    
+    if startoffset and/or endoffset are negative, it is counted from the end of the string.
+    
+    Works basically like string.sub()
+  </description>
+  <parameters>
+    string value - the value to get the utf8-substring from
+    integer startoffset - the startoffset, from which to return the substring; negative offset counts from the end of the string
+    integer endoffset - the endoffset, to which to return the substring; negative offset counts from the end of the string
+  </parameters>
+  <retvals>
+    string ret_string - the returned string
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, sub, utf8</tags>
+</US_DocBloc>
+--]]
+  -- written by CFillion for his Interactive ReaScript-Tool, available in the ReaTeam-repository(install via ReaPack)
+  -- thanks for allowing me to use it :)
+  if type(source_string)~="string" then error("bad argument #1, to 'source_string' (string expected, got "..type(source_string)..")", 2) end
+  if math.type(startoffset)~="integer" then error("bad argument #2, to 'startoffset' (integer expected, got "..type(source_string)..")", 2) end
+  if math.type(endoffset)~="integer" then error("bad argument #3, to 'endoffset' (integer expected, got "..type(source_string)..")", 2) end
+  startoffset = utf8.offset(source_string, startoffset)
+  if not startoffset then return '' end -- i is out of bounds
+
+  if endoffset and (endoffset > 0 or endoffset < -1) then
+    endoffset = utf8.offset(source_string, endoffset + 1)
+    if endoffset then endoffset = endoffset - 1 end
+  end
+
+  return string.sub(source_string, startoffset, endoffset)
+end
+
+function string.utf8_len(source_string)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>utf8_len</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer length = string.utf8_len(string source_string)</functioncall>
+  <description>
+    returns the length of an utf8-encoded string
+
+    Works basically like string.len()
+  </description>
+  <parameters>
+    string value - the value to get the length of the utf8-encoded-string
+  </parameters>
+  <retvals>
+    integer length - the length of the utf8-encoded string
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Datatype-related
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, string, length, utf8</tags>
+</US_DocBloc>
+--]]
+  if type(source_string)~="string" then error("bad argument #1, to 'utf8_len' (string expected, got "..type(source_string)..")", 2) end
+  return utf8.len(source_string)
+end
+
+function ultraschall.StoreRenderTable_ProjExtState(proj, section, RenderTable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>StoreRenderTable_ProjExtState</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.StoreRenderTable_ProjExtState(ReaProject proj, string section, table RenderTable)</functioncall>
+  <description>
+    Stores the render-settings of a RenderTable into a project-extstate.
+  </description>
+  <parameters>
+    ReaProject proj - the project, into which you want to store the render-settings
+    string section - the section-name, into which you want to store the render-settings
+    table RenderTable - the RenderTable which holds all render-settings
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>render functions, store, render table, projextstate</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.IsValidReaProject(proj)==false then ultraschall.AddErrorMessage("StoreRenderTable_ProjExtState", "proj", "must be a valid ReaProject", -1) return end
+  if type(section)~="string" then ultraschall.AddErrorMessage("StoreRenderTable_ProjExtState", "section", "must be a string", -2) return end
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("StoreRenderTable_ProjExtState", "RenderTable", "must be a valid RenderTable", -3) return end
+  
+  for k, v in pairs(RenderTable) do
+    reaper.SetProjExtState(proj, section, k, tostring(v))
+  end
+end
+
+--ultraschall.StoreRenderTable_ProjExtState(0, "test", A)
+
+function ultraschall.GetRenderTable_ProjExtState(proj, section)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRenderTable_ProjExtState</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>table RenderTable = ultraschall.GetRenderTable_ProjExtState(ReaProject proj, string section)</functioncall>
+  <description>
+    Gets the render-settings of a RenderTable from a project-extstate, stored by SetRenderTable_ProjExtState.
+  </description>
+  <retvals>
+    table RenderTable - the stored render-settings as a RenderTable
+  </retvals>
+  <parameters>
+    ReaProject proj - the project, in which you stored the render-settings
+    string section - the section-name, in which you stored the render-settings
+  </parameters>  
+  <chapter_context>
+    Rendering Projects
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>render functions, get, render table, projextstate</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.IsValidReaProject(proj)==false then ultraschall.AddErrorMessage("GetRenderTable_ProjExtState", "proj", "must be a valid ReaProject", -1) return end
+  if type(section)~="string" then ultraschall.AddErrorMessage("GetRenderTable_ProjExtState", "section", "must be a string", -2) return end
+  
+  local RenderTable=ultraschall.CreateNewRenderTable()
+  for k, v in pairs(RenderTable) do
+    local retval, val = reaper.GetProjExtState(proj, section, k)
+    if type(v)=="number" then val=tonumber(val)
+    elseif type(v)=="boolean" then val=toboolean(val)
+    elseif val=="" then val=v
+    end
+    RenderTable[k]=val
+  end
+  return RenderTable
+end
+
+--B=ultraschall.GetRenderTable_ProjExtState(0, "test")
+
+function ultraschall.StoreRenderTable_ExtState(section, RenderTable, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>StoreRenderTable_ExtState</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.StoreRenderTable_ExtState(string section, table RenderTable, boolean persist)</functioncall>
+  <description>
+    Stores the render-settings of a RenderTable into an extstate.
+  </description>
+  <parameters>
+    string section - the section-name, into which you want to store the render-settings
+    table RenderTable - the RenderTable which holds all render-settings
+    boolean persist - true, the settings shall be stored long-term; false, the settings shall be stored until Reaper exits
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>render functions, store, render table, extstate</tags>
+</US_DocBloc>
+--]]
+  if type(section)~="string" then ultraschall.AddErrorMessage("StoreRenderTable_ExtState", "section", "must be a string", -1) return end
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("StoreRenderTable_ExtState", "RenderTable", "must be a valid RenderTable", -2) return end
+  if type(persist)~="boolean" then ultraschall.AddErrorMessage("StoreRenderTable_ExtState", "persist", "must be a boolean", -3) return end
+  
+  for k, v in pairs(RenderTable) do
+    reaper.SetExtState(section, k, tostring(v), persist)
+  end
+end
+
+--ultraschall.StoreRenderTable_ExtState("test", A, false)
+
+function ultraschall.GetRenderTable_ExtState(section)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRenderTable_ExtState</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.20
+    Lua=5.3
+  </requires>
+  <functioncall>table RenderTable = ultraschall.GetRenderTable_ExtState(string section)</functioncall>
+  <description>
+    Gets the render-settings of a RenderTable from an extstate, stored by SetRenderTable_ExtState.
+  </description>
+  <retvals>
+    table RenderTable - the stored render-settings as a RenderTable
+  </retvals>
+  <parameters>
+    string section - the section-name, in which you stored the render-settings
+  </parameters>  
+  <chapter_context>
+    Rendering Projects
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>render functions, get, render table, extstate</tags>
+</US_DocBloc>
+--]]
+  if type(section)~="string" then ultraschall.AddErrorMessage("GetRenderTable_ExtState", "section", "must be a string", -1) return end
+  
+  local RenderTable=ultraschall.CreateNewRenderTable()
+  for k, v in pairs(RenderTable) do
+    local val = reaper.GetExtState(section, k)
+    if type(v)=="number" then val=tonumber(val)
+    elseif type(v)=="boolean" then val=toboolean(val)
+    elseif val=="" then val=v
+    end
+    RenderTable[k]=val
+  end
+  return RenderTable
+end
+
+--B=ultraschall.GetRenderTable_ExtState("test")
+--ultraschall.IsValidRenderTable(B)

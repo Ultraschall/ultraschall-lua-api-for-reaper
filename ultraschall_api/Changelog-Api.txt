@@ -295,8 +295,6 @@ ToDo Marker Menu:
 
   moved
   - PodcastMetadata: GetSetTranscription\_Attributes  gets/sets transcriptions for the podcast(needs either srt or webvtt-files created externally...)
-  - PodcastMetadata: GetSetPodcastExport\_Attributes\_String - gets/sets string attributes for podcast-export in Ultraschall
-  - PodcastMetadata: GetSetPodcastExport\_Attributes\_Value - gets/sets number attributes for podcast-export in Ultraschall    
   
   Debug:
     SLEM shows the position in the code of the error-message; try to see, whether this can be used to write a function, that
@@ -316,8 +314,7 @@ ToDo Marker Menu:
 
 ## Ultraschall Framework - Changelog
 
-
-### 4.8 - "The Beatles - Paperbag Writer" - 20th of January 2023
+### 4.8 - "Sparks - When do I get to sing my way" - XXth of XX 2023
 
 Has now 1615 functions, with XX new ones
 
@@ -328,8 +325,22 @@ Has now 1615 functions, with XX new ones
 
 #### New features in 4.8  
   - Debug: Debug\_ShowCurrentContext - calling this function returns/shows the current sourcefile, linenumber and function-context(for debug)
-  - HelperFunctions: ConvertIniStringToTable - converts a loaded ini-file into a table
-  - HelperFunctions: string.sub\_utf8 - gets the subsection of an utf8-encoded string; works like string.sub
+  - HelperFunctions: ConvertIniStringToTable - converts a loaded ini-file into a table  
+  - HelperFunctions: string.has\_alphanumeric - returns if a string has a alphanumeric-character
+  - HelperFunctions: string.has\_control - returns if a string has a control-character  
+  - HelperFunctions: string.has\_digits - returns if a string has a digit-character
+  - HelperFunctions: string.has\_hex - returns if a string has a hex-character
+  - HelperFunctions: string.has\_letter - returns if a string has a letter-character
+  - HelperFunctions: string.has\_lowercase - returns if a string has a lowercase-character
+  - HelperFunctions: string.has\_printable - returns if a string has a printable-character
+  - HelperFunctions: string.has\_space - returns if a string has a space-character
+  - HelperFunctions: string.has\_uppercase - returns if a string has a uppercase-character
+  - HelperFunctions: string.utf8\_len - returns the length of an utf8-encoded string; works like string.len
+  - HelperFunctions: string.utf8\_sub - gets the substring of an utf8-encoded string; works like string.sub  
+  - Rendering: GetRenderTable\_ExtState - gets a RenderTable stored in an extstate
+  - Rendering: GetRenderTable\_ProjExtState - gets a RenderTable stored in a projextstate
+  - Rendering: SetRenderTable\_ExtState - stores a RenderTable in an extstate
+  - Rendering: SetRenderTable\_ProjExtState - stores a RenderTable in a projextstate
   
 #### Changes from 4.75 to 4.8  
 
