@@ -4,6 +4,37 @@ reagirl.Elements={}
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 
+function reagirl.roundrect(x, y, w, h, r, antialias, fill)
+    local aa = antialias or 1
+    fill = fill or 0
+
+    if fill == 0 or false then
+      gfx.roundrect(x, y, w, h, r, aa)
+    else
+      if h >= 2 * r then
+        -- Corners
+        gfx.circle(x + r, y + r, r, 1, aa)      -- top-left
+        gfx.circle(x + w - r, y + r, r, 1, aa)    -- top-right
+        gfx.circle(x + w - r, y + h - r, r , 1, aa)  -- bottom-right
+        gfx.circle(x + r, y + h - r, r, 1, aa)    -- bottom-left
+  
+        -- Ends
+        gfx.rect(x, y + r, r, h - r * 2)
+        gfx.rect(x + w - r, y + r, r + 1, h - r * 2)
+  
+        -- Body + sides
+        gfx.rect(x + r, y, w - r * 2, h + 1)
+      else
+        r = (h / 2 - 1)
+        -- Ends
+        gfx.circle(x + r, y + r, r, 1, aa)
+        gfx.circle(x + w - r, y + r, r, 1, aa)
+        -- Body
+        gfx.rect(x + r, y, w - (r * 2), h)
+    end
+  end
+end
+
 --[[
 TODO: 
   Dpi2Scale-conversion must be included(currently using Ultraschall-API in OpenWindow)
@@ -755,11 +786,114 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   gfx.y=y+1
   gfx.drawstr(name)
   gfx.set(1)
-  gfx.x=x+h+2
+  gfx.x=x+h+2+3
   gfx.y=y
   gfx.drawstr(name)
 end
 
+
+function reagirl.Button_Add(x, y, w_margin, h_margin, Name, Description, Tooltip, Caption, run_function)
+  local tx,ty=gfx.measurestr(Caption)
+  reagirl.Elements[#reagirl.Elements+1]={}
+  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Checkbox"
+  reagirl.Elements[#reagirl.Elements]["Name"]=Name
+  reagirl.Elements[#reagirl.Elements]["Description"]=Description
+  reagirl.Elements[#reagirl.Elements]["Tooltip"]=Tooltip
+  reagirl.Elements[#reagirl.Elements]["x"]=x
+  reagirl.Elements[#reagirl.Elements]["y"]=y
+  reagirl.Elements[#reagirl.Elements]["w"]=tx+20+w_margin
+  reagirl.Elements[#reagirl.Elements]["h"]=ty+10+h_margin
+  reagirl.Elements[#reagirl.Elements]["caption"]=Caption
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.Button_Manage
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.Button_Draw
+  reagirl.Elements[#reagirl.Elements]["run_function"]=run_function
+  reagirl.Elements[#reagirl.Elements]["userspace"]={}
+  return #reagirl.Elements
+end
+
+function reagirl.Button_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
+  local message=""
+  if element_storage["old_selected"]~=true and selected==true then 
+    message=element_storage["caption"].." Button" 
+  end
+  element_storage["old_selected"]=selected
+  local refresh=false
+  local oldpressed=element_storage["pressed"]
+
+  if selected==true and Key==32 then 
+    element_storage["pressed"]=true
+    message=element_storage["caption"].." Button pressed"
+  elseif selected==true and mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
+    element_storage["pressed"]=true
+    message=element_storage["caption"].." Button pressed"
+  else
+    element_storage["pressed"]=false
+  end
+  if oldpressed==true and element_storage["pressed"]==false and (mouse_cap&1==0 and Key~=32) then
+    element_storage["run_function"]()
+  end
+
+  return message, oldpressed~=element_storage["pressed"]
+end
+
+function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
+  x=x+1
+  y=y+1
+  gfx.x=x
+  gfx.y=y
+  w=w-5
+  h=h-5
+  local sw,sh=gfx.measurestr(element_storage["caption"])
+  if reagirl.Elements[element_id]["pressed"]==true then
+    state=1
+    dpi_scale=1
+    gfx.set(0.06) -- background 1
+    for i = 1, 1 do
+      reagirl.roundrect(x - i, y - i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+      reagirl.roundrect(x + i, y + i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    end
+    reagirl.roundrect(x , y - 2 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    
+    gfx.set(0.39) -- background 2
+    reagirl.roundrect(x , y - 1 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    
+    gfx.set(0.274) -- button-area
+    reagirl.roundrect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    
+    gfx.x=x+(w-sw)/2+1
+    gfx.y=y+(h-sh)/2+1
+    gfx.set(0.784)
+    gfx.drawstr(element_storage["caption"])
+  else
+    state=0
+    dpi_scale=1
+    gfx.set(0.06) -- background 1
+    for i = 1, 1 do
+      reagirl.roundrect(x - i, y - i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+      reagirl.roundrect(x + i, y + i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    end
+    reagirl.roundrect(x , y - 2 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    
+    gfx.set(0.39) -- background 2
+    reagirl.roundrect(x , y - 1 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    
+    gfx.set(0.274) -- button-area
+    reagirl.roundrect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    
+    gfx.x=x+(w-sw)/2
+    gfx.y=y+(h-sh)/2
+    gfx.set(0.784)
+    gfx.drawstr(element_storage["caption"])
+  end
+  gfx.set(0.3)
+  gfx.x=x+h+3
+  gfx.y=y+1
+  --gfx.drawstr(name)
+  gfx.set(1)
+  gfx.x=x+h+2
+  gfx.y=y
+  --gfx.drawstr(name)
+end
 --gfx.setfont(
 
 function reagirl.DropDownMenu_Add(x, y, w, Name, Description, Tooltip, default, MenuEntries, run_function)
@@ -827,15 +961,15 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
   --]]
   
   gfx.set(0.3)
-  gfx.x=x+1+2+gfx.texth
+  gfx.x=x+1+2+gfx.texth+3
   gfx.y=y+1
-  gfx.drawstr(element_storage["MenuEntries"][element_storage["MenuDefault"]],0,gfx.x+w-gfx.texth-3, gfx.y+gfx.texth)
+  gfx.drawstr(element_storage["MenuEntries"][element_storage["MenuDefault"]],0,gfx.x+w-gfx.texth-7, gfx.y+gfx.texth)
   
   gfx.set(1)
   gfx.line(x+gfx.texth,y,x+gfx.texth,y+gfx.texth)
-  gfx.x=x+2+gfx.texth
+  gfx.x=x+2+gfx.texth+3
   gfx.y=y
-  gfx.drawstr(element_storage["MenuEntries"][element_storage["MenuDefault"]],0,gfx.x+w-gfx.texth-3, gfx.y+gfx.texth)
+  gfx.drawstr(element_storage["MenuEntries"][element_storage["MenuDefault"]],0,gfx.x+w-gfx.texth-7, gfx.y+gfx.texth)
   
 end
 
@@ -1230,24 +1364,28 @@ end
 function Dummy()
 end
 
+function click_button()
+  print(os.date())
+  reagirl.Gui_Close()
+end
 
 function UpdateUI()
   reagirl.Gui_New()
   reagirl.Background_GetSetColor(true, 44,44,44)
-  reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, true)
+  --reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, true)
   if update==true then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
       Images[1]=filename
     end
   end
-  --reagirl.SetWindowBackground(0.10, 0, 0)
+  --reagirl.Background_GetSetColor(true, 255, 0, 0)
   
   C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
   A=reagirl.CheckBox_Add(-230, 90, "CoreAudio", "Description of the Checkbox", "Tooltip", true, CheckMe)
   
   A1=reagirl.CheckBox_Add(-230, 110, "Tudelu2", "Description of the Checkbox", "Tooltip", true, CheckMe)
-  A2=reagirl.CheckBox_Add(-230, 130, "Tudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
+  A2=reagirl.CheckBox_Add(-230, 130, "Pudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
   
   reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
   B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
@@ -1256,9 +1394,10 @@ function UpdateUI()
   E=reagirl.DropDownMenu_Add(-230, 150, -10, "DropDownMenu:", "Desc of DDM", "DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter",2,3,4,5}, DropDownList)
   reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
   --reagirl.AddDummyElement()
-  D=reagirl.Image_Add(Images[1], 0, 0, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
+  --D=reagirl.Image_Add(Images[1], 0, 0, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
   reagirl.Rect_Add(-400,-200,320,120,1,0,1,0.5,1)
   reagirl.Line_Add(-1,-2,-1,1,0,1,1,1)
+  reagirl.Button_Add(10, 10, 0, 0, "Button1", "Description of the button", "Tooltip of the button", "Close Gui", click_button)
   
 end
 
