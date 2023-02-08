@@ -1252,7 +1252,7 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
            if retval==false then break end
          end
          if #files>0 then
-          reagirl.DropZone[i]["DropZoneFunc"](files)
+          reagirl.DropZone[i]["DropZoneFunc"](i, files)
           reagirl.Gui_ForceRefresh()
          end
       end
@@ -1317,8 +1317,9 @@ function UpdateImage2(element_id)
   --]]
 end
 
-function GetFileList(filelist)
-  reagirl.Image_Update(4, filelist[1])
+function GetFileList(element_id, filelist)
+  print2(element_id)
+  reagirl.Image_Update(1, filelist[1])
   AFile=filelist
   list=""
   for i=1, 1000 do
@@ -1372,7 +1373,7 @@ end
 function UpdateUI()
   reagirl.Gui_New()
   reagirl.Background_GetSetColor(true, 44,44,44)
-  --reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, true)
+  reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, true)
   if update==true then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
@@ -1389,7 +1390,7 @@ function UpdateUI()
   
   reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
   B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
-  reagirl.FileDropZone_Add(100,100,100,100, GetFileList2)
+  reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   E=reagirl.DropDownMenu_Add(-230, 150, -10, "DropDownMenu:", "Desc of DDM", "DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter",2,3,4,5}, DropDownList)
   reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
@@ -1397,7 +1398,7 @@ function UpdateUI()
   --D=reagirl.Image_Add(Images[1], 0, 0, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
   reagirl.Rect_Add(-400,-200,320,120,1,0,1,0.5,1)
   reagirl.Line_Add(-1,-2,-1,1,0,1,1,1)
-  reagirl.Button_Add(10, 10, 0, 0, "Button1", "Description of the button", "Tooltip of the button", "Close Gui", click_button)
+  reagirl.Button_Add(10, 10, 120, 120, "Button1", "Description of the button", "Tooltip of the button", "Close Gui", click_button)
   
 end
 
