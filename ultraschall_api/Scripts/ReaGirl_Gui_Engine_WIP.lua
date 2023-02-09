@@ -94,7 +94,7 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
     end
     if height~=nil and nheight>=height then newtext=newtext:sub(1,-3) break end
   end
-  old_x, old_y=gfx.x, gfx.y
+  local old_x, old_y=gfx.x, gfx.y
   gfx.x=x
   gfx.y=y
   local xwidth, xheight = gfx.measurestr(newtext)
@@ -484,8 +484,11 @@ function reagirl.Gui_Manage()
   reagirl.UI_Element_MinY=gfx.h
   reagirl.UI_Element_MaxW=0
   reagirl.UI_Element_MaxH=0
+  local x2, y2
   
   reagirl.FileDropZone_CheckForDroppedFiles()
+  reagirl.ContextMenuZone_ManageMenu(gfx.mouse_cap)
+  if reagirl.Elements==nil or #reagirl.Elements==0 then return end
   for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
   local Key, Key_utf=gfx.getchar()
   if Key~=0 then reaper.CF_SetClipboard(Key) end
@@ -597,7 +600,7 @@ end
 
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
   -- no docs in API-docs
-  local selected
+  local selected, x2, y2
   
   
   if reagirl.Gui_ForceRefreshState==true then
@@ -605,28 +608,30 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     gfx.rect(0,0,gfx.w,gfx.h,1)
     reagirl.Background_DrawImage()
     
-    for i=#reagirl.DecorativeElements, 1, -1 do
-      local x2, y2, w2, h2
-      if reagirl.DecorativeElements[i]["x"]<0 then x2=gfx.w+reagirl.DecorativeElements[i]["x"] else x2=reagirl.DecorativeElements[i]["x"] end
-      if reagirl.DecorativeElements[i]["y"]<0 then y2=gfx.h+reagirl.DecorativeElements[i]["y"] else y2=reagirl.DecorativeElements[i]["y"] end
-      if reagirl.DecorativeElements[i]["w"]<0 then w2=gfx.w-x2+reagirl.DecorativeElements[i]["w"] else w2=reagirl.DecorativeElements[i]["w"] end
-      if reagirl.DecorativeElements[i]["h"]<0 then h2=gfx.h-y2+reagirl.DecorativeElements[i]["h"] else h2=reagirl.DecorativeElements[i]["h"] end
-      local message=reagirl.DecorativeElements[i]["func_draw"](i, reagirl.DecorativeElements["FocusedElement"]==i,
-              specific_clickstate,
-              gfx.mouse_cap,
-              {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
-              reagirl.DecorativeElements[i]["Name"],
-              reagirl.DecorativeElements[i]["Description"], 
-              reagirl.DecorativeElements[i]["Tooltip"], 
-              x2+reagirl.MoveItAllRight,
-              y2+reagirl.MoveItAllUp,
-              w2,
-              h2,
-              Key,
-              Key_utf,
-              reagirl.DecorativeElements[i]
-            )
-            
+    if reagirl.DecorativeElements~=nil then
+      for i=#reagirl.DecorativeElements, 1, -1 do
+        local x2, y2, w2, h2
+        if reagirl.DecorativeElements[i]["x"]<0 then x2=gfx.w+reagirl.DecorativeElements[i]["x"] else x2=reagirl.DecorativeElements[i]["x"] end
+        if reagirl.DecorativeElements[i]["y"]<0 then y2=gfx.h+reagirl.DecorativeElements[i]["y"] else y2=reagirl.DecorativeElements[i]["y"] end
+        if reagirl.DecorativeElements[i]["w"]<0 then w2=gfx.w-x2+reagirl.DecorativeElements[i]["w"] else w2=reagirl.DecorativeElements[i]["w"] end
+        if reagirl.DecorativeElements[i]["h"]<0 then h2=gfx.h-y2+reagirl.DecorativeElements[i]["h"] else h2=reagirl.DecorativeElements[i]["h"] end
+        local message=reagirl.DecorativeElements[i]["func_draw"](i, reagirl.DecorativeElements["FocusedElement"]==i,
+                specific_clickstate,
+                gfx.mouse_cap,
+                {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+                reagirl.DecorativeElements[i]["Name"],
+                reagirl.DecorativeElements[i]["Description"], 
+                reagirl.DecorativeElements[i]["Tooltip"], 
+                x2+reagirl.MoveItAllRight,
+                y2+reagirl.MoveItAllUp,
+                w2,
+                h2,
+                Key,
+                Key_utf,
+                reagirl.DecorativeElements[i]
+              )
+              
+      end
     end
     
     for i=#reagirl.Elements, 1, -1 do
@@ -1049,6 +1054,7 @@ function reagirl.Line_Add(x,y,x2,y2,r,g,b,a)
 end
 
 function reagirl.Line_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
+  local x2, y2, w2, h2
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
   if element_storage["w"]<0 then x2=gfx.w+element_storage["w"] else x2=element_storage["w"] end
   if element_storage["h"]<0 then y2=gfx.h+element_storage["h"] else y2=element_storage["h"] end
@@ -1271,6 +1277,56 @@ function reagirl.FileDropZone_Add(x,y,w,h,func)
   reagirl.DropZone[#reagirl.DropZone]["DropZoneH"]=h
 end
 
+
+function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
+  local x, y, w, h 
+  local i=1
+  if mouse_cap&2==0 then return end
+  if reagirl.ContextMenu~=nil then
+    for i=1, #reagirl.ContextMenu do
+      if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight else x=reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight end
+      if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp else y=reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp end
+      if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
+      if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
+      -- debug dropzone-rectangle, for checking, if it works
+      --[[
+        gfx.set(1)
+        gfx.rect(x, y, w, h, 1)
+      --]]
+      local files={}
+      local retval
+      if gfx.mouse_x>=x and
+         gfx.mouse_y>=y and
+         gfx.mouse_x<=x+w and
+         gfx.mouse_y<=y+h then
+         local oldx=gfx.x
+         local oldy=gfx.y
+         gfx.x=gfx.mouse_x
+         gfx.y=gfx.mouse_y
+        local retval=gfx.showmenu(reagirl.ContextMenu[i]["ContextMenu"])
+        if retval>0 then
+          reagirl.ContextMenu[i]["ContextMenuFunc"](i, retval)
+        end
+        gfx.x=oldx
+        gfx.y=oldy
+      end
+      reagirl.Gui_ForceRefresh()
+    end
+  end
+end
+
+function reagirl.ContextMenuZone_Add(x,y,w,h,menu, func)
+  if reagirl.ContextMenu==nil then reagirl.ContextMenu={} end
+  reagirl.ContextMenu[#reagirl.ContextMenu+1]={}
+  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuFunc"]=func
+  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuX"]=x
+  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuY"]=y
+  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuW"]=w
+  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuH"]=h
+  reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenu"]=menu
+end
+
+
 function reagirl.Window_ForceSize()
   if reagirl.Window_ForceSize_Toggle==false then return end
   local h,w
@@ -1370,7 +1426,12 @@ function click_button()
   reagirl.Gui_Close()
 end
 
+function CMenu(A,B)
+  print2(A,B)
+end
+
 function UpdateUI()
+  
   reagirl.Gui_New()
   reagirl.Background_GetSetColor(true, 44,44,44)
   reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, true)
@@ -1380,26 +1441,31 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-  --reagirl.Background_GetSetColor(true, 255, 0, 0)
   
   C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
   A=reagirl.CheckBox_Add(-230, 90, "CoreAudio", "Description of the Checkbox", "Tooltip", true, CheckMe)
+
   
   A1=reagirl.CheckBox_Add(-230, 110, "Tudelu2", "Description of the Checkbox", "Tooltip", true, CheckMe)
   A2=reagirl.CheckBox_Add(-230, 130, "Pudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
-  
+
   reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
+
   B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
   reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   E=reagirl.DropDownMenu_Add(-230, 150, -10, "DropDownMenu:", "Desc of DDM", "DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter",2,3,4,5}, DropDownList)
   reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
+
   --reagirl.AddDummyElement()
-  --D=reagirl.Image_Add(Images[1], 0, 0, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
+  D=reagirl.Image_Add(Images[1], 0, 0, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
   reagirl.Rect_Add(-400,-200,320,120,1,0,1,0.5,1)
   reagirl.Line_Add(-1,-2,-1,1,0,1,1,1)
   reagirl.Button_Add(10, 10, 120, 120, "Button1", "Description of the button", "Tooltip of the button", "Close Gui", click_button)
-  
+
+  reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
+  reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
+  --]]
 end
 
 
