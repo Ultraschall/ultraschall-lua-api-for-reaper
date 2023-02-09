@@ -664,7 +664,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         local dest=gfx.dest
         gfx.dest=-1
         gfx.set(0.7,0.7,0.7,0.8)
-        gfx.rect(x2+reagirl.MoveItAllRight-2,y2+reagirl.MoveItAllUp-2,w2+2,h2+3,0)
+        gfx.rect(x2+reagirl.MoveItAllRight-2,y2+reagirl.MoveItAllUp-2,w2+6,h2+3,0)
         gfx.set(r,g,b,a)
         gfx.dest=dest
         if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
@@ -777,17 +777,20 @@ end
 function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, tooltip, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.x=x
   gfx.y=y
-  gfx.set(0.1)
+  gfx.set(0.39)
   gfx.rect(x+1,y+1,h,h,0)
-  gfx.set(1)
+  gfx.set(0.784)
   gfx.rect(x,y,h,h,0)
   
   if reagirl.Elements[element_id]["checked"]==true then
+    gfx.set(0.4843137254901961, 0.5156862745098039, 0)
+    gfx.rect(x+2,y+2,h-3,h-3,1)
+    
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
-    gfx.rect(x+4,y+4,h-8,h-8,1)
+    gfx.rect(x+2,y+2,h-4,h-4,1)
   end
   gfx.set(0.3)
-  gfx.x=x+h+3
+  gfx.x=x+h+3+3
   gfx.y=y+1
   gfx.drawstr(name)
   gfx.set(1)
@@ -797,10 +800,10 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
 end
 
 
-function reagirl.Button_Add(x, y, w_margin, h_margin, Name, Description, Tooltip, Caption, run_function)
+function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, Description, Tooltip, run_function)
   local tx,ty=gfx.measurestr(Caption)
   reagirl.Elements[#reagirl.Elements+1]={}
-  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Checkbox"
+  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Button"
   reagirl.Elements[#reagirl.Elements]["Name"]=Name
   reagirl.Elements[#reagirl.Elements]["Description"]=Description
   reagirl.Elements[#reagirl.Elements]["Tooltip"]=Tooltip
@@ -1062,7 +1065,7 @@ function reagirl.Line_Draw(element_id, selected, clicked, mouse_cap, mouse_attri
 end
 
 
-function reagirl.Image_Add(image_file, x, y, w, h, Name, Description, Tooltip, run_function, func_params)
+function reagirl.Image_Add(image_file, x, y, w, h, resize, Name, Description, Tooltip, run_function, func_params)
   if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
   reagirl.MaxImage=reagirl.MaxImage+1
   reagirl.Elements[#reagirl.Elements+1]={}
@@ -1087,7 +1090,11 @@ function reagirl.Image_Add(image_file, x, y, w, h, Name, Description, Tooltip, r
   gfx.rect(0,0,8192,8192)
   gfx.set(r,g,b,a)
   local AImage=gfx.loadimg(reagirl.Elements[#reagirl.Elements]["Image_Storage"], image_file)
-  local retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[#reagirl.Elements]["Image_Storage"], w, h, 0, 0, 0)
+  if resize==true then
+    local retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[#reagirl.Elements]["Image_Storage"], w, h, 0, 0, 0)
+  else
+    reagirl.Elements[#reagirl.Elements]["w"], reagirl.Elements[#reagirl.Elements]["h"] = gfx.getimgdim(AImage)
+  end
   gfx.dest=-1
   return #reagirl.Elements
 end
@@ -1434,7 +1441,7 @@ function UpdateUI()
   
   reagirl.Gui_New()
   reagirl.Background_GetSetColor(true, 44,44,44)
-  reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, true)
+  --reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, true)
   if update==true then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
@@ -1442,26 +1449,30 @@ function UpdateUI()
     end
   end
   
-  C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
-  A=reagirl.CheckBox_Add(-230, 90, "CoreAudio", "Description of the Checkbox", "Tooltip", true, CheckMe)
-
-  
-  A1=reagirl.CheckBox_Add(-230, 110, "Tudelu2", "Description of the Checkbox", "Tooltip", true, CheckMe)
-  A2=reagirl.CheckBox_Add(-230, 130, "Pudelu3", "Description of the Checkbox", "Tooltip", true, CheckMe)
+  reagirl.Label_Add("Export Podcast as:", -410, 88, 100, 100)
+  A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", "Tooltip", true, CheckMe)
+  A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", "Tooltip", true, CheckMe)
+  A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", "Tooltip", true, CheckMe)
 
   reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
 
-  B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
+  --B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", "See internet for more details", UpdateImage2, {1})
   reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
-  E=reagirl.DropDownMenu_Add(-230, 150, -10, "DropDownMenu:", "Desc of DDM", "DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter",2,3,4,5}, DropDownList)
-  reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
+  --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
+  E=reagirl.DropDownMenu_Add(-280, 150, -10, "DropDownMenu:", "Desc of DDM", "DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter",2,3,4,5}, DropDownList)
+  
 
   --reagirl.AddDummyElement()
-  D=reagirl.Image_Add(Images[1], 0, 0, 100, 100, "Contrapoints2", "Contrapoints2: A Youtube-Channel", "See internet for more details")  
-  reagirl.Rect_Add(-400,-200,320,120,1,0,1,0.5,1)
-  reagirl.Line_Add(-1,-2,-1,1,0,1,1,1)
-  reagirl.Button_Add(10, 10, 120, 120, "Button1", "Description of the button", "Tooltip of the button", "Close Gui", click_button)
+  D=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/export_logo.png", 1, 1, 79, 79, false, "Logo", "Logo 2")  
+  D1=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/headertxt_export.png", 70, 10, 79, 79, false, "Headtertext", "See internet for more details")  
+  
+  
+  C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel", "See internet for more details")
+  --reagirl.Rect_Add(-400,-200,320,120,1,0,1,0.5,1)
+  reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
+  --reagirl.Button_Add(-120, -50, 0, 0, "Close Gui", "Description of the button", "Tooltip of the button", "Close Gui", click_button)
+  reagirl.Button_Add(-120, -30, 0, 0, "Export Podcast","Will open the Render to File-dialog, which allows you to export the file as MP3", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
 
   reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
@@ -1469,8 +1480,8 @@ function UpdateUI()
 end
 
 
-Images={"c:\\c.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Faily", "A Failstate Manager", nil,nil,nil,nil,nil)
+Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
+reagirl.Gui_Open("Faily", "A Failstate Manager", nil,300,nil,nil,nil)
 UpdateUI()
 reagirl.Window_ForceMinSize(640, 277)
 --reagirl.Gui_ForceRefreshState=true
