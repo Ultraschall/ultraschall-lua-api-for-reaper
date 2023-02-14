@@ -740,7 +740,7 @@ function reagirl.Gui_Manage()
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
     if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
     if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-h2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
     if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then
       if w2<20 then w2=20 end
     end
@@ -778,7 +778,7 @@ function reagirl.Gui_Manage()
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
     if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
     if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-h2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
     local message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
       specific_clickstate,
       gfx.mouse_cap,
@@ -993,13 +993,110 @@ function reagirl.UI_Element_GetSetAccessibilityHint(element_id, is_set, accessib
   return reagirl.Elements[element_id]["AccHint"]
 end
 
+function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetPosition</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer x, integer y, integer true_x, integer true_y = reagirl.UI_Element_GetSetPosition(integer element_id, boolean is_set, integer x, integer y)</functioncall>
+  <description>
+    gets/sets the position of the ui-element
+  </description>
+  <retvals>
+    integer x - the x-position of the ui-element
+    integer y - the y-position of the ui-element
+    integer true_x - the true current x-position resolved to the anchor-position
+    integer true_y - the true current y-position resolved to the anchor-position
+  </retvals>
+  <parameters>
+    integer element_id - the id of the element, whose position you want to get/set
+    boolean is_set - true, set the position; false, don't set the name
+    integer x - the x-position of the ui-element
+    integer y - the y-position of the ui-element
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, get, position, ui-elements</tags>
+</US_DocBloc>
+]]
+  if math.type(element_id)~="integer" then error("UI_Element_GetSetPosition: #1 - must be an integer", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetPosition: #2 - must be a boolean", 2) end
+  if is_set==true and math.type(x)~="integer" then error("UI_Element_GetSetPosition: #3 - must be an integer when is_set==true", 2) end
+  if is_set==true and math.type(y)~="integer" then error("UI_Element_GetSetPosition: #4 - must be an integer when is_set==true", 2) end
+  
+  if is_set==true then
+    reagirl.Elements[element_id]["x"]=x
+    reagirl.Elements[element_id]["y"]=y
+  end
+  local x2, y2
+  if reagirl.Elements[element_id]["x"]<0 then x2=gfx.w+reagirl.Elements[element_id]["x"] else x2=reagirl.Elements[element_id]["x"] end
+  if reagirl.Elements[element_id]["y"]<0 then y2=gfx.h+reagirl.Elements[element_id]["y"] else y2=reagirl.Elements[element_id]["y"] end
+  
+  return reagirl.Elements[element_id]["x"], reagirl.Elements[element_id]["y"], x2, y2
+end
+
+function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetDimension</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer w, integer h, integer true_w, integer true_h = reagirl.UI_Element_GetSetDimension(integer element_id, boolean is_set, integer w, integer h)</functioncall>
+  <description>
+    gets/sets the position of the ui-element
+  </description>
+  <retvals>
+    integer w - the w-size of the ui-element
+    integer h - the h-size of the ui-element
+    integer true_w - the true current w-size resolved to the anchor-position
+    integer true_h - the true current h-size resolved to the anchor-position
+  </retvals>
+  <parameters>
+    integer element_id - the id of the element, whose dimension you want to get/set
+    boolean is_set - true, set the dimension; false, don't set the name
+    integer w - the w-size of the ui-element
+    integer h - the h-size of the ui-element
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, get, dimension, ui-elements</tags>
+</US_DocBloc>
+]]
+  if math.type(element_id)~="integer" then error("UI_Element_GetSetDimension: #1 - must be an integer", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetDimension: #2 - must be a boolean", 2) end
+  if is_set==true and math.type(w)~="integer" then error("UI_Element_GetSetDimension: #3 - must be an integer when is_set==true", 2) end
+  if is_set==true and math.type(h)~="integer" then error("UI_Element_GetSetDimension: #4 - must be an integer when is_set==true", 2) end
+  
+  local w2, h2, x2, y2
+  if reagirl.Elements[element_id]["x"]<0 then x2=gfx.w+reagirl.Elements[element_id]["x"] else x2=reagirl.Elements[element_id]["x"] end
+  if reagirl.Elements[element_id]["y"]<0 then y2=gfx.h+reagirl.Elements[element_id]["y"] else y2=reagirl.Elements[element_id]["y"] end
+  if reagirl.Elements[element_id]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[element_id]["w"] else w2=w end
+  if reagirl.Elements[element_id]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[element_id]["h"] else h2=h end
+  
+  if is_set==true then
+    reagirl.Elements[element_id]["w"]=w
+    reagirl.Elements[element_id]["h"]=h
+  end
+          
+  return reagirl.Elements[element_id]["w"], reagirl.Elements[element_id]["h"], w2, h2
+end
+
 --[[
 UI_Element_GetSetAllVerticalOffset
 UI_Element_GetSetAllHorizontalOffset
-UI_Element_GetSetWidth
-UI_Element_GetSetHeight
-UI_Element_GetSetX
-UI_Element_GetSetY
 UI_Element_GetSetRunFunction
 --]]
 
@@ -1902,7 +1999,7 @@ function UpdateUI()
   --reagirl.Rect_Add(-400,-200,320,120,1,0,1,0.5,1)
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   reagirl.Button_Add(-120, -50, 0, 0, "Close Gui", "Description of the button", click_button)
-  reagirl.Button_Add(-120, -30, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
+  --reagirl.Button_Add(-120, -30, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
 
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
@@ -1919,5 +2016,6 @@ reagirl.Window_ForceMinSize(640, 277)
 
 main()
 
-Element=reagirl.UI_Element_GetSetAccessibilityHint(1, true, "Huch")
+Element1={reagirl.UI_Element_GetSetPosition(4, true, 100, 10)}
+Element1={reagirl.UI_Element_GetSetDimension(4, true, 100, -10)}
 --print2("Pudeldu")
