@@ -870,6 +870,7 @@ function reagirl.UI_Element_GetType(element_id)
 </US_DocBloc>
 ]]
   if math.type(element_id)~="integer" then error("UI_Element_GetType: #1 - must be an integer", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetType: #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]~=nil then
     return reagirl.Elements[element_id]["GUI_Element_Type"]
   end
@@ -905,6 +906,7 @@ function reagirl.UI_Element_GetSetDescription(element_id, is_set, description)
 </US_DocBloc>
 ]]
   if math.type(element_id)~="integer" then error("UI_Element_GetSetDescription: #1 - must be an integer", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetDescription: #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetDescription: #2 - must be a boolean", 2) end
   if is_set==true and type(description)~="string" then error("UI_Element_GetSetDescription: #3 - must be a string when #2==true", 2) end
   
@@ -944,6 +946,7 @@ function reagirl.UI_Element_GetSetName(element_id, is_set, name)
 </US_DocBloc>
 ]]
   if math.type(element_id)~="integer" then error("UI_Element_GetSetName: #1 - must be an integer", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetName: #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetName: #2 - must be a boolean", 2) end
   if is_set==true and type(name)~="string" then error("UI_Element_GetSetName: #3 - must be a string when #2==true", 2) end
   
@@ -984,6 +987,7 @@ function reagirl.UI_Element_GetSetAccessibilityHint(element_id, is_set, accessib
 </US_DocBloc>
 ]]
   if math.type(element_id)~="integer" then error("UI_Element_GetSetAccessibilityHint: #1 - must be an integer", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetAccessibilityHint: #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetAccessibilityHint: #2 - must be a boolean", 2) end
   if is_set==true and type(accessibility_hint)~="string" then error("UI_Element_GetSetAccessibilityHint: #3 - must be a string when #2==true", 2) end
   
@@ -1014,7 +1018,7 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
   </retvals>
   <parameters>
     integer element_id - the id of the element, whose position you want to get/set
-    boolean is_set - true, set the position; false, don't set the name
+    boolean is_set - true, set the position; false, don't set the position
     integer x - the x-position of the ui-element
     integer y - the y-position of the ui-element
   </parameters>
@@ -1027,6 +1031,7 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
 </US_DocBloc>
 ]]
   if math.type(element_id)~="integer" then error("UI_Element_GetSetPosition: #1 - must be an integer", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetPosition: #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetPosition: #2 - must be a boolean", 2) end
   if is_set==true and math.type(x)~="integer" then error("UI_Element_GetSetPosition: #3 - must be an integer when is_set==true", 2) end
   if is_set==true and math.type(y)~="integer" then error("UI_Element_GetSetPosition: #4 - must be an integer when is_set==true", 2) end
@@ -1063,7 +1068,7 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   </retvals>
   <parameters>
     integer element_id - the id of the element, whose dimension you want to get/set
-    boolean is_set - true, set the dimension; false, don't set the name
+    boolean is_set - true, set the dimension; false, don't set the dimension
     integer w - the w-size of the ui-element
     integer h - the h-size of the ui-element
   </parameters>
@@ -1076,6 +1081,7 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
 </US_DocBloc>
 ]]
   if math.type(element_id)~="integer" then error("UI_Element_GetSetDimension: #1 - must be an integer", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetDimension: #1 - no such ui-element", 2) end
   if type(is_set)~="boolean" then error("UI_Element_GetSetDimension: #2 - must be a boolean", 2) end
   if is_set==true and math.type(w)~="integer" then error("UI_Element_GetSetDimension: #3 - must be an integer when is_set==true", 2) end
   if is_set==true and math.type(h)~="integer" then error("UI_Element_GetSetDimension: #4 - must be an integer when is_set==true", 2) end
@@ -1094,9 +1100,78 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   return reagirl.Elements[element_id]["w"], reagirl.Elements[element_id]["h"], w2, h2
 end
 
+
+function reagirl.UI_Element_GetSetAllHorizontalOffset(is_set, x_offset)
 --[[
-UI_Element_GetSetAllVerticalOffset
-UI_Element_GetSetAllHorizontalOffset
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetAllHorizontalOffset</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer x_offset = reagirl.UI_Element_GetSetAllHorizontalOffset(boolean is_set, integer x_offset)</functioncall>
+  <description>
+    gets/sets the horizontal offset of all ui-elements
+  </description>
+  <retvals>
+    integer x_offset - the current horizontal offset of all ui-elements
+  </retvals>
+  <parameters>
+    boolean is_set - true, set the horizontal-offset; false, don't set the horizontal-offset
+    integer x_offset - the x-offset of all ui-elements
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, get, horizontal offset, ui-elements</tags>
+</US_DocBloc>
+]]
+  if type(is_set)~="boolean" then error("UI_Element_GetSetAllHorizontalOffset: #2 - must be a boolean", 2) end
+  if is_set==true and math.type(x_offset)~="integer" then error("UI_Element_GetSetAllHorizontalOffset: #3 - must be an integer when is_set==true", 2) end
+  
+  if is_set==true then reagirl.MoveItAllRight=x_offset end
+  return reagirl.MoveItAllRight
+end
+
+function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetAllVerticalOffset</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer y_offset = reagirl.UI_Element_GetSetAllVerticalOffset(boolean is_set, integer y_offset)</functioncall>
+  <description>
+    gets/sets the vertical offset of all ui-elements
+  </description>
+  <retvals>
+    integer y_offset - the current vertical offset of all ui-elements
+  </retvals>
+  <parameters>
+    boolean is_set - true, set the vertical-offset; false, don't set the vertical-offset
+    integer y_offset - the y-offset of all ui-elements
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, get, vertical offset, ui-elements</tags>
+</US_DocBloc>
+]]
+  if type(is_set)~="boolean" then error("UI_Element_GetSetAllVerticalOffset: #2 - must be a boolean", 2) end
+  if is_set==true and math.type(y_offset)~="integer" then error("UI_Element_GetSetAllVerticalOffset: #3 - must be an integer when is_set==true", 2) end
+  
+  if is_set==true then reagirl.MoveItAllUp=y_offset end
+  return reagirl.MoveItAllUp
+end
+
+--[[
 UI_Element_GetSetRunFunction
 --]]
 
@@ -2016,6 +2091,6 @@ reagirl.Window_ForceMinSize(640, 277)
 
 main()
 
-Element1={reagirl.UI_Element_GetSetPosition(4, true, 100, 10)}
-Element1={reagirl.UI_Element_GetSetDimension(4, true, 100, -10)}
+--Element1={reagirl.UI_Element_GetSetPosition(4, true, 100, 10)}
+--Element1={reagirl.UI_Element_GetSetAllVerticalOffset(true, 100)}
 --print2("Pudeldu")
