@@ -975,7 +975,7 @@ function reagirl.UI_Element_GetSetAccessibilityHint(element_id, is_set, accessib
   </retvals>
   <parameters>
     integer element_id - the id of the element, whose accessibility_hint you want to get/set
-    boolean is_set - true, set the accessibility_hint; false, don't set the name
+    boolean is_set - true, set the accessibility_hint; false, don't set the accessibility-hint
     string accessibility_hint - the accessibility_hint of the ui-element
   </parameters>
   <chapter_context>
@@ -1169,6 +1169,46 @@ function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
   
   if is_set==true then reagirl.MoveItAllUp=y_offset end
   return reagirl.MoveItAllUp
+end
+
+function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetRunFunction</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>func run_function = reagirl.UI_Element_GetSetRunFunction(integer element_id, boolean is_set, func run_function)</functioncall>
+  <description>
+    gets/sets the run_function of the ui-element, which will be run, when the ui-element is toggled
+  </description>
+  <retvals>
+    func run_function - the run_function of the ui-element
+  </retvals>
+  <parameters>
+    integer element_id - the id of the element, whose run_function you want to get/set
+    boolean is_set - true, set the run_function; false, don't set the name
+    func run_function - the run function of the ui-element
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, get, run function, ui-elements</tags>
+</US_DocBloc>
+]]
+  if math.type(element_id)~="integer" then error("UI_Element_GetSetRunFunction: #1 - must be an integer", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetRunFunction: #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetRunFunction: #2 - must be a boolean", 2) end
+  if is_set==true and type(run_function)~="function" then error("UI_Element_GetSetRunFunction: #3 - must be a function, when #2==true", 2) end
+  
+  if is_set==true then
+    reagirl.Elements[element_id]["run_function"]=run_function
+  end
+  return reagirl.Elements[element_id]["run_function"]
 end
 
 --[[
@@ -2091,6 +2131,6 @@ reagirl.Window_ForceMinSize(640, 277)
 
 main()
 
---Element1={reagirl.UI_Element_GetSetPosition(4, true, 100, 10)}
+Element1={reagirl.UI_Element_GetSetRunFunction(4, true, print2)}
 --Element1={reagirl.UI_Element_GetSetAllVerticalOffset(true, 100)}
 --print2("Pudeldu")
