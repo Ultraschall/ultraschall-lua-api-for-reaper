@@ -1,5 +1,4 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-
 --[[
 TODO: 
   - Dpi2Scale-conversion must be included(currently using Ultraschall-API in OpenWindow)
@@ -11,7 +10,45 @@ reagirl.Elements={}
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 
-function reagirl.roundrect(x, y, w, h, r, antialias, fill)
+function reagirl.RoundRect(x, y, w, h, r, antialias, fill)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RoundRect</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = reagirl.RoundRect(integer x, integer y, integer w, integer h, number r, number antialias, number fill)</functioncall>
+  <description>
+    This draws a rectangle with rounded corners to x and y
+  </description>
+  <parameters>
+    integer x - the x-position of the rectangle
+    integer y - the y-position of the rectangle
+    integer w - the width of the rectangle
+    number r - the radius of the corners of the rectangle
+    number antialias - 1, antialias; 0, no antialias
+    number fill - 1, filled; 0, not filled
+  </parameters>
+  <retvals>
+    boolean retval - true, text-blitting was successful; false, text-blitting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <target_document>US_Api_GFX</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, blit, text, line breaks, adapt line length</tags>
+</US_DocBloc>
+]]
+  if type(x)~="number" then error("RoundRect: param #1 - must be a number", 2) end
+  if type(y)~="number" then error("RoundRect: param #2 - must be a number", 2) end
+  if type(w)~="number" then error("RoundRect: param #3 - must be a number", 2) end
+  if type(h)~="number" then error("RoundRect: param #4 - must be a number", 2) end
+  if type(r)~="number" then error("RoundRect: param #5 - must be a number", 2) end
+  if type(antialias)~="number" then error("RoundRect: param #6 - must be a number", 2) end
+  if type(fill)~="number" then error("RoundRect: param #7 - must be a number", 2) end
     local aa = antialias or 1
     fill = fill or 0
 
@@ -20,7 +57,7 @@ function reagirl.roundrect(x, y, w, h, r, antialias, fill)
     else
       if h >= 2 * r then
         -- Corners
-        gfx.circle(x + r, y + r, r, 1, aa)      -- top-left
+        gfx.circle(x + r, y + r, r, 1, aa)        -- top-left
         gfx.circle(x + w - r, y + r, r, 1, aa)    -- top-right
         gfx.circle(x + w - r, y + h - r, r , 1, aa)  -- bottom-right
         gfx.circle(x + r, y + h - r, r, 1, aa)    -- bottom-left
@@ -46,10 +83,10 @@ end
 function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GFX_BlitText_AdaptLineLength</slug>
+  <slug>BlitText_AdaptLineLength</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=5.95
+    Reaper=6.75
     Lua=5.3
   </requires>
   <functioncall>boolean retval = reagirl.BlitText_AdaptLineLength(string text, integer x, integer y, integer width, optional integer height, optional integer align)</functioncall>
@@ -68,7 +105,7 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
     boolean retval - true, text-blitting was successful; false, text-blitting was unsuccessful
   </retvals>
   <chapter_context>
-    Text
+    Misc
   </chapter_context>
   <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
@@ -113,7 +150,7 @@ function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
   <slug>ResizeImageKeepAspectRatio</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=5.95
+    Reaper=6.75
     Lua=5.3
   </requires>
   <functioncall>boolean retval = reagirl.ResizeImageKeepAspectRatio(integer image, integer neww, integer newh, optional number r, optional number g, optional number b)</functioncall>
@@ -136,7 +173,7 @@ function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
     boolean retval - true, blitting was successful; false, blitting was unsuccessful
   </retvals>
   <chapter_context>
-    Blitting
+    Misc
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
@@ -197,16 +234,16 @@ function reagirl.Window_Open(...)
   <slug>Window_Open</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=5.965
+    Reaper=6.75
     JS=0.964
     Lua=5.3
   </requires>
-  <functioncall>integer retval, optional HWND hwnd = reagirl.Window_Open(string "name", optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
+  <functioncall>integer retval, optional HWND hwnd = reagirl.Window_Open(string title, optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
   <description>
     Opens a new graphics window and returns its HWND-windowhandler object.
   </description>
   <parameters>
-    string "name" - the name of the window, which will be shown in the title of the window
+    string title - the name of the window, which will be shown in the title of the window
     optional integer width -  the width of the window; minmum is 50
     optional integer height -  the height of the window; minimum is 16
     optional integer dockstate - &1=0, undocked; &1=1, docked
@@ -218,13 +255,21 @@ function reagirl.Window_Open(...)
     optional HWND hwnd - when JS-extension is installed, the window-handler of the newly created window; can be used with JS_Window_xxx-functions of the JS-extension-plugin
   </retvals>
   <chapter_context>
-    Window Handling
+    Window
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
   <tags>gfx, functions, gfx, init, window, create, hwnd</tags>
 </US_DocBloc>
 ]]
+  local parms={...}
+  if type(parms[1])~="string" then error("Window_Open: #1 - must be a string", 2) end
+  if parms[2]~=nil and type(parms[2])~="number" then error("Window_Open: #2 - must be an integer", 2) end
+  if parms[3]~=nil and type(parms[3])~="number" then error("Window_Open: #3 - must be an integer", 2) end
+  if parms[4]~=nil and type(parms[4])~="number" then error("Window_Open: #4 - must be an integer", 2) end
+  if parms[5]~=nil and type(parms[5])~="number" then error("Window_Open: #5 - must be an integer", 2) end
+  if parms[6]~=nil and type(parms[6])~="number" then error("Window_Open: #6 - must be an integer", 2) end
+  
   local AAA, AAA2=reaper.ThemeLayout_GetLayout("tcp", -3)
   local minimum_scale_for_dpi, maximum_scale_for_dpi = ultraschall.GetScaleRangeFromDpi(tonumber(AAA2))
   maximum_scale_for_dpi = math.floor(maximum_scale_for_dpi)
@@ -279,16 +324,16 @@ function reagirl.Window_Open(...)
   return retval, reagirl.GFX_WindowHWND
 end
 
-function reagirl.GetMouseCap(doubleclick_wait, drag_wait)
+function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetMouseCap</slug>
+  <slug>Mouse_GetCap</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=5.965
+    Reaper=6.75
     Lua=5.3
   </requires>
-  <functioncall>string clickstate, string specific_clickstate, integer mouse_cap, integer click_x, integer click_y, integer drag_x, integer drag_y, integer mouse_wheel, integer mouse_hwheel = reagirl.GetMouseCap(optional integer doubleclick_wait, optional integer drag_wait)</functioncall>
+  <functioncall>string clickstate, string specific_clickstate, integer mouse_cap, integer click_x, integer click_y, integer drag_x, integer drag_y, integer mouse_wheel, integer mouse_hwheel = reagirl.Mouse_GetCap(optional integer doubleclick_wait, optional integer drag_wait)</functioncall>
   <description>
     Checks clickstate and mouseclick/wheel-behavior, since last time calling this function and returns their states.
     Allows you to get click, doubleclick, dragging, including the appropriate coordinates and mousewheel-states.
@@ -321,13 +366,15 @@ function reagirl.GetMouseCap(doubleclick_wait, drag_wait)
       integer mouse_hwheel - the mouse_horizontal-wheel-delta, since the last time calling this function
   </retvals>
   <chapter_context>
-    Mouse Handling
+    Misc
   </chapter_context>
   <target_document>ReaGirl_Docs</target_document>
   <source_document>reagirl_GuiEngine.lua</source_document>
   <tags>gfx, functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
 ]]
+  if doubleclick_wait~=nil and math.type(doubleclick_wait)~="integer" then error("Mouse_GetCap: #1 - must be an integer", 2) end
+  if drag_wait~=nil and math.type(drag_wait)~="integer" then error("Mouse_GetCap: #2 - must be an integer", 2) end
 --HUITOO=reaper.time_precise()
   -- prepare variables
   if reagirl.MouseCap==nil then
@@ -433,6 +480,26 @@ function reagirl.GetMouseCap(doubleclick_wait, drag_wait)
 end
 
 function reagirl.Gui_New()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_New</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Gui_New()</functioncall>
+  <description>
+    Creates a new gui by removing all currently(if available) ui-elements.
+  </description>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, new, gui</tags>
+</US_DocBloc>
+]]
   reagirl.SetFont(1, "Arial", 16, 0)
   reagirl.MaxImage=1
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"])
@@ -442,16 +509,79 @@ function reagirl.Gui_New()
   reagirl.Elements={}
   reagirl.Elements["FocusedElement"]=1
   reagirl.DecorativeImages=nil
-  
 end
 
 function reagirl.SetFont(idx, fontface, size, flags)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetFont</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Gui_New(integer idx, string fontface, integer size, integer flags)</functioncall>
+  <description>
+    Creates a new gui by removing all currently(if available) ui-elements.
+  </description>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, font</tags>
+</US_DocBloc>
+]]
+  if math.type(idx)~="integer" then error("Mouse_GetCap: #1 - must be an integer", 2) end
+  if type(fontface)~="string" then error("Mouse_GetCap: #2 - must be an integer", 2) end
+  if math.type(size)~="integer" then error("Mouse_GetCap: #3 - must be an integer", 2) end
+  if math.type(flags)~="integer" then error("Mouse_GetCap: #4 - must be an integer", 2) end
   if size~=nil then size=size* reagirl.dpi_scale end
   font_size = size * (1+reagirl.dpi_scale)*0.5
   gfx.setfont(idx, fontface, size, flags)
 end
 
 function reagirl.Gui_Open(title, description, w, h, dock, x, y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_Open</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>optional hwnd window_handler = reagirl.Gui_Open(string title, string description, optional integer w, optional integer h, optional integer dock, optional integer x, optional integer y)</functioncall>
+  <description>
+    Opens a gui-window. If x and/or y are not given, it will be opened centered.
+  </description>
+  <retvals>
+    optional hwnd window_handler - a hwnd-window-handler for this window; only returned, with JS-extension installed!
+  </retvals>
+  <parameters>
+    string title - the title of the window
+    string description - a description of what this dialog does, for blind users
+    optional integer w - the width of the window; nil=640
+    optional integer h - the height of the window; nil=400
+    optional integer dock - the dockstate of the window; 0, undocked; 1, docked; nil=undocked
+    optional integer x - the x-position of the window; nil=x-centered
+    optional integer y - the y-position of the window; nil=y-centered
+  </parameters>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, open, gui</tags>
+</US_DocBloc>
+]]
+  if type(title)~="string" then error("Gui_Open: #1 - must be an integer", 2) end
+  if type(description)~="string" then error("Gui_Open: #2 - must be an integer", 2) end
+  if w~=nil and math.type(w)~="integer" then error("Gui_Open: #3 - must be an integer", 2) end
+  if h~=nil and math.type(h)~="integer" then error("Gui_Open: #4 - must be an integer", 2) end
+  if dock~=nil and math.type(dock)~="integer" then error("Gui_Open: #5 - must be an integer", 2) end
+  if x~=nil and math.type(x)~="integer" then error("Gui_Open: #6 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Gui_Open: #7 - must be an integer", 2) end
   local retval
   retval, reagirl.dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
   if dpi == "512" then
@@ -478,11 +608,54 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   return reagirl.Window_Open(title, w, h, dock, x, y)
 end
 
-function reagirl.Window_IsOpen()
+function reagirl.Gui_IsOpen()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_IsOpen</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = reagirl.Gui_IsOpen()</functioncall>
+  <description>
+    Checks, whether the gui-window is open.
+  </description>
+  <retvals>
+    boolean retval - true, Gui is open; false, Gui is not open
+  </retvals>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, is open, gui</tags>
+</US_DocBloc>
+]]
   return reagirl.IsWindowOpen_attribute
 end
 
 function reagirl.Gui_Close()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_Close</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Gui_Close()</functioncall>
+  <description>
+    Closes the gui-window.
+  </description>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, close, gui</tags>
+</US_DocBloc>
+]]
   gfx.quit()
   reagirl.IsWindowOpen_attribute=false
 end
@@ -492,6 +665,7 @@ end
 --down 1685026670.0
 
 function reagirl.Gui_Manage()
+  -- manages the gui, including tts, mouse and keyboard-management and ui-focused-management
   local init_message=""
   local helptext=""
   if reagirl.osara_init_message==false then
@@ -518,7 +692,7 @@ function reagirl.Gui_Manage()
   if Key==-1 then reagirl.IsWindowOpen_attribute=false return end
   
   --Debug Code - move ui-elements via arrow keys
-  --[[
+  
   if Key==30064 then reagirl.MoveItAllUp=reagirl.MoveItAllUp-10 reagirl.Gui_ForceRefresh() end
   if Key==1685026670 then reagirl.MoveItAllUp=reagirl.MoveItAllUp+10 reagirl.Gui_ForceRefresh() end
   if Key==1818584692.0 then reagirl.MoveItAllRight=reagirl.MoveItAllRight+10 reagirl.Gui_ForceRefresh() end
@@ -560,7 +734,7 @@ function reagirl.Gui_Manage()
   if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
   if Key==32 then reagirl.Elements[reagirl.Elements["FocusedElement"]]["clicked"]=true end
   
-  local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.GetMouseCap(2, 5)
+  local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.Mouse_GetCap(2, 5)
   for i=#reagirl.Elements, 1, -1 do
     local x2, y2, w2, h2
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
@@ -631,6 +805,32 @@ function reagirl.Gui_Manage()
 end
 
 function reagirl.UI_Elements_OutsideWindow()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Elements_OutsideWindow</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer horz_outside, integer vert_outside = reagirl.UI_Elements_OutsideWindow()</functioncall>
+  <description>
+    returns, if any of the gui-elements are outside of the window and by how much.
+    
+    Good for management of resizing window or scrollbars.
+  </description>
+  <retvals>
+    integer horz_outside - the number of horizontal-pixels the ui-elements are outside of the window
+    integer vert_outside - the number of vertical-pixels the ui-elements are outside of the window
+  </retvals>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, is outside window, ui-elements</tags>
+</US_DocBloc>
+]]
   local vert=0
   local horz=0
   
@@ -639,8 +839,169 @@ function reagirl.UI_Elements_OutsideWindow()
   
   if reagirl.UI_Element_MinY<0 then horz=gfx.h-reagirl.UI_Element_MaxH horz=-horz
   elseif reagirl.UI_Element_MaxH>gfx.h then horz=gfx.h-reagirl.UI_Element_MaxH horz=-horz end
-  return vert, horz
+  return horz, vert
 end
+
+function reagirl.UI_Element_GetType(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetType</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string ui_type = reagirl.UI_Element_GetType(integer element_id)</functioncall>
+  <description>
+    returns the type of the ui-element
+  </description>
+  <retvals>
+    string ui_type - the type of the ui-element, like "Button", "Image", "Checkbox", "DropDownMenu", etc
+  </retvals>
+  <parameters>
+    integer element_id - the id of the element, whose type you want to get
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, get, type, ui-elements</tags>
+</US_DocBloc>
+]]
+  if math.type(element_id)~="integer" then error("UI_Element_GetType: #1 - must be an integer", 2) end
+  if reagirl.Elements[element_id]~=nil then
+    return reagirl.Elements[element_id]["GUI_Element_Type"]
+  end
+end
+
+function reagirl.UI_Element_GetSetDescription(element_id, is_set, description)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetType</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string ui_type = reagirl.UI_Element_GetType(integer element_id, boolean is_set, string description)</functioncall>
+  <description>
+    gets/sets the description of the ui-element
+  </description>
+  <retvals>
+    string description - the description of the ui-element
+  </retvals>
+  <parameters>
+    integer element_id - the id of the element, whose description you want to get/set
+    boolean is_set - true, set the description; false, don't set the description
+    string description - the description of the ui-element
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, get, description, ui-elements</tags>
+</US_DocBloc>
+]]
+  if math.type(element_id)~="integer" then error("UI_Element_GetSetDescription: #1 - must be an integer", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetDescription: #2 - must be a boolean", 2) end
+  if is_set==true and type(description)~="string" then error("UI_Element_GetSetDescription: #3 - must be a string when #2==true", 2) end
+  
+  if is_set==true then
+    reagirl.Elements[element_id]["Description"]=description
+  end
+  return reagirl.Elements[element_id]["Description"]
+end
+
+function reagirl.UI_Element_GetSetName(element_id, is_set, name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetName</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string name = reagirl.UI_Element_GetSetName(integer element_id, boolean is_set, string name)</functioncall>
+  <description>
+    gets/sets the name of the ui-element
+  </description>
+  <retvals>
+    string name - the name of the ui-element
+  </retvals>
+  <parameters>
+    integer element_id - the id of the element, whose name you want to get/set
+    boolean is_set - true, set the name; false, don't set the name
+    string name - the name of the ui-element
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, get, name, ui-elements</tags>
+</US_DocBloc>
+]]
+  if math.type(element_id)~="integer" then error("UI_Element_GetSetName: #1 - must be an integer", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetName: #2 - must be a boolean", 2) end
+  if is_set==true and type(name)~="string" then error("UI_Element_GetSetName: #3 - must be a string when #2==true", 2) end
+  
+  if is_set==true then
+    reagirl.Elements[element_id]["Name"]=name
+  end
+  return reagirl.Elements[element_id]["Name"]
+end
+
+
+function reagirl.UI_Element_GetSetAccessibilityHint(element_id, is_set, accessibility_hint)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetAccessibilityHint</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string accessibility_hint = reagirl.UI_Element_GetSetAccessibilityHint(integer element_id, boolean is_set, string accessibility_hint)</functioncall>
+  <description>
+    gets/sets the accessibility_hint of the ui-element, which will describe, how to use the ui-element to blind persons.
+  </description>
+  <retvals>
+    string accessibility_hint - the accessibility_hint of the ui-element
+  </retvals>
+  <parameters>
+    integer element_id - the id of the element, whose accessibility_hint you want to get/set
+    boolean is_set - true, set the accessibility_hint; false, don't set the name
+    string accessibility_hint - the accessibility_hint of the ui-element
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, get, accessibility_hint, ui-elements</tags>
+</US_DocBloc>
+]]
+  if math.type(element_id)~="integer" then error("UI_Element_GetSetAccessibilityHint: #1 - must be an integer", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetAccessibilityHint: #2 - must be a boolean", 2) end
+  if is_set==true and type(accessibility_hint)~="string" then error("UI_Element_GetSetAccessibilityHint: #3 - must be a string when #2==true", 2) end
+  
+  if is_set==true then
+    reagirl.Elements[element_id]["AccHint"]=accessibility_hint
+  end
+  return reagirl.Elements[element_id]["AccHint"]
+end
+
+--[[
+UI_Element_GetSetAllVerticalOffset
+UI_Element_GetSetAllHorizontalOffset
+UI_Element_GetSetWidth
+UI_Element_GetSetHeight
+UI_Element_GetSetX
+UI_Element_GetSetY
+UI_Element_GetSetRunFunction
+--]]
 
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
   -- no docs in API-docs
@@ -706,7 +1067,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         local dest=gfx.dest
         gfx.dest=-1
         gfx.set(0.7,0.7,0.7,0.8)
-        gfx.rect(x2+reagirl.MoveItAllRight-2,y2+reagirl.MoveItAllUp-2,w2+6,h2+3,0)
+        gfx.rect(x2+reagirl.MoveItAllRight-2,y2+reagirl.MoveItAllUp-2,w2+4,h2+3,0)
         gfx.set(r,g,b,a)
         gfx.dest=dest
         if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
@@ -898,16 +1259,16 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     dpi_scale=1
     gfx.set(0.06) -- background 1
     for i = 1, 1 do
-      reagirl.roundrect(x - i, y - i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
-      reagirl.roundrect(x + i, y + i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+      reagirl.RoundRect(x - i, y - i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+      reagirl.RoundRect(x + i, y + i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     end
-    reagirl.roundrect(x , y - 2 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect(x , y - 2 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     
     gfx.set(0.39) -- background 2
-    reagirl.roundrect(x , y - 1 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect(x , y - 1 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     
     gfx.set(0.274) -- button-area
-    reagirl.roundrect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     
     gfx.x=x+(w-sw)/2+1
     gfx.y=y+(h-sh)/2+1
@@ -918,16 +1279,16 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     dpi_scale=1
     gfx.set(0.06) -- background 1
     for i = 1, 1 do
-      reagirl.roundrect(x - i, y - i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
-      reagirl.roundrect(x + i, y + i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+      reagirl.RoundRect(x - i, y - i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+      reagirl.RoundRect(x + i, y + i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     end
-    reagirl.roundrect(x , y - 2 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect(x , y - 2 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     
     gfx.set(0.39) -- background 2
-    reagirl.roundrect(x , y - 1 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect(x , y - 1 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     
     gfx.set(0.274) -- button-area
-    reagirl.roundrect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     
     gfx.x=x+(w-sw)/2
     gfx.y=y+(h-sh)/2
@@ -1246,6 +1607,12 @@ end
 
 
 function reagirl.Background_GetSetImage(filename, x, y, scaled, fixed_x, fixed_y)
+  if type(filename)~="string" then error("Background_GetSetImage: param #1 - must be a boolean", 2) end
+  if math.type(x)~="integer" then error("Background_GetSetImage: param #2 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("Background_GetSetImage: param #3 - must be an integer", 2) end
+  if type(scaled)~="boolean" then error("Background_GetSetImage: param #4 - must be a boolean", 2) end
+  if type(fixed_x)~="boolean" then error("Background_GetSetImage: param #5 - must be an boolean", 2) end
+  if type(fixed_y)~="boolean" then error("Background_GetSetImage: param #6 - must be an boolean", 2) end
   if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
   reagirl.Background_FixedX=fixed_x
   reagirl.Background_FixedY=fixed_y
@@ -1263,12 +1630,33 @@ function reagirl.Background_GetSetImage(filename, x, y, scaled, fixed_x, fixed_y
   end
 end
 
+function reagirl.GetHoveredUIElement()
+  for i=#reagirl.Elements, 1, -1 do
+    local x2, y2, w2, h2
+    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
+    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
+    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-h2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+    
+    if gfx.mouse_x>=x2 and gfx.mouse_y>=y2 and
+       gfx.mouse_x<=x2+w2 and gfx.mouse_y<=y2+h2 then
+      if i~=reagirl.Elements["old_hovered_element"] then
+        --reaper.osara_outputMessage(""..reagirl.Elements[i]["Name"].." ")
+        reagirl.Elements["old_hovered_element"]=i
+        return i
+      end
+    end
+  end
+  
+  return reagirl.Elements["old_hovered_element"]
+end
+
 function reagirl.Background_DrawImage()
   if reagirl.DecorativeImages==nil then return end
   local xoffset=0
   local yoffset=0
-  if reagirl.Background_FixedX==true then xoffset=reagirl.MoveItAllRight end
-  if reagirl.Background_FixedY==true then yoffset=reagirl.MoveItAllUp end
+  if reagirl.Background_FixedX==false then xoffset=reagirl.MoveItAllRight end
+  if reagirl.Background_FixedY==false then yoffset=reagirl.MoveItAllUp end
   gfx.dest=-1
   local scale=1
   local x,y=gfx.getimgdim(reagirl.DecorativeImages["Background"])
@@ -1463,8 +1851,8 @@ function main()
   elseif gfx.mouse_cap==3 then reagirl.UI_Element_SetSelected(3)
   end
   --]]
-  AVert, AHorz = reagirl.UI_Elements_OutsideWindow()
-  if reagirl.Window_IsOpen()==true then reaper.defer(main) end
+  AHorz, AVert = reagirl.UI_Elements_OutsideWindow()
+  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
 function Dummy()
@@ -1472,7 +1860,7 @@ end
 
 function click_button()
   print(os.date())
---  reagirl.Gui_Close()
+  reagirl.Gui_Close()
 end
 
 function CMenu(A,B)
@@ -1482,8 +1870,8 @@ end
 function UpdateUI()
   
   reagirl.Gui_New()
-  reagirl.Background_GetSetColor(true, 44,44,44)
-  --reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, true)
+  --reagirl.Background_GetSetColor(true, 44,44,44)
+  reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, false)
   if update==true then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
@@ -1491,29 +1879,29 @@ function UpdateUI()
     end
   end
   
-  reagirl.Label_Add("Export Podcast as:", -400, 88, 100, 100)
-  A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", true, CheckMe)
-  A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
+  --reagirl.Label_Add("Export Podcast as:", -400, 88, 100, 100)
+  --A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", true, CheckMe)
+  --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
-  reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
+  --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
 
   B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, true, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
-  reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
+  --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
   E=reagirl.DropDownMenu_Add(-280, 150, -10, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter",2,3,4,5}, DropDownList)
   
 
   --reagirl.AddDummyElement()
-  D=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/export_logo.png", 1, 1, 79, 79, false, "Logo", "Logo 2")  
+  --D=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/export_logo.png", 1, 1, 79, 79, false, "Logo", "Logo 2")  
   --D1=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/headertxt_export.png", 70, 10, 79, 79, false, "Headtertext", "See internet for more details")  
   
   
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
   --reagirl.Rect_Add(-400,-200,320,120,1,0,1,0.5,1)
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
-  --reagirl.Button_Add(-120, -50, 0, 0, "Close Gui", "Description of the button", "Tooltip of the button", "Close Gui", click_button)
+  reagirl.Button_Add(-120, -50, 0, 0, "Close Gui", "Description of the button", click_button)
   reagirl.Button_Add(-120, -30, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
 
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
@@ -1523,7 +1911,7 @@ end
 
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Faily", "A Failstate Manager", nil,300,nil,nil,nil)
+reagirl.Gui_Open("Faily", "A Failstate Manager", nil,100,nil,nil,nil)
 UpdateUI()
 reagirl.Window_ForceMinSize(640, 277)
 --reagirl.Gui_ForceRefreshState=true
@@ -1531,4 +1919,5 @@ reagirl.Window_ForceMinSize(640, 277)
 
 main()
 
+Element=reagirl.UI_Element_GetSetAccessibilityHint(1, true, "Huch")
 --print2("Pudeldu")
