@@ -4,6 +4,7 @@ TODO:
   - Dpi2Scale-conversion must be included(currently using Ultraschall-API in OpenWindow)
   - when no ui-elements are present, the osara init-message is not said
 --]]
+--XX,YY=reaper.GetMousePosition()
 
 reagirl={}
 reagirl.Elements={}
@@ -251,7 +252,7 @@ function reagirl.Window_Open(...)
     optional integer ypos - y-position of the window in pixels; minimum is -15; nil, to center it vertically
   </parameters>
   <retvals>
-    number retval  -  1.0, if window is opened
+    number retval - 1.0, if window is opened
     optional HWND hwnd - when JS-extension is installed, the window-handler of the newly created window; can be used with JS_Window_xxx-functions of the JS-extension-plugin
   </retvals>
   <chapter_context>
@@ -492,6 +493,9 @@ function reagirl.Gui_New()
   <description>
     Creates a new gui by removing all currently(if available) ui-elements.
   </description>
+  <parameters>
+    
+  </parameters>
   <chapter_context>
     Gui
   </chapter_context>
@@ -551,11 +555,12 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
     JS=0.963
     Lua=5.3
   </requires>
-  <functioncall>optional hwnd window_handler = reagirl.Gui_Open(string title, string description, optional integer w, optional integer h, optional integer dock, optional integer x, optional integer y)</functioncall>
+  <functioncall>integer window_open, optional hwnd window_handler = reagirl.Gui_Open(string title, string description, optional integer w, optional integer h, optional integer dock, optional integer x, optional integer y)</functioncall>
   <description>
     Opens a gui-window. If x and/or y are not given, it will be opened centered.
   </description>
   <retvals>
+    number retval - 1.0, if window is opened
     optional hwnd window_handler - a hwnd-window-handler for this window; only returned, with JS-extension installed!
   </retvals>
   <parameters>
@@ -692,7 +697,7 @@ function reagirl.Gui_Manage()
   if Key==-1 then reagirl.IsWindowOpen_attribute=false return end
   
   --Debug Code - move ui-elements via arrow keys
-  
+  --[[
   if Key==30064 then reagirl.MoveItAllUp=reagirl.MoveItAllUp-10 reagirl.Gui_ForceRefresh() end
   if Key==1685026670 then reagirl.MoveItAllUp=reagirl.MoveItAllUp+10 reagirl.Gui_ForceRefresh() end
   if Key==1818584692.0 then reagirl.MoveItAllRight=reagirl.MoveItAllRight+10 reagirl.Gui_ForceRefresh() end
@@ -718,6 +723,7 @@ function reagirl.Gui_Manage()
     if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
     init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"].." "
     helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+    reagirl.UI_Element_SetFocusRect()
     reagirl.old_osara_message=""
     reagirl.Gui_ForceRefresh() 
   end
@@ -729,6 +735,7 @@ function reagirl.Gui_Manage()
     reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]
     helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
     reagirl.old_osara_message=""
+    reagirl.UI_Element_SetFocusRect()
     reagirl.Gui_ForceRefresh() 
   end
   if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
@@ -757,8 +764,12 @@ function reagirl.Gui_Manage()
        gfx.mouse_y>=y2+reagirl.MoveItAllUp and
        gfx.mouse_y<=y2+reagirl.MoveItAllUp+h2 then
        if reagirl.TooltipWaitCounter==14 then
-        local x,y=reaper.GetMousePosition()
-        reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], x+15, y+10, false)
+      
+        XX,YY=reaper.GetMousePosition()
+        reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Name"], XX+15, YY+10, true)
+        --reaper.JS_Mouse_SetPosition(XX+3,YY+3)
+        --reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], x+15, y+10, false)
+        reaper.osara_outputMessage(reagirl.Elements[i]["Text"]:utf8_sub(1,20))
        end
        if (specific_clickstate=="FirstCLK") then
          if i~=reagirl.Elements["FocusedElement"] then
@@ -767,7 +778,7 @@ function reagirl.Gui_Manage()
          end
          reagirl.Elements["FocusedElement"]=i
          reagirl.Elements[i]["clicked"]=true
-         
+         reagirl.UI_Element_SetFocusRect()
          reagirl.Gui_ForceRefresh() 
        end
        break
@@ -1211,10 +1222,6 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
   return reagirl.Elements[element_id]["run_function"]
 end
 
---[[
-UI_Element_GetSetRunFunction
---]]
-
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
   -- no docs in API-docs
   local selected, x2, y2
@@ -1279,7 +1286,8 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         local dest=gfx.dest
         gfx.dest=-1
         gfx.set(0.7,0.7,0.7,0.8)
-        gfx.rect(x2+reagirl.MoveItAllRight-2,y2+reagirl.MoveItAllUp-2,w2+4,h2+3,0)
+        local _,_,_,_,x,y,w,h=reagirl.UI_Element_GetFocusRect()
+        gfx.rect(x+reagirl.MoveItAllRight-2,y+reagirl.MoveItAllUp-2,w+4,h+3,0)
         gfx.set(r,g,b,a)
         gfx.dest=dest
         if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
@@ -1298,27 +1306,45 @@ function reagirl.AddDummyElement()
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Dummy"
   reagirl.Elements[#reagirl.Elements]["Name"]="Dummy"
+  reagirl.Elements[#reagirl.Elements]["Text"]="Dummy"
   reagirl.Elements[#reagirl.Elements]["Description"]="Description"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Dummy Dummy Dummy, it's so flummy. In a rich mans world."
   reagirl.Elements[#reagirl.Elements]["x"]=math.random(140)
   reagirl.Elements[#reagirl.Elements]["y"]=math.random(140)
   reagirl.Elements[#reagirl.Elements]["w"]=math.random(40)
   reagirl.Elements[#reagirl.Elements]["h"]=math.random(40)
-  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.DrawDummyElement
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.ManageDummyElement
   reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.DrawDummyElement
   
   return #reagirl.Elements
 end
 
+function reagirl.ManageDummyElement(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF)
+    if selected==true then
+      if Key==1919379572.0 then
+        --print2("")
+        local x,y,w,h
+        x,y,w,h=reagirl.UI_Element_GetFocusRect()
+        reagirl.UI_Element_SetFocusRect(x+10,y,-10,-10)
+      elseif Key==1818584692.0 then
+        local x,y,w,h
+        x,y,w,h=reagirl.UI_Element_GetFocusRect()
+        reagirl.UI_Element_SetFocusRect(x-10,y,-10,-10)
+      end
+    end
+  return "", true
+end
 
 function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF)
   -- no docs in API-docs
   local message
   gfx.set(1)
-  gfx.rect(x,y,w,h,1)
+  --gfx.rect(x,y,w,h,1)
+  
   if selected==true then
     gfx.set(0.5)
-    gfx.rect(x,y,w,h,0)
+    --gfx.rect(x,y,w,h,0)
+    --reagirl.UI_Element_SetFocusRect(10, 10, 20, 50)
     if selected==true then
       message="Dummy Element "..description.." focused"..element_id
       C=clicked
@@ -1341,7 +1367,7 @@ function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mous
   gfx.set(0)
   gfx.drawstr(element_id)
   
-  return "HUCH", message
+  return "HUCH", true
 end
 
 function reagirl.CheckBox_Add(x, y, Name, Description, default, run_function)
@@ -1349,6 +1375,7 @@ function reagirl.CheckBox_Add(x, y, Name, Description, default, run_function)
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Checkbox"
   reagirl.Elements[#reagirl.Elements]["Name"]=Name
+  reagirl.Elements[#reagirl.Elements]["Text"]=Name
   reagirl.Elements[#reagirl.Elements]["Description"]=Description
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[#reagirl.Elements]["x"]=x
@@ -1365,6 +1392,7 @@ end
 
 function reagirl.Checkbox_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local refresh=false
+
   if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==32) then 
     if (gfx.mouse_x>=x 
       and gfx.mouse_x<=x+w 
@@ -1420,6 +1448,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, Description, run_
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Button"
   reagirl.Elements[#reagirl.Elements]["Name"]=Caption
+  reagirl.Elements[#reagirl.Elements]["Text"]=Caption
   reagirl.Elements[#reagirl.Elements]["Description"]=Description
   reagirl.Elements[#reagirl.Elements]["AccHint"]="click with space or left mouseclick"
   reagirl.Elements[#reagirl.Elements]["x"]=x
@@ -1518,11 +1547,101 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
 end
 --gfx.setfont(
 
+
+
+function reagirl.InputBox_Add(x, y, w, Name, Description, Default, run_function_enter, run_function_type)
+  local tx,ty=gfx.measurestr(Name)
+  reagirl.Elements[#reagirl.Elements+1]={}
+  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Edit"
+  reagirl.Elements[#reagirl.Elements]["Name"]=""
+  reagirl.Elements[#reagirl.Elements]["Label"]=Name
+  reagirl.Elements[#reagirl.Elements]["Description"]=Description
+  reagirl.Elements[#reagirl.Elements]["AccHint"]="Hit Enter to type text."
+  reagirl.Elements[#reagirl.Elements]["x"]=x
+  reagirl.Elements[#reagirl.Elements]["y"]=y
+  reagirl.Elements[#reagirl.Elements]["w"]=w
+  reagirl.Elements[#reagirl.Elements]["h"]=gfx.texth
+  reagirl.Elements[#reagirl.Elements]["Text"]=Default
+  reagirl.Elements[#reagirl.Elements]["draw_range_max"]=10
+  reagirl.Elements[#reagirl.Elements]["draw_offset"]=0
+  reagirl.Elements[#reagirl.Elements]["cursor_offset"]=0
+  reagirl.Elements[#reagirl.Elements]["selection_start"]=1
+  reagirl.Elements[#reagirl.Elements]["selection_end"]=1
+  
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.InputBox_Manage
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.InputBox_Draw
+  reagirl.Elements[#reagirl.Elements]["run_function"]=run_function_enter
+  reagirl.Elements[#reagirl.Elements]["run_function_type"]=run_function_type
+  reagirl.Elements[#reagirl.Elements]["userspace"]={}
+  return #reagirl.Elements
+end
+
+function reagirl.InputBox_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if Key==13 or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h and clicked=="FirstCLK") then
+    retval, text = reaper.GetUserInputs(element_storage["Name"].." Enter new value", 1, "", element_storage["Text"])
+    if retval==true then element_storage["Text"]=text end
+    reagirl.Gui_ForceRefresh()
+  end
+  return element_storage["Text"]
+end
+
+function reagirl.InputBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  -- Testcode
+  gfx.setfont(1,"Calibri", 20)
+  gfx.setfont(1,"Consolas", 20)
+  --reagirl.Elements[element_id]["Text"]
+  local cursor_offset=element_storage["cursor_offset"]
+  local draw_offset=element_storage["draw_offset"]
+  local draw_range_max=element_storage["draw_range_max"]
+  local selection_start=element_storage["selection_start"]
+  local selection_end=element_storage["selection_end"]
+  gfx.x=x
+  gfx.y=y
+  --
+  -- rectangle-stuff
+  gfx.set(0.2)
+  gfx.rect(x-2,y-3,gfx.measurechar(65)*(element_storage["draw_range_max"]+1)+4, gfx.texth+6, 1)
+  gfx.set(0.6)
+  gfx.rect(x-2,y-3,gfx.measurechar(65)*(element_storage["draw_range_max"]+1)+4, gfx.texth+6, 0)
+  gfx.set(1)
+  gfx.rect(x-1,y-2,gfx.measurechar(65)*(element_storage["draw_range_max"]+1)+4, gfx.texth+6, 0)
+  --]]
+  
+  if draw_offset+1<0 then draw_offset=1 end
+  if cursor_offset==draw_offset then
+    --gfx.line(gfx.x, gfx.y, gfx.x, gfx.y+gfx.texth)
+  end
+  
+  --CAPO=0
+  if draw_offset<=0 then draw_offset=0 end
+  for i=draw_offset, draw_range_max+draw_offset+2 do
+  --CAPO=CAPO+1
+    --print(element_storage["Text"]:utf8_sub(i,i))
+    if i>=selection_start+1 and i<=selection_end then
+      gfx.setfont(1, "Consolas", 20, 86) 
+    elseif selection_start~=selection_end and i==selection_end+1 then 
+      gfx.setfont(1, "Consolas", 20, 0) 
+    end
+    gfx.drawstr(element_storage["Text"]:utf8_sub(i,i))
+    --CAP_STRING=CAP_STRING..element_storage["Text"]:utf8_sub(i,i)
+    if cursor_offset==i then
+      gfx.set(0.6)
+      gfx.line(gfx.x, gfx.y, gfx.x, gfx.y+gfx.texth)
+      if reaper.osara_outputMessage==nil then
+        gfx.set(1)
+        gfx.line(gfx.x+1, gfx.y+1, gfx.x+1, gfx.y+1+gfx.texth)
+      end
+    end
+  end
+  reagirl.SetFont(1, "Arial", 16, 0)
+end
+
 function reagirl.DropDownMenu_Add(x, y, w, Name, Description, default, MenuEntries, run_function)
   local tx,ty=gfx.measurestr(Name)
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="DropDownMenu"
   reagirl.Elements[#reagirl.Elements]["Name"]=Name
+  reagirl.Elements[#reagirl.Elements]["Text"]=MenuEntries[default]
   reagirl.Elements[#reagirl.Elements]["Description"]=Description
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Select via arrow-keys."
   reagirl.Elements[#reagirl.Elements]["x"]=x
@@ -1537,6 +1656,7 @@ function reagirl.DropDownMenu_Add(x, y, w, Name, Description, default, MenuEntri
   reagirl.Elements[#reagirl.Elements]["userspace"]={}
   return #reagirl.Elements
 end
+
 
 function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local Entries=""
@@ -1556,6 +1676,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
       if selection>0 then
         reagirl.Elements[element_id]["MenuDefault"]=selection
         reagirl.Elements[element_id]["run_function"](element_id, selection, element_storage["MenuEntries"][selection])
+        reagirl.Elements[element_id]["Text"]=element_storage["MenuEntries"][selection]
         refresh=true
       end
     end
@@ -1686,6 +1807,7 @@ function reagirl.Image_Add(image_file, x, y, w, h, resize, Name, Description, ru
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Image"
   reagirl.Elements[#reagirl.Elements]["Name"]=Name
+  reagirl.Elements[#reagirl.Elements]["Text"]=Name
   reagirl.Elements[#reagirl.Elements]["Description"]=Description
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Use Space or left mouse-click to select it."
   reagirl.Elements[#reagirl.Elements]["x"]=x
@@ -1801,6 +1923,112 @@ function reagirl.UI_Element_SetSelected(element_id)
   reagirl.Gui_ForceRefresh()
 end
 
+function reagirl.UI_Element_SetFocusRect(x, y, w, h)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_SetFocusRect</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.UI_Element_SetFocusRect(integer x, integer y, integer w, integer h)</functioncall>
+  <description>
+    sets the rectangle for focused ui-element. Can be used for custom ui-element, who need to control the focus-rectangle due some of their own ui-elements incorporated, like options in radio-buttons, etc.
+  </description>
+  <parameters>
+    integer x - the x-position of the focus-rectangle; negative, dock to the right windowborder
+    integer y - the y-position of the focus-rectangle; negative, dock to the bottom windowborder
+    integer w - the width of the focus-rectangle; negative, dock to the right windowborder
+    integer h - the height of the focus-rectangle; negative, dock to the bottom windowborder
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, focus rectangle, ui-elements</tags>
+</US_DocBloc>
+]]
+  if x~=nil and math.type(x)~="integer" then error("UI_Element_SetFocusRect: #1 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("UI_Element_SetFocusRect: #2 - must be an integer", 2) end
+  if w~=nil and math.type(w)~="integer" then error("UI_Element_SetFocusRect: #3 - must be an integer", 2) end
+  if h~=nil and math.type(h)~="integer" then error("UI_Element_SetFocusRect: #4 - must be an integer", 2) end
+  
+  if x==nil then 
+    if reagirl.Elements[reagirl.Elements["FocusedElement"]]==nil then error("UI_Element_SetFocusRect: - no ui-elements existing", 2) end
+    x=reagirl.Elements[reagirl.Elements["FocusedElement"]]["x"]
+    y=reagirl.Elements[reagirl.Elements["FocusedElement"]]["y"]
+    w=reagirl.Elements[reagirl.Elements["FocusedElement"]]["w"]
+    h=reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
+  end
+  reagirl.Elements["Focused_x"]=x
+  reagirl.Elements["Focused_y"]=y
+  reagirl.Elements["Focused_w"]=w
+  reagirl.Elements["Focused_h"]=h
+end
+
+
+
+function reagirl.UI_Element_GetFocusRect()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetFocusRect</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer x, integer y, integer w, integer h, integer x2, integer y2, integer w2, integer h2 = reagirl.UI_Element_GetFocusRect()</functioncall>
+  <description>
+    gets the rectangle for focused ui-element. Can be used for custom ui-element, who need to control the focus-rectangle due some of their own ui-elements incorporated, like options in radio-buttons, etc.
+    
+    the first four retvals give the set-position(including possible negative values), the second four retvals give the actual window-coordinates.
+  </description>
+  <parameters>
+    integer x - the x-position of the focus-rectangle; negative, dock to the right windowborder
+    integer y - the y-position of the focus-rectangle; negative, dock to the bottom windowborder
+    integer w - the width of the focus-rectangle; negative, dock to the right windowborder
+    integer h - the height of the focus-rectangle; negative, dock to the bottom windowborder
+    integer x2 - the actual x-position of the focus-rectangle
+    integer y2 - the actual y-position of the focus-rectangle
+    integer w2 - the actual width of the focus-rectangle
+    integer h2 - the actual height of the focus-rectangle
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, get, focus rectangle, ui-elements</tags>
+</US_DocBloc>
+]]
+  if reagirl.Elements["Focused_x"]==nil then 
+    if reagirl.Elements[reagirl.Elements["FocusedElement"]]~=nil then 
+      local x,y,w,h
+      x=reagirl.Elements[reagirl.Elements["FocusedElement"]]["x"]
+      y=reagirl.Elements[reagirl.Elements["FocusedElement"]]["y"]
+      w=reagirl.Elements[reagirl.Elements["FocusedElement"]]["w"]
+      h=reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
+      reagirl.UI_Element_SetFocusRect(x, y, w, h)
+    else
+      reagirl.UI_Element_SetFocusRect(0,0,0,0)
+    end
+  end
+  
+  local x,y,w,h,x2,y2,w2,h2
+  x=reagirl.Elements["Focused_x"]
+  y=reagirl.Elements["Focused_y"]
+  w=reagirl.Elements["Focused_w"]
+  h=reagirl.Elements["Focused_h"]
+  
+  if x<0 then x2=gfx.w+x else x2=x end
+  if y<0 then y2=gfx.h+y else y2=y end
+  if w<0 then w2=gfx.w-x2+w else w2=w end
+  if h<0 then h2=gfx.h-y2+h else h2=h end
+  
+  return x,y,w,h,x2,y2,w2,h2
+end
 
 function reagirl.Background_GetSetColor(is_set, r, g, b)
   if type(is_set)~="boolean" then error("GetSetBackgroundColor: param #1 - must be a boolean", 2) end
@@ -2079,6 +2307,14 @@ function CMenu(A,B)
   print2(A,B)
 end
 
+function input1(text)
+  print2(text)
+end
+
+function input2()
+
+end
+
 function UpdateUI()
   
   reagirl.Gui_New()
@@ -2090,7 +2326,7 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-  
+  reagirl.AddDummyElement()  
   --reagirl.Label_Add("Export Podcast as:", -400, 88, 100, 100)
   --A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", true, CheckMe)
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
@@ -2102,10 +2338,11 @@ function UpdateUI()
   --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
+  reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   E=reagirl.DropDownMenu_Add(-280, 150, -10, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter",2,3,4,5}, DropDownList)
   
 
-  --reagirl.AddDummyElement()
+  
   --D=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/export_logo.png", 1, 1, 79, 79, false, "Logo", "Logo 2")  
   --D1=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/headertxt_export.png", 70, 10, 79, 79, false, "Headtertext", "See internet for more details")  
   
@@ -2119,6 +2356,7 @@ function UpdateUI()
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
   --]]
+  
 end
 
 
@@ -2131,6 +2369,8 @@ reagirl.Window_ForceMinSize(640, 277)
 
 main()
 
-Element1={reagirl.UI_Element_GetSetRunFunction(4, true, print2)}
+--Element1={reagirl.UI_Element_GetSetRunFunction(4, true, print2)}
 --Element1={reagirl.UI_Element_GetSetAllVerticalOffset(true, 100)}
 --print2("Pudeldu")
+
+--reagirl.UI_Element_GetFocusedRect()
