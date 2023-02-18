@@ -194,7 +194,7 @@ inputbox.y=20
 inputbox.w=gfx.w-10
 inputbox.h=50
 inputbox.cursor_offset=20
-inputbox.draw_offset=1--inputbox.cursor_offset
+inputbox.draw_offset=10--inputbox.cursor_offset
 inputbox.selection_startoffset=inputbox.cursor_offset-5
 inputbox.selection_endoffset=inputbox.cursor_offset+5
 inputbox.Text=string.gsub(reaper.CF_GetClipboard(), "\n", "")
@@ -210,14 +210,16 @@ gfx.init("", 640, 60,0,0,0)
 function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   local startoffs=element_storage.x
   local cursoffs=inputbox.draw_offset
+  --local textw=gfx.measurechar(65)
   for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw) do
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     if x>=startoffs and x<=startoffs+textw then
-      return cursoffs
+      return cursoffs, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
     end
     cursoffs=cursoffs+1
     startoffs=startoffs+textw
   end
+  return -1
 end
 
 function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
@@ -252,7 +254,7 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
 end
 
 function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
-  print("Drag")
+--  print("Drag")
   reagirl.mouse.dragged=true
 end
 
@@ -268,7 +270,7 @@ end
 
 function reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
   if element_storage.hasfocus==true then
-    print("Doppelclick")
+--    print("Doppelclick")
   end
 end
 
@@ -289,7 +291,7 @@ function reagirl.InputBox_Manage(mouse_cap, element_storage, c, c2)
 end
 
 function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
-  gfx.setfont(1, "Times", 20, 0)
+  gfx.setfont(1, "Consolas", 20, 0)
   textw=gfx.measurechar("65")-1
   
   -- draw rectangle around text
@@ -319,8 +321,11 @@ function main()
   inputbox.h=gfx.texth
   reagirl.InputBox_Manage(gfx.mouse_cap, inputbox, c, c2)
   reagirl.InputBox_Draw(gfx.mouse_cap, inputbox, c, c2)
+  inputbox.Text_Selected=inputbox.Text:utf8_sub(inputbox.selection_startoffset+1, inputbox. selection_endoffset)
   
   reaper.defer(main)
 end
+
+inputbox.Text_Selected=""
 
 main()
