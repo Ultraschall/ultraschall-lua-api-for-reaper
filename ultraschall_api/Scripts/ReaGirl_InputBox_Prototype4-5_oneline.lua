@@ -211,15 +211,17 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   local startoffs=element_storage.x
   local cursoffs=inputbox.draw_offset
   --local textw=gfx.measurechar(65)
+  if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw) end
+  
   for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw) do
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     if x>=startoffs and x<=startoffs+textw then
-      return cursoffs, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
+      return cursoffs-1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
     end
     cursoffs=cursoffs+1
     startoffs=startoffs+textw
   end
-  return -1
+  return -2, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
 end
 
 function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
@@ -233,20 +235,31 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
       element_storage.cursor_offset=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y,element_storage)
       element_storage.selection_startoffset=element_storage.cursor_offset
       element_storage.selection_endoffset=element_storage.cursor_offset
-    else
-      local newoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y,element_storage)
-      if newoffs<element_storage.cursor_offset then 
-        element_storage.selection_startoffset=newoffs
+    elseif mouse_cap&8==8 then
+      local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y,element_storage)
+      print_update(newoffs, startoffs, endoffs)
+      if newoffs>0 then
+        if newoffs<element_storage.cursor_offset then 
+          element_storage.selection_startoffset=newoffs
+          element_storage.selection_endoffset=element_storage.cursor_offset
+          reagirl.mouse.dragged=true
+        elseif newoffs>element_storage.cursor_offset then
+          element_storage.selection_startoffset=element_storage.cursor_offset
+          element_storage.selection_endoffset=newoffs
+          reagirl.mouse.dragged=true
+        else
+          element_storage.cursor_offset=newoffs
+          element_storage.selection_startoffset=element_storage.cursor_offset
+          element_storage.selection_endoffset=element_storage.cursor_offset
+        end
+      elseif newoffs==-2 then 
+        element_storage.selection_startoffset=element_storage.cursor_offset
+        element_storage.selection_endoffset=endoffs
+        reagirl.mouse.dragged=true
+      elseif newoffs==-1 then 
+        element_storage.selection_startoffset=startoffs
         element_storage.selection_endoffset=element_storage.cursor_offset
         reagirl.mouse.dragged=true
-      elseif newoffs>element_storage.cursor_offset then
-        element_storage.selection_startoffset=element_storage.cursor_offset
-        element_storage.selection_endoffset=newoffs
-        reagirl.mouse.dragged=true
-      else
-        element_storage.cursor_offset=newoffs
-        element_storage.selection_startoffset=element_storage.cursor_offset
-        element_storage.selection_endoffset=element_storage.cursor_offset
       end
     end
   end
@@ -254,7 +267,28 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
 end
 
 function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
---  print("Drag")
+  local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
+  if newoffs>0 then
+    if newoffs<element_storage.cursor_offset then
+      element_storage.selection_startoffset=newoffs
+    elseif newoffs>element_storage.cursor_offset then
+      element_storage.selection_endoffset=newoffs
+    elseif newoffs==element_storage.cursor_offset then
+      element_storage.selection_endoffset=newoffs
+      element_storage.selection_startoffset=newoffs
+    end
+  elseif newoffs==-1 then
+    element_storage.selection_startoffs=startoffs-1
+    if element_storage.selection_startoffs<1 then element_storage.selection_startoffs=1 end
+    element_storage.draw_offset=element_storage.selection_startoffs
+  elseif newoffs==-2 then
+    element_storage.selection_endoffs=endoffs+1
+    if element_storage.selection_endoffs>
+      element_storage.Text:utf8_len() then 
+      element_storage.selection_endoffs=element_storage.Text:utf8_len() 
+    end
+    element_storage.draw_offset=element_storage.draw_offset+1
+  end
   reagirl.mouse.dragged=true
 end
 
@@ -316,12 +350,14 @@ function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
 end
 
 function main()
-  c, c2 = gfx.getchar()
-  inputbox.w=gfx.w-20
+  local c, c2 = gfx.getchar()
+  inputbox.w=gfx.w-30
   inputbox.h=gfx.texth
   reagirl.InputBox_Manage(gfx.mouse_cap, inputbox, c, c2)
   reagirl.InputBox_Draw(gfx.mouse_cap, inputbox, c, c2)
   inputbox.Text_Selected=inputbox.Text:utf8_sub(inputbox.selection_startoffset+1, inputbox. selection_endoffset)
+  
+  A1,B1,C1=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, inputbox)
   
   reaper.defer(main)
 end
