@@ -309,7 +309,45 @@ function reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
   end
 end
 
-function reagirl.InputBox_Manage(mouse_cap, element_storage, c, c2)
+function reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
+  local textw=gfx.measurechar(65)
+  return element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
+end
+
+function reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
+  if Key_UTF~=0 then Key=Key_UTF end
+  if Key==8 then
+    -- Backspace
+    if element_storage.cursor_offset>0 then
+      if element_storage.selection_startoffset~=element_storage.selection_endoffset then
+        element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+      else
+        element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset-1)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+        element_storage.cursor_offset=element_storage.selection_startoffset-1
+      end
+      element_storage.selection_startoffset=element_storage.cursor_offset
+      element_storage.selection_endoffset=element_storage.cursor_offset
+      offset_s,offset_e=reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
+      if element_storage.cursor_offset==offset_s-1 then element_storage.draw_offset=element_storage.draw_offset-1 end
+      if element_storage.draw_offset<0 then element_storage.draw_offset=0 end
+    end
+  elseif Key==6579564.0 then
+    -- Del Key
+    element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+    element_storage.selection_startoffset=element_storage.cursor_offset
+    element_storage.selection_endoffset=element_storage.cursor_offset
+  elseif Key~=0 then
+    element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..utf8.char(Key)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+    element_storage.cursor_offset=element_storage.selection_startoffset+1
+    element_storage.selection_startoffset=element_storage.cursor_offset
+    element_storage.selection_endoffset=element_storage.cursor_offset
+    offset_s,offset_e=reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
+    if element_storage.cursor_offset==offset_e-1 then element_storage.draw_offset=element_storage.draw_offset+1 end
+  end
+  
+end
+
+function reagirl.InputBox_Manage(mouse_cap, element_storage, Key, Key_UTF)
   if mouse_cap&1==1 then 
     if reagirl.mouse.down==false then
       reagirl.InputBox_OnMouseDown(mouse_cap, element_storage) 
@@ -322,6 +360,8 @@ function reagirl.InputBox_Manage(mouse_cap, element_storage, c, c2)
   elseif reagirl.mouse.down==true then
     reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
   end
+  
+  reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
   
 end
 
@@ -351,7 +391,7 @@ function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
 end
 
 function main()
-  local c, c2 = gfx.getchar()
+  c, c2 = gfx.getchar()
   inputbox.w=gfx.w-30
   inputbox.h=gfx.texth
   reagirl.InputBox_Manage(gfx.mouse_cap, inputbox, c, c2)
