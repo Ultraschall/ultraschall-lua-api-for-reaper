@@ -278,16 +278,17 @@ function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
       element_storage.selection_startoffset=newoffs
     end
   elseif newoffs==-1 then
-    element_storage.selection_startoffs=startoffs-1
-    if element_storage.selection_startoffs<1 then element_storage.selection_startoffs=1 end
-    element_storage.draw_offset=element_storage.selection_startoffs
+    element_storage.selection_startoffset=startoffs-1
+    if element_storage.selection_startoffset<0 then element_storage.selection_startoffset=0 end
+    element_storage.draw_offset=element_storage.selection_startoffset
   elseif newoffs==-2 then
-    element_storage.selection_endoffs=endoffs+1
-    if element_storage.selection_endoffs>
-      element_storage.Text:utf8_len() then 
-      element_storage.selection_endoffs=element_storage.Text:utf8_len() 
+    element_storage.selection_endoffset=endoffs+1
+    if element_storage.selection_endoffset>element_storage.Text:utf8_len() then 
+      element_storage.selection_endoffset=element_storage.Text:utf8_len() 
     end
-    element_storage.draw_offset=element_storage.draw_offset+1
+    if endoffs<element_storage.Text:utf8_len()+1 then
+      element_storage.draw_offset=element_storage.draw_offset+1
+    end
   end
   reagirl.mouse.dragged=true
 end
