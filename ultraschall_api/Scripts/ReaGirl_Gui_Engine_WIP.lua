@@ -3,7 +3,6 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 TODO: 
   - Dpi2Scale-conversion must be included(currently using Ultraschall-API in OpenWindow)
   - when no ui-elements are present, the osara init-message is not said
-  - decorative-Element Line doesnÄt work correctly. The coordinates are buggy(noticeable with MoveItAllUp/Right)
 --]]
 --XX,YY=reaper.GetMousePosition()
 
@@ -2072,22 +2071,20 @@ function reagirl.Line_Add(x,y,x2,y2,r,g,b,a)
   reagirl.DecorativeElements[#reagirl.DecorativeElements]["g"]=g
   reagirl.DecorativeElements[#reagirl.DecorativeElements]["b"]=b
   reagirl.DecorativeElements[#reagirl.DecorativeElements]["a"]=a
-  reagirl.DecorativeElements[#reagirl.DecorativeElements]["sticky_x"]=true
-  reagirl.DecorativeElements[#reagirl.DecorativeElements]["sticky_y"]=true
+  reagirl.DecorativeElements[#reagirl.DecorativeElements]["sticky_x"]=false
+  reagirl.DecorativeElements[#reagirl.DecorativeElements]["sticky_y"]=false
   reagirl.DecorativeElements[#reagirl.DecorativeElements]["filled"]=filled
   reagirl.DecorativeElements[#reagirl.DecorativeElements]["func_draw"]=reagirl.Line_Draw
   return reagirl.DecorativeElements[#reagirl.DecorativeElements]["Guid"]
 end
 
 function reagirl.Line_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
--- BUGGY!
-print2("LINE BUGGY!")
   element_id=reagirl.Decorative_Element_GetIDFromGuid(element_id)
   local x2, y2, w2, h2
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
   MoveItAllRight=reagirl.MoveItAllRight
   local MoveItAllUp=reagirl.MoveItAllUp
-  if element_storage.sticky_x==true then end
+  if element_storage.sticky_x==true then MoveItAllRight=0 end
   if element_storage.sticky_y==true then MoveItAllUp=0 end
   
   
@@ -2095,7 +2092,7 @@ print2("LINE BUGGY!")
   if element_storage["y2"]<0 then y2=gfx.h+element_storage["y2"] else y2=element_storage["y2"] end
   
   MoveIt={x,y,x2,y2, w2, h2}
-  gfx.line(x, y, x2, y2)
+  gfx.line(x, y, x2+MoveItAllRight, y2+MoveItAllUp)
 end
 
 
@@ -2606,7 +2603,7 @@ function UpdateUI()
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
   reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   E=reagirl.DropDownMenu_Add(-280, 150, -10, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
-  --reagirl.Line_Add(10,100,100, 100,1,1,0,1)
+  reagirl.Line_Add(10,200,100, 200,1,1,0,1)
 
   
   --D=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/export_logo.png", 1, 1, 79, 79, false, "Logo", "Logo 2")  
