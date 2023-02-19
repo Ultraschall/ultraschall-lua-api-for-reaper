@@ -915,6 +915,7 @@ function reagirl.UI_Element_GetFocusRect()
       y=reagirl.Elements[reagirl.Elements["FocusedElement"]]["y"]
       w=reagirl.Elements[reagirl.Elements["FocusedElement"]]["w"]
       h=reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
+      print(x,y,w,h)
       reagirl.UI_Element_SetFocusRect(x, y, w, h)
     else
       reagirl.UI_Element_SetFocusRect(0,0,0,0)
@@ -1626,7 +1627,7 @@ function reagirl.CheckBox_Add(x, y, Name, Description, default, run_function)
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[#reagirl.Elements]["x"]=x
   reagirl.Elements[#reagirl.Elements]["y"]=y
-  reagirl.Elements[#reagirl.Elements]["w"]=math.tointeger(gfx.texth)+tx+4
+  reagirl.Elements[#reagirl.Elements]["w"]=math.tointeger(gfx.texth+tx+4)
   reagirl.Elements[#reagirl.Elements]["h"]=math.tointeger(gfx.texth)
   reagirl.Elements[#reagirl.Elements]["sticky_x"]=false
   reagirl.Elements[#reagirl.Elements]["sticky_y"]=false
@@ -1704,8 +1705,8 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, Description, run_
   reagirl.Elements[#reagirl.Elements]["AccHint"]="click with space or left mouseclick"
   reagirl.Elements[#reagirl.Elements]["x"]=x
   reagirl.Elements[#reagirl.Elements]["y"]=y
-  reagirl.Elements[#reagirl.Elements]["w"]=math.tointeger(tx)+20+w_margin
-  reagirl.Elements[#reagirl.Elements]["h"]=math.tointeger(ty)+10+h_margin
+  reagirl.Elements[#reagirl.Elements]["w"]=math.tointeger(tx+20+w_margin)
+  reagirl.Elements[#reagirl.Elements]["h"]=math.tointeger(ty+10+h_margin)
   reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.Button_Manage
   reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.Button_Draw
   reagirl.Elements[#reagirl.Elements]["run_function"]=run_function
@@ -2589,10 +2590,10 @@ function UpdateUI()
       Images[1]=filename
     end
   end
-  reagirl.AddDummyElement()  
+  --reagirl.AddDummyElement()  
   --reagirl.Label_Add("Export Podcast as:", -400, 88, 100, 100)
-  --A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", true, CheckMe)
-  --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
+  A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", true, CheckMe)
+  A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
@@ -2603,7 +2604,7 @@ function UpdateUI()
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
   reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   E=reagirl.DropDownMenu_Add(-280, 150, -10, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
-  reagirl.Line_Add(10,200,100, 200,1,1,0,1)
+  --reagirl.Line_Add(10,250,120, 200,1,1,0,1)
 
   
   --D=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/export_logo.png", 1, 1, 79, 79, false, "Logo", "Logo 2")  
@@ -2611,7 +2612,7 @@ function UpdateUI()
   
   
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
-  EID=reagirl.Rect_Add(-400,-200,320,120,1,0,1,0.5,1)
+  EID=reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   reagirl.Button_Add(-85, -50, 0, 0, "Close Gui", "Description of the button", click_button)
   
