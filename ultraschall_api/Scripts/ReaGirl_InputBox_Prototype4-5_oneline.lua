@@ -350,6 +350,24 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
       element_storage.selection_endoffset=element_storage.cursor_offset
       reagirl.InputBox_ConsolidateCursorPos(element_storage)
     end
+  elseif Key==1919379572.0 then
+    -- right key
+    element_storage.cursor_offset=element_storage.cursor_offset+1
+    element_storage.selection_startoffset=element_storage.cursor_offset
+    element_storage.selection_endoffset=element_storage.cursor_offset
+    reagirl.InputBox_ConsolidateCursorPos(element_storage)
+  elseif Key==1818584692.0 then
+    -- left key
+    element_storage.cursor_offset=element_storage.cursor_offset-1
+    element_storage.selection_startoffset=element_storage.cursor_offset
+    element_storage.selection_endoffset=element_storage.cursor_offset
+    reagirl.InputBox_ConsolidateCursorPos(element_storage)
+  elseif Key==30064 then
+    -- up key
+    
+  elseif Key==1685026670.0 then
+    -- down key
+    
   elseif Key==1752132965.0 then
     -- Home Key
     element_storage.cursor_offset=0
@@ -429,8 +447,9 @@ function reagirl.InputBox_Manage(mouse_cap, element_storage, Key, Key_UTF)
   elseif reagirl.mouse.down==true then
     reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
   end
-  
-  reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
+  if element_storage.hasfocus==true then
+    reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
+  end
 end
 
 function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
