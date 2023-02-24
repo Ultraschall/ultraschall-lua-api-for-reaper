@@ -334,7 +334,7 @@ function reagirl.InputBox_ConsolidateCursorPos(element_storage)
   end
 end
 
-function reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
+function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   if Key_UTF~=0 then Key=Key_UTF end
   if Key==8 then
     -- Backspace
@@ -353,14 +353,31 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
   elseif Key==1919379572.0 then
     -- right key
     element_storage.cursor_offset=element_storage.cursor_offset+1
-    element_storage.selection_startoffset=element_storage.cursor_offset
-    element_storage.selection_endoffset=element_storage.cursor_offset
+    if mouse_cap&8==8 then
+      if element_storage.selection_endoffset==element_storage.cursor_offset-1 then
+        element_storage.selection_endoffset=element_storage.selection_endoffset+1
+      elseif element_storage.selection_endoffset>element_storage.cursor_offset-1 then
+        element_storage.selection_startoffset=element_storage.selection_startoffset+1
+      end
+    else
+      element_storage.selection_startoffset=element_storage.cursor_offset
+      element_storage.selection_endoffset=element_storage.cursor_offset
+    end
+    
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==1818584692.0 then
     -- left key
     element_storage.cursor_offset=element_storage.cursor_offset-1
-    element_storage.selection_startoffset=element_storage.cursor_offset
-    element_storage.selection_endoffset=element_storage.cursor_offset
+    if mouse_cap&8==8 then
+      if element_storage.selection_startoffset==element_storage.cursor_offset+1 then
+        element_storage.selection_startoffset=element_storage.selection_startoffset-1
+      elseif element_storage.selection_startoffset<element_storage.cursor_offset+1 then
+        element_storage.selection_endoffset=element_storage.selection_endoffset-1
+      end
+    else
+      element_storage.selection_startoffset=element_storage.cursor_offset
+      element_storage.selection_endoffset=element_storage.cursor_offset
+    end
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==30064 then
     -- up key
@@ -448,7 +465,7 @@ function reagirl.InputBox_Manage(mouse_cap, element_storage, Key, Key_UTF)
     reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
   end
   if element_storage.hasfocus==true then
-    reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
+    reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
   end
 end
 
