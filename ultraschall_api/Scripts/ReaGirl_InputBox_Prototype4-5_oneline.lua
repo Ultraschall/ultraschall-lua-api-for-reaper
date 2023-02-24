@@ -1,10 +1,12 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")--0123456789A123456789B123456789C123456789D123456789E
 
 -- TODO:
--- With short initial texts, MoveVisibleCursor doesn't work correctly!
--- Textselection via Mousedrag
--- Paste this into the box and do Home-Key - buggy(line too long)
--- local NewOffset=Clippy:utf8_len()+workspace["cursor_offset"]
+-- With short initial texts, MoveVisibleCursor doesn't work correctly! (Still an issue?)
+-- positioning cursor after last character isn't working yet
+-- Shift Home/End have edgecases not managed yet
+--    go into the middle of the line and hit Shift+End. Half the text is selected -> correct
+--    now hit Shift+Home. All of the text selected, though it should be from pos 0 to old selection-start
+--    same the other way round...
 
 reagirl={}
 
@@ -351,7 +353,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
       reagirl.InputBox_ConsolidateCursorPos(element_storage)
     end
   elseif Key==1919379572.0 then
-    -- right key
+    -- right arrow key
     element_storage.cursor_offset=element_storage.cursor_offset+1
     if mouse_cap&8==8 then
       if element_storage.selection_endoffset==element_storage.cursor_offset-1 then
@@ -366,7 +368,7 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==1818584692.0 then
-    -- left key
+    -- left arrow key
     element_storage.cursor_offset=element_storage.cursor_offset-1
     if mouse_cap&8==8 then
       if element_storage.selection_startoffset==element_storage.cursor_offset+1 then
@@ -380,22 +382,35 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     end
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==30064 then
-    -- up key
+    -- up arrow key
     
   elseif Key==1685026670.0 then
-    -- down key
+    -- down arrow key
     
+  elseif Key>=26161 and Key<=26169 then
+    -- F1 through F9
+  elseif Key>=6697264.0 and Key<=6697270.0 then 
+    -- F10 through F16
+  elseif Key==27 then
+    -- esc Key
+  elseif Key==9 then
+    -- Tab Key
   elseif Key==1752132965.0 then
     -- Home Key
     element_storage.cursor_offset=0
     element_storage.draw_offset=element_storage.cursor_offset
     element_storage.selection_startoffset=0
-    element_storage.selection_endoffset=0
+    if mouse_cap&8==0 then
+      element_storage.selection_endoffset=0
+    end
   elseif Key==6647396.0 then
     -- End Key
     element_storage.cursor_offset=element_storage.Text:utf8_len()
-    element_storage.selection_startoffset=element_storage.cursor_offset
     element_storage.selection_endoffset=element_storage.cursor_offset
+    
+    if mouse_cap&8==0 then
+      element_storage.selection_startoffset=element_storage.cursor_offset
+    end
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==3 then
     -- Copy
