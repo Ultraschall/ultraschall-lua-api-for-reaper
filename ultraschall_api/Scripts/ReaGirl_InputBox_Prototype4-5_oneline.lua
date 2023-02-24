@@ -189,12 +189,13 @@ end
 
 inputbox={}
 inputbox.hasfocus=false
+inputbox.hasfocus_old=false
 inputbox.x=10
 inputbox.y=20
 inputbox.w=gfx.w-10
 inputbox.h=50
-inputbox.cursor_offset=20
-inputbox.draw_offset=10--inputbox.cursor_offset
+inputbox.cursor_offset=1
+inputbox.draw_offset=inputbox.cursor_offset
 inputbox.selection_startoffset=inputbox.cursor_offset-5
 inputbox.selection_endoffset=inputbox.cursor_offset+5
 inputbox.Text=string.gsub(reaper.CF_GetClipboard(), "\n", "")
@@ -225,11 +226,13 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
 end
 
 function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
+  element_storage.hasfocus_old=element_storage.hasfocus
   element_storage.hasfocus=gfx.mouse_x>=element_storage.x and gfx.mouse_x<element_storage.x+element_storage.w and
                            gfx.mouse_y>=element_storage.y and gfx.mouse_y<element_storage.y+element_storage.h
   reagirl.mouse.down=true
   reagirl.mouse.x=gfx.mouse_x
   reagirl.mouse.y=gfx.mouse_y
+  
   if element_storage.hasfocus==true then
     if mouse_cap&8==0 then
       element_storage.cursor_offset=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y,element_storage)
@@ -267,6 +270,7 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
 end
 
 function reagirl.InputBox_OnMouseMove(mouse_cap, element_storage)
+  if element_storage.hasfocus==false then return end
   local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x, gfx.mouse_y, element_storage)
   if newoffs>0 then
     if newoffs<element_storage.cursor_offset then
@@ -296,7 +300,13 @@ end
 function reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
   reagirl.mouse.down=false
   reagirl.mouse.downtime=os.clock()
-  if reagirl.mouse.dragged~=true then
+  
+  if element_storage.hasfocus==false then
+    element_storage.draw_offset=1
+    element_storage.selection_startoffset=element_storage.cursor_offset
+    element_storage.selection_endoffset=element_storage.cursor_offset
+  end
+  if reagirl.mouse.dragged~=true and element_storage.hasfocus==true then
     element_storage.selection_startoffset=element_storage.cursor_offset
     element_storage.selection_endoffset=element_storage.cursor_offset
     reagirl.mouse.dragged=false
@@ -335,6 +345,10 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
     -- Del Key
     element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
     element_storage.selection_startoffset=element_storage.cursor_offset
+    element_storage.selection_endoffset=element_storage.cursor_offset
+  elseif Key==1 then
+    element_storage.cursor_offset=element_storage.Text:utf8_len()
+    element_storage.selection_startoffset=0
     element_storage.selection_endoffset=element_storage.cursor_offset
   elseif Key~=0 then
     element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..utf8.char(Key)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
@@ -384,7 +398,10 @@ function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
     end
     
     gfx.drawstr(element_storage.Text:utf8_sub(i,i))
-    if element_storage.cursor_offset==i then gfx.set(1,0,0)gfx.line(gfx.x, element_storage.y, gfx.x, element_storage.y+gfx.texth) 
+    if element_storage.hasfocus==true and element_storage.cursor_offset==i then 
+      gfx.set(1,0,0) 
+      gfx.line(gfx.x, element_storage.y, gfx.x, element_storage.y+gfx.texth) 
+
     if element_storage.hasfocus==true then gfx.set(1) else gfx.set(0.5) end
     end
   end
