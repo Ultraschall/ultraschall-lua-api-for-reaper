@@ -348,10 +348,20 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
       end
       element_storage.selection_startoffset=element_storage.cursor_offset
       element_storage.selection_endoffset=element_storage.cursor_offset
-      offset_s,offset_e=reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
-      if element_storage.cursor_offset==offset_s-1 then element_storage.draw_offset=element_storage.draw_offset-1 end
-      if element_storage.draw_offset<0 then element_storage.draw_offset=0 end
+      reagirl.InputBox_ConsolidateCursorPos(element_storage)
     end
+  elseif Key==1752132965.0 then
+    -- Home Key
+    element_storage.cursor_offset=0
+    element_storage.draw_offset=element_storage.cursor_offset
+    element_storage.selection_startoffset=0
+    element_storage.selection_endoffset=0
+  elseif Key==6647396.0 then
+    -- End Key
+    element_storage.cursor_offset=element_storage.Text:utf8_len()
+    element_storage.selection_startoffset=element_storage.cursor_offset
+    element_storage.selection_endoffset=element_storage.cursor_offset
+    reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==3 then
     -- Copy
     if reaper.CF_SetClipboard~=nil then
