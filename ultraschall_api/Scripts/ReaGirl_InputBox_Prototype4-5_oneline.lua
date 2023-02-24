@@ -186,6 +186,7 @@ function string.utf8_len(source_string)
   return utf8.len(source_string)
 end
 
+gfx.init("", 640, 60,0,0,0)
 
 inputbox={}
 inputbox.hasfocus=false
@@ -196,6 +197,7 @@ inputbox.w=gfx.w-10
 inputbox.h=50
 inputbox.cursor_offset=1
 inputbox.draw_offset=inputbox.cursor_offset
+inputbox.draw_max=inputbox.draw_offset+math.floor(inputbox.w/gfx.measurechar("65")-1)-1-inputbox.draw_offset
 inputbox.selection_startoffset=inputbox.cursor_offset-5
 inputbox.selection_endoffset=inputbox.cursor_offset+5
 inputbox.Text=string.gsub(reaper.CF_GetClipboard(), "\n", "")
@@ -206,7 +208,6 @@ reagirl.mouse.x=gfx.mouse_x
 reagirl.mouse.y=gfx.mouse_y
 reagirl.mouse.dragged=false
 
-gfx.init("", 640, 60,0,0,0)
 
 function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   local startoffs=element_storage.x
@@ -324,13 +325,23 @@ function reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
   return element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
 end
 
+function reagirl.InputBox_ConsolidateCursorPos(element_storage)
+  if element_storage.cursor_offset>element_storage.draw_offset+element_storage.draw_max then
+    element_storage.draw_offset=element_storage.cursor_offset-element_storage.draw_max+1
+    if element_storage.draw_offset<0 then element_storage.draw_offset=0 end
+  elseif element_storage.cursor_offset<element_storage.draw_offset then
+    element_storage.draw_offset=element_storage.cursor_offset
+  end
+end
+
 function reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
   if Key_UTF~=0 then Key=Key_UTF end
   if Key==8 then
     -- Backspace
-    if element_storage.cursor_offset>0 then
+    if element_storage.cursor_offset>=0 then
       if element_storage.selection_startoffset~=element_storage.selection_endoffset then
         element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+        element_storage.cursor_offset=element_storage.selection_startoffset
       else
         element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset-1)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
         element_storage.cursor_offset=element_storage.selection_startoffset-1
@@ -341,22 +352,56 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
       if element_storage.cursor_offset==offset_s-1 then element_storage.draw_offset=element_storage.draw_offset-1 end
       if element_storage.draw_offset<0 then element_storage.draw_offset=0 end
     end
+  elseif Key==3 then
+    -- Copy
+    if reaper.CF_SetClipboard~=nil then
+      reaper.CF_SetClipboard(element_storage.Text_Selected)
+    end
+  elseif Key==24 then
+    -- Cut
+    if reaper.CF_SetClipboard~=nil then
+      reaper.CF_SetClipboard(element_storage.Text_Selected)
+      if element_storage.selection_startoffset~=element_storage.selection_endoffset then
+         element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+         element_storage.cursor_offset=element_storage.selection_startoffset
+         element_storage.selection_startoffset=element_storage.cursor_offset
+         element_storage.selection_endoffset=element_storage.cursor_offset
+      end
+    end
+  elseif Key==22 then
+    -- Paste Cmd+V
+    if reaper.CF_GetClipboard~=nil then
+      local text=reaper.CF_GetClipboard()
+      element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..text..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+      element_storage.cursor_offset=element_storage.cursor_offset+text:utf8_len()
+      element_storage.selection_startoffset=element_storage.cursor_offset
+      element_storage.selection_endoffset=element_storage.cursor_offset
+      reagirl.InputBox_ConsolidateCursorPos(element_storage)
+    end
   elseif Key==6579564.0 then
     -- Del Key
-    element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
-    element_storage.selection_startoffset=element_storage.cursor_offset
-    element_storage.selection_endoffset=element_storage.cursor_offset
+    if element_storage.selection_startoffset~=element_storage.selection_endoffset then
+      element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
+      element_storage.cursor_offset=element_storage.selection_startoffset
+      element_storage.selection_startoffset=element_storage.cursor_offset
+      element_storage.selection_endoffset=element_storage.cursor_offset
+    else
+      element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+2, -1)
+    end
+    reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==1 then
     element_storage.cursor_offset=element_storage.Text:utf8_len()
     element_storage.selection_startoffset=0
     element_storage.selection_endoffset=element_storage.cursor_offset
+    reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key~=0 then
     element_storage.Text=element_storage.Text:utf8_sub(1, element_storage.selection_startoffset)..utf8.char(Key)..element_storage.Text:utf8_sub(element_storage.selection_endoffset+1, -1)
     element_storage.cursor_offset=element_storage.selection_startoffset+1
     element_storage.selection_startoffset=element_storage.cursor_offset
     element_storage.selection_endoffset=element_storage.cursor_offset
-    offset_s,offset_e=reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
-    if element_storage.cursor_offset==offset_e-1 then element_storage.draw_offset=element_storage.draw_offset+1 end
+    --offset_s,offset_e=reagirl.InputBox_GetShownTextoffsets(x,y,element_storage)
+    --if element_storage.cursor_offset==offset_e-1 then element_storage.draw_offset=element_storage.draw_offset+1 end
+    reagirl.InputBox_ConsolidateCursorPos(element_storage)
   end
   
 end
@@ -376,7 +421,6 @@ function reagirl.InputBox_Manage(mouse_cap, element_storage, Key, Key_UTF)
   end
   
   reagirl.InputBox_OnTyping(Key, Key_UTF, element_storage)
-  
 end
 
 function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
@@ -390,12 +434,14 @@ function reagirl.InputBox_Draw(mouse_cap, element_storage, c, c2)
   -- draw text
   gfx.x=element_storage.x
   gfx.y=element_storage.y
+  
   for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)-1 do
     if i>=element_storage.selection_startoffset+1 and i<=element_storage.selection_endoffset then
       gfx.setfont(1, "Consolas", 20, 86) 
     else
       gfx.setfont(1, "Consolas", 20, 0) 
     end
+    element_storage.draw_max=i-element_storage.draw_offset
     
     gfx.drawstr(element_storage.Text:utf8_sub(i,i))
     if element_storage.hasfocus==true and element_storage.cursor_offset==i then 
