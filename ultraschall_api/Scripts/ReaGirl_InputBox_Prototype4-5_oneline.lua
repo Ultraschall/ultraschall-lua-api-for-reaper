@@ -2,7 +2,7 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")--0123456789
 
 -- TODO:
 -- With short initial texts, MoveVisibleCursor doesn't work correctly! (Still an issue?)
--- positioning cursor after last character isn't working yet
+-- doubleclick resets immediately the selection...
 -- Shift Home/End have edgecases not managed yet
 --    go into the middle of the line and hit Shift+End. Half the text is selected -> correct
 --    now hit Shift+Home. All of the text selected, though it should be from pos 0 to old selection-start
@@ -121,12 +121,17 @@ end
 --Aworkspace["draw_range_cur"]=
 --if Aworkspace["draw_range_cur"]>Aworkspace["draw_range_max"] then Aworkspace["draw_range_cur"]=0 end
 
-gfx.setfont(1,"Calibri", 20)
+gfx.setfont(1,"Calibri",20)
 gfx.setfont(1,"Consolas", 20)
 
 function string.has_control(String)
   if type(String)~="string" then error("bad argument #1, to 'has_control' (string expected, got "..type(source_string)..")", 2) end
   return String:match("%c")~=nil
+end
+
+function string.has_alphanumeric_plus_underscore(String)
+  if type(String)~="string" then error("bad argument #1, to 'has_control' (string expected, got "..type(source_string)..")", 2) end
+  return String:match("[%w%_]")~=nil
 end
 
 function string.has_alphanumeric(String)
@@ -218,6 +223,7 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
   if x<startoffs then return -1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw) end
   
   for i=element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw) do
+    gfx.rect((i*textw),0,(i*textw),10,1)
     local textw=gfx.measurestr(element_storage.Text:utf8_sub(i,i))
     if x>=startoffs and x<=startoffs+textw then
       return cursoffs-1, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
@@ -225,6 +231,7 @@ function reagirl.InputBox_GetTextOffset(x,y,element_storage)
     cursoffs=cursoffs+1
     startoffs=startoffs+textw
   end
+  
   return -2, element_storage.draw_offset, element_storage.draw_offset+math.floor(element_storage.w/textw)
 end
 
@@ -239,8 +246,14 @@ function reagirl.InputBox_OnMouseDown(mouse_cap, element_storage)
   if element_storage.hasfocus==true then
     if mouse_cap&8==0 then
       element_storage.cursor_offset=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y,element_storage)
-      element_storage.selection_startoffset=element_storage.cursor_offset
-      element_storage.selection_endoffset=element_storage.cursor_offset
+      if element_storage.cursor_offset==-2 then 
+        element_storage.cursor_offset=element_storage.Text:utf8_len() 
+        element_storage.selection_startoffset=element_storage.cursor_offset
+        element_storage.selection_endoffset=element_storage.cursor_offset
+      else
+        element_storage.selection_startoffset=element_storage.cursor_offset
+        element_storage.selection_endoffset=element_storage.cursor_offset
+      end
     elseif mouse_cap&8==8 then
       local newoffs, startoffs, endoffs=reagirl.InputBox_GetTextOffset(gfx.mouse_x,gfx.mouse_y,element_storage)
       print_update(newoffs, startoffs, endoffs)
@@ -316,9 +329,29 @@ function reagirl.InputBox_OnMouseUp(mouse_cap, element_storage)
   end
 end
 
+function reagirl.InputBox_GetPreviousPOI(element_storage)
+  for i=element_storage.cursor_offset-1, 0, -1 do
+    if element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()==false then
+      return i
+    end
+  end
+  return 0
+end
+
+function reagirl.InputBox_GetNextPOI(element_storage)
+  for i=element_storage.cursor_offset, element_storage.Text:utf8_len() do
+    if element_storage.Text:utf8_sub(i,i):has_alphanumeric_plus_underscore()==false then
+      return i-1
+    end
+  end
+  return element_storage.Text:utf8_len()
+end
+
 function reagirl.InputBox_OnMouseDoubleClick(mouse_cap, element_storage)
   if element_storage.hasfocus==true then
---    print("Doppelclick")
+    print("Doppelclick")
+    element_storage.selection_startoffset=reagirl.InputBox_GetPreviousPOI(element_storage)
+    element_storage.selection_endoffset=reagirl.InputBox_GetNextPOI(element_storage)
   end
 end
 
