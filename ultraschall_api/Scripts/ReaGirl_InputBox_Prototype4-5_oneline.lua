@@ -432,17 +432,23 @@ function reagirl.InputBox_OnTyping(Key, Key_UTF, mouse_cap, element_storage)
     -- Home Key
     element_storage.cursor_offset=0
     element_storage.draw_offset=element_storage.cursor_offset
-    element_storage.selection_startoffset=0
     if mouse_cap&8==0 then
+      element_storage.selection_startoffset=0
       element_storage.selection_endoffset=0
+    elseif mouse_cap&8==8 then
+      element_storage.selection_endoffset=element_storage.selection_startoffset
+      element_storage.selection_startoffset=0
     end
   elseif Key==6647396.0 then
     -- End Key
     element_storage.cursor_offset=element_storage.Text:utf8_len()
-    element_storage.selection_endoffset=element_storage.cursor_offset
+    
     
     if mouse_cap&8==0 then
       element_storage.selection_startoffset=element_storage.cursor_offset
+    elseif mouse_cap&8==8 then
+      element_storage.selection_startoffset=element_storage.selection_endoffset
+      element_storage.selection_endoffset=element_storage.Text:utf8_len()
     end
     reagirl.InputBox_ConsolidateCursorPos(element_storage)
   elseif Key==3 then
