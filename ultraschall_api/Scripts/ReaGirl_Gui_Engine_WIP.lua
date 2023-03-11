@@ -974,6 +974,31 @@ function reagirl.UI_Elements_OutsideWindow()
   return horz, vert
 end
 
+function reagirl.UI_Elements_GetScrollRect()
+  local min_x=8192
+  local max_x=0
+  local min_y=8192
+  local max_y=0
+  
+  for i=1, #reagirl.Elements do
+    local w2, h2, x2, y2
+    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
+    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
+    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+    
+    if reagirl.Elements[i].sticky_x==false then
+      if x2+reagirl.MoveItAllRight<=min_x then min_x=x2+reagirl.MoveItAllRight end
+      if x2+w2+reagirl.MoveItAllRight>=max_x then max_x=x2+w2+reagirl.MoveItAllRight end
+    end
+    if reagirl.Elements[i].sticky_y==false then
+      if y2+reagirl.MoveItAllUp<=min_y then min_y=y2+reagirl.MoveItAllUp end
+      if y2+h2+reagirl.MoveItAllUp>=max_y then max_y=y2+h2+reagirl.MoveItAllUp end
+    end
+  end
+  return min_x, max_x, min_y, max_y
+end
+
 function reagirl.UI_Element_GetType(element_id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2543,6 +2568,7 @@ local count=0
 local count2=0
 function main()
   reagirl.Gui_Manage()
+  A={reagirl.UI_Elements_OutsideWindow()}
   count=count+2
   count2=count2+4
   if count>100 then count=0 end
@@ -2553,7 +2579,18 @@ function main()
   elseif gfx.mouse_cap==3 then reagirl.UI_Element_SetSelected(3)
   end
   --]]
+  
+  -- Dunno....
   AHorz, AVert = reagirl.UI_Elements_OutsideWindow()
+  windx, windx2, windy, windy2 = reagirl.UI_Elements_GetScrollRect()
+  if windy+reagirl.MouseCap.mouse_last_wheel/5<=0 and reagirl.MouseCap.mouse_last_wheel>0 then reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MouseCap.mouse_last_wheel/5 end
+  if reagirl.MouseCap.mouse_last_wheel<0 then reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MouseCap.mouse_last_wheel/10 end
+  
+  windx, windx2, windy, windy2 = reagirl.UI_Elements_GetScrollRect()
+  if windy>-10 then reagirl.MoveItAllUp=reagirl.MoveItAllUp-windy+10 end
+  --if windy2<=gfx.h then dif=gfx.h-windy end
+  reagirl.Gui_ForceRefresh() 
+  
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
@@ -2614,7 +2651,7 @@ function UpdateUI()
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
   EID=reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
-  reagirl.Button_Add(-85, -50, 0, 0, "Close Gui", "Description of the button", click_button)
+  reagirl.Button_Add(-585, -350, 0, 0, "Close Gui", "Description of the button", click_button)
   
   --reagirl.Button_Add(-120, -30, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
 
