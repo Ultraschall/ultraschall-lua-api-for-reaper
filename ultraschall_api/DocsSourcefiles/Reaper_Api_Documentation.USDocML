@@ -24550,12 +24550,16 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1">
-            call to start a new undo block. Code after that and before [Undo\_EndBlock](#Undo_EndBlock) can be undone.
+        <description>
+            call to start a new undo block. Code after that and before Undo_EndBlock can be undone.
         </description>
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:Undo_EndBlock2
+                   ends an undo-block
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -24998,10 +25002,11 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Return true if the pointer is a valid object of the right type in proj (proj is ignored if pointer is itself a project). Supported types are: ReaProject\*, MediaTrack\*, MediaItem\*, MediaItem\_Take\*, TrackEnvelope\* and PCM\_source\*.
+        <description>
+            Return true if the pointer is a valid object of the right type in proj (proj is ignored if pointer is itself a project). 
+            Supported types are: ReaProject*, MediaTrack*, MediaItem*, MediaItem_Take*, TrackEnvelope* and PCM_source*.
 
-            see [ValidatePtr2](#ValidatePtr2)
+            see ValidatePtr2
         </description>
         <retvals>
             boolean retval - true, the object/pointer is of ctypename; false, it is not
@@ -25010,6 +25015,10 @@
             identifier pointer - a pointer to the object to check for. In Lua or Python, you just give the object to check as this parameter.
             string ctypename - the type of project to check for(given as a pointer)
         </parameters>
+        <linked_to desc="see:">
+            Reaper:ValidatePtr2
+                   checks, if a pointer is a valid one within a project
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25247,12 +25256,14 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Create a BR\_Envelope-object from a track-envelope pointer or take-envelope pointer. 
-            To apply changes to a BR\_Envelope-object, always call [BR\_EnvFree](#BR_EnvFree) to release the object and commit changes if needed.
+        <description>
+            [BR] Create a BR_Envelope-object from a track-envelope pointer or take-envelope pointer. 
+            To apply changes to a BR_Envelope-object, always call BR_EnvFree to release the object and commit changes if needed.
             A BR_Envelope is not a TrackEnvelope-object and therefore can't be used as TrackEnvelope-object!
+            
+            Delete a BR_Envelope with BR_EnvFree.
 
-            For manipulation see [BR\_EnvCountPoints](#BR_EnvCountPoints), [BR\_EnvDeletePoint](#BR_EnvDeletePoint), [BR\_EnvFind](#BR_EnvFind), [BR\_EnvFindNext](#BR_EnvFindNext), [BR\_EnvFindPrevious](#BR_EnvFindPrevious), [BR\_EnvGetParentTake](#BR_EnvGetParentTake), [BR\_EnvGetParentTrack](#BR_EnvGetParentTrack), [BR\_EnvGetPoint](#BR_EnvGetPoint), [BR\_EnvGetProperties](#BR_EnvGetProperties), [BR\_EnvSetPoint](#BR_EnvSetPoint), [BR\_EnvSetProperties](#BR_EnvSetProperties), [BR\_EnvValueAtPos](#BR_EnvValueAtPos).
+            For manipulation see BR_EnvCountPoints, BR_EnvDeletePoint, BR_EnvFind, BR_EnvFindNext, BR_EnvFindPrevious, BR_EnvGetParentTake, BR_EnvGetParentTrack, BR_EnvGetPoint, BR_EnvGetProperties, BR_EnvSetPoint, BR_EnvSetProperties, BR_EnvValueAtPos.
         </description>
         <retvals>
             BR_Envelope env - the requested Envelope as a BR_Envelope-object
@@ -25261,6 +25272,34 @@
             TrackEnvelope envelope - a TrackEnvelope-object of the envelope, that you want to have as a BR_Envelope
             boolean takeEnvelopesUseProjectTime - false, take envelope points' positions are counted from take position, not project start time; true, work with project time instead
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25283,8 +25322,8 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Count envelope points in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc).
+        <description>
+            [BR] Count envelope points in the envelope object allocated with BR_EnvAlloc.
         </description>
         <retvals>
             integer retval - the number of envelope-points in the BR_Envelope-object
@@ -25292,6 +25331,34 @@
         <parameters>
             BR_Envelope envelope - the BR_Envelope-object, whose points you want to count
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25314,8 +25381,8 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Delete envelope point by index (zero-based) in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc).
+        <description>
+            [BR] Delete envelope point by index (zero-based) in the envelope object allocated with BR_EnvAlloc.
         </description>
         <retvals>
             boolean retval - true, deleting was successful; false, deleting was unsuccessful
@@ -25324,6 +25391,34 @@
             BR_Envelope envelope - the BR_Envelope-object, where you want to delete an envelope-point
             integer id - the envelope-point-idx, that you want to delete. 0, first envelope-point; 1, second envelope-point, etc
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25346,8 +25441,12 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Find envelope point at time position in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). Pass delta > 0 to search surrounding range - in that case the closest point to position within delta will be searched for. Returns envelope point id (zero-based) on success or -1 on failure.
+        <description>
+            [BR] Find envelope point at time position in the envelope object allocated with BR_EnvAlloc. 
+            
+            Pass delta > 0 to search surrounding range - in that case the closest point to position within delta will be searched for. 
+            
+            Returns envelope point id (zero-based) on success or -1 on failure.
         </description>
         <retvals>
             integer retval - envelope-point-id or -1 on failure
@@ -25357,6 +25456,34 @@
             number position - the position in seconds, where you want to find from
             number delta - delta > 0 to search surrounding range
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25379,8 +25506,10 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Find next envelope point after time position in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). Returns envelope point id (zero-based) on success or -1 on failure.
+        <description>
+            [BR] Find next envelope point after time position in the envelope object allocated with BR_EnvAlloc. 
+            
+            Returns envelope point id (zero-based) on success or -1 on failure.
         </description>
         <retvals>
             integer retval - envelope-point-id or -1 on failure
@@ -25389,6 +25518,34 @@
             BR_Envelope envelope - the BR_Envelope-object, in which you want to find the next envelope-point
             number position - the position in seconds, where you want to find the next envelope-point from
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25411,8 +25568,10 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Find previous envelope point before time position in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). Returns envelope point id (zero-based) on success or -1 on failure.
+        <description>
+            [BR] Find previous envelope point before time position in the envelope object allocated with BR_EnvAlloc. 
+            
+            Returns envelope point id (zero-based) on success or -1 on failure.
         </description>
         <retvals>
             integer retval - envelope-point-id or -1 on failure
@@ -25421,6 +25580,34 @@
             BR_Envelope envelope - the BR_Envelope-object, in which you want to find the previous envelope-point
             number position - the position in seconds, where you want to find the previous envelope-point from
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25443,8 +25630,12 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Free envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc) and commit changes if needed. Returns true if changes were committed successfully. Note that when envelope object wasn't modified nothing will get committed even if commit = true - in that case function returns false.
+        <description>
+            [BR] Free envelope object allocated with BR_EnvAlloc and commit changes if needed. 
+            
+            Returns true if changes were committed successfully. 
+            
+            Note that when envelope object wasn't modified nothing will get committed even if commit = true - in that case function returns false.
         </description>
         <retvals>
             boolean retval - true, committing was successful; false, committing was unsuccessful or no committing was necessary
@@ -25453,6 +25644,36 @@
             BR_Envelope envelope - the BR_Envelope-object that you want to commit and be freed
             boolean commit - true, commit changes when freeing the BR_Envelope-object; false, don't commit changes when freeing the BR_Envelope-object
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25475,8 +25696,8 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] If envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc) is take envelope, returns parent media item take, otherwise NULL.
+        <description>
+            [BR] If envelope object allocated with BR_EnvAlloc is take envelope, returns parent media item take, otherwise NULL.
         </description>
         <retvals>
             MediaItem_Take take - 
@@ -25484,6 +25705,34 @@
         <parameters>
             BR_Envelope envelope - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25506,8 +25755,8 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Get parent track of envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). If take envelope, returns NULL.
+        <description>
+            [BR] Get parent track of envelope object allocated with BR_EnvAlloc. If take envelope, returns NULL.
         </description>
         <retvals>
             MediaTrack tr - 
@@ -25515,6 +25764,34 @@
         <parameters>
             BR_Envelope envelope - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25537,8 +25814,10 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Get envelope point by id (zero-based) from the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). Returns true on success.
+        <description>
+            [BR] Get envelope point by id (zero-based) from the envelope object allocated with BR_EnvAlloc. 
+            
+            Returns true on success.
         </description>
         <retvals>
             boolean retval - 
@@ -25552,6 +25831,34 @@
             BR_Envelope envelope - 
             integer id - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25574,8 +25881,8 @@
             Reaper=5.62
             SWS=2.11.0
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Get envelope properties for the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc).
+        <description>
+            [BR] Get envelope properties for the envelope object allocated with BR_EnvAlloc.
 
             active: true if envelope is active
             visible: true if envelope is visible
@@ -25606,6 +25913,34 @@
         <parameters>
             BR_Envelope envelope - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25628,8 +25963,12 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Set envelope point by id (zero-based) in the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). To create point instead, pass id = -1. Note that if new point is inserted or existing point's time position is changed, points won't automatically get sorted. To do that, see [BR\_EnvSortPoints](#BR_EnvSortPoints).
+        <description>
+            [BR] Set envelope point by id (zero-based) in the envelope object allocated with BR_EnvAlloc. 
+            
+            To create point instead, pass id = -1. 
+            
+            Note that if new point is inserted or existing point's time position is changed, points won't automatically get sorted. To do that, see BR_EnvSortPoints.
             Returns true on success.
         </description>
         <retvals>
@@ -25644,6 +25983,34 @@
             boolean selected - 
             number bezier - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25666,8 +26033,11 @@
             Reaper=5.979
             SWS=2.11.0
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Set envelope properties for the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc). For parameter description see [BR\_EnvGetProperties](#BR_EnvGetProperties).
+        <description>
+            [BR] Set envelope properties for the envelope object allocated with BR_EnvAlloc. 
+            
+            For parameter description see BR_EnvGetProperties.
+            
             Setting automationItemsOptions requires REAPER 5.979+.
         </description>
         <parameters>
@@ -25681,6 +26051,34 @@
             boolean faderScaling - 
             optional integer automationItemsOptionsIn - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25703,12 +26101,46 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Sort envelope points by position. The only reason to call this is if sorted points are explicitly needed after editing them with [BR\_EnvSetPoint](#BR_EnvSetPoint). Note that you do not have to call this before doing [BR\_EnvFree](#BR_EnvFree) since it does handle unsorted points too.
+        <description>
+            [BR] Sort envelope points by position. 
+            
+            The only reason to call this is if sorted points are explicitly needed after editing them with BR_EnvSetPoint. 
+            
+            Note that you do not have to call this before doing BR_EnvFree since it does handle unsorted points too.
         </description>
         <parameters>
             BR_Envelope envelope - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+            Reaper:BR_EnvValueAtPos
+                   gets envelope point value at position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25731,8 +26163,8 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Get envelope value at time position for the envelope object allocated with [BR\_EnvAlloc](#BR_EnvAlloc).
+        <description>
+            [BR] Get envelope value at time position for the envelope object allocated with BR_EnvAlloc.
         </description>
         <retvals>
             number retval - 
@@ -25741,6 +26173,34 @@
             BR_Envelope envelope - 
             number position - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_EnvAlloc
+                   creates an envelope object, that can be used by BR_Env-functions
+            Reaper:BR_EnvCountPoints
+                   counts envelope points
+            Reaper:BR_EnvDeletePoint
+                   deletes an envelope point
+            Reaper:BR_EnvFind
+                   finds envelope point at position
+            Reaper:BR_EnvFindNext
+                   find next envelope point after position
+            Reaper:BR_EnvFindPrevious
+                   find previous envelope point before position
+            Reaper:BR_EnvFree
+                   delete an BR_Envelope object created by BR_EnvAlloc
+            Reaper:BR_EnvGetParentTake
+                   gets parent take of an envelope
+            Reaper:BR_EnvGetParentTrack
+                   gets parent track of an envelope
+            Reaper:BR_EnvGetPoint
+                   gets envelope point
+            Reaper:BR_EnvGetProperties
+                   gets envelope point properties
+            Reaper:BR_EnvSetPoint
+                   sets an envelope point
+            Reaper:BR_EnvSetProperties
+                   sets envelope point properties
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25763,8 +26223,12 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Deprecated, see [GetSet\_ArrangeView2](#GetSet_ArrangeView2) (REAPER v5.12pre4+) -- Get start and end time position of arrange view. To set arrange view instead, see [BR\_SetArrangeView](#BR_SetArrangeView).
+        <description>
+            [BR] Deprecated, see GetSet_ArrangeView2 (REAPER v5.12pre4+)
+            
+            Get start and end time position of arrange view. 
+            
+            To set arrange view instead, see BR_SetArrangeView.
         </description>
         <deprecated since_when="SWS 2.9.7" alternative="GetSet_ArrangeView2(available since at least Reaper 5.13)"/>
         <retvals>
@@ -25774,6 +26238,10 @@
         <parameters>
             ReaProject proj - the project-number. 0 for the current project. 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:GetSet_ArrangeView2
+                   gets/sets arrangeview position and viewrange
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25796,8 +26264,13 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Get closest grid division to position. Note that this functions is different from [SnapToGrid](#SnapToGrid) in two regards. SnapToGrid() needs snap enabled to work and this one works always. Secondly, grid divisions are different from grid lines because some grid lines may be hidden due to zoom level - this function ignores grid line visibility and always searches for the closest grid division at given position. For more grid division functions, see [BR\_GetNextGridDivision](#BR_GetNextGridDivision) and [BR\_GetPrevGridDivision](#BR_GetPrevGridDivision).
+        <description>
+            [BR] Get closest grid division to position. 
+            
+            Note that this functions is different from SnapToGrid in two regards. SnapToGrid() needs snap enabled to work and this one works always. 
+            Secondly, grid divisions are different from grid lines because some grid lines may be hidden due to zoom level - this function ignores grid line visibility and always searches for the closest grid division at given position. 
+            
+            For more grid division functions, see BR_GetNextGridDivision and BR_GetPrevGridDivision.
         </description>
         <retvals>
             number retval - 
@@ -25805,6 +26278,12 @@
         <parameters>
             number position - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_GetNextGridDivision
+                   gets the next grid division after position
+            Reaper:BR_GetPrevGridDivision
+                   gets the previous grid division before position
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -25855,8 +26334,10 @@
             Reaper=5.62
             SWS=2.9.7
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            [BR] Get media item from GUID string. Note that the GUID must be enclosed in braces {}. To get item's GUID as a string, see [BR\_GetMediaItemGUID](#BR_GetMediaItemGUID).
+        <description>
+            [BR] Get media item from GUID string. Note that the GUID must be enclosed in braces {}. 
+            
+            To get item's GUID as a string, see BR_GetMediaItemGUID.
         </description>
         <retvals>
             MediaItem item - the requested MediaItem as a MediaItem-object
@@ -25865,6 +26346,10 @@
             ReaProject proj - the project-number. 0 for the current project. 
             string guidStringIn - the guid of the MediaItem you want to request.
         </parameters>
+        <linked_to desc="see:">
+            Reaper:BR_GetMediaItemGUID
+                   gets the guid of a MediaItem
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -46160,8 +46645,12 @@ mespotine
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            callback is a function pointer: void (\*callback)(void\* obj, const char\* msg, int msglen), which handles OSC messages sent from REAPER. The function return is a local osc handler. See [SendLocalOscMessage](#SendLocalOscMessage), [DestroyOscHandler](#DestroyOscHandler).
+        <description>
+            callback is a function pointer: void (*callback)(void* obj, const char* msg, int msglen), which handles OSC messages sent from REAPER. 
+            
+            The function return is a local osc handler. 
+            
+            See SendLocalOscMessage, DestroyOscHandler.
             
             Stored in reaper_plugin_functions.h
         </description>
@@ -46172,6 +46661,10 @@ mespotine
             void* obj - 
             void* callback - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:SendLocalOscMessage
+                   sends a osc message to a local osc-handler
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper_plugin.h</source_document>
         <chapter_context>

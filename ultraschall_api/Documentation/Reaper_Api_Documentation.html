@@ -2861,8 +2861,10 @@ Note: unlike the native GetSetObjectState, calling to FreeHeapPtr() is not requi
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>RPR_ValidatePtr</em>(<i>void</i> pointer, <i>String</i> ctypename)</code></div>
 </div><p>
 <div class="ch">
-<p>Return true if the pointer is a valid object of the right type in proj (proj is ignored if pointer is itself a project). Supported types are: ReaProject*, MediaTrack*, MediaItem*, MediaItem_Take*, TrackEnvelope* and PCM_source*.</p>
-<p>see <a href="#ValidatePtr2">ValidatePtr2</a></p>
+Return true if the pointer is a valid object of the right type in proj (proj is ignored if pointer is itself a project). <br>
+Supported types are: ReaProject*, MediaTrack*, MediaItem*, MediaItem_Take*, TrackEnvelope* and PCM_source*.<br>
+<br>
+see ValidatePtr2<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -3244,7 +3246,12 @@ Delete the specific shortcut for the given command ID.<br>
 <div class="p">Python: <code> <i>Float</i> retval = <em>BR_GetClosestGridDivision</em>(<i>Float</i> position)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Get closest grid division to position. Note that this functions is different from <a href="#SnapToGrid">SnapToGrid</a> in two regards. SnapToGrid() needs snap enabled to work and this one works always. Secondly, grid divisions are different from grid lines because some grid lines may be hidden due to zoom level - this function ignores grid line visibility and always searches for the closest grid division at given position. For more grid division functions, see <a href="#BR_GetNextGridDivision">BR_GetNextGridDivision</a> and <a href="#BR_GetPrevGridDivision">BR_GetPrevGridDivision</a>.</p>
+[BR] Get closest grid division to position. <br>
+<br>
+Note that this functions is different from SnapToGrid in two regards. SnapToGrid() needs snap enabled to work and this one works always. <br>
+Secondly, grid divisions are different from grid lines because some grid lines may be hidden due to zoom level - this function ignores grid line visibility and always searches for the closest grid division at given position. <br>
+<br>
+For more grid division functions, see BR_GetNextGridDivision and BR_GetPrevGridDivision.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -10753,8 +10760,13 @@ Stored in reaper_plugin_functions.h<br>
 <div class="c">C: <code> <i>void*</i> <em>(*CreateLocalOscHandler)</em>(<i>void*</i> obj, <i>void*</i> callback)</code></div>
 </div><p>
 <div class="ch">
-<p>callback is a function pointer: void (*callback)(void* obj, const char* msg, int msglen), which handles OSC messages sent from REAPER. The function return is a local osc handler. See <a href="#SendLocalOscMessage">SendLocalOscMessage</a>, <a href="#DestroyOscHandler">DestroyOscHandler</a>.</p>
-<p>Stored in reaper<em>plugin</em>functions.h</p>
+callback is a function pointer: void (*callback)(void* obj, const char* msg, int msglen), which handles OSC messages sent from REAPER. <br>
+<br>
+The function return is a local osc handler. <br>
+<br>
+See SendLocalOscMessage, DestroyOscHandler.<br>
+<br>
+Stored in reaper_plugin_functions.h<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15526,7 +15538,7 @@ See GetSetAutomationItemInfo.<br>
 <div class="p">Python: <code> <i>Int</i> retval = <em>BR_EnvCountPoints</em>(<i>BR_Envelope</i> envelope)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Count envelope points in the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>.</p>
+[BR] Count envelope points in the envelope object allocated with BR_EnvAlloc.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15554,7 +15566,7 @@ See GetSetAutomationItemInfo.<br>
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>BR_EnvDeletePoint</em>(<i>BR_Envelope</i> envelope, <i>Int</i> id)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Delete envelope point by index (zero-based) in the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>.</p>
+[BR] Delete envelope point by index (zero-based) in the envelope object allocated with BR_EnvAlloc.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15586,7 +15598,9 @@ See GetSetAutomationItemInfo.<br>
 <div class="p">Python: <code> (<i>Boolean</i> retval, <i>BR_Envelope</i> envelope, <i>Int</i> id, <i>Float</i> positionOut, <i>Float</i> valueOut, <i>Int</i> shapeOut, <i>Boolean</i> selectedOut, <i>Float</i> bezierOut) = <em>BR_EnvGetPoint</em>(envelope, id, positionOut, valueOut, shapeOut, selectedOut, bezierOut)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Get envelope point by id (zero-based) from the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>. Returns true on success.</p>
+[BR] Get envelope point by id (zero-based) from the envelope object allocated with BR_EnvAlloc. <br>
+<br>
+Returns true on success.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15638,7 +15652,12 @@ See GetSetAutomationItemInfo.<br>
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>BR_EnvSetPoint</em>(<i>BR_Envelope</i> envelope, <i>Int</i> id, <i>Float</i> position, <i>Float</i> value, <i>Int</i> shape, <i>Boolean</i> selected, <i>Float</i> bezier)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Set envelope point by id (zero-based) in the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>. To create point instead, pass id = -1. Note that if new point is inserted or existing point's time position is changed, points won't automatically get sorted. To do that, see <a href="#BR_EnvSortPoints">BR_EnvSortPoints</a>. Returns true on success.</p>
+[BR] Set envelope point by id (zero-based) in the envelope object allocated with BR_EnvAlloc. <br>
+<br>
+To create point instead, pass id = -1. <br>
+<br>
+Note that if new point is inserted or existing point's time position is changed, points won't automatically get sorted. To do that, see BR_EnvSortPoints.<br>
+Returns true on success.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -15690,7 +15709,11 @@ See GetSetAutomationItemInfo.<br>
 <div class="p">Python: <code> <em>BR_EnvSortPoints</em>(<i>BR_Envelope</i> envelope)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Sort envelope points by position. The only reason to call this is if sorted points are explicitly needed after editing them with <a href="#BR_EnvSetPoint">BR_EnvSetPoint</a>. Note that you do not have to call this before doing <a href="#BR_EnvFree">BR_EnvFree</a> since it does handle unsorted points too.</p>
+[BR] Sort envelope points by position. <br>
+<br>
+The only reason to call this is if sorted points are explicitly needed after editing them with BR_EnvSetPoint. <br>
+<br>
+Note that you do not have to call this before doing BR_EnvFree since it does handle unsorted points too.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>BR_Envelope</i> envelope</td></tr>
@@ -16383,8 +16406,13 @@ gets information on the UI state of an envelope: returns &1 if automation/modula
 <div class="p">Python: <code> <i>BR_Envelope</i> env = <em>BR_EnvAlloc</em>(<i>TrackEnvelope</i> envelope, <i>Boolean</i> takeEnvelopesUseProjectTime)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Create a BR_Envelope-object from a track-envelope pointer or take-envelope pointer. To apply changes to a BR_Envelope-object, always call <a href="#BR_EnvFree">BR_EnvFree</a> to release the object and commit changes if needed. A BR_Envelope is not a TrackEnvelope-object and therefore can't be used as TrackEnvelope-object!</p>
-<p>For manipulation see <a href="#BR_EnvCountPoints">BR_EnvCountPoints</a>, <a href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a>, <a href="#BR_EnvFind">BR_EnvFind</a>, <a href="#BR_EnvFindNext">BR_EnvFindNext</a>, <a href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a>, <a href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a>, <a href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a>, <a href="#BR_EnvGetPoint">BR_EnvGetPoint</a>, <a href="#BR_EnvGetProperties">BR_EnvGetProperties</a>, <a href="#BR_EnvSetPoint">BR_EnvSetPoint</a>, <a href="#BR_EnvSetProperties">BR_EnvSetProperties</a>, <a href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a>.</p>
+[BR] Create a BR_Envelope-object from a track-envelope pointer or take-envelope pointer. <br>
+To apply changes to a BR_Envelope-object, always call BR_EnvFree to release the object and commit changes if needed.<br>
+A BR_Envelope is not a TrackEnvelope-object and therefore can't be used as TrackEnvelope-object!<br>
+<br>
+Delete a BR_Envelope with BR_EnvFree.<br>
+<br>
+For manipulation see BR_EnvCountPoints, BR_EnvDeletePoint, BR_EnvFind, BR_EnvFindNext, BR_EnvFindPrevious, BR_EnvGetParentTake, BR_EnvGetParentTrack, BR_EnvGetPoint, BR_EnvGetProperties, BR_EnvSetPoint, BR_EnvSetProperties, BR_EnvValueAtPos.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16416,7 +16444,11 @@ gets information on the UI state of an envelope: returns &1 if automation/modula
 <div class="p">Python: <code> <i>Int</i> retval = <em>BR_EnvFind</em>(<i>BR_Envelope</i> envelope, <i>Float</i> position, <i>Float</i> delta)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Find envelope point at time position in the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>. Pass delta &gt; 0 to search surrounding range - in that case the closest point to position within delta will be searched for. Returns envelope point id (zero-based) on success or -1 on failure.</p>
+[BR] Find envelope point at time position in the envelope object allocated with BR_EnvAlloc. <br>
+<br>
+Pass delta > 0 to search surrounding range - in that case the closest point to position within delta will be searched for. <br>
+<br>
+Returns envelope point id (zero-based) on success or -1 on failure.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16452,7 +16484,9 @@ gets information on the UI state of an envelope: returns &1 if automation/modula
 <div class="p">Python: <code> <i>Int</i> retval = <em>BR_EnvFindNext</em>(<i>BR_Envelope</i> envelope, <i>Float</i> position)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Find next envelope point after time position in the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>. Returns envelope point id (zero-based) on success or -1 on failure.</p>
+[BR] Find next envelope point after time position in the envelope object allocated with BR_EnvAlloc. <br>
+<br>
+Returns envelope point id (zero-based) on success or -1 on failure.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16484,7 +16518,9 @@ gets information on the UI state of an envelope: returns &1 if automation/modula
 <div class="p">Python: <code> <i>Int</i> retval = <em>BR_EnvFindPrevious</em>(<i>BR_Envelope</i> envelope, <i>Float</i> position)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Find previous envelope point before time position in the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>. Returns envelope point id (zero-based) on success or -1 on failure.</p>
+[BR] Find previous envelope point before time position in the envelope object allocated with BR_EnvAlloc. <br>
+<br>
+Returns envelope point id (zero-based) on success or -1 on failure.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16516,7 +16552,11 @@ gets information on the UI state of an envelope: returns &1 if automation/modula
 <div class="p">Python: <code> <i>Boolean</i> retval = <em>BR_EnvFree</em>(<i>BR_Envelope</i> envelope, <i>Boolean</i> commit)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Free envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a> and commit changes if needed. Returns true if changes were committed successfully. Note that when envelope object wasn't modified nothing will get committed even if commit = true - in that case function returns false.</p>
+[BR] Free envelope object allocated with BR_EnvAlloc and commit changes if needed. <br>
+<br>
+Returns true if changes were committed successfully. <br>
+<br>
+Note that when envelope object wasn't modified nothing will get committed even if commit = true - in that case function returns false.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16548,8 +16588,19 @@ gets information on the UI state of an envelope: returns &1 if automation/modula
 <div class="p">Python: <code> (<i>BR_Envelope</i> envelope, <i>Boolean</i> activeOut, <i>Boolean</i> visibleOut, <i>Boolean</i> armedOut, <i>Boolean</i> inLaneOut, <i>Int</i> laneHeightOut, <i>Int</i> defaultShapeOut, <i>Float</i> minValueOut, <i>Float</i> maxValueOut, <i>Float</i> centerValueOut, <i>Int</i> typeOut, <i>Boolean</i> faderScalingOut, <i>Int</i> automationItemsOptionsOutOptional) = <em>BR_EnvGetProperties</em>(envelope, activeOut, visibleOut, armedOut, inLaneOut, laneHeightOut, defaultShapeOut, minValueOut, maxValueOut, centerValueOut, typeOut, faderScalingOut, automationItemsOptionsOutOptional)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Get envelope properties for the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>.</p>
-<p>active: true if envelope is active visible: true if envelope is visible armed: true if envelope is armed inLane: true if envelope has it's own envelope lane laneHeight: envelope lane override height. 0 for none, otherwise size in pixels defaultShape: default point shape: 0-&gt;Linear, 1-&gt;Square, 2-&gt;Slow start/end, 3-&gt;Fast start, 4-&gt;Fast end, 5-&gt;Bezier minValue: minimum envelope value maxValue: maximum envelope value type: envelope type: 0-&gt;Volume, 1-&gt;Volume (Pre-FX), 2-&gt;Pan, 3-&gt;Pan (Pre-FX), 4-&gt;Width, 5-&gt;Width (Pre-FX), 6-&gt;Mute, 7-&gt;Pitch, 8-&gt;Playrate, 9-&gt;Tempo map, 10-&gt;Parameter faderScaling: true if envelope uses fader scaling automationItemsOptions: -1-&gt;project default, &amp;1=0-&gt;don't attach to underl. env., &amp;1-&gt;attach to underl. env. on right side, &amp;2-&gt;attach to underl. env. on both sides, &amp;4: bypass underl. env.</p>
+[BR] Get envelope properties for the envelope object allocated with BR_EnvAlloc.<br>
+<br>
+active: true if envelope is active<br>
+visible: true if envelope is visible<br>
+armed: true if envelope is armed<br>
+inLane: true if envelope has it's own envelope lane<br>
+laneHeight: envelope lane override height. 0 for none, otherwise size in pixels<br>
+defaultShape: default point shape: 0->Linear, 1->Square, 2->Slow start/end, 3->Fast start, 4->Fast end, 5->Bezier<br>
+minValue: minimum envelope value<br>
+maxValue: maximum envelope value<br>
+type: envelope type: 0->Volume, 1->Volume (Pre-FX), 2->Pan, 3->Pan (Pre-FX), 4->Width, 5->Width (Pre-FX), 6->Mute, 7->Pitch, 8->Playrate, 9->Tempo map, 10->Parameter<br>
+faderScaling: true if envelope uses fader scaling<br>
+automationItemsOptions: -1->project default, &1=0->don't attach to underl. env., &1->attach to underl. env. on right side, &2->attach to underl. env. on both sides, &4: bypass underl. env.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -16621,7 +16672,11 @@ gets information on the UI state of an envelope: returns &1 if automation/modula
 <div class="p">Python: <code> (<i>BR_Envelope</i> envelope, <i>Boolean</i> active, <i>Boolean</i> visible, <i>Boolean</i> armed, <i>Boolean</i> inLane, <i>Int</i> laneHeight, <i>Int</i> defaultShape, <i>Boolean</i> faderScaling, <i>Int</i> automationItemsOptionsInOptional) = <em>BR_EnvSetProperties</em>(envelope, active, visible, armed, inLane, laneHeight, defaultShape, faderScaling, automationItemsOptionsInOptional)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Set envelope properties for the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>. For parameter description see <a href="#BR_EnvGetProperties">BR_EnvGetProperties</a>. Setting automationItemsOptions requires REAPER 5.979+.</p>
+[BR] Set envelope properties for the envelope object allocated with BR_EnvAlloc. <br>
+<br>
+For parameter description see BR_EnvGetProperties.<br>
+<br>
+Setting automationItemsOptions requires REAPER 5.979+.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>TrackEnvelope</i> envelope</td></tr>
@@ -16674,7 +16729,7 @@ gets information on the UI state of an envelope: returns &1 if automation/modula
 <div class="p">Python: <code> <i>Float</i> retval = <em>BR_EnvValueAtPos</em>(<i>BR_Envelope</i> envelope, <i>Float</i> position)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Get envelope value at time position for the envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>.</p>
+[BR] Get envelope value at time position for the envelope object allocated with BR_EnvAlloc.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -17444,7 +17499,7 @@ Set automation-mode for a specific MediaTrack.<br>
 <div class="p">Python: <code> <i>MediaItem_Take</i> take = <em>BR_EnvGetParentTake</em>(<i>BR_Envelope</i> envelope)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] If envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a> is take envelope, returns parent media item take, otherwise NULL.</p>
+[BR] If envelope object allocated with BR_EnvAlloc is take envelope, returns parent media item take, otherwise NULL.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -17569,7 +17624,7 @@ If take envelope, gets the take from the envelope. If FX, indexOut set to FX ind
 <div class="p">Python: <code> <i>MediaTrack</i> tr = <em>BR_EnvGetParentTrack</em>(<i>BR_Envelope</i> envelope)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Get parent track of envelope object allocated with <a href="#BR_EnvAlloc">BR_EnvAlloc</a>. If take envelope, returns NULL.</p>
+[BR] Get parent track of envelope object allocated with BR_EnvAlloc. If take envelope, returns NULL.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -31588,7 +31643,9 @@ ptidx=-1 will insert a new tempo/time signature marker. <br>
 <div class="p">Python: <code> <i>MediaItem</i> item = <em>BR_GetMediaItemByGUID</em>(<i>ReaProject</i> proj, <i>String</i> guidStringIn)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Get media item from GUID string. Note that the GUID must be enclosed in braces {}. To get item's GUID as a string, see <a href="#BR_GetMediaItemGUID">BR_GetMediaItemGUID</a>.</p>
+[BR] Get media item from GUID string. Note that the GUID must be enclosed in braces {}. <br>
+<br>
+To get item's GUID as a string, see BR_GetMediaItemGUID.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -35502,7 +35559,7 @@ call to start a new block<br>
 <div class="p">Python: <code> <em>RPR_Undo_BeginBlock2</em>(<i>ReaProject</i> proj)</code></div>
 </div><p>
 <div class="ch">
-<p>call to start a new undo block. Code after that and before <a href="#Undo_EndBlock">Undo_EndBlock</a> can be undone.</p>
+call to start a new undo block. Code after that and before Undo_EndBlock can be undone.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>ReaProject</i> proj</td></tr>
@@ -67563,7 +67620,11 @@ Sets the RPPXML state of a track, returns true if successful. Undo flag is a per
 <div class="p">Python: <code> (<i>ReaProject</i> proj, <i>Float</i> startTimeOut, <i>Float</i> endTimeOut) = <em>BR_GetArrangeView</em>(proj, startTimeOut, endTimeOut)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Deprecated, see <a href="#GetSet_ArrangeView2">GetSet_ArrangeView2</a> (REAPER v5.12pre4+) -- Get start and end time position of arrange view. To set arrange view instead, see <a href="#BR_SetArrangeView">BR_SetArrangeView</a>.</p>
+[BR] Deprecated, see GetSet_ArrangeView2 (REAPER v5.12pre4+)<br>
+<br>
+Get start and end time position of arrange view. <br>
+<br>
+To set arrange view instead, see BR_SetArrangeView.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">

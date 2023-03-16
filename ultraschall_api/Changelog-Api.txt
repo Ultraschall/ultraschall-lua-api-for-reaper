@@ -340,6 +340,7 @@ Has now 1615 functions, with XX new ones
   - Docs: Docs\_FindReaperApiFunction\_Pattern - returns the description of a Reaper-API-function(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Call - returns the functioncall of a Reaper-API-function(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Description - returns the description of a Reaper-API-function(includes extensions)
+  - Docs: Docs\_GetAllReaperApiFunctionnames - returns all reaper-API-functionnames existing in the docs
   - Docs: Docs\_GetReaperApiFunction\_Params - returns the parameters of a Reaper-API-function(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Retvals - returns the returnvalues of a Reaper-API-function(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Requires - returns the required dependencies of a Reaper-API-function(includes extensions)

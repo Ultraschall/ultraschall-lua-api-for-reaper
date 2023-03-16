@@ -2109,9 +2109,11 @@ function ultraschall.Docs_LoadReaperApiDocBlocs()
 ]]
   ultraschall.Docs_ReaperApiDocBlocs=ultraschall.ReadFullFile(ultraschall.Api_Path.."DocsSourceFiles/Reaper_Api_Documentation.USDocML")
   ultraschall.Docs_ReaperApiDocBlocs_Count, ultraschall.Docs_ReaperApiDocBlocs = ultraschall.Docs_GetAllUSDocBlocsFromString(ultraschall.Docs_ReaperApiDocBlocs)
+  ultraschall.Docs_ReaperApiDocBlocs_Slug={}
   ultraschall.Docs_ReaperApiDocBlocs_Titles={}
   for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do 
     ultraschall.Docs_ReaperApiDocBlocs_Titles[i]= ultraschall.Docs_GetUSDocBloc_Title(ultraschall.Docs_ReaperApiDocBlocs[i], 1)
+    ultraschall.Docs_ReaperApiDocBlocs_Slug[i]= ultraschall.Docs_GetUSDocBloc_Slug(ultraschall.Docs_ReaperApiDocBlocs[i], 1)
   end
 end
 
@@ -2497,4 +2499,34 @@ function ultraschall.Docs_GetReaperApiFunction_Requires(functionname)
   local count, requires, requires_alt = ultraschall.Docs_GetUSDocBloc_Requires(ultraschall.Docs_ReaperApiDocBlocs[found], 1)
   
   return count, requires, requires_alt
+end
+
+function ultraschall.Docs_GetAllReaperApiFunctionnames()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Docs_GetAllReaperApiFunctionnames</slug>
+    <requires>
+      Ultraschall=4.8
+      Reaper=6.02
+      Lua=5.3
+    </requires>
+    <functioncall>table slugs, table titles = ultraschall.Docs_GetAllReaperApiFunctionnames()</functioncall>
+    <description>
+      returns tables with all slugs and all tables of all Reaper-API-functions(usually the functionnames)
+    </description>
+    <retval>
+      table slugs - all slugs(usually the functionnames) of all Reaper API-functions
+      table titles - all titles(usually the functionnames) of all Reaper API-functions
+    </retval>
+    <chapter_context>
+      Reaper Docs
+    </chapter_context>
+    <target_document>US_Api_DOC</target_document>
+    <source_document>Modules/ultraschall_doc_engine.lua</source_document>
+    <tags>documentation, get, slugs, docs, description</tags>
+  </US_DocBloc>
+  ]]
+  if ultraschall.Docs_ReaperApiDocBlocs==nil then ultraschall.Docs_LoadReaperApiDocBlocs() end
+
+  return ultraschall.Docs_ReaperApiDocBlocs_Slug, ultraschall.Docs_ReaperApiDocBlocs_Titles
 end
