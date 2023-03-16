@@ -20744,7 +20744,7 @@
               param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only
               
               BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]
-              THRESHOLD, CEILING, TRUEPEAK : [ReaLimit]
+              THRESHOLD, CEILING, TRUEPEAK : [ReaLlmit]
               NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]
               ITEMx : [ReaVerb] state configuration line, when writing should be followed by a write of DONE
               FILE, FILEx, -FILEx, +FILEx, -FILE* : [RS5k] file list, -/+ prefixes are write-only, when writing any, should be followed by a write of DONE
@@ -21296,7 +21296,7 @@
             param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only
             
             BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]
-            THRESHOLD, CEILING, TRUEPEAK : [ReaLimit]
+            THRESHOLD, CEILING, TRUEPEAK : [ReaLlmit]
             NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]
             ITEMx : [ReaVerb] state configuration line, when writing should be followed by a write of DONE
             FILE, FILEx, -FILEx, +FILEx, -FILE* : [RS5k] file list, -/+ prefixes are write-only, when writing any, should be followed by a write of DONE
@@ -23162,7 +23162,7 @@
               param.X.learn.mode : absolution/relative mode flag (0: Absolute, 1: 127=-1,1=+1, 2: 63=-1, 65=+1, 3: 65=-1, 1=+1, 4: toggle if nonzero)
               param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only
               BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]
-              THRESHOLD, CEILING, TRUEPEAK : [ReaLimit]
+              THRESHOLD, CEILING, TRUEPEAK : [ReaLlmit]
               NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]
               
               ITEMx : [ReaVerb] state configuration line, when writing should be followed by a write of DONE
@@ -23925,7 +23925,7 @@
             param.X.learn.flags : &1=selected track only, &2=soft takeover, &4=focused FX only, &8=LFO retrigger, &16=visible FX only
             
             BANDTYPEx, BANDENABLEDx : band configuration [ReaEQ]
-            THRESHOLD, CEILING, TRUEPEAK : [ReaLimit]
+            THRESHOLD, CEILING, TRUEPEAK : [ReaLlmit]
             NUMCHANNELS, NUMSPEAKERS, RESETCHANNELS : [ReaSurroundPan]
             ITEMx : [ReaVerb] state configuration line, when writing should be followed by a write of DONE
             FILE, FILEx, -FILEx, +FILEx, -FILE* : [RS5k] file list, -/+ prefixes are write-only, when writing any, should be followed by a write of DONE
@@ -38142,7 +38142,7 @@
         <functioncall prog_lang="python">Llm_Do(int* paramInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaLim=0.3.0
+            ReaLlm=0.3.0
         </requires>
         <description>            
             Called with parameter value 1 executes one ReaLlm cycle. E.g. for running ReaLlm on custom timer, or deferred. 0 or nothing performs shutdown. Disarming/disabling all monitored inputs and calling with parameter value 1 equals to shutdown.
@@ -38153,11 +38153,11 @@
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
-            ReaLim
+            ReaLlm
         </chapter_context>
-        <tags>realim</tags>
+        <tags>ReaLlm</tags>
         <changelog>
-          ReaLim 0.3.0 - added as new function
+          ReaLlm 0.3.0 - added as new function
         </changelog>
     </US_DocBloc>
     
@@ -38170,7 +38170,7 @@
         <functioncall prog_lang="python">void void = Llm_Get(const char* parmname, char* bufOutNeedBig, int bufOutNeedBig_sz, MediaTrack* trInOptional)</functioncall>
         <requires>
             Reaper=6.23
-            ReaLim=0.3.0
+            ReaLlm=0.3.0
         </requires>
         <description>            
             Get ReaLlm information string. Zero-based indices. Master track index -1. Optional MediaTrack* tr gets results relative to tr. Each line (newline '\n' separated) represents entry. Tracks are separated with ';'. FX are listed after ':' separated with ','. 
@@ -38193,11 +38193,11 @@
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
-            ReaLim
+            ReaLlm
         </chapter_context>
-        <tags>realim</tags>
+        <tags>ReaLlm</tags>
         <changelog>
-          ReaLim 0.3.0 - added as new function
+          ReaLlm 0.3.0 - added as new function
         </changelog>
     </US_DocBloc>
     
@@ -38210,7 +38210,7 @@
         <functioncall prog_lang="python">Llm_Set(const char* parmname, const char* bufIn)</functioncall>
         <requires>
             Reaper=6.23
-            ReaLim=0.3.0
+            ReaLlm=0.3.0
         </requires>
         <description>            
             Set ReaLlm parameters.
@@ -38224,11 +38224,11 @@
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
-            ReaLim
+            ReaLlm
         </chapter_context>
-        <tags>realim</tags>
+        <tags>ReaLlm</tags>
         <changelog>
-          ReaLim 0.3.0 - added as new function
+          ReaLlm 0.3.0 - added as new function
         </changelog>
     </US_DocBloc>
 
@@ -51641,7 +51641,7 @@ mespotine
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>osara_outputMessage</slug>
-        <title>osara_outputMessage(Osara)</title>
+        <title>osara_outputMessage</title>
         <functioncall prog_lang="cpp">void osara_outputMessage(const char* message)</functioncall>
         <functioncall prog_lang="eel">extension_api("osara_outputMessage", "message")</functioncall>
         <functioncall prog_lang="lua">reaper.osara_outputMessage(string message)</functioncall>

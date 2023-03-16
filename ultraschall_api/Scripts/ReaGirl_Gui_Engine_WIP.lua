@@ -1462,7 +1462,12 @@ function reagirl.UI_Element_Remove(element_id)
   element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==nil then error("UI_Element_SetSelected: #1 - no such ui-element", 2) end
   table.remove(reagirl.Elements, element_id)
-  reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]-1
+  if element_id<=reagirl.Elements["FocusedElement"] then
+    reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]-1
+  end
+  if reagirl.Elements["FocusedElement"]>#reagirl.Elements then
+    reagirl.Elements["FocusedElement"]=#reagirl.Elements
+  end
   if reagirl.Elements["FocusedElement"]>0 then 
     reagirl.UI_Element_SetFocusRect(reagirl.Elements[reagirl.Elements["FocusedElement"]]["x"], 
                                     reagirl.Elements[reagirl.Elements["FocusedElement"]]["y"], 
@@ -2600,7 +2605,7 @@ end
 function click_button()
   print(os.date())
   --reagirl.Gui_Close()
-  reagirl.Decorative_Element_Remove(EID)
+  reagirl.UI_Element_Remove(EID)
 end
 
 function CMenu(A,B)
@@ -2617,7 +2622,6 @@ end
 
 
 function UpdateUI()
-  
   reagirl.Gui_New()
   reagirl.Background_GetSetColor(true, 44,44,44)
   --reagirl.Background_GetSetImage("c:\\m.png", 1, 0, true, false, false)
@@ -2649,12 +2653,13 @@ function UpdateUI()
   
   
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
-  EID=reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
+  reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
-  reagirl.Button_Add(-585, -350, 0, 0, "Close Gui", "Description of the button", click_button)
   
-  --reagirl.Button_Add(-120, -30, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
-
+  
+  EID=reagirl.Button_Add(-120, -30, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
+  
+  reagirl.Button_Add(-585, -350, 0, 0, "Close Gui", "Description of the button", click_button)
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
   --]]

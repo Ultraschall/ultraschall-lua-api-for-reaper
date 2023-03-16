@@ -2133,12 +2133,13 @@ function ultraschall.Docs_FindReaperApiFunction_Pattern(pattern, case_sensitive,
     You can also check for case-sensitivity and if you want to search descriptions and tags as well.
     
     the returned tables found_functions is of the format:
-      found_functions_desc[function_index][description] - the entire description
-      found_functions_desc[function_index][description_snippet] - a snippet of the description that features the found pattern with 10 characters before and after it
-      found_functions_desc[function_index][startoffset] - the startoffset of the found pattern
-      found_functions_desc[function_index][endoffset] - the endoffset of the found pattern
-      
-    If a function has no found match in the description, the found_functions[function_index] is nil.
+      found_functions_desc[function_index]["functionname"] - the name of the function
+      found_functions_desc[function_index]["description"] - the entire description
+      found_functions_desc[function_index]["description_snippet"] - a snippet of the description that features the found pattern with 10 characters before and after it
+      found_functions_desc[function_index]["desc_startoffset"] - the startoffset of the found pattern; -1 if pattern not found in description
+      found_functions_desc[function_index]["desc_endoffset"] - the endoffset of the found pattern; -1 if pattern not found in description
+      found_functions_desc[function_index]["extension"] - the extension used, like Reaper, SWS, JS, ReaImGui, Osara, etc
+      found_functions_desc[function_index]["extension_version"] - the version of the extension
     
     returns -1 in case of an error
   </description>
@@ -2147,7 +2148,6 @@ function ultraschall.Docs_FindReaperApiFunction_Pattern(pattern, case_sensitive,
     table found_functions - a table with all found functions that follow the search pattern
     table found_functions_desc - a table with all found matches within descriptions, including offset. 
                                - Index follows the index of found_functions
-                               - table will be nil if include_descriptions=false
   </retvals>
   <parameters>
     string pattern - the search-pattern to look for a function
@@ -2160,7 +2160,7 @@ function ultraschall.Docs_FindReaperApiFunction_Pattern(pattern, case_sensitive,
   </chapter_context>
   <target_document>US_Api_DOC</target_document>
   <source_document>Modules/ultraschall_doc_engine.lua</source_document>
-  <tags>documentation, find, search, docs, description, pattern, tags</tags>
+  <tags>documentation, find, search, docs, api, function, extensions, description, pattern, tags</tags>
 </US_DocBloc>
 ]]
   if type(pattern)~="string" then ultraschall.AddErrorMessage("Docs_FindReaperApiFunction_Pattern", "pattern", "must be a string", -1) return -1 end
@@ -2183,7 +2183,6 @@ function ultraschall.Docs_FindReaperApiFunction_Pattern(pattern, case_sensitive,
   local Found_count=0
   local Found={}
   local FoundInformation={}
-  if include_descriptions==false then FoundInformation=nil end
   local found_this_time=false
   for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do
     -- search for titles
@@ -2195,10 +2194,10 @@ function ultraschall.Docs_FindReaperApiFunction_Pattern(pattern, case_sensitive,
     
     -- search within tags
     if found_this_time==false and include_tags==true then
-      local count, tags = ultraschall.Docs_GetUSDocBloc_Tags(ultraschall.Docs_ReaperApiDocBlocs[i], 1)
-      for i=1, count do
-        if case_sensitive==false then tags[i]=tags[i]:lower() end
-        if tags[i]:match(pattern) then found_this_time=true break end
+      local count, tags = ultraschall.Docs_GetUSDocBloc_Tags(ultraschall.Docs_ReaperApiDocBlocs[i], 1)      
+      for a=1, count do
+        if case_sensitive==false then tags[a]=tags[a]:lower() end
+        if tags[a]:match(pattern) then found_this_time=true break end
       end
     end
     
@@ -2216,19 +2215,39 @@ function ultraschall.Docs_FindReaperApiFunction_Pattern(pattern, case_sensitive,
       Offset1, _temp, Offset2=Description:match("()("..pattern..")()")
       if Offset1~=nil then
         if Offset1-desc_startoffset<0 then Offset1=0 else Offset1=Offset1+desc_startoffset end
-        FoundInformation[Found_count+1]={}
+        FoundInformation[Found_count+1]={}        
+        FoundInformation[Found_count+1]["functionname"]=ultraschall.Docs_ReaperApiDocBlocs_Titles[i]
         FoundInformation[Found_count+1]["description_snippet"]=Description:sub(Offset1, Offset2-desc_endoffset-1)
         FoundInformation[Found_count+1]["description"]=Description
-        FoundInformation[Found_count+1]["startoffset"]=Offset1-desc_startoffset -- startoffset of found pattern, so this part can be highlighted
-                                                                                -- when displaying somewhere later
-        FoundInformation[Found_count+1]["endoffset"]=Offset2-1 -- startoffset of found pattern, so this part can be highlighted
-                                                               -- when displaying somewhere later
+        FoundInformation[Found_count+1]["desc_startoffset"]=Offset1-desc_startoffset -- startoffset of found pattern, so this part can be highlighted
+                                                                                     -- when displaying somewhere later
+        FoundInformation[Found_count+1]["desc_endoffset"]=Offset2-1 -- startoffset of found pattern, so this part can be highlighted
+                                                                    -- when displaying somewhere later
       end
     end
     
     if found_this_time==true then
       Found_count=Found_count+1
       Found[Found_count]=ultraschall.Docs_ReaperApiDocBlocs_Titles[i]
+      if FoundInformation[Found_count]==nil then
+        FoundInformation[Found_count]={}
+        FoundInformation[Found_count]["functionname"]=Title
+        FoundInformation[Found_count]["description"]=""
+        FoundInformation[Found_count]["description_snippet"]=""
+        FoundInformation[Found_count]["desc_startoffset"]=-1
+        FoundInformation[Found_count]["desc_endoffset"]=-1
+      end
+      local A,B,C,D,E=ultraschall.Docs_GetUSDocBloc_Requires(ultraschall.Docs_ReaperApiDocBlocs[i], 1)
+      if B[2]~=nil then
+        FoundInformation[Found_count]["extension"], FoundInformation[Found_count]["extension_version"]=B[2]:match("(.-)=(.*)")
+        FoundInformation[Found_count]["extension_version"]=tonumber(FoundInformation[Found_count]["extension_version"])
+      elseif B[1]~=nil then
+        FoundInformation[Found_count]["extension"], FoundInformation[Found_count]["extension_version"]=B[1]:match("(.-)=(.*)")
+        FoundInformation[Found_count]["extension_version"]=tonumber(FoundInformation[Found_count]["extension_version"])
+      else
+        FoundInformation[Found_count]["extension"], FoundInformation[Found_count]["extension_version"]="", -1
+      end
+      
     end
     
     found_this_time=false
@@ -2529,4 +2548,170 @@ function ultraschall.Docs_GetAllReaperApiFunctionnames()
   if ultraschall.Docs_ReaperApiDocBlocs==nil then ultraschall.Docs_LoadReaperApiDocBlocs() end
 
   return ultraschall.Docs_ReaperApiDocBlocs_Slug, ultraschall.Docs_ReaperApiDocBlocs_Titles
+end
+
+function ultraschall.Docs_LoadReaperConfigVarsDocBlocs()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_LoadReaperConfigVarsDocBlocs</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.Docs_LoadReaperConfigVarsDocBlocs()</functioncall>
+  <description>
+    (re-)loads the api-docblocs from the documentation, use by all Docs_GetReaperApi-functions
+  </description>
+  <chapter_context>
+    Reaper Docs
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>Modules/ultraschall_doc_engine.lua</source_document>
+  <tags>documentation, load, docs, description</tags>
+</US_DocBloc>
+]]
+  ultraschall.Docs_ReaperConfigVarsDocBlocs=ultraschall.ReadFullFile(ultraschall.Api_Path.."DocsSourceFiles/Reaper_Config_Variables.USDocML")
+  ultraschall.Docs_ReaperConfigVarsDocBlocs_Count, ultraschall.Docs_ReaperConfigVarsDocBlocs = ultraschall.Docs_GetAllUSDocBlocsFromString(ultraschall.Docs_ReaperConfigVarsDocBlocs)
+  ultraschall.Docs_ReaperConfigVarsDocBlocs_Slug={}
+  ultraschall.Docs_ReaperConfigVarsDocBlocs_Titles={}
+  for i=1, ultraschall.Docs_ReaperConfigVarsDocBlocs_Count do 
+    ultraschall.Docs_ReaperConfigVarsDocBlocs_Titles[i]= ultraschall.Docs_GetUSDocBloc_Title(ultraschall.Docs_ReaperConfigVarsDocBlocs[i], 1)
+    ultraschall.Docs_ReaperConfigVarsDocBlocs_Slug[i]= ultraschall.Docs_GetUSDocBloc_Slug(ultraschall.Docs_ReaperConfigVarsDocBlocs[i], 1)
+  end
+end
+
+
+--A=ultraschall.Docs_LoadReaperConfigVarsDocBlocs()
+
+--B={ultraschall.Docs_GetReaperApiFunction_Call(A[10], 3)}
+
+function ultraschall.Docs_FindReaperConfigVar_Pattern(pattern, case_sensitive, include_descriptions, include_tags)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_FindReaperConfigVar_Pattern</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer found_configvar_count, table found_configvars, table found_config_vars_desc = ultraschall.Docs_FindReaperConfigVar_Pattern(string pattern, boolean case_sensitive, optional boolean include_descriptions, optional boolean include_tags)</functioncall>
+  <description>
+    searches for configvariables in the docs, that follow a certain searchpattern(supports Lua patternmatching).
+    
+    You can also check for case-sensitivity and if you want to search descriptions and tags as well.
+    
+    the returned table found_config_vars_desc is of the format: 
+      found_config_vars_desc[configvar_index]["configvar"] - the name of the found config variable
+      found_config_vars_desc[configvar_index]["description"] - the entire description
+      found_config_vars_desc[configvar_index]["description_snippet"] - a snippet of the description that features the found pattern with 10 characters before and after it
+      found_config_vars_desc[configvar_index]["desc_startoffset"] - the startoffset of the found pattern; -1, if pattern not found in description
+      found_config_vars_desc[configvar_index]["desc_endoffset"] - the endoffset of the found pattern; -1, if pattern not found in description
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer found_configvar_count - the number of found config variables that follow the search-pattern
+    table found_configvars - a table with all found config variables that follow the search pattern
+    table found_config_vars_desc - a table with all found matches within descriptions, including offset. 
+                               - Index follows the index of found_functions
+                               - table will be nil if include_descriptions=false
+  </retvals>
+  <parameters>
+    string pattern - the search-pattern to look for a config variable
+    boolean case_sensitive - true, search pattern is case-sensitive; false, search-pattern is case-insensitive
+    optional boolean include_descriptions - true, search in descriptions; false, don't search in descriptions
+    optional boolean include_tags - true, search in tags; false, don't search in tags
+  </parameters>
+  <chapter_context>
+    Reaper Docs
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>Modules/ultraschall_doc_engine.lua</source_document>
+  <tags>documentation, find, search, docs, description, pattern, tags, config variable</tags>
+</US_DocBloc>
+]]
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("Docs_FindReaperConfigVar_Pattern", "pattern", "must be a string", -1) return -1 end
+  if type(case_sensitive)~="boolean" then ultraschall.AddErrorMessage("Docs_FindReaperConfigVar_Pattern", "case_sensitive", "must be a string", -2) return -1 end
+  if include_tags~=nil and type(include_tags)~="boolean" then ultraschall.AddErrorMessage("Docs_FindReaperConfigVar_Pattern", "include_tags", "must be a string", -4) return -1 end
+  
+  if include_descriptions~=nil and type(include_descriptions)~="boolean" then ultraschall.AddErrorMessage("Docs_FindReaperConfigVar_Pattern", "include_descriptions", "must be a string", -3) return -1 end
+  
+  local desc_endoffset, desc_startoffset
+  if ultraschall.Docs_ReaperConfigVarsDocBlocs_Slug==nil then ultraschall.Docs_LoadReaperConfigVarsDocBlocs() end
+  if desc_startoffset==nil then desc_startoffset=-10 end
+  if desc_endoffset==nil then desc_endoffset=-10 end
+  if case_sensitive==false then pattern=pattern:lower() end
+  local Found_count=0
+  local Found={}
+  local FoundInformation={}
+  local found_this_time=false
+  for i=1, ultraschall.Docs_ReaperConfigVarsDocBlocs_Count do
+    -- search for titles
+    local Title=ultraschall.Docs_ReaperConfigVarsDocBlocs_Slug[i]
+    if case_sensitive==false then Title=Title:lower() end
+    if Title:match(pattern) then
+      found_this_time=true
+    end
+    
+    -- search within tags
+    if found_this_time==false and include_tags==true then
+      local count, tags = ultraschall.Docs_GetUSDocBloc_Tags(ultraschall.Docs_ReaperConfigVarsDocBlocs[i], 1)      
+      for a=1, count do
+        if case_sensitive==false then tags[a]=tags[a]:lower() end
+        if tags[a]:match(pattern) then found_this_time=true break end
+      end
+    end
+    
+    -- search within descriptions
+    local _temp, Offset1, Offset2
+    if found_this_time==false and include_descriptions==true then
+      local Description, markup_type = ultraschall.Docs_GetUSDocBloc_Description(ultraschall.Docs_ReaperConfigVarsDocBlocs[i], true, 1)
+      Description = string.gsub(Description, "&lt;", "<")
+      Description = string.gsub(Description, "&gt;", ">")
+      Description = string.gsub(Description, "&amp;", "&")
+      if case_sensitive==false then Description=Description:lower() end
+      if Description:match(pattern) then
+        found_this_time=true
+      end
+      Offset1, _temp, Offset2=Description:match("()("..pattern..")()")
+      if Offset1~=nil then
+        if Offset1-desc_startoffset<0 then Offset1=0 else Offset1=Offset1+desc_startoffset end
+        FoundInformation[Found_count+1]={}
+        FoundInformation[Found_count+1]["configvar"]=Title
+        FoundInformation[Found_count+1]["description_snippet"]=Description:sub(Offset1, Offset2-desc_endoffset-1)
+        FoundInformation[Found_count+1]["description"]=Description
+        FoundInformation[Found_count+1]["desc_startoffset"]=Offset1-desc_startoffset -- startoffset of found pattern, so this part can be highlighted
+                                                                                     -- when displaying somewhere later
+        FoundInformation[Found_count+1]["desc_endoffset"]=Offset2-1 -- startoffset of found pattern, so this part can be highlighted
+                                                                    -- when displaying somewhere later
+      else
+        FoundInformation[Found_count+1]={}
+        FoundInformation[Found_count+1]["configvar"]=Title
+        FoundInformation[Found_count+1]["description_snippet"]=""
+        FoundInformation[Found_count+1]["description"]=""
+        FoundInformation[Found_count+1]["desc_startoffset"]=-1 -- startoffset of found pattern, so this part can be highlighted
+                                                               -- when displaying somewhere later
+        FoundInformation[Found_count+1]["desc_endoffset"]=-1   -- startoffset of found pattern, so this part can be highlighted
+                                                               -- when displaying somewhere later
+      end
+    end
+    
+    if found_this_time==true then
+      Found_count=Found_count+1
+      Found[Found_count]=ultraschall.Docs_ReaperConfigVarsDocBlocs_Slug[i]
+      if FoundInformation[Found_count]==nil then
+        FoundInformation[Found_count]={}
+        FoundInformation[Found_count]["configvar"]=Title
+        FoundInformation[Found_count]["description"]=""
+        FoundInformation[Found_count]["description_snippet"]=""
+        FoundInformation[Found_count]["desc_startoffset"]=-1
+        FoundInformation[Found_count]["desc_endoffset"]=-1
+      end
+      
+    end
+    
+    found_this_time=false
+  end
+  return Found_count, Found, FoundInformation
 end
