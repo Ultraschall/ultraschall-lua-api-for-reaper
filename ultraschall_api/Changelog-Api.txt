@@ -354,7 +354,7 @@ Has now 1615 functions, with XX new ones
   - Rendering: SetRenderTable\_ProjExtState - stores a RenderTable in a projextstate
   
 #### Changes from 4.75 to 4.8  
-
+  - FXManagement: SetFXStateChunk - didn't work properly on tracks without an existing FXChain -> fixed now(thanks to tompad)
 ---
 
 ### 4.75 - "Soundgarden - Black Hole Sun" - 19th of December 2022
