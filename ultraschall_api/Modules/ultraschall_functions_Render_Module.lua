@@ -5175,7 +5175,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
     
     path, offset=B2:match("\"(.-)\"() ")    
     if path==nil then path, offset=B2:match("(.-)() ") end
-    Tail_MS=tonumber(B2:sub(offset, -1))
+    local Tail_MS=tonumber(B2:sub(offset, -1))
     --print2(path)
     
     if Presetname2:lower()==Bounds_Name:lower() then found=true break end

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55402.00" author="Meo Mespotine">
+      <version name="55428.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1399,6 +1399,7 @@
 	<source main="true" file="/Ultraschall_API_Settings.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api/Scripts/Ultraschall_API_Settings.lua</source>
 	<source main="true" file="/ultraschall_developertool_ActionlistToIni-Converter.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_ActionlistToIni-Converter.lua</source>
 	<source main="true" file="/ultraschall_developertool_CheckForNewConfigVars.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_CheckForNewConfigVars.lua</source>
+	<source main="true" file="/ultraschall_developertool_CheckPlugins.h_ForNewAndMissingFunctions.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_CheckPlugins.h_ForNewAndMissingFunctions.lua</source>
 	<source main="true" file="/ultraschall_developertool_Check_scripts_in_folder_for_deprecated_functions.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_Check_scripts_in_folder_for_deprecated_functions.lua</source>
 	<source main="true" file="/ultraschall_developertool_Compare_LangPacks.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_Compare_LangPacks.lua</source>
 	<source main="true" file="/ultraschall_developertool_Copy_Descriptions_and_IDs_from_Listview_of_opened_MetaData-Dialog.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_Copy_Descriptions_and_IDs_from_Listview_of_opened_MetaData-Dialog.lua</source>
@@ -1547,7 +1548,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1652 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55402 from 19.03.2023 19:53:22).}
+a 1652 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55428 from 03.04.2023 18:40:49).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
