@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55441.00" author="Meo Mespotine">
+      <version name="55454.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1448,7 +1448,7 @@
 
 4.8 - “Sparks - When do I get to sing my way” - XXth of XX 2023
 
-Has now 1615 functions, with XX new ones
+Has now 1652 functions, with 37 new ones
 
 new in this release:
 
@@ -1488,12 +1488,17 @@ New features in 4.8
     api-functions(including extensions) that follow a search pattern
 -   Docs: Docs_FindReaperConfigVar_Pattern - searches for configuration
     variables that follow a search pattern
+-   Docs: Docs_FindUltraschallApiFunction_Pattern - searches for
+    Ultraschall Api-functions that follow a search pattern
+-   Docs: Docs_GetAllReaperApiFunctionnames - returns all
+    reaper-API-functionnames existing in the docs(includes extensions)
+-   Docs: Docs_GetAllUltraschallApiFunctionnames - returns all
+    Ultraschall-API-functionnames existing in the docs(includes
+    extensions)
 -   Docs: Docs_GetReaperApiFunction_Call - returns the functioncall of a
     Reaper-API-function(includes extensions)
 -   Docs: Docs_GetReaperApiFunction_Description - returns the
     description of a Reaper-API-function(includes extensions)
--   Docs: Docs_GetAllReaperApiFunctionnames - returns all
-    reaper-API-functionnames existing in the docs(includes extensions)
 -   Docs: Docs_GetReaperApiFunction_Params - returns the parameters of a
     Reaper-API-function(includes extensions)
 -   Docs: Docs_GetReaperApiFunction_Retvals - returns the returnvalues
@@ -1502,10 +1507,24 @@ New features in 4.8
     dependencies of a Reaper-API-function(includes extensions)
 -   Docs: Docs_GetReaperApiFunction_Tags - returns the tags of a
     Reaper-API-function(includes extensions)
+-   Docs: Docs_GetUltraschallApiFunction_Call - returns the functioncall
+    of a Ultraschall-API-function(includes extensions)
+-   Docs: Docs_GetUltraschallApiFunction_Description - returns the
+    description of a Ultraschall-API-function(includes extensions)
+-   Docs: Docs_GetUltraschallApiFunction_Params - returns the parameters
+    of a Ultraschall-API-function(includes extensions)
+-   Docs: Docs_GetUltraschallApiFunction_Retvals - returns the
+    returnvalues of a Ultraschall-API-function(includes extensions)
+-   Docs: Docs_GetUltraschallApiFunction_Requires - returns the required
+    dependencies of a Ultraschall-API-function(includes extensions)
+-   Docs: Docs_GetUltraschallApiFunction_Tags - returns the tags of a
+    Ultraschall-API-function(includes extensions)
 -   Docs: Docs_LoadReaperApiDocBlocs - (re)loads the entries of the
     Reaper api-documentation
 -   Docs: Docs_LoadReaperConfigVarsDocBlocs - (re)loads the entries of
     the config-var-documentation
+-   Docs: Docs_LoadUltraschallApiDocBlocs - (re)loads the entries of the
+    Ultraschall api-documentation
 -   Rendering: GetRenderTable_ExtState - gets a RenderTable stored in an
     extstate
 -   Rendering: GetRenderTable_ProjExtState - gets a RenderTable stored
@@ -1548,7 +1567,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1652 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55441 from 04.04.2023 23:33:05).}
+a 1661 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55454 from 05.04.2023 22:18:19).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1562,7 +1581,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1652 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1661 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

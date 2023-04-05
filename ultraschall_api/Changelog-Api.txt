@@ -316,7 +316,7 @@ ToDo Marker Menu:
 
 ### 4.8 - "Sparks - When do I get to sing my way" - XXth of XX 2023
 
-Has now 1615 functions, with XX new ones
+Has now 1652 functions, with 37 new ones
 
 **new in this release:**  
 
@@ -339,15 +339,24 @@ Has now 1615 functions, with XX new ones
   - HelperFunctions: string.utf8\_sub - gets the substring of an utf8-encoded string; works like string.sub  
   - Docs: Docs\_FindReaperApiFunction\_Pattern - searches for api-functions(including extensions) that follow a search pattern
   - Docs: Docs\_FindReaperConfigVar\_Pattern - searches for configuration variables that follow a search pattern
+  - Docs: Docs\_FindUltraschallApiFunction\_Pattern - searches for Ultraschall Api-functions that follow a search pattern
+  - Docs: Docs\_GetAllReaperApiFunctionnames - returns all reaper-API-functionnames existing in the docs(includes extensions)
+  - Docs: Docs\_GetAllUltraschallApiFunctionnames - returns all Ultraschall-API-functionnames existing in the docs(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Call - returns the functioncall of a Reaper-API-function(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Description - returns the description of a Reaper-API-function(includes extensions)
-  - Docs: Docs\_GetAllReaperApiFunctionnames - returns all reaper-API-functionnames existing in the docs(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Params - returns the parameters of a Reaper-API-function(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Retvals - returns the returnvalues of a Reaper-API-function(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Requires - returns the required dependencies of a Reaper-API-function(includes extensions)
   - Docs: Docs\_GetReaperApiFunction\_Tags - returns the tags of a Reaper-API-function(includes extensions)
+  - Docs: Docs\_GetUltraschallApiFunction\_Call - returns the functioncall of a Ultraschall-API-function(includes extensions)
+  - Docs: Docs\_GetUltraschallApiFunction\_Description - returns the description of a Ultraschall-API-function(includes extensions)
+  - Docs: Docs\_GetUltraschallApiFunction\_Params - returns the parameters of a Ultraschall-API-function(includes extensions)
+  - Docs: Docs\_GetUltraschallApiFunction\_Retvals - returns the returnvalues of a Ultraschall-API-function(includes extensions)
+  - Docs: Docs\_GetUltraschallApiFunction\_Requires - returns the required dependencies of a Ultraschall-API-function(includes extensions)
+  - Docs: Docs\_GetUltraschallApiFunction\_Tags - returns the tags of a Ultraschall-API-function(includes extensions)
   - Docs: Docs\_LoadReaperApiDocBlocs - (re)loads the entries of the Reaper api-documentation
   - Docs: Docs\_LoadReaperConfigVarsDocBlocs - (re)loads the entries of the config-var-documentation
+  - Docs: Docs\_LoadUltraschallApiDocBlocs - (re)loads the entries of the Ultraschall api-documentation
   - Rendering: GetRenderTable\_ExtState - gets a RenderTable stored in an extstate
   - Rendering: GetRenderTable\_ProjExtState - gets a RenderTable stored in a projextstate
   - Rendering: SetRenderTable\_ExtState - stores a RenderTable in an extstate
