@@ -29154,6 +29154,77 @@
         </changelog>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_Base64_Decode</slug>
+        <title>NF_Base64_Decode</title>
+        <functioncall prog_lang="cpp">bool NF_Base64_Decode(const char* base64Str, char* decodedStrOutNeedBig, int decodedStrOutNeedBig_sz)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("NF_Base64_Decode", "base64Str", #decodedStr)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string decodedStr = reaper.NF_Base64_Decode(string base64Str)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, String base64Str, String decodedStrOutNeedBig, Int decodedStrOutNeedBig_sz) = NF_Base64_Decode(base64Str, decodedStrOutNeedBig, decodedStrOutNeedBig_sz)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+           Decodes a Base64-string.
+           
+           Returns true on success.
+        </description>
+        <retvals>
+            boolean retval - 
+            string decodeStr - 
+        </retvals>
+        <parameters>
+            string base64Str - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Api-Helper-Functions
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>   
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_Base64_Encode</slug>
+        <title>NF_Base64_Encode</title>
+        <functioncall prog_lang="cpp">void NF_Base64_Encode(const char* str, int str_sz, bool usePadding, char* encodedStrOutNeedBig, int encodedStrOutNeedBig_sz)</functioncall>
+        <functioncall prog_lang="eel">extension_api("NF_Base64_Encode", "str", bool usePadding, #encodedStr)</functioncall>
+        <functioncall prog_lang="lua">string encodedStr = reaper.NF_Base64_Encode(string str, boolean usePadding)</functioncall>
+        <functioncall prog_lang="python">(String str, Int str_sz, Boolean usePadding, String encodedStrOutNeedBig, Int encodedStrOutNeedBig_sz) = NF_Base64_Encode(str, str_sz, usePadding, encodedStrOutNeedBig, encodedStrOutNeedBig_sz)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+           Encodes a string into Base64-encoding
+           
+           Input string may contain null bytes in REAPER 6.44 or newer. 
+           
+           Note: Doesn't allow padding in the middle (e.g. concatenated encoded strings), doesn't allow newlines.
+        </description>
+        <retvals>
+            string decodeStr - 
+        </retvals>
+        <parameters>
+            string str - 
+            boolean usePadding - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Api-Helper-Functions
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>   
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>NF_ClearGlobalStartupAction</slug>
@@ -29559,6 +29630,35 @@
         <changelog>
         </changelog>
     </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>NF_ScrollHorizontallyByPercentage</slug>
+        <title>NF_ScrollHorizontallyByPercentage</title>
+        <functioncall prog_lang="cpp">void NF_ScrollHorizontallyByPercentage(int amount)</functioncall>
+        <functioncall prog_lang="eel">extension_api("NF_ScrollHorizontallyByPercentage", int amount)</functioncall>
+        <functioncall prog_lang="lua">reaper.NF_ScrollHorizontallyByPercentage(integer amount)</functioncall>
+        <functioncall prog_lang="python">NF_ScrollHorizontallyByPercentage(Int amount)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+           100 means scroll one page. Negative values scroll left.
+        </description>
+        <parameters>
+            integer amount - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            User Interface
+            Arrangeview Management
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>   
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>NF_SetGlobalStartupAction</slug>
@@ -39636,6 +39736,37 @@
         </changelog>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_CreatePreview</slug>
+        <title>CF_CreatePreview</title>
+        <functioncall prog_lang="cpp">CF_Preview* CF_CreatePreview(PCM_source* source)</functioncall>
+        <functioncall prog_lang="eel">CF_Preview extension_api("CF_CreatePreview", PCM_source source)</functioncall>
+        <functioncall prog_lang="lua">CF_Preview retval = reaper.CF_CreatePreview(PCM_source source)</functioncall>
+        <functioncall prog_lang="python">CF_Preview CF_CreatePreview(PCM_source source)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description prog_lang="*">
+            Enumerate the source's media cues. Returns the next index or 0 when finished.
+        </description>
+        <retvals>
+            CF_Preview retval - 
+        </retvals>
+        <parameters>
+            PCM_source src - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+            Source Management
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>CF_EnumMediaSourceCues</slug>
@@ -39719,13 +39850,15 @@
         <functioncall prog_lang="python">(Int retval, Int section, Int index, String nameOut, Int nameOut_sz) = CF_EnumerateActions(section, index, nameOut, nameOut_sz)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.12.1.1
+            SWS=2.13.2.0
         </requires>
         <description prog_lang="*">
+            Deprecated, see kbd_enumerateActions (v6.71+). 
+            
             Wrapper for the unexposed kbd_enumerateActions API function.
             Main=0, Main (alt recording)=100, MIDI Editor=32060, MIDI Event List Editor=32061, MIDI Inline Editor=32062, Media Explorer=32063
-
         </description>
+        <deprecated since_when="SWS 2.13.2.0" alternative="kbd_enumerateActions"/>
         <retvals>
             integer retval - 
             string name - 
@@ -39789,12 +39922,16 @@
         <functioncall prog_lang="python">String retval = CF_GetCommandText(Int section, Int command)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.0.1
+            SWS=2.13.2.0
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Wrapper for the unexposed kbd\_getTextFromCmd API function. See [CF\_EnumerateActions](#CF_EnumerateActions) for common section IDs.
-
+            Deprecated, see kbd_getTextFromCmd (v6.71+). 
+            
+            Wrapper for the unexposed kbd_getTextFromCmd API function. 
+            
+            See CF_EnumerateActions for common section IDs.
         </description>
+        <deprecated since_when="SWS 2.13.2.0" alternative="kbd_getTextFromCmd"/>
         <retvals>
             string str - 
         </retvals>
@@ -40147,7 +40284,7 @@
             Reaper=5.965
             SWS=2.10.0.1
         </requires>
-        <description prog_lang="*">
+        <description>
             Select the given file in explorer/finder.
         </description>
         <retvals>
@@ -40166,7 +40303,283 @@
         <changelog>
         </changelog>
     </US_DocBloc>
-    
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_PCM_Source_SetSectionInfo</slug>
+        <title>CF_PCM_Source_SetSectionInfo</title>
+        <functioncall prog_lang="cpp">bool CF_PCM_Source_SetSectionInfo(PCM_source* section, PCM_source* source, double offset, double length, bool reverse)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("CF_PCM_Source_SetSectionInfo", PCM_source section, PCM_source source, offset, length, bool reverse)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.CF_PCM_Source_SetSectionInfo(PCM_source section, PCM_source source, number offset, number length, boolean reverse)</functioncall>
+        <functioncall prog_lang="python">Boolean CF_PCM_Source_SetSectionInfo(PCM_source section, PCM_source source, Float offset, Float length, Boolean reverse)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+            Give a section source created using PCM_Source_CreateFromType("SECTION"). Offset and length are ignored if 0. Negative length to subtract from the total length of the source.
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            PCM_source section - 
+            PCM_source source - 
+            number offset - 
+            number length - 
+            boolean reverse - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+            Source Management
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_Preview_GetPeak</slug>
+        <title>CF_Preview_GetPeak</title>
+        <functioncall prog_lang="cpp">bool CF_Preview_GetPeak(CF_Preview* preview, int channel, double* peakvolOut)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("CF_Preview_GetPeak", CF_Preview preview, int channel, &peakvol)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, number peakvol = reaper.CF_Preview_GetPeak(CF_Preview preview, integer channel)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, CF_Preview preview, Int channel, Float peakvolOut) = CF_Preview_GetPeak(preview, channel, peakvolOut)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+            Read peak volume for channel 0 or 1. Only available when outputting to a hardware output (not through a track).
+        </description>
+        <retvals>
+            boolean retval - 
+            number peakvol - 
+        </retvals>
+        <parameters>
+            CF_Preview preview - 
+            integer channel - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_Preview_GetValue</slug>
+        <title>CF_Preview_GetValue</title>
+        <functioncall prog_lang="cpp">bool CF_Preview_GetValue(CF_Preview* preview, const char* name, double* valueOut)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("CF_Preview_GetValue", CF_Preview preview, "name", &value)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, number value = reaper.CF_Preview_GetValue(CF_Preview preview, string name)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, CF_Preview preview, String name, Float valueOut) = CF_Preview_GetValue(preview, name, valueOut)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+            Supported attributes:
+
+            B_LOOP seek to the beginning when reaching the end of the source
+            B_PPITCH preserve pitch when changing playback rate
+            D_FADEINLEN lenght in seconds of playback fade in
+            D_FADEOUTLEN lenght in seconds of playback fade out
+            D_LENGTH (read only) length of the source * playback rate
+            D_MEASUREALIGN >0 = wait until the next bar before starting playback (note: this causes playback to silently continue when project is paused and previewing through a track)
+            D_PAN playback pan
+            D_PITCH pitch adjustment in semitones
+            D_PLAYRATE playback rate
+            D_POSITION current playback position
+            D_VOLUME playback volume
+            I_OUTCHAN first hardware output channel (&1024=mono, reads -1 when playing through a track, see CF_Preview_SetOutputTrack)
+            I_PITCHMODE highest 16 bits=pitch shift mode (see EnumPitchShiftModes), lower 16 bits=pitch shift submode (see EnumPitchShiftSubModes)
+        </description>
+        <retvals>
+            boolean retval - 
+            number peakvol - 
+        </retvals>
+        <parameters>
+            CF_Preview preview - 
+            integer channel - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_Preview_Play</slug>
+        <title>CF_Preview_Play</title>
+        <functioncall prog_lang="cpp">bool CF_Preview_Play(CF_Preview preview)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("CF_Preview_Play", CF_Preview preview)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.CF_Preview_Play(CF_Preview preview)</functioncall>
+        <functioncall prog_lang="python">Boolean CF_Preview_Play(CF_Preview preview)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+           Start playback of the configured preview object.
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            CF_Preview preview - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_Preview_SetOutputTrack</slug>
+        <title>CF_Preview_SetOutputTrack</title>
+        <functioncall prog_lang="cpp">bool CF_Preview_SetOutputTrack(CF_Preview* preview, ReaProject* project, MediaTrack* track)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("CF_Preview_SetOutputTrack", CF_Preview preview, ReaProject project, MediaTrack track)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.CF_Preview_SetOutputTrack(CF_Preview preview, ReaProject project, MediaTrack track)</functioncall>
+        <functioncall prog_lang="python">Boolean CF_Preview_SetOutputTrack(CF_Preview preview, ReaProject project, MediaTrack track)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+           
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            CF_Preview preview - 
+            ReaProject project - 
+            MediaTrack track - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_Preview_SetValue</slug>
+        <title>CF_Preview_SetValue</title>
+        <functioncall prog_lang="cpp">bool CF_Preview_SetValue(CF_Preview* preview, const char* name, double newValue)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("CF_Preview_SetValue", CF_Preview preview, "name", newValue)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.CF_Preview_SetValue(CF_Preview preview, string name, number newValue)</functioncall>
+        <functioncall prog_lang="python">Boolean CF_Preview_SetValue(CF_Preview preview, String name, Float newValue)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+           See CF_Preview_GetValue.
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            CF_Preview preview - 
+            string name - 
+            number newValue - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>   
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_Preview_Stop</slug>
+        <title>CF_Preview_Stop</title>
+        <functioncall prog_lang="cpp">bool CF_Preview_Stop(CF_Preview* preview)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("CF_Preview_Stop", CF_Preview preview)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.CF_Preview_Stop(CF_Preview preview)</functioncall>
+        <functioncall prog_lang="python">Boolean CF_Preview_Stop(CF_Preview preview)</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+           Stop and destroy a preview object.
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            CF_Preview preview - 
+        </parameters>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>   
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>CF_Preview_StopAll</slug>
+        <title>CF_Preview_StopAll</title>
+        <functioncall prog_lang="cpp">void CF_Preview_StopAll()</functioncall>
+        <functioncall prog_lang="eel">extension_api("CF_Preview_StopAll")</functioncall>
+        <functioncall prog_lang="lua">reaper.CF_Preview_StopAll()</functioncall>
+        <functioncall prog_lang="python">CF_Preview_StopAll()</functioncall>
+        <requires>
+            Reaper=5.965
+            SWS=2.13.2.0
+        </requires>
+        <description>
+           Stop and destroy all currently active preview objects.
+        </description>
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>Reaper_Api_Documentation.USDocML</source_document>
+        <chapter_context>
+            Audio Management
+            Misc
+        </chapter_context>
+        <tags></tags>
+        <changelog>
+            SWS 2.13.2.0 - added to SWS
+        </changelog>
+    </US_DocBloc>  
+  
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>CF_SelectTrackFX</slug>
         <title>CF_SelectTrackFX</title>
@@ -40607,9 +41020,12 @@
             SWS=2.12.0
         </requires>
         <description>
-            This function allows you to get various information about your display.
-
-            Equivalent to win32 API GetSystemMetrics()
+            Equivalent to win32 API GetSystemMetrics(). 
+            
+            Note: Only SM_C[XY]SCREEN, SM_C[XY][HV]SCROLL and SM_CYMENU are currently supported on macOS and Linux as of REAPER 6.68. 
+            
+            Check the SWELL source code for up-to-date support information (swell-wnd.mm, swell-wnd-generic.cpp).
+            
             see: https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getsystemmetrics.
         </description>
         <retvals>
