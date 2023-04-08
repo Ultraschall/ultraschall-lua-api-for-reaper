@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55467.00" author="Meo Mespotine">
+      <version name="55480.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1446,14 +1446,30 @@
 	<source main="true" file="/ultraschall_developertool_gfx_deltablit_displayer.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.8//ultraschall_api/Scripts//Tools/DeveloperScripts//ultraschall_developertool_gfx_deltablit_displayer.lua</source>
 <changelog><![CDATA[Ultraschall Framework - Changelog
 
-4.8 - “Sparks - When do I get to sing my way” - XXth of XX 2023
+4.8 - “Sparks - When do I get to sing my way” - 8th of April 2023
 
 Has now 1652 functions, with 37 new ones
 
 new in this release:
 
--   Tudelu
-    Tudelu
+-   Docs-Find-functions
+    Added now a lot of functions to access the docs of a function
+    directly via API.
+    You can also use the various Find-functions to search for functions
+    matching certain words and slugs. With that, you can build your own
+    API-search-tools. Oh: and you can search the Config-Vars too!
+
+-   UTF8/string-functions for Lua
+    Various helperfunctions for dealing with strings and utf8-encoded
+    strings. They’ll be added to the string-module of Lua.
+
+-   Store RenderTable as extstate
+    You can store and retrieve RenderTables from/to extstates and
+    projextstates. So you can store multiple render-settings in a
+    project.
+    So if you have different render-settings for different parts of your
+    project, you can store and restore them now from extstates without
+    having to spam the render-presets.
 
 New features in 4.8
 
@@ -1536,6 +1552,8 @@ New features in 4.8
 
 Changes from 4.75 to 4.8
 
+-   Docs: Reaper Internals - updated docs to Reaper 6.78, SWS 2.13.2.0,
+    ReaFab 0.3.10, FeaLlm 0.4.1 and added PeloReaper 2023.02.19
 -   FXManagement: SetFXStateChunk - didn’t work properly on tracks
     without an existing FXChain -> fixed now(thanks to tompad)
 ]]>
@@ -1567,7 +1585,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1661 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55467 from 08.04.2023 14:35:37).}
+a 1661 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55480 from 08.04.2023 14:48:36).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
