@@ -1941,7 +1941,7 @@ function ultraschall.Docs_LoadUltraschallAPIDocBlocs()
   ultraschall.Docs_US_Functions_USDocBlocs_Slug={}
   ultraschall.Docs_US_Functions_USDocBlocs_Titles={}
   for i=1, ultraschall.Docs_US_Functions_USDocBlocs_Count do 
-    ultraschall.Docs_US_Functions_USDocBlocs_Slug[i]= ultraschall.Docs_GetUSDocBloc_Title(ultraschall.Docs_US_Functions_USDocBlocs[i], 1)
+    ultraschall.Docs_US_Functions_USDocBlocs_Slug[i] = ultraschall.Docs_GetUSDocBloc_Slug(ultraschall.Docs_US_Functions_USDocBlocs[i], 1)
     ultraschall.Docs_US_Functions_USDocBlocs_Titles[i]= ultraschall.Docs_GetUSDocBloc_Slug(ultraschall.Docs_US_Functions_USDocBlocs[i], 1)
   end
 end
