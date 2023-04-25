@@ -2301,7 +2301,7 @@ function ultraschall.Docs_GetUltraschallApiFunction_Params(functionname)
   end
   if found==-1 then ultraschall.AddErrorMessage("Docs_GetUltraschallApiFunction_Params", "functionname", "function not found", -4) return end
   
-  local parmcount, Params, markuptype, markupversion, prog_lang, spok_lang, indent = 
+  parmcount, Params, markuptype, markupversion, prog_lang, spok_lang, indent = 
   
   ultraschall.Docs_GetUSDocBloc_Params(ultraschall.Docs_US_Functions_USDocBlocs[found], true, 1)
   local Params2={}
