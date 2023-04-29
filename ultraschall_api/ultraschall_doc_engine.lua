@@ -630,8 +630,7 @@ function ultraschall.Docs_GetUSDocBloc_Params(String, unindent_description, inde
       Parmcount=Parmcount+1
       Params[Parmcount]={}
       Params[Parmcount][1], Params[Parmcount][2]=split_string[i]:match("(.-)%-(.*)")
-      Params[Parmcount][1]=Params[Parmcount][1].."\0"
-      Params[Parmcount][1]=Params[Parmcount][1]:match("(.*) %s*\0")
+      Params[Parmcount][1]=Params[Parmcount][1]:match("(.-)%s*$")
     else
       Params[Parmcount][2]=Params[Parmcount][2].."\n"..split_string[i]:sub(2,-1)
     end
@@ -730,8 +729,7 @@ function ultraschall.Docs_GetUSDocBloc_Retvals(String, unindent_description, ind
       Parmcount=Parmcount+1
       Params[Parmcount]={}
       Params[Parmcount][1], Params[Parmcount][2]=split_string[i]:match("(.-)%-(.*)")
-      Params[Parmcount][1]=Params[Parmcount][1].."\0"
-      Params[Parmcount][1]=Params[Parmcount][1]:match("(.*) %s*\0")
+      Params[Parmcount][1]=Params[Parmcount][1]:match("(.-)%s*$")
     else
       Params[Parmcount][2]=Params[Parmcount][2].."\n"..split_string[i]:sub(2,-1)
     end
@@ -2448,4 +2446,107 @@ function ultraschall.Docs_GetAllUltraschallApiFunctionnames()
   if ultraschall.Docs_US_Functions_USDocBlocs_Titles==nil then ultraschall.Docs_LoadUltraschallAPIDocBlocs() end
 
   return ultraschall.Docs_US_Functions_USDocBlocs_Slug
+end
+
+function ultraschall.Docs_GetReaperApiFunction_Categories(functionname)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetReaperApiFunction_Categories</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer categories_count, table categories = ultraschall.Docs_GetReaperApiFunction_Categories(string functionname)</functioncall>
+  <description>
+    returns the categories of a function from the documentation
+    
+    Note: for gfx-functions, add gfx. before the functionname
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string functionname - the name of the function, whose categories you want to get
+  </parameters>
+  <retvals>
+    integer categories_count - the number of categories for this function
+    table categories - the categories of this function
+  </retvals>
+  <chapter_context>
+    Reaper Docs
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>Modules/ultraschall_doc_engine.lua</source_document>
+  <tags>documentation, get, docs, category, reaper</tags>
+</US_DocBloc>
+]]
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Categories", "functionname", "must be a string", -1) return -1 end
+  if ultraschall.Docs_ReaperApiDocBlocs_Titles==nil then ultraschall.Docs_LoadReaperApiDocBlocs() end
+  if ultraschall.Docs_ReaperApiDocBlocs==nil then
+    ultraschall.Docs_ReaperApiDocBlocs=ultraschall.ReadFullFile(ultraschall.Api_Path.."DocsSourceFiles/Reaper_Api_Documentation.USDocML")
+    ultraschall.Docs_ReaperApiDocBlocs_Count, ultraschall.Docs_ReaperApiDocBlocs = ultraschall.Docs_GetAllUSDocBlocsFromString(ultraschall.Docs_ReaperApiDocBlocs)
+    ultraschall.Docs_ReaperApiDocBlocs_Titles={}
+    for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do 
+      ultraschall.Docs_ReaperApiDocBlocs_Titles[i]= ultraschall.Docs_GetUSDocBloc_Title(ultraschall.Docs_ReaperApiDocBlocs[i], 1)
+    end
+  end
+
+  local found=-1
+  for i=1, ultraschall.Docs_ReaperApiDocBlocs_Count do
+    if ultraschall.Docs_ReaperApiDocBlocs_Titles[i]:lower()==functionname:lower() then
+      found=i
+    end
+  end
+  if found==-1 then ultraschall.AddErrorMessage("Docs_GetReaperApiFunction_Categories", "functionname", "function not found", -2) return -1 end
+  
+  local count, categories, spok_lang = ultraschall.Docs_GetUSDocBloc_ChapterContext(ultraschall.Docs_ReaperApiDocBlocs[found], 1)
+  
+  return count, categories
+end
+
+
+function ultraschall.Docs_GetUltraschallApiFunction_Categories(functionname)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUltraschallApiFunction_Categories</slug>
+  <requires>
+    Ultraschall=4.8
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer tags_count, table tags = ultraschall.Docs_GetUltraschallApiFunction_Categories(string functionname)</functioncall>
+  <description>
+    returns the categories of an Ultraschall-API function from the documentation
+
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string functionname - the name of the function, whose categories you want to get
+  </parameters>
+  <retvals>
+    integer categories_count - the number of categories for this function
+    table categories - the categories of this function
+  </retvals>
+  <chapter_context>
+    Reaper Docs
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>Modules/ultraschall_doc_engine.lua</source_document>
+  <tags>documentation, get, docs, categories, ultraschall api</tags>
+</US_DocBloc>
+]]
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("Docs_GetUltraschallApiFunction_Categories", "functionname", "must be a string", -1) return nil end
+  if ultraschall.Docs_US_Functions_USDocBlocs_Titles==nil then ultraschall.Docs_LoadUltraschallAPIDocBlocs() end
+
+  local found=-1
+  for i=1, ultraschall.Docs_US_Functions_USDocBlocs_Count do
+    if ultraschall.Docs_US_Functions_USDocBlocs_Titles[i]:lower()==functionname:lower() then
+      found=i
+    end
+  end
+  if found==-1 then ultraschall.AddErrorMessage("Docs_GetUltraschallApiFunction_Categories", "functionname", "function not found", -4) return end
+  
+  local count, categories, spok_lang = ultraschall.Docs_GetUSDocBloc_ChapterContext(ultraschall.Docs_US_Functions_USDocBlocs[found], 1)
+  
+  return count, categories
 end
