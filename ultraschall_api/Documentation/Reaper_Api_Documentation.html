@@ -430,6 +430,9 @@ Returns the description of an action.<br>
 <tr><td class="ch2">the command-id of the action, whose description you want to have.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#kbd_getTextFromCmd">kbd_getTextFromCmd</a> - an alternative version of this function</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -488,6 +491,9 @@ If you want to add a script to several sections, you need to add them individual
 <tr><td class="ch2">true, if it shall be committed, false, if you want to add new scripts first. </td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ReverseNamedCommandLookup">ReverseNamedCommandLookup</a> - to get ActionCommandID-string of the script</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -643,6 +649,10 @@ See NamedCommandLookup() for the correct command_id.<br>
 <tr><td class="ch2">the command_id, whose toggle-state you want to know.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetToggleCommandStateEx">GetToggleCommandStateEx</a> - get the toggle state of commands, including those in other sections</td></tr>
+<tr><td><li><a target="_blank" href="#NamedCommandLookup">NamedCommandLookup</a> - get the named action-command-id by command-id-number</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -688,6 +698,10 @@ See NamedCommandLookup() for the correct command_id.<br>
 <tr><td class="ch2">the command_id, whose toggle-state you want to know.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetToggleCommandState">GetToggleCommandState</a> - get the toggle state of commands in the main-section only</td></tr>
+<tr><td><li><a target="_blank" href="#NamedCommandLookup">NamedCommandLookup</a> - get the named action-command-id by command-id-number</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -723,6 +737,9 @@ see MIDIEditor_OnCommand<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDIEditor_OnCommand">MIDIEditor_OnCommand</a> - runs an action from the MIDI-Editor-section in a Midi editor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -758,6 +775,10 @@ see MIDIEditor_GetActive, MIDIEditor_LastFocused_OnCommand<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDIEditor_GetActive">MIDIEditor_GetActive</a> - gets the hwnd of the currently active MIDI editor.</td></tr>
+<tr><td><li><a target="_blank" href="#MIDIEditor_LastFocused_OnCommand">MIDIEditor_LastFocused_OnCommand</a> - runs an action from the MIDI editor-section in the last/currently focused MIDI editor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -784,6 +805,11 @@ See Main_OnCommandEx.<br>
 <tr><td class="ch2">set to 0</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#NamedCommandLookup">NamedCommandLookup</a> - gets the numerical representation of an action-command-id of scripts or named actions(by SWS, etc)</td></tr>
+<tr><td><li><a target="_blank" href="#ReverseNamedCommandLookup">ReverseNamedCommandLookup</a> - gets the action-command-id by its numerical representation</td></tr>
+<tr><td><li><a target="_blank" href="#Main_OnCommandEx">Main_OnCommandEx</a> - runs an action of main-context towards another project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -812,6 +838,11 @@ Performs an action belonging to the main action section. To perform non-native a
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#NamedCommandLookup">NamedCommandLookup</a> - gets the numerical representation of an action-command-id of scripts or named actions(by SWS, etc)</td></tr>
+<tr><td><li><a target="_blank" href="#ReverseNamedCommandLookup">ReverseNamedCommandLookup</a> - gets the action-command-id by its numerical representation</td></tr>
+<tr><td><li><a target="_blank" href="#Main_OnCommand">Main_OnCommand</a> - runs an action of main-context</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -973,6 +1004,9 @@ Updates the toggle state of an action, returns true if succeeded. Only ReaScript
 -1, NA because the action does not have on/off states.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#RefreshToolbar2">RefreshToolbar2</a> - updates toolbar-buttons to on/off-state</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -1591,6 +1625,14 @@ see <a ="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid con
 <tr><td class="ch2">the errorvalue that will be returned, if varname isn't a valid one</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SNM_GetIntConfigVar">SNM_GetIntConfigVar</a> - gets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetIntConfigVar">SNM_SetIntConfigVar</a> - sets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetDoubleConfigVar">SNM_SetDoubleConfigVar</a> - sets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#get_config_var_string">get_config_var_string</a> - gets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetStringConfigVar">SNM_SetStringConfigVar</a> - sets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> - a list of config-variables as used in Reaper</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -1628,6 +1670,14 @@ see <a href="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid
 <tr><td class="ch2">the errorvalue that will be returned, if varname isn't a valid one</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SNM_SetIntConfigVar">SNM_SetIntConfigVar</a> - sets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_GetDoubleConfigVar">SNM_GetDoubleConfigVar</a> - gets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetDoubleConfigVar">SNM_SetDoubleConfigVar</a> - sets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#get_config_var_string">get_config_var_string</a> - gets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetStringConfigVar">SNM_SetStringConfigVar</a> - sets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> - a list of config-variables as used in Reaper</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -1704,6 +1754,14 @@ see <a hre="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid 
 <tr><td class="ch2">the new value to be set into varname</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SNM_GetIntConfigVar">SNM_GetIntConfigVar</a> - gets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetIntConfigVar">SNM_SetIntConfigVar</a> - sets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_GetDoubleConfigVar">SNM_GetDoubleConfigVar</a> - gets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#get_config_var_string">get_config_var_string</a> - gets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetStringConfigVar">SNM_SetStringConfigVar</a> - sets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> - a list of config-variables as used in Reaper</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -1741,6 +1799,14 @@ see <a href="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid
 <tr><td class="ch2">the newly set value for varname</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SNM_GetIntConfigVar">SNM_GetIntConfigVar</a> - gets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_GetDoubleConfigVar">SNM_GetDoubleConfigVar</a> - gets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetDoubleConfigVar">SNM_SetDoubleConfigVar</a> - sets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#get_config_var_string">get_config_var_string</a> - gets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetStringConfigVar">SNM_SetStringConfigVar</a> - sets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> - a list of config-variables as used in Reaper</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -1813,6 +1879,14 @@ see <a ="Reaper_Config_Variables.html">Reaper Config Variables</a> for valid con
 <tr><td class="ch2">the new value to set the config variable with</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SNM_GetIntConfigVar">SNM_GetIntConfigVar</a> - gets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetIntConfigVar">SNM_SetIntConfigVar</a> - sets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_GetDoubleConfigVar">SNM_GetDoubleConfigVar</a> - gets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetDoubleConfigVar">SNM_SetDoubleConfigVar</a> - sets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#get_config_var_string">get_config_var_string</a> - gets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> - a list of config-variables as used in Reaper</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -1846,6 +1920,14 @@ see the <a href="Reaper_Config_Variables.html">configuration-variable documentat
 <tr><td class="ch2">the config-var, whose value you want</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SNM_GetIntConfigVar">SNM_GetIntConfigVar</a> - gets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetIntConfigVar">SNM_SetIntConfigVar</a> - sets value of integer-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_GetDoubleConfigVar">SNM_GetDoubleConfigVar</a> - gets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetDoubleConfigVar">SNM_SetDoubleConfigVar</a> - sets value of double-float-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#SNM_SetStringConfigVar">SNM_SetStringConfigVar</a> - sets value of string-config variables</td></tr>
+<tr><td><li><a target="_blank" href="#Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> - a list of config-variables as used in Reaper</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -1874,6 +1956,11 @@ Delete the extended state value for a specific section and key. persist=true mea
 <tr><td class="ch2">true, the value shall be deleted permanently; false, delete it only temporarily.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetExtState">SetExtState</a> - sets an extstate to store information for your script</td></tr>
+<tr><td><li><a target="_blank" href="#GetExtState">GetExtState</a> - gets an extstate that stores information for your script</td></tr>
+<tr><td><li><a target="_blank" href="#HasExtState">HasExtState</a> - checks, if an extstate exists</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -1907,6 +1994,11 @@ Note: section and key are not case-sensitive<br>
 <tr><td class="ch2">the key, that contains the value</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetExtState">SetExtState</a> - sets an extstate to store information for your script</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteExtState">DeleteExtState</a> - deleted an extstate that stores information for your script</td></tr>
+<tr><td><li><a target="_blank" href="#HasExtState">HasExtState</a> - checks, if an extstate exists</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -1938,6 +2030,11 @@ Returns true if there exists an extended state value for a specific section and 
 <tr><td class="ch2">the key of the extstate</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetExtState">SetExtState</a> - sets an extstate to store information for your script</td></tr>
+<tr><td><li><a target="_blank" href="#GetExtState">GetExtState</a> - gets an extstate that stores information for your script</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteExtState">DeleteExtState</a> - deleted an extstate that stores information for your script</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -2065,6 +2162,11 @@ If your section is missing, contact me and I'll add it too:<br>
 <tr><td class="ch2">true, means the value should be stored and reloaded the next time REAPER is opened</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetExtState">GetExtState</a> - gets an extstate that stores information for your script</td></tr>
+<tr><td><li><a target="_blank" href="#HasExtState">HasExtState</a> - checks, if an extstate exists</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteExtState">DeleteExtState</a> - deleted an extstate that stores information for your script</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -2570,6 +2672,9 @@ When resourcepath is equal to app-path(see GetExePath), it is an indicator that 
 <tr><td class="ch2">the path to the resource-folder</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetExePath">GetExePath</a> - returns the path of the reaper.exe/reaper.app</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -2952,6 +3057,9 @@ see ValidatePtr2<br>
 <tr><td class="ch2">the type of project to check for(given as a pointer)</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ValidatePtr2">ValidatePtr2</a> - checks, if a pointer is a valid one within a project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -3081,6 +3189,9 @@ Generates a GUID.<br>
 <div class="ch">
 Clear the ReaScript console.<br>
 </div><br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ShowConsoleMsg">ShowConsoleMsg</a> - for printing messages into the ReaScript-console</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -3101,6 +3212,9 @@ Show a message to the user (also useful for debugging). Send "\n" for newline, "
 <tr><td class="ch2">a message to be shown in ReaConsole</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ClearConsole">ClearConsole</a> - clears the ReaScript-console window</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -3138,6 +3252,12 @@ Returns the number of shortcuts that exist for the given command ID.<br>
 <tr><td class="ch2">the action command-id of the action, whose shortcuts you want to count</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetActionShortcutDesc">GetActionShortcutDesc</a> - for getting the description of the shortcut</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteActionShortcut">DeleteActionShortcut</a> - for deleting a shortcut</td></tr>
+<tr><td><li><a target="_blank" href="#DoActionShortcutDialog">DoActionShortcutDialog</a> - for opening the add shortcut-dialog</td></tr>
+<tr><td><li><a target="_blank" href="#SectionFromUniqueID">SectionFromUniqueID</a> - get the section, that you want to pass to this function</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -3179,6 +3299,12 @@ Delete the specific shortcut for the given command ID.<br>
 <tr><td class="ch2">the index of the shortcut</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountActionShortcuts">CountActionShortcuts</a> - for counting the available shortcuts of an action</td></tr>
+<tr><td><li><a target="_blank" href="#GetActionShortcutDesc">GetActionShortcutDesc</a> - for getting a shortcut's description</td></tr>
+<tr><td><li><a target="_blank" href="#DoActionShortcutDialog">DoActionShortcutDialog</a> - for opening the add shortcut-dialog</td></tr>
+<tr><td><li><a target="_blank" href="#SectionFromUniqueID">SectionFromUniqueID</a> - get the section, that you want to pass to this function</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -3224,6 +3350,12 @@ Open the action shortcut dialog to edit or add a shortcut for the given command 
 <tr><td class="ch2">the index of the shortcut to add/edit</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountActionShortcuts">CountActionShortcuts</a> - for counting the available shortcuts of an action</td></tr>
+<tr><td><li><a target="_blank" href="#GetActionShortcutDesc">GetActionShortcutDesc</a> - for getting a shortcut's description</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteActionShortcutDialog">DeleteActionShortcutDialog</a> - for deleting a shortcut</td></tr>
+<tr><td><li><a target="_blank" href="#SectionFromUniqueID">SectionFromUniqueID</a> - get the section, that you want to pass to this function</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -3269,6 +3401,12 @@ Get the text description of a specific shortcut for the given command ID.<br>
 <tr><td class="ch2">the index of the shortcut</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountActionShortcuts">CountActionShortcuts</a> - for counting the available shortcuts of an action</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteActionShortcut">DeleteActionShortcut</a> - for deleting a shortcut</td></tr>
+<tr><td><li><a target="_blank" href="#DoActionShortcutDialog">DoActionShortcutDialog</a> - for opening the add shortcut-dialog</td></tr>
+<tr><td><li><a target="_blank" href="#SectionFromUniqueID">SectionFromUniqueID</a> - get the section, that you want to pass to this function</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -3302,6 +3440,12 @@ Delete the specific shortcut for the given command ID.<br>
 32063, Media Explorer</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountActionShortcuts">CountActionShortcuts</a> - counts the number of shortcuts available for a command</td></tr>
+<tr><td><li><a target="_blank" href="#GetActionShortcutDesc">GetActionShortcutDesc</a> - for getting the description of the shortcut</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteActionShortcut">DeleteActionShortcut</a> - for deleting a shortcut</td></tr>
+<tr><td><li><a target="_blank" href="#DoActionShortcutDialog">DoActionShortcutDialog</a> - for opening the add shortcut-dialog</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -3335,6 +3479,10 @@ For more grid division functions, see BR_GetNextGridDivision and BR_GetPrevGridD
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_GetNextGridDivision">BR_GetNextGridDivision</a> - gets the next grid division after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_GetPrevGridDivision">BR_GetPrevGridDivision</a> - gets the previous grid division before position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -3980,6 +4128,9 @@ As Reaper treats colors differently on Mac and Windows, you should always use Co
 <tr><td class="ch2">the colorvalue to convert from</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ColorToNative">ColorToNative</a> - for converting r-g-b-values to a native-color value</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -4018,6 +4169,9 @@ When using the returned colorvalue, you need to add |0x1000000 at the end of it,
 <tr><td class="ch2">the value for blue, from 0 to 255</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ColorFromNative">ColorFromNative</a> - for converting a native color-calue into its r-g-b-representation</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -4103,6 +4257,10 @@ Creates a timestring and formats it as hh:mm:ss.sss. <br>
 <tr><td class="ch2">needed by Reaper, just set it to ""</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#format_timestr_pos">format_timestr_pos</a> - creates a timestring and formats with overrides</td></tr>
+<tr><td><li><a target="_blank" href="#format_timestr_len">format_timestr_len</a> - creates a timestring and formats with overrides and offset for length</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -4287,6 +4445,9 @@ See parsepanstr for its counterpart. <br>
 <tr><td class="ch2">the pan-number which shall be converted to the panstring; valid numbers are -1.0 to 1.0 even if you can set higher ones</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#parsepanstr">parsepanstr</a> - converts a panstr into a double-number</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -5569,7 +5730,12 @@ extra_type can be 115 ('s') for spectral information, which will return peak sam
 <div class="p">Python: <code> CF_Preview <em>CF_CreatePreview</em>(<i>PCM_source</i> source)</code></div>
 </div><p>
 <div class="ch">
-Enumerate the source's media cues. Returns the next index or 0 when finished.<br>
+Create a new preview object. Does not take ownership of the source (don't forget to destroy it unless it came from a take!). See CF_Preview_Play and the others CF_Preview_* functions.<br>
+<br>
+The preview object is automatically destroyed at the end of a defer cycle if at least one of these conditions are met:<br>
+- playback finished<br>
+- playback was not started using CF_Preview_Play<br>
+- the output track no longer exists<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -6002,6 +6168,9 @@ Copies the media source filename to filenamebuf. Note that in-project MIDI media
 <tr><td class="ch2">the source, whose source-filename you want to retrieve</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetMediaSourceParent">GetMediaSourceParent</a> - returns, the parent-source of a source</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -6510,6 +6679,9 @@ Stored in reaper_plugin_functions.h<br>
 32063, Media Explorer</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#kbd_getTextFromCmd">kbd_getTextFromCmd</a> - get text from a command</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -7080,6 +7252,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> - all config-variables documented</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -7140,6 +7315,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> - all valid config-variables documented</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -7170,6 +7348,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2">size of the object</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> - all valid config-variables documented</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -10076,6 +10257,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#plugin_register">plugin_register</a> - hook a menu using plugin_register("hookcustommenu")</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -10329,6 +10513,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDI_eventlist_destroy">MIDI_eventlist_destroy</a> - destroy an eventlist-object</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -10355,6 +10542,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDI_eventlist_Create">MIDI_eventlist_Create</a> - create a MIDI eventlist-object</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -10554,6 +10744,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2">supply str to set the state (returns zero); str="" to get the chunk string returned </td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#FreeHeapPtr">FreeHeapPtr</a> - free heap-memory returned from an API-function</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -11159,6 +11352,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SendLocalOscMessage">SendLocalOscMessage</a> - sends a osc message to a local osc-handler</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -11178,6 +11374,10 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateLocalOscHandler">CreateLocalOscHandler</a> - create a local osc-handler</td></tr>
+<tr><td><li><a target="_blank" href="#SendLocalOscMessage">SendLocalOscMessage</a> - send local osc-message</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -11372,6 +11572,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#PlayPreviewEx">PlayPreviewEx</a> - an enhanced version of play preview </td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -11511,6 +11714,14 @@ I_MIDIFLAGS : returns int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=
 <tr><td class="ch2">the new value to be set</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateTrackSend">CreateTrackSend</a> - creates a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackNumSends">GetTrackNumSends</a> - get number of send of a track</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo_String">GetSetTrackSendInfo_String</a> - gets sets additional string-attributes for metadata of track-sends</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackSendInfo_Value">GetTrackSendInfo_Value</a> - gets attributes of a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#RemoveTrackSend">RemoveTrackSend</a> - removes a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#SetTrackSendInfo_Value">SetTrackSendInfo_Value</a> - sets attributes of a track-send</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -11686,6 +11897,9 @@ Stored in reaper_plugin_functions.h<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetColorThemeStruct">GetColorThemeStruct</a> - returns the color theme</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -14215,6 +14429,9 @@ Perform an inverse FFT. For more information see fft()<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#eel_fft">eel_fft</a> - perform a FFT</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -14838,6 +15055,9 @@ Case-insensitive version of match().<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#eel_match">eel_match</a> - case-sensitive version of match</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -15503,6 +15723,9 @@ Sets value at offset offset, type optional. offset may be negative to refer to o
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#eel_str_getchar">eel_str_getchar</a> - gets a character from the keyboard-queue, as input into a gfx-window</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -15806,6 +16029,9 @@ Returns the number of automation items on this envelope.<br>
 <tr><td class="ch2">the envelope-object for the envelope-lane</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetSetAutomationItemInfo">GetSetAutomationItemInfo</a> - for setting attributes of an automation-item</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -15955,6 +16181,9 @@ See GetSetAutomationItemInfo.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetSetAutomationItemInfo">GetSetAutomationItemInfo</a> - gets/sets additional attributes of an automation item</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -15983,6 +16212,21 @@ See GetSetAutomationItemInfo.<br>
 <tr><td class="ch2">the BR_Envelope-object, whose points you want to count</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16015,6 +16259,21 @@ See GetSetAutomationItemInfo.<br>
 <tr><td class="ch2">the envelope-point-idx, that you want to delete. 0, first envelope-point; 1, second envelope-point, etc</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16069,6 +16328,21 @@ Returns true on success.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16126,6 +16400,21 @@ Returns true on success.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16151,6 +16440,22 @@ Note that you do not have to call this before doing BR_EnvFree since it does han
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16178,6 +16483,13 @@ Returns the number of points in the envelope.<br>
 <tr><td class="ch2">the TrackEnvelope-object, in which to count for the envelope-points</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountEnvelopePointsEx">CountEnvelopePointsEx</a> - to count envelope-points of envelopes and automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#GetEnvelopePoint">GetEnvelopePoint</a> - to get envelope-points in envelopes only</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePoint">SetEnvelopePoint</a> - to set envelope-points in envelopes only</td></tr>
+<tr><td><li><a target="_blank" href="#InsertEnvelopePoint">InsertEnvelopePoint</a> - to insert an envelope-point into envelopes only</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteEnvelopePoint">DeleteEnvelopePoint</a> - to delete an envelope-point into envelopes only</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16213,6 +16525,13 @@ Otherwise, ptidx will be based on the number of visible points in the automation
 <tr><td class="ch2">-1, for the underlying envelope, 0, for the first automation item on the envelope, etc.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountEnvelopePoints">CountEnvelopePoints</a> - to count envelope-points of envelopes only</td></tr>
+<tr><td><li><a target="_blank" href="#GetEnvelopePointEx">GetEnvelopePointEx</a> - to get envelope-points in envelopes and automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePointEx">SetEnvelopePointEx</a> - to set envelope-points in envelopes and automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a> - to insert an envelope-point into envelopes and automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a> - to delete an envelope-point into envelopes and automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16256,6 +16575,12 @@ Otherwise, ptidx will be based on the number of visible points in the automation
 <tr><td class="ch2">the envelope-point to delete</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountEnvelopePointsEx">CountEnvelopePointsEx</a> - count envelope-points in envelopes and automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#GetEnvelopePointEx">GetEnvelopePointEx</a> - get envelope-points of envelopes and automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePointEx">SetEnvelopePointEx</a> - sets envelope-points of envelopes and automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a> - inserts an envelope-point into envelopes and automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16291,6 +16616,10 @@ Delete a range of envelope points. <br>
 <tr><td class="ch2">the endtime of the deletionrange in seconds</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#DeleteEnvelopePointRangeEx">DeleteEnvelopePointRangeEx</a> - deletes a range of envelope-points within envelopes and automation items</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a> - deletes an envelope-point within an envelope and automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16357,6 +16686,12 @@ Sort envelope points by time.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#InsertEnvelopePoint">InsertEnvelopePoint</a> - inserts an envelope-point into envelopes</td></tr>
+<tr><td><li><a target="_blank" href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a> - inserts an envelope-point into envelopes and automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePoint">SetEnvelopePoint</a> - sets envelope-points in envelopes</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePointEx">SetEnvelopePointEx</a> - sets envelope-points in envelopes and automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16388,6 +16723,12 @@ Sort envelope points by time. autoitem_idx=-1 for the underlying envelope, 0 for
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#InsertEnvelopePoint">InsertEnvelopePoint</a> - inserts an envelope-point into envelopes</td></tr>
+<tr><td><li><a target="_blank" href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a> - inserts an envelope-point into envelopes and automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePoint">SetEnvelopePoint</a> - sets envelope-points in envelopes</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePointEx">SetEnvelopePointEx</a> - sets envelope-points in envelopes and automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16439,6 +16780,9 @@ Get the attributes of an envelope point.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetEnvelopePointEx">GetEnvelopePointEx</a> - gets an envelopepoint from envelopes or automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16470,6 +16814,9 @@ Returns the envelope point at or immediately prior to the given time position. <
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetEnvelopePointByTimeEx">GetEnvelopePointByTimeEx</a> - gets an envelope-point by time in envelopes or automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16509,6 +16856,12 @@ Otherwise, ptidx will be based on the number of visible points in the automation
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetEnvelopePointEx">GetEnvelopePointEx</a> - gets an envelope-point from envelopes or automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePointEx">SetEnvelopePointEx</a> - sets an envelope-point in envelopes or automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a> - inserts envelope-points in envelopes or automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a> - deletes envelope-points in envelopes or automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16568,6 +16921,12 @@ Otherwise, ptidx will be based on the number of visible points in the automation
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountEnvelopePointsEx">CountEnvelopePointsEx</a> - counts envelope-points in envelopes or automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePointEx">SetEnvelopePointEx</a> - sets an envelope-point in envelopes or automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a> - inserts envelope-points in envelopes or automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a> - deletes envelope-points in envelopes or automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16621,6 +16980,10 @@ See InsertEnvelopePointEx.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#Envelope_SortPoints">Envelope_SortPoints</a> - sorts the envelope-points, after you are finished with modifying them</td></tr>
+<tr><td><li><a target="_blank" href="#InsertEnvelopePointEx">InsertEnvelopePointEx</a> - allows inserting envelope-points to envelopes as well as automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16682,6 +17045,13 @@ See CountEnvelopePointsEx, GetEnvelopePointEx, SetEnvelopePointEx, DeleteEnvelop
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#Envelope_SortPoints">Envelope_SortPoints</a> - sorts the envelope-points, after you are finished with modifying them</td></tr>
+<tr><td><li><a target="_blank" href="#CountEnvelopePointsEx">CountEnvelopePointsEx</a> - counts envelope-points in envelopes as well as automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#GetEnvelopePointEx">GetEnvelopePointEx</a> - gets envelope-points from envelopes as well as automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopePointEx">SetEnvelopePointEx</a> - sets envelope-points in envelopes as well as automation-items</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteEnvelopePointEx">DeleteEnvelopePointEx</a> - deletes envelope-points from envelopes as well as automation-items</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16861,6 +17231,21 @@ For manipulation see BR_EnvCountPoints, BR_EnvDeletePoint, BR_EnvFind, BR_EnvFin
 <tr><td class="ch2">false, take envelope points' positions are counted from take position, not project start time; true, work with project time instead</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16901,6 +17286,21 @@ Returns envelope point id (zero-based) on success or -1 on failure.<br>
 <tr><td class="ch2">delta > 0 to search surrounding range</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16935,6 +17335,21 @@ Returns envelope point id (zero-based) on success or -1 on failure.<br>
 <tr><td class="ch2">the position in seconds, where you want to find the next envelope-point from</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -16969,6 +17384,21 @@ Returns envelope point id (zero-based) on success or -1 on failure.<br>
 <tr><td class="ch2">the position in seconds, where you want to find the previous envelope-point from</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -17005,6 +17435,22 @@ Note that when envelope object wasn't modified nothing will get committed even i
 <tr><td class="ch2">true, commit changes when freeing the BR_Envelope-object; false, don't commit changes when freeing the BR_Envelope-object</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -17089,6 +17535,21 @@ automationItemsOptions: -1->project default, &1=0->don't attach to underl. env.,
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -17146,6 +17607,21 @@ Setting automationItemsOptions requires REAPER 5.979+.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -17178,6 +17654,21 @@ Setting automationItemsOptions requires REAPER 5.979+.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -17289,6 +17780,10 @@ dVdS is the change in value per sample (first derivative), ddVdS is the second d
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetEnvelopeScalingMode">GetEnvelopeScalingMode</a> - get the scaling more of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#Envelope_Evaluate">Envelope_Evaluate</a> - get effective envelope value at a time position </td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -17429,6 +17924,10 @@ Note: All API functions deal with raw envelope point values, to convert raw from
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ScaleFromEnvelopeMode">ScaleFromEnvelopeMode</a> - scales a value from an envelope-mode</td></tr>
+<tr><td><li><a target="_blank" href="#ScaleToEnvelopeMode">ScaleToEnvelopeMode</a> - scales a value to an envelope-mode</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -17671,6 +18170,10 @@ deprecated -- see SetEnvelopeStateChunk, GetEnvelopeStateChunk<br>
 <tr><td class="ch2">the new value to set</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetEnvelopeStateChunk">GetEnvelopeStateChunk</a> - returns, an EnvelopeStateChunk, which holds all attributes-information of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopeStateChunk">SetEnvelopeStateChunk</a> - sets an EnvelopeStateChunk, to replace all attributes-information of an envelope</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -17710,6 +18213,10 @@ deprecated -- see SetEnvelopeStateChunk, GetEnvelopeStateChunk<br>
 <tr><td class="ch2">true, undo; false, don't undo</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetEnvelopeStateChunk">GetEnvelopeStateChunk</a> - returns, an EnvelopeStateChunk, which holds all attributes-information of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#SetEnvelopeStateChunk">SetEnvelopeStateChunk</a> - sets an EnvelopeStateChunk, to replace all attributes-information of an envelope</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -17944,6 +18451,21 @@ Set automation-mode for a specific MediaTrack.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTrack">BR_EnvGetParentTrack</a> - gets parent track of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -18069,6 +18591,21 @@ If take envelope, gets the take from the envelope. If FX, indexOut set to FX ind
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_EnvAlloc">BR_EnvAlloc</a> - creates an envelope object, that can be used by BR_Env-functions</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvCountPoints">BR_EnvCountPoints</a> - counts envelope points</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvDeletePoint">BR_EnvDeletePoint</a> - deletes an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFind">BR_EnvFind</a> - finds envelope point at position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindNext">BR_EnvFindNext</a> - find next envelope point after position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFindPrevious">BR_EnvFindPrevious</a> - find previous envelope point before position</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvFree">BR_EnvFree</a> - delete an BR_Envelope object created by BR_EnvAlloc</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetParentTake">BR_EnvGetParentTake</a> - gets parent take of an envelope</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetPoint">BR_EnvGetPoint</a> - gets envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvGetProperties">BR_EnvGetProperties</a> - gets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetPoint">BR_EnvSetPoint</a> - sets an envelope point</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvSetProperties">BR_EnvSetProperties</a> - sets envelope point properties</td></tr>
+<tr><td><li><a target="_blank" href="#BR_EnvValueAtPos">BR_EnvValueAtPos</a> - gets envelope point value at position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -18096,6 +18633,9 @@ Counts the number of track-envelopes of a certain track.<br>
 <tr><td class="ch2">the object of the track to count it's envelopes</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackEnvelope">GetTrackEnvelope</a> - to get a track-envelope</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -18325,6 +18865,10 @@ See GetLastTouchedFX<br>
 <tr><td class="ch2">If item FX, fxnumber will have the high word be the take index, the low word the FX index</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetFocusedFX2">GetFocusedFX2</a> - gets the focused/opened fx and if it's item/track fx</td></tr>
+<tr><td><li><a target="_blank" href="#GetLastTouchedFX">GetLastTouchedFX</a> - gets the last fx that was touched by the user</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -18363,6 +18907,9 @@ tracknumber==0 means the master track, 1 means track 1, etc. itemnumber is zero-
 <tr><td class="ch2">If item FX, fxnumber will have the high word be the take index, the low word the FX index</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetLastTouchedFX">GetLastTouchedFX</a> - gets the last fx that was touched by the user</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -18401,6 +18948,9 @@ For item FX, the low word defines the FX index in the chain, and the high word d
 <tr><td class="ch2">the id of the last parameter touched, zero-based</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetFocusedFX2">GetFocusedFX2</a> - gets the focused/open fx</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -19691,6 +20241,9 @@ See TakeFX_SetPreset.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#TakeFX_SetPreset">TakeFX_SetPreset</a> - sets the preset of a take-fx</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -20304,6 +20857,9 @@ Get information about a specific FX parameter knob (see CountTCPFXParms).<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountTCPFXParms">CountTCPFXParms</a> - returns the number of tcp-fx parameters</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -21684,6 +22240,9 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#TrackFX_SetPreset">TrackFX_SetPreset</a> - sets the preset of a track-fx</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -22485,6 +23044,9 @@ List the files in the "path" directory. Returns NULL/nil when all files have bee
 <tr><td class="ch2">the number of the file, with 0 the first file. Ordered by first letter in ascending order.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#EnumerateSubdirectories">EnumerateSubdirectories</a> - enumerates the directories in a directory</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -22516,6 +23078,9 @@ List the subdirectories in the "path" directory. Use subdirindex = -1 to force r
 <tr><td class="ch2">the number of the directory, with 0 the first directory. Ordered by first letter in ascending order.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#EnumerateFiles">EnumerateFiles</a> - enumerate files in a directory</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -23706,6 +24271,15 @@ Returns true if the underlying samples (track or media item take) have changed, 
 <tr><td class="ch2">the AudioAccessor, whose sample-statechange you want to get</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a> - returns, if audioaccessor has changed</td></tr>
+<tr><td><li><a target="_blank" href="#AudioAccessorValidateState">AudioAccessorValidateState</a> - to get validation-state of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a> - to create an AudioAccessor for take</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a> - to create an AudioAccessor for track</td></tr>
+<tr><td><li><a target="_blank" href="#DestroyAudioAccessor">DestroyAudioAccessor</a> - to destroy an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a> - to get endtime of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a> - to get samples of an AudioAccessor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -23726,6 +24300,15 @@ Force the accessor to reload its state from the underlying track or media item t
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a> - for creating a take-audio-accessor</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a> - for creating a track-audio-accessor</td></tr>
+<tr><td><li><a target="_blank" href="#DestroyAudioAccessor">DestroyAudioAccessor</a> - to destroy an audio-accessor</td></tr>
+<tr><td><li><a target="_blank" href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a> - to get, if an audioaccessor has changed</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a> - to get the audioaccessor-starttime</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a> - to get the audioaccessor-endtime</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a> - to get the audioaccessor-samples</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -23780,6 +24363,14 @@ Create an audio accessor object for this take. Must only call from the main thre
 <tr><td class="ch2">the take from a MediaItem-object, of which you want to create a new AudioAccessor</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a> - gets a track audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#DestroyAudioAccessor">DestroyAudioAccessor</a> - destroys an audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a> - gets the state-change of an audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a> - get audioaccessor-starttime</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a> - get audioaccessor-endtime</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a> - get audioaccessor-samples</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -23807,6 +24398,14 @@ Create an audio accessor object for this track. Must only call from the main thr
 <tr><td class="ch2">the MediaTrack, of which you want to create an AudioAccessor</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a> - create a take audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#DestroyAudioAccessor">DestroyAudioAccessor</a> - destroys an audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a> - gets the state-change of an audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a> - get audioaccessor-starttime</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a> - get audioaccessor-endtime</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a> - get audioaccessor-samples</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -23827,6 +24426,15 @@ Destroy an audio accessor. Must only call from the main thread. <br>
 <tr><td class="ch2">the AudioAccessor to be destroyed</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a> - returns, if audioaccessor has changed</td></tr>
+<tr><td><li><a target="_blank" href="#AudioAccessorValidateState">AudioAccessorValidateState</a> - to get validation-state of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a> - to create an AudioAccessor for take</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a> - to create an AudioAccessor for track</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a> - gets the starttime of an audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a> - to get endtime of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a> - to get samples of an AudioAccessor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -23854,6 +24462,15 @@ Get the end time of the audio that can be returned from this accessor.<br>
 <tr><td class="ch2">the AudioAccessor, whose end-time you want to have</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a> - returns, if audioaccessor has changed</td></tr>
+<tr><td><li><a target="_blank" href="#AudioAccessorValidateState">AudioAccessorValidateState</a> - to get validation-state of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a> - to create an AudioAccessor for take</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a> - to create an AudioAccessor for track</td></tr>
+<tr><td><li><a target="_blank" href="#DestroyAudioAccessor">DestroyAudioAccessor</a> - to destroy an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a> - gets the starttime of an audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a> - to get samples of an AudioAccessor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -23887,6 +24504,16 @@ Deprecated.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a> - returns, if audioaccessor has changed</td></tr>
+<tr><td><li><a target="_blank" href="#AudioAccessorValidateState">AudioAccessorValidateState</a> - to get validation-state of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a> - to create an AudioAccessor for take</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a> - to create an AudioAccessor for track</td></tr>
+<tr><td><li><a target="_blank" href="#DestroyAudioAccessor">DestroyAudioAccessor</a> - to destroy an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a> - gets the starttime of an audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a> - to get endtime of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a> - to get samples of an AudioAccessor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -23947,6 +24574,15 @@ Example usage:<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a> - returns, if audioaccessor has changed</td></tr>
+<tr><td><li><a target="_blank" href="#AudioAccessorValidateState">AudioAccessorValidateState</a> - to get validation-state of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a> - to create an AudioAccessor for take</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a> - to create an AudioAccessor for track</td></tr>
+<tr><td><li><a target="_blank" href="#DestroyAudioAccessor">DestroyAudioAccessor</a> - to destroy an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorStartTime">GetAudioAccessorStartTime</a> - gets the starttime of an audioaccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a> - to get endtime of an AudioAccessor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -23974,6 +24610,15 @@ Get the start time of the audio that can be returned from this accessor.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#AudioAccessorStateChanged">AudioAccessorStateChanged</a> - returns, if audioaccessor has changed</td></tr>
+<tr><td><li><a target="_blank" href="#AudioAccessorValidateState">AudioAccessorValidateState</a> - to get validation-state of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTakeAudioAccessor">CreateTakeAudioAccessor</a> - to create an AudioAccessor for take</td></tr>
+<tr><td><li><a target="_blank" href="#CreateTrackAudioAccessor">CreateTrackAudioAccessor</a> - to create an AudioAccessor for track</td></tr>
+<tr><td><li><a target="_blank" href="#DestroyAudioAccessor">DestroyAudioAccessor</a> - to destroy an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorEndTime">GetAudioAccessorEndTime</a> - to get endtime of an AudioAccessor</td></tr>
+<tr><td><li><a target="_blank" href="#GetAudioAccessorSamples">GetAudioAccessorSamples</a> - to get samples of an AudioAccessor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -25055,6 +25700,9 @@ or built-in REAPER command ID, or the custom action ID string.<br>
 <tr><td class="ch2">the modifier-flag, whose action you want to retrieve</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetMouseModifier">SetMouseModifier</a> - sets a mouse-modifier</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -25205,6 +25853,9 @@ If successful, returns a handle to the cursor, which can be used in JS_Mouse_Set
 <tr><td class="ch2">true, force reloading the cursor; false or nil, don't reload the cursor</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#JS_Mouse_SetCursor">JS_Mouse_SetCursor</a> - show the mouse-cursor you've loaded with JS_Mouse_LoadCursorFromFile</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -26082,6 +26733,9 @@ Use gfx.setfont to set a font for a specific index.<br>
 <tr><td class="ch2">the font-face(fontname) of the currently used font</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#lua_gfx.setfont">lua_gfx.setfont</a> - sets a font, used by the gfx-functions</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -26266,6 +26920,10 @@ To get the current window-states, dimensions, etc, you can use gfx.dock).<br>
 <tr><td class="ch2">y-position of the window in pixels; minimum is -15</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#lua_gfx.update">lua_gfx.update</a> - updates the gfx-window</td></tr>
+<tr><td><li><a target="_blank" href="#lua_gfx.dock">lua_gfx.dock</a> - docks the gfx-window</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -26382,6 +27040,9 @@ Returns width and height of character.<br>
 <tr><td class="ch2">ASCII-Code of the character to measure</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#lua_gfx.setfont">lua_gfx.setfont</a> - sets a font, used by the gfx-functions</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -26412,6 +27073,9 @@ Returns width and height of string.<br>
 <tr><td class="ch2">the string, whose drawing dimensions you want to know</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#lua_gfx.setfont">lua_gfx.setfont</a> - sets a font, used by the gfx-functions</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -27141,6 +27805,10 @@ Must be called, before you can use a specific gmem-variable-index with gmem_writ
 <tr><td class="ch2">the name of the shared memory</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#lua_gmem_read">lua_gmem_read</a> - reads values from a global shared memory(gmem)</td></tr>
+<tr><td><li><a target="_blank" href="#lua_gmem_write">lua_gmem_write</a> - writes values from a global shared memory(gmem) that can be accessed</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -27167,6 +27835,10 @@ returns nil if not available<br>
 <tr><td class="ch2">the index of the memory-variable to read from; index must be 0 and higher</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#lua_gmem_attach">lua_gmem_attach</a> - attaches a global shared memory(gmem) that can be accessed</td></tr>
+<tr><td><li><a target="_blank" href="#lua_gmem_write">lua_gmem_write</a> - writes values from a global shared memory(gmem) that can be accessed</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -27190,6 +27862,10 @@ Before you can write into a currently unused variable with index "index", you mu
 <tr><td class="ch2">a number, either integer or float</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#lua_gmem_attach">lua_gmem_attach</a> - attaches a global shared memory(gmem) that can be accessed</td></tr>
+<tr><td><li><a target="_blank" href="#lua_gmem_read">lua_gmem_read</a> - reads values from a global shared memory(gmem)</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28328,6 +29004,9 @@ See SetTrackMIDILyrics<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetTrackMIDILyrics">SetTrackMIDILyrics</a> - sets MIDI-lyrics of a MediaTrack, pushed into all MediaItems on the track</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28363,6 +29042,9 @@ see GetTrackMIDINoteNameEx<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackMIDINoteNameEx">GetTrackMIDINoteNameEx</a> - gets the name of a midi-note from a track in a ReaProject</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28402,6 +29084,9 @@ Get note/CC name. pitch 128 for CC0 name, 129 for CC1 name, etc. See SetTrackMID
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetTrackMIDINoteNameEx">SetTrackMIDINoteNameEx</a> - sets track-midi-note attributes by project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28532,6 +29217,9 @@ See MIDIEditor_GetTake<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDIEditor_GetTake">MIDIEditor_GetTake</a> - gets the take currently edited in the MIDI Editor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28554,6 +29242,10 @@ see MIDIEditor_GetMode, MIDIEditor_OnCommand<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDIEditor_GetMode">MIDIEditor_GetMode</a> - get the mode of an MIDI-Editor</td></tr>
+<tr><td><li><a target="_blank" href="#MIDIEditor_OnCommand">MIDIEditor_OnCommand</a> - runs an action from the MidiEditor-section inside a MidiEditor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28582,6 +29274,10 @@ see MIDIEditor_GetActive, MIDIEditor_OnCommand<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDIEditor_GetActive">MIDIEditor_GetActive</a> - get the hwnd of the active MIDI-Editor</td></tr>
+<tr><td><li><a target="_blank" href="#MIDIEditor_OnCommand">MIDIEditor_OnCommand</a> - runs an action from the MidiEditor-section inside a MidiEditor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28636,6 +29332,11 @@ Get settings from a MIDI editor. setting_desc can be:<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDIEditor_SetSetting_int">MIDIEditor_SetSetting_int</a> - Set settings for a MIDI Editor</td></tr>
+<tr><td><li><a target="_blank" href="#MIDIEditor_GetActive">MIDIEditor_GetActive</a> - get the hwnd of the active MIDI Editor</td></tr>
+<tr><td><li><a target="_blank" href="#MIDIEditor_GetSetting_str">MIDIEditor_GetSetting_str</a> - get string-settings of a MIDI Editor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28682,6 +29383,10 @@ See MIDIEditor_GetActive, MIDIEditor_GetSetting_int<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDIEditor_GetActive">MIDIEditor_GetActive</a> - get the hwnd of the active MIDI Editor</td></tr>
+<tr><td><li><a target="_blank" href="#MIDIEditor_GetSetting_int">MIDIEditor_GetSetting_int</a> - get integer settings of a MIDI Editor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28711,6 +29416,9 @@ see MIDIEditor_EnumTakes<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDIEditor_EnumTakes">MIDIEditor_EnumTakes</a> - get the takes currently edited in Midi-editors</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -28748,6 +29456,9 @@ See MIDIEditor_GetSetting_int<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDIEditor_GetSetting_int">MIDIEditor_GetSetting_int</a> - gets integer-settings from a MIDI editor</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -29096,6 +29807,9 @@ See MIDI_SetAllEvts.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDI_SetAllEvts">MIDI_SetAllEvts</a> - sets all midi-events of a take</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -29196,6 +29910,10 @@ See MIDI_GetCC, MIDI_SetCCShape<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDI_GetCC">MIDI_GetCC</a> - gets midi-cc-events properties in a take</td></tr>
+<tr><td><li><a target="_blank" href="#MIDI_SetCCShape">MIDI_SetCCShape</a> - sets shape and bezier-tension of a midi-cc in a take</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -29315,6 +30033,9 @@ If notesonly==true, then the string changes only when the MIDI notes change. <br
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDI_GetTrackHash">MIDI_GetTrackHash</a> - gets a hash-string that only changes, when the track's midi-data changes</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -29672,6 +30393,9 @@ See MIDI_GetEvt.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDI_GetEvt">MIDI_GetEvt</a> - get midi-events of a take</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -29709,6 +30433,9 @@ See MIDI_GetHash<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDI_GetHash">MIDI_GetHash</a> - gets a hash-string that only changes, when the take's midi-data changes</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -29978,6 +30705,9 @@ See MIDI_GetAllEvts.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDI_GetAllEvts">MIDI_GetAllEvts</a> - gets all midi-events of a take</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -30086,6 +30816,10 @@ See MIDI_SetCC, MIDI_GetCCShape<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#MIDI_SetCC">MIDI_SetCC</a> - sets the CC event properties</td></tr>
+<tr><td><li><a target="_blank" href="#MIDI_GetCCShape">MIDI_GetCCShape</a> - gets the CC-shape and bezier tension</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -30375,6 +31109,9 @@ example with flag=2: "1.1.2\tLyric for measure 1 beat 2\t2.1.1\tLyric for measur
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackMIDILyrics">GetTrackMIDILyrics</a> - get the track-midi lyrics</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -30555,6 +31292,9 @@ see TrackList_AdjustWindows to refresh the region-render-matrix<br>
 <tr><td class="ch2">greater than 0, add; lower than 0, remove from the render-matrix</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#TrackList_AdjustWindows">TrackList_AdjustWindows</a> - refreshes ui of the region render matrix</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -30658,6 +31398,9 @@ It will not create a marker, when at the same position is a marker with the exac
 <tr><td class="ch2">the color of the marker</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ColorToNative">ColorToNative</a> - to convert color-value to a native(Mac, Win, Linux) colors</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -30762,6 +31505,10 @@ Differs from DeleteProjectMarker only in that markrgnidx is 0 for the first mark
 <tr><td class="ch2">the id of the marker within the project, 0 for the first, 1 for the second, etc. Ignores the shown marker-index!</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#EnumProjectMarkers3">EnumProjectMarkers3</a> - gets attributes of a marker/region</td></tr>
+<tr><td><li><a target="_blank" href="#SetProjectMarker4">SetProjectMarker4</a> - sets attributes of a marker/region</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -30967,6 +31714,9 @@ markeridx and regionidx are returned not necessarily as the displayed marker/reg
 <tr><td class="ch2">the position to check in seconds</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#EnumProjectMarkers">EnumProjectMarkers</a> - returns, the attributes of a project marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31386,6 +32136,9 @@ set color=1&~0x10000000 to reset to default color for markers/regions<br>
 <tr><td class="ch2">the color of the marker</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetProjectMarkerByIndex2">SetProjectMarkerByIndex2</a> - an enhanced version of SetProjectMarkerByIndex</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31611,6 +32364,9 @@ See SetTakeStretchMarkerSlope<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetTakeStretchMarkerSlope">SetTakeStretchMarkerSlope</a> - sets a take/stretch-marker slope</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31685,6 +32441,9 @@ Set take stretch marker slope<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTakeStretchMarkerSlope">GetTakeStretchMarkerSlope</a> - gets the take stretch marker slope</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31716,6 +32475,11 @@ Delete a take marker. Note that idx will change for all following take markers. 
 <tr><td class="ch2">the id of the marker within the take, 0 for the first, 1 for the second, etc.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetNumTakeMarkers">GetNumTakeMarkers</a> - gets the number of take-markers of a take</td></tr>
+<tr><td><li><a target="_blank" href="#GetTakeMarker">GetTakeMarker</a> - gets attributes of a take-marker of a take</td></tr>
+<tr><td><li><a target="_blank" href="#SetTakeMarker">SetTakeMarker</a> - sets attributes of a takemarker of a take</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31743,6 +32507,11 @@ Returns number of take markers.<br>
 <tr><td class="ch2">the take, whose take-markers you want to count</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTakeMarker">GetTakeMarker</a> - gets attributes of a take-marker of a take</td></tr>
+<tr><td><li><a target="_blank" href="#SetTakeMarker">SetTakeMarker</a> - sets attributes of a takemarker of a take</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteTakeMarker">DeleteTakeMarker</a> - deletes a take marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31782,6 +32551,11 @@ Get information about a take marker. Returns the position in media item source t
 <tr><td class="ch2">the id of the marker within the take, 0 for the first, 1 for the second, etc.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetNumTakeMarkers">GetNumTakeMarkers</a> - gets the number of take-markers of a take</td></tr>
+<tr><td><li><a target="_blank" href="#SetTakeMarker">SetTakeMarker</a> - sets attributes of a takemarker of a take</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteTakeMarker">DeleteTakeMarker</a> - deletes a take marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31827,6 +32601,11 @@ When inserting a new takemarker, parameter srcposIn must be given!<br>
 <tr><td class="ch2">the color of the takemarker</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetNumTakeMarkers">GetNumTakeMarkers</a> - gets the number of take-markers of a take</td></tr>
+<tr><td><li><a target="_blank" href="#GetTakeMarker">GetTakeMarker</a> - gets attributes of a take-marker of a take</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteTakeMarker">DeleteTakeMarker</a> - deletes a take marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31858,6 +32637,11 @@ Delete a tempo/time signature marker. <br>
 <tr><td class="ch2">the index of the marker, that you want to delete</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountTempoTimeSigMarkers">CountTempoTimeSigMarkers</a> - counte the number of tempo/time signature markers</td></tr>
+<tr><td><li><a target="_blank" href="#GetTempoTimeSigMarker">GetTempoTimeSigMarker</a> - gets attributes of a tempo/time-signature-marker</td></tr>
+<tr><td><li><a target="_blank" href="#SetTempoTimeSigMarker">SetTempoTimeSigMarker</a> - adds/sets a tempo/time signature marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31967,6 +32751,12 @@ Deprecated. Use SetTempoTimeSigMarker with ptidx=-1.<br>
 <tr><td class="ch2">true, linear tempo change, false not</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountTempoTimeSigMarkers">CountTempoTimeSigMarkers</a> - counts the number of tempo/time signature markers</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteTempoTimeSigMarker">DeleteTempoTimeSigMarker</a> - removes a tempo/time signature-marker</td></tr>
+<tr><td><li><a target="_blank" href="#GetTempoTimeSigMarker">GetTempoTimeSigMarker</a> - gets the attributes of a tempo/time signature-marker</td></tr>
+<tr><td><li><a target="_blank" href="#SetTempoTimeSigMarker">SetTempoTimeSigMarker</a> - adds/sets a tempo/time signature marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -31994,6 +32784,11 @@ Count the number of tempo/time signature markers in the project.<br>
 <tr><td class="ch2">project number; 0 for the current project. </td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTempoTimeSigMarker">GetTempoTimeSigMarker</a> - to get a tempo/time-signature marker</td></tr>
+<tr><td><li><a target="_blank" href="#SetTempoTimeSigMarker">SetTempoTimeSigMarker</a> - sets a tempo/time-signature-marker</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteTempoTimeSigMarker">DeleteTempoTimeSigMarker</a> - deletes a tempo/time-signature-marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -32110,6 +32905,11 @@ Get information about a tempo/time signature marker. <br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountTempoTimeSigMarkers">CountTempoTimeSigMarkers</a> - counts the number of tempo/time signature markers</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteTempoTimeSigMarker">DeleteTempoTimeSigMarker</a> - removes a tempo/time signature-marker</td></tr>
+<tr><td><li><a target="_blank" href="#SetTempoTimeSigMarker">SetTempoTimeSigMarker</a> - adds/sets a tempo/time signature marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -32171,6 +32971,11 @@ ptidx=-1 will insert a new tempo/time signature marker. <br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountTempoTimeSigMarkers">CountTempoTimeSigMarkers</a> - counts the number of tempo/time signature markers</td></tr>
+<tr><td><li><a target="_blank" href="#DeleteTempoTimeSigMarker">DeleteTempoTimeSigMarker</a> - removes a tempo/time signature-marker</td></tr>
+<tr><td><li><a target="_blank" href="#GetTempoTimeSigMarker">GetTempoTimeSigMarker</a> - gets the attributes of a tempo/time signature-marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -32205,6 +33010,9 @@ To get item's GUID as a string, see BR_GetMediaItemGUID.<br>
 <tr><td class="ch2">the guid of the MediaItem you want to request.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_GetMediaItemGUID">BR_GetMediaItemGUID</a> - gets the guid of a MediaItem</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -32346,6 +33154,9 @@ To get image resource, see BR_GetMediaItemImageResource<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#BR_GetMediaItemImageResource">BR_GetMediaItemImageResource</a> - get the image resource of a MediaItem</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -32373,6 +33184,9 @@ gets the color of a MediaItem<br>
 <tr><td class="ch2">the MediaItem, whose color you want to get</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetDisplayedMediaItemColor2">GetDisplayedMediaItemColor2</a> - to get the color of a MediaTrack, MediaItem and/or Take</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -32404,6 +33218,11 @@ Returns the custom take, item, or track color that is used (according to the use
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetDisplayedMediaItemColor">GetDisplayedMediaItemColor</a> - to get the color of a MediaItem</td></tr>
+<tr><td><li><a target="_blank" href="#ColorToNative">ColorToNative</a> - for converting r-g-b-values to a native-color value</td></tr>
+<tr><td><li><a target="_blank" href="#ColorFromNative">ColorFromNative</a> - for converting a native color-calue into its r-g-b-representation</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -32566,6 +33385,10 @@ deprecated -- see SetItemStateChunk, GetItemStateChunk<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetItemStateChunk">GetItemStateChunk</a> - returns, an ItemStateChunk, which holds all attributes-information of a MediaItem</td></tr>
+<tr><td><li><a target="_blank" href="#SetItemStateChunk">SetItemStateChunk</a> - sets an ItemStateChunk, to replace all attributes-information of a MediaItem</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -32605,6 +33428,10 @@ deprecated -- see SetItemStateChunk, GetItemStateChunk<br>
 <tr><td class="ch2">true, undo; false, don't undo</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetItemStateChunk">GetItemStateChunk</a> - returns, an ItemStateChunk, which holds all attributes-information of a MediaItem</td></tr>
+<tr><td><li><a target="_blank" href="#SetItemStateChunk">SetItemStateChunk</a> - sets an ItemStateChunk, to replace all attributes-information of a MediaItem</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -32993,6 +33820,9 @@ Creates a new media item. It will be empty and therefore not be shown in the arr
 <tr><td class="ch2">tracknumber(zero based), with 0 for track 1, 1 for track 2, etc.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetMediaItemInfo_Value">SetMediaItemInfo_Value</a> - for setting attributes of new item, like length, position</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -33283,6 +34113,9 @@ Note: You can not get the item at screen-coordinates, where it is hidden by othe
 <tr><td class="ch2">true, allow getting locked items as well; false, don't get locked items</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetThingFromPoint">GetThingFromPoint</a> - returns, various elements at specific coordinates(arrange, mcp, fxchain, etc)</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -33399,6 +34232,9 @@ get a selected item by selected item count (zero-based)<br>
 <tr><td class="ch2">the id of the selected MediaItem, as multiple items can be selected.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountSelectedMediaItems">CountSelectedMediaItems</a> - returns the count of selected media items in a project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -33528,6 +34364,9 @@ see InsertMedia for more details<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#InsertMedia">InsertMedia</a> - inserts mediafiles into a project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -33961,6 +34800,9 @@ Counts take-envelopes.<br>
 <tr><td class="ch2">the mediaitem-object for a certain take</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTakeEnvelope">GetTakeEnvelope</a> - to get take-envelopes</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -35158,6 +36000,9 @@ idx=-1 for current project,projfn can be NULL if not interested in filename. use
 <tr><td class="ch2">-1 for current project; 0 and higher for the projects; 0x40000000 for currently rendering project, if any.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetProjectPath">GetProjectPath</a> - get recording path of a current project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -35272,6 +36117,10 @@ Will obey backup-file-settings, so a file using the extension rpp-bak might be c
 &4, include envelopes with track template</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#Main_openProject">Main_openProject</a> - for opening a project</td></tr>
+<tr><td><li><a target="_blank" href="#Main_SaveProject">Main_SaveProject</a> - for saving a project already saved</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -35396,6 +36245,10 @@ Enumerate the data stored with the project for a specific extname. Returns false
 <tr><td class="ch2">the id of the entry within "extname"-section to be returned; 0 for the first, 1 for the second, etc.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetProjExtState">GetProjExtState</a> - gets an ext-state that stored data for your project</td></tr>
+<tr><td><li><a target="_blank" href="#SetProjExtState">SetProjExtState</a> - sets an ext-state to store data for your project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -35435,6 +36288,10 @@ Get the value previously associated with this extname and key, the last time the
 <tr><td class="ch2">the key, in which the requested value is stored</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetProjExtState">SetProjExtState</a> - sets an ext-state to store data for your project</td></tr>
+<tr><td><li><a target="_blank" href="#EnumProjExtState">EnumProjExtState</a> - enumerates an ext-state that stores data for your project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -35505,6 +36362,10 @@ If your section is missing, contact me and I'll add it too:<br>
 <tr><td class="ch2">the value, that's stored in the key</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetProjExtState">GetProjExtState</a> - gets an ext-state that stored data for your project</td></tr>
+<tr><td><li><a target="_blank" href="#EnumProjExtState">EnumProjExtState</a> - enumerates an ext-state that stores data for your project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -35602,6 +36463,9 @@ If you need the filename of the path+projectfile itself, use EnumProjects instea
 <tr><td class="ch2">the returned path</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#EnumProjects">EnumProjects</a> - enumerates the project(tabs) and their projectfiles with path; returns currently rendering project</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -35877,6 +36741,9 @@ PROJECT_SRATE_USE : set to 1 if project samplerate is used&nbsp;&nbsp;<br>
 <tr><td class="ch2">true, set a new value; false, get the current value</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetSetProjectInfo_String">GetSetProjectInfo_String</a> - sets additional attributes for the project as string instead of numbers</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -35983,6 +36850,9 @@ APIC_TYPE can have be of the following:&nbsp;&nbsp;<br>
 <tr><td class="ch2">true, set a new value; false, just get the current one</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetSetProjectInfo">GetSetProjectInfo</a> - sets additional attributes for the project as number instead of string</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -36154,6 +37024,9 @@ call to start a new undo block. Code after that and before Undo_EndBlock can be 
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#Undo_EndBlock2">Undo_EndBlock2</a> - ends an undo-block</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -37148,6 +38021,9 @@ For Regions, use GoToRegion.<br>
 <tr><td class="ch2">false, use the shown-markernumber as marker_index; true, use markers in timelineorder, ignoring the shown-markernumber</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GoToRegion">GoToRegion</a> - goes to a region, instead of a marker</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -64114,6 +64990,9 @@ see ReaPack_GetOwner to get this parameter<br>
 <tr><td class="ch2">the installed Reapack-package, whose about dialog you want to show</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ReaPack_GetOwner">ReaPack_GetOwner</a> - returns the package, that owns a certain installed file</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -64192,6 +65071,9 @@ autoInstall: usually set to 2 (obey user setting).<br>
 &nbsp;&nbsp; 2, use user-settings</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ReaPack_ProcessQueue">ReaPack_ProcessQueue</a> - processes the new list and updates the gui of ReaPack</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -64310,6 +65192,10 @@ Enumerate the files owned by the given package. Returns false when there is no m
 <tr><td class="ch2">the index of the file of this ReaPack-package with 0 for the first file</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ReaPack_GetOwner">ReaPack_GetOwner</a> - returns the package, that owns a certain installed file</td></tr>
+<tr><td><li><a target="_blank" href="#ReaPack_GetEntryInfo">ReaPack_GetEntryInfo</a> - returns the attributes of an installed repository, like name, package description, etc</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -64339,6 +65225,9 @@ Must be used to free PackageEntry-objects created by ReaPack_GetOwner.<br>
 <tr><td class="ch2">the installed Reapack-package, whose ressources you want to free</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ReaPack_GetOwner">ReaPack_GetOwner</a> - returns the package, that owns a certain installed file</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -64413,6 +65302,9 @@ see ReaPack_GetOwner to get value for parameter entry<br>
 <tr><td class="ch2">the installed Reapack-package, whose package-infos you want</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ReaPack_GetOwner">ReaPack_GetOwner</a> - returns the package, that owns a certain installed file</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -64445,6 +65337,9 @@ Delete the returned object from memory after use with ReaPack_FreeEntry.<br>
 <tr><td class="ch2">filename with path to a file, of which you want to know, whose package owns it</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ReaPack_FreeEntry">ReaPack_FreeEntry</a> - deletes a PackageEntry, when you have no use for it anymore</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -64708,6 +65603,9 @@ See SetThemeColor for a list of valid ini_key.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetThemeColor">SetThemeColor</a> - sets a theme-color to a new color-value</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -65135,6 +66033,10 @@ To read a value see GetThemeColor<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetThemeColor">GetThemeColor</a> - gets a certain theme-color</td></tr>
+<tr><td><li><a target="_blank" href="#UpdateArrange">UpdateArrange</a> - updates the arrangeview, so theme-color changes are applied</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -65473,6 +66375,9 @@ This function ignores the master track, see CountSelectedTracks2 if you need mas
 <tr><td class="ch2">the project in which to count the selected tracks; 0 for current project. </td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CountSelectedTracks2">CountSelectedTracks2</a> - to count selected tracks including the master track</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -65711,6 +66616,11 @@ This function ignores the master track, see GetSelectedTrack2 and CountSelectedT
 <tr><td class="ch2">the idx of within the selected tracks, zero based, as multiple tracks can be selected by the user. </td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetSelectedTrack">GetSelectedTrack</a> - gets the selected tracks, including master track</td></tr>
+<tr><td><li><a target="_blank" href="#GetSelectedTrack2">GetSelectedTrack2</a> - gets the selected tracks, including master track</td></tr>
+<tr><td><li><a target="_blank" href="#CountSelectedTracks">CountSelectedTracks</a> - returns the number of selected tracks</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -65777,6 +66687,15 @@ get a track from a project by track count (zero-based) (proj=0 for active projec
 <tr><td class="ch2">the tracknumber; 0 for the first track, 1 for the second track, etc.</td></tr>
 </table>
 <br>
+<u>Code-Examples:</u><br><table class="ch">
+<tr><td><a href="Examples/Mespotine_GetTrack_ShowTracknameAndVolume.lua">Get a track</a> - gets the first track and shows its current trackname and volume(Mespotine)</td></tr>
+<tr><td><a href="Examples/Mespotine_GetTrack_ToggleTrackSelection.lua">Toggle track-selection</a> - gets each individual track and toggles its selection-state(Mespotine)</td></tr>
+</table><br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackFromPoint">GetTrackFromPoint</a> - gets the track located at a specific screen-coordinate</td></tr>
+<tr><td><li><a target="_blank" href="#GetMasterTrack">GetMasterTrack</a> - gets the master track</td></tr>
+<tr><td><li><a target="_blank" href="#GetSelectedTrack">GetSelectedTrack</a> - gets a selected track</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -65818,6 +66737,9 @@ See GetThingFromPoint<br>
 <tr><td class="ch2">the y-position in pixels, from which you want to get the underlying track</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetThingFromPoint">GetThingFromPoint</a> - returns, which element can be found at a certain coordinate</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -65869,6 +66791,9 @@ inserts a track at idx,of course this will be clamped to 0..GetNumTracks().<br>
 <tr><td class="ch2">true, default envelopes/FX; false, no enabled FX/envelopes</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetNumTracks">GetNumTracks</a> - gets the number of tracks</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66114,11 +67039,30 @@ Returns peak meter value (1.0=+0dB, 0.0=-inf) for channel. If channel==1024 or c
 <div class="p">Python: <code> <i>Float</i> retval = <em>BR_GetSetTrackSendInfo</em>(<i>MediaTrack</i> track, <i>Int</i> category, <i>Int</i> sendidx, <i>String</i> parmname, <i>Boolean</i> setNewValue, <i>Float</i> newValue)</code></div>
 </div><p>
 <div class="ch">
-<p>[BR] Get or set send attributes.</p>
-<p>category is &lt;0 for receives, 0=sends, &gt;0 for hardware outputs sendidx is zero-based (see <a href="#GetTrackNumSends">GetTrackNumSends</a> to count track sends/receives/hardware outputs) To set attribute, pass setNewValue as true</p>
-<p>List of possible parameters:</p>
-<p>B_MUTE : send mute state (1.0 if muted, otherwise 0.0) B_PHASE : send phase state (1.0 if phase is inverted, otherwise 0.0) B_MONO : send mono state (1.0 if send is set to mono, otherwise 0.0) D_VOL : send volume (1.0=+0dB etc...) D_PAN : send pan (-1.0=100%L, 0=center, 1.0=100%R) D_PANLAW : send pan law (1.0=+0.0db, 0.5=-6dB, -1.0=project default etc...) I_SENDMODE : send mode (0=post-fader, 1=pre-fx, 2=post-fx(deprecated), 3=post-fx) I_SRCCHAN : audio source starting channel index or -1 if audio send is disabled (&amp;1024=mono...note that in that case, when reading index, you should do (index XOR 1024) to get starting channel index) I_DSTCHAN : audio destination starting channel index (&amp;1024=mono (and in case of hardware output &amp;512=rearoute)...note that in that case, when reading index, you should do (index XOR (1024 OR 512)) to get starting channel index) I_MIDI_SRCCHAN : source MIDI channel, -1 if MIDI send is disabled (0=all, 1-16) I_MIDI_DSTCHAN : destination MIDI channel, -1 if MIDI send is disabled (0=original, 1-16) I_MIDI_SRCBUS : source MIDI bus, -1 if MIDI send is disabled (0=all, otherwise bus index) I_MIDI_DSTBUS : receive MIDI bus, -1 if MIDI send is disabled (0=all, otherwise bus index) I_MIDI_LINK_VOLPAN : link volume/pan controls to MIDI</p>
-<p>Note: To get or set other send attributes, see <a href="#BR_GetMediaTrackSendInfo_Envelope">BR_GetMediaTrackSendInfo_Envelope</a> and <a href="#BR_GetMediaTrackSendInfo_Track">BR_GetMediaTrackSendInfo_Track</a>.</p>
+[BR] Get or set send attributes.<br>
+<br>
+category is <0 for receives, 0=sends, >0 for hardware outputs<br>
+sendidx is zero-based (see GetTrackNumSends to count track sends/receives/hardware outputs)<br>
+To set attribute, pass setNewValue as true<br>
+<br>
+List of possible parameters:<br>
+<br>
+&nbsp;&nbsp; B_MUTE : send mute state (1.0 if muted, otherwise 0.0)<br>
+&nbsp;&nbsp; B_PHASE : send phase state (1.0 if phase is inverted, otherwise 0.0)<br>
+&nbsp;&nbsp; B_MONO : send mono state (1.0 if send is set to mono, otherwise 0.0)<br>
+&nbsp;&nbsp; D_VOL : send volume (1.0=+0dB etc...)<br>
+&nbsp;&nbsp; D_PAN : send pan (-1.0=100%L, 0=center, 1.0=100%R)<br>
+&nbsp;&nbsp; D_PANLAW : send pan law (1.0=+0.0db, 0.5=-6dB, -1.0=project default etc...)<br>
+&nbsp;&nbsp; I_SENDMODE : send mode (0=post-fader, 1=pre-fx, 2=post-fx(deprecated), 3=post-fx)<br>
+&nbsp;&nbsp; I_SRCCHAN : audio source starting channel index or -1 if audio send is disabled (&1024=mono...note that in that case, when reading index, you should do (index XOR 1024) to get starting channel index)<br>
+&nbsp;&nbsp; I_DSTCHAN : audio destination starting channel index (&1024=mono (and in case of hardware output &512=rearoute)...note that in that case, when reading index, you should do (index XOR (1024 OR 512)) to get starting channel index)<br>
+&nbsp;&nbsp; I_MIDI_SRCCHAN : source MIDI channel, -1 if MIDI send is disabled (0=all, 1-16)<br>
+&nbsp;&nbsp; I_MIDI_DSTCHAN : destination MIDI channel, -1 if MIDI send is disabled (0=original, 1-16)<br>
+&nbsp;&nbsp; I_MIDI_SRCBUS : source MIDI bus, -1 if MIDI send is disabled (0=all, otherwise bus index)<br>
+&nbsp;&nbsp; I_MIDI_DSTBUS : receive MIDI bus, -1 if MIDI send is disabled (0=all, otherwise bus index)<br>
+&nbsp;&nbsp; I_MIDI_LINK_VOLPAN : link volume/pan controls to MIDI<br>
+<br>
+Note: To get or set other send attributes, see [BR\_GetMediaTrackSendInfo\_Envelope](#BR_GetMediaTrackSendInfo_Envelope) and [BR\_GetMediaTrackSendInfo\_Track](#BR_GetMediaTrackSendInfo_Track).<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -66152,6 +67096,9 @@ Returns peak meter value (1.0=+0dB, 0.0=-inf) for channel. If channel==1024 or c
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackNumSends ">GetTrackNumSends </a> - counts the track sends/receives/hardware outputs</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66232,6 +67179,9 @@ Note: You can't(!) use SLIDER2DB or DB2SLIDER for getting the volume-values, you
 <tr><td class="ch2">false, set volume to new value; true, alter volume by new value</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#mkvolstr">mkvolstr</a> - converts the volume-level for this function</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66348,6 +67298,14 @@ a MediaTrack-object, creates a new send to tr from MediaTrack-object; <br/>
 nil(or no MediaTrack-object), creates a new hardware-output</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackNumSends">GetTrackNumSends</a> - get number of send of a track</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo">GetSetTrackSendInfo</a> - gets and sets attributes for a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo_String">GetSetTrackSendInfo_String</a> - gets sets additional string-attributes for metadata of track-sends</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackSendInfo_Value">GetTrackSendInfo_Value</a> - gets attributes of a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#RemoveTrackSend">RemoveTrackSend</a> - removes a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#SetTrackSendInfo_Value">SetTrackSendInfo_Value</a> - sets attributes of a track-send</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66405,6 +67363,14 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <tr><td class="ch2">true, set a new value; false, get the currently saved value</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateTrackSend">CreateTrackSend</a> - creates a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackNumSends">GetTrackNumSends</a> - get number of send of a track</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo">GetSetTrackSendInfo</a> - gets and sets attributes for a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackSendInfo_Value">GetTrackSendInfo_Value</a> - gets attributes of a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#RemoveTrackSend">RemoveTrackSend</a> - removes a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#SetTrackSendInfo_Value">SetTrackSendInfo_Value</a> - sets attributes of a track-send</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66438,6 +67404,15 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <tr><td class="ch2"><0 for receives; 0=sends; >0 for hardware outputs</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateTrackSend">CreateTrackSend</a> - creates a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackNumSends">GetTrackNumSends</a> - get number of send of a track</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo">GetSetTrackSendInfo</a> - gets and sets attributes for a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo_String">GetSetTrackSendInfo_String</a> - gets sets additional string-attributes for metadata of track-sends</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackSendInfo_Value">GetTrackSendInfo_Value</a> - gets attributes of a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#RemoveTrackSend">RemoveTrackSend</a> - removes a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#SetTrackSendInfo_Value">SetTrackSendInfo_Value</a> - sets attributes of a track-send</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66477,6 +67452,10 @@ See GetTrackSendName.<br>
 <tr><td class="ch2">the index of the received track; 0-based</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackSendName">GetTrackSendName</a> - returns the name of a track, that MediaTrack is sending to</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetMediaTrackInfo_String">GetSetMediaTrackInfo_String</a> - sets various track-attributes, including trackname</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66514,6 +67493,9 @@ See GetTrackSendUIMute.<br>
 <tr><td class="ch2">the index of the received track; 0-based</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackSendUIMute">GetTrackSendUIMute</a> - returns the mute-state of a send-track</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66557,6 +67539,9 @@ See GetTrackSendUIVolPan<br>
 <tr><td class="ch2">the index of the received track; 0-based</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackSendUIVolPan">GetTrackSendUIVolPan</a> - returns the volume and pan-values of a send-track</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66617,6 +67602,14 @@ Note: convert the D_VOL-volume to dB using in Lua: dB_volume = math.log(volume)*
 <tr><td class="ch2">the parameter-name(see description for more details)</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateTrackSend">CreateTrackSend</a> - creates a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackNumSends">GetTrackNumSends</a> - get number of send of a track</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo">GetSetTrackSendInfo</a> - gets and sets attributes for a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo_String">GetSetTrackSendInfo_String</a> - gets sets additional string-attributes for metadata of track-sends</td></tr>
+<tr><td><li><a target="_blank" href="#RemoveTrackSend">RemoveTrackSend</a> - removes a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#SetTrackSendInfo_Value">SetTrackSendInfo_Value</a> - sets attributes of a track-send</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66657,6 +67650,9 @@ See GetTrackReceiveName<br>
 <tr><td class="ch2">the index of the track-send</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackReceiveName">GetTrackReceiveName</a> - returns, if audioaccessor has changed</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66694,6 +67690,9 @@ See GetTrackReceiveUIMute.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackReceiveUIMute">GetTrackReceiveUIMute</a> - returns the mute-state of a track-receive</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66737,6 +67736,9 @@ Note: convert the volumevalue to dB using in Lua: dB_volume = math.log(volume)*8
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackReceiveUIVolPan">GetTrackReceiveUIVolPan</a> - get the vol-pan-states of a track receive</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66774,6 +67776,14 @@ For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the 
 <tr><td class="ch2">the idx of the send/receive/hwoutput to remove. 0, the first; 1 for the second, etc</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateTrackSend">CreateTrackSend</a> - creates a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackNumSends">GetTrackNumSends</a> - get number of send of a track</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo_String">GetSetTrackSendInfo_String</a> - gets sets additional string-attributes for metadata of track-sends</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo">GetSetTrackSendInfo</a> - gets and sets attributes for a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackSendInfo_Value">GetTrackSendInfo_Value</a> - gets attributes of a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#SetTrackSendInfo_Value">SetTrackSendInfo_Value</a> - sets attributes of a track-send</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -66935,6 +67945,14 @@ Note: convert a dB_volume-value to the value expected by D_VOL in Lua, using: ma
 <tr><td class="ch2">the new value to set</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#CreateTrackSend">CreateTrackSend</a> - creates a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackNumSends">GetTrackNumSends</a> - get number of send of a track</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo_String">GetSetTrackSendInfo_String</a> - gets sets additional string-attributes for metadata of track-sends</td></tr>
+<tr><td><li><a target="_blank" href="#GetSetTrackSendInfo">GetSetTrackSendInfo</a> - gets and sets attributes for a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#GetTrackSendInfo_Value">GetTrackSendInfo_Value</a> - gets attributes of a track-send</td></tr>
+<tr><td><li><a target="_blank" href="#RemoveTrackSend">RemoveTrackSend</a> - removes a track-send</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -68048,6 +69066,10 @@ Use DB2SLIDER to convert dB-value to fitting numbers of the volume-parameter.<br
 <tr><td class="ch2">false, set volume to new value; true, alter volume by new value</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#DB2SLIDER">DB2SLIDER</a> - converts a dB-value into the volume-level for this function</td></tr>
+<tr><td><li><a target="_blank" href="#SLIDER2DB">SLIDER2DB</a> - converts a volume-level into a dB-value</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -68089,6 +69111,10 @@ Use DB2SLIDER to convert dB-value to fitting numbers of the volume-parameter.<br
 <tr><td class="ch2">true, if trackid is selected with other tracks, set new state to them as well; false, set new state only to trackid </td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#DB2SLIDER">DB2SLIDER</a> - converts a dB-value into the volume-level for this function</td></tr>
+<tr><td><li><a target="_blank" href="#SLIDER2DB">SLIDER2DB</a> - converts a volume-level into a dB-value</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -68437,6 +69463,9 @@ Get the visibility of the master-track in mixer and track-control-panel.<br>
 &2 - 2, master track invisible in mixer; 0, master track visible in mixer</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#SetMasterTrackVisibility">SetMasterTrackVisibility</a> - sets the visibility of the master track in mcp/tcp</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -68524,6 +69553,10 @@ P_PROJECT : ReaProject * : parent project (read-only)<br>
 <tr><td class="ch2">the attribute, that you want to request, like D_VOL or B_SHOWINMIXER etc</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetSetMediaTrackInfo_String">GetSetMediaTrackInfo_String</a> - gets/sets a string value of a MediaTrack-attribute</td></tr>
+<tr><td><li><a target="_blank" href="#SetMediaTrackInfo_Value">SetMediaTrackInfo_Value</a> - sets a numerical value of a MediaTrack-attribute</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -68581,6 +69614,10 @@ GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function
 <tr><td class="ch2">true, set a new value; false, get a value</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetMediaTrackInfo_Value">GetMediaTrackInfo_Value</a> - get a numerical value of a MediaTrack-attribute</td></tr>
+<tr><td><li><a target="_blank" href="#SetMediaTrackInfo_Value">SetMediaTrackInfo_Value</a> - sets a numerical value of a MediaTrack-attribute</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -68746,6 +69783,10 @@ deprecated -- see SetTrackStateChunk, GetTrackStateChunk<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackStateChunk">GetTrackStateChunk</a> - returns, an TrackStateChunk, which holds all attributes-information of a MediaTrack</td></tr>
+<tr><td><li><a target="_blank" href="#SetTrackStateChunk">SetTrackStateChunk</a> - sets an TrackStateChunk, to replace all attributes-information of a MediaTrack</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -68785,6 +69826,10 @@ deprecated -- see SetTrackStateChunk, GetTrackStateChunk<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetTrackStateChunk">GetTrackStateChunk</a> - returns, an TrackStateChunk, which holds all attributes-information of a MediaTrack</td></tr>
+<tr><td><li><a target="_blank" href="#SetTrackStateChunk">SetTrackStateChunk</a> - sets an TrackStateChunk, to replace all attributes-information of a MediaTrack</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -69313,6 +70358,10 @@ D_PLAY_OFFSET : double * : track media playback offset, units depend on I_PLAY_O
 <tr><td class="ch2">the new value, that you want to set to the attribute</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetSetMediaTrackInfo_String">GetSetMediaTrackInfo_String</a> - gets/sets a string value of a MediaTrack-attribute</td></tr>
+<tr><td><li><a target="_blank" href="#GetMediaTrackInfo_Value">GetMediaTrackInfo_Value</a> - returns a numerical value of a MediaTrack-attribute</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -69361,6 +70410,10 @@ You cannot set default color with this function, use SetMediaTrackInfo_Value ins
 <tr><td class="ch2">the new color-value</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#ColorToNative">ColorToNative</a> - converts a color-value to a native operating-system-one</td></tr>
+<tr><td><li><a target="_blank" href="#SetMediaTrackInfo_Value">SetMediaTrackInfo_Value</a> - Allows setting various track-attributes, including the default-color.</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -69458,6 +70511,9 @@ To set arrange view instead, see BR_SetArrangeView.<br>
 <tr><td class="ch2">the project-number. 0 for the current project. </td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#GetSet_ArrangeView2">GetSet_ArrangeView2</a> - gets/sets arrangeview position and viewrange</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -74130,6 +75186,9 @@ see: https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-get
 etc.</td></tr>
 </table>
 <br>
+<u>see also:</u><br><table class="ch">
+<tr><td><li><a target="_blank" href="#https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getsystemmetrics">https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getsystemmetrics</a> - more information about, which metrics you can get with this function</td></tr>
+</table><br>
 </div>
 <div class="ch">
 <hr>
@@ -78270,7 +79329,7 @@ Focuses the active/open MIDI editor.<br>
       <div class="ch">
         <hr>
                      
-          <table><td class="td2"> View: [<span class='aclick'>all</span>] [<span class='cclick'><a href="#c" onClick="setdocview('c')">C/C++</a></span>] [<span class='eclick'><a href="#e" onClick="setdocview('e')">EEL2</a></span>] [<span class='lclick'><a href="#l" onClick="setdocview('l')">Lua</a></span>] [<span class='pclick'><a href="#p" onClick="setdocview('p')">Python</a></span>]&#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.8  - 2399 elements available <br></td></table>
+          <table><td class="td2"> View: [<span class='aclick'>all</span>] [<span class='cclick'><a href="#c" onClick="setdocview('c')">C/C++</a></span>] [<span class='eclick'><a href="#e" onClick="setdocview('e')">EEL2</a></span>] [<span class='lclick'><a href="#l" onClick="setdocview('l')">Lua</a></span>] [<span class='pclick'><a href="#p" onClick="setdocview('p')">Python</a></span>]&#160;</td><td>&#160;</td><td class="td3">Automatically generated by Ultraschall-API 4.9  - 2399 elements available <br></td></table>
         <hr>
       </div>
       <br>

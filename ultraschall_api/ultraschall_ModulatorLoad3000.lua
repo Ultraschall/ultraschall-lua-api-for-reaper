@@ -5233,9 +5233,9 @@ else
     ultraschall.LM(29)
     return ultraschall.SetRender_SaveRenderStats(table.unpack({...}))
   end
-  function ultraschall.GetRender_QueueDelay(...)
+  function ultraschall.GetRender_SaveRenderStats(...)
     ultraschall.LM(29)
-    return ultraschall.GetRender_QueueDelay(table.unpack({...}))
+    return ultraschall.GetRender_SaveRenderStats(table.unpack({...}))
   end
   function ultraschall.StoreRenderTable_ProjExtState(...)
     ultraschall.LM(29)

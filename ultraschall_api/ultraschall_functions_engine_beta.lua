@@ -1312,39 +1312,60 @@ end
 --A=ultraschall.EscapeCharactersForXMLText("HULA&HO\"HooP\"Oh now that you 'mention' it OP&amp;")
 
 
-
-
-function ultraschall.GetRender_SaveRenderStats()
+function ultraschall.Docs_GetUSDocBloc_Examples(String)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetRender_SaveRenderStats</slug>
+  <slug>Docs_GetUSDocBloc_Examples</slug>
   <requires>
     Ultraschall=4.9
-    Reaper=6.71
-    SWS=2.10.0.1
-    JS=0.972
+    Reaper=5.978
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.GetRender_SaveRenderStats()</functioncall>
+  <functioncall>integer num_code_examples, table code_examples = ultraschall.Docs_GetUSDocBloc_Examples(string String)</functioncall>
   <description>
-    Gets the "Save outfile.render_stats.html"-checkboxstate of the Render to File-dialog.
+    returns the code-examples from an US_DocBloc-element. The table 
     
-    Returns false in case of an error
+    the returned table is of the following format:
+      code_examples[code_example_index]["name"] - the name of the example
+      code_examples[code_example_index]["description"] - a description of the example
+      code_examples[code_example_index]["url"] - the path to the code-example-file, usually based in the Documentation/Examples-folder
+      code_examples[code_example_index]["url_absolute"] - the absolute path to the code-example-file
+      code_examples[code_example_index]["author"] - the author of the example
+    
+    returns nil in case of an error
   </description>
   <retvals>
-    boolean retval - true, setting was successful; false, it was unsuccessful
+    integer num_code_examples - the number or available code-examples
+    table code_examples - a table with all the code-example-attributes; each index is a code-example
   </retvals>
+  <parameters>
+    string String - a string which hold a US_DocBloc to retrieve the code-example-attributes from
+  </parameters>
   <chapter_context>
-    Rendering Projects
-    Render Settings
+    Ultraschall DocML
   </chapter_context>
-  <target_document>US_Api_Functions</target_document>
-  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
-  <tags>render, get, checkbox, render, save outfile renderstats</tags>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, code example, usdocbloc</tags>
 </US_DocBloc>
 ]]
-  local A=reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)  
-  return A&32768==32768
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Examples", "String", "must be a string", -1) return nil end
+  local Examples={}
+  for k in string.gmatch(String, "%<example.-%>") do
+    Examples[#Examples+1]={}
+    name=k:match("name=\"(.-)\"")
+    if name==nil then name="" end
+    description=k:match("description=\"(.-)\"")
+    if description==nil then description="" end
+    author=k:match("author=\"(.-)\"")
+    if author==nil then author="" end
+    url=k:match("url=\"(.-)\"")
+    if url==nil then url="" end
+    Examples[#Examples]["name"]=name
+    Examples[#Examples]["url"] = url
+    Examples[#Examples]["url_absolute"] = ultraschall.Api_Path.."/Documentation/"..url
+    Examples[#Examples]["description"]=description
+    Examples[#Examples]["author"]=author
+  end
+  return #Examples, Examples
 end
-
-

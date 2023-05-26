@@ -9717,7 +9717,7 @@ end
 function ultraschall.GetRender_SaveRenderStats()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetRender_QueueDelay</slug>
+  <slug>GetRender_SaveRenderStats</slug>
   <requires>
     Ultraschall=4.75
     Reaper=6.71
@@ -9725,7 +9725,7 @@ function ultraschall.GetRender_SaveRenderStats()
     JS=0.972
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.GetRender_QueueDelay()</functioncall>
+  <functioncall>boolean retval = ultraschall.GetRender_SaveRenderStats()</functioncall>
   <description>
     Sets the "Save outfile.render_stats.html"-checkboxstate of the Render to File-dialog.
   </description>

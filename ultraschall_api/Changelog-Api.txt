@@ -316,6 +316,27 @@ ToDo Marker Menu:
 
 ## Ultraschall Framework - Changelog
 
+### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023
+
+Has now 1652 functions, with XX new ones
+
+**new in this release:**  
+
+  - **ReaSpaghetti**  
+  Features bugfixes and additions that make Ultraschall API now compatible with Sexan's ReaSpaghetti coding-tool.  
+  Should work out of the box.
+    
+#### New features in 4.9  
+  - Docs: links and code-examples - added links to related functions as well as some first code-examples; can now add more very easily
+  - DocEngine: Docs\_GetUSDocBloc\_Examples - retrieves the code-example-attributes stored in a USDocBloc
+  - DocEngine: Docs\_GetUltraschallApiFunction\_Categories - returns the index-categories of an Ultraschall-function
+  - DocEngine: Docs\_GetReaperApiFunction\_Categories - returns the index-categories of a Reaper-function(including extensions)
+
+#### Changes from 4.8 to 4.9  
+  - Helper Functions: SFEM - crashed, when the occurred error happened not within a function -> fixed now
+  
+---
+
 ### 4.8 - "Sparks - When do I get to sing my way" - 8th of April 2023
 
 Has now 1652 functions, with 37 new ones
