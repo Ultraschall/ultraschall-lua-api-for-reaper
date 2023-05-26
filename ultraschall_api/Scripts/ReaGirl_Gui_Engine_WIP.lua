@@ -696,12 +696,37 @@ function reagirl.Gui_Manage()
   local Screenstate=gfx.getchar(65536) -- currently unused
   if Key==-1 then reagirl.IsWindowOpen_attribute=false return end
   
-  --Debug Code - move ui-elements via arrow keys
+  --Debug Code - move ui-elements via arrow keys, including stopping when end of ui-elements has been reached.
+  -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
+  -- see reagirl.UI_Elements_Boundaries() for the calculation of it and more information
   
-  if Key==30064 then reagirl.MoveItAllUp=reagirl.MoveItAllUp-10 reagirl.Gui_ForceRefresh() end
-  if Key==1685026670 then reagirl.MoveItAllUp=reagirl.MoveItAllUp+10 reagirl.Gui_ForceRefresh() end
-  if Key==1818584692.0 then reagirl.MoveItAllRight=reagirl.MoveItAllRight+10 reagirl.Gui_ForceRefresh() end
-  if Key==1919379572.0 then reagirl.MoveItAllRight=reagirl.MoveItAllRight-10 reagirl.Gui_ForceRefresh() end
+  if Key==30064 then 
+    -- Up
+    if reagirl.BoundaryY_Max+reagirl.MoveItAllUp>gfx.h then 
+      reagirl.MoveItAllUp=reagirl.MoveItAllUp-10 
+      reagirl.Gui_ForceRefresh() 
+    end
+  end
+  if Key==1685026670 then 
+    -- Down
+    if reagirl.BoundaryY_Min+reagirl.MoveItAllUp<0 then 
+      reagirl.MoveItAllUp=reagirl.MoveItAllUp+10 
+      reagirl.Gui_ForceRefresh()   
+    end
+  end
+  if Key==1818584692.0 then 
+    -- left
+    if reagirl.BoundaryX_Min+reagirl.MoveItAllRight<0 then 
+      reagirl.MoveItAllRight=reagirl.MoveItAllRight+10 
+      reagirl.Gui_ForceRefresh() 
+    end
+  end
+  if Key==1919379572.0 then 
+    if reagirl.BoundaryX_Max+reagirl.MoveItAllRight>gfx.w then 
+      reagirl.MoveItAllRight=reagirl.MoveItAllRight-10 
+      reagirl.Gui_ForceRefresh() 
+    end
+  end
   --]]
   --Debug End
   
@@ -757,13 +782,14 @@ function reagirl.Gui_Manage()
     local MoveItAllRight=reagirl.MoveItAllRight
     if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
     if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
-        
+    
+    
     if x2+MoveItAllRight<reagirl.UI_Element_MinX then reagirl.UI_Element_MinX=x2+MoveItAllRight end
     if y2<reagirl.UI_Element_MinY+MoveItAllUp then reagirl.UI_Element_MinY=y2+MoveItAllUp end
     
     if x2+MoveItAllRight+w2>reagirl.UI_Element_MaxW then reagirl.UI_Element_MaxW=x2+MoveItAllRight+w2 end
     if y2+MoveItAllUp+h2>reagirl.UI_Element_MaxH then reagirl.UI_Element_MaxH=y2+h2+MoveItAllUp end
-    
+    --]]
     
     if gfx.mouse_x>=x2+MoveItAllRight and
        gfx.mouse_x<=x2+MoveItAllRight+w2 and
@@ -2571,8 +2597,86 @@ end
 
 local count=0
 local count2=0
+
+function reagirl.UI_Elements_Boundaries()
+  -- sets the boundaries of the maximum scope of all ui-elements into reagirl.Boundary[X|Y]_[Min|Max]-variables.
+  -- these can be used to calculate scrolling including stopping at the minimum, maximum position of the ui-elements,
+  -- so you don't scroll forever.
+  -- This function only calculates non-locked ui-element-directions
+  
+  --[[
+  -- Democode for Gui_Manage, that scrolls via arrow-keys including "scroll lock" when reaching end of ui-elements.
+  if Key==30064 then 
+    -- Up
+    if reagirl.BoundaryY_Max+reagirl.MoveItAllUp>gfx.h then 
+      reagirl.MoveItAllUp=reagirl.MoveItAllUp-10 
+      reagirl.Gui_ForceRefresh() 
+    end
+  end
+  if Key==1685026670 then 
+    -- Down
+    if reagirl.BoundaryY_Min+reagirl.MoveItAllUp<0 then 
+      reagirl.MoveItAllUp=reagirl.MoveItAllUp+10 
+      reagirl.Gui_ForceRefresh()   
+    end
+  end
+  if Key==1818584692.0 then 
+    -- left
+    if reagirl.BoundaryX_Min+reagirl.MoveItAllRight<0 then 
+      reagirl.MoveItAllRight=reagirl.MoveItAllRight+10 
+      reagirl.Gui_ForceRefresh() 
+    end
+  end
+  if Key==1919379572.0 then 
+    if reagirl.BoundaryX_Max+reagirl.MoveItAllRight>gfx.w then 
+      reagirl.MoveItAllRight=reagirl.MoveItAllRight-10 
+      reagirl.Gui_ForceRefresh() 
+    end
+  end
+  --]]
+  --[[
+  local x2, y2, w2, h2
+  if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
+  if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
+  if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
+  if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+  if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then
+    if w2<20 then w2=20 end
+  end
+  --]]
+  local minx, miny, maxx, maxy = 2147483648, 2147483648, -2147483648, -2147483648
+  -- first the x position
+  for i=1, #reagirl.Elements do
+    if reagirl.Elements[i].sticky_x==false then
+      local x2, y2, w2, h2
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
+      if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+      if x2<minx then minx=x2 end
+      if w2+x2>maxx then maxx=w2+x2 MaxW=w2 end
+      
+      if y2<miny then miny=y2 end
+      if h2+y2>maxy then maxy=h2+y2 MAXH=h2 end
+      MINY=miny
+      MAXY=maxy
+    end
+  end
+  gfx.line(minx+reagirl.MoveItAllRight,miny+reagirl.MoveItAllUp, maxx+reagirl.MoveItAllRight, maxy+reagirl.MoveItAllUp, 1)
+  gfx.line(minx+reagirl.MoveItAllRight,miny+reagirl.MoveItAllUp, minx+reagirl.MoveItAllRight, maxy+reagirl.MoveItAllUp)
+  
+  reagirl.BoundaryX_Min=0--minx
+  reagirl.BoundaryX_Max=maxx
+  reagirl.BoundaryY_Min=0--miny
+  reagirl.BoundaryY_Max=maxy
+  gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
+  gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
+end
+
 function main()
   reagirl.Gui_Manage()
+  reagirl.UI_Elements_Boundaries()
   A={reagirl.UI_Elements_OutsideWindow()}
   count=count+2
   count2=count2+4
@@ -2586,6 +2690,7 @@ function main()
   --]]
   
   -- Dunno....
+  --[[
   AHorz, AVert = reagirl.UI_Elements_OutsideWindow()
   windx, windx2, windy, windy2 = reagirl.UI_Elements_GetScrollRect()
   if windy+reagirl.MouseCap.mouse_last_wheel/5<=0 and reagirl.MouseCap.mouse_last_wheel>0 then reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MouseCap.mouse_last_wheel/5 end
@@ -2594,6 +2699,7 @@ function main()
   windx, windx2, windy, windy2 = reagirl.UI_Elements_GetScrollRect()
   if windy>-10 then reagirl.MoveItAllUp=reagirl.MoveItAllUp-windy+10 end
   --if windy2<=gfx.h then dif=gfx.h-windy end
+  --]]
   reagirl.Gui_ForceRefresh() 
   
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
@@ -2632,19 +2738,19 @@ function UpdateUI()
     end
   end
   --reagirl.AddDummyElement()  
-  --reagirl.Label_Add("Export Podcast as:", -400, 88, 100, 100)
-  A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", true, CheckMe)
-  A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
-  A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
+  --reagirl.Label_Add("Export Podcast as:", 100, 88, 100, 100)
+  --A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", true, CheckMe)
+  --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
+  --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
 
-  B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, true, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
+  --B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, true, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
   --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
-  reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
-  E=reagirl.DropDownMenu_Add(-280, 150, -10, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
+  --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
+  E=reagirl.DropDownMenu_Add(80, -70, 100, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
   --reagirl.Line_Add(10,250,120, 200,1,1,0,1)
 
   
@@ -2653,13 +2759,13 @@ function UpdateUI()
   
   
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
-  reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
+  --reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
   
-  EID=reagirl.Button_Add(-120, -30, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
+  EID=reagirl.Button_Add(720, 230, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
-  reagirl.Button_Add(-585, -350, 0, 0, "Close Gui", "Description of the button", click_button)
+  --reagirl.Button_Add(85, 550, 0, 0, "Close Gui", "Description of the button", click_button)
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
   --]]
@@ -2670,7 +2776,7 @@ end
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
 reagirl.Gui_Open("Faily", "A Failstate Manager", nil,100,nil,nil,nil)
 UpdateUI()
-reagirl.Window_ForceMinSize(640, 277)
+reagirl.Window_ForceMinSize(40, 277)
 --reagirl.Gui_ForceRefreshState=true
 --main()
 

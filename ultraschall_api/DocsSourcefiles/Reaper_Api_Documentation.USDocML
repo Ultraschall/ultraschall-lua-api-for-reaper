@@ -33,6 +33,7 @@
                 ReaBlink: [https://github.com/ak5k/reablink/releases/](https://github.com/ak5k/reablink/releases/)
                 ReaLlm: [https://github.com/ak5k/reallm](https://github.com/ak5k/reallm)
                 ReaFab: [https://github.com/ak5k/reafab](https://github.com/ak5k/reafab)
+                ReaMCULive: [https://github.com/ak5k/reamculive/releases/](https://github.com/ak5k/reamculive/releases/)
                 PeloReaper: [https://github.com/pelori/PeloReaper](https://github.com/pelori/PeloReaper)
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -11515,8 +11516,8 @@
               D_PANLAW : double * : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
               I_SENDMODE : int * : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
               I_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-              I_SRCCHAN : int * : index,&1024=mono, -1 for none
-              I_DSTCHAN : int * : index, &1024=mono, otherwise stereo pair, hwout:&512=rearoute
+              I_SRCCHAN : int * : -1 for no audio send. Low 10 bits specify channel offset, and higher bits specify channel count. (srcchan>>10) == 0 for stereo, 1 for mono, 2 for 4 channel, 3 for 6 channel, etc.
+              I_DSTCHAN : int * : low 10 bits are destination index, &1024 set to mix to mono.
               I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanP_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
               P_DESTTRACK : MediaTrack * : destination track, only applies for sends/recvs (read-only)
               P_SRCTRACK : MediaTrack * : source track, only applies for sends/recvs (read-only)
@@ -11557,6 +11558,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+            Reaper 6.79 - improved docs for I_SRCCHAN and I_DSTCHAN
         </changelog>
     </US_DocBloc>
 
@@ -14847,8 +14849,10 @@
         <requires>
             Reaper=6.00
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Set CC shape and bezier tension. set noSort if setting multiple events, then call MIDI_Sort when done. See [MIDI\_SetCC](#MIDI_SetCC), [MIDI\_GetCCShape](#MIDI_GetCCShape)
+        <description>
+            Set CC shape and bezier tension. set noSort if setting multiple events, then call MIDI_Sort when done. 
+            
+            See MIDI_SetCC, MIDI_GetCCShape
         </description>
         <retvals>
             boolean retval - 
@@ -14860,6 +14864,12 @@
             number beztension - 
             optional boolean noSortIn - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDI_SetCC
+                   sets the CC event properties
+            Reaper:MIDI_GetCCShape
+                   gets the CC-shape and bezier tension
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15046,10 +15056,10 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             list the takes that are currently being edited in this MIDI editor, starting with the active take. 
             
-            See [MIDIEditor\_GetTake](#MIDIEditor_GetTake)
+            See MIDIEditor_GetTake
         </description>
         <retvals>
             MediaItem_Take take - 
@@ -15059,6 +15069,10 @@
             integer takeindex - 
             boolean editable_only - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDIEditor_GetTake
+                   gets the take currently edited in the MIDI Editor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15079,13 +15093,19 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             get a pointer to the focused MIDI editor window
-            see [MIDIEditor\_GetMode](#MIDIEditor_GetMode), [MIDIEditor\_OnCommand](#MIDIEditor_OnCommand)
+            see MIDIEditor_GetMode, MIDIEditor_OnCommand
         </description>
         <retvals>
             HWND hwnd - 
         </retvals>
+        <linked_to desc="see:">
+            Reaper:MIDIEditor_GetMode
+                   get the mode of an MIDI-Editor
+            Reaper:MIDIEditor_OnCommand
+                   runs an action from the MidiEditor-section inside a MidiEditor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15106,9 +15126,9 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             get the mode of a MIDI editor (0=piano roll, 1=event list, -1=invalid editor)
-            see [MIDIEditor\_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_OnCommand](#MIDIEditor_OnCommand)
+            see MIDIEditor_GetActive, MIDIEditor_OnCommand
         </description>
         <retvals>
             integer retval - 
@@ -15116,6 +15136,12 @@
         <parameters>
             HWND midieditor - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDIEditor_GetActive
+                   get the hwnd of the active MIDI-Editor
+            Reaper:MIDIEditor_OnCommand
+                   runs an action from the MidiEditor-section inside a MidiEditor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15136,11 +15162,11 @@
         <requires>
             Reaper=6.41
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Get settings from a MIDI editor. setting_desc can be:
-                snap\_enabled: returns 0 or 1
-                active\_note\_row: returns 0-127
-                last\_clicked\_cc\_lane: 
+                snap_enabled: returns 0 or 1
+                active_note_row: returns 0-127
+                last_clicked_cc_lane: 
                     returns 0-127=CC, 
                             0x100|(0-31)=14-bit CC, 
                             0x200=velocity, 
@@ -15153,14 +15179,14 @@
                             0x207=off velocity, 
                             0x208=notation events, 
                             0x210=media item lane
-                default\_note\_vel: returns 0-127
-                default\_note\_chan: returns 0-15
-                default\_note\_len: returns default length in MIDI ticks
-                scale\_enabled: returns 0-1
-                scale\_root: returns 0-12 (0=C) 
-                list\_cnt: if viewing list view, returns event count  
-                if setting\_desc is unsupported, the function returns -1.
-                See [MIDIEditor\_SetSetting\_int](#MIDIEditor_SetSetting_int), [MIDIEditor\_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_GetSetting\_str](#MIDIEditor_GetSetting_str)
+                default_note_vel: returns 0-127
+                default_note_chan: returns 0-15
+                default_note_len: returns default length in MIDI ticks
+                scale_enabled: returns 0-1
+                scale_root: returns 0-12 (0=C) 
+                list_cnt: if viewing list view, returns event count  
+                if setting_desc is unsupported, the function returns -1.
+                See MIDIEditor_SetSetting_int, MIDIEditor_GetActive, MIDIEditor_GetSetting_str
         </description>
         <retvals>
             integer retval - 
@@ -15169,6 +15195,14 @@
             HWND midieditor - 
             string setting_desc - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDIEditor_SetSetting_int
+                   Set settings for a MIDI Editor
+            Reaper:MIDIEditor_GetActive
+                   get the hwnd of the active MIDI Editor
+            Reaper:MIDIEditor_GetSetting_str
+                   get string-settings of a MIDI Editor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15189,15 +15223,15 @@
         <requires>
             Reaper=6.41
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get settings from a MIDI editor. setting\_desc can be:
-            last\_clicked\_cc\_lane: returns text description ("velocity", "pitch", etc)
+        <description>
+            Get settings from a MIDI editor. setting_desc can be:
+            last_clicked_cc_lane: returns text description ("velocity", "pitch", etc)
             scale: returns the scale record, for example "102034050607" for a major scale
-            list\_X: if viewing list view, returns string describing event at row X (0-based). String will have a list of key=value pairs, e.g. 'pos=4.0 len=4.0 offvel=127 msg=90317F'. pos/len times are in QN, len/offvel may not be present if event is not a note. other keys which may be present include pos\_pq/len\_pq, sel, mute, ccval14, ccshape, ccbeztension.
+            list_X: if viewing list view, returns string describing event at row X (0-based). String will have a list of key=value pairs, e.g. 'pos=4.0 len=4.0 offvel=127 msg=90317F'. pos/len times are in QN, len/offvel may not be present if event is not a note. other keys which may be present include pos_pq/len_pq, sel, mute, ccval14, ccshape, ccbeztension.
 
-            if setting\_desc is unsupported, the function returns false.
+            if setting_desc is unsupported, the function returns false.
 
-            See [MIDIEditor\_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_GetSetting_int](#MIDIEditor_GetSetting_int)
+            See MIDIEditor_GetActive, MIDIEditor_GetSetting_int
         </description>
         <retvals>
             boolean retval - 
@@ -15208,6 +15242,12 @@
             string setting_desc - 
             string buf - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDIEditor_GetActive
+                   get the hwnd of the active MIDI Editor
+            Reaper:MIDIEditor_GetSetting_int
+                   get integer settings of a MIDI Editor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15228,10 +15268,10 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             get the take that is currently being edited in this MIDI editor
             
-            see [MIDIEditor\_EnumTakes](MIDIEditor_EnumTakes)
+            see MIDIEditor_EnumTakes
         </description>
         <retvals>
             MediaItem_Take take - 
@@ -15239,6 +15279,10 @@
         <parameters>
             HWND midieditor - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDIEditor_EnumTakes
+                   get the takes currently edited in Midi-editors
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15259,9 +15303,12 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Send an action command to the last focused MIDI editor. Returns false if there is no MIDI editor open, or if the view mode (piano roll or event list) does not match the input.
-            see [MIDIEditor\_OnCommand](#MIDIEditor_OnCommand)
+        <description>
+            Send an action command to the last focused MIDI editor. 
+            
+            Returns false if there is no MIDI editor open, or if the view mode (piano roll or event list) does not match the input.
+            
+            see MIDIEditor_OnCommand
         </description>
         <retvals>
             boolean retval - 
@@ -15270,6 +15317,10 @@
             integer command_id - 
             boolean islistviewcommand - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDIEditor_OnCommand
+                   runs an action from the MIDI-Editor-section in a Midi editor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15291,9 +15342,12 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Send an action command to a MIDI editor. Returns false if the supplied MIDI editor pointer is not valid (not an open MIDI editor).
-            see [MIDIEditor\_GetActive](#MIDIEditor_GetActive), [MIDIEditor\_LastFocused\_OnCommand](#MIDIEditor_LastFocused_OnCommand)
+        <description>
+            Send an action command to a MIDI editor. 
+            
+            Returns false if the supplied MIDI editor pointer is not valid (not an open MIDI editor).
+            
+            see MIDIEditor_GetActive, MIDIEditor_LastFocused_OnCommand
         </description>
         <retvals>
             boolean retval - 
@@ -15302,6 +15356,12 @@
             HWND midieditor - 
             integer command_id - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDIEditor_GetActive
+                   gets the hwnd of the currently active MIDI editor.
+            Reaper:MIDIEditor_LastFocused_OnCommand
+                   runs an action from the MIDI editor-section in the last/currently focused MIDI editor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15323,10 +15383,10 @@
         <requires>
             Reaper=5.975
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Set settings for a MIDI editor. setting\_desc can be:
-            active\_note\_row: 0-127
-            See [MIDIEditor\_GetSetting_int](#MIDIEditor_GetSetting_int)
+        <description>
+            Set settings for a MIDI editor. setting_desc can be:
+            active_note_row: 0-127
+            See MIDIEditor_GetSetting_int
         </description>
         <retvals>
             boolean retval - 
@@ -15336,6 +15396,10 @@
             string setting_desc - 
             integer setting - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:MIDIEditor_GetSetting_int
+                   gets integer-settings from a MIDI editor
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -15356,10 +15420,10 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        <description>
             Converts a double-number to its panstr-equivalent.
 
-            See [parsepanstr](#parsepanstr) for its counterpart. 
+            See parsepanstr for its counterpart. 
         </description>
         <retvals>
             string strNeed64 - the converted panstring, from -100% over center to 100%
@@ -15368,6 +15432,10 @@
             string strNeed64 - just set this to ""
             number pan - the pan-number which shall be converted to the panstring; valid numbers are -1.0 to 1.0 even if you can set higher ones
         </parameters>
+        <linked_to desc="see:">
+            Reaper:parsepanstr
+                   converts a panstr into a double-number
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -19472,8 +19540,8 @@
                D_PANLAW : double * : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
                I_SENDMODE : int * : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
                I_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-               I_SRCCHAN : int * : index,&1024=mono, -1 for none
-               I_DSTCHAN : int * : index, &1024=mono, otherwise stereo pair, hwout:&512=rearoute
+               I_SRCCHAN : int * : -1 for no audio send. Low 10 bits specify channel offset, and higher bits specify channel count. (srcchan>>10) == 0 for stereo, 1 for mono, 2 for 4 channel, 3 for 6 channel, etc.
+               I_DSTCHAN : int * : low 10 bits are destination index, &1024 set to mix to mono.
                I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chan 
 
             For ReaRoute-users: the outputs are hardware outputs, but with 512 added to the destination channel index (512 is the first rearoute channel, 513 the second, etc).
@@ -19512,6 +19580,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.79 - improved docs for I_SRCCHAN and I_DSTCHAN
         </changelog>
     </US_DocBloc>
 
@@ -20725,6 +20794,15 @@
         </requires>
         <description prog_lang="*">
             gets the number of input/output pins for FX if available, returns plug-in type or -1 on error
+            
+            0, "DX"
+            1, "LV2"
+            2, "JSFX"
+            3, "VST"
+            5, "AU"
+            6, "Video Processor"
+            7, "CLAP"
+            8, "Container"
         </description>
         <retvals>
             integer retval - 
@@ -21164,8 +21242,12 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). See [TakeFX\_SetPreset](#TakeFX_SetPreset).
+        <description>
+            Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). 
+            
+            Returns true if the inputs are valid.
+            
+            See TakeFX_SetPreset.
         </description>
         <retvals>
             boolean retval - 
@@ -21175,6 +21257,10 @@
             MediaItem_Take take - 
             integer fx - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:TakeFX_SetPreset
+                   sets the preset of a take-fx
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -23143,6 +23229,15 @@
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
+            
+            0, "DX"
+            1, "LV2"
+            2, "JSFX"
+            3, "VST"
+            5, "AU"
+            6, "Video Processor"
+            7, "CLAP"
+            8, "Container"
         </description>
         <retvals>
             integer retval - 
@@ -23177,7 +23272,7 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_GetNamedConfigParm(MediaTrack track, integer fx, string parmname)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, String parmname, String bufOutNeedBig, Int bufOutNeedBig_sz) = RPR_TrackFX_GetNamedConfigParm(track, fx, parmname, bufOutNeedBig, bufOutNeedBig_sz)</functioncall>
         <requires>
-            Reaper=6.72
+            Reaper=6.79
         </requires>
         <description prog_lang="*">
             gets plug-in specific named configuration value (returns true on success). 
@@ -23193,8 +23288,13 @@
               fx_ident : type-specific identifier
               fx_name : pre-aliased name
               GainReduction_dB : [ReaComp + other supported compressors]
+              
+              original_name : pre-renamed FX instance name
+              renamed_name : renamed FX instance name (empty string = not renamed)
+              
               vst_chunk[_program] : base64-encoded VST-specific chunk.
               clap_chunk : base64-encoded CLAP-specific chunk.
+              
               param.X.lfo.[active,dir,phase,speed,strength,temposync,free,shape] : parameter moduation LFO state
               param.X.acs.[active,dir,strength,attack,release,dblo,dbhi,chan,stereo] : parameter modulation ACS state
               param.X.plink.[active,scale,offset,effect,param,midi_bus,midi_chan,midi_msg,midi_msg2] : parameter link/MIDI link: set effect=-100 to support midi_*
@@ -23233,6 +23333,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.79 - added original_name to get original name and renamed_name to get (re-)name of fx-instances
           Reaper 6.72 - added support for autobypass, instance oversample shift, chain oversample shift and chain pdc-mode
           Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data getting
         </changelog>
@@ -23597,8 +23698,12 @@
         <requires>
             Reaper=6.37
         </requires>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). See [TrackFX\_SetPreset](#TrackFX_SetPreset).
+        <description>
+            Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). 
+            
+            Returns true if the inputs are valid. 
+            
+            See TrackFX_SetPreset
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
@@ -23611,6 +23716,10 @@
             MediaTrack track - 
             integer fx - 
         </parameters>
+        <linked_to desc="see:">
+            Reaper:TrackFX_SetPreset
+                   sets the preset of a track-fx
+        </linked_to>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
         <chapter_context>
@@ -23945,7 +24054,7 @@
         <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_SetNamedConfigParm(MediaTrack track, integer fx, string parmname, string value)</functioncall>
         <functioncall prog_lang="python">Boolean retval = RPR_TrackFX_SetNamedConfigParm(MediaTrack track, Int fx, String parmname, String value)</functioncall>
         <requires>
-            Reaper=6.72
+            Reaper=6.79
         </requires>
         <description prog_lang="*">
             sets plug-in specific named configuration value (returns true on success)
@@ -23977,6 +24086,8 @@
             instance_oversample_shift : instance oversampling shift amount, 0=none, 1=~96k, 2=~192k, etc. When setting requires playback stop/start to take effect
             chain_oversample_shift : chain oversampling shift amount, 0=none, 1=~96k, 2=~192k, etc. When setting requires playback stop/start to take effect
             chain_pdc_mode : chain PDC mode (0=classic, 1=new-default, 2=ignore PDC, 3=hwcomp-master)
+            
+            renamed_name : renamed FX instance name (empty string = not renamed)
         </description>
         <retvals>
             boolean retval - 
@@ -23995,6 +24106,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.79 - added renamed_name to rename an FX-instance
           Reaper 6.72 - added support for autobypass, instance oversample shift, chain oversample shift and chain pdc-mode
           Reaper 6.71 - added support for parameter modulation/linking; vst/videoprocessor-data setting
         </changelog>
@@ -43170,6 +43282,7 @@ Mespotine
             ! : checked
             > : this menu item shows a submenu
             < : last item in the current submenu
+            & : before a character makes it underlined as the quick-access-character for this menu-item
 
             An empty field will appear as a separator in the menu. gfx_showmenu returns 0 if the user selected nothing from the menu, 1 if the first field is selected, etc.
             Example:
@@ -46229,6 +46342,7 @@ mespotine
             ! : checked
             > : this menu item shows a submenu
             < : last item in the current submenu
+            & : before a character makes it underlined as the quick-access-character for this menu-item
             
             An empty field || will appear as a separator in the menu. 
 
@@ -78067,6 +78181,634 @@ mespotine
             ReaImGui
         </chapter_context>
         <tags>reaimgui, gui, user interface</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_GetButtonValue</slug>
+        <title>MCULive_GetButtonValue</title>
+        <functioncall prog_lang="cpp">int MCULive_GetButtonValue(int device, int button)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_GetButtonValue", int device, int button)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_GetButtonValue(integer device, integer button)</functioncall>
+        <functioncall prog_lang="python">int MCULive_GetButtonValue(int device, int button)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Get current button state.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer button -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_GetDevice</slug>
+        <title>MCULive_GetDevice</title>
+        <functioncall prog_lang="cpp">int MCULive_GetDevice(int device, int type)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_GetDevice", int device, int type)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_GetDevice(integer device, integer type)</functioncall>
+        <functioncall prog_lang="python">int MCULive_GetDevice(int device, int type)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Get MIDI input or output dev ID. type 0 is input dev, type 1 is output dev. device &lt; 0 returns number of MCULive devices.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer type -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_GetEncoderValue</slug>
+        <title>MCULive_GetEncoderValue</title>
+        <functioncall prog_lang="cpp">double MCULive_GetEncoderValue(int device, int encIdx, int param)</functioncall>
+        <functioncall prog_lang="eel">double extension_api("MCULive_GetEncoderValue", int device, int encIdx, int param)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.MCULive_GetEncoderValue(integer device, integer encIdx, integer param)</functioncall>
+        <functioncall prog_lang="python">double MCULive_GetEncoderValue(int device, int encIdx, int param)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Returns zero-indexed encoder parameter value. 0 = lastpos, 1 = lasttouch
+        </description>        
+        <retvals>
+            number retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer encIdx - 
+            integer param -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_GetFaderValue</slug>
+        <title>MCULive_GetFaderValue</title>
+        <functioncall prog_lang="cpp">double MCULive_GetFaderValue(int device, int faderIdx, int param)</functioncall>
+        <functioncall prog_lang="eel">double extension_api("MCULive_GetFaderValue", int device, int faderIdx, int param)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.MCULive_GetFaderValue(integer device, integer faderIdx, integer param)</functioncall>
+        <functioncall prog_lang="python">double MCULive_GetFaderValue(int device, int faderIdx, int param)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Returns zero-indexed fader parameter value. 0 = lastpos, 1 = lasttouch, 2 = lastmove (any fader)
+        </description>        
+        <retvals>
+            number retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer faderIdx - 
+            integer param -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_GetMIDIMessage</slug>
+        <title>MCULive_GetMIDIMessage</title>
+        <functioncall prog_lang="cpp">int MCULive_GetMIDIMessage(int device, int msgIdx, int* statusOut, int* data1Out, int* data2Out, int* frame_offsetOut, char* msgOutOptional, int msgOutOptional_sz)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_GetMIDIMessage", int device, int msgIdx, int &amp;status, int &amp;data1, int &amp;data2, int &amp;frame_offset, optional #msg)</functioncall>
+        <functioncall prog_lang="lua">integer retval, integer status, integer data1, integer data2, integer frame_offset, optional string msg = reaper.MCULive_GetMIDIMessage(integer device, integer msgIdx)</functioncall>
+        <functioncall prog_lang="python">int MCULive_GetMIDIMessage(int device, int msgIdx, int* statusOut, int* data1Out, int* data2Out, int* frame_offsetOut, char* msgOutOptional, int msgOutOptional_sz)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Gets MIDI message from input buffer/queue. Gets (pops/pulls) indexed message (status, data1, data2 and frame_offset) from queue and retval is total size/length left in queue. E.g. continuously read all indiviual messages with deferred script. Frame offset resolution is 1/1024000 seconds, not audio samples. Long messages are returned as optional strings of byte characters. msgIdx -1 returns size (length) of buffer. Read also non-MCU devices by creating MCULive device with their input. 
+        </description>        
+        <retvals>
+            integer retval - 
+            integer status - 
+            integer data1 - 
+            integer data2 - 
+            integer frame_offset - 
+            optional string msg - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer msgIdx -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_Map</slug>
+        <title>MCULive_Map</title>
+        <functioncall prog_lang="cpp">int MCULive_Map(int device, int button, int command_id, isRemap bool)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_Map", int device, int button, int command_id, <b>unsupported</b> bool)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_Map(integer device, integer button, integer command_id<b>unsupported</b> bool)</functioncall>
+        <functioncall prog_lang="python">int MCULive_Map(int device, int button, int command_id, isRemap bool)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Maps MCU Live device# button# to REAPER command ID. E.g. reaper.MCULive_Map(0,0x5b, 40340) maps MCU Rewind to "Track: Unsolo all tracks". Or remap button to another button if your MCU button layout doesnt play nicely with default MCULive mappings. By default range 0x00 .. 0x2d is in use. Button numbers are second column (prefixed with 0x) e.g. '90 5e' 0x5e for 'transport : play', roughly. 
+         
+         mcu documentation: 
+         mcu=&gt;pc: 
+           the mcu seems to send, when it boots (or is reset) f0 00 00 66 14 01 58 59 5a 57 18 61 05 57 18 61 05 f7 
+           ex vv vv    :   volume fader move, x=0..7, 8=master, vv vv is int14 
+           b0 1x vv    :   pan fader move, x=0..7, vv has 40 set if negative, low bits 0-31 are move amount 
+           b0 3c vv    :   jog wheel move, 01 or 41 
+           to the extent the buttons below have leds, you can set them by sending these messages, with 7f for on, 1 for blink, 0 for off. 
+           90 0x vv    :   rec arm push x=0..7 (vv:..) 
+           90 0x vv    :   solo push x=8..f (vv:..) 
+           90 1x vv    :   mute push x=0..7 (vv:..) 
+           90 1x vv    :   selected push x=8..f (vv:..) 
+           90 2x vv    :   pan knob push, x=0..7 (vv:..) 
+           90 28 vv    :   assignment track 
+           90 29 vv    :   assignment send 
+           90 2a vv    :   assignment pan/surround 
+           90 2b vv    :   assignment plug-in 
+           90 2c vv    :   assignment eq 
+           90 2d vv    :   assignment instrument 
+           90 2e vv    :   bank down button (vv: 00=release, 7f=push) 
+           90 2f vv    :   channel down button (vv: ..) 
+           90 30 vv    :   bank up button (vv:..) 
+           90 31 vv    :   channel up button (vv:..) 
+           90 32 vv    :   flip button 
+           90 33 vv    :   global view button 
+           90 34 vv    :   name/value display button 
+           90 35 vv    :   smpte/beats mode switch (vv:..) 
+           90 36 vv    :   f1 
+           90 37 vv    :   f2 
+           90 38 vv    :   f3 
+           90 39 vv    :   f4 
+           90 3a vv    :   f5 
+           90 3b vv    :   f6 
+           90 3c vv    :   f7 
+           90 3d vv    :   f8 
+           90 3e vv    :   global view : midi tracks 
+           90 3f vv    :   global view : inputs 
+           90 40 vv    :   global view : audio tracks 
+           90 41 vv    :   global view : audio instrument 
+           90 42 vv    :   global view : aux 
+           90 43 vv    :   global view : busses 
+           90 44 vv    :   global view : outputs 
+           90 45 vv    :   global view : user 
+           90 46 vv    :   shift modifier (vv:..) 
+           90 47 vv    :   option modifier 
+           90 48 vv    :   control modifier 
+           90 49 vv    :   alt modifier 
+           90 4a vv    :   automation read/off 
+           90 4b vv    :   automation write 
+           90 4c vv    :   automation trim 
+           90 4d vv    :   automation touch 
+           90 4e vv    :   automation latch 
+           90 4f vv    :   automation group 
+           90 50 vv    :   utilities save 
+           90 51 vv    :   utilities undo 
+           90 52 vv    :   utilities cancel 
+           90 53 vv    :   utilities enter 
+           90 54 vv    :   marker 
+           90 55 vv    :   nudge 
+           90 56 vv    :   cycle 
+           90 57 vv    :   drop 
+           90 58 vv    :   replace 
+           90 59 vv    :   click 
+           90 5a vv    :   solo 
+           90 5b vv    :   transport rewind (vv:..) 
+           90 5c vv    :   transport ffwd (vv:..) 
+           90 5d vv    :   transport pause (vv:..) 
+           90 5e vv    :   transport play (vv:..) 
+           90 5f vv    :   transport record (vv:..) 
+           90 60 vv    :   up arrow button  (vv:..) 
+           90 61 vv    :   down arrow button 1 (vv:..) 
+           90 62 vv    :   left arrow button 1 (vv:..) 
+           90 63 vv    :   right arrow button 1 (vv:..) 
+           90 64 vv    :   zoom button (vv:..) 
+           90 65 vv    :   scrub button (vv:..) 
+           90 6x vv    :   fader touch x=8..f 
+           90 70 vv    :   master fader touch 
+         pc=&gt;mcu: 
+           f0 00 00 66 14 12 xx &lt;data&gt; f7   : update lcd. xx=offset (0-112), string. display is 55 chars wide, second line begins at 56, though. 
+           f0 00 00 66 14 08 00 f7          : reset mcu 
+           f0 00 00 66 14 20 0x 03 f7       : put track in vu meter mode, x=track   
+           90 73 vv : rude solo light (vv: 7f=on, 00=off, 01=blink) 
+           b0 3x vv : pan display, x=0..7, vv=1..17 (hex) or so 
+           b0 4x vv : right to left of leds. if 0x40 set in vv, dot below char is set (x=0..11) 
+           d0 yx    : update vu meter, y=track, x=0..d=volume, e=clip on, f=clip off 
+           ex vv vv : set volume fader, x=track index, 8=master 
+         
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer button - 
+            integer command_id<b>unsupported</b> bool -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_Reset</slug>
+        <title>MCULive_Reset</title>
+        <functioncall prog_lang="cpp">int MCULive_Reset(int device)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_Reset", int device)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_Reset(integer device)</functioncall>
+        <functioncall prog_lang="python">int MCULive_Reset(int device)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+            Reset device. device &lt; 0 resets all and returns number of devices.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SendMIDIMessage</slug>
+        <title>MCULive_SendMIDIMessage</title>
+        <functioncall prog_lang="cpp">int MCULive_SendMIDIMessage(int device, int status, int data1, int data2, const char* msgInOptional, int* msgInOptional_sz msgInOptional_sz)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_SendMIDIMessage", int device, int status, int data1, int data2, optional "msgIn", <b>unsupported</b> msgIn)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_SendMIDIMessage(integer device, integer status, integer data1, integer data2, optional string msgIn<b>unsupported</b> msgIn)</functioncall>
+        <functioncall prog_lang="python">int MCULive_SendMIDIMessage(int device, int status, int data1, int data2, const char* msgInOptional, int* msgInOptional_sz msgInOptional_sz)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Sends MIDI message to device. If string is provided, individual bytes are not sent. Returns number of sent bytes.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer status - 
+            integer data1 - 
+            integer data2 - 
+            optional string msgIn<b>unsupported</b> msgIn -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SetButtonPassthrough</slug>
+        <title>MCULive_SetButtonPassthrough</title>
+        <functioncall prog_lang="cpp">int MCULive_SetButtonPassthrough(int device, int button, bool isSet)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_SetButtonPassthrough", int device, int button, bool isSet)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_SetButtonPassthrough(integer device, integer button, boolean isSet)</functioncall>
+        <functioncall prog_lang="python">int MCULive_SetButtonPassthrough(int device, int button, bool isSet)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Set button as MIDI passthrough.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer button - 
+            boolean isSet -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SetButtonPressOnly</slug>
+        <title>MCULive_SetButtonPressOnly</title>
+        <functioncall prog_lang="cpp">int MCULive_SetButtonPressOnly(int device, int button, bool isSet)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_SetButtonPressOnly", int device, int button, bool isSet)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_SetButtonPressOnly(integer device, integer button, boolean isSet)</functioncall>
+        <functioncall prog_lang="python">int MCULive_SetButtonPressOnly(int device, int button, bool isSet)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Buttons function as press only by default. Set false for press and release function.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer button - 
+            boolean isSet -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SetButtonValue</slug>
+        <title>MCULive_SetButtonValue</title>
+        <functioncall prog_lang="cpp">int MCULive_SetButtonValue(int device, int button, int value)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_SetButtonValue", int device, int button, int value)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_SetButtonValue(integer device, integer button, integer value)</functioncall>
+        <functioncall prog_lang="python">int MCULive_SetButtonValue(int device, int button, int value)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Set button led/mode/state. Value 0 = off,1 = blink, 0x7f = on, usually.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer button - 
+            integer value -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SetDefault</slug>
+        <title>MCULive_SetDefault</title>
+        <functioncall prog_lang="cpp">void MCULive_SetDefault(int device, bool isSet)</functioncall>
+        <functioncall prog_lang="eel">extension_api("MCULive_SetDefault", int device, bool isSet)</functioncall>
+        <functioncall prog_lang="lua">reaper.MCULive_SetDefault(integer device, boolean isSet)</functioncall>
+        <functioncall prog_lang="python">void MCULive_SetDefault(int device, bool isSet)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Enables/disables default out-of-the-box operation.
+        </description>        
+        <parameters>
+            integer device - 
+            boolean isSet -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SetDisplay</slug>
+        <title>MCULive_SetDisplay</title>
+        <functioncall prog_lang="cpp">void MCULive_SetDisplay(int device, int pos, const char* message, int pad)</functioncall>
+        <functioncall prog_lang="eel">extension_api("MCULive_SetDisplay", int device, int pos, "message", int pad)</functioncall>
+        <functioncall prog_lang="lua">reaper.MCULive_SetDisplay(integer device, integer pos, string message, integer pad)</functioncall>
+        <functioncall prog_lang="python">void MCULive_SetDisplay(int device, int pos, const char* message, int pad)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Write to display. 112 characters, 56 per row.
+        </description>        
+        <parameters>
+            integer device - 
+            integer pos - 
+            string message - 
+            integer pad -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SetEncoderValue</slug>
+        <title>MCULive_SetEncoderValue</title>
+        <functioncall prog_lang="cpp">int MCULive_SetEncoderValue(int device, int encIdx, double val, int type)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_SetEncoderValue", int device, int encIdx, val, int type)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_SetEncoderValue(integer device, integer encIdx, number val, integer type)</functioncall>
+        <functioncall prog_lang="python">int MCULive_SetEncoderValue(int device, int encIdx, double val, int type)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Set encoder to value 0 ... 1.0. Type 0 = linear, 1 = track volume, 2 = pan. Returns scaled value.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer encIdx - 
+            number val - 
+            integer type -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SetFaderValue</slug>
+        <title>MCULive_SetFaderValue</title>
+        <functioncall prog_lang="cpp">int MCULive_SetFaderValue(int device, int faderIdx, double val, int type)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_SetFaderValue", int device, int faderIdx, val, int type)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_SetFaderValue(integer device, integer faderIdx, number val, integer type)</functioncall>
+        <functioncall prog_lang="python">int MCULive_SetFaderValue(int device, int faderIdx, double val, int type)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Set fader to value 0 ... 1.0. Type 0 = linear, 1 = track volume, 2 = pan. Returns scaled value.
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer faderIdx - 
+            number val - 
+            integer type -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SetMeterValue</slug>
+        <title>MCULive_SetMeterValue</title>
+        <functioncall prog_lang="cpp">int MCULive_SetMeterValue(int device, int meterIdx, double val, int type)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("MCULive_SetMeterValue", int device, int meterIdx, val, int type)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_SetMeterValue(integer device, integer meterIdx, number val, integer type)</functioncall>
+        <functioncall prog_lang="python">int MCULive_SetMeterValue(int device, int meterIdx, double val, int type)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         Set meter value 0 ... 1.0. Type 0 = linear, 1 = track volume (with decay).
+        </description>        
+        <retvals>
+            integer retval - 
+        </retvals>        
+        <parameters>
+            integer device - 
+            integer meterIdx - 
+            number val - 
+            integer type -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
+        <changelog>
+        </changelog>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MCULive_SetOption</slug>
+        <title>MCULive_SetOption</title>
+        <functioncall prog_lang="cpp">void MCULive_SetOption(int option, int value)</functioncall>
+        <functioncall prog_lang="eel">extension_api("MCULive_SetOption", int option, int value)</functioncall>
+        <functioncall prog_lang="lua">reaper.MCULive_SetOption(integer option, integer value)</functioncall>
+        <functioncall prog_lang="python">void MCULive_SetOption(int option, int value)</functioncall>
+        <requires>
+            Reaper=6.44
+            ReaMCULive=0.1.5
+        </requires>
+        <description>        
+         1 : surface split point device index 
+         2 : 'mode-is-global' bitmask/flags, first 6 bits
+        </description>        
+        <parameters>
+            integer option - 
+            integer value -
+        </parameters>                
+        <target_document>Reaper_Api_Documentation</target_document>
+        <source_document>reaper-apidocs.USDocML</source_document>
+        <chapter_context>
+            ReaMCULive
+        </chapter_context>
+        <tags>reamculive</tags>
         <changelog>
         </changelog>
     </US_DocBloc>
