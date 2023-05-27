@@ -206,7 +206,7 @@ function ultraschall.Docs_GetAllUSDocBlocsFromString(String)
   <tags>doc engine, get, all, usdocbloc</tags>
 </US_DocBloc>
 ]]
-  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetAllUSDocBlocsFromString", "String", "must be a string ", -1) return nil end
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetAllUSDocBlocsFromString", "String", "must be a string ", -1) return -1 end
   local Array={}
   local count=0
   for k in string.gmatch(String, "<(US_DocBloc.-</US_DocBloc>)") do

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55737.00" author="Meo Mespotine">
+      <version name="55877.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1476,17 +1476,21 @@ New features in 4.9
 
 -   Docs: links and code-examples - added links to related functions as
     well as some first code-examples; can now add more very easily
+-   DocEngine: Docs_GetAllUSDocBlocsFromFile - loads all USDocBlocs from
+    a file
+-   DocEngine: Docs_GetReaperApiFunction_Categories - returns the
+    index-categories of a Reaper-function(including extensions)
 -   DocEngine: Docs_GetUSDocBloc_Examples - retrieves the
     code-example-attributes stored in a USDocBloc
 -   DocEngine: Docs_GetUltraschallApiFunction_Categories - returns the
     index-categories of an Ultraschall-function
--   DocEngine: Docs_GetReaperApiFunction_Categories - returns the
-    index-categories of a Reaper-function(including extensions)
 
 Changes from 4.8 to 4.9
 
 -   Helper Functions: SFEM - crashed, when the occurred error happened
     not within a function -> fixed now
+-   DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of
+    an error which was wrong; returns -1 now -> fixed now
 ]]>
 </changelog>
       </version>
@@ -1516,7 +1520,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1664 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55737 from 27.05.2023 01:07:42).}
+a 1665 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55877 from 27.05.2023 13:26:11).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1530,7 +1534,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1664 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1665 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

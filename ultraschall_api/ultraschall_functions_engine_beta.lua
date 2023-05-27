@@ -1369,3 +1369,48 @@ function ultraschall.Docs_GetUSDocBloc_Examples(String)
   end
   return #Examples, Examples
 end
+
+
+function ultraschall.Docs_GetAllUSDocBlocsFromFile(filename)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetAllUSDocBlocsFromFile</slug>
+  <requires>
+    Ultraschall=4.9
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>integer found_usdocblocs, array all_found_usdocblocs = ultraschall.Docs_GetAllUSDocBlocsFromString(string filename)</functioncall>
+  <description>
+    returns all US_DocBloc-elements from a file.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer found_usdocblocs - the number of found US_DocBlocs in the file
+    array all_found_usdocblocs - the individual US_DocBlocs found in the file
+  </retvals>
+  <parameters>
+    string filename - the file, from which to get all US-docblocs
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, all, usdocbloc, from file</tags>
+</US_DocBloc>
+]]
+  if type(filename)~="string" then ultraschall.AddErrorMessage("Docs_GetAllUSDocBlocsFromFile", "filename", "must be a string ", -1) return nil end
+  if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("Docs_GetAllUSDocBlocsFromFile", "filename", "file does not exist", -2) return nil end
+  local Array={}
+  local count=0
+  for k in io.lines(filename) do
+    if k:find("%<US%_DocBloc ") then readme=true count=count+1 Array[count]="" end
+    if readme==true then
+      Array[count]=Array[count]..k:match("%s*(.*)").."\n"
+    end
+    if k:find("%</US%_DocBloc>") then readme=false end
+  end
+  return count, Array
+end

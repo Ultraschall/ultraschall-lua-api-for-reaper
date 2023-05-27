@@ -328,12 +328,14 @@ Has now 1652 functions, with XX new ones
     
 #### New features in 4.9  
   - Docs: links and code-examples - added links to related functions as well as some first code-examples; can now add more very easily
+  - DocEngine: Docs\_GetAllUSDocBlocsFromFile - loads all USDocBlocs from a file
+  - DocEngine: Docs\_GetReaperApiFunction\_Categories - returns the index-categories of a Reaper-function(including extensions)
   - DocEngine: Docs\_GetUSDocBloc\_Examples - retrieves the code-example-attributes stored in a USDocBloc
   - DocEngine: Docs\_GetUltraschallApiFunction\_Categories - returns the index-categories of an Ultraschall-function
-  - DocEngine: Docs\_GetReaperApiFunction\_Categories - returns the index-categories of a Reaper-function(including extensions)
 
 #### Changes from 4.8 to 4.9  
   - Helper Functions: SFEM - crashed, when the occurred error happened not within a function -> fixed now
+  - DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of an error which was wrong; returns -1 now -> fixed now
   
 ---
 

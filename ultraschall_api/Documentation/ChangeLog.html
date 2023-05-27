@@ -46,13 +46,15 @@ Should work out of the box.</li>
 <h4>New features in 4.9</h4>
 <ul>
 <li>Docs: links and code-examples - added links to related functions as well as some first code-examples; can now add more very easily</li>
+<li>DocEngine: Docs_GetAllUSDocBlocsFromFile - loads all USDocBlocs from a file</li>
+<li>DocEngine: Docs_GetReaperApiFunction_Categories - returns the index-categories of a Reaper-function(including extensions)</li>
 <li>DocEngine: Docs_GetUSDocBloc_Examples - retrieves the code-example-attributes stored in a USDocBloc</li>
 <li>DocEngine: Docs_GetUltraschallApiFunction_Categories - returns the index-categories of an Ultraschall-function</li>
-<li>DocEngine: Docs_GetReaperApiFunction_Categories - returns the index-categories of a Reaper-function(including extensions)</li>
 </ul>
 <h4>Changes from 4.8 to 4.9</h4>
 <ul>
 <li>Helper Functions: SFEM - crashed, when the occurred error happened not within a function -&gt; fixed now</li>
+<li>DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of an error which was wrong; returns -1 now -&gt; fixed now</li>
 </ul>
 <hr />
 <h3>4.8 - "Sparks - When do I get to sing my way" - 8th of April 2023</h3>
