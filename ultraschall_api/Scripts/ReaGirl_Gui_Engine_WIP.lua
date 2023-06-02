@@ -2682,9 +2682,13 @@ function reagirl.UI_Element_ScrollY(deltapx_y)
 end
 
 function reagirl.UI_Element_SmoothScroll()
-  if reagirl.MoveItAllRight_Delta~=0 and reagirl.MoveItAllUp_Delta~=0 then
-    reagirl.Gui_ForceRefresh() 
-  end
+  if reagirl.MoveItAllUp_Delta<0 and reagirl.BoundaryY_Max+reagirl.MoveItAllUp<gfx.h then reagirl.MoveItAllUp_Delta=0 end
+  if reagirl.MoveItAllUp_Delta>0 and reagirl.BoundaryY_Min+reagirl.MoveItAllUp>=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=0 end
+  if reagirl.MoveItAllRight_Delta<0 and reagirl.BoundaryX_Max+reagirl.MoveItAllRight<gfx.w then reagirl.MoveItAllRight_Delta=0 end
+  if reagirl.MoveItAllRight_Delta>0 and reagirl.BoundaryX_Min+reagirl.MoveItAllRight>=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=0 end
+  
+  if reagirl.MoveItAllRight_Delta~=0 or reagirl.MoveItAllUp_Delta~=0 then reagirl.Gui_ForceRefresh() end
+  
   if reagirl.MoveItAllRight_Delta>0 then 
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta-1
   elseif reagirl.MoveItAllRight_Delta<0 then 
@@ -2699,12 +2703,6 @@ function reagirl.UI_Element_SmoothScroll()
   
   reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MoveItAllUp_Delta
   reagirl.MoveItAllRight=reagirl.MoveItAllRight+reagirl.MoveItAllRight_Delta
-  
-  if Key==30064 then reagirl.MoveItAllUp=reagirl.MoveItAllUp-10 end
-  if Key==1685026670 then reagirl.MoveItAllUp=reagirl.MoveItAllUp+10 end
-  if Key==1818584692.0 then reagirl.MoveItAllRight=reagirl.MoveItAllRight+10 end
-  if Key==1919379572.0 then reagirl.MoveItAllRight=reagirl.MoveItAllRight-10 end
-  
 end
 
 function reagirl.UI_Elements_Boundaries()
@@ -2880,8 +2878,8 @@ function UpdateUI()
   --BT1=reagirl.Button_Add(120, 40, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
   --BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
-  for i=1, 200 do
-    reagirl.Button_Add(185, 50+20*i, 0, 0, i.." HUCH", "Description of the button", click_button)
+  for i=1, 20 do
+    reagirl.Button_Add(185+20*i, 50+20*i, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
