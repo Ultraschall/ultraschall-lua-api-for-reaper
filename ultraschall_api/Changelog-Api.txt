@@ -336,7 +336,8 @@ Has now 1652 functions, with XX new ones
 #### Changes from 4.8 to 4.9  
   - Helper Functions: SFEM - crashed, when the occurred error happened not within a function -> fixed now
   - DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of an error which was wrong; returns -1 now -> fixed now
-  
+  - MediaItem\_Takes: GetProjectPosByTakeSourcePos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed
+  - MediaItem\_Takes: GetTakeSourcePosByProjectPos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed
 ---
 
 ### 4.8 - "Sparks - When do I get to sing my way" - 8th of April 2023

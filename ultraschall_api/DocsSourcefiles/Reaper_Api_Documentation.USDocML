@@ -18608,10 +18608,14 @@
         <description>
             Save a key/value pair for a specific extension, to be restored the next time this specific project is loaded. Typically extname will be the name of a reascript or extension section. If key is NULL or "", all extended data for that extname will be deleted. If val is NULL or "", the data previously associated with that key will be deleted. Returns the size of the state for this extname. 
             
-            Important: always use a section-name, that is unique to you. For instance, add your name into the section-name, 
+            Important: if you want to store binary data, \0-bytes (Null-bytes) cause trouble. Everything after the first \0-byte will be cut off when reading the extstate via GetProjExtState.
+            If you want to store data including \0-bytes, convert them first into a Hex-string or Base64 and decode them after reading it back.
+            That way, you can be sure, the data stays intact.
+            
+            Also Important: always use a section-name, that is unique to you. For instance, add your name into the section-name, 
             so it's less likely, that somebody else uses the same section and accidentally overwrites your keys.
             Something like: "mespotine_MyCoolScript.lua"
-                  
+            
             Here are some of the sections used by ReaTeam-scripts and extensions. Don't use to avoid possible name-conflicts.
             If your section is missing, contact me and I'll add it too:
                 "ABLM2 Toggle"
