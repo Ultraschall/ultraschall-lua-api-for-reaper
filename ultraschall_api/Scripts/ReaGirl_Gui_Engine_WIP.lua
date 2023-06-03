@@ -2105,7 +2105,7 @@ function reagirl.Label_Add(label, x, y, align, description)
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Label"
   reagirl.Elements[#reagirl.Elements]["Name"]=label
   reagirl.Elements[#reagirl.Elements]["Text"]=""
-  reagirl.Elements[#reagirl.Elements]["Description"]=""
+  reagirl.Elements[#reagirl.Elements]["Description"]=description
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Ctrl+C to copy text into clipboard"
   reagirl.Elements[#reagirl.Elements]["x"]=x
