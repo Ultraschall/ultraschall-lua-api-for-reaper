@@ -699,7 +699,7 @@ function reagirl.Gui_Manage()
   --if reagirl.Elements==nil or #reagirl.Elements==0 then return end
   for i=1, #reagirl.Elements do reagirl.Elements[i]["clicked"]=false end
   local Key, Key_utf=gfx.getchar()
-  if Key~=0 then reaper.CF_SetClipboard(Key) end
+  --if Key~=0 then reaper.CF_SetClipboard(Key) end
   local Screenstate=gfx.getchar(65536) -- currently unused
   if Key==-1 then reagirl.IsWindowOpen_attribute=false return end
   
@@ -1714,7 +1714,7 @@ function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mous
   return "HUCH", true
 end
 
-function reagirl.CheckBox_Add(x, y, Name, Description, default, run_function)
+function reagirl.CheckBox_Add(x, y, Name, MeaningOfUI_Element, default, run_function)
   local tx,ty=gfx.measurestr(Name)
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
@@ -1722,7 +1722,7 @@ function reagirl.CheckBox_Add(x, y, Name, Description, default, run_function)
   reagirl.Elements[#reagirl.Elements]["Name"]=Name
   reagirl.Elements[#reagirl.Elements]["Text"]=Name
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
-  reagirl.Elements[#reagirl.Elements]["Description"]=Description
+  reagirl.Elements[#reagirl.Elements]["Description"]=MeaningOfUI_Element
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[#reagirl.Elements]["x"]=x
   reagirl.Elements[#reagirl.Elements]["y"]=y
@@ -1791,7 +1791,7 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
 end
 
 
-function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, Description, run_function)
+function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, MeaningOfUI_Element, run_function)
   local tx,ty=gfx.measurestr(Caption)
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
@@ -1801,7 +1801,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, Description, run_
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["sticky_x"]=false
   reagirl.Elements[#reagirl.Elements]["sticky_y"]=false
-  reagirl.Elements[#reagirl.Elements]["Description"]=Description
+  reagirl.Elements[#reagirl.Elements]["Description"]=MeaningOfUI_Element
   reagirl.Elements[#reagirl.Elements]["AccHint"]="click with space or left mouseclick"
   reagirl.Elements[#reagirl.Elements]["x"]=x
   reagirl.Elements[#reagirl.Elements]["y"]=y
@@ -1902,14 +1902,14 @@ end
 
 
 
-function reagirl.InputBox_Add(x, y, w, Name, Description, Default, run_function_enter, run_function_type)
+function reagirl.InputBox_Add(x, y, w, Name, MeaningOfUI_Element, Default, run_function_enter, run_function_type)
   local tx,ty=gfx.measurestr(Name)
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Edit"
   reagirl.Elements[#reagirl.Elements]["Name"]=""
   reagirl.Elements[#reagirl.Elements]["Label"]=Name
-  reagirl.Elements[#reagirl.Elements]["Description"]=Description
+  reagirl.Elements[#reagirl.Elements]["Description"]=MeaningOfUI_Element
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Hit Enter to type text."
   reagirl.Elements[#reagirl.Elements]["x"]=x
@@ -1993,14 +1993,14 @@ function reagirl.InputBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   reagirl.SetFont(1, "Arial", 16, 0)
 end
 
-function reagirl.DropDownMenu_Add(x, y, w, Name, Description, default, MenuEntries, run_function)
+function reagirl.DropDownMenu_Add(x, y, w, Name, MeaningOfUI_Element, default, MenuEntries, run_function)
   local tx,ty=gfx.measurestr(Name)
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="DropDownMenu"
   reagirl.Elements[#reagirl.Elements]["Name"]=Name
   reagirl.Elements[#reagirl.Elements]["Text"]=MenuEntries[default]
-  reagirl.Elements[#reagirl.Elements]["Description"]=Description
+  reagirl.Elements[#reagirl.Elements]["Description"]=MeaningOfUI_Element
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Select via arrow-keys."
   reagirl.Elements[#reagirl.Elements]["x"]=x
@@ -2095,7 +2095,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
   
 end
 
-function reagirl.Label_Add(label, x, y, align, description)
+function reagirl.Label_Add(label, x, y, align, MeaningOfUI_Element)
   --label=string.gsub(label, "\n", "")
   --label=string.gsub(label, "\r", "")
   
@@ -2105,7 +2105,7 @@ function reagirl.Label_Add(label, x, y, align, description)
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Label"
   reagirl.Elements[#reagirl.Elements]["Name"]=label
   reagirl.Elements[#reagirl.Elements]["Text"]=""
-  reagirl.Elements[#reagirl.Elements]["Description"]=description
+  reagirl.Elements[#reagirl.Elements]["Description"]=MeaningOfUI_Element
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Ctrl+C to copy text into clipboard"
   reagirl.Elements[#reagirl.Elements]["x"]=x
@@ -2224,13 +2224,13 @@ function reagirl.Line_Draw(element_id, selected, clicked, mouse_cap, mouse_attri
 end
 
 
-function reagirl.Image_Add(image_file, x, y, w, h, resize, Name, Description, run_function, func_params)
+function reagirl.Image_Add(image_file, x, y, w, h, resize, Name, MeaningOfUI_Element, run_function, func_params)
   if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
   reagirl.MaxImage=reagirl.MaxImage+1
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Image"
-  reagirl.Elements[#reagirl.Elements]["Description"]=""
+  reagirl.Elements[#reagirl.Elements]["Description"]=MeaningOfUI_Element
   reagirl.Elements[#reagirl.Elements]["Name"]=Name
   reagirl.Elements[#reagirl.Elements]["Text"]=Name
   reagirl.Elements[#reagirl.Elements]["Description"]=Description
