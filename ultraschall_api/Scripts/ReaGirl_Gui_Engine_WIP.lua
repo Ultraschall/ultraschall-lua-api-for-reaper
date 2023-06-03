@@ -1598,7 +1598,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       end
     end
     --]]
-    for i=#reagirl.Elements, 1, -1 do
+    for i=1, #reagirl.Elements, 1 do
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
@@ -2126,7 +2126,16 @@ end
 
 function reagirl.Label_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if Key==3 then reaper.CF_SetClipboard(name) end
-  return " "
+  if gfx.mouse_cap&2==2 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    local oldx, oldy=gfx.x, gfx.y
+    gfx.x=gfx.mouse_x
+    gfx.y=gfx.mouse_y
+    local selection=gfx.showmenu("Copy Text to Clipboard")
+    gfx.x=oldx
+    gfx.y=oldy
+    if selection==1 then reaper.CF_SetClipboard(name) end
+  end
+  return " ", false
 end
 
 function reagirl.Label_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -2700,14 +2709,18 @@ function reagirl.UI_Element_SmoothScroll()
   
   if reagirl.MoveItAllRight_Delta>0 then 
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta-1
+    if reagirl.MoveItAllRight_Delta<0 then reagirl.MoveItAllRight_Delta=0 end
   elseif reagirl.MoveItAllRight_Delta<0 then 
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+1
+    if reagirl.MoveItAllRight_Delta>0 then reagirl.MoveItAllRight_Delta=0 end
   end
   
   if reagirl.MoveItAllUp_Delta>0 then 
     reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta-1
+    if reagirl.MoveItAllUp_Delta<0 then reagirl.MoveItAllUp_Delta=0 end
   elseif reagirl.MoveItAllUp_Delta<0 then 
     reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta+1
+    if reagirl.MoveItAllUp_Delta>0 then reagirl.MoveItAllUp_Delta=0 end
   end
   
   reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MoveItAllUp_Delta
@@ -2790,9 +2803,40 @@ function reagirl.UI_Elements_Boundaries()
   gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
 end
 
+function reagirl.DockState_Update(name)
+  -- sets the dockstate into extstates
+  local dockstate=tonumber(reaper.GetExtState("ReaGirl_"..name, "dockstate"))--gfx.dock
+  if dockstate==nil then dockstate=0 end
+  if dockstate~=gfx.dock(-1) then
+    reaper.SetExtState("ReaGirl_"..name, "dockstate", gfx.dock(-1), true)
+  end
+end
+
+function reagirl.DockState_Retrieve(name)
+  -- retrieves the dockstate from the extstate and sets it
+  local dockstate=tonumber(reaper.GetExtState("ReaGirl_"..name, "dockstate"))--gfx.dock
+  if dockstate==nil then dockstate=0 end
+  return math.tointeger(dockstate)
+end
+
+function reagirl.DockState_Update_Project(name)
+  -- sets the dockstate into project extstates
+  local dockstate=tonumber(reaper.GetProjExtState(0, "ReaGirl_"..name, "dockstate"))--gfx.dock
+  if dockstate==nil then dockstate=0 end
+  if dockstate~=gfx.dock(-1) then
+    reaper.SetProjExtState(0, "ReaGirl_"..name, "dockstate", gfx.dock(-1), true)
+  end
+end
+
+function reagirl.DockState_RetrieveAndSet_Project(name)
+  -- retrieves the dockstate from the project extstate and sets it
+  local dockstate=tonumber(reaper.GetProjExtState(0, "ReaGirl_"..name, "dockstate"))--gfx.dock
+  gfx.dock(dockstate)
+end
+
 function main()
   reagirl.Gui_Manage()
-  
+  reagirl.DockState_Update("Stonehenge")
   --A={reagirl.UI_Elements_OutsideWindow()}
   count=count+2
   count2=count2+4
@@ -2884,11 +2928,11 @@ function UpdateUI()
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
   
-  --BT1=reagirl.Button_Add(120, 40, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
+  BT1=reagirl.Button_Add(120, 40, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
-  --BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
+  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
   for i=1, 20 do
-    reagirl.Button_Add(185+20*i, 50+20*i, 0, 0, i.." HUCH", "Description of the button", click_button)
+    reagirl.Button_Add(85+20*i, 30+20*i, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
@@ -2896,9 +2940,8 @@ function UpdateUI()
   
 end
 
-
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Faily", "A Failstate Manager", nil,100,nil,nil,nil)
+reagirl.Gui_Open("Faily", "A Failstate Manager", nil,100,reagirl.DockState_Retrieve("Stonehenge"),nil,nil)
 UpdateUI()
 reagirl.Window_ForceMinSize(640, 77)
 --reagirl.Gui_ForceRefreshState=true
