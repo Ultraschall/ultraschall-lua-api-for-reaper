@@ -2095,30 +2095,36 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
   
 end
 
-function reagirl.Label_Add(label, x, y, w, align, description)
+function reagirl.Label_Add(label, x, y, align, description)
   --label=string.gsub(label, "\n", "")
   --label=string.gsub(label, "\r", "")
   
   reagirl.Elements[#reagirl.Elements+1]={}
+  local w,h=gfx.measurestr(label)
   reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Label"
   reagirl.Elements[#reagirl.Elements]["Name"]=label
   reagirl.Elements[#reagirl.Elements]["Text"]=""
   reagirl.Elements[#reagirl.Elements]["Description"]=""
-  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=true
-  reagirl.Elements[#reagirl.Elements]["AccHint"]=""
+  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["AccHint"]="Ctrl+C to copy text into clipboard"
   reagirl.Elements[#reagirl.Elements]["x"]=x
   reagirl.Elements[#reagirl.Elements]["y"]=y
-  reagirl.Elements[#reagirl.Elements]["w"]=w
+  reagirl.Elements[#reagirl.Elements]["w"]=math.tointeger(w)
   reagirl.Elements[#reagirl.Elements]["sticky_x"]=false
   reagirl.Elements[#reagirl.Elements]["sticky_y"]=false
-  reagirl.Elements[#reagirl.Elements]["h"]=math.tointeger(gfx.texth)
+  reagirl.Elements[#reagirl.Elements]["h"]=math.tointeger(h)--math.tointeger(gfx.texth)
   reagirl.Elements[#reagirl.Elements]["align"]=align
   reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.Label_Draw
   reagirl.Elements[#reagirl.Elements]["run_function"]=reagirl.Dummy
-  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.Dummy
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.Label_Manage
   
   return reagirl.Elements[#reagirl.Elements]["Guid"]
+end
+
+function reagirl.Label_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if Key==3 then reaper.CF_SetClipboard(name) end
+  return " "
 end
 
 function reagirl.Label_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -2196,7 +2202,7 @@ function reagirl.Line_Add(x,y,x2,y2,r,g,b,a)
   reagirl.Elements[#reagirl.Elements]["filled"]=filled
   reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.Line_Draw
   reagirl.Elements[#reagirl.Elements]["run_function"]=reagirl.Dummy
-  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.Dummy
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.Label_Manage
   return reagirl.Elements[#reagirl.Elements]["Guid"]
 end
 
@@ -2860,7 +2866,7 @@ function UpdateUI()
   --B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, true, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
   --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
-  --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", -317, 150, 100, 0, "everything under control")
+  reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   --E=reagirl.DropDownMenu_Add(80, -70, 100, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
   --reagirl.Line_Add(10,250,120, 200,1,1,0,1)
