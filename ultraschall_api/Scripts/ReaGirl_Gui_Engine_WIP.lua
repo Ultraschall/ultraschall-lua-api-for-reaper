@@ -597,7 +597,7 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   end
   
   reagirl.IsWindowOpen_attribute=true
-  reagirl.Gui_ForceRefresh()
+  reagirl.Gui_ForceRefresh(1)
   ALL=reaper.time_precise()
   reagirl.Window_Title=title
   reagirl.Window_Description=description
@@ -725,8 +725,8 @@ function reagirl.Gui_Manage()
   end
   reagirl.OldMouseX=gfx.mouse_x
   reagirl.OldMouseY=gfx.mouse_y
-  if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Gui_ForceRefresh() end
-  if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Gui_ForceRefresh() end
+  if reagirl.Windows_OldH~=gfx.h then reagirl.Windows_OldH=gfx.h reagirl.Gui_ForceRefresh(2) end
+  if reagirl.Windows_OldW~=gfx.w then reagirl.Windows_OldW=gfx.w reagirl.Gui_ForceRefresh(3) end
   
   if gfx.mouse_cap&8==0 and Key==9 then 
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"])
@@ -737,7 +737,7 @@ function reagirl.Gui_Manage()
       helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       reagirl.UI_Element_SetFocusRect()
       reagirl.old_osara_message=""
-      reagirl.Gui_ForceRefresh() 
+      reagirl.Gui_ForceRefresh(4) 
     end
   end
   
@@ -752,7 +752,7 @@ function reagirl.Gui_Manage()
       helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       reagirl.old_osara_message=""
       reagirl.UI_Element_SetFocusRect()
-      reagirl.Gui_ForceRefresh() 
+      reagirl.Gui_ForceRefresh(5) 
     end
   end
   if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
@@ -803,7 +803,7 @@ function reagirl.Gui_Manage()
          reagirl.Elements["FocusedElement"]=i
          reagirl.Elements[i]["clicked"]=true
          reagirl.UI_Element_SetFocusRect()
-         reagirl.Gui_ForceRefresh() 
+         reagirl.Gui_ForceRefresh(6) 
        end
        break
     end
@@ -840,7 +840,7 @@ function reagirl.Gui_Manage()
       reagirl.old_osara_message=message
       reagirl.osara_init_message=""
     end
-    if refresh==true then reagirl.Gui_ForceRefresh() end
+    if refresh==true then reagirl.Gui_ForceRefresh(7) end
   end
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
 end
@@ -936,7 +936,7 @@ function reagirl.UI_Element_GetFocusRect()
       y=reagirl.Elements[reagirl.Elements["FocusedElement"]]["y"]
       w=reagirl.Elements[reagirl.Elements["FocusedElement"]]["w"]
       h=reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
-      print(x,y,w,h)
+      --print(x,y,w,h)
       reagirl.UI_Element_SetFocusRect(x, y, w, h)
     else
       reagirl.UI_Element_SetFocusRect(0,0,0,0)
@@ -1515,7 +1515,7 @@ function reagirl.UI_Element_Move(element_id, x, y, w, h)
   if element_id==reagirl.Elements["FocusedElement"] then
     reagirl.oldselection=-1
   end
-  reagirl.Gui_ForceRefresh()
+  reagirl.Gui_ForceRefresh(8)
 end
 
 function reagirl.UI_Element_SetSelected(element_id)
@@ -1524,7 +1524,7 @@ function reagirl.UI_Element_SetSelected(element_id)
   if element_id==nil then error("UI_Element_SetSelected: #1 - no such ui-element", 2) end
   
   reagirl.Elements["FocusedElement"]=element_id
-  reagirl.Gui_ForceRefresh()
+  reagirl.Gui_ForceRefresh(9)
 end
 
 function reagirl.UI_Element_Remove(element_id)
@@ -1545,7 +1545,7 @@ function reagirl.UI_Element_Remove(element_id)
                                     reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
                                     )
   end
-  reagirl.Gui_ForceRefresh()
+  reagirl.Gui_ForceRefresh(10)
 end
 
 function reagirl.UI_Element_GetIDFromGuid(guid)
@@ -1939,7 +1939,7 @@ function reagirl.InputBox_Manage(element_id, selected, clicked, mouse_cap, mouse
   if (selected==true and Key==13) or (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h and clicked=="FirstCLK") then
     retval, text = reaper.GetUserInputs(element_storage["Name"].." Enter new value", 1, "", element_storage["Text"])
     if retval==true then element_storage["Text"]=text end
-    reagirl.Gui_ForceRefresh()
+    reagirl.Gui_ForceRefresh(11)
   end
   return element_storage["Text"]
 end
@@ -2328,7 +2328,7 @@ function reagirl.Image_Update(element_id, image_file)
   gfx.dest=-1
   AImage=gfx.loadimg(reagirl.Elements[element_id]["Image_Storage"], image_file)
   retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[element_id]["Image_Storage"], reagirl.Elements[element_id]["w"], reagirl.Elements[element_id]["h"], 0, 0, 0)
-  reagirl.Gui_ForceRefresh()
+  reagirl.Gui_ForceRefresh(12)
 end
 
 function reagirl.Decorative_Element_Remove(element_id)
@@ -2338,7 +2338,7 @@ function reagirl.Decorative_Element_Remove(element_id)
   if element_id==nil then error("Decorative_Element_Remove: #1 - no such ui-element", 2) end
   table.remove(reagirl.DecorativeElements, element_id)
 
-  reagirl.Gui_ForceRefresh()
+  reagirl.Gui_ForceRefresh(13)
 end
 
 function reagirl.Decorative_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
@@ -2518,7 +2518,7 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
          end
          if #files>0 then
           reagirl.DropZone[i]["DropZoneFunc"](i, files)
-          reagirl.Gui_ForceRefresh()
+          reagirl.Gui_ForceRefresh(14)
          end
       end
     end
@@ -2582,7 +2582,7 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
         gfx.x=oldx
         gfx.y=oldy
       end
-      reagirl.Gui_ForceRefresh()
+      reagirl.Gui_ForceRefresh(15)
     end
   end
 end
@@ -2619,11 +2619,13 @@ function reagirl.Window_ForceSize()
   
   if gfx.w==w and gfx.h==h then return end
   gfx.init("", w, h)
-  reagirl.Gui_ForceRefresh()
+  reagirl.Gui_ForceRefresh(16)
 end
 
-function reagirl.Gui_ForceRefresh()
+function reagirl.Gui_ForceRefresh(place)
   reagirl.Gui_ForceRefreshState=true
+  reagirl.Gui_ForceRefresh_place=place
+  reagirl.Gui_ForceRefresh_time=reaper.time_precise()
 end
 
 function reagirl.Window_ForceMinSize(MinW, MinH)
@@ -2705,7 +2707,7 @@ function reagirl.UI_Element_SmoothScroll()
   if reagirl.MoveItAllRight_Delta<0 and reagirl.BoundaryX_Max+reagirl.MoveItAllRight<gfx.w then reagirl.MoveItAllRight_Delta=0 end
   if reagirl.MoveItAllRight_Delta>0 and reagirl.BoundaryX_Min+reagirl.MoveItAllRight>=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=0 end
   
-  if reagirl.MoveItAllRight_Delta~=0 or reagirl.MoveItAllUp_Delta~=0 then reagirl.Gui_ForceRefresh() end
+  if reagirl.MoveItAllRight_Delta~=0 or reagirl.MoveItAllUp_Delta~=0 then reagirl.Gui_ForceRefresh(20) end
   
   if reagirl.MoveItAllRight_Delta>0 then 
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta-1
@@ -2792,15 +2794,15 @@ function reagirl.UI_Elements_Boundaries()
       MAXY=maxy
     end
   end
-  gfx.line(minx+reagirl.MoveItAllRight,miny+reagirl.MoveItAllUp, maxx+reagirl.MoveItAllRight, maxy+reagirl.MoveItAllUp, 1)
-  gfx.line(minx+reagirl.MoveItAllRight,miny+reagirl.MoveItAllUp, minx+reagirl.MoveItAllRight, maxy+reagirl.MoveItAllUp)
+  --gfx.line(minx+reagirl.MoveItAllRight,miny+reagirl.MoveItAllUp, maxx+reagirl.MoveItAllRight, maxy+reagirl.MoveItAllUp, 1)
+  --gfx.line(minx+reagirl.MoveItAllRight,miny+reagirl.MoveItAllUp, minx+reagirl.MoveItAllRight, maxy+reagirl.MoveItAllUp)
   
   reagirl.BoundaryX_Min=0--minx
   reagirl.BoundaryX_Max=maxx
   reagirl.BoundaryY_Min=0--miny
   reagirl.BoundaryY_Max=maxy
-  gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
-  gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
+  --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
+  --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
 end
 
 function reagirl.DockState_Update(name)
@@ -2860,7 +2862,7 @@ function main()
   if windy>-10 then reagirl.MoveItAllUp=reagirl.MoveItAllUp-windy+10 end
   --if windy2<=gfx.h then dif=gfx.h-windy end
   --]]
-  reagirl.Gui_ForceRefresh() 
+  --reagirl.Gui_ForceRefresh(21) 
   
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
