@@ -707,6 +707,8 @@ function reagirl.Gui_Manage()
   -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
   -- see reagirl.UI_Elements_Boundaries() for the calculation of it and more information
   
+  if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(-gfx.mouse_hwheel/50) end
+  if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
   if Key==30064 then reagirl.UI_Element_ScrollY(-2) end
   if Key==1685026670 then reagirl.UI_Element_ScrollY(2) end
   if Key==1818584692.0 then reagirl.UI_Element_ScrollX(2) end
@@ -2128,6 +2130,7 @@ function reagirl.Label_Manage(element_id, selected, clicked, mouse_cap, mouse_at
 end
 
 function reagirl.Label_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  -- BUG: with multiline-texts, when they scroll outside the top of the window, they disappear when the first line is outside of the window
   gfx.set(0.1)
   reagirl.BlitText_AdaptLineLength(name, 
                                    math.floor(x)+1, 
