@@ -710,7 +710,7 @@ function reagirl.Gui_Manage()
   -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
   -- see reagirl.UI_Elements_Boundaries() for the calculation of it and more information
   
-  if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(gfx.mouse_hwheel/50) end
+  if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(-gfx.mouse_hwheel/50) end
   if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
   if Key==30064 then reagirl.UI_Element_ScrollY(-2) end
   if Key==1685026670 then reagirl.UI_Element_ScrollY(2) end
@@ -818,27 +818,31 @@ function reagirl.Gui_Manage()
     if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
     if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
     
-    local MoveItAllUp=reagirl.MoveItAllUp  
+    local MoveItAllUp=reagirl.MoveItAllUp   
     local MoveItAllRight=reagirl.MoveItAllRight
     if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
     if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
-    
-    local message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
-      specific_clickstate,
-      gfx.mouse_cap,
-      {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
-      reagirl.Elements[i]["Name"],
-      reagirl.Elements[i]["Description"], 
-      x2+MoveItAllRight,
-      y2+MoveItAllUp,
-      w2,
-      h2,
-      Key,
-      Key_utf,
-      reagirl.Elements[i]
-    )
+    --if (x2>=0 and x2<=gfx.w) or (y2>=0 and y2<=gfx.h) or (x2+w2>=0 and x2+w2<=gfx.w) or (y2+h2>=0 and y2+h2<=gfx.h) then
+    -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
+    --                   but seems to work without it as well
+      local message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
+        specific_clickstate,
+        gfx.mouse_cap,
+        {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+        reagirl.Elements[i]["Name"],
+        reagirl.Elements[i]["Description"], 
+        x2+MoveItAllRight,
+        y2+MoveItAllUp,
+        w2,
+        h2,
+        Key,
+        Key_utf,
+        reagirl.Elements[i]
+      )
+    --end
     if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
       --reaper.osara_outputMessage(reagirl.osara_init_message..message)
+      if message==nil then message="" end
       reaper.osara_outputMessage(reagirl.osara_init_message..init_message.." "..message..", "..helptext)
       reagirl.old_osara_message=message
       reagirl.osara_init_message=""
@@ -1026,10 +1030,13 @@ function reagirl.UI_Element_GetNext(startoffset)
   -- will return the ui-element of a specific type next to the startoffset
   -- will "overflow", if the next element has a lower index
   local count=startoffset
+  
   for i=1, #reagirl.Elements do
     count=count+1
     if count>#reagirl.Elements then count=1 end
-    if reagirl.Elements[count].IsDecorative==false then return count, reagirl.Elements[count].Guid end
+    if reagirl.Elements[count]~=nil and reagirl.Elements[count].IsDecorative==false then 
+      return count, reagirl.Elements[count].Guid 
+    end
   end
   return -1, ""
 end
@@ -2111,7 +2118,7 @@ function reagirl.Label_Manage(element_id, selected, clicked, mouse_cap, mouse_at
     local oldx, oldy=gfx.x, gfx.y
     gfx.x=gfx.mouse_x
     gfx.y=gfx.mouse_y
-    local selection=gfx.showmenu("Copy Text to Clipboard")
+    --local selection=gfx.showmenu("Copy Text to Clipboard")
     gfx.x=oldx
     gfx.y=oldy
     if selection==1 then reaper.CF_SetClipboard(name) end
@@ -2684,8 +2691,8 @@ end
 
 function reagirl.UI_Element_SmoothScroll()
   if reagirl.BoundaryY_Max>gfx.h then
-    if reagirl.MoveItAllUp_Delta<0 and reagirl.BoundaryY_Max+reagirl.MoveItAllUp-gfx.h<=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max reagirl.Gui_ForceRefresh(20) end
-    if reagirl.MoveItAllUp_Delta>0 and reagirl.BoundaryY_Min+reagirl.MoveItAllUp>=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=0 reagirl.Gui_ForceRefresh(20) end
+    if reagirl.MoveItAllUp_Delta<0 and reagirl.BoundaryY_Max+reagirl.MoveItAllUp-gfx.h<=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max reagirl.Gui_ForceRefresh(64) end
+    if reagirl.MoveItAllUp_Delta>0 and reagirl.BoundaryY_Min+reagirl.MoveItAllUp>=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=0 reagirl.Gui_ForceRefresh(65) end
     if reagirl.MoveItAllUp_Delta>0 then 
       reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta-1
       if reagirl.MoveItAllUp_Delta<0 then reagirl.MoveItAllUp_Delta=0 end
@@ -2699,8 +2706,8 @@ function reagirl.UI_Element_SmoothScroll()
   end
   
   if reagirl.BoundaryX_Max>gfx.w then
-    if reagirl.MoveItAllRight_Delta<0 and reagirl.BoundaryX_Max+reagirl.MoveItAllRight-gfx.w<=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=gfx.w-reagirl.BoundaryX_Max reagirl.Gui_ForceRefresh(20) end
-    if reagirl.MoveItAllRight_Delta>0 and reagirl.BoundaryX_Min+reagirl.MoveItAllRight>=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=0 reagirl.Gui_ForceRefresh(20) end
+    if reagirl.MoveItAllRight_Delta<0 and reagirl.BoundaryX_Max+reagirl.MoveItAllRight-gfx.w<=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=gfx.w-reagirl.BoundaryX_Max reagirl.Gui_ForceRefresh(66) end
+    if reagirl.MoveItAllRight_Delta>0 and reagirl.BoundaryX_Min+reagirl.MoveItAllRight>=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=0 reagirl.Gui_ForceRefresh(67) end
     if reagirl.BoundaryX_Max>gfx.w and reagirl.MoveItAllRight_Delta>0 then 
       reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta-1
       if reagirl.MoveItAllRight_Delta<0 then reagirl.MoveItAllRight_Delta=0 end
@@ -2713,7 +2720,7 @@ function reagirl.UI_Element_SmoothScroll()
     end
   end
   
-  if reagirl.MoveItAllRight_Delta~=0 or reagirl.MoveItAllUp_Delta~=0 then reagirl.Gui_ForceRefresh(20) end
+  if reagirl.MoveItAllRight_Delta~=0 or reagirl.MoveItAllUp_Delta~=0 then reagirl.Gui_ForceRefresh(68) end
 end
 
 function reagirl.UI_Elements_Boundaries()
@@ -2823,6 +2830,115 @@ function reagirl.DockState_RetrieveAndSet_Project(name)
   gfx.dock(dockstate)
 end
 
+function reagirl.ScrollButton_Right_Add()
+  reagirl.Elements[#reagirl.Elements+1]={}
+  reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll button"
+  reagirl.Elements[#reagirl.Elements]["Name"]="Scroll right"
+  reagirl.Elements[#reagirl.Elements]["Text"]=""
+  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["Description"]=""
+  reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the right"
+  reagirl.Elements[#reagirl.Elements]["x"]=-30
+  reagirl.Elements[#reagirl.Elements]["y"]=-15
+  reagirl.Elements[#reagirl.Elements]["w"]=15
+  reagirl.Elements[#reagirl.Elements]["h"]=15
+  reagirl.Elements[#reagirl.Elements]["sticky_x"]=true
+  reagirl.Elements[#reagirl.Elements]["sticky_y"]=true
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.ScrollButton_Right_Manage
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.ScrollButton_Right_Draw
+  reagirl.Elements[#reagirl.Elements]["userspace"]={}
+  reagirl.Elements[#reagirl.Elements]["a"]=0
+  return reagirl.Elements[#reagirl.Elements]["Guid"]
+end
+
+function reagirl.ScrollButton_Right_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99) end
+  if mouse_cap&1==1 and selected==true then
+    reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta-5
+  elseif selected==true and Key==32 then
+    reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta-15
+  end
+  return ""
+end
+
+function reagirl.ScrollButton_Right_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local x_offset=-15
+  if reagirl.BoundaryX_Max>gfx.w then
+    element_storage.IsDecorative=false
+  else
+    element_storage.a=0 
+    if element_storage.IsDecorative==false then
+      reagirl.UI_Element_SetNothingFocused()
+      element_storage.IsDecorative=true
+    end
+  end
+  local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
+  gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  gfx.rect(gfx.w-15+x_offset, gfx.h-15, 15, 15, 0)
+  gfx.triangle(gfx.w-10+x_offset, gfx.h-3,
+               gfx.w-10+x_offset, gfx.h-13,
+               gfx.w-5+x_offset, gfx.h-8)
+  gfx.set(oldr, oldg, oldb, olda)
+end
+
+function reagirl.ScrollButton_Left_Add()
+  reagirl.Elements[#reagirl.Elements+1]={}
+  reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Scroll button"
+  reagirl.Elements[#reagirl.Elements]["Name"]="Scroll left"
+  reagirl.Elements[#reagirl.Elements]["Text"]=""
+  reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
+  reagirl.Elements[#reagirl.Elements]["Description"]=""
+  reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the right"
+  reagirl.Elements[#reagirl.Elements]["x"]=1
+  reagirl.Elements[#reagirl.Elements]["y"]=-15
+  reagirl.Elements[#reagirl.Elements]["w"]=15
+  reagirl.Elements[#reagirl.Elements]["h"]=15
+  reagirl.Elements[#reagirl.Elements]["sticky_x"]=true
+  reagirl.Elements[#reagirl.Elements]["sticky_y"]=true
+  reagirl.Elements[#reagirl.Elements]["func_manage"]=reagirl.ScrollButton_Left_Manage
+  reagirl.Elements[#reagirl.Elements]["func_draw"]=reagirl.ScrollButton_Left_Draw
+  reagirl.Elements[#reagirl.Elements]["userspace"]={}
+  reagirl.Elements[#reagirl.Elements]["a"]=0
+  return reagirl.Elements[#reagirl.Elements]["Guid"]
+end
+
+function reagirl.ScrollButton_Left_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+
+  if element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99) end
+  if mouse_cap&1==1 and selected==true then
+    reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+5
+  elseif selected==true and Key==32 then
+    reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+15
+  end
+  return ""
+end
+
+function reagirl.ScrollButton_Left_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.BoundaryX_Max>gfx.w then
+    element_storage.IsDecorative=false
+  else
+    element_storage.a=0 
+    reagirl.Gui_ForceRefresh(99.2) 
+    if element_storage.IsDecorative==false then
+      reagirl.UI_Element_SetNothingFocused()
+      element_storage.IsDecorative=true
+    end
+  end
+  local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
+  gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  gfx.rect(0, gfx.h-15, 15, 15, 0)
+  gfx.triangle(8, gfx.h-3,
+               8, gfx.h-13,
+               3, gfx.h-8)
+  gfx.set(oldr, oldg, oldb, olda)
+end
+
+function reagirl.UI_Element_SetNothingFocused()
+  reagirl.Elements.FocusedElement=-1
+end
+
 function main()
   reagirl.Gui_Manage()
   reagirl.DockState_Update("Stonehenge")
@@ -2916,11 +3032,12 @@ function UpdateUI()
   --reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
-  
+reagirl.ScrollButton_Right_Add()
+reagirl.ScrollButton_Left_Add()  
   BT1=reagirl.Button_Add(120, 40, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
   BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
-  for i=1, 40 do
+  for i=1, 25 do
     reagirl.Button_Add(85+20*i, 30+20*i, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
