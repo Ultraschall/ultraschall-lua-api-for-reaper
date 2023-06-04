@@ -822,7 +822,7 @@ function reagirl.Gui_Manage()
     local MoveItAllRight=reagirl.MoveItAllRight
     if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
     if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
-    --if (x2>=0 and x2<=gfx.w) or (y2>=0 and y2<=gfx.h) or (x2+w2>=0 and x2+w2<=gfx.w) or (y2+h2>=0 and y2+h2<=gfx.h) then
+    --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
     -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
     --                   but seems to work without it as well
       local message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
@@ -1589,21 +1589,23 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       local MoveItAllRight=reagirl.MoveItAllRight
       if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
       if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
-
-      local message=reagirl.Elements[i]["func_draw"](i, reagirl.Elements["FocusedElement"]==i,
-        specific_clickstate,
-        gfx.mouse_cap,
-        {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
-        reagirl.Elements[i]["Name"],
-        reagirl.Elements[i]["Description"], 
-        x2+MoveItAllRight,
-        y2+MoveItAllUp,
-        w2,
-        h2,
-        Key,
-        Key_utf,
-        reagirl.Elements[i]
-      )
+      
+      if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
+        local message=reagirl.Elements[i]["func_draw"](i, reagirl.Elements["FocusedElement"]==i,
+          specific_clickstate,
+          gfx.mouse_cap,
+          {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+          reagirl.Elements[i]["Name"],
+          reagirl.Elements[i]["Description"], 
+          x2+MoveItAllRight,
+          y2+MoveItAllUp,
+          w2,
+          h2,
+          Key,
+          Key_utf,
+          reagirl.Elements[i]
+        )
+      end
       if reagirl.Elements["FocusedElement"]==i then
         if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then
         --  if w2<20 then w2=20 end
@@ -2853,7 +2855,7 @@ function reagirl.ScrollButton_Right_Add()
 end
 
 function reagirl.ScrollButton_Right_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  if element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99) end
+  if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.3) end
   if mouse_cap&1==1 and selected==true then
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta-5
   elseif selected==true and Key==32 then
@@ -2906,7 +2908,7 @@ end
 
 function reagirl.ScrollButton_Left_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
 
-  if element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99) end
+  if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.2) end
   if mouse_cap&1==1 and selected==true then
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+5
   elseif selected==true and Key==32 then
@@ -2920,7 +2922,7 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, clicked, mouse_cap
     element_storage.IsDecorative=false
   else
     element_storage.a=0 
-    reagirl.Gui_ForceRefresh(99.2) 
+    --reagirl.Gui_ForceRefresh(99.2) 
     if element_storage.IsDecorative==false then
       reagirl.UI_Element_SetNothingFocused()
       element_storage.IsDecorative=true
@@ -3037,8 +3039,8 @@ reagirl.ScrollButton_Left_Add()
   BT1=reagirl.Button_Add(120, 40, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
   BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
-  for i=1, 25 do
-    reagirl.Button_Add(85+20*i, 30+20*i, 0, 0, i.." HUCH", "Description of the button", click_button)
+  for i=1, 10000 do
+    reagirl.Button_Add(85+i, 30+20*i, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
