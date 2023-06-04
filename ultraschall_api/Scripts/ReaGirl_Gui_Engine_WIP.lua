@@ -5,13 +5,15 @@ TODO:
   - when no ui-elements are present, the osara init-message is not said
 --]]
 --XX,YY=reaper.GetMousePosition()
-
+--gfx.ext_retina = 0
 reagirl={}
 reagirl.Elements={}
 reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 reagirl.MoveItAllRight_Delta=0
 reagirl.MoveItAllUp_Delta=0
+
+reagirl.Font_Size=18
 
 function reagirl.RoundRect(x, y, w, h, r, antialias, fill)
 --[[
@@ -274,7 +276,7 @@ function reagirl.Window_Open(...)
   if parms[6]~=nil and type(parms[6])~="number" then error("Window_Open: #6 - must be an integer", 2) end
   
   local AAA, AAA2=reaper.ThemeLayout_GetLayout("tcp", -3)
-  local minimum_scale_for_dpi, maximum_scale_for_dpi = ultraschall.GetScaleRangeFromDpi(tonumber(AAA2))
+  local minimum_scale_for_dpi, maximum_scale_for_dpi = 1,1--ultraschall.GetScaleRangeFromDpi(tonumber(AAA2))
   maximum_scale_for_dpi = math.floor(maximum_scale_for_dpi)
   local A=gfx.getchar(65536)
   local HWND, retval
@@ -503,7 +505,7 @@ function reagirl.Gui_New()
   <tags>gfx, functions, new, gui</tags>
 </US_DocBloc>
 ]]
-  reagirl.SetFont(1, "Arial", 16, 0)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   reagirl.MaxImage=1
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"])
   gfx.rect(0,0,gfx.w,gfx.h,1)
@@ -542,6 +544,7 @@ function reagirl.SetFont(idx, fontface, size, flags)
   if math.type(flags)~="integer" then error("Mouse_GetCap: #4 - must be an integer", 2) end
   if size~=nil then size=size* reagirl.dpi_scale end
   local font_size = size * (1+reagirl.dpi_scale)*0.5
+  if reaper.GetOS():match("OS")~=nil then size=math.floor(size*0.8) end
   gfx.setfont(idx, fontface, size, flags)
 end
 
@@ -589,11 +592,11 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   if y~=nil and math.type(y)~="integer" then error("Gui_Open: #7 - must be an integer", 2) end
   local retval
   retval, reagirl.dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
-  if dpi == "512" then
-    reagirl.dpi_scale = 2
-    gfx.ext_retina = 1
-  else
+  if reagirl.dpi == "512" then
     reagirl.dpi_scale = 1
+    --gfx.ext_retina = 1
+  else
+    reagirl.dpi_scale = 0
   end
   
   reagirl.IsWindowOpen_attribute=true
@@ -707,7 +710,7 @@ function reagirl.Gui_Manage()
   -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
   -- see reagirl.UI_Elements_Boundaries() for the calculation of it and more information
   
-  if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(-gfx.mouse_hwheel/50) end
+  if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(gfx.mouse_hwheel/50) end
   if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
   if Key==30064 then reagirl.UI_Element_ScrollY(-2) end
   if Key==1685026670 then reagirl.UI_Element_ScrollY(2) end
@@ -793,7 +796,7 @@ function reagirl.Gui_Manage()
         reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Name"], XX+15, YY+10, true)
         --reaper.JS_Mouse_SetPosition(XX+3,YY+3)
         --reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], x+15, y+10, false)
-        reaper.osara_outputMessage(reagirl.Elements[i]["Text"]:utf8_sub(1,20))
+        if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"]:utf8_sub(1,20)) end
        end
        if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDecorative"]==false then
          if i~=reagirl.Elements["FocusedElement"] then
@@ -1567,37 +1570,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     gfx.set(reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"])
     gfx.rect(0,0,gfx.w,gfx.h,1)
     reagirl.Background_DrawImage()
---[[    
-    if reagirl.DecorativeElements~=nil then
-      for i=#reagirl.DecorativeElements, 1, -1 do
-        local x2, y2, w2, h2
-        local MoveItAllUp=reagirl.MoveItAllUp  
-        local MoveItAllRight=reagirl.MoveItAllRight
-        if reagirl.DecorativeElements[i]["sticky_y"]==true then MoveItAllUp=0 end
-        if reagirl.DecorativeElements[i]["sticky_x"]==true then MoveItAllRight=0 end
-        
-        if reagirl.DecorativeElements[i]["x"]<0 then x2=gfx.w+reagirl.DecorativeElements[i]["x"] else x2=reagirl.DecorativeElements[i]["x"] end
-        if reagirl.DecorativeElements[i]["y"]<0 then y2=gfx.h+reagirl.DecorativeElements[i]["y"] else y2=reagirl.DecorativeElements[i]["y"] end
-        if reagirl.DecorativeElements[i]["w"]<0 then w2=gfx.w-x2+reagirl.DecorativeElements[i]["w"] else w2=reagirl.DecorativeElements[i]["w"] end
-        if reagirl.DecorativeElements[i]["h"]<0 then h2=gfx.h-y2+reagirl.DecorativeElements[i]["h"] else h2=reagirl.DecorativeElements[i]["h"] end
-        local message=reagirl.DecorativeElements[i]["func_draw"](i, reagirl.DecorativeElements["FocusedElement"]==i,
-                specific_clickstate,
-                gfx.mouse_cap,
-                {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
-                reagirl.DecorativeElements[i]["Name"],
-                reagirl.DecorativeElements[i]["Description"], 
-                x2+MoveItAllRight,
-                y2+MoveItAllUp,
-                w2,
-                h2,
-                Key,
-                Key_utf,
-                reagirl.DecorativeElements[i]
-              )
-              
-      end
-    end
-    --]]
+
     for i=1, #reagirl.Elements, 1 do
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
@@ -1867,7 +1840,9 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     reagirl.RoundRect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     
     gfx.x=x+(w-sw)/2+1
-    gfx.y=y+(h-sh)/2+1
+    local offset=0
+    if reaper.GetOS():match("OS")~=nil then offset=1 end
+    gfx.y=y+(h-sh)/2+1+offset
     gfx.set(0.784)
     gfx.drawstr(element_storage["Name"])
   else
@@ -1887,7 +1862,9 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     reagirl.RoundRect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
     
     gfx.x=x+(w-sw)/2
-    gfx.y=y+(h-sh)/2
+    local offset=0
+    if reaper.GetOS():match("OS")~=nil then offset=1 end
+    gfx.y=y+(h-sh)/2+offset
     gfx.set(0.784)
     gfx.drawstr(element_storage["Name"])
   end
@@ -1946,8 +1923,9 @@ end
 
 function reagirl.InputBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- Testcode
-  gfx.setfont(1,"Calibri", 20)
-  gfx.setfont(1,"Consolas", 20)
+  --gfx.setfont(1,"Calibri", 20)
+  --gfx.setfont(1,"Consolas", 20)
+  reagirl.SetFont(2, "Consolas", reagirl.Font_Size, 0)
   --reagirl.Elements[element_id]["Text"]
   local cursor_offset=element_storage["cursor_offset"]
   local draw_offset=element_storage["draw_offset"]
@@ -1977,9 +1955,11 @@ function reagirl.InputBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   --CAPO=CAPO+1
     --print(element_storage["Text"]:utf8_sub(i,i))
     if i>=selection_start+1 and i<=selection_end then
-      gfx.setfont(1, "Consolas", 20, 86) 
+      --gfx.setfont(1, "Consolas", 20, 86) 
+      reagirl.SetFont(2, "Consolas", reagirl.Font_Size, 86)
     elseif selection_start~=selection_end and i==selection_end+1 then 
-      gfx.setfont(1, "Consolas", 20, 0) 
+      --gfx.setfont(1, "Consolas", 20, 0) 
+      reagirl.SetFont(2, "Consolas", reagirl.Font_Size, 0)
     end
     gfx.drawstr(element_storage["Text"]:utf8_sub(i,i))
     --CAP_STRING=CAP_STRING..element_storage["Text"]:utf8_sub(i,i)
@@ -1992,7 +1972,8 @@ function reagirl.InputBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
       end
     end
   end
-  reagirl.SetFont(1, "Arial", 16, 0)
+  --reagirl.SetFont(1, "Arial", 16, 0)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
 end
 
 function reagirl.DropDownMenu_Add(x, y, w, Name, MeaningOfUI_Element, default, MenuEntries, run_function)
@@ -2702,31 +2683,37 @@ function reagirl.UI_Element_ScrollY(deltapx_y)
 end
 
 function reagirl.UI_Element_SmoothScroll()
-  if reagirl.MoveItAllUp_Delta<0 and reagirl.BoundaryY_Max+reagirl.MoveItAllUp<gfx.h then reagirl.MoveItAllUp_Delta=0 end
-  if reagirl.MoveItAllUp_Delta>0 and reagirl.BoundaryY_Min+reagirl.MoveItAllUp>=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=0 end
-  if reagirl.MoveItAllRight_Delta<0 and reagirl.BoundaryX_Max+reagirl.MoveItAllRight<gfx.w then reagirl.MoveItAllRight_Delta=0 end
-  if reagirl.MoveItAllRight_Delta>0 and reagirl.BoundaryX_Min+reagirl.MoveItAllRight>=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=0 end
+  if reagirl.BoundaryY_Max>gfx.h then
+    if reagirl.MoveItAllUp_Delta<0 and reagirl.BoundaryY_Max+reagirl.MoveItAllUp-gfx.h<=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max reagirl.Gui_ForceRefresh(20) end
+    if reagirl.MoveItAllUp_Delta>0 and reagirl.BoundaryY_Min+reagirl.MoveItAllUp>=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=0 reagirl.Gui_ForceRefresh(20) end
+    if reagirl.MoveItAllUp_Delta>0 then 
+      reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta-1
+      if reagirl.MoveItAllUp_Delta<0 then reagirl.MoveItAllUp_Delta=0 end
+    elseif reagirl.MoveItAllUp_Delta<0 then 
+      reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta+1
+      if reagirl.MoveItAllUp_Delta>0 then reagirl.MoveItAllUp_Delta=0 end
+    end
+    if reagirl.BoundaryY_Max>gfx.h then
+      reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MoveItAllUp_Delta
+    end
+  end
+  
+  if reagirl.BoundaryX_Max>gfx.w then
+    if reagirl.MoveItAllRight_Delta<0 and reagirl.BoundaryX_Max+reagirl.MoveItAllRight-gfx.w<=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=gfx.w-reagirl.BoundaryX_Max reagirl.Gui_ForceRefresh(20) end
+    if reagirl.MoveItAllRight_Delta>0 and reagirl.BoundaryX_Min+reagirl.MoveItAllRight>=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=0 reagirl.Gui_ForceRefresh(20) end
+    if reagirl.BoundaryX_Max>gfx.w and reagirl.MoveItAllRight_Delta>0 then 
+      reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta-1
+      if reagirl.MoveItAllRight_Delta<0 then reagirl.MoveItAllRight_Delta=0 end
+    elseif reagirl.BoundaryX_Max>gfx.w and reagirl.MoveItAllRight_Delta<0 then 
+      reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+1
+      if reagirl.MoveItAllRight_Delta>0 then reagirl.MoveItAllRight_Delta=0 end
+    end
+    if reagirl.BoundaryX_Max>gfx.w then
+      reagirl.MoveItAllRight=reagirl.MoveItAllRight+reagirl.MoveItAllRight_Delta
+    end
+  end
   
   if reagirl.MoveItAllRight_Delta~=0 or reagirl.MoveItAllUp_Delta~=0 then reagirl.Gui_ForceRefresh(20) end
-  
-  if reagirl.MoveItAllRight_Delta>0 then 
-    reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta-1
-    if reagirl.MoveItAllRight_Delta<0 then reagirl.MoveItAllRight_Delta=0 end
-  elseif reagirl.MoveItAllRight_Delta<0 then 
-    reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+1
-    if reagirl.MoveItAllRight_Delta>0 then reagirl.MoveItAllRight_Delta=0 end
-  end
-  
-  if reagirl.MoveItAllUp_Delta>0 then 
-    reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta-1
-    if reagirl.MoveItAllUp_Delta<0 then reagirl.MoveItAllUp_Delta=0 end
-  elseif reagirl.MoveItAllUp_Delta<0 then 
-    reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta+1
-    if reagirl.MoveItAllUp_Delta>0 then reagirl.MoveItAllUp_Delta=0 end
-  end
-  
-  reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MoveItAllUp_Delta
-  reagirl.MoveItAllRight=reagirl.MoveItAllRight+reagirl.MoveItAllRight_Delta
 end
 
 function reagirl.UI_Elements_Boundaries()
@@ -2933,7 +2920,7 @@ function UpdateUI()
   BT1=reagirl.Button_Add(120, 40, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
   BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
-  for i=1, 20 do
+  for i=1, 40 do
     reagirl.Button_Add(85+20*i, 30+20*i, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
@@ -2958,3 +2945,4 @@ main()
 --print2("Pudeldu")
 
 --reagirl.UI_Element_GetFocusedRect()
+
