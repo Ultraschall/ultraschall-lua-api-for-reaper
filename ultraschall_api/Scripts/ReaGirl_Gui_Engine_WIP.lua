@@ -793,7 +793,7 @@ function reagirl.Gui_Manage()
        if reagirl.TooltipWaitCounter==14 then
       
         XX,YY=reaper.GetMousePosition()
-        reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Name"], XX+15, YY+10, true)
+        reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
         --reaper.JS_Mouse_SetPosition(XX+3,YY+3)
         --reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], x+15, y+10, false)
         if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"]:utf8_sub(1,20)) end
@@ -2321,77 +2321,6 @@ function reagirl.Image_Update(element_id, image_file)
   reagirl.Gui_ForceRefresh(12)
 end
 
-function reagirl.Decorative_Element_Remove(element_id)
--- deprecated
-  if type(element_id)~="string" then error("Decorative_Element_Remove: #1 - must be a guid as string", 2) end
-  element_id=reagirl.Decorative_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("Decorative_Element_Remove: #1 - no such ui-element", 2) end
-  table.remove(reagirl.DecorativeElements, element_id)
-
-  reagirl.Gui_ForceRefresh(13)
-end
-
-function reagirl.Decorative_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
--- deprecated
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Decorative_Element_GetSetSticky</slug>
-  <requires>
-    ReaGirl=1.0
-    Reaper=6.75
-    Lua=5.3
-  </requires>
-  <functioncall>boolean sticky_x, boolean sticky_y = reagirl.Decorative_Element_GetSetSticky(string element_id, boolean is_set, boolean sticky_x, boolean sticky_y)</functioncall>
-  <description>
-    gets/sets the stickyness of the decorative-element.
-    
-    Sticky-elements will not be moved by the global scrollbar-scrolling.
-  </description>
-  <retvals>
-    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
-    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
-  </retvals>
-  <parameters>
-    string element_id - the id of the element, whose stickiness you want to get/set
-    boolean is_set - true, set the name; false, don't set the stickiness
-    boolean sticky_x - true, x-movement is sticky; false, x-movement isn't sticky
-    boolean sticky_y - true, y-movement is sticky; false, y-movement isn't sticky
-  </parameters>
-  <chapter_context>
-    UI Elements
-  </chapter_context>
-  <target_document>ReaGirl_Docs</target_document>
-  <source_document>reagirl_GuiEngine.lua</source_document>
-  <tags>gfx, functions, set, get, sticky, decorative-elements</tags>
-</US_DocBloc>
-]]
-  if type(element_id)~="string" then error("Decorative_Element_GetSetSticky: #1 - must be a guid as string", 2) end
-  element_id=reagirl.Decorative_Element_GetIDFromGuid(element_id)
-  if element_id==nil then error("Decorative_Element_GetSetSticky: #1 - no such ui-element", 2) end
-  if reagirl.DecorativeElements[element_id]==nil then error("Decorative_Element_GetSetSticky: #1 - no such ui-element", 2) end
-  if type(is_set)~="boolean" then error("Decorative_Element_GetSetSticky: #2 - must be a boolean", 2) end
-  if type(sticky_x)~="boolean" then error("Decorative_Element_GetSetSticky: #3 - must be a boolean", 2) end
-  if type(sticky_y)~="boolean" then error("Decorative_Element_GetSetSticky: #4 - must be a boolean", 2) end
-  
-  if is_set==true then
-    reagirl.DecorativeElements[element_id]["sticky_x"]=sticky_x
-    reagirl.DecorativeElements[element_id]["sticky_y"]=sticky_y
-  end
-  return reagirl.DecorativeElements[element_id]["sticky_x"], reagirl.DecorativeElements[element_id]["sticky_y"]
-end
-
-function reagirl.Decorative_Element_GetIDFromGuid(guid)
-  -- deprecated
-  for i=1, #reagirl.DecorativeElements do
-    if guid==reagirl.DecorativeElements[i]["Guid"] then return i end
-  end
-end
-
-function reagirl.Decorative_Element_GetGuidFromID(id)
-  -- deprecated
-  return reagirl.DecorativeElements[id]["Guid"]
-end
-
 function reagirl.ReserveImageBuffer()
   -- reserves an image buffer for custom UI elements
   -- returns -1 if no buffer can be reserved anymore
@@ -2839,7 +2768,7 @@ function reagirl.ScrollButton_Right_Add()
   reagirl.Elements[#reagirl.Elements]["Name"]="Scroll right"
   reagirl.Elements[#reagirl.Elements]["Text"]=""
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
-  reagirl.Elements[#reagirl.Elements]["Description"]=""
+  reagirl.Elements[#reagirl.Elements]["Description"]="Scroll Right"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the right"
   reagirl.Elements[#reagirl.Elements]["x"]=-30
   reagirl.Elements[#reagirl.Elements]["y"]=-15
@@ -2891,7 +2820,7 @@ function reagirl.ScrollButton_Left_Add()
   reagirl.Elements[#reagirl.Elements]["Name"]="Scroll left"
   reagirl.Elements[#reagirl.Elements]["Text"]=""
   reagirl.Elements[#reagirl.Elements]["IsDecorative"]=false
-  reagirl.Elements[#reagirl.Elements]["Description"]=""
+  reagirl.Elements[#reagirl.Elements]["Description"]="Scroll left"
   reagirl.Elements[#reagirl.Elements]["AccHint"]="Scrolls the user interface to the right"
   reagirl.Elements[#reagirl.Elements]["x"]=1
   reagirl.Elements[#reagirl.Elements]["y"]=-15
@@ -2907,7 +2836,6 @@ function reagirl.ScrollButton_Left_Add()
 end
 
 function reagirl.ScrollButton_Left_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-
   if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.2) end
   if mouse_cap&1==1 and selected==true then
     reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+5
@@ -2944,31 +2872,7 @@ end
 function main()
   reagirl.Gui_Manage()
   reagirl.DockState_Update("Stonehenge")
-  --A={reagirl.UI_Elements_OutsideWindow()}
-  count=count+2
-  count2=count2+4
-  if count>100 then count=0 end
-  if count2>300 then count2=0 end
-  --reagirl.UI_Element_Move(2, count, count2, w, h)
-  --[[if gfx.mouse_cap==1 then reagirl.UI_Element_SetSelected(1)
-  elseif gfx.mouse_cap==2 then reagirl.UI_Element_SetSelected(2)
-  elseif gfx.mouse_cap==3 then reagirl.UI_Element_SetSelected(3)
-  end
-  --]]
-  
-  -- Dunno....
-  --[[
-  AHorz, AVert = reagirl.UI_Elements_OutsideWindow()
-  windx, windx2, windy, windy2 = reagirl.UI_Elements_GetScrollRect()
-  if windy+reagirl.MouseCap.mouse_last_wheel/5<=0 and reagirl.MouseCap.mouse_last_wheel>0 then reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MouseCap.mouse_last_wheel/5 end
-  if reagirl.MouseCap.mouse_last_wheel<0 then reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MouseCap.mouse_last_wheel/10 end
-  
-  windx, windx2, windy, windy2 = reagirl.UI_Elements_GetScrollRect()
-  if windy>-10 then reagirl.MoveItAllUp=reagirl.MoveItAllUp-windy+10 end
-  --if windy2<=gfx.h then dif=gfx.h-windy end
-  --]]
-  --reagirl.Gui_ForceRefresh(21) 
-  
+
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
@@ -3039,7 +2943,9 @@ reagirl.ScrollButton_Left_Add()
   BT1=reagirl.Button_Add(120, 40, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
   BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
-  for i=1, 10000 do
+  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
+  
+  for i=1, 500 do
     reagirl.Button_Add(85+i, 30+20*i, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
@@ -3055,7 +2961,7 @@ reagirl.Window_ForceMinSize(640, 77)
 --reagirl.Gui_ForceRefreshState=true
 --main()
 
-
+local reagirl=reagirl
 main()
 
 
