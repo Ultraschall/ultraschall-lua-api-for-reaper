@@ -751,6 +751,7 @@ function reagirl.Gui_Manage()
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"].." "
       helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
+      reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
       reagirl.UI_Element_SetFocusRect()
       reagirl.old_osara_message=""
       reagirl.Gui_ForceRefresh(4) 
@@ -767,6 +768,7 @@ function reagirl.Gui_Manage()
       reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]
       helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       reagirl.old_osara_message=""
+      reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
       reagirl.UI_Element_SetFocusRect()
       reagirl.Gui_ForceRefresh(5) 
     end
@@ -1632,6 +1634,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         gfx.set(r,g,b,a)
         gfx.dest=dest
         if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
+        
           reagirl.oldselection=i
           if reaper.JS_Mouse_SetPosition~=nil then 
             --reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
@@ -1793,6 +1796,8 @@ end
 
 function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, MeaningOfUI_Element, run_function)
   local tx,ty=gfx.measurestr(Caption)
+  --local slot=reagirl.UI_Element_GetNextFreeSlot()
+  --table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[#reagirl.Elements+1]={}
   reagirl.Elements[#reagirl.Elements]["Guid"]=reaper.genGuid("")
   reagirl.Elements[#reagirl.Elements]["GUI_Element_Type"]="Button"
@@ -2803,7 +2808,7 @@ end
 function reagirl.ScrollButton_Right_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.3) end
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    reagirl.UI_Element_ScrollX(-5)
+    reagirl.UI_Element_ScrollX(-2)
   elseif selected==true and Key==32 then
     reagirl.UI_Element_ScrollX(-15)
   end
@@ -2855,7 +2860,7 @@ end
 function reagirl.ScrollButton_Left_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.2) end
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    reagirl.UI_Element_ScrollX(5)
+    reagirl.UI_Element_ScrollX(2)
   elseif selected==true and Key==32 then
     reagirl.UI_Element_ScrollX(15)
   end
@@ -2907,7 +2912,7 @@ end
 function reagirl.ScrollButton_Up_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    reagirl.UI_Element_ScrollY(5)
+    reagirl.UI_Element_ScrollY(2)
   elseif selected==true and Key==32 then
     reagirl.UI_Element_ScrollY(15)
   end
@@ -2960,7 +2965,7 @@ function reagirl.ScrollButton_Down_Manage(element_id, selected, clicked, mouse_c
   if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
   refresh_1=clicked
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    reagirl.UI_Element_ScrollY(-5)
+    reagirl.UI_Element_ScrollY(-2)
   elseif selected==true and Key==32 then
     reagirl.UI_Element_ScrollY(-15)
   end
@@ -2987,8 +2992,13 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, clicked, mouse_cap
   gfx.set(oldr, oldg, oldb, olda)
 end
 
-function reagirl.UI_Element_ScrollToUIElement(element_id)
-  -- should scroll to ui-element, but the refresh is broken...
+function reagirl.UI_Element_GetNextFreeSlot()
+  return #reagirl.Elements-4
+end
+
+function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
+  if x_offset==nil then x_offset=10 end
+  if y_offset==nil then y_offset=10 end
   local found=-1
   local x2,y2,w2,h2
   for i=1, #reagirl.Elements do
@@ -3002,8 +3012,8 @@ function reagirl.UI_Element_ScrollToUIElement(element_id)
          x2+w2+reagirl.MoveItAllRight<0 or x2+w2+reagirl.MoveItAllRight>gfx.w or y2+h2+reagirl.MoveItAllUp<0 or y2+h2+reagirl.MoveItAllUp>gfx.h 
       then
         --print2()
-        reagirl.MoveItAllRight=-x2+10
-        reagirl.MoveItAllUp=-y2+10
+        reagirl.MoveItAllRight=-x2+x_offset
+        reagirl.MoveItAllUp=-y2+y_offset
         reagirl.Gui_ForceRefresh(999)
       end
     end
