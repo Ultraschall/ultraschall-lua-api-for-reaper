@@ -1633,7 +1633,10 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         gfx.dest=dest
         if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
           reagirl.oldselection=i
-          if reaper.JS_Mouse_SetPosition~=nil then reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) end
+          if reaper.JS_Mouse_SetPosition~=nil then 
+            --reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
+            reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+          end
         end
       end
     end
@@ -2984,6 +2987,29 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, clicked, mouse_cap
   gfx.set(oldr, oldg, oldb, olda)
 end
 
+function reagirl.UI_Element_ScrollToUIElement(element_id)
+  -- should scroll to ui-element, but the refresh is broken...
+  local found=-1
+  local x2,y2,w2,h2
+  for i=1, #reagirl.Elements do
+    if element_id==reagirl.Elements[i].Guid then
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+      
+      if x2+reagirl.MoveItAllRight<0 or x2+reagirl.MoveItAllRight>gfx.w or y2+reagirl.MoveItAllUp<0 or y2+reagirl.MoveItAllUp>gfx.h or
+         x2+w2+reagirl.MoveItAllRight<0 or x2+w2+reagirl.MoveItAllRight>gfx.w or y2+h2+reagirl.MoveItAllUp<0 or y2+h2+reagirl.MoveItAllUp>gfx.h 
+      then
+        --print2()
+        reagirl.MoveItAllRight=-x2+10
+        reagirl.MoveItAllUp=-y2+10
+        reagirl.Gui_ForceRefresh(999)
+      end
+    end
+  end
+end
+
 function reagirl.UI_Element_SetNothingFocused()
   reagirl.Elements.FocusedElement=-1
 end
@@ -3000,9 +3026,11 @@ end
 
 function click_button(test)
   --print(os.date())
-  --print2(test)
+  print2(test)
+  print2(reagirl.UI_Element_GetSetName(test, false))
   if test==BT1 then
     reaper.Main_OnCommand(40015, 0)
+    reagirl.UI_Element_ScrollToUIElement(BT1)
   elseif test==BT2 then
     reagirl.Gui_Close()
   --reagirl.UI_Element_Remove(EID)
@@ -3058,13 +3086,13 @@ function UpdateUI()
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
 
-  BT1=reagirl.Button_Add(120, 40, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
+  BT1=reagirl.Button_Add(920, 400, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
   BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
   BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   
   for i=1, 1500 do
-    reagirl.Button_Add(85+i, 30+50*i, 0, 0, i.." HUCH", "Description of the button", click_button)
+    reagirl.Button_Add(85+10*i, 30+50*i, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
