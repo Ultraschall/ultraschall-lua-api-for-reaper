@@ -613,7 +613,7 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   reagirl.Window_h=h
   reagirl.Window_dock=dock
   
-  if reagirl.Window_ForceSize_Toggle==nil then reagirl.Window_ForceSize_Toggle=false end
+  if reagirl.Window_ForceMinSize_Toggle==nil then reagirl.Window_ForceMinSize_Toggle=false end
   reagirl.osara_init_message=false
   
   return reagirl.Window_Open(title, w, h, dock, x, y)
@@ -732,7 +732,7 @@ function reagirl.Gui_Manage()
   reagirl.UI_Element_SmoothScroll(1)
   -- End of Debug
   
-  if Key==27 then reagirl.Gui_Close() else reagirl.Window_ForceSize() end
+  if Key==27 then reagirl.Gui_Close() else reagirl.Window_ForceMinSize() reagirl.Window_ForceMaxSize() end
   if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]) end
   if reagirl.OldMouseX==gfx.mouse_x and reagirl.OldMouseY==gfx.mouse_y then
     reagirl.TooltipWaitCounter=reagirl.TooltipWaitCounter+1
@@ -2557,11 +2557,22 @@ function reagirl.ContextMenuZone_Remove(context_menuzone_id)
   return false
 end
 
-function reagirl.Window_ForceSize()
-  if reagirl.Window_ForceSize_Toggle==false then return end
+function reagirl.Window_ForceMinSize()
+  if reagirl.Window_ForceMinSize_Toggle~=true then return end
   local h,w
   if gfx.w<reagirl.Window_MinW-1 then w=reagirl.Window_MinW else w=gfx.w end
   if gfx.h<reagirl.Window_MinH-1 then h=reagirl.Window_MinH else h=gfx.h end
+  
+  if gfx.w==w and gfx.h==h then return end
+  gfx.init("", w, h)
+  reagirl.Gui_ForceRefresh(16)
+end
+
+function reagirl.Window_ForceMaxSize()
+  if reagirl.Window_ForceMaxSize_Toggle~=true then return end
+  local h,w
+  if gfx.w>reagirl.Window_MaxW then w=reagirl.Window_MaxW else w=gfx.w end
+  if gfx.h>reagirl.Window_MaxH then h=reagirl.Window_MaxH else h=gfx.h end
   
   if gfx.w==w and gfx.h==h then return end
   gfx.init("", w, h)
@@ -2574,12 +2585,17 @@ function reagirl.Gui_ForceRefresh(place)
   reagirl.Gui_ForceRefresh_time=reaper.time_precise()
 end
 
-function reagirl.Window_ForceMinSize(MinW, MinH)
-  reagirl.Window_ForceSize_Toggle=true
+function reagirl.Window_ForceSize_Minimum(MinW, MinH)
+  reagirl.Window_ForceMinSize_Toggle=true
   reagirl.Window_MinW=MinW
   reagirl.Window_MinH=MinH
 end
 
+function reagirl.Window_ForceSize_Maximum(MaxW, MaxH)
+  reagirl.Window_ForceMaxSize_Toggle=true
+  reagirl.Window_MaxW=MaxW
+  reagirl.Window_MaxH=MaxH
+end
 
 --- End of ReaGirl-functions
 
@@ -3127,7 +3143,8 @@ end
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
 reagirl.Gui_Open("Faily", "A Failstate Manager", nil,100,reagirl.DockState_Retrieve("Stonehenge"),nil,nil)
 UpdateUI()
-reagirl.Window_ForceMinSize(640, 77)
+--reagirl.Window_ForceSize_Minimum(320, 20)
+--reagirl.Window_ForceSize_Maximum(640, 77)
 --reagirl.Gui_ForceRefreshState=true
 --main()
 
