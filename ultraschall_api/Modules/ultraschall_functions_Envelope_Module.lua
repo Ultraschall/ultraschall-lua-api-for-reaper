@@ -70,7 +70,7 @@ function ultraschall.MoveTrackEnvelopePointsBy(startposition, endposition, moveb
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MoveTrackEnvelopePointsBy</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.9
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -115,19 +115,38 @@ function ultraschall.MoveTrackEnvelopePointsBy(startposition, endposition, moveb
     local TrackEnvelope=reaper.GetTrackEnvelope(MediaTrack, a)
     local EnvCount=reaper.CountEnvelopePoints(TrackEnvelope)
   
-    for i=EnvCount, 0, -1 do
-      local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, i)
-      if time>=startposition and time<=endposition then
-        if time+moveby>=tonumber(startposition) and time+moveby<=tonumber(endposition) then
-          reaper.SetEnvelopePoint(TrackEnvelope, i, time+moveby,nil,nil,nil,nil,true)
-        elseif cut_at_border==true and (time+moveby<tonumber(startposition) or time+moveby>tonumber(endposition)) then
-          local boolean=reaper.DeleteEnvelopePointRange(TrackEnvelope, time, time+0.0000000000001)
+    if moveby<0 then
+      --for i=0, EnvCount do
+      local i=0
+      while i<=EnvCount do
+        i=i+1
+        local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, i)
+        if time>=startposition and time<=endposition then
+          --if time+moveby>=tonumber(startposition) and time+moveby<=tonumber(endposition) then
+          if cut_at_border==true and time+moveby<tonumber(startposition) then
+            local boolean=reaper.DeleteEnvelopePointRange(TrackEnvelope, time, time+0.0000000000001)
+            i=i-1
+          else
+            reaper.SetEnvelopePoint(TrackEnvelope, i, time+moveby,nil,nil,nil,nil,true)
+          end
+        end
+      end
+    elseif moveby>0 then
+      for i=EnvCount, 0, -1 do
+        local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, i)
+        if time>=startposition and time<=endposition then
+          --if time+moveby>=tonumber(startposition) and time+moveby<=tonumber(endposition) then
+          if cut_at_border==true and (time+moveby>tonumber(endposition)) then
+            local boolean=reaper.DeleteEnvelopePointRange(TrackEnvelope, time, time+0.0000000000001)
+          else
+            reaper.SetEnvelopePoint(TrackEnvelope, i, time+moveby,nil,nil,nil,nil,true)
+          end
         end
       end
     end
     reaper.Envelope_SortPoints(TrackEnvelope)
   end
-  
+  return 0
 end
 
 

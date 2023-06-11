@@ -3393,14 +3393,6 @@ else
     ultraschall.LM(20)
     return ultraschall.ToggleCrossfadeStateForSplits(table.unpack({...}))
   end
-  function ultraschall.GetTakeSourcePosByProjectPos(...)
-    ultraschall.LM(20)
-    return ultraschall.GetTakeSourcePosByProjectPos(table.unpack({...}))
-  end
-  function ultraschall.GetProjectPosByTakeSourcePos(...)
-    ultraschall.LM(20)
-    return ultraschall.GetProjectPosByTakeSourcePos(table.unpack({...}))
-  end
   function ultraschall.DeleteProjExtState_Section(...)
     ultraschall.LM(21)
     return ultraschall.DeleteProjExtState_Section(table.unpack({...}))

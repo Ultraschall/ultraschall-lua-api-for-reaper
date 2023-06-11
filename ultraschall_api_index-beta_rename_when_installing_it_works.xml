@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55878.00" author="Meo Mespotine">
+      <version name="55879.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1484,6 +1484,8 @@ New features in 4.9
     code-example-attributes stored in a USDocBloc
 -   DocEngine: Docs_GetUltraschallApiFunction_Categories - returns the
     index-categories of an Ultraschall-function
+-   Envelopes: DeleteTrackEnvelopePointsBetween - removes all
+    envelope-points between start and endposition
 
 Changes from 4.8 to 4.9
 
@@ -1491,6 +1493,12 @@ Changes from 4.8 to 4.9
     not within a function -> fixed now
 -   DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of
     an error which was wrong; returns -1 now -> fixed now
+-   Envelopes: MoveTrackEnvelopePointsBy - didn’t properly move and cut
+    envelope-points -> fixed
+-   MediaItems: RippleCut - didn’t properly move and cut envelope-points
+    -> fixed
+-   MediaItems: RippleCut_Reverse - didn’t properly move and cut
+    envelope-points -> fixed
 -   MediaItem_Takes: GetProjectPosByTakeSourcePos - removed from
     release, due a Reaper bug that might remove take-markers; will
     return when bug is fixed
@@ -1526,7 +1534,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1666 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55878 from 05.06.2023 22:34:20).}
+a 1667 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55879 from 11.06.2023 17:18:17).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -1540,7 +1548,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1666 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1667 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

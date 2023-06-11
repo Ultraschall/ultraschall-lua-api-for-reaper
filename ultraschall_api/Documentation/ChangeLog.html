@@ -50,13 +50,18 @@ Should work out of the box.</li>
 <li>DocEngine: Docs_GetReaperApiFunction_Categories - returns the index-categories of a Reaper-function(including extensions)</li>
 <li>DocEngine: Docs_GetUSDocBloc_Examples - retrieves the code-example-attributes stored in a USDocBloc</li>
 <li>DocEngine: Docs_GetUltraschallApiFunction_Categories - returns the index-categories of an Ultraschall-function</li>
+<li>Envelopes: DeleteTrackEnvelopePointsBetween - removes all envelope-points between start and endposition</li>
 </ul>
 <h4>Changes from 4.8 to 4.9</h4>
 <ul>
 <li>Helper Functions: SFEM - crashed, when the occurred error happened not within a function -&gt; fixed now</li>
 <li>DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of an error which was wrong; returns -1 now -&gt; fixed now</li>
+<li>Envelopes: MoveTrackEnvelopePointsBy - didn't properly move and cut envelope-points -&gt; fixed</li>
+<li>MediaItems: RippleCut - didn't properly move and cut envelope-points -&gt; fixed</li>
+<li>MediaItems: RippleCut_Reverse - didn't properly move and cut envelope-points -&gt; fixed</li>
+<li>MediaItem_Takes: GetProjectPosByTakeSourcePos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed</li>
+<li><h2>MediaItem_Takes: GetTakeSourcePosByProjectPos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed</h2></li>
 </ul>
-<hr />
 <h3>4.8 - "Sparks - When do I get to sing my way" - 8th of April 2023</h3>
 <p>Has now 1652 functions, with 37 new ones</p>
 <p><strong>new in this release:</strong></p>

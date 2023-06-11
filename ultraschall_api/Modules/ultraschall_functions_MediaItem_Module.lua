@@ -1274,7 +1274,7 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, moveenve
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RippleCut</slug>
   <requires>
-    Ultraschall=4.7
+    Ultraschall=4.9
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -1351,7 +1351,10 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, moveenve
       for a=1,A3 do
         if tonumber(A2[a])==i+1 then
           local MediaTrack=reaper.GetTrack(0,i)
-          retval = ultraschall.MoveTrackEnvelopePointsBy(endposition, reaper.GetProjectLength(), -delta, MediaTrack, true) 
+          --ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition, MediaTrack)
+          --retval = ultraschall.MoveTrackEnvelopePointsBy(endposition, reaper.GetProjectLength(), -delta, MediaTrack, true) 
+          ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition, MediaTrack)
+          ultraschall.MoveTrackEnvelopePointsBy(endposition, reaper.GetProjectLength(), -delta, MediaTrack, false) 
         end
       end
     end
@@ -1378,13 +1381,14 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RippleCut_Reverse</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.9
     Reaper=5.40
     Lua=5.3
   </requires>
   <functioncall>integer number_items, array MediaItemArray_StateChunk = ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean moveenvelopepoints, boolean add_to_clipboard)</functioncall>
   <description>
-    Cuts out all items between startposition and endposition in the tracks given by trackstring. After cut, it moves the remaining items before(!) startposition toward projectend, by the difference between start and endposition.
+    Cuts out all items between startposition and endposition in the tracks given by trackstring. 
+    After cut, it moves the remaining items before(!) startposition toward projectend, by the difference between start and endposition.
     
     Returns number of cut items as well as an array with the mediaitem-statechunks, which can be used with functions as <a href="#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a>, reaper.GetItemStateChunk and reaper.SetItemStateChunk.
     
@@ -1434,7 +1438,8 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
       for a=1,A3 do
         if tonumber(A2[a])==i+1 then
           local MediaTrack=reaper.GetTrack(0,i)
-          retval = ultraschall.MoveTrackEnvelopePointsBy(0, startposition, delta, MediaTrack, true) 
+          ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition, MediaTrack)
+          retval = ultraschall.MoveTrackEnvelopePointsBy(0, startposition, delta, MediaTrack, false) 
         end
       end
     end
@@ -1447,9 +1452,6 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
   ultraschall.MoveMediaItemsBefore_By(endposition, delta, trackstring)  
   return C,CCC
 end
-
-
---A,AA=ultraschall.RippleCut_Reverse(15,21,"1,2,3", true, true)
 
 
 function ultraschall.InsertMediaItem_MediaItem(position, MediaItem, MediaTrack)

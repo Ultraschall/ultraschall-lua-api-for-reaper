@@ -332,10 +332,15 @@ Has now 1652 functions, with XX new ones
   - DocEngine: Docs\_GetReaperApiFunction\_Categories - returns the index-categories of a Reaper-function(including extensions)
   - DocEngine: Docs\_GetUSDocBloc\_Examples - retrieves the code-example-attributes stored in a USDocBloc
   - DocEngine: Docs\_GetUltraschallApiFunction\_Categories - returns the index-categories of an Ultraschall-function
+  - Envelopes: DeleteTrackEnvelopePointsBetween - removes all envelope-points between start and endposition
+  
 
 #### Changes from 4.8 to 4.9  
   - Helper Functions: SFEM - crashed, when the occurred error happened not within a function -> fixed now
   - DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of an error which was wrong; returns -1 now -> fixed now
+  - Envelopes: MoveTrackEnvelopePointsBy - didn't properly move and cut envelope-points -> fixed
+  - MediaItems: RippleCut - didn't properly move and cut envelope-points -> fixed
+  - MediaItems: RippleCut_Reverse - didn't properly move and cut envelope-points -> fixed
   - MediaItem\_Takes: GetProjectPosByTakeSourcePos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed
   - MediaItem\_Takes: GetTakeSourcePosByProjectPos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed
 ---
