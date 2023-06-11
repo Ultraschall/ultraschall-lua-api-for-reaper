@@ -57,8 +57,8 @@ Should work out of the box.</li>
 <li>Helper Functions: SFEM - crashed, when the occurred error happened not within a function -&gt; fixed now</li>
 <li>DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of an error which was wrong; returns -1 now -&gt; fixed now</li>
 <li>Envelopes: MoveTrackEnvelopePointsBy - didn't properly move and cut envelope-points -&gt; fixed</li>
-<li>MediaItems: RippleCut - didn't properly move and cut envelope-points -&gt; fixed</li>
-<li>MediaItems: RippleCut_Reverse - didn't properly move and cut envelope-points -&gt; fixed</li>
+<li>MediaItems: RippleCut - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -&gt; fixed</li>
+<li>MediaItems: RippleCut_Reverse - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -&gt; fixed</li>
 <li>MediaItem_Takes: GetProjectPosByTakeSourcePos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed</li>
 <li><h2>MediaItem_Takes: GetTakeSourcePosByProjectPos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed</h2></li>
 </ul>

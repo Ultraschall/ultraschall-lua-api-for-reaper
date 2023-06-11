@@ -1320,6 +1320,7 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, moveenve
   if movemarkers==nil then movemarkers=true end
   if obey_crossfade~=nil and type(obey_crossfade)~="boolean" then ultraschall.AddErrorMessage("RippleCut", "obey_crossfade", "must be either nil or boolean", -8) return -1 end
   local L,trackstring,A2,A3=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
+  local count, individual_tracks = ultraschall.CSV2IndividualLinesAsArray(trackstring)
   if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("RippleCut", "trackstring", "must be a valid trackstring", -6) return -1 end
   if obey_crossfade==nil or obey_crossfade==false then 
     obey_crossfade=0 
@@ -1346,17 +1347,10 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, moveenve
   
   local D=ultraschall.DeleteMediaItemsFromArray(CC)   
   if moveenvelopepoints==true then
-    local CountTracks=reaper.CountTracks()
-    for i=0, CountTracks-1 do
-      for a=1,A3 do
-        if tonumber(A2[a])==i+1 then
-          local MediaTrack=reaper.GetTrack(0,i)
-          --ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition, MediaTrack)
-          --retval = ultraschall.MoveTrackEnvelopePointsBy(endposition, reaper.GetProjectLength(), -delta, MediaTrack, true) 
-          ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition, MediaTrack)
-          ultraschall.MoveTrackEnvelopePointsBy(endposition, reaper.GetProjectLength(), -delta, MediaTrack, false) 
-        end
-      end
+    for i=1, #individual_tracks do
+      local MediaTrack=reaper.GetTrack(0,individual_tracks[i]-1)
+      ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition, MediaTrack)
+      ultraschall.MoveTrackEnvelopePointsBy(endposition, reaper.GetProjectLength(), -delta, MediaTrack, false) 
     end
   end
   
@@ -1422,6 +1416,7 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
   if type(moveenvelopepoints)~="boolean" then ultraschall.AddErrorMessage("RippleCut_Reverse", "moveenvelopepoints", "must be a boolean", -5) return -1 end
   
   local L,trackstring,A2,A3=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
+  local count, individual_tracks = ultraschall.CSV2IndividualLinesAsArray(trackstring)
   if trackstring==-1 or trackstring==""  then return -1 end
   local delta=endposition-startposition
   local A,AA=ultraschall.SplitMediaItems_Position(startposition,trackstring,false)
@@ -1433,15 +1428,10 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
 
   local D=ultraschall.DeleteMediaItemsFromArray(CC) 
   if moveenvelopepoints==true then
-    local CountTracks=reaper.CountTracks()
-    for i=0, CountTracks-1 do
-      for a=1,A3 do
-        if tonumber(A2[a])==i+1 then
-          local MediaTrack=reaper.GetTrack(0,i)
-          ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition, MediaTrack)
-          retval = ultraschall.MoveTrackEnvelopePointsBy(0, startposition, delta, MediaTrack, false) 
-        end
-      end
+    for i=1, #individual_tracks do
+      local MediaTrack=reaper.GetTrack(0,individual_tracks[i]-1)
+      ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition, MediaTrack)
+      ultraschall.MoveTrackEnvelopePointsBy(0, startposition, delta, MediaTrack, false) 
     end
   end
   
