@@ -36253,7 +36253,7 @@ returns false in case of an error<br>
 <a href="#GetSetPodcastEpisode_Attributes"> ^</a> 
 <img width="3%" src="gfx/reaper6.02.png" alt="Reaper version 6.02">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>GetSetPodcastEpisode_Attributes</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.9.png" alt="Ultraschall version 4.9"><u><b>GetSetPodcastEpisode_Attributes</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetPodcastEpisode_Attributes</em>(<i>boolean</i> is_set, <i>string</i> attributename, <i>string</i> content, <i>optional</i> <i>integer</i> preset_slot)</code></div>
 </div><p>
@@ -36282,7 +36282,9 @@ Supported attributes are:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_sponsor_url" - a link to the sponsor's website<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by commas<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_guid" - a unique identifier for this episode; contains three guids in a row; read-only; can't be stored in presets!<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_produced_by_software" - an identifier of which software was produced for this podcast-episode like "Ultraschall"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"epsd_produced_with_software" - which software has been used to produce this episode, like "Ultraschall", "Hindenburg" or "Audacity"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"epsd_produced_with_software_version" - the softwareversion used<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"epsd_produced_with_software_url" - the url to the software used for production of this episode<br>
 <br>
 preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini<br>
 <br>
@@ -36395,7 +36397,7 @@ returns false in case of an error<br>
 <a href="#GetSetPodcast_Attributes"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
 <img width="3%" src="gfx/sws2.10.0.1.png" alt="SWS version 2.10.0.1">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>GetSetPodcast_Attributes</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.9.png" alt="Ultraschall version 4.9"><u><b>GetSetPodcast_Attributes</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetPodcast_Attributes</em>(<i>boolean</i> is_set, <i>string</i> attributename, <i>string</i> content, <i>optional</i> <i>integer</i> preset_slot)</code></div>
 </div><p>
@@ -36405,6 +36407,7 @@ Will get/set metadata-attributes for a podcast.<br>
 This is about the podcast globally, NOT the individual episodes.<br>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp; "podc_title" - the title of the podcast<br>
+&nbsp;&nbsp;&nbsp;&nbsp; "podc_tagline" - a tagline for this episode<br>
 &nbsp;&nbsp;&nbsp;&nbsp; "podc_description" - a description for your podcast<br>
 &nbsp;&nbsp;&nbsp;&nbsp; "podc_website" - either one url or a list of website-urls of the podcast,separated by newlines<br>
 &nbsp;&nbsp;&nbsp;&nbsp; "podc_contact_email" - an email-address that can be used to contact the podcasters&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
@@ -36516,7 +36519,7 @@ supported attributes are:<br/>
 <a class="anch" id="GetShownoteAttributesAsJSON"></a>
 <a href="#GetShownoteAttributesAsJSON"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>GetShownoteAttributesAsJSON</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.9.png" alt="Ultraschall version 4.9"><u><b>GetShownoteAttributesAsJSON</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> shownotemetadata_json = <em>ultraschall.GetShownoteAttributesAsJSON</em>(<i>integer</i> shownotemarker_id, <i>integer</i> shown_id, <i>number</i> within_start, <i>number</i> within_end, <i>optional</i> <i>number</i> offset)</code></div>
 </div><p>
@@ -36578,7 +36581,7 @@ Returns the MetaDataEntry for a website as JSON according to PodMeta_v1-standard
 <a class="anch" id="PodcastMetadata_CreateJSON_Entry"></a>
 <a href="#PodcastMetadata_CreateJSON_Entry"> ^</a> 
 <img width="3%" src="gfx/reaper6.20.png" alt="Reaper version 6.20">
-<img width="3%" src="gfx/ultraschall4.75.png" alt="Ultraschall version 4.75"><u><b>PodcastMetadata_CreateJSON_Entry</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.9.png" alt="Ultraschall version 4.9"><u><b>PodcastMetadata_CreateJSON_Entry</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>string</i> podmeta_entry_JSON = <em>ultraschall.PodcastMetadata_CreateJSON_Entry</em>(<i>number</i> start_time, <i>number</i> end_time, <i>optional</i> <i>number</i> offset, <i>optional</i> <i>string</i> filename, <i>optional</i> <i>boolean</i> do_id3, <i>optional</i> <i>boolean</i> do_vorbis, <i>optional</i> <i>boolean</i> do_ape, <i>optional</i> <i>boolean</i> do_ixml)</code></div>
 </div><p>

@@ -343,6 +343,14 @@ Has now 1652 functions, with XX new ones
   - MediaItems: RippleCut_Reverse - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -> fixed
   - MediaItem\_Takes: GetProjectPosByTakeSourcePos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed
   - MediaItem\_Takes: GetTakeSourcePosByProjectPos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed
+  - PodcastMetadata: GetPodcastContributorAttributesAsJSON - fix due fix in GetSetContributor_Attributes 
+  - PodcastMetadata: GetSetContributor_Attributes - had wrong undocumented parameter in the function which is removed now
+  - PodcastMetadata: GetSetPodcastEpisode_Attributes - removed "epsd_tagline", added  "epsd_produced_with_software_version", "epsd_produced_with_software_url"
+  - PodcastMetadata: GetSetPodcast_Attributes - added podc_tagline
+  - PodcastMetadata: GetShownoteAttributesAsJSON - timestamp is now in hh:mm:ss:mss
+  - PodcastMetadata: PodcastMetadata_CreateJSON_Entry did only do the first chapter, ignoring the rest; improved layout -> fixed
+
+
 ---
 
 ### 4.8 - "Sparks - When do I get to sing my way" - 8th of April 2023

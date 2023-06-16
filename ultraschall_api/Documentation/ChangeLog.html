@@ -60,8 +60,15 @@ Should work out of the box.</li>
 <li>MediaItems: RippleCut - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -&gt; fixed</li>
 <li>MediaItems: RippleCut_Reverse - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -&gt; fixed</li>
 <li>MediaItem_Takes: GetProjectPosByTakeSourcePos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed</li>
-<li><h2>MediaItem_Takes: GetTakeSourcePosByProjectPos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed</h2></li>
+<li>MediaItem_Takes: GetTakeSourcePosByProjectPos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed</li>
+<li>PodcastMetadata: GetPodcastContributorAttributesAsJSON - fix due fix in GetSetContributor_Attributes</li>
+<li>PodcastMetadata: GetSetContributor_Attributes - had wrong undocumented parameter in the function which is removed now</li>
+<li>PodcastMetadata: GetSetPodcastEpisode<em>Attributes - removed "epsd</em>tagline", added "epsd<em>produced</em>with<em>software</em>version", "epsd<em>produced</em>with<em>software</em>url"</li>
+<li>PodcastMetadata: GetSetPodcast<em>Attributes - added podc</em>tagline</li>
+<li>PodcastMetadata: GetShownoteAttributesAsJSON - timestamp is now in hh:mm:ss:mss</li>
+<li>PodcastMetadata: PodcastMetadata<em>CreateJSON</em>Entry did only do the first chapter, ignoring the rest; improved layout -&gt; fixed</li>
 </ul>
+<hr />
 <h3>4.8 - "Sparks - When do I get to sing my way" - 8th of April 2023</h3>
 <p>Has now 1652 functions, with 37 new ones</p>
 <p><strong>new in this release:</strong></p>
