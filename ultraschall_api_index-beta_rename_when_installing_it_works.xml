@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55883.00" author="Meo Mespotine">
+      <version name="55885.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1385,6 +1385,7 @@
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/Scripts_Examples/US_Api_Examples_ultraschall_Soundboard.lua</source>
 	<source file="/ultraschall_api/misc/Launchpad_functions.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/misc/Launchpad_functions.lua</source>
 	<source file="/ultraschall_api/misc/Markdown_Newspeak-1.0-draft" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/misc/Markdown_Newspeak-1.0-draft</source>
+	<source file="/ultraschall_api/misc/Podmeta_Standard_v1_WIP.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/misc/Podmeta_Standard_v1_WIP.USDocML</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/misc/USDocML-Specs1_0.txt</source>
 	<source file="/ultraschall_api/misc/Ultraschall_Api_List_Of_USDocML-Containing_Files.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/misc/Ultraschall_Api_List_Of_USDocML-Containing_Files.txt</source>
 	<source file="/ultraschall_api/misc/metadata-testfile.xml" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/misc/metadata-testfile.xml</source>
@@ -1514,7 +1515,8 @@ Changes from 4.8 to 4.9
 -   PodcastMetadata: GetSetPodcastEpisode_Attributes - removed
     “epsd_tagline”, added “epsd_produced_with_software_version”,
     “epsd_produced_with_software_url”
--   PodcastMetadata: GetSetPodcast_Attributes - added podc_tagline
+-   PodcastMetadata: GetSetPodcast_Attributes - added “podc_tagline” and
+    “podc_feed”
 -   PodcastMetadata: GetShownoteAttributesAsJSON - timestamp is now in
     hh:mm:ss:mss
 -   PodcastMetadata: PodcastMetadata_CreateJSON_Entry did only do the
@@ -1548,7 +1550,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1667 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55883 from 16.06.2023 17:59:09).}
+a 1667 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55885 from 18.06.2023 20:19:17).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

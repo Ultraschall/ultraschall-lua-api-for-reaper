@@ -7992,6 +7992,7 @@ ultraschall.PodcastAttributes={
               "podc_category",
               "podc_contact_email",
               "podc_descriptive_tags",
+              "podc_feed",
               "podc_tagline"
               }
          --[[     
@@ -8008,7 +8009,7 @@ ultraschall.PodcastAttributes={
          "podc_discord" - the discord-server of the podcast
          --]]
 
-function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_attribute, content, preset_slot)
+function ultraschall.GetSetPodcast_Attributes(is_set, attributename, content, preset_slot)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcast_Attributes</slug>
@@ -8029,6 +8030,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
          "podc_description" - a description for your podcast
          "podc_website" - either one url or a list of website-urls of the podcast,separated by newlines
          "podc_contact_email" - an email-address that can be used to contact the podcasters                  
+         "podc_feed" - the url of the podcast-feed
          "podc_descriptive_tags" - some tags, who describe the podcast, must be separated by commas
          "podc_category" - a category that describes the podcast
     
@@ -8068,7 +8070,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, additional_
   if preset~=nil and preset<=0 then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "preset", "must be higher than 0", -3) return false end 
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "attributename", "must be a string", -4) return false end  
   if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "content", "must be a string", -5) return false end  
-  if type(additional_attribute)~="string" then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "additional_attribute", "must be a string", -6) return false end
+  --if type(additional_attribute)~="string" then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "additional_attribute", "must be a string", -6) return false end
   
   -- check, if passed attributes are supported
   local tags=ultraschall.PodcastAttributes
@@ -8196,7 +8198,6 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
         "epsd_release_date" - releasedate of the episode; yyyy-mm-dd
         "epsd_release_time" - releasedate of the episode; hh:mm:ss
         "epsd_release_timezone" - the time's timezone in UTC of the release-time; +hh:mm or -hh:mm
-        "epsd_tagline" - the tagline of the episode
         "epsd_description" - the descriptionof the episode
         "epsd_cover" - the cover-image of the episode(path+filename)
         "epsd_language" - the language of the episode; Languagecode according to ISO639

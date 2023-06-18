@@ -1,0 +1,229 @@
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc</slug>
+  <title>podc</title>
+  <description>
+    An array containing metadata for the podcast(not episodes!).
+      
+    "podc" is stored in the array "PodMetaContent": 
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_category</slug>
+  <title>podc_category</title>
+  <description>
+    The category of the podcast.
+    Multiple categories are separated by commas.
+    No newlines are allowed.
+    
+    Example:
+      "podc_category":"education, talk"
+      
+    "podc_category" is stored in the array "PodMetaContent": -> "podc":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_contact_email</slug>
+  <title>podc_contact_email</title>
+  <description>
+    The contact-email of the podcast. 
+    Multiple adresses are supported as a comma-separated list.
+    No newlines are allowed.
+    
+    Examples:
+      "podc_contact_email":"mail@cool_podcast.dd"      
+      "podc_contact_email":"mail@cool_podcast.dd,jill@cool_podcast.dd,jim@cool_podcast.dd"
+      
+    "podc_contact_email" is stored in the array "PodMetaContent": -> "podc":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_description</slug>
+  <title>podc_description</title>
+  <description>
+    The description of the podcast. This describes, what the podcast is about.
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    
+    Example:
+      "podc_description":"We talk about cool things in our podcast. New shows every other thursday."
+      "podc_description":"We talk about cool things in our podcast.\nNew shows every other thursday, where we talk about \\n-newlines."
+      
+    "podc_description" is stored in the array "PodMetaContent": -> "podc":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_descriptive_tags</slug>
+  <title>podc_descriptive_tags</title>
+  <description>
+    A comma separated list of tags.
+    No newlines are allowed.
+    
+    Example:
+      "podc_descriptive_tags":"tech, talk, opinionated"
+      
+    "podc_descriptive_tags" is stored in the array "PodMetaContent": -> "podc":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_feed</slug>
+  <title>podc_feed</title>
+  <description>
+    The feed-address of the podcast.
+    No newlines are allowed.
+    
+    Example:
+      "podc_feed":"https://www.cool_podcast.dd/feed"
+      
+    "podc_feed" is stored in the array "PodMetaContent": -> "podc":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_tagline</slug>
+  <title>podc_tagline</title>
+  <description>
+    The tagline of the podcast.
+    No newlines are allowed.
+    
+    Example:
+      "podc_tagline":"a podcast about cool techy and nerdy things"
+      
+    "podc_tagline" is stored in the array "PodMetaContent": -> "podc":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_title</slug>
+  <title>podc_title</title>
+  <description>
+    The title of the podcast.
+    No newlines are allowed.
+    
+    Example:
+      "podc_title":"Cool Podcast"
+      
+    "podc_title" is stored in the array "PodMetaContent": -> "podc":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_website_X</slug>
+  <title>podc_website_X</title>
+  <description>
+    An array that stores attributes for a podcast's website. X is the number of the website, so you can have multiple ones.
+    
+    Example:
+      "podc_website_1":{
+				"podc_website_name":"Mastodon",
+				"podc_website_description":"Our Mastodon account",
+				"podc_website_url":"https://www.mastodon.social/@CoolPodcast"
+			},
+      "podc_website_2":{
+        "podc_website_name":"TikTok",
+        "podc_website_description":"Out Tik Tok account",
+        "podc_website_url":"https://www.tiktok.com/CoolPodcast"
+      }
+      
+    "podc_website_X" is stored in the array "PodMetaContent": -> "podc":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast Website
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_website_name</slug>
+  <title>podc_website_name</title>
+  <description>
+    Stores the name of a website within a podc_website_X-array.
+    No newlines are allowed.
+    
+    Example:
+			"podc_website_name":"Mastodon",
+			
+    "podc_website_name" is stored in the array "PodMetaContent": -> "podc": -> "podc_website_X": (where X is the number of the stored website)
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast Website
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_website_description</slug>
+  <title>podc_website_description</title>
+  <description>
+    Stores the name of a website within a podc_website_X-array.
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    
+    Examples:
+			"podc_website_description":"our presence on Mastodon",
+      
+      "podc_website_description":"Our account on Mastodon.\n\nmanaged by jill",
+      
+      "podc_website_description":"Our social media about \\n-newlines and their impact on the world.",
+			
+    "podc_website_description" is stored in the array "PodMetaContent": -> "podc": -> "podc_website_X": (where X is the number of the stored website)
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast Website
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>podc_website_url</slug>
+  <title>podc_website_url</title>
+  <description>
+    Stores the name of a website within a podc_website_X-array.
+    No Newlines are allowed
+    
+    Examples:
+			"podc_website_url":"https://www.cool_podcast.dd",
+
+    "podc_website_url" is stored in the array "PodMetaContent": -> "podc": -> "podc_website_X": (where X is the number of the stored website)
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast Website
+  </chapter_context>
+</US_DocBloc>
+

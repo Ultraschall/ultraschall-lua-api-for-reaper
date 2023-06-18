@@ -346,7 +346,7 @@ Has now 1652 functions, with XX new ones
   - PodcastMetadata: GetPodcastContributorAttributesAsJSON - fix due fix in GetSetContributor_Attributes 
   - PodcastMetadata: GetSetContributor_Attributes - had wrong undocumented parameter in the function which is removed now
   - PodcastMetadata: GetSetPodcastEpisode_Attributes - removed "epsd_tagline", added  "epsd_produced_with_software_version", "epsd_produced_with_software_url"
-  - PodcastMetadata: GetSetPodcast_Attributes - added podc_tagline
+  - PodcastMetadata: GetSetPodcast_Attributes - added "podc_tagline" and "podc_feed"
   - PodcastMetadata: GetShownoteAttributesAsJSON - timestamp is now in hh:mm:ss:mss
   - PodcastMetadata: PodcastMetadata_CreateJSON_Entry did only do the first chapter, ignoring the rest; improved layout -> fixed
 
