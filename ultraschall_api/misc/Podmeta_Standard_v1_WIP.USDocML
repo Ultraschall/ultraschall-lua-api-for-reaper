@@ -1,3 +1,5 @@
+ToDo: epsd_author - are there names with , in them?
+
 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>podc</slug>
@@ -22,7 +24,7 @@
     No newlines are allowed.
     
     Example:
-      "podc_category":"education, talk"
+      "podc_category":"education,talk"
       
     "podc_category" is stored in the array "PodMetaContent": -> "podc":
   </description>
@@ -79,7 +81,7 @@
     No newlines are allowed.
     
     Example:
-      "podc_descriptive_tags":"tech, talk, opinionated"
+      "podc_descriptive_tags":"tech,talk,opinionated"
       
     "podc_descriptive_tags" is stored in the array "PodMetaContent": -> "podc":
   </description>
@@ -227,3 +229,270 @@
   </chapter_context>
 </US_DocBloc>
 
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd</slug>
+  <title>epsd</title>
+  <description>
+    An array containing metadata for the episode.
+      
+    "epsd" is stored in the array "PodMetaContent": 
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_author</slug>
+  <title>epsd_author</title>
+  <description>
+    The author(s) of the episode.
+    Multiple authors are separated by \n. If a name shall include a \n, escape it with \\n
+    No newlines are allowed.
+    
+    Example:
+      "epsd_author":"Jill Jillson"
+      
+      "epsd_author":"Jill Jillson\nJimmy Jim"
+      
+      "epsd_author":"Jill\\nJillson\nJimmy Jim"
+      
+    "epsd_author" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_content_notification_tags</slug>
+  <title>epsd_content_notification_tags</title>
+  <description>
+    The content-notification/content warnings for the episode.
+    Multiple content notification-tags are separated by commas.
+    No newlines are allowed.
+    
+    It is meant to warn of potential harmful content, like suicide(see Werther-effect for more information), abuse, re-traumatizing content, etc
+    
+    Example:
+      "epsd_content_notification_tags":"abuse,selfharm"
+      
+    "epsd_content_notification_tags" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_cover</slug>
+  <title>epsd_cover</title>
+  <description>
+    The episode-cover image.
+    It must be either jpg or png, encoded as BASE64.
+    
+    Example:
+      "epsd_cover":"iVBORyAaIAAAAElIRFIAAAABAAAAAQgCAAAAkHdT3gAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAAxJREFUeNpj+P//PwAF/gL+MxKVFAAAAABJRU5ErkJggg==",
+      
+    "epsd_cover" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_description</slug>
+  <title>epsd_description</title>
+  <description>
+    The content-notification/content warnings for the episode.    
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    
+    It is meant to warn of potential harmful content, like suicide(see Werther-effect for more information), abuse, re-traumatizing content, etc
+    
+    Example:
+      "epsd_description":"In this episode, we talk about the new Singelbert movies."
+      
+      "epsd_description":"In this episode, we talk about the new Singelbert movies.\nWe also talk about the implications of \\n in strings."
+      
+    "epsd_description" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_descriptive_tags</slug>
+  <title>epsd_descriptive_tags</title>
+  <description>
+    Descriptive tags for the episode.
+    Tags are separated by commas.
+    No newlines are allowed.
+    
+    They are to describe in single words the content of the episode.
+    
+    Example:
+      "epsd_descriptive_tags":"Singlebert,movies,newlines"
+      
+    "epsd_descriptive_tags" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_explicit</slug>
+  <title>epsd_explicit</title>
+  <description>
+    This episode is explicit-attribute.
+    
+    This describes, if the episode uses explicit language. The attribute is only added, when the episode is explicit.
+    The only value supported is "yes"(see example)
+    
+    Example:
+      "epsd_explicit":"yes"
+      
+    "epsd_explicit" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_guid</slug>
+  <title>epsd_guid</title>
+  <description>
+    A guid for this episode.    
+        
+    This is used as a unique identifier for this episode and contains three guids in a row.
+    THIS ATTRIBUTE IS MANDATORY!
+    
+    Example:
+      "epsd_guid":"{D29C5BC0-5142-4F68-AA25-F32D9B304278}{57396DED-68AB-464C-94A7-1C6075899081}{91F7A405-B05A-402C-929B-ECFB3DDB2F7F}"
+      
+    "epsd_guid" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_language</slug>
+  <title>epsd_language</title>
+  <description>
+    The language of the episode.
+    Use the languagecode according to ISO639-2/T.
+    If multiple languages are spoken, the language codes must be separated by newlines.
+
+    Example:
+      "epsd_language":"eng,deu,pan"
+      
+    "epsd_language" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_number</slug>
+  <title>epsd_number</title>
+  <description>
+    A number for this episode. This attribute is a string, so non-arabic numbers(like roman digits) are valid.
+    No newlines are allowed.
+    
+    Example:
+      "epsd_number":"123"
+      
+      "epsd_number":"MCIX"
+      
+    "epsd_number" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_produced_by_software</slug>
+  <title>epsd_produced_by_software</title>
+  <description>
+    The name of the software used to produce this episode.    
+    Multiple programs must be separated with newlines. If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    
+    Note: the order should be the same as in the attributes "epsd_produced_by_software_version" and "epsd_produced_by_software_url"    
+    
+    Example:
+      "epsd_produced_by_software":"Ultraschall"
+      
+      "epsd_produced_by_software":"Ultraschall\nStudiolink"
+      
+      "epsd_produced_by_software":"Ultraschall\nStudiolink\nAuda\\nCity"
+      
+    "epsd_produced_by_software" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_produced_by_software_url</slug>
+  <title>epsd_produced_by_software_url</title>
+  <description>
+    The name of the software used to produce this episode.    
+    Multiple programs must be separated with newlines.
+    
+    Note: the order should be the same as in the attributes "epsd_produced_by_software" and "epsd_produced_by_software_url"    
+    
+    Example:
+      "epsd_produced_by_software_url":"https://www.ultraschall.fm"
+      
+      "epsd_produced_by_software_url":"https://www.ultraschall.fm\nhttps.//www.studio-link.de"
+      
+    "epsd_produced_by_software_url" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_produced_by_software_version</slug>
+  <title>epsd_produced_by_software_version</title>
+  <description>
+    The name of the software used to produce this episode.    
+    Multiple programs must be separated with newlines. If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    
+    Note: the order should be the same as in the attributes "epsd_produced_by_software" and "epsd_produced_by_software_url"    
+    
+    Example:
+      "epsd_produced_by_software_version":"6.0"
+      
+      "epsd_produced_by_software_version":"6.0\nv21.07.0-stable"
+      
+      "epsd_produced_by_software_version":"6.0\nv21.07.0-stable\n1.2\\n3.4"
+      
+    "epsd_produced_by_software_version" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>

@@ -8020,7 +8020,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, content, pr
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string content = ultraschall.GetSetPodcast_Attributes(boolean is_set, string attributename, string content, optional integer preset_slot)</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will get/set metadata-attributes for a podcast.
     
     This is about the podcast globally, NOT the individual episodes.
@@ -8200,7 +8200,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
         "epsd_release_timezone" - the time's timezone in UTC of the release-time; +hh:mm or -hh:mm
         "epsd_description" - the descriptionof the episode
         "epsd_cover" - the cover-image of the episode(path+filename)
-        "epsd_language" - the language of the episode; Languagecode according to ISO639
+        "epsd_language" - the language of the episode; Languagecode according to ISO639-2/T
         "epsd_explicit" - yes, if explicit; "", if not explicit
         "epsd_descriptive_tags" - some tags, that describe the content of the episode, must separated by commas
         "epsd_sponsor" - the name of the sponsor of this episode
