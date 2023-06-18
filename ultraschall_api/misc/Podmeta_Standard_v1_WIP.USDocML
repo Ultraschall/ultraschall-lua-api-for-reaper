@@ -1,6 +1,3 @@
-ToDo: epsd_author - are there names with , in them?
-
-
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>podc</slug>
   <title>podc</title>
@@ -244,29 +241,6 @@ ToDo: epsd_author - are there names with , in them?
 </US_DocBloc>
 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>epsd_author</slug>
-  <title>epsd_author</title>
-  <description>
-    The author(s) of the episode.
-    Multiple authors are separated by \n. If a name shall include a \n, escape it with \\n
-    No newlines are allowed.
-    
-    Example:
-      "epsd_author":"Jill Jillson"
-      
-      "epsd_author":"Jill Jillson\nJimmy Jim"
-      
-      "epsd_author":"Jill\\nJillson\nJimmy Jim"
-      
-    "epsd_author" is stored in the array "PodMetaContent": -> "epsd":
-  </description>
-  <chapter_context>
-    Podcast Metadata
-    Episode
-  </chapter_context>
-</US_DocBloc>
-
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>epsd_content_notification_tags</slug>
   <title>epsd_content_notification_tags</title>
   <description>
@@ -427,72 +401,3 @@ ToDo: epsd_author - are there names with , in them?
   </chapter_context>
 </US_DocBloc>
 
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>epsd_produced_by_software</slug>
-  <title>epsd_produced_by_software</title>
-  <description>
-    The name of the software used to produce this episode.    
-    Multiple programs must be separated with newlines. If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
-    
-    Note: the order should be the same as in the attributes "epsd_produced_by_software_version" and "epsd_produced_by_software_url"    
-    
-    Example:
-      "epsd_produced_by_software":"Ultraschall"
-      
-      "epsd_produced_by_software":"Ultraschall\nStudiolink"
-      
-      "epsd_produced_by_software":"Ultraschall\nStudiolink\nAuda\\nCity"
-      
-    "epsd_produced_by_software" is stored in the array "PodMetaContent": -> "epsd":
-  </description>
-  <chapter_context>
-    Podcast Metadata
-    Episode
-  </chapter_context>
-</US_DocBloc>
-
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>epsd_produced_by_software_url</slug>
-  <title>epsd_produced_by_software_url</title>
-  <description>
-    The name of the software used to produce this episode.    
-    Multiple programs must be separated with newlines.
-    
-    Note: the order should be the same as in the attributes "epsd_produced_by_software" and "epsd_produced_by_software_url"    
-    
-    Example:
-      "epsd_produced_by_software_url":"https://www.ultraschall.fm"
-      
-      "epsd_produced_by_software_url":"https://www.ultraschall.fm\nhttps.//www.studio-link.de"
-      
-    "epsd_produced_by_software_url" is stored in the array "PodMetaContent": -> "epsd":
-  </description>
-  <chapter_context>
-    Podcast Metadata
-    Episode
-  </chapter_context>
-</US_DocBloc>
-
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>epsd_produced_by_software_version</slug>
-  <title>epsd_produced_by_software_version</title>
-  <description>
-    The name of the software used to produce this episode.    
-    Multiple programs must be separated with newlines. If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
-    
-    Note: the order should be the same as in the attributes "epsd_produced_by_software" and "epsd_produced_by_software_url"    
-    
-    Example:
-      "epsd_produced_by_software_version":"6.0"
-      
-      "epsd_produced_by_software_version":"6.0\nv21.07.0-stable"
-      
-      "epsd_produced_by_software_version":"6.0\nv21.07.0-stable\n1.2\\n3.4"
-      
-    "epsd_produced_by_software_version" is stored in the array "PodMetaContent": -> "epsd":
-  </description>
-  <chapter_context>
-    Podcast Metadata
-    Episode
-  </chapter_context>
-</US_DocBloc>

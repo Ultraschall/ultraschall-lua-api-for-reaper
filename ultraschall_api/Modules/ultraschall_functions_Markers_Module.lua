@@ -8151,7 +8151,6 @@ end
 
 ultraschall.EpisodeAttributes={
               "epsd_title", 
-              "epsd_author",
               "epsd_sponsor",
               "epsd_sponsor_url",
               "epsd_number",
@@ -8166,10 +8165,7 @@ ultraschall.EpisodeAttributes={
               "epsd_descriptive_tags",
               "epsd_content_notification_tags",
               "epsd_url",
-              "epsd_guid",
-              "epsd_produced_with_software",
-              "epsd_produced_with_software_version",
-              "epsd_produced_with_software_url"
+              "epsd_guid"
               }
 
 function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, additional_attribute, content, preset_slot)
@@ -8194,7 +8190,6 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
         "epsd_title" - the title of the episode
         "epsd_number" - the number of the episode
         "epsd_season" - the season of the episode
-        "epsd_author" - the authors of this episode as comma separated list
         "epsd_release_date" - releasedate of the episode; yyyy-mm-dd
         "epsd_release_time" - releasedate of the episode; hh:mm:ss
         "epsd_release_timezone" - the time's timezone in UTC of the release-time; +hh:mm or -hh:mm
@@ -8207,9 +8202,6 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
         "epsd_sponsor_url" - a link to the sponsor's website
         "epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by commas
         "epsd_guid" - a unique identifier for this episode; contains three guids in a row; read-only; can't be stored in presets!
-        "epsd_produced_with_software" - which software has been used to produce this episode, like "Ultraschall", "Hindenburg" or "Audacity"
-        "epsd_produced_with_software_version" - the softwareversion used
-        "epsd_produced_with_software_url" - the url to the software used for production of this episode
     
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
     

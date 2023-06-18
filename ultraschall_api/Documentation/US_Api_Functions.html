@@ -36268,22 +36268,18 @@ Supported attributes are:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_title" - the title of the episode<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_number" - the number of the episode<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_season" - the season of the episode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_author" - the authors of this episode as comma separated list<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_release_date" - releasedate of the episode; yyyy-mm-dd<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_release_time" - releasedate of the episode; hh:mm:ss<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_release_timezone" - the time's timezone in UTC of the release-time; +hh:mm or -hh:mm<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_description" - the descriptionof the episode<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_cover" - the cover-image of the episode(path+filename)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_language" - the language of the episode; Languagecode according to ISO639<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"epsd_language" - the language of the episode; Languagecode according to ISO639-2/T<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_explicit" - yes, if explicit; "", if not explicit<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_descriptive_tags" - some tags, that describe the content of the episode, must separated by commas<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_sponsor" - the name of the sponsor of this episode<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_sponsor_url" - a link to the sponsor's website<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by commas<br>
 &nbsp;&nbsp;&nbsp;&nbsp;"epsd_guid" - a unique identifier for this episode; contains three guids in a row; read-only; can't be stored in presets!<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_produced_with_software" - which software has been used to produce this episode, like "Ultraschall", "Hindenburg" or "Audacity"<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_produced_with_software_version" - the softwareversion used<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_produced_with_software_url" - the url to the software used for production of this episode<br>
 <br>
 preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini<br>
 <br>
@@ -36401,26 +36397,20 @@ returns false in case of an error<br>
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetPodcast_Attributes</em>(<i>boolean</i> is_set, <i>string</i> attributename, <i>string</i> content, <i>optional</i> <i>integer</i> preset_slot)</code></div>
 </div><p>
 <div class="ch">
-Will get/set metadata-attributes for a podcast.<br>
-<br>
-This is about the podcast globally, NOT the individual episodes.<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp; "podc_title" - the title of the podcast<br>
-&nbsp;&nbsp;&nbsp;&nbsp; "podc_tagline" - a tagline for this episode<br>
-&nbsp;&nbsp;&nbsp;&nbsp; "podc_description" - a description for your podcast<br>
-&nbsp;&nbsp;&nbsp;&nbsp; "podc_website" - either one url or a list of website-urls of the podcast,separated by newlines<br>
-&nbsp;&nbsp;&nbsp;&nbsp; "podc_contact_email" - an email-address that can be used to contact the podcasters&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp; "podc_feed" - the url of the podcast-feed<br>
-&nbsp;&nbsp;&nbsp;&nbsp; "podc_descriptive_tags" - some tags, who describe the podcast, must be separated by commas<br>
-&nbsp;&nbsp;&nbsp;&nbsp; "podc_category" - a category that describes the podcast<br>
-<br>
-For episode's-metadata, use [GetSetPodcastEpisode\_Attributes](#GetSetPodcastEpisode_Attributes)<br>
-<br>
-preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini<br>
-<br>
-You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<br>
-returns false in case of an error<br>
+<p>Will get/set metadata-attributes for a podcast.</p>
+<p>This is about the podcast globally, NOT the individual episodes.</p>
+<pre><code> &quot;podc_title&quot; - the title of the podcast
+ &quot;podc_tagline&quot; - a tagline for this episode
+ &quot;podc_description&quot; - a description for your podcast
+ &quot;podc_website&quot; - either one url or a list of website-urls of the podcast,separated by newlines
+ &quot;podc_contact_email&quot; - an email-address that can be used to contact the podcasters                  
+ &quot;podc_feed&quot; - the url of the podcast-feed
+ &quot;podc_descriptive_tags&quot; - some tags, who describe the podcast, must be separated by commas
+ &quot;podc_category&quot; - a category that describes the podcast</code></pre>
+<p>For episode's-metadata, use <a href="#GetSetPodcastEpisode_Attributes">GetSetPodcastEpisode_Attributes</a></p>
+<p>preset-values will be stored into resourcepath/ultraschall_podcast_presets.ini</p>
+<p>You can either set the current project's attributes(preset<em>slot=nil) or a preset(preset</em>slot=1 and higher)</p>
+<p>returns false in case of an error</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
