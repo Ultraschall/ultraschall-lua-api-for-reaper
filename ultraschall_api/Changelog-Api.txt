@@ -340,15 +340,15 @@ Has now 1652 functions, with XX new ones
   - DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of an error which was wrong; returns -1 now -> fixed now
   - Envelopes: MoveTrackEnvelopePointsBy - didn't properly move and cut envelope-points -> fixed
   - MediaItems: RippleCut - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -> fixed
-  - MediaItems: RippleCut_Reverse - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -> fixed
+  - MediaItems: RippleCut\_Reverse - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -> fixed
   - MediaItem\_Takes: GetProjectPosByTakeSourcePos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed
   - MediaItem\_Takes: GetTakeSourcePosByProjectPos - removed from release, due a Reaper bug that might remove take-markers; will return when bug is fixed
   - PodcastMetadata: GetPodcastContributorAttributesAsJSON - fix due fix in GetSetContributor_Attributes 
-  - PodcastMetadata: GetSetContributor_Attributes - had wrong undocumented parameter in the function which is removed now
-  - PodcastMetadata: GetSetPodcastEpisode_Attributes - removed "epsd_tagline" and "epsd_author"
-  - PodcastMetadata: GetSetPodcast_Attributes - added "podc_tagline" and "podc_feed"
+  - PodcastMetadata: GetSetContributor\_Attributes - had wrong undocumented parameter in the function which is removed now; added "ctrb_role"
+  - PodcastMetadata: GetSetPodcastEpisode\_Attributes - removed "epsd_tagline" and "epsd_author"
+  - PodcastMetadata: GetSetPodcast\_Attributes - added "podc_tagline" and "podc_feed"
   - PodcastMetadata: GetShownoteAttributesAsJSON - timestamp is now in hh:mm:ss:mss
-  - PodcastMetadata: PodcastMetadata_CreateJSON_Entry did only do the first chapter, ignoring the rest; improved layout -> fixed
+  - PodcastMetadata: PodcastMetadata\_CreateJSON_Entry did only do the first chapter, ignoring the rest; improved layout -> fixed
 
 
 ---

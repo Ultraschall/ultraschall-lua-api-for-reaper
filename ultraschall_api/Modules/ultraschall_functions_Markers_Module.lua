@@ -8932,7 +8932,7 @@ function ultraschall.PodcastMetadata_CreateJSON_Entry(start_time, end_time, offs
     JSON=JSON.."\n" 
   end
   --]]
-  JSON=JSON:sub(1,-1).."\n\t}\n}"  
+  JSON=JSON:sub(1,-1).."\n\t}\n}"
   
   if do_id3==true then
     reaper.GetSetProjectInfo_String(0, "RENDER_METADATA", "ID3:TXXX:PodMeta|"..JSON, true)
@@ -9093,9 +9093,10 @@ ultraschall.PodcastContributorAttributes = {
   "ctrb_name",
   "ctrb_description",
   "ctrb_email",
-  "ctrb_website_name",
-  "ctrb_website_description",
-  "ctrb_website_url"
+  "ctrb_role"
+  --"ctrb_website_name",
+  --"ctrb_website_description",
+  --"ctrb_website_url"
 }
 
 function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, content, preset_slot)
@@ -9103,7 +9104,7 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetContributor_Attributes</slug>
   <requires>
-    Ultraschall=4.75
+    Ultraschall=4.9
     Reaper=6.20
     SWS=2.10.0.1
     Lua=5.3
@@ -9119,12 +9120,7 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
       "ctrb_name" - the name of the contributor
       "ctrb_description" - a description of the contributor
       "ctrb_email" - the email of the contributor
-      
-      The following store websites for a contributor. The parameter additional_attribute represents the website-index.
-      So when additional_attribute=1 then the following attributes are for website number 1, when additional_attribute=2 then they are for website number 2.
-      ctrb_website_name - the name of the website; additional_attribute must be set to 1 and higher
-      ctrb_website_description - the name of the website; additional_attribute must be set to 1 and higher
-      ctrb_website_url - the name of the website; additional_attribute must be set to 1 and higher
+      "ctrb_role" - the role of the guest, either "guest", "host", "contributor", "other"
       
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
     
@@ -9159,12 +9155,15 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "must be a string", -3) return false end
   if type(content)~="string" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "content", "must be a string", -4) return false end
   if preset_slot~=nil and math.type(preset_slot)~="integer" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "preset_slot", "must be an integer", -5) return false end
-  if attributename=="ctrb_website_name" or attributename=="ctrb_website_description" or attributename=="ctrb_website_url" then
-    if math.type(tonumber(additional_attribute))~="integer" then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "preset_slot", "must be a string representing an integer 1 or higher", -6) return false end
-  else
-    additional_attribute=nil
+  if is_set==true and attributename=="ctrb_role" then
+    if content~="guest" and content~="host" and content~="contributor" and content~="other" then 
+      ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "must be \"host\", \"guest\", \"contributor\" or \"other\"", -10) 
+      return false
+    end  
   end
-  if additional_attribute==nil then additional_attribute="" else additional_attribute="_"..additional_attribute end
+  
+  local additional_attribute=""
+  --if additional_attribute==nil then additional_attribute="" else additional_attribute="_"..additional_attribute end
   local tags=ultraschall.PodcastContributorAttributes 
   local presetcontent, retval
   local found=false
@@ -9175,7 +9174,6 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
     end
   end
   if found==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "attributename not supported", -7) return false end
-  
   if is_set==true then
     if preset_slot~=nil then
       content=string.gsub(content, "\r", "")
@@ -9191,9 +9189,10 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
     if A1=="" or index>tonumber(A1) then
       reaper.SetProjExtState(0, "ContributorsMetaData_", "ctrb_contributors_maxindex", index)
     end
-    _=reaper.SetProjExtState(0, "ContributorsMetaData_", attributename..index..additional_attribute, content)
+    _=reaper.SetProjExtState(0, "ContributorsMetaData_", attributename..index..additional_attribute, content)  
     return _>0, content, presetcontent
   else
+  
     if preset_slot~=nil then
       --print2("")
       local old_errorcounter = ultraschall.CountErrorMessages()
@@ -9335,7 +9334,7 @@ function ultraschall.GetPodcastContributorAttributesAsJSON()
   if max_index=="" then max_index=0 end
   for a=1, tonumber(max_index) do
     JSON=JSON.."\"ctrb_"..a.."\":{ \n"
-    for i=1, #ultraschall.PodcastContributorAttributes-3 do
+    for i=1, #ultraschall.PodcastContributorAttributes do
       local retval, content = ultraschall.GetSetContributor_Attributes(false, a, ultraschall.PodcastContributorAttributes[i], "")
       if retval==true and content~="" then
         content=string.gsub(content, "\"", "\\\"")
@@ -9346,6 +9345,8 @@ function ultraschall.GetPodcastContributorAttributesAsJSON()
     end
     -- contributor's websites
     local count=0
+    --[[
+    -- removed, add again, when new contributor's website-functions are available
     for b=1, 1024 do
       local retval1, name = ultraschall.GetSetContributor_Attributes(false, a, "ctrb_website_name", b, "")
       local retval2, description = ultraschall.GetSetContributor_Attributes(false, a, "ctrb_website_description", b, "")
@@ -9371,6 +9372,7 @@ function ultraschall.GetPodcastContributorAttributesAsJSON()
         JSON=JSON.."\t\t},\n"
       end
     end
+    --]]
     JSON=JSON:sub(1,-3).."\n},\n"
   end
 
