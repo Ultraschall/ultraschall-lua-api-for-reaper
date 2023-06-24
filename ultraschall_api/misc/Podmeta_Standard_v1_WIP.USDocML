@@ -17,7 +17,7 @@
   <title>podc_category</title>
   <description>
     The category of the podcast.
-    Multiple categories are separated by commas.
+    Multiple categories are separated by commas. Quotes " are stored as \" within the attribute. 
     No newlines are allowed.
     
     Example:
@@ -36,7 +36,7 @@
   <title>podc_contact_email</title>
   <description>
     The contact-email of the podcast. 
-    Multiple adresses are supported as a comma-separated list.
+    Multiple adresses are supported as a comma-separated list. 
     No newlines are allowed.
     
     Examples:
@@ -57,10 +57,11 @@
   <description>
     The description of the podcast. This describes, what the podcast is about.
     Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
     
     Example:
       "podc_description":"We talk about cool things in our podcast. New shows every other thursday."
-      "podc_description":"We talk about cool things in our podcast.\nNew shows every other thursday, where we talk about \\n-newlines."
+      "podc_description":"We talk about cool things in our podcast.\nNew shows every other \"thursday\", where we talk about \\n-newlines."
       
     "podc_description" is stored in the array "PodMetaContent": -> "podc":
   </description>
@@ -75,7 +76,7 @@
   <title>podc_descriptive_tags</title>
   <description>
     A comma separated list of tags.
-    No newlines are allowed.
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
     
     Example:
       "podc_descriptive_tags":"tech,talk,opinionated"
@@ -93,7 +94,7 @@
   <title>podc_feed</title>
   <description>
     The feed-address of the podcast.
-    No newlines are allowed.
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
     
     Example:
       "podc_feed":"https://www.cool_podcast.dd/feed"
@@ -111,7 +112,7 @@
   <title>podc_tagline</title>
   <description>
     The tagline of the podcast.
-    No newlines are allowed.
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
     
     Example:
       "podc_tagline":"a podcast about cool techy and nerdy things"
@@ -129,7 +130,7 @@
   <title>podc_title</title>
   <description>
     The title of the podcast.
-    No newlines are allowed.
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
     
     Example:
       "podc_title":"Cool Podcast"
@@ -156,7 +157,7 @@
 			},
       "podc_website_2":{
         "podc_website_name":"TikTok",
-        "podc_website_description":"Out Tik Tok account",
+        "podc_website_description":"Our Tik Tok account",
         "podc_website_url":"https://www.tiktok.com/CoolPodcast"
       }
       
@@ -173,7 +174,7 @@
   <title>podc_website_name</title>
   <description>
     Stores the name of a website within a podc_website_X-array.
-    No newlines are allowed.
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
     
     Example:
 			"podc_website_name":"Mastodon",
@@ -192,13 +193,14 @@
   <description>
     Stores the name of a website within a podc_website_X-array.
     Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
     
     Examples:
 			"podc_website_description":"our presence on Mastodon",
       
-      "podc_website_description":"Our account on Mastodon.\n\nmanaged by jill",
+      "podc_website_description":"Our account on Mastodon.\n\n managed by jill",
       
-      "podc_website_description":"Our social media about \\n-newlines and their impact on the world.",
+      "podc_website_description":"Our social media about \\n-newlines and their \"impact\" on the world.",
 			
     "podc_website_description" is stored in the array "PodMetaContent": -> "podc": -> "podc_website_X": (where X is the number of the stored website)
   </description>
@@ -246,7 +248,7 @@
   <description>
     The content-notification/content warnings for the episode.
     Multiple content notification-tags are separated by commas.
-    No newlines are allowed.
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
     
     It is meant to warn of potential harmful content, like suicide(see Werther-effect for more information), abuse, re-traumatizing content, etc
     
@@ -285,13 +287,12 @@
   <description>
     The content-notification/content warnings for the episode.    
     Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
-    
-    It is meant to warn of potential harmful content, like suicide(see Werther-effect for more information), abuse, re-traumatizing content, etc
+    Quotes " are stored as \" within the attribute. 
     
     Example:
-      "epsd_description":"In this episode, we talk about the new Singelbert movies."
+      "epsd_description":"In this episode, we talk about the new Gringelbert movies."
       
-      "epsd_description":"In this episode, we talk about the new Singelbert movies.\nWe also talk about the implications of \\n in strings."
+      "epsd_description":"In this episode, we talk about the new Gringelbert movies.\nWe also talk about the implications of \\n in strings."
       
     "epsd_description" is stored in the array "PodMetaContent": -> "epsd":
   </description>
@@ -306,13 +307,13 @@
   <title>epsd_descriptive_tags</title>
   <description>
     Descriptive tags for the episode.
-    Tags are separated by commas.
+    Tags are separated by commas. Quotes " are stored as \" within the attribute. 
     No newlines are allowed.
     
     They are to describe in single words the content of the episode.
     
     Example:
-      "epsd_descriptive_tags":"Singlebert,movies,newlines"
+      "epsd_descriptive_tags":"Gringelbert,movies,newlines"
       
     "epsd_descriptive_tags" is stored in the array "PodMetaContent": -> "epsd":
   </description>
@@ -347,9 +348,9 @@
   <title>epsd_guid</title>
   <description>
     A guid for this episode.    
-        
     This is used as a unique identifier for this episode and contains three guids in a row.
-    THIS ATTRIBUTE IS MANDATORY!
+    
+    THIS ATTRIBUTE IS MANDATORY FOR EPISODES!
     
     Example:
       "epsd_guid":"{D29C5BC0-5142-4F68-AA25-F32D9B304278}{57396DED-68AB-464C-94A7-1C6075899081}{91F7A405-B05A-402C-929B-ECFB3DDB2F7F}"
@@ -385,10 +386,11 @@
   <slug>epsd_number</slug>
   <title>epsd_number</title>
   <description>
-    A number for this episode. This attribute is a string, so non-arabic numbers(like roman digits) are valid.
-    No newlines are allowed.
+    A number for this episode. This attribute is a string, so non-arabic numbers(like roman digits) are valid. 
+    Usually a number.
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
     
-    Example:
+    Examples:
       "epsd_number":"123"
       
       "epsd_number":"MCIX"
@@ -401,3 +403,369 @@
   </chapter_context>
 </US_DocBloc>
 
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_release_date</slug>
+  <title>epsd_release_date</title>
+  <description>
+    The release-date for this episode.
+    No newlines are allowed.
+    
+    The date is of the format XXXX-MM-DD
+    Only numbers are allowed between the -
+    
+    Examples:
+      "epsd_release_date":"2023-12-10"
+      
+      "epsd_release_date":"2006-06-10"
+      
+    "epsd_release_date" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_release_time</slug>
+  <title>epsd_release_time</title>
+  <description>
+    The release-time for this episode.
+    No newlines are allowed.
+    
+    The time is of the format hh:mm:ss
+    Only numbers are allowed between the :
+    
+    Examples:
+      "epsd_release_time":"23:10:23"
+      
+      "epsd_release_time":"01:02:00"
+      
+    "epsd_release_time" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_release_timezone</slug>
+  <title>epsd_release_timezone</title>
+  <description>
+    The timezone of the release for this episode.
+    No newlines are allowed.
+    
+    The timezone is in UTC with either +UTC or -UTC written as +hh:mm or -hh:mm
+    
+    Examples:
+      "epsd_release_timezone":"+6:00"
+      
+      "epsd_release_timezone":"-4:23"
+      
+      "epsd_release_timezone":"+0:00"
+      
+    "epsd_release_timezone" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_season</slug>
+  <title>epsd_season</title>
+  <description>
+    The season of the episode for this episode.
+    No newlines are allowed.
+    
+    Usually it's numbers, but it can contain characters as well. Quotes " are stored as \" within the attribute. 
+    
+    Examples:
+      "epsd_season":"1"
+      
+      "epsd_season":"23"
+      
+      "epsd_season":"S10"
+      
+      "epsd_season":"Season10"
+      
+    "epsd_season" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_tagline</slug>
+  <title>epsd_tagline</title>
+  <description>
+    The tagline of the episode.    
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
+    
+    Examples:
+      "epsd_tagline":"Today's all what's new in tech."
+      
+      "epsd_tagline":"The orange-juice dilemma."
+      
+    "epsd_tagline" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>epsd_title</slug>
+  <title>epsd_title</title>
+  <description>
+    The title of the episode. 
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
+    
+    Examples:
+      "epsd_title":"Aloha in Balboa"
+      
+      "epsd_title":"Get rid of the monkey's grin!"
+      
+    "epsd_title" is stored in the array "PodMetaContent": -> "epsd":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_X</slug>
+  <title>ctrb_X</title>
+  <description>
+    An array that stores attributes for a contributor of the episode. X is the number of the contributor, so you can have multiple ones.
+    
+    Example for two contributors with websites:
+      "ctrb_1":{
+        "ctrb_guid":"{C1555DF4-F80F-4C6E-8DD0-E29D434DD442}"
+				"ctrb_name":"Jimmi Jim",
+				"ctrb_role":"host",
+				"ctrb_email":"Jim@cool_podcast.dd"
+        "ctrb_website_1":{
+          "ctrb_website_name":"Jimmy Jim's website",
+          "ctrb_website_description":"all activities of Jimmy Jim, including(but not exclusively) the podcast Cool Podcast",
+          "ctrb_website_url":"https://www.jimmy_jim.dd/home"
+        },
+        "ctrb_website_2":{
+          "ctrb_website_name":"Jimmy Jim's Social Media Site",
+          "ctrb_website_description":"the social media site, including a lot of private banter and movie nerdism",
+          "ctrb_website_url":"https://www.social_media.dd/JimmyJim"
+        }
+			},
+      "ctrb_2":{
+        "ctrb_guid":"{7D21A37C-D0DD-4747-9324-A3B169FEB6A9}"
+        "ctrb_name":"Anny Ann",
+        "ctrb_role":"guest",
+        "ctrb_email":"Anny_Ann@some_website.dd",
+        "ctrb_website_1":{
+          "ctrb_website_name":"Anny Ann's Website",
+          "ctrb_website_description":"containing a lot of their work of art and exhibitions",
+          "ctrb_website_url":"https://www.some_website.dd"
+        }
+      }
+      
+    "ctrb_X" is stored in the array "PodMetaContent": 
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_description</slug>
+  <title>ctrb_description</title>
+  <description>
+    A description for this contributor
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Examples:
+      "ctrb_description":"tweaking the podcast"
+      
+      "ctrb_description":"providing the \"previously\"-audio snippets in the \n beginning of the episode"
+      
+    "ctrb_description" is stored in the array "PodMetaContent": -> "ctrb_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_email</slug>
+  <title>ctrb_email</title>
+  <description>
+    The email for this contributor
+    No newlines are allowed.
+    
+    Examples:
+      "ctrb_email":"JimmyJim@cool_podcast.dd"
+      
+    "ctrb_email" is stored in the array "PodMetaContent": -> "ctrb_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_guid</slug>
+  <title>ctrb_guid</title>
+  <description>
+    The guid for this contributor
+    
+    THIS ATTRIBUTE IS MANDATORY FOR CONTRIBUTORS!
+    
+    Examples:
+      "ctrb_guid":"{F7183EBF-AFB4-44D1-A21D-7F7B27FC5499}"
+      
+    "ctrb_guid" is stored in the array "PodMetaContent": -> "ctrb_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_name</slug>
+  <title>ctrb_name</title>
+  <description>
+    The name of this contributor
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Examples:
+      "ctrb_name":"Anny Ann"
+      
+      "ctrb_name":"TechCompExample Co.\nAn \"unlimited\" tech-company."
+      
+    "ctrb_name" is stored in the array "PodMetaContent": -> "ctrb_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_role</slug>
+  <title>ctrb_role</title>
+  <description>
+    The name of this contributor
+    No newlines allowed.
+    
+    Accepted values are "host", "guest", "contributor"(production team, etc), "other"
+    
+    Examples:
+      "ctrb_role":"host"
+      
+      "ctrb_role":"guest"
+      
+    "ctrb_role" is stored in the array "PodMetaContent": -> "ctrb_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_website_X</slug>
+  <title>ctrb_website_X</title>
+  <description>
+    An array that stores attributes for a contributor's website. X is the number of the website, so you can have multiple ones.
+    
+    Example:
+      "ctrb_website_1":{
+        "ctrb_website_name":"Jimmy Jim's website",
+        "ctrb_website_description":"all activities of Jimmy Jim, including(but not exclusively) the podcast Cool Podcast",
+        "ctrb_website_url":"https://www.jimmy_jim.dd/home"
+      },
+      "ctrb_website_2":{
+        "ctrb_website_name":"Jimmy Jim's Social Media Site",
+        "ctrb_website_description":"the social media site, including a lot of private banter and movie nerdism",
+        "ctrb_website_url":"https://www.social_media.dd/JimmyJim"
+      }
+      
+    "ctrb_website_X" is stored in the array "PodMetaContent": -> "ctrb_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_website_name</slug>
+  <title>ctrb_website_name</title>
+  <description>
+    The name of this website for the contributor
+    No newlines allowed. Quotes " are stored as \" within the attribute. 
+    
+    Examples:
+      "ctrb_website_name":"Jimmy Jim's Social Media Site"
+      
+      "ctrb_website_name":"Anny Ann's Social Media Page"
+      
+    "ctrb_website_name" is stored in the array "PodMetaContent": -> "ctrb_X": -> "ctrb_website_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_website_description</slug>
+  <title>ctrb_website_description</title>
+  <description>
+    A description of this website for the contributor
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Examples:
+      "ctrb_website_description":"Jimmy Jim's Social Media Site"
+      
+      "ctrb_website_description":"Anny Ann's Social Media Page"
+      
+    "ctrb_website_description" is stored in the array "PodMetaContent": -> "ctrb_X": -> "ctrb_website_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ctrb_website_url</slug>
+  <title>ctrb_website_url</title>
+  <description>
+    The name of this website for the contributor
+    No newlines allowed.
+    
+    Examples:
+      "ctrb_website_url":"https://www.jimmy_jim.dd/home"
+      
+      "ctrb_website_url":"https://www.some_website.dd"
+      
+    "ctrb_website_url" is stored in the array "PodMetaContent": -> "ctrb_X": -> "ctrb_website_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Contributors
+  </chapter_context>
+</US_DocBloc>

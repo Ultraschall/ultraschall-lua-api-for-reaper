@@ -8151,8 +8151,6 @@ end
 
 ultraschall.EpisodeAttributes={
               "epsd_title", 
-              "epsd_sponsor",
-              "epsd_sponsor_url",
               "epsd_number",
               "epsd_season", 
               "epsd_release_date",
@@ -8198,8 +8196,6 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
         "epsd_language" - the language of the episode; Languagecode according to ISO639-2/T
         "epsd_explicit" - yes, if explicit; "", if not explicit
         "epsd_descriptive_tags" - some tags, that describe the content of the episode, must separated by commas
-        "epsd_sponsor" - the name of the sponsor of this episode
-        "epsd_sponsor_url" - a link to the sponsor's website
         "epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by commas
         "epsd_guid" - a unique identifier for this episode; contains three guids in a row; read-only; can't be stored in presets!
     
@@ -8372,7 +8368,10 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
            "shwn_location_google_maps" - the coordinates as used in Google Maps
            "shwn_location_open_street_map" - the coordinates as used in Open Street Maps
            "shwn_location_apple_maps" - the coordinates as used in Apple Maps                         
-           "shwn_date" - the date of the content of the shownote(when talking about events, etc); yyyy-mm-dd; use XX or XXXX, for when day/month/year is unknown or irrelevant
+           "shwn_date" - the date of the content of the shownote(when talking about events, etc); yyyy...yyy-mm-dd; 
+                       - use XX or XXXX, for when day/month/year is unknown or irrelevant; 
+                       - add minus - in front of the yyyy for years BC; like -0999
+                       - years can be more than 4 digits, so -10021 (for -10021BC) is valid
            "shwn_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss; use XX for when hour/minute/second is unknown or irrelevant
            "shwn_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format; +hh:mm or -hh:mm
            "shwn_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
