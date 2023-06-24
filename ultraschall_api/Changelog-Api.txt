@@ -318,7 +318,7 @@ ToDo Marker Menu:
 
 ### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023
 
-Has now 1652 functions, with XX new ones
+Has now 1652 functions, with XX new ones and two fewer ones
 
 **new in this release:**  
 
