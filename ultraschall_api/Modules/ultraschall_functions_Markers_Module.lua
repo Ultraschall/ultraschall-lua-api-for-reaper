@@ -8720,8 +8720,8 @@ function ultraschall.GetChapterAttributesAsJSON(chaptermarker_id, shown_id, with
         local timestr=reaper.format_timestr_len(content, "", 0, 5)
         local timestr2=reaper.format_timestr_len(content, "", 0, 3)
         local timestr3=timestr:match("(.*):").."."..timestr2:match(".*%.(.*)")
-        local timestr=timestr:match("(.*):").."."..timestr:match(".*:(.*)")
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(timestr).."\",\n"        
+        --local timestr=timestr:match("(.*):").."."..timestr:match(".*:(.*)")
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(timestr3).."\",\n"
       elseif attribute=="chap_image_path" then
         local prj, path=reaper.EnumProjects(-1)
         path=string.gsub(path, "\\", "/")
@@ -8809,8 +8809,7 @@ function ultraschall.GetShownoteAttributesAsJSON(shownotemarker_id, shown_id, wi
         local timestr=reaper.format_timestr_len(content, "", 0, 5)
         local timestr2=reaper.format_timestr_len(content, "", 0, 3)
         local timestr3=timestr:match("(.*):").."."..timestr2:match(".*%.(.*)")
-        local timestr=timestr:match("(.*):").."."..timestr:match(".*:(.*)")
-        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(timestr).."\",\n"        
+        JSON=JSON.."\t\""..tostring(attribute).."\":\""..tostring(timestr3).."\",\n"        
       elseif attribute=="chap_image_path" then
         local prj, path=reaper.EnumProjects(-1)
         path=string.gsub(path, "\\", "/")
