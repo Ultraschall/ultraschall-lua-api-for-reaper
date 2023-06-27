@@ -1124,7 +1124,7 @@ function ultraschall.RazorEdit_IsAtPosition_Track(track, position)
     Reaper=6.24
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional number start_pos, optional number end_pos, optional integer razor_area_index  = ultraschall.RazorEdit_IsAtPosition_Track(MediaTrack track, number position)</functioncall>
+  <functioncall>boolean retval, optional number start_pos, optional number end_pos, optional integer razor_area_index = ultraschall.RazorEdit_IsAtPosition_Track(MediaTrack track, number position)</functioncall>
   <description>
     returns, if there's a razor-edit in a track at a given position or if there's a gap.
     

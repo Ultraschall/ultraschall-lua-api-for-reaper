@@ -2265,3 +2265,147 @@ function ultraschall.RazorEdit_ResizeByFactor_Envelope(TrackEnvelope, factor, ed
   local A,B=reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", newstring, true)
   return true
 end
+
+function ultraschall.RazorEdit_GetBetween_Envelope(envelope, start_position, end_position, inside)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_GetBetween_Envelope</slug>
+  <requires>
+    Ultraschall=4.9
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>integer found_razor_edits, table razor_edit_index = ultraschall.RazorEdit_GetBetween_Envelope(TrackEnvelope envelope, number start_position, number end_position, boolean inside)</functioncall>
+  <description>
+    returns the razor-edits between start and endposition within an envelope
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer found_razor_edits - the number of found razor edit-areas
+    table razor_edit_index - the found razor edit-areas
+  </retvals>
+  <parameters>
+    TrackEnvelope envelope - the envelope, from which to retrieve the razor-edit-areas
+    number start_position - the startposition in seconds
+    number end_position - the endposition in seconds
+    boolean inside - true, only razor edits that start and end within start/endposition; false, include partial razor-edits
+  </parameters>
+  <chapter_context>
+    Razor Edit
+    Envelopes
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, get, between, envelope, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(envelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("RazorEdit_GetBetween_Envelope", "envelope", "must be a valid TrackEnvelope", -1) return -1 end
+  if type(start_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_GetBetween_Envelope", "start_position", "must be a number", -2) return -1 end
+  if type(end_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_GetBetween_Envelope", "end_position", "must be a number", -3) return -1 end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("RazorEdit_GetBetween_Envelope", "inside", "must be a boolean", -4) return -1 end
+
+  local track=reaper.GetEnvelopeInfo_Value(envelope, "P_TRACK")
+  local retval, RazorEdits = reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+
+  local retval, GUID = reaper.GetSetEnvelopeInfo_String(envelope, "GUID", "", false)
+  local RazorEdits="0 0 \""..GUID.."\" "..RazorEdits.." "
+  local found=false
+  local tempstart=0
+  local tempend=reaper.GetProjectLength(0)
+  local count=-1
+  local found_razors={}
+  
+  for a,b,c in string.gmatch(RazorEdits, "(.-) (.-) (.-) ") do
+    if c:sub(2,-2)==GUID then
+      count=count+1
+      a=tonumber(a)
+      b=tonumber(b)
+      if count>0 then
+        if inside==true then
+          if a>=start_position and b<=end_position then
+            found_razors[#found_razors+1]=count
+          end
+        elseif inside==false then
+          if (a>=start_position and a<=end_position) or (b<=end_position and b>=start_position) then
+            found_razors[#found_razors+1]=count
+          end
+        end
+      end
+    end
+  end
+
+  return #found_razors, found_razors
+end
+
+function ultraschall.RazorEdit_GetBetween_Track(track, start_position, end_position, inside)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RazorEdit_GetBetween_Track</slug>
+  <requires>
+    Ultraschall=4.9
+    Reaper=6.24
+    Lua=5.3
+  </requires>
+  <functioncall>integer found_razor_edits, table razor_edit_index = ultraschall.RazorEdit_GetBetween_Track(MediaTrack track, number start_position, number end_position, boolean inside)</functioncall>
+  <description>
+    returns the number of razor-edits between start- and end-position within a track.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer found_razor_edits - the number of found razor edit-areas
+    table razor_edit_index - the found razor edit-areas
+  </retvals>
+  <parameters>
+    MediaTrack track - the track, from which you want to get the razor-edits
+    number start_position - the startposition in seconds
+    number end_position - the endposition in seconds
+    boolean inside - true, only razor edits that start and end within start/endposition; false, include partial razor-edits
+  </parameters>
+  <chapter_context>
+    Razor Edit
+    Tracks
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_RazorEdit_Module.lua</source_document>
+  <tags>razor edit, get, between, track, razor edit areas</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("RazorEdit_GetBetween_Track", "track", "must be a valid MediaTrack", -1) return end
+  if type(start_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_GetBetween_Track", "start_position", "must be a number", -2) return -1 end
+  if type(end_position)~="number" then ultraschall.AddErrorMessage("RazorEdit_GetBetween_Track", "end_position", "must be a number", -3) return -1 end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("RazorEdit_GetBetween_Track", "inside", "must be a boolean", -4) return -1 end
+
+  --if position>reaper.GetProjectLength(0) then return false end
+  local retval, RazorEdits = reaper.GetSetMediaTrackInfo_String(track, "P_RAZOREDITS", "", false)
+  local GUID=""
+  local RazorEdits="0 0 \""..GUID.."\" "..RazorEdits.." "
+  
+  local found=false
+  local tempstart=0
+  local tempend=reaper.GetProjectLength(0)
+  local count=-1
+  local found_razors={}
+
+  for a,b,c in string.gmatch(RazorEdits, "(.-) (.-) (.-) ") do
+    if c:sub(2,-2)==GUID then
+      count=count+1
+      a=tonumber(a)
+      b=tonumber(b)
+      if count>0 then
+        if inside==true then
+          if a>=start_position and b<=end_position then
+            found_razors[#found_razors+1]=count
+          end
+        elseif inside==false then
+          if (a>=start_position and a<=end_position) or (b<=end_position and b>=start_position) then
+            found_razors[#found_razors+1]=count
+          end
+        end
+      end
+    end
+  end
+
+  return #found_razors, found_razors
+end  
