@@ -21259,17 +21259,17 @@
         <description>
             Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). 
             
-            Returns true if the inputs are valid.
+            Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). 
             
-            See TakeFX_SetPreset.
+            See TakeFX_SetPreset
         </description>
         <retvals>
-            boolean retval - 
-            string presetname - 
+            boolean retval - true, the fx-parameters match preset; false, the fx-parameters do not match preset(see description for more details)
+            string presetname - the name of the preset
         </retvals>
         <parameters>
-            MediaItem_Take take - 
-            integer fx - 
+            MediaItem_Take take - the take, of whose fx you want to get the presetname
+            integer fx - the index of the fx, whose indexname you want to get; 0-based
         </parameters>
         <linked_to desc="see also:">
             Reaper:TakeFX_SetPreset
@@ -23715,20 +23715,20 @@
         <description>
             Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). 
             
-            Returns true if the inputs are valid. 
+            Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). 
             
-            See TrackFX_SetPreset
+            see TrackFX_SetPreset
 
             By setting fx you can add 0x1000000 set to reference input FX. 
             To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.
         </description>
         <retvals>
-            boolean retval - 
-            string presetname - 
+            boolean retval - true, the fx-parameters match preset; false, the fx-parameters do not match preset(see description)
+            string presetname - the name of the preset
         </retvals>
         <parameters>
-            MediaTrack track - 
-            integer fx - 
+            MediaTrack track - the track, from whose fx you want to get the preset-name
+            integer fx - the index of the fx, whose presetname you want to have; 0-based
         </parameters>
         <linked_to desc="see also:">
             Reaper:TrackFX_SetPreset

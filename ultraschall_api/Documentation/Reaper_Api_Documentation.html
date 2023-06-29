@@ -115,7 +115,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.79<br>"regular scheduled assembly"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.80<br>"soy loco por los cornballs"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -20217,28 +20217,28 @@ gets the effective channel mapping bitmask for a particular pin. high32Out will 
 <div class="ch">
 Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). <br>
 <br>
-Returns true if the inputs are valid.<br>
+Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). <br>
 <br>
-See TakeFX_SetPreset.<br>
+See TakeFX_SetPreset<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">true, the fx-parameters match preset; false, the fx-parameters do not match preset(see description for more details)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> presetname</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the name of the preset</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaItem_Take</i> take</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the take, of whose fx you want to get the presetname</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> fx</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the index of the fx, whose indexname you want to get; 0-based</td></tr>
 </table>
 <br>
 <u>see also:</u><br><table class="ch">
@@ -22213,9 +22213,9 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <div class="ch">
 Get the name of the preset currently showing in the REAPER dropdown, or the full path to a factory preset file for VST3 plug-ins (.vstpreset). <br>
 <br>
-Returns true if the inputs are valid. <br>
+Returns false if the current FX parameters do not exactly match the preset (in other words, if the user loaded the preset but moved the knobs afterward). <br>
 <br>
-See TrackFX_SetPreset<br>
+see TrackFX_SetPreset<br>
 <br>
 By setting fx you can add 0x1000000 set to reference input FX. <br>
 To use global monitoring inputFX, use the master-track, any other track will access the track's rec-input-fx.<br>
@@ -22223,21 +22223,21 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <u>Returnvalues:</u>
 <table class="ch">
 <tr><td class="pr"><i>boolean</i> retval</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">true, the fx-parameters match preset; false, the fx-parameters do not match preset(see description)</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> presetname</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the name of the preset</td></tr>
 </table>
 <br>
 <u>Parameters:</u>
 <table class="ch">
 <tr><td class="pr"><i>MediaTrack</i> track</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the track, from whose fx you want to get the preset-name</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>integer</i> fx</td></tr>
-<tr><td class="ch2"></td></tr>
+<tr><td class="ch2">the index of the fx, whose presetname you want to have; 0-based</td></tr>
 </table>
 <br>
 <u>see also:</u><br><table class="ch">

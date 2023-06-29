@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55895.00" author="Meo Mespotine">
+      <version name="55898.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1465,13 +1465,14 @@
 
 4.9 - “Depeche Mode - Everything Counts” - 30th of June 2023
 
-Has now 1652 functions, with XX new ones and two fewer ones
+Has now 1663 functions, with 13 new ones and two fewer ones(!)
 
 new in this release:
 
 -   ReaSpaghetti
     Features bugfixes and additions that will make Ultraschall API
-    compatible with Sexan’s ReaSpaghetti coding-tool.
+    compatible with Sexan’s ReaSpaghetti coding-tool in the future.
+    Keep checking for ReaSpaghetti-updates for more details.
 
 -   Razor Edit
     You can now set and resize RazorEdits. The resizing is possible by
@@ -1516,6 +1517,7 @@ Changes from 4.8 to 4.9
     not within a function -> fixed now
 -   DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of
     an error which was wrong; returns -1 now -> fixed now
+-   Docs: Reaper Internals - updated to Reaper 6.80
 -   Envelopes: MoveTrackEnvelopePointsBy - didn’t properly move and cut
     envelope-points -> fixed
 -   MediaItems: RippleCut - didn’t properly move and cut

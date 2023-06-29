@@ -12830,6 +12830,36 @@
           Can be set but will not update arrange view; even if you use UpdateArrange() !  
           It is an integer, project variable.
           
+          NOTE: When setting vzoom2, you must also set vzoom3 to the same value, or it can cause issues!
+          Also note: vzoom3 allows the zoomfactor in smaller steps, due it being double, unlike vzoom2.
+          
+          Can be affected by the following actions:
+            View: Toggle track zoom to minimum height
+            View: Toggle track zoom to maximum height
+          
+           >0(minimum zoom) to 40(maximum zoom); defaults are: 2(Small), 6(Medium), 16(Large)  
+
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.
+      </description>  
+      <chapter_context>
+         Project Settings
+         Misc
+      </chapter_context>
+      <source_document>Reaper_Config_Variables.USDocML</source_document>
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>vzoom3</slug>  
+      <title>vzoom3</title>  
+      <description>  
+          Current state of the vertical zoom
+          Can be set but will not update arrange view; even if you use UpdateArrange() !  
+          It is an double, project variable.
+          
+          NOTE: This must be set, when vzoom2 is set, or it can cause issues!
+          Also note: vzoom3 allows the zoomfactor in smaller steps, due it being double, unlike vzoom2.
+          
           Can be affected by the following actions:
             View: Toggle track zoom to minimum height
             View: Toggle track zoom to maximum height

@@ -318,12 +318,13 @@ ToDo Marker Menu:
 
 ### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023
 
-Has now 1652 functions, with XX new ones and two fewer ones
+Has now 1663 functions, with 13 new ones and two fewer ones(!)
 
 **new in this release:**  
 
   - **ReaSpaghetti**  
-  Features bugfixes and additions that will make Ultraschall API compatible with Sexan's ReaSpaghetti coding-tool.  
+  Features bugfixes and additions that will make Ultraschall API compatible with Sexan's ReaSpaghetti coding-tool in the future.  
+  Keep checking for ReaSpaghetti-updates for more details.  
   
   - **Razor Edit**  
   You can now set and resize RazorEdits. The resizing is possible by setting a new length or resizing by a factor, like 0.5 for half or 2 for double the size.  
@@ -345,8 +346,9 @@ Has now 1652 functions, with XX new ones and two fewer ones
   - RazorEdit: RazorEdit\_Set\_Track - sets start/endposition of a razor-edit in a track
 
 #### Changes from 4.8 to 4.9  
-  - Helper Functions: SFEM - crashed, when the occurred error happened not within a function -> fixed now
+  - Helper Functions: SFEM - crashed, when the occurred error happened not within a function -> fixed now  
   - DocEngine: Docs_GetAllUSDocBlocsFromString - returned nil in case of an error which was wrong; returns -1 now -> fixed now
+  - Docs: Reaper Internals - updated to Reaper 6.80
   - Envelopes: MoveTrackEnvelopePointsBy - didn't properly move and cut envelope-points -> fixed
   - MediaItems: RippleCut - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -> fixed
   - MediaItems: RippleCut\_Reverse - didn't properly move and cut envelope-points; cut env-points in all tracks, not just the ones from trackstring -> fixed
