@@ -693,6 +693,10 @@ else
     ultraschall.LM(10)
     return ultraschall.IsEnvelopeTrackEnvelope(table.unpack({...}))
   end
+  function ultraschall.DeleteTrackEnvelopePointsBetween(...)
+    ultraschall.LM(10)
+    return ultraschall.DeleteTrackEnvelopePointsBetween(table.unpack({...}))
+  end
   function ultraschall.EventManager_EnumerateStartupEvents(...)
     ultraschall.LM(11)
     return ultraschall.EventManager_EnumerateStartupEvents(table.unpack({...}))
@@ -4460,6 +4464,38 @@ else
   function ultraschall.RazorEdit_CheckForPossibleOverlap_Envelope(...)
     ultraschall.LM(26)
     return ultraschall.RazorEdit_CheckForPossibleOverlap_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Set_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Set_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Set_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Set_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Resize_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Resize_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_Resize_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_Resize_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_ResizeByFactor_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_ResizeByFactor_Track(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_ResizeByFactor_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_ResizeByFactor_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_GetBetween_Envelope(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_GetBetween_Envelope(table.unpack({...}))
+  end
+  function ultraschall.RazorEdit_GetBetween_Track(...)
+    ultraschall.LM(26)
+    return ultraschall.RazorEdit_GetBetween_Track(table.unpack({...}))
   end
   function ultraschall.AutoSearchReaMoteClients(...)
     ultraschall.LM(27)

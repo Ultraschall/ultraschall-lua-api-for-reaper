@@ -2998,3 +2998,57 @@ function ultraschall.IsEnvelopeTrackEnvelope(Envelope)
   end
   return false
 end
+
+function ultraschall.DeleteTrackEnvelopePointsBetween(startposition, endposition, MediaTrack)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteTrackEnvelopePointsBetween</slug>
+  <requires>
+    Ultraschall=4.9
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.DeleteTrackEnvelopePointsBetween(number startposition, number endposition, MediaTrack MediaTrack)</functioncall>
+  <description>
+    Deletes all track-envelopepoints between startposition and endposition in MediaTrack. 
+    
+    Returns -1 in case of failure.
+  </description>
+  <retvals>
+    integer retval - -1 in case of failure
+  </retvals>
+  <parameters>
+    number startposition - the startposition in seconds
+    number endposition - the endposition in seconds
+    MediaTrack MediaTrack - the MediaTrack object of the track, where the EnvelopsPoints shall be moved
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Set Envelope
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
+  <tags>envelopemanagement, envelope, point, envelope point, delete, between</tags>
+</US_DocBloc>
+]]
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("DeleteTrackEnvelopePointsBetween", "startposition", "must be a number", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("DeleteTrackEnvelopePointsBetween", "endposition", "must be a number", -2) return -1 end
+  if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("DeleteTrackEnvelopePointsBetween", "MediaTrack", "must be a valid MediaTrack", -4) return -1 end
+
+  local EnvTrackCount=reaper.CountTrackEnvelopes(MediaTrack)
+
+  for a=0, EnvTrackCount-1 do
+    local TrackEnvelope=reaper.GetTrackEnvelope(MediaTrack, a)
+    local EnvCount=reaper.CountEnvelopePoints(TrackEnvelope)
+  
+    for i=EnvCount, 0, -1 do
+      --local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, i)
+      --if time>=startposition and time<=endposition then
+      local boolean=reaper.DeleteEnvelopePointRange(TrackEnvelope, startposition, endposition)
+      --end
+    end
+    reaper.Envelope_SortPoints(TrackEnvelope)
+  end
+  return 0
+end
+

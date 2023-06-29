@@ -2550,3 +2550,106 @@ function ultraschall.Docs_GetUltraschallApiFunction_Categories(functionname)
   
   return count, categories
 end
+
+function ultraschall.Docs_GetUSDocBloc_Examples(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUSDocBloc_Examples</slug>
+  <requires>
+    Ultraschall=4.9
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_code_examples, table code_examples = ultraschall.Docs_GetUSDocBloc_Examples(string String)</functioncall>
+  <description>
+    returns the code-examples from an US_DocBloc-element. The table 
+    
+    the returned table is of the following format:
+      code_examples[code_example_index]["name"] - the name of the example
+      code_examples[code_example_index]["description"] - a description of the example
+      code_examples[code_example_index]["url"] - the path to the code-example-file, usually based in the Documentation/Examples-folder
+      code_examples[code_example_index]["url_absolute"] - the absolute path to the code-example-file
+      code_examples[code_example_index]["author"] - the author of the example
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer num_code_examples - the number or available code-examples
+    table code_examples - a table with all the code-example-attributes; each index is a code-example
+  </retvals>
+  <parameters>
+    string String - a string which hold a US_DocBloc to retrieve the code-example-attributes from
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, code example, usdocbloc</tags>
+</US_DocBloc>
+]]
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Examples", "String", "must be a string", -1) return nil end
+  local Examples={}
+  for k in string.gmatch(String, "%<example.-%>") do
+    Examples[#Examples+1]={}
+    name=k:match("name=\"(.-)\"")
+    if name==nil then name="" end
+    description=k:match("description=\"(.-)\"")
+    if description==nil then description="" end
+    author=k:match("author=\"(.-)\"")
+    if author==nil then author="" end
+    url=k:match("url=\"(.-)\"")
+    if url==nil then url="" end
+    Examples[#Examples]["name"]=name
+    Examples[#Examples]["url"] = url
+    Examples[#Examples]["url_absolute"] = ultraschall.Api_Path.."/Documentation/"..url
+    Examples[#Examples]["description"]=description
+    Examples[#Examples]["author"]=author
+  end
+  return #Examples, Examples
+end
+
+
+function ultraschall.Docs_GetAllUSDocBlocsFromFile(filename)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetAllUSDocBlocsFromFile</slug>
+  <requires>
+    Ultraschall=4.9
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>integer found_usdocblocs, array all_found_usdocblocs = ultraschall.Docs_GetAllUSDocBlocsFromString(string filename)</functioncall>
+  <description>
+    returns all US_DocBloc-elements from a file.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer found_usdocblocs - the number of found US_DocBlocs in the file
+    array all_found_usdocblocs - the individual US_DocBlocs found in the file
+  </retvals>
+  <parameters>
+    string filename - the file, from which to get all US-docblocs
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, all, usdocbloc, from file</tags>
+</US_DocBloc>
+]]
+  if type(filename)~="string" then ultraschall.AddErrorMessage("Docs_GetAllUSDocBlocsFromFile", "filename", "must be a string ", -1) return nil end
+  if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("Docs_GetAllUSDocBlocsFromFile", "filename", "file does not exist", -2) return nil end
+  local Array={}
+  local count=0
+  for k in io.lines(filename) do
+    if k:find("%<US%_DocBloc ") then readme=true count=count+1 Array[count]="" end
+    if readme==true then
+      Array[count]=Array[count]..k:match("%s*(.*)").."\n"
+    end
+    if k:find("%</US%_DocBloc>") then readme=false end
+  end
+  return count, Array
+end
