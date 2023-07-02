@@ -8657,7 +8657,7 @@
         <description prog_lang="*">
             deprecated, see GetSetProjectInfo_String with desc="PROJECT_AUTHOR"
         </description>
-        <deprecated since_when="Reaper 6.38" alternative="GetSetProjectInfo_String with desc=\"PROJECT_AUTHOR\"(available since Reaper 6.39)"/>
+        <deprecated since_when="Reaper 6.38" alternative="GetSetProjectInfo_String with desc='PROJECT_AUTHOR'(available since Reaper 6.39)"/>
         <retvals>
             string author - the (new) project's author
         </retvals>
@@ -37007,7 +37007,7 @@
         <description indent="default">
             Returns the arc tangent of the numerator divided by the denominator, allowing the denominator to be 0, and using their signs to produce a more meaningful result.
         </description>
-        <revals>
+        <retvals>
             float arc_tangent - the arc-tangent 
         </retvals>
         <parameters>
@@ -40421,7 +40421,7 @@ mespotine
                 A=0; // set A to 0
 
                 // while A is still less than 10, add 1 to A
-                while(A<10)(
+                while(A < 10)(
                   A=A+1;
                 );
                 
