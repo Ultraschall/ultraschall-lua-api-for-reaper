@@ -339,9 +339,9 @@ Has now 1663 functions, with 13 new ones and two fewer ones(!)
   - RazorEdit: RazorEdit\_GetBetween\_Envelope - get all razor-edits of an envelope between start and endposition one or all razor-edits in a track
   - RazorEdit: RazorEdit\_GetBetween\_Track - get all razor-edits of a track between start and endposition
   - RazorEdit: RazorEdit\_Resize\_Envelope - resizes one or all razor-edits in an envelope
-  - RazorEdit: RazorEdit\_ResizeByFactor_Envelope - resizes one or all razor-edits in an envelope by a factor(requested by Daniel Lumertz)
+  - RazorEdit: RazorEdit\_ResizeByFactor\_Envelope - resizes one or all razor-edits in an envelope by a factor(requested by Daniel Lumertz)
   - RazorEdit: RazorEdit\_Resize\_Track - resizes one or all razor-edits in a track
-  - RazorEdit: RazorEdit\_ResizeByFactor_Track - resizes one or all razor-edits in a track by a factor(requested by Daniel Lumertz)
+  - RazorEdit: RazorEdit\_ResizeByFactor\_Track - resizes one or all razor-edits in a track by a factor(requested by Daniel Lumertz)
   - RazorEdit: RazorEdit\_Set\_Envelope - sets start/endposition of a razor-edit in an envelope
   - RazorEdit: RazorEdit\_Set\_Track - sets start/endposition of a razor-edit in a track
 

@@ -216,7 +216,7 @@
   <slug>podc_website_url</slug>
   <title>podc_website_url</title>
   <description>
-    Stores the name of a website within a podc_website_X-array.
+    Stores the url of a website within a podc_website_X-array.
     No Newlines are allowed
     
     Examples:
@@ -768,7 +768,7 @@
   <slug>ctrb_website_url</slug>
   <title>ctrb_website_url</title>
   <description>
-    The name of this website for the contributor
+    The url of this website for the contributor
     No newlines allowed.
     
     Examples:
@@ -924,6 +924,8 @@
     Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
     Quotes " are stored as \" within the attribute. 
     
+    THIS ATTRIBUTE IS MANDATORY, WHEN CHAPTER HAS A CHAPTER-IMAGE!
+    
     Example:
       "chap_image_description":"A graph showing the downfall of \"The most boring Shoe Corp's.\" revenues. In 2021, the revenue was 23bn, in 2022, the revenue fell to 19 bn, in 2023, the revenue fell even further to 5bn."
       
@@ -946,6 +948,8 @@
     
     Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
     Quotes " are stored as \" within the attribute. 
+    
+    THIS ATTRIBUTE IS MANDATORY, WHEN CHAPTER HAS A CHAPTER-IMAGE!
     
     Example:
       "chap_image_license":"creative commons 4.0 by-sa-nc"
@@ -1057,7 +1061,12 @@
     mm is minutes and always between 0 and 59
     ss is seconds and always between 0 and 59
     mss is milliseconds and always between 000 and 999
+    
     No newlines are allowed.
+    
+    THIS ATTRIBUTE IS MANDATORY FOR CHAPTERS
+    
+    IMPORTANT: when altering the position of a chapter(for instance, when auto-embedding ads into an episode), you must retain the guid of the chapter, as otherwise links to this chapter might break!
     
     Example(for three chapters that could follow the current one):
       "chap_position":"00:00:00.232"
@@ -1121,6 +1130,8 @@
     The title of the chapter.
     No newlines are allowed.
     
+    THIS ATTRIBUTE IS MANDATORY FOR CHAPTERS!
+    
     Example:
       "chap_title":"Announcement of \"The most boring Shoe Corp's\" reinvention"
       
@@ -1133,8 +1144,8 @@
 </US_DocBloc>
 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>chap_title</slug>
-  <title>chap_title</title>
+  <slug>chap_url</slug>
+  <title>chap_url</title>
   <description>
     The url of the chapter.    
     No newlines are allowed.
@@ -1167,5 +1178,341 @@
   <chapter_context>
     Podcast Metadata
     Chapters
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_X</slug>
+  <title>shwn_X</title>
+  <description>
+    An array that stores attributes for a shownote of the episode. X is the number of the shownote, so you can have multiple ones.
+    
+    The numbering must be continuous, means: "shwn_1": for the first shownote, "shwn_2": for the second, "shwn_23": for the 23rd shownote.
+    
+    Example for two shownotes:
+    
+    "shwn_1":{
+			"shwn_title":"Flippo on the internet",
+			"shwn_position":"00:00:29.187",
+			"shwn_description":"all about Flippo",
+			"shwn_url":"https://www.flippilino.dd",
+			"shwn_url_description":"Flippo's website for all his music and computer-geek-stuff.",
+			"shwn_url_retrieval_date":"2024-12-01",
+			"shwn_descriptive_tags":"flippo, tech, music, keyboard, synclavier",
+			"shwn_guid":"{45D6DCF3-FAFE-4D04-95FA-9F1B020C354D}"	
+		},
+		"shwn_2":{
+			"shwn_title":"Return of tech-giant",
+			"shwn_position":"00:00:49.084",
+			"shwn_description":"Formerly big tech-giant makes big return a huge, announced by newspaper without disclosing, which one it is, yet.",
+			"shwn_url":"tech-news.dd/businessworl-shocked-techgiant-returning-after-35-years-of-absence",
+			"shwn_url_description":"Article that explains more about the coming impact of the giant's return, but keeping vague, which tech-giant it is.",
+			"shwn_url_retrieval_date":"2023-11-30",
+			"shwn_descriptive_tags":"tech, giant, retro, return",
+			"shwn_guid":"{B027E03E-BFF1-4A7E-9920-279256A8934C}"	
+		},
+      
+    "shwn_X" is stored in the array "PodMetaContent": 
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_date</slug>
+  <title>shwn_date</title>
+  <description>
+    The date of the content of the shownote.
+    No newlines are allowed.
+    
+    The date is of the format XXXX-MM-DD
+    Only numbers are allowed between the -
+    
+    Examples:
+      "shwn_date":"2023-12-10"
+      
+      "shwn_date":"2006-06-10"
+      
+    "shwn_date" is stored in the array "PodMetaContent": -> "shown_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_description</slug>
+  <title>shwn_description</title>
+  <description>
+    The description of the shownote with a small summary of its contents. 
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Example:
+      "shwn_description":"The Most Boring Shoe Corp.'s press-announcement"
+      "shwn_description":"Flippo's blogpost about the dancing-habits of guinea pigs."
+      
+    "shwn_description" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_descriptive_tags</slug>
+  <title>shwn_descriptive_tags</title>
+  <description>
+    Descriptive tags for the shownote.
+    Multiple descriptive-tags are separated by commas.
+    No newlines are allowed. Quotes " are stored as \" within the attribute. 
+    
+    Example:
+      "shwn_descriptive_tags":"tech,shoes,The most boring Shoe Corp.,\"inventiveness\",press release"
+      
+    "shwn_descriptive_tags" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_date_beginning</slug>
+  <title>shwn_event_date_beginning</title>
+  <description>
+    if the shownote is an event, this is the date of the beginning of the event.
+    No newlines are allowed.
+    
+    The date is of the format XXXX-MM-DD
+    Only numbers are allowed between the -
+    
+    Examples:
+      "shwn_event_date_beginning":"2023-12-09"
+      
+      "shwn_event_date_beginning":"2006-06-08"
+      
+    "shwn_event_date_beginning" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_date_end</slug>
+  <title>shwn_event_date_end</title>
+  <description>
+    if the shownote is an event, this is the date of the end of the event.
+    No newlines are allowed.
+    
+    The date is of the format XXXX-MM-DD
+    Only numbers are allowed between the -
+    
+    Examples:
+      "shwn_event_date_end":"2023-12-10"
+      
+      "shwn_event_date_end":"2006-06-10"
+      
+    "shwn_event_date_end" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Episode
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_description</slug>
+  <title>shwn_event_description</title>
+  <description>
+    The description of this shownote's event with a small summary. 
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Example:
+      "shwn_event_description":"Our monthly meetup at \"Bierkrug\" in Bielefeld, Germany."
+      
+      "shwn_event_description":"Bollywood Fever-convention in New Delhi, India."
+      
+    "shwn_event_description" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_ics_data</slug>
+  <title>shwn_event_ics_data</title>
+  <description>
+    The ics-data of this shownote's event. 
+    Must be encoded in BASE64!
+    
+    Example:
+      "shwn_event_ics_data":"QkVHSU46VkNBTEVOREFSClZFUlNJT046Mi4wClBST0RJRDpVbHRyYXNjaGFsbApNRVRIT0Q6UkVRVUVTVApCRUdJTjpWRVZFTlQKVUlEOntEMjlDNUJDMC01MTQyLTRGNjgtQUEyNS1GMzJEOUIzMDQyNzh9CkxPQ0FUSU9OOkJvbGx5d29vZCBGZXZlciBDb252ZW50aW9uClNVTU1BUlk6TWVldCB5b3VyIG1vc3QgZmF2b3JpdGUgQm9sbHl3b29kIHN0YXJzCkRFU0NSSVBUSU9OOkEgbG90IG9mIEJvbGx5d29vZC1zdGFycyB3aWxsIGF0dGVuZCBmb3IgbWVldCduJ2dyZWV0cywgdGFsa3MgYW5kIGludHJvZHVjdGlvbiBvZiBuZXcgbW92aWVzLgpDTEFTUzpQVUJMSUMKRFRTVEFSVDoyMDIzMTIwNFQxMDAwMDBaCkRURU5EOjIwMjMxMjA0VDIzMzAwMFoKRFRTVEFNUDoyMDIzMDgyMlQyMjIzNDJaCkVORDpWRVZFTlQKRU5EOlZDQUxFTkRBUg"
+      
+    "shwn_event_ics_data" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_location</slug>
+  <title>shwn_event_location</title>
+  <description>
+    The location of this shownote.
+    Must be in decimal degrees "XXX.xxxxxx,YYY.yyyyyy".
+    XX and YY can be negative and be up to three digits.
+    No newlines are allowed.
+    
+    Example:
+      "shwn_event_location":"-81.035718,34.060320"
+      
+      "shwn_event_location":"74.454680,-131.651457"
+      
+    "shwn_event_location" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_location_name</slug>
+  <title>shwn_event_location_name</title>
+  <description>
+    The name of the location of this shownote.
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Example:
+      "shwn_event_location_name":"\"Bierkrug\""
+      
+      "shwn_event_location_name":"Bollywood Fever-convention"
+      
+    "shwn_event_location_name" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_name</slug>
+  <title>shwn_event_name</title>
+  <description>
+    The name of the event of this shownote.
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Example:
+      "shwn_event_name":"Monthly Podcast Meetup"
+      
+    "shwn_event_name" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_time_beginning</slug>
+  <title>shwn_event_time_beginning</title>
+  <description>
+    The time of the beginning of this shownote's event.
+    No newlines are allowed.
+    
+    The time is of the format hh:mm:ss
+    Only numbers are allowed between the :
+    
+    Examples:
+      "shwn_event_time_beginning":"23:10:23"
+      
+      "shwn_event_time_beginning":"01:02:00"
+      
+    "shwn_event_time_beginning" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_time_end</slug>
+  <title>shwn_event_time_end</title>
+  <description>
+    The time of the end of this shownote's event.
+    No newlines are allowed.
+    
+    The time is of the format hh:mm:ss
+    Only numbers are allowed between the :
+    
+    Examples:
+      "shwn_event_time_end":"23:10:23"
+      
+      "shwn_event_time_end":"01:02:00"
+      
+    "shwn_event_time_end" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_timezone</slug>
+  <title>shwn_event_timezone</title>
+  <description>
+    The timezone, in which the event takes place as UTC.
+    Format is +hh:mm or -hh:mm
+    No newlines are allowed.
+    
+    The time is of the format hh:mm:ss
+    Only numbers are allowed between the :
+    
+    Examples:
+      "shwn_event_timezone":"+06:00"
+      
+      "shwn_event_timezone":"-23:45"
+      
+    "shwn_event_timezone" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_event_url</slug>
+  <title>shwn_event_url</title>
+  <description>
+    The url of a shownote's event.
+    No Newlines are allowed
+    
+    Examples:
+			"shwn_event_url":"https://www.cool_podcast.dd/event/2023-12-03-meetup",
+
+    "shwn_event_url" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Podcast Website
   </chapter_context>
 </US_DocBloc>

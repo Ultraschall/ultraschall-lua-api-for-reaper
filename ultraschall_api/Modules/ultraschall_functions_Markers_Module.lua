@@ -8293,25 +8293,21 @@ ultraschall.ShowNoteAttributes={
               "shwn_position", -- position of the shownote in seconds
               "shwn_language",           -- check for validity ISO639
               "shwn_description",
-              "shwn_location_gps",       -- check for validity
-              "shwn_location_google_maps",-- check for validity
-              "shwn_location_open_street_map",-- check for validity
-              "shwn_location_apple_maps",-- check for validity
+              "shwn_location",       -- check for validity
+              "shwn_location_name",       -- check for validity
               "shwn_date",       -- check for validity
               "shwn_time",       -- check for validity
               "shwn_timezone",   -- check for validity
-              "shwn_event_date_start",   -- check for validity
+              "shwn_event_date_beginning",   -- check for validity
               "shwn_event_date_end",     -- check for validity
-              "shwn_event_time_start",   -- check for validity
+              "shwn_event_time_beginning",   -- check for validity
               "shwn_event_time_end",     -- check for validity
               "shwn_event_timezone",     -- check for validity
               "shwn_event_name",
               "shwn_event_description",
               "shwn_event_url", 
-              "shwn_event_location_gps",       -- check for validity
-              "shwn_event_location_google_maps",-- check for validity
-              "shwn_event_location_open_street_map",-- check for validity
-              "shwn_event_location_apple_maps",-- check for validity
+              "shwn_event_location",       -- check for validity              
+              "shwn_event_location_name",       -- check for validity              
               "shwn_event_ics_data",
               "shwn_quote_cite_source", 
               "shwn_quote", 
@@ -8364,28 +8360,24 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
            "shwn_url_archived_copy_of_original_url" - if you have an archived copy of the url(from archive.org, etc), you can place the link here
            "shwn_is_advertisement" - yes, if the shownote is an ad; "", to unset it
            "shwn_language" - the language of the content; Languagecode according to ISO639
-           "shwn_location_gps" - the gps-coordinates of the location
-           "shwn_location_google_maps" - the coordinates as used in Google Maps
-           "shwn_location_open_street_map" - the coordinates as used in Open Street Maps
-           "shwn_location_apple_maps" - the coordinates as used in Apple Maps                         
+           "shwn_location" - the coordinates of the location of this shownote; must be in decimal degrees "XX.xxxxxx,YY.yyyyyy" 
+           "shwn_location_name" - the name of the location of this shownote
            "shwn_date" - the date of the content of the shownote(when talking about events, etc); yyyy...yyy-mm-dd; 
                        - use XX or XXXX, for when day/month/year is unknown or irrelevant; 
                        - add minus - in front of the yyyy for years BC; like -0999
                        - years can be more than 4 digits, so -10021 (for -10021BC) is valid
            "shwn_time" - the time of the content of the shownote(when talking about events, etc); hh:mm:ss; use XX for when hour/minute/second is unknown or irrelevant
            "shwn_timezone" - the timezone of the content of the shownote(when talking about events, etc); UTC-format; +hh:mm or -hh:mm
-           "shwn_event_date_start" - the startdate of an event associated with the show; yyyy-mm-dd
+           "shwn_event_date_beginning" - the startdate of an event associated with the show; yyyy-mm-dd
            "shwn_event_date_end" - the enddate of an event associated with the show; yyyy-mm-dd
-           "shwn_event_time_start" - the starttime of an event associated with the show; hh:mm:ss
+           "shwn_event_time_beginning" - the starttime of an event associated with the show; hh:mm:ss
            "shwn_event_time_end" - the endtime of an event associated with the show; hh:mm:ss
            "shwn_event_timezone" - the timezone of the event assocated with the show; UTC-format; +hh:mm or -hh:mm
            "shwn_event_name" - a name for the event
            "shwn_event_description" - a description for the event
            "shwn_event_url" - an url of the event(for ticket sale or the general url for the event)
-           "shwn_event_location_gps" - the gps-coordinates of the event-location
-           "shwn_event_location_google_maps" - the google-maps-coordinates of the event-location
-           "shwn_event_location_open_street_map" - the open-streetmap-coordinates of the event-location
-           "shwn_event_location_apple_maps" - the apple-maps-coordinates of the event-location
+           "shwn_event_location" - the coordinates of the location of the event; must be in decimal degrees "XX.xxxxxx,YY.yyyyyy" 
+           "shwn_event_location_name" - the name of the location of the event
            "shwn_event_ics_data" - the event as ics-data-format; will NOT set other event-attributes; will not be checked for validity!
            "shwn_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
            "shwn_quote" - a quote from the cite_source

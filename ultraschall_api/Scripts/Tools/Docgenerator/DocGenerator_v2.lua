@@ -598,7 +598,7 @@ function entries(start, stop)
         Links=Links.."<u>"..description.."</u><br><table class=\"ch\">\n"
         
         for i=1, #links do
-          Links=Links.."<tr><td><li><a target=\"_blank\" href=\"#"..links[i].link.."\">"..links[i].link.."</a> - "..links[i].description.."</td></tr>\n"
+          Links=Links.."<tr><td><li><a href=\"#"..links[i].link.."\">"..links[i].link.."</a> - "..links[i].description.."</td></tr>\n"
         end
         Links=Links.."</table><br>"
       end
