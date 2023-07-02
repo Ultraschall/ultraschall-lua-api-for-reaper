@@ -16,9 +16,13 @@ Use the following link to install via [Reapack](https://www.reapack.com) extensi
 
 `https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api_index.xml`
 
-### Manual
+### Manual Install
 
 You can download ultraschall releases manually on the [release](https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/releases) page.
+
+## Github
+Don't work with the branches on GitHub, not even for single files, as they cause confusion when you report bugs and issues.
+Always work from a regularly installed installation.
 
 ## Usage
 
@@ -36,6 +40,11 @@ if not ultraschall or not ultraschall.GetApiVersion then -- If ultraschall loadi
 end
 ```
 
+## Found Issues?
+Please open up a dedicated issue where you explain, what is wrong including detailed steps on how to recreate the problem. 
+
+Don't provide a PullRequest, as this is difficult for me to merge with my approach in rapid development.
+
 ## Donation
 
-If you want to donate to our project, head over to [ultraschall.fm/danke](ultraschall.fm/dankeultraschall.fm/danke).
+If you want to donate to our project, head over to [ultraschall.fm/danke](ultraschall.fm/danke).
