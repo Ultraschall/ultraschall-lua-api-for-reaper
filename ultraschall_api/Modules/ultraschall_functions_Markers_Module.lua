@@ -8383,7 +8383,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
            "shwn_quote" - a quote from the cite_source
            "shwn_wikidata_uri" - the uri to an entry to wikidata
            "shwn_guid" - a unique identifier for this shownote; read-only
-           "shwn_linked_audiovideomedia" - a link to a mediafile like a podcast-episode; the additional attribute is the time-position in seconds
+           "shwn_linked_audiovideomedia" - a link to a mediafile like a podcast-episode; the additional content is the time-position in seconds
         
     returns false in case of an error
   </description>

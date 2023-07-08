@@ -1235,7 +1235,7 @@
       
       "shwn_date":"2006-06-10"
       
-    "shwn_date" is stored in the array "PodMetaContent": -> "shown_X":
+    "shwn_date" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
     Podcast Metadata
@@ -1516,3 +1516,124 @@
     Podcast Website
   </chapter_context>
 </US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_guid</slug>
+  <title>shwn_guid</title>
+  <description>
+    A guid for this shownote.
+    This is used as a unique identifier for this shownote and contains one guid.
+    
+    THIS ATTRIBUTE IS MANDATORY FOR SHOWNOTES!
+    This guid MUST be created at shownote creation in the audio-software used and never changed again. So even if you export the podcast twice, this guid MUST stay the same in all exports, if the shownote still exists!
+    This is important, as this guid can be a internet-wide-reference to this exact episode's chapter and must never ever break!
+    
+    Example:
+      "shwn_guid":"{A29C6BC0-7932-4F68-BA25-A98F9B304278}"
+      
+    "shwn_guid" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_is_advertisement</slug>
+  <title>shwn_is_advertisement</title>
+  <description>
+    This shownote is an advertisement.
+    
+    Add this attribute, if this shownote is an advertisement-link.
+    The only value supported is "yes"(see example)
+    
+    Example:
+      "shwn_is_advertisement":"yes"
+      
+    "shwn_is_advertisement" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_language</slug>
+  <title>shwn_language</title>
+  <description>
+    The language of the shownote.
+    Use the languagecode according to ISO639-2/T.
+    If multiple languages are used, the language codes must be separated by newlines.
+
+    Example:
+      "shwn_language":"eng,deu,pan"
+      
+    "shwn_language" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_linked_audiovideomedia</slug>
+  <title>shwn_linked_audiovideomedia</title>
+  <description>
+    A linked audio/media-file.
+    
+    The link can be a normal url, like a youtube-url with time-stamp. 
+    
+    for YouTube:
+      youtube.com/watch?v=odX81LsE5RY?t=0m56s
+      
+    or an url for an episode hosted with Podlove Publisher:
+      https://great_podcast.dd/01_The_first_episode?t=06%3A39
+      
+    etc.
+    
+    In addition to that: if you link to a podcast-mediafile like mp3, you can either link the mediafile or the mediafile and a specific time-position/chapter/shownote.
+    
+    For instance:
+    
+    #podmeta_chap{F7183EBF-AFB4-44D1-A21D-7F7B27FC5499}
+      links to a specific chaptermarker by its guid.
+      For this, the target episode must contain PodMeta-encoded-metadata.
+    
+    #podmeta_shwn{A29C6BC0-7932-4F68-BA25-A98F9B304278}
+      links to a specific shownote by its guid.
+      For this, the target episode must contain PodMeta-encoded-metadata.
+      
+    #podmeta_time01h23m59s
+      links a spedific time-position as HHhMMmSSs. Hour can be 2 or more digits, minutes and seconds are always two digits between 0 and 59.
+      This can be used on any mediafile, even if it does NOT contain PodMeta.
+    
+    Examples:        
+      link to an episode:
+      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3"
+          
+      link to a chapter via guid:
+      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3#podmeta_chap{F7183EBF-AFB4-44D1-A21D-7F7B27FC5499}"
+      
+      link to a shownote via guid:
+      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3#podmeta_shwn{A29C6BC0-7932-4F68-BA25-A98F9B304278}"
+    
+      link to a time-position via time(hh mm ss):
+      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3#podmeta_time01h23m59s"
+      
+      link to a youtube-video:
+      "shwn_linked_audiovideomedia":"https://www.youtube.com/watch?v=odX81LsE5RY?t=0m02s"
+      
+      link to an episode published with Podlove-Publisher:
+      "shwn_linked_audiovideomedia":"https://great_podcast.dd/01_The_first_episode?t=06%3A39"
+      
+    "shwn_linked_audiovideomedia" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
