@@ -1068,7 +1068,7 @@
     
     IMPORTANT: when altering the position of a chapter(for instance, when auto-embedding ads into an episode), you must retain the guid of the chapter, as otherwise links to this chapter might break!
     
-    Example(for three chapters that could follow the current one):
+    Example:
       "chap_position":"00:00:00.232"
       
       "chap_position":"1001:22:45.000"
@@ -1286,7 +1286,7 @@
   <slug>shwn_event_date_beginning</slug>
   <title>shwn_event_date_beginning</title>
   <description>
-    if the shownote is an event, this is the date of the beginning of the event.
+    If the shownote is an event, this is the date of the beginning of the event.
     No newlines are allowed.
     
     The date is of the format XXXX-MM-DD
@@ -1309,7 +1309,7 @@
   <slug>shwn_event_date_end</slug>
   <title>shwn_event_date_end</title>
   <description>
-    if the shownote is an event, this is the date of the end of the event.
+    If the shownote is an event, this is the date of the end of the event.
     No newlines are allowed.
     
     The date is of the format XXXX-MM-DD
@@ -1371,7 +1371,7 @@
   <slug>shwn_event_location</slug>
   <title>shwn_event_location</title>
   <description>
-    The location of this shownote.
+    The location of the event for this shownote.
     Must be in decimal degrees "XXX.xxxxxx,YYY.yyyyyy".
     XX and YY can be negative and be up to three digits.
     No newlines are allowed.
@@ -1393,7 +1393,7 @@
   <slug>shwn_event_location_name</slug>
   <title>shwn_event_location_name</title>
   <description>
-    The name of the location of this shownote.
+    The name of the location of the event for this shownote.
     Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
     Quotes " are stored as \" within the attribute. 
     
@@ -1414,7 +1414,7 @@
   <slug>shwn_event_name</slug>
   <title>shwn_event_name</title>
   <description>
-    The name of the event of this shownote.
+    The name of the event for this shownote.
     Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
     Quotes " are stored as \" within the attribute. 
     
@@ -1598,30 +1598,30 @@
     
     For instance:
     
-    #podmeta_chap{F7183EBF-AFB4-44D1-A21D-7F7B27FC5499}
+    #podmeta_chap={F7183EBF-AFB4-44D1-A21D-7F7B27FC5499}
       links to a specific chaptermarker by its guid.
-      For this, the target episode must contain PodMeta-encoded-metadata.
+      For this, the target episode must contain PodMeta-encoded-metadata, otherwise it ignores the chap and starts at the beginning of the podcast-episode.
     
-    #podmeta_shwn{A29C6BC0-7932-4F68-BA25-A98F9B304278}
+    #podmeta_shwn={A29C6BC0-7932-4F68-BA25-A98F9B304278}
       links to a specific shownote by its guid.
-      For this, the target episode must contain PodMeta-encoded-metadata.
+      For this, the target episode must contain PodMeta-encoded-metadata, otherwise it ignores the shwn and starts at the beginning of the podcast-episode.
       
-    #podmeta_time01h23m59s
+    #podmeta_time=01h23m59s
       links a spedific time-position as HHhMMmSSs. Hour can be 2 or more digits, minutes and seconds are always two digits between 0 and 59.
-      This can be used on any mediafile, even if it does NOT contain PodMeta.
+      This can be used on any mediafile, even if it does NOT contain PodMeta-encoded-metadata.
     
     Examples:        
       link to an episode:
       "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3"
           
       link to a chapter via guid:
-      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3#podmeta_chap{F7183EBF-AFB4-44D1-A21D-7F7B27FC5499}"
+      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3#podmeta_chap={F7183EBF-AFB4-44D1-A21D-7F7B27FC5499}"
       
       link to a shownote via guid:
-      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3#podmeta_shwn{A29C6BC0-7932-4F68-BA25-A98F9B304278}"
+      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3#podmeta_shwn={A29C6BC0-7932-4F68-BA25-A98F9B304278}"
     
       link to a time-position via time(hh mm ss):
-      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3#podmeta_time01h23m59s"
+      "shwn_linked_audiovideomedia":"https://www.great_podcast.dd/media/01_The_first_episode.mp3#podmeta_time=01h23m59s"
       
       link to a youtube-video:
       "shwn_linked_audiovideomedia":"https://www.youtube.com/watch?v=odX81LsE5RY?t=0m02s"
@@ -1637,3 +1637,314 @@
   </chapter_context>
 </US_DocBloc>
 
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_location</slug>
+  <title>shwn_location</title>
+  <description>
+    The location of this shownote, if the shownote refers to a specific location on earth.
+    Must be in decimal degrees "XXX.xxxxxx,YYY.yyyyyy".
+    XX and YY can be negative and be up to three digits.
+    No newlines are allowed.
+    
+    Example:
+      "shwn_location":"-81.035718,34.060320"
+      
+      "shwn_location":"74.454680,-131.651457"
+      
+    "shwn_location" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_location_name</slug>
+  <title>shwn_location_name</title>
+  <description>
+    The name of the location of this shownote, if the shownote refers to a specific location on earth.
+    
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Example:
+      "shwn_location_name":"\"Bierkrug\""
+      
+      "shwn_location_name":"Bollywood Fever-convention"
+      
+    "shwn_location_name" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_position</slug>
+  <title>shwn_position</title>
+  <description>
+    The position of the shownote within the episode.
+    It's of the format hh:mm:ss.mss
+    The hour can have more than two digits, so for a podcast of thousand hours, the format would be hhhh:mm:ss.mss
+    
+    hh is hours and always between 00 and 2147483648
+    mm is minutes and always between 0 and 59
+    ss is seconds and always between 0 and 59
+    mss is milliseconds and always between 000 and 999
+    
+    No newlines are allowed.
+    
+    THIS ATTRIBUTE IS MANDATORY FOR SHOWNOTES
+    
+    IMPORTANT: when altering the position of a shownote(for instance, when auto-embedding ads into an episode), you must retain the guid of the shownote, as otherwise links to this shownote might break!
+    
+    Example:
+      "shwn_position":"00:00:00.232"
+      
+      "shwn_position":"1001:22:45.000"
+      
+    "shwn_position" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_bibliographical_source</slug>
+  <title>shwn_bibliographical_source</title>
+  <description>
+    A source that is not an internet link, like a book+page+paragraph+line
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+
+    Quotes " are stored as \" within the attribute. 
+    
+    Example:
+      "shwn_bibliographical_source":"King James Bible, Luke 6:42"
+      
+    "shwn_bibliographical_source" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_time</slug>
+  <title>shwn_time</title>
+  <description>
+    A time for this shownote.
+    No newlines are allowed.
+    
+    The time is of the format hh:mm:ss
+    Only numbers are allowed between the :
+    
+    Examples:
+      "shwn_time":"23:10:23"
+      
+      "shwn_time":"01:02:00"
+      
+    "shwn_time" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_timezone</slug>
+  <title>shwn_timezone</title>
+  <description>
+    The timezone, in which the shownote takes place as UTC.
+    Format is +hh:mm or -hh:mm
+    No newlines are allowed.
+    
+    The time is of the format hh:mm:ss
+    Only numbers are allowed between the :
+    
+    Examples:
+      "shwn_timezone":"+06:00"
+      
+      "shwn_timezone":"-23:45"
+      
+    "shwn_timezone" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_title</slug>
+  <title>shwn_title</title>
+  <description>
+    The title of the shownote.
+    No newlines are allowed.
+    
+    THIS ATTRIBUTE IS MANDATORY FOR SHOWNOTES!
+    
+    Example:
+      "shwn_title":"Announcement of \"The most boring Shoe Corp's\" reinvention"
+      
+    "shwn_title" is stored in the array "PodMetaContent": -> "chap_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_url</slug>
+  <title>shwn_url</title>
+  <description>
+    The url of the shownote.    
+    No newlines are allowed.
+    
+    Example:
+      "shwn_url":"https://www.the_most_boring_shoe_corp.dd/news/announcement_2023_12_12"
+      
+    "shwn_url" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_url_archived_copy_of_original_url</slug>
+  <title>shwn_url_archived_copy_of_original_url</title>
+  <description>
+    An archived copy of the url of the shownote.
+    This is helpful for journalistic situations, where you want to prove, that a content behind the shownote-url actually existed at the time of research.
+    An archived version of the url still contains the content, that might have been removed in the original url.
+    Such urls might be created using the Wayback Machine of archive.org.
+    
+    No newlines are allowed.
+    
+    Example:
+      "shwn_url_archived_copy_of_original_url":"https://web.archive.org/web/20230213040641*/https://mespotin.uber.space/Ultraschall/Reaper_Api_Documentation.html"
+      
+    "shwn_url_archived_copy_of_original_url" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_url_description</slug>
+  <title>shwn_url_description</title>
+  <description>
+    The description of the shownote with a small summary of its contents. 
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Example:
+      "shwn_url_description":"The announcement of Boring Shoes Corp for new shoes in their product line.\nOr well, what they claim to be \"new\"."
+      
+    "shwn_url_description" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownote
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_url_retrieval_date</slug>
+  <title>shwn_url_retrieval_date</title>
+  <description>
+    The retrieval-date of the url for the shownote.
+    No newlines are allowed.
+    
+    The date is of the format XXXX-MM-DD
+    Only numbers are allowed between the -
+    
+    Examples:
+      "shwn_url_retrieval_date":"2023-12-10"
+      
+      "shwn_url_retrieval_date":"2006-06-10"
+      
+    "shwn_url_retrieval_date" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_url_retrieval_time</slug>
+  <title>shwn_url_retrieval_time</title>
+  <description>
+    A retrieval time for the url of this shownote.
+    No newlines are allowed.
+    
+    The time is of the format hh:mm:ss
+    Only numbers are allowed between the :
+    
+    Examples:
+      "shwn_url_retrieval_time":"23:10:23"
+      
+      "shwn_url_retrieval_time":"01:02:00"
+      
+    "shwn_url_retrieval_time" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_url_retrieval_timezone_utc</slug>
+  <title>shwn_url_retrieval_timezone_utc</title>
+  <description>
+    The retrieval-timezone of the url for this shownote in UTC.
+    Format is +hh:mm or -hh:mm
+    No newlines are allowed.
+    
+    The time is of the format hh:mm:ss
+    Only numbers are allowed between the :
+    
+    Examples:
+      "shwn_url_retrieval_timezone_utc":"+06:00"
+      
+      "shwn_url_retrieval_timezone_utc":"-23:45"
+      
+    "shwn_url_retrieval_timezone_utc" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>shwn_url</slug>
+  <title>shwn_url</title>
+  <description>
+    The uri to the WikiData-entity of the shownote.
+    Note, it uses http://www.wikidata.org/entity/Q{id} as the uri-scheme, not the wiki-url!
+    Go to WikiData.org to get the wikidata-uri.
+    No newlines are allowed.
+    
+    Example:
+      "shwn_wikidata_uri":"https://www.wikidata.org/entity/Q20899"
+      
+    "shwn_wikidata_uri" is stored in the array "PodMetaContent": -> "shwn_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Shownotes
+  </chapter_context>
+</US_DocBloc>

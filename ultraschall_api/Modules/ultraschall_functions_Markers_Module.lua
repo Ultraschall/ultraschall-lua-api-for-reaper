@@ -8309,8 +8309,7 @@ ultraschall.ShowNoteAttributes={
               "shwn_event_location",       -- check for validity              
               "shwn_event_location_name",       -- check for validity              
               "shwn_event_ics_data",
-              "shwn_quote_cite_source", 
-              "shwn_quote", 
+              "shwn_cite_source", 
               --"image_uri",
               --"image_content",      -- check for validity
               --"image_description",
@@ -8379,8 +8378,7 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
            "shwn_event_location" - the coordinates of the location of the event; must be in decimal degrees "XX.xxxxxx,YY.yyyyyy" 
            "shwn_event_location_name" - the name of the location of the event
            "shwn_event_ics_data" - the event as ics-data-format; will NOT set other event-attributes; will not be checked for validity!
-           "shwn_quote_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
-           "shwn_quote" - a quote from the cite_source
+           "shwn_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
            "shwn_wikidata_uri" - the uri to an entry to wikidata
            "shwn_guid" - a unique identifier for this shownote; read-only
            "shwn_linked_audiovideomedia" - a link to a mediafile like a podcast-episode; the additional content is the time-position in seconds
