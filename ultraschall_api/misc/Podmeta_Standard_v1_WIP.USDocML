@@ -1,8 +1,182 @@
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>1.1 What is PodMeta</slug>
+  <title>What is PodMeta?</title>
+  <description>
+    PodMeta is a standard for exchanging podcast-metadata between different entities, like the podcast producing software, podcast publishers, podcast clients, podcast search-engines and directories and more. 
+    
+    It allows storing metadata of the podcast in general, the episode, contributors of the episode, chapters, shownotes and transcripts.
+        
+    It is a JSON-datastructure that can either be stored in the USER-frame of ID3/VorbisComment-tags or used as a standalone-file with the extension .PodMeta
+    
+    It then can be read out from the file/mediafile and transformed into feed-standards(podcasting 2.0) or used to generate ui-elements(chapter/shownote-lists).
+  </description>
+  <chapter_context>
+    Introduction
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>1.2 The Structure</slug>
+  <title>The Structure</title>
+  <description>    
+      The datastructure is a standard JSON, which features several objects and arrays for each metadata.
+      
+      It basically is structured like this:
+      {
+        "PodMeta":"version 1.0",
+        "PodMetaContent":{
+          "podc":{
+            ... stores podcast metadata
+            "podc_website_1":{
+              ... stores the metadata of the first website of the podcast
+            },
+            "podc_website_2":{ 
+              ... stores the metadata of the second website of the podcast
+            },
+            "podc_website_3":{ 
+              ... stores the metadata of the third website of the podcast
+            }
+          },
+          
+          "epsd":{
+            ... stores the episode's metadata
+          },
+          
+          "ctrb_1":{
+            ... stores the metadata of contributor 1
+            "ctrb_website_1":{
+              ... stores the metadata of the first website of this contributor
+            },
+            "ctrb_website_2":{ 
+              ... stores the metadata of the second website of this contributor
+            },
+            "ctrb_website_3":{ 
+              ... stores the metadata of the third website of this contributor
+            }
+          },
+          "ctrb_2":{ 
+            ... stores the metadata of contributor 2
+          },
+          "ctrb_3":{ 
+            ... stores the metadata of contributor 3
+            "ctrb_website_1":{
+              ... stores the metadata of the first website of this contributor
+            },
+            "ctrb_website_2":{ 
+              ... stores the metadata of the second website of this contributor
+            }
+          },
+          
+          "chap_1":{
+            ... stores the metadata of chapter 1
+          },
+          "chap_2":{ 
+            ... stores the metadata of chapter 2
+          },
+          "chap_3":{ 
+            ... stores the metadata of chapter 3
+          },
+          
+          "shwn_1":{
+            ... stores the metadata of shownote 1
+          },
+          "shwn_2":{ 
+            ... stores the metadata of shownote 2
+          },
+          "shwn_3":{ 
+            ... stores the metadata of shownote 3
+          },
+          
+          "trsc_1":{
+            ... stores the metadata of transcript for a contributor A
+          },
+          "trsc_2":{ 
+            ... stores the metadata of transcript for a contributor B
+          },
+          "trsc_3":{ 
+            ... stores the metadata of transcript for a contributor C
+          }
+        }
+      }
+      
+      Each array contains numerous objects that describe further this array's content. For instance, a chapter can contain the object "chap_spoiler_alert" which marks this chapter as containing spoilers, whereas chapters not containing "chap_spoiler_alert" do not contain spoilers.
+      
+      You also noticed, that some arrays appear multiple times, like "chap_", "shwn_", "trsc_", "podc_website_". These indicate, that you can have multiple ones of them.
+      For instance, each chapter in a podcast has its own "chap_"-array indexed with a number, like "chap_1" for the first, "chap_2" or the second, etc.
+      Same goes for the others: each shownote has its own "shwn_"-array, each transcript has its own "trsc_"-array, each podcast website has its own "podc_website_"-array.
+      
+      Also notice, that the array "podc_website_" is nested within the "podc"-array and the array "ctrb_website_" is nested within the "ctrb_X"-array!
+      
+      Important:
+      Most objects in the arrays are optional while some objects are mandatory. For instance, chapters and shownotes contain a guid, a name and a time-position.
+      
+      The arrays for podcast-, episode-, chapter-, shownote- and transcript-metadata are nested within the array "PodMetaContent".
+  </description>
+  <chapter_context>
+    Introduction
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>1.3 the objects</slug>
+  <title>The Objects</title>
+  <description>    
+      Objects contain the actual metadata for an array. The value is always a string, even if the value is a number or a boolean!
+      
+      Some objects are multiline while others are single-line only.      
+      Newlines in multiline-objects are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n".
+      Example: 
+        "I am
+        newline."
+      gets stored as
+        "I am\nnewline"
+      with a literal \n at the position, where the newline-character would be.
+      
+      Single-line objects do not support newlines at all. They must be treated as invalid when a newline appears anyways!
+      
+      Quotes " are stored as \" within the attribute, like:
+      Example: 
+        "I am\"in quotes\" while I am not"      
+  </description>
+  <chapter_context>
+    Introduction
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>1.3 custom objects and arrays</slug>
+  <title>Custom Objects and Arrays</title>
+  <description>    
+      There might be situations, when PodMeta's objects and arrays are not enough to store metadata and custom objects and arrays are needed.
+      Simply adding a new one isn't neccessarily a good idea, as there might be name-conflicts with objects added in the future to PodMeta.
+      In that case, we have a simple mechanism to store custom arrays and objects: namespaces!
+      
+      A namespace is simply a unique name, followed by a : and the object or array name, like "namespace:objectname":"value" or "namespace:arrayname":{...}
+      
+      Example for an array:
+        "The Most Boring Shoe Corp:shoe sizes":{
+          ...
+        }
+        
+      Example for an object:
+        "The Most Boring Shoe Corp:available in the us":"true"
+        
+      PodMeta-standardized arrays and objects will never contain an : in their name in a future update. So if you stick to this naming-scheme, the name of your custom arrays/objects will never collide with names of the official PodMeta-standard arrays/objects.        
+  </description>
+  <chapter_context>
+    Introduction
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>podc</slug>
   <title>podc</title>
   <description>
-    An array containing metadata for the podcast(not episodes!).
+    The array "podc": stores the metadata related to the podcast itself.
+      
+    This includes the title, feed, website(s), category, description, a tagline.
+    
+    The websites are stored in their own array called "podc_website_X" where X is an numbered index with 1 for the first website, 2 for the second.
     
     There can only be one "podc":-array.
       
@@ -149,7 +323,7 @@
   <slug>podc_website_X</slug>
   <title>podc_website_X</title>
   <description>
-    An array that stores attributes for a podcast's website. X is the number of the website, so you can have multiple ones.
+    The array "podc_website_X" stores attributes for a podcast's website. X is the number of the website, so you can have multiple ones.
     
     Example:
       "podc_website_1":{
@@ -234,7 +408,7 @@
   <slug>epsd</slug>
   <title>epsd</title>
   <description>
-    An array containing metadata for the episode.
+    The array "epsd": contains metadata for the episode.
     
     There can only be one "epsd":-array.
       
@@ -550,7 +724,7 @@
   <slug>ctrb_X</slug>
   <title>ctrb_X</title>
   <description>
-    An array that stores attributes for a contributor of the episode. X is the number of the contributor, so you can have multiple ones.
+    The array "ctrb_X": stores attributes for a contributor of the episode. X is the number of the contributor, so you can have multiple ones.
     
     The numbering must be continuous, means: "ctrb_1": for the first contributor, "ctrb_2": for the second, "ctrb_23": for the 23rd contributor.
     
@@ -788,7 +962,7 @@
   <slug>chap_X</slug>
   <title>chap_X</title>
   <description>
-    An array that stores attributes for a chapter of the episode. X is the number of the chapter, so you can have multiple ones.
+    The array(s) "chap_X": store attributes for a chapter of the episode. X is the number of the chapter, so you can have multiple ones.
     
     The numbering must be continuous, means: "chap_1": for the first chapter, "chap_2": for the second, "chap_23": for the 23rd chapter.
     
@@ -1185,7 +1359,7 @@
   <slug>shwn_X</slug>
   <title>shwn_X</title>
   <description>
-    An array that stores attributes for a shownote of the episode. X is the number of the shownote, so you can have multiple ones.
+    The array(s) "shwn_X": store attributes for a shownote of the episode. X is the number of the shownote, so you can have multiple ones.
     
     The numbering must be continuous, means: "shwn_1": for the first shownote, "shwn_2": for the second, "shwn_23": for the 23rd shownote.
     
