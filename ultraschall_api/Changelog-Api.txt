@@ -312,9 +312,30 @@ ToDo Marker Menu:
       to see, where in Lokasenna's ui-Lib gfx.getchar is used to debug it with the new UTF8-fixes.
       
       todo: vzoom3 (double) missing in configvar-docs - vzoom2 is math.floor(vzoom3). When settin, vzoom2 and vzoom3 must be set or it can cause issues.
+      
+      Docs: There are parameters, where a comma is missing. Those have two spaces in their name. Look for them and add the missing commas.
 </TODO>
 
 ## Ultraschall Framework - Changelog
+
+### 4.95 - "" - 30th of June 2023
+
+Has now 1663 functions, with XX new ones
+
+**new in this release:**  
+
+  - **Bla**  
+  Bla
+    
+#### New features in 4.95  
+  
+
+#### Changes from 4.9 to 4.95  
+  - DocEngine: Docs\_GetReaperApiFunction\_Params - didn't correctly resolve datatypes when param was optional
+  - DocEngine: Docs\_GetReaperApiFunction\_Retvals - didn't correctly resolve datatypes when param was optional
+  - DocEngine: Docs\_GetUltraschallApiFunction\_Params - didn't correctly resolve datatypes when param was optional; had inner variable exposed -> fixed
+  - DocEngine: Docs\_GetUltraschallApiFunction\_Retvals - didn't correctly resolve datatypes when param was optional
+---
 
 ### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023
 

@@ -3611,15 +3611,6 @@
             Options: Chase non-FX envelopes to automation items when underlying envelope is bypassed
             Options: Razor edits affect all track envelopes
           
-          Can be affected by the following actions:
-            Options: Move envelope points with media items
-            Options: Automation items do not connect to the underlying envelope
-            Options: Automation items connect to the underlying envelope on the right side
-            Options: Automation items connect to the underlying envelope on both sides
-            Options: Bypass underlying envelopes outside of automation items
-            Options: Chase non-FX envelopes to automation items when underlying envelope is bypassed
-            Options: Razor edits affect all track envelopes
-          
            >&1=0, don't move points with item(off) - unchecked  
            >&1=1, move points with item(on) - checked  
            

@@ -28,12 +28,12 @@
                 JS-extension: [https://forum.cockos.com/showthread.php?t=212174](Official Forum's-thread)  
                 ReaPack: [https://reapack.com/](https://reapack.com/)  
                 ReaImGui: [https://forum.cockos.com/showthread.php?t=250419](Official Forum's-thread)  
-                Osara: [https://osara.reaperaccessibility.com/](https://osara.reaperaccessibility.com/)  
-                ReaBlink: [https://github.com/ak5k/reablink/releases/](https://github.com/ak5k/reablink/releases/)
-                ReaLlm: [https://github.com/ak5k/reallm](https://github.com/ak5k/reallm)
-                ReaFab: [https://github.com/ak5k/reafab](https://github.com/ak5k/reafab)
-                ReaMCULive: [https://github.com/ak5k/reamculive/releases/](https://github.com/ak5k/reamculive/releases/)
-                PeloReaper: [https://github.com/pelori/PeloReaper](https://github.com/pelori/PeloReaper)
+                Osara: [https://osara.reaperaccessibility.com/](https://osara.reaperaccessibility.com/)   
+                ReaBlink: [https://github.com/ak5k/reablink/releases/](https://github.com/ak5k/reablink/releases/)  
+                ReaLlm: [https://github.com/ak5k/reallm](https://github.com/ak5k/reallm)  
+                ReaFab: [https://github.com/ak5k/reafab](https://github.com/ak5k/reafab)  
+                ReaMCULive: [https://github.com/ak5k/reamculive/releases/](https://github.com/ak5k/reamculive/releases/)  
+                PeloReaper: [https://github.com/pelori/PeloReaper](https://github.com/pelori/PeloReaper)  
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>Reaper_Api_Documentation.USDocML</source_document>
@@ -403,7 +403,7 @@
                    to get ActionCommandID-string of the script
         </linked_to>
         <retvals>
-            integer command id - the command ID for this script.
+            integer command_id - the command ID for this script.
         </retvals>
         <parameters>
             boolean add - true, if it shall be added, false if it shall be removed
@@ -6698,7 +6698,7 @@
         <title>GetInputOutputLatency</title>
         <functioncall prog_lang="cpp">void GetInputOutputLatency(int* inputlatencyOut, int* outputLatencyOut)</functioncall>
         <functioncall prog_lang="eel">GetInputOutputLatency(int &inputlatency, int &outputLatency)</functioncall>
-        <functioncall prog_lang="lua">number inputlatency retval, number outputLatency = reaper.GetInputOutputLatency()</functioncall>
+        <functioncall prog_lang="lua">number inputlatency, number outputLatency = reaper.GetInputOutputLatency()</functioncall>
         <functioncall prog_lang="python">(Int inputlatencyOut, Int outputLatencyOut) = RPR_GetInputOutputLatency(inputlatencyOut, outputLatencyOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -6707,7 +6707,7 @@
             Gets the audio device input/output latency in samples
         </description>
         <retvals>
-            integer inputlatency retval - the input-latency
+            integer inputlatency - the input-latency
             integer outputLatency - the output-latency
         </retvals>
         <target_document>Reaper_Api_Documentation</target_document>
@@ -6883,7 +6883,7 @@
         <title>GetLastMarkerAndCurRegion</title>
         <functioncall prog_lang="cpp">void GetLastMarkerAndCurRegion(ReaProject* proj, double time, int* markeridxOut, int* regionidxOut)</functioncall>
         <functioncall prog_lang="eel">GetLastMarkerAndCurRegion(ReaProject proj, time, int &markeridx, int &regionidx)</functioncall>
-        <functioncall prog_lang="lua">integer markeridx retval, integer regionidx = reaper.GetLastMarkerAndCurRegion(ReaProject proj, number time)</functioncall>
+        <functioncall prog_lang="lua">integer markeridx, integer regionidx = reaper.GetLastMarkerAndCurRegion(ReaProject proj, number time)</functioncall>
         <functioncall prog_lang="python">(ReaProject proj, Float time, Int markeridxOut, Int regionidxOut) = RPR_GetLastMarkerAndCurRegion(proj, time, markeridxOut, regionidxOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -6893,7 +6893,7 @@
             markeridx and regionidx are returned not necessarily as the displayed marker/region index, but as the index that can be passed to EnumProjectMarkers. Either or both of markeridx and regionidx may be NULL. 
         </description>
         <retvals>
-            integer markeridx retval - the last marker-number(not shown number!) before parameter time
+            integer markeridx - the last marker-number(not shown number!) before parameter time
             integer regionidx - the region, in which parameter time lies
         </retvals>
         <parameters>
@@ -10349,7 +10349,7 @@
         <title>GetTakeName</title>
         <functioncall prog_lang="cpp">const char* GetTakeName(MediaItem_Take* take)</functioncall>
         <functioncall prog_lang="eel">bool GetTakeName(#retval, MediaItem_Take take)</functioncall>
-        <functioncall prog_lang="lua">takename = reaper.GetTakeName(MediaItem_Take take)</functioncall>
+        <functioncall prog_lang="lua">string takename = reaper.GetTakeName(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">String retval = RPR_GetTakeName(MediaItem_Take take)</functioncall>
         <requires>
             Reaper=5.62
@@ -26383,7 +26383,7 @@
         <title>BR_GetArrangeView</title>
         <functioncall prog_lang="cpp">void BR_GetArrangeView(ReaProject* proj, double* startTimeOut, double* endTimeOut)</functioncall>
         <functioncall prog_lang="eel">extension_api("BR_GetArrangeView", ReaProject proj, &startTime, &endTime)</functioncall>
-        <functioncall prog_lang="lua">number startTime retval, number endTime = reaper.BR_GetArrangeView(ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">number startTime, number endTime = reaper.BR_GetArrangeView(ReaProject proj)</functioncall>
         <functioncall prog_lang="python">(ReaProject proj, Float startTimeOut, Float endTimeOut) = BR_GetArrangeView(proj, startTimeOut, endTimeOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -26398,7 +26398,7 @@
         </description>
         <deprecated since_when="SWS 2.9.7" alternative="GetSet_ArrangeView2(available since at least Reaper 5.13)"/>
         <retvals>
-            number startTime retval - the current starttime in the arrangeview in seconds
+            number startTime - the current starttime in the arrangeview in seconds
             number endTime - the current endtime in the arrangeview in seconds
         </retvals>
         <parameters>
@@ -27000,7 +27000,7 @@
             </table>
         </description>
         <retvals>
-            string window retval - the window, in which the mouse-cursor was, at time of calling BR_GetMouseCursorContext
+            string window - the window, in which the mouse-cursor was, at time of calling BR_GetMouseCursorContext
             string segment - the segment within the window
             string details - details with the segment of the window
         </retvals>
@@ -27077,7 +27077,7 @@
         <title>BR_GetMouseCursorContext_MIDI</title>
         <functioncall prog_lang="cpp">void* BR_GetMouseCursorContext_MIDI(bool* inlineEditorOut, int* noteRowOut, int* ccLaneOut, int* ccLaneValOut, int* ccLaneIdOut)</functioncall>
         <functioncall prog_lang="eel">void* extension_api("BR_GetMouseCursorContext_MIDI", bool &inlineEditor, int &noteRow, int &ccLane, int &ccLaneVal, int &ccLaneId)</functioncall>
-        <functioncall prog_lang="lua">identifier retval, boolean inlineEditor, integer noteRow, integer ccLane, integer ccLaneVal, integer ccLaneId = reaper.BR_GetMouseCursorContext_MIDI()</functioncall>
+        <functioncall prog_lang="lua">identifier hwnd, boolean inlineEditor, integer noteRow, integer ccLane, integer ccLaneVal, integer ccLaneId = reaper.BR_GetMouseCursorContext_MIDI()</functioncall>
         <functioncall prog_lang="python">(void retval, Boolean inlineEditorOut, Int noteRowOut, Int ccLaneOut, Int ccLaneValOut, Int ccLaneIdOut) = BR_GetMouseCursorContext_MIDI(inlineEditorOut, noteRowOut, ccLaneOut, ccLaneValOut, ccLaneIdOut)</functioncall>
         <requires>
             Reaper=5.965
@@ -27095,7 +27095,7 @@
             Note: due to API limitations, if mouse is over inline MIDI editor with some note rows hidden, noteRow will be -1
         </description>
         <retvals>
-            identifier retval - 
+            identifier hwnd - 
             boolean inlineEditor - 
             integer noteRow - 
             integer ccLane - 
@@ -45719,7 +45719,7 @@ Mespotine
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.init</slug>
         <title>gfx.init</title>
-        <functioncall prog_lang="lua">integer retval = gfx.init(string "name", optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.init(string name, optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
         <requires>
             Reaper=6.40
         </requires>
@@ -48150,7 +48150,7 @@ Mespotine
         <parameters>
             ReaProject* proj - the project-number. 0 for the current project. 
             MediaTrack* track - the MediaTrack-object of the track to be treated
-            int which - thich MIDI-file to use
+            int which - which MIDI-file to use
                         -0, MIDI colormap image file, 
                         -1, MIDI bank/program select file, 
                         -2, MIDI text string file, 
@@ -50490,7 +50490,7 @@ Mespotine
             Stored in reaper_plugin_functions.h
         </description>
         <retvals>
-            REAPER_PeakBuild_Interface*  retval -
+            REAPER_PeakBuild_Interface* retval -
         </retvals>
         <parameters>
             PCM_source* src - 
@@ -52731,7 +52731,7 @@ Mespotine
         <title>ImGui_Attach</title>
         <functioncall prog_lang="cpp">void ImGui_Attach(ImGui_Context* ctx, ImGui_Resource* obj)</functioncall>
         <functioncall prog_lang="eel">extension_api("ImGui_Attach", ImGui_Context ctx, ImGui_Resource obj)</functioncall>
-        <functioncall prog_lang="lua">reaper.ImGui_Attach(ImGui_Context ctxImGui_Resource obj)</functioncall>
+        <functioncall prog_lang="lua">reaper.ImGui_Attach(ImGui_Context ctx, ImGui_Resource obj)</functioncall>
         <functioncall prog_lang="python">void ImGui_Attach(ImGui_Context* ctx, ImGui_Resource* obj)</functioncall>
         <requires>
             Reaper=6.44
@@ -52750,7 +52750,8 @@ Mespotine
          context per defer cycle. See "limitations" in the font API documentation.
         </description>        
         <parameters>
-            ImGui_Context ctxImGui_Resource obj -
+            ImGui_Context ctx - 
+            ImGui_Resource obj -
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -57763,7 +57764,7 @@ Mespotine
         <title>ImGui_Detach</title>
         <functioncall prog_lang="cpp">void ImGui_Detach(ImGui_Context* ctx, ImGui_Resource* obj)</functioncall>
         <functioncall prog_lang="eel">extension_api("ImGui_Detach", ImGui_Context ctx, ImGui_Resource obj)</functioncall>
-        <functioncall prog_lang="lua">reaper.ImGui_Detach(ImGui_Context ctxImGui_Resource obj)</functioncall>
+        <functioncall prog_lang="lua">reaper.ImGui_Detach(ImGui_Context ctx, ImGui_Resource obj)</functioncall>
         <functioncall prog_lang="python">void ImGui_Detach(ImGui_Context* ctx, ImGui_Resource* obj)</functioncall>
         <requires>
             Reaper=6.44
@@ -63900,7 +63901,7 @@ Mespotine
         <title>ImGui_InputText</title>
         <functioncall prog_lang="cpp">bool ImGui_InputText(ImGui_Context* ctx, const char* label, char* bufInOutNeedBig, int bufInOutNeedBig_sz, int* flagsInOptional, ImGui_Function* callbackInOptional)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ImGui_InputText", ImGui_Context ctx, "label", #buf, optional int flagsIn, ImGui_Function callbackIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string buf = reaper.ImGui_InputText(ImGui_Context ctx, string label, string buf, optional integer flagsInImGui_Function callbackIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string buf = reaper.ImGui_InputText(ImGui_Context ctx, string label, string buf, optional integer flagsIn, ImGui_Function callbackIn)</functioncall>
         <functioncall prog_lang="python">bool ImGui_InputText(ImGui_Context* ctx, const char* label, char* bufInOutNeedBig, int bufInOutNeedBig_sz, int* flagsInOptional, ImGui_Function* callbackInOptional)</functioncall>
         <requires>
             Reaper=6.44
@@ -63916,7 +63917,8 @@ Mespotine
             ImGui_Context ctx - 
             string label - 
             string buf - 
-            optional integer flagsInImGui_Function callbackIn -
+            optional integer flagsIn - 
+            ImGui_Function callbackIn -
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -64505,7 +64507,7 @@ Mespotine
         <title>ImGui_InputTextMultiline</title>
         <functioncall prog_lang="cpp">bool ImGui_InputTextMultiline(ImGui_Context* ctx, const char* label, char* bufInOutNeedBig, int bufInOutNeedBig_sz, double* size_wInOptional, double* size_hInOptional, int* flagsInOptional, ImGui_Function* callbackInOptional)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ImGui_InputTextMultiline", ImGui_Context ctx, "label", #buf, optional size_wIn, optional size_hIn, optional int flagsIn, ImGui_Function callbackIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string buf = reaper.ImGui_InputTextMultiline(ImGui_Context ctx, string label, string buf, optional number size_wIn, optional number size_hIn, optional integer flagsInImGui_Function callbackIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string buf = reaper.ImGui_InputTextMultiline(ImGui_Context ctx, string label, string buf, optional number size_wIn, optional number size_hIn, optional integer flagsIn, ImGui_Function callbackIn)</functioncall>
         <functioncall prog_lang="python">bool ImGui_InputTextMultiline(ImGui_Context* ctx, const char* label, char* bufInOutNeedBig, int bufInOutNeedBig_sz, double* size_wInOptional, double* size_hInOptional, int* flagsInOptional, ImGui_Function* callbackInOptional)</functioncall>
         <requires>
             Reaper=6.44
@@ -64523,7 +64525,8 @@ Mespotine
             string buf - 
             optional number size_wIn - 
             optional number size_hIn - 
-            optional integer flagsInImGui_Function callbackIn -
+            optional integer flagsIn - 
+            ImGui_Function callbackIn -
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -64540,7 +64543,7 @@ Mespotine
         <title>ImGui_InputTextWithHint</title>
         <functioncall prog_lang="cpp">bool ImGui_InputTextWithHint(ImGui_Context* ctx, const char* label, const char* hint, char* bufInOutNeedBig, int bufInOutNeedBig_sz, int* flagsInOptional, ImGui_Function* callbackInOptional)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("ImGui_InputTextWithHint", ImGui_Context ctx, "label", "hint", #buf, optional int flagsIn, ImGui_Function callbackIn)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string buf = reaper.ImGui_InputTextWithHint(ImGui_Context ctx, string label, string hint, string buf, optional integer flagsInImGui_Function callbackIn)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string buf = reaper.ImGui_InputTextWithHint(ImGui_Context ctx, string label, string hint, string buf, optional integer flagsIn, ImGui_Function callbackIn)</functioncall>
         <functioncall prog_lang="python">bool ImGui_InputTextWithHint(ImGui_Context* ctx, const char* label, const char* hint, char* bufInOutNeedBig, int bufInOutNeedBig_sz, int* flagsInOptional, ImGui_Function* callbackInOptional)</functioncall>
         <requires>
             Reaper=6.44
@@ -64557,7 +64560,8 @@ Mespotine
             string label - 
             string hint - 
             string buf - 
-            optional integer flagsInImGui_Function callbackIn -
+            optional integer flagsIn - 
+            ImGui_Function callbackIn -
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -78373,7 +78377,7 @@ Mespotine
         <title>MCULive_Map</title>
         <functioncall prog_lang="cpp">int MCULive_Map(int device, int button, int command_id, isRemap bool)</functioncall>
         <functioncall prog_lang="eel">int extension_api("MCULive_Map", int device, int button, int command_id, <b>unsupported</b> bool)</functioncall>
-        <functioncall prog_lang="lua">integer retval = reaper.MCULive_Map(integer device, integer button, integer command_id<b>unsupported</b> bool)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_Map(integer device, integer button, integer command_id, unsupported bool)</functioncall>
         <functioncall prog_lang="python">int MCULive_Map(int device, int button, int command_id, isRemap bool)</functioncall>
         <requires>
             Reaper=6.44
@@ -78475,7 +78479,8 @@ Mespotine
         <parameters>
             integer device - 
             integer button - 
-            integer command_id<b>unsupported</b> bool -
+            integer command_id
+            unsupported bool -
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -78522,7 +78527,7 @@ Mespotine
         <title>MCULive_SendMIDIMessage</title>
         <functioncall prog_lang="cpp">int MCULive_SendMIDIMessage(int device, int status, int data1, int data2, const char* msgInOptional, int* msgInOptional_sz msgInOptional_sz)</functioncall>
         <functioncall prog_lang="eel">int extension_api("MCULive_SendMIDIMessage", int device, int status, int data1, int data2, optional "msgIn", <b>unsupported</b> msgIn)</functioncall>
-        <functioncall prog_lang="lua">integer retval = reaper.MCULive_SendMIDIMessage(integer device, integer status, integer data1, integer data2, optional string msgIn<b>unsupported</b> msgIn)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.MCULive_SendMIDIMessage(integer device, integer status, integer data1, integer data2, optional string msgIn, unsupported msgIn)</functioncall>
         <functioncall prog_lang="python">int MCULive_SendMIDIMessage(int device, int status, int data1, int data2, const char* msgInOptional, int* msgInOptional_sz msgInOptional_sz)</functioncall>
         <requires>
             Reaper=6.44
@@ -78539,7 +78544,8 @@ Mespotine
             integer status - 
             integer data1 - 
             integer data2 - 
-            optional string msgIn<b>unsupported</b> msgIn -
+            optional string msgIn - 
+            unsupported msgIn -
         </parameters>                
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
