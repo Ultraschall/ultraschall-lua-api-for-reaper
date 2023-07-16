@@ -446,7 +446,7 @@
   <title>epsd_cover</title>
   <description>
     The episode-cover image.
-    It must be either jpg or png, encoded as BASE64.
+    It must be either jpg or png, encoded into BASE64.
     
     Example:
       "epsd_cover":"iVBORyAaIAAAAElIRFIAAAABAAAAAQgCAAAAkHdT3gAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAAxJREFUeNpj+P//PwAF/gL+MxKVFAAAAABJRU5ErkJggg==",
@@ -1075,7 +1075,7 @@
   <title>chap_image</title>
   <description>
     The chapter-image.
-    It must be either jpg or png, encoded as BASE64.
+    It must be either jpg or png, encoded into BASE64.
     
     Example:
       "chap_image":"iVBORyAaIAAAAElIRFIAAAABAAAAAQgCAAAAkHdT3gAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAAxJREFUeNpj+P//PwAF/gL+MxKVFAAAAABJRU5ErkJggg==",
@@ -1528,7 +1528,7 @@
   <title>shwn_event_ics_data</title>
   <description>
     The ics-data of this shownote's event. 
-    Must be encoded in BASE64!
+    Must be encoded into BASE64!
     
     Example:
       "shwn_event_ics_data":"QkVHSU46VkNBTEVOREFSClZFUlNJT046Mi4wClBST0RJRDpVbHRyYXNjaGFsbApNRVRIT0Q6UkVRVUVTVApCRUdJTjpWRVZFTlQKVUlEOntEMjlDNUJDMC01MTQyLTRGNjgtQUEyNS1GMzJEOUIzMDQyNzh9CkxPQ0FUSU9OOkJvbGx5d29vZCBGZXZlciBDb252ZW50aW9uClNVTU1BUlk6TWVldCB5b3VyIG1vc3QgZmF2b3JpdGUgQm9sbHl3b29kIHN0YXJzCkRFU0NSSVBUSU9OOkEgbG90IG9mIEJvbGx5d29vZC1zdGFycyB3aWxsIGF0dGVuZCBmb3IgbWVldCduJ2dyZWV0cywgdGFsa3MgYW5kIGludHJvZHVjdGlvbiBvZiBuZXcgbW92aWVzLgpDTEFTUzpQVUJMSUMKRFRTVEFSVDoyMDIzMTIwNFQxMDAwMDBaCkRURU5EOjIwMjMxMjA0VDIzMzAwMFoKRFRTVEFNUDoyMDIzMDgyMlQyMjIzNDJaCkVORDpWRVZFTlQKRU5EOlZDQUxFTkRBUg"
@@ -2120,5 +2120,151 @@
   <chapter_context>
     Podcast Metadata
     Shownotes
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>trsc_X</slug>
+  <title>trsc_X</title>
+  <description>
+    The array(s) "trsc_X": store attributes for a transcript of the episode. X is the number of the ranscript, so you can have multiple ones.
+    
+    The numbering must be continuous, means: "trsc_1": for the first transcript, "trsc_2": for the second, "trsc_23": for the 23rd chapter.
+    
+    "trsc_0" is special: it contains a "full transcript", means, all speakers in the podcast are included in this one transcript, whereas "trsc_1" and higher are for one speaker only.
+    
+    Example for two simple chapters:
+    
+      "trsc_0":{
+        "trsc_guid":"{A9AA87E8-855D-4282-A660-8CC06D66DFED}"
+        "trsc_name":"Full Transcript",
+        "trsc_transcript_webvtt":"V0VCVlRUCgowMDowMS4wMDAgLS0+IDAwOjA0LjAwMAotIDxJbnRybz4KLSBKaW1teSBKaW06IFdlbGNvbWUgdG8gR3JlYXRlc3QgUG9kY2FzdC4KCjAwOjA1LjAwMCAtLT4gMDA6MDkuMDAwCi0gSmltbXkgSmltOiBJJ20geW91ciBob3N0IEppbW15IEppbSBhbmQgd2l0aCBtZSBpcyBGbGlwcG8uCi0gRmxpcHBvOiBIZWxsbywgSSdtIEZsaXBwby4",
+      },
+      "trsc_1":{
+        "trsc_contributors_guid":"{C1555DF4-F80F-4C6E-8DD0-E29D434DD442}"
+        "trsc_guid":"{C5000D3F-AFA6-4BCC-A4BD-E5B1B010EAD8}"
+        "trsc_name":"Jimmy Jim",
+        "trsc_description":"the host of the podcast",
+        "trsc_transcript_webvtt":"V0VCVlRUCgowMDowMS4wMDAgLS0+IDAwOjA0LjAwMAotIFdlbGNvbWUgdG8gR3JlYXRlc3QgUG9kY2FzdC4KCjAwOjA1LjAwMCAtLT4gMDA6MDkuMDAwCi0gSSdtIHlvdXIgaG9zdCBKaW1teSBKaW0gYW5kIHdpdGggbWUgaXMgRmxpcHBvLg",
+      },
+      "trsc_2":{
+        "trsc_contributors_guid":"{B10189F6-2855-4174-916E-58D43EE76430}"
+        "trsc_guid":"{C5000D3F-AFA6-4BCC-A4BD-E5B1B010EAD8}"
+        "trsc_name":"Flippo",
+        "trsc_description":"our guest in this episode",
+        "trsc_transcript_webvtt":"V0VCVlRUCgowMDowOC4wMDAgLS0+IDAwOjA5LjAwMAotIEhlbGxvLCBJJ20gRmxpcHBvLg",
+      }
+      
+    "trsc_X" is stored in the array "PodMetaContent": 
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Transcripts
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>trsc_contributors_guid</slug>
+  <title>trsc_contributors_guid</title>
+  <description>
+    The guid of the contributor of this transcript.    
+    This is the same guid as given in the "ctrb_X"-array for this contributor. 
+    For instance: if you have a host called Jimmy Jim, look up his guid in the ctrb_x-section and include it here.
+    
+    This guid MUST be created at project creation in the audio-software used and never changed again. So even if you export the podcast twice, this guid MUST stay the same in all exports!
+    
+    Example:
+      "trsc_contributors_guid":"{C1555DF4-F80F-4C6E-8DD0-E29D434DD442}"
+      
+    "trsc_contributors_guid" is stored in the array "PodMetaContent": -> "trsc_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Transcripts
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>trsc_guid</slug>
+  <title>trsc_guid</title>
+  <description>
+    The guid of this transcript.    
+    
+    THIS ATTRIBUTE IS MANDATORY FOR TRANSCRIPTS!
+    
+    This guid MUST be created at project creation in the audio-software used and never changed again. So even if you update the transcript, this guid MUST stay the same in all exports!
+    This is important, as this guid can be a internet-wide-reference to this exact transcript and must never ever break!
+    
+    Example:
+      "trsc_guid":"{A40CC190-DBA9-4976-9501-4A0DB0F5BDA7}"
+      
+    "trsc_guid" is stored in the array "PodMetaContent": -> "trsc_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Transcripts
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>trsc_name</slug>
+  <title>trsc_name</title>
+  <description>
+    The name of the contributor in this transcript.
+    For "trsc_0", this must be "Full Transcript".
+    
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Examples:
+      "trsc_name":"Anny Ann"
+      
+      "trsc_name":"Lili Lauradottir, CEO of TechCompExample Co.\nAn \"unlimited\" tech-company."
+      
+    "trsc_name" is stored in the array "PodMetaContent": -> "trsc_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Transcripts
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>trsc_description</slug>
+  <title>trsc_description</title>
+  <description>
+    The description of the transcript. This describes, what the transcript is about, usually a description of the role of the transcript's- contributor.
+    For "trsc_0", it is "Full transcript".
+
+    Newlines are stored with a literal "\n". If "\n" is part of the text, it shall be escaped to "\\n"(see examples).
+    Quotes " are stored as \" within the attribute. 
+    
+    Example:
+      "trsc_description":"The host of the podcast."
+      "trsc_description":"Guest on the show."
+      
+    "trsc_description" is stored in the array "PodMetaContent": -> "trsc_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Transcripts
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>trsc_transcript_webvtt</slug>
+  <title>trsc_transcript_webvtt</title>
+  <description>
+    The actual transcript as WebVTT.
+    It must be encoded into BASE64.
+    
+    Example:
+      "trsc_transcript_webvtt":"V0VCVlRUCgowMDowMS4wMDAgLS0+IDAwOjA0LjAwMAotIFdlbGNvbWUgdG8gR3JlYXRlc3QgUG9kY2FzdC4KCjAwOjA1LjAwMCAtLT4gMDA6MDkuMDAwCi0gSSdtIHlvdXIgaG9zdCBKaW1teSBKaW0gYW5kIHdpdGggbWUgaXMgRmxpcHBvLg",
+      
+    "trsc_transcript_webvtt" is stored in the array "PodMetaContent": -> "trsc_X":
+  </description>
+  <chapter_context>
+    Podcast Metadata
+    Transcripts
   </chapter_context>
 </US_DocBloc>
