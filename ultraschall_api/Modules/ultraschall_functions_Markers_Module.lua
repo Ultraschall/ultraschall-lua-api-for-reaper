@@ -7944,7 +7944,7 @@ function ultraschall.GetSetChapterMarker_Attributes(is_set, idx, attributename, 
   
   if attributename=="chap_url" then attributename="url" end
   
-  if found==false then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "attributename not supported", -7) return false end
+  if found==false then ultraschall.AddErrorMessage("GetSetChapterMarker_Attributes", "attributename", "attributename "..attributename.." not supported", -7) return false end
   if planned~=true then
     idx=ultraschall.EnumerateNormalMarkers(idx)
   else
@@ -8028,7 +8028,6 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, content, pr
          "podc_title" - the title of the podcast
          "podc_tagline" - a tagline for this episode
          "podc_description" - a description for your podcast
-         "podc_website" - either one url or a list of website-urls of the podcast,separated by newlines
          "podc_contact_email" - an email-address that can be used to contact the podcasters                  
          "podc_feed" - the url of the podcast-feed
          "podc_descriptive_tags" - some tags, who describe the podcast, must be separated by commas
@@ -8038,7 +8037,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, content, pr
     
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
     
-    You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)
+    You can either set the current project's attributes(preset\_slot=nil) or a preset(preset\_slot=1 and higher)
         
     returns false in case of an error
   </description>
@@ -8117,7 +8116,7 @@ function ultraschall.GetSetPodcast_Attributes(is_set, attributename, content, pr
     additional_attribute=""
   end
   
-  if found==false then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "attributename", "attributename not supported", -7) return false end
+  if found==false then ultraschall.AddErrorMessage("GetSetPodcast_Attributes", "attributename", "attributename "..attributename.." not supported", -7) return false end
   local presetcontent, _
   
   if is_set==true then
@@ -8166,7 +8165,7 @@ ultraschall.EpisodeAttributes={
               "epsd_guid"
               }
 
-function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, additional_attribute, content, preset_slot)
+function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, content, preset_slot)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetSetPodcastEpisode_Attributes</slug>
@@ -8177,7 +8176,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string content = ultraschall.GetSetPodcastEpisode_Attributes(boolean is_set, string attributename, string content, optional integer preset_slot)</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Will get/set metadata-attributes for a podcast-episode.
     
     This is about the individual podcast-episode, NOT the global podcast itself..
@@ -8201,14 +8200,13 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
     
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
     
-    You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)
+    You can either set the current project's attributes(preset\_slot=nil) or a preset(preset\_slot=1 and higher)
         
     returns false in case of an error
   </description>
   <parameters>
     boolean is_set - true, set the attribute; false, retrieve the current content
     string attributename - the attributename you want to get/set
-    string additional_attribute - some attributes allow additional attributes to be set; in all other cases set to ""
     string content - the new contents to set the attribute
     optional integer preset_slot - the slot in the podcast-presets to get/set the value from/to; nil, no preset used
   </parameters>
@@ -8231,7 +8229,7 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
   if preset~=nil and preset<=0 then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "preset", "must be higher than 0", -3) return false end 
   if type(attributename)~="string" then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "attributename", "must be a string", -4) return false end  
   if is_set==true and type(content)~="string" then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "content", "must be a string", -5) return false end  
-  if type(additional_attribute)~="string" then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "additional_attribute", "must be a string", -6) return false end
+  local additional_attribute=""
   
   -- check, if passed attributes are supported
   local tags=ultraschall.EpisodeAttributes
@@ -8246,13 +8244,13 @@ function ultraschall.GetSetPodcastEpisode_Attributes(is_set, attributename, addi
   
   local retval
   
-  if found==false then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "attributename", "attributename not supported", -7) return false end
+  if found==false then ultraschall.AddErrorMessage("GetSetPodcastEpisode_Attributes", "attributename", "attributename "..attributename.." not supported", -7) return false end
   local presetcontent, _
   
   if attributename=="epsd_guid" then
     local _, content=reaper.GetProjExtState(0, "EpisodeMetaData", attributename)
     if content=="" then
-      reaper.SetProjExtState(0, "EpisodeMetaData", attributename, reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")) 
+      reaper.SetProjExtState(0, "EpisodeMetaData", attributename, reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")) 
     end
     local _, content=reaper.GetProjExtState(0, "EpisodeMetaData", attributename)
     return true, content
@@ -8986,7 +8984,7 @@ function ultraschall.GetSetPodcastWebsite(is_set, index, name, description, url,
     
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
         
-    You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)
+    You can either set the current project's attributes(preset\_slot=nil) or a preset(preset\_slot=1 and higher)
         
     returns false in case of an error
   </description>
@@ -9112,7 +9110,7 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
       
     preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini
     
-    You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)
+    You can either set the current project's attributes(preset\_slot=nil) or a preset(preset\_slot=1 and higher)
     
     returns false in case of an error
   </description>
@@ -9161,7 +9159,7 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
       break
     end
   end
-  if found==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "attributename not supported", -7) return false end
+  if found==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "attributename "..attributename.." not supported", -7) return false end
   if is_set==true then
     if preset_slot~=nil then
       content=string.gsub(content, "\r", "")

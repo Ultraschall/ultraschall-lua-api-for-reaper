@@ -1,8 +1,8 @@
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>1.1 What is PodMeta</slug>
+  <slug>What_is_PodMeta</slug>
   <title>What is PodMeta?</title>
   <description>
-    PodMeta is a standard for exchanging podcast-metadata between different entities, like the podcast producing software, podcast publishers, podcast clients, podcast search-engines and directories and more. 
+    PodMeta is a format for exchanging podcast-metadata between different entities, like the podcast producing software, podcast publishers, podcast clients, podcast search-engines/directories and more. 
     
     It allows storing metadata of the podcast in general, the episode, contributors of the episode, chapters, shownotes and transcripts.
         
@@ -16,7 +16,7 @@
 </US_DocBloc>
 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>1.2 The Structure</slug>
+  <slug>The_Structure</slug>
   <title>The Structure</title>
   <description>    
       The datastructure is a standard JSON, which features several objects and arrays for each metadata.
@@ -26,75 +26,78 @@
         "PodMeta":"version 1.0",
         "PodMetaContent":{
           "podc":{
-            ... stores podcast metadata
+            ... stores podcast metadata-objects
             "podc_website_1":{
-              ... stores the metadata of the first website of the podcast
+              ... stores the metadata-objects of the first website of the podcast
             },
             "podc_website_2":{ 
-              ... stores the metadata of the second website of the podcast
+              ... stores the metadata-objects of the second website of the podcast
             },
             "podc_website_3":{ 
-              ... stores the metadata of the third website of the podcast
+              ... stores the metadata-objects of the third website of the podcast
             }
           },
           
           "epsd":{
-            ... stores the episode's metadata
+            ... stores the episode's metadata-objects
           },
           
           "ctrb_1":{
             ... stores the metadata of contributor 1
             "ctrb_website_1":{
-              ... stores the metadata of the first website of this contributor
+              ... stores the metadata-objects of the first website of this contributor
             },
             "ctrb_website_2":{ 
-              ... stores the metadata of the second website of this contributor
+              ... stores the metadata-objects of the second website of this contributor
             },
             "ctrb_website_3":{ 
-              ... stores the metadata of the third website of this contributor
+              ... stores the metadata-objects of the third website of this contributor
             }
           },
           "ctrb_2":{ 
-            ... stores the metadata of contributor 2
+            ... stores the metadata-objects of contributor 2
           },
           "ctrb_3":{ 
-            ... stores the metadata of contributor 3
+            ... stores the metadata-objects of contributor 3
             "ctrb_website_1":{
-              ... stores the metadata of the first website of this contributor
+              ... stores the metadata-objects of the first website of this contributor
             },
             "ctrb_website_2":{ 
-              ... stores the metadata of the second website of this contributor
+              ... stores the metadata-objects of the second website of this contributor
             }
           },
           
           "chap_1":{
-            ... stores the metadata of chapter 1
+            ... stores the metadata-objects of chapter 1
           },
           "chap_2":{ 
-            ... stores the metadata of chapter 2
+            ... stores the metadata-objects of chapter 2
           },
           "chap_3":{ 
-            ... stores the metadata of chapter 3
+            ... stores the metadata-objects of chapter 3
           },
           
           "shwn_1":{
-            ... stores the metadata of shownote 1
+            ... stores the metadata-objects of shownote 1
           },
           "shwn_2":{ 
-            ... stores the metadata of shownote 2
+            ... stores the metadata-objects of shownote 2
           },
           "shwn_3":{ 
-            ... stores the metadata of shownote 3
+            ... stores the metadata-objects of shownote 3
           },
           
+          "trsc_0":{
+            ... stores the metadata-objects of transcript for the full transcript
+          },
           "trsc_1":{
-            ... stores the metadata of transcript for a contributor A
+            ... stores the metadata-objects of transcript for a contributor A
           },
           "trsc_2":{ 
-            ... stores the metadata of transcript for a contributor B
+            ... stores the metadata-objects of transcript for a contributor B
           },
           "trsc_3":{ 
-            ... stores the metadata of transcript for a contributor C
+            ... stores the metadata-objects of transcript for a contributor C
           }
         }
       }
@@ -118,7 +121,7 @@
 </US_DocBloc>
 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>1.3 the objects</slug>
+  <slug>the_objects</slug>
   <title>The Objects</title>
   <description>    
       Objects contain the actual metadata for an array. The value is always a string, even if the value is a number or a boolean!
@@ -144,7 +147,7 @@
 </US_DocBloc>
 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>1.3 custom objects and arrays</slug>
+  <slug>custom_objects_and_arrays</slug>
   <title>Custom Objects and Arrays</title>
   <description>    
       There might be situations, when PodMeta's objects and arrays are not enough to store metadata and custom objects and arrays are needed.
@@ -169,6 +172,63 @@
 </US_DocBloc>
 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>identifier_for_episodes_chapters_shownotes_etc</slug>
+  <title>Unique Identifiers for datapoints(Shownotes, Chapters, Episode, Transcript, Contributor, etc)</title>
+  <description>    
+      Before PodMeta, there wasn't an existing mechanism to refer to datapoints like episodes, chapters, shownotes, transcripts, contributors of a podcast.
+      With PodMeta, we change this, by giving them a unique identifier in the style of a guid.
+      
+      Episode Arrays have a unique identifier of four guids in a row, while shownotes, chapters, transcripts, contributors have a single guid.
+      That way we can identify them individually.
+      For instance, a single shownote would be referenced by:
+      
+        {guid}{of}{the}{episode}:{guid of the shownote}
+        
+      or a transcript would be:
+        
+        {guid}{of}{the}{episode}:{guid of the transcript}
+      
+      That way, each chapter, shownote, transcript, contributor gets a internet-wide-unique identifier.
+      
+      For Developers:
+      If you code a software, that creates PodMeta-JSONs(like a DAW or a tagging software), you need to keep certain things in mind.
+      Every guid, once created, must stay the same in the future.
+      So if a new project for an episode is created, an episode-guid must be created too and NEVER BE CHANGED AGAIN.
+      Same goes for the other datapoints like shownotes, chapters, transcripts, contributors: when they are created, they get a guid that must NEVER change!
+      So if you export the podcast twice or more often, the guids for all existing datapoints are always the same in all exported files!
+      
+      Example:
+        1. A user creates a new shownote: Create a guid for it, right away.
+        2. The user exports the podcast, including PodMeta.
+        3. The user realises, that the shownote was positioned wrong and repositiones it, 
+        4. then reexports the podcast, including PodMeta.        
+        Now, if you check the guid of the shownote in the reexported podcast, it is still the same guid as created in step 1!
+        
+      Retaining the guids is important to not break links to specific shownotes, chapters, etc. So if a podcast gets updated, the guids are still there and therefore all links to the datapoints.
+  </description>
+  <chapter_context>
+    Introduction
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>where_are_they_stored</slug>
+  <title>Where are they stored?</title>
+  <description>    
+      PodMeta can be used as a standard-text-file with the extension .podmeta or be stored into the TXXX of ID3-Tags.
+      
+      Since an ID3-Tag can contain multiple TXXX-frames, we differentiate a PodMeta-TXXX from other TXXX-frames using the following scheme:
+        
+        PodMeta\0PodmetaJSON
+        
+      So you can see, that the value of the TXXX-frame starts with the word PodMeta, followed by a NUL-byte, then followed by the PodMeta-JSON itself.      
+  </description>
+  <chapter_context>
+    Introduction
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>podc</slug>
   <title>podc</title>
   <description>
@@ -183,8 +243,7 @@
     "podc" is stored in the array "PodMetaContent": 
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast
+    Podcast Array
   </chapter_context>
 </US_DocBloc>
 
@@ -202,8 +261,7 @@
     "podc_category" is stored in the array "PodMetaContent": -> "podc":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast
+    Podcast Array
   </chapter_context>
 </US_DocBloc>
 
@@ -222,8 +280,7 @@
     "podc_contact_email" is stored in the array "PodMetaContent": -> "podc":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast
+    Podcast Array
   </chapter_context>
 </US_DocBloc>
 
@@ -242,8 +299,7 @@
     "podc_description" is stored in the array "PodMetaContent": -> "podc":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast
+    Podcast Array
   </chapter_context>
 </US_DocBloc>
 
@@ -260,8 +316,7 @@
     "podc_descriptive_tags" is stored in the array "PodMetaContent": -> "podc":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast
+    Podcast Array
   </chapter_context>
 </US_DocBloc>
 
@@ -278,8 +333,7 @@
     "podc_feed" is stored in the array "PodMetaContent": -> "podc":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast
+    Podcast Array
   </chapter_context>
 </US_DocBloc>
 
@@ -296,8 +350,7 @@
     "podc_tagline" is stored in the array "PodMetaContent": -> "podc":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast
+    Podcast Array
   </chapter_context>
 </US_DocBloc>
 
@@ -314,8 +367,7 @@
     "podc_title" is stored in the array "PodMetaContent": -> "podc":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast
+    Podcast Array
   </chapter_context>
 </US_DocBloc>
 
@@ -327,10 +379,10 @@
     
     Example:
       "podc_website_1":{
-				"podc_website_name":"Mastodon",
-				"podc_website_description":"Our Mastodon account",
-				"podc_website_url":"https://www.mastodon.social/@CoolPodcast"
-			},
+        "podc_website_name":"Mastodon",
+        "podc_website_description":"Our Mastodon account",
+        "podc_website_url":"https://www.mastodon.social/@CoolPodcast"
+      },
       "podc_website_2":{
         "podc_website_name":"TikTok",
         "podc_website_description":"Our Tik Tok account",
@@ -340,8 +392,7 @@
     "podc_website_X" is stored in the array "PodMetaContent": -> "podc":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast Website
+    Podcast Website Array
   </chapter_context>
 </US_DocBloc>
 
@@ -353,13 +404,12 @@
     No newlines are allowed. Quotes " are stored as \" within the attribute. 
     
     Example:
-			"podc_website_name":"Mastodon",
-			
+      "podc_website_name":"Mastodon",
+      
     "podc_website_name" is stored in the array "PodMetaContent": -> "podc": -> "podc_website_X": (where X is the number of the stored website)
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast Website
+    Podcast Website Array
   </chapter_context>
 </US_DocBloc>
 
@@ -372,17 +422,16 @@
     Quotes " are stored as \" within the attribute. 
     
     Examples:
-			"podc_website_description":"our presence on Mastodon",
+      "podc_website_description":"our presence on Mastodon",
       
       "podc_website_description":"Our account on Mastodon.\n\n managed by jill",
       
       "podc_website_description":"Our social media about \\n-newlines and their \"impact\" on the world.",
-			
+      
     "podc_website_description" is stored in the array "PodMetaContent": -> "podc": -> "podc_website_X": (where X is the number of the stored website)
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast Website
+    Podcast Website Array
   </chapter_context>
 </US_DocBloc>
 
@@ -394,13 +443,12 @@
     No Newlines are allowed
     
     Examples:
-			"podc_website_url":"https://www.cool_podcast.dd",
+      "podc_website_url":"https://www.cool_podcast.dd",
 
     "podc_website_url" is stored in the array "PodMetaContent": -> "podc": -> "podc_website_X": (where X is the number of the stored website)
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast Website
+    Podcast Website Array
   </chapter_context>
 </US_DocBloc>
 
@@ -415,8 +463,7 @@
     "epsd" is stored in the array "PodMetaContent": 
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -436,8 +483,7 @@
     "epsd_content_notification_tags" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -454,8 +500,7 @@
     "epsd_cover" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -475,8 +520,7 @@
     "epsd_description" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -496,8 +540,7 @@
     "epsd_descriptive_tags" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -516,8 +559,7 @@
     "epsd_explicit" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -526,7 +568,7 @@
   <title>epsd_guid</title>
   <description>
     A guid for this episode.    
-    This is used as a unique identifier for this episode and contains three guids in a row.
+    This is used as a unique identifier for this episode and contains four guids in a row.
     
     THIS ATTRIBUTE IS MANDATORY FOR EPISODES!
     
@@ -534,13 +576,12 @@
     This is important, as this guid can be a internet-wide-reference to this exact episode and must never ever break!
     
     Example:
-      "epsd_guid":"{D29C5BC0-5142-4F68-AA25-F32D9B304278}{57396DED-68AB-464C-94A7-1C6075899081}{91F7A405-B05A-402C-929B-ECFB3DDB2F7F}"
+      "epsd_guid":"{D29C5BC0-5142-4F68-AA25-F32D9B304278}{57396DED-68AB-464C-94A7-1C6075899081}{91F7A405-B05A-402C-929B-ECFB3DDB2F7F}{6BEDC83B-E034-4641-9C2A-835450AB6B6D}"
       
     "epsd_guid" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -558,8 +599,7 @@
     "epsd_language" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -579,8 +619,7 @@
     "epsd_number" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -602,8 +641,7 @@
     "epsd_release_date" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -625,8 +663,7 @@
     "epsd_release_time" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -649,8 +686,7 @@
     "epsd_release_timezone" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -675,28 +711,7 @@
     "epsd_season" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
-  </chapter_context>
-</US_DocBloc>
-
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>epsd_tagline</slug>
-  <title>epsd_tagline</title>
-  <description>
-    The tagline of the episode.    
-    No newlines are allowed. Quotes " are stored as \" within the attribute. 
-    
-    Examples:
-      "epsd_tagline":"Today's all what's new in tech."
-      
-      "epsd_tagline":"The orange-juice dilemma."
-      
-    "epsd_tagline" is stored in the array "PodMetaContent": -> "epsd":
-  </description>
-  <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -715,8 +730,7 @@
     "epsd_title" is stored in the array "PodMetaContent": -> "epsd":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Episode Array
   </chapter_context>
 </US_DocBloc>
 
@@ -731,9 +745,9 @@
     Example for two contributors with websites:
       "ctrb_1":{
         "ctrb_guid":"{C1555DF4-F80F-4C6E-8DD0-E29D434DD442}"
-				"ctrb_name":"Jimmi Jim",
-				"ctrb_role":"host",
-				"ctrb_email":"Jim@cool_podcast.dd"
+        "ctrb_name":"Jimmi Jim",
+        "ctrb_role":"host",
+        "ctrb_email":"Jim@cool_podcast.dd"
         "ctrb_website_1":{
           "ctrb_website_name":"Jimmy Jim's website",
           "ctrb_website_description":"all activities of Jimmy Jim, including(but not exclusively) the podcast Cool Podcast",
@@ -744,7 +758,7 @@
           "ctrb_website_description":"the social media site, including a lot of private banter and movie nerdism",
           "ctrb_website_url":"https://www.social_media.dd/JimmyJim"
         }
-			},
+      },
       "ctrb_2":{
         "ctrb_guid":"{7D21A37C-D0DD-4747-9324-A3B169FEB6A9}"
         "ctrb_name":"Anny Ann",
@@ -760,8 +774,7 @@
     "ctrb_X" is stored in the array "PodMetaContent": 
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -781,8 +794,7 @@
     "ctrb_description" is stored in the array "PodMetaContent": -> "ctrb_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -799,8 +811,7 @@
     "ctrb_email" is stored in the array "PodMetaContent": -> "ctrb_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -821,8 +832,7 @@
     "ctrb_guid" is stored in the array "PodMetaContent": -> "ctrb_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -842,8 +852,7 @@
     "ctrb_name" is stored in the array "PodMetaContent": -> "ctrb_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -864,8 +873,7 @@
     "ctrb_role" is stored in the array "PodMetaContent": -> "ctrb_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -892,8 +900,7 @@
     "ctrb_website_X" is stored in the array "PodMetaContent": -> "ctrb_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -912,8 +919,7 @@
     "ctrb_website_name" is stored in the array "PodMetaContent": -> "ctrb_X": -> "ctrb_website_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -933,8 +939,7 @@
     "ctrb_website_description" is stored in the array "PodMetaContent": -> "ctrb_X": -> "ctrb_website_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -953,8 +958,7 @@
     "ctrb_website_url" is stored in the array "PodMetaContent": -> "ctrb_X": -> "ctrb_website_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Contributors
+    Contributors Array
   </chapter_context>
 </US_DocBloc>
 
@@ -983,8 +987,7 @@
     "chap_X" is stored in the array "PodMetaContent": 
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1004,8 +1007,7 @@
     "chap_content_notification_tags" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1024,8 +1026,7 @@
     "chap_description" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1043,8 +1044,7 @@
     "chap_descriptive_tags" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1065,8 +1065,7 @@
     "chap_guid" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1083,8 +1082,7 @@
     "chap_image" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1108,8 +1106,7 @@
     "chap_image_description" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1133,8 +1130,7 @@
     "chap_image_license" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1156,8 +1152,7 @@
     "chap_image_origin" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1176,8 +1171,7 @@
     "chap_image_url" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1196,8 +1190,7 @@
     "chap_is_advertisement" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1218,8 +1211,7 @@
     "chap_next_chapter_numbers" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1250,8 +1242,7 @@
     "chap_position" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1272,8 +1263,7 @@
     "chap_previous_chapter_numbers" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1292,8 +1282,7 @@
     "chap_spoiler_alert" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1312,8 +1301,7 @@
     "chap_title" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1330,8 +1318,7 @@
     "chap_url" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1350,8 +1337,7 @@
     "chap_url_description" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Chapters
+    Chapters Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1366,31 +1352,30 @@
     Example for two shownotes:
     
     "shwn_1":{
-			"shwn_title":"Flippo on the internet",
-			"shwn_position":"00:00:29.187",
-			"shwn_description":"all about Flippo",
-			"shwn_url":"https://www.flippilino.dd",
-			"shwn_url_description":"Flippo's website for all his music and computer-geek-stuff.",
-			"shwn_url_retrieval_date":"2024-12-01",
-			"shwn_descriptive_tags":"flippo, tech, music, keyboard, synclavier",
-			"shwn_guid":"{45D6DCF3-FAFE-4D04-95FA-9F1B020C354D}"	
-		},
-		"shwn_2":{
-			"shwn_title":"Return of tech-giant",
-			"shwn_position":"00:00:49.084",
-			"shwn_description":"Formerly big tech-giant makes big return a huge, announced by newspaper without disclosing, which one it is, yet.",
-			"shwn_url":"tech-news.dd/businessworl-shocked-techgiant-returning-after-35-years-of-absence",
-			"shwn_url_description":"Article that explains more about the coming impact of the giant's return, but keeping vague, which tech-giant it is.",
-			"shwn_url_retrieval_date":"2023-11-30",
-			"shwn_descriptive_tags":"tech, giant, retro, return",
-			"shwn_guid":"{B027E03E-BFF1-4A7E-9920-279256A8934C}"	
-		},
+      "shwn_title":"Flippo on the internet",
+      "shwn_position":"00:00:29.187",
+      "shwn_description":"all about Flippo",
+      "shwn_url":"https://www.flippilino.dd",
+      "shwn_url_description":"Flippo's website for all his music and computer-geek-stuff.",
+      "shwn_url_retrieval_date":"2024-12-01",
+      "shwn_descriptive_tags":"flippo, tech, music, keyboard, synclavier",
+      "shwn_guid":"{45D6DCF3-FAFE-4D04-95FA-9F1B020C354D}"  
+    },
+    "shwn_2":{
+      "shwn_title":"Return of tech-giant",
+      "shwn_position":"00:00:49.084",
+      "shwn_description":"Formerly big tech-giant makes big return a huge, announced by newspaper without disclosing, which one it is, yet.",
+      "shwn_url":"tech-news.dd/businessworl-shocked-techgiant-returning-after-35-years-of-absence",
+      "shwn_url_description":"Article that explains more about the coming impact of the giant's return, but keeping vague, which tech-giant it is.",
+      "shwn_url_retrieval_date":"2023-11-30",
+      "shwn_descriptive_tags":"tech, giant, retro, return",
+      "shwn_guid":"{B027E03E-BFF1-4A7E-9920-279256A8934C}"  
+    },
       
     "shwn_X" is stored in the array "PodMetaContent": 
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1412,8 +1397,7 @@
     "shwn_date" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1432,8 +1416,7 @@
     "shwn_description" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1451,8 +1434,7 @@
     "shwn_descriptive_tags" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1474,8 +1456,7 @@
     "shwn_event_date_beginning" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1497,8 +1478,7 @@
     "shwn_event_date_end" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Episode
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1518,8 +1498,7 @@
     "shwn_event_description" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1536,8 +1515,7 @@
     "shwn_event_ics_data" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1558,8 +1536,7 @@
     "shwn_event_location" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1579,8 +1556,7 @@
     "shwn_event_location_name" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1598,8 +1574,7 @@
     "shwn_event_name" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1621,8 +1596,7 @@
     "shwn_event_time_beginning" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1644,8 +1618,7 @@
     "shwn_event_time_end" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1668,8 +1641,7 @@
     "shwn_event_timezone" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1681,13 +1653,12 @@
     No Newlines are allowed
     
     Examples:
-			"shwn_event_url":"https://www.cool_podcast.dd/event/2023-12-03-meetup",
+      "shwn_event_url":"https://www.cool_podcast.dd/event/2023-12-03-meetup",
 
     "shwn_event_url" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Podcast Website
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1708,8 +1679,7 @@
     "shwn_guid" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1728,8 +1698,7 @@
     "shwn_is_advertisement" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1747,8 +1716,7 @@
     "shwn_language" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1806,8 +1774,7 @@
     "shwn_linked_audiovideomedia" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1828,8 +1795,7 @@
     "shwn_location" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1850,8 +1816,7 @@
     "shwn_location_name" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1882,8 +1847,7 @@
     "shwn_position" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1902,8 +1866,7 @@
     "shwn_bibliographical_source" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1925,8 +1888,7 @@
     "shwn_time" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1949,8 +1911,7 @@
     "shwn_timezone" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1969,8 +1930,7 @@
     "shwn_title" is stored in the array "PodMetaContent": -> "chap_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -1987,8 +1947,7 @@
     "shwn_url" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2009,8 +1968,7 @@
     "shwn_url_archived_copy_of_original_url" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2028,8 +1986,7 @@
     "shwn_url_description" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownote
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2051,8 +2008,7 @@
     "shwn_url_retrieval_date" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2074,8 +2030,7 @@
     "shwn_url_retrieval_time" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2098,8 +2053,7 @@
     "shwn_url_retrieval_timezone_utc" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2118,8 +2072,7 @@
     "shwn_wikidata_uri" is stored in the array "PodMetaContent": -> "shwn_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Shownotes
+    Shownotes Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2158,8 +2111,7 @@
     "trsc_X" is stored in the array "PodMetaContent": 
   </description>
   <chapter_context>
-    Podcast Metadata
-    Transcripts
+    Transcripts Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2179,8 +2131,7 @@
     "trsc_contributors_guid" is stored in the array "PodMetaContent": -> "trsc_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Transcripts
+    Transcripts Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2201,8 +2152,7 @@
     "trsc_guid" is stored in the array "PodMetaContent": -> "trsc_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Transcripts
+    Transcripts Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2224,8 +2174,7 @@
     "trsc_name" is stored in the array "PodMetaContent": -> "trsc_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Transcripts
+    Transcripts Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2246,8 +2195,7 @@
     "trsc_description" is stored in the array "PodMetaContent": -> "trsc_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Transcripts
+    Transcripts Array
   </chapter_context>
 </US_DocBloc>
 
@@ -2264,7 +2212,6 @@
     "trsc_transcript_webvtt" is stored in the array "PodMetaContent": -> "trsc_X":
   </description>
   <chapter_context>
-    Podcast Metadata
-    Transcripts
+    Transcripts Array
   </chapter_context>
 </US_DocBloc>
