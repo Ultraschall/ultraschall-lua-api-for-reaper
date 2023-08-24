@@ -151,7 +151,7 @@
   <title>Custom Objects and Arrays</title>
   <description>    
       There might be situations, when PodMeta's objects and arrays are not enough to store metadata and custom objects and arrays are needed.
-      Simply adding a new one isn't neccessarily a good idea, as there might be name-conflicts with objects added in the future to PodMeta.
+      Simply adding a new one isn't neccessarily a good idea, as there might be name-conflicts with objects added to PodMeta in the future.
       In that case, we have a simple mechanism to store custom arrays and objects: namespaces!
       
       A namespace is simply a unique name, followed by a : and the object or array name, like "namespace:objectname":"value" or "namespace:arrayname":{...}
@@ -222,6 +222,30 @@
         PodMeta\0PodmetaJSON
         
       So you can see, that the value of the TXXX-frame starts with the word PodMeta, followed by a NUL-byte, then followed by the PodMeta-JSON itself.      
+  </description>
+  <chapter_context>
+    Introduction
+  </chapter_context>
+</US_DocBloc>
+
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>sample_files</slug>
+  <title>Sample Files</title>
+  <description>
+      Here you can find some sample-files that contain PodMeta-JSONs. They are "maxed out", means, all possible objects are added into them.
+      So you can check, whether your implementation reads out and interprets the JSON correctly.
+  
+      As Textfile:
+      <a href="./SampleFiles/PodMeta-v1-SampleFile.PodMeta">PodMeta-Textfile</a>
+      
+      As ID3:
+      <a href="./SampleFiles/PodMeta-v1-SampleFile.mp3">PodMeta in MP3</a>
+      
+      As VorbisComment:
+      <a href="./SampleFiles/PodMeta-v1-SampleFile.ogg">PodMeta in OGG</a>
+      <a href="./SampleFiles/PodMeta-v1-SampleFile.opus">PodMeta in Opus</a>
+      <a href="./SampleFiles/PodMeta-v1-SampleFile.flac">PodMeta in Flac</a>
+      
   </description>
   <chapter_context>
     Introduction
@@ -2091,21 +2115,22 @@
       "trsc_0":{
         "trsc_guid":"{A9AA87E8-855D-4282-A660-8CC06D66DFED}"
         "trsc_name":"Full Transcript",
-        "trsc_transcript_webvtt":"V0VCVlRUCgowMDowMS4wMDAgLS0+IDAwOjA0LjAwMAotIDxJbnRybz4KLSBKaW1teSBKaW06IFdlbGNvbWUgdG8gR3JlYXRlc3QgUG9kY2FzdC4KCjAwOjA1LjAwMCAtLT4gMDA6MDkuMDAwCi0gSmltbXkgSmltOiBJJ20geW91ciBob3N0IEppbW15IEppbSBhbmQgd2l0aCBtZSBpcyBGbGlwcG8uCi0gRmxpcHBvOiBIZWxsbywgSSdtIEZsaXBwby4",
+        "trsc_description":"Full Transcript",
+        "trsc_transcript_webvtt":"V0VCVlRUCgowMDowMS4wMDAgLS0+IDAwOjA0LjAwMAotIDxJbnRybz4KLSBKaW1teSBKaW06IFdlbGNvbWUgdG8gR3JlYXRlc3QgUG9kY2FzdC4KCjAwOjA1LjAwMCAtLT4gMDA6MDkuMDAwCi0gSmltbXkgSmltOiBJJ20geW91ciBob3N0IEppbW15IEppbSBhbmQgd2l0aCBtZSBpcyBGbGlwcG8uCi0gRmxpcHBvOiBIZWxsbywgSSdtIEZsaXBwby4"
       },
       "trsc_1":{
         "trsc_contributors_guid":"{C1555DF4-F80F-4C6E-8DD0-E29D434DD442}"
         "trsc_guid":"{C5000D3F-AFA6-4BCC-A4BD-E5B1B010EAD8}"
         "trsc_name":"Jimmy Jim",
         "trsc_description":"the host of the podcast",
-        "trsc_transcript_webvtt":"V0VCVlRUCgowMDowMS4wMDAgLS0+IDAwOjA0LjAwMAotIFdlbGNvbWUgdG8gR3JlYXRlc3QgUG9kY2FzdC4KCjAwOjA1LjAwMCAtLT4gMDA6MDkuMDAwCi0gSSdtIHlvdXIgaG9zdCBKaW1teSBKaW0gYW5kIHdpdGggbWUgaXMgRmxpcHBvLg",
+        "trsc_transcript_webvtt":"V0VCVlRUCgowMDowMS4wMDAgLS0+IDAwOjA0LjAwMAotIFdlbGNvbWUgdG8gR3JlYXRlc3QgUG9kY2FzdC4KCjAwOjA1LjAwMCAtLT4gMDA6MDkuMDAwCi0gSSdtIHlvdXIgaG9zdCBKaW1teSBKaW0gYW5kIHdpdGggbWUgaXMgRmxpcHBvLg"
       },
       "trsc_2":{
         "trsc_contributors_guid":"{B10189F6-2855-4174-916E-58D43EE76430}"
         "trsc_guid":"{C5000D3F-AFA6-4BCC-A4BD-E5B1B010EAD8}"
         "trsc_name":"Flippo",
         "trsc_description":"our guest in this episode",
-        "trsc_transcript_webvtt":"V0VCVlRUCgowMDowOC4wMDAgLS0+IDAwOjA5LjAwMAotIEhlbGxvLCBJJ20gRmxpcHBvLg",
+        "trsc_transcript_webvtt":"V0VCVlRUCgowMDowOC4wMDAgLS0+IDAwOjA5LjAwMAotIEhlbGxvLCBJJ20gRmxpcHBvLg"
       }
       
     "trsc_X" is stored in the array "PodMetaContent": 

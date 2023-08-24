@@ -8307,7 +8307,7 @@ ultraschall.ShowNoteAttributes={
               "shwn_event_location",       -- check for validity              
               "shwn_event_location_name",       -- check for validity              
               "shwn_event_ics_data",
-              "shwn_cite_source", 
+              "shwn_bibliographical_source", 
               --"image_uri",
               --"image_content",      -- check for validity
               --"image_description",
@@ -8376,10 +8376,10 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
            "shwn_event_location" - the coordinates of the location of the event; must be in decimal degrees "XX.xxxxxx,YY.yyyyyy" 
            "shwn_event_location_name" - the name of the location of the event
            "shwn_event_ics_data" - the event as ics-data-format; will NOT set other event-attributes; will not be checked for validity!
-           "shwn_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
+           "shwn_bibliographical_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite
            "shwn_wikidata_uri" - the uri to an entry to wikidata
            "shwn_guid" - a unique identifier for this shownote; read-only
-           "shwn_linked_audiovideomedia" - a link to a mediafile like a podcast-episode; the additional content is the time-position in seconds
+           "shwn_linked_audiovideomedia" - a link to a mediafile like a podcast-episode
         
     returns false in case of an error
   </description>
@@ -8447,11 +8447,9 @@ function ultraschall.GetSetShownoteMarker_Attributes(is_set, idx, attributename,
       ultraschall.SetShownoteMarker(marker_index, tonumber(content), name, shown_number)
       return true, content
     elseif attributename=="shwn_linked_audiovideomedia" then
-      if tonumber(additional_content)==nil then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "additional_content", "the content for shwn_linked_media must be a number as a string", -9) return false end
-      C=additional_content
-      B=content
+      --if tonumber(additional_content)==nil then ultraschall.AddErrorMessage("GetSetShownoteMarker_Attributes", "additional_content", "the content for shwn_linked_media must be a number as a string", -9) return false end
       Retval = ultraschall.SetMarkerExtState(A[2]+1, attributename, content2)
-      Retval = ultraschall.SetMarkerExtState(A[2]+1, attributename.."_time", additional_content)
+      
     end
     if attributename=="shwn_event_ics_data" then 
       content2=ultraschall.Base64_Encoder(content)     
@@ -9079,7 +9077,8 @@ ultraschall.PodcastContributorAttributes = {
   "ctrb_name",
   "ctrb_description",
   "ctrb_email",
-  "ctrb_role"
+  "ctrb_role",
+  "ctrb_guid"
   --"ctrb_website_name",
   --"ctrb_website_description",
   --"ctrb_website_url"
@@ -9160,7 +9159,7 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
     end
   end
   if found==false then ultraschall.AddErrorMessage("GetSetContributor_Attributes", "attributename", "attributename "..attributename.." not supported", -7) return false end
-  if is_set==true then
+  if is_set==true then    
     if preset_slot~=nil then
       content=string.gsub(content, "\r", "")
       retval = ultraschall.SetUSExternalState("ContributorsMetaData_"..preset_slot, attributename.."_"..index..additional_attribute, string.gsub(content, "\n", "\\n"), "ultraschall_podcast_presets.ini")
@@ -9171,6 +9170,16 @@ function ultraschall.GetSetContributor_Attributes(is_set, index, attributename, 
       presetcontent=nil
     end
     
+    local retval, guid = reaper.GetProjExtState(0, "ContributorsMetaData_", "ctrb_guid"..index, content)
+    
+    if guid=="" then    
+      local newguid=reaper.genGuid()
+      _=reaper.SetProjExtState(0, "ContributorsMetaData_", "ctrb_guid"..index, reaper.genGuid(""))        
+    end
+    if attributename=="ctrb_guid" then
+      local _, guid = reaper.GetProjExtState(0, "ContributorsMetaData_", "ctrb_guid"..index, content)
+      return _>0, guid
+    end
     local _,A1=reaper.GetProjExtState(0, "ContributorsMetaData_", "ctrb_contributors_maxindex")
     if A1=="" or index>tonumber(A1) then
       reaper.SetProjExtState(0, "ContributorsMetaData_", "ctrb_contributors_maxindex", index)

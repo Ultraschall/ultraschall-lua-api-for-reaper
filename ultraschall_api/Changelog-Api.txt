@@ -331,10 +331,13 @@ Has now 1663 functions, with XX new ones
   
 
 #### Changes from 4.9 to 4.95  
+  - Clipboard Management: PutMediaItemsToClipboard\_MediaItemArray - had edgecase, where it added one item too many -> fixed
   - DocEngine: Docs\_GetReaperApiFunction\_Params - didn't correctly resolve datatypes when param was optional
   - DocEngine: Docs\_GetReaperApiFunction\_Retvals - didn't correctly resolve datatypes when param was optional
   - DocEngine: Docs\_GetUltraschallApiFunction\_Params - didn't correctly resolve datatypes when param was optional; had inner variable exposed -> fixed
   - DocEngine: Docs\_GetUltraschallApiFunction\_Retvals - didn't correctly resolve datatypes when param was optional
+  - MediaItem Management: RippleCut - didn't close the gap under certain cirumstances -> fixed now
+  - MediaItem Management: RippleCut\_Reverse - didn't close the gap under certain cirumstances -> fixed now
 ---
 
 ### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023

@@ -5942,7 +5942,7 @@ Returns the content of the clipboard as a string. Uses the SWS-function reaper.C
 <a class="anch" id="PutMediaItemsToClipboard_MediaItemArray"></a>
 <a href="#PutMediaItemsToClipboard_MediaItemArray"> ^</a> 
 <img width="3%" src="gfx/reaper5.95.png" alt="Reaper version 5.95">
-<img width="3%" src="gfx/ultraschall4.6.png" alt="Ultraschall version 4.6"><u><b>PutMediaItemsToClipboard_MediaItemArray</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.95.png" alt="Ultraschall version 4.95"><u><b>PutMediaItemsToClipboard_MediaItemArray</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>boolean</i> retval = <em>ultraschall.PutMediaItemsToClipboard_MediaItemArray</em>(MediaItemArray MediaItemArray)</code></div>
 </div><p>
@@ -26927,10 +26927,10 @@ Supported attributes are:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "shwn_event_location" - the coordinates of the location of the event; must be in decimal degrees "XX.xxxxxx,YY.yyyyyy" <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "shwn_event_location_name" - the name of the location of the event<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "shwn_event_ics_data" - the event as ics-data-format; will NOT set other event-attributes; will not be checked for validity!<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "shwn_cite_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "shwn_bibliographical_source" - a specific place you want to cite, like bookname + page + paragraph + line or something via webcite<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "shwn_wikidata_uri" - the uri to an entry to wikidata<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "shwn_guid" - a unique identifier for this shownote; read-only<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "shwn_linked_audiovideomedia" - a link to a mediafile like a podcast-episode; the additional content is the time-position in seconds<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "shwn_linked_audiovideomedia" - a link to a mediafile like a podcast-episode<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<br>
 returns false in case of an error<br>
 </div><br>      
@@ -28860,7 +28860,7 @@ each statechunk contains an additional entry "ULTRASCHALL_TRACKNUMBER" which hol
 <a class="anch" id="RippleCut"></a>
 <a href="#RippleCut"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.9.png" alt="Ultraschall version 4.9"><u><b>RippleCut</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.95.png" alt="Ultraschall version 4.95"><u><b>RippleCut</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> number_items, <i>array</i> MediaItemArray_StateChunk = <em>ultraschall.RippleCut</em>(<i>number</i> startposition, <i>number</i> endposition, <i>string</i> trackstring, <i>boolean</i> moveenvelopepoints, <i>boolean</i> add_to_clipboard, <i>boolean</i> movemarkers, <i>optional</i> <i>boolean</i> obey_crossfade)</code></div>
 </div><p>
@@ -28917,7 +28917,7 @@ Returns -1 in case of failure.<br>
 <a class="anch" id="RippleCut_Reverse"></a>
 <a href="#RippleCut_Reverse"> ^</a> 
 <img width="3%" src="gfx/reaper5.40.png" alt="Reaper version 5.40">
-<img width="3%" src="gfx/ultraschall4.9.png" alt="Ultraschall version 4.9"><u><b>RippleCut_Reverse</b></u><br>			<p>
+<img width="3%" src="gfx/ultraschall4.95.png" alt="Ultraschall version 4.95"><u><b>RippleCut_Reverse</b></u><br>			<p>
 <div class="cc">
 <div class="l">Lua: <code> <i>integer</i> number_items, <i>array</i> MediaItemArray_StateChunk = <em>ultraschall.RippleCut_Reverse</em>(<i>number</i> startposition, <i>number</i> endposition, <i>string</i> trackstring, <i>boolean</i> moveenvelopepoints, <i>boolean</i> add_to_clipboard)</code></div>
 </div><p>
@@ -35709,7 +35709,7 @@ Accepted attributes are:<br>
 &nbsp;&nbsp;<br>
 preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini<br>
 <br>
-You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)<br>
+You can either set the current project's attributes(preset\_slot=nil) or a preset(preset\_slot=1 and higher)<br>
 <br>
 returns false in case of an error<br>
 </div><br>      
@@ -35761,32 +35761,13 @@ returns false in case of an error<br>
 <div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> content = <em>ultraschall.GetSetPodcastEpisode_Attributes</em>(<i>boolean</i> is_set, <i>string</i> attributename, <i>string</i> content, <i>optional</i> <i>integer</i> preset_slot)</code></div>
 </div><p>
 <div class="ch">
-Will get/set metadata-attributes for a podcast-episode.<br>
-<br>
-This is about the individual podcast-episode, NOT the global podcast itself..<br>
-<br>
-For podcast's-metadata, use [GetSetPodcast\_Attributes](#GetSetPodcast_Attributes)<br>
-<br>
-Supported attributes are:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_title" - the title of the episode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_number" - the number of the episode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_season" - the season of the episode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_release_date" - releasedate of the episode; yyyy-mm-dd<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_release_time" - releasedate of the episode; hh:mm:ss<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_release_timezone" - the time's timezone in UTC of the release-time; +hh:mm or -hh:mm<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_description" - the descriptionof the episode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_cover" - the cover-image of the episode(path+filename)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_language" - the language of the episode; Languagecode according to ISO639-2/T<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_explicit" - yes, if explicit; "", if not explicit<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_descriptive_tags" - some tags, that describe the content of the episode, must separated by commas<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_content_notification_tags" - some tags, that warn of specific content; must be separated by commas<br>
-&nbsp;&nbsp;&nbsp;&nbsp;"epsd_guid" - a unique identifier for this episode; contains three guids in a row; read-only; can't be stored in presets!<br>
-<br>
-preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini<br>
-<br>
-You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<br>
-returns false in case of an error<br>
+<p>Will get/set metadata-attributes for a podcast-episode.</p>
+<p>This is about the individual podcast-episode, NOT the global podcast itself..</p>
+<p>For podcast's-metadata, use <a href="#GetSetPodcast_Attributes">GetSetPodcast_Attributes</a></p>
+<p>Supported attributes are: "epsd<em>title" - the title of the episode "epsd</em>number" - the number of the episode "epsd<em>season" - the season of the episode "epsd</em>release<em>date" - releasedate of the episode; yyyy-mm-dd "epsd</em>release<em>time" - releasedate of the episode; hh:mm:ss "epsd</em>release<em>timezone" - the time's timezone in UTC of the release-time; +hh:mm or -hh:mm "epsd</em>description" - the descriptionof the episode "epsd<em>cover" - the cover-image of the episode(path+filename) "epsd</em>language" - the language of the episode; Languagecode according to ISO639-2/T "epsd<em>explicit" - yes, if explicit; "", if not explicit "epsd</em>descriptive<em>tags" - some tags, that describe the content of the episode, must separated by commas "epsd</em>content<em>notification</em>tags" - some tags, that warn of specific content; must be separated by commas "epsd_guid" - a unique identifier for this episode; contains three guids in a row; read-only; can't be stored in presets!</p>
+<p>preset-values will be stored into resourcepath/ultraschall_podcast_presets.ini</p>
+<p>You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)</p>
+<p>returns false in case of an error</p>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
@@ -35806,10 +35787,6 @@ returns false in case of an error<br>
 <table class="ch">
 <tr><td class="pr"><i>string</i> attributename</td></tr>
 <tr><td class="ch2">the attributename you want to get/set</td></tr>
-</table>
-<table class="ch">
-<tr><td class="pr"><i>string</i> additional_attribute</td></tr>
-<tr><td class="ch2">some attributes allow additional attributes to be set; in all other cases set to ""</td></tr>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>string</i> content</td></tr>
@@ -35838,7 +35815,7 @@ This is about the podcast globally, NOT the individual episodes.<br>
 <br>
 preset-values will be stored into resourcepath/ultraschall\_podcast\_presets.ini<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<br>
-You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)<br>
+You can either set the current project's attributes(preset\_slot=nil) or a preset(preset\_slot=1 and higher)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<br>
 returns false in case of an error<br>
 </div><br>      
@@ -35903,14 +35880,13 @@ returns false in case of an error<br>
 <pre><code> &quot;podc_title&quot; - the title of the podcast
  &quot;podc_tagline&quot; - a tagline for this episode
  &quot;podc_description&quot; - a description for your podcast
- &quot;podc_website&quot; - either one url or a list of website-urls of the podcast,separated by newlines
  &quot;podc_contact_email&quot; - an email-address that can be used to contact the podcasters                  
  &quot;podc_feed&quot; - the url of the podcast-feed
  &quot;podc_descriptive_tags&quot; - some tags, who describe the podcast, must be separated by commas
  &quot;podc_category&quot; - a category that describes the podcast</code></pre>
 <p>For episode's-metadata, use <a href="#GetSetPodcastEpisode_Attributes">GetSetPodcastEpisode_Attributes</a></p>
 <p>preset-values will be stored into resourcepath/ultraschall_podcast_presets.ini</p>
-<p>You can either set the current project's attributes(preset<em>slot=nil) or a preset(preset</em>slot=1 and higher)</p>
+<p>You can either set the current project's attributes(preset_slot=nil) or a preset(preset_slot=1 and higher)</p>
 <p>returns false in case of an error</p>
 </div><br>      
 <u>Returnvalues:</u>

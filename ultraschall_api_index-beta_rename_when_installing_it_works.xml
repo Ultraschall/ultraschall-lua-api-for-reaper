@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="55900.00" author="Meo Mespotine">
+      <version name="55901.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/3rd_party_modules/Lokasenna_GUI v2/Developer Tools/Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.9/ultraschall_api/3rd_party_modules/Lokasenna_GUI%20v2/Developer%20Tools/Documentation.html</source>
@@ -1478,6 +1478,8 @@ New features in 4.95
 
 Changes from 4.9 to 4.95
 
+-   Clipboard Management: PutMediaItemsToClipboard_MediaItemArray - had
+    edgecase, where it added one item too many -> fixed
 -   DocEngine: Docs_GetReaperApiFunction_Params - didn’t correctly
     resolve datatypes when param was optional
 -   DocEngine: Docs_GetReaperApiFunction_Retvals - didn’t correctly
@@ -1487,6 +1489,10 @@ Changes from 4.9 to 4.95
     exposed -> fixed
 -   DocEngine: Docs_GetUltraschallApiFunction_Retvals - didn’t correctly
     resolve datatypes when param was optional
+-   MediaItem Management: RippleCut - didn’t close the gap under certain
+    cirumstances -> fixed now
+-   MediaItem Management: RippleCut_Reverse - didn’t close the gap under
+    certain cirumstances -> fixed now
 ]]>
 </changelog>
       </version>
