@@ -281,6 +281,7 @@ function reagirl.Window_Open(...)
   local A=gfx.getchar(65536)
   local HWND, retval
   if A&4==0 then
+    reagirl.Window_RescaleIfNeeded()
     local parms={...}
     local temp=parms[1]
     if parms[2]==nil then parms[2]=640 end
@@ -292,6 +293,9 @@ function reagirl.Window_Open(...)
     if type(parms[1])~="string" then parms[1]="" 
     end
     
+    parms[2]=parms[2]*reagirl.Window_CurrentScale
+    parms[3]=parms[3]*reagirl.Window_CurrentScale
+    
     local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
     parms[2]=parms[2]*minimum_scale_for_dpi
     parms[3]=parms[3]*minimum_scale_for_dpi
@@ -301,8 +305,14 @@ function reagirl.Window_Open(...)
     if parms[6]==nil then
       parms[6]=(D-parms[3])/2
     end
-
-    if reaper.JS_Window_SetTitle==nil then return gfx.init(table.unpack(parms)) end
+    
+    
+    if reaper.JS_Window_SetTitle~=nil then 
+      local B=gfx.init(table.unpack(parms)) 
+      --reagirl.Window_CurrentScale=1
+      --reagirl.Window_RescaleIfNeeded()
+      return B 
+    end
     
     -- check for a window-name not being used yet, which is 
     -- windowtitleX, where X is a number
@@ -335,19 +345,19 @@ function reagirl.Window_RescaleIfNeeded()
   local dpi=tonumber(dpi)
   
   if dpi<384 then scale=1
-  elseif dpi>=384 and dpi<512 then scale=1.5
+  elseif dpi>=384 and dpi<512 then scale=1--.5
   elseif dpi>=512 and dpi<640 then scale=2
-  elseif dpi>=640 and dpi<768 then scale=2.5
+  elseif dpi>=640 and dpi<768 then scale=2--.5
   elseif dpi>=768 and dpi<896 then scale=3
-  elseif dpi>=896 and dpi<1024 then scale=3.5
+  elseif dpi>=896 and dpi<1024 then scale=3--.5
   elseif dpi>=1024 and dpi<1152 then scale=4 
-  elseif dpi>=1152 and dpi<1280 then scale=4.5
+  elseif dpi>=1152 and dpi<1280 then scale=4--.5
   elseif dpi>=1280 and dpi<1408 then scale=5
-  elseif dpi>=1408 and dpi<1536 then scale=5.5
+  elseif dpi>=1408 and dpi<1536 then scale=5--.5
   elseif dpi>=1536 and dpi<1664 then scale=6
-  elseif dpi>=1664 and dpi<1792 then scale=6.5
+  elseif dpi>=1664 and dpi<1792 then scale=6--.5
   elseif dpi>=1792 and dpi<1920 then scale=7
-  elseif dpi>=1920 and dpi<2048 then scale=7.5
+  elseif dpi>=1920 and dpi<2048 then scale=7--.5
   else scale=8
   end
   if reagirl.Window_CurrentScale==nil then reagirl.Window_CurrentScale=scale end
@@ -355,7 +365,9 @@ function reagirl.Window_RescaleIfNeeded()
   if reagirl.Window_CurrentScale~=scale then
     local unscaled_w = gfx.w/reagirl.Window_CurrentScale
     local unscaled_h = gfx.h/reagirl.Window_CurrentScale
-    gfx.init("", math.floor(unscaled_w*scale), math.floor(unscaled_h*scale))
+    if gfx.getchar(65536)>1 then
+      gfx.init("", math.floor(unscaled_w*scale), math.floor(unscaled_h*scale))
+    end
     reagirl.Window_CurrentScale=scale
   end
 end
@@ -635,7 +647,7 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   
   reagirl.IsWindowOpen_attribute=true
   reagirl.Gui_ForceRefresh(1)
-  ALL=reaper.time_precise()
+  
   reagirl.Window_Title=title
   reagirl.Window_Description=description
   reagirl.Window_x=x
@@ -3173,7 +3185,7 @@ function UpdateUI()
 end
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Faily", "A Failstate Manager", nil,100,reagirl.DockState_Retrieve("Stonehenge"),nil,nil)
+reagirl.Gui_Open("Faily", "A Failstate Manager", 50, 50, reagirl.DockState_Retrieve("Stonehenge"), nil, nil)
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 20)
 --reagirl.Window_ForceSize_Maximum(640, 77)
