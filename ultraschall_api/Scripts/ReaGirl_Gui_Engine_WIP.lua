@@ -3,6 +3,7 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 TODO: 
   - Dpi2Scale-conversion must be included(currently using Ultraschall-API in OpenWindow)
   - when no ui-elements are present, the osara init-message is not said
+  - focused rect doesn't scroll after opening the gui-window, one tabbing is needed for it to work. Probably a focused-element=-1 thingy.
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -47,19 +48,20 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill)
   <tags>gfx, functions, blit, text, line breaks, adapt line length</tags>
 </US_DocBloc>
 ]]
-  if type(x)~="number" then error("RoundRect: param #1 - must be a number", 2) end
-  if type(y)~="number" then error("RoundRect: param #2 - must be a number", 2) end
-  if type(w)~="number" then error("RoundRect: param #3 - must be a number", 2) end
-  if type(h)~="number" then error("RoundRect: param #4 - must be a number", 2) end
-  if type(r)~="number" then error("RoundRect: param #5 - must be a number", 2) end
-  if type(antialias)~="number" then error("RoundRect: param #6 - must be a number", 2) end
-  if type(fill)~="number" then error("RoundRect: param #7 - must be a number", 2) end
+  if math.type(x)~="integer" then error("RoundRect: param #1 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("RoundRect: param #2 - must be an integer", 2) end
+  if math.type(w)~="integer" then error("RoundRect: param #3 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("RoundRect: param #4 - must be an integer", 2) end
+  if type(r)~="number" then error("RoundRect: param #5 - must be an integer", 2) end
+  if type(antialias)~="number" then error("RoundRect: param #6 - must be an integer", 2) end
+  if type(fill)~="number" then error("RoundRect: param #7 - must be an integer", 2) end
     local aa = antialias or 1
     fill = fill or 0
 
     if fill == 0 or false then
       gfx.roundrect(x, y, w, h, r, aa)
     else
+      AAA={x,y,r,h}
       if h >= 2 * r then
         -- Corners
         gfx.circle(x + r, y + r, r, 1, aa)        -- top-left
@@ -369,6 +371,7 @@ function reagirl.Window_RescaleIfNeeded()
       gfx.init("", math.floor(unscaled_w*scale), math.floor(unscaled_h*scale))
     end
     reagirl.Window_CurrentScale=scale
+    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   end
 end
 
@@ -588,8 +591,8 @@ function reagirl.SetFont(idx, fontface, size, flags)
   if type(fontface)~="string" then error("Mouse_GetCap: #2 - must be an integer", 2) end
   if math.type(size)~="integer" then error("Mouse_GetCap: #3 - must be an integer", 2) end
   if math.type(flags)~="integer" then error("Mouse_GetCap: #4 - must be an integer", 2) end
-  if size~=nil then size=size* reagirl.dpi_scale end
-  local font_size = size * (1+reagirl.dpi_scale)*0.5
+  if size~=nil then size=size*reagirl.Window_CurrentScale end
+  --local font_size = size * (1+reagirl.Window_CurrentScale)*0.5
   if reaper.GetOS():match("OS")~=nil then size=math.floor(size*0.8) end
   gfx.setfont(idx, fontface, size, flags)
 end
@@ -1860,6 +1863,8 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, MeaningOfUI_Eleme
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(tx+20+w_margin)
   reagirl.Elements[slot]["h"]=math.tointeger(ty+10+h_margin)
+  reagirl.Elements[slot]["w_margin"]=w_margin
+  reagirl.Elements[slot]["h_margin"]=h_margin
   reagirl.Elements[slot]["func_manage"]=reagirl.Button_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.Button_Draw
   reagirl.Elements[slot]["run_function"]=run_function
@@ -1901,21 +1906,23 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
   h=h-5
   local dpi_scale, state
   local sw,sh=gfx.measurestr(element_storage["Name"])
+  w=math.tointeger(sw+20+element_storage["w_margin"])
+  h=math.tointeger(sh+10+element_storage["h_margin"])
   if reagirl.Elements[element_id]["pressed"]==true then
     state=1
-    dpi_scale=1
+    scale=reagirl.Window_CurrentScale
     gfx.set(0.06) -- background 1
-    for i = 1, 1 do
-      reagirl.RoundRect(x - i, y - i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
-      reagirl.RoundRect(x + i, y + i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
-    end
-    reagirl.RoundRect(x , y - 2 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    i=1
+    reagirl.RoundRect(x - i, y - i, w, h, 4 * scale, 1 * scale, 1 * scale)
+    reagirl.RoundRect(x + i, y + i, w, h, 4 * scale, 1 * scale, 1 * scale)
+    
+    reagirl.RoundRect(x , y - 2 * scale, w, h, 4 * scale, 1 * scale, 1 * scale)
     
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect(x , y - 1 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect(x , y - 1 * scale, w, h, 4 * scale, 1 * scale, 1 * scale)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect(x + 1 * state, y + 1 * state, w, h, 4 * scale, 1 * scale, 1 * scale)
     
     gfx.x=x+(w-sw)/2+1
     local offset=0
@@ -1925,24 +1932,26 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     gfx.drawstr(element_storage["Name"])
   else
     state=0
-    dpi_scale=1
+    scale=reagirl.Window_CurrentScale
+    print_update(scale)
     gfx.set(0.06) -- background 1
-    for i = 1, 1 do
-      reagirl.RoundRect(x - i, y - i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
-      reagirl.RoundRect(x + i, y + i, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
-    end
-    reagirl.RoundRect(x , y - 2 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    
+    
+    
+    reagirl.RoundRect((x - 1)*scale, math.floor((y - 1)*scale), w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x + 1)*scale, (y + 1)*scale, w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect(x*scale , (y - 2) * scale, w, h, 4 * scale, 1, 1)
     
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect(x , y - 1 * dpi_scale, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, 4 * scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(x + 1 * state, y + 1 * state, w, h, 4 * dpi_scale, 1 * dpi_scale, 1 * dpi_scale)
+    reagirl.RoundRect((x + 1 * state) * scale, (y + 1 * state) * scale, w, h, 4 * scale, 1, 1)
     
-    gfx.x=x+(w-sw)/2
+    gfx.x=((x*scale)+(w-sw)/2)
     local offset=0
     if reaper.GetOS():match("OS")~=nil then offset=1 end
-    gfx.y=y+(h-sh)/2+offset
+    gfx.y=((y*scale)+(h-sh)/2+offset)
     gfx.set(0.784)
     gfx.drawstr(element_storage["Name"])
   end
@@ -2720,7 +2729,7 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll)
       if reagirl.MoveItAllUp_Delta>0 then reagirl.MoveItAllUp_Delta=0 end
     end
     if reagirl.BoundaryY_Max>gfx.h then
-      reagirl.MoveItAllUp=reagirl.MoveItAllUp+reagirl.MoveItAllUp_Delta
+      reagirl.MoveItAllUp=math.floor(reagirl.MoveItAllUp+reagirl.MoveItAllUp_Delta)
     end
   end
   
@@ -2735,7 +2744,7 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll)
       if reagirl.MoveItAllRight_Delta>0 then reagirl.MoveItAllRight_Delta=0 end
     end
     if reagirl.BoundaryX_Max>gfx.w then
-      reagirl.MoveItAllRight=reagirl.MoveItAllRight+reagirl.MoveItAllRight_Delta
+      reagirl.MoveItAllRight=math.floor(reagirl.MoveItAllRight+reagirl.MoveItAllRight_Delta)
     end
   end
   
@@ -3145,20 +3154,20 @@ function UpdateUI()
     end
   end
   --reagirl.AddDummyElement()  
-  reagirl.Label_Add("Export Podcast as:", -100, 88, 100, 100)
+  --reagirl.Label_Add("Export Podcast as:", -100, 88, 100, 100)
   --A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", true, CheckMe)
-  A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
+  --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
 
-  B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, true, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
+  --B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, true, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
   --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
 --  reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
-  reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
+  --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
 --  E=reagirl.DropDownMenu_Add(80, -70, 100, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
-  reagirl.Line_Add(10,250,120, 200,1,1,0,1)
+  --reagirl.Line_Add(10,250,120, 200,1,1,0,1)
 
   
   --D=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/export_logo.png", 1, 1, 79, 79, false, "Logo", "Logo 2")  
@@ -3166,7 +3175,7 @@ function UpdateUI()
   
   
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
-  reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
+  --reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
 
@@ -3185,7 +3194,7 @@ function UpdateUI()
 end
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Faily", "A Failstate Manager", 50, 50, reagirl.DockState_Retrieve("Stonehenge"), nil, nil)
+reagirl.Gui_Open("Faily", "A Failstate Manager", 450, 150, reagirl.DockState_Retrieve("Stonehenge"), nil, nil)
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 20)
 --reagirl.Window_ForceSize_Maximum(640, 77)
