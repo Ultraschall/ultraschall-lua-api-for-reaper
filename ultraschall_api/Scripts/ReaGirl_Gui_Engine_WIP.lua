@@ -1909,49 +1909,48 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
   w=math.tointeger(sw+20+element_storage["w_margin"])
   h=math.tointeger(sh+10+element_storage["h_margin"])
   if reagirl.Elements[element_id]["pressed"]==true then
-    state=1
+    state=1*scale-1
     scale=reagirl.Window_CurrentScale
-    gfx.set(0.06) -- background 1
-    i=1
-    reagirl.RoundRect(x - i, y - i, w, h, 4 * scale, 1 * scale, 1 * scale)
-    reagirl.RoundRect(x + i, y + i, w, h, 4 * scale, 1 * scale, 1 * scale)
+    offset=math.floor(scale/2) 
+    if offset==0 then offset=1 end
     
-    reagirl.RoundRect(x , y - 2 * scale, w, h, 4 * scale, 1 * scale, 1 * scale)
+    gfx.set(0.06) -- background 1
+    reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, 4 * scale, 1, 1)
+    --reagirl.RoundRect((x + 1 + offset)*scale, (y + 1 + offset)*scale, w, h, 4 * scale, 1, 1)
     
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect(x , y - 1 * scale, w, h, 4 * scale, 1 * scale, 1 * scale)
+    reagirl.RoundRect((x + offset)*scale, (y + offset - 1) * scale, w, h, 4 * scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect(x + 1 * state, y + 1 * state, w, h, 4 * scale, 1 * scale, 1 * scale)
+    reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, 4 * scale, 1, 1)
     
-    gfx.x=x+(w-sw)/2+1
-    local offset=0
+    gfx.x=((x+offset)*scale)+(w-sw)/2
+    
     if reaper.GetOS():match("OS")~=nil then offset=1 end
-    gfx.y=y+(h-sh)/2+1+offset
+    gfx.y=((y+offset)*scale)+(h-sh)/2
     gfx.set(0.784)
     gfx.drawstr(element_storage["Name"])
   else
     state=0
     scale=reagirl.Window_CurrentScale
-    print_update(scale)
+    
     gfx.set(0.06) -- background 1
-    
-    
-    
-    reagirl.RoundRect((x - 1)*scale, math.floor((y - 1)*scale), w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, 4 * scale, 1, 1)
     reagirl.RoundRect((x + 1)*scale, (y + 1)*scale, w, h, 4 * scale, 1, 1)
-    reagirl.RoundRect(x*scale , (y - 2) * scale, w, h, 4 * scale, 1, 1)
+    
     
     gfx.set(0.39) -- background 2
     reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, 4 * scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1 * state) * scale, (y + 1 * state) * scale, w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h, 4 * scale, 1, 1)
     
-    gfx.x=((x*scale)+(w-sw)/2)
+    gfx.x=(x*scale)+(w-sw)/2
     local offset=0
     if reaper.GetOS():match("OS")~=nil then offset=1 end
-    gfx.y=((y*scale)+(h-sh)/2+offset)
+    gfx.y=(y*scale)+(h-sh)/2+offset
     gfx.set(0.784)
     gfx.drawstr(element_storage["Name"])
   end
