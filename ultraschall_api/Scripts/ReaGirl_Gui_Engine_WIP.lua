@@ -858,17 +858,17 @@ function reagirl.Gui_Manage()
   -- changes the selected ui-element when clicked AND shows tooltip
   for i=#reagirl.Elements, 1, -1 do
     local x2, y2, w2, h2
-    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-(y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
     if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
-    
+    --[[
     x2=x2*scale
     y2=y2*scale
     w2=w2*scale
     h2=h2*scale
-    
+    --]]
     -- is any gui-element outside of the window
     local MoveItAllUp=reagirl.MoveItAllUp  
     local MoveItAllRight=reagirl.MoveItAllRight
@@ -917,16 +917,16 @@ function reagirl.Gui_Manage()
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
   for i=#reagirl.Elements, 1, -1 do
     local x2, y2, w2, h2
-    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
-    
+    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=(reagirl.Elements[i]["x"]*scale) end
+    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=(reagirl.Elements[i]["y"]*scale) end
+    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-(y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+    --[[
     x2=x2*scale
     y2=y2*scale
     w2=w2*scale
     h2=h2*scale
-    
+    --]]
     local MoveItAllUp=reagirl.MoveItAllUp   
     local MoveItAllRight=reagirl.MoveItAllRight
     if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
@@ -983,11 +983,11 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     -- draw all ui-elements
     for i=1, #reagirl.Elements, 1 do
       local x2, y2, w2, h2
-      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-      if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
-
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+      
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"])*scale else w2=reagirl.Elements[i]["w"]*scale end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h-(y2+reagirl.Elements[i]["h"])*scale else h2=reagirl.Elements[i]["h"]*scale end
       --[[
       x2=x2*scale
       y2=y2*scale
@@ -1008,10 +1008,10 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
           reagirl.Elements[i]["Name"],
           reagirl.Elements[i]["Description"], 
-          x2+MoveItAllRight,
-          y2+MoveItAllUp,
-          w2,
-          h2,
+          math.floor(x2+MoveItAllRight),
+          math.floor(y2+MoveItAllUp),
+          math.floor(w2),
+          math.floor(h2),
           Key,
           Key_utf,
           reagirl.Elements[i]
@@ -1025,7 +1025,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         gfx.set(0.7,0.7,0.7,0.8)
         local _,_,_,_,x,y,w,h=reagirl.UI_Element_GetFocusRect()
         --print_update(scale, x, y, w, h, reagirl.Font_Size)
-        gfx.rect((x+MoveItAllRight-2)*scale, (y+MoveItAllUp-2)*scale, (w+4)*scale, (h+3)*scale, 0)
+        gfx.rect((x2+MoveItAllRight-2), (y2+MoveItAllUp-2), (w2+4), (h2+3), 0)
         gfx.set(r,g,b,a)
         gfx.dest=dest
         
@@ -1832,7 +1832,13 @@ function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mous
 end
 
 function reagirl.CheckBox_Add(x, y, Name, MeaningOfUI_Element, default, run_function)
+  local oldscale=reagirl.Window_CurrentScale
+  reagirl.Window_CurrentScale=1
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local tx,ty=gfx.measurestr(Name)
+  reagirl.Window_CurrentScale=oldscale
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -1844,8 +1850,8 @@ function reagirl.CheckBox_Add(x, y, Name, MeaningOfUI_Element, default, run_func
   reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(gfx.texth+tx+4)
-  reagirl.Elements[slot]["h"]=math.tointeger(gfx.texth)
+  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["checked"]=default
@@ -1974,12 +1980,14 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
   h=h-5
   local dpi_scale, state
   local sw,sh=gfx.measurestr(element_storage["Name"])
-  w=math.tointeger(sw+20+element_storage["w_margin"])
-  h=math.tointeger(sh+10+element_storage["h_margin"])
+  --w=math.tointeger(sw+20+element_storage["w_margin"])
+  --h=math.tointeger(sh+10+element_storage["h_margin"])
+  local scale=1 --reagirl.Window_CurrentScale
+  local dpi_scale=reagirl.Window_CurrentScale
   if reagirl.Elements[element_id]["pressed"]==true then
-    state=1*scale-1
-    scale=reagirl.Window_CurrentScale
-    offset=math.floor(scale/2) 
+    state=1*dpi_scale-1
+    
+    offset=math.floor(dpi_scale) 
     if offset==0 then offset=1 end
     
     gfx.set(0.06) -- background 1
@@ -1993,17 +2001,18 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     gfx.set(0.274) -- button-area
     reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, 4 * scale, 1, 1)
     
-    gfx.x=((x+offset)*scale)+(w-sw)/2
+    gfx.x=x+(w-sw)/2+1
     
     if reaper.GetOS():match("OS")~=nil then offset=1 end
-    gfx.y=((y+offset)*scale)+(h-sh)/2
+    --gfx.y=((y+offset)*scale)+(h-element_storage["h"])/2
+    gfx.y=y+(h-sh)/2+1+offset
     gfx.set(0.784)
     gfx.drawstr(element_storage["Name"])
   else
     state=0
-    scale=reagirl.Window_CurrentScale
     
     gfx.set(0.06) -- background 1
+    --print_update(x, scale, (x-1)*scale)
     reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, 4 * scale, 1, 1)
     reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, 4 * scale, 1, 1)
     reagirl.RoundRect((x + 1)*scale, (y + 1)*scale, w, h, 4 * scale, 1, 1)
@@ -2015,10 +2024,11 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     gfx.set(0.274) -- button-area
     reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h, 4 * scale, 1, 1)
     
-    gfx.x=(x*scale)+(w-sw)/2
+    gfx.x=x+(w-sw)/2
     local offset=0
     if reaper.GetOS():match("OS")~=nil then offset=1 end
-    gfx.y=(y*scale)+(h-sh)/2+offset
+    --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
+    gfx.y=y+(h-sh)/2+offset
     gfx.set(0.784)
     gfx.drawstr(element_storage["Name"])
   end
@@ -2324,7 +2334,8 @@ end
 
 function reagirl.Rect_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
-  gfx.rect(x,y,w,h, element_storage["filled"])
+  print_update(x,y,w,h,element_storage["filled"])
+  gfx.rect(x, y, w, h, element_storage["filled"])
 end
 
 
@@ -3254,7 +3265,7 @@ function UpdateUI()
   end
   --reagirl.AddDummyElement()  
   --reagirl.Label_Add("Export Podcast as:", -100, 88, 100, 100)
-  --A= reagirl.CheckBox_Add(-280, 90, "MP3", "Export file as MP3", true, CheckMe)
+  A= reagirl.CheckBox_Add(10, 90, "MP3", "Export file as MP3", true, CheckMe)
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
@@ -3274,7 +3285,7 @@ function UpdateUI()
   
   
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
-  reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
+  --reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
 
@@ -3283,7 +3294,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   
-  reagirl.Button_Add(15, 30, 0, 0, " HUCH", "Description of the button", click_button)
+  reagirl.Button_Add(-55, 30, 0, 0, " HUCH", "Description of the button", click_button)
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
   for i=1, 5 do
