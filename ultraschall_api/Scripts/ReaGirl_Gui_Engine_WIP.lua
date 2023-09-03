@@ -284,6 +284,8 @@ function reagirl.Window_Open(...)
   local HWND, retval
   if A&4==0 then
     reagirl.Window_RescaleIfNeeded()
+    --reagirl.MoveItAllRight=0
+    --reagirl.MoveItAllUp=0
     local parms={...}
     local temp=parms[1]
     if parms[2]==nil then parms[2]=640 end
@@ -368,10 +370,17 @@ function reagirl.Window_RescaleIfNeeded()
     local unscaled_w = gfx.w/reagirl.Window_CurrentScale
     local unscaled_h = gfx.h/reagirl.Window_CurrentScale
     if gfx.getchar(65536)>1 then
-      gfx.init("", math.floor(unscaled_w*scale), math.floor(unscaled_h*scale))
+      local A,B,C,D,E,F,G,H=gfx.dock(-1,0,0,0,0)
+      print2(A,B)
+      if A<0 then A=0 end
+      if B<0 then B=0 end
+      print2(A,B)
+      gfx.init("", math.floor(unscaled_w*scale), math.floor(unscaled_h*scale), 0, A, B)
     end
     reagirl.Window_CurrentScale=scale
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+    reagirl.MoveItAllUp=0
+    reagirl.MoveItAllRight=0
   end
 end
 
@@ -724,6 +733,7 @@ end
 function reagirl.Gui_Manage()
   reagirl.Window_RescaleIfNeeded()
   reagirl.UI_Elements_Boundaries()
+  local scale=reagirl.Window_CurrentScale
   -- manages the gui, including tts, mouse and keyboard-management and ui-focused-management
   
   -- initialize focus of first element, if not done already
@@ -1121,6 +1131,7 @@ function reagirl.UI_Element_GetPrevious(startoffset)
 end
 
 function reagirl.UI_Elements_GetScrollRect()
+  -- deprecated?
   local min_x=8192
   local max_x=0
   local min_y=8192
@@ -1128,10 +1139,11 @@ function reagirl.UI_Elements_GetScrollRect()
   
   for i=1, #reagirl.Elements do
     local w2, h2, x2, y2
-    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+    local scale=reagirl.Window_CurrentScale
+    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
+    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
+    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
     
     if reagirl.Elements[i].sticky_x==false then
       if x2+reagirl.MoveItAllRight<=min_x then min_x=x2+reagirl.MoveItAllRight end
@@ -2715,11 +2727,30 @@ function reagirl.UI_Element_ScrollY(deltapx_y)
   reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta+deltapx_y
 end
 
-function reagirl.UI_Element_SmoothScroll(Smoothscroll)
-  reagirl.SmoothScroll=Smoothscroll
+function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debugging only
+  reagirl.SmoothScroll=Smoothscroll -- for debugging only
+  Boundary=reaper.time_precise() -- for debugging only
+  -- scroll y position
+  
+  --if the boundary is bigger than screen, we need to scroll
   if reagirl.BoundaryY_Max>gfx.h then
-    if reagirl.MoveItAllUp_Delta<0 and reagirl.BoundaryY_Max+reagirl.MoveItAllUp-gfx.h<=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max reagirl.Gui_ForceRefresh(64) end
-    if reagirl.MoveItAllUp_Delta>0 and reagirl.BoundaryY_Min+reagirl.MoveItAllUp>=0 then reagirl.MoveItAllUp_Delta=0 reagirl.MoveItAllUp=0 reagirl.Gui_ForceRefresh(65) end
+    
+    -- Scrolllimiter bottom
+    print_update(reagirl.BoundaryY_Max, reagirl.MoveItAllUp, gfx.h)
+    if reagirl.MoveItAllUp_Delta<0 and reagirl.BoundaryY_Max+reagirl.MoveItAllUp-gfx.h<=0 then 
+      print_update(reagirl.BoundaryY_Max, reagirl.MoveItAllUp, gfx.h)
+      reagirl.MoveItAllUp_Delta=0 
+      reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max
+      reagirl.Gui_ForceRefresh(64) 
+    end
+    
+    -- Scrolllimiter top
+    if reagirl.MoveItAllUp_Delta>0 and reagirl.BoundaryY_Min+reagirl.MoveItAllUp>=0 then 
+      reagirl.MoveItAllUp_Delta=0 
+      reagirl.MoveItAllUp=0 
+      reagirl.Gui_ForceRefresh(65) 
+    end
+    
     if reagirl.MoveItAllUp_Delta>0 then 
       reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta-1
       if reagirl.MoveItAllUp_Delta<0 then reagirl.MoveItAllUp_Delta=0 end
@@ -2732,6 +2763,7 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll)
     end
   end
   
+  -- scroll x-position
   if reagirl.BoundaryX_Max>gfx.w then
     if reagirl.MoveItAllRight_Delta<0 and reagirl.BoundaryX_Max+reagirl.MoveItAllRight-gfx.w<=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=gfx.w-reagirl.BoundaryX_Max reagirl.Gui_ForceRefresh(66) end
     if reagirl.MoveItAllRight_Delta>0 and reagirl.BoundaryX_Min+reagirl.MoveItAllRight>=0 then reagirl.MoveItAllRight_Delta=0 reagirl.MoveItAllRight=0 reagirl.Gui_ForceRefresh(67) end
@@ -2796,35 +2828,48 @@ function reagirl.UI_Elements_Boundaries()
     if w2<20 then w2=20 end
   end
   --]]
+  local scale=reagirl.Window_CurrentScale
   local minx, miny, maxx, maxy = 2147483648, 2147483648, -2147483648, -2147483648
   -- first the x position
   for i=1, #reagirl.Elements do
-    if reagirl.Elements[i].sticky_x==false then
+    if reagirl.Elements[i].sticky_x==false or reagirl.Elements[i].sticky_y==false then
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
       if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
-      if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
+      if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end -- Correct for DropDownMenu?
       if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
       if x2<minx then minx=x2 end
       if w2+x2>maxx then maxx=w2+x2 MaxW=w2 end
       
       if y2<miny then miny=y2 end
       if h2+y2>maxy then maxy=h2+y2 MAXH=h2 end
-      MINY=miny
-      MAXY=maxy
+      --MINY=miny
+      --MAXY=maxy
     end
   end
   --gfx.line(minx+reagirl.MoveItAllRight,miny+reagirl.MoveItAllUp, maxx+reagirl.MoveItAllRight, maxy+reagirl.MoveItAllUp, 1)
   --gfx.line(minx+reagirl.MoveItAllRight,miny+reagirl.MoveItAllUp, minx+reagirl.MoveItAllRight, maxy+reagirl.MoveItAllUp)
   
+  local scale_offset
+  if scale==1 then scale_offset=50
+  elseif scale==2 then scale_offset=150
+  elseif scale==3 then scale_offset=300
+  elseif scale==4 then scale_offset=450
+  elseif scale==5 then scale_offset=550
+  elseif scale==6 then scale_offset=650
+  elseif scale==7 then scale_offset=750
+  elseif scale==8 then scale_offset=850
+  end
+  --]]
   reagirl.BoundaryX_Min=0--minx
   reagirl.BoundaryX_Max=maxx
   reagirl.BoundaryY_Min=0--miny
-  reagirl.BoundaryY_Max=maxy
+  reagirl.BoundaryY_Max=maxy -- +scale_offset
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
+  --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)
   --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
-end
+end 
 
 function reagirl.DockState_Update(name)
   -- sets the dockstate into extstates
@@ -3118,8 +3163,7 @@ end
 
 function click_button(test)
   --print(os.date())
-  print2(test)
-  print2(reagirl.UI_Element_GetSetName(test, false))
+
   if test==BT1 then
     reaper.Main_OnCommand(40015, 0)
     reagirl.UI_Element_ScrollToUIElement(BT1)
