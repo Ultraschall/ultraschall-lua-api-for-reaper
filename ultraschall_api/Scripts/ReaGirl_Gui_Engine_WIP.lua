@@ -2334,7 +2334,7 @@ end
 
 function reagirl.Rect_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
-  print_update(x,y,w,h,element_storage["filled"])
+  --print_update(x,y,w,h,element_storage["filled"])
   gfx.rect(x, y, w, h, element_storage["filled"])
 end
 
@@ -3002,7 +3002,8 @@ function reagirl.ScrollButton_Right_Manage(element_id, selected, clicked, mouse_
 end
 
 function reagirl.ScrollButton_Right_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  local x_offset=-15
+  local scale=reagirl.Window_CurrentScale
+  local x_offset=-15*scale
   if reagirl.BoundaryX_Max>gfx.w then
     element_storage.IsDecorative=false
   else
@@ -3014,12 +3015,16 @@ function reagirl.ScrollButton_Right_Draw(element_id, selected, clicked, mouse_ca
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], 1)
-  gfx.rect(gfx.w-15+x_offset, gfx.h-15, 15, 15, 1)
-  gfx.set(0.39, 0.39, 0.39, element_storage.a)
-  gfx.rect(gfx.w-15+x_offset, gfx.h-15, 15, 15, 0)
-  gfx.triangle(gfx.w-10+x_offset, gfx.h-3,
-               gfx.w-10+x_offset, gfx.h-13,
-               gfx.w-5+x_offset, gfx.h-8)
+  gfx.rect(gfx.w-15*scale+x_offset, gfx.h-15*scale, 15*scale, 15*scale, 1)
+  if mouse_cap==1 and selected==true then
+    gfx.set(0.59, 0.59, 0.59, element_storage.a)
+  else
+    gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  end
+  gfx.rect(gfx.w-15*scale+x_offset, gfx.h-15*scale, 15*scale, 15*scale, 0)
+  gfx.triangle(gfx.w-10*scale+x_offset, gfx.h-3*scale,
+               gfx.w-10*scale+x_offset, gfx.h-13*scale,
+               gfx.w-5*scale+x_offset, gfx.h-8*scale)
   gfx.set(oldr, oldg, oldb, olda)
 end
 
@@ -3056,6 +3061,7 @@ function reagirl.ScrollButton_Left_Manage(element_id, selected, clicked, mouse_c
 end
 
 function reagirl.ScrollButton_Left_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local scale=reagirl.Window_CurrentScale
   if reagirl.BoundaryX_Max>gfx.w then
     element_storage.IsDecorative=false
   else
@@ -3068,12 +3074,16 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, clicked, mouse_cap
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], 1)
-  gfx.rect(0, gfx.h-15, 15, 15, 1)
-  gfx.set(0.39, 0.39, 0.39, element_storage.a)
-  gfx.rect(0, gfx.h-15, 15, 15, 0)
-  gfx.triangle(8, gfx.h-3,
-               8, gfx.h-13,
-               3, gfx.h-8)
+  gfx.rect(0, gfx.h-15*scale, 15*scale, 15*scale, 1)
+  if mouse_cap==1 and selected==true then
+    gfx.set(0.59, 0.59, 0.59, element_storage.a)
+  else
+    gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  end
+  gfx.rect(0, gfx.h-15*scale, 15*scale, 15*scale, 0)
+  gfx.triangle(8*scale, gfx.h-3*scale,
+               8*scale, gfx.h-13*scale,
+               3*scale, gfx.h-8*scale)
   gfx.set(oldr, oldg, oldb, olda)
 end
 
@@ -3110,6 +3120,7 @@ function reagirl.ScrollButton_Up_Manage(element_id, selected, clicked, mouse_cap
 end
 
 function reagirl.ScrollButton_Up_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local scale=reagirl.Window_CurrentScale
   if reagirl.BoundaryY_Max>gfx.h then
     element_storage.IsDecorative=false
   else
@@ -3122,12 +3133,16 @@ function reagirl.ScrollButton_Up_Draw(element_id, selected, clicked, mouse_cap, 
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], 1)
-  gfx.rect(gfx.w-15, 0, 15, 15, 1)
-  gfx.set(0.39, 0.39, 0.39, element_storage.a)
-  gfx.rect(gfx.w-15, 0, 15, 15, 0)
-  gfx.triangle(gfx.w-8, 4,
-               gfx.w-3, 9,
-               gfx.w-13, 9)
+  gfx.rect(gfx.w-15*scale, 0, 15*scale, 15*scale, 1)
+  if mouse_cap==1 and selected==true then
+    gfx.set(0.59, 0.59, 0.59, element_storage.a)
+  else
+    gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  end
+  gfx.rect(gfx.w-15*scale, 0, 15*scale, 15*scale, 0)
+  gfx.triangle(gfx.w-8*scale, 4*scale,
+               gfx.w-3*scale, 9*scale,
+               gfx.w-13*scale, 9*scale)
   gfx.set(oldr, oldg, oldb, olda)
 end
 
@@ -3165,6 +3180,8 @@ function reagirl.ScrollButton_Down_Manage(element_id, selected, clicked, mouse_c
 end
 
 function reagirl.ScrollButton_Down_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local scale=reagirl.Window_CurrentScale
+  --print_update(x,y,w,h,scale)
   if reagirl.BoundaryY_Max>gfx.h then
     element_storage.IsDecorative=false
   else
@@ -3177,12 +3194,16 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, clicked, mouse_cap
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], 1)
-  gfx.rect(gfx.w-15, gfx.h-30, 15, 15, 1)
-  gfx.set(0.39, 0.39, 0.39, element_storage.a)
-  gfx.rect(gfx.w-15, gfx.h-30, 15, 15, 0)
-  gfx.triangle(gfx.w-8, gfx.h-20,
-               gfx.w-3, gfx.h-25,
-               gfx.w-13, gfx.h-25)
+  gfx.rect(gfx.w-15*scale, gfx.h-30*scale, 15*scale, 15*scale, 1)
+  if mouse_cap==1 and selected==true then
+    gfx.set(0.59, 0.59, 0.59, element_storage.a)
+  else
+    gfx.set(0.39, 0.39, 0.39, element_storage.a)
+  end
+  gfx.rect(gfx.w-15*scale, gfx.h-30*scale, 15*scale, 15*scale, 0)
+  gfx.triangle(gfx.w-8*scale, gfx.h-20*scale,
+               gfx.w-3*scale, gfx.h-25*scale,
+               gfx.w-13*scale, gfx.h-25*scale)
   gfx.set(oldr, oldg, oldb, olda)
 end
 
@@ -3294,7 +3315,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   
-  reagirl.Button_Add(-55, 30, 0, 0, " HUCH", "Description of the button", click_button)
+  reagirl.Button_Add(5055, 1030, 0, 0, " HUCH", "Description of the button", click_button)
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
   for i=1, 5 do
