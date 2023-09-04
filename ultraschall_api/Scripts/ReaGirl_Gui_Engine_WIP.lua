@@ -16,7 +16,7 @@ reagirl.MoveItAllUp_Delta=0
 
 reagirl.Font_Size=18
 
-function reagirl.RoundRect(x, y, w, h, r, antialias, fill)
+function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, square_bottom_left, square_top_right, square_bottom_right)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RoundRect</slug>
@@ -25,7 +25,7 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill)
     Reaper=6.75
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = reagirl.RoundRect(integer x, integer y, integer w, integer h, number r, number antialias, number fill)</functioncall>
+  <functioncall>reagirl.RoundRect(integer x, integer y, integer w, integer h, number r, number antialias, number fill, optional boolean square_top_left, optional boolean square_bottom_left, optional boolean square_top_right, optional boolean square_bottom_right)</functioncall>
   <description>
     This draws a rectangle with rounded corners to x and y
   </description>
@@ -33,13 +33,15 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill)
     integer x - the x-position of the rectangle
     integer y - the y-position of the rectangle
     integer w - the width of the rectangle
+    integer h - the height of the rectangle
     number r - the radius of the corners of the rectangle
     number antialias - 1, antialias; 0, no antialias
     number fill - 1, filled; 0, not filled
+    optional boolean square_top_left - true, make top-left corner square; false or nil, make it round
+    optional boolean square_bottom_left - true, make bottom-left corner square; false or nil, make it round
+    optional boolean square_top_right - true, make top-right corner square; false or nil, make it round
+    optional boolean square_bottom_right - true, make bottom-right corner square; false or nil, make it round
   </parameters>
-  <retvals>
-    boolean retval - true, text-blitting was successful; false, text-blitting was unsuccessful
-  </retvals>
   <chapter_context>
     Misc
   </chapter_context>
@@ -53,35 +55,84 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill)
   if math.type(w)~="integer" then error("RoundRect: param #3 - must be an integer", 2) end
   if math.type(h)~="integer" then error("RoundRect: param #4 - must be an integer", 2) end
   if type(r)~="number" then error("RoundRect: param #5 - must be an integer", 2) end
+  if r>50 then r=50 end
   if type(antialias)~="number" then error("RoundRect: param #6 - must be an integer", 2) end
   if type(fill)~="number" then error("RoundRect: param #7 - must be an integer", 2) end
-    local aa = antialias or 1
-    fill = fill or 0
+  if square_top_left~=nil     and type(square_top_left)~="boolean"     then error("RoundRect: param #8 - must be a boolean or nil", 2)  end
+  if square_bottom_left~=nil  and type(square_bottom_left)~="boolean"  then error("RoundRect: param #9 - must be a boolean or nil", 2)  end
+  if square_top_right~=nil    and type(square_top_right)~="boolean"    then error("RoundRect: param #10 - must be a boolean or nil", 2) end
+  if square_bottom_right~=nil and type(square_bottom_right)~="boolean" then error("RoundRect: param #11 - must be a boolean or nil", 2) end
+    
+  local aa = antialias or 1
+  fill = fill or 0
 
-    if fill == 0 or false then
-      gfx.roundrect(x, y, w, h, r, aa)
+  if fill == 0 or false then
+    if square_top_left~=true then
+      gfx.arc(x+r, y+r, r, -1.6, 0, aa) -- top left
     else
-      if h >= 2 * r then
-        -- Corners
-        gfx.circle(x + r, y + r, r, 1, aa)        -- top-left
-        gfx.circle(x + w - r, y + r, r, 1, aa)    -- top-right
-        gfx.circle(x + w - r, y + h - r, r , 1, aa)  -- bottom-right
-        gfx.circle(x + r, y + h - r, r, 1, aa)    -- bottom-left
-  
-        -- Ends
-        gfx.rect(x, y + r, r, h - r * 2)
-        gfx.rect(x + w - r, y + r, r + 1, h - r * 2)
-  
-        -- Body + sides
-        gfx.rect(x + r, y, w - r * 2, h + 1)
-      else
-        r = (h / 2 - 1)
-        -- Ends
-        gfx.circle(x + r, y + r, r, 1, aa)
-        gfx.circle(x + w - r, y + r, r, 1, aa)
-        -- Body
-        gfx.rect(x + r, y, w - (r * 2), h)
+      gfx.line(x, y, x+r,   y, aa)
+      gfx.line(x, y,   x, y+r, aa)
     end
+    if square_top_right~=true then
+      gfx.arc(x+w-r, y+r, r, 0, 1.6, aa) -- top right
+    else
+      gfx.line(x+w, y, x+w-r,   y, aa)
+      gfx.line(x+w, y,   x+w, y+r, aa)
+    end
+    if square_bottom_left~=true then
+      gfx.arc(x+r, y+h-r, r, -3.2, -1.6, aa) -- bottom left
+    else
+      gfx.line(x, y+h, x+r,   y+h, aa)
+      gfx.line(x, y+h,   x, y+h-r, aa)
+    end
+    if square_bottom_right~=true then
+      gfx.arc(x+w-r, y+h-r, r,  1.6,  3.2, aa) -- bottom right
+    else
+      gfx.line(x+w, y+h-r,   x+w, y+h, aa)
+      gfx.line(x+w,   y+h, x+w-r, y+h, aa)
+    end
+    
+    gfx.line(x+r,     y, x+w-r,     y, aa) -- top line
+    gfx.line(x+r,   y+h, x+w-r,   y+h, aa) -- bottom line
+    gfx.line(x,     y+r,     x, y+h-r, aa) -- left edge
+    gfx.line(x+w,   y+r,   x+w, y+h-r, aa) -- right edge
+  else
+      -- Corners
+      
+      -- top-left
+      if square_top_left~=true then
+        gfx.circle(x + r, y + r, r, 1, aa)       
+      else
+        gfx.rect(x, y, r*2, r*2, 1)
+      end
+      
+      -- bottom-left
+      if square_bottom_left~=true then
+        gfx.circle(x + r, y + h - r, r, 1, aa)    
+      else
+        gfx.rect(x, 1+y+h-r*2, r*2, r*2, 1)
+      end
+      
+      -- top-right
+      if square_top_right~=true then
+        gfx.circle(x + w - r, y + r, r, 1, aa)    
+      else
+        gfx.rect(1+x+w-r*2, y, r*2, r*2, 1)
+      end
+      
+      -- bottom-right
+      if square_bottom_right~=true then
+        gfx.circle(x + w - r, y + h - r, r , 1, aa)  
+      else
+        gfx.rect(1+x+w-r*2, 1+y+h-r*2, r*2, r*2, 1)
+      end
+      
+      -- Ends
+      gfx.rect(x, y + r, r, h - r * 2)
+      gfx.rect(x + w - r, y + r, r + 1, h - r * 2)
+
+      -- Body + sides
+      gfx.rect(x + r, y, w - r * 2, h + 1)
   end
 end
 
