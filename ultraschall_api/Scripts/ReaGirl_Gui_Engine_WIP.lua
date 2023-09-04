@@ -343,29 +343,38 @@ function reagirl.Window_Open(...)
 end
 
 function reagirl.Window_RescaleIfNeeded()
-  local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
   local scale
-  local dpi=tonumber(dpi)
   
-  if dpi<384 then scale=1
-  elseif dpi>=384 and dpi<512 then scale=1--.5
-  elseif dpi>=512 and dpi<640 then scale=2
-  elseif dpi>=640 and dpi<768 then scale=2--.5
-  elseif dpi>=768 and dpi<896 then scale=3
-  elseif dpi>=896 and dpi<1024 then scale=3--.5
-  elseif dpi>=1024 and dpi<1152 then scale=4 
-  elseif dpi>=1152 and dpi<1280 then scale=4--.5
-  elseif dpi>=1280 and dpi<1408 then scale=5
-  elseif dpi>=1408 and dpi<1536 then scale=5--.5
-  elseif dpi>=1536 and dpi<1664 then scale=6
-  elseif dpi>=1664 and dpi<1792 then scale=6--.5
-  elseif dpi>=1792 and dpi<1920 then scale=7
-  elseif dpi>=1920 and dpi<2048 then scale=7--.5
-  else scale=8
+  if reagirl.Window_CurrentScale_Override==nil then
+    local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+    local dpi=tonumber(dpi)
+    
+    if dpi<384 then scale=1
+    elseif dpi>=384 and dpi<512 then scale=1--.5
+    elseif dpi>=512 and dpi<640 then scale=2
+    elseif dpi>=640 and dpi<768 then scale=2--.5
+    elseif dpi>=768 and dpi<896 then scale=3
+    elseif dpi>=896 and dpi<1024 then scale=3--.5
+    elseif dpi>=1024 and dpi<1152 then scale=4 
+    elseif dpi>=1152 and dpi<1280 then scale=4--.5
+    elseif dpi>=1280 and dpi<1408 then scale=5
+    elseif dpi>=1408 and dpi<1536 then scale=5--.5
+    elseif dpi>=1536 and dpi<1664 then scale=6
+    elseif dpi>=1664 and dpi<1792 then scale=6--.5
+    elseif dpi>=1792 and dpi<1920 then scale=7
+    elseif dpi>=1920 and dpi<2048 then scale=7--.5
+    else scale=8
+    end
+  else
+    scale=reagirl.Window_OldScale
+    reagirl.Window_OldScale=scale
   end
   if reagirl.Window_CurrentScale==nil then reagirl.Window_CurrentScale=scale end
   
+  --XXX=reagirl.Window_CurrentScale
+  
   if reagirl.Window_CurrentScale~=scale then
+    --print2("")
     local unscaled_w = gfx.w/reagirl.Window_CurrentScale
     local unscaled_h = gfx.h/reagirl.Window_CurrentScale
     if gfx.getchar(65536)>1 then
@@ -432,8 +441,8 @@ function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
   <tags>gfx, functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
 ]]
-  if doubleclick_wait~=nil and math.type(doubleclick_wait)~="integer" then error("Mouse_GetCap: #1 - must be an integer", 2) end
-  if drag_wait~=nil and math.type(drag_wait)~="integer" then error("Mouse_GetCap: #2 - must be an integer", 2) end
+  if doubleclick_wait~=nil and math.type(doubleclick_wait)~="integer" then error("Mouse_GetCap: #1 - must be nil or an integer", 2) end
+  if drag_wait~=nil and math.type(drag_wait)~="integer" then error("Mouse_GetCap: #2 - must be nil or an integer", 2) end
 --HUITOO=reaper.time_precise()
   -- prepare variables
   if reagirl.MouseCap==nil then
@@ -573,6 +582,93 @@ function reagirl.Gui_New()
   reagirl.ScrollButton_Down_Add()
 end
 
+function reagirl.Window_GetCurrentScale()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Window_GetCurrentScale</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer current_scaling_factor, boolean scaling_factor_override, integer current_system_scaling_factor = reagirl.Window_GetCurrentScale()</functioncall>
+  <description>
+    Gets the current scaling-factor
+  </description>
+  <retvals>
+    integer current_scaling_factor - the scaling factor currently used by the script; nil, if autoscaling is activated
+    boolean scaling_factor_override - does the current script override auto-scaling
+    integer current_system_scaling_factor - the scaling factor that would be used, if auto-scaling would be on
+  </retvals>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>window, get, current scale</tags>
+</US_DocBloc>
+]]
+  local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+  local scale
+  local dpi=tonumber(dpi)
+  
+  if dpi<384 then scale=1
+  elseif dpi>=384 and dpi<512 then scale=1--.5
+  elseif dpi>=512 and dpi<640 then scale=2
+  elseif dpi>=640 and dpi<768 then scale=2--.5
+  elseif dpi>=768 and dpi<896 then scale=3
+  elseif dpi>=896 and dpi<1024 then scale=3--.5
+  elseif dpi>=1024 and dpi<1152 then scale=4 
+  elseif dpi>=1152 and dpi<1280 then scale=4--.5
+  elseif dpi>=1280 and dpi<1408 then scale=5
+  elseif dpi>=1408 and dpi<1536 then scale=5--.5
+  elseif dpi>=1536 and dpi<1664 then scale=6
+  elseif dpi>=1664 and dpi<1792 then scale=6--.5
+  elseif dpi>=1792 and dpi<1920 then scale=7
+  elseif dpi>=1920 and dpi<2048 then scale=7--.5
+  else scale=8
+  end
+  return reagirl.Window_CurrentScale, reagirl.Window_CurrentScale_Override~=nil, scale
+end
+
+function reagirl.Window_SetCurrentScale(newscale)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Window_SetCurrentScale</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Window_SetCurrentScale(optional integer newscale)</functioncall>
+  <description>
+    Sets a new scaling-factor that overrides auto-scaling/scaling preferences
+  </description>
+  <retvals>
+    optional integer newscale - the scaling factor that shall be used in the script
+                              - nil, autoscaling/use preference
+                              - 1-8, scaling factor between 1 and 8
+  </retvals>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>window, get, current scale</tags>
+</US_DocBloc>
+]]
+  if newscale~=nil and math.type(newscale)~="integer" then error("Window_SetCurrentScale: #1 - must be either nil or an integer", 2) end
+  if newscale~=nil and (newscale<1 or newscale>8) then error("Window_SetCurrentScale: #1 - must be either nil or an integer between 1 and 8", 2) end
+  if newscale==nil then reagirl.Window_CurrentScale_Override=nil
+  else 
+    reagirl.Window_OldScale=newscale
+    reagirl.Window_CurrentScale_Override=true
+  end
+  reagirl.Window_RescaleIfNeeded()
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, newscale)
+end
+
+--
 
 function reagirl.SetFont(idx, fontface, size, flags, scale_override)
 --[[
@@ -1869,11 +1965,8 @@ function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mous
 end
 
 function reagirl.CheckBox_Add(x, y, Name, MeaningOfUI_Element, default, run_function)
-  --local oldscale=reagirl.Window_CurrentScale
-  --reagirl.Window_CurrentScale=1
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(Name)
-  --reagirl.Window_CurrentScale=oldscale
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -2808,8 +2901,13 @@ function GetFileList2(filelist)
   print2("Zwo:"..list)
 end
 
-function CheckMe(tudelu)
---  print2(tudelu)
+function CheckMe(tudelu, checkstate)
+  --print2(tudelu, checkstate)
+  if checkstate==false then
+    reagirl.Window_SetCurrentScale(1)
+  else
+    reagirl.Window_SetCurrentScale()
+  end
 end
 
 
