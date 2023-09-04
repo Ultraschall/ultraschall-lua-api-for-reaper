@@ -346,24 +346,28 @@ function reagirl.Window_RescaleIfNeeded()
   local scale
   
   if reagirl.Window_CurrentScale_Override==nil then
-    local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
-    local dpi=tonumber(dpi)
-    
-    if dpi<384 then scale=1
-    elseif dpi>=384 and dpi<512 then scale=1--.5
-    elseif dpi>=512 and dpi<640 then scale=2
-    elseif dpi>=640 and dpi<768 then scale=2--.5
-    elseif dpi>=768 and dpi<896 then scale=3
-    elseif dpi>=896 and dpi<1024 then scale=3--.5
-    elseif dpi>=1024 and dpi<1152 then scale=4 
-    elseif dpi>=1152 and dpi<1280 then scale=4--.5
-    elseif dpi>=1280 and dpi<1408 then scale=5
-    elseif dpi>=1408 and dpi<1536 then scale=5--.5
-    elseif dpi>=1536 and dpi<1664 then scale=6
-    elseif dpi>=1664 and dpi<1792 then scale=6--.5
-    elseif dpi>=1792 and dpi<1920 then scale=7
-    elseif dpi>=1920 and dpi<2048 then scale=7--.5
-    else scale=8
+    if tonumber(reaper.GetExtState("reagirl_preferences", "scaling_override"))~=nil then
+      scale=tonumber(reaper.GetExtState("reagirl_preferences", "scaling_override"))
+    else
+      local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+      local dpi=tonumber(dpi)
+      
+      if dpi<384 then scale=1
+      elseif dpi>=384 and dpi<512 then scale=1--.5
+      elseif dpi>=512 and dpi<640 then scale=2
+      elseif dpi>=640 and dpi<768 then scale=2--.5
+      elseif dpi>=768 and dpi<896 then scale=3
+      elseif dpi>=896 and dpi<1024 then scale=3--.5
+      elseif dpi>=1024 and dpi<1152 then scale=4 
+      elseif dpi>=1152 and dpi<1280 then scale=4--.5
+      elseif dpi>=1280 and dpi<1408 then scale=5
+      elseif dpi>=1408 and dpi<1536 then scale=5--.5
+      elseif dpi>=1536 and dpi<1664 then scale=6
+      elseif dpi>=1664 and dpi<1792 then scale=6--.5
+      elseif dpi>=1792 and dpi<1920 then scale=7
+      elseif dpi>=1920 and dpi<2048 then scale=7--.5
+      else scale=8
+      end
     end
   else
     scale=reagirl.Window_OldScale
