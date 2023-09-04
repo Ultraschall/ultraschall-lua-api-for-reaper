@@ -574,7 +574,7 @@ function reagirl.Gui_New()
 end
 
 
-function reagirl.SetFont(idx, fontface, size, flags)
+function reagirl.SetFont(idx, fontface, size, flags, scale_override)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetFont</slug>
@@ -583,10 +583,40 @@ function reagirl.SetFont(idx, fontface, size, flags)
     Reaper=6.75
     Lua=5.3
   </requires>
-  <functioncall>reagirl.SetFont(integer idx, string fontface, integer size, integer flags)</functioncall>
+  <functioncall>integer font_size = reagirl.SetFont(integer idx, string fontface, integer size, integer flags, optional integer scale_override)</functioncall>
   <description>
-    Creates a new gui by removing all currently(if available) ui-elements.
+    Sets the new font-size.
   </description>
+  <parameters>
+    integer idx - the index of the font to set
+    string fontface - the name of the font, like "arial" or "tahoma" or "times"
+    integer size - the size of the font(will be adjusted correctly on Mac)
+    integer flags - a multibyte character, which can include 'i' for italics, 'u' for underline, or 'b' for bold. 
+                      - These flags may or may not be supported depending on the font and OS. 
+                      -   66 and 98, Bold (B), (b)
+                      -   73 and 105, italic (I), (i)
+                      -   79 and 111, white outline (O), (o)
+                      -   82 and 114, blurred (R), (r)
+                      -   83 and 115, sharpen (S), (s)
+                      -   85 and 117, underline (U), (u)
+                      -   86 and 118, inVerse (V), (v)
+                      - 
+                      - To create such a multibyte-character, assume this flag-value as a 32-bit-value.
+                      - The first 8 bits are the first flag, the next 8 bits are the second flag, 
+                      - the next 8 bits are the third flag and the last 8 bits are the second flag.
+                      - The flagvalue(each dot is a bit): .... ....   .... ....   .... ....   .... ....
+                      - If you want to set it to Bold(B) and Italic(I), you use the ASCII-Codes of both(66 and 73 respectively),
+                      - take them apart into bits and set them in this 32-bitfield.
+                      - The first 8 bits will be set by the bits of ASCII-value 66(B), the second 8 bits will be set by the bits of ASCII-Value 73(I).
+                      - The resulting flagvalue is: 0100 0010   1001 0010   0000 0000   0000 0000
+                      - which is a binary representation of the integer value 18754, which combines 66 and 73 in it.
+    optional integer scale_override - set the scaling-factor for the font
+                                    - nil, use autoscaling
+                                    - 1-8, scale between 1-8
+  </parmeters>
+  <retvals>
+    integer font_size - the properly scaled font-size
+  </retvals>
   <chapter_context>
     Misc
   </chapter_context>
@@ -599,10 +629,17 @@ function reagirl.SetFont(idx, fontface, size, flags)
   if type(fontface)~="string" then error("SetFont: #2 - must be an integer", 2) end
   if math.type(size)~="integer" then error("SetFont: #3 - must be an integer", 2) end
   if math.type(flags)~="integer" then error("SetFont: #4 - must be an integer", 2) end
-  if size~=nil then size=size*reagirl.Window_CurrentScale end
+  if scale_override~=nil and math.type(scale_override)~="integer" then error("SetFont: #5 - must be either nil(for autoscale) or an integer", 2) end
+  if scale_override~=nil and (scale_override<1 or scale_override>8) then error("SetFont: #5 - must be between 1 and 8 or nil(for autoscale)", 2) end
+  if scale_override~=nil then size=size*scale_override 
+  else 
+    if size~=nil then size=size*reagirl.Window_CurrentScale end
+  end
+  
   --local font_size = size * (1+reagirl.Window_CurrentScale)*0.5
   if reaper.GetOS():match("OS")~=nil then size=math.floor(size*0.8) end
   gfx.setfont(idx, fontface, size, flags)
+  return size
 end
 
 function reagirl.Gui_Open(title, description, w, h, dock, x, y)
@@ -1832,11 +1869,11 @@ function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mous
 end
 
 function reagirl.CheckBox_Add(x, y, Name, MeaningOfUI_Element, default, run_function)
-  local oldscale=reagirl.Window_CurrentScale
-  reagirl.Window_CurrentScale=1
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  --local oldscale=reagirl.Window_CurrentScale
+  --reagirl.Window_CurrentScale=1
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(Name)
-  reagirl.Window_CurrentScale=oldscale
+  --reagirl.Window_CurrentScale=oldscale
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -1916,11 +1953,8 @@ end
 
 
 function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, MeaningOfUI_Element, run_function)
-  local oldscale=reagirl.Window_CurrentScale
-  reagirl.Window_CurrentScale=1
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(Caption)
-  reagirl.Window_CurrentScale=oldscale
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
@@ -1991,15 +2025,15 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     if offset==0 then offset=1 end
     
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, 4 * scale, 1, 1)
-    reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, 4 * dpi_scale, 1, 1)
+    reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, 4 * dpi_scale, 1, 1)
     --reagirl.RoundRect((x + 1 + offset)*scale, (y + 1 + offset)*scale, w, h, 4 * scale, 1, 1)
     
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect((x + offset)*scale, (y + offset - 1) * scale, w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x + offset)*scale, (y + offset - 1) * scale, w, h, 4 * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, 4 * dpi_scale, 1, 1)
     
     gfx.x=x+(w-sw)/2+1
     
@@ -2013,16 +2047,16 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     
     gfx.set(0.06) -- background 1
     --print_update(x, scale, (x-1)*scale)
-    reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, 4 * scale, 1, 1)
-    reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, 4 * scale, 1, 1)
-    reagirl.RoundRect((x + 1)*scale, (y + 1)*scale, w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, 4 * dpi_scale, 1, 1)
+    reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, 4 * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + 1)*scale, (y + 1)*scale, w, h, 4 * dpi_scale, 1, 1)
     
     
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, 4 * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h, 4 * dpi_scale, 1, 1)
     
     gfx.x=x+(w-sw)/2
     local offset=0
