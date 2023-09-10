@@ -1492,8 +1492,8 @@ Changes from 4.9 to 4.95
     exposed -> fixed
 -   DocEngine: Docs_GetUltraschallApiFunction_Retvals - didn’t correctly
     resolve datatypes when param was optional
--   FXManagement: ScanVSTPlugins - removed, as it changes in Reaper
-    prevent this from working entirely
+-   FXManagement: ScanVSTPlugins - removed, as changes in Reaper prevent
+    this from working entirely
 -   MediaItem Management: RippleCut - didn’t close the gap under certain
     cirumstances -> fixed now
 -   MediaItem Management: RippleCut_Reverse - didn’t close the gap under

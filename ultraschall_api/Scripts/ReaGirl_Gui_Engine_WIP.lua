@@ -105,74 +105,96 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, squa
   fill = fill or 0
 
   if fill == 0 or false then
-    if square_top_left~=true then
-      gfx.arc(x+r, y+r, r, -1.6, 0, aa) -- top left
-    else
-      gfx.line(x, y, x+r,   y, aa)
-      gfx.line(x, y,   x, y+r, aa)
+    -- unfilled
+    if h >=2*r then 
+      if square_top_left~=true then
+        gfx.arc(x+r, y+r, r, -1.6, 0, aa) -- top left
+      else
+        gfx.line(x, y, x+r,   y, aa)
+        gfx.line(x, y,   x, y+r, aa)
+      end
+      if square_top_right~=true then
+        gfx.arc(x+w-r, y+r, r, 0, 1.6, aa) -- top right
+      else
+        gfx.line(x+w, y, x+w-r,   y, aa)
+        gfx.line(x+w, y,   x+w, y+r, aa)
+      end
+      if square_bottom_left~=true then
+        gfx.arc(x+r, y+h-r, r, -3.2, -1.6, aa) -- bottom left
+      else
+        gfx.line(x, y+h, x+r,   y+h, aa)
+        gfx.line(x, y+h,   x, y+h-r, aa)
+      end
+      if square_bottom_right~=true then
+        gfx.arc(x+w-r, y+h-r, r,  1.6,  3.2, aa) -- bottom right
+      else
+        gfx.line(x+w, y+h-r,   x+w, y+h, aa)
+        gfx.line(x+w,   y+h, x+w-r, y+h, aa)
+      end
+      
+      gfx.line(x+r,     y, x+w-r,     y, aa) -- top line
+      gfx.line(x+r,   y+h, x+w-r,   y+h, aa) -- bottom line
+      gfx.line(x,     y+r,     x, y+h-r, aa) -- left edge
+      gfx.line(x+w,   y+r,   x+w, y+h-r, aa) -- right edge
     end
-    if square_top_right~=true then
-      gfx.arc(x+w-r, y+r, r, 0, 1.6, aa) -- top right
-    else
-      gfx.line(x+w, y, x+w-r,   y, aa)
-      gfx.line(x+w, y,   x+w, y+r, aa)
-    end
-    if square_bottom_left~=true then
-      gfx.arc(x+r, y+h-r, r, -3.2, -1.6, aa) -- bottom left
-    else
-      gfx.line(x, y+h, x+r,   y+h, aa)
-      gfx.line(x, y+h,   x, y+h-r, aa)
-    end
-    if square_bottom_right~=true then
-      gfx.arc(x+w-r, y+h-r, r,  1.6,  3.2, aa) -- bottom right
-    else
-      gfx.line(x+w, y+h-r,   x+w, y+h, aa)
-      gfx.line(x+w,   y+h, x+w-r, y+h, aa)
-    end
-    
-    gfx.line(x+r,     y, x+w-r,     y, aa) -- top line
-    gfx.line(x+r,   y+h, x+w-r,   y+h, aa) -- bottom line
-    gfx.line(x,     y+r,     x, y+h-r, aa) -- left edge
-    gfx.line(x+w,   y+r,   x+w, y+h-r, aa) -- right edge
   else
-      -- Corners
+    -- filled
+    
+    -- Corners
+    if h >=2*r then 
+      local filled=1
+      if 1+y+h-r*2<y then offset=y-(1+y+h-r*2) else offset=0 end
       
       -- top-left
       if square_top_left~=true then
-        gfx.circle(x + r, y + r, r, 1, aa)       
+        gfx.circle(x + r, y + r, r, 1, aa)
       else
-        gfx.rect(x, y, r*2, r*2, 1)
+        gfx.rect(x, y, r, r, filled)
       end
       
       -- bottom-left
       if square_bottom_left~=true then
-        gfx.circle(x + r, y + h - r, r, 1, aa)    
+        gfx.circle(x + r, offset+y + h - r, r, filled, aa)
       else
-        gfx.rect(x, 1+y+h-r*2, r*2, r*2, 1)
+        gfx.rect(x, offset+y+h-r, r, r+1, filled)
       end
       
       -- top-right
       if square_top_right~=true then
-        gfx.circle(x + w - r, y + r, r, 1, aa)    
+        gfx.circle(x + w - r, y + r, r, filled, aa)
       else
-        gfx.rect(1+x+w-r*2, y, r*2, r*2, 1)
+        gfx.rect(x+w-r, y, r+1, r+1, filled)
       end
       
       -- bottom-right
       if square_bottom_right~=true then
-        gfx.circle(x + w - r, y + h - r, r , 1, aa)  
+        gfx.circle(x + w - r, y + h - r, r , filled, aa)
       else
-        gfx.rect(1+x+w-r*2, 1+y+h-r*2, r*2, r*2, 1)
+        gfx.rect(x+w-r, y+h-r, r+1, r+1, filled)
       end
       
       -- Ends
-      gfx.rect(x, y + r, r, h - r * 2)
-      gfx.rect(x + w - r, y + r, r + 1, h - r * 2)
-
+      gfx.rect(x, y + r, r, h - r * 2, filled)
+      gfx.rect(x + w - r, y + r, r + 1, h - r * 2, filled)
+  
       -- Body + sides
-      gfx.rect(x + r, y, w - r * 2, h + 1)
+      gfx.rect(x + r, y, w - r * 2, h + 1, filled)
+    else
+      local filled=1
+      r = (h / 2 - 1)
+      -- Ends
+      gfx.circle(x + r, y + r, r, filled, aa)
+      gfx.circle(x + w - r, y + r, r, filled, aa)
+      if square_bottom_right==true then gfx.rect(x+w-r, y+h-r, r+1, r+1, filled) end
+      if square_top_right==true then gfx.rect(x+w-r, y, r+1, r+1, filled) end
+      if square_top_left==true then gfx.rect(x, y, r, r, filled) end
+      if square_bottom_left==true then gfx.rect(x, offset+y+h-r, r, r+1, filled) end
+      -- Body
+      gfx.rect(x + r, y, w - (r * 2), h, filled)
+    end
   end
 end
+
 
 
 function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
@@ -2346,7 +2368,8 @@ function reagirl.Button_SetRadius(element_id, radius)
   if type(element_id)~="string" then error("Button_SetRadius: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Button_GetDisabled: param #1 - must be a valid guid", 2) end
   if math.type(radius)~="integer" then error("Button_SetRadius: param #2 - must be a integer", 2) end
-  if radius>11 then radius=11 end
+  if radius>18 then 
+     radius=18 end
   if radius<0 then radius=0 end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Button_SetRadius: param #1 - no such ui-element", 2) end
@@ -3751,7 +3774,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   
   BBB=reagirl.Button_Add(55, 30, 0, 10, "OTEMPLE TOOOO", "Description of the button", click_button)
-  reagirl.Button_SetRadius(BBB, 11)
+  reagirl.Button_SetRadius(BBB, 18)
   --
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
