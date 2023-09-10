@@ -16,6 +16,44 @@ reagirl.MoveItAllUp_Delta=0
 
 reagirl.Font_Size=18
 
+function reagirl.IsValidGuid(guid, strict)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsValidGuid</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = reagirl.IsValidGuid(string guid, boolean strict)</functioncall>
+  <description>
+    Checks, if guid is a valid guid. Can also be used for strings, that contain a guid somewhere in them(strict=false)
+    
+    A valid guid is a string that follows the following pattern:
+    {........-....-....-....-............}
+    where . is a hexadecimal value(0-F)
+  </description>
+  <parameters>
+    string guid - the guid to check for validity
+    boolean strict - true, guid must only be the valid guid; false, guid must contain a valid guid somewhere in it(means, can contain trailing or preceding characters)
+  </parameters>
+  <retvals>
+    boolean retval - true, guid is/contains a valid guid; false, guid isn't/does not contain a valid guid
+  </retvals>
+  <chapter_context>
+    Misc
+  </chapter_context>
+  <tags>helper functions, guid, check</tags>
+</US_DocBloc>
+--]]
+  if type(guid)~="string" then error("IsValidGuid: param #1 - must be a string", -1) return false end
+  if type(strict)~="boolean" then error("IsValidGuid: param #2 - must be a boolean", -2) return false end
+  if strict==true and guid:match("^{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}$")~=nil then return true
+  elseif strict==false and guid:match(".-{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}.*")~=nil then return true
+  else return false
+  end
+end
+
 function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, square_bottom_left, square_top_right, square_bottom_right)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -55,7 +93,7 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, squa
   if math.type(w)~="integer" then error("RoundRect: param #3 - must be an integer", 2) end
   if math.type(h)~="integer" then error("RoundRect: param #4 - must be an integer", 2) end
   if type(r)~="number" then error("RoundRect: param #5 - must be an integer", 2) end
-  if r>50 then r=50 end
+  --if r>12 then r=12 end
   if type(antialias)~="number" then error("RoundRect: param #6 - must be an integer", 2) end
   if type(fill)~="number" then error("RoundRect: param #7 - must be an integer", 2) end
   if square_top_left~=nil     and type(square_top_left)~="boolean"     then error("RoundRect: param #8 - must be a boolean or nil", 2)  end
@@ -1141,7 +1179,7 @@ function reagirl.Gui_Manage()
     --end
     
     -- output screenreader-message of ui-element
-    if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"] ]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
+    if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
       --reaper.osara_outputMessage(reagirl.osara_init_message..message)
       if message==nil then message="" end
       reaper.osara_outputMessage(reagirl.osara_init_message..init_message.." "..message..", "..helptext)
@@ -1941,13 +1979,21 @@ function reagirl.UI_Element_Remove(element_id)
 end
 
 function reagirl.UI_Element_GetIDFromGuid(guid)
+  if type(guid)~="string" then error("UI_Element_GetIDFromGuid: param #1 - must be a string", 2) end
+  if guid:match("{........%-....%-....%-....%-............}")==nil then error("UI_Element_GetIDFromGuid: param #1 - must be a valid guid", 2) end
   for i=1, #reagirl.Elements do
     if guid==reagirl.Elements[i]["Guid"] then return i end
   end
+  return -1
 end
 
 function reagirl.UI_Element_GetGuidFromID(id)
-  return reagirl.Elements[id]["Guid"]
+  if math.type(id)~="integer" then error("UI_Element_GetGuidFromID: param #1 - must be an integer", 2) end
+  if id>#reagirl.Elements-4 then
+    return reagirl.Elements[id]["Guid"]
+  else
+    error("UI_Element_GetGuidFromID: param #1 - no such ui-element", 2)
+  end
 end
 
 function reagirl.AddDummyElement()  
@@ -2100,20 +2146,59 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
 end
 
 
-function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, MeaningOfUI_Element, run_function)
+function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Button_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string button_guid = reagirl.Button_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
+  <description>
+    Adds a button to a gui.
+  </description>
+  <parameters>
+    integer x - the x position of the button in pixels; negative anchors the button to the right window-side
+    integer y - the y position of the button in pixels; negative anchors the button to the bottom window-side
+    integer w_margin - a margin left and right of the text
+    integer h_margin - a margin top and bottom of the text
+    string caption - the caption of the button
+    string meaningOfUI_Element - a description for accessibility users
+    function run_function - a function that shall be run when the button is clicked
+  </parameters>
+  <retvals>
+    string button_guid - a guid that can be used for altering the button-attributes
+  </retvals>
+  <chapter_context>
+    Button
+  </chapter_context>
+  <tags>buttons, add</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then error("Button_Add: param #1 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("Button_Add: param #2 - must be an integer", 2) end
+  if math.type(w_margin)~="integer" then error("Button_Add: param #3 - must be an integer", 2) end
+  if math.type(h_margin)~="integer" then error("Button_Add: param #4 - must be an integer", 2) end
+  if type(caption)~="string" then error("Button_Add: param #5 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Button_Add: param #6 - must be a string", 2) end
+  if type(run_function)~="function" then error("Button_Add: param #7 - must be a function", 2) end
+  
+  
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
-  local tx,ty=gfx.measurestr(Caption)
+  local tx,ty=gfx.measurestr(caption)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Button"
-  reagirl.Elements[slot]["Name"]=Caption
-  reagirl.Elements[slot]["Text"]=Caption
+  reagirl.Elements[slot]["Name"]=caption
+  reagirl.Elements[slot]["Text"]=caption
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["Description"]=MeaningOfUI_Element
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="click with space or left mouseclick"
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
@@ -2121,11 +2206,158 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, Caption, MeaningOfUI_Eleme
   reagirl.Elements[slot]["h"]=math.tointeger(ty+10+h_margin)
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin
+  reagirl.Elements[slot]["radius"]=4
   reagirl.Elements[slot]["func_manage"]=reagirl.Button_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.Button_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
   return reagirl.Elements[slot]["Guid"]
+end
+
+function reagirl.Button_SetDisabled(element_id, state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Button_SetDisabled</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Button_SetDisabled(string element_id, boolean state)</functioncall>
+  <description>
+    Sets a button as disabled(non clickable).
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose disability-state you want to set
+    boolean state - true, the button is disabled; false, the button is not disabled.
+  </parameters>
+  <chapter_context>
+    Button
+  </chapter_context>
+  <tags>buttons, set, disabled</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Button_SetDisabled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Button_SetDisabled: param #1 - must be a valid guid", 2) end
+  if type(state)~="boolean" then error("Button_SetDisabled: param #1 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Button_SetDisabled: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
+    error("Button_SetDisabled: param #1 - ui-element is not a button", 2)
+  else
+    reagirl.Elements[element_id]["IsDecorative"]=state
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Button_GetDisabled(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Button_GetDisabled</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = reagirl.Button_GetDisabled(string element_id)</functioncall>
+  <description>
+    Gets a button's disabled(non clickable)-state.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose disability-state you want to get
+  </parameters>
+  <retvals>
+    boolean state - true, the button is disabled; false, the button is not disabled.
+  </retvals>
+  <chapter_context>
+    Button
+  </chapter_context>
+  <tags>buttons, get, disabled</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Button_GetDisabled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Button_GetDisabled: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
+    error("Button_GetDisabled: param #1 - ui-element is not a button", 2)
+  else
+    return reagirl.Elements[element_id]["IsDecorative"]
+  end
+end
+
+function reagirl.Button_GetRadius(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Button_GetRadius</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer radius = reagirl.Button_GetRadius(string element_id)</functioncall>
+  <description>
+    Gets a button's radius.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose radius you want to get
+  </parameters>
+  <retvals>
+    integer radius - the radius of the button
+  </retvals>
+  <chapter_context>
+    Button
+  </chapter_context>
+  <tags>buttons, get, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Button_GetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Button_GetRadius: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
+    error("Button_GetRadius: param #1 - ui-element is not a button", 2)
+  else
+    return reagirl.Elements[element_id]["radius"]
+  end
+end
+
+function reagirl.Button_SetRadius(element_id, radius)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Button_SetRadius</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Button_SetRadius(string element_id, integer radius)</functioncall>
+  <description>
+    Sets the radius of a button.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose radius you want to set
+    integer radius - between 0 and 11
+  </parameters>
+  <chapter_context>
+    Button
+  </chapter_context>
+  <tags>buttons, set, radius</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Button_SetRadius: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Button_GetDisabled: param #1 - must be a valid guid", 2) end
+  if math.type(radius)~="integer" then error("Button_SetRadius: param #2 - must be a integer", 2) end
+  if radius>11 then radius=11 end
+  if radius<0 then radius=0 end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Button_SetRadius: param #1 - no such ui-element", 2) end
+  
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
+    return false
+  else
+    reagirl.Elements[element_id]["radius"]=radius
+    reagirl.Gui_ForceRefresh()
+  end
+  return true
 end
 
 function reagirl.Button_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -2161,58 +2393,72 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
   w=w-5
   h=h-5
   local dpi_scale, state
+  local radius = element_storage["radius"]
+  
   local sw,sh=gfx.measurestr(element_storage["Name"])
-  --w=math.tointeger(sw+20+element_storage["w_margin"])
-  --h=math.tointeger(sh+10+element_storage["h_margin"])
   local scale=1 --reagirl.Window_CurrentScale
   local dpi_scale=reagirl.Window_CurrentScale
   if reagirl.Elements[element_id]["pressed"]==true then
     state=1*dpi_scale-1
     
-    offset=math.floor(dpi_scale) 
+    offset=math.floor(dpi_scale)
     if offset==0 then offset=1 end
     
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, 4 * dpi_scale, 1, 1)
-    reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, 4 * dpi_scale, 1, 1)
-    --reagirl.RoundRect((x + 1 + offset)*scale, (y + 1 + offset)*scale, w, h, 4 * scale, 1, 1)
+    reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect((x + offset)*scale, (y + offset - 1) * scale, w, h, 4 * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + offset)*scale, (y + offset - 1) * scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, 4 * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, radius * dpi_scale, 1, 1)
     
-    gfx.x=x+(w-sw)/2+1
+    if element_storage["IsDecorative"]==false then
+      gfx.x=x+(w-sw)/2+1+2
     
-    if reaper.GetOS():match("OS")~=nil then offset=1 end
-    --gfx.y=((y+offset)*scale)+(h-element_storage["h"])/2
-    gfx.y=y+(h-sh)/2+1+offset
-    gfx.set(0.784)
-    gfx.drawstr(element_storage["Name"])
+      if reaper.GetOS():match("OS")~=nil then offset=1 end
+      gfx.y=y+(h-sh)/2+1+offset
+      gfx.set(0.784)
+      gfx.drawstr(element_storage["Name"])
+    end
   else
     state=0
     
     gfx.set(0.06) -- background 1
     --print_update(x, scale, (x-1)*scale)
-    reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, 4 * dpi_scale, 1, 1)
-    reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, 4 * dpi_scale, 1, 1)
-    reagirl.RoundRect((x + 1)*scale, (y + 1)*scale, w, h, 4 * dpi_scale, 1, 1)
+    reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + 1)*scale, (y + 1)*scale, w, h, radius * dpi_scale, 1, 1)
     
     
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, 4 * dpi_scale, 1, 1)
+    reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h, 4 * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h, radius * dpi_scale, 1, 1)
     
-    gfx.x=x+(w-sw)/2
     local offset=0
-    if reaper.GetOS():match("OS")~=nil then offset=1 end
-    --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
-    gfx.y=y+(h-sh)/2+offset
-    gfx.set(0.784)
-    gfx.drawstr(element_storage["Name"])
+    if element_storage["IsDecorative"]==false then
+      gfx.x=x+(w-sw)/2+1
+      if reaper.GetOS():match("OS")~=nil then offset=1 end
+      --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
+      gfx.y=y+(h-sh)/2+offset
+      gfx.set(0.784)
+      gfx.drawstr(element_storage["Name"])
+    else
+      if reaper.GetOS():match("OS")~=nil then offset=1 end
+      
+      gfx.x=x+(w-sw)/2+1
+      gfx.y=y+(h-sh)/2+1+offset-1
+      gfx.set(0.39)
+      gfx.drawstr(element_storage["Name"])
+      
+      gfx.x=x+(w-sw)/2+1
+      gfx.y=y+(h-sh)/2+1+offset
+      gfx.set(0.06)
+      gfx.drawstr(element_storage["Name"])
+    end
   end
   gfx.set(0.3)
   gfx.x=x+h+3
@@ -2956,19 +3202,6 @@ function GetFileList2(filelist)
   print2("Zwo:"..list)
 end
 
-function CheckMe(tudelu, checkstate)
-  --print2(tudelu, checkstate)
-  if checkstate==false then
-    reagirl.Window_SetCurrentScale(1)
-  else
-    reagirl.Window_SetCurrentScale()
-  end
-end
-
-
-local count=0
-local count2=0
-
 function reagirl.UI_Element_ScrollX(deltapx_x)
   if deltapx_x>0 and reagirl.MoveItAllRight_Delta<0 then reagirl.MoveItAllRight_Delta=0 end
   if deltapx_x<0 and reagirl.MoveItAllRight_Delta>0 then reagirl.MoveItAllRight_Delta=0 end
@@ -2983,7 +3216,7 @@ end
 
 function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debugging only
   reagirl.SmoothScroll=Smoothscroll -- for debugging only
-  Boundary=reaper.time_precise() -- for debugging only
+  --Boundary=reaper.time_precise() -- for debugging only
   -- scroll y position
   
   --if the boundary is bigger than screen, we need to scroll
@@ -3426,10 +3659,25 @@ function reagirl.UI_Element_SetNothingFocused()
   reagirl.Elements.FocusedElement=-1
 end
 
+
+function CheckMe(tudelu, checkstate)
+  --print2(tudelu, checkstate)
+  if checkstate==false then
+    --reagirl.Window_SetCurrentScale(1)
+    reagirl.Button_SetDisabled(BBB, true)
+  else
+    --reagirl.Window_SetCurrentScale()
+    reagirl.Button_SetDisabled(BBB, false)
+  end
+end
+
+
+local count=0
+local count2=0
+
 function main()
   reagirl.Gui_Manage()
   reagirl.DockState_Update("Stonehenge")
-
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
@@ -3502,7 +3750,10 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   
-  reagirl.Button_Add(5055, 1030, 0, 0, " HUCH", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(55, 30, 0, 10, "OTEMPLE TOOOO", "Description of the button", click_button)
+  reagirl.Button_SetRadius(BBB, 11)
+  --
+  
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
   for i=1, 5 do
@@ -3531,4 +3782,5 @@ main()
 --print2("Pudeldu")
 
 --reagirl.UI_Element_GetFocusedRect()
+
 

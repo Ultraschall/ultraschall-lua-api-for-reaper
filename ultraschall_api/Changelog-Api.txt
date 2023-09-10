@@ -337,9 +337,9 @@ Has now 1663 functions, with XX new ones
   - DocEngine: Docs\_GetReaperApiFunction\_Retvals - didn't correctly resolve datatypes when param was optional
   - DocEngine: Docs\_GetUltraschallApiFunction\_Params - didn't correctly resolve datatypes when param was optional; had inner variable exposed -> fixed
   - DocEngine: Docs\_GetUltraschallApiFunction\_Retvals - didn't correctly resolve datatypes when param was optional
+  - FXManagement: ScanVSTPlugins - removed, as it changes in Reaper prevent this from working entirely
   - MediaItem Management: RippleCut - didn't close the gap under certain cirumstances -> fixed now
   - MediaItem Management: RippleCut\_Reverse - didn't close the gap under certain cirumstances -> fixed now
----
 
 ### 4.9 - "Depeche Mode - Everything Counts" - 30th of June 2023
 
