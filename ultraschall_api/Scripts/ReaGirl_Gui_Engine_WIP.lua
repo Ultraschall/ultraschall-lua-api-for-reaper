@@ -3141,9 +3141,10 @@ end
 
 function reagirl.Window_ForceMinSize()
   if reagirl.Window_ForceMinSize_Toggle~=true then return end
+  local scale=reagirl.Window_CurrentScale
   local h,w
-  if gfx.w<reagirl.Window_MinW-1 then w=reagirl.Window_MinW else w=gfx.w end
-  if gfx.h<reagirl.Window_MinH-1 then h=reagirl.Window_MinH else h=gfx.h end
+  if gfx.w<(reagirl.Window_MinW*scale)-1 then w=reagirl.Window_MinW*scale else w=gfx.w end
+  if gfx.h<(reagirl.Window_MinH*scale)-1 then h=reagirl.Window_MinH*scale else h=gfx.h end
   
   if gfx.w==w and gfx.h==h then return end
   gfx.init("", w, h)
@@ -3152,9 +3153,10 @@ end
 
 function reagirl.Window_ForceMaxSize()
   if reagirl.Window_ForceMaxSize_Toggle~=true then return end
+  local scale=reagirl.Window_CurrentScale
   local h,w
-  if gfx.w>reagirl.Window_MaxW then w=reagirl.Window_MaxW else w=gfx.w end
-  if gfx.h>reagirl.Window_MaxH then h=reagirl.Window_MaxH else h=gfx.h end
+  if gfx.w>reagirl.Window_MaxW*scale then w=reagirl.Window_MaxW*scale else w=gfx.w end
+  if gfx.h>reagirl.Window_MaxH*scale then h=reagirl.Window_MaxH*scale else h=gfx.h end
   
   if gfx.w==w and gfx.h==h then return end
   gfx.init("", w, h)
@@ -3773,7 +3775,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   
-  BBB=reagirl.Button_Add(55, 30, 0, 10, "OTEMPLE TOOOO", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(55, 30, 20, 0, "Help", "Description of the button", click_button)
   reagirl.Button_SetRadius(BBB, 18)
   --
   
@@ -3791,12 +3793,11 @@ end
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
 reagirl.Gui_Open("Faily", "A Failstate Manager", 450, 150, reagirl.DockState_Retrieve("Stonehenge"), nil, nil)
 UpdateUI()
---reagirl.Window_ForceSize_Minimum(320, 20)
+reagirl.Window_ForceSize_Minimum(320, 200)
 --reagirl.Window_ForceSize_Maximum(640, 77)
 --reagirl.Gui_ForceRefreshState=true
 --main()
 
-local reagirl=reagirl
 main()
 
 
