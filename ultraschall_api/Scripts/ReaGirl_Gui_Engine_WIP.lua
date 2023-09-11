@@ -2092,7 +2092,36 @@ function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mous
   return "HUCH", true
 end
 
-function reagirl.CheckBox_Add(x, y, Name, MeaningOfUI_Element, default, run_function)
+function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_function)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CheckBox_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string checkbox_guid = reagirl.CheckBox_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
+  <description>
+    Adds a checkbox to a gui.
+  </description>
+  <parameters>
+    integer x - the x position of the checkbox in pixels; negative anchors the checkbox to the right window-side
+    integer y - the y position of the checkbox in pixels; negative anchors the checkbox to the bottom window-side
+    string caption - the caption of the checkbox
+    string meaningOfUI_Element - a description for accessibility users
+    boolean default - true, set the checkbox checked; false, set the checkbox unchecked
+    function run_function - a function that shall be run when the checkbox is clicked
+  </parameters>
+  <retvals>
+    string checkbox_guid - a guid that can be used for altering the checkbox-attributes
+  </retvals>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, add</tags>
+</US_DocBloc>
+--]]
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(Name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -2101,10 +2130,10 @@ function reagirl.CheckBox_Add(x, y, Name, MeaningOfUI_Element, default, run_func
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Checkbox"
-  reagirl.Elements[slot]["Name"]=Name
-  reagirl.Elements[slot]["Text"]=Name
+  reagirl.Elements[slot]["Name"]=caption
+  reagirl.Elements[slot]["Text"]=caption
   reagirl.Elements[slot]["IsDecorative"]=false
-  reagirl.Elements[slot]["Description"]=MeaningOfUI_Element
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
@@ -2112,8 +2141,8 @@ function reagirl.CheckBox_Add(x, y, Name, MeaningOfUI_Element, default, run_func
   reagirl.Elements[slot]["h"]=math.tointeger(ty)
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["top_edge"]=false
-  reagirl.Elements[slot]["bottom_edge"]=false
+  reagirl.Elements[slot]["top_edge"]=true
+  reagirl.Elements[slot]["bottom_edge"]=true
   reagirl.Elements[slot]["checked"]=default
   reagirl.Elements[slot]["func_manage"]=reagirl.Checkbox_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.CheckBox_Draw
@@ -2149,6 +2178,81 @@ function reagirl.Checkbox_Manage(element_id, selected, clicked, mouse_cap, mouse
   end
 end
 
+function reagirl.Checkbox_SetTopBottom(element_id, top, bottom)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_SetTopBottom</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Checkbox_SetTopBottom(string element_id, boolean state)</functioncall>
+  <description>
+    Sets a checkbox's top and bottom edges.
+  </description>
+  <parameters>
+    string element_id - the guid of the button, whose rounded edges-state you want to set
+    boolean top - true, the top of the checkbox is rounded; false, top of the checkbox is square.
+    boolean bottom - true, the bottom of the checkbox is square; false, bottom of the checkbox is rounded.
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, set, rounded edges, top, bottom</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_SetTopBottom: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_SetTopBottom: param #1 - must be a valid guid", 2) end
+  if type(top)~="boolean" then error("Checkbox_SetTopBottom: param #2 - must be a boolean", 2) end
+  if type(bottom)~="boolean" then error("Checkbox_SetTopBottom: param #3 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Checkbox_SetTopBottom: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_SetTopBottom: param #1 - ui-element is not a checkbox", 2)
+  else
+    reagirl.Elements[element_id]["bottom_edge"]=bottom
+    reagirl.Elements[element_id]["top_edge"]=top
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Checkbox_GetTopBottom(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_GetTopBottom</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>boolean top, boolean bottom = reagirl.Checkbox_GetTopBottom(string element_id)</functioncall>
+  <description>
+    Gets a checkbox's rounded edges state.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, whose rounded edges-state you want to get
+  </parameters>
+  <retvals>
+    boolean top - true, the top of the checkbox is rounded; false, top of the checkbox is square.
+    boolean bottom - true, the bottom of the checkbox is square; false, bottom of the checkbox is rounded.
+  </retvals>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, get, rounded edges, top, bottom</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_GetTopBottom: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_GetTopBottom: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_GetTopBottom: param #1 - ui-element is not a checkbox", 2)
+  else
+    return reagirl.Elements[element_id]["top_edge"], reagirl.Elements[element_id]["bottom_edge"]
+  end
+end
+
 function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.x=x
   gfx.y=y
@@ -2156,9 +2260,6 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   
   local top=element_storage["top_edge"]
   local bottom=element_storage["bottom_edge"]
-  --top=true
-  --bottom=false
-  
   gfx.set(0.784)
   reagirl.RoundRect(x,y,h,h,7*scale,1,1, top, bottom, true, true)
   
@@ -2208,7 +2309,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   <chapter_context>
     Button
   </chapter_context>
-  <tags>buttons, add</tags>
+  <tags>button, add</tags>
 </US_DocBloc>
 --]]
   if math.type(x)~="integer" then error("Button_Add: param #1 - must be an integer", 2) end
@@ -2268,12 +2369,12 @@ function reagirl.Button_SetDisabled(element_id, state)
   <chapter_context>
     Button
   </chapter_context>
-  <tags>buttons, set, disabled</tags>
+  <tags>button, set, disabled</tags>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_SetDisabled: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Button_SetDisabled: param #1 - must be a valid guid", 2) end
-  if type(state)~="boolean" then error("Button_SetDisabled: param #1 - must be a boolean", 2) end
+  if type(state)~="boolean" then error("Button_SetDisabled: param #2 - must be a boolean", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Button_SetDisabled: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Button" then
@@ -2306,7 +2407,7 @@ function reagirl.Button_GetDisabled(element_id)
   <chapter_context>
     Button
   </chapter_context>
-  <tags>buttons, get, disabled</tags>
+  <tags>button, get, disabled</tags>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_GetDisabled: param #1 - must be a string", 2) end
@@ -2341,7 +2442,7 @@ function reagirl.Button_GetRadius(element_id)
   <chapter_context>
     Button
   </chapter_context>
-  <tags>buttons, get, radius</tags>
+  <tags>button, get, radius</tags>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_GetRadius: param #1 - must be a string", 2) end
@@ -2374,7 +2475,7 @@ function reagirl.Button_SetRadius(element_id, radius)
   <chapter_context>
     Button
   </chapter_context>
-  <tags>buttons, set, radius</tags>
+  <tags>button, set, radius</tags>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Button_SetRadius: param #1 - must be a string", 2) end
@@ -3722,7 +3823,7 @@ function Dummy()
 end
 
 function click_button(test)
-  --print(os.date())
+  print(os.date())
 
   if test==BT1 then
     reaper.Main_OnCommand(40015, 0)
@@ -3730,6 +3831,12 @@ function click_button(test)
   elseif test==BT2 then
     reagirl.Gui_Close()
   --reagirl.UI_Element_Remove(EID)
+  end
+  print(reagirl.Checkbox_GetTopBottom(A))
+  if reagirl.Checkbox_GetTopBottom(A)==true then
+    reagirl.Checkbox_SetTopBottom(A, false, false)
+  else
+    reagirl.Checkbox_SetTopBottom(A, true, true)
   end
 end
 
