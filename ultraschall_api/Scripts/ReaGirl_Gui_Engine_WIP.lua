@@ -2253,6 +2253,77 @@ function reagirl.Checkbox_GetTopBottom(element_id)
   end
 end
 
+function reagirl.Checkbox_SetDisabled(element_id, state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_SetDisabled</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Checkbox_SetDisabled(string element_id, boolean state)</functioncall>
+  <description>
+    Sets a checkbox as disabled(non clickable).
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, whose disability-state you want to set
+    boolean state - true, the checkbox is disabled; false, the checkbox is not disabled.
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, set, disabled</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_SetDisabled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_SetDisabled: param #1 - must be a valid guid", 2) end
+  if type(state)~="boolean" then error("Checkbox_SetDisabled: param #2 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Checkbox_SetDisabled: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_SetDisabled: param #1 - ui-element is not a button", 2)
+  else
+    reagirl.Elements[element_id]["IsDecorative"]=state
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Checkbox_GetDisabled(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_GetDisabled</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = reagirl.Checkbox_GetDisabled(string element_id)</functioncall>
+  <description>
+    Gets a checkbox's disabled(non clickable)-state.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, whose disability-state you want to get
+  </parameters>
+  <retvals>
+    boolean state - true, the checkbox is disabled; false, the checkbox is not disabled.
+  </retvals>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, get, disabled</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_GetDisabled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_GetDisabled: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_GetDisabled: param #1 - ui-element is not a button", 2)
+  else
+    return reagirl.Elements[element_id]["IsDecorative"]
+  end
+end
+
 function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.x=x
   gfx.y=y
@@ -2267,14 +2338,23 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   reagirl.RoundRect(x+scale,y+scale,h-scale*2,h-scale*2,7*scale,1,1, top, bottom, true, true)
   
   if reagirl.Elements[element_id]["checked"]==true then
-    gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+    if element_storage["IsDecorative"]==false then
+      gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+    else
+      gfx.set(0.5843137254901961)
+    end
     reagirl.RoundRect(x+(scale)*3, y+scale*3, h-scale*6, h-scale*6, 6*scale, 1, 1, top, bottom, true, true)
   end
+  
   gfx.set(0.3)
   gfx.x=x+h+3+3
   gfx.y=y+1
   gfx.drawstr(name)
-  gfx.set(1)
+  if element_storage["IsDecorative"]==false then
+    gfx.set(1)
+  else
+    gfx.set(0.5)
+  end
   gfx.x=x+h+2+3
   gfx.y=y
   gfx.drawstr(name)
@@ -3833,10 +3913,10 @@ function click_button(test)
   --reagirl.UI_Element_Remove(EID)
   end
   print(reagirl.Checkbox_GetTopBottom(A))
-  if reagirl.Checkbox_GetTopBottom(A)==true then
-    reagirl.Checkbox_SetTopBottom(A, false, false)
+  if reagirl.Checkbox_GetDisabled(A)==true then
+    reagirl.Checkbox_SetDisabled(A, false)
   else
-    reagirl.Checkbox_SetTopBottom(A, true, true)
+    reagirl.Checkbox_SetDisabled(A, true)
   end
 end
 
