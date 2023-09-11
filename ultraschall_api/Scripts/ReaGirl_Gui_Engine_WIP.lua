@@ -2123,7 +2123,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
 </US_DocBloc>
 --]]
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
-  local tx,ty=gfx.measurestr(Name)
+  local tx,ty=gfx.measurestr(caption)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -2137,7 +2137,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)+20
+  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -3960,9 +3960,12 @@ function UpdateUI()
   A = reagirl.CheckBox_Add(20, 10, "Under Pressure", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A, false, true)
   A1= reagirl.CheckBox_Add(20, 33, "People on Streets", "Export file as MP3", true, CheckMe)
+  reagirl.Checkbox_SetTopBottom(A1, true, true)
   A2= reagirl.CheckBox_Add(20, 56, "De de dep", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A2, true, false)
-  --A3= reagirl.CheckBox_Add(20, 75, "AAC", "Export file as MP3", true, CheckMe)
+  A3= reagirl.CheckBox_Add(20, 95, "AAC", "Export file as MP3", true, CheckMe)
+  reagirl.Checkbox_SetTopBottom(A3, false, false)
+  
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
