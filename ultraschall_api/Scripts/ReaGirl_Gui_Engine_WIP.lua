@@ -2137,8 +2137,8 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)
+  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)+20
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["top_edge"]=true
@@ -2325,17 +2325,19 @@ function reagirl.Checkbox_GetDisabled(element_id)
 end
 
 function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
   gfx.x=x
   gfx.y=y
+  h=h-5
   local scale=reagirl.Window_CurrentScale
   
   local top=element_storage["top_edge"]
   local bottom=element_storage["bottom_edge"]
-  gfx.set(0.784)
-  reagirl.RoundRect(x,y,h,h,7*scale,1,1, top, bottom, true, true)
+  gfx.set(0.584)
+  reagirl.RoundRect(x,y,h+2,h+2,7*scale, 1,1, top, bottom, true, true)
   
-  gfx.set(0.3)
-  reagirl.RoundRect(x+scale,y+scale,h-scale*2,h-scale*2,7*scale,1,1, top, bottom, true, true)
+  gfx.set(0.2725490196078431)
+  reagirl.RoundRect(x+scale,y+scale,h+2-scale*2,h+2-scale*2,7*scale, 0,1, top, bottom, true, true)
   
   if reagirl.Elements[element_id]["checked"]==true then
     if element_storage["IsDecorative"]==false then
@@ -2343,20 +2345,30 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
     else
       gfx.set(0.5843137254901961)
     end
-    reagirl.RoundRect(x+(scale)*3, y+scale*3, h-scale*6, h-scale*6, 6*scale, 1, 1, top, bottom, true, true)
+    reagirl.RoundRect(x+1+(scale)*3, y+1+scale*3, h-scale*6, h-scale*6, 5*scale, 1, 1, top, bottom, true, true)
+  end
+  
+  if scale==1 then offset=0
+  elseif scale==2 then offset=2
+  elseif scale==3 then offset=5
+  elseif scale==4 then offset=8
+  elseif scale==5 then offset=11
+  elseif scale==6 then offset=14
+  elseif scale==7 then offset=17
+  elseif scale==8 then offset=20
   end
   
   gfx.set(0.3)
-  gfx.x=x+h+3+3
-  gfx.y=y+1
+  gfx.x=x+h+3+6
+  gfx.y=y+1+offset
   gfx.drawstr(name)
   if element_storage["IsDecorative"]==false then
-    gfx.set(1)
+    gfx.set(0.8)
   else
     gfx.set(0.5)
   end
-  gfx.x=x+h+2+3
-  gfx.y=y
+  gfx.x=x+h+2+6
+  gfx.y=y+2+offset
   gfx.drawstr(name)
 end
 
@@ -3945,7 +3957,12 @@ function UpdateUI()
   end
   --reagirl.AddDummyElement()  
   --reagirl.Label_Add("Export Podcast as:", -100, 88, 100, 100)
-  A= reagirl.CheckBox_Add(10, 10, "MP3", "Export file as MP3", true, CheckMe)
+  A = reagirl.CheckBox_Add(20, 10, "Under Pressure", "Export file as MP3", true, CheckMe)
+  reagirl.Checkbox_SetTopBottom(A, false, true)
+  A1= reagirl.CheckBox_Add(20, 33, "People on Streets", "Export file as MP3", true, CheckMe)
+  A2= reagirl.CheckBox_Add(20, 56, "De de dep", "Export file as MP3", true, CheckMe)
+  reagirl.Checkbox_SetTopBottom(A2, true, false)
+  --A3= reagirl.CheckBox_Add(20, 75, "AAC", "Export file as MP3", true, CheckMe)
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
@@ -3974,14 +3991,14 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   
-  BBB=reagirl.Button_Add(55, 30, 20, 0, "Help", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(55, 150, 20, 0, "Help", "Description of the button", click_button)
   reagirl.Button_SetRadius(BBB, 18)
   --
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
   for i=1, 5 do
-    reagirl.Button_Add(85+1*i, 30+50*i, 0, 0, i.." HUCH", "Description of the button", click_button)
+    reagirl.Button_Add(85+1*i, 60+50*i, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
