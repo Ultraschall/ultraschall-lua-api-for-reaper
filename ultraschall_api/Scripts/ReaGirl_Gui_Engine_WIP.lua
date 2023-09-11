@@ -181,16 +181,21 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, squa
       gfx.rect(x + r, y, w - r * 2, h + 1, filled)
     else
       local filled=1
-      r = (h / 2 - 1)
+      r = math.ceil(h / 2)-1
+      local offset
+      if 1+y+h-r*2<y then offset=y-(1+y+h-r*2) else offset=0 end
       -- Ends
-      gfx.circle(x + r, y + r, r, filled, aa)
-      gfx.circle(x + w - r, y + r, r, filled, aa)
-      if square_bottom_right==true then gfx.rect(x+w-r, y+h-r, r+1, r+1, filled) end
-      if square_top_right==true then gfx.rect(x+w-r, y, r+1, r+1, filled) end
-      if square_top_left==true then gfx.rect(x, y, r, r, filled) end
-      if square_bottom_left==true then gfx.rect(x, offset+y+h-r, r, r+1, filled) end
+      --gfx.set(1,0,0)
+      gfx.circle(x + r,     y + r, r, filled, aa)
+      --gfx.set(1)
+      gfx.circle(x + w - r-1, y + r, r, filled, aa)
+      if square_top_left==true then    gfx.rect(x,       y,   w/2, h/2, filled) end
+      if square_top_right==true then   gfx.rect(x+w-w/2, y, w/2+1, h/2, filled) end
+      
+      if square_bottom_right==true then gfx.rect(x+w-w/2, y+h-(h/2), w/2+1,   h/2, filled) end
+      if square_bottom_left==true  then gfx.rect(x,       y+h-(h/2), w/2, h/2, filled) end
       -- Body
-      gfx.rect(x + r, y, w - (r * 2), h, filled)
+      gfx.rect(x + r, y, w - ((h/2) * 2), h, filled)
     end
   end
 end
@@ -2107,12 +2112,14 @@ function reagirl.CheckBox_Add(x, y, Name, MeaningOfUI_Element, default, run_func
   reagirl.Elements[slot]["h"]=math.tointeger(ty)
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
+  reagirl.Elements[slot]["top_edge"]=false
+  reagirl.Elements[slot]["bottom_edge"]=false
   reagirl.Elements[slot]["checked"]=default
   reagirl.Elements[slot]["func_manage"]=reagirl.Checkbox_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.CheckBox_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
-  return  reagirl.Elements[slot]["Guid"]
+  return reagirl.Elements[slot]["Guid"]
 end
 
 function reagirl.Checkbox_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -2145,17 +2152,22 @@ end
 function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   gfx.x=x
   gfx.y=y
-  gfx.set(0.39)
-  gfx.rect(x+1,y+1,h,h,0)
+  local scale=reagirl.Window_CurrentScale
+  
+  local top=element_storage["top_edge"]
+  local bottom=element_storage["bottom_edge"]
+  --top=true
+  --bottom=false
+  
   gfx.set(0.784)
-  gfx.rect(x,y,h,h,0)
+  reagirl.RoundRect(x,y,h,h,7*scale,1,1, top, bottom, true, true)
+  
+  gfx.set(0.3)
+  reagirl.RoundRect(x+scale,y+scale,h-scale*2,h-scale*2,7*scale,1,1, top, bottom, true, true)
   
   if reagirl.Elements[element_id]["checked"]==true then
-    gfx.set(0.4843137254901961, 0.5156862745098039, 0)
-    gfx.rect(x+2,y+2,h-3,h-3,1)
-    
     gfx.set(0.9843137254901961, 0.8156862745098039, 0)
-    gfx.rect(x+2,y+2,h-4,h-4,1)
+    reagirl.RoundRect(x+(scale)*3, y+scale*3, h-scale*6, h-scale*6, 6*scale, 1, 1, top, bottom, true, true)
   end
   gfx.set(0.3)
   gfx.x=x+h+3+3
@@ -3746,7 +3758,7 @@ function UpdateUI()
   end
   --reagirl.AddDummyElement()  
   --reagirl.Label_Add("Export Podcast as:", -100, 88, 100, 100)
-  A= reagirl.CheckBox_Add(10, 90, "MP3", "Export file as MP3", true, CheckMe)
+  A= reagirl.CheckBox_Add(10, 10, "MP3", "Export file as MP3", true, CheckMe)
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
@@ -3791,9 +3803,9 @@ function UpdateUI()
 end
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Faily", "A Failstate Manager", 450, 150, reagirl.DockState_Retrieve("Stonehenge"), nil, nil)
+reagirl.Gui_Open("Faily", "A Failstate Manager", 200, 150, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
 UpdateUI()
-reagirl.Window_ForceSize_Minimum(320, 200)
+--reagirl.Window_ForceSize_Minimum(320, 200)
 --reagirl.Window_ForceSize_Maximum(640, 77)
 --reagirl.Gui_ForceRefreshState=true
 --main()
