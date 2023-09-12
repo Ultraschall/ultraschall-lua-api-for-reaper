@@ -1499,32 +1499,6 @@ function reagirl.UI_Element_GetPrevious(startoffset)
   return -1, ""
 end
 
-function reagirl.UI_Elements_GetScrollRect()
-  -- deprecated?
-  local min_x=8192
-  local max_x=0
-  local min_y=8192
-  local max_y=0
-  
-  for i=1, #reagirl.Elements do
-    local w2, h2, x2, y2
-    local scale=reagirl.Window_CurrentScale
-    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
-    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
-    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
-    
-    if reagirl.Elements[i].sticky_x==false then
-      if x2+reagirl.MoveItAllRight<=min_x then min_x=x2+reagirl.MoveItAllRight end
-      if x2+w2+reagirl.MoveItAllRight>=max_x then max_x=x2+w2+reagirl.MoveItAllRight end
-    end
-    if reagirl.Elements[i].sticky_y==false then
-      if y2+reagirl.MoveItAllUp<=min_y then min_y=y2+reagirl.MoveItAllUp end
-      if y2+h2+reagirl.MoveItAllUp>=max_y then max_y=y2+h2+reagirl.MoveItAllUp end
-    end
-  end
-  return min_x, max_x, min_y, max_y
-end
 
 function reagirl.UI_Element_GetType(element_id)
 --[[
@@ -3551,11 +3525,11 @@ function reagirl.UI_Elements_Boundaries()
   for i=1, #reagirl.Elements do
     if reagirl.Elements[i].sticky_x==false or reagirl.Elements[i].sticky_y==false then
       local x2, y2, w2, h2
-      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+reagirl.Elements[i]["x"] else x2=reagirl.Elements[i]["x"] end
-      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+reagirl.Elements[i]["y"] else y2=reagirl.Elements[i]["y"] end
-      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"] else w2=reagirl.Elements[i]["w"] end
+      if reagirl.Elements[i]["x"]*scale<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
+      if reagirl.Elements[i]["y"]*scale<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
+      if reagirl.Elements[i]["w"]*scale<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
       if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end -- Correct for DropDownMenu?
-      if reagirl.Elements[i]["h"]<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"] else h2=reagirl.Elements[i]["h"] end
+      if reagirl.Elements[i]["h"]*scale<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
       if x2<minx then minx=x2 end
       if w2+x2>maxx then maxx=w2+x2 MaxW=w2 end
       
@@ -3994,7 +3968,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   
-  BBB=reagirl.Button_Add(55, 150, 20, 0, "Help", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(15, 150, 20, 0, "Help", "Description of the button", click_button)
   reagirl.Button_SetRadius(BBB, 18)
   --
   
