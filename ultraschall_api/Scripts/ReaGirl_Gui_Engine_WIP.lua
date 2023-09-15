@@ -2463,6 +2463,7 @@ function reagirl.UI_Element_Current_Position()
   if slot-1>0 then
     w=reagirl.Elements[slot-1]["w"]
     h=reagirl.Elements[slot-1]["h"]
+  end
   return x,y
 end
 
@@ -2486,7 +2487,7 @@ function reagirl.NextLine()
 </US_DocBloc>
 --]]
   local slot=reagirl.UI_Element_GetNextFreeSlot()
-  reagirl.UI_Element_NextLineY=reagirl.Elements[slot-1]["h"]+1
+  reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.Elements[slot-1]["h"]+1
   reagirl.UI_Element_NextLineX=10
 end
 
@@ -4139,6 +4140,7 @@ function UpdateUI()
   reagirl.Button_SetRadius(BBB, 18)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
+  reagirl.NextLine()
   reagirl.NextLine()
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Delete", "Description of the button", click_button)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "I need somebody", "Description of the button", click_button)
