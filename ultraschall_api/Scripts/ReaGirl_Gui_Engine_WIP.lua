@@ -1,9 +1,8 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 --[[
 TODO: 
-  - Dpi2Scale-conversion must be included(currently using Ultraschall-API in OpenWindow)
   - when no ui-elements are present, the osara init-message is not said
-  - focused rect doesn't scroll after opening the gui-window, one tabbing is needed for it to work. Probably a focused-element=-1 thingy.
+  - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -13,7 +12,8 @@ reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 reagirl.MoveItAllRight_Delta=0
 reagirl.MoveItAllUp_Delta=0
-
+reagirl.UI_Element_NextLineY=0
+reagirl.UI_Element_NextLineX=10
 reagirl.Font_Size=18
 
 function reagirl.IsValidGuid(guid, strict)
@@ -1270,7 +1270,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           reagirl.Elements[i]
         )
       end
-      if reagirl.Elements["FocusedElement"]==i then
+      if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
         --if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then --  if w2<20 then w2=20 end end
         local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
         local dest=gfx.dest
@@ -2078,10 +2078,13 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   <functioncall>string checkbox_guid = reagirl.CheckBox_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
   <description>
     Adds a checkbox to a gui.
+    
+    You can autoposition the checkbox by setting x and/or y to nil, which will position the new checkbox after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
   </description>
   <parameters>
-    integer x - the x position of the checkbox in pixels; negative anchors the checkbox to the right window-side
-    integer y - the y position of the checkbox in pixels; negative anchors the checkbox to the bottom window-side
+    optional integer x - the x position of the checkbox in pixels; negative anchors the checkbox to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the checkbox in pixels; negative anchors the checkbox to the bottom window-side; nil, autoposition after the last ui-element(see description)
     string caption - the caption of the checkbox
     string meaningOfUI_Element - a description for accessibility users
     boolean default - true, set the checkbox checked; false, set the checkbox unchecked
@@ -2096,6 +2099,30 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   <tags>checkbox, add</tags>
 </US_DocBloc>
 --]]
+  if x~=nil and math.type(x)~="integer" then error("CheckBox_Add: param #1 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("CheckBox_Add: param #2 - must be an integer", 2) end
+  if type(caption)~="string" then error("CheckBox_Add: param #3 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("CheckBox_Add: param #4 - must be a string", 2) end
+  if type(default)~="boolean" then error("CheckBox_Add: param #5 - must be a string", 2) end
+  if type(run_function)~="function" then error("CheckBox_Add: param #6 - must be a function", 2) end
+  
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  if x==nil then 
+    x=0
+    if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
+      x=reagirl.UI_Element_NextLineX
+    elseif slot-1>0 then
+      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+    end
+  end
+  
+  if y==nil then 
+    y=10
+    if slot-1>0 then
+      y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
+      reagirl.UI_Element_NextLineY=0
+    end
+  end  
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -2346,6 +2373,122 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   gfx.drawstr(name)
 end
 
+function reagirl.UI_Element_Next_Position()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_Next_Position</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer next_x, integer next_y = reagirl.UI_Element_Next_Position()</functioncall>
+  <description>
+    Returns the next possible x and y position, for possible auto-positioning.
+    
+    Only needed, if the autopositioning isn't working for you.
+    
+    Returns the next x-position to the right of the last added ui-element and the next y-position under the last added ui-element.
+  </description>
+  <retvals>
+    integer next_x - the x-position right of the last added ui-element
+    integer next_y - the y-position underneath the last added ui-element
+  </retvals>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <tags>ui-elements, get, next possible positions</tags>
+</US_DocBloc>
+--]]
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  local x
+  if x==nil then 
+    x=reagirl.UI_Element_NextLineX
+    if slot-1>0 then
+      x=x+reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+    end
+  end
+  
+  local y
+  if y==nil then 
+    y=10
+    if slot-1>0 then
+      y=reagirl.Elements[slot-1]["y"]+reagirl.Elements[slot-1]["h"]+10
+    end
+  end
+  return x,y
+end
+
+function reagirl.UI_Element_Current_Position()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_Current_Position</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>integer last_x, integer last_y, integer last_w, integer last_h = reagirl.UI_Element_Current_Position()</functioncall>
+  <description>
+    Returns the x and y position as well as width and height of the last added ui-element.
+  </description>
+  <retvals>
+    integer last_x - the x-position of the last added ui-element
+    integer last_y - the y-position of the last added ui-element
+    integer last_w - the width of the last added ui-element
+    integer last_h - the height of the last added ui-element
+  </retvals>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <tags>ui-elements, get, last position, width, height</tags>
+</US_DocBloc>
+--]]
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  local x
+  x=reagirl.UI_Element_NextLineX
+  if slot-1>0 then
+    x=x+reagirl.Elements[slot-1]["x"]
+  end
+  
+  local y
+  y=10
+  if slot-1>0 then
+    y=reagirl.Elements[slot-1]["y"]
+  end
+  
+  local w, h
+  w=0
+  h=0
+  if slot-1>0 then
+    w=reagirl.Elements[slot-1]["w"]
+    h=reagirl.Elements[slot-1]["h"]
+  return x,y
+end
+
+function reagirl.NextLine()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>NextLine</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.NextLine()</functioncall>
+  <description>
+    Starts a new line, when autopositioning ui-elements using the add-functions
+  </description>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <tags>ui-elements, set, next line</tags>
+</US_DocBloc>
+--]]
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  reagirl.UI_Element_NextLineY=reagirl.Elements[slot-1]["h"]+1
+  reagirl.UI_Element_NextLineX=10
+end
 
 function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function)
 --[[
@@ -2356,13 +2499,16 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     Reaper=6.75
     Lua=5.3
   </requires>
-  <functioncall>string button_guid = reagirl.Button_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
+  <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
   <description>
     Adds a button to a gui.
+    
+    You can autoposition the button by setting x and/or y to nil, which will position the new button after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
   </description>
   <parameters>
-    integer x - the x position of the button in pixels; negative anchors the button to the right window-side
-    integer y - the y position of the button in pixels; negative anchors the button to the bottom window-side
+    optional integer x - the x position of the button in pixels; negative anchors the button to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the button in pixels; negative anchors the button to the bottom window-side; nil, autoposition after the last ui-element(see description)
     integer w_margin - a margin left and right of the text
     integer h_margin - a margin top and bottom of the text
     string caption - the caption of the button
@@ -2378,19 +2524,36 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   <tags>button, add</tags>
 </US_DocBloc>
 --]]
-  if math.type(x)~="integer" then error("Button_Add: param #1 - must be an integer", 2) end
-  if math.type(y)~="integer" then error("Button_Add: param #2 - must be an integer", 2) end
+  if x~=nil and math.type(x)~="integer" then error("Button_Add: param #1 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Button_Add: param #2 - must be an integer", 2) end
   if math.type(w_margin)~="integer" then error("Button_Add: param #3 - must be an integer", 2) end
   if math.type(h_margin)~="integer" then error("Button_Add: param #4 - must be an integer", 2) end
   if type(caption)~="string" then error("Button_Add: param #5 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Button_Add: param #6 - must be a string", 2) end
   if type(run_function)~="function" then error("Button_Add: param #7 - must be a function", 2) end
   
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  if x==nil then 
+    x=0
+    if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
+      x=reagirl.UI_Element_NextLineX
+    elseif slot-1>0 then
+      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+    end
+  end
+  
+  if y==nil then 
+    y=10
+    if slot-1>0 then
+      y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
+      reagirl.UI_Element_NextLineY=0
+    end
+  end  
   
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx,ty=gfx.measurestr(caption)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
-  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Button"
@@ -2403,8 +2566,8 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["AccHint"]="click with space or left mouseclick"
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(tx+20+w_margin)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty+10+h_margin)
+  reagirl.Elements[slot]["w"]=math.tointeger(tx+5+w_margin)
+  reagirl.Elements[slot]["h"]=math.tointeger(ty+7+h_margin)
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin
   reagirl.Elements[slot]["radius"]=4
@@ -2536,7 +2699,7 @@ function reagirl.Button_SetRadius(element_id, radius)
   </description>
   <parameters>
     string element_id - the guid of the button, whose radius you want to set
-    integer radius - between 0 and 11
+    integer radius - between 0 and 10
   </parameters>
   <chapter_context>
     Button
@@ -2547,8 +2710,8 @@ function reagirl.Button_SetRadius(element_id, radius)
   if type(element_id)~="string" then error("Button_SetRadius: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Button_GetDisabled: param #1 - must be a valid guid", 2) end
   if math.type(radius)~="integer" then error("Button_SetRadius: param #2 - must be a integer", 2) end
-  if radius>18 then 
-     radius=18 end
+  if radius>10 then 
+     radius=10 end
   if radius<0 then radius=0 end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Button_SetRadius: param #1 - no such ui-element", 2) end
@@ -2596,6 +2759,7 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
   h=h-5
   local dpi_scale, state
   local radius = element_storage["radius"]
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
   
   local sw,sh=gfx.measurestr(element_storage["Name"])
   local scale=1 --reagirl.Window_CurrentScale
@@ -3616,7 +3780,7 @@ function reagirl.ScrollButton_Right_Add()
 end
 
 function reagirl.ScrollButton_Right_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.3) end
+  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.3) end
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(-2)
   elseif selected==true and Key==32 then
@@ -3638,7 +3802,7 @@ function reagirl.ScrollButton_Right_Draw(element_id, selected, clicked, mouse_ca
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], 1)
+  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(gfx.w-15*scale+x_offset, gfx.h-15*scale, 15*scale, 15*scale, 1)
   if mouse_cap==1 and selected==true then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
@@ -3675,7 +3839,7 @@ function reagirl.ScrollButton_Left_Add()
 end
 
 function reagirl.ScrollButton_Left_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.2) end
+  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.2) end
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(2)
   elseif selected==true and Key==32 then
@@ -3697,7 +3861,7 @@ function reagirl.ScrollButton_Left_Draw(element_id, selected, clicked, mouse_cap
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], 1)
+  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(0, gfx.h-15*scale, 15*scale, 15*scale, 1)
   if mouse_cap==1 and selected==true then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
@@ -3734,7 +3898,7 @@ function reagirl.ScrollButton_Up_Add()
 end
 
 function reagirl.ScrollButton_Up_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
+  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollY(2)
   elseif selected==true and Key==32 then
@@ -3756,7 +3920,7 @@ function reagirl.ScrollButton_Up_Draw(element_id, selected, clicked, mouse_cap, 
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], 1)
+  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(gfx.w-15*scale, 0, 15*scale, 15*scale, 1)
   if mouse_cap==1 and selected==true then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
@@ -3793,7 +3957,7 @@ function reagirl.ScrollButton_Down_Add()
 end
 
 function reagirl.ScrollButton_Down_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  if element_storage.IsDecorative==false and element_storage.a<=1 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
+  if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
   refresh_1=clicked
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollY(-2)
@@ -3817,7 +3981,7 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, clicked, mouse_cap
     end
   end
   local oldr, oldg, oldb, olda = gfx.r, gfx.g, gfx.b, gfx.a
-  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], 1)
+  gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"], element_storage.a)
   gfx.rect(gfx.w-15*scale, gfx.h-30*scale, 15*scale, 15*scale, 1)
   if mouse_cap==1 and selected==true then
     gfx.set(0.59, 0.59, 0.59, element_storage.a)
@@ -3931,13 +4095,15 @@ function UpdateUI()
   end
   --reagirl.AddDummyElement()  
   --reagirl.Label_Add("Export Podcast as:", -100, 88, 100, 100)
-  A = reagirl.CheckBox_Add(20, 10, "Under Pressure", "Export file as MP3", true, CheckMe)
+  A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A, false, true)
-  A1= reagirl.CheckBox_Add(20, 33, "People on Streets", "Export file as MP3", true, CheckMe)
+  reagirl.NextLine()
+  A1= reagirl.CheckBox_Add(nil, nil, "People on Streets", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A1, true, true)
-  A2= reagirl.CheckBox_Add(20, 56, "De de dep", "Export file as MP3", true, CheckMe)
+  reagirl.NextLine()
+  A2= reagirl.CheckBox_Add(nil, nil, "De de dep", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A2, true, false)
-  A3= reagirl.CheckBox_Add(20, 95, "AAC", "Export file as MP3", true, CheckMe)
+  A3= reagirl.CheckBox_Add(10, 95, "AAC", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A3, false, false)
   
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
@@ -3968,14 +4134,21 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   
-  BBB=reagirl.Button_Add(15, 150, 20, 0, "Help", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help1", "Description of the button", click_button)
+  reagirl.NextLine()
   reagirl.Button_SetRadius(BBB, 18)
+  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
+  reagirl.NextLine()
+  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Delete", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(nil, nil, 20, 0, "I need somebody", "Description of the button", click_button)
+  reagirl.Button_SetRadius(BBB, 10)
   --
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
   for i=1, 5 do
-    reagirl.Button_Add(85+1*i, 60+50*i, 0, 0, i.." HUCH", "Description of the button", click_button)
+    --reagirl.Button_Add(85+1*i, 60+50*i, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
@@ -3984,7 +4157,7 @@ function UpdateUI()
 end
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Faily", "A Failstate Manager", 200, 150, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
+reagirl.Gui_Open("Faily", "A Failstate Manager", 200, 350, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 200)
 --reagirl.Window_ForceSize_Maximum(640, 77)
