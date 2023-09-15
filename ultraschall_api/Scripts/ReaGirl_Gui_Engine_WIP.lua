@@ -2487,7 +2487,11 @@ function reagirl.NextLine()
 </US_DocBloc>
 --]]
   local slot=reagirl.UI_Element_GetNextFreeSlot()
-  reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.Elements[slot-1]["h"]+1
+  if reagirl.UI_Element_NextLineY==0 then
+    reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.Elements[slot-1]["h"]+1
+  else
+    reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+5
+  end
   reagirl.UI_Element_NextLineX=10
 end
 
@@ -4095,7 +4099,8 @@ function UpdateUI()
     end
   end
   --reagirl.AddDummyElement()  
-  --reagirl.Label_Add("Export Podcast as:", -100, 88, 100, 100)
+  reagirl.Label_Add("Export Podcast as\nBreadFan:", 10, 18, 100, 100)
+  reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A, false, true)
   reagirl.NextLine()
@@ -4104,8 +4109,9 @@ function UpdateUI()
   reagirl.NextLine()
   A2= reagirl.CheckBox_Add(nil, nil, "De de dep", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A2, true, false)
-  A3= reagirl.CheckBox_Add(10, 95, "AAC", "Export file as MP3", true, CheckMe)
+  A3= reagirl.CheckBox_Add(10, 135, "AAC", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A3, false, false)
+  reagirl.NextLine()
   
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
@@ -4134,9 +4140,8 @@ function UpdateUI()
   
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
-  
-  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help1", "Description of the button", click_button)
   reagirl.NextLine()
+  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help1", "Description of the button", click_button)
   reagirl.Button_SetRadius(BBB, 18)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
