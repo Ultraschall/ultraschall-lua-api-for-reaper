@@ -14,7 +14,84 @@ reagirl.MoveItAllRight_Delta=0
 reagirl.MoveItAllUp_Delta=0
 reagirl.UI_Element_NextLineY=0
 reagirl.UI_Element_NextLineX=10
+reagirl.UI_Element_NextX_Default=10
+reagirl.UI_Element_NextY_Default=10
 reagirl.Font_Size=18
+
+function reagirl.NextLine_SetDefaults(x, y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>NextLine_SetDefaults</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.NextLine_SetDefaults(optional integer x, optional integer y)</functioncall>
+  <description>
+    Set the defaults for new lines in the gui-elements, when using autopositioning.
+    
+    Y sets the y-offset of the first ui-element in the gui, x the x-offset for each line
+  </description>
+  <parameters>
+    optional integer x - the default-offset for the x-position of the first ui-element in a new line
+    optional integer y - the default-offset for the y-position of the first ui-element in a gui
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <tags>ui-elements, set, next line, defaults</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("NextLine_SetDefaults: param #1 - must be either nil or an integer", -1) return end
+  if y~=nil and math.type(y)~="integer" then error("NextLine_SetDefaults: param #2 - must be either nil or an integer", -1) return end
+  if x<0 then error("NextLine_SetDefaults: param #1 - must be bigger or equal 0", -1) return end
+  if y<0 then error("NextLine_SetDefaults: param #2 - must be bigger or equal 0", -1) return end
+  if x~=nil then
+    reagirl.UI_Element_NextX_Default=x
+  end
+  
+  if y~=nil then
+    reagirl.UI_Element_NextY_Default=y  
+  end
+end
+
+function reagirl.NextLine_GetDefaults()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>NextLine_GetDefaults</slug>
+    <requires>
+      ReaGirl=1.0
+      Reaper=6.75
+      Lua=5.3
+    </requires>
+    <functioncall>integer x, integer y = reagirl.NextLine_GetDefaults(integer x, integer y)</functioncall>
+    <description>
+      Get the defaults for new lines in the gui-elements, when using autopositioning.
+      
+      Y is the y-offset of the first ui-element in the gui, x the x-offset for each line
+    </description>
+    <retvals>
+      integer x - the default-offset for the x-position of the first ui-element in a new line
+      integer y - the default-offset for the y-position of the first ui-element in a gui
+    </retvals>
+    <chapter_context>
+      UI Elements
+    </chapter_context>
+    <tags>ui-elements, get, next line, defaults</tags>
+  </US_DocBloc>
+  --]]
+  return reagirl.UI_Element_NextX_Default, reagirl.UI_Element_NextY_Default
+end
+
+function reagirl.ReserveImageBuffer()
+  -- reserves an image buffer for custom UI elements
+  -- returns -1 if no buffer can be reserved anymore
+  if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
+  if reagirl.MaxImage>=1000 then return -1 end
+  reagirl.MaxImage=reagirl.MaxImage+1
+  return reagirl.MaxImage
+end
 
 function reagirl.IsValidGuid(guid, strict)
 --[[
@@ -85,7 +162,7 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, squa
   </chapter_context>
   <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
-  <tags>gfx, functions, blit, text, line breaks, adapt line length</tags>
+  <tags>gfx, functions, round rect, draw</tags>
 </US_DocBloc>
 ]]
   if math.type(x)~="integer" then error("RoundRect: param #1 - must be an integer", 2) end
@@ -211,7 +288,7 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
     Reaper=6.75
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = reagirl.BlitText_AdaptLineLength(string text, integer x, integer y, integer width, optional integer height, optional integer align)</functioncall>
+  <functioncall>boolean retval, integer width, integer height = reagirl.BlitText_AdaptLineLength(string text, integer x, integer y, integer width, optional integer height, optional integer align)</functioncall>
   <description>
     This draws text to x and y and adapts the line-lengths to fit into width and height.
   </description>
@@ -263,7 +340,8 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
   gfx.drawstr(newtext.."\n  ", center)--xwidth+3+x, xheight)
   gfx.x=old_x
   gfx.y=old_y
-  return true
+  local w,h=gfx.measurestr(newtext)
+  return true, math.tointeger(w), math.tointeger(h)
 end
 
 function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
@@ -2108,7 +2186,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
-    x=0
+    x=reagirl.UI_Element_NextX_Default
     if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextLineX
     elseif slot-1>0 then
@@ -2117,7 +2195,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   end
   
   if y==nil then 
-    y=10
+    y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
       reagirl.UI_Element_NextLineY=0
@@ -2446,13 +2524,13 @@ function reagirl.UI_Element_Current_Position()
 --]]
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   local x
-  x=reagirl.UI_Element_NextLineX
+  x=reagirl.UI_Element_NextX_Default
   if slot-1>0 then
     x=x+reagirl.Elements[slot-1]["x"]
   end
   
   local y
-  y=10
+  y=reagirl.UI_Element_NextY_Default
   if slot-1>0 then
     y=reagirl.Elements[slot-1]["y"]
   end
@@ -2492,7 +2570,7 @@ function reagirl.NextLine()
   else
     reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+5
   end
-  reagirl.UI_Element_NextLineX=10
+  reagirl.UI_Element_NextLineX=reagirl.UI_Element_NextX_Default
 end
 
 function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Element, run_function)
@@ -2539,7 +2617,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
-    x=0
+    x=reagirl.UI_Element_NextX_Default
     if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextLineX
     elseif slot-1>0 then
@@ -2548,7 +2626,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   end
   
   if y==nil then 
-    y=10
+    y=reagirl.UI_Element_NextY_Default
     if slot-1>0 then
       y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
       reagirl.UI_Element_NextLineY=0
@@ -3043,25 +3121,151 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
   
 end
 
-function reagirl.Label_Add(label, x, y, align, MeaningOfUI_Element)
-  --label=string.gsub(label, "\n", "")
-  --label=string.gsub(label, "\r", "")
-  
+function reagirl.Label_SetLabelText(element_id, label)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_SetLabelText</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Label_SetLabelText(string element_id, string label)</functioncall>
+  <description>
+    Sets a new label text to an already existing label.
+  </description>
+  <parameters>
+    string element_id - the id of the element, whose label you want to set
+    string label - the new text of the label
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, set, text</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_SetLabelText: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_SetLabelText: param #1 - must be a valid guid", 2) end
+  if type(label)~="string" then error("Label_SetLabelText: param #2 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_SetLabelText: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+    error("Label_SetLabelText: param #1 - ui-element is not a label", 2)
+  else
+    local w,h=gfx.measurestr(label)
+    reagirl.Elements[element_id]["Name"]=label
+    reagirl.Elements[element_id]["w"]=math.tointeger(w)
+    reagirl.Elements[element_id]["h"]=math.tointeger(h)--math.tointeger(gfx.texth)
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Label_GetLabelText(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_GetLabelText</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string label = reagirl.Label_GetLabelText(string element_id)</functioncall>
+  <description>
+    Gets the label text of a label.
+  </description>
+  <retvals>
+    string label - the new text of the label
+  </retvals>
+  <parameters>
+    string element_id - the id of the element, whose label you want to get
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, get, text</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Label_GetLabelText: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Label_GetLabelText: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Label_GetLabelText: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+    error("Label_GetLabelText: param #1 - ui-element is not a label", 2)
+  else
+    return reagirl.Elements[element_id]["Name"]
+  end
+end
+
+function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Label_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Label_Add(string label, integer x, integer y, string meaningOfUI_Element, integer align)</functioncall>
+  <description>
+    Adds a label to the gui.
+    
+    You can autoposition the label by setting x and/or y to nil, which will position the new label after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
+  </description>
+  <parameters>
+    optional integer x - the x position of the label in pixels; negative anchors the label to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the label in pixels; negative anchors the label to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    string label - the text of the label
+    string meaningOfUI_Element - a description of the label for accessibility users
+    integer align - 0, not centered or justified
+                  - flags&1: center horizontally
+                  - flags&2: right justify
+                  - flags&4: center vertically
+                  - flags&8: bottom justify
+  </parameters>
+  <chapter_context>
+    Label
+  </chapter_context>
+  <tags>label, add</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("Label_Add: param #1 - must be either nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Label_Add: param #2 - must be either nil or an integer", 2) end
+  if type(label)~="string" then error("Label_Add: param #3 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Label_Add: param #4 - must be a string", 2) end
+  if math.type(align)~="integer" then error("Label_Add: param #5 - must be an integer", 2) end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
+  if x==nil then 
+    x=reagirl.UI_Element_NextX_Default
+    if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
+      x=reagirl.UI_Element_NextLineX
+    elseif slot-1>0 then
+      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+    end
+  end
+  
+  if y==nil then 
+    y=reagirl.UI_Element_NextY_Default
+    if slot-1>0 then
+      y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
+      reagirl.UI_Element_NextLineY=0
+    end
+  end  
+  
   table.insert(reagirl.Elements, slot, {})
   local w,h=gfx.measurestr(label)
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Label"
   reagirl.Elements[slot]["Name"]=label
   reagirl.Elements[slot]["Text"]=""
-  reagirl.Elements[slot]["Description"]=MeaningOfUI_Element
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Ctrl+C to copy text into clipboard"
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(w)
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
+  reagirl.Elements[slot]["w"]=math.tointeger(w)
   reagirl.Elements[slot]["h"]=math.tointeger(h)--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["align"]=align
   reagirl.Elements[slot]["func_draw"]=reagirl.Label_Draw
@@ -3087,21 +3291,56 @@ end
 
 function reagirl.Label_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- BUG: with multiline-texts, when they scroll outside the top of the window, they disappear when the first line is outside of the window
-  gfx.set(0.1)
-  reagirl.BlitText_AdaptLineLength(name, 
-                                   math.floor(x)+1, 
-                                   math.floor(y)+2, 
-                                   gfx.w,
-                                   gfx.h,--gfx.texth,
-                                   element_storage["align"])
+  local olddest=gfx.dest
+  local oldx, oldy = gfx.x, gfx.y
+  local old_gfx_r=gfx.r
+  local old_gfx_g=gfx.g
+  local old_gfx_b=gfx.b
+  local old_gfx_a=gfx.a
+  local old_mode=gfx.mode
+  gfx.setimgdim(1001, gfx.w, gfx.h)
+  gfx.dest=1001
+  gfx.set(0)
+  gfx.rect(0, 0, gfx.w, gfx.h, 1)
+  if element_storage["auto_breaks"]==true then
+  --[[
+    gfx.set(0.1)
+    local retval, w, h = reagirl.BlitText_AdaptLineLength(name, 
+                                                          math.floor(x)+1, 
+                                                          math.floor(y)+2, 
+                                                          gfx.w,
+                                                          gfx.h,--gfx.texth,
+                                                          element_storage["align"])
+    
+    gfx.set(1,1,1)
+    reagirl.BlitText_AdaptLineLength(name, 
+                                     math.floor(x), 
+                                     math.floor(y)+1, 
+                                     gfx.w,
+                                     gfx.h,--gfx.texth,
+                                     element_storage["align"])
+                                     --]]
+  else
+    gfx.set(0.1)
+    gfx.x=1
+    gfx.y=2
+    gfx.drawstr(name, element_storage["align"], w, h)
+    gfx.set(1,1,1)
+    gfx.x=0
+    gfx.y=1
+    gfx.drawstr(name, element_storage["align"], w, h)
+    
+  end
+  gfx.dest=-1
+  gfx.x=x
+  gfx.y=y
+  gfx.mode=1
+  gfx.blit(1001, 1, 0)
   
-  gfx.set(1,1,1)
-  reagirl.BlitText_AdaptLineLength(name, 
-                                   math.floor(x), 
-                                   math.floor(y)+1, 
-                                   gfx.w,
-                                   gfx.h,--gfx.texth,
-                                   element_storage["align"])
+  gfx.x=oldx
+  gfx.y=oldy
+  gfx.set(old_gfx_r, old_gfx_g, old_gfx_b, old_gfx_a)
+  gfx.mode=old_mode
 end
 
 function reagirl.Rect_Add(x,y,w,h,r,g,b,a,filled)
@@ -3278,14 +3517,6 @@ function reagirl.Image_Update(element_id, image_file)
   reagirl.Gui_ForceRefresh(12)
 end
 
-function reagirl.ReserveImageBuffer()
-  -- reserves an image buffer for custom UI elements
-  -- returns -1 if no buffer can be reserved anymore
-  if reagirl.MaxImage==nil then reagirl.MaxImage=1 end
-  if reagirl.MaxImage>=1000 then return -1 end
-  reagirl.MaxImage=reagirl.MaxImage+1
-  return reagirl.MaxImage
-end
 
 
 function reagirl.Background_GetSetColor(is_set, r, g, b)
@@ -4099,7 +4330,7 @@ function UpdateUI()
     end
   end
   --reagirl.AddDummyElement()  
-  reagirl.Label_Add("Export Podcast as\nBreadFan:", 10, 18, 100, 100)
+  LAB=reagirl.Label_Add(-100, 20, "Export Podcast as\nBreadFan:", "1", 0)
   reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A, false, true)
@@ -4146,7 +4377,9 @@ function UpdateUI()
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   reagirl.NextLine()
+  
   reagirl.NextLine()
+  
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Delete", "Description of the button", click_button)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "I need somebody", "Description of the button", click_button)
   reagirl.Button_SetRadius(BBB, 10)
@@ -4165,6 +4398,7 @@ end
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
 reagirl.Gui_Open("Faily", "A Failstate Manager", 200, 350, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
+
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 200)
 --reagirl.Window_ForceSize_Maximum(640, 77)
@@ -4180,4 +4414,4 @@ main()
 
 --reagirl.UI_Element_GetFocusedRect()
 
-
+reagirl.Label_SetLabelText(LAB, "Prime Time Of Your\nLife")
