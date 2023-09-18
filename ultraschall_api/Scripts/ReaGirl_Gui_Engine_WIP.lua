@@ -2191,7 +2191,13 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextLineX
     elseif slot-1>0 then
-      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+      --x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+      for i=slot-1, 1, -1 do
+        if reagirl.Elements[i]["IsDecorative"]==false then
+          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+10
+          break
+        end
+      end
     end
   end
   
@@ -2632,7 +2638,6 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
           x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+10
           break
         end
-        
       end
     end
   end
