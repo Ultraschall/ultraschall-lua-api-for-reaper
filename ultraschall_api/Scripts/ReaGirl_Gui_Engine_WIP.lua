@@ -3344,6 +3344,52 @@ function reagirl.Label_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
 end
 
 function reagirl.Rect_Add(x,y,w,h,r,g,b,a,filled)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Rect_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string rect_guid = reagirl.Rect_Add(integer x, integer y, integer w, integer h, integer r, integer g, integer b, integer a, integer filled)</functioncall>
+  <description>
+    Adds a decorative rectangle into the gui. It can be used to make the gui prettier but also to hide ui-elements from visibility(make them disabled first before hiding them with a rectangle!).
+    To do this, add the rectangle AFTER the gui-elements, that you want to hide.
+    
+    Don't use this as gui-element with functionality, like rectangles for drop-zones, as rectangles are NOT accessible for blind users of your gui.
+    Otherwise your element disappears for blind people.
+  </description>
+  <parameters>
+    integer x - the x position of the button in pixels; negative anchors the button to the right window-side
+    integer y - the y position of the button in pixels; negative anchors the button to the bottom window-side
+    integer w - the width of the rectangle in pixels
+    integer h - the height of the rectangle in pixels
+    integer r - the red-value of the rectangle, between 0 and 255
+    integer g - the green-value of the rectangle, between 0 and 255
+    integer b - the blue-value of the rectangle, between 0 and 255
+    integer a - the alpha-value of the rectangle, between 0 and 255
+    integer filled - 0, unfilled rectangle; 1, filled rectangle
+  </parameters>
+  <retvals>
+    string rect_guid - a guid that can be used for altering the rectangle-attributes
+  </retvals>
+  <chapter_context>
+    Rectangle
+  </chapter_context>
+  <tags>rectangle, add</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then error("Rect_Add: param #1 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("Rect_Add: param #2 - must be an integer", 2) end
+  if math.type(w)~="integer" then error("Rect_Add: param #3 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("Rect_Add: param #4 - must be an integer", 2) end
+  if math.type(r)~="integer" then error("Rect_Add: param #5 - must be an integer", 2) end
+  if math.type(g)~="integer" then error("Rect_Add: param #6 - must be an integer", 2) end
+  if math.type(b)~="integer" then error("Rect_Add: param #7 - must be an integer", 2) end
+  if math.type(a)~="integer" then error("Rect_Add: param #8 - must be an integer", 2) end
+  if math.type(filled)~="integer" then error("Rect_Add: param #9 - must be an integer", 2) end
+  
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -3357,10 +3403,10 @@ function reagirl.Rect_Add(x,y,w,h,r,g,b,a,filled)
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
   reagirl.Elements[slot]["h"]=h
-  reagirl.Elements[slot]["r"]=r
-  reagirl.Elements[slot]["g"]=g
-  reagirl.Elements[slot]["b"]=b
-  reagirl.Elements[slot]["a"]=a
+  reagirl.Elements[slot]["r"]=1/255*r
+  reagirl.Elements[slot]["g"]=1/255*g
+  reagirl.Elements[slot]["b"]=1/255*b
+  reagirl.Elements[slot]["a"]=1/255*a
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["filled"]=filled
@@ -3370,10 +3416,94 @@ function reagirl.Rect_Add(x,y,w,h,r,g,b,a,filled)
   return reagirl.Elements[slot]["Guid"]
 end
 
+function reagirl.Rect_SetColors(element_id, r, g, b, a)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Rect_SetColors</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Rect_SetColors(string element_id, integer r, integer g, integer b, integer a)</functioncall>
+  <description>
+    Sets the color of a rectangle.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, whose disability-state you want to set
+    integer r - the new red-value; 1-255
+    integer g - the new green-value; 1-255
+    integer b - the new blue-value; 1-255
+    integer a - the new alpha-value; 1-255
+  </parameters>
+  <chapter_context>
+    Rectangle
+  </chapter_context>
+  <tags>rectangle, set, color, alpha</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Rect_SetColors: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Rect_SetColors: param #1 - must be a valid guid", 2) end
+  if math.type(r)~="integer" then error("Rect_SetColors: param #2 - must be an integer", 2) end
+  if math.type(g)~="integer" then error("Rect_SetColors: param #3 - must be an integer", 2) end
+  if math.type(b)~="integer" then error("Rect_SetColors: param #4 - must be an integer", 2) end
+  if math.type(a)~="integer" then error("Rect_SetColors: param #5 - must be an integer", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Rect_SetColors: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Rectangle" then
+    error("Rect_SetColors: param #1 - ui-element is not a rectangle", 2)
+  else
+    reagirl.Elements[element_id]["r"]=1/255*r
+    reagirl.Elements[element_id]["g"]=1/255*g
+    reagirl.Elements[element_id]["b"]=1/255*b
+    reagirl.Elements[element_id]["a"]=1/255*a
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Rect_GetColors(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Rect_GetColors</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Rect_GetColors(string element_id, integer r, integer g, integer b, integer a)</functioncall>
+  <description>
+    Sets the color of a rectangle.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, whose disability-state you want to set
+    integer r - the new red-value; 1-255
+    integer g - the new green-value; 1-255
+    integer b - the new blue-value; 1-255
+    integer a - the new alpha-value; 1-255
+  </parameters>
+  <chapter_context>
+    Rectangle
+  </chapter_context>
+  <tags>rectangle, set, color, alpha</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Rect_GetColors: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Rect_SetColors: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Rect_GetColors: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Rectangle" then
+    error("Rect_GetColors: param #1 - ui-element is not a rectangle", 2)
+  else
+    return reagirl.Elements[element_id]["r"]*255, reagirl.Elements[element_id]["g"]*255, reagirl.Elements[element_id]["b"]*255, reagirl.Elements[element_id]["a"]*255
+  end
+end
+
 function reagirl.Rect_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  old_r, old_g, old_b, old_a = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
   --print_update(x,y,w,h,element_storage["filled"])
   gfx.rect(x, y, w, h, element_storage["filled"])
+  gfx.set(old_r, old_g, old_b, old_a)
 end
 
 
@@ -4363,7 +4493,9 @@ function UpdateUI()
   
   
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
-  --reagirl.Rect_Add(-400,-200,-10,120,0.5,0.5,0.5,0.5,1)
+  Rect=reagirl.Rect_Add(10,10,100,120,127,127,127,127,127,1)
+  reagirl.Rect_SetColors(Rect, 100, 100, 100, 155)
+  print2(reagirl.Rect_GetColors(Rect))
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
 
