@@ -1191,8 +1191,8 @@ function reagirl.Gui_Manage()
     local x2, y2, w2, h2
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
     if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
-    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-(y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+    if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
     if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
     --[[
     x2=x2*scale
@@ -1250,8 +1250,8 @@ function reagirl.Gui_Manage()
     local x2, y2, w2, h2
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=(reagirl.Elements[i]["x"]*scale) end
     if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=(reagirl.Elements[i]["y"]*scale) end
-    if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h-(y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+    if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+    if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
     --[[
     x2=x2*scale
     y2=y2*scale
@@ -1317,8 +1317,9 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
       if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
       
-      if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"])*scale else w2=reagirl.Elements[i]["w"]*scale end
-      if reagirl.Elements[i]["h"]<0 then h2=gfx.h-(y2+reagirl.Elements[i]["h"])*scale else h2=reagirl.Elements[i]["h"]*scale end
+      --if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
       --[[
       x2=x2*scale
       y2=y2*scale
@@ -2566,7 +2567,12 @@ function reagirl.NextLine()
 --]]
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if reagirl.UI_Element_NextLineY==0 then
-    reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.Elements[slot-1]["h"]+1
+    for i=slot-1, 1, -1 do
+      if reagirl.Elements[i]["IsDecorative"]==false then
+        reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.Elements[i]["h"]+1
+        break
+      end
+    end
   else
     reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+5
   end
@@ -2621,7 +2627,13 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextLineX
     elseif slot-1>0 then
-      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+      for i=slot-1, 1, -1 do
+        if reagirl.Elements[i]["IsDecorative"]==false then
+          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+10
+          break
+        end
+        
+      end
     end
   end
   
@@ -3499,6 +3511,7 @@ function reagirl.Rect_GetColors(element_id)
 end
 
 function reagirl.Rect_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  --print(w)
   old_r, old_g, old_b, old_a = gfx.r, gfx.g, gfx.b, gfx.a
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
   --print_update(x,y,w,h,element_storage["filled"])
@@ -4493,9 +4506,9 @@ function UpdateUI()
   
   
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
-  Rect=reagirl.Rect_Add(10,10,100,120,127,127,127,127,127,1)
+  Rect=reagirl.Rect_Add(10,10,-30,-30,127,127,127,127,127,1)
   reagirl.Rect_SetColors(Rect, 100, 100, 100, 155)
-  print2(reagirl.Rect_GetColors(Rect))
+  --print2(reagirl.Rect_GetColors(Rect))
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
 
@@ -4503,7 +4516,7 @@ function UpdateUI()
   
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
-  reagirl.NextLine()
+  --reagirl.NextLine()
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help1", "Description of the button", click_button)
   reagirl.Button_SetRadius(BBB, 18)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
