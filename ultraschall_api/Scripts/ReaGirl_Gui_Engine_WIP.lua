@@ -3239,7 +3239,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
     Reaper=6.75
     Lua=5.3
   </requires>
-  <functioncall>reagirl.Label_Add(string label, integer x, integer y, string meaningOfUI_Element, integer align)</functioncall>
+  <functioncall>reagirl.Label_Add(string label, integer x, integer y, string meaningOfUI_Element, integer align, boolean clickable, function run_function)</functioncall>
   <description>
     Adds a label to the gui.
     
@@ -3256,6 +3256,8 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
                   - flags&2: right justify
                   - flags&4: center vertically
                   - flags&8: bottom justify
+    boolean clickable - true, the text is a clickable link-text; false or nil, the label-text is normal text
+    function run_function - a function that gets run when clicking the link-text(clickable=true)
   </parameters>
   <chapter_context>
     Label
@@ -3268,6 +3270,11 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   if type(label)~="string" then error("Label_Add: param #3 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Label_Add: param #4 - must be a string", 2) end
   if math.type(align)~="integer" then error("Label_Add: param #5 - must be an integer", 2) end
+  if clickable==nil then clickable=false end
+  if type(clickable)~="boolean" then error("Label_Add: param #6 - must be wither nil or a boolean", 2) end
+  if run_function==nil then run_function=reagirl.Dummy end
+  if type(run_function)~="function" then error("Label_Add: param #6 - must be wither nil or a function", 2) end
+  
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
     x=reagirl.UI_Element_NextX_Default
@@ -3694,6 +3701,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   if math.type(h)~="integer" then error("Image_Add: param #5 - must be an integer", 2) end
   if type(name)~="string" then error("Image_Add: param #6 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Image_Add: param #7 - must be a string", 2) end
+  if run_function==nil then run_function=reagirl.Dummy end
   if type(run_function)~="function" then error("Image_Add: param #8 - must be a function", 2) end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -4714,7 +4722,7 @@ function UpdateUI()
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
  reagirl.NextLine()
-  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
+  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
   --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
