@@ -2851,7 +2851,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
 
   local resample_mode, playback_resample_mode, project_smplrate4mix_and_fx = ultraschall.GetProject_RenderResample(projectfilename_with_path, ProjectStateChunk)
   
-  local RenderTable={}
+  local RenderTable=ultraschall.CreateNewRenderTable()
   RenderTable["RenderTable"]=true
   RenderTable["Source"]=render_stems
   if render_stems&256~=0 then RenderTable["EmbedStretchMarkers"]=true RenderTable["Source"]=RenderTable["Source"]-256 else RenderTable["EmbedStretchMarkers"]=false end
