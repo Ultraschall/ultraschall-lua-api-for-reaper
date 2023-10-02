@@ -594,6 +594,11 @@ function reagirl.Window_RescaleIfNeeded()
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
     reagirl.MoveItAllUp=0
     reagirl.MoveItAllRight=0
+    for i=1, #reagirl.Elements do 
+      if reagirl.Elements[i]["GUI_Element_Type"]=="Image" then
+        reagirl.Image_ReloadImage_Scaled(i)
+      end
+    end
   end
 end
 
@@ -3566,7 +3571,7 @@ end
 function reagirl.Line_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   --element_id=reagirl.Decorative_Element_GetIDFromGuid(element_id)
   local x2, y2, w2, h2
-  scale=reagirl.Window_CurrentScale
+  local scale=reagirl.Window_CurrentScale
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
   MoveItAllRight=reagirl.MoveItAllRight
   local MoveItAllUp=reagirl.MoveItAllUp
@@ -3602,6 +3607,7 @@ function reagirl.Image_Add(image_file, x, y, w, h, resize, Name, MeaningOfUI_Ele
   reagirl.Elements[slot]["func_draw"]=reagirl.Image_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["func_params"]=func_params
+  reagirl.Elements[slot]["Image_Resize"]=resize
   
   reagirl.Elements[slot]["Image_Storage"]=reagirl.MaxImage
   reagirl.Elements[slot]["Image_File"]=image_file
@@ -3620,6 +3626,29 @@ function reagirl.Image_Add(image_file, x, y, w, h, resize, Name, MeaningOfUI_Ele
   return reagirl.Elements[slot]["Guid"]
 end
 
+function reagirl.Image_ReloadImage_Scaled(slot)
+  image_filename=reagirl.Elements[slot]["Image_File"]
+  local scale=reagirl.Window_CurrentScale
+  if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
+    image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
+  end
+  gfx.dest=reagirl.Elements[slot]["Image_Storage"]
+  
+  image=reagirl.Elements[slot]["Image_Storage"]
+  local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
+  gfx.set(0)
+  gfx.rect(0,0,8192,8192)
+  gfx.set(r,g,b,a)
+  local AImage=gfx.loadimg(image, image_filename )
+
+  if reagirl.Elements[slot]["Image_Resize"]==true then
+    local retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[slot]["Image_Storage"], reagirl.Elements[slot]["w"], reagirl.Elements[slot]["h"], 0, 0, 0)
+  else
+    reagirl.Elements[slot]["w"], reagirl.Elements[slot]["h"] = gfx.getimgdim(AImage)
+  end
+  gfx.dest=-1
+  return reagirl.Elements[slot]["Guid"]
+end
 
 function reagirl.Image_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if selected==true and 
@@ -3636,7 +3665,7 @@ end
 
 function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- no docs in API-docs
-  
+  local scale=reagirl.Window_CurrentScale
   -- store changes
   local olddest, r, g, b, a, oldmode, oldx, oldy
   olddest=gfx.dest
@@ -3652,7 +3681,7 @@ function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
   gfx.x=x
   gfx.y=y
   gfx.dest=-1
-  gfx.blit(element_storage["Image_Storage"], 1, 0)
+  gfx.blit(element_storage["Image_Storage"], scale, 0)
   
   -- revert changes
   gfx.r,gfx.g,gfx.b,gfx.a=r,g,b,a
@@ -4507,7 +4536,7 @@ function UpdateUI()
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
 
-  --B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, true, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
+  B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, true, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
   --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
 --  reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
