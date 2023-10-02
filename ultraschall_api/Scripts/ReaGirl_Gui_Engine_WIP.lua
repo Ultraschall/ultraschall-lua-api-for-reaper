@@ -3,6 +3,13 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 TODO: 
   - when no ui-elements are present, the osara init-message is not said
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
+  - Scrolllimiter has a bug at the bottom, where it always keeps refreshing when scrolling down a little.
+    - see Gui_ForceRefresh_X in the watchlist for it working.
+    - happens only, when there's no scrolling up/downwards possible
+  - performance is laggy due to unknown reasons. Must have been added during the scaling mechanism, but doesn't
+    seem to be caused by it. Something is really not performing, even for just 150 UI-elements. You can see
+    it at scrolling...
+    The watchlist causes a lot of slowdowns, but they also appear when watchlist_refresh=false
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -1302,10 +1309,12 @@ end
 function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
   -- no docs in API-docs
   -- draw the ui-elements, if refresh-state=true
+  
   local selected, x2, y2
   local scale=reagirl.Window_CurrentScale
   
   if reagirl.Gui_ForceRefreshState==true then
+  AAAAAA=reaper.time_precise()
     -- clear background and draw bg-color/background image
     gfx.set(reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"])
     gfx.rect(0,0,gfx.w,gfx.h,1)
@@ -3557,6 +3566,7 @@ end
 function reagirl.Line_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   --element_id=reagirl.Decorative_Element_GetIDFromGuid(element_id)
   local x2, y2, w2, h2
+  scale=reagirl.Window_CurrentScale
   gfx.set(element_storage["r"], element_storage["g"], element_storage["b"], element_storage["a"])
   MoveItAllRight=reagirl.MoveItAllRight
   local MoveItAllUp=reagirl.MoveItAllUp
@@ -3568,7 +3578,7 @@ function reagirl.Line_Draw(element_id, selected, clicked, mouse_cap, mouse_attri
   if element_storage["y2"]<0 then y2=gfx.h+element_storage["y2"] else y2=element_storage["y2"] end
   
   MoveIt={x,y,x2,y2, w2, h2}
-  gfx.line(x, y, x2+MoveItAllRight, y2+MoveItAllUp)
+  gfx.line(x, y, x2*scale+MoveItAllRight, y2*scale+MoveItAllUp)
 end
 
 
@@ -4478,19 +4488,19 @@ function UpdateUI()
     end
   end
   --reagirl.AddDummyElement()  
-  LAB=reagirl.Label_Add(-100, 20, "Export Podcast as\nBreadFan:", "1", 0)
-  reagirl.NextLine()
+  --LAB=reagirl.Label_Add(-100, 20, "Export Podcast as\nBreadFan:", "1", 0)
+  --reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
-  reagirl.Checkbox_SetTopBottom(A, false, true)
-  reagirl.NextLine()
+  --reagirl.Checkbox_SetTopBottom(A, false, true)
+  --reagirl.NextLine()
   A1= reagirl.CheckBox_Add(nil, nil, "People on Streets", "Export file as MP3", true, CheckMe)
-  reagirl.Checkbox_SetTopBottom(A1, true, true)
-  reagirl.NextLine()
+  --reagirl.Checkbox_SetTopBottom(A1, true, true)
+ -- reagirl.NextLine()
   A2= reagirl.CheckBox_Add(nil, nil, "De de dep", "Export file as MP3", true, CheckMe)
-  reagirl.Checkbox_SetTopBottom(A2, true, false)
+  --reagirl.Checkbox_SetTopBottom(A2, true, false)
   A3= reagirl.CheckBox_Add(10, 135, "AAC", "Export file as MP3", true, CheckMe)
-  reagirl.Checkbox_SetTopBottom(A3, false, false)
-  reagirl.NextLine()
+  --reagirl.Checkbox_SetTopBottom(A3, false, false)
+  --reagirl.NextLine()
   
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
@@ -4503,7 +4513,7 @@ function UpdateUI()
 --  reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
 --  E=reagirl.DropDownMenu_Add(80, -70, 100, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
-  --reagirl.Line_Add(10, 250, 120, 200,1,1,0,1)
+  reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
   
   --D=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/export_logo.png", 1, 1, 79, 79, false, "Logo", "Logo 2")  
@@ -4511,8 +4521,8 @@ function UpdateUI()
   
   
   --C=reagirl.Image_Add(Images[2], -230, 175, 100, 100, true, "Contrapoints", "Contrapoints: A Youtube-Channel")
-  Rect=reagirl.Rect_Add(10,10,-30,-30,127,127,127,127,127,1)
-  reagirl.Rect_SetColors(Rect, 100, 100, 100, 155)
+  --Rect=reagirl.Rect_Add(10,10,-30,-30,127,127,127,127,127,1)
+  --reagirl.Rect_SetColors(Rect, 100, 100, 100, 155)
   --print2(reagirl.Rect_GetColors(Rect))
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
@@ -4522,23 +4532,24 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
-  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help1", "Description of the button", click_button)
-  reagirl.Button_SetRadius(BBB, 18)
-  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
-  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
+  --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help1", "Description of the button", click_button)
+  --reagirl.Button_SetRadius(BBB, 18)
+  --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
+  --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   reagirl.NextLine()
   
   reagirl.NextLine()
   
-  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Delete", "Description of the button", click_button)
-  BBB=reagirl.Button_Add(nil, nil, 20, 0, "I need somebody", "Description of the button", click_button)
-  reagirl.Button_SetRadius(BBB, 10)
+  --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Delete", "Description of the button", click_button)
+  --BBB=reagirl.Button_Add(nil, nil, 20, 0, "I need somebody", "Description of the button", click_button)
+  --reagirl.Button_SetRadius(BBB, 10)
   --
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
-  for i=1, 5 do
-    --reagirl.Button_Add(85+1*i, 60+50*i, 0, 0, i.." HUCH", "Description of the button", click_button)
+  for i=1, 5000, 5 do
+    --A3= reagirl.CheckBox_Add(10, i*10+135, "AAC", "Export file as MP3", true, CheckMe)
+    reagirl.Button_Add(85+1, 60*i+50, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
@@ -4564,4 +4575,4 @@ main()
 
 --reagirl.UI_Element_GetFocusedRect()
 
-reagirl.Label_SetLabelText(LAB, "Prime Time Of Your\nLife")
+--reagirl.Label_SetLabelText(LAB, "Prime Time Of Your\nLife")

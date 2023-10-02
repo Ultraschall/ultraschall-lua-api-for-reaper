@@ -1663,3 +1663,538 @@ function ultraschall.GetProjectPosByTakeSourcePos(source_pos, take)
   end
 end
 
+function ultraschall.MediaItem_GetAllVisibleTransients_ActiveTake(item)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaItem_GetAllVisibleTransients_ActiveTake</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_of_transients, table transient_positions = ultraschall.MediaItem_GetAllVisibleTransients_ActiveTake(MediaItem item)</functioncall>
+  <description>
+    returns the number and positions of visible transients of the active take of a MediaItem.
+
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    MediaItem item - the item, whose visible active-take transients you want to get
+  </parameters>
+  <retvals>
+    integer count_of_transients - the number of found transients
+    table transient_positions - a table with all project positions of the transients
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, get, transients, active take, project position</tags>
+</US_DocBloc>
+]]  
+  if ultraschall.type(item)~="MediaItem" then ultraschall.AddErrorMessage("MediaItem_GetAllVisibleTransients", "item", "must be a MediaItem", -1) return -1 end
+  reaper.PreventUIRefresh(1)
+  local editcursor=reaper.GetCursorPosition()
+  local Transients={}
+  start=reaper.GetMediaItemInfo_Value(item, "D_POSITION")  
+  reaper.SetEditCurPos(start-0.00001, false, false)
+  local lastpos=start
+  local newpos
+  while lastpos~=newpos do
+    lastpos=newpos
+    reaper.Main_OnCommand(40375, 0)
+    newpos=reaper.GetCursorPosition()
+    Transients[#Transients+1]=newpos
+  end
+  table.remove(Transients, #Transients)
+  reaper.MoveEditCursor(-reaper.GetCursorPosition()+Transients[1], false)
+  firstpos=reaper.GetCursorPosition()
+  reaper.Main_OnCommand(40376, 0)
+  secondpos=reaper.GetCursorPosition()
+  if secondpos~=firstpos then
+    table.insert(Transients, 1, secondpos)
+  end
+  --reaper.MoveEditCursor(-reaper.GetCursorPosition()+editcursor, false)
+  reaper.SetEditCurPos(editcursor, false, false)
+  reaper.PreventUIRefresh(-1)
+  return #Transients, Transients
+end
+
+function ultraschall.ItemLane_Count(track)
+-- CHECK THIS FIRST, if the bug in Reaper is fixed, that might show a regular track as containing 2 lanes instead of 1!!
+
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ItemLane_Count</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>integer count_of_lanes = ultraschall.ItemLane_Count(MediaTrack track)</functioncall>
+  <description>
+    returns the number of item-lanes in a track
+
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    MediaTrack track - the track, whose number of lanes you want to know
+  </parameters>
+  <retvals>
+    integer count_of_lanes - the number of item-lanes
+  </retvals>
+  <chapter_context>
+    Track Management
+    Item Lanes
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>track management, count, item lanes, fixed lanes</tags>
+</US_DocBloc>
+]] 
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("ItemLane_Count", "track", "must be a MediaTrack", -1) return -1 end
+  local val=reaper.GetMediaTrackInfo_Value(track, "I_FREEMODE")
+  if val==2 then
+    return math.tointeger(reaper.GetMediaTrackInfo_Value(track, "I_NUMFIXEDLANES"))
+  else
+    return 0
+  end
+end
+--A=ultraschall.ItemLane_Count(reaper.GetTrack(0,0))
+
+
+function ultraschall.ItemLane_GetFromPoint(x, y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ItemLane_GetFromPoint</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>MediaTrack track, integer item_lane_index = ultraschall.ItemLane_GetFromPoint(integer x, integer y)</functioncall>
+  <description>
+    returns the MediaTrack and the item-lane at a screen-coordinate
+
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer item_lane_index - the index of the item-lane at coordinate; 0, if no lane is existing at coordinates
+    MediaTrack track - the track, whose lane is at coordinate
+  </retvals>
+  <parameters>
+    integer x - the x-position of where you want to check for item-lane
+    integer y - the y-position of where you want to check for item-lane
+  </parameters>
+  <chapter_context>
+    Track Management
+    Item Lanes
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>track management, from point, get, lane at position, item lanes, fixed lanes</tags>
+</US_DocBloc>
+]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ItemLane_GetFromPoint", "x", "must be an integer", -1) return -1 end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ItemLane_GetFromPoint", "y", "must be an integer", -2) return -1 end
+  local AAA,BBB = reaper.GetTrackFromPoint(x, y)
+  if AAA==nil then return 0, nil end
+  return (BBB>>8)+1, AAA
+end
+--AAAAA=ultraschall.ItemLane_GetFromPoint()
+
+function ultraschall.ItemLane_GetPositionAndHeight(track, lane_index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ItemLane_GetPositionAndHeight</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>number y_position, number height = ultraschall.ItemLane_GetPositionAndHeight(MediaTrack track, integer lane_index)</functioncall>
+  <description>
+    returns the position and height of an item-lanes in a track
+
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    MediaTrack track - the track, whose lanes-height you want to know
+    integer lane_index - the lane, whose y-position and height you want to know
+  </parameters>
+  <retvals>
+    number y_position - the y-position of the lane in the fixed lanes
+    number height - the height of the lane in the fixed lanes
+  </retvals>
+  <chapter_context>
+    Track Management
+    Item Lanes
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>track management, get, item lanes, fixed lanes, height, position</tags>
+</US_DocBloc>
+]] 
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("ItemLane_GetPositionAndHeight", "track", "must be a MediaTrack", -1) return -1 end  
+  if math.type(lane_index)~="integer" then ultraschall.AddErrorMessage("ItemLane_GetPositionAndHeight", "lane_index", "must be an integer", -2) return -1 end  
+  local val=reaper.GetMediaTrackInfo_Value(track, "I_FREEMODE")
+  if val==2 then
+    return (1/ultraschall.ItemLane_Count(track))*(lane_index-1), (1/ultraschall.ItemLane_Count(track))
+  else
+    return -1
+  end
+end
+
+function ultraschall.ItemLane_GetAllMediaItems(track, lane_idx, start_position, end_position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ItemLane_GetAllMediaItems</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>integer count_MediaItems, table MediaItems = ultraschall.ItemLane_GetAllMediaItems(MediaTrack track, integer lane_index, optional number start_position, optional number end_position)</functioncall>
+  <description>
+    returns the MediaItems from an item-lanes in a track between start_position and end_position
+
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    MediaTrack track - the track, whose MediaItems you want to get
+    integer lane_index - the lane, whose MediaItems you want to get
+    optional number start_position - the earliest position a MediaItem in a tracklane must have
+    optional number end_position - the latest position a MediaItem in a tracklane must have
+  </parameters>
+  <retvals>
+    integer count_MediaItems - 
+    table MediaItems - 
+  </retvals>
+  <chapter_context>
+    Track Management
+    Item Lanes
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>track management, get, item lanes, mediaitems, startposition, endposition</tags>
+</US_DocBloc>
+]] 
+  if start_position==nil then start_position=0 end
+  if end_position==nil then end_position=reaper.GetProjectLength(0) end
+  if ultraschall.type(track)~="MediaTrack" then ultraschall.AddErrorMessage("ItemLane_GetAllMediaItems", "track", "must be a MediaTrack", -1) return -1 end
+  if math.type(lane_idx)~="integer" then ultraschall.AddErrorMessage("ItemLane_GetAllMediaItems", "lane_idx", "must be an integer", -2) return -1 end
+  if type(start_position)~="number" then ultraschall.AddErrorMessage("ItemLane_GetAllMediaItems", "start_position", "must be either nil or a number", -3) return -1 end
+  if type(end_position)~="number" then ultraschall.AddErrorMessage("ItemLane_GetAllMediaItems", "end_position", "must be either nil or a number", -4) return -1 end
+  lane_idx=lane_idx-1
+  local MediaItemArray={}
+  for i=0, reaper.CountTrackMediaItems(track)-1 do
+    local item=reaper.GetTrackMediaItem(track, i)
+    local lane=reaper.GetMediaItemInfo_Value(item, "I_FIXEDLANE")
+    if lane==lane_idx then
+      local start=reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+      local stop=start+reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
+      if start>=start_position and stop<=end_position then
+        MediaItemArray[#MediaItemArray+1]=item
+      end
+    end
+  end
+  return #MediaItemArray, MediaItemArray
+end
+
+function ultraschall.GetFixedLanesState(tracknumber, str)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFixedLanesState</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>integer collapsed_state, integer state2, integer show_only_lane = ultraschall.GetFixedLanesState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <description>
+    returns Fixed Lanes-state. 
+
+    It's the entry FIXEDLANES
+    
+    returns nil in case of an error or if there's no lane in the track
+  </description>
+  <retvals>
+    integer collapsed_state - &2, unknown
+                            - &8, collapsed state(set=not collapsed; unset=collapsed)
+    integer state2 - unknown
+    integer show_only_lane - 0, show all lanes; 1, show only one lane
+  </retvals>
+  <parameters>
+    integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
+    optional string TrackStateChunk - a TrackStateChunk that you want to use, instead of a given track
+  </parameters>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua</source_document>
+  <tags>trackmanagement, fixed lanes, collapsed, show all lanes, get, state, trackstatechunk</tags>
+</US_DocBloc>
+--]]
+  local retval
+  if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end
+  return ultraschall.GetTrackState_NumbersOnly("FIXEDLANES", str, "GetFixedLanesState", true)
+end
+
+function ultraschall.GetLaneSoloState(tracknumber, str)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLaneSoloState</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>number lane_solo_state, number state2, number state3, number state4 = ultraschall.GetLaneSoloState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <description>
+    returns Lanes solo-state. 
+
+    It's the entry LANESOLO
+    
+    returns nil in case of an error or if there's no lane in the track
+  </description>
+  <retvals>
+    number lane_solo_state - the lanes that are set to play; &1=lane 1, &2=lane 2, &4=lane 3, &8=lane 4, etc
+    number state2 - unknown
+    number state3 - unknown
+    number state4 - unknown
+  </retvals>
+  <parameters>
+    integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
+    optional string TrackStateChunk - a TrackStateChunk that you want to use, instead of a given track
+  </parameters>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua</source_document>
+  <tags>trackmanagement, fixed lanes, lane solo, get, state, trackstatechunk</tags>
+</US_DocBloc>
+--]]
+  local retval
+  if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end
+  return ultraschall.GetTrackState_NumbersOnly("LANESOLO", str, "GetLaneSoloState", true)
+end
+
+function ultraschall.GetLaneRecState(tracknumber, str)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLaneRecState</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>integer lane_rec_state, integer state2, integer state3 = ultraschall.GetLaneRecState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <description>
+    returns Lanes rec-state. 
+
+    It's the entry LANEREC
+    
+    returns nil in case of an error or if there's no lane in the track
+  </description>
+  <retvals>
+    integer lane_rec_state - the lanes into which you record; 0-based
+    integer state2 - unknown; usually -1
+    integer state3 - unknown; usually -1
+  </retvals>
+  <parameters>
+    integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
+    optional string TrackStateChunk - a TrackStateChunk that you want to use, instead of a given track
+  </parameters>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua</source_document>
+  <tags>trackmanagement, fixed lanes, lane rec, get, state, trackstatechunk</tags>
+</US_DocBloc>
+--]]
+  local retval
+  if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end
+  return ultraschall.GetTrackState_NumbersOnly("LANEREC", str, "GetLaneRecState", true)
+end
+
+
+function ultraschall.SplitReaperString(ReaperString)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SplitReaperString</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>integer string_count, table strings = ultraschall.SplitReaperString(string ReaperString)</functioncall>
+  <description>
+    splits a Reaper-string into its components.
+    
+    Reaper strings are usually found in statechunks, where some strings are alphanumeric, while others who contain a space in them are enclosed in \"
+    Example: Tudelu "My Shoe" is bigger "than yours"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer string_count - the number of strings found
+    table strings - a table with all found strings
+  </retvals>
+  <parameters>
+    string ReaperString - the string, that you want to split into its individual parts
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Various
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua</source_document>
+  <tags>api helper function, split, reaper string, statechunks</tags>
+</US_DocBloc>
+--]]
+  if type(ReaperString)~="string" then ultraschall.AddErrorMessage("SplitReaperString", "ReaperString", "must be a string", -1) return -1 end
+  local Strings={}
+  local index=1
+  Strings[index]=""
+  for i=0, ReaperString:len() do
+    if ReaperString:sub(i,i)==" " and inside~=true then
+      index=index+1
+      Strings[index]=""
+    elseif ReaperString:sub(i,i)=="\"" and inside~=true then
+      inside=true
+    elseif ReaperString:sub(i,i)=="\"" and inside==true then
+      inside=false
+    elseif ReaperString:sub(i,i)~="\"" then
+      Strings[index]=Strings[index]..ReaperString:sub(i,i)
+    end
+  end
+  return #Strings, Strings
+end
+
+function ultraschall.GetLaneNameState(tracknumber, str)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLaneNameState</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>string lanename1, string lanename2, string lanename3, .. = ultraschall.GetLaneNameState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <description>
+    returns Lanes name-state. 
+
+    It's the entry LANENAME
+    
+    returns nil in case of an error or if there's no lane in the track
+  </description>
+  <retvals>
+    integer lane_name_1 - the name of the first lane
+    integer lane_name_2 - the name of the second lane
+    integer lane_name_3 - the name of the third lane
+    ... - ...
+  </retvals>
+  <parameters>
+    integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
+    optional string TrackStateChunk - a TrackStateChunk that you want to use, instead of a given track
+  </parameters>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua</source_document>
+  <tags>trackmanagement, fixed lanes, lane name, get, state, trackstatechunk</tags>
+</US_DocBloc>
+--]]
+  local retval
+  if tracknumber~=-1 then retval, str = ultraschall.GetTrackStateChunk_Tracknumber(tracknumber) end
+
+  local ReaperString=str:match("LANENAME.-\n")
+  local A, lane_names = ultraschall.SplitReaperString(ReaperString)
+  return table.unpack(lane_names)
+end
+
+function ultraschall.GetYPos(MediaItem, statechunk)
+--  reaper.MB(statechunk,"",0)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetYPos</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>number y_position, number y_height, integer lane_or_fipm = ultraschall.GetYPos(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
+  <description>
+    Returns position and height of the MediaItem in a fixed item lane/free item positioning.
+    
+    It's the YPOS-entry
+    
+    Note when in item-lanes: You can use the y_height-retval to calculate, how many item-lanes the track contains, that has this MediaItem.
+    Use 1/y_height to calculate this the number of lanes. You can then calculate, on which lane the item lies: (1/y_height)*y_position.
+    
+    Returns nil in case of error or if the item is not placed in track lane/free item positioning.
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose yposition-state you want to know; nil, use parameter MediaItemStatechunk instead
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+  </parameters>
+  <retvals>
+    number y_position - the y-position of the MediaItem in fipm/within all track-lanes, calculate the used item-lane(see description for details)
+    number y_height - the height of the item in fipm/within the track-lanes, calculate the used item-lane(see description for details)
+    integer lane_or_fipm - 1, item is in free item positioning; 2, item is in an item-lane
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Get MediaItem States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source_document>
+  <tags>mediaitemmanagement, get, media, item, statechunk, rppxml, state, chunk, item lane, y-posiiton, height</tags>
+</US_DocBloc>
+]]
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil then
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
+    else ultraschall.AddErrorMessage("GetYPos","MediaItem", "must be a MediaItem.", -2) return end
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetYPos","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
+  statechunk=statechunk:match("YPOS( .-)%c")
+  if statechunk==nil then return nil end
+  statechunk=statechunk.." "
+
+  return tonumber(statechunk:match(" (.-) ")), 
+         tonumber(statechunk:match(" .- (.-) ")),
+         tonumber(statechunk:match(" .- .- (.-) "))
+end
+
+function ultraschall.FX_Container_GetFXID_From_Container_Path(tr, idx1, ...)
+-- written by Justin Frankel
+-- https://forum.cockos.com/showthread.php?p=2715021#post2715021
+-- gets the fx-id from a fx-container
+-- "Here's a helper if you want to get the ID from any path (variable number of arguments, all 1-based):"
+-- "(will return nil if you try to query a subitem of a non-container or anything out of bounds)"
+  local sc,rv = reaper.TrackFX_GetCount(tr)+1, 0x2000000 + idx1
+  for i,v in ipairs({...}) do
+    local ccok, cc = reaper.TrackFX_GetNamedConfigParm(tr, rv, 'container_count')
+    if ccok ~= true then return nil end
+    rv = rv + sc * v
+    sc = sc * (1+tonumber(cc))
+  end
+  return rv
+end
+
+--track = reaper.GetTrack(0,0);
+--id = get_fx_id_from_container_path(track, 1, 1) -- first item of first item (which must be a container)
+--ok, name = reaper.TrackFX_GetFXName(track,id)
