@@ -3321,7 +3321,7 @@ function reagirl.Label_Manage(element_id, selected, clicked, mouse_cap, mouse_at
     gfx.y=oldy
     if selection==1 then reaper.CF_SetClipboard(name) end
   end
-  if element_storage["clickable"]==true and selected==true and mouse_cap&1==1 then
+  if element_storage["clickable"]==true and gfx.mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     element_storage["run_function"](element_storage["Guid"])
   end
   return " ", false
@@ -3665,11 +3665,13 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
     
     If a filename doesn't exist, it reverts to the default one for 1x-scaling.
     
+    You can autoposition the checkbox by setting x and/or y to nil, which will position the new checkbox after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
   </description>
   <parameters>
     string image_filename - the filename of the imagefile to be shown
-    integer x - the x position of the image in pixels
-    integer y - the y position of the image in pixels
+    integer x - the x position of the image in pixels; nil, autoposition after the last ui-element(see description)
+    integer y - the y position of the image in pixels; nil, autoposition after the last ui-element(see description)
     integer w - the width of the image in pixels(might result in stretched images!)
     integer h - the height of the image in pixels(might result in stretched images!)
     string name - a descriptive name for the image
@@ -3685,12 +3687,42 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   <tags>image, add</tags>
 </US_DocBloc>
 --]]
+  if type(image_filename)~="string" then error("Image_Add: param #1 - must be a string", 2) end
+  if x~=nil and math.type(x)~="integer" then error("Image_Add: param #2 - must be nil or an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Image_Add: param #3 - must be nil or an integer", 2) end
+  if math.type(w)~="integer" then error("Image_Add: param #4 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("Image_Add: param #5 - must be an integer", 2) end
+  if type(name)~="string" then error("Image_Add: param #6 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Image_Add: param #7 - must be a string", 2) end
+  if type(run_function)~="function" then error("Image_Add: param #8 - must be a function", 2) end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
+  if x==nil then 
+    x=reagirl.UI_Element_NextX_Default
+    if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
+      x=reagirl.UI_Element_NextLineX
+    elseif slot-1>0 then
+      for i=slot-1, 1, -1 do
+        if reagirl.Elements[i]["IsDecorative"]==false then
+          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+10
+          break
+        end
+      end
+    end
+  end
+  
+  if y==nil then 
+    y=reagirl.UI_Element_NextY_Default
+    if slot-1>0 then
+      y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
+      reagirl.UI_Element_NextLineY=0
+    end
+  end  
+  
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Image"
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["Name"]=Name
+  reagirl.Elements[slot]["Name"]=name
   reagirl.Elements[slot]["Text"]=Name
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
@@ -3795,7 +3827,7 @@ function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
   gfx.dest=olddest
 end
 
-function reagirl.Image_Update(element_id, image_file)
+function reagirl.Image_Update(element_id, image_filename)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Image_Update</slug>
@@ -3831,13 +3863,14 @@ function reagirl.Image_Update(element_id, image_file)
 </US_DocBloc>
 --]]  
   if type(element_id)~="string" then error("Image_Update: param #1 - must be a string", 2) end
+  if type(image_filename)~="string" then error("Image_Add: param #2 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("Image_Update: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Image_Update: param #1 - no such ui-element", 2) end
   if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
     error("Rect_GetColors: param #1 - ui-element is not a rectangle", 2)
   else
-    reagirl.Elements[element_id]["Image_Filename"]=image_file
+    reagirl.Elements[element_id]["Image_Filename"]=image_filename
     reagirl.Image_ReloadImage_Scaled(element_id)
     reagirl.Gui_ForceRefresh(12)
   end
@@ -4100,6 +4133,7 @@ end
 
 
 function UpdateImage2(element_id)
+  print2("HUH")
   reagirl.Gui_ForceRefreshState=true
   if gfx.mouse_cap==1 then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
@@ -4679,8 +4713,8 @@ function UpdateUI()
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
-
-  B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
+ reagirl.NextLine()
+  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
   --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
