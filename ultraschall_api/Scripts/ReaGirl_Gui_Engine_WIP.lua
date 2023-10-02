@@ -1319,13 +1319,13 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
   local scale=reagirl.Window_CurrentScale
   
   if reagirl.Gui_ForceRefreshState==true then
-  AAAAAA=reaper.time_precise()
     -- clear background and draw bg-color/background image
     gfx.set(reagirl["WindowBackgroundColorR"],reagirl["WindowBackgroundColorG"],reagirl["WindowBackgroundColorB"])
     gfx.rect(0,0,gfx.w,gfx.h,1)
     reagirl.Background_DrawImage()
 
     -- draw all ui-elements
+    AAAAA=0
     for i=1, #reagirl.Elements, 1 do
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
@@ -1347,7 +1347,10 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
       
       -- run the draw-function of the ui-element
-      if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
+      
+      -- the following lines shall limit drawing on only visible areas. However, when non-resized images are used, the width and height don't match and therefor the image might disappear when scrolling
+      --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       or (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
+      --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
         local message=reagirl.Elements[i]["func_draw"](i, reagirl.Elements["FocusedElement"]==i,
           specific_clickstate,
           gfx.mouse_cap,
@@ -1362,7 +1365,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           Key_utf,
           reagirl.Elements[i]
         )
-      end
+      --end
       if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
         --if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then --  if w2<20 then w2=20 end end
         local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
@@ -2181,7 +2184,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     string caption - the caption of the checkbox
     string meaningOfUI_Element - a description for accessibility users
     boolean default - true, set the checkbox checked; false, set the checkbox unchecked
-    function run_function - a function that shall be run when the checkbox is clicked
+    function run_function - a function that shall be run when the checkbox is clicked; will get passed over the checkbox-element_id as first and the new checkstate as second parameter
   </parameters>
   <retvals>
     string checkbox_guid - a guid that can be used for altering the checkbox-attributes
@@ -2622,7 +2625,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     integer h_margin - a margin top and bottom of the text
     string caption - the caption of the button
     string meaningOfUI_Element - a description for accessibility users
-    function run_function - a function that shall be run when the button is clicked
+    function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter
   </parameters>
   <retvals>
     string button_guid - a guid that can be used for altering the button-attributes
@@ -3227,7 +3230,7 @@ function reagirl.Label_GetLabelText(element_id)
   end
 end
 
-function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align)
+function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Label_Add</slug>
@@ -3294,13 +3297,14 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align)
   reagirl.Elements[slot]["AccHint"]="Ctrl+C to copy text into clipboard"
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
+  reagirl.Elements[slot]["clickable"]=clickable
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["w"]=math.tointeger(w)
   reagirl.Elements[slot]["h"]=math.tointeger(h)--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["align"]=align
   reagirl.Elements[slot]["func_draw"]=reagirl.Label_Draw
-  reagirl.Elements[slot]["run_function"]=reagirl.Dummy
+  reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["func_manage"]=reagirl.Label_Manage
   
   return reagirl.Elements[slot]["Guid"]
@@ -3316,6 +3320,9 @@ function reagirl.Label_Manage(element_id, selected, clicked, mouse_cap, mouse_at
     gfx.x=oldx
     gfx.y=oldy
     if selection==1 then reaper.CF_SetClipboard(name) end
+  end
+  if element_storage["clickable"]==true and selected==true and mouse_cap&1==1 then
+    element_storage["run_function"](element_storage["Guid"])
   end
   return " ", false
 end
@@ -3352,15 +3359,20 @@ function reagirl.Label_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
                                      element_storage["align"])
                                      --]]
   else
+    local col=1
+    if element_storage["clickable"]==true then 
+      reagirl.SetFont(1, "Arial", reagirl.Font_Size, 85)
+      col=0.2
+    end
     gfx.set(0.1)
     gfx.x=1
-    gfx.y=2
-    gfx.drawstr(name, element_storage["align"], w, h)
-    gfx.set(1,1,1)
-    gfx.x=0
     gfx.y=1
     gfx.drawstr(name, element_storage["align"], w, h)
-    
+    gfx.set(col,col,1)
+    gfx.x=0
+    gfx.y=0
+    gfx.drawstr(name, element_storage["align"], w, h)
+    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   end
   gfx.dest=-1
   gfx.x=x
@@ -3392,8 +3404,8 @@ function reagirl.Rect_Add(x,y,w,h,r,g,b,a,filled)
     Otherwise your element disappears for blind people.
   </description>
   <parameters>
-    integer x - the x position of the button in pixels; negative anchors the button to the right window-side
-    integer y - the y position of the button in pixels; negative anchors the button to the bottom window-side
+    integer x - the x position of the rectangle in pixels; negative anchors the rectangle to the right window-side
+    integer y - the y position of the rectangle in pixels; negative anchors the rectangle to the bottom window-side
     integer w - the width of the rectangle in pixels
     integer h - the height of the rectangle in pixels
     integer r - the red-value of the rectangle, between 0 and 255
@@ -3461,7 +3473,7 @@ function reagirl.Rect_SetColors(element_id, r, g, b, a)
     Sets the color of a rectangle.
   </description>
   <parameters>
-    string element_id - the guid of the checkbox, whose disability-state you want to set
+    string element_id - the guid of the rectangle, whose colors you want to set
     integer r - the new red-value; 1-255
     integer g - the new green-value; 1-255
     integer b - the new blue-value; 1-255
@@ -3506,16 +3518,18 @@ function reagirl.Rect_GetColors(element_id)
     Sets the color of a rectangle.
   </description>
   <parameters>
-    string element_id - the guid of the checkbox, whose disability-state you want to set
+    string element_id - the guid of the rectangle, whose color-state you want to get
+  </parameters>
+  <retvals>
     integer r - the new red-value; 1-255
     integer g - the new green-value; 1-255
     integer b - the new blue-value; 1-255
     integer a - the new alpha-value; 1-255
-  </parameters>
+  </retvals>
   <chapter_context>
     Rectangle
   </chapter_context>
-  <tags>rectangle, set, color, alpha</tags>
+  <tags>rectangle, get, color, alpha</tags>
 </US_DocBloc>
 --]]
   if type(element_id)~="string" then error("Rect_GetColors: param #1 - must be a string", 2) end
@@ -3540,6 +3554,45 @@ end
 
 
 function reagirl.Line_Add(x,y,x2,y2,r,g,b,a)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Line_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string line_guid = reagirl.Line_Add(integer x, integer y, integer x2, integer y2, integer r, integer g, integer b, integer a, integer filled)</functioncall>
+  <description>
+    Adds a decorative line into the gui. It can be used to visually separate different ui-element-categories from each other.
+  </description>
+  <parameters>
+    integer x - the x position of the line in pixels
+    integer y - the y position of the line in pixels
+    integer x2 - the second x-position of the line in pixels
+    integer y2 - the second y-position of the line in pixels
+    integer r - the red-value of the line, between 0 and 255
+    integer g - the green-value of the line, between 0 and 255
+    integer b - the blue-value of the line, between 0 and 255
+    integer a - the alpha-value of the line, between 0 and 255
+  </parameters>
+  <retvals>
+    string line_guid - a guid that can be used for altering the line-attributes
+  </retvals>
+  <chapter_context>
+    Line
+  </chapter_context>
+  <tags>line, add</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then error("Line_Add: param #1 - must be an integer", 2) end
+  if math.type(y)~="integer" then error("Line_Add: param #2 - must be an integer", 2) end
+  if math.type(x2)~="integer" then error("Line_Add: param #3 - must be an integer", 2) end
+  if math.type(y2)~="integer" then error("Line_Add: param #4 - must be an integer", 2) end
+  if math.type(r)~="integer" then error("Line_Add: param #5 - must be an integer", 2) end
+  if math.type(g)~="integer" then error("Line_Add: param #6 - must be an integer", 2) end
+  if math.type(b)~="integer" then error("Line_Add: param #7 - must be an integer", 2) end
+  if math.type(a)~="integer" then error("Line_Add: param #8 - must be an integer", 2) end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -3587,12 +3640,56 @@ function reagirl.Line_Draw(element_id, selected, clicked, mouse_cap, mouse_attri
 end
 
 
-function reagirl.Image_Add(image_file, x, y, w, h, resize, Name, MeaningOfUI_Element, run_function, func_params)
+function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element, run_function)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string image_guid = reagirl.Image_Add(string image_filename, integer x, integer y, integer w, integer h, string name, string meaning of UI_Element, function run_function)</functioncall>
+  <description>
+    Adds an image to the gui. This image can run a function when clicked on it. 
+    
+    You can have different images for different scaling-ratios. You put them into the same folder and name them like:
+    image-filename.png - 1x-scaling
+    image-filename-2x.png - 2x-scaling
+    image-filename-3x.png - 3x-scaling
+    image-filename-4x.png - 4x-scaling
+    image-filename-5x.png - 5x-scaling
+    image-filename-6x.png - 6x-scaling
+    image-filename-7x.png - 7x-scaling
+    image-filename-8x.png - 8x-scaling
+    
+    If a filename doesn't exist, it reverts to the default one for 1x-scaling.
+    
+  </description>
+  <parameters>
+    string image_filename - the filename of the imagefile to be shown
+    integer x - the x position of the image in pixels
+    integer y - the y position of the image in pixels
+    integer w - the width of the image in pixels(might result in stretched images!)
+    integer h - the height of the image in pixels(might result in stretched images!)
+    string name - a descriptive name for the image
+    string meaningOfUI_Element - a description of the meaning of this image for accessibility users
+    function run_function - a function that is run when the image is clicked; will get the image-element-id as first parameter and the image-filename passed as second parameter
+  </parameters>
+  <retvals>
+    string image_guid - a guid that can be used for altering the image-attributes
+  </retvals>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, add</tags>
+</US_DocBloc>
+--]]
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Image"
-  reagirl.Elements[slot]["Description"]=MeaningOfUI_Element
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["Name"]=Name
   reagirl.Elements[slot]["Text"]=Name
   reagirl.Elements[slot]["IsDecorative"]=false
@@ -3606,28 +3703,37 @@ function reagirl.Image_Add(image_file, x, y, w, h, resize, Name, MeaningOfUI_Ele
   reagirl.Elements[slot]["func_manage"]=reagirl.Image_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.Image_Draw
   reagirl.Elements[slot]["run_function"]=run_function
-  reagirl.Elements[slot]["func_params"]=func_params
+  reagirl.Elements[slot]["func_params"]=func_params -- removed for now, since I don't know, why the run-function shall have params
   reagirl.Elements[slot]["Image_Resize"]=resize
   
   reagirl.Elements[slot]["Image_Storage"]=reagirl.MaxImage
-  reagirl.Elements[slot]["Image_File"]=image_file
+  reagirl.Elements[slot]["Image_Filename"]=image_filename
   gfx.dest=reagirl.Elements[slot]["Image_Storage"]
   local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
   gfx.set(0)
   gfx.rect(0,0,8192,8192)
   gfx.set(r,g,b,a)
-  local AImage=gfx.loadimg(reagirl.Elements[slot]["Image_Storage"], image_file)
+  local scale=reagirl.Window_CurrentScale
+  
+  if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
+    image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
+  end
+  local AImage=gfx.loadimg(reagirl.Elements[slot]["Image_Storage"], image_filename)
+  
+  --[[
   if resize==true then
     local retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[slot]["Image_Storage"], w, h, 0, 0, 0)
   else
     reagirl.Elements[slot]["w"], reagirl.Elements[slot]["h"] = gfx.getimgdim(AImage)
   end
+  --]]
+
   gfx.dest=-1
   return reagirl.Elements[slot]["Guid"]
 end
 
 function reagirl.Image_ReloadImage_Scaled(slot)
-  image_filename=reagirl.Elements[slot]["Image_File"]
+  image_filename=reagirl.Elements[slot]["Image_Filename"]
   local scale=reagirl.Window_CurrentScale
   if reaper.file_exists(image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)"))==true then
     image_filename=image_filename:match("(.*)%.").."-"..scale.."x"..image_filename:match(".*(%..*)")
@@ -3637,15 +3743,10 @@ function reagirl.Image_ReloadImage_Scaled(slot)
   image=reagirl.Elements[slot]["Image_Storage"]
   local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
   gfx.set(0)
-  gfx.rect(0,0,8192,8192)
+  gfx.rect(0,0,8192,8192,1)
   gfx.set(r,g,b,a)
   local AImage=gfx.loadimg(image, image_filename )
 
-  if reagirl.Elements[slot]["Image_Resize"]==true then
-    local retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[slot]["Image_Storage"], reagirl.Elements[slot]["w"], reagirl.Elements[slot]["h"], 0, 0, 0)
-  else
-    reagirl.Elements[slot]["w"], reagirl.Elements[slot]["h"] = gfx.getimgdim(AImage)
-  end
   gfx.dest=-1
   return reagirl.Elements[slot]["Guid"]
 end
@@ -3655,7 +3756,7 @@ function reagirl.Image_Manage(element_id, selected, clicked, mouse_cap, mouse_at
     (Key==32 or mouse_cap==1) and 
     (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) and
     element_storage["run_function"]~=nil then 
-      element_storage["run_function"](element_id, table.unpack(element_storage["func_params"])) 
+      element_storage["run_function"](element_storage["Guid"], element_storage["Image_Filename"]) 
   end
   if selected==true then
     message=" "
@@ -3680,8 +3781,11 @@ function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
   gfx.set(0)
   gfx.x=x
   gfx.y=y
+  print_update(x, y)
   gfx.dest=-1
-  gfx.blit(element_storage["Image_Storage"], scale, 0)
+  --gfx.blit(element_storage["Image_Storage"], 1, 0, 0, 0, )
+  imgw, imgh = gfx.getimgdim(element_storage["Image_Storage"])
+  gfx.blit(element_storage["Image_Storage"],1,0,0,0,imgw,imgh,x,y,w,h,0,0)
   
   -- revert changes
   gfx.r,gfx.g,gfx.b,gfx.a=r,g,b,a
@@ -3692,16 +3796,51 @@ function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
 end
 
 function reagirl.Image_Update(element_id, image_file)
-  gfx.dest=reagirl.Elements[element_id]["Image_Storage"]
-  reagirl.Elements[element_id]["Image_File"]=image_file
-  local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
-  gfx.set(1)
-  gfx.rect(0,0,8192,8192)
-  gfx.set(r,g,b,a)
-  gfx.dest=-1
-  AImage=gfx.loadimg(reagirl.Elements[element_id]["Image_Storage"], image_file)
-  retval = reagirl.ResizeImageKeepAspectRatio(reagirl.Elements[element_id]["Image_Storage"], reagirl.Elements[element_id]["w"], reagirl.Elements[element_id]["h"], 0, 0, 0)
-  reagirl.Gui_ForceRefresh(12)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Image_Update</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=6.75
+    Lua=5.3
+  </requires>
+  <functioncall>string image_guid = reagirl.Image_Update(string element_id, string image_filename)</functioncall>
+  <description>
+    Loads a new image-file of an existing image in the gui. 
+    
+    You can have different images for different scaling-ratios. You put them into the same folder and name them like:
+    image-filename.png - 1x-scaling
+    image-filename-2x.png - 2x-scaling
+    image-filename-3x.png - 3x-scaling
+    image-filename-4x.png - 4x-scaling
+    image-filename-5x.png - 5x-scaling
+    image-filename-6x.png - 6x-scaling
+    image-filename-7x.png - 7x-scaling
+    image-filename-8x.png - 8x-scaling
+    
+    If a filename doesn't exist, it reverts to the default one for 1x-scaling.
+  </description>
+  <parameters>
+    string element_id - the guid of the image
+    string image_filename - the filename of the imagefile to be shown
+  </parameters>
+  <chapter_context>
+    Image
+  </chapter_context>
+  <tags>image, load new image</tags>
+</US_DocBloc>
+--]]  
+  if type(element_id)~="string" then error("Image_Update: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Image_Update: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Image_Update: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Image" then
+    error("Rect_GetColors: param #1 - ui-element is not a rectangle", 2)
+  else
+    reagirl.Elements[element_id]["Image_Filename"]=image_file
+    reagirl.Image_ReloadImage_Scaled(element_id)
+    reagirl.Gui_ForceRefresh(12)
+  end
 end
 
 
@@ -4505,6 +4644,9 @@ function input2()
 
 end
 
+function label_click(element_id)
+  print2(1,element_id)
+end
 
 function UpdateUI()
   reagirl.Gui_New()
@@ -4517,8 +4659,10 @@ function UpdateUI()
     end
   end
   --reagirl.AddDummyElement()  
-  --LAB=reagirl.Label_Add(-100, 20, "Export Podcast as\nBreadFan:", "1", 0)
-  --reagirl.NextLine()
+  LAB=reagirl.Label_Add(-100, 10, "Export Podcast as\nBreadFan:", "1", 0, true, label_click)
+  reagirl.NextLine()
+  LAB=reagirl.Label_Add(nil, nil, "Export Podcast as\nBreadFan:", "1", 0, false, label_click)
+  reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A, false, true)
   --reagirl.NextLine()
@@ -4536,10 +4680,10 @@ function UpdateUI()
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
 
-  B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, true, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
+  B=reagirl.Image_Add(Images[3], 100, 80, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2, {1})
   --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
---  reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
+  --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
 --  E=reagirl.DropDownMenu_Add(80, -70, 100, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
   reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
@@ -4576,7 +4720,7 @@ function UpdateUI()
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
-  for i=1, 5000, 5 do
+  for i=1, 500, 5 do
     --A3= reagirl.CheckBox_Add(10, i*10+135, "AAC", "Export file as MP3", true, CheckMe)
     reagirl.Button_Add(85+1, 60*i+50, 0, 0, i.." HUCH", "Description of the button", click_button)
   end
@@ -4605,3 +4749,4 @@ main()
 --reagirl.UI_Element_GetFocusedRect()
 
 --reagirl.Label_SetLabelText(LAB, "Prime Time Of Your\nLife")
+
