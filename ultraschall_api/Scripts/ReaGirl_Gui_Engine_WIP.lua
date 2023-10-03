@@ -1259,6 +1259,7 @@ function reagirl.Gui_Manage()
   
   -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screenreader-message and everything
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
+  AAAA=reaper.time_precise()
   for i=#reagirl.Elements, 1, -1 do
     local x2, y2, w2, h2
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=(reagirl.Elements[i]["x"]*scale) end
@@ -1271,6 +1272,7 @@ function reagirl.Gui_Manage()
     w2=w2*scale
     h2=h2*scale
     --]]
+    
     local MoveItAllUp=reagirl.MoveItAllUp   
     local MoveItAllRight=reagirl.MoveItAllRight
     if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
@@ -1278,7 +1280,13 @@ function reagirl.Gui_Manage()
     --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
     -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
     --                   but seems to work without it as well
-      
+    if ((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+    or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
+    or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
+    and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
+    or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
+    or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))
+    then--]]  
       -- run manage-function of ui-element
       local message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
         specific_clickstate,
@@ -1294,7 +1302,8 @@ function reagirl.Gui_Manage()
         Key_utf,
         reagirl.Elements[i]
       )
-    --end
+    end -- only run manage-functions of visible gui-elements
+    --print_update(reaper.time_precise()-AAAA)
     
     -- output screenreader-message of ui-element
     if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
@@ -2484,6 +2493,7 @@ function reagirl.CheckBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   gfx.x=x+h+2+6
   gfx.y=y+2+offset
   gfx.drawstr(name)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
 end
 
 function reagirl.UI_Element_Next_Position()
@@ -2916,6 +2926,7 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
       gfx.set(0.784)
       gfx.drawstr(element_storage["Name"])
     end
+    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   else
     state=0
     
@@ -3339,7 +3350,7 @@ function reagirl.Label_Manage(element_id, selected, clicked, mouse_cap, mouse_at
     gfx.y=oldy
     if selection==1 then reaper.CF_SetClipboard(name) end
   end
-  if element_storage["clickable"]==true and gfx.mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+  if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     element_storage["run_function"](element_storage["Guid"])
   end
   return " ", false
@@ -3347,6 +3358,7 @@ end
 
 function reagirl.Label_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   -- BUG: with multiline-texts, when they scroll outside the top of the window, they disappear when the first line is outside of the window
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local olddest=gfx.dest
   local oldx, oldy = gfx.x, gfx.y
   local old_gfx_r=gfx.r
@@ -3379,7 +3391,7 @@ function reagirl.Label_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
   else
     local col=1
     if element_storage["clickable"]==true then 
-      reagirl.SetFont(1, "Arial", reagirl.Font_Size, 85)
+--      reagirl.SetFont(1, "Arial", reagirl.Font_Size, 85)
       col=0.2
     end
     gfx.set(0.1)
@@ -4712,9 +4724,9 @@ function UpdateUI()
     end
   end
   --reagirl.AddDummyElement()  
-  LAB=reagirl.Label_Add(-100, 10, "Export Podcast as\nBreadFan:", "1", 0, true, label_click)
-  reagirl.NextLine()
-  LAB=reagirl.Label_Add(nil, nil, "Export Podcast as\nBreadFan:", "1", 0, false, label_click)
+  LAB=reagirl.Label_Add(10, nil, "Export Podcast as:", "1", 0, false, label_click)
+  LAB=reagirl.Label_Add(124, nil, "Link to Docs", "1", 0, true, label_click)
+  
   reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A, false, true)
@@ -4733,7 +4745,7 @@ function UpdateUI()
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
  reagirl.NextLine()
-  B=reagirl.Image_Add(Images[3], nil, nil, 500, 500, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
+  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
   reagirl.FileDropZone_Add(100,100,100,100, UpdateImage2)--GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
@@ -4758,7 +4770,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
-  --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help1", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
@@ -4773,9 +4785,20 @@ function UpdateUI()
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
-  for i=1, 500, 1 do
+  for i=1, 1500, 1 do
     --A3= reagirl.CheckBox_Add(10, i*10+135, "AAC", "Export file as MP3", true, CheckMe)
     reagirl.Button_Add(nil, nil, 0, 0, i.." HUCH", "Description of the button", click_button)
+    reagirl.NextLine()
+    reagirl.NextLine()
+    reagirl.NextLine()
+    reagirl.NextLine()
+    reagirl.NextLine()
+    reagirl.NextLine()
+    reagirl.NextLine()
+    reagirl.NextLine()
+    reagirl.NextLine()
+    reagirl.NextLine()
+    reagirl.NextLine()
     reagirl.NextLine()
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
