@@ -23,7 +23,7 @@ reagirl.UI_Element_NextLineY=0
 reagirl.UI_Element_NextLineX=10
 reagirl.UI_Element_NextX_Default=10
 reagirl.UI_Element_NextY_Default=10
-reagirl.Font_Size=18
+reagirl.Font_Size=16
 
 function reagirl.NextLine_SetDefaults(x, y)
 --[[
@@ -1326,7 +1326,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     reagirl.Background_DrawImage()
 
     -- draw all ui-elements
-    AAAAA=0
+    --AAAAA=0
     for i=1, #reagirl.Elements, 1 do
       local x2, y2, w2, h2
       if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
@@ -1350,8 +1350,18 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       -- run the draw-function of the ui-element
       
       -- the following lines shall limit drawing on only visible areas. However, when non-resized images are used, the width and height don't match and therefor the image might disappear when scrolling
-      --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       or (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
-      --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
+      --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       and (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
+      --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) and (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
+      
+      if ((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+      or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
+      or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
+      and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
+      or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
+      or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))
+      then
+ --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
+      --AAAAA=AAAAA+1
         local message=reagirl.Elements[i]["func_draw"](i, reagirl.Elements["FocusedElement"]==i,
           specific_clickstate,
           gfx.mouse_cap,
@@ -1366,7 +1376,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           Key_utf,
           reagirl.Elements[i]
         )
-      --end
+      end -- draw_only_necessary-elements
       if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
         --if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then --  if w2<20 then w2=20 end end
         local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
@@ -2684,7 +2694,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["AccHint"]="click with space or left mouseclick"
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(tx+5+w_margin)
+  reagirl.Elements[slot]["w"]=math.tointeger(tx+15+w_margin)
   reagirl.Elements[slot]["h"]=math.tointeger(ty+7+h_margin)
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin
@@ -3822,7 +3832,7 @@ function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
   gfx.set(0)
   gfx.x=x
   gfx.y=y
-  print_update(x, y)
+  
   gfx.dest=-1
   --gfx.blit(element_storage["Image_Storage"], 1, 0, 0, 0, )
   imgw, imgh = gfx.getimgdim(element_storage["Image_Storage"])
@@ -4712,7 +4722,7 @@ function UpdateUI()
   A1= reagirl.CheckBox_Add(nil, nil, "People on Streets", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A1, true, true)
  -- reagirl.NextLine()
-  A2= reagirl.CheckBox_Add(nil, nil, "De de dep", "Export file as MP3", true, CheckMe)
+  A2= reagirl.CheckBox_Add(1300, nil, "De de dep", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A2, true, false)
   A3= reagirl.CheckBox_Add(10, 135, "AAC", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A3, false, false)
@@ -4723,8 +4733,8 @@ function UpdateUI()
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
  reagirl.NextLine()
-  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
-  reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
+  B=reagirl.Image_Add(Images[3], nil, nil, 500, 500, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
+  reagirl.FileDropZone_Add(100,100,100,100, UpdateImage2)--GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
@@ -4763,9 +4773,10 @@ function UpdateUI()
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
-  for i=1, 500, 5 do
+  for i=1, 500, 1 do
     --A3= reagirl.CheckBox_Add(10, i*10+135, "AAC", "Export file as MP3", true, CheckMe)
-    reagirl.Button_Add(85+1, 60*i+50, 0, 0, i.." HUCH", "Description of the button", click_button)
+    reagirl.Button_Add(nil, nil, 0, 0, i.." HUCH", "Description of the button", click_button)
+    reagirl.NextLine()
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
