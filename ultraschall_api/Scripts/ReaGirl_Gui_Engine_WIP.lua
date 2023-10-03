@@ -3992,6 +3992,7 @@ end
 
 function reagirl.FileDropZone_CheckForDroppedFiles()
   local x, y, w, h
+  local scale=reagirl.Window_GetCurrentScale()
   local i=1
   if reagirl.DropZone~=nil then
     for i=1, #reagirl.DropZone do
@@ -3999,8 +4000,13 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
       if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp else y=reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp end
       if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
       if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
+      x=x*scale
+      y=y*scale
+      w=w*scale
+      h=h*scale
       -- debug dropzone-rectangle, for checking, if it works
-      --[[  gfx.set(1)
+      --[[
+        gfx.set(1)
         gfx.rect(x, y, w, h, 0)
       --]]
       local files={}
@@ -4014,7 +4020,7 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
            if retval==false then break end
          end
          if #files>0 then
-          reagirl.DropZone[i]["DropZoneFunc"](i, files)
+          reagirl.DropZone[i]["DropZoneFunc"](reagirl.DropZone[i]["Guid"], files)
           reagirl.Gui_ForceRefresh(14)
          end
       end
@@ -4164,7 +4170,7 @@ end
 
 
 function UpdateImage2(element_id)
-  print2("HUH")
+  print2("HUH", element_id)
   reagirl.Gui_ForceRefreshState=true
   if gfx.mouse_cap==1 then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
@@ -4177,7 +4183,7 @@ end
 
 function GetFileList(element_id, filelist)
   print2(element_id)
-  reagirl.Image_Update(1, filelist[1])
+  reagirl.Image_Update(B, filelist[1])
   AFile=filelist
   list=""
   for i=1, 1000 do
@@ -4744,9 +4750,9 @@ function UpdateUI()
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
- reagirl.NextLine()
-  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
-  reagirl.FileDropZone_Add(100,100,100,100, UpdateImage2)--GetFileList)
+  reagirl.NextLine()
+  B=reagirl.Image_Add(Images[3], 100, 100, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
+  reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
