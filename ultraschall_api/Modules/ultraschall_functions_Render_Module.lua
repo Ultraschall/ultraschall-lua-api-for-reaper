@@ -2533,10 +2533,10 @@ function ultraschall.GetRenderTable_Project()
                                     1, Master mix + stems; 
                                     3, Stems (selected tracks); 
                                     8, Region render matrix; 
-                                    16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 
-                                    64, selected media items via master; 
+                                    64, Selected media items via master; 
                                     128, selected tracks via master
+                                    136, Region render matrix via master
                                     4096, Razor edit areas
                                     4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
@@ -2794,10 +2794,10 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
                                     1, Master mix + stems; 
                                     3, Stems (selected tracks); 
                                     8, Region render matrix; 
-                                    16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 
                                     64, selected media items via master; 
                                     128, selected tracks via master
+                                    136, Region render matrix via master
                                     4096, Razor edit areas
                                     4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
@@ -3629,9 +3629,10 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
                                     1, Master mix + stems; 
                                     3, Stems (selected tracks); 
                                     8, Region render matrix; 
-                                    16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 64, selected media items via master; 
+                                    64, selected media items via master; 
                                     128, selected tracks via master
+                                    136, Region render matrix via master
                                     4096, Razor edit areas
                                     4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
@@ -3954,9 +3955,10 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
                                     1, Master mix + stems; 
                                     3, Stems (selected tracks); 
                                     8, Region render matrix; 
-                                    16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 64, selected media items via master; 
+                                    64, selected media items via master; 
                                     128, selected tracks via master
+                                    136, Region render matrix via master
                                     4096, Razor edit areas
                                     4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
@@ -5092,9 +5094,10 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
                                     1, Master mix + stems; 
                                     3, Stems (selected tracks); 
                                     8, Region render matrix; 
-                                    16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 64, selected media items via master; 
+                                    64, selected media items via master; 
                                     128, selected tracks via master
+                                    136, Region render matrix via master
                                     4096, Razor edit areas
                                     4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
@@ -5488,6 +5491,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       32, Selected media items
                                       64, selected media items via master
                                       128, selected tracks via master
+                                      136, Region render matrix via master
                                       4096, Razor edit areas
                                       4224, Razor edit areas via master
               RenderTable["RenderPattern"] - the renderpattern, which hold also the wildcards
@@ -6053,9 +6057,10 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
                                     1, Master mix + stems; 
                                     3, Stems (selected tracks); 
                                     8, Region render matrix; 
-                                    16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 64, selected media items via master; 
+                                    64, selected media items via master; 
                                     128, selected tracks via master
+                                    136, Region render matrix via master
                                     4096, Razor edit areas
                                     4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
@@ -9188,10 +9193,10 @@ function ultraschall.GetRenderTable_ProjectDefaults()
                                     1, Master mix + stems; 
                                     3, Stems (selected tracks); 
                                     8, Region render matrix; 
-                                    16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 
                                     64, selected media items via master; 
                                     128, selected tracks via master
+                                    136, Region render matrix via master
                                     4096, Razor edit areas
                                     4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds; always 0 because it's not stored with project defaults

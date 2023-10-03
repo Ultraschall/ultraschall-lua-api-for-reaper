@@ -687,14 +687,14 @@
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
-            RenderTable["Source"] - 0, Master mix; 
+            RenderTable["Source"] - 0, Master mix
                                     1, Master mix + stems; 
                                     3, Stems (selected tracks); 
                                     8, Region render matrix; 
-                                    16, Tracks with only Mono-Media to Mono Files; 
                                     32, Selected media items; 
                                     64, selected media items via master; 
                                     128, selected tracks via master
+                                    136, Region render matrix via master
                                     4096, Razor edit areas
                                     4224, Razor edit areas via master
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds

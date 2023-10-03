@@ -1235,6 +1235,7 @@ function reagirl.Gui_Manage()
        if reagirl.TooltipWaitCounter==14 then
         local XX,YY=reaper.GetMousePosition()
         reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
+        AAA=i
         if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"]:utf8_sub(1,20)) end
        end
        
@@ -3731,7 +3732,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   reagirl.Elements[slot]["GUI_Element_Type"]="Image"
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["Name"]=name
-  reagirl.Elements[slot]["Text"]=Name
+  reagirl.Elements[slot]["Text"]=name
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Use Space or left mouse-click to select it."
   reagirl.Elements[slot]["x"]=x
@@ -4723,7 +4724,7 @@ function UpdateUI()
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
  reagirl.NextLine()
   B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
-  --reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
+  reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
