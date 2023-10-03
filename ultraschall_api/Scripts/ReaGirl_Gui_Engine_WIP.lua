@@ -4055,7 +4055,7 @@ end
 
 function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
   local x, y, w, h 
-  local i=1
+  local scale=reagirl.Window_GetCurrentScale()
   if mouse_cap&2==0 then return end
   if reagirl.ContextMenu~=nil then
     for i=1, #reagirl.ContextMenu do
@@ -4063,6 +4063,10 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
       if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp else y=reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp end
       if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
       if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
+      x=x*scale
+      y=y*scale
+      w=w*scale
+      h=h*scale
       -- debug dropzone-rectangle, for checking, if it works
       --[[
         gfx.set(1)
@@ -4100,7 +4104,7 @@ function reagirl.ContextMenuZone_Add(x,y,w,h,menu, func)
   reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuW"]=w
   reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenuH"]=h
   reagirl.ContextMenu[#reagirl.ContextMenu]["sticky_x"]=false
-  reagirl.ContectMenu[#reagirl.ContextMenu]["sticky_y"]=false
+  reagirl.ContextMenu[#reagirl.ContextMenu]["sticky_y"]=false
   reagirl.ContextMenu[#reagirl.ContextMenu]["ContextMenu"]=menu
   
   return reagirl.ContextMenu[#reagirl.ContextMenu]["Guid"]
@@ -4808,7 +4812,7 @@ function UpdateUI()
     reagirl.NextLine()
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
-  --reagirl.ContextMenuZone_Add(-120,-120,120,120,"Menu|Two|>And a|half", CMenu)
+  reagirl.ContextMenuZone_Add(100,100,100,100,"Menu|Two|>And a|half", CMenu)
   --]]
   
 end
