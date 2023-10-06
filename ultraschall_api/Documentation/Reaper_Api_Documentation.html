@@ -115,7 +115,7 @@ View: [<span class='aclick'>all</span>]
 End of Header
 --->
 <div class="ch"><p></p>
-<h2>Reaper Reascript-Api-Documentation 6.80<br>"soy loco por los cornballs"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
+<h2>Reaper Reascript-Api-Documentation 6.82<br>"Fortified with Optimism"</h2><h3>The Functions Reference</h3></div><div class="ch"><p></p>
 <!-- Clipboard Button -->
 <script src="./scripts/clipboard.min.js.Download"></script>
 <!-- External Script -->
@@ -265,7 +265,11 @@ JS-extension: <a href="Official%20Forum&#39;s-thread">https://forum.cockos.com/s
 ReaPack: <a href="https://reapack.com/">https://reapack.com/</a><br />
 ReaImGui: <a href="Official%20Forum&#39;s-thread">https://forum.cockos.com/showthread.php?t=250419</a><br />
 Osara: <a href="https://osara.reaperaccessibility.com/">https://osara.reaperaccessibility.com/</a><br />
-ReaBlink: <a href="https://github.com/ak5k/reablink/releases/">https://github.com/ak5k/reablink/releases/</a> ReaLlm: <a href="https://github.com/ak5k/reallm">https://github.com/ak5k/reallm</a> ReaFab: <a href="https://github.com/ak5k/reafab">https://github.com/ak5k/reafab</a> ReaMCULive: <a href="https://github.com/ak5k/reamculive/releases/">https://github.com/ak5k/reamculive/releases/</a> PeloReaper: <a href="https://github.com/pelori/PeloReaper">https://github.com/pelori/PeloReaper</a></p>
+ReaBlink: <a href="https://github.com/ak5k/reablink/releases/">https://github.com/ak5k/reablink/releases/</a><br />
+ReaLlm: <a href="https://github.com/ak5k/reallm">https://github.com/ak5k/reallm</a><br />
+ReaFab: <a href="https://github.com/ak5k/reafab">https://github.com/ak5k/reafab</a><br />
+ReaMCULive: <a href="https://github.com/ak5k/reamculive/releases/">https://github.com/ak5k/reamculive/releases/</a><br />
+PeloReaper: <a href="https://github.com/pelori/PeloReaper">https://github.com/pelori/PeloReaper</a></p>
 </div><br>
 </div>
 <div class="ch">
@@ -463,7 +467,7 @@ If you want to add a script to several sections, you need to add them individual
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> command id</td></tr>
+<tr><td class="pr"><i>integer</i> command_id</td></tr>
 <tr><td class="ch2">the command ID for this script.</td></tr>
 </table>
 <br>
@@ -7124,7 +7128,7 @@ Stored in reaper_plugin_functions.h<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr">REAPER_PeakBuild_Interface*  retval</td></tr>
+<tr><td class="pr">REAPER_PeakBuild_Interface* retval</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -10482,7 +10486,7 @@ Stored in reaper_plugin_functions.h<br>
 </table>
 <table class="ch">
 <tr><td class="pr"><i>int</i> which</td></tr>
-<tr><td class="ch2">thich MIDI-file to use<br/>
+<tr><td class="ch2">which MIDI-file to use<br/>
 0, MIDI colormap image file, <br/>
 1, MIDI bank/program select file, <br/>
 2, MIDI text string file, <br/>
@@ -21103,7 +21107,7 @@ To use global monitoring inputFX, use the master-track, any other track will acc
 <hr>
 <a class="anch" id="TrackFX_FormatParamValue"></a>
 <a href="#TrackFX_FormatParamValue"> ^</a> 
-<img width="3%" src="gfx/reaper6.37.png" alt="Reaper version 6.37"><u><b>TrackFX_FormatParamValue</b></u><br>			<p>
+<img width="3%" src="gfx/reaper6.81.png" alt="Reaper version 6.81"><u><b>TrackFX_FormatParamValue</b></u><br>			<p>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>TrackFX_FormatParamValue</em>(<i>MediaTrack*</i>  track, <i>int</i> fx, <i>int</i> param, <i>double</i> val, <i>char*</i> bufOut, <i>int</i> bufOut_sz)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>TrackFX_FormatParamValue</em>(<i>MediaTrack</i> track, <i>int</i> fx, <i>int</i> param, val, #buf)</code></div>
@@ -24807,7 +24811,7 @@ Returns the name of a input-channel.<br>
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>GetInputOutputLatency</em>(<i>int*</i> inputlatencyOut, <i>int*</i> outputLatencyOut)</code></div>
 <div class="e">EEL2: <code> <em>GetInputOutputLatency</em>(<i>int</i> &inputlatency, <i>int</i> &outputLatency)</code></div>
-<div class="l">Lua: <code> <i>number</i> inputlatency retval, <i>number</i> outputLatency = <em>reaper.GetInputOutputLatency</em>()</code></div>
+<div class="l">Lua: <code> <i>number</i> inputlatency, <i>number</i> outputLatency = <em>reaper.GetInputOutputLatency</em>()</code></div>
 <div class="p">Python: <code> (<i>Int</i> inputlatencyOut, <i>Int</i> outputLatencyOut) = <em>RPR_GetInputOutputLatency</em>(inputlatencyOut, outputLatencyOut)</code></div>
 </div><p>
 <div class="ch">
@@ -24815,7 +24819,7 @@ Gets the audio device input/output latency in samples<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> inputlatency retval</td></tr>
+<tr><td class="pr"><i>integer</i> inputlatency</td></tr>
 <tr><td class="ch2">the input-latency</td></tr>
 </table>
 <table class="ch">
@@ -25640,7 +25644,7 @@ Reset (close and re-open) all MIDI devices<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>string</i> window retval</td></tr>
+<tr><td class="pr"><i>string</i> window</td></tr>
 <tr><td class="ch2">the window, in which the mouse-cursor was, at time of calling BR_GetMouseCursorContext</td></tr>
 </table>
 <table class="ch">
@@ -26882,7 +26886,7 @@ Fills a gradient rectangle with the color and alpha specified. drdx-dadx reflect
 <a href="#lua_gfx.init"> ^</a> 
 <img width="3%" src="gfx/reaper6.40.png" alt="Reaper version 6.40"><u><b>gfx.init</b></u><br>			<p>
 <div class="cc">
-<div class="l">Lua: <code> <i>integer</i> retval = <em>gfx.init</em>(<i>string</i> "name", <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> dockstate, <i>optional</i> <i>integer</i> xpos, <i>optional</i> <i>integer</i> ypos)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>gfx.init</em>(<i>string</i> name, <i>optional</i> <i>integer</i> width, <i>optional</i> <i>integer</i> height, <i>optional</i> <i>integer</i> dockstate, <i>optional</i> <i>integer</i> xpos, <i>optional</i> <i>integer</i> ypos)</code></div>
 </div><p>
 <div class="ch">
 Initializes the graphics window with title name. Suggested width and height can be specified.Once the graphics window is open, gfx.update() should be called periodically. <br>
@@ -31694,7 +31698,7 @@ both share the number 1, even though you have 2 in your project(one marker and o
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>GetLastMarkerAndCurRegion</em>(<i>ReaProject*</i> proj, <i>double</i> time, <i>int*</i> markeridxOut, <i>int*</i> regionidxOut)</code></div>
 <div class="e">EEL2: <code> <em>GetLastMarkerAndCurRegion</em>(<i>ReaProject</i> proj, time, <i>int</i> &markeridx, <i>int</i> &regionidx)</code></div>
-<div class="l">Lua: <code> <i>integer</i> markeridx retval, <i>integer</i> regionidx = <em>reaper.GetLastMarkerAndCurRegion</em>(<i>ReaProject</i> proj, <i>number</i> time)</code></div>
+<div class="l">Lua: <code> <i>integer</i> markeridx, <i>integer</i> regionidx = <em>reaper.GetLastMarkerAndCurRegion</em>(<i>ReaProject</i> proj, <i>number</i> time)</code></div>
 <div class="p">Python: <code> (<i>ReaProject</i> proj, <i>Float</i> time, <i>Int</i> markeridxOut, <i>Int</i> regionidxOut) = <em>RPR_GetLastMarkerAndCurRegion</em>(proj, time, markeridxOut, regionidxOut)</code></div>
 </div><p>
 <div class="ch">
@@ -31703,7 +31707,7 @@ markeridx and regionidx are returned not necessarily as the displayed marker/reg
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> markeridx retval</td></tr>
+<tr><td class="pr"><i>integer</i> markeridx</td></tr>
 <tr><td class="ch2">the last marker-number(not shown number!) before parameter time</td></tr>
 </table>
 <table class="ch">
@@ -35633,7 +35637,7 @@ Gets/sets a take attribute string:<br>
 <div class="cc">
 <div class="c">C: <code> <i>const</i> <i>char*</i> <em>GetTakeName</em>(<i>MediaItem_Take*</i> take)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> <em>GetTakeName</em>(#retval, <i>MediaItem_Take</i> take)</code></div>
-<div class="l">Lua: <code> takename = <em>reaper.GetTakeName</em>(<i>MediaItem_Take</i> take)</code></div>
+<div class="l">Lua: <code> <i>string</i> takename = <em>reaper.GetTakeName</em>(<i>MediaItem_Take</i> take)</code></div>
 <div class="p">Python: <code> <i>String</i> retval = <em>RPR_GetTakeName</em>(<i>MediaItem_Take</i> take)</code></div>
 </div><p>
 <div class="ch">
@@ -39557,7 +39561,7 @@ Square button with an arrow shape. 'dir' is one of the Dir_* values<br>
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>ImGui_Attach</em>(ImGui_Context* ctx, ImGui_Resource* obj)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>ImGui_Attach</em>", <i>ImGui_Context</i> ctx, ImGui_Resource obj)</code></div>
-<div class="l">Lua: <code> <em>reaper.ImGui_Attach</em>(<i>ImGui_Context</i> ctxImGui_Resource obj)</code></div>
+<div class="l">Lua: <code> <em>reaper.ImGui_Attach</em>(<i>ImGui_Context</i> ctx, ImGui_Resource obj)</code></div>
 <div class="p">Python: <code> <i>void</i> <em>ImGui_Attach</em>(ImGui_Context* ctx, ImGui_Resource* obj)</code></div>
 </div><p>
 <div class="ch">
@@ -39573,7 +39577,11 @@ after the context is created or before any other function calls modifying the<br
 context per defer cycle. See "limitations" in the font API documentation.<br>
 </div><br>          <u>Parameters:</u>
 <table class="ch">
-<tr><td class="pr"><i>ImGui_Context</i> ctxImGui_Resource obj</td></tr>
+<tr><td class="pr"><i>ImGui_Context</i> ctx</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr">ImGui_Resource obj</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -44221,7 +44229,7 @@ automatically garbage-collected when unused.<br>
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>ImGui_Detach</em>(ImGui_Context* ctx, ImGui_Resource* obj)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>ImGui_Detach</em>", <i>ImGui_Context</i> ctx, ImGui_Resource obj)</code></div>
-<div class="l">Lua: <code> <em>reaper.ImGui_Detach</em>(<i>ImGui_Context</i> ctxImGui_Resource obj)</code></div>
+<div class="l">Lua: <code> <em>reaper.ImGui_Detach</em>(<i>ImGui_Context</i> ctx, ImGui_Resource obj)</code></div>
 <div class="p">Python: <code> <i>void</i> <em>ImGui_Detach</em>(ImGui_Context* ctx, ImGui_Resource* obj)</code></div>
 </div><p>
 <div class="ch">
@@ -51001,7 +51009,7 @@ StyleVar_IndentSpacing if 'indent_w' &lt;= 0. See Unindent.<br>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>ImGui_InputText</em>(ImGui_Context* ctx, <i>const</i> <i>char*</i> label, <i>char*</i> bufInOutNeedBig, <i>int</i> bufInOutNeedBig_sz, <i>int*</i> flagsInOptional, ImGui_Function* callbackInOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>ImGui_InputText</em>", <i>ImGui_Context</i> ctx, "label", #buf, <i>optional</i> <i>int</i> flagsIn, ImGui_Function callbackIn)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.ImGui_InputText</em>(<i>ImGui_Context</i> ctx, <i>string</i> label, <i>string</i> buf, <i>optional</i> <i>integer</i> flagsInImGui_Function callbackIn)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.ImGui_InputText</em>(<i>ImGui_Context</i> ctx, <i>string</i> label, <i>string</i> buf, <i>optional</i> <i>integer</i> flagsIn, ImGui_Function callbackIn)</code></div>
 <div class="p">Python: <code> <i>bool</i> <em>ImGui_InputText</em>(ImGui_Context* ctx, <i>const</i> <i>char*</i> label, <i>char*</i> bufInOutNeedBig, <i>int</i> bufInOutNeedBig_sz, <i>int*</i> flagsInOptional, ImGui_Function* callbackInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -51031,7 +51039,11 @@ StyleVar_IndentSpacing if 'indent_w' &lt;= 0. See Unindent.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> flagsInImGui_Function callbackIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> flagsIn</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr">ImGui_Function callbackIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -51513,7 +51525,7 @@ Read-only mode.<br>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>ImGui_InputTextMultiline</em>(ImGui_Context* ctx, <i>const</i> <i>char*</i> label, <i>char*</i> bufInOutNeedBig, <i>int</i> bufInOutNeedBig_sz, <i>double*</i> size_wInOptional, <i>double*</i> size_hInOptional, <i>int*</i> flagsInOptional, ImGui_Function* callbackInOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>ImGui_InputTextMultiline</em>", <i>ImGui_Context</i> ctx, "label", #buf, <i>optional</i> size_wIn, <i>optional</i> size_hIn, <i>optional</i> <i>int</i> flagsIn, ImGui_Function callbackIn)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.ImGui_InputTextMultiline</em>(<i>ImGui_Context</i> ctx, <i>string</i> label, <i>string</i> buf, <i>optional</i> <i>number</i> size_wIn, <i>optional</i> <i>number</i> size_hIn, <i>optional</i> <i>integer</i> flagsInImGui_Function callbackIn)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.ImGui_InputTextMultiline</em>(<i>ImGui_Context</i> ctx, <i>string</i> label, <i>string</i> buf, <i>optional</i> <i>number</i> size_wIn, <i>optional</i> <i>number</i> size_hIn, <i>optional</i> <i>integer</i> flagsIn, ImGui_Function callbackIn)</code></div>
 <div class="p">Python: <code> <i>bool</i> <em>ImGui_InputTextMultiline</em>(ImGui_Context* ctx, <i>const</i> <i>char*</i> label, <i>char*</i> bufInOutNeedBig, <i>int</i> bufInOutNeedBig_sz, <i>double*</i> size_wInOptional, <i>double*</i> size_hInOptional, <i>int*</i> flagsInOptional, ImGui_Function* callbackInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -51551,7 +51563,11 @@ Read-only mode.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> flagsInImGui_Function callbackIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> flagsIn</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr">ImGui_Function callbackIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -51565,7 +51581,7 @@ Read-only mode.<br>
 <div class="cc">
 <div class="c">C: <code> <i>bool</i> <em>ImGui_InputTextWithHint</em>(ImGui_Context* ctx, <i>const</i> <i>char*</i> label, <i>const</i> <i>char*</i> hint, <i>char*</i> bufInOutNeedBig, <i>int</i> bufInOutNeedBig_sz, <i>int*</i> flagsInOptional, ImGui_Function* callbackInOptional)</code></div>
 <div class="e">EEL2: <code> <i>bool</i> extension_api("<em>ImGui_InputTextWithHint</em>", <i>ImGui_Context</i> ctx, "label", "hint", #buf, <i>optional</i> <i>int</i> flagsIn, ImGui_Function callbackIn)</code></div>
-<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.ImGui_InputTextWithHint</em>(<i>ImGui_Context</i> ctx, <i>string</i> label, <i>string</i> hint, <i>string</i> buf, <i>optional</i> <i>integer</i> flagsInImGui_Function callbackIn)</code></div>
+<div class="l">Lua: <code> <i>boolean</i> retval, <i>string</i> buf = <em>reaper.ImGui_InputTextWithHint</em>(<i>ImGui_Context</i> ctx, <i>string</i> label, <i>string</i> hint, <i>string</i> buf, <i>optional</i> <i>integer</i> flagsIn, ImGui_Function callbackIn)</code></div>
 <div class="p">Python: <code> <i>bool</i> <em>ImGui_InputTextWithHint</em>(ImGui_Context* ctx, <i>const</i> <i>char*</i> label, <i>const</i> <i>char*</i> hint, <i>char*</i> bufInOutNeedBig, <i>int</i> bufInOutNeedBig_sz, <i>int*</i> flagsInOptional, ImGui_Function* callbackInOptional)</code></div>
 </div><p>
 <div class="ch">
@@ -51599,7 +51615,11 @@ Read-only mode.<br>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>integer</i> flagsInImGui_Function callbackIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>integer</i> flagsIn</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr">ImGui_Function callbackIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -64485,7 +64505,7 @@ Gets MIDI message from input buffer/queue. Gets (pops/pulls) indexed message (st
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MCULive_Map</em>(<i>int</i> device, <i>int</i> button, <i>int</i> command_id, isRemap bool)</code></div>
 <div class="e">EEL2: <code> <i>int</i> extension_api("<em>MCULive_Map</em>", <i>int</i> device, <i>int</i> button, <i>int</i> command_id, <b>unsupported</b> bool)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.MCULive_Map</em>(<i>integer</i> device, <i>integer</i> button, <i>integer</i> command_id<b>unsupported</b> bool)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.MCULive_Map</em>(<i>integer</i> device, <i>integer</i> button, <i>integer</i> command_id, unsupported bool)</code></div>
 <div class="p">Python: <code> <i>int</i> <em>MCULive_Map</em>(<i>int</i> device, <i>int</i> button, <i>int</i> command_id, isRemap bool)</code></div>
 </div><p>
 <div class="ch">
@@ -64594,7 +64614,7 @@ pc=&gt;mcu: <br>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>integer</i> command_id<b>unsupported</b> <i>bool</i></td></tr>
+<tr><td class="pr">unsupported <i>bool</i></td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -64634,7 +64654,7 @@ Reset device. device &lt; 0 resets all and returns number of devices.<br>
 <div class="cc">
 <div class="c">C: <code> <i>int</i> <em>MCULive_SendMIDIMessage</em>(<i>int</i> device, <i>int</i> status, <i>int</i> data1, <i>int</i> data2, <i>const</i> <i>char*</i> msgInOptional, <i>int*</i> msgInOptional_sz msgInOptional_sz)</code></div>
 <div class="e">EEL2: <code> <i>int</i> extension_api("<em>MCULive_SendMIDIMessage</em>", <i>int</i> device, <i>int</i> status, <i>int</i> data1, <i>int</i> data2, <i>optional</i> "msgIn", <b>unsupported</b> msgIn)</code></div>
-<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.MCULive_SendMIDIMessage</em>(<i>integer</i> device, <i>integer</i> status, <i>integer</i> data1, <i>integer</i> data2, <i>optional</i> <i>string</i> msgIn<b>unsupported</b> msgIn)</code></div>
+<div class="l">Lua: <code> <i>integer</i> retval = <em>reaper.MCULive_SendMIDIMessage</em>(<i>integer</i> device, <i>integer</i> status, <i>integer</i> data1, <i>integer</i> data2, <i>optional</i> <i>string</i> msgIn, unsupported msgIn)</code></div>
 <div class="p">Python: <code> <i>int</i> <em>MCULive_SendMIDIMessage</em>(<i>int</i> device, <i>int</i> status, <i>int</i> data1, <i>int</i> data2, <i>const</i> <i>char*</i> msgInOptional, <i>int*</i> msgInOptional_sz msgInOptional_sz)</code></div>
 </div><p>
 <div class="ch">
@@ -64664,7 +64684,11 @@ Sends MIDI message to device. If string is provided, individual bytes are not se
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
-<tr><td class="pr"><i>optional</i> <i>string</i> msgIn<b>unsupported</b> msgIn</td></tr>
+<tr><td class="pr"><i>optional</i> <i>string</i> msgIn</td></tr>
+<tr><td class="ch2"></td></tr>
+</table>
+<table class="ch">
+<tr><td class="pr">unsupported msgIn</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <br>
@@ -70496,7 +70520,7 @@ Sets the RPPXML state of a track, returns true if successful. Undo flag is a per
 <div class="cc">
 <div class="c">C: <code> <i>void</i> <em>BR_GetArrangeView</em>(<i>ReaProject*</i> proj, <i>double*</i> startTimeOut, <i>double*</i> endTimeOut)</code></div>
 <div class="e">EEL2: <code> extension_api("<em>BR_GetArrangeView</em>", <i>ReaProject</i> proj, &startTime, &endTime)</code></div>
-<div class="l">Lua: <code> <i>number</i> startTime retval, <i>number</i> endTime = <em>reaper.BR_GetArrangeView</em>(<i>ReaProject</i> proj)</code></div>
+<div class="l">Lua: <code> <i>number</i> startTime, <i>number</i> endTime = <em>reaper.BR_GetArrangeView</em>(<i>ReaProject</i> proj)</code></div>
 <div class="p">Python: <code> (<i>ReaProject</i> proj, <i>Float</i> startTimeOut, <i>Float</i> endTimeOut) = <em>BR_GetArrangeView</em>(proj, startTimeOut, endTimeOut)</code></div>
 </div><p>
 <div class="ch">
@@ -70508,7 +70532,7 @@ To set arrange view instead, see BR_SetArrangeView.<br>
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>number</i> startTime retval</td></tr>
+<tr><td class="pr"><i>number</i> startTime</td></tr>
 <tr><td class="ch2">the current starttime in the arrangeview in seconds</td></tr>
 </table>
 <table class="ch">
@@ -75600,7 +75624,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 <div class="cc">
 <div class="c">C: <code> <i>void*</i> <em>BR_GetMouseCursorContext_MIDI</em>(<i>bool*</i> inlineEditorOut, <i>int*</i> noteRowOut, <i>int*</i> ccLaneOut, <i>int*</i> ccLaneValOut, <i>int*</i> ccLaneIdOut)</code></div>
 <div class="e">EEL2: <code> <i>void*</i> extension_api("<em>BR_GetMouseCursorContext_MIDI</em>", <i>bool</i> &inlineEditor, <i>int</i> &noteRow, <i>int</i> &ccLane, <i>int</i> &ccLaneVal, <i>int</i> &ccLaneId)</code></div>
-<div class="l">Lua: <code> <i>identifier</i> retval, <i>boolean</i> inlineEditor, <i>integer</i> noteRow, <i>integer</i> ccLane, <i>integer</i> ccLaneVal, <i>integer</i> ccLaneId = <em>reaper.BR_GetMouseCursorContext_MIDI</em>()</code></div>
+<div class="l">Lua: <code> <i>identifier</i> hwnd, <i>boolean</i> inlineEditor, <i>integer</i> noteRow, <i>integer</i> ccLane, <i>integer</i> ccLaneVal, <i>integer</i> ccLaneId = <em>reaper.BR_GetMouseCursorContext_MIDI</em>()</code></div>
 <div class="p">Python: <code> (<i>void</i> retval, <i>Boolean</i> inlineEditorOut, <i>Int</i> noteRowOut, <i>Int</i> ccLaneOut, <i>Int</i> ccLaneValOut, <i>Int</i> ccLaneIdOut) = <em>BR_GetMouseCursorContext_MIDI</em>(inlineEditorOut, noteRowOut, ccLaneOut, ccLaneValOut, ccLaneIdOut)</code></div>
 </div><p>
 <div class="ch">
@@ -75610,7 +75634,7 @@ The function will return the left/top/right/bottom coordinates of the viewport t
 </div><br>      
 <u>Returnvalues:</u>
 <table class="ch">
-<tr><td class="pr"><i>identifier</i> retval</td></tr>
+<tr><td class="pr"><i>identifier</i> hwnd</td></tr>
 <tr><td class="ch2"></td></tr>
 </table>
 <table class="ch">
