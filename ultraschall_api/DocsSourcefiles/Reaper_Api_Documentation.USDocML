@@ -22716,7 +22716,7 @@
         <functioncall prog_lang="lua">boolean retval, string buf = reaper.TrackFX_FormatParamValue(MediaTrack track, integer fx, integer param, number val)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int fx, Int param, Float val, String bufOut, Int bufOut_sz) = RPR_TrackFX_FormatParamValue(track, fx, param, val, bufOut, bufOut_sz)</functioncall>
         <requires>
-            Reaper=6.37
+            Reaper=6.81
         </requires>
         <description prog_lang="*">
             returns a formatted version of the currently set parameter-value.
@@ -22731,7 +22731,7 @@
         <retvals>
             boolean retval - true, parameter can be retrieved; false, an error occured(e.g. no such fx)
             string buf - the formatted parameter value
-        </retvals>
+        </retvals> 
         <parameters>
             MediaTrack track - the track, which contains the fx; use master-track if you want to address input-fx(see fx)
             integer fx - the index of the fx(0-based); add 0x1000000 to use inputFX(only with track=mastertrack)
@@ -22746,6 +22746,7 @@
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.81 - fix inconsistent rounding for TrackFX_FormatParamValue on bypass envelopes
         </changelog>
     </US_DocBloc>
 
@@ -43321,6 +43322,7 @@
         </chapter_context>
         <tags>eel, gfx functions</tags>
         <changelog>
+          Reaper 6.82 - on Windows: can now be used without opening a window with gfx.init first()
         </changelog>
     </US_DocBloc>
 
@@ -46387,6 +46389,7 @@ Mespotine
         </chapter_context>
         <tags></tags>
         <changelog>
+          Reaper 6.82 - on Windows: can now be used without opening a window with gfx.init first()
         </changelog>
     </US_DocBloc>
 

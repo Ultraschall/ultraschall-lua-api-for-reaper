@@ -3,7 +3,7 @@
       <slug>Introduction</slug>
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 6.79 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 6.82 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -12444,6 +12444,9 @@
            
            >&1024=0, Disable high-resolution peaks for video items - unchecked  
            >&1024=1, Disable high-resolution peaks for video items - checked  
+           
+           >&2048=0, Use standard edit control for video code editor (for accessibility, lacks many features) - unchecked
+           >&2048=0, Use standard edit control for video code editor (for accessibility, lacks many features) - checked
 
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  

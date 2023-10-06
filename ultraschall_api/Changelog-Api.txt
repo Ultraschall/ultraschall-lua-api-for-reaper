@@ -335,6 +335,7 @@ Has now 1663 functions, with XX new ones
   - ItemLanes: ItemLane\_GetPositionAndHeight - returns the y-position and height of a fixed track-lane
   - MediaItems: GetYPosInLanes - get the y-pos and height of the item within lanes
   - MediaItemTakes: MediaItem\_GetAllVisibleTransients\_ActiveTake - gets position of all visible transients of an active take
+  - Rendering: CreateRenderCFG_RAW - creates a render-cfg-string for RAW-PCM-format
   - TrackStates: GetFixedLanesState - gets the lanes-state of a track
   - TrackStates: GetLaneNameState - gets the lane-names-state of a track
   - TrackStates: GetLaneRecState - gets the lanes-rec-state of a track
@@ -350,7 +351,8 @@ Has now 1663 functions, with XX new ones
   - FXManagement: ScanVSTPlugins - removed, as changes in Reaper prevent this from working entirely
   - MediaItem Management: RippleCut - didn't close the gap under certain cirumstances -> fixed now
   - MediaItem Management: RippleCut\_Reverse - didn't close the gap under certain cirumstances -> fixed now
-  - RenderManagement: GetRenderTable\_ProjectFile - didn't return a valid Rendertable, when normalize-settings weren't in the project-file
+  - Rendering: ApplyRenderTable\_Project - did not properly apply render-settings when render to file-dialog was opened due Reaper bug -> fixed now (thanks to 80icio)
+  - Rendering: GetRenderTable\_ProjectFile - didn't return a valid Rendertable, when normalize-settings weren't in the project-file  
 
 ---
 

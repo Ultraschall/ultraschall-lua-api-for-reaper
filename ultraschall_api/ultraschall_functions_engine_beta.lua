@@ -2179,6 +2179,70 @@ function ultraschall.GetYPos(MediaItem, statechunk)
          tonumber(statechunk:match(" .- .- (.-) "))
 end
 
+function ultraschall.CreateRenderCFG_RAW(bitrate, write_sidecar_file)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_RAW</slug>
+  <requires>
+    Ultraschall=5
+    Reaper=7.0
+    Lua=5.4
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_RAW(integer bitrate, boolean write_sidecar_file)</functioncall>
+  <description>
+    Returns the render-cfg-string for the RAW-PCM-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected RAW PCM-settings
+  </retvals>
+  <parameters>
+    integer bitrate - the bitrate 
+                    - 1, 8 bit unsigned
+                    - 2, 8 bit signed
+                    - 3, 16 bit little endian
+                    - 4, 24 bit little endian
+                    - 5, 32 bit little endian
+                    - 6, 16 bit big endian
+                    - 7, 24 bit big endian
+                    - 8, 32 bit big endian
+                    - 9, 32 bit FP little endian
+                    - 10, 64 bit FP little endian
+                    - 11, 32 bit FP big endian
+                    - 12, 64 bit FP big endian
+    boolean write_sidecar_file - true, write a .rsrc.txt sidecar file; false, don't write a sidecar file
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+  <tags>render management, create, render, outputformat, raw, pcm</tags>
+</US_DocBloc>
+]]
+  if math.type(bitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "bitrate", "must be an integer", -1) return end
+  if type(write_sidecar_file)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "write_sidecar_file", "must be a boolean", -2) return end
+  if bitrate<1 or bitrate>12 then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "bitrate", "must be between 1 and 12", -3) return end
+  if     bitrate==1 then bitrate=8 option=4 -- 8bit unsigned
+  elseif bitrate==2 then bitrate=8 option=0 -- 8bit signed
+  elseif bitrate==3 then bitrate=16 option=0 -- 16 bit little endian
+  elseif bitrate==4 then bitrate=24 option=0 -- 24 bit little endian
+  elseif bitrate==5 then bitrate=32 option=0 -- 32 bit little endian
+  elseif bitrate==6 then bitrate=16 option=2 -- 16 bit big endian
+  elseif bitrate==7 then bitrate=24 option=2 -- 24 bit big endian
+  elseif bitrate==8 then bitrate=32 option=2 -- 32 bit big endian
+  elseif bitrate==9 then bitrate=32 option=1 -- 32 bit FP little endian
+  elseif bitrate==10 then bitrate=64 option=1 -- 64 bit FP little endian
+  elseif bitrate==11 then bitrate=32 option=3 -- 32 bit FP big endian
+  elseif bitrate==12 then bitrate=64 option=3 -- 64 bit FP big endian
+  end
+  if write_sidecar_file==false then option=option+64 end
+  --print2(option)
+  return ultraschall.Base64_Encoder(" war"..string.char(bitrate)..string.char(option))
+end
+
 function ultraschall.FX_Container_GetFXID_From_Container_Path(tr, idx1, ...)
 -- written by Justin Frankel
 -- https://forum.cockos.com/showthread.php?p=2715021#post2715021
