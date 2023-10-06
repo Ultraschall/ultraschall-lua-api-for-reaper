@@ -3747,6 +3747,13 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   if RenderTable["FadeIn_Enabled"]==true and normalize_method&512==0 then normalize_method=normalize_method+512 end
   if RenderTable["FadeOut_Enabled"]==true and normalize_method&1024==0 then normalize_method=normalize_method+1024 end
   
+  reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", RenderTable["RenderFile"], true)
+  reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", RenderTable["RenderPattern"], true)
+  if apply_rendercfg_string~=false then
+    reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", RenderTable["RenderString"], true)
+    reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT2", RenderTable["RenderString2"], true)
+  end
+  
   reaper.GetSetProjectInfo(ReaProject, "RENDER_FADEIN", RenderTable["FadeIn"], true)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_FADEOUT", RenderTable["FadeOut"], true)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_FADEINSHAPE", RenderTable["FadeIn_Shape"], true)
@@ -3791,12 +3798,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
       RenderTable["RenderFile"]=string.gsub(path,"\\\\", "\\")
     end
   end
-  reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", RenderTable["RenderFile"], true)
-  reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", RenderTable["RenderPattern"], true)
-  if apply_rendercfg_string~=false then
-    reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", RenderTable["RenderString"], true)
-    reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT2", RenderTable["RenderString2"], true)
-  end
+  
   
   if RenderTable["SaveCopyOfProject"]==true then SaveCopyOfProject=1 else SaveCopyOfProject=0 end
   hwnd = ultraschall.GetRenderToFileHWND()
