@@ -2219,7 +2219,7 @@ function ultraschall.CreateRenderCFG_RAW(bitrate, write_sidecar_file)
   </chapter_context>
   <target_document>US_Api_Functions</target_document>
   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
-  <tags>render management, create, render, outputformat, raw, pcm</tags>
+  <tags>render management, create, render, outputformat, raw, pcm, sidecar</tags>
 </US_DocBloc>
 ]]
   if math.type(bitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_RAW", "bitrate", "must be an integer", -1) return end
@@ -2241,6 +2241,86 @@ function ultraschall.CreateRenderCFG_RAW(bitrate, write_sidecar_file)
   if write_sidecar_file==false then option=option+64 end
   --print2(option)
   return ultraschall.Base64_Encoder(" war"..string.char(bitrate)..string.char(option))
+end
+
+function ultraschall.GetRenderCFG_Settings_RAW(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_RAW</slug>
+    <requires>
+      Ultraschall=5
+      Reaper=7.0
+      Lua=5.4
+    </requires>
+    <functioncall>integer bitrate, boolean write_sidecar_file = ultraschall.GetRenderCFG_Settings_RAW(string rendercfg)</functioncall>
+    <description>
+      Returns the settings stored in a render-cfg-string for RAW PCM.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer bitrate - the encoding-depth of the raw-pcm
+      integer bitrate - the bitrate 
+                      - 1, 8 bit unsigned
+                      - 2, 8 bit signed
+                      - 3, 16 bit little endian
+                      - 4, 24 bit little endian
+                      - 5, 32 bit little endian
+                      - 6, 16 bit big endian
+                      - 7, 24 bit big endian
+                      - 8, 32 bit big endian
+                      - 9, 32 bit FP little endian
+                      - 10, 64 bit FP little endian
+                      - 11, 32 bit FP big endian
+                      - 12, 64 bit FP big endian
+      boolean write_sidecar_file - true, write .rsrc.txt sidecar file; false, don't write a sidecar file
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the raw-settings; 
+    </parameters>
+    <chapter_context>
+      Rendering Projects
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, raw, pcm, sidecar</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_RAW", "rendercfg", "must be a string", -1) return -1 end
+  if rendercfg==nil then
+    local retval
+    retval, rendercfg = reaper.BR_Win32_GetPrivateProfileString("flac sink defaults", "default", "", reaper.get_ini_file())
+    if retval==0 then rendercfg="63616C661000000005000000AB" end
+    rendercfg = ultraschall.ConvertHex2Ascii(rendercfg)
+    rendercfg=ultraschall.Base64_Encoder(rendercfg)
+  end
+  local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string==nil or Decoded_string:sub(1,4)~=" war" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_RAW", "rendercfg", "not a render-cfg-string of the format raw pcm", -2) return -1 end
+   
+  if Decoded_string:len()==4 then
+    return 3, false
+  end
+  local bitrate=string.byte(Decoded_string:sub(5,5))
+  local option= string.byte(Decoded_string:sub(6,6))
+  if option&64==64 then option=option-64 end
+  local val=-2
+  if     bitrate==8 and option==4 then val=1 -- 8bit unsigned
+  elseif bitrate==8 and option==0 then val=2-- 8bit signed
+  elseif bitrate==16 and option==0 then val=3-- 16 bit little endian
+  elseif bitrate==24 and option==0 then val=4-- 24 bit little endian
+  elseif bitrate==32 and option==0 then val=5-- 32 bit little endian
+  elseif bitrate==16 and option==2 then val=6-- 16 bit big endian
+  elseif bitrate==24 and option==2 then val=7-- 24 bit big endian
+  elseif bitrate==32 and option==2 then val=8-- 32 bit big endian
+  elseif bitrate==32 and option==1 then val=9-- 32 bit FP little endian
+  elseif bitrate==64 and option==1 then val=10-- 64 bit FP little endian
+  elseif bitrate==32 and option==3 then val=11-- 32 bit FP big endian
+  elseif bitrate==64 and option==3 then val=12-- 64 bit FP big endian
+  end
+  return val, string.byte(Decoded_string:sub(6,6))&64==0
 end
 
 function ultraschall.FX_Container_GetFXID_From_Container_Path(tr, idx1, ...)

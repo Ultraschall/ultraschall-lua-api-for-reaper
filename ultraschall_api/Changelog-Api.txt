@@ -335,7 +335,8 @@ Has now 1663 functions, with XX new ones
   - ItemLanes: ItemLane\_GetPositionAndHeight - returns the y-position and height of a fixed track-lane
   - MediaItems: GetYPosInLanes - get the y-pos and height of the item within lanes
   - MediaItemTakes: MediaItem\_GetAllVisibleTransients\_ActiveTake - gets position of all visible transients of an active take
-  - Rendering: CreateRenderCFG_RAW - creates a render-cfg-string for RAW-PCM-format
+  - Rendering: CreateRenderCFG\_RAW - creates a render-cfg-string for RAW-PCM-format
+  - Rendering: GetRenderCFG\_Settings\_RAW - gets the render-settings for RAW-PCM-format
   - TrackStates: GetFixedLanesState - gets the lanes-state of a track
   - TrackStates: GetLaneNameState - gets the lane-names-state of a track
   - TrackStates: GetLaneRecState - gets the lanes-rec-state of a track
