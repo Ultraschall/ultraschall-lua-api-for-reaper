@@ -2876,10 +2876,18 @@ function reagirl.Button_Manage(element_id, selected, clicked, mouse_cap, mouse_a
     element_storage["pressed"]=true
     message=" pressed"
   elseif selected==true and mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
+    local oldstate=element_storage["pressed"]
     element_storage["pressed"]=true
+    if oldstate~=element_storage["pressed"] then
+      reagirl.Gui_ForceRefresh(12346)
+    end
     message=" pressed"
   else
+    local oldstate=element_storage["pressed"]
     element_storage["pressed"]=false
+    if oldstate~=element_storage["pressed"] then
+      reagirl.Gui_ForceRefresh(12345)
+    end
   end
   if oldpressed==true and element_storage["pressed"]==false and (mouse_cap&1==0 and Key~=32) then
     element_storage["run_function"](element_storage["Guid"])
@@ -2912,8 +2920,8 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, radius * dpi_scale, 1, 1)
     reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, radius * dpi_scale, 1, 1)
     
-    gfx.set(0.39) -- background 2
-    reagirl.RoundRect((x + offset)*scale, (y + offset - 1) * scale, w, h, radius * dpi_scale, 1, 1)
+    gfx.set(0.274) -- background 2
+    reagirl.RoundRect((x + offset+1)*scale, (y + offset +1- 1) * scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
     reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, radius * dpi_scale, 1, 1)
@@ -2932,16 +2940,16 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
     
     gfx.set(0.06) -- background 1
     --print_update(x, scale, (x-1)*scale)
-    reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, radius * dpi_scale, 1, 1)
-    reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, radius * dpi_scale, 1, 1)
-    reagirl.RoundRect((x + 1)*scale, (y + 1)*scale, w, h, radius * dpi_scale, 1, 1)
+    --reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, radius * dpi_scale, 1, 1)
+    --reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
     
     
     gfx.set(0.39) -- background 2
     reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h-1, radius * dpi_scale, 1, 1)
     
     local offset=0
     if element_storage["IsDecorative"]==false then
@@ -3075,7 +3083,8 @@ function reagirl.InputBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
 end
 
 function reagirl.DropDownMenu_Add(x, y, w, Name, MeaningOfUI_Element, default, MenuEntries, run_function)
-  local tx,ty=gfx.measurestr(Name)
+  --local tx,ty=gfx.measurestr(Name)
+  
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
@@ -3088,7 +3097,11 @@ function reagirl.DropDownMenu_Add(x, y, w, Name, MeaningOfUI_Element, default, M
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
-  reagirl.Elements[slot]["h"]=math.tointeger(gfx.texth)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  local tx,ty=gfx.measurestr(MenuEntries[default])
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.Elements[slot]["h"]=math.tointeger(ty+7)--math.tointeger(gfx.texth)
+  reagirl.Elements[slot]["radius"]=4
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["MenuDefault"]=default
@@ -3096,6 +3109,7 @@ function reagirl.DropDownMenu_Add(x, y, w, Name, MeaningOfUI_Element, default, M
   reagirl.Elements[slot]["func_manage"]=reagirl.DropDownMenu_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.DropDownMenu_Draw
   reagirl.Elements[slot]["run_function"]=run_function
+  
   reagirl.Elements[slot]["userspace"]={}
   return  reagirl.Elements[slot]["Guid"]
 end
@@ -3111,18 +3125,27 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
   end
   
   if w<20 then w=20 end
-  if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==1685026670 or Key==30064) then 
+  
+  if element_storage["pressed"]==true then
     if (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32 then
       gfx.x=x
       gfx.y=y+gfx.texth
       local selection=gfx.showmenu(Entries:sub(1,-2))
+      --selection=-1
       if selection>0 then
         reagirl.Elements[element_id]["MenuDefault"]=selection
         reagirl.Elements[element_id]["run_function"](element_id, selection, element_storage["MenuEntries"][selection])
         reagirl.Elements[element_id]["Text"]=element_storage["MenuEntries"][selection]
         refresh=true
       end
+      element_storage["pressed"]=false
+      reagirl.Gui_ForceRefresh()
     end
+  end
+  if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==1685026670 or Key==30064) then 
+    element_storage["pressed"]=true
+  else
+    element_storage["pressed"]=false
   end
   return element_storage["MenuEntries"][element_storage["MenuDefault"]]..". collapsed ", refresh
 end
@@ -3131,50 +3154,118 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
   local offset=gfx.measurestr(name.." ")
   gfx.x=x
   gfx.y=y
-  gfx.set(0.1)
-  gfx.rect(x+1,y+1,w,h+1,0)
-  gfx.set(1)
-  gfx.rect(x,y,w,h+1,0)
-  
-
-  --gfx.triangle(x+w-gfx.texth, y, x+w+gfx.texth, y, x+w-1+gfx.texth/2+2, y+gfx.texth)
-  --[[gfx.triangle(x+w,     y,
-               x+w+41,   y,
-               x+10, y+gfx.texth )
-      --]]
-  --gfx.x=x+w
-  --gfx.y=y
-  --gfx.setpixel(1,1,1)
-  
-  --gfx.x=x+w-gfx.texth
-  --gfx.y=y
-  --gfx.setpixel(1,0,1)
-  
-  --gfx.x=x+w-(gfx.texth/2)
-  --gfx.y=y+gfx.texth
-  --gfx.setpixel(1,0,1)
-  
+  --gfx.set(0.1)
+  --gfx.rect(x+1,y+1,w,h+1,0)
+  --gfx.set(1)
+  --gfx.rect(x,y,w,h+1,0)
+  --[[
   gfx.triangle(x+w-4, y+4, x+w-gfx.texth+4, y+4, x+w-(gfx.texth/2), y+gfx.texth-4)
   gfx.line(x+w-gfx.texth+1, y, x+w-gfx.texth+1, y+gfx.texth)
   
-  
-      --gfx.line(x+gfx.texth+1, y+1, x+gfx.texth/2+1, y+1+gfx.texth)
   gfx.set(0.7)
   gfx.set(0.7)
-      --gfx.line(x, y, x+gfx.texth/2, y+gfx.texth)
-  --]]
-  
+
   gfx.set(0.3)
   gfx.x=x+1+2+2
   gfx.y=y
-  gfx.drawstr(element_storage["MenuEntries"][element_storage["MenuDefault"]],0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+  gfx.drawstr(element_storage["MenuEntries"][element_storage["MenuDefault"] ],0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
   
   gfx.set(1)
   --gfx.line(x+gfx.texth,y,x+gfx.texth,y+gfx.texth)
   gfx.x=x+2+2
   gfx.y=y-1
-  gfx.drawstr(element_storage["MenuEntries"][element_storage["MenuDefault"]],0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+  gfx.drawstr(element_storage["MenuEntries"][element_storage["MenuDefault"] ],0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+  ]]
+  local menuentry=element_storage["MenuEntries"][element_storage["MenuDefault"]]
   
+  x=x+1
+  y=y+1
+  gfx.x=x
+  gfx.y=y
+  w=w-5
+  h=h-5
+  local dpi_scale, state
+  radius=element_storage["radius"]
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
+  
+  local sw,sh=gfx.measurestr(menuentry)
+  local scale=1 --reagirl.Window_CurrentScale
+  local dpi_scale=reagirl.Window_CurrentScale
+  if reagirl.Elements[element_id]["pressed"]==true then
+    state=1*dpi_scale-1
+    
+    offset=math.floor(dpi_scale)
+    if offset==0 then offset=1 end
+    
+    gfx.set(0.06) -- background 1
+    reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, radius * dpi_scale, 1, 1)
+    
+    gfx.set(0.274) -- background 2
+    reagirl.RoundRect((x + offset+1)*scale, (y + offset +1- 1) * scale, w, h, radius * dpi_scale, 1, 1)
+    
+    gfx.set(0.274) -- button-area
+    reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, radius * dpi_scale, 1, 1)
+    
+    if element_storage["IsDecorative"]==false then
+      gfx.x=x+15
+    
+      if reaper.GetOS():match("OS")~=nil then offset=1 end
+      gfx.y=y+(h-sh)/2+1+offset
+      gfx.set(0.784)
+      gfx.drawstr(menuentry,0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+    end
+    reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  else
+    state=0
+    
+    gfx.set(0.06) -- background 1
+    --print_update(x, scale, (x-1)*scale)
+    --reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, radius * dpi_scale, 1, 1)
+    --reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, radius * dpi_scale, 1, 1)
+    gfx.set(0.06) -- background 1
+    --print_update(x, scale, (x-1)*scale)
+    --reagirl.RoundRect((x - 1)*scale, (y - 1)*scale, w, h, radius * dpi_scale, 1, 1)
+    --reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
+    
+    
+    gfx.set(0.39) -- background 2
+    reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, radius * dpi_scale, 1, 1)
+    
+    gfx.set(0.274) -- button-area
+    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h-1, radius * dpi_scale, 1, 1)
+    
+    local offset=0
+    if element_storage["IsDecorative"]==false then
+      gfx.x=x+14--+(w-sw)/2+1
+      if reaper.GetOS():match("OS")~=nil then offset=1 end
+      --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
+      gfx.y=y+(h-sh)/2+offset
+      gfx.set(0.784)
+      gfx.drawstr(menuentry,0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+    else
+      if reaper.GetOS():match("OS")~=nil then offset=1 end
+      
+      gfx.x=x--+(w-sw)/2+1
+      gfx.y=y+(h-sh)/2+1+offset-1
+      gfx.set(0.39)
+      gfx.drawstr(menuentry,0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+      
+      gfx.x=x--+(w-sw)/2+1
+      gfx.y=y+(h-sh)/2+1+offset
+      gfx.set(0.06)
+      gfx.drawstr(menuentry,0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+    end
+  end
+  gfx.set(0.3)
+  gfx.x=x+h+3
+  gfx.y=y+1
+  --gfx.drawstr(name)
+  gfx.set(1)
+  gfx.x=x+h+2
+  gfx.y=y
+  --gfx.drawstr(name)
 end
 
 function reagirl.Label_SetLabelText(element_id, label)
@@ -4760,8 +4851,8 @@ function UpdateUI()
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
---  E=reagirl.DropDownMenu_Add(80, -70, 100, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
-  reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
+  E=reagirl.DropDownMenu_Add(80, 210, 150, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
+  --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
   
   --D=reagirl.Image_Add(reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/export_logo.png", 1, 1, 79, 79, false, "Logo", "Logo 2")  
@@ -4780,7 +4871,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
-  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help1", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(20, 70, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
