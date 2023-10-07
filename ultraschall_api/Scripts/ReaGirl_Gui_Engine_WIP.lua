@@ -6,7 +6,6 @@ TODO:
   - Scrolllimiter has a bug at the bottom, where it always keeps refreshing when scrolling down a little.
     - see Gui_ForceRefresh_X in the watchlist for it working.
     - happens only, when there's no scrolling up/downwards possible
-  - clickable labels aren't accurately positioned in all scaling-factors
   
 --]]
 --XX,YY=reaper.GetMousePosition()
@@ -3147,19 +3146,21 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
       reagirl.Gui_ForceRefresh()
     --end
   end
-  if Key==32 or Key==13 then 
-    element_storage["pressed"]=true
-    collapsed="enhanced"
-  elseif Key==1685026670 then
-    element_storage["MenuDefault"]=element_storage["MenuDefault"]+1
-    if element_storage["MenuDefault"]>=element_storage["MenuCount"] then element_storage["MenuDefault"]=element_storage["MenuCount"] end
-  elseif Key==30064 then 
-    element_storage["MenuDefault"]=element_storage["MenuDefault"]-1
-    if element_storage["MenuDefault"]<1 then element_storage["MenuDefault"]=1 end
-  elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
-    element_storage["pressed"]=true
-  else
-    element_storage["pressed"]=false
+  if selected==true then
+    if Key==32 or Key==13 then 
+      element_storage["pressed"]=true
+      collapsed="enhanced"
+    elseif Key==1685026670 then
+      element_storage["MenuDefault"]=element_storage["MenuDefault"]+1
+      if element_storage["MenuDefault"]>=element_storage["MenuCount"] then element_storage["MenuDefault"]=element_storage["MenuCount"] end
+    elseif Key==30064 then 
+      element_storage["MenuDefault"]=element_storage["MenuDefault"]-1
+      if element_storage["MenuDefault"]<1 then element_storage["MenuDefault"]=1 end
+    elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
+      element_storage["pressed"]=true
+    else
+      element_storage["pressed"]=false
+    end
   end
   return element_storage["MenuEntries"][element_storage["MenuDefault"]]..". "..collapsed, refresh
 end
@@ -3460,7 +3461,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["clickable"]=clickable
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["w"]=math.tointeger(w)
+  reagirl.Elements[slot]["w"]=math.tointeger(w)+10
   reagirl.Elements[slot]["h"]=math.tointeger(h)--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["align"]=align
   reagirl.Elements[slot]["func_draw"]=reagirl.Label_Draw
@@ -3528,11 +3529,11 @@ function reagirl.Label_Draw(element_id, selected, clicked, mouse_cap, mouse_attr
     gfx.set(0.1)
     gfx.x=1
     gfx.y=1
-    gfx.drawstr(name, element_storage["align"], w, h)
+    gfx.drawstr(name, element_storage["align"])--, w, h)
     gfx.set(col,col,1)
     gfx.x=0
     gfx.y=0
-    gfx.drawstr(name, element_storage["align"], w, h)
+    gfx.drawstr(name, element_storage["align"])--, w, h)
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   end
   gfx.dest=-1
@@ -4865,8 +4866,8 @@ function UpdateUI()
     end
   end
   --reagirl.AddDummyElement()  
-  LAB=reagirl.Label_Add(10, nil, "Export Podcast as:", "1", 0, false, label_click)
-  LAB=reagirl.Label_Add(124, nil, "Link to Docs", "1", 0, true, label_click)
+  LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "1", 0, false, label_click)
+  LAB=reagirl.Label_Add(nil, nil, "Link to Docs", "1", 0, true, label_click)
   
   reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
