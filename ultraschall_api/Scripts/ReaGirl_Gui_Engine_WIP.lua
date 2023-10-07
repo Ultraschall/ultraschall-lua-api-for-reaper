@@ -3129,7 +3129,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
   if element_storage["pressed"]==true then
     if (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32 then
       gfx.x=x
-      gfx.y=y+gfx.texth
+      gfx.y=y+h--*scale
       local selection=gfx.showmenu(Entries:sub(1,-2))
       --selection=-1
       if selection>0 then
@@ -3189,7 +3189,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
   
   local sw,sh=gfx.measurestr(menuentry)
-  local scale=1 --reagirl.Window_CurrentScale
+  local scale=1--reagirl.Window_CurrentScale
   local dpi_scale=reagirl.Window_CurrentScale
   if reagirl.Elements[element_id]["pressed"]==true then
     state=1*dpi_scale-1
@@ -3207,13 +3207,26 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
     gfx.set(0.274) -- button-area
     reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, radius * dpi_scale, 1, 1)
     
+    gfx.set(0.39)
+    --[[
+    gfx.circle(x+w-15*dpi_scale, y+6*dpi_scale,   2*dpi_scale, 1, 0)
+    gfx.circle(x+w-6*dpi_scale,  y+6*dpi_scale,   2*dpi_scale, 1, 0)
+    gfx.circle(x+w-10*dpi_scale, y+h-7*dpi_scale, 2*dpi_scale, 1, 0)
+    gfx.triangle(x+w-16*dpi_scale, y+8*dpi_scale,
+                 x+w-5*dpi_scale,  y+8*dpi_scale,
+                 x+w-9*dpi_scale,  y+h-5*dpi_scale,
+                 x+w-12*dpi_scale, y+h-5*dpi_scale)
+                 --]]
+    gfx.rect(x+w-21*dpi_scale, y+state*2*dpi_scale-3+1*dpi_scale, 1*dpi_scale, h, 1)
+    --gfx.rect(x+w-15*dpi_scale, y+4*dpi_scale, 10*dpi_scale, 5*dpi_scale, 1)
+    
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+15
+      gfx.x=x+10
     
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.y=y+(h-sh)/2+1+offset
       gfx.set(0.784)
-      gfx.drawstr(menuentry,0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+      gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
     end
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   else
@@ -3229,33 +3242,44 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
     --reagirl.RoundRect(x*scale, (y - 2) * scale, w, h, radius * dpi_scale, 1, 1)
     reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
     
-    
     gfx.set(0.39) -- background 2
     reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
     reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h-1, radius * dpi_scale, 1, 1)
     
+    gfx.set(0.39)
+    gfx.circle(x+w-15*dpi_scale, y+6*dpi_scale,   2*dpi_scale, 1, 0)
+    gfx.circle(x+w-6*dpi_scale,  y+6*dpi_scale,   2*dpi_scale, 1, 0)
+    gfx.circle(x+w-10.5*dpi_scale, y+h-6*dpi_scale, 2*dpi_scale, 1, 0)
+    --gfx.set(1,0,1)
+    gfx.triangle(x+w-16*dpi_scale, y+8*dpi_scale,
+                 x+w-5*dpi_scale,  y+8*dpi_scale,
+                 x+w-9*dpi_scale,  y+h-5*dpi_scale,
+                 x+w-12*dpi_scale, y+h-5*dpi_scale)
+    gfx.rect(x+w-21*dpi_scale, y-3+1*dpi_scale, 1*dpi_scale, h, 1)
+    gfx.rect(x+w-15*dpi_scale, y+4*dpi_scale, 10*dpi_scale, 5*dpi_scale, 1)
+    
     local offset=0
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+14--+(w-sw)/2+1
+      gfx.x=x+10--+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
       gfx.y=y+(h-sh)/2+offset
       gfx.set(0.784)
-      gfx.drawstr(menuentry,0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+      gfx.drawstr(menuentry, 0, x+w-21*dpi_scale, gfx.y+gfx.texth)
     else
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       
       gfx.x=x--+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+1+offset-1
       gfx.set(0.39)
-      gfx.drawstr(menuentry,0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+      gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
       
       gfx.x=x--+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+1+offset
       gfx.set(0.06)
-      gfx.drawstr(menuentry,0,gfx.x+w-gfx.texth-5, gfx.y+gfx.texth)
+      gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
     end
   end
   gfx.set(0.3)
@@ -4851,7 +4875,7 @@ function UpdateUI()
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
-  E=reagirl.DropDownMenu_Add(80, 210, 150, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party                  Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
+  E=reagirl.DropDownMenu_Add(80, 210, 150, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
   
@@ -4909,7 +4933,7 @@ function UpdateUI()
 end
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
-reagirl.Gui_Open("Faily", "A Failstate Manager", 200, 350, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
+reagirl.Gui_Open("Faily", "A Failstate Manager", 300, 350, reagirl.DockState_Retrieve("Stonehenge"), 1, 1)
 
 UpdateUI()
 --reagirl.Window_ForceSize_Minimum(320, 200)
