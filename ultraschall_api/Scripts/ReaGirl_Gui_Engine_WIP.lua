@@ -6,10 +6,7 @@ TODO:
   - Scrolllimiter has a bug at the bottom, where it always keeps refreshing when scrolling down a little.
     - see Gui_ForceRefresh_X in the watchlist for it working.
     - happens only, when there's no scrolling up/downwards possible
-  - performance is laggy due to unknown reasons. Must have been added during the scaling mechanism, but doesn't
-    seem to be caused by it. Something is really not performing, even for just 150 UI-elements. You can see
-    it at scrolling...
-    The watchlist causes a lot of slowdowns, but they also appear when watchlist_refresh=false
+  - clickable labels aren't accurately positioned in all scaling-factors
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -2708,7 +2705,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   reagirl.Elements[slot]["h"]=math.tointeger(ty+7+h_margin)
   reagirl.Elements[slot]["w_margin"]=w_margin
   reagirl.Elements[slot]["h_margin"]=h_margin
-  reagirl.Elements[slot]["radius"]=4
+  reagirl.Elements[slot]["radius"]=3
   reagirl.Elements[slot]["func_manage"]=reagirl.Button_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.Button_Draw
   reagirl.Elements[slot]["run_function"]=run_function
@@ -2875,6 +2872,7 @@ function reagirl.Button_Manage(element_id, selected, clicked, mouse_cap, mouse_a
   if selected==true and Key==32 then 
     element_storage["pressed"]=true
     message=" pressed"
+    reagirl.Gui_ForceRefresh(12347)
   elseif selected==true and mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
     local oldstate=element_storage["pressed"]
     element_storage["pressed"]=true
@@ -2908,34 +2906,37 @@ function reagirl.Button_Draw(element_id, selected, clicked, mouse_cap, mouse_att
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
   
   local sw,sh=gfx.measurestr(element_storage["Name"])
-  local scale=1 --reagirl.Window_CurrentScale
+  
   local dpi_scale=reagirl.Window_CurrentScale
   if reagirl.Elements[element_id]["pressed"]==true then
+    local scale=reagirl.Window_CurrentScale-1
     state=1*dpi_scale-1
     
     offset=math.floor(dpi_scale)
+    
     if offset==0 then offset=1 end
     
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, radius * dpi_scale, 1, 1)
-    reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x - 1 + offset)+scale, (y - 1 + offset)+scale, w, h, radius * dpi_scale, 1, 1)
+    --reagirl.RoundRect((x+offset)+scale, (y + offset - 2) + scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- background 2
-    reagirl.RoundRect((x + offset+1)*scale, (y + offset +1- 1) * scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + offset+1)+scale, (y + offset +1- 1) + scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect((x + 1 + offset) + scale, (y + offset) + scale, w-scale, h, radius * dpi_scale, 1, 1)
     
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+(w-sw)/2+1+2
+      gfx.x=x+(w-sw)/2+1+2+scale
     
       if reaper.GetOS():match("OS")~=nil then offset=1 end
-      gfx.y=y+(h-sh)/2+1+offset
+      gfx.y=y+(h-sh)/2+1+offset+scale
       gfx.set(0.784)
       gfx.drawstr(element_storage["Name"])
     end
     reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   else
+    local scale=1--reagirl.Window_CurrentScale
     state=0
     
     gfx.set(0.06) -- background 1
@@ -3101,11 +3102,13 @@ function reagirl.DropDownMenu_Add(x, y, w, Name, MeaningOfUI_Element, default, M
   local tx,ty=gfx.measurestr(MenuEntries[default])
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   reagirl.Elements[slot]["h"]=math.tointeger(ty+7)--math.tointeger(gfx.texth)
-  reagirl.Elements[slot]["radius"]=4
+  reagirl.Elements[slot]["radius"]=3
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["MenuDefault"]=default
   reagirl.Elements[slot]["MenuEntries"]=MenuEntries
+  reagirl.Elements[slot]["MenuCount"]=1
+  reagirl.Elements[slot]["MenuCount"]=#MenuEntries
   reagirl.Elements[slot]["func_manage"]=reagirl.DropDownMenu_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.DropDownMenu_Draw
   reagirl.Elements[slot]["run_function"]=run_function
@@ -3117,6 +3120,7 @@ end
 
 function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local Entries=""
+  local collapsed="collapsed"
   local Default, insert
   local refresh=false
   for i=1, #element_storage["MenuEntries"] do
@@ -3127,7 +3131,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
   if w<20 then w=20 end
   
   if element_storage["pressed"]==true then
-    if (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32 then
+    --if (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32 or Key==1685026670 or Key==30064 then
       gfx.x=x
       gfx.y=y+h--*scale
       local selection=gfx.showmenu(Entries:sub(1,-2))
@@ -3140,14 +3144,23 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
       end
       element_storage["pressed"]=false
       reagirl.Gui_ForceRefresh()
-    end
+    --end
   end
-  if selected==true and ((clicked=="FirstCLK" and mouse_cap&1==1) or Key==1685026670 or Key==30064) then 
+  if Key==32 or Key==13 then 
+    element_storage["pressed"]=true
+    collapsed="enhanced"
+  elseif Key==1685026670 then
+    element_storage["MenuDefault"]=element_storage["MenuDefault"]+1
+    if element_storage["MenuDefault"]>=element_storage["MenuCount"] then element_storage["MenuDefault"]=element_storage["MenuCount"] end
+  elseif Key==30064 then 
+    element_storage["MenuDefault"]=element_storage["MenuDefault"]-1
+    if element_storage["MenuDefault"]<1 then element_storage["MenuDefault"]=1 end
+  elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
     element_storage["pressed"]=true
   else
     element_storage["pressed"]=false
   end
-  return element_storage["MenuEntries"][element_storage["MenuDefault"]]..". collapsed ", refresh
+  return element_storage["MenuEntries"][element_storage["MenuDefault"]]..". "..collapsed, refresh
 end
 
 function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
@@ -3198,8 +3211,8 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
     if offset==0 then offset=1 end
     
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, radius * dpi_scale, 1, 1)
-    reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, radius * dpi_scale, 1, 1)
+    --reagirl.RoundRect((x - 1 + offset)*scale, (y - 1 + offset)*scale, w, h, radius * dpi_scale, 1, 1)
+    --reagirl.RoundRect((x+offset)*scale, (y + offset - 2) * scale, w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- background 2
     reagirl.RoundRect((x + offset+1)*scale, (y + offset +1- 1) * scale, w, h, radius * dpi_scale, 1, 1)
