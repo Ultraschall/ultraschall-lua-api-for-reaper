@@ -7,6 +7,7 @@ TODO:
     - see Gui_ForceRefresh_X in the watchlist for it working.
     - happens only, when there's no scrolling up/downwards possible
   - clickable labels aren't accurately positioned in all scaling-factors
+  
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -3234,7 +3235,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
     --gfx.rect(x+w-15*dpi_scale, y+4*dpi_scale, 10*dpi_scale, 5*dpi_scale, 1)
     
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+10
+      gfx.x=x+5
     
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.y=y+(h-sh)/2+1+offset
@@ -3275,7 +3276,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
     
     local offset=0
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+10--+(w-sw)/2+1
+      gfx.x=x+5--+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
       gfx.y=y+(h-sh)/2+offset
@@ -3444,7 +3445,9 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   end  
   
   table.insert(reagirl.Elements, slot, {})
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local w,h=gfx.measurestr(label)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="Label"
   reagirl.Elements[slot]["Name"]=label
