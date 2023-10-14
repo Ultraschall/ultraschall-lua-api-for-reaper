@@ -4973,6 +4973,7 @@ function reagirl.ScrollButton_Down_Draw(element_id, selected, clicked, mouse_cap
 end
 
 function reagirl.UI_Element_GetNextFreeSlot()
+  if #reagirl.Elements-3<1 then return #reagirl.Elements+1 end
   return #reagirl.Elements-3
 end
 
@@ -5001,7 +5002,7 @@ function reagirl.UI_Element_ScrollToUIElement(element_id, x_offset, y_offset)
 end
 
 function reagirl.UI_Element_SetNothingFocused()
-  reagirl.Elements.FocusedElement=-1
+  reagirl.Elements.FocusedElement=1
 end
 
 
