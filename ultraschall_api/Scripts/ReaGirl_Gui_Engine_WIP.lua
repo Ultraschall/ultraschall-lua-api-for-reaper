@@ -28,7 +28,7 @@ function reagirl.NextLine_SetDefaults(x, y)
   <slug>NextLine_SetDefaults</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.NextLine_SetDefaults(optional integer x, optional integer y)</functioncall>
@@ -66,7 +66,7 @@ function reagirl.NextLine_GetDefaults()
     <slug>NextLine_GetDefaults</slug>
     <requires>
       ReaGirl=1.0
-      Reaper=6.75
+      Reaper=7
       Lua=5.3
     </requires>
     <functioncall>integer x, integer y = reagirl.NextLine_GetDefaults(integer x, integer y)</functioncall>
@@ -103,7 +103,7 @@ function reagirl.IsValidGuid(guid, strict)
   <slug>IsValidGuid</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>boolean retval = reagirl.IsValidGuid(string guid, boolean strict)</functioncall>
@@ -141,7 +141,7 @@ function reagirl.RoundRect(x, y, w, h, r, antialias, fill, square_top_left, squa
   <slug>RoundRect</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.RoundRect(integer x, integer y, integer w, integer h, number r, number antialias, number fill, optional boolean square_top_left, optional boolean square_bottom_left, optional boolean square_top_right, optional boolean square_bottom_right)</functioncall>
@@ -289,7 +289,7 @@ function reagirl.BlitText_AdaptLineLength(text, x, y, width, height, align)
   <slug>BlitText_AdaptLineLength</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>boolean retval, integer width, integer height = reagirl.BlitText_AdaptLineLength(string text, integer x, integer y, integer width, optional integer height, optional integer align)</functioncall>
@@ -354,7 +354,7 @@ function reagirl.ResizeImageKeepAspectRatio(image, neww, newh, bg_r, bg_g, bg_b)
   <slug>ResizeImageKeepAspectRatio</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>boolean retval = reagirl.ResizeImageKeepAspectRatio(integer image, integer neww, integer newh, optional number r, optional number g, optional number b)</functioncall>
@@ -438,7 +438,7 @@ function reagirl.Window_Open(...)
   <slug>Window_Open</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     JS=0.964
     Lua=5.3
   </requires>
@@ -605,7 +605,7 @@ function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
   <slug>Mouse_GetCap</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string clickstate, string specific_clickstate, integer mouse_cap, integer click_x, integer click_y, integer drag_x, integer drag_y, integer mouse_wheel, integer mouse_hwheel = reagirl.Mouse_GetCap(optional integer doubleclick_wait, optional integer drag_wait)</functioncall>
@@ -760,7 +760,7 @@ function reagirl.Gui_New()
   <slug>Gui_New</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Gui_New()</functioncall>
@@ -795,7 +795,7 @@ function reagirl.Window_GetCurrentScale()
   <slug>Window_GetCurrentScale</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer current_scaling_factor, boolean scaling_factor_override, integer current_system_scaling_factor = reagirl.Window_GetCurrentScale()</functioncall>
@@ -844,7 +844,7 @@ function reagirl.Window_SetCurrentScale(newscale)
   <slug>Window_SetCurrentScale</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Window_SetCurrentScale(optional integer newscale)</functioncall>
@@ -883,7 +883,7 @@ function reagirl.SetFont(idx, fontface, size, flags, scale_override)
   <slug>SetFont</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer font_size = reagirl.SetFont(integer idx, string fontface, integer size, integer flags, optional integer scale_override)</functioncall>
@@ -951,7 +951,7 @@ function reagirl.Gui_Open(title, description, w, h, dock, x, y)
   <slug>Gui_Open</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     JS=0.963
     Lua=5.3
   </requires>
@@ -1019,7 +1019,7 @@ function reagirl.Gui_IsOpen()
   <slug>Gui_IsOpen</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>boolean retval = reagirl.Gui_IsOpen()</functioncall>
@@ -1046,7 +1046,7 @@ function reagirl.Gui_Close()
   <slug>Gui_Close</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Gui_Close()</functioncall>
@@ -1419,7 +1419,7 @@ function reagirl.UI_Element_SetFocusRect(x, y, w, h)
   <slug>UI_Element_SetFocusRect</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.UI_Element_SetFocusRect(integer x, integer y, integer w, integer h)</functioncall>
@@ -1466,7 +1466,7 @@ function reagirl.UI_Element_GetFocusRect()
   <slug>UI_Element_GetFocusRect</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer x, integer y, integer w, integer h, integer x2, integer y2, integer w2, integer h2 = reagirl.UI_Element_GetFocusRect()</functioncall>
@@ -1527,7 +1527,7 @@ function reagirl.UI_Elements_OutsideWindow()
   <slug>UI_Elements_OutsideWindow</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer horz_outside, integer vert_outside = reagirl.UI_Elements_OutsideWindow()</functioncall>
@@ -1618,7 +1618,7 @@ function reagirl.UI_Element_GetType(element_id)
   <slug>UI_Element_GetType</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string ui_type = reagirl.UI_Element_GetType(string element_id)</functioncall>
@@ -1654,7 +1654,7 @@ function reagirl.UI_Element_GetSetDescription(element_id, is_set, description)
   <slug>UI_Element_GetSetDescription</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string ui_type = reagirl.UI_Element_GetSetDescription(string element_id, boolean is_set, string description)</functioncall>
@@ -1696,7 +1696,7 @@ function reagirl.UI_Element_GetSetName(element_id, is_set, name)
   <slug>UI_Element_GetSetName</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string name = reagirl.UI_Element_GetSetName(string element_id, boolean is_set, string name)</functioncall>
@@ -1738,7 +1738,7 @@ function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
   <slug>UI_Element_GetSetSticky</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>boolean sticky_x, boolean sticky_y = reagirl.UI_Element_GetSetSticky(string element_id, boolean is_set, boolean sticky_x, boolean sticky_y)</functioncall>
@@ -1786,7 +1786,7 @@ function reagirl.UI_Element_GetSetAccessibilityHint(element_id, is_set, accessib
   <slug>UI_Element_GetSetAccessibilityHint</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string accessibility_hint = reagirl.UI_Element_GetSetAccessibilityHint(string element_id, boolean is_set, string accessibility_hint)</functioncall>
@@ -1828,7 +1828,7 @@ function reagirl.UI_Element_GetSetPosition(element_id, is_set, x, y)
   <slug>UI_Element_GetSetPosition</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer x, integer y, integer true_x, integer true_y = reagirl.UI_Element_GetSetPosition(string element_id, boolean is_set, integer x, integer y)</functioncall>
@@ -1880,7 +1880,7 @@ function reagirl.UI_Element_GetSetDimension(element_id, is_set, w, h)
   <slug>UI_Element_GetSetDimension</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer w, integer h, integer true_w, integer true_h = reagirl.UI_Element_GetSetDimension(string element_id, boolean is_set, integer w, integer h)</functioncall>
@@ -1936,7 +1936,7 @@ function reagirl.UI_Element_GetSetAllHorizontalOffset(is_set, x_offset)
   <slug>UI_Element_GetSetAllHorizontalOffset</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer x_offset = reagirl.UI_Element_GetSetAllHorizontalOffset(boolean is_set, integer x_offset)</functioncall>
@@ -1971,7 +1971,7 @@ function reagirl.UI_Element_GetSetAllVerticalOffset(is_set, y_offset)
   <slug>UI_Element_GetSetAllVerticalOffset</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer y_offset = reagirl.UI_Element_GetSetAllVerticalOffset(boolean is_set, integer y_offset)</functioncall>
@@ -2006,7 +2006,7 @@ function reagirl.UI_Element_GetSetRunFunction(element_id, is_set, run_function)
   <slug>UI_Element_GetSetRunFunction</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>func run_function = reagirl.UI_Element_GetSetRunFunction(string element_id, boolean is_set, func run_function)</functioncall>
@@ -2184,7 +2184,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   <slug>CheckBox_Add</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string checkbox_guid = reagirl.CheckBox_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
@@ -2224,10 +2224,12 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
     if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextLineX
     elseif slot-1>0 then
-      --x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
       for i=slot-1, 1, -1 do
         if reagirl.Elements[i]["IsDecorative"]==false then
-          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+10
+          local w2=reagirl.Elements[i]["w"]
+          --print2(reagirl.Elements[i]["h"], w2)
+          x=reagirl.Elements[i]["x"]+w2+10
           break
         end
       end
@@ -2303,7 +2305,7 @@ function reagirl.Checkbox_SetTopBottom(element_id, top, bottom)
   <slug>Checkbox_SetTopBottom</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Checkbox_SetTopBottom(string element_id, boolean state)</functioncall>
@@ -2342,7 +2344,7 @@ function reagirl.Checkbox_GetTopBottom(element_id)
   <slug>Checkbox_GetTopBottom</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>boolean top, boolean bottom = reagirl.Checkbox_GetTopBottom(string element_id)</functioncall>
@@ -2378,7 +2380,7 @@ function reagirl.Checkbox_SetDisabled(element_id, state)
   <slug>Checkbox_SetDisabled</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Checkbox_SetDisabled(string element_id, boolean state)</functioncall>
@@ -2414,7 +2416,7 @@ function reagirl.Checkbox_GetDisabled(element_id)
   <slug>Checkbox_GetDisabled</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>boolean retval = reagirl.Checkbox_GetDisabled(string element_id)</functioncall>
@@ -2498,7 +2500,7 @@ function reagirl.UI_Element_Next_Position()
   <slug>UI_Element_Next_Position</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer next_x, integer next_y = reagirl.UI_Element_Next_Position()</functioncall>
@@ -2544,7 +2546,7 @@ function reagirl.UI_Element_Current_Position()
   <slug>UI_Element_Current_Position</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer last_x, integer last_y, integer last_w, integer last_h = reagirl.UI_Element_Current_Position()</functioncall>
@@ -2592,7 +2594,7 @@ function reagirl.NextLine()
   <slug>NextLine</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.NextLine()</functioncall>
@@ -2609,7 +2611,13 @@ function reagirl.NextLine()
   if reagirl.UI_Element_NextLineY==0 then
     for i=slot-1, 1, -1 do
       if reagirl.Elements[i]["IsDecorative"]==false then
-        reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.Elements[i]["h"]+1
+        --print2(reagirl.Elements[i]["h"])
+        --reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.Elements[i]["h"]+1
+        local x2, y2, w2, h2
+        local scale=reagirl.Window_GetCurrentScale()
+        if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+        reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+h2+1
         break
       end
     end
@@ -2625,7 +2633,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   <slug>Button_Add</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string button_guid = reagirl.Button_Add(optional integer x, optional integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
@@ -2718,7 +2726,7 @@ function reagirl.Button_SetDisabled(element_id, state)
   <slug>Button_SetDisabled</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Button_SetDisabled(string element_id, boolean state)</functioncall>
@@ -2754,7 +2762,7 @@ function reagirl.Button_GetDisabled(element_id)
   <slug>Button_GetDisabled</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>boolean retval = reagirl.Button_GetDisabled(string element_id)</functioncall>
@@ -2789,7 +2797,7 @@ function reagirl.Button_GetRadius(element_id)
   <slug>Button_GetRadius</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>integer radius = reagirl.Button_GetRadius(string element_id)</functioncall>
@@ -2824,7 +2832,7 @@ function reagirl.Button_SetRadius(element_id, radius)
   <slug>Button_SetRadius</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Button_SetRadius(string element_id, integer radius)</functioncall>
@@ -3082,32 +3090,98 @@ function reagirl.InputBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
 end
 
-function reagirl.DropDownMenu_Add(x, y, w, Name, MeaningOfUI_Element, default, MenuEntries, run_function)
-  --local tx,ty=gfx.measurestr(Name)
+function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuEntries, menuDefault, run_function)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DropDownMenu_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>string button_guid = reagirl.DropDownMenu_Add(optional integer x, optional integer y, integer w, string caption, string meaningOfUI_Element, integer default, table menuEntries, function run_function)</functioncall>
+  <description>
+    Adds a button to a gui.
+    
+    You can autoposition the button by setting x and/or y to nil, which will position the new button after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
+  </description>
+  <parameters>
+    optional integer x - the x position of the button in pixels; negative anchors the button to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the button in pixels; negative anchors the button to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    integer w - 
+    string caption - the caption of the button
+    string meaningOfUI_Element - a description for accessibility users
+    integer default - the index
+    table menuEntries - a table, where every entry is a menu-item
+    function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter
+  </parameters>
+  <retvals>
+    string button_guid - a guid that can be used for altering the button-attributes
+  </retvals>
+  <chapter_context>
+    Button
+  </chapter_context>
+  <tags>button, add</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("DropDownMenu_Add: param #1 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("DropDownMenu_Add: param #2 - must be an integer", 2) end
+  if math.type(w)~="integer" then error("DropDownMenu_Add: param #3 - must be an integer", 2) end
+  if type(caption)~="string" then error("DropDownMenu_Add: param #4 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("DropDownMenu_Add: param #5 - must be a string", 2) end
+  if type(menuEntries)~="table" then error("DropDownMenu_Add: param #6 - must be a table", 2) end
+  for i=1, #menuEntries do
+    menuEntries[i]=tostring(menuEntries[i])
+  end
+  if math.type(menuDefault)~="integer" then error("DropDownMenu_Add: param #7 - must be a integer", 2) end
+  if type(run_function)~="function" then error("DropDownMenu_Add: param #8 - must be a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
+  if x==nil then 
+    x=reagirl.UI_Element_NextX_Default
+    if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
+      x=reagirl.UI_Element_NextLineX
+    elseif slot-1>0 then
+      for i=slot-1, 1, -1 do
+        if reagirl.Elements[i]["IsDecorative"]==false then
+          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+10
+          break
+        end
+      end
+    end
+  end
+  
+  if y==nil then 
+    y=reagirl.UI_Element_NextY_Default
+    if slot-1>0 then
+      y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
+      reagirl.UI_Element_NextLineY=0
+    end
+  end  
+  
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="DropDownMenu"
-  reagirl.Elements[slot]["Name"]=Name
-  reagirl.Elements[slot]["Text"]=MenuEntries[default]
-  reagirl.Elements[slot]["Description"]=MeaningOfUI_Element
+  reagirl.Elements[slot]["Name"]=caption
+  reagirl.Elements[slot]["Text"]=menuEntries[menuDefault]
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Select via arrow-keys."
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
-  local tx,ty=gfx.measurestr(MenuEntries[default])
+  local tx,ty=gfx.measurestr(menuEntries[menuDefault])
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   reagirl.Elements[slot]["h"]=math.tointeger(ty+7)--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["radius"]=3
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["MenuDefault"]=default
-  reagirl.Elements[slot]["MenuEntries"]=MenuEntries
+  reagirl.Elements[slot]["MenuDefault"]=menuDefault
+  reagirl.Elements[slot]["MenuEntries"]=menuEntries
   reagirl.Elements[slot]["MenuCount"]=1
-  reagirl.Elements[slot]["MenuCount"]=#MenuEntries
+  reagirl.Elements[slot]["MenuCount"]=#menuEntries
   reagirl.Elements[slot]["func_manage"]=reagirl.DropDownMenu_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.DropDownMenu_Draw
   reagirl.Elements[slot]["run_function"]=run_function
@@ -3265,7 +3339,7 @@ function reagirl.DropDownMenu_SetDisabled(element_id, state)
   <slug>DropDownMenu_SetDisabled</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.DropDownMenu_SetDisabled(string element_id, boolean state)</functioncall>
@@ -3301,7 +3375,7 @@ function reagirl.DropDownMenu_GetDisabled(element_id)
   <slug>DropDownMenu_GetDisabled</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>boolean retval = reagirl.DropDownMenu_GetDisabled(string element_id)</functioncall>
@@ -3336,7 +3410,7 @@ function reagirl.Label_SetLabelText(element_id, label)
   <slug>Label_SetLabelText</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Label_SetLabelText(string element_id, string label)</functioncall>
@@ -3375,7 +3449,7 @@ function reagirl.Label_GetLabelText(element_id)
   <slug>Label_GetLabelText</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string label = reagirl.Label_GetLabelText(string element_id)</functioncall>
@@ -3411,7 +3485,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   <slug>Label_Add</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Label_Add(string label, integer x, integer y, string meaningOfUI_Element, integer align, boolean clickable, function run_function)</functioncall>
@@ -3577,7 +3651,7 @@ function reagirl.Rect_Add(x,y,w,h,r,g,b,a,filled)
   <slug>Rect_Add</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string rect_guid = reagirl.Rect_Add(integer x, integer y, integer w, integer h, integer r, integer g, integer b, integer a, integer filled)</functioncall>
@@ -3650,7 +3724,7 @@ function reagirl.Rect_SetColors(element_id, r, g, b, a)
   <slug>Rect_SetColors</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Rect_SetColors(string element_id, integer r, integer g, integer b, integer a)</functioncall>
@@ -3695,7 +3769,7 @@ function reagirl.Rect_GetColors(element_id)
   <slug>Rect_GetColors</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>reagirl.Rect_GetColors(string element_id, integer r, integer g, integer b, integer a)</functioncall>
@@ -3744,7 +3818,7 @@ function reagirl.Line_Add(x,y,x2,y2,r,g,b,a)
   <slug>Line_Add</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string line_guid = reagirl.Line_Add(integer x, integer y, integer x2, integer y2, integer r, integer g, integer b, integer a, integer filled)</functioncall>
@@ -3831,7 +3905,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   <slug>Image_Add</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string image_guid = reagirl.Image_Add(string image_filename, integer x, integer y, integer w, integer h, string name, string meaning of UI_Element, function run_function)</functioncall>
@@ -3983,6 +4057,7 @@ function reagirl.Image_Manage(element_id, selected, clicked, mouse_cap, mouse_at
 end
 
 function reagirl.Image_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if w<0 or h<0 then return end
   -- no docs in API-docs
   local scale=reagirl.Window_CurrentScale
   -- store changes
@@ -4019,7 +4094,7 @@ function reagirl.Image_Update(element_id, image_filename)
   <slug>Image_Update</slug>
   <requires>
     ReaGirl=1.0
-    Reaper=6.75
+    Reaper=7
     Lua=5.3
   </requires>
   <functioncall>string image_guid = reagirl.Image_Update(string element_id, string image_filename)</functioncall>
@@ -4898,12 +4973,12 @@ function UpdateUI()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A, false, true)
   --reagirl.NextLine()
-  A1= reagirl.CheckBox_Add(nil, nil, "People on Streets", "Export file as MP3", true, CheckMe)
+  A1 = reagirl.CheckBox_Add(nil, nil, "People on Streets", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A1, true, true)
  -- reagirl.NextLine()
-  A2= reagirl.CheckBox_Add(1300, nil, "De de dep", "Export file as MP3", true, CheckMe)
+  --A2= reagirl.CheckBox_Add(1300, nil, "De de dep", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A2, true, false)
-  A3= reagirl.CheckBox_Add(10, 135, "AAC", "Export file as MP3", true, CheckMe)
+  A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A3, false, false)
   --reagirl.NextLine()
   
@@ -4912,12 +4987,14 @@ function UpdateUI()
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
   reagirl.NextLine()
-  B=reagirl.Image_Add(Images[3], 100, 100, -100, -100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
+  B=reagirl.Image_Add(Images[3], nil, nil, -100, -100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
   reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
-  E=reagirl.DropDownMenu_Add(10, 210, -10, "DropDownMenu:", "Desc of DDM", 5, {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, DropDownList)
+  reagirl.NextLine()
+  A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
+  E = reagirl.DropDownMenu_Add(nil, nil, 100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
   
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
@@ -4939,7 +5016,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
-  BBB=reagirl.Button_Add(20, 70, 20, 0, "Help1", "Description of the button", click_button)
+  --BBB=reagirl.Button_Add(20, 70, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
@@ -4954,7 +5031,7 @@ function UpdateUI()
   
 --  reagirl.Button_Add(55, 30, 0, 0, " HUCH", "Description of the button", click_button)
   
-  for i=1, 1500, 1 do
+  for i=1, 0, 1 do
     --A3= reagirl.CheckBox_Add(10, i*10+135, "AAC", "Export file as MP3", true, CheckMe)
     reagirl.Button_Add(nil, nil, 0, 0, i.." HUCH", "Description of the button", click_button)
     reagirl.NextLine()
