@@ -1,9 +1,9 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
---[[
+
 OSARA=reaper.osara_outputMessage
-function reaper.osara_outputMessage(message)
-  print_update(message)
+function reaper.osara_outputMessage(message, a)
+  if message~="" then print_update(message,a) end
   OSARA(message)
 end
 --]]
@@ -787,6 +787,7 @@ function reagirl.Gui_New()
 </US_DocBloc>
 ]]
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.NewUI=true
   reagirl.MaxImage=1
   gfx.set(reagirl["WindowBackgroundColorR"], reagirl["WindowBackgroundColorG"], reagirl["WindowBackgroundColorB"])
   gfx.rect(0,0,gfx.w,gfx.h,1)
@@ -1084,6 +1085,9 @@ function reagirl.Gui_Manage()
   -- manages the gui, including tts, mouse and keyboard-management and ui-focused-management
 
   -- initialize shit
+  if reagirl.NewUI==true then reagirl.NewUI=false reagirl.Elements.FocusedElement=1 end
+  if #reagirl.Elements==0 then error("Gui_Manage: no ui-element available", -2) end
+  if #reagirl.Elements<reagirl.Elements.FocusedElement then reagirl.Elements.FocusedElement=1 end
   reagirl.UI_Element_MinX=gfx.w
   reagirl.UI_Element_MinY=gfx.h
   reagirl.UI_Element_MaxW=0
@@ -1145,7 +1149,7 @@ function reagirl.Gui_Manage()
   -- End of Debug
   
   if Key==27 then reagirl.Gui_Close() else reagirl.Window_ForceMinSize() reagirl.Window_ForceMaxSize() end -- esc closes window
-  if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]) end -- F1 help message for osara
+  if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"],1) end -- F1 help message for osara
   
   -- if mouse has been moved, reset wait-counter for displaying tooltip
   if reagirl.OldMouseX==gfx.mouse_x and reagirl.OldMouseY==gfx.mouse_y then
@@ -1166,7 +1170,7 @@ function reagirl.Gui_Manage()
     --reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
-      init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"].." "
+      init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
       helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       if reagirl.Elements["FocusedElement"]<=#reagirl.Elements-4 then
         reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
@@ -1184,7 +1188,7 @@ function reagirl.Gui_Manage()
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]<1 then reagirl.Elements["FocusedElement"]=#reagirl.Elements end
       init_message=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Name"].." "..
-      reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]
+      reagirl.Elements[reagirl.Elements["FocusedElement"]]["GUI_Element_Type"]..". "
       helptext=reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"]..", "..reagirl.Elements[reagirl.Elements["FocusedElement"]]["AccHint"]
       reagirl.old_osara_message=""
       if reagirl.Elements["FocusedElement"]<=#reagirl.Elements-4 then
@@ -1243,13 +1247,13 @@ function reagirl.Gui_Manage()
        if reagirl.TooltipWaitCounter==14 then
         local XX,YY=reaper.GetMousePosition()
         reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
-        if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"]--[[:utf8_sub(1,20)]]) end
+        --if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
        end
        
        -- focused/clicked ui-element-management
        if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDecorative"]==false then
          if i~=reagirl.Elements["FocusedElement"] then
-           init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"].." "
+           init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
            helptext=reagirl.Elements[i]["Description"]..", "..reagirl.Elements[i]["AccHint"]
          end
          
@@ -1266,7 +1270,7 @@ function reagirl.Gui_Manage()
   
   -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screenreader-message and everything
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
-  reaper.ClearConsole()
+  --reaper.ClearConsole()
   for i=#reagirl.Elements, 1, -1 do
     local x2, y2, w2, h2
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=(reagirl.Elements[i]["x"]*scale) end
@@ -1319,7 +1323,7 @@ function reagirl.Gui_Manage()
       --reaper.osara_outputMessage(reagirl.osara_init_message..message)
       if message==nil then message="" end
       
-      reaper.osara_outputMessage(reagirl.osara_init_message..init_message.." "..message..", "..helptext)
+      reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext,3)
       reagirl.old_osara_message=message
       reagirl.osara_init_message=""
     end
@@ -2309,7 +2313,7 @@ function reagirl.Checkbox_Manage(element_id, selected, clicked, mouse_cap, mouse
   if reagirl.Elements[element_id]["checked"]==true then
     return "checked. ", refresh
   else
-    return " unchecked. ", refresh
+    return " not checked. ", refresh
   end
 end
 
@@ -3538,7 +3542,7 @@ function reagirl.Label_SetLabelText(element_id, label)
   if type(label)~="string" then error("Label_SetLabelText: param #2 - must be a boolean", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Label_SetLabelText: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
     error("Label_SetLabelText: param #1 - ui-element is not a label", 2)
   else
     local w,h=gfx.measurestr(label)
@@ -3578,7 +3582,8 @@ function reagirl.Label_GetLabelText(element_id)
   if reagirl.IsValidGuid(element_id, true)==nil then error("Label_GetLabelText: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("Label_GetLabelText: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Label" then
+  --print2(reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-7,-1))
+  if reagirl.Elements[element_id]["GUI_Element_Type"]:sub(-5,-1)~="Label" then
     error("Label_GetLabelText: param #1 - ui-element is not a label", 2)
   else
     return reagirl.Elements[element_id]["Name"]
@@ -3649,14 +3654,15 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   end  
   
   local acc_clickable=""
-  if clickable==true then acc_clickable="Enter or leftclick to click link. " else acc_clickable="" end
+  local clickable_text=""
+  if clickable==true then clickable_text="Clickable " acc_clickable="Enter or leftclick to click link. " else acc_clickable="" end
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local w,h=gfx.measurestr(label)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
-  reagirl.Elements[slot]["GUI_Element_Type"]="Label"
+  reagirl.Elements[slot]["GUI_Element_Type"]=clickable_text.."Label"
   reagirl.Elements[slot]["Name"]=label
   reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
@@ -5067,7 +5073,7 @@ function UpdateUI()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
   LAB=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
-  
+  ABBA=reagirl.Label_GetLabelText(LAB)
   reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A, false, true)
@@ -5086,14 +5092,14 @@ function UpdateUI()
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
   reagirl.NextLine()
-  B=reagirl.Image_Add(Images[3], nil, nil, -100, -100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
+  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
   reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
-  E = reagirl.DropDownMenu_Add(nil, nil, 100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
+  E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
   
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
