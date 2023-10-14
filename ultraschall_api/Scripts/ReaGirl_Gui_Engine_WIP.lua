@@ -27,7 +27,7 @@ reagirl.Font_Size=16
 
 reagirl.OSARA=reaper.osara_outputMessage
 function reaper.osara_outputMessage(message, a)
-  if message~="" then print_update(message,a) end
+  --if message~="" then print_update(message,a) end
   reagirl.OSARA(message)
 end
 --]]
@@ -1111,6 +1111,28 @@ end
 --down 1685026670.0
 
 function reagirl.Gui_Manage()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_Manage</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Gui_Manage()</functioncall>
+  <description>
+    Manages the gui-window.
+    
+    Put this function in a defer-loop. It will manage, draw, show the gui.
+  </description>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, manage, gui</tags>
+</US_DocBloc>
+]]
   -- manages the gui, including tts, mouse and keyboard-management and ui-focused-management
 
   -- initialize shit
@@ -1246,6 +1268,7 @@ function reagirl.Gui_Manage()
   
   -- finds out also, which ui-element shall be seen as clicked(only the last ui-element within click-area will be seen as clicked)
   -- changes the selected ui-element when clicked AND shows tooltip
+  reagirl.UI_Elements_HoveredElement=-1
   for i=#reagirl.Elements, 1, -1 do
     local x2, y2, w2, h2
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
@@ -1277,7 +1300,7 @@ function reagirl.Gui_Manage()
        gfx.mouse_x<=x2+MoveItAllRight+w2 and
        gfx.mouse_y>=y2+MoveItAllUp and
        gfx.mouse_y<=y2+MoveItAllUp+h2 then
-       
+       reagirl.UI_Elements_HoveredElement=i
        -- tooltip management
        if reagirl.TooltipWaitCounter==14 then
         local XX,YY=reaper.GetMousePosition()
@@ -1326,12 +1349,12 @@ function reagirl.Gui_Manage()
     --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
     -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
     --                   but seems to work without it as well
-    if ((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+    if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
     or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
     or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
     and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
     or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
-    or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))
+    or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4
     then--]]  
       -- run manage-function of ui-element
       local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
@@ -1411,12 +1434,12 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       and (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
       --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) and (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
       
-      if ((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+      if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
       or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
       or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
       and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
       or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
-      or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))
+      or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4
       then
  --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
       --AAAAA=AAAAA+1
@@ -5040,8 +5063,87 @@ function reagirl.UI_Element_SetNothingFocused()
   reagirl.Elements.FocusedElement=1
 end
 
+function reagirl.UI_Element_GetHovered()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetHovered</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>string element_guid = reagirl.UI_Element_GetHovered()</functioncall>
+  <description>
+    Get the ui-element-guid, at where the mouse is currently hovering above. 
+  </description>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, get, hovered, hover, gui</tags>
+</US_DocBloc>
+]]
+  if reagirl.UI_Elements_HoveredElement==-1 then return end
+  return reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Guid"]
+end
+
+function reagirl.UI_Element_GetFocused()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetFocused</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>string element_guid = reagirl.UI_Element_GetFocused()</functioncall>
+  <description>
+    Get the ui-element-guid, that is currently focused. 
+  </description>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, get, focused, gui</tags>
+</US_DocBloc>
+]]
+  if reagirl.Elements.FocusedElement>=#reagirl.Elements-3 then return end
+  return reagirl.Elements[reagirl.Elements.FocusedElement]["Guid"]
+end
+
+function reagirl.UI_Element_SetFocused(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_SetFocused</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.UI_Element_SetFocused(string element_id)</functioncall>
+  <description>
+    Set an ui-element-guid focused. 
+  </description>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, focused, gui</tags>
+</US_DocBloc>
+]]
+  if reagirl.Elements.FocusedElement>=#reagirl.Elements-3 then return end
+  local id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if id==-1 then error("UI_Element_SetFocused: param #1 - no such ui-element", -2) end
+
+  reagirl.Elements.FocusedElement=id
+  reagirl.Gui_ForceRefresh()
+end
 
 function CheckMe(tudelu, checkstate)
+  reagirl.UI_Element_SetFocused(LAB)
   --print2(tudelu, checkstate)
   if checkstate==false then
     --reagirl.Window_SetCurrentScale(1)
@@ -5066,6 +5168,7 @@ function click_button(test)
   if test==BT1 then
     reaper.Main_OnCommand(40015, 0)
     reagirl.UI_Element_ScrollToUIElement(BT1)
+    
   elseif test==BT2 then
     reagirl.Gui_Close()
   --reagirl.UI_Element_Remove(EID)
@@ -5108,7 +5211,7 @@ function UpdateUI()
   end
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
-  LAB=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
+  LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
   ABBA=reagirl.Label_GetLabelText(LAB)
   reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, CheckMe)
@@ -5155,9 +5258,9 @@ function UpdateUI()
 --  BT1=reagirl.Button_Add(920, 400, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
---  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
+  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
-  BBB=reagirl.Button_Add(20, 70, 20, 0, "Help1", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(20, 770, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
@@ -5215,6 +5318,7 @@ function main()
   --ABBA={reagirl.DropDownMenu_GetMenuItems(E)}
   --ABBA[1][1]=reaper.time_precise()
   --reagirl.DropDownMenu_SetMenuItems(E, ABBA[1], 1)
+  ABBA=reagirl.UI_Element_GetFocused()
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
