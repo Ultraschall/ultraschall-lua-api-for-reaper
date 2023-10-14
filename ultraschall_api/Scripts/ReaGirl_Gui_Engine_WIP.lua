@@ -1,4 +1,11 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+
+OSARA=reaper.osara_outputMessage
+function reaper.osara_outputMessage(message)
+--  print_update(message)
+  OSARA(message)
+end
+
 --[[
 TODO: 
   - when no ui-elements are present, the osara init-message is not said
@@ -1232,8 +1239,7 @@ function reagirl.Gui_Manage()
        if reagirl.TooltipWaitCounter==14 then
         local XX,YY=reaper.GetMousePosition()
         reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
-        AAA=i
-        if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"]:utf8_sub(1,20)) end
+        if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"]--[[:utf8_sub(1,20)]]) end
        end
        
        -- focused/clicked ui-element-management
@@ -1256,6 +1262,7 @@ function reagirl.Gui_Manage()
   
   -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screenreader-message and everything
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
+  reaper.ClearConsole()
   for i=#reagirl.Elements, 1, -1 do
     local x2, y2, w2, h2
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=(reagirl.Elements[i]["x"]*scale) end
@@ -1284,7 +1291,7 @@ function reagirl.Gui_Manage()
     or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))
     then--]]  
       -- run manage-function of ui-element
-      local message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
+      local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
         specific_clickstate,
         gfx.mouse_cap,
         {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
@@ -1298,6 +1305,8 @@ function reagirl.Gui_Manage()
         Key_utf,
         reagirl.Elements[i]
       )
+      if i==reagirl.Elements.FocusedElement then message=cur_message end
+      --print_update(message)
     end -- only run manage-functions of visible gui-elements
     --print_update(reaper.time_precise()-AAAA)
     
@@ -1305,6 +1314,7 @@ function reagirl.Gui_Manage()
     if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
       --reaper.osara_outputMessage(reagirl.osara_init_message..message)
       if message==nil then message="" end
+      
       reaper.osara_outputMessage(reagirl.osara_init_message..init_message.." "..message..", "..helptext)
       reagirl.old_osara_message=message
       reagirl.osara_init_message=""
@@ -2878,7 +2888,7 @@ function reagirl.Button_Manage(element_id, selected, clicked, mouse_cap, mouse_a
 
   if selected==true and Key==32 then 
     element_storage["pressed"]=true
-    message=" pressed"
+    message=""
     reagirl.Gui_ForceRefresh(12347)
   elseif selected==true and mouse_cap&1~=0 and gfx.mouse_x>x and gfx.mouse_y>y and gfx.mouse_x<x+w and gfx.mouse_y<y+h then
     local oldstate=element_storage["pressed"]
@@ -2886,7 +2896,7 @@ function reagirl.Button_Manage(element_id, selected, clicked, mouse_cap, mouse_a
     if oldstate~=element_storage["pressed"] then
       reagirl.Gui_ForceRefresh(12346)
     end
-    message=" pressed"
+    message=""
   else
     local oldstate=element_storage["pressed"]
     element_storage["pressed"]=false
@@ -3090,7 +3100,7 @@ function reagirl.InputBox_Draw(element_id, selected, clicked, mouse_cap, mouse_a
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
 end
 
-function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuEntries, menuDefault, run_function)
+function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuItems, menuSelectedItem, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DropDownMenu_Add</slug>
@@ -3099,7 +3109,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuEnt
     Reaper=7
     Lua=5.3
   </requires>
-  <functioncall>string dropdown-menu_guid = reagirl.DropDownMenu_Add(optional integer x, optional integer y, integer w, string caption, string meaningOfUI_Element, table menuEntries, integer menuDefault, function run_function)</functioncall>
+  <functioncall>string dropdown-menu_guid = reagirl.DropDownMenu_Add(optional integer x, optional integer y, integer w, string caption, string meaningOfUI_Element, table menuItems, integer menuSelectedItem, function run_function)</functioncall>
   <description>
     Adds a dropdown-menu to a gui.
     
@@ -3112,8 +3122,8 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuEnt
     integer w - the width of the dropdown-menu; negative links width to the right-edge of the window
     string caption - the name of the dropdown-menu
     string meaningOfUI_Element - a description for accessibility users
-    table menuEntries - a table, where every entry is a menu-item
-    integer menuDefault - the index of the pre-selected menu-item
+    table menuItems - a table, where every entry is a menu-item
+    integer menuSelectedItem - the index of the pre-selected menu-item
     function run_function - a function that shall be run when the menu is clicked/a new entry is selected; will get the dropdown-menu-element_id passed over as first parameter
   </parameters>
   <retvals>
@@ -3130,11 +3140,12 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuEnt
   if math.type(w)~="integer" then error("DropDownMenu_Add: param #3 - must be an integer", 2) end
   if type(caption)~="string" then error("DropDownMenu_Add: param #4 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("DropDownMenu_Add: param #5 - must be a string", 2) end
-  if type(menuEntries)~="table" then error("DropDownMenu_Add: param #6 - must be a table", 2) end
-  for i=1, #menuEntries do
-    menuEntries[i]=tostring(menuEntries[i])
+  if type(menuItems)~="table" then error("DropDownMenu_Add: param #6 - must be a table", 2) end
+  for i=1, #menuItems do
+    menuItems[i]=tostring(menuItems[i])
   end
-  if math.type(menuDefault)~="integer" then error("DropDownMenu_Add: param #7 - must be a integer", 2) end
+  if math.type(menuSelectedItem)~="integer" then error("DropDownMenu_Add: param #7 - must be an integer", 2) end
+  if menuSelectedItem>#menuItems or menuSelectedItem<1 then error("DropDownMenu_Add: param #7 - no such menu-item", 2) end
   if type(run_function)~="function" then error("DropDownMenu_Add: param #8 - must be a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -3162,9 +3173,9 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuEnt
   
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
-  reagirl.Elements[slot]["GUI_Element_Type"]="DropDownMenu"
+  reagirl.Elements[slot]["GUI_Element_Type"]="ComboBox"
   reagirl.Elements[slot]["Name"]=caption
-  reagirl.Elements[slot]["Text"]=menuEntries[menuDefault]
+  reagirl.Elements[slot]["Text"]=menuItems[menuSelectedItem]
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Select via arrow-keys."
@@ -3172,16 +3183,16 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuEnt
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
-  local tx,ty=gfx.measurestr(menuEntries[menuDefault])
+  local tx,ty=gfx.measurestr(menuItems[menuSelectedItem])
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   reagirl.Elements[slot]["h"]=math.tointeger(ty+7)--math.tointeger(gfx.texth)
   reagirl.Elements[slot]["radius"]=3
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["MenuDefault"]=menuDefault
-  reagirl.Elements[slot]["MenuEntries"]=menuEntries
+  reagirl.Elements[slot]["menuSelectedItem"]=menuSelectedItem
+  reagirl.Elements[slot]["MenuEntries"]=menuItems
   reagirl.Elements[slot]["MenuCount"]=1
-  reagirl.Elements[slot]["MenuCount"]=#menuEntries
+  reagirl.Elements[slot]["MenuCount"]=#menuItems
   reagirl.Elements[slot]["func_manage"]=reagirl.DropDownMenu_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.DropDownMenu_Draw
   reagirl.Elements[slot]["run_function"]=run_function
@@ -3193,11 +3204,11 @@ end
 
 function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local Entries=""
-  local collapsed="collapsed"
+  local collapsed=""
   local Default, insert
   local refresh=false
   for i=1, #element_storage["MenuEntries"] do
-    if i==element_storage["MenuDefault"] then insert="!" else insert="" end
+    if i==element_storage["menuSelectedItem"] then insert="!" else insert="" end
     Entries=Entries..insert..element_storage["MenuEntries"][i].."|"
   end
   
@@ -3210,39 +3221,46 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
       local selection=gfx.showmenu(Entries:sub(1,-2))
       --selection=-1
       if selection>0 then
-        reagirl.Elements[element_id]["MenuDefault"]=selection
+        reagirl.Elements[element_id]["menuSelectedItem"]=math.tointeger(selection)
         reagirl.Elements[element_id]["run_function"](element_id, selection, element_storage["MenuEntries"][selection])
-        reagirl.Elements[element_id]["Text"]=element_storage["MenuEntries"][selection]
+        reagirl.Elements[element_id]["Text"]=element_storage["MenuEntries"][math.tointeger(selection)]
         refresh=true
       end
       element_storage["pressed"]=false
       reagirl.Gui_ForceRefresh()
     --end
   end
+  if element_storage["selected_old"]~=selected then
+    collapsed=". collapsed"
+    element_storage["selected_old"]=selected
+  end
   if selected==true then
     if Key==32 or Key==13 then 
       element_storage["pressed"]=true
       collapsed="enhanced"
     elseif Key==1685026670 then
-      element_storage["MenuDefault"]=element_storage["MenuDefault"]+1
-      if element_storage["MenuDefault"]>=element_storage["MenuCount"] then element_storage["MenuDefault"]=element_storage["MenuCount"] end
+      element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]+1
+      if element_storage["menuSelectedItem"]>=element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] end
+      collapsed=""
     elseif Key==30064 then 
-      element_storage["MenuDefault"]=element_storage["MenuDefault"]-1
-      if element_storage["MenuDefault"]<1 then element_storage["MenuDefault"]=1 end
+      element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]-1
+      if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 end
+      collapsed=""
     elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
       element_storage["pressed"]=true
+      collapsed="expanded"
     else
       element_storage["pressed"]=false
     end
   end
-  return element_storage["MenuEntries"][element_storage["MenuDefault"]]..". "..collapsed, refresh
+  return element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "..collapsed, refresh
 end
 
 function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   local offset=gfx.measurestr(name.." ")
   gfx.x=x
   gfx.y=y
-  local menuentry=element_storage["MenuEntries"][element_storage["MenuDefault"]]
+  local menuentry=element_storage["MenuEntries"][element_storage["menuSelectedItem"]]
   
   x=x+1
   y=y+1
@@ -3255,7 +3273,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
   
   local sw,sh=gfx.measurestr(menuentry)
-  local scale=1--reagirl.Window_CurrentScale
+  local scale=1
   local dpi_scale=reagirl.Window_CurrentScale
   if reagirl.Elements[element_id]["pressed"]==true then
     state=1*dpi_scale-1
@@ -3361,8 +3379,8 @@ function reagirl.DropDownMenu_SetDisabled(element_id, state)
   if type(state)~="boolean" then error("DropDownMenu_SetDisabled: param #2 - must be a boolean", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
   if element_id==-1 then error("DropDownMenu_SetDisabled: param #1 - no such ui-element", 2) end
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="DropDownMenu" then
-    error("DropDownMenu_SetDisabled: param #1 - ui-element is not a dropdownmenu", 2)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
+    error("DropDownMenu_SetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
   else
     reagirl.Elements[element_id]["IsDecorative"]=state
     reagirl.Gui_ForceRefresh()
@@ -3397,10 +3415,94 @@ function reagirl.DropDownMenu_GetDisabled(element_id)
   if type(element_id)~="string" then error("DropDownMenu_GetDisabled: param #1 - must be a string", 2) end
   if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_GetDisabled: param #1 - must be a valid guid", 2) end
   element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
-  if reagirl.Elements[element_id]["GUI_Element_Type"]~="DropDownMenu" then
-    error("DropDownMenu_GetDisabled: param #1 - ui-element is not a button", 2)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
+    error("DropDownMenu_GetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
   else
     return reagirl.Elements[element_id]["IsDecorative"]
+  end
+end
+
+function reagirl.DropDownMenu_GetMenuItems(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DropDownMenu_GetMenuItems</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>table menuItems, integer menuSelectedItem = reagirl.DropDownMenu_GetMenuItems(string element_id)</functioncall>
+  <description>
+    Gets a dropdown-menu's menu-items and the index of the currently selected menu-item.
+  </description>
+  <parameters>
+    string element_id - the guid of the dropdown-menu, whose menuitems/default you want to get
+  </parameters>
+  <retvals>
+    table menuItems - a table that holds all menu-items
+    integer menuSelectedItem - the index of the currently selected menu-item
+  </retvals>
+  <chapter_context>
+    DropDown Menu
+  </chapter_context>
+  <tags>dropdown menu, get, menuitem, menudefault</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DropDownMenu_GetMenuItems: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_GetMenuItems: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
+    error("DropDownMenu_GetMenuItems: param #1 - ui-element is not a dropdown-menu", 2)
+  else
+    local newtable={}
+    for i=1, #reagirl.Elements[element_id]["MenuEntries"] do
+      newtable[i]=reagirl.Elements[element_id]["MenuEntries"][i]
+    end
+    return newtable, reagirl.Elements[element_id]["menuSelectedItem"]
+  end
+end
+
+function reagirl.DropDownMenu_SetMenuItems(element_id, menuItems, menuSelectedItem)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DropDownMenu_SetMenuItems</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>table menuItems, integer menuSelectedItem = reagirl.DropDownMenu_SetMenuItems(string element_id)</functioncall>
+  <description>
+    Gets a dropdown-menu's menuitems and the index of the currently selected menu-item.
+  </description>
+  <parameters>
+    string element_id - the guid of the dropdown-menu, whose menuitems/default you want to get
+  </parameters>
+  <retvals>
+    table menuItems - 
+    integer menuSelectedItem - 
+  </retvals>
+  <chapter_context>
+    DropDown Menu
+  </chapter_context>
+  <tags>dropdown menu, set, menuitem, menudefault</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("DropDownMenu_SetMenuItems: param #1 - must be a string", 2) end
+  if type(menuItems)~="table" then error("DropDownMenu_SetMenuItems: param #2 - must be a table", 2) end
+  if math.type(menuSelectedItem)~="integer" then error("DropDownMenu_SetMenuItems: param #3 - must be an integer", 2) end
+  for i=1, #menuItems do
+    menuItems[i]=tostring(menuItems[i])
+  end
+  if menuSelectedItem>#menuItems or menuSelectedItem<1 then error("DropDownMenu_SetMenuItems: param #3 - no such menu-item", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("DropDownMenu_SetMenuItems: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="ComboBox" then
+    error("DropDownMenu_GetDisabled: param #1 - ui-element is not a dropdown-menu", 2)
+  else
+    reagirl.Elements[element_id]["MenuEntries"]=menuItems
+    reagirl.Elements[element_id]["menuSelectedItem"]=menuSelectedItem
+    reagirl.Gui_ForceRefresh()
   end
 end
 
@@ -3542,6 +3644,9 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
     end
   end  
   
+  local acc_clickable=""
+  if clickable==true then acc_clickable="Enter or leftclick to click link. " else acc_clickable="" end
+  
   table.insert(reagirl.Elements, slot, {})
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local w,h=gfx.measurestr(label)
@@ -3552,7 +3657,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   reagirl.Elements[slot]["Text"]=""
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
-  reagirl.Elements[slot]["AccHint"]="Ctrl+C to copy text into clipboard"
+  reagirl.Elements[slot]["AccHint"]=acc_clickable.."Ctrl+C to copy text into clipboard"
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["clickable"]=clickable
@@ -4394,24 +4499,19 @@ end
 
 
 function DropDownList(element_id, check, name)
-  print2(element_id, check, name)
+  --print2(element_id, check, name)
 end
-
-
-
-
-
 
 
 function UpdateImage2(element_id)
   print2("HUH", element_id)
   reagirl.Gui_ForceRefreshState=true
-  if gfx.mouse_cap==1 then
+  --if gfx.mouse_cap==1 then
     retval, filename = reaper.GetUserFileNameForRead("", "", "")
     if retval==true then
       reagirl.Image_Update(element_id, filename)
     end
-  end
+  --end
   --]]
 end
 
@@ -4511,7 +4611,7 @@ function reagirl.UI_Elements_Boundaries()
   -- This function only calculates non-locked ui-element-directions
   
   --[[
-  -- Democode for Gui_Manage, that scrolls via arrow-keys including "scroll lock" when reaching end of ui-elements.
+  -- Democode for Gui_ Manage, that scrolls via arrow-keys including "scroll lock" when reaching end of ui-elements.
   if Key==30064 then 
     -- Up
     if reagirl.BoundaryY_Max+reagirl.MoveItAllUp>gfx.h then 
@@ -4559,7 +4659,7 @@ function reagirl.UI_Elements_Boundaries()
       if reagirl.Elements[i]["x"]*scale<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
       if reagirl.Elements[i]["y"]*scale<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
       if reagirl.Elements[i]["w"]*scale<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
-      if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end -- Correct for DropDownMenu?
+      if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then if w2<20 then w2=20 end end -- Correct for DropDownMenu?
       if reagirl.Elements[i]["h"]*scale<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
       if x2<minx then minx=x2 end
       if w2+x2>maxx then maxx=w2+x2 MaxW=w2 end
@@ -4910,17 +5010,12 @@ end
 local count=0
 local count2=0
 
-function main()
-  reagirl.Gui_Manage()
-  reagirl.DockState_Update("Stonehenge")
-  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
-end
 
 function Dummy()
 end
 
 function click_button(test)
-  print(os.date())
+  --print(os.date())
 
   if test==BT1 then
     reaper.Main_OnCommand(40015, 0)
@@ -4929,7 +5024,7 @@ function click_button(test)
     reagirl.Gui_Close()
   --reagirl.UI_Element_Remove(EID)
   end
-  print(reagirl.Checkbox_GetTopBottom(A))
+  --print(reagirl.Checkbox_GetTopBottom(A))
   if reagirl.Checkbox_GetDisabled(A)==true then
     reagirl.Checkbox_SetDisabled(A, false)
     reagirl.DropDownMenu_SetDisabled(E, false)
@@ -4940,11 +5035,11 @@ function click_button(test)
 end
 
 function CMenu(A,B)
-  print2(A,B)
+  --print2(A,B)
 end
 
 function input1(text)
-  print2(text)
+  --print2(text)
 end
 
 function input2()
@@ -4966,19 +5061,19 @@ function UpdateUI()
     end
   end
   --reagirl.AddDummyElement()  
-  LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "1", 0, false, label_click)
-  LAB=reagirl.Label_Add(nil, nil, "Link to Docs", "1", 0, true, label_click)
+  LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
+  LAB=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
   
   reagirl.NextLine()
-  A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
+  A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A, false, true)
   reagirl.NextLine()
-  A1 = reagirl.CheckBox_Add(nil, nil, "People on Streets", "Export file as MP3", true, CheckMe)
+  A1 = reagirl.CheckBox_Add(nil, nil, "People on Streets", "People on Streets TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A1, true, true)
   reagirl.NextLine()
   --A2= reagirl.CheckBox_Add(1300, nil, "De de dep", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A2, true, false)
-  A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
+  A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "AAC TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A3, true, false)
   reagirl.NextLine()
   
@@ -5016,7 +5111,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
 --  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
-  --BBB=reagirl.Button_Add(20, 70, 20, 0, "Help1", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(20, 70, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
@@ -5061,6 +5156,15 @@ UpdateUI()
 --reagirl.Window_ForceSize_Maximum(640, 77)
 --reagirl.Gui_ForceRefreshState=true
 --main()
+
+function main()
+  reagirl.Gui_Manage()
+  reagirl.DockState_Update("Stonehenge")
+  --ABBA={reagirl.DropDownMenu_GetMenuItems(E)}
+  --ABBA[1][1]=reaper.time_precise()
+  --reagirl.DropDownMenu_SetMenuItems(E, ABBA[1], 1)
+  if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
+end
 
 main()
 
