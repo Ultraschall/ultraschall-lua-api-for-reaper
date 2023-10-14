@@ -1,19 +1,23 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
+--[[
 OSARA=reaper.osara_outputMessage
 function reaper.osara_outputMessage(message)
---  print_update(message)
+  print_update(message)
   OSARA(message)
 end
+--]]
 
 --[[
 TODO: 
   - when no ui-elements are present, the osara init-message is not said
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
+    - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Scrolllimiter has a bug at the bottom, where it always keeps refreshing when scrolling down a little.
     - see Gui_ForceRefresh_X in the watchlist for it working.
     - happens only, when there's no scrolling up/downwards possible
-  
+  - screenreader message is reading "Name" once again after all is read
+  - Dropdown-menu: separator-line is not properly aligned when scale=1
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -3231,13 +3235,13 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
     --end
   end
   if element_storage["selected_old"]~=selected then
-    collapsed=". collapsed"
+    collapsed=""
     element_storage["selected_old"]=selected
   end
   if selected==true then
     if Key==32 or Key==13 then 
       element_storage["pressed"]=true
-      collapsed="enhanced"
+      collapsed=""
     elseif Key==1685026670 then
       element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]+1
       if element_storage["menuSelectedItem"]>=element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] end
@@ -3248,7 +3252,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
       collapsed=""
     elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
       element_storage["pressed"]=true
-      collapsed="expanded"
+      collapsed=""
     else
       element_storage["pressed"]=false
     end
