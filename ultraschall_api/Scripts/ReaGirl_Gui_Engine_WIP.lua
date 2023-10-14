@@ -1,23 +1,15 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 
-OSARA=reaper.osara_outputMessage
-function reaper.osara_outputMessage(message, a)
-  if message~="" then print_update(message,a) end
-  OSARA(message)
-end
---]]
+
 
 --[[
 TODO: 
-  - when no ui-elements are present, the osara init-message is not said
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Scrolllimiter has a bug at the bottom, where it always keeps refreshing when scrolling down a little.
     - see Gui_ForceRefresh_X in the watchlist for it working.
     - happens only, when there's no scrolling up/downwards possible
-  - screenreader message is reading "Name" once again after all is read
-  - Dropdown-menu: separator-line is not properly aligned when scale=1
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -32,6 +24,13 @@ reagirl.UI_Element_NextLineX=10
 reagirl.UI_Element_NextX_Default=10
 reagirl.UI_Element_NextY_Default=10
 reagirl.Font_Size=16
+
+reagirl.OSARA=reaper.osara_outputMessage
+function reaper.osara_outputMessage(message, a)
+  if message~="" then print_update(message,a) end
+  reagirl.OSARA(message)
+end
+--]]
 
 function reagirl.NextLine_SetDefaults(x, y)
 --[[
@@ -765,6 +764,36 @@ function reagirl.Mouse_GetCap(doubleclick_wait, drag_wait)
   end
 end
 
+function reagirl.Gui_AtExit(run_func)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Gui_AtExit</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.Gui_AtExit(function run_func)</functioncall>
+  <description>
+    Adds a function that shall be run when the gui is closed with reagirl.Gui_Close()
+    
+    Good to do clean up or committing of settings.
+  </description>
+  <parameters>
+    function run_func - a function, that shall be run when the gui closes
+  </parameters>
+  <chapter_context>
+    Gui
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, atexit, gui, function</tags>
+</US_DocBloc>
+]]
+  if type(run_func)~="function" then error("AtExit: param #1 - must be a function", -2) return end
+  reagirl.AtExit_RunFunc=run_func
+end
+
 function reagirl.Gui_New()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1148,7 +1177,13 @@ function reagirl.Gui_Manage()
   reagirl.UI_Element_SmoothScroll(1)
   -- End of Debug
   
-  if Key==27 then reagirl.Gui_Close() else reagirl.Window_ForceMinSize() reagirl.Window_ForceMaxSize() end -- esc closes window
+  if Key==27 then 
+    reagirl.Gui_Close() 
+    if reagirl.AtExit_RunFunc~=nil then reagirl.AtExit_RunFunc() end
+  else 
+    reagirl.Window_ForceMinSize() 
+    reagirl.Window_ForceMaxSize() 
+  end -- esc closes window
   if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"],1) end -- F1 help message for osara
   
   -- if mouse has been moved, reset wait-counter for displaying tooltip
@@ -3298,7 +3333,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
     gfx.set(0.39)
     local circ=4
     gfx.circle(x+w+offset-h/2, (y+offset+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+offset+1*(dpi_scale-1), y+offset+1*(dpi_scale-2), dpi_scale, h-dpi_scale, 1)
+    gfx.rect(x+w-h+offset+1*(dpi_scale-1), y+offset+2+1*(dpi_scale-2), dpi_scale, h-dpi_scale, 1)
     
     if element_storage["IsDecorative"]==false then
       gfx.x=x+7+offset
@@ -3325,7 +3360,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mou
     gfx.set(0.39)
     local circ=4
     gfx.circle(x+w-h/2, (y+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+1*(dpi_scale-1), y+1*(dpi_scale-2), dpi_scale, h-dpi_scale, 1)
+    gfx.rect(x+w-h+1*(dpi_scale-1), y+1+1*(dpi_scale-2), dpi_scale, h-dpi_scale, 1)
     
     local offset=0
     if element_storage["IsDecorative"]==false then
@@ -5167,6 +5202,12 @@ UpdateUI()
 --reagirl.Window_ForceSize_Maximum(640, 77)
 --reagirl.Gui_ForceRefreshState=true
 --main()
+
+function ExitMe()
+  print2("Bye Bye")
+end
+
+reagirl.Gui_AtExit(ExitMe)
 
 function main()
   reagirl.Gui_Manage()
