@@ -3099,30 +3099,30 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuEnt
     Reaper=7
     Lua=5.3
   </requires>
-  <functioncall>string button_guid = reagirl.DropDownMenu_Add(optional integer x, optional integer y, integer w, string caption, string meaningOfUI_Element, integer default, table menuEntries, function run_function)</functioncall>
+  <functioncall>string dropdown-menu_guid = reagirl.DropDownMenu_Add(optional integer x, optional integer y, integer w, string caption, string meaningOfUI_Element, table menuEntries, integer menuDefault, function run_function)</functioncall>
   <description>
-    Adds a button to a gui.
+    Adds a dropdown-menu to a gui.
     
-    You can autoposition the button by setting x and/or y to nil, which will position the new button after the last ui-element.
+    You can autoposition the dropdown-menu by setting x and/or y to nil, which will position the new dropdown-menu after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
   </description>
   <parameters>
-    optional integer x - the x position of the button in pixels; negative anchors the button to the right window-side; nil, autoposition after the last ui-element(see description)
-    optional integer y - the y position of the button in pixels; negative anchors the button to the bottom window-side; nil, autoposition after the last ui-element(see description)
-    integer w - 
-    string caption - the caption of the button
+    optional integer x - the x position of the dropdown-menu in pixels; negative anchors the dropdown-menu to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the dropdown-menu in pixels; negative anchors the dropdown-menu to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    integer w - the width of the dropdown-menu; negative links width to the right-edge of the window
+    string caption - the name of the dropdown-menu
     string meaningOfUI_Element - a description for accessibility users
-    integer default - the index
     table menuEntries - a table, where every entry is a menu-item
-    function run_function - a function that shall be run when the button is clicked; will get the button-element_id passed over as first parameter
+    integer menuDefault - the index of the pre-selected menu-item
+    function run_function - a function that shall be run when the menu is clicked/a new entry is selected; will get the dropdown-menu-element_id passed over as first parameter
   </parameters>
   <retvals>
-    string button_guid - a guid that can be used for altering the button-attributes
+    string dropdown-menu_guid - a guid that can be used for altering the dropdown-menu-attributes
   </retvals>
   <chapter_context>
-    Button
+    DropDown Menu
   </chapter_context>
-  <tags>button, add</tags>
+  <tags>dropdown menu, add</tags>
 </US_DocBloc>
 --]]
   if x~=nil and math.type(x)~="integer" then error("DropDownMenu_Add: param #1 - must be an integer", 2) end
@@ -4971,16 +4971,16 @@ function UpdateUI()
   
   reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Export file as MP3", true, CheckMe)
-  --reagirl.Checkbox_SetTopBottom(A, false, true)
-  --reagirl.NextLine()
+  reagirl.Checkbox_SetTopBottom(A, false, true)
+  reagirl.NextLine()
   A1 = reagirl.CheckBox_Add(nil, nil, "People on Streets", "Export file as MP3", true, CheckMe)
-  --reagirl.Checkbox_SetTopBottom(A1, true, true)
- -- reagirl.NextLine()
+  reagirl.Checkbox_SetTopBottom(A1, true, true)
+  reagirl.NextLine()
   --A2= reagirl.CheckBox_Add(1300, nil, "De de dep", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A2, true, false)
   A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
-  --reagirl.Checkbox_SetTopBottom(A3, false, false)
-  --reagirl.NextLine()
+  reagirl.Checkbox_SetTopBottom(A3, true, false)
+  reagirl.NextLine()
   
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
@@ -4993,7 +4993,7 @@ function UpdateUI()
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   reagirl.NextLine()
-  A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
+  --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, 100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
   
   --reagirl.Elements[8].IsDecorative=true
