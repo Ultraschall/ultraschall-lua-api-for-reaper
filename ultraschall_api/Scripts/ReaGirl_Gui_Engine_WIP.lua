@@ -1184,17 +1184,20 @@ function reagirl.Gui_Manage()
   if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
   if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit" and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit Multiline" then
   -- scroll via keys
-    if gfx.mouse_cap&8==0 and Key==30064 then reagirl.UI_Element_ScrollY(2) end -- up
-    if gfx.mouse_cap&8==0 and Key==1685026670 then reagirl.UI_Element_ScrollY(-2) end --down
-    if Key==1818584692.0 then reagirl.UI_Element_ScrollX(-2) end -- left
-    if Key==1919379572.0 then reagirl.UI_Element_ScrollX(2) end -- right
-    if Key==1885828464.0 then reagirl.UI_Element_ScrollY(20) end -- pgdown
-    if Key==1885824110.0 then reagirl.UI_Element_ScrollY(-20) end -- pgup
-    if gfx.mouse_cap&8==8 and Key==1818584692.0 then reagirl.UI_Element_ScrollX(20) end -- Shift+left  - pgleft
-    if gfx.mouse_cap&8==8 and Key==1919379572.0 then reagirl.UI_Element_ScrollX(-20) end --Shift+right - pgright
-    if Key==1752132965.0 then reagirl.MoveItAllUp=0 reagirl.Gui_ForceRefresh(64.789) end -- home
-    if Key==6647396.0 then MoveItAllUp_Delta=0 reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max reagirl.Gui_ForceRefresh(64.1) end -- end
-    --if Key~=0 then print3(Key) end
+    if reagirl.Scroll_Override~=true then
+      if gfx.mouse_cap&8==0 and Key==30064 then reagirl.UI_Element_ScrollY(2) end -- up
+      if gfx.mouse_cap&8==0 and Key==1685026670 then reagirl.UI_Element_ScrollY(-2) end --down
+      if Key==1818584692.0 then reagirl.UI_Element_ScrollX(-2) end -- left
+      if Key==1919379572.0 then reagirl.UI_Element_ScrollX(2) end -- right
+      if Key==1885828464.0 then reagirl.UI_Element_ScrollY(20) end -- pgdown
+      if Key==1885824110.0 then reagirl.UI_Element_ScrollY(-20) end -- pgup
+      if gfx.mouse_cap&8==8 and Key==1818584692.0 then reagirl.UI_Element_ScrollX(20) end -- Shift+left  - pgleft
+      if gfx.mouse_cap&8==8 and Key==1919379572.0 then reagirl.UI_Element_ScrollX(-20) end --Shift+right - pgright
+      if Key==1752132965.0 then reagirl.MoveItAllUp=0 reagirl.Gui_ForceRefresh(64.789) end -- home
+      if Key==6647396.0 then MoveItAllUp_Delta=0 reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max reagirl.Gui_ForceRefresh(64.1) end -- end
+      --if Key~=0 then print3(Key) end
+    end
+    reagirl.Scroll_Override=false
   end
   reagirl.UI_Element_SmoothScroll(1)
   -- End of Debug
@@ -2291,7 +2294,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   if y~=nil and math.type(y)~="integer" then error("CheckBox_Add: param #2 - must be an integer", 2) end
   if type(caption)~="string" then error("CheckBox_Add: param #3 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("CheckBox_Add: param #4 - must be a string", 2) end
-  if type(default)~="boolean" then error("CheckBox_Add: param #5 - must be a string", 2) end
+  if type(default)~="boolean" then error("CheckBox_Add: param #5 - must be a boolean", 2) end
   if type(run_function)~="function" then error("CheckBox_Add: param #6 - must be a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
@@ -5142,6 +5145,159 @@ function reagirl.UI_Element_SetFocused(element_id)
   reagirl.Gui_ForceRefresh()
 end
 
+function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, stop, step, default, run_function)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>string checkbox_guid = reagirl.Slider_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
+  <description>
+    Adds a checkbox to a gui.
+    
+    You can autoposition the checkbox by setting x and/or y to nil, which will position the new checkbox after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
+  </description>
+  <parameters>
+    optional integer x - the x position of the checkbox in pixels; negative anchors the checkbox to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the checkbox in pixels; negative anchors the checkbox to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    string caption - the caption of the checkbox
+    string meaningOfUI_Element - a description for accessibility users
+    boolean default - true, set the checkbox checked; false, set the checkbox unchecked
+    function run_function - a function that shall be run when the checkbox is clicked; will get passed over the checkbox-element_id as first and the new checkstate as second parameter
+  </parameters>
+  <retvals>
+    string checkbox_guid - a guid that can be used for altering the checkbox-attributes
+  </retvals>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, add</tags>
+</US_DocBloc>
+--]]
+  if x~=nil and math.type(x)~="integer" then error("CheckBox_Add: param #1 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("CheckBox_Add: param #2 - must be an integer", 2) end
+  if math.type(w)~="integer" then error("CheckBox_Add: param #3 - must be an integer", 2) end
+  if type(caption)~="string" then error("CheckBox_Add: param #4 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("CheckBox_Add: param #5 - must be a string", 2) end
+  if type(unit)~="string" then error("CheckBox_Add: param #6 - must be a number", 2) end
+  if type(start)~="number" then error("CheckBox_Add: param #7 - must be a number", 2) end
+  if type(stop)~="number" then error("CheckBox_Add: param #8 - must be a number", 2) end
+  if type(step)~="number" then error("CheckBox_Add: param #9 - must be a number", 2) end
+  if type(default)~="number" then error("CheckBox_Add: param #10 - must be a number", 2) end
+  if type(run_function)~="function" then error("CheckBox_Add: param #11 - must be a function", 2) end
+  
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  if x==nil then 
+    x=reagirl.UI_Element_NextX_Default
+    if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
+      x=reagirl.UI_Element_NextLineX
+    elseif slot-1>0 then
+      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+      for i=slot-1, 1, -1 do
+        if reagirl.Elements[i]["IsDecorative"]==false then
+          local w2=reagirl.Elements[i]["w"]
+          --print2(reagirl.Elements[i]["h"], w2)
+          x=reagirl.Elements[i]["x"]+w2+10
+          break
+        end
+      end
+    end
+  end
+
+  if y==nil then 
+    y=reagirl.UI_Element_NextY_Default
+    if slot-1>0 then
+      y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
+      reagirl.UI_Element_NextLineY=0
+    end
+  end  
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  local tx,ty=gfx.measurestr(caption)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[slot]["GUI_Element_Type"]="Checkbox"
+  reagirl.Elements[slot]["Name"]=caption
+  reagirl.Elements[slot]["Text"]=caption
+  reagirl.Elements[slot]["Unit"]=unit
+  reagirl.Elements[slot]["Start"]=start
+  reagirl.Elements[slot]["Stop"]=stop
+  reagirl.Elements[slot]["Step"]=step
+  reagirl.Elements[slot]["CurValue"]=default
+  reagirl.Elements[slot]["Start"]=start
+  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
+  reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
+  reagirl.Elements[slot]["x"]=x
+  reagirl.Elements[slot]["y"]=y
+  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
+  reagirl.Elements[slot]["sticky_x"]=false
+  reagirl.Elements[slot]["sticky_y"]=false
+  reagirl.Elements[slot]["top_edge"]=true
+  reagirl.Elements[slot]["bottom_edge"]=true
+  reagirl.Elements[slot]["checked"]=default
+  reagirl.Elements[slot]["func_manage"]=reagirl.Slider_Manage
+  reagirl.Elements[slot]["func_draw"]=reagirl.Slider_Draw
+  reagirl.Elements[slot]["run_function"]=run_function
+  reagirl.Elements[slot]["userspace"]={}
+  return reagirl.Elements[slot]["Guid"]
+end
+
+function reagirl.Slider_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if selected==true then
+    if Key==1919379572.0 then element_storage["CurValue"]=element_storage["CurValue"]+1 end
+    if Key==1818584692.0 then element_storage["CurValue"]=element_storage["CurValue"]-1 end
+    if Key==1752132965.0 then element_storage["CurValue"]=element_storage["Start"] end
+    if Key==6647396.0 then element_storage["CurValue"]=element_storage["Stop"] end
+    if Key==1885824110.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*5 end
+    if Key==1885828464.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*5 end
+    if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
+    if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] end
+    if Key~=0 then ABBA3=Key end
+    reagirl.Scroll_Override=true
+    if Key~=0 then
+      reagirl.Gui_ForceRefresh(111)
+    end
+  end
+end
+
+
+function reagirl.Slider_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local offset=gfx.measurestr(name.." ")
+  local dpi_scale, state
+  gfx.x=x
+  gfx.y=y
+  dpi_scale=reagirl.Window_GetCurrentScale()
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
+  local sw,sh=gfx.measurestr(element_storage["Name"])
+  ABBA2=element_storage["Name"]
+  
+  gfx.drawstr(element_storage["Name"])
+  local rect_start=gfx.x+5
+  --gfx.set(0,1
+  gfx.rect(rect_start, y+(gfx.texth>>1)-1, w, 4, 1)
+  --gfx.rect(rect_start, y+(gfx.texth>>1), w, 2, 1)
+  local rect_stop=rect_start+w
+  gfx.x=rect_stop
+  rect_w=rect_stop-rect_start
+  step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
+  step_current=step_size*element_storage["CurValue"]
+  gfx.drawstr("  "..element_storage["CurValue"]..element_storage["Unit"])
+  gfx.circle(rect_start+step_current, gfx.y+h/3, 5, 1, 1)
+  gfx.set(1,0,0)
+  for i=element_storage["Start"], element_storage["Stop"], element_storage["Step"] do
+    
+    --gfx.rect(gfx)
+  end
+end
+
 function CheckMe(tudelu, checkstate)
   reagirl.UI_Element_SetFocused(LAB)
   --print2(tudelu, checkstate)
@@ -5199,6 +5355,10 @@ function label_click(element_id)
   print2(1,element_id)
 end
 
+function sliderme(element_id)
+  print2("slider")
+end
+
 function UpdateUI()
   reagirl.Gui_New()
   reagirl.Background_GetSetColor(true, 44,44,44)
@@ -5239,7 +5399,7 @@ function UpdateUI()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
-  
+  F = reagirl.Slider_Add(10, 250, 100, "Slider", "I am a slider", "%", 1, 100, 1, 100, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
@@ -5258,7 +5418,7 @@ function UpdateUI()
 --  BT1=reagirl.Button_Add(920, 400, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
-  BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
+  --BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
   BBB=reagirl.Button_Add(20, 770, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
