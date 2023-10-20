@@ -10,6 +10,7 @@ TODO:
   - Scrolllimiter has a bug at the bottom, where it always keeps refreshing when scrolling down a little.
     - see Gui_ForceRefresh_X in the watchlist for it working.
     - happens only, when there's no scrolling up/downwards possible
+  - Slider: unit must be limited to 3 digits, rounded properly
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -5263,40 +5264,50 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   if selected==true then
-    if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+1 end
-    if Key==1818584692.0 or Key==30064.0 then element_storage["CurValue"]=element_storage["CurValue"]-1 end
+    if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] end
+    if Key==1818584692.0 or Key==30064.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] end
     if Key==1752132965.0 then element_storage["CurValue"]=element_storage["Start"] end
     if Key==6647396.0 then element_storage["CurValue"]=element_storage["Stop"] end
-    if Key==1885824110.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*5 end
-    if Key==1885828464.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*5 end
+    if Key==1885824110.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*(element_storage["Step"]*10) end
+    if Key==1885828464.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*(element_storage["Step"]*10) end
     
     if Key~=0 then ABBA3=Key end
     reagirl.Scroll_Override=true
     if Key~=0 then
       reagirl.Gui_ForceRefresh(111)
     end
-    slider_x=element_storage["x"]+element_storage["cap_w"]
-    slider_x2=element_storage["x"]+element_storage["cap_w"]+element_storage["slider_w"]
-    rectw=slider_x2-slider_x
-    --
-    
-    slider=x+element_storage["cap_w"]
-    slider_x2=(gfx.mouse_x-slider_x)
-    step=element_storage["slider_w"]/element_storage["Step"]
-    if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
-      if mouse_cap==1 then
-        if element_storage["Step"]==-1 then 
-          --step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
-          step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/1)
-          slider4=slider_x2/step_size
-          element_storage["CurValue"]=element_storage["Start"]+slider4
-        else
-        
+    if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+      slider_x=element_storage["x"]+element_storage["cap_w"]
+      slider_x2=element_storage["x"]+element_storage["cap_w"]+element_storage["slider_w"]
+      rectw=slider_x2-slider_x
+      --
+      
+      slider=x+element_storage["cap_w"]
+      slider_x2=(gfx.mouse_x-slider_x)
+      step=element_storage["slider_w"]/element_storage["Step"]
+      if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
+        --reaper.ClearConsole()
+        if mouse_cap==1 then
+          --
+            --step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
+            step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/1)
+            slider4=slider_x2/step_size
+            element_storage["CurValue"]=element_storage["Start"]+slider4
+            if element_storage["Step"]~=-1 then 
+              local old=element_storage["Start"]
+              for i=element_storage["Start"], element_storage["Stop"], element_storage["Step"] do
+                if element_storage["CurValue"]<i then
+                  element_storage["CurValue"]=i
+                 break
+                end
+                old=i
+              end
+            end
+          reagirl.Gui_ForceRefresh()
         end
-        reagirl.Gui_ForceRefresh()
+      elseif slider_x2<0 and slider_x2>=-15 and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] reagirl.Gui_ForceRefresh()
+      elseif slider_x2>element_storage["slider_w"] and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Stop"] reagirl.Gui_ForceRefresh()
       end
-    elseif slider_x2<0 and slider_x2>=-15 and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] reagirl.Gui_ForceRefresh()
-    elseif slider_x2>element_storage["slider_w"] and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Stop"] reagirl.Gui_ForceRefresh()
     end
   end
   if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
@@ -5324,11 +5335,11 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   local rect_stop=rect_start+element_storage["slider_w"]
   gfx.x=rect_stop
   rect_w=rect_stop-rect_start
-  if element_storage["Step"]==-1 then
+  --if element_storage["Step"]==-1 then
     step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/1)
-  else
-    step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/(element_storage["Step"]))
-  end
+  --else
+    --step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/(element_storage["Step"]))
+  --end
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
   gfx.drawstr("  "..element_storage["CurValue"]..element_storage["Unit"])
   gfx.circle(rect_start+step_current, gfx.y+h/3, 5, 1, 1)
@@ -5440,7 +5451,7 @@ function UpdateUI()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
-  F = reagirl.Slider_Add(10, 250, -10, "Sliders Das Tor", "I am a slider", "%", 12, 112, -1, 10, sliderme)
+  F = reagirl.Slider_Add(10, 250, -10, "Sliders Das Tor", "I am a slider", "%", 1, 112, 1.1, 1, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
