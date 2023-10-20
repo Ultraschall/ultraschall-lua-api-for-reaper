@@ -5263,8 +5263,8 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   if selected==true then
-    if Key==1919379572.0 then element_storage["CurValue"]=element_storage["CurValue"]+1 end
-    if Key==1818584692.0 then element_storage["CurValue"]=element_storage["CurValue"]-1 end
+    if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+1 end
+    if Key==1818584692.0 or Key==30064.0 then element_storage["CurValue"]=element_storage["CurValue"]-1 end
     if Key==1752132965.0 then element_storage["CurValue"]=element_storage["Start"] end
     if Key==6647396.0 then element_storage["CurValue"]=element_storage["Stop"] end
     if Key==1885824110.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*5 end
@@ -5301,6 +5301,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   end
   if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
   if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] end
+  return element_storage["CurValue"], false
 end
 
 
