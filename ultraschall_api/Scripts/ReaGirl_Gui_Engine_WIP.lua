@@ -5188,7 +5188,7 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
   if math.type(w)~="integer" then error("CheckBox_Add: param #3 - must be an integer", 2) end
   if type(caption)~="string" then error("CheckBox_Add: param #4 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("CheckBox_Add: param #5 - must be a string", 2) end
-  if type(unit)~="string" then error("CheckBox_Add: param #6 - must be a number", 2) end
+  if unit~=nil and type(unit)~="string" then error("CheckBox_Add: param #6 - must be a number", 2) end
   if type(start)~="number" then error("CheckBox_Add: param #7 - must be a number", 2) end
   if type(stop)~="number" then error("CheckBox_Add: param #8 - must be a number", 2) end
   if type(step)~="number" then error("CheckBox_Add: param #9 - must be a number", 2) end
@@ -5222,7 +5222,9 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
   end  
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
-  local tx1,ty1=gfx.measurestr(unit)
+  local unit2=unit
+  if unit==nil then unit2="" end
+  local tx1,ty1=gfx.measurestr(unit2)
   tx1=tx1+gfx.texth+gfx.texth
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
@@ -5341,7 +5343,10 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
     --step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/(element_storage["Step"]))
   --end
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
-  gfx.drawstr("  "..element_storage["CurValue"]..element_storage["Unit"])
+  local unit=element_storage["Unit"]
+  if unit~=nil then
+    gfx.drawstr("  "..element_storage["CurValue"]..element_storage["Unit"])
+  end
   gfx.circle(rect_start+step_current, gfx.y+h/3, 5, 1, 1)
   gfx.set(1,0,0)
   for i=element_storage["Start"], element_storage["Stop"], element_storage["Step"] do
@@ -5451,7 +5456,7 @@ function UpdateUI()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
-  F = reagirl.Slider_Add(10, 250, -10, "Sliders Das Tor", "I am a slider", "%", 1, 112, 1.1, 1, sliderme)
+  F = reagirl.Slider_Add(10, 250, -100, "Sliders Das Tor", "I am a slider", "", 1, 112, 5, 1, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
