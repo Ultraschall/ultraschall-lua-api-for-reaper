@@ -3272,6 +3272,7 @@ end
 
 
 function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if w<50 then w=50 end
   local Entries=""
   local collapsed=""
   local Default, insert
@@ -3326,6 +3327,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, clicked, mouse_cap, m
 end
 
 function reagirl.DropDownMenu_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if w<50 then w=50 end
   local offset=gfx.measurestr(name.." ")
   gfx.x=x
   gfx.y=y
@@ -5216,13 +5218,15 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
     end
   end  
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
-  local tx,ty=gfx.measurestr(caption)
+  local tx, ty =gfx.measurestr(caption.."8")
+  local tx1,ty1=gfx.measurestr(unit)
+  tx1=tx1+gfx.texth+gfx.texth
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
-  reagirl.Elements[slot]["GUI_Element_Type"]="Checkbox"
+  reagirl.Elements[slot]["GUI_Element_Type"]="Slider"
   reagirl.Elements[slot]["Name"]=caption
   reagirl.Elements[slot]["Text"]=caption
   reagirl.Elements[slot]["Unit"]=unit
@@ -5233,11 +5237,14 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
   reagirl.Elements[slot]["Start"]=start
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
-  reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
+  reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageup, pagedown."
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
+  reagirl.Elements[slot]["w"]=math.tointeger(w)--math.tointeger(ty+tx+4)
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
+  reagirl.Elements[slot]["cap_w"]=math.tointeger(tx)
+  reagirl.Elements[slot]["unit_w"]=math.tointeger(tx1)
+  reagirl.Elements[slot]["slider_w"]=math.tointeger(w-tx-tx1-10)
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
   reagirl.Elements[slot]["top_edge"]=true
@@ -5251,6 +5258,8 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
 end
 
 function reagirl.Slider_Manage(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
+  element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   if selected==true then
     if Key==1919379572.0 then element_storage["CurValue"]=element_storage["CurValue"]+1 end
     if Key==1818584692.0 then element_storage["CurValue"]=element_storage["CurValue"]-1 end
@@ -5258,18 +5267,34 @@ function reagirl.Slider_Manage(element_id, selected, clicked, mouse_cap, mouse_a
     if Key==6647396.0 then element_storage["CurValue"]=element_storage["Stop"] end
     if Key==1885824110.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*5 end
     if Key==1885828464.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*5 end
-    if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
-    if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] end
+    
     if Key~=0 then ABBA3=Key end
     reagirl.Scroll_Override=true
     if Key~=0 then
       reagirl.Gui_ForceRefresh(111)
     end
+    slider_x=element_storage["x"]+element_storage["cap_w"]
+    slider_x2=element_storage["x"]+element_storage["cap_w"]+element_storage["slider_w"]
+    rectw=slider_x2-slider_x
+    step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
+    slider=x+element_storage["cap_w"]
+    slider_x2=gfx.mouse_x-slider_x
+    if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
+      slider4=slider_x2/step_size
+      if mouse_cap==1 then
+        element_storage["CurValue"]=element_storage["Start"]+slider4
+        reagirl.Gui_ForceRefresh()
+      end
+      --element_storage["TEST"]=mouse_cap
+    end
   end
+  if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
+  if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] end
 end
 
 
 function reagirl.Slider_Draw(element_id, selected, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   local offset=gfx.measurestr(name.." ")
   local dpi_scale, state
   gfx.x=x
@@ -5277,18 +5302,18 @@ function reagirl.Slider_Draw(element_id, selected, clicked, mouse_cap, mouse_att
   dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
   local sw,sh=gfx.measurestr(element_storage["Name"])
-  ABBA2=element_storage["Name"]
+  local slider_w=element_storage["slider_w"]
   
   gfx.drawstr(element_storage["Name"])
   local rect_start=gfx.x+5
-  --gfx.set(0,1
-  gfx.rect(rect_start, y+(gfx.texth>>1)-1, w, 4, 1)
-  --gfx.rect(rect_start, y+(gfx.texth>>1), w, 2, 1)
-  local rect_stop=rect_start+w
+  
+  gfx.rect(rect_start, y+(gfx.texth>>1)-1, slider_w, 4, 1)
+  
+  local rect_stop=rect_start+element_storage["slider_w"]
   gfx.x=rect_stop
   rect_w=rect_stop-rect_start
-  step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
-  step_current=step_size*element_storage["CurValue"]
+  step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/(element_storage["Step"]))
+  step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
   gfx.drawstr("  "..element_storage["CurValue"]..element_storage["Unit"])
   gfx.circle(rect_start+step_current, gfx.y+h/3, 5, 1, 1)
   gfx.set(1,0,0)
@@ -5399,7 +5424,7 @@ function UpdateUI()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
-  F = reagirl.Slider_Add(10, 250, 100, "Slider", "I am a slider", "%", 1, 100, 1, 100, sliderme)
+  F = reagirl.Slider_Add(10, 250, -10, "Sliders Das Tor", "I am a slider", "%", 1, 10, 1, 10, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
