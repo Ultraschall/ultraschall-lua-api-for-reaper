@@ -5218,7 +5218,7 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
     end
   end  
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
-  local tx, ty =gfx.measurestr(caption.."8")
+  local tx, ty =gfx.measurestr(caption.."")
   local tx1,ty1=gfx.measurestr(unit)
   tx1=tx1+gfx.texth+gfx.texth
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -5276,16 +5276,22 @@ function reagirl.Slider_Manage(element_id, selected, clicked, mouse_cap, mouse_a
     slider_x=element_storage["x"]+element_storage["cap_w"]
     slider_x2=element_storage["x"]+element_storage["cap_w"]+element_storage["slider_w"]
     rectw=slider_x2-slider_x
-    step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
+    --
+    
     slider=x+element_storage["cap_w"]
     slider_x2=gfx.mouse_x-slider_x
     if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
-      slider4=slider_x2/step_size
       if mouse_cap==1 then
+        step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
+        slider4=slider_x2/step_size
         element_storage["CurValue"]=element_storage["Start"]+slider4
+        for i=0, element_storage["Start"]-element_storage["Stop"], step_size do
+          -- maybe include in here the new stepsize-code..when you manage to do that
+        end
         reagirl.Gui_ForceRefresh()
       end
-      --element_storage["TEST"]=mouse_cap
+    elseif slider_x2<0 and slider_x2>=-15 and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] reagirl.Gui_ForceRefresh()
+    elseif slider_x2>element_storage["slider_w"] and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Stop"] reagirl.Gui_ForceRefresh()
     end
   end
   if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
@@ -5424,7 +5430,7 @@ function UpdateUI()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
-  F = reagirl.Slider_Add(10, 250, -10, "Sliders Das Tor", "I am a slider", "%", 1, 10, 1, 10, sliderme)
+  F = reagirl.Slider_Add(10, 250, -10, "Sliders Das Tor", "I am a slider", "%", 12, 112, 1, 10, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
