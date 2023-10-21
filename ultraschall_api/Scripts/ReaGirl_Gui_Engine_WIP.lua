@@ -5183,6 +5183,8 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
   <tags>checkbox, add</tags>
 </US_DocBloc>
 --]]
+
+-- Parameter Unit==nil means, no number of unit shown
   if x~=nil and math.type(x)~="integer" then error("CheckBox_Add: param #1 - must be an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("CheckBox_Add: param #2 - must be an integer", 2) end
   if math.type(w)~="integer" then error("CheckBox_Add: param #3 - must be an integer", 2) end
@@ -5297,9 +5299,9 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
             element_storage["CurValue"]=element_storage["Start"]+slider4
             if element_storage["Step"]~=-1 then 
               local old=element_storage["Start"]
-              for i=element_storage["Start"], element_storage["Stop"], element_storage["Step"] do
+              for i=element_storage["Start"], element_storage["Stop"]+1, element_storage["Step"] do
                 if element_storage["CurValue"]<i then
-                  element_storage["CurValue"]=i
+                 element_storage["CurValue"]=i
                  break
                 end
                 old=i
@@ -5309,6 +5311,9 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
         end
       elseif slider_x2<0 and slider_x2>=-15 and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] reagirl.Gui_ForceRefresh()
       elseif slider_x2>element_storage["slider_w"] and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Stop"] reagirl.Gui_ForceRefresh()
+      end
+      if math.type(element_storage["Step"])=="integer" then
+        element_storage["CurValue"]=math.floor(element_storage["CurValue"])
       end
     end
   end
