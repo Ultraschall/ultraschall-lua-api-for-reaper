@@ -11,6 +11,7 @@ TODO:
     - see Gui_ForceRefresh_X in the watchlist for it working.
     - happens only, when there's no scrolling up/downwards possible
   - Slider: unit must be limited to 3 digits, rounded properly
+  - Autopositioning with NextLine() doesn't work, when scaling is 2 at startup of script, it adds too much on y
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -2696,9 +2697,8 @@ function reagirl.NextLine()
         --print2(reagirl.Elements[i]["h"])
         --reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.Elements[i]["h"]+1
         local x2, y2, w2, h2
-        local scale=reagirl.Window_GetCurrentScale()
-        if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
-        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+        if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]) else y2=reagirl.Elements[i]["y"] end
+        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]) else h2=reagirl.Elements[i]["h"] end
         reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+h2+1
         break
       end
