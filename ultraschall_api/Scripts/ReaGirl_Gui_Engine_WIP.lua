@@ -5299,7 +5299,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
             element_storage["CurValue"]=element_storage["Start"]+slider4
             if element_storage["Step"]~=-1 then 
               local old=element_storage["Start"]
-              for i=element_storage["Start"], element_storage["Stop"]+1, element_storage["Step"] do
+              for i=element_storage["Start"], element_storage["Stop"], element_storage["Step"] do
                 if element_storage["CurValue"]<i then
                  element_storage["CurValue"]=i
                  break
