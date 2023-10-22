@@ -11,6 +11,8 @@ TODO:
     - see Gui_ForceRefresh_X in the watchlist for it working.
     - happens only, when there's no scrolling up/downwards possible
   - Slider: unit must be limited to 3 digits, rounded properly
+  - Slider: scaling of clickarea isn't properly working(see Slider_Manage for "here you need"-comment
+  - Slider disappears when scrolling upwards/leftwards
   - Autopositioning with NextLine() doesn't work, when scaling is 2 at startup of script, it adds too much on y
 --]]
 --XX,YY=reaper.GetMousePosition()
@@ -1268,8 +1270,6 @@ function reagirl.Gui_Manage()
   
   
   -- [[ click management-code]]
-  
-  
   local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.Mouse_GetCap(5, 10)
   
   -- finds out also, which ui-element shall be seen as clicked(only the last ui-element within click-area will be seen as clicked)
@@ -5289,7 +5289,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       rect_w=slider_x2-slider_x
 
       slider=x+element_storage["cap_w"]
-      slider_x2=(gfx.mouse_x-slider_x)
+      slider_x2=(gfx.mouse_x-slider_x) -- here you need to add an offset for higher scalings...but how?
       step=element_storage["slider_w"]/element_storage["Step"]
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
         if clicked=="DBLCLK" then
@@ -5465,7 +5465,7 @@ function UpdateUI()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
-  F = reagirl.Slider_Add(100, 250, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
+  F = reagirl.Slider_Add(10, 250, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
