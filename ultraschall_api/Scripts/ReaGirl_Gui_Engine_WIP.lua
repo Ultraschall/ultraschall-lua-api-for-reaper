@@ -5284,10 +5284,10 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
       slider_x=element_storage["x"]+element_storage["cap_w"]
       slider_x2=element_storage["x"]+element_storage["cap_w"]+element_storage["slider_w"]
-      rectw=slider_x2-slider_x
+      rect_w=slider_x2-slider_x
 
-      slider=x+element_storage["cap_w"]
-      slider_x2=(gfx.mouse_x-slider_x)
+      slider=x+element_storage["cap_w"]*dpi_scale
+      slider_x2=(gfx.mouse_x-slider_x*dpi_scale)
       step=element_storage["slider_w"]/element_storage["Step"]
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
         if mouse_cap==1 then
@@ -5323,39 +5323,33 @@ end
 
 function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
-  local offset=gfx.measurestr(name.." ")
-  local dpi_scale, state
+  local dpi_scale=reagirl.Window_GetCurrentScale()
+  
   gfx.x=x
   gfx.y=y
-  dpi_scale=reagirl.Window_GetCurrentScale()
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
-  local sw,sh=gfx.measurestr(element_storage["Name"])
-  local slider_w=element_storage["slider_w"]
+  local offset_cap=gfx.measurestr(name.." ")+15*dpi_scale
+  local offset_unit=gfx.measurestr(element_storage["Unit"].."88888")
   
+  -- draw caption
   gfx.drawstr(element_storage["Name"])
-  local rect_start=gfx.x+5
   
-  gfx.rect(rect_start, y+(gfx.texth>>1)-1, slider_w, 4, 1)
+  -- draw slider-area
+  gfx.rect(offset_cap, y+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
   
-  local rect_stop=rect_start+element_storage["slider_w"]
-  gfx.x=rect_stop
-  rect_w=rect_stop-rect_start
-  --if element_storage["Step"]==-1 then
-    step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/1)
-  --else
-    --step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/(element_storage["Step"]))
-  --end
+  -- draw unit
+  gfx.x=x+w-offset_unit+dpi_scale
+  gfx.y=y
+  if element_storage["Unit"]~=nil then gfx.drawstr("  "..element_storage["CurValue"]..element_storage["Unit"]) end
+  
+  --local rect_stop=w-offset_unit
+  --gfx.x=rect_stop
+  rect_w=w-offset_unit-offset_cap
+  step_size=(rect_w/(element_storage["Stop"]-element_storage["Start"])/1)
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
-  local unit=element_storage["Unit"]
-  if unit~=nil then
-    gfx.drawstr("  "..element_storage["CurValue"]..element_storage["Unit"])
-  end
-  gfx.circle(rect_start+step_current, gfx.y+h/3, 5, 1, 1)
-  gfx.set(1,0,0)
-  for i=element_storage["Start"], element_storage["Stop"], element_storage["Step"] do
-    
-    --gfx.rect(gfx)
-  end
+  --local unit=element_storage["Unit"]
+  
+  gfx.circle(offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
 end
 
 function CheckMe(tudelu, checkstate)
@@ -5459,7 +5453,7 @@ function UpdateUI()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
-  F = reagirl.Slider_Add(10, 250, -100, "Sliders Das Tor", "I am a slider", "", 1, 112, 5, 1, sliderme)
+  F = reagirl.Slider_Add(10, 250, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
