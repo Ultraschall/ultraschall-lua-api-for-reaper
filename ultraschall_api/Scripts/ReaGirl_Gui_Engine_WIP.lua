@@ -608,6 +608,7 @@ function reagirl.Window_RescaleIfNeeded()
         reagirl.Image_ReloadImage_Scaled(i)
       end
     end
+    reagirl.Gui_ForceRefresh()
   end
 end
 
@@ -1394,7 +1395,8 @@ function reagirl.Gui_Manage()
     if refresh==true then reagirl.Gui_ForceRefresh(7) end
   end
   --]]
-  
+  --gfx.measurechar(128)
+  --gfx.measurestr(128)
   -- go over to draw the ui-elements
   reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel)
 end
@@ -5265,7 +5267,6 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
 end
 
 function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  local dpi_scale=reagirl.Window_GetCurrentScale()
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   if selected==true then
@@ -5286,8 +5287,8 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       slider_x2=element_storage["x"]+element_storage["cap_w"]+element_storage["slider_w"]
       rect_w=slider_x2-slider_x
 
-      slider=x+element_storage["cap_w"]*dpi_scale
-      slider_x2=(gfx.mouse_x-slider_x*dpi_scale)
+      slider=x+element_storage["cap_w"]
+      slider_x2=(gfx.mouse_x-slider_x)
       step=element_storage["slider_w"]/element_storage["Step"]
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
         if mouse_cap==1 then
@@ -5322,6 +5323,7 @@ end
 
 
 function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  --if lol==nil then return end
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   local dpi_scale=reagirl.Window_GetCurrentScale()
   
@@ -5330,6 +5332,10 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
   local offset_cap=gfx.measurestr(name.." ")+15*dpi_scale
   local offset_unit=gfx.measurestr(element_storage["Unit"].."88888")
+  
+  element_storage["cap_w"]=offset_cap
+  element_storage["unit_w"]=offset_unit
+  element_storage["slider_w"]=w-offset_cap-offset_unit
   
   -- draw caption
   gfx.drawstr(element_storage["Name"])
@@ -5534,6 +5540,7 @@ function main()
   --reagirl.DropDownMenu_SetMenuItems(E, ABBA[1], 1)
   --reagirl.Gui_ForceRefresh()
   ABBA=reagirl.UI_Element_GetFocused()
+  gfx.update()
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
 end
 
