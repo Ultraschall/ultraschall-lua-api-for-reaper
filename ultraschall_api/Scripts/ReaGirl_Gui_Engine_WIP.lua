@@ -5265,6 +5265,7 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
 end
 
 function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local dpi_scale=reagirl.Window_GetCurrentScale()
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   if selected==true then
@@ -5284,15 +5285,12 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       slider_x=element_storage["x"]+element_storage["cap_w"]
       slider_x2=element_storage["x"]+element_storage["cap_w"]+element_storage["slider_w"]
       rectw=slider_x2-slider_x
-      --
-      
+
       slider=x+element_storage["cap_w"]
       slider_x2=(gfx.mouse_x-slider_x)
       step=element_storage["slider_w"]/element_storage["Step"]
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
-        --reaper.ClearConsole()
         if mouse_cap==1 then
-          --
             --step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
             step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/1)
             slider4=slider_x2/step_size
@@ -5312,7 +5310,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       elseif slider_x2<0 and slider_x2>=-15 and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] reagirl.Gui_ForceRefresh()
       elseif slider_x2>element_storage["slider_w"] and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Stop"] reagirl.Gui_ForceRefresh()
       end
-      if math.type(element_storage["Step"])=="integer" then
+      if math.type(element_storage["Step"])=="integer" and math.type(element_storage["Start"])=="integer" and math.type(element_storage["Stop"])=="integer" then
         element_storage["CurValue"]=math.floor(element_storage["CurValue"])
       end
     end
