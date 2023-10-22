@@ -1270,7 +1270,7 @@ function reagirl.Gui_Manage()
   -- [[ click management-code]]
   
   
-  local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.Mouse_GetCap(2, 5)
+  local clickstate, specific_clickstate, mouse_cap, click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel = reagirl.Mouse_GetCap(5, 10)
   
   -- finds out also, which ui-element shall be seen as clicked(only the last ui-element within click-area will be seen as clicked)
   -- changes the selected ui-element when clicked AND shows tooltip
@@ -5242,6 +5242,7 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
   reagirl.Elements[slot]["Start"]=start
   reagirl.Elements[slot]["Stop"]=stop
   reagirl.Elements[slot]["Step"]=step
+  reagirl.Elements[slot]["Default"]=default
   reagirl.Elements[slot]["CurValue"]=default
   reagirl.Elements[slot]["Start"]=start
   reagirl.Elements[slot]["IsDecorative"]=false
@@ -5291,7 +5292,11 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       slider_x2=(gfx.mouse_x-slider_x)
       step=element_storage["slider_w"]/element_storage["Step"]
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
-        if mouse_cap==1 then
+        if clicked=="DBLCLK" then
+          element_storage["CurValue"]=element_storage["Default"]
+          reagirl.Gui_ForceRefresh()
+        else
+          if mouse_cap==1 and clicked=="FirstCLK" or clicked=="DRAG" then
             --step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
             step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/1)
             slider4=slider_x2/step_size
@@ -5306,10 +5311,11 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
                 old=i
               end
             end
+          end
           reagirl.Gui_ForceRefresh()
         end
-      elseif slider_x2<0 and slider_x2>=-15 and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] reagirl.Gui_ForceRefresh()
-      elseif slider_x2>element_storage["slider_w"] and gfx.mouse_cap==1 then element_storage["CurValue"]=element_storage["Stop"] reagirl.Gui_ForceRefresh()
+      elseif slider_x2<0 and slider_x2>=-15 and mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] reagirl.Gui_ForceRefresh()
+      elseif slider_x2>element_storage["slider_w"] and mouse_cap==1 then element_storage["CurValue"]=element_storage["Stop"] reagirl.Gui_ForceRefresh()
       end
       if math.type(element_storage["Step"])=="integer" and math.type(element_storage["Start"])=="integer" and math.type(element_storage["Stop"])=="integer" then
         element_storage["CurValue"]=math.floor(element_storage["CurValue"])
@@ -5341,7 +5347,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.drawstr(element_storage["Name"])
   
   -- draw slider-area
-  gfx.rect(offset_cap, y+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
+  gfx.rect(x+offset_cap, y+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
   
   -- draw unit
   gfx.x=x+w-offset_unit+dpi_scale
@@ -5355,7 +5361,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
   --local unit=element_storage["Unit"]
   
-  gfx.circle(offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
 end
 
 function CheckMe(tudelu, checkstate)
@@ -5459,7 +5465,7 @@ function UpdateUI()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
-  F = reagirl.Slider_Add(10, 250, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
+  F = reagirl.Slider_Add(100, 250, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
