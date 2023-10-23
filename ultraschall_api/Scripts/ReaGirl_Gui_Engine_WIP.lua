@@ -11,9 +11,8 @@ TODO:
     - see Gui_ForceRefresh_X in the watchlist for it working.
     - happens only, when there's no scrolling up/downwards possible
   - Slider: unit must be limited to 3 digits, rounded properly
-  - Slider: scaling of clickarea isn't properly working(see Slider_Manage for "here you need"-comment
+  - Slider: doubleclick on the edges doesn't revert to default-value
   - Slider disappears when scrolling upwards/leftwards
-  - Autopositioning with NextLine() doesn't work, when scaling is 2 at startup of script, it adds too much on y
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -1491,7 +1490,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     end
   end
   reagirl.Gui_ForceRefreshState=false
-  
+  --DebugRect()
 end
 
 function reagirl.Dummy()
@@ -5270,6 +5269,7 @@ end
 function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
+  local dpi_scale=reagirl.Window_GetCurrentScale()
   if selected==true then
     if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] end
     if Key==1818584692.0 or Key==30064.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] end
@@ -5278,19 +5278,26 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if Key==1885824110.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*(element_storage["Step"]*10) end
     if Key==1885828464.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*(element_storage["Step"]*10) end
     
-    if Key~=0 then ABBA3=Key end
+    --if Key~=0 then ABBA3=Key end
     reagirl.Scroll_Override=true
     if Key~=0 then
       reagirl.Gui_ForceRefresh(111)
     end
-    if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-      slider_x=element_storage["x"]+element_storage["cap_w"]
-      slider_x2=element_storage["x"]+element_storage["cap_w"]+element_storage["slider_w"]
+    --if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+      slider_x=x+element_storage["cap_w"]
+      slider_x2=x+element_storage["cap_w"]+element_storage["slider_w"]
       rect_w=slider_x2-slider_x
 
-      slider=x+element_storage["cap_w"]
+      slider=x--+element_storage["cap_w"]
       slider_x2=(gfx.mouse_x-slider_x) -- here you need to add an offset for higher scalings...but how?
-      step=element_storage["slider_w"]/element_storage["Step"]
+      --[[
+      -- debug rectangle(see end of Gui_Draw for the function)
+      dx=gfx.mouse_x-slider_x
+      dy=y 
+      dw=10
+      dh=10
+      --]]
+      
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
         if clicked=="DBLCLK" then
           element_storage["CurValue"]=element_storage["Default"]
@@ -5315,12 +5322,14 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
           reagirl.Gui_ForceRefresh()
         end
       elseif slider_x2<0 and slider_x2>=-15 and mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] reagirl.Gui_ForceRefresh()
-      elseif slider_x2>element_storage["slider_w"] and mouse_cap==1 then element_storage["CurValue"]=element_storage["Stop"] reagirl.Gui_ForceRefresh()
+      elseif slider_x2>element_storage["slider_w"] and mouse_cap==1 then 
+        element_storage["CurValue"]=element_storage["Stop"] 
+        reagirl.Gui_ForceRefresh()
       end
       if math.type(element_storage["Step"])=="integer" and math.type(element_storage["Start"])=="integer" and math.type(element_storage["Stop"])=="integer" then
         element_storage["CurValue"]=math.floor(element_storage["CurValue"])
       end
-    end
+    --end
   end
   if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
   if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] end
@@ -5336,10 +5345,10 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.x=x
   gfx.y=y
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
-  local offset_cap=gfx.measurestr(name.." ")+15*dpi_scale
+  local offset_cap=gfx.measurestr(name.." ")--+15*dpi_scale
   local offset_unit=gfx.measurestr(element_storage["Unit"].."88888")
   
-  element_storage["cap_w"]=offset_cap
+  element_storage["cap_w"]=gfx.measurestr(name.." ")
   element_storage["unit_w"]=offset_unit
   element_storage["slider_w"]=w-offset_cap-offset_unit
   
@@ -5362,6 +5371,11 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   --local unit=element_storage["Unit"]
   
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
+end
+
+function DebugRect()
+  gfx.set(1,0,0)
+  gfx.rect(dx,dy,dw,dh)
 end
 
 function CheckMe(tudelu, checkstate)
@@ -5486,7 +5500,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
   --BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
-  BBB=reagirl.Button_Add(20, 770, 20, 0, "Help1", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(920, 770, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
