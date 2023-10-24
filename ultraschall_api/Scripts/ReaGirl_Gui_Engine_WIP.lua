@@ -12,7 +12,7 @@ TODO:
     - happens only, when there's no scrolling up/downwards possible
   - Slider: unit must be limited to 3 digits, rounded properly
   - Slider: doubleclick on the edges doesn't revert to default-value
-  - Slider disappears when scrolling upwards/leftwards
+  - Slider disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -1441,13 +1441,14 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
       --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       and (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
       --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) and (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
       
-      if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+      --[[if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
       or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
       or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
       and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
       or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
       or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4
       then
+      --]]
  --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
       --AAAAA=AAAAA+1
         local message=reagirl.Elements[i]["func_draw"](i, reagirl.Elements["FocusedElement"]==i,
@@ -1465,7 +1466,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           Key_utf,
           reagirl.Elements[i]
         )
-      end -- draw_only_necessary-elements
+      --end -- draw_only_necessary-elements
       if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
         --if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then --  if w2<20 then w2=20 end end
         local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
@@ -4660,7 +4661,10 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debuggin
     if reagirl.BoundaryY_Max>gfx.h then
       reagirl.MoveItAllUp=math.floor(reagirl.MoveItAllUp+reagirl.MoveItAllUp_Delta)
     end
+  elseif reagirl.MoveItAllUp_Delta<0 then
+    reagirl.MoveItAllUp_Delta=reagirl.MoveItAllUp_Delta+1 --reagirl.MoveItAllUp_Delta=0
   end
+  if reagirl.MoveItAllUp_Delta>-1 and reagirl.MoveItAllUp_Delta<1 then reagirl.MoveItAllUp_Delta=0 end
   
   -- scroll x-position
   if reagirl.BoundaryX_Max>gfx.w then
@@ -4676,7 +4680,10 @@ function reagirl.UI_Element_SmoothScroll(Smoothscroll) -- parameter for debuggin
     if reagirl.BoundaryX_Max>gfx.w then
       reagirl.MoveItAllRight=math.floor(reagirl.MoveItAllRight+reagirl.MoveItAllRight_Delta)
     end
+  elseif reagirl.MoveItAllRight_Delta<0 then
+    reagirl.MoveItAllRight_Delta=reagirl.MoveItAllRight_Delta+1 --reagirl.MoveItAllUp_Delta=0
   end
+  if reagirl.MoveItAllRight_Delta>-1 and reagirl.MoveItAllRight_Delta<1 then reagirl.MoveItAllRight_Delta=0 end
   
   if reagirl.MoveItAllRight_Delta~=0 or reagirl.MoveItAllUp_Delta~=0 then reagirl.Gui_ForceRefresh(68) end
 end
@@ -5283,7 +5290,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if Key~=0 then
       reagirl.Gui_ForceRefresh(111)
     end
-    --if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
       slider_x=x+element_storage["cap_w"]
       slider_x2=x+element_storage["cap_w"]+element_storage["slider_w"]
       rect_w=slider_x2-slider_x
@@ -5329,7 +5336,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       if math.type(element_storage["Step"])=="integer" and math.type(element_storage["Start"])=="integer" and math.type(element_storage["Stop"])=="integer" then
         element_storage["CurValue"]=math.floor(element_storage["CurValue"])
       end
-    --end
+    end
   end
   if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
   if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] end
@@ -5339,16 +5346,18 @@ end
 
 function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   --if lol==nil then return end
-  if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
+  --gfx.rect(10,10,100,100,1)
+  --print_update(y)
+  --if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   local dpi_scale=reagirl.Window_GetCurrentScale()
   
   gfx.x=x
   gfx.y=y
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
-  local offset_cap=gfx.measurestr(name.." ")--+15*dpi_scale
+  local offset_cap=gfx.measurestr(name.." ")+5*dpi_scale
   local offset_unit=gfx.measurestr(element_storage["Unit"].."88888")
   
-  element_storage["cap_w"]=gfx.measurestr(name.." ")
+  element_storage["cap_w"]=offset_cap--gfx.measurestr(name.." ")+5*dpi_scale
   element_storage["unit_w"]=offset_unit
   element_storage["slider_w"]=w-offset_cap-offset_unit
   
@@ -5361,7 +5370,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   -- draw unit
   gfx.x=x+w-offset_unit+dpi_scale
   gfx.y=y
-  if element_storage["Unit"]~=nil then gfx.drawstr("  "..element_storage["CurValue"]..element_storage["Unit"]) end
+  if element_storage["Unit"]~=nil then gfx.drawstr(" "..string.format(element_storage["CurValue"]%1>0.001 and "%.3f" or "%.0f",element_storage["CurValue"])..element_storage["Unit"]) end
   
   --local rect_stop=w-offset_unit
   --gfx.x=rect_stop
@@ -5479,7 +5488,9 @@ function UpdateUI()
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
-  F = reagirl.Slider_Add(10, 250, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
+  --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
+  reagirl.NextLine()
+  --F = reagirl.Slider_Add(nil, nil, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
@@ -5500,7 +5511,7 @@ function UpdateUI()
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
   --BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
-  BBB=reagirl.Button_Add(920, 770, 20, 0, "Help1", "Description of the button", click_button)
+  --BBB=reagirl.Button_Add(720, 770, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
