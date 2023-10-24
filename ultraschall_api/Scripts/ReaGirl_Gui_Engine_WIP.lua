@@ -2301,7 +2301,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   if type(caption)~="string" then error("CheckBox_Add: param #3 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("CheckBox_Add: param #4 - must be a string", 2) end
   if type(default)~="boolean" then error("CheckBox_Add: param #5 - must be a boolean", 2) end
-  if type(run_function)~="function" then error("CheckBox_Add: param #6 - must be a function", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("CheckBox_Add: param #6 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -2751,7 +2751,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
   if math.type(h_margin)~="integer" then error("Button_Add: param #4 - must be an integer", 2) end
   if type(caption)~="string" then error("Button_Add: param #5 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Button_Add: param #6 - must be a string", 2) end
-  if type(run_function)~="function" then error("Button_Add: param #7 - must be a function", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("Button_Add: param #7 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -3220,7 +3220,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuIte
   end
   if math.type(menuSelectedItem)~="integer" then error("DropDownMenu_Add: param #7 - must be an integer", 2) end
   if menuSelectedItem>#menuItems or menuSelectedItem<1 then error("DropDownMenu_Add: param #7 - no such menu-item", 2) end
-  if type(run_function)~="function" then error("DropDownMenu_Add: param #8 - must be a function", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("DropDownMenu_Add: param #8 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -3742,7 +3742,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
   if clickable==nil then clickable=false end
   if type(clickable)~="boolean" then error("Label_Add: param #6 - must be wither nil or a boolean", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
-  if type(run_function)~="function" then error("Label_Add: param #6 - must be wither nil or a function", 2) end
+  if type(run_function)~="function" then error("Label_Add: param #6 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -4178,7 +4178,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
   if type(name)~="string" then error("Image_Add: param #6 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Image_Add: param #7 - must be a string", 2) end
   if run_function==nil then run_function=reagirl.Dummy end
-  if type(run_function)~="function" then error("Image_Add: param #8 - must be a function", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("Image_Add: param #8 - must be either nil or a function", 2) end
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
     x=reagirl.UI_Element_NextX_Default
@@ -5244,7 +5244,7 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
   if type(stop)~="number" then error("CheckBox_Add: param #8 - must be a number", 2) end
   if type(step)~="number" then error("CheckBox_Add: param #9 - must be a number", 2) end
   if type(default)~="number" then error("CheckBox_Add: param #10 - must be a number", 2) end
-  if type(run_function)~="function" then error("CheckBox_Add: param #11 - must be a function", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("CheckBox_Add: param #11 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -5322,8 +5322,18 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.Scroll_Override_MouseWheel=true
     if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
-      if mouse_attributes[5]<0 or mouse_attributes[6]>0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] refresh=true end
+      if mouse_attributes[5]<0 or mouse_attributes[6]>0 then 
+        element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] 
+        refresh=true 
+      end
       if mouse_attributes[5]>0 or mouse_attributes[6]<0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] refresh=true end
+      if element_storage["CurValue"]>element_storage["Stop"] then
+        --element_storage["CurValue"]=element_storage["Stop"]
+        --refresh=false
+      elseif element_storage["CurValue"]<element_storage["Start"] then
+        --element_storage["CurValue"]=element_storage["Start"]
+        --refresh=false
+      end
     end
   end
   if selected==true then
@@ -5393,12 +5403,13 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       end
     end
   end
-  if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
-  if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] end
+  local skip_func
+  if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] skip_func=true end
+  if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] skip_func=true end
   
   if refresh==true then 
     reagirl.Gui_ForceRefresh() 
-    if element_storage["run_function"]~=nil then 
+    if element_storage["run_function"]~=nil and skip_func~=true then 
       element_storage["run_function"](element_storage["Guid"]) 
     end
   end
