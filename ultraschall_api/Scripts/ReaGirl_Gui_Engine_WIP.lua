@@ -2544,10 +2544,10 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   local top=element_storage["top_edge"]
   local bottom=element_storage["bottom_edge"]
   gfx.set(0.584)
-  reagirl.RoundRect(x,y,h+2,h+2,7*scale, 1,1, top, bottom, true, true)
+  reagirl.RoundRect(x,y,h+2,h+2,5*scale, 1,1, top, bottom, true, true)
   
   gfx.set(0.2725490196078431)
-  reagirl.RoundRect(x+scale,y+scale,h+2-scale*2,h+2-scale*2,7*scale, 0,1, top, bottom, true, true)
+  reagirl.RoundRect(x+scale,y+scale,h+2-scale*2,h+2-scale*2,5*scale, 0,1, top, bottom, true, true)
   
   if reagirl.Elements[element_id]["checked"]==true then
     if element_storage["IsDecorative"]==false then
@@ -2555,7 +2555,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
     else
       gfx.set(0.5843137254901961)
     end
-    reagirl.RoundRect(x+1+(scale)*3, y+1+scale*3, h-scale*6, h-scale*6, 5*scale, 1, 1, top, bottom, true, true)
+    reagirl.RoundRect(x+1+(scale)*3, y+1+scale*3, h-scale*6, h-scale*6, 3*scale, 1, 1, top, bottom, true, true)
   end
   
   if scale==1 then offset=0
@@ -5448,12 +5448,12 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   
   -- draw caption
   gfx.drawstr(element_storage["Name"])
-  --gfx.set(0.6)
+  gfx.set(0.7)
   -- draw slider-area
   gfx.rect(x+offset_cap, y+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
   
   -- draw unit
-  gfx.x=x+w-offset_unit+dpi_scale
+  gfx.x=x+w-offset_unit+10*dpi_scale
   gfx.y=y
   if element_storage["Unit"]~=nil then gfx.set(0.8) gfx.drawstr(" "..string.format(element_storage["CurValue"]%1>0.001 and "%.3f" or "%.0f",element_storage["CurValue"])..element_storage["Unit"]) end
   
@@ -5466,14 +5466,15 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   
   
   gfx.set(0.584)
-  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 7*dpi_scale, 1, 1)
   --gfx.set(0.584)
   gfx.set(0.2725490196078431)
-  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 4*dpi_scale, 1, 1)
+  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 6*dpi_scale, 1, 1)
   
-  --gfx.set(0.584)
-  gfx.set(0.9843137254901961, 0.8156862745098039, 0)
-  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 3*dpi_scale, 1, 1)
+  gfx.set(0.584)
+  gfx.set(1)
+  --gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
 end
 
 function DebugRect()
