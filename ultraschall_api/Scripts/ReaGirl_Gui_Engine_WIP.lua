@@ -1485,6 +1485,8 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           if reaper.JS_Mouse_SetPosition~=nil then 
             --reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
             if gfx.mouse_x<=x2 or gfx.mouse_x>=x2+w2 or gfx.mouse_y<=y2 or gfx.mouse_y>=y2+h2 then
+              --local tempx, tempy=gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)
+              --if tempx<0 then tempx=-tempx end
               reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
             end
           end
@@ -3844,16 +3846,19 @@ function reagirl.Label_Draw(element_id, selected, hovered, clicked, mouse_cap, m
                                      element_storage["align"])
                                      --]]
   else
-    local col=1
+    local col=0.6
+    local col2=0.6
     if element_storage["clickable"]==true then 
 --      reagirl.SetFont(1, "Arial", reagirl.Font_Size, 85)
       col=0.2
+      col2=1
     end
     gfx.set(0.1)
     gfx.x=1
     gfx.y=1
     gfx.drawstr(name, element_storage["align"])--, w, h)
-    gfx.set(col,col,1)
+    gfx.set(col,col,col2)
+    
     gfx.x=0
     gfx.y=0
     gfx.drawstr(name, element_storage["align"])--, w, h)
@@ -5391,7 +5396,11 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
                 old=i
               end
             end
-            refresh=true
+            if element_storage["OldMouseX"]~=gfx.mouse_x or element_storage["OldMouseY"]~=gfx.mouse_y then
+              refresh=true
+            end
+            element_storage["OldMouseX"]=gfx.mouse_x
+            element_storage["OldMouseY"]=gfx.mouse_y 
           end
           
         end
@@ -5435,17 +5444,18 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   element_storage["cap_w"]=offset_cap--gfx.measurestr(name.." ")+5*dpi_scale
   element_storage["unit_w"]=offset_unit
   element_storage["slider_w"]=w-offset_cap-offset_unit
+  gfx.set(0.8)
   
   -- draw caption
   gfx.drawstr(element_storage["Name"])
-  
+  --gfx.set(0.6)
   -- draw slider-area
   gfx.rect(x+offset_cap, y+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
   
   -- draw unit
   gfx.x=x+w-offset_unit+dpi_scale
   gfx.y=y
-  if element_storage["Unit"]~=nil then gfx.drawstr(" "..string.format(element_storage["CurValue"]%1>0.001 and "%.3f" or "%.0f",element_storage["CurValue"])..element_storage["Unit"]) end
+  if element_storage["Unit"]~=nil then gfx.set(0.8) gfx.drawstr(" "..string.format(element_storage["CurValue"]%1>0.001 and "%.3f" or "%.0f",element_storage["CurValue"])..element_storage["Unit"]) end
   
   --local rect_stop=w-offset_unit
   --gfx.x=rect_stop
@@ -5454,7 +5464,16 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   step_current=step_size*(element_storage["CurValue"]-element_storage["Start"])
   --local unit=element_storage["Unit"]
   
+  
+  gfx.set(0.584)
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
+  --gfx.set(0.584)
+  gfx.set(0.2725490196078431)
+  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 4*dpi_scale, 1, 1)
+  
+  --gfx.set(0.584)
+  gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+  gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 3*dpi_scale, 1, 1)
 end
 
 function DebugRect()
@@ -5562,7 +5581,7 @@ function UpdateUI()
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
-  E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
+  --E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
   --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
   F = reagirl.Slider_Add(nil, nil, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
@@ -5580,8 +5599,8 @@ function UpdateUI()
   --print2(reagirl.Rect_GetColors(Rect))
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
-
-  BT1=reagirl.Button_Add(920, 400, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
+  reagirl.NextLine()
+  BT1=reagirl.Button_Add(nil, nil, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
   --BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
