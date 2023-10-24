@@ -7,9 +7,6 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 TODO: 
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
-  - Scrolllimiter has a bug at the bottom, where it always keeps refreshing when scrolling down a little.
-    - see Gui_ForceRefresh_X in the watchlist for it working.
-    - happens only, when there's no scrolling up/downwards possible
   - Slider: unit must be limited to 3 digits, rounded properly
   - Slider: doubleclick on the edges doesn't revert to default-value
   - Slider disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
