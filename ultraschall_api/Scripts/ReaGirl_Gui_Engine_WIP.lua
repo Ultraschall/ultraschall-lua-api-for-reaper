@@ -1180,9 +1180,10 @@ function reagirl.Gui_Manage()
   --Debug Code - move ui-elements via arrow keys, including stopping when end of ui-elements has been reached.
   -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
   -- see reagirl.UI_Elements_Boundaries() for the calculation of it and more information
-  
-  if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(-gfx.mouse_hwheel/50) end
-  if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
+  if reagirl.Scroll_Override~=true then
+    if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(-gfx.mouse_hwheel/50) end
+    if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
+  end
   if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit" and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit Multiline" then
   -- scroll via keys
     if reagirl.Scroll_Override~=true then
@@ -1198,8 +1199,8 @@ function reagirl.Gui_Manage()
       if Key==6647396.0 then MoveItAllUp_Delta=0 reagirl.MoveItAllUp=gfx.h-reagirl.BoundaryY_Max reagirl.Gui_ForceRefresh(64.1) end -- end
       --if Key~=0 then print3(Key) end
     end
-    reagirl.Scroll_Override=false
   end
+  reagirl.Scroll_Override=nil
   reagirl.UI_Element_SmoothScroll(1)
   -- End of Debug
   
@@ -5271,9 +5272,17 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
 end
 
 function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local refresh=false
   if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   local dpi_scale=reagirl.Window_GetCurrentScale()
+  if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+    reagirl.Scroll_Override=true
+    if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
+      if mouse_attributes[5]<0 or mouse_attributes[6]>0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] refresh=true end
+      if mouse_attributes[5]>0 or mouse_attributes[6]<0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] refresh=true end
+    end
+  end
   if selected==true then
     if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] end
     if Key==1818584692.0 or Key==30064.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] end
@@ -5283,11 +5292,15 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     if Key==1885828464.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*(element_storage["Step"]*10) end
     
     --if Key~=0 then ABBA3=Key end
-    reagirl.Scroll_Override=true
+    
+    
     if Key~=0 then
-      reagirl.Gui_ForceRefresh(111)
+      refresh=true
     end
     if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
+      reagirl.Scroll_Override=true
+      if mouse_attributes[5]<0 or mouse_attributes[6]>0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] end
+      if mouse_attributes[5]>0 or mouse_attributes[6]<0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] end
       slider_x=x+element_storage["cap_w"]
       slider_x2=x+element_storage["cap_w"]+element_storage["slider_w"]
       rect_w=slider_x2-slider_x
@@ -5305,7 +5318,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
         if clicked=="DBLCLK" then
           element_storage["CurValue"]=element_storage["Default"]
-          reagirl.Gui_ForceRefresh()
+          refresh=true
         else
           if mouse_cap==1 and clicked=="FirstCLK" or clicked=="DRAG" then
             --step_size=(rect_w/(element_storage["Stop"]+1-element_storage["Start"])/(element_storage["Step"]))
@@ -5323,12 +5336,12 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
               end
             end
           end
-          reagirl.Gui_ForceRefresh()
+          refresh=true
         end
-      elseif slider_x2<0 and slider_x2>=-15 and mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] reagirl.Gui_ForceRefresh()
+      elseif slider_x2<0 and slider_x2>=-15 and mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] refresh=true
       elseif slider_x2>element_storage["slider_w"] and mouse_cap==1 then 
         element_storage["CurValue"]=element_storage["Stop"] 
-        reagirl.Gui_ForceRefresh()
+        refresh=true
       end
       if math.type(element_storage["Step"])=="integer" and math.type(element_storage["Start"])=="integer" and math.type(element_storage["Stop"])=="integer" then
         element_storage["CurValue"]=math.floor(element_storage["CurValue"])
@@ -5337,7 +5350,9 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   end
   if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
   if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] end
-  return element_storage["CurValue"], false
+  
+  if refresh==true then reagirl.Gui_ForceRefresh() end
+  return element_storage["CurValue"], refresh
 end
 
 
@@ -5487,7 +5502,7 @@ function UpdateUI()
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
   --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
-  --F = reagirl.Slider_Add(nil, nil, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
+  F = reagirl.Slider_Add(nil, nil, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
@@ -5503,7 +5518,7 @@ function UpdateUI()
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
 
---  BT1=reagirl.Button_Add(920, 400, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
+  BT1=reagirl.Button_Add(920, 400, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
 --  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
   --BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
