@@ -1484,7 +1484,9 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
           reagirl.oldselection=i
           if reaper.JS_Mouse_SetPosition~=nil then 
             --reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
-            reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+            if gfx.mouse_x<=x2 or gfx.mouse_x>=x2+w2 or gfx.mouse_y<=y2 or gfx.mouse_y>=y2+h2 then
+              reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+            end
           end
         end
       end
