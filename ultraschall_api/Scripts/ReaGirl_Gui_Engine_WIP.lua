@@ -2366,11 +2366,11 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
       or Key==32 then
       if reagirl.Elements[element_id]["checked"]==true then 
         reagirl.Elements[element_id]["checked"]=false 
-        element_storage["run_function"](element_id, reagirl.Elements[element_id]["checked"])
+        if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], reagirl.Elements[element_id]["checked"]) end
         refresh=true
       else 
         reagirl.Elements[element_id]["checked"]=true 
-        element_storage["run_function"](element_id, reagirl.Elements[element_id]["checked"])
+        if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"], reagirl.Elements[element_id]["checked"]) end
         refresh=true
       end
     end
@@ -2977,7 +2977,7 @@ function reagirl.Button_Manage(element_id, selected, hovered, clicked, mouse_cap
     end
   end
   if oldpressed==true and element_storage["pressed"]==false and (mouse_cap&1==0 and Key~=32) then
-    element_storage["run_function"](element_storage["Guid"])
+    if element_storage["run_function"]~=nil then element_storage["run_function"](element_storage["Guid"]) end
   end
 
   return message, oldpressed~=element_storage["pressed"]
@@ -3276,19 +3276,22 @@ end
 
 function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if w<50 then w=50 end
+  local refresh=false
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.Scroll_Override=true
     if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
       if mouse_attributes[5]<0 then element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]+1 refresh=true end
       if mouse_attributes[5]>0 then element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]-1 refresh=true end
-      if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 end
-      if element_storage["menuSelectedItem"]>element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] end
+      
+      if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 refresh=false end
+      if element_storage["menuSelectedItem"]>element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] refresh=false end
+      if refresh==true and element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], selection, element_storage["MenuEntries"][selection]) end
     end
   end
   local Entries=""
   local collapsed=""
   local Default, insert
-  local refresh=false
+
   for i=1, #element_storage["MenuEntries"] do
     if i==element_storage["menuSelectedItem"] then insert="!" else insert="" end
     Entries=Entries..insert..element_storage["MenuEntries"][i].."|"
@@ -3304,12 +3307,12 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       --selection=-1
       if selection>0 then
         reagirl.Elements[element_id]["menuSelectedItem"]=math.tointeger(selection)
-        reagirl.Elements[element_id]["run_function"](element_id, selection, element_storage["MenuEntries"][selection])
+        if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], selection, element_storage["MenuEntries"][selection]) end
         reagirl.Elements[element_id]["Text"]=element_storage["MenuEntries"][math.tointeger(selection)]
         refresh=true
       end
       element_storage["pressed"]=false
-      reagirl.Gui_ForceRefresh()
+      --reagirl.Gui_ForceRefresh()
     --end
   end
   if element_storage["selected_old"]~=selected then
@@ -3335,6 +3338,8 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       element_storage["pressed"]=false
     end
   end
+  
+  if refresh==true then reagirl.Gui_ForceRefresh() end
 
   return element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "..collapsed, refresh
 end
@@ -3771,7 +3776,7 @@ function reagirl.Label_Manage(element_id, selected, hovered, clicked, mouse_cap,
     if selection==1 then reaper.CF_SetClipboard(name) end
   end
   if element_storage["clickable"]==true and (Key==13 or gfx.mouse_cap&1==1) and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    element_storage["run_function"](element_storage["Guid"])
+    if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"]) end
   end
   return " ", false
 end
@@ -5175,9 +5180,9 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
     Reaper=7
     Lua=5.3
   </requires>
-  <functioncall>string checkbox_guid = reagirl.Slider_Add(integer x, integer y, integer w_margin, integer h_margin, string caption, string meaningOfUI_Element, function run_function)</functioncall>
+  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, string meaningOfUI_Element, function run_function)</functioncall>
   <description>
-    Adds a checkbox to a gui.
+    Adds a slider to a gui.
     
     You can autoposition the checkbox by setting x and/or y to nil, which will position the new checkbox after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
@@ -5305,12 +5310,12 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
     
     
     if Key~=0 then
-      refresh=true
+      --refresh=true
     end
     if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-      reagirl.Scroll_Override=true
-      if mouse_attributes[5]<0 or mouse_attributes[6]>0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] end
-      if mouse_attributes[5]>0 or mouse_attributes[6]<0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] end
+      --reagirl.Scroll_Override=true
+      --if mouse_attributes[5]<0 or mouse_attributes[6]>0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] end
+      --if mouse_attributes[5]>0 or mouse_attributes[6]<0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] end
       slider_x=x+element_storage["cap_w"]
       slider_x2=x+element_storage["cap_w"]+element_storage["slider_w"]
       rect_w=slider_x2-slider_x
@@ -5345,8 +5350,9 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
                 old=i
               end
             end
+            refresh=true
           end
-          refresh=true
+          
         end
       elseif slider_x2<0 and slider_x2>=-15 and mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] refresh=true
       elseif slider_x2>element_storage["slider_w"] and mouse_cap==1 then 
@@ -5361,7 +5367,12 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["CurValue"]<element_storage["Start"] then element_storage["CurValue"]=element_storage["Start"] end
   if element_storage["CurValue"]>element_storage["Stop"] then element_storage["CurValue"]=element_storage["Stop"] end
   
-  if refresh==true then reagirl.Gui_ForceRefresh() end
+  if refresh==true then 
+    reagirl.Gui_ForceRefresh() 
+    if element_storage["run_function"]~=nil then 
+      element_storage["run_function"](element_storage["Guid"]) 
+    end
+  end
   return element_storage["CurValue"], refresh
 end
 
@@ -5467,7 +5478,7 @@ function label_click(element_id)
 end
 
 function sliderme(element_id)
-  print2("slider")
+  print("slider"..element_id..reaper.time_precise())
 end
 
 function UpdateUI()
@@ -5485,7 +5496,7 @@ function UpdateUI()
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
   ABBA=reagirl.Label_GetLabelText(LAB)
   reagirl.NextLine()
-  A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, CheckMe)
+  A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, sliderme)
   reagirl.Checkbox_SetTopBottom(A, false, true)
   reagirl.NextLine()
   A1 = reagirl.CheckBox_Add(nil, nil, "People on Streets", "People on Streets TUDELU", true, CheckMe)
@@ -5502,14 +5513,14 @@ function UpdateUI()
 
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
   reagirl.NextLine()
-  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", UpdateImage2)
+  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
-  E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, DropDownList)
+  E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
   --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
   F = reagirl.Slider_Add(nil, nil, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
@@ -5536,7 +5547,7 @@ function UpdateUI()
   --BBB=reagirl.Button_Add(720, 770, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
-  --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
+  BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", sliderme)
   reagirl.NextLine()
   
   reagirl.NextLine()
