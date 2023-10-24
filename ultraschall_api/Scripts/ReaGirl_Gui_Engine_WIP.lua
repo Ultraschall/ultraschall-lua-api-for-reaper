@@ -1180,13 +1180,15 @@ function reagirl.Gui_Manage()
   --Debug Code - move ui-elements via arrow keys, including stopping when end of ui-elements has been reached.
   -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
   -- see reagirl.UI_Elements_Boundaries() for the calculation of it and more information
-  if reagirl.Scroll_Override~=true then
+  if reagirl.Scroll_Override_MouseWheel~=true then
     if gfx.mouse_hwheel~=0 then reagirl.UI_Element_ScrollX(-gfx.mouse_hwheel/50) end
     if gfx.mouse_wheel~=0 then reagirl.UI_Element_ScrollY(gfx.mouse_wheel/50) end
   end
+  reagirl.Scroll_Override_MouseWheel=nil
   if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit" and reagirl.Elements[reagirl.Elements["FocusedElement"]].GUI_Element_Type~="Edit Multiline" then
   -- scroll via keys
     if reagirl.Scroll_Override~=true then
+      --print_alt(reaper.time_precise(), tostring(reagirl.Scroll_Override))
       if gfx.mouse_cap&8==0 and Key==30064 then reagirl.UI_Element_ScrollY(2) end -- up
       if gfx.mouse_cap&8==0 and Key==1685026670 then reagirl.UI_Element_ScrollY(-2) end --down
       if Key==1818584692.0 then reagirl.UI_Element_ScrollX(-2) end -- left
@@ -1352,12 +1354,12 @@ function reagirl.Gui_Manage()
     --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
     -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
     --                   but seems to work without it as well
-    if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+    if i==reagirl.Elements["FocusedElement"] or ((((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
     or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
     or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
     and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
     or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
-    or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4
+    or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4)
     then--]]  
       -- run manage-function of ui-element
       local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
@@ -3278,7 +3280,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   if w<50 then w=50 end
   local refresh=false
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    reagirl.Scroll_Override=true
+    reagirl.Scroll_Override_MouseWheel=true
     if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
       if mouse_attributes[5]<0 then element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]+1 refresh=true end
       if mouse_attributes[5]>0 then element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]-1 refresh=true end
@@ -3298,6 +3300,9 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   end
   
   if w<20 then w=20 end
+  if selected==true then
+    reagirl.Scroll_Override=true
+  end
   
   if element_storage["pressed"]==true then
     --if (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32 or Key==1685026670 or Key==30064 then
@@ -3307,10 +3312,9 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       --selection=-1
       if selection>0 then
         reagirl.Elements[element_id]["menuSelectedItem"]=math.tointeger(selection)
-        if element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], selection, element_storage["MenuEntries"][selection]) end
         reagirl.Elements[element_id]["Text"]=element_storage["MenuEntries"][math.tointeger(selection)]
-        refresh=true
       end
+      refresh=true
       element_storage["pressed"]=false
       --reagirl.Gui_ForceRefresh()
     --end
@@ -3323,23 +3327,47 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     if Key==32 or Key==13 then 
       element_storage["pressed"]=true
       collapsed=""
+      refresh=true
     elseif Key==1685026670 then
       element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]+1
-      if element_storage["menuSelectedItem"]>=element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] end
+      refresh=true
+      if element_storage["menuSelectedItem"]>element_storage["MenuCount"] then refresh=false element_storage["menuSelectedItem"]=element_storage["MenuCount"] end
       collapsed=""
+      reagirl.Scroll_Override=true
+      reagirl.Scroll_Override_MouseWheel=true
     elseif Key==30064 then 
       element_storage["menuSelectedItem"]=element_storage["menuSelectedItem"]-1
-      if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 end
+      refresh=true
+      if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 refresh=false end
       collapsed=""
+      reagirl.Scroll_Override=true
+    elseif Key==1752132965.0 then -- home
+      if element_storage["menuSelectedItem"]~=element_storage["MenuCount"] then
+        reagirl.Scroll_Override=true
+        element_storage["menuSelectedItem"]=1 
+        refresh=true
+      end
+    elseif Key==6647396.0 then -- end
+      if element_storage["menuSelectedItem"]~=element_storage["MenuCount"] then
+        reagirl.Scroll_Override=true
+        element_storage["menuSelectedItem"]=element_storage["MenuCount"] 
+        refresh=true
+      end
     elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
       element_storage["pressed"]=true
       collapsed=""
+      refresh=true
     else
       element_storage["pressed"]=false
     end
   end
   
-  if refresh==true then reagirl.Gui_ForceRefresh() end
+  if refresh==true then 
+    reagirl.Gui_ForceRefresh()
+    if element_storage["run_function"]~=nil then 
+      reagirl.Elements[element_id]["run_function"](element_storage["Guid"], selection, element_storage["MenuEntries"][selection]) 
+    end
+  end
 
   return element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "..collapsed, refresh
 end
@@ -5292,19 +5320,20 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   element_storage["slider_w"]=math.tointeger(w-element_storage["cap_w"]-element_storage["unit_w"]-10)
   local dpi_scale=reagirl.Window_GetCurrentScale()
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
-    reagirl.Scroll_Override=true
+    reagirl.Scroll_Override_MouseWheel=true
     if reagirl.MoveItAllRight_Delta==0 and reagirl.MoveItAllUp_Delta==0 then
       if mouse_attributes[5]<0 or mouse_attributes[6]>0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] refresh=true end
       if mouse_attributes[5]>0 or mouse_attributes[6]<0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] refresh=true end
     end
   end
   if selected==true then
-    if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] end
-    if Key==1818584692.0 or Key==30064.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] end
-    if Key==1752132965.0 then element_storage["CurValue"]=element_storage["Start"] end
-    if Key==6647396.0 then element_storage["CurValue"]=element_storage["Stop"] end
-    if Key==1885824110.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*(element_storage["Step"]*10) end
-    if Key==1885828464.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*(element_storage["Step"]*10) end
+    reagirl.Scroll_Override=true
+    if Key==1919379572.0 or Key==1685026670.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"] refresh=true reagirl.Scroll_Override=true end
+    if Key==1818584692.0 or Key==30064.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"] refresh=true reagirl.Scroll_Override=true end
+    if Key==1752132965.0 then element_storage["CurValue"]=element_storage["Start"] refresh=true reagirl.Scroll_Override=true end
+    if Key==6647396.0 then element_storage["CurValue"]=element_storage["Stop"] refresh=true reagirl.Scroll_Override=true end
+    if Key==1885824110.0 then element_storage["CurValue"]=element_storage["CurValue"]+element_storage["Step"]*5 refresh=true reagirl.Scroll_Override=true end
+    if Key==1885828464.0 then element_storage["CurValue"]=element_storage["CurValue"]-element_storage["Step"]*5 refresh=true reagirl.Scroll_Override=true end
     
     --if Key~=0 then ABBA3=Key end
     
