@@ -2381,6 +2381,7 @@ function reagirl.Checkbox_Manage(element_id, selected, hovered, clicked, mouse_c
       end
     end
   end
+  if refresh==true then reagirl.Gui_ForceRefresh() end
   if reagirl.Elements[element_id]["checked"]==true then
     return "checked. ", refresh
   else
@@ -5496,7 +5497,7 @@ function DebugRect()
 end
 
 function CheckMe(tudelu, checkstate)
-  reagirl.UI_Element_SetFocused(LAB)
+  --reagirl.UI_Element_SetFocused(LAB)
   --print2(tudelu, checkstate)
   if checkstate==false then
     --reagirl.Window_SetCurrentScale(1)
@@ -5571,6 +5572,8 @@ function UpdateUI()
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
   ABBA=reagirl.Label_GetLabelText(LAB)
   reagirl.NextLine()
+  A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, sliderme)
+  reagirl.Checkbox_SetTopBottom(A, false, true)
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, sliderme)
   reagirl.Checkbox_SetTopBottom(A, false, true)
   reagirl.NextLine()
