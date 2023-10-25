@@ -2347,7 +2347,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
   reagirl.Elements[slot]["AccHint"]="Change checkstate with space or left mouse-click."
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
+  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)+6
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
@@ -2569,7 +2569,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   
   gfx.set(0.3)
-  gfx.x=x+h+3+6
+  gfx.x=x+h+3+12
   gfx.y=y+1+offset
   gfx.drawstr(name)
   if element_storage["IsDecorative"]==false then
@@ -2577,7 +2577,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   else
     gfx.set(0.5)
   end
-  gfx.x=x+h+2+6
+  gfx.x=x+h+2+12
   gfx.y=y+2+offset
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -2710,7 +2710,7 @@ function reagirl.NextLine()
       end
     end
   else
-    reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+5
+    reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY
   end
   reagirl.UI_Element_NextLineX=reagirl.UI_Element_NextX_Default
 end
@@ -3249,6 +3249,10 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuIte
     end
   end  
   
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  local tx1, ty1 =gfx.measurestr(caption)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  
   table.insert(reagirl.Elements, slot, {})
   reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
   reagirl.Elements[slot]["GUI_Element_Type"]="ComboBox"
@@ -3257,6 +3261,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuIte
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["AccHint"]="Select via arrow-keys."
+  reagirl.Elements[slot]["cap_w"]=math.tointeger(tx1)+5
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=w
@@ -3281,6 +3286,7 @@ end
 
 
 function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  local cap_w=element_storage["cap_w"]*reagirl.Window_GetCurrentScale()
   if w<50 then w=50 end
   local refresh=false
   if gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
@@ -3310,7 +3316,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   
   if element_storage["pressed"]==true then
     --if (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) or Key==32 or Key==1685026670 or Key==30064 then
-      gfx.x=x
+      gfx.x=x+cap_w
       gfx.y=y+h--*scale
       local selection=gfx.showmenu(Entries:sub(1,-2))
       --selection=-1
@@ -3357,7 +3363,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
         element_storage["menuSelectedItem"]=element_storage["MenuCount"] 
         refresh=true
       end
-    elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
+    elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
       element_storage["pressed"]=true
       collapsed=""
       refresh=true
@@ -3377,15 +3383,16 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
 end
 
 function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  if w<50 then w=50 end
+  local cap_w=element_storage["cap_w"]*reagirl.Window_GetCurrentScale()
+  if w-cap_w<50 then w=50+cap_w end
   local offset=gfx.measurestr(name.." ")
-  gfx.x=x
+  gfx.x=x+cap_w
   gfx.y=y
   local menuentry=element_storage["MenuEntries"][element_storage["menuSelectedItem"]]
   
   x=x+1
   y=y+1
-  gfx.x=x
+  gfx.x=x+cap_w
   gfx.y=y
   w=w-5
   h=h-5
@@ -3396,25 +3403,30 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   local sw,sh=gfx.measurestr(menuentry)
   local scale=1
   local dpi_scale=reagirl.Window_CurrentScale
+  offset=1+math.floor(dpi_scale)
+  gfx.x=x
+  gfx.y=y+(h-sh)/2+offset-1
+  gfx.drawstr(element_storage["Name"])
+  
   if reagirl.Elements[element_id]["pressed"]==true then
     state=1*dpi_scale-1
     
-    offset=1+math.floor(dpi_scale)
+    
     if offset==0 then offset=1 end
 
     gfx.set(0.274) -- background 2
-    reagirl.RoundRect((x + offset+1)*scale, (y + offset +1- 1) * scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+(x + offset+1)*scale, (y + offset +1- 1) * scale, w-cap_w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1 + offset) * scale, (y + offset) * scale, w-scale, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+(x + 1 + offset) * scale, (y + offset) * scale, w-scale-cap_w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.39)
     local circ=4
     gfx.circle(x+w+offset-h/2, (y+offset+h)-dpi_scale-h/2, circ*dpi_scale, 1, 0)
-    gfx.rect(x+w-h+offset+1*(dpi_scale-1), y+offset+2+1*(dpi_scale-2), dpi_scale, h-dpi_scale, 1)
+    gfx.rect(cap_w+x+w-h+offset+1*(dpi_scale-1), y+offset+2+1*(dpi_scale-2), dpi_scale-cap_w, h-dpi_scale, 1)
     
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+7+offset
+      gfx.x=x+7+offset+cap_w
     
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       gfx.y=y+(h-sh)/2+1+offset
@@ -3427,13 +3439,13 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     
     gfx.set(0.06) -- background 1
     gfx.set(0.06) -- background 1
-    reagirl.RoundRect((x)*scale, (y)*scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x*scale, (y)*scale, w-cap_w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.39) -- background 2
-    reagirl.RoundRect(x*scale, (y - 1) * scale, w, h, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+x*scale, (y - 1) * scale, w-cap_w, h, radius * dpi_scale, 1, 1)
     
     gfx.set(0.274) -- button-area
-    reagirl.RoundRect((x + 1) * scale, (y) * scale, w-scale, h-1, radius * dpi_scale, 1, 1)
+    reagirl.RoundRect(cap_w+(x + 1) * scale, (y) * scale, w-scale-cap_w, h-1, radius * dpi_scale, 1, 1)
     
     gfx.set(0.39)
     local circ=4
@@ -3442,7 +3454,7 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     
     local offset=0
     if element_storage["IsDecorative"]==false then
-      gfx.x=x+7+offset--+(w-sw)/2+1
+      gfx.x=x+7+offset+cap_w--+(w-sw)/2+1
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       --gfx.y=(y*scale)+(h-element_storage["h"])/2+offset
       gfx.y=y+(h-sh)/2+offset
@@ -3451,12 +3463,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
     else
       if reaper.GetOS():match("OS")~=nil then offset=1 end
       
-      gfx.x=x+7+offset--+(w-sw)/2+1
+      gfx.x=x+7+offset+cap_w--+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+1+offset-1
       gfx.set(0.39)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
       
-      gfx.x=x+7+offset--+(w-sw)/2+1
+      gfx.x=x+7+offset+cap_w--+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+1+offset
       gfx.set(0.06)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
@@ -5471,8 +5483,9 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.set(0.2725490196078431)
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 6*dpi_scale, 1, 1)
   
-  gfx.set(0.584)
-  gfx.set(1)
+  --gfx.set(0.584)
+  gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+--  gfx.set(1)
   --gfx.set(0.9843137254901961, 0.8156862745098039, 0)
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
 end
@@ -5564,6 +5577,7 @@ function UpdateUI()
   A1 = reagirl.CheckBox_Add(nil, nil, "People on Streets", "People on Streets TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A1, true, true)
   reagirl.NextLine()
+  reagirl.NextLine()
   --A2= reagirl.CheckBox_Add(1300, nil, "De de dep", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A2, true, false)
   A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "AAC TUDELU", true, CheckMe)
@@ -5582,7 +5596,7 @@ function UpdateUI()
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
-  --E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
+  E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
   --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
   F = reagirl.Slider_Add(nil, nil, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
