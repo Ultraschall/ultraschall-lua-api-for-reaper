@@ -5388,7 +5388,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       rect_w=slider_x2-slider_x
 
       slider=x--+element_storage["cap_w"]
-      slider_x2=(gfx.mouse_x-slider_x) -- here you need to add an offset for higher scalings...but how?
+      slider_x2=(gfx.mouse_x-slider_x-10) -- here you need to add an offset for higher scalings...but how?
       --[[
       -- debug rectangle(see end of Gui_Draw for the function)
       dx=gfx.mouse_x-slider_x
@@ -5610,7 +5610,7 @@ function UpdateUI()
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
   --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
-  F = reagirl.Slider_Add(nil, nil, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
+  F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
