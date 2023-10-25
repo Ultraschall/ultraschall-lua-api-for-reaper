@@ -1105,6 +1105,7 @@ function reagirl.Gui_Close()
 ]]
   gfx.quit()
   reagirl.IsWindowOpen_attribute=false
+  reagirl.IsWindowOpen_attribute_Old=true
 end
 
 
@@ -1175,7 +1176,6 @@ function reagirl.Gui_Manage()
   
   -- [[ Keyboard Management ]]
   local Key, Key_utf=gfx.getchar()
-  if Key==-1 then reagirl.IsWindowOpen_attribute=false return end -- if window is closed, reset opened-window-attribute
   
   --Debug Code - move ui-elements via arrow keys, including stopping when end of ui-elements has been reached.
   -- This can be used to build more extensive scrollcode, including smooth scroll and scrollbars
@@ -1206,13 +1206,21 @@ function reagirl.Gui_Manage()
   reagirl.UI_Element_SmoothScroll(1)
   -- End of Debug
   
+  if Key==-1 then reagirl.IsWindowOpen_attribute_Old=true reagirl.IsWindowOpen_attribute=false end
+
   if Key==27 then 
     reagirl.Gui_Close() 
-    if reagirl.AtExit_RunFunc~=nil then reagirl.AtExit_RunFunc() end
+    --if reagirl.AtExit_RunFunc~=nil then reagirl.AtExit_RunFunc() end
   else 
     reagirl.Window_ForceMinSize() 
     reagirl.Window_ForceMaxSize() 
   end -- esc closes window
+  -- run atexit-function when window gets closed by the close button
+  
+  if reagirl.IsWindowOpen_attribute_Old==true and reagirl.IsWindowOpen_attribute==false then
+    reagirl.IsWindowOpen_attribute_Old=false
+    if reagirl.AtExit_RunFunc~=nil then reagirl.AtExit_RunFunc() end
+  end
   if Key==26161 and reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[reagirl.Elements["FocusedElement"]]["Description"],1) end -- F1 help message for osara
   
   -- if mouse has been moved, reset wait-counter for displaying tooltip
@@ -5550,7 +5558,7 @@ function input2()
 end
 
 function label_click(element_id)
-  print2(1,element_id)
+  print2(1, element_id)
 end
 
 function sliderme(element_id)
