@@ -10,6 +10,10 @@ TODO:
   - Slider: unit must be limited to 3 digits, rounded properly
   - Slider: doubleclick on the edges doesn't revert to default-value
   - Slider disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
+  - Slider: disabled-state not added(make the yellow circle a black one and darken down the caption/unit
+  - DropDownMenu: Caption not darken when disabled
+  - DropDownMenu: selected text not readable when disabled
+  - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
 --]]
 --XX,YY=reaper.GetMousePosition()
 --gfx.ext_retina = 0
@@ -19,10 +23,16 @@ reagirl.MoveItAllUp=0
 reagirl.MoveItAllRight=0
 reagirl.MoveItAllRight_Delta=0
 reagirl.MoveItAllUp_Delta=0
-reagirl.UI_Element_NextLineY=0
-reagirl.UI_Element_NextLineX=10
+-- margin between ui-elements
+reagirl.UI_Element_NextX_Margin=10
+reagirl.UI_Element_NextY_Margin=1
+
+-- offset for first ui-element
 reagirl.UI_Element_NextX_Default=10
 reagirl.UI_Element_NextY_Default=10
+
+reagirl.UI_Element_NextLineY=0 -- don't change
+reagirl.UI_Element_NextLineX=10 -- don't change
 reagirl.Font_Size=16
 
 reagirl.OSARA=reaper.osara_outputMessage
@@ -2326,7 +2336,7 @@ function reagirl.CheckBox_Add(x, y, caption, meaningOfUI_Element, default, run_f
         if reagirl.Elements[i]["IsDecorative"]==false then
           local w2=reagirl.Elements[i]["w"]
           --print2(reagirl.Elements[i]["h"], w2)
-          x=reagirl.Elements[i]["x"]+w2+10
+          x=reagirl.Elements[i]["x"]+w2+reagirl.UI_Element_NextX_Margin
           break
         end
       end
@@ -2578,7 +2588,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   end
   
   gfx.set(0.3)
-  gfx.x=x+h+3+12
+  gfx.x=x+h+3+6--+12
   gfx.y=y+1+offset
   gfx.drawstr(name)
   if element_storage["IsDecorative"]==false then
@@ -2586,7 +2596,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   else
     gfx.set(0.5)
   end
-  gfx.x=x+h+2+12
+  gfx.x=x+h+2+6--+12
   gfx.y=y+2+offset
   gfx.drawstr(name)
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
@@ -2714,12 +2724,12 @@ function reagirl.NextLine()
         local x2, y2, w2, h2
         if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]) else y2=reagirl.Elements[i]["y"] end
         if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]) else h2=reagirl.Elements[i]["h"] end
-        reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+h2+1
+        reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+h2+1+reagirl.UI_Element_NextY_Margin
         break
       end
     end
   else
-    reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY
+    reagirl.UI_Element_NextLineY=reagirl.UI_Element_NextLineY+reagirl.UI_Element_NextY_Margin
   end
   reagirl.UI_Element_NextLineX=reagirl.UI_Element_NextX_Default
 end
@@ -2774,7 +2784,7 @@ function reagirl.Button_Add(x, y, w_margin, h_margin, caption, meaningOfUI_Eleme
     elseif slot-1>0 then
       for i=slot-1, 1, -1 do
         if reagirl.Elements[i]["IsDecorative"]==false then
-          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+10
+          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+reagirl.UI_Element_NextX_Margin
           break
         end
       end
@@ -3243,7 +3253,7 @@ function reagirl.DropDownMenu_Add(x, y, w, caption, meaningOfUI_Element, menuIte
     elseif slot-1>0 then
       for i=slot-1, 1, -1 do
         if reagirl.Elements[i]["IsDecorative"]==false then
-          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+10
+          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+reagirl.UI_Element_NextX_Margin
           break
         end
       end
@@ -3775,7 +3785,7 @@ function reagirl.Label_Add(x, y, label, meaningOfUI_Element, align, clickable, r
     if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextLineX
     elseif slot-1>0 then
-      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+reagirl.UI_Element_NextX_Margin
     end
   end
   
@@ -4215,7 +4225,7 @@ function reagirl.Image_Add(image_filename, x, y, w, h, name, meaningOfUI_Element
     elseif slot-1>0 then
       for i=slot-1, 1, -1 do
         if reagirl.Elements[i]["IsDecorative"]==false then
-          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+10
+          x=reagirl.Elements[i]["x"]+reagirl.Elements[i]["w"]+reagirl.UI_Element_NextX_Margin
           break
         end
       end
@@ -5280,12 +5290,12 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
     if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
       x=reagirl.UI_Element_NextLineX
     elseif slot-1>0 then
-      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]+10
+      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]
       for i=slot-1, 1, -1 do
         if reagirl.Elements[i]["IsDecorative"]==false then
           local w2=reagirl.Elements[i]["w"]
           --print2(reagirl.Elements[i]["h"], w2)
-          x=reagirl.Elements[i]["x"]+w2+10
+          x=reagirl.Elements[i]["x"]+w2+reagirl.UI_Element_NextX_Margin
           break
         end
       end
@@ -5499,6 +5509,65 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
 end
 
+function reagirl.NextLine_SetMargin(x_margin, y_margin)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>NextLine_SetMargin</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>reagirl.NextLine_SetMargin(optional integer x_margin, optional integer y_margin)</functioncall>
+  <description>
+    Set the margin between ui-elements when using autopositioning.
+    
+    This way, you can set the spaces between ui-elements and lines higher or lower.
+  </description>
+  <parameters>
+    optional integer x_margin - the margin between ui-elements on the same line
+    optional integer y_margin - the margin between ui-elements between lines(as set by reagirl.NextLine())
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <tags>ui-elements, set, next line, margin</tags>
+</US_DocBloc>
+--]]
+  if x_margin~=nil and math.type(x_margin)~="integer" then error("NextLine_SetMargin: param #1 - must be either nil or an integer", 2) end
+  if y_margin~=nil and math.type(y_margin)~="integer" then error("NextLine_SetMargin: param #2 - must be either nil or an integer", 2) end
+  if x_margin<0 then error("NextLine_SetMargin: param #1 - must be bigger than or equal 0", 2) end
+  if y_margin<0 then error("NextLine_SetMargin: param #2 - must be bigger than or equal 0", 2) end
+  if x_margin~=nil then reagirl.UI_Element_NextX_Margin=x_margin end
+  if y_margin~=nil then reagirl.UI_Element_NextY_Margin=y_margin end
+end
+
+function reagirl.NextLine_GetMargin()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>NextLine_GetMargin</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.3
+  </requires>
+  <functioncall>integer x_margin, integer y_margin = reagirl.NextLine_GetMargin()</functioncall>
+  <description>
+    Gets the margin between ui-elements when using autopositioning.
+  </description>
+  <retvals>
+    optional integer x_margin - the margin between ui-elements on the same line
+    optional integer y_margin - the margin between ui-elements between lines(as set by reagirl.NextLine())
+  </retvals>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <tags>ui-elements, get, next line, margin</tags>
+</US_DocBloc>
+--]]
+  return reagirl.UI_Element_NextX_Margin, reagirl.UI_Element_NextY_Margin
+end
+
 function DebugRect()
   gfx.set(1,0,0)
   gfx.rect(dx,dy,dw,dh)
@@ -5578,7 +5647,6 @@ function UpdateUI()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
-  ABBA=reagirl.Label_GetLabelText(LAB)
   reagirl.NextLine()
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, sliderme)
   reagirl.Checkbox_SetTopBottom(A, false, true)
@@ -5588,23 +5656,24 @@ function UpdateUI()
   A1 = reagirl.CheckBox_Add(nil, nil, "People on Streets", "People on Streets TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A1, true, true)
   reagirl.NextLine()
-  reagirl.NextLine()
   --A2= reagirl.CheckBox_Add(1300, nil, "De de dep", "Export file as MP3", true, CheckMe)
   --reagirl.Checkbox_SetTopBottom(A2, true, false)
   A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "AAC TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A3, true, false)
-  reagirl.NextLine()
   
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
-
+  xxx,yyy=reagirl.NextLine_GetMargin()
+reagirl.NextLine_SetMargin(xxx+100, yyy+100)
   --reagirl.FileDropZone_Add(-230,175,100,100, GetFileList)
   reagirl.NextLine()
+  B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
+  --reagirl.NextLine_SetMargin(10, 100)
   reagirl.NextLine()
   --A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "Export file as MP3", true, CheckMe)
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
@@ -5635,8 +5704,6 @@ function UpdateUI()
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", sliderme)
-  reagirl.NextLine()
-  
   reagirl.NextLine()
   
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Delete", "Description of the button", click_button)
