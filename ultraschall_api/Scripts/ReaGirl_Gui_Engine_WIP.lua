@@ -2495,7 +2495,7 @@ function reagirl.Checkbox_SetTopBottom(element_id, top, bottom)
     Sets a checkbox's top and bottom edges.
   </description>
   <parameters>
-    string element_id - the guid of the button, whose rounded edges-state you want to set
+    string element_id - the guid of the checkbox, whose rounded edges-state you want to set
     boolean top - true, the top of the checkbox is rounded; false, top of the checkbox is square.
     boolean bottom - true, the bottom of the checkbox is square; false, bottom of the checkbox is rounded.
   </parameters>
@@ -5596,6 +5596,114 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
 end
 
+function reagirl.Slider_SetValue(element_id, value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_SetValue</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_SetValue(string element_id, number value)</functioncall>
+  <description>
+    Sets the current value of the slider.
+    
+    Will not check, whether it is a valid value settable using the stepsize!
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose value you want to set
+    number value - the new value of the slider
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, set, value</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_SetValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetValue: param #1 - must be a valid guid", 2) end
+  if type(value)~="number" then error("Slider_SetValue: param #2 - must be a number", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_SetValue: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_SetValue: param #1 - ui-element is not a slider", 2)
+  else
+    if value<reagirl.Elements[element_id]["Start"] or value>reagirl.Elements[element_id]["Stop"] then
+      error("Slider_SetValue: param #2 - value must be within start and stop of the slider", 2)
+    end
+    reagirl.Elements[element_id]["CurValue"]=value
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Slider_GetValue(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_GetValue</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>number value = reagirl.Slider_GetValue(string element_id)</functioncall>
+  <description>
+    Gets the current set value of the slider.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose current value you want to get
+  </parameters>
+  <retvals>
+    number value - the current value set in the slider
+  </retvals>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>slider, get, value</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_GetValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetValue: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_GetValue: param #1 - ui-element is not a slider", 2)
+  else
+    return reagirl.Elements[element_id]["CurValue"]
+  end
+end
+
+function reagirl.Slider_ResetToDefaultValue(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_ResetToDefaultValue</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_ResetToDefaultValue(string element_id)</functioncall>
+  <description>
+    Resets the current set value of the slider to the default one.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose current value you want to reset to default
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>slider, reset, value, default</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_ResetToDefaultValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_ResetToDefaultValue: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_ResetToDefaultValue: param #1 - ui-element is not a slider", 2)
+  else
+    reagirl.Elements[element_id]["CurValue"]=reagirl.Elements[element_id]["Default"]
+  end
+end
+
 function reagirl.NextLine_SetMargin(x_margin, y_margin)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -5666,6 +5774,8 @@ function CheckMe(tudelu, checkstate)
   if checkstate==false then
     --reagirl.Window_SetCurrentScale(1)
     reagirl.Button_SetDisabled(BBB, true)
+    --reagirl.Slider_SetValue(F, 12)
+    reagirl.Slider_ResetToDefaultValue(F)
   else
     --reagirl.Window_SetCurrentScale()
     reagirl.Button_SetDisabled(BBB, false)
@@ -5718,7 +5828,7 @@ function label_click(element_id)
 end
 
 function sliderme(element_id, val)
-  print("slider"..element_id..reaper.time_precise(), val)
+  print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
 end
 
 function UpdateUI()
@@ -5738,7 +5848,7 @@ function UpdateUI()
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
   reagirl.NextLine()
-  A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, sliderme)
+  A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A, false, true)
   A = reagirl.CheckBox_Add(nil, nil, "Under Pressure", "Under Pressure TUDELU", true, sliderme)
   reagirl.Checkbox_SetTopBottom(A, false, true)
