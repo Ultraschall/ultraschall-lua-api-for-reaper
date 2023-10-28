@@ -1,18 +1,12 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-
-
-
-
 --[[
 TODO: 
   - jumping to ui-elements outside window(means autoscroll to them) doesn't always work
     - ui-elements might still be out of view when jumping to them(x-coordinate outside of window for instance)
   - Slider: unit must be limited to 3 digits, rounded properly
   - Slider: doubleclick on the edges doesn't revert to default-value
-  - Slider disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
-  - Slider: disabled-state not added(make the yellow circle a black one and darken down the caption/unit
-  - DropDownMenu: Caption not darken when disabled
-  - DropDownMenu: selected text not readable when disabled
+  - Slider: disappears when scrolling upwards/leftwards: because of the "only draw neccessary gui-elements"-code, which is buggy for some reason
+  - Slider: draw a line where the default-value shall be
   - reagirl.UI_Element_NextX_Default=10 - changing it only offsets the second line ff, not the first line
 --]]
 --XX,YY=reaper.GetMousePosition()
@@ -5326,28 +5320,37 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, string meaningOfUI_Element, function run_function)</functioncall>
+  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number default, function run_function)</functioncall>
   <description>
     Adds a slider to a gui.
     
-    You can autoposition the checkbox by setting x and/or y to nil, which will position the new checkbox after the last ui-element.
+    You can autoposition the slider by setting x and/or y to nil, which will position the new slider after the last ui-element.
     To autoposition into the next line, use reagirl.NextLine()
+    
+    The caption will be shown before, the unit will be shown after the slider.
+    Note: when setting the unit to nil, no unit and number will be shown at the end of the slider.
+    
+    Also note: when the number of steps is too many to be shown in a narrow slider, step-values may be skipped.
   </description>
   <parameters>
-    optional integer x - the x position of the checkbox in pixels; negative anchors the checkbox to the right window-side; nil, autoposition after the last ui-element(see description)
-    optional integer y - the y position of the checkbox in pixels; negative anchors the checkbox to the bottom window-side; nil, autoposition after the last ui-element(see description)
-    string caption - the caption of the checkbox
+    optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the slider in pixels; negative anchors the slider to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    string caption - the caption of the slider
     string meaningOfUI_Element - a description for accessibility users
-    boolean default - true, set the checkbox checked; false, set the checkbox unchecked
-    function run_function - a function that shall be run when the checkbox is clicked; will get passed over the checkbox-element_id as first and the new checkstate as second parameter
+    optional string unit - the unit shown next to the number the slider is currently set to
+    number start - the minimum value of the slider
+    number stop - the maximum value of the slider
+    number step - the stepsize until the next value within the slider
+    number default - the default value of the slider(also the initial value)
+    function run_function - a function that shall be run when the slider is clicked; will get passed over the slider-element_id as first and the new slider-value as second parameter
   </parameters>
   <retvals>
-    string checkbox_guid - a guid that can be used for altering the checkbox-attributes
+    string checkbox_guid - a guid that can be used for altering the slider-attributes
   </retvals>
   <chapter_context>
-    Checkbox
+    Slider
   </chapter_context>
-  <tags>checkbox, add</tags>
+  <tags>slider, add</tags>
 </US_DocBloc>
 --]]
 
@@ -5486,7 +5489,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       dw=10
       dh=10
       --]]
-      
+      element_storage["TempValue"]=element_storage["CurValue"]      
       if slider_x2>=0 and slider_x2<=element_storage["slider_w"] then
         if clicked=="DBLCLK" then
           element_storage["CurValue"]=element_storage["Default"]
@@ -5507,17 +5510,15 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
                 old=i
               end
             end
-            if element_storage["OldMouseX"]~=gfx.mouse_x or element_storage["OldMouseY"]~=gfx.mouse_y then
-              refresh=true
-            end
             element_storage["OldMouseX"]=gfx.mouse_x
             element_storage["OldMouseY"]=gfx.mouse_y 
           end
-          
         end
-      elseif slider_x2<0 and slider_x2>=-15 and mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] refresh=true
+      elseif slider_x2<0 and slider_x2>=-15 and mouse_cap==1 then element_storage["CurValue"]=element_storage["Start"] 
       elseif slider_x2>element_storage["slider_w"] and mouse_cap==1 then 
         element_storage["CurValue"]=element_storage["Stop"] 
+      end
+      if element_storage["TempValue"]~=element_storage["CurValue"] then --element_storage["OldMouseX"]~=gfx.mouse_x or element_storage["OldMouseY"]~=gfx.mouse_y then
         refresh=true
       end
       if math.type(element_storage["Step"])=="integer" and math.type(element_storage["Start"])=="integer" and math.type(element_storage["Stop"])=="integer" then
@@ -5532,7 +5533,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
   if refresh==true then 
     reagirl.Gui_ForceRefresh() 
     if element_storage["run_function"]~=nil and skip_func~=true then 
-      element_storage["run_function"](element_storage["Guid"]) 
+      element_storage["run_function"](element_storage["Guid"], element_storage["CurValue"]) 
     end
   end
   return element_storage["CurValue"], refresh
@@ -5716,8 +5717,8 @@ function label_click(element_id)
   print2(1, element_id)
 end
 
-function sliderme(element_id)
-  print("slider"..element_id..reaper.time_precise())
+function sliderme(element_id, val)
+  print("slider"..element_id..reaper.time_precise(), val)
 end
 
 function UpdateUI()
