@@ -5657,7 +5657,7 @@ function reagirl.Slider_GetValue(element_id)
     number value - the current value set in the slider
   </retvals>
   <chapter_context>
-    Checkbox
+    Slider
   </chapter_context>
   <tags>slider, get, value</tags>
 </US_DocBloc>
@@ -5669,6 +5669,158 @@ function reagirl.Slider_GetValue(element_id)
     error("Slider_GetValue: param #1 - ui-element is not a slider", 2)
   else
     return reagirl.Elements[element_id]["CurValue"]
+  end
+end
+
+function reagirl.Slider_SetMinimum(element_id, start_value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_SetMinimum</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_SetMinimum(string element_id, number start_value)</functioncall>
+  <description>
+    Sets the minimum value of the slider.
+    
+    If current slider-value is smaller than minimum, the current slider-value will be changed to minimum.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose minimum-value you want to set
+    number start_value - the new minimum value of the slider
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, set, minimum, value</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_SetMinimum: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetMinimum: param #1 - must be a valid guid", 2) end
+  if type(start_value)~="number" then error("Slider_SetMinimum: param #2 - must be a number", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_SetMinimum: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_SetMinimum: param #1 - ui-element is not a slider", 2)
+  else
+    reagirl.Elements[element_id]["Start"]=start_value
+    if reagirl.Elements[element_id]["CurValue"]<start_value then
+      reagirl.Elements[element_id]["CurValue"]=start_value
+    end
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Slider_GetMinimum(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_GetMinimum</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>number min_value = reagirl.Slider_GetMinimum(string element_id)</functioncall>
+  <description>
+    Gets the current set minimum-value of the slider.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose current minimum-value you want to get
+  </parameters>
+  <retvals>
+    number min_value - the current minimum-value set in the slider
+  </retvals>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, get, minimum, value</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_GetMinimum: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetMinimum: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_GetMinimum: param #1 - ui-element is not a slider", 2)
+  else
+    return reagirl.Elements[element_id]["Start"]
+  end
+end
+
+function reagirl.Slider_SetMaximum(element_id, max_value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_SetMaximum</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_SetMaximum(string element_id, number max_value)</functioncall>
+  <description>
+    Sets the maximum value of the slider.
+    
+    If current slider-value is bigger than maximum, the current slider-value will be changed to maximum.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose max-value you want to set
+    number max_value - the new max value of the slider
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, set, maximum, value</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_SetMaximum: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetMaximum: param #1 - must be a valid guid", 2) end
+  if type(max_value)~="number" then error("Slider_SetMaximum: param #2 - must be a number", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_SetMaximum: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_SetMaximum: param #1 - ui-element is not a slider", 2)
+  else
+    reagirl.Elements[element_id]["Stop"]=max_value
+    if reagirl.Elements[element_id]["CurValue"]>max_value then
+      reagirl.Elements[element_id]["CurValue"]=max_value
+    end
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Slider_GetMaximum(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_GetMaximum</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>number max_value = reagirl.Slider_GetMaximum(string element_id)</functioncall>
+  <description>
+    Gets the current set maximum-value of the slider.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose current maximum-value you want to get
+  </parameters>
+  <retvals>
+    number max_value - the current maximum-value set in the slider
+  </retvals>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>slider, get, maximum, value</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_GetMaximum: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetMaximum: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_GetMaximum: param #1 - ui-element is not a slider", 2)
+  else
+    return reagirl.Elements[element_id]["Stop"]
   end
 end
 
@@ -5775,7 +5927,9 @@ function CheckMe(tudelu, checkstate)
     --reagirl.Window_SetCurrentScale(1)
     reagirl.Button_SetDisabled(BBB, true)
     --reagirl.Slider_SetValue(F, 12)
-    reagirl.Slider_ResetToDefaultValue(F)
+    --reagirl.Slider_ResetToDefaultValue(F)
+    reagirl.Slider_SetMinimum(F, 10)
+    reagirl.Slider_SetMaximum(F, 50)
   else
     --reagirl.Window_SetCurrentScale()
     reagirl.Button_SetDisabled(BBB, false)
@@ -5829,6 +5983,7 @@ end
 
 function sliderme(element_id, val)
   print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
+  print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
 end
 
 function UpdateUI()
