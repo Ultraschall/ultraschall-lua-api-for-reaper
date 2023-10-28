@@ -1450,44 +1450,46 @@ function reagirl.Gui_Manage()
     --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
     -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
     --                   but seems to work without it as well
-    if i==reagirl.Elements["FocusedElement"] or ((((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
-    or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
-    or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
-    and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
-    or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
-    or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4)
-    then--]]  
-      -- run manage-function of ui-element
-      local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
-        reagirl.UI_Elements_HoveredElement==i,
-        specific_clickstate,
-        gfx.mouse_cap,
-        {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
-        reagirl.Elements[i]["Name"],
-        reagirl.Elements[i]["Description"], 
-        x2+MoveItAllRight,
-        y2+MoveItAllUp,
-        w2,
-        h2,
-        Key,
-        Key_utf,
-        reagirl.Elements[i]
-      )
-      if i==reagirl.Elements.FocusedElement then message=cur_message end
-      --print_update(message)
-    end -- only run manage-functions of visible gui-elements
-    --print_update(reaper.time_precise()-AAAA)
-    
-    -- output screenreader-message of ui-element
-    if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
-      --reaper.osara_outputMessage(reagirl.osara_init_message..message)
-      if message==nil then message="" end
+    if reagirl.Elements[i]["IsDecorative"]==false then
+      if i==reagirl.Elements["FocusedElement"] or ((((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+      or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
+      or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
+      and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
+      or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
+      or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4)
+      then--]]  
+        -- run manage-function of ui-element
+        local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
+          reagirl.UI_Elements_HoveredElement==i,
+          specific_clickstate,
+          gfx.mouse_cap,
+          {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+          reagirl.Elements[i]["Name"],
+          reagirl.Elements[i]["Description"], 
+          x2+MoveItAllRight,
+          y2+MoveItAllUp,
+          w2,
+          h2,
+          Key,
+          Key_utf,
+          reagirl.Elements[i]
+        )
+        if i==reagirl.Elements.FocusedElement then message=cur_message end
+        --print_update(message)
+      end -- only run manage-functions of visible gui-elements
+      --print_update(reaper.time_precise()-AAAA)
       
-      reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext,3)
-      reagirl.old_osara_message=message
-      reagirl.osara_init_message=""
+      -- output screenreader-message of ui-element
+      if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
+        --reaper.osara_outputMessage(reagirl.osara_init_message..message)
+        if message==nil then message="" end
+        
+        reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext,3)
+        reagirl.old_osara_message=message
+        reagirl.osara_init_message=""
+      end
+      if refresh==true then reagirl.Gui_ForceRefresh(7) end
     end
-    if refresh==true then reagirl.Gui_ForceRefresh(7) end
   end
   --]]
   --gfx.measurechar(128)
@@ -2672,7 +2674,7 @@ function reagirl.CheckBox_Draw(element_id, selected, hovered, clicked, mouse_cap
   if element_storage["IsDecorative"]==false then
     gfx.set(0.8)
   else
-    gfx.set(0.5)
+    gfx.set(0.6)
   end
   gfx.x=x+h+2+6--+12
   gfx.y=y+2+offset
@@ -3503,12 +3505,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
   offset=1+math.floor(dpi_scale)
   gfx.x=x
   gfx.y=y+(h-sh)/2+offset-1
+  
+  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   gfx.drawstr(element_storage["Name"])
   
   if reagirl.Elements[element_id]["pressed"]==true then
     state=1*dpi_scale-1
-    
-    
     if offset==0 then offset=1 end
 
     gfx.set(0.274) -- background 2
@@ -3562,12 +3564,12 @@ function reagirl.DropDownMenu_Draw(element_id, selected, hovered, clicked, mouse
       
       gfx.x=x+7+offset+cap_w--+(w-sw)/2+1
       gfx.y=y+(h-sh)/2+1+offset-1
-      gfx.set(0.39)
+      gfx.set(0.09)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
       
       gfx.x=x+7+offset+cap_w--+(w-sw)/2+1
-      gfx.y=y+(h-sh)/2+1+offset
-      gfx.set(0.06)
+      gfx.y=y+(h-sh)/2+offset
+      gfx.set(0.55)
       gfx.drawstr(menuentry,0,x+w-21*dpi_scale, gfx.y+gfx.texth)
     end
   end
@@ -5542,6 +5544,8 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   --gfx.rect(10,10,100,100,1)
   --print_update(y)
   --if w<element_storage["cap_w"]+element_storage["unit_w"]+20 then w=element_storage["cap_w"]+element_storage["unit_w"]+20 end
+  --element_storage["IsDecorative"]=true -- debug
+  
   local dpi_scale=reagirl.Window_GetCurrentScale()
   
   gfx.x=x
@@ -5553,18 +5557,19 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   element_storage["cap_w"]=offset_cap--gfx.measurestr(name.." ")+5*dpi_scale
   element_storage["unit_w"]=offset_unit
   element_storage["slider_w"]=w-offset_cap-offset_unit
-  gfx.set(0.8)
   
+  if element_storage["IsDecorative"]==true then gfx.set(0.6) else gfx.set(0.8) end
   -- draw caption
   gfx.drawstr(element_storage["Name"])
-  gfx.set(0.7)
-  -- draw slider-area
-  gfx.rect(x+offset_cap, y+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
   
   -- draw unit
   gfx.x=x+w-offset_unit+10*dpi_scale
   gfx.y=y
   if element_storage["Unit"]~=nil then gfx.set(0.8) gfx.drawstr(" "..string.format(element_storage["CurValue"]%1>0.001 and "%.3f" or "%.0f",element_storage["CurValue"])..element_storage["Unit"]) end
+
+  if element_storage["IsDecorative"]==true then gfx.set(0.5) else gfx.set(0.7) end
+  -- draw slider-area
+  gfx.rect(x+offset_cap, y+(gfx.texth>>1)-1, w-offset_cap-offset_unit, 4, 1)
   
   --local rect_stop=w-offset_unit
   --gfx.x=rect_stop
@@ -5580,10 +5585,13 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.set(0.2725490196078431)
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 6*dpi_scale, 1, 1)
   
-  --gfx.set(0.584)
-  gfx.set(0.9843137254901961, 0.8156862745098039, 0)
---  gfx.set(1)
-  --gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+  if element_storage["IsDecorative"]==true then
+    gfx.set(0.584)
+    gfx.set(0)
+  else
+    gfx.set(0.9843137254901961, 0.8156862745098039, 0)
+  end
+
   gfx.circle(x+offset_cap+step_current, gfx.y+h/3, 5*dpi_scale, 1, 1)
 end
 
