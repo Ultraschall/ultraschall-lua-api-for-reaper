@@ -5672,6 +5672,82 @@ function reagirl.Slider_GetValue(element_id)
   end
 end
 
+function reagirl.Slider_SetDefaultValue(element_id, default_value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_SetDefaultValue</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_SetDefaultValue(string element_id, number default_value)</functioncall>
+  <description>
+    Sets the default value of the slider.
+    
+    Will not check, whether it is a valid value settable using the stepsize!
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose default value you want to set
+    number default_value - the new default value of the slider
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, set, default, value</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_SetDefaultValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetDefaultValue: param #1 - must be a valid guid", 2) end
+  if type(default_value)~="number" then error("Slider_SetDefaultValue: param #2 - must be a number", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_SetDefaultValue: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_SetDefaultValue: param #1 - ui-element is not a slider", 2)
+  else
+    if default_value<reagirl.Elements[element_id]["Start"] or default_value>reagirl.Elements[element_id]["Stop"] then
+      error("Slider_SetDefaultValue: param #2 - value must be within start and stop of the slider", 2)
+    end
+    reagirl.Elements[element_id]["Default"]=default_value
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Slider_GetDefaultValue(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_GetDefaultValue</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>number value = reagirl.Slider_GetDefaultValue(string element_id)</functioncall>
+  <description>
+    Gets the current set value of the slider.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose default value you want to get
+  </parameters>
+  <retvals>
+    number value - the current default value set in the slider
+  </retvals>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, get, default, value</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_GetDefaultValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetDefaultValue: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_GetDefaultValue: param #1 - ui-element is not a slider", 2)
+  else
+    return reagirl.Elements[element_id]["Default"]
+  end
+end
+
 function reagirl.Slider_SetMinimum(element_id, start_value)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -5853,6 +5929,7 @@ function reagirl.Slider_ResetToDefaultValue(element_id)
     error("Slider_ResetToDefaultValue: param #1 - ui-element is not a slider", 2)
   else
     reagirl.Elements[element_id]["CurValue"]=reagirl.Elements[element_id]["Default"]
+    reagirl.Gui_ForceRefresh()
   end
 end
 
@@ -5928,8 +6005,9 @@ function CheckMe(tudelu, checkstate)
     reagirl.Button_SetDisabled(BBB, true)
     --reagirl.Slider_SetValue(F, 12)
     --reagirl.Slider_ResetToDefaultValue(F)
-    reagirl.Slider_SetMinimum(F, 10)
-    reagirl.Slider_SetMaximum(F, 50)
+    --reagirl.Slider_SetMinimum(F, 10)
+    --reagirl.Slider_SetMaximum(F, 50)
+    reagirl.Slider_SetDefaultValue(F, 10)
   else
     --reagirl.Window_SetCurrentScale()
     reagirl.Button_SetDisabled(BBB, false)
@@ -5982,8 +6060,9 @@ function label_click(element_id)
 end
 
 function sliderme(element_id, val)
-  print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
-  print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
+  --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
+  --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
+  print(reagirl.Slider_GetDefaultValue(F))
 end
 
 function UpdateUI()
