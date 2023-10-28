@@ -5672,6 +5672,77 @@ function reagirl.Slider_GetValue(element_id)
   end
 end
 
+function reagirl.Slider_SetDisabled(element_id, state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_SetDisabled</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Slider_SetDisabled(string element_id, boolean state)</functioncall>
+  <description>
+    Sets a slider disabled.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose disablility-state you want to set
+    boolean state - true, slider is disabled; false, slider is enabled
+  </parameters>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, set, disability</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_SetDisabled: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_SetDisabled: param #1 - must be a valid guid", 2) end
+  if type(state)~="boolean" then error("Slider_SetDisabled: param #2 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Slider_SetDisabled: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_SetDisabled: param #1 - ui-element is not a slider", 2)
+  else
+    reagirl.Elements[element_id]["IsDecorative"]=state
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Slider_GetDisabled(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_GetDisabled</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean state = reagirl.Slider_GetDisabled(string element_id)</functioncall>
+  <description>
+    Gets the current disability state of the slider.
+  </description>
+  <parameters>
+    string element_id - the guid of the slider, whose current disability-state you want to get
+  </parameters>
+  <retvals>
+    boolean state - true, slider is disabled; false, slider is enabled
+  </retvals>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, get, disability</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Slider_GetValue: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Slider_GetValue: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Slider" then
+    error("Slider_GetValue: param #1 - ui-element is not a slider", 2)
+  else
+    return reagirl.Elements[element_id]["IsDecorative"]
+  end
+end
+
 function reagirl.Slider_SetDefaultValue(element_id, default_value)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -6007,10 +6078,12 @@ function CheckMe(tudelu, checkstate)
     --reagirl.Slider_ResetToDefaultValue(F)
     --reagirl.Slider_SetMinimum(F, 10)
     --reagirl.Slider_SetMaximum(F, 50)
-    reagirl.Slider_SetDefaultValue(F, 10)
+    --reagirl.Slider_SetDefaultValue(F, 10)
+    reagirl.Slider_SetDisabled(F, true)
   else
     --reagirl.Window_SetCurrentScale()
     reagirl.Button_SetDisabled(BBB, false)
+    reagirl.Slider_SetDisabled(F, false)
   end
 end
 
@@ -6062,7 +6135,8 @@ end
 function sliderme(element_id, val)
   --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
-  print(reagirl.Slider_GetDefaultValue(F))
+  --print(reagirl.Slider_GetDefaultValue(F))
+  print(reagirl.Slider_GetDisabled(F))
 end
 
 function UpdateUI()
