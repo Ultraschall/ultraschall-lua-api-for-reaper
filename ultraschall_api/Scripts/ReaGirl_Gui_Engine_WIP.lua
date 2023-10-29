@@ -1429,7 +1429,11 @@ function reagirl.Gui_Manage()
   
   if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
     if reaper.osara_outputMessage~=nil then
-      reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+      if reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"]~=nil then
+        reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["AccHoverMessage"])
+      else
+        reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+      end
     end
   end
   reagirl.UI_Elements_HoveredElement_Old=reagirl.UI_Elements_HoveredElement
@@ -3489,7 +3493,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]])
     end
   end
-
+  element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["MenuEntries"][element_storage["menuSelectedItem"]]
   return element_storage["MenuEntries"][element_storage["menuSelectedItem"]]..". "..collapsed, refresh
 end
 
@@ -5552,6 +5556,7 @@ function reagirl.Slider_Manage(element_id, selected, hovered, clicked, mouse_cap
       element_storage["run_function"](element_storage["Guid"], element_storage["CurValue"]) 
     end
   end
+  element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["CurValue"]
   return element_storage["CurValue"], refresh
 end
 
