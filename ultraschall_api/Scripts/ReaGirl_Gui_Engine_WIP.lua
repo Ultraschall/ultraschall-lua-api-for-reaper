@@ -3396,7 +3396,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       
       if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 refresh=false end
       if element_storage["menuSelectedItem"]>element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] refresh=false end
-      if refresh==true and element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], selection, element_storage["MenuEntries"][selection]) end
+      if refresh==true and element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]]) refresh=false end
     end
   end
   local Entries=""
@@ -3432,6 +3432,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     collapsed=""
     element_storage["selected_old"]=selected
   end
+  if Key~=0 then ABBA33=Key end
   if selected==true then
     if Key==32 or Key==13 then 
       element_storage["pressed"]=true
@@ -3450,13 +3451,13 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 refresh=false end
       collapsed=""
       reagirl.Scroll_Override=true
-    elseif Key==1752132965.0 then -- home
-      if element_storage["menuSelectedItem"]~=element_storage["MenuCount"] then
+    elseif Key==1752132965.0 or Key==1885828464.0 then -- home
+      if element_storage["menuSelectedItem"]~=1 then
         reagirl.Scroll_Override=true
         element_storage["menuSelectedItem"]=1 
         refresh=true
       end
-    elseif Key==6647396.0 then -- end
+    elseif Key==6647396.0 or Key==1885824110.0 then -- end
       if element_storage["menuSelectedItem"]~=element_storage["MenuCount"] then
         reagirl.Scroll_Override=true
         element_storage["menuSelectedItem"]=element_storage["MenuCount"] 
@@ -3465,7 +3466,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     elseif selected==true and (clicked=="FirstCLK" and mouse_cap&1==1) and (gfx.mouse_x>=x+cap_w and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) then
       element_storage["pressed"]=true
       collapsed=""
-      refresh=true
+      --refresh=true
     else
       element_storage["pressed"]=false
     end
@@ -3474,7 +3475,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
   if refresh==true then 
     reagirl.Gui_ForceRefresh()
     if element_storage["run_function"]~=nil then 
-      reagirl.Elements[element_id]["run_function"](element_storage["Guid"], selection, element_storage["MenuEntries"][selection]) 
+      reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]])
     end
   end
 
@@ -6140,11 +6141,11 @@ function label_click(element_id)
   print2(1, element_id)
 end
 
-function sliderme(element_id, val)
+function sliderme(element_id, val, val2)
   --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
-  print(element_id, val)
+  print(element_id, val, val2)
 end
 
 function UpdateUI()
