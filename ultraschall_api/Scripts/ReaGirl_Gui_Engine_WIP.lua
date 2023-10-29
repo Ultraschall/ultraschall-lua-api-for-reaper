@@ -1573,7 +1573,11 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         gfx.set(0.7,0.7,0.7,0.8)
         local _,_,_,_,x,y,w,h=reagirl.UI_Element_GetFocusRect()
         --print_update(scale, x, y, w, h, reagirl.Font_Size)
-        gfx.rect((x2+MoveItAllRight-2), (y2+MoveItAllUp-2), (w2+4), (h2+3), 0)
+        if reagirl.Elements["Focused_x"]==nil then
+          gfx.rect((x2+MoveItAllRight-2), (y2+MoveItAllUp-2), (w2+4), (h2+3), 0)
+        else
+          gfx.rect(reagirl.Elements["Focused_x"], reagirl.Elements["Focused_y"], reagirl.Elements["Focused_w"], reagirl.Elements["Focused_h"], 0)
+        end
         gfx.set(r,g,b,a)
         gfx.dest=dest
         
@@ -3432,7 +3436,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
     collapsed=""
     element_storage["selected_old"]=selected
   end
-  if Key~=0 then ABBA33=Key end
+
   if selected==true then
     if Key==32 or Key==13 then 
       element_storage["pressed"]=true
@@ -6180,7 +6184,9 @@ function reagirl.Tabs_Add(x, y, caption, meaningOfUI_Element, tab_names, selecte
 end
 
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  
+  if selected==true then
+    reagirl.UI_Element_SetFocusRect(1,1,1000,300)
+  end
   if refresh==true then 
     reagirl.Gui_ForceRefresh() 
     if element_storage["run_function"]~=nil and skip_func~=true then 
@@ -6192,7 +6198,7 @@ end
 
 
 function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  --reagirl.UI_Element_SetFocusRect(1,1,1000,300)
+  --
 end
 
 function DebugRect()
@@ -6285,7 +6291,7 @@ function UpdateUI()
     end
   end
 
---reagirl.Tabs_Add(10, 10, "Tudelu", "Tabs", {"Hurtz", "Dune", "Ach Gotterl"}, 1, run_function)  
+reagirl.Tabs_Add(10, 10, "Tudelu", "Tabs", {"Hurtz", "Dune", "Ach Gotterl"}, 1, run_function)  
 reagirl.NextLine()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
@@ -6401,7 +6407,7 @@ function main()
   --ABBA[1][1]=reaper.time_precise()
   --reagirl.DropDownMenu_SetMenuItems(E, ABBA[1], 1)
   --reagirl.Gui_ForceRefresh()
-  ABBA=reagirl.UI_Element_GetFocused()
+  
   gfx.update()
   
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
