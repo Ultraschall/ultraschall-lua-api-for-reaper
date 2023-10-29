@@ -6172,7 +6172,7 @@ function reagirl.Tabs_Add(x, y, caption, meaningOfUI_Element, tab_names, selecte
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
-  reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+15
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
 
@@ -6184,9 +6184,16 @@ function reagirl.Tabs_Add(x, y, caption, meaningOfUI_Element, tab_names, selecte
 end
 
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  if selected==true then
-    reagirl.UI_Element_SetFocusRect(1,1,1000,300)
+  if Key~=0 then ABBA=Key end
+  if Key==1919379572.0 then 
+    element_storage["TabSelected"]=element_storage["TabSelected"]+1
+    if element_storage["TabSelected"]>#element_storage["TabNames"] then element_storage["TabSelected"]=#element_storage["TabNames"] end
   end
+  if Key==1818584692.0 then
+    element_storage["TabSelected"]=element_storage["TabSelected"]-1
+    if element_storage["TabSelected"]<1 then element_storage["TabSelected"]=1 end
+  end
+  
   if refresh==true then 
     reagirl.Gui_ForceRefresh() 
     if element_storage["run_function"]~=nil and skip_func~=true then 
@@ -6198,7 +6205,39 @@ end
 
 
 function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  --
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  local dpi_scale=reagirl.Window_GetCurrentScale()
+  local text_offset_x=20
+  local text_offset_y=8
+  local x_offset=20
+  element_storage["Tabs_Pos"]={}
+  for i=1, #element_storage["TabNames"] do
+    element_storage["Tabs_Pos"][i]={}
+    gfx.x=x+x_offset
+    gfx.y=y+text_offset_y
+    
+    local tx,ty=gfx.measurestr(element_storage["TabNames"][i])
+    --gfx.rect(x+x_offset-text_offset_x, y, tx+text_offset_x+text_offset_x, h, 0)
+    
+    
+    if i==element_storage["TabSelected"] then offset=1 gfx.set(0.403921568627451) else offset=0 gfx.set(0.253921568627451) end
+    gfx.set(0.403921568627451)
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), h, 7*dpi_scale, 1, 0, false, true, false, true)
+    
+    if i==element_storage["TabSelected"] then offset=1 gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
+    
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x)+dpi_scale*1, y+dpi_scale, math.tointeger(tx+text_offset_x+text_offset_x)-dpi_scale*2, h-dpi_scale, 7*dpi_scale, 1, 1, false, true, false, true)
+    x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*2
+    if selected==true and i==element_storage["TabSelected"] then
+      reagirl.UI_Element_SetFocusRect(math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
+    end
+    element_storage["Tabs_Pos"][i]["x"]=math.tointeger(gfx.x)-text_offset_x
+    gfx.set(1)
+    gfx.drawstr(element_storage["TabNames"][i])
+  end
+  
+  
+  
 end
 
 function DebugRect()
@@ -6291,7 +6330,7 @@ function UpdateUI()
     end
   end
 
-reagirl.Tabs_Add(10, 10, "Tudelu", "Tabs", {"Hurtz", "Dune", "Ach Gotterl"}, 1, run_function)  
+reagirl.Tabs_Add(10, 10, "TUDELU", "Tabs", {"TUDELU", "Dune", "Ach Gotterl"}, 1, run_function)  
 reagirl.NextLine()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
