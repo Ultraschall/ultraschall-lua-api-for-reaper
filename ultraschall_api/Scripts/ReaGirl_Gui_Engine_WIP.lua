@@ -3396,7 +3396,7 @@ function reagirl.DropDownMenu_Manage(element_id, selected, hovered, clicked, mou
       
       if element_storage["menuSelectedItem"]<1 then element_storage["menuSelectedItem"]=1 refresh=false end
       if element_storage["menuSelectedItem"]>element_storage["MenuCount"] then element_storage["menuSelectedItem"]=element_storage["MenuCount"] refresh=false end
-      if refresh==true and element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]]) refresh=false end
+      if refresh==true and element_storage["run_function"]~=nil then reagirl.Elements[element_id]["run_function"](element_storage["Guid"], element_storage["menuSelectedItem"], element_storage["MenuEntries"][element_storage["menuSelectedItem"]]) reagirl.Gui_ForceRefresh() refresh=false end
     end
   end
   local Entries=""
@@ -5363,17 +5363,17 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
 --]]
 
 -- Parameter Unit==nil means, no number of unit shown
-  if x~=nil and math.type(x)~="integer" then error("CheckBox_Add: param #1 - must be an integer", 2) end
-  if y~=nil and math.type(y)~="integer" then error("CheckBox_Add: param #2 - must be an integer", 2) end
-  if math.type(w)~="integer" then error("CheckBox_Add: param #3 - must be an integer", 2) end
-  if type(caption)~="string" then error("CheckBox_Add: param #4 - must be a string", 2) end
-  if type(meaningOfUI_Element)~="string" then error("CheckBox_Add: param #5 - must be a string", 2) end
-  if unit~=nil and type(unit)~="string" then error("CheckBox_Add: param #6 - must be a number", 2) end
-  if type(start)~="number" then error("CheckBox_Add: param #7 - must be a number", 2) end
-  if type(stop)~="number" then error("CheckBox_Add: param #8 - must be a number", 2) end
-  if type(step)~="number" then error("CheckBox_Add: param #9 - must be a number", 2) end
-  if type(default)~="number" then error("CheckBox_Add: param #10 - must be a number", 2) end
-  if run_function~=nil and type(run_function)~="function" then error("CheckBox_Add: param #11 - must be either nil or a function", 2) end
+  if x~=nil and math.type(x)~="integer" then error("Slider_Add: param #1 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Slider_Add: param #2 - must be an integer", 2) end
+  if math.type(w)~="integer" then error("Slider_Add: param #3 - must be an integer", 2) end
+  if type(caption)~="string" then error("Slider_Add: param #4 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Slider_Add: param #5 - must be a string", 2) end
+  if unit~=nil and type(unit)~="string" then error("Slider_Add: param #6 - must be a number", 2) end
+  if type(start)~="number" then error("Slider_Add: param #7 - must be a number", 2) end
+  if type(stop)~="number" then error("Slider_Add: param #8 - must be a number", 2) end
+  if type(step)~="number" then error("Slider_Add: param #9 - must be a number", 2) end
+  if type(default)~="number" then error("Slider_Add: param #10 - must be a number", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("Slider_Add: param #11 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -5420,7 +5420,6 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
   reagirl.Elements[slot]["Step"]=step
   reagirl.Elements[slot]["Default"]=default
   reagirl.Elements[slot]["CurValue"]=default
-  reagirl.Elements[slot]["Start"]=start
   reagirl.Elements[slot]["IsDecorative"]=false
   reagirl.Elements[slot]["Description"]=meaningOfUI_Element
   reagirl.Elements[slot]["AccHint"]="Change via arrowkeys, home, end, pageup, pagedown."
@@ -5433,8 +5432,6 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
   reagirl.Elements[slot]["slider_w"]=math.tointeger(w-tx-tx1-10)
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
-  reagirl.Elements[slot]["top_edge"]=true
-  reagirl.Elements[slot]["bottom_edge"]=true
   reagirl.Elements[slot]["checked"]=default
   reagirl.Elements[slot]["func_manage"]=reagirl.Slider_Manage
   reagirl.Elements[slot]["func_draw"]=reagirl.Slider_Draw
@@ -6072,6 +6069,132 @@ function reagirl.NextLine_GetMargin()
   return reagirl.UI_Element_NextX_Margin, reagirl.UI_Element_NextY_Margin
 end
 
+function reagirl.Tabs_Add(x, y, caption, meaningOfUI_Element, tab_names, selected_tab, run_function)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Slider_Add</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number default, function run_function)</functioncall>
+  <description>
+    Adds a slider to a gui.
+    
+    You can autoposition the slider by setting x and/or y to nil, which will position the new slider after the last ui-element.
+    To autoposition into the next line, use reagirl.NextLine()
+    
+    The caption will be shown before, the unit will be shown after the slider.
+    Note: when setting the unit to nil, no unit and number will be shown at the end of the slider.
+    
+    Also note: when the number of steps is too many to be shown in a narrow slider, step-values may be skipped.
+  </description>
+  <parameters>
+    optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
+    optional integer y - the y position of the slider in pixels; negative anchors the slider to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    string caption - the caption of the slider
+    string meaningOfUI_Element - a description for accessibility users
+    optional string unit - the unit shown next to the number the slider is currently set to
+    number start - the minimum value of the slider
+    number stop - the maximum value of the slider
+    number step - the stepsize until the next value within the slider
+    number default - the default value of the slider(also the initial value)
+    function run_function - a function that shall be run when the slider is clicked; will get passed over the slider-element_id as first and the new slider-value as second parameter
+  </parameters>
+  <retvals>
+    string checkbox_guid - a guid that can be used for altering the slider-attributes
+  </retvals>
+  <chapter_context>
+    Slider
+  </chapter_context>
+  <tags>slider, add</tags>
+</US_DocBloc>
+--]]
+
+-- Parameter Unit==nil means, no number of unit shown
+  if x~=nil and math.type(x)~="integer" then error("Tabs_Add: param #1 - must be an integer", 2) end
+  if y~=nil and math.type(y)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
+  if type(caption)~="string" then error("Tabs_Add: param #3 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Tabs_Add: param #4 - must be a string", 2) end
+  if type(tab_names)~="table" then error("Tabs_Add: param #5 - must be a number", 2) end
+  for i=1, #tab_names do
+    tab_names[i]=tostring(tab_names[i])
+  end
+  if math.type(selected_tab)~="integer" then error("Tabs_Add: param #6 - must be an integer", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("Tabs_Add: param #7 - must be either nil or a function", 2) end
+  
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  if x==nil then 
+    x=reagirl.UI_Element_NextX_Default
+    if slot-1==0 or reagirl.UI_Element_NextLineY>0 then
+      x=reagirl.UI_Element_NextLineX
+    elseif slot-1>0 then
+      x=reagirl.Elements[slot-1]["x"]+reagirl.Elements[slot-1]["w"]
+      for i=slot-1, 1, -1 do
+        if reagirl.Elements[i]["IsDecorative"]==false then
+          local w2=reagirl.Elements[i]["w"]
+          --print2(reagirl.Elements[i]["h"], w2)
+          x=reagirl.Elements[i]["x"]+w2+reagirl.UI_Element_NextX_Margin
+          break
+        end
+      end
+    end
+  end
+
+  if y==nil then 
+    y=reagirl.UI_Element_NextY_Default
+    if slot-1>0 then
+      y=reagirl.Elements[slot-1]["y"]+reagirl.UI_Element_NextLineY
+      reagirl.UI_Element_NextLineY=0
+    end
+  end  
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  local tx, ty =gfx.measurestr(caption.."")
+
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  
+  local slot=reagirl.UI_Element_GetNextFreeSlot()
+  table.insert(reagirl.Elements, slot, {})
+  reagirl.Elements[slot]["Guid"]=reaper.genGuid("")
+  reagirl.Elements[slot]["GUI_Element_Type"]="Tabs"
+  reagirl.Elements[slot]["Name"]=caption
+  reagirl.Elements[slot]["Text"]=caption
+  reagirl.Elements[slot]["TabNames"]=tab_names
+  reagirl.Elements[slot]["TabSelected"]=selected_tab
+  reagirl.Elements[slot]["IsDecorative"]=false
+  reagirl.Elements[slot]["Description"]=meaningOfUI_Element
+  reagirl.Elements[slot]["AccHint"]="Switch tab using left/right arrow-keys"
+  reagirl.Elements[slot]["x"]=x
+  reagirl.Elements[slot]["y"]=y
+  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
+  reagirl.Elements[slot]["h"]=math.tointeger(ty)+5
+  reagirl.Elements[slot]["sticky_x"]=false
+  reagirl.Elements[slot]["sticky_y"]=false
+
+  reagirl.Elements[slot]["func_manage"]=reagirl.Tabs_Manage
+  reagirl.Elements[slot]["func_draw"]=reagirl.Tabs_Draw
+  reagirl.Elements[slot]["run_function"]=run_function
+  reagirl.Elements[slot]["userspace"]={}
+  return reagirl.Elements[slot]["Guid"]
+end
+
+function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  
+  if refresh==true then 
+    reagirl.Gui_ForceRefresh() 
+    if element_storage["run_function"]~=nil and skip_func~=true then 
+      element_storage["run_function"](element_storage["Guid"], element_storage["TabSelected"], element_storage["TabNames"][element_storage["TabSelected"]]) 
+    end
+  end
+  return element_storage["CurValue"], refresh
+end
+
+
+function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  --reagirl.UI_Element_SetFocusRect(1,1,1000,300)
+end
+
 function DebugRect()
   gfx.set(1,0,0)
   gfx.rect(dx,dy,dw,dh)
@@ -6161,6 +6284,9 @@ function UpdateUI()
       Images[1]=filename
     end
   end
+
+--reagirl.Tabs_Add(10, 10, "Tudelu", "Tabs", {"Hurtz", "Dune", "Ach Gotterl"}, 1, run_function)  
+reagirl.NextLine()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
   LAB2=reagirl.Label_Add(nil, nil, "Link to Docs", "clickable label", 0, true, label_click)
@@ -6197,6 +6323,7 @@ function UpdateUI()
   --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
   F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1001, 5.001, 1, sliderme)
+  
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
@@ -6249,7 +6376,6 @@ function UpdateUI()
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
   reagirl.ContextMenuZone_Add(100,100,100,100,"Menu|Two|>And a|half", CMenu)
   --]]
-  
 end
 
 Images={reaper.GetResourcePath().."/Scripts/Ultraschall_Gfx/Headers/soundcheck_logo.png","c:\\f.png","c:\\m.png"}
