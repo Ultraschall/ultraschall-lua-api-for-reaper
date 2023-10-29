@@ -1427,6 +1427,13 @@ function reagirl.Gui_Manage()
     end
   end
   
+  if reagirl.UI_Elements_HoveredElement~=-1 and reagirl.UI_Elements_HoveredElement~=reagirl.UI_Elements_HoveredElement_Old then
+    if reaper.osara_outputMessage~=nil then
+      reaper.osara_outputMessage(reagirl.Elements[reagirl.UI_Elements_HoveredElement]["Name"])
+    end
+  end
+  reagirl.UI_Elements_HoveredElement_Old=reagirl.UI_Elements_HoveredElement
+  
   -- run all gui-element-management functions once. They shall decide, if a refresh is needed, provide the osara-screenreader-message and everything
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
   --reaper.ClearConsole()
@@ -6073,7 +6080,7 @@ function reagirl.NextLine_GetMargin()
   return reagirl.UI_Element_NextX_Margin, reagirl.UI_Element_NextY_Margin
 end
 
-function reagirl.Tabs_Add(x, y, caption, meaningOfUI_Element, tab_names, selected_tab, run_function)
+function reagirl.Tabs_Add(x, y, w, h, caption, meaningOfUI_Element, tab_names, selected_tab, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Slider_Add</slug>
@@ -6119,6 +6126,8 @@ function reagirl.Tabs_Add(x, y, caption, meaningOfUI_Element, tab_names, selecte
 -- Parameter Unit==nil means, no number of unit shown
   if x~=nil and math.type(x)~="integer" then error("Tabs_Add: param #1 - must be an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
+  if math.type(w)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
+  if math.type(h)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
   if type(caption)~="string" then error("Tabs_Add: param #3 - must be a string", 2) end
   if type(meaningOfUI_Element)~="string" then error("Tabs_Add: param #4 - must be a string", 2) end
   if type(tab_names)~="table" then error("Tabs_Add: param #5 - must be a number", 2) end
@@ -6173,6 +6182,10 @@ function reagirl.Tabs_Add(x, y, caption, meaningOfUI_Element, tab_names, selecte
   reagirl.Elements[slot]["y"]=y
   reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+15
+  reagirl.Elements[slot]["w_background"]=w
+  reagirl.Elements[slot]["h_background"]=h
+  reagirl.Elements[slot]["text_offset_x"]=20
+  reagirl.Elements[slot]["text_offset_y"]=8
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
 
@@ -6200,16 +6213,16 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
       element_storage["run_function"](element_storage["Guid"], element_storage["TabSelected"], element_storage["TabNames"][element_storage["TabSelected"]]) 
     end
   end
-  return element_storage["CurValue"], refresh
+  return element_storage["TabNames"][element_storage["TabSelected"]].." tab selected", refresh
 end
 
 
 function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
   local dpi_scale=reagirl.Window_GetCurrentScale()
-  local text_offset_x=20
-  local text_offset_y=8
-  local x_offset=20
+  local text_offset_x=dpi_scale*element_storage["text_offset_x"]
+  local text_offset_y=dpi_scale*element_storage["text_offset_y"]
+  local x_offset=dpi_scale*20
   element_storage["Tabs_Pos"]={}
   for i=1, #element_storage["TabNames"] do
     element_storage["Tabs_Pos"][i]={}
@@ -6217,17 +6230,21 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     gfx.y=y+text_offset_y
     
     local tx,ty=gfx.measurestr(element_storage["TabNames"][i])
-    --gfx.rect(x+x_offset-text_offset_x, y, tx+text_offset_x+text_offset_x, h, 0)
+    tx=math.tointeger(tx)
+    ty=math.tointeger(ty)
+
+    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), h, 7*dpi_scale, 1, 1, false, true, false, true)
     
-    
-    if i==element_storage["TabSelected"] then offset=1 gfx.set(0.403921568627451) else offset=0 gfx.set(0.253921568627451) end
+    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.403921568627451) else offset=0 gfx.set(0.253921568627451) end
     gfx.set(0.403921568627451)
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), h, 7*dpi_scale, 1, 0, false, true, false, true)
+    if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
+    gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+y, math.tointeger(tx+text_offset_x+text_offset_x)-1, h-y+1, 7*dpi_scale, 1, 0, false, true, false, true)
     
-    if i==element_storage["TabSelected"] then offset=1 gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
     
-    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x)+dpi_scale*1, y+dpi_scale, math.tointeger(tx+text_offset_x+text_offset_x)-dpi_scale*2, h-dpi_scale, 7*dpi_scale, 1, 1, false, true, false, true)
-    x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*2
+    
+    x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*1
     if selected==true and i==element_storage["TabSelected"] then
       reagirl.UI_Element_SetFocusRect(math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end
@@ -6330,7 +6347,7 @@ function UpdateUI()
     end
   end
 
-reagirl.Tabs_Add(10, 10, "TUDELU", "Tabs", {"TUDELU", "Dune", "Ach Gotterl"}, 1, run_function)  
+reagirl.Tabs_Add(10, 10, 100, 200, "TUDELU", "Tabs", {"TUDELU", "Dune", "Ach Gotterl"}, 1, run_function)  
 reagirl.NextLine()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
