@@ -36,6 +36,12 @@ function reaper.osara_outputMessage(message, a)
 end
 --]]
 
+function reagirl.FormatNumber(n, p)
+  -- by cfillion
+  local p = (math.log(math.abs(n), 10) // 1) + (p or 3) + 1
+  return ('%%.%dg'):format(p):format(n)
+end
+
 function reagirl.NextLine_SetDefaults(x, y)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -4382,7 +4388,8 @@ end
 function reagirl.Image_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if selected==true and 
     (Key==32 or mouse_cap==1) and 
-    (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) and
+    (gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h) 
+    and clicked=="FirstCLK" and
     element_storage["run_function"]~=nil then 
       element_storage["run_function"](element_storage["Guid"], element_storage["Image_Filename"]) 
   end
@@ -5553,7 +5560,7 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.y=y
   reagirl.SetFont(1, "Arial", reagirl.Font_Size-1, 0)
   local offset_cap=gfx.measurestr(name.." ")+5*dpi_scale
-  local offset_unit=gfx.measurestr(element_storage["Unit"].."88888")
+  local offset_unit=gfx.measurestr(element_storage["Unit"].."8888888")
   
   element_storage["cap_w"]=offset_cap--gfx.measurestr(name.." ")+5*dpi_scale
   element_storage["unit_w"]=offset_unit
@@ -5564,9 +5571,10 @@ function reagirl.Slider_Draw(element_id, selected, hovered, clicked, mouse_cap, 
   gfx.drawstr(element_storage["Name"])
   
   -- draw unit
-  gfx.x=x+w-offset_unit+10*dpi_scale
+  gfx.x=x+w-offset_unit+5*dpi_scale
   gfx.y=y
-  if element_storage["Unit"]~=nil then gfx.set(0.8) gfx.drawstr(" "..string.format(element_storage["CurValue"]%1>0.001 and "%.3f" or "%.0f",element_storage["CurValue"])..element_storage["Unit"]) end
+  local unit=reagirl.FormatNumber(element_storage["CurValue"], 3)
+  if element_storage["Unit"]~=nil then gfx.set(0.8) gfx.drawstr(" "..unit..element_storage["Unit"]) end
 
   if element_storage["IsDecorative"]==true then gfx.set(0.5) else gfx.set(0.7) end
   -- draw slider-area
@@ -6136,7 +6144,7 @@ function sliderme(element_id, val)
   --print("slider"..element_id..reaper.time_precise(), val, reagirl.Slider_GetValue(element_id))
   --print(reagirl.Slider_GetMinimum(element_id), reagirl.Slider_GetMaximum(element_id))
   --print(reagirl.Slider_GetDefaultValue(F))
-  print(reagirl.Slider_GetDisabled(F))
+  print(element_id, val)
 end
 
 function UpdateUI()
@@ -6187,7 +6195,7 @@ function UpdateUI()
   E = reagirl.DropDownMenu_Add(nil, nil, -100, "DropDownMenu:", "Desc of DDM", {"The", "Death", "Of", "A", "Party123456789012345678Hardy Hard Scooter Hyper Hyper How Much Is The Fish",2,3,4,5}, 5, sliderme)
   --F = reagirl.Slider_Add(10, 340, 200, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5.001, 1, sliderme)
   reagirl.NextLine()
-  F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 100, 5, 1, sliderme)
+  F = reagirl.Slider_Add(nil, nil, -20, "Sliders Das Tor", "I am a slider", "%", 1, 1001, 5.001, 1, sliderme)
   --reagirl.Elements[8].IsDecorative=true
   --reagirl.Line_Add(10, 135, 60, 150,1,1,0,1)
 
