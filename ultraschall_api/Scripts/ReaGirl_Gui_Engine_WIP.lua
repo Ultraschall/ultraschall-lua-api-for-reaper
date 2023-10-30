@@ -1584,11 +1584,12 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
         gfx.set(0.7,0.7,0.7,0.8)
         local _,_,_,_,x,y,w,h=reagirl.UI_Element_GetFocusRect()
         --print_update(scale, x, y, w, h, reagirl.Font_Size)
-        if reagirl.Elements["Focused_x"]==nil then
+        if reagirl.Focused_Rect_Override==nil then
           gfx.rect((x2+MoveItAllRight-2), (y2+MoveItAllUp-2), (w2+4), (h2+3), 0)
         else
           gfx.rect(reagirl.Elements["Focused_x"], reagirl.Elements["Focused_y"], reagirl.Elements["Focused_w"], reagirl.Elements["Focused_h"], 0)
         end
+        reagirl.Focused_Rect_Override=nil
         gfx.set(r,g,b,a)
         gfx.dest=dest
         
@@ -1615,7 +1616,7 @@ function reagirl.Dummy()
 
 end
 
-function reagirl.UI_Element_SetFocusRect(x, y, w, h)
+function reagirl.UI_Element_SetFocusRect(override, x, y, w, h)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>UI_Element_SetFocusRect</slug>
@@ -1642,22 +1643,30 @@ function reagirl.UI_Element_SetFocusRect(x, y, w, h)
   <tags>gfx, functions, set, focus rectangle, ui-elements</tags>
 </US_DocBloc>
 ]]
-  if x~=nil and math.type(x)~="integer" then error("UI_Element_SetFocusRect: #1 - must be an integer", 2) end
-  if y~=nil and math.type(y)~="integer" then error("UI_Element_SetFocusRect: #2 - must be an integer", 2) end
-  if w~=nil and math.type(w)~="integer" then error("UI_Element_SetFocusRect: #3 - must be an integer", 2) end
-  if h~=nil and math.type(h)~="integer" then error("UI_Element_SetFocusRect: #4 - must be an integer", 2) end
+  if override==nil then override=false end
+  if type(override)~="boolean" then error("UI_Element_SetFocusRect: #1 - must be either nil or a boolean", 2) end
+  if override==true then
+    if math.type(x)~="integer" then error("UI_Element_SetFocusRect: #2 - when override=nil then it must be an integer", 2) end
+    if math.type(y)~="integer" then error("UI_Element_SetFocusRect: #3 - when override=nil then it must be an integer", 2) end
+    if math.type(w)~="integer" then error("UI_Element_SetFocusRect: #4 - when override=nil then it must be an integer", 2) end
+    if math.type(h)~="integer" then error("UI_Element_SetFocusRect: #5 - when override=nil then it must be an integer", 2) end
+  end
   
-  if x==nil then 
+  if override==false then 
     if reagirl.Elements[reagirl.Elements["FocusedElement"]]==nil then error("UI_Element_SetFocusRect: - no ui-elements existing", 2) end
     x=reagirl.Elements[reagirl.Elements["FocusedElement"]]["x"]
     y=reagirl.Elements[reagirl.Elements["FocusedElement"]]["y"]
     w=reagirl.Elements[reagirl.Elements["FocusedElement"]]["w"]
     h=reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
+    reagirl.Focused_Rect_Override=nil
   end
-  reagirl.Elements["Focused_x"]=x
-  reagirl.Elements["Focused_y"]=y
-  reagirl.Elements["Focused_w"]=w
-  reagirl.Elements["Focused_h"]=h
+  if override==true then 
+    reagirl.Focused_Rect_Override=true 
+    reagirl.Elements["Focused_x"]=x
+    reagirl.Elements["Focused_y"]=y
+    reagirl.Elements["Focused_w"]=w
+    reagirl.Elements["Focused_h"]=h
+  end
 end
 
 
@@ -1703,9 +1712,9 @@ function reagirl.UI_Element_GetFocusRect()
       w=reagirl.Elements[reagirl.Elements["FocusedElement"]]["w"]
       h=reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
       --print(x,y,w,h)
-      reagirl.UI_Element_SetFocusRect(x, y, w, h)
+      reagirl.UI_Element_SetFocusRect(true, x, y, w, h)
     else
-      reagirl.UI_Element_SetFocusRect(0,0,0,0)
+      reagirl.UI_Element_SetFocusRect(true, 0,0,0,0)
     end
   end
   
@@ -2284,7 +2293,8 @@ function reagirl.UI_Element_Remove(element_id)
     reagirl.Elements["FocusedElement"]=#reagirl.Elements
   end
   if reagirl.Elements["FocusedElement"]>0 then 
-    reagirl.UI_Element_SetFocusRect(reagirl.Elements[reagirl.Elements["FocusedElement"]]["x"], 
+    reagirl.UI_Element_SetFocusRect(true, 
+                                    reagirl.Elements[reagirl.Elements["FocusedElement"]]["x"], 
                                     reagirl.Elements[reagirl.Elements["FocusedElement"]]["y"], 
                                     reagirl.Elements[reagirl.Elements["FocusedElement"]]["w"], 
                                     reagirl.Elements[reagirl.Elements["FocusedElement"]]["h"]
@@ -2335,11 +2345,11 @@ function reagirl.ManageDummyElement(element_id, selected, clicked, mouse_cap, mo
         --print2("")
         local x,y,w,h
         x,y,w,h=reagirl.UI_Element_GetFocusRect()
-        reagirl.UI_Element_SetFocusRect(x+10,y,-10,-10)
+        reagirl.UI_Element_SetFocusRect(true, x+10,y,-10,-10)
       elseif Key==1818584692.0 then
         local x,y,w,h
         x,y,w,h=reagirl.UI_Element_GetFocusRect()
-        reagirl.UI_Element_SetFocusRect(x-10,y,-10,-10)
+        reagirl.UI_Element_SetFocusRect(true, x-10,y,-10,-10)
       end
     end
   return "", true
@@ -2354,7 +2364,7 @@ function reagirl.DrawDummyElement(element_id, selected, clicked, mouse_cap, mous
   if selected==true then
     gfx.set(0.5)
     --gfx.rect(x,y,w,h,0)
-    --reagirl.UI_Element_SetFocusRect(10, 10, 20, 50)
+    --reagirl.UI_Element_SetFocusRect(true, 10, 10, 20, 50)
     if selected==true then
       message="Dummy Element "..description.." focused"..element_id
       C=clicked
@@ -6218,6 +6228,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
       element_storage["run_function"](element_storage["Guid"], element_storage["TabSelected"], element_storage["TabNames"][element_storage["TabSelected"]]) 
     end
   end
+  element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["TabNames"][element_storage["TabSelected"]]
   return element_storage["TabNames"][element_storage["TabSelected"]].." tab selected", refresh
 end
 
@@ -6230,12 +6241,14 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
   local x_offset=dpi_scale*20
   local tab_height=text_offset_y+text_offset_y
   element_storage["Tabs_Pos"]={}
+  local tx,ty
+  
   for i=1, #element_storage["TabNames"] do
     element_storage["Tabs_Pos"][i]={}
     gfx.x=x+x_offset
     gfx.y=y+text_offset_y
     
-    local tx,ty=gfx.measurestr(element_storage["TabNames"][i])
+    tx,ty=gfx.measurestr(element_storage["TabNames"][i])
     tx=math.tointeger(tx)
     ty=math.tointeger(ty)
 
@@ -6249,17 +6262,17 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     
     gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+y, math.tointeger(tx+text_offset_x+text_offset_x)-1, tab_height+ty-y+offset, 4*dpi_scale, 1, 0, false, true, false, true)
     
-    
-    
     x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*2
     if selected==true and i==element_storage["TabSelected"] then
-      reagirl.UI_Element_SetFocusRect(math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
+      reagirl.UI_Element_SetFocusRect(true, math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end
     element_storage["Tabs_Pos"][i]["x"]=math.tointeger(gfx.x)-text_offset_x
     gfx.set(1)
     gfx.drawstr(element_storage["TabNames"][i])
   end
-  
+  if selected==true then
+    --reagirl.UI_Element_SetFocusRect(true, x, y, math.tointeger(tx), math.tointeger(ty))
+  end
   
   
 end
@@ -6354,7 +6367,7 @@ function UpdateUI()
     end
   end
 
-reagirl.Tabs_Add(10, 10, 100, 200, "TUDELU", "Tabs", {"TUDELU", "Dune", "Ach Gotterl"}, 1, run_function)  
+reagirl.Tabs_Add(10, 10, 100, 200, "TUDELU", "Tabs", {"TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, run_function)  
 reagirl.NextLine()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
