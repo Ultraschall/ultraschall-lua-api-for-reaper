@@ -6213,22 +6213,37 @@ end
 
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if Key~=0 then ABBA=Key end
+  reagirl.Gui_PreventScrollingForOneCycle(true, false)
   if Key==1919379572.0 then 
     element_storage["TabSelected"]=element_storage["TabSelected"]+1
     if element_storage["TabSelected"]>#element_storage["TabNames"] then element_storage["TabSelected"]=#element_storage["TabNames"] end
+    refresh=true
   end
   if Key==1818584692.0 then
     element_storage["TabSelected"]=element_storage["TabSelected"]-1
     if element_storage["TabSelected"]<1 then element_storage["TabSelected"]=1 end
+    refresh=true
   end
   
+  -- click management for the tabs
+  if selected==true and element_storage["Tabs_Pos"]~=nil then
+    for i=1, #element_storage["Tabs_Pos"] do
+      --if gfx.mouse_x>=x+element_storage["Tabs_Pos"]
+    end
+  end
+  
+  -- hover management for the tabs
+  if hovered==true then
+    -- to be done
+    element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["TabNames"][element_storage["TabSelected"]]
+  end
   if refresh==true then 
     reagirl.Gui_ForceRefresh() 
     if element_storage["run_function"]~=nil and skip_func~=true then 
       element_storage["run_function"](element_storage["Guid"], element_storage["TabSelected"], element_storage["TabNames"][element_storage["TabSelected"]]) 
     end
   end
-  element_storage["AccHoverMessage"]=element_storage["Name"].." "..element_storage["TabNames"][element_storage["TabSelected"]]
+  
   return element_storage["TabNames"][element_storage["TabSelected"]].." tab selected", refresh
 end
 
@@ -6238,7 +6253,8 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
   local dpi_scale=reagirl.Window_GetCurrentScale()
   local text_offset_x=dpi_scale*element_storage["text_offset_x"]
   local text_offset_y=dpi_scale*element_storage["text_offset_y"]
-  local x_offset=dpi_scale*20
+  local x_offset_factor=20
+  local x_offset=dpi_scale*x_offset_factor
   local tab_height=text_offset_y+text_offset_y
   element_storage["Tabs_Pos"]={}
   local tx,ty
@@ -6260,13 +6276,18 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 0, false, true, false, true)
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
     
+    element_storage["w"]=math.tointeger(tx+text_offset_x+text_offset_x)-1-x
     gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+y, math.tointeger(tx+text_offset_x+text_offset_x)-1, tab_height+ty-y+offset, 4*dpi_scale, 1, 0, false, true, false, true)
     
     x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*2
     if selected==true and i==element_storage["TabSelected"] then
       reagirl.UI_Element_SetFocusRect(true, math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end
-    element_storage["Tabs_Pos"][i]["x"]=math.tointeger(gfx.x)-text_offset_x
+    element_storage["Tabs_Pos"][i]["x"]=x_offset+text_offset_x
+    element_storage["Tabs_Pos"][i]["w"]=x_offset+text_offset_x+tx+text_offset_x
+    element_storage["w"]=x_offset-dpi_scale*x_offset_factor
+    
+    
     gfx.set(1)
     gfx.drawstr(element_storage["TabNames"][i])
   end
@@ -6367,7 +6388,7 @@ function UpdateUI()
     end
   end
 
-reagirl.Tabs_Add(10, 10, 100, 200, "TUDELU", "Tabs", {"TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, run_function)  
+reagirl.Tabs_Add(10, 10, 100, 200, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, run_function)  
 reagirl.NextLine()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
