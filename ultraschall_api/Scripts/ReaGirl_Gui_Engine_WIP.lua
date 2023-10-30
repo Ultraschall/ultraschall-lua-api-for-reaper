@@ -6190,7 +6190,7 @@ function reagirl.Tabs_Add(x, y, w, h, caption, meaningOfUI_Element, tab_names, s
   reagirl.Elements[slot]["w_background"]=w
   reagirl.Elements[slot]["h_background"]=h
   reagirl.Elements[slot]["text_offset_x"]=20
-  reagirl.Elements[slot]["text_offset_y"]=8
+  reagirl.Elements[slot]["text_offset_y"]=5
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
 
@@ -6228,6 +6228,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
   local text_offset_x=dpi_scale*element_storage["text_offset_x"]
   local text_offset_y=dpi_scale*element_storage["text_offset_y"]
   local x_offset=dpi_scale*20
+  local tab_height=text_offset_y+text_offset_y
   element_storage["Tabs_Pos"]={}
   for i=1, #element_storage["TabNames"] do
     element_storage["Tabs_Pos"][i]={}
@@ -6239,17 +6240,18 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     ty=math.tointeger(ty)
 
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
-    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), h, 7*dpi_scale, 1, 1, false, true, false, true)
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 1, false, true, false, true)
     
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.403921568627451) else offset=0 gfx.set(0.253921568627451) end
     gfx.set(0.403921568627451)
-    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), h, 7*dpi_scale, 1, 0, false, true, false, true)
+    reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 0, false, true, false, true)
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
-    gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+y, math.tointeger(tx+text_offset_x+text_offset_x)-1, h-y+1, 7*dpi_scale, 1, 0, false, true, false, true)
+    
+    gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+y, math.tointeger(tx+text_offset_x+text_offset_x)-1, tab_height+ty-y+offset, 4*dpi_scale, 1, 0, false, true, false, true)
     
     
     
-    x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*1
+    x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*2
     if selected==true and i==element_storage["TabSelected"] then
       reagirl.UI_Element_SetFocusRect(math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end

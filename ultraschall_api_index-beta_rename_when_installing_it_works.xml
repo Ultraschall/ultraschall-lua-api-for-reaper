@@ -1521,8 +1521,9 @@ Changes from 4.9 to 5
     resolve datatypes when param was optional
 -   FXManagement: ScanVSTPlugins - removed, as changes in Reaper prevent
     this from working entirely
--   MediaItem Management: RippleCut - didn’t close the gap under certain
-    cirumstances -> fixed now
+-   MediaItem Management: RippleCut - removed obey_crossfade-option
+    because it introduces too many issues; didn’t close the gap under
+    certain cirumstances -> fixed now
 -   MediaItem Management: RippleCut_Reverse - didn’t close the gap under
     certain cirumstances -> fixed now
 -   Rendering: ApplyRenderTable_Project - did not properly apply
@@ -1559,7 +1560,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1687 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55906 from 29.10.2023 22:39:03).}
+a 1687 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 55906 from 30.10.2023 18:12:59).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

@@ -351,7 +351,7 @@ Has now 1663 functions, with XX new ones
   - DocEngine: Docs\_GetUltraschallApiFunction\_Params - didn't correctly resolve datatypes when param was optional; had inner variable exposed -> fixed
   - DocEngine: Docs\_GetUltraschallApiFunction\_Retvals - didn't correctly resolve datatypes when param was optional
   - FXManagement: ScanVSTPlugins - removed, as changes in Reaper prevent this from working entirely
-  - MediaItem Management: RippleCut - didn't close the gap under certain cirumstances -> fixed now
+  - MediaItem Management: RippleCut - removed obey_crossfade-option because it introduces too many issues; didn't close the gap under certain cirumstances -> fixed now
   - MediaItem Management: RippleCut\_Reverse - didn't close the gap under certain cirumstances -> fixed now
   - Rendering: ApplyRenderTable\_Project - did not properly apply render-settings when render to file-dialog was opened due Reaper bug -> fixed now (thanks to 80icio)
   - Rendering: GetRenderTable\_ProjectFile - didn't return a valid Rendertable, when normalize-settings weren't in the project-file  
