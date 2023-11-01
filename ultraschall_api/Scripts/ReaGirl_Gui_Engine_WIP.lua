@@ -164,10 +164,10 @@ function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe)
 --]]
   if keyboard~=nil and type(keyboard)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #1 - must be either nil or a a boolean") end
   if mousewheel_swipe~=nil and type(mousewheel_swipe)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #2 - must be either nil or a a boolean") end
-  if mousewheel_swipe~=nil then
+  if mousewheel_swipe~=nil and reagirl.Scroll_Override_MouseWheel~=true then
     reagirl.Scroll_Override_MouseWheel=mousewheel_swipe
   end
-  if keyboard~=nil then 
+  if keyboard~=nil and reagirl.Scroll_Override~=true then 
     reagirl.Scroll_Override=keyboard
   end
 end
@@ -1236,6 +1236,7 @@ function reagirl.Gui_Manage()
   reagirl.Window_RescaleIfNeeded()
   reagirl.UI_Elements_Boundaries()
   local scale=reagirl.Window_CurrentScale
+  local Window_State=gfx.getchar(65536)
   
   
   -- initialize focus of first element, if not done already
@@ -1405,7 +1406,10 @@ function reagirl.Gui_Manage()
        -- tooltip management
        if reagirl.TooltipWaitCounter==14 then
         local XX,YY=reaper.GetMousePosition()
-        reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
+        if Window_State&2==2 then
+          reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
+        end
+        reaper.osara_outputMessage(Window_State)
         --if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
        end
        
@@ -6213,7 +6217,7 @@ end
 
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if Key~=0 then ABBA=Key end
-  reagirl.Gui_PreventScrollingForOneCycle(true, false)
+  
   if Key==1919379572.0 then 
     element_storage["TabSelected"]=element_storage["TabSelected"]+1
     if element_storage["TabSelected"]>#element_storage["TabNames"] then element_storage["TabSelected"]=#element_storage["TabNames"] end
@@ -6227,6 +6231,7 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   
   -- click management for the tabs
   if selected==true and element_storage["Tabs_Pos"]~=nil then
+    reagirl.Gui_PreventScrollingForOneCycle(true, false)
     for i=1, #element_storage["Tabs_Pos"] do
       --if gfx.mouse_x>=x+element_storage["Tabs_Pos"]
     end
@@ -6261,12 +6266,15 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
   
   for i=1, #element_storage["TabNames"] do
     element_storage["Tabs_Pos"][i]={}
+    
     gfx.x=x+x_offset
     gfx.y=y+text_offset_y
     
     tx,ty=gfx.measurestr(element_storage["TabNames"][i])
     tx=math.tointeger(tx)
     ty=math.tointeger(ty)
+    element_storage["Tabs_Pos"][i]["x"]=x+text_offset_x
+    element_storage["Tabs_Pos"][i]["w"]=x_offset+text_offset_x+tx+text_offset_x
 
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 1, false, true, false, true)
@@ -6276,20 +6284,27 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     reagirl.RoundRect(math.tointeger(x+x_offset-text_offset_x), y, math.tointeger(tx+text_offset_x+text_offset_x), tab_height+ty, 4*dpi_scale, 1, 0, false, true, false, true)
     if i==element_storage["TabSelected"] then offset=dpi_scale gfx.set(0.253921568627451) else offset=0 gfx.set(0.153921568627451) end
     
-    element_storage["w"]=math.tointeger(tx+text_offset_x+text_offset_x)-1-x
+    --element_storage["w"]=math.tointeger(tx+text_offset_x+text_offset_x)-1-x
     gfx.rect(math.tointeger(x+x_offset-text_offset_x)+1, y+y, math.tointeger(tx+text_offset_x+text_offset_x)-1, tab_height+ty-y+offset, 4*dpi_scale, 1, 0, false, true, false, true)
+    
+    -- store the dimensions and positions of individual tabs for the manage-function
+    element_storage["Tabs_Pos"][i]["x"]=math.tointeger(x+x_offset-text_offset_x)
+    element_storage["Tabs_Pos"][i]["w"]=math.tointeger(tx+text_offset_x+text_offset_x)-1
+    element_storage["Tabs_Pos"][i]["h"]=tab_height+ty
     
     x_offset=x_offset+math.tointeger(tx)+text_offset_x+text_offset_x+dpi_scale*2
     if selected==true and i==element_storage["TabSelected"] then
       reagirl.UI_Element_SetFocusRect(true, math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end
-    element_storage["Tabs_Pos"][i]["x"]=x_offset+text_offset_x
-    element_storage["Tabs_Pos"][i]["w"]=x_offset+text_offset_x+tx+text_offset_x
-    element_storage["w"]=x_offset-dpi_scale*x_offset_factor
     
+    element_storage["w"]=x_offset-dpi_scale*x_offset_factor
     
     gfx.set(1)
     gfx.drawstr(element_storage["TabNames"][i])
+    
+    gfx.set(1,0,0)
+    gfx.rect(element_storage["Tabs_Pos"][i]["x"], y, element_storage["Tabs_Pos"][i]["w"], element_storage["Tabs_Pos"][i]["h"], 0)
+    --gfx.circle(element_storage["Tabs_Pos"][i]["x"], y, 5)
   end
   if selected==true then
     --reagirl.UI_Element_SetFocusRect(true, x, y, math.tointeger(tx), math.tointeger(ty))
@@ -6444,7 +6459,7 @@ reagirl.NextLine()
   reagirl.NextLine()
   BT1=reagirl.Button_Add(nil, nil, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
---  BT2=reagirl.Button_Add(85, 50, 0, 0, "Close Gui", "Description of the button", click_button)
+  BT2=reagirl.Button_Add(885, 550, 0, 0, "Close Gui", "Description of the button", click_button)
   --BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
   --BBB=reagirl.Button_Add(720, 770, 20, 0, "Help1", "Description of the button", click_button)
