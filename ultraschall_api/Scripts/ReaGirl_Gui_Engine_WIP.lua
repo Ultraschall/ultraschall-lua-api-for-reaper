@@ -139,7 +139,7 @@ function reagirl.Gui_ReserveImageBuffer()
   return reagirl.MaxImage
 end
 
-function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe)
+function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe, scroll_buttons)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Gui_PreventScrollingForOneCycle</slug>
@@ -148,7 +148,7 @@ function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>integer x, integer y = reagirl.Gui_PreventScrollingForOneCycle(optional boolean keyboard, optional boolean mousewheel_swipe)</functioncall>
+  <functioncall>reagirl.Gui_PreventScrollingForOneCycle(optional boolean keyboard, optional boolean mousewheel_swipe, optional boolean scroll_buttons)</functioncall>
   <description>
     Prevents the scrolling of the gui via keyboard/mousewheel/swiping for this defer-cycle.
   </description>
@@ -164,11 +164,16 @@ function reagirl.Gui_PreventScrollingForOneCycle(keyboard, mousewheel_swipe)
 --]]
   if keyboard~=nil and type(keyboard)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #1 - must be either nil or a a boolean") end
   if mousewheel_swipe~=nil and type(mousewheel_swipe)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #2 - must be either nil or a a boolean") end
+  if scroll_buttons~=nil and type(scroll_buttons)~="boolean" then error("Gui_PreventScrollingForOneCycle: param #3 - must be either nil or a a boolean") end
+  
   if mousewheel_swipe~=nil and reagirl.Scroll_Override_MouseWheel~=true then
     reagirl.Scroll_Override_MouseWheel=mousewheel_swipe
   end
   if keyboard~=nil and reagirl.Scroll_Override~=true then 
     reagirl.Scroll_Override=keyboard
+  end
+  if scroll_buttons~=nil and reagirl.Scroll_Override_ScrollButtons~=true then 
+    reagirl.Scroll_Override_ScrollButtons=scroll_buttons
   end
 end
 
@@ -1370,8 +1375,10 @@ function reagirl.Gui_Manage()
   
   -- finds out also, which ui-element shall be seen as clicked(only the last ui-element within click-area will be seen as clicked)
   -- changes the selected ui-element when clicked AND shows tooltip
+  local Scroll_Override_ScrollButtons=0
+  if reagirl.Scroll_Override_ScrollButtons==true then Scroll_Override_ScrollButtons=4 end
   reagirl.UI_Elements_HoveredElement=-1
-  for i=#reagirl.Elements, 1, -1 do
+  for i=#reagirl.Elements-Scroll_Override_ScrollButtons, 1, -1 do
     local x2, y2, w2, h2
     if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
     if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
@@ -1613,6 +1620,7 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     end
   end
   reagirl.Gui_ForceRefreshState=false
+  reagirl.Scroll_Override_ScrollButtons=nil
   --DebugRect()
 end
 
@@ -2525,7 +2533,7 @@ function reagirl.Checkbox_SetTopBottom(element_id, top, bottom)
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>reagirl.Checkbox_SetTopBottom(string element_id, boolean state)</functioncall>
+  <functioncall>reagirl.Checkbox_SetTopBottom(string element_id, boolean top, boolean bottom)</functioncall>
   <description>
     Sets a checkbox's top and bottom edges.
   </description>
@@ -2588,6 +2596,77 @@ function reagirl.Checkbox_GetTopBottom(element_id)
     error("Checkbox_GetTopBottom: param #1 - ui-element is not a checkbox", 2)
   else
     return reagirl.Elements[element_id]["top_edge"], reagirl.Elements[element_id]["bottom_edge"]
+  end
+end
+
+function reagirl.Checkbox_SetCheckState(element_id, check_state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_SetCheckState</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.Checkbox_SetCheckState(string element_id, boolean check_state)</functioncall>
+  <description>
+    Sets a checkbox's state of the checkbox.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, whose checkbox-state you want to set
+    boolean check_state - true, set checkbox checked; false, set checkbox unchecked
+  </parameters>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, set, check-state</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_SetCheckState: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_SetCheckState: param #1 - must be a valid guid", 2) end
+  if type(check_state)~="boolean" then error("Checkbox_SetCheckState: param #2 - must be a boolean", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==-1 then error("Checkbox_SetCheckState: param #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_SetCheckState: param #1 - ui-element is not a checkbox", 2)
+  else
+    reagirl.Elements[element_id]["checked"]=check_state
+    reagirl.Gui_ForceRefresh()
+  end
+end
+
+function reagirl.Checkbox_GetCheckState(element_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Checkbox_GetCheckState</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean check_state = reagirl.Checkbox_GetCheckState(string element_id)</functioncall>
+  <description>
+    Gets a checkbox's rounded edges state.
+  </description>
+  <parameters>
+    string element_id - the guid of the checkbox, whose rounded edges-state you want to get
+  </parameters>
+  <retvals>
+    boolean check_state - true, checkbox is checked; false, the checkbox is unchecked
+  </retvals>
+  <chapter_context>
+    Checkbox
+  </chapter_context>
+  <tags>checkbox, get, check-state</tags>
+</US_DocBloc>
+--]]
+  if type(element_id)~="string" then error("Checkbox_GetCheckState: param #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(element_id, true)==nil then error("Checkbox_GetCheckState: param #1 - must be a valid guid", 2) end
+  element_id = reagirl.UI_Element_GetIDFromGuid(element_id)
+  if reagirl.Elements[element_id]["GUI_Element_Type"]~="Checkbox" then
+    error("Checkbox_GetCheckState: param #1 - ui-element is not a checkbox", 2)
+  else
+    return reagirl.Elements[element_id]["checked"]
   end
 end
 
@@ -5021,6 +5100,7 @@ function reagirl.ScrollButton_Right_Add()
 end
 
 function reagirl.ScrollButton_Right_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.3) end
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(-2)
@@ -5031,6 +5111,7 @@ function reagirl.ScrollButton_Right_Manage(element_id, selected, hovered, clicke
 end
 
 function reagirl.ScrollButton_Right_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
   local x_offset=-15*scale
   if reagirl.BoundaryX_Max>gfx.w then
@@ -5080,6 +5161,7 @@ function reagirl.ScrollButton_Left_Add()
 end
 
 function reagirl.ScrollButton_Left_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.2) end
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollX(2)
@@ -5090,6 +5172,7 @@ function reagirl.ScrollButton_Left_Manage(element_id, selected, hovered, clicked
 end
 
 function reagirl.ScrollButton_Left_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
   if reagirl.BoundaryX_Max>gfx.w then
     element_storage.IsDecorative=false
@@ -5139,6 +5222,7 @@ function reagirl.ScrollButton_Up_Add()
 end
 
 function reagirl.ScrollButton_Up_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
     reagirl.UI_Element_ScrollY(2)
@@ -5149,6 +5233,7 @@ function reagirl.ScrollButton_Up_Manage(element_id, selected, hovered, clicked, 
 end
 
 function reagirl.ScrollButton_Up_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
   if reagirl.BoundaryY_Max>gfx.h then
     element_storage.IsDecorative=false
@@ -5198,6 +5283,8 @@ function reagirl.ScrollButton_Down_Add()
 end
 
 function reagirl.ScrollButton_Down_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
+  
   if element_storage.IsDecorative==false and element_storage.a<=0.75 then element_storage.a=element_storage.a+.1 reagirl.Gui_ForceRefresh(99.5) end
   refresh_1=clicked
   if mouse_cap&1==1 and selected==true and gfx.mouse_x>=x and gfx.mouse_x<=x+w and gfx.mouse_y>=y and gfx.mouse_y<=y+h then
@@ -5209,6 +5296,7 @@ function reagirl.ScrollButton_Down_Manage(element_id, selected, hovered, clicked
 end
 
 function reagirl.ScrollButton_Down_Draw(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
+  if reagirl.Scroll_Override_ScrollButtons==true then return "" end
   local scale=reagirl.Window_CurrentScale
   --print_update(x,y,w,h,scale)
   if reagirl.BoundaryY_Max>gfx.h then
@@ -6321,6 +6409,7 @@ end
 function CheckMe(tudelu, checkstate)
   --reagirl.UI_Element_SetFocused(LAB)
   --print2(tudelu, checkstate)
+  
   if checkstate==false then
     --reagirl.Window_SetCurrentScale(1)
     reagirl.Button_SetDisabled(BBB, true)
@@ -6347,11 +6436,15 @@ end
 
 function click_button(test)
   --print(os.date())
+  
 
   if test==BT1 then
-    reaper.Main_OnCommand(40015, 0)
+    --reaper.Main_OnCommand(40015, 0)
     reagirl.UI_Element_ScrollToUIElement(BT1)
     
+    if reagirl.Checkbox_GetCheckState(A3)==true then timmy=false else timmy=true end
+    print2(timmy)
+    reagirl.Checkbox_SetCheckState(A3, timmy)
   elseif test==BT2 then
     reagirl.Gui_Close()
   --reagirl.UI_Element_Remove(EID)
@@ -6421,6 +6514,7 @@ reagirl.NextLine()
   --reagirl.Checkbox_SetTopBottom(A2, true, false)
   A3 = reagirl.CheckBox_Add(nil, nil, "AAC", "AAC TUDELU", true, CheckMe)
   reagirl.Checkbox_SetTopBottom(A3, true, false)
+  reagirl.Checkbox_GetCheckState(A1)
   
   --A1=reagirl.CheckBox_Add(-280, 110, "AAC", "Export file as AAC", true, CheckMe)
   --A2=reagirl.CheckBox_Add(-280, 130, "OPUS", "Export file as OPUS", true, CheckMe)
@@ -6514,6 +6608,8 @@ reagirl.Gui_AtExit(ExitMe)
 function main()
   reagirl.Gui_Manage()
   reagirl.DockState_Update("Stonehenge")
+  
+  --reagirl.Gui_PreventScrollingForOneCycle(false, false, reagirl.Checkbox_GetCheckState)
   --reagirl.Gui_PreventCloseViaEscForOneCycle()
   --ABBA={reagirl.DropDownMenu_GetMenuItems(E)}
   --ABBA[1][1]=reaper.time_precise()
