@@ -5038,9 +5038,9 @@ function reagirl.UI_Elements_Boundaries()
   end
   --]]
   reagirl.BoundaryX_Min=0--minx
-  reagirl.BoundaryX_Max=maxx
+  reagirl.BoundaryX_Max=maxx+15*scale
   reagirl.BoundaryY_Min=0--miny
-  reagirl.BoundaryY_Max=maxy -- +scale_offset
+  reagirl.BoundaryY_Max=maxy+15*scale -- +scale_offset
   --gfx.rect(reagirl.BoundaryX_Min, reagirl.BoundaryY_Min+reagirl.MoveItAllUp, 10, 10, 1)
   --gfx.rect(reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max+reagirl.MoveItAllUp-20, 10, 10, 1)
   --gfx.drawstr(reagirl.MoveItAllUp.." "..reagirl.BoundaryY_Min)
@@ -6300,11 +6300,26 @@ function reagirl.Tabs_Add(x, y, w, h, caption, meaningOfUI_Element, tab_names, s
   reagirl.Elements[slot]["func_draw"]=reagirl.Tabs_Draw
   reagirl.Elements[slot]["run_function"]=run_function
   reagirl.Elements[slot]["userspace"]={}
+  reagirl.UI_Element_NextX_Default=reagirl.UI_Element_NextX_Default+10
   return reagirl.Elements[slot]["Guid"]
 end
 
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if Key~=0 then ABBA=Key end
+  local refresh
+  if element_storage["Tabs_Pos"]~=nil and clicked=="FirstCLK" then 
+    for i=1, #element_storage["Tabs_Pos"] do
+      if gfx.mouse_y>=y and gfx.mouse_y<=element_storage["Tabs_Pos"][i]["h"]+y then
+        if gfx.mouse_x>=element_storage["Tabs_Pos"][i]["x"] and gfx.mouse_x<=element_storage["Tabs_Pos"][i]["x"]+element_storage["Tabs_Pos"][i]["w"] then
+          if element_storage["TabSelected"]~=i then
+            element_storage["TabSelected"]=i
+            refresh=true
+          end
+          break
+        end
+      end
+    end
+  end
   
   if Key==1919379572.0 then 
     element_storage["TabSelected"]=element_storage["TabSelected"]+1
@@ -6389,11 +6404,23 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     
     gfx.set(1)
     gfx.drawstr(element_storage["TabNames"][i])
-    
-    gfx.set(1,0,0)
-    gfx.rect(element_storage["Tabs_Pos"][i]["x"], y, element_storage["Tabs_Pos"][i]["w"], element_storage["Tabs_Pos"][i]["h"], 0)
-    --gfx.circle(element_storage["Tabs_Pos"][i]["x"], y, 5)
+    --backdrop
+    --[[
+    gfx.set(0.253921568627451)
+    gfx.rect(x,y+h-dpi_scale*4,reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max-20, 1)
+    gfx.set(0.403921568627451)
+    gfx.rect(x,y+h-5,reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max-y-h-270, 0)
+    gfx.set(0.253921568627451)
+    --]]
   end
+  --backdrop
+  --[[
+  gfx.set(0.253921568627451)
+  gfx.rect(element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["x"], 
+           y+h-5*dpi_scale,
+           element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"],--+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"], 
+           dpi_scale, 0)
+  --]]
   if selected==true then
     --reagirl.UI_Element_SetFocusRect(true, x, y, math.tointeger(tx), math.tointeger(ty))
   end
@@ -6496,7 +6523,7 @@ function UpdateUI()
     end
   end
 
-reagirl.Tabs_Add(10, 10, 100, 200, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, run_function)  
+reagirl.Tabs_Add(10, 10, 100, 200, "TUDELU", "Tabs", {"HUCH", "TUDELU", "Dune", "Ach Gotterl", "Leileileilei"}, 1, sliderme)
 reagirl.NextLine()
   --reagirl.AddDummyElement()  
   LAB=reagirl.Label_Add(nil, nil, "Export Podcast as:", "Label 1", 0, false, label_click)
