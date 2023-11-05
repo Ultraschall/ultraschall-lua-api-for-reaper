@@ -1333,6 +1333,7 @@ function reagirl.Gui_Manage()
   -- Tab-key - next ui-element
   if gfx.mouse_cap&8==0 and Key==9 then 
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"])
+    ABBALICIOUS=reagirl.Elements["FocusedElement"]
     --reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
@@ -1379,62 +1380,64 @@ function reagirl.Gui_Manage()
   if reagirl.Scroll_Override_ScrollButtons==true then Scroll_Override_ScrollButtons=4 end
   reagirl.UI_Elements_HoveredElement=-1
   for i=#reagirl.Elements-Scroll_Override_ScrollButtons, 1, -1 do
-    local x2, y2, w2, h2
-    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
-    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
-    if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
-    if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
-    --[[
-    x2=x2*scale
-    y2=y2*scale
-    w2=w2*scale
-    h2=h2*scale
-    --]]
-    -- is any gui-element outside of the window
-    local MoveItAllUp=reagirl.MoveItAllUp  
-    local MoveItAllRight=reagirl.MoveItAllRight
-    if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
-    if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
+    if reagirl.Elements[i]["hidden"]~=true then
+      local x2, y2, w2, h2
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+      if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then if w2<20 then w2=20 end end
+      --[[
+      x2=x2*scale
+      y2=y2*scale
+      w2=w2*scale
+      h2=h2*scale
+      --]]
+      -- is any gui-element outside of the window
+      local MoveItAllUp=reagirl.MoveItAllUp  
+      local MoveItAllRight=reagirl.MoveItAllRight
+      if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
+      if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
+      
+      if x2+MoveItAllRight<reagirl.UI_Element_MinX then reagirl.UI_Element_MinX=x2+MoveItAllRight end
+      if y2<reagirl.UI_Element_MinY+MoveItAllUp then reagirl.UI_Element_MinY=y2+MoveItAllUp end
+      
+      if x2+MoveItAllRight+w2>reagirl.UI_Element_MaxW then reagirl.UI_Element_MaxW=x2+MoveItAllRight+w2 end
+      if y2+MoveItAllUp+h2>reagirl.UI_Element_MaxH then reagirl.UI_Element_MaxH=y2+h2+MoveItAllUp end
     
-    if x2+MoveItAllRight<reagirl.UI_Element_MinX then reagirl.UI_Element_MinX=x2+MoveItAllRight end
-    if y2<reagirl.UI_Element_MinY+MoveItAllUp then reagirl.UI_Element_MinY=y2+MoveItAllUp end
-    
-    if x2+MoveItAllRight+w2>reagirl.UI_Element_MaxW then reagirl.UI_Element_MaxW=x2+MoveItAllRight+w2 end
-    if y2+MoveItAllUp+h2>reagirl.UI_Element_MaxH then reagirl.UI_Element_MaxH=y2+h2+MoveItAllUp end
-  
-    -- show tooltip when hovering over a ui-element
-    -- also set clicked ui-element to the one at mouse-position, when specific_clickstate="FirstCLK"
-    if gfx.mouse_x>=x2+MoveItAllRight and
-       gfx.mouse_x<=x2+MoveItAllRight+w2 and
-       gfx.mouse_y>=y2+MoveItAllUp and
-       gfx.mouse_y<=y2+MoveItAllUp+h2 then
-       reagirl.UI_Elements_HoveredElement=i
-       -- tooltip management
-       if reagirl.TooltipWaitCounter==14 then
-        local XX,YY=reaper.GetMousePosition()
-        if Window_State&2==2 then
-          reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
-        end
-        reaper.osara_outputMessage(Window_State)
-        --if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
-       end
-       
-       -- focused/clicked ui-element-management
-       if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDecorative"]==false then
-         if i~=reagirl.Elements["FocusedElement"] then
-           init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
-           helptext=reagirl.Elements[i]["Description"]..", "..reagirl.Elements[i]["AccHint"]
+      -- show tooltip when hovering over a ui-element
+      -- also set clicked ui-element to the one at mouse-position, when specific_clickstate="FirstCLK"
+      if gfx.mouse_x>=x2+MoveItAllRight and
+         gfx.mouse_x<=x2+MoveItAllRight+w2 and
+         gfx.mouse_y>=y2+MoveItAllUp and
+         gfx.mouse_y<=y2+MoveItAllUp+h2 then
+         reagirl.UI_Elements_HoveredElement=i
+         -- tooltip management
+         if reagirl.TooltipWaitCounter==14 then
+          local XX,YY=reaper.GetMousePosition()
+          if Window_State&2==2 then
+            reaper.TrackCtl_SetToolTip(reagirl.Elements[i]["Description"], XX+15, YY+10, true)
+          end
+          reaper.osara_outputMessage(Window_State)
+          --if reaper.osara_outputMessage~=nil then reaper.osara_outputMessage(reagirl.Elements[i]["Text"],2--[[:utf8_sub(1,20)]]) end
          end
          
-         -- set found ui-element as focused and clicked
-         reagirl.Elements["FocusedElement"]=i
-         reagirl.Elements[i]["clicked"]=true
-         reagirl.UI_Element_SetFocusRect()
-         reagirl.Gui_ForceRefresh(6) 
-       end
-       found_element=i
-       break
+         -- focused/clicked ui-element-management
+         if (specific_clickstate=="FirstCLK") and reagirl.Elements[i]["IsDecorative"]==false then
+           if i~=reagirl.Elements["FocusedElement"] then
+             init_message=reagirl.Elements[i]["Name"].." "..reagirl.Elements[i]["GUI_Element_Type"]:sub(1,-1).." "
+             helptext=reagirl.Elements[i]["Description"]..", "..reagirl.Elements[i]["AccHint"]
+           end
+           
+           -- set found ui-element as focused and clicked
+           reagirl.Elements["FocusedElement"]=i
+           reagirl.Elements[i]["clicked"]=true
+           reagirl.UI_Element_SetFocusRect()
+           reagirl.Gui_ForceRefresh(6) 
+         end
+         found_element=i
+         break
+      end
     end
   end
   
@@ -1453,64 +1456,66 @@ function reagirl.Gui_Manage()
   -- this is also the code, where a clickstate of a selected ui-element is interpreted
   --reaper.ClearConsole()
   for i=#reagirl.Elements, 1, -1 do
-    local x2, y2, w2, h2
-    if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=(reagirl.Elements[i]["x"]*scale) end
-    if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=(reagirl.Elements[i]["y"]*scale) end
-    if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-    if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
-    --[[
-    x2=x2*scale
-    y2=y2*scale
-    w2=w2*scale
-    h2=h2*scale
-    --]]
-    
-    local MoveItAllUp=reagirl.MoveItAllUp   
-    local MoveItAllRight=reagirl.MoveItAllRight
-    if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
-    if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
-    --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
-    -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
-    --                   but seems to work without it as well
-    if reagirl.Elements[i]["IsDecorative"]==false then
-      if i==reagirl.Elements["FocusedElement"] or ((((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
-      or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
-      or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
-      and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
-      or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
-      or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4)
-      then--]]  
-        -- run manage-function of ui-element
-        local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
-          reagirl.UI_Elements_HoveredElement==i,
-          specific_clickstate,
-          gfx.mouse_cap,
-          {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
-          reagirl.Elements[i]["Name"],
-          reagirl.Elements[i]["Description"], 
-          x2+MoveItAllRight,
-          y2+MoveItAllUp,
-          w2,
-          h2,
-          Key,
-          Key_utf,
-          reagirl.Elements[i]
-        )
-        if i==reagirl.Elements.FocusedElement then message=cur_message end
-        --print_update(message)
-      end -- only run manage-functions of visible gui-elements
-      --print_update(reaper.time_precise()-AAAA)
+    if reagirl.Elements[i]["hidden"]~=true then
+      local x2, y2, w2, h2
+      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=(reagirl.Elements[i]["x"]*scale) end
+      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=(reagirl.Elements[i]["y"]*scale) end
+      if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+      if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+      --[[
+      x2=x2*scale
+      y2=y2*scale
+      w2=w2*scale
+      h2=h2*scale
+      --]]
       
-      -- output screenreader-message of ui-element
-      if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
-        --reaper.osara_outputMessage(reagirl.osara_init_message..message)
-        if message==nil then message="" end
+      local MoveItAllUp=reagirl.MoveItAllUp   
+      local MoveItAllRight=reagirl.MoveItAllRight
+      if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
+      if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
+      --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w) or (y2+MoveItAllUp>=0 and y2+MoveItAllUp<=gfx.h) or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) or (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
+      -- uncommented code: might improve performance by running only manage-functions of UI-elements, who are visible(though might be buggy)
+      --                   but seems to work without it as well
+      if reagirl.Elements[i]["IsDecorative"]==false then
+        if i==reagirl.Elements["FocusedElement"] or ((((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+        or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
+        or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
+        and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
+        or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
+        or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4)
+        then--]]  
+          -- run manage-function of ui-element
+          local cur_message, refresh=reagirl.Elements[i]["func_manage"](i, reagirl.Elements["FocusedElement"]==i,
+            reagirl.UI_Elements_HoveredElement==i,
+            specific_clickstate,
+            gfx.mouse_cap,
+            {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+            reagirl.Elements[i]["Name"],
+            reagirl.Elements[i]["Description"], 
+            x2+MoveItAllRight,
+            y2+MoveItAllUp,
+            w2,
+            h2,
+            Key,
+            Key_utf,
+            reagirl.Elements[i]
+          )
+          if i==reagirl.Elements.FocusedElement then message=cur_message end
+          --print_update(message)
+        end -- only run manage-functions of visible gui-elements
+        --print_update(reaper.time_precise()-AAAA)
         
-        reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext,3)
-        reagirl.old_osara_message=message
-        reagirl.osara_init_message=""
+        -- output screenreader-message of ui-element
+        if reagirl.Elements["FocusedElement"]==i and reagirl.Elements[reagirl.Elements["FocusedElement"]]["IsDecorative"]==false and reagirl.old_osara_message~=message and reaper.osara_outputMessage~=nil then
+          --reaper.osara_outputMessage(reagirl.osara_init_message..message)
+          if message==nil then message="" end
+          
+          reaper.osara_outputMessage(reagirl.osara_init_message..""..init_message.." "..message.." "..helptext,3)
+          reagirl.old_osara_message=message
+          reagirl.osara_init_message=""
+        end
+        if refresh==true then reagirl.Gui_ForceRefresh(7) end
       end
-      if refresh==true then reagirl.Gui_ForceRefresh(7) end
     end
   end
   --]]
@@ -1536,83 +1541,85 @@ function reagirl.Gui_Draw(Key, Key_utf, clickstate, specific_clickstate, mouse_c
     -- draw all ui-elements
     --AAAAA=0
     for i=1, #reagirl.Elements, 1 do
-      local x2, y2, w2, h2
-      if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
-      if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
-      
-      --if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-      if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
-      if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
-      --[[
-      x2=x2*scale
-      y2=y2*scale
-      w2=w2*scale
-      h2=h2*scale
-      --]]
-
-      local MoveItAllUp=reagirl.MoveItAllUp  
-      local MoveItAllRight=reagirl.MoveItAllRight
-      if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
-      if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
-      
-      -- run the draw-function of the ui-element
-      
-      -- the following lines shall limit drawing on only visible areas. However, when non-resized images are used, the width and height don't match and therefor the image might disappear when scrolling
-      --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       and (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
-      --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) and (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
-      
-      --[[if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
-      or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
-      or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
-      and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
-      or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
-      or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4
-      then
-      --]]
- --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
-      --AAAAA=AAAAA+1
-        local message=reagirl.Elements[i]["func_draw"](i, reagirl.Elements["FocusedElement"]==i,
-          reagirl.UI_Elements_HoveredElement==i,
-          specific_clickstate,
-          gfx.mouse_cap,
-          {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
-          reagirl.Elements[i]["Name"],
-          reagirl.Elements[i]["Description"], 
-          math.floor(x2+MoveItAllRight),
-          math.floor(y2+MoveItAllUp),
-          math.floor(w2),
-          math.floor(h2),
-          Key,
-          Key_utf,
-          reagirl.Elements[i]
-        )
-      --end -- draw_only_necessary-elements
-      if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
-        --if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then --  if w2<20 then w2=20 end end
-        local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
-        local dest=gfx.dest
-        gfx.dest=-1
-        gfx.set(0.7,0.7,0.7,0.8)
-        local _,_,_,_,x,y,w,h=reagirl.UI_Element_GetFocusRect()
-        --print_update(scale, x, y, w, h, reagirl.Font_Size)
-        if reagirl.Focused_Rect_Override==nil then
-          gfx.rect((x2+MoveItAllRight-2), (y2+MoveItAllUp-2), (w2+4), (h2+3), 0)
-        else
-          gfx.rect(reagirl.Elements["Focused_x"], reagirl.Elements["Focused_y"], reagirl.Elements["Focused_w"], reagirl.Elements["Focused_h"], 0)
-        end
-        reagirl.Focused_Rect_Override=nil
-        gfx.set(r,g,b,a)
-        gfx.dest=dest
+      if reagirl.Elements[i]["hidden"]~=true then
+        local x2, y2, w2, h2
+        if reagirl.Elements[i]["x"]<0 then x2=gfx.w+(reagirl.Elements[i]["x"]*scale) else x2=reagirl.Elements[i]["x"]*scale end
+        if reagirl.Elements[i]["y"]<0 then y2=gfx.h+(reagirl.Elements[i]["y"]*scale) else y2=reagirl.Elements[i]["y"]*scale end
         
-        -- if osara is installed, move mouse to hover above ui-element
-        if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
-          reagirl.oldselection=i
-          if reaper.JS_Mouse_SetPosition~=nil then 
-            --reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
-            if gfx.mouse_x<=x2 or gfx.mouse_x>=x2+w2 or gfx.mouse_y<=y2 or gfx.mouse_y>=y2+h2 then
-              --local tempx, tempy=gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)
-              --if tempx<0 then tempx=-tempx end
-              reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+        --if reagirl.Elements[i]["w"]<0 then w2=gfx.w-(x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+        if reagirl.Elements[i]["w"]<0 then w2=gfx.w+(-x2+reagirl.Elements[i]["w"]*scale) else w2=reagirl.Elements[i]["w"]*scale end
+        if reagirl.Elements[i]["h"]<0 then h2=gfx.h+(-y2+reagirl.Elements[i]["h"]*scale) else h2=reagirl.Elements[i]["h"]*scale end
+        --[[
+        x2=x2*scale
+        y2=y2*scale
+        w2=w2*scale
+        h2=h2*scale
+        --]]
+  
+        local MoveItAllUp=reagirl.MoveItAllUp  
+        local MoveItAllRight=reagirl.MoveItAllRight
+        if reagirl.Elements[i]["sticky_y"]==true then MoveItAllUp=0 end
+        if reagirl.Elements[i]["sticky_x"]==true then MoveItAllRight=0 end
+        
+        -- run the draw-function of the ui-element
+        
+        -- the following lines shall limit drawing on only visible areas. However, when non-resized images are used, the width and height don't match and therefor the image might disappear when scrolling
+        --if (x2+MoveItAllRight>=0 and x2+MoveItAllRight<=gfx.w)       and (y2+MoveItAllUp>=0    and y2+MoveItAllUp<=gfx.h) 
+        --or (x2+MoveItAllRight+w2>=0 and x2+MoveItAllRight+w2<=gfx.w) and (y2+MoveItAllUp+h2>=0 and y2+MoveItAllUp+h2<=gfx.h) then
+        
+        --[[if (((x2+reagirl.MoveItAllRight>0 and x2+reagirl.MoveItAllRight<=gfx.w) 
+        or (x2+w2+reagirl.MoveItAllRight>0 and x2+w2+reagirl.MoveItAllRight<=gfx.w) 
+        or (x2+reagirl.MoveItAllRight<=0 and x2+w2+reagirl.MoveItAllRight>=gfx.w))
+        and ((y2+reagirl.MoveItAllUp>=0 and y2+reagirl.MoveItAllUp<=gfx.h)
+        or (y2+h2+reagirl.MoveItAllUp>=0 and y2+h2+reagirl.MoveItAllUp<=gfx.h)
+        or (y2+reagirl.MoveItAllUp<=0 and y2+h2+reagirl.MoveItAllUp>=gfx.h))) or i>#reagirl.Elements-4
+        then
+        --]]
+   --     print_update((x2+reagirl.MoveItAllRight>=0 and x2+reagirl.MoveItAllRight<=gfx.w), x2+MoveItAllRight, (x2+reagirl.MoveItAllRight+w2>=0 and x2+reagirl.MoveItAllRight+w2<=gfx.w))
+        --AAAAA=AAAAA+1
+          local message=reagirl.Elements[i]["func_draw"](i, reagirl.Elements["FocusedElement"]==i,
+            reagirl.UI_Elements_HoveredElement==i,
+            specific_clickstate,
+            gfx.mouse_cap,
+            {click_x, click_y, drag_x, drag_y, mouse_wheel, mouse_hwheel},
+            reagirl.Elements[i]["Name"],
+            reagirl.Elements[i]["Description"], 
+            math.floor(x2+MoveItAllRight),
+            math.floor(y2+MoveItAllUp),
+            math.floor(w2),
+            math.floor(h2),
+            Key,
+            Key_utf,
+            reagirl.Elements[i]
+          )
+        --end -- draw_only_necessary-elements
+        if reagirl.Elements["FocusedElement"]~=-1 and reagirl.Elements["FocusedElement"]==i then
+          --if reagirl.Elements[i]["GUI_Element_Type"]=="DropDownMenu" then --  if w2<20 then w2=20 end end
+          local r,g,b,a=gfx.r,gfx.g,gfx.b,gfx.a
+          local dest=gfx.dest
+          gfx.dest=-1
+          gfx.set(0.7,0.7,0.7,0.8)
+          local _,_,_,_,x,y,w,h=reagirl.UI_Element_GetFocusRect()
+          --print_update(scale, x, y, w, h, reagirl.Font_Size)
+          if reagirl.Focused_Rect_Override==nil then
+            gfx.rect((x2+MoveItAllRight-2), (y2+MoveItAllUp-2), (w2+4), (h2+3), 0)
+          else
+            gfx.rect(reagirl.Elements["Focused_x"], reagirl.Elements["Focused_y"], reagirl.Elements["Focused_w"], reagirl.Elements["Focused_h"], 0)
+          end
+          reagirl.Focused_Rect_Override=nil
+          gfx.set(r,g,b,a)
+          gfx.dest=dest
+          
+          -- if osara is installed, move mouse to hover above ui-element
+          if reaper.osara_outputMessage~=nil and reagirl.oldselection~=i then
+            reagirl.oldselection=i
+            if reaper.JS_Mouse_SetPosition~=nil then 
+              --reagirl.UI_Element_ScrollToUIElement(reagirl.Elements[reagirl.Elements["FocusedElement"]].Guid) -- buggy, should scroll to ui-element...
+              if gfx.mouse_x<=x2 or gfx.mouse_x>=x2+w2 or gfx.mouse_y<=y2 or gfx.mouse_y>=y2+h2 then
+                --local tempx, tempy=gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)
+                --if tempx<0 then tempx=-tempx end
+                reaper.JS_Mouse_SetPosition(gfx.clienttoscreen(x2+MoveItAllRight+4,y2+MoveItAllUp+4)) 
+              end
             end
           end
         end
@@ -1814,7 +1821,7 @@ function reagirl.UI_Element_GetNext(startoffset)
   for i=1, #reagirl.Elements do
     count=count+1
     if count>#reagirl.Elements then count=1 end
-    if reagirl.Elements[count]~=nil and reagirl.Elements[count].IsDecorative==false then 
+    if reagirl.Elements[count]~=nil and reagirl.Elements[count].IsDecorative==false and reagirl.Elements[count]["hidden"]~=true then 
       return count, reagirl.Elements[count].Guid 
     end
   end
@@ -1829,7 +1836,7 @@ function reagirl.UI_Element_GetPrevious(startoffset)
   for i=1, #reagirl.Elements do
     count=count-1
     if count<1 then count=#reagirl.Elements end
-    if reagirl.Elements[count].IsDecorative==false then return count, reagirl.Elements[count].Guid end
+    if reagirl.Elements[count].IsDecorative==false and reagirl.Elements[count]["hidden"]~=true then return count, reagirl.Elements[count].Guid end
   end
   return -1, ""
 end
@@ -6272,7 +6279,7 @@ function reagirl.Tabs_Add(x, y, w, h, caption, meaningOfUI_Element, tab_names, s
   reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0, 1)
   local tx, ty =gfx.measurestr(caption.."")
 
-  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   table.insert(reagirl.Elements, slot, {})
@@ -6287,12 +6294,18 @@ function reagirl.Tabs_Add(x, y, w, h, caption, meaningOfUI_Element, tab_names, s
   reagirl.Elements[slot]["AccHint"]="Switch tab using left/right arrow-keys"
   reagirl.Elements[slot]["x"]=x
   reagirl.Elements[slot]["y"]=y
-  reagirl.Elements[slot]["w"]=math.tointeger(ty+tx+4)
+  reagirl.Elements[slot]["text_offset_x"]=20
+  reagirl.Elements[slot]["text_offset_y"]=5
+  local width=0
+  for i=1, #tab_names do
+    width=width+gfx.measurestr(tab_names[i])
+  end
+  width=width+(#tab_names*(reagirl.Window_GetCurrentScale()+reagirl.Elements[slot]["text_offset_x"])*2)
+  reagirl.SetFont(1, "Arial", reagirl.Font_Size, 0)
+  reagirl.Elements[slot]["w"]=math.tointeger(width)
   reagirl.Elements[slot]["h"]=math.tointeger(ty)+15
   reagirl.Elements[slot]["w_background"]=w
   reagirl.Elements[slot]["h_background"]=h
-  reagirl.Elements[slot]["text_offset_x"]=20
-  reagirl.Elements[slot]["text_offset_y"]=5
   reagirl.Elements[slot]["sticky_x"]=false
   reagirl.Elements[slot]["sticky_y"]=false
 
@@ -6403,11 +6416,10 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
       reagirl.UI_Element_SetFocusRect(true, math.tointeger(gfx.x), y+text_offset_y, math.tointeger(tx), math.tointeger(ty))
     end
     
-    element_storage["w"]=x_offset-dpi_scale*x_offset_factor
-    
     gfx.set(1)
     gfx.drawstr(element_storage["TabNames"][i])
   end
+  --element_storage["w"]=x_offset-x_offset_factor
   -- backdrop
   
   gfx.set(0.253921568627451)
@@ -6642,7 +6654,7 @@ function main()
   --ABBA[1][1]=reaper.time_precise()
   --reagirl.DropDownMenu_SetMenuItems(E, ABBA[1], 1)
   --reagirl.Gui_ForceRefresh()
-  
+  reagirl.Elements[2]["hidden"]=true
   gfx.update()
   
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
