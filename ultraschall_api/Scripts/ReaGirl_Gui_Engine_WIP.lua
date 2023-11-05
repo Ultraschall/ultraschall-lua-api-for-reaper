@@ -1333,7 +1333,6 @@ function reagirl.Gui_Manage()
   -- Tab-key - next ui-element
   if gfx.mouse_cap&8==0 and Key==9 then 
     reagirl.Elements["FocusedElement"]=reagirl.UI_Element_GetNext(reagirl.Elements["FocusedElement"])
-    ABBALICIOUS=reagirl.Elements["FocusedElement"]
     --reagirl.Elements["FocusedElement"]=reagirl.Elements["FocusedElement"]+1 
     if reagirl.Elements["FocusedElement"]~=-1 then
       if reagirl.Elements["FocusedElement"]>#reagirl.Elements then reagirl.Elements["FocusedElement"]=1 end 
@@ -4685,33 +4684,35 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
   local i=1
   if reagirl.DropZone~=nil then
     for i=1, #reagirl.DropZone do
-      if reagirl.DropZone[i]["DropZoneX"]<0 then x=gfx.w+reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight else x=reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight end
-      if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp else y=reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp end
-      if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
-      if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
-      x=x*scale
-      y=y*scale
-      w=w*scale
-      h=h*scale
-      -- debug dropzone-rectangle, for checking, if it works
-      --[[
-        gfx.set(1)
-        gfx.rect(x, y, w, h, 0)
-      --]]
-      local files={}
-      local retval
-      if gfx.mouse_x>=x and
-         gfx.mouse_y>=y and
-         gfx.mouse_x<=x+w and
-         gfx.mouse_y<=y+h then
-         for i=0, 65555 do
-           retval, files[i+1]=gfx.getdropfile(i)
-           if retval==false then break end
-         end
-         if #files>0 then
-          reagirl.DropZone[i]["DropZoneFunc"](reagirl.DropZone[i]["Guid"], files)
-          reagirl.Gui_ForceRefresh(14)
-         end
+      if reagirl.DropZone[i]["hidden"]~=true then
+        if reagirl.DropZone[i]["DropZoneX"]<0 then x=gfx.w+reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight else x=reagirl.DropZone[i]["DropZoneX"]+reagirl.MoveItAllRight end
+        if reagirl.DropZone[i]["DropZoneY"]<0 then y=gfx.h+reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp else y=reagirl.DropZone[i]["DropZoneY"]+reagirl.MoveItAllUp end
+        if reagirl.DropZone[i]["DropZoneW"]<0 then w=gfx.w-x+reagirl.DropZone[i]["DropZoneW"] else w=reagirl.DropZone[i]["DropZoneW"] end
+        if reagirl.DropZone[i]["DropZoneH"]<0 then h=gfx.h-y+reagirl.DropZone[i]["DropZoneH"] else h=reagirl.DropZone[i]["DropZoneH"] end
+        x=x*scale
+        y=y*scale
+        w=w*scale
+        h=h*scale
+        -- debug dropzone-rectangle, for checking, if it works
+        --[[
+          gfx.set(1)
+          gfx.rect(x, y, w, h, 0)
+        --]]
+        local files={}
+        local retval
+        if gfx.mouse_x>=x and
+           gfx.mouse_y>=y and
+           gfx.mouse_x<=x+w and
+           gfx.mouse_y<=y+h then
+           for i=0, 65555 do
+             retval, files[i+1]=gfx.getdropfile(i)
+             if retval==false then break end
+           end
+           if #files>0 then
+            reagirl.DropZone[i]["DropZoneFunc"](reagirl.DropZone[i]["Guid"], files)
+            reagirl.Gui_ForceRefresh(14)
+           end
+        end
       end
     end
     gfx.getdropfile(-1)
@@ -4748,35 +4749,37 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
   if mouse_cap&2==0 then return end
   if reagirl.ContextMenu~=nil then
     for i=1, #reagirl.ContextMenu do
-      if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight else x=reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight end
-      if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp else y=reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp end
-      if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
-      if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
-      x=x*scale
-      y=y*scale
-      w=w*scale
-      h=h*scale
-      -- debug dropzone-rectangle, for checking, if it works
-      --[[
-        gfx.set(1)
-        gfx.rect(x, y, w, h, 1)
-      --]]
-      local files={}
-      local retval
-      if gfx.mouse_x>=x and
-         gfx.mouse_y>=y and
-         gfx.mouse_x<=x+w and
-         gfx.mouse_y<=y+h then
-         local oldx=gfx.x
-         local oldy=gfx.y
-         gfx.x=gfx.mouse_x
-         gfx.y=gfx.mouse_y
-        local retval=gfx.showmenu(reagirl.ContextMenu[i]["ContextMenu"])
-        if retval>0 then
-          reagirl.ContextMenu[i]["ContextMenuFunc"](i, retval)
+      if reagirl.ContextMenu[i]["hidden"]~=true then
+        if reagirl.ContextMenu[i]["ContextMenuX"]<0 then x=gfx.w+reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight else x=reagirl.ContextMenu[i]["ContextMenuX"]+reagirl.MoveItAllRight end
+        if reagirl.ContextMenu[i]["ContextMenuY"]<0 then y=gfx.h+reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp else y=reagirl.ContextMenu[i]["ContextMenuY"]+reagirl.MoveItAllUp end
+        if reagirl.ContextMenu[i]["ContextMenuW"]<0 then w=gfx.w-x+reagirl.ContextMenu[i]["ContextMenuW"] else w=reagirl.ContextMenu[i]["ContextMenuW"] end
+        if reagirl.ContextMenu[i]["ContextMenuH"]<0 then h=gfx.h-y+reagirl.ContextMenu[i]["ContextMenuH"] else h=reagirl.ContextMenu[i]["ContextMenuH"] end
+        x=x*scale
+        y=y*scale
+        w=w*scale
+        h=h*scale
+        -- debug dropzone-rectangle, for checking, if it works
+        --[[
+          gfx.set(1)
+          gfx.rect(x, y, w, h, 1)
+        --]]
+        local files={}
+        local retval
+        if gfx.mouse_x>=x and
+           gfx.mouse_y>=y and
+           gfx.mouse_x<=x+w and
+           gfx.mouse_y<=y+h then
+           local oldx=gfx.x
+           local oldy=gfx.y
+           gfx.x=gfx.mouse_x
+           gfx.y=gfx.mouse_y
+          local retval=gfx.showmenu(reagirl.ContextMenu[i]["ContextMenu"])
+          if retval>0 then
+            reagirl.ContextMenu[i]["ContextMenuFunc"](i, retval)
+          end
+          gfx.x=oldx
+          gfx.y=oldy
         end
-        gfx.x=oldx
-        gfx.y=oldy
       end
       reagirl.Gui_ForceRefresh(15)
     end
@@ -6655,6 +6658,7 @@ function main()
   --reagirl.DropDownMenu_SetMenuItems(E, ABBA[1], 1)
   --reagirl.Gui_ForceRefresh()
   reagirl.Elements[2]["hidden"]=true
+  reagirl.ContextMenu[1]["hidden"]=true
   gfx.update()
   
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
