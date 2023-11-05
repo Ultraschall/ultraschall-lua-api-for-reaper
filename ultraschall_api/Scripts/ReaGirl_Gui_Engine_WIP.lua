@@ -6307,6 +6307,7 @@ end
 function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, mouse_attributes, name, description, x, y, w, h, Key, Key_UTF, element_storage)
   if Key~=0 then ABBA=Key end
   local refresh
+  if element_storage["Tabs_Pos"]==nil then reagirl.Gui_ForceRefresh() end
   if element_storage["Tabs_Pos"]~=nil and clicked=="FirstCLK" then 
     for i=1, #element_storage["Tabs_Pos"] do
       if gfx.mouse_y>=y and gfx.mouse_y<=element_storage["Tabs_Pos"][i]["h"]+y then
@@ -6322,14 +6323,16 @@ function reagirl.Tabs_Manage(element_id, selected, hovered, clicked, mouse_cap, 
   end
   
   if Key==1919379572.0 then 
-    element_storage["TabSelected"]=element_storage["TabSelected"]+1
-    if element_storage["TabSelected"]>#element_storage["TabNames"] then element_storage["TabSelected"]=#element_storage["TabNames"] end
-    refresh=true
+    if element_storage["TabSelected"]+1~=#element_storage["TabNames"]+1 then
+      element_storage["TabSelected"]=element_storage["TabSelected"]+1
+      refresh=true
+    end
   end
   if Key==1818584692.0 then
-    element_storage["TabSelected"]=element_storage["TabSelected"]-1
-    if element_storage["TabSelected"]<1 then element_storage["TabSelected"]=1 end
-    refresh=true
+    if element_storage["TabSelected"]-1~=0 then
+      element_storage["TabSelected"]=element_storage["TabSelected"]-1
+      refresh=true
+    end
   end
   
   -- click management for the tabs
@@ -6404,23 +6407,20 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     
     gfx.set(1)
     gfx.drawstr(element_storage["TabNames"][i])
-    --backdrop
-    
-    gfx.set(0.253921568627451)
-    gfx.rect(x,y+h-dpi_scale*4,reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 1)
-    gfx.set(0.403921568627451)
-    gfx.rect(x,y+h-5,reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 0)
-    gfx.set(0.253921568627451)
-    --]]
   end
-  --backdrop
+  -- backdrop
   
   gfx.set(0.253921568627451)
-  gfx.rect(element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["x"], 
-           y+h-5*dpi_scale,
+  gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 1)
+  gfx.set(0.403921568627451)
+  gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 0)
+  gfx.set(0.253921568627451)
+  gfx.set(0.253921568627451)
+  gfx.rect(element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["x"]+1, 
+           y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],
            element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"],--+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["w"], 
            dpi_scale, 0)
-  --]]
+  
   if selected==true then
     --reagirl.UI_Element_SetFocusRect(true, x, y, math.tointeger(tx), math.tointeger(ty))
   end
@@ -6578,9 +6578,9 @@ reagirl.NextLine()
   --reagirl.Line_Add(0,43,-1,43,1,1,1,0.7)
   
   reagirl.NextLine()
-  BT1=reagirl.Button_Add(nil, nil, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
+--  BT1=reagirl.Button_Add(nil, nil, 0, 0, "Export Podcast", "Will open the Render to File-dialog, which allows you to export the file as MP3", click_button)
   
-  BT2=reagirl.Button_Add(885, 550, 0, 0, "Close Gui", "Description of the button", click_button)
+--  BT2=reagirl.Button_Add(885, 550, 0, 0, "Close Gui", "Description of the button", click_button)
   --BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
   --BBB=reagirl.Button_Add(720, 770, 20, 0, "Help1", "Description of the button", click_button)
