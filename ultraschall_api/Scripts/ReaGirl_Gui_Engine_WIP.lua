@@ -1961,6 +1961,52 @@ function reagirl.UI_Element_GetSetName(element_id, is_set, name)
   return reagirl.Elements[element_id]["Name"]
 end
 
+function reagirl.UI_Element_GetSetHidden(element_id, is_set, hidden)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UI_Element_GetSetHidden</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>boolean hidden = reagirl.UI_Element_GetSetHidden(string element_id, boolean is_set, boolean hidden)</functioncall>
+  <description>
+    gets/sets the hidden-state of the ui-element
+  </description>
+  <retvals>
+    boolean hidden - the hidden-state of the ui-element
+  </retvals>
+  <parameters>
+    string element_id - the id of the element, whose name you want to get/set
+    boolean is_set - true, set the hidden-state; false, don't set the hidden-state
+    boolean hidden - true, set to hidden; false, set to visible
+  </parameters>
+  <chapter_context>
+    UI Elements
+  </chapter_context>
+  <target_document>ReaGirl_Docs</target_document>
+  <source_document>reagirl_GuiEngine.lua</source_document>
+  <tags>gfx, functions, set, get, hidden, visibility, ui-elements</tags>
+</US_DocBloc>
+]]
+  if type(element_id)~="string" then error("UI_Element_GetSetHidden: #1 - must be a guid as string", 2) end
+  element_id=reagirl.UI_Element_GetIDFromGuid(element_id)
+  if element_id==nil then error("UI_Element_GetSetHidden: #1 - no such ui-element", 2) end
+  if reagirl.Elements[element_id]==nil then error("UI_Element_GetSetHidden: #1 - no such ui-element", 2) end
+  if type(is_set)~="boolean" then error("UI_Element_GetSetHidden: #2 - must be a boolean", 2) end
+  if is_set==true and type(hidden)~="boolean" then error("UI_Element_GetSetHidden: #3 - must be a boolean when #2==true", 2) end
+  
+  if is_set==true then
+    if hidden==true then
+      reagirl.Elements[element_id]["hidden"]=true
+    else
+      reagirl.Elements[element_id]["hidden"]=nil
+    end
+  end
+  return reagirl.Elements[element_id]["hidden"]==true
+end
+
 function reagirl.UI_Element_GetSetSticky(element_id, is_set, sticky_x, sticky_y)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -4719,6 +4765,37 @@ function reagirl.FileDropZone_CheckForDroppedFiles()
   end
 end
 
+function reagirl.FileDropZone_SetVisibility(dropzone_id, visibility)
+  -- DOCS!
+  if type(dropzone_id)~="string" then error("FileDropZone_SetVisibility: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_SetVisibility: #1 - must be a valid guid", 2) end
+  if type(visibility)~="boolean" then error("FileDropZone_SetVisibility: #2 - must be a boolean", 2) end
+  local count=-1
+  for i=1, #reagirl.DropZone do
+    if reagirl.DropZone[i]["Guid"]==dropzone_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("FileDropZone_SetVisibility: #1 - no such drop-zone", 2) end
+  if visibility==true then reagirl.DropZone[count]["hidden"]=true else reagirl.DropZone[count]["hidden"]=nil end
+end
+
+function reagirl.FileDropZone_GetVisibility(dropzone_id)
+  -- DOCS!
+  if type(dropzone_id)~="string" then error("FileDropZone_GetVisibility: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(dropzone_id, true)==false then error("FileDropZone_GetVisibility: #1 - must be a valid guid", 2) end
+  local count=-1
+  for i=1, #reagirl.DropZone do
+    if reagirl.DropZone[i]["Guid"]==dropzone_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("FileDropZone_GetVisibility: #1 - no such drop-zone", 2) end
+  return reagirl.DropZone[count]["hidden"]==true
+end
+
 function reagirl.FileDropZone_Add(x,y,w,h,func)
   if reagirl.DropZone==nil then reagirl.DropZone={} end
   reagirl.DropZone[#reagirl.DropZone+1]={}
@@ -4784,6 +4861,35 @@ function reagirl.ContextMenuZone_ManageMenu(mouse_cap)
       reagirl.Gui_ForceRefresh(15)
     end
   end
+end
+
+function reagirl.ContextMenuZone_SetVisibility(contextmenu_id, visibility)
+  if type(contextmenu_id)~="string" then error("ContextMenuZone_SetVisibility: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_SetVisibility: #1 - must be a valid guid", 2) end
+  if type(visibility)~="boolean" then error("ContextMenuZone_SetVisibility: #2 - must be a boolean", 2) end
+  local count=-1
+  for i=1, #reagirl.ContextMenu do
+    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("ContextMenuZone_SetVisibility: #1 - no such drop-zone", 2) end
+  if visibility==true then reagirl.ContextMenu[count]["hidden"]=true else reagirl.ContextMenu[count]["hidden"]=nil end
+end
+
+function reagirl.ContextMenuZone_GetVisibility(contextmenu_id)
+  if type(contextmenu_id)~="string" then error("ContextMenuZone_GetVisibility: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_GetVisibility: #1 - must be a valid guid", 2) end
+  local count=-1
+  for i=1, #reagirl.ContextMenu do
+    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("ContextMenuZone_GetVisibility: #1 - no such drop-zone", 2) end
+  return reagirl.ContextMenu[count]["hidden"]==true
 end
 
 function reagirl.ContextMenuZone_Add(x,y,w,h,menu, func)
@@ -5480,7 +5586,7 @@ function reagirl.Slider_Add(x, y, w, caption, meaningOfUI_Element, unit, start, 
     function run_function - a function that shall be run when the slider is clicked; will get passed over the slider-element_id as first and the new slider-value as second parameter
   </parameters>
   <retvals>
-    string checkbox_guid - a guid that can be used for altering the slider-attributes
+    string slider_guid - a guid that can be used for altering the slider-attributes
   </retvals>
   <chapter_context>
     Slider
@@ -6427,6 +6533,7 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
   
   gfx.set(0.253921568627451)
   gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 1)
+  gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 1)
   gfx.set(0.403921568627451)
   gfx.rect(x,y+element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["h"],reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 0)
   gfx.set(0.253921568627451)
@@ -6451,7 +6558,9 @@ end
 function CheckMe(tudelu, checkstate)
   --reagirl.UI_Element_SetFocused(LAB)
   --print2(tudelu, checkstate)
-  
+  reagirl.FileDropZone_SetVisibility(dropzone_id, checkstate)
+  reagirl.ContextMenuZone_SetVisibility(contextmenu_id, checkstate)
+  print(reagirl.UI_Element_GetSetHidden(LAB, true, checkstate))
   if checkstate==false then
     --reagirl.Window_SetCurrentScale(1)
     reagirl.Button_SetDisabled(BBB, true)
@@ -6566,7 +6675,7 @@ reagirl.NextLine()
   reagirl.NextLine()
   B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
   B=reagirl.Image_Add(Images[3], nil, nil, 100, 100, "Mespotine", "Mespotine: A Podcast Empress", sliderme)
-  reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
+  dropzone_id=reagirl.FileDropZone_Add(100,100,100,100, GetFileList)
   
   --reagirl.Label_Add("Stonehenge\nWhere the demons dwell\nwhere the banshees live\nand they do live well:", 31, 15, 0, "everything under control")
   --reagirl.InputBox_Add(10,10,100,"Inputbox Deloxe", "Se descrizzione", "TExt", input1, input2)
@@ -6628,7 +6737,7 @@ reagirl.NextLine()
     reagirl.NextLine()
   end
   --reagirl.ContextMenuZone_Add(10,10,120,120,"Hula|Hoop", CMenu)
-  reagirl.ContextMenuZone_Add(100,100,100,100,"Menu|Two|>And a|half", CMenu)
+  contextmenu_id=reagirl.ContextMenuZone_Add(100,100,100,100,"Menu|Two|>And a|half", CMenu)
   --]]
 end
 
@@ -6650,15 +6759,17 @@ reagirl.Gui_AtExit(ExitMe)
 function main()
   reagirl.Gui_Manage()
   reagirl.DockState_Update("Stonehenge")
-  
+  --reagirl.FileDropZone_SetVisibility(dropzone_id, true)
   --reagirl.Gui_PreventScrollingForOneCycle(false, false, reagirl.Checkbox_GetCheckState)
   --reagirl.Gui_PreventCloseViaEscForOneCycle()
   --ABBA={reagirl.DropDownMenu_GetMenuItems(E)}
   --ABBA[1][1]=reaper.time_precise()
   --reagirl.DropDownMenu_SetMenuItems(E, ABBA[1], 1)
   --reagirl.Gui_ForceRefresh()
-  reagirl.Elements[2]["hidden"]=true
-  reagirl.ContextMenu[1]["hidden"]=true
+  --reagirl.Elements[2]["hidden"]=true
+  --reagirl.ContextMenu[1]["hidden"]=true
+  print_update(reagirl.ContextMenuZone_GetVisibility(contextmenu_id))
+  print(reagirl.FileDropZone_GetVisibility(dropzone_id))
   gfx.update()
   
   if reagirl.Gui_IsOpen()==true then reaper.defer(main) end
