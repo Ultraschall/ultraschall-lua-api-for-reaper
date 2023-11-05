@@ -5037,6 +5037,81 @@ function reagirl.ContextMenuZone_GetHiddenState(contextmenu_id)
   return reagirl.ContextMenu[count]["hidden"]==true
 end
 
+function reagirl.ContextMenuZone_SetMenu(contextmenu_id, menu)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ContextMenuZone_SetMenu</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>reagirl.ContextMenuZone_SetMenu(string contextmenu_id, string menu)</functioncall>
+  <description>
+    Sets a menu in a context-menu-zone.
+  </description>
+  <parameters>
+    string contextmenu_id - the guid of the context-menu-zone whose menu you want to set
+    string menu - the new menu for this context-menu-zone
+  </parameters>
+  <chapter_context>
+    ContextMenu
+  </chapter_context>
+  <tags>context menu, set, menu</tags>
+</US_DocBloc>
+--]]
+  if type(contextmenu_id)~="string" then error("ContextMenuZone_SetMenu: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_SetMenu: #1 - must be a valid guid", 2) end
+  if type(menu)~="string" then error("ContextMenuZone_SetMenu: #2 - must be a string", 2) end
+  local count=-1
+  for i=1, #reagirl.ContextMenu do
+    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("ContextMenuZone_SetMenu: #1 - no such context-menu-zone", 2) end
+  reagirl.ContextMenu[count]["ContextMenu"]=menu
+end
+
+function reagirl.ContextMenuZone_GetMenu(contextmenu_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ContextMenuZone_GetMenu</slug>
+  <requires>
+    ReaGirl=1.0
+    Reaper=7
+    Lua=5.4
+  </requires>
+  <functioncall>string menu = reagirl.ContextMenuZone_GetMenu(string contextmenu_id)</functioncall>
+  <description>
+    Gets the menu of a context-menu-zone.
+  </description>
+  <parameters>
+    string contextmenu_id - the guid of the context-menu-zone whose menu you want to get
+  </parameters>
+  <retvals>
+    string menu - the current menu for this context-menu-zone
+  </retvals>
+  <chapter_context>
+    ContextMenu
+  </chapter_context>
+  <tags>context menu, get, menu</tags>
+</US_DocBloc>
+--]]
+  if type(contextmenu_id)~="string" then error("ContextMenuZone_GetMenu: #1 - must be a string", 2) end
+  if reagirl.IsValidGuid(contextmenu_id, true)==false then error("ContextMenuZone_GetMenu: #1 - must be a valid guid", 2) end
+  local count=-1
+  for i=1, #reagirl.ContextMenu do
+    if reagirl.ContextMenu[i]["Guid"]==contextmenu_id then
+      count=i
+      break
+    end
+  end
+  if count==-1 then error("ContextMenuZone_GetMenu: #1 - no such context-menu-zone", 2) end
+  return reagirl.ContextMenu[count]["ContextMenu"]
+end
+
 function reagirl.ContextMenuZone_Add(x, y, w, h, menu, func)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -6828,8 +6903,9 @@ end
 function CheckMe(tudelu, checkstate)
   --reagirl.UI_Element_SetFocused(LAB)
   --print2(tudelu, checkstate)
-  reagirl.FileDropZone_SetVisibility(dropzone_id, checkstate)
-  reagirl.ContextMenuZone_SetVisibility(contextmenu_id, checkstate)
+  
+  reagirl.ContextMenuZone_SetMenu(contextmenu_id, tostring(checkstate))
+  print2(reagirl.ContextMenuZone_GetMenu(contextmenu_id))
   --print(reagirl.UI_Element_GetSetHidden(LAB, true, checkstate))
   if checkstate==false then
     --reagirl.Window_SetCurrentScale(1)
