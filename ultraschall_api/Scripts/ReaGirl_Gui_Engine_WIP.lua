@@ -6405,16 +6405,16 @@ function reagirl.Tabs_Draw(element_id, selected, hovered, clicked, mouse_cap, mo
     gfx.set(1)
     gfx.drawstr(element_storage["TabNames"][i])
     --backdrop
-    --[[
+    
     gfx.set(0.253921568627451)
-    gfx.rect(x,y+h-dpi_scale*4,reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max-20, 1)
+    gfx.rect(x,y+h-dpi_scale*4,reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 1)
     gfx.set(0.403921568627451)
-    gfx.rect(x,y+h-5,reagirl.BoundaryX_Max-20, reagirl.BoundaryY_Max-y-h-270, 0)
+    gfx.rect(x,y+h-5,reagirl.BoundaryX_Max-20*dpi_scale, reagirl.BoundaryY_Max-45*dpi_scale, 0)
     gfx.set(0.253921568627451)
     --]]
   end
   --backdrop
-  --[[
+  
   gfx.set(0.253921568627451)
   gfx.rect(element_storage["Tabs_Pos"][element_storage["TabSelected"] ]["x"], 
            y+h-5*dpi_scale,
