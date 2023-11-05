@@ -5468,20 +5468,22 @@ function reagirl.UI_Elements_Boundaries()
   local minx, miny, maxx, maxy = 2147483648, 2147483648, -2147483648, -2147483648
   -- first the x position
   for i=1, #reagirl.Elements do
-    if reagirl.Elements[i].sticky_x==false or reagirl.Elements[i].sticky_y==false then
-      local x2, y2, w2, h2
-      if reagirl.Elements[i]["x"]*scale<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
-      if reagirl.Elements[i]["y"]*scale<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
-      if reagirl.Elements[i]["w"]*scale<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
-      if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then if w2<20 then w2=20 end end -- Correct for DropDownMenu?
-      if reagirl.Elements[i]["h"]*scale<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
-      if x2<minx then minx=x2 end
-      if w2+x2>maxx then maxx=w2+x2 MaxW=w2 end
-      
-      if y2<miny then miny=y2 end
-      if h2+y2>maxy then maxy=h2+y2 MAXH=h2 end
-      --MINY=miny
-      --MAXY=maxy
+    if reagirl.Elements[i].hidden~=true then
+      if reagirl.Elements[i].sticky_x==false or reagirl.Elements[i].sticky_y==false then
+        local x2, y2, w2, h2
+        if reagirl.Elements[i]["x"]*scale<0 then x2=gfx.w+reagirl.Elements[i]["x"]*scale else x2=reagirl.Elements[i]["x"]*scale end
+        if reagirl.Elements[i]["y"]*scale<0 then y2=gfx.h+reagirl.Elements[i]["y"]*scale else y2=reagirl.Elements[i]["y"]*scale end
+        if reagirl.Elements[i]["w"]*scale<0 then w2=gfx.w-x2+reagirl.Elements[i]["w"]*scale else w2=reagirl.Elements[i]["w"]*scale end
+        if reagirl.Elements[i]["GUI_Element_Type"]=="ComboBox" then if w2<20 then w2=20 end end -- Correct for DropDownMenu?
+        if reagirl.Elements[i]["h"]*scale<0 then h2=gfx.h-y2+reagirl.Elements[i]["h"]*scale else h2=reagirl.Elements[i]["h"]*scale end
+        if x2<minx then minx=x2 end
+        if w2+x2>maxx then maxx=w2+x2 MaxW=w2 end
+        
+        if y2<miny then miny=y2 end
+        if h2+y2>maxy then maxy=h2+y2 MAXH=h2 end
+        --MINY=miny
+        --MAXY=maxy
+      end
     end
   end
   --gfx.line(minx+reagirl.MoveItAllRight,miny+reagirl.MoveItAllUp, maxx+reagirl.MoveItAllRight, maxy+reagirl.MoveItAllUp, 1)
@@ -6648,16 +6650,16 @@ function reagirl.NextLine_GetMargin()
   return reagirl.UI_Element_NextX_Margin, reagirl.UI_Element_NextY_Margin
 end
 
-function reagirl.Tabs_Add(x, y, w, h, caption, meaningOfUI_Element, tab_names, selected_tab, run_function)
+function reagirl.Tabs_Add(x, y, w_backdrop, h_backdrop, caption, meaningOfUI_Element, tab_names, selected_tab, run_function)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Slider_Add</slug>
+  <slug>Tabs_Add</slug>
   <requires>
     ReaGirl=1.0
     Reaper=7
     Lua=5.4
   </requires>
-  <functioncall>string slider_guid = reagirl.Slider_Add(integer x, integer y, integer w, string caption, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number default, function run_function)</functioncall>
+  <functioncall>string tab_guid = reagirl.Tabs_Add(integer x, integer y, integer w, string caption, string meaningOfUI_Element, optional string unit, number start, number stop, number step, number default, function run_function)</functioncall>
   <description>
     Adds a slider to a gui.
     
@@ -6672,6 +6674,8 @@ function reagirl.Tabs_Add(x, y, w, h, caption, meaningOfUI_Element, tab_names, s
   <parameters>
     optional integer x - the x position of the slider in pixels; negative anchors the slider to the right window-side; nil, autoposition after the last ui-element(see description)
     optional integer y - the y position of the slider in pixels; negative anchors the slider to the bottom window-side; nil, autoposition after the last ui-element(see description)
+    optional integer w_backdrop - the width of the tab's backdrop; nil, autosize the backdrop to the gui-elements currently shown
+    optional integer h_backdrop - the height of the tab's backdrop; nil, autosize the backdrop to the gui-elements currently shown
     string caption - the caption of the slider
     string meaningOfUI_Element - a description for accessibility users
     optional string unit - the unit shown next to the number the slider is currently set to
@@ -6685,7 +6689,7 @@ function reagirl.Tabs_Add(x, y, w, h, caption, meaningOfUI_Element, tab_names, s
     string checkbox_guid - a guid that can be used for altering the slider-attributes
   </retvals>
   <chapter_context>
-    Slider
+    Tabs
   </chapter_context>
   <tags>slider, add</tags>
 </US_DocBloc>
@@ -6694,16 +6698,16 @@ function reagirl.Tabs_Add(x, y, w, h, caption, meaningOfUI_Element, tab_names, s
 -- Parameter Unit==nil means, no number of unit shown
   if x~=nil and math.type(x)~="integer" then error("Tabs_Add: param #1 - must be an integer", 2) end
   if y~=nil and math.type(y)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
-  if math.type(w)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
-  if math.type(h)~="integer" then error("Tabs_Add: param #2 - must be an integer", 2) end
-  if type(caption)~="string" then error("Tabs_Add: param #3 - must be a string", 2) end
-  if type(meaningOfUI_Element)~="string" then error("Tabs_Add: param #4 - must be a string", 2) end
-  if type(tab_names)~="table" then error("Tabs_Add: param #5 - must be a number", 2) end
+  if w_backdrop~=nil and math.type(w_backdrop)~="integer" then error("Tabs_Add: param #4 - must be an integer", 2) end
+  if h_backdrop~=nil and math.type(h_backdrop)~="integer" then error("Tabs_Add: param #5 - must be an integer", 2) end
+  if type(caption)~="string" then error("Tabs_Add: param #6 - must be a string", 2) end
+  if type(meaningOfUI_Element)~="string" then error("Tabs_Add: param #7 - must be a string", 2) end
+  if type(tab_names)~="table" then error("Tabs_Add: param #8 - must be a number", 2) end
   for i=1, #tab_names do
     tab_names[i]=tostring(tab_names[i])
   end
-  if math.type(selected_tab)~="integer" then error("Tabs_Add: param #6 - must be an integer", 2) end
-  if run_function~=nil and type(run_function)~="function" then error("Tabs_Add: param #7 - must be either nil or a function", 2) end
+  if math.type(selected_tab)~="integer" then error("Tabs_Add: param #9 - must be an integer", 2) end
+  if run_function~=nil and type(run_function)~="function" then error("Tabs_Add: param #10 - must be either nil or a function", 2) end
   
   local slot=reagirl.UI_Element_GetNextFreeSlot()
   if x==nil then 
@@ -6904,9 +6908,9 @@ function CheckMe(tudelu, checkstate)
   --reagirl.UI_Element_SetFocused(LAB)
   --print2(tudelu, checkstate)
   
-  reagirl.ContextMenuZone_SetMenu(contextmenu_id, tostring(checkstate))
-  print2(reagirl.ContextMenuZone_GetMenu(contextmenu_id))
-  --print(reagirl.UI_Element_GetSetHidden(LAB, true, checkstate))
+  --reagirl.ContextMenuZone_SetMenu(contextmenu_id, tostring(checkstate))
+  --print2(reagirl.ContextMenuZone_GetMenu(contextmenu_id))
+  print(reagirl.UI_Element_GetSetHidden(BBBlol, true, checkstate))
   if checkstate==false then
     --reagirl.Window_SetCurrentScale(1)
     reagirl.Button_SetDisabled(BBB, true)
@@ -7053,7 +7057,7 @@ reagirl.NextLine()
 --  BT2=reagirl.Button_Add(885, 550, 0, 0, "Close Gui", "Description of the button", click_button)
   --BT2=reagirl.Button_Add(285, 50, 0, 0, "✏", "Edit Marker", click_button)
   --reagirl.NextLine()
-  --BBB=reagirl.Button_Add(720, 770, 20, 0, "Help1", "Description of the button", click_button)
+  BBBlol=reagirl.Button_Add(720, 770, 20, 0, "Help1", "Description of the button", click_button)
   --reagirl.Button_SetRadius(BBB, 18)
   --BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", click_button)
   BBB=reagirl.Button_Add(nil, nil, 20, 0, "Help", "Description of the button", sliderme)
